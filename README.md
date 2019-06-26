@@ -1,6 +1,13 @@
 # PlatIAgro Web UI
 
-The web-based user interface for PlatIAgro.
+[![Build Status](https://travis-ci.com/platiagro/web-ui.png?branch=master)](https://travis-ci.com/platiagro/web-ui)
+[![codecov](https://codecov.io/gh/platiagro/web-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/platiagro/web-ui)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Gitter](https://badges.gitter.im/platiagro/community.svg)](https://gitter.im/platiagro/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+----
+
+PlatIAgro user interface for the Web.
 
 ## Build
 
