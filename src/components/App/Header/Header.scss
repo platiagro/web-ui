@@ -27,3 +27,30 @@
     transform: rotate(360deg);
   }
 }
+
+.App-button {
+  color: #fff;
+  cursor: pointer;
+  background-color: #61dafb;
+  border: 1px solid #61dafb;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+  &:hover {
+    color: #fff;
+    background-color: #138496;
+    border-color: #117a8b;
+  }
+
+  &:active {
+    color: #fff;
+    background-color: #117a8b;
+    border-color: #10707f;
+  }
+}

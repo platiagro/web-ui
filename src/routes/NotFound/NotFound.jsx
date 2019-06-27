@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signOut } from '../../redux/actions';
 
-class Home extends React.Component {
+class NotFound extends React.Component {
   handleSignOut = () => {
     this.props.signOut();
   }
@@ -10,7 +10,7 @@ class Home extends React.Component {
     return (
       <div>
         <p>
-        Edit <code>src/routes/Home/Home.jsx</code> and save to reload.
+        Edit <code>src/routes/NotFound/NotFound.jsx</code> and save to reload.
         </p>
         <p>
           <input type="button" value="Sign out" className="App-button" onClick={this.handleSignOut} />
@@ -27,4 +27,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(Home);
+)(NotFound);

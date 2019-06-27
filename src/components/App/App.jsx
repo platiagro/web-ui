@@ -1,21 +1,53 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import Header from './Header';
 import Home from '../../routes/Home';
 import Login from '../../routes/Login';
+import NotFound from '../../routes/NotFound';
+import PasswordReset from '../../routes/PasswordReset';
 
-function App() {
+function App(props) {
+  console.log(props);
   return (
     <Router>
       <div className="App">
         <Header>
-          <Route path="/" exact component={Home} />
-          <Route path="/login" exact component={Login} />
+          {props.isLoggedIn ? (
+            <UserRoutes />
+          ) : (
+            <GuestRoutes />
+          )}
         </Header>
       </div>
     </Router>
   );
 }
 
-export default App;
+function GuestRoutes() {
+  return (
+    <Switch>
+      <Route path="/password_reset" exact component={PasswordReset} />
+      <Route path="" component={Login} />
+    </Switch>
+  );
+}
+
+function UserRoutes() {
+  return (
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="" component={NotFound} />
+    </Switch>
+  );
+}
+
+// Takes the entire state and cherry-picks the parts we need
+const mapStateToProps = state => {
+  return { isLoggedIn: state.login.isLoggedIn };
+};
+
+export default connect(
+  mapStateToProps
+)(App);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Header.scss';
 import logo from '../../../assets/images/logo.svg';
@@ -8,10 +9,28 @@ function AppHeader(props) {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         {props.children}
-        <Link to="/" className="App-link">Home</Link>
-        <Link to="/login" className="App-link">Login</Link>
+        {props.isLoggedIn ? (
+          <p>
+            <Link to="/" className="App-link">Home</Link>
+          </p>
+        ) : (
+          <div>
+            <p>
+              <Link to="/login" className="App-link">Login</Link>
+            </p>
+            <p>
+              <Link to="/password_reset" className="App-link">Forgot Password?</Link>
+              </p>
+          </div>
+        )}
       </header>
     );
 }
 
-export default AppHeader;
+const mapStateToProps = state => {
+  return { isLoggedIn: state.login.isLoggedIn };
+};
+
+export default connect(
+  mapStateToProps
+)(AppHeader);
