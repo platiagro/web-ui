@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './Header.scss';
 import logo from '../../../assets/images/logo.svg';
 
-function AppHeader(props) {
+export function AppHeader(props) {
     return (
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />

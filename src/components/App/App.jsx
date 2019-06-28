@@ -8,8 +8,7 @@ import Login from '../../routes/Login';
 import NotFound from '../../routes/NotFound';
 import PasswordReset from '../../routes/PasswordReset';
 
-function App(props) {
-  console.log(props);
+export function App(props) {
   return (
     <Router>
       <div className="App">
@@ -43,7 +42,6 @@ function UserRoutes() {
   );
 }
 
-// Takes the entire state and cherry-picks the parts we need
 const mapStateToProps = state => {
   return { isLoggedIn: state.login.isLoggedIn };
 };

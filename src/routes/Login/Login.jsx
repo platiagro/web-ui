@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signIn } from '../../redux/actions';
 
-class Login extends React.Component {
+export class Login extends React.Component {
   handleSignIn = () => {
     this.props.signIn();
   }
