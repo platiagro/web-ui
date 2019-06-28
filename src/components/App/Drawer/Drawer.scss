@@ -1,0 +1,39 @@
+@import '../../../variables';
+@import '@material/react-drawer/index.scss';
+@import '@material/react-list/index.scss';
+
+.mdc-drawer {
+  background-color: #fbfbfb;
+  justify-content: space-between;
+
+  .mdc-list-item__graphic {
+    color: #000000;
+    margin: 16px 16px 0 8px;
+  }
+
+  .mdc-list-item {
+    border-radius: 0;
+    height: 55px;
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  .mdc-list-item--activated {
+    color: #000000;
+    &::before {
+      opacity: 0 !important;
+    }
+    .mdc-list-item__graphic {
+      color: #000000;
+    }
+  }
+
+  .mdc-list-item__primary-text {
+    font-weight: 500;
+  }
+}
+
+.mdc-drawer__content--align-end {
+  height: auto;
+  overflow-y: hidden;
+}

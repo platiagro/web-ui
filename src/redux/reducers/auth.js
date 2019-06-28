@@ -11,7 +11,7 @@ export default function(state = initialState, action) {
         ...state,
         isLoggedIn: true
       };
-      case SIGN_OUT:
+    case SIGN_OUT:
         return {
           ...state,
           isLoggedIn: false

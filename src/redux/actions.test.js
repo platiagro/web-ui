@@ -1,5 +1,5 @@
-import { SIGN_IN, SIGN_OUT } from './actionTypes';
-import { signIn, signOut } from './actions'
+import { SIGN_IN, SIGN_OUT, ADAPT_LAYOUT, TOGGLE_DRAWER } from './actionTypes';
+import { signIn, signOut, adaptLayout, toggleDrawer } from './actions';
 
 describe('actions', () => {
   it('should create an action to sign in', () => {
@@ -16,5 +16,21 @@ describe('actions', () => {
       payload: {}
     }
     expect(signOut()).toEqual(expectedAction)
+  });
+
+  it('should create an action to adapt layout', () => {
+    const expectedAction = {
+      type: ADAPT_LAYOUT,
+      payload: {width: 768}
+    }
+    expect(adaptLayout(768)).toEqual(expectedAction)
+  });
+
+  it('should create an action to adapt layout', () => {
+    const expectedAction = {
+      type: TOGGLE_DRAWER,
+      payload: {}
+    }
+    expect(toggleDrawer()).toEqual(expectedAction)
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils'
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import ConnectedNotFound, { NotFound } from './NotFound';
@@ -23,25 +23,16 @@ it('renders without crashing', () => {
     <NotFound isLoggedIn={true} />,
     container
   );
-
-  const button = container.querySelector('input');
-  expect(button.value).toBe('Sign out');
 });
 
-it('renders without crashing and signs out', () => {
+it('renders without crashing when connected', () => {
   const store = createStore(rootReducer, {auth: {isLoggedIn: true}});
   ReactDOM.render(
     <Provider store={store}>
-      <ConnectedNotFound />
+      <Router>
+        <ConnectedNotFound />
+      </Router>
     </Provider>,
     container
   );
-
-  const signOutButton = container.querySelector('input');
-  act(() => {
-    signOutButton.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-  });
-
-  const button = container.querySelector('input');
-  expect(button).toBe(null);
 });

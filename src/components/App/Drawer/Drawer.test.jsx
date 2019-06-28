@@ -1,24 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AppHeader } from './Header';
+import { AppDrawer } from './Drawer';
 
-it('renders without crashing when is not logged in', () => {
+it('should render without crashing when is not logged in', () => {
   const container = document.createElement('div');
   ReactDOM.render(
     <Router>
-      <AppHeader isLoggedIn={false} />
+      <AppDrawer isLoggedIn={false} />
     </Router>,
     container
   );
   ReactDOM.unmountComponentAtNode(container);
 });
 
-it('renders without crashing when is logged in', () => {
+it('should render without crashing when is logged in', () => {
   const container = document.createElement('div');
   ReactDOM.render(
     <Router>
-      <AppHeader isLoggedIn={true} />
+      <AppDrawer isLoggedIn={true} />
     </Router>,
     container
   );

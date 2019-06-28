@@ -1,10 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils'
+import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux'
+import { createStore } from 'redux';
+import 'jest-dom/extend-expect';
 import App from '../App';
 import rootReducer from '../../redux/reducers';
+
+const resizeWindow = (x, y) => {
+  act(() => {
+    window.innerWidth = x;
+    window.innerHeight = y;
+    window.dispatchEvent(new Event('resize'));
+  });
+}
 
 let container;
 
@@ -26,13 +35,10 @@ it('renders without crashing', () => {
     </Provider>,
     container
   );
-
-  const button = container.querySelector('input');
-  expect(button.value).toBe('Sign In');
 });
 
-it('renders without crashing and signs in', () => {
-  const store = createStore(rootReducer, {auth: {isLoggedIn: false}});
+it('renders permanent drawer when width is greater that 920px', () => {
+  const store = createStore(rootReducer, {auth: {isLoggedIn: true}, window: {drawer: {dismissible: true, open: false}}});
   act(() => {
     ReactDOM.render(
       <Provider store={store}>
@@ -42,11 +48,57 @@ it('renders without crashing and signs in', () => {
     );
   });
 
-  const signInButton = container.querySelector('input');
+  resizeWindow(1024, 768);
+
+  // BUG: resize does not cause any changes to DOM
+  // at the moment, the asserts below will fail
+  const drawer = container.querySelector('.mdc-drawer');
+  expect(drawer).toBeVisible();
+
+  const navIcon = container.querySelector('.mdc-top-app-bar__navigation-icon');
+  expect(navIcon).not.toBeVisible();
+});
+
+it('renders dismissible drawer when width is less than or equal to 920px', () => {
+  const store = createStore(rootReducer, {auth: {isLoggedIn: true}, window: {drawer: {dismissible: false, open: true}}});
   act(() => {
-    signInButton.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+    ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      container
+    );
   });
 
-  const signOutButton = container.querySelector('input');
-  expect(signOutButton.value).toBe('Sign out');
+  resizeWindow(768, 1024);
+
+  // BUG: resize does not cause any changes to DOM
+  // at the moment, the asserts below will fail
+  const drawer = container.querySelector('.mdc-drawer');
+  expect(drawer).not.toBeVisible();
+
+  const navIcon = container.querySelector('.mdc-top-app-bar__navigation-icon');
+  expect(navIcon).toBeVisible();
+});
+
+it('hides drawer when drawer is open and app content is clicked', () => {
+  const store = createStore(rootReducer, {auth: {isLoggedIn: true}, window: {drawer: {dismissible: true, open: true}}});
+  act(() => {
+    ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      container
+    );
+  });
+
+  const appContent = container.querySelector('.drawer-app-content');
+  act(() => {
+    appContent.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+  });
+
+  // BUG: click does not cause any changes to DOM
+  // at the moment, the assert below will fail
+  const drawer = container.querySelector('.mdc-drawer');
+  expect(drawer).not.toBeVisible();
 });
