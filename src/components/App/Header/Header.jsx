@@ -28,7 +28,7 @@ export function AppHeader(props) {
 }
 
 const mapStateToProps = state => {
-  return { isLoggedIn: state.login.isLoggedIn };
+  return { isLoggedIn: state.auth.isLoggedIn };
 };
 
 export default connect(

@@ -26,7 +26,7 @@ export class Home extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { isLoggedIn: state.login.isLoggedIn };
+  return { isLoggedIn: state.auth.isLoggedIn };
 };
 
 const mapDispatchToProps = {

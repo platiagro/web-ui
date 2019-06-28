@@ -43,7 +43,7 @@ function UserRoutes() {
 }
 
 const mapStateToProps = state => {
-  return { isLoggedIn: state.login.isLoggedIn };
+  return { isLoggedIn: state.auth.isLoggedIn };
 };
 
 export default connect(

@@ -1,7 +1,7 @@
 import { SIGN_IN, SIGN_OUT } from '../actionTypes';
-import reducer from './login';
+import reducer from './auth';
 
-describe('login reducer', () => {
+describe('auth reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(
       {

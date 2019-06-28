@@ -29,7 +29,7 @@ it('renders without crashing', () => {
 });
 
 it('renders without crashing and signs out', () => {
-  const store = createStore(rootReducer, {login: {isLoggedIn: true}});
+  const store = createStore(rootReducer, {auth: {isLoggedIn: true}});
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedNotFound />

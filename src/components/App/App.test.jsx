@@ -19,7 +19,7 @@ afterEach(() => {
 });
 
 it('renders without crashing', () => {
-  const store = createStore(rootReducer, {login: {isLoggedIn: false}});
+  const store = createStore(rootReducer, {auth: {isLoggedIn: false}});
   ReactDOM.render(
     <Provider store={store}>
       <App />
@@ -32,7 +32,7 @@ it('renders without crashing', () => {
 });
 
 it('renders without crashing and signs in', () => {
-  const store = createStore(rootReducer, {login: {isLoggedIn: false}});
+  const store = createStore(rootReducer, {auth: {isLoggedIn: false}});
   act(() => {
     ReactDOM.render(
       <Provider store={store}>
