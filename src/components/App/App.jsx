@@ -15,6 +15,7 @@ import { adaptLayout, toggleDrawer } from '../../redux/actions';
 
 class App extends React.Component {
   handleAdaptLayout = (width) => {
+    console.log('handleAdaptLayout');
     this.props.adaptLayout(width);
   }
   handleToggleDrawer = () => {
@@ -33,7 +34,7 @@ class App extends React.Component {
           <TopAppBar />
 
           <TopAppBarFixedAdjust className="top-app-bar-fix-adjust">
-            <Drawer />  
+            <Drawer />
 
             <DrawerAppContent className="drawer-app-content" {...appContentProps}>
               {isLoggedIn ? (
