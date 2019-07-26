@@ -1,0 +1,15 @@
+//
+// Main theme colors.
+//
+// If you're a user customizing your color scheme in SASS, these are probably the only variables you need to change.
+//
+
+$mdc-theme-primary: #73dc7e;
+$mdc-theme-secondary: #ae4aed;
+$mdc-theme-on-primary: #000000;
+$mdc-theme-on-secondary: #000000;
+
+$mdc-typography-styles-headline1: (
+  font-size: 2rem,
+  font-weight: 500
+);
