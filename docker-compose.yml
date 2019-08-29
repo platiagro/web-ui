@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  reactjs:
+    container_name: platiagro-web-ui-reactjs
+    image: node:lts
+    volumes:
+      - ./:/app
+    working_dir: /app
+    ports:
+      - 80:80
+    tty: true
+    stdin_open: true
