@@ -18,6 +18,7 @@ module.exports = {
   },
   plugins: ["react", "jest"],
   rules: {
-    "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
+    "jsx-quotes": ["error", "prefer-single"]
   }
 };
