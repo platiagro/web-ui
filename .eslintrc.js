@@ -17,5 +17,7 @@ module.exports = {
     sourceType: "module"
   },
   plugins: ["react", "jest"],
-  rules: {}
+  rules: {
+    "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }]
+  }
 };
