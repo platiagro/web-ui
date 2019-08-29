@@ -6,6 +6,7 @@ BADGES
 
 [![Known Vulnerabilities](https://snyk.io/test/github/cedric-matheus/web-ui/badge.svg)](https://snyk.io/test/github/cedric-matheus/web-ui/)
 [![Build Status](https://travis-ci.org/cedric-matheus/web-ui.svg)](https://travis-ci.org/cedric-matheus/web-ui)
+[![codecov](https://codecov.io/gh/cedric-matheus/web-ui/graph/badge.svg)](https://codecov.io/gh/cedric-matheus/web-ui)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Gitter](https://badges.gitter.im/platiagro/community.svg)](https://gitter.im/platiagro/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
