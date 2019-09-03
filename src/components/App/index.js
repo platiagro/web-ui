@@ -2,10 +2,11 @@ import React from 'react';
 
 import './style.scss';
 
-import { Layout, Icon } from 'antd';
+import { Layout } from 'antd';
 import SideMenu from '../SideMenu';
+import MainHeader from '../MainHeader';
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 export default class App extends React.Component {
   constructor(props) {
@@ -31,13 +32,10 @@ export default class App extends React.Component {
       <Layout>
         <SideMenu collapsed={sideMenuCollapsed} />
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
-            <Icon
-              className='trigger'
-              type={sideMenuCollapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggleSideMenu}
-            />
-          </Header>
+          <MainHeader
+            sideMenuCollapsed={sideMenuCollapsed}
+            sideMenuTriggerFunction={this.toggleSideMenu}
+          />
           <Content
             style={{
               margin: '24px 16px',
