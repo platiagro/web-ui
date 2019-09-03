@@ -2,55 +2,40 @@ import React from 'react';
 
 import './style.scss';
 
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Icon } from 'antd';
+import SideMenu from '../SideMenu';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      MenuCollapsed: false,
+      sideMenuCollapsed: false,
     };
   }
 
-  toggle = () => {
-    const { MenuCollapsed } = this.state;
+  toggleSideMenu = () => {
+    const { sideMenuCollapsed } = this.state;
 
     this.setState({
-      MenuCollapsed: !MenuCollapsed,
+      sideMenuCollapsed: !sideMenuCollapsed,
     });
   };
 
   render() {
-    const { MenuCollapsed } = this.state;
+    const { sideMenuCollapsed } = this.state;
 
     return (
       <Layout>
-        <Sider trigger={null} collapsible collapsed={MenuCollapsed}>
-          <div className='logo' />
-          <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
-            <Menu.Item key='1'>
-              <Icon type='user' />
-              <span>nav 1</span>
-            </Menu.Item>
-            <Menu.Item key='2'>
-              <Icon type='video-camera' />
-              <span>nav 2</span>
-            </Menu.Item>
-            <Menu.Item key='3'>
-              <Icon type='upload' />
-              <span>nav 3</span>
-            </Menu.Item>
-          </Menu>
-        </Sider>
+        <SideMenu collapsed={sideMenuCollapsed} />
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
             <Icon
               className='trigger'
-              type={MenuCollapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
+              type={sideMenuCollapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={this.toggleSideMenu}
             />
           </Header>
           <Content
