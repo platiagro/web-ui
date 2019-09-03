@@ -1,34 +1,34 @@
 import React from 'react';
-import * as antd from 'antd';
 
 import './style.scss';
 
-const { Layout, Menu, Icon } = antd;
+import { Layout, Menu, Icon } from 'antd';
+
 const { Header, Sider, Content } = Layout;
 
 export default class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      collapsed: false,
+      MenuCollapsed: false,
     };
   }
 
   toggle = () => {
-    const { collapsed } = this.state;
+    const { MenuCollapsed } = this.state;
 
     this.setState({
-      collapsed: !collapsed,
+      MenuCollapsed: !MenuCollapsed,
     });
   };
 
   render() {
-    const { collapsed } = this.state;
+    const { MenuCollapsed } = this.state;
 
     return (
       <Layout>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider trigger={null} collapsible collapsed={MenuCollapsed}>
           <div className='logo' />
           <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
             <Menu.Item key='1'>
@@ -49,7 +49,7 @@ export default class App extends React.Component {
           <Header style={{ background: '#fff', padding: 0 }}>
             <Icon
               className='trigger'
-              type={collapsed ? 'menu-unfold' : 'menu-fold'}
+              type={MenuCollapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
           </Header>

@@ -1,12 +1,5 @@
 @import '../../_variables.scss';
 
-// h1 {
-//   color: $primaryColor;
-//   text-align: center;
-// }
-
-@import '../../../node_modules/antd/dist/antd.css';
-
 .trigger {
   font-size: 18px;
   line-height: 64px;
@@ -16,7 +9,7 @@
 }
 
 .trigger:hover {
-  color: #1890ff;
+  color: $primaryColor;
 }
 
 .logo {
