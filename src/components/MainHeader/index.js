@@ -26,7 +26,7 @@ MainHeader.propTypes = {
 
 MainHeader.defaultProps = {
   sideMenuCollapsed: false,
-  sideMenuTriggerFunction: () => console.error('No function in sideMenuTriggerFunction'),
+  sideMenuTriggerFunction: () => 'No function in sideMenuTriggerFunction',
 };
 
 export default MainHeader;
