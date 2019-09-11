@@ -21,5 +21,6 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'jsx-quotes': ['error', 'prefer-single'],
+    'object-curly-newline': ['error', { multiline: true }],
   },
 };
