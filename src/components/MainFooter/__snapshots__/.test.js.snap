@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MainFooter component renders html correctly 1`] = `
+<Adapter
+  className="main-footer"
+>
+  PlatIAgro ©2019 - Todos os direitos reservados
+</Adapter>
+`;
