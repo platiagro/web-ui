@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MainContent component renders html correctly 1`] = `
+<div>
+  <ContentHeader
+    subTitle=""
+    title=""
+  />
+  <Adapter
+    className="main-content"
+  >
+    <div
+      className="content"
+    />
+  </Adapter>
+</div>
+`;
