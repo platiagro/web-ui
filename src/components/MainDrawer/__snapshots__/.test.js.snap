@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MainDrawer component renders html correctly 1`] = `
+<withConfigConsumer(Drawer)
+  closable={false}
+  onClose={null}
+  placement="right"
+  title="Basic Drawer"
+  visible={false}
+>
+  <p>
+    Some contents...
+  </p>
+  <p>
+    Some contents...
+  </p>
+  <p>
+    Some contents...
+  </p>
+</withConfigConsumer(Drawer)>
+`;
