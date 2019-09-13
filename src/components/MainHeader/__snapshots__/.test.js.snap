@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MainHeader component renders html correctly 1`] = `
+<Adapter>
+  <div
+    className="logo"
+  >
+    <img
+      alt="PlatIAgro"
+      src="logo.png"
+    />
+  </div>
+  <Menu
+    className="main-header-menu"
+    defaultSelectedKeys={
+      Array [
+        "2",
+      ]
+    }
+    mode="horizontal"
+    theme="dark"
+  >
+    <MenuItem
+      key="1"
+    >
+      Início
+    </MenuItem>
+    <MenuItem
+      key="2"
+    >
+      Projetos
+    </MenuItem>
+    <MenuItem
+      key="3"
+    >
+      Modelos Implantados
+    </MenuItem>
+  </Menu>
+</Adapter>
+`;

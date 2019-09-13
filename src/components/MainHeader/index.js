@@ -1,32 +1,29 @@
-/* eslint no-console: "off" */
-
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import { Layout, Menu } from 'antd';
+
+import logo from '../../assets/logo.png';
 
 import './style.scss';
 
-import { Layout, Icon } from 'antd';
-
 const { Header } = Layout;
 
-const MainHeader = ({ sideMenuCollapsed, sideMenuTriggerFunction }) => (
-  <Header style={{ background: '#fff', padding: 0 }}>
-    <Icon
-      className='trigger'
-      type={sideMenuCollapsed ? 'menu-unfold' : 'menu-fold'}
-      onClick={sideMenuTriggerFunction}
-    />
+const MainHeader = () => (
+  <Header>
+    <div className='logo'>
+      <img src={logo} alt='PlatIAgro' />
+    </div>
+    <Menu
+      className='main-header-menu'
+      theme='dark'
+      mode='horizontal'
+      defaultSelectedKeys={['2']}
+    >
+      <Menu.Item key='1'>Início</Menu.Item>
+      <Menu.Item key='2'>Projetos</Menu.Item>
+      <Menu.Item key='3'>Modelos Implantados</Menu.Item>
+    </Menu>
   </Header>
 );
-
-MainHeader.propTypes = {
-  sideMenuCollapsed: PropTypes.bool,
-  sideMenuTriggerFunction: PropTypes.func,
-};
-
-MainHeader.defaultProps = {
-  sideMenuCollapsed: false,
-  sideMenuTriggerFunction: () => 'No function in sideMenuTriggerFunction',
-};
 
 export default MainHeader;
