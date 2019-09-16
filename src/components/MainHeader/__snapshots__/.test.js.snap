@@ -23,17 +23,29 @@ exports[`MainHeader component renders html correctly 1`] = `
     <MenuItem
       key="1"
     >
-      Início
+      <Link
+        to="/"
+      >
+        Início
+      </Link>
     </MenuItem>
     <MenuItem
       key="2"
     >
-      Projetos
+      <Link
+        to="/projects"
+      >
+        Projetos
+      </Link>
     </MenuItem>
     <MenuItem
       key="3"
     >
-      Modelos Implantados
+      <Link
+        to="/implanted-models"
+      >
+        Modelos Implantados
+      </Link>
     </MenuItem>
   </Menu>
 </Adapter>
