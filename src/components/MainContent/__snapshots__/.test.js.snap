@@ -11,7 +11,22 @@ exports[`MainContent component renders html correctly 1`] = `
   >
     <div
       className="content"
-    />
+    >
+      <Switch>
+        <Redirect
+          exact={true}
+          from="/"
+          to="/projects"
+        />
+        <Route
+          component={[Function]}
+          path="/projects"
+        />
+        <Route
+          component={[Function]}
+        />
+      </Switch>
+    </div>
   </Adapter>
 </div>
 `;
