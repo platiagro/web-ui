@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Projects should renders html correctly 1`] = `
+<h1>
+  PROJETOS
+</h1>
+`;
