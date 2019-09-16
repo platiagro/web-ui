@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App component renders html correctly 1`] = `
-<Adapter
-  className="layout"
->
-  <MainDrawer />
-  <MainHeader />
-  <MainContent />
-  <MainFooter />
-</Adapter>
+<BrowserRouter>
+  <Adapter
+    className="layout"
+  >
+    <MainDrawer />
+    <MainHeader />
+    <MainContent />
+    <MainFooter />
+  </Adapter>
+</BrowserRouter>
 `;
