@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page E404 should renders html correctly 1`] = `
+<Empty
+  description={
+    <span>
+      Erro 404
+    </span>
+  }
+  image="sad.svg"
+  imageStyle={
+    Object {
+      "height": 60,
+    }
+  }
+/>
+`;
