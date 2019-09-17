@@ -6,7 +6,9 @@ exports[`App component renders html correctly 1`] = `
     className="layout"
   >
     <MainDrawer />
-    <MainHeader />
+    <Route
+      component={[Function]}
+    />
     <MainContent />
     <MainFooter />
   </Adapter>
