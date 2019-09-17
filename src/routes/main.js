@@ -16,7 +16,7 @@ const mainRoutes = [
   {
     path: '/projects',
     title: 'Projetos',
-    subTitle: 'Esse é o subtítulo da página de ínicio (ALTERAR)',
+    subTitle: 'Crie, experimente e implante modelos de forma rápida e fácil.',
     component: Projects,
   },
   {
