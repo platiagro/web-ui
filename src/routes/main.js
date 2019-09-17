@@ -11,7 +11,7 @@ const mainRoutes = [
     exact: true,
     title: 'Início',
     subTitle: 'Esse é o subtítulo da página de ínicio (ALTERAR)',
-    component: () => <Redirect exact from='/' to='/projects' />,
+    component: () => <Redirect to='/projects' />,
   },
   {
     path: '/projects',
@@ -27,7 +27,7 @@ const mainRoutes = [
   },
   {
     path: '*',
-    notMenu: true,
+    notInMenu: true,
     title: 'Erro 404',
     subTitle: 'Não foi possível localizar a página.',
     component: E404,
