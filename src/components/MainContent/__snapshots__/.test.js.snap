@@ -13,17 +13,26 @@ exports[`MainContent component renders html correctly 1`] = `
       className="content"
     >
       <Switch>
-        <Redirect
+        <Route
+          component={[Function]}
           exact={true}
-          from="/"
-          to="/projects"
+          key="/"
+          path="/"
         />
         <Route
           component={[Function]}
+          key="/projects"
           path="/projects"
         />
         <Route
           component={[Function]}
+          key="/implanted-models"
+          path="/implanted-models"
+        />
+        <Route
+          component={[Function]}
+          key="*"
+          path="*"
         />
       </Switch>
     </div>
