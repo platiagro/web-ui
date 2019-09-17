@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MainHeader component renders html correctly 1`] = `
+exports[`MainHeader component should renders html correctly 1`] = `
 <Adapter>
   <div
     className="logo"
@@ -12,12 +12,12 @@ exports[`MainHeader component renders html correctly 1`] = `
   </div>
   <Menu
     className="main-header-menu"
-    defaultSelectedKeys={
+    mode="horizontal"
+    selectedKeys={
       Array [
         "/",
       ]
     }
-    mode="horizontal"
     theme="dark"
   >
     <MenuItem

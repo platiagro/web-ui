@@ -10,11 +10,19 @@ import logo from '../../assets/logo.png';
 
 import './style.scss';
 
-import mainRoutes from '../../routes/main';
-
 const { Header } = Layout;
 
-const MainHeader = ({ location }) => {
+/* 
+  This component is responsible for renders the app header.
+
+  The header contain menu and logo.
+
+  The menu is rendered with the mainRoutes props.
+  The menu active item is set with the selectedKeys props.
+  
+  Both props is required.
+*/
+const MainHeader = ({ selectedKeys, mainRoutes }) => {
   return (
     <Header>
       <div className='logo'>
@@ -24,7 +32,7 @@ const MainHeader = ({ location }) => {
         className='main-header-menu'
         theme='dark'
         mode='horizontal'
-        selectedKeys={[location.pathname]}
+        selectedKeys={selectedKeys}
       >
         {mainRoutes.map((route) =>
           route.notInMenu ? null : (
@@ -39,7 +47,8 @@ const MainHeader = ({ location }) => {
 };
 
 MainHeader.propTypes = {
-  location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
+  selectedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  mainRoutes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default MainHeader;
