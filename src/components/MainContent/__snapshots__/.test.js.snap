@@ -3,8 +3,8 @@
 exports[`MainContent component renders html correctly 1`] = `
 <div>
   <ContentHeader
-    subTitle=""
-    title=""
+    subTitle="Esse é o subtítulo da página de ínicio (ALTERAR)"
+    title="Início"
   />
   <Adapter
     className="main-content"
