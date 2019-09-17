@@ -1,9 +1,10 @@
+/* istanbul ignore file */
 import React from 'react';
 
 import { Redirect } from 'react-router-dom';
 
 import Projects from '../pages/Projects';
-import E404 from '../pages/E404'; // erro 404
+import E404 from '../pages/E404'; // 404 error
 
 const mainRoutes = [
   {
