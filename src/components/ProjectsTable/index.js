@@ -36,6 +36,15 @@ const ProjectsTable = ({ projectList, rowSelection }) => {
 
   return (
     <Table
+      onRow={(record, rowIndex) => {
+        return {
+          onDoubleClick: (event) => {
+            event.preventDefault();
+            // eslint-disable-next-line
+            console.log(record, rowIndex);
+          }, // double click row
+        };
+      }}
       rowSelection={rowSelection}
       dataSource={projectList}
       columns={tableColumns}

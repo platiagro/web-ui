@@ -249,6 +249,7 @@ exports[`ProjectsTable component should renders html correctly 1`] = `
   indentSize={20}
   loading={false}
   locale={Object {}}
+  onRow={[Function]}
   pagination={
     Object {
       "pageSize": 9,

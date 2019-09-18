@@ -1,10 +1,12 @@
 table {
   table-layout: fixed;
 }
+
 td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 .ant-table-body {
