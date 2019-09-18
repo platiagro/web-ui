@@ -11,8 +11,8 @@ import MainDrawer from '../MainDrawer';
 import mainRoutes from '../../routes/main';
 
 /* 
-  This component is responsible for control the app logic and render the others
-  components of app.
+  This component is responsible for control some app logic (pages also control
+  some logics) and render the others components of app.
   
   This receive a location object with pathname key in props.
   Location props is required with the same format (contain pathname key).
