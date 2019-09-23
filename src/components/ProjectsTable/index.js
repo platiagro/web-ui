@@ -13,11 +13,6 @@ const tableColumns = [
     key: 'projectName',
   },
   {
-    title: 'Experimentos',
-    dataIndex: 'experiments',
-    key: 'experiments',
-  },
-  {
     title: 'Data de Criação',
     dataIndex: 'created',
     key: 'created',
@@ -49,6 +44,7 @@ const ProjectsTable = ({ projectList, rowSelection }) => {
       dataSource={projectList}
       columns={tableColumns}
       pagination={{ pageSize: 9 }}
+      scroll={{ y: 'calc(100vh - 480px)' }}
     />
   );
 };
