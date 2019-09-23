@@ -85,6 +85,7 @@ Abaixo estão listados e descritos os componentes sem estado.
 Componente principal da aplicação.  
 Esse componente é responsável por estruturar o layout principal da aplicação.
 
+- [ ] Espera-se que o componente seja uma função;
 - [ ] Espera-se que o componente possua um filho principal Layout;
 - [ ] Espera-se que o filho Layout possua um filho Sider;
 - [ ] Espera-se que o filho Layout possua um filho Layout;
@@ -119,6 +120,9 @@ da aplicação.
 Rodapé principal da aplicação.  
 Esse componente é responsável por exibir o rodapé principal da aplicação.
 
+- [ ] Espera-se que o componente seja uma função;
+- [ ] Espera-se que esse componente renderize uma mensagem de copyright com o ano atual;
+
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Cabeçalho do Conteúdo (ContentHeader)
@@ -128,6 +132,18 @@ Esse componente pode exibir um subtítulo.
 Esse componente pode exibir uma seta para voltar a tela anterior.  
 Esse componente pode exibir um breadcrumbs.
 Esse componente pode receber um evento de duplo clique no título, para permitir a edição do mesmo.
+
+- [ ] Espera-se que o componente seja uma função;
+- [ ] Espera-se que o componente receba uma propriedade título (title);
+- [ ] Espera-se que o componente renderize o título;
+- [ ] Espera-se que o componente seja capaz de receber uma propriedade subtítulo (subtitle);
+- [ ] Espera-se que o componente renderize o subtítulo, quando houver um;
+- [ ] Espera-se que o componente seja capaz de receber uma propriedade backPath;
+- [ ] Espera-se que o componente renderize a seta "voltar" com o caminho contído na propriedade backPath, quando houver um caminho na mesma;
+- [ ] Espera-se que o componente seja capaz de receber uma propriedade breadcrumbs;
+- [ ] Espera-se que o componente renderize o breadcrumbs contído na propriedade breadcrumbs, quando houver um;
+- [ ] Espera-se que o componente seja capaz de receber uma propriedade onTitleDoubleClick;
+- [ ] Espera-se que o componente chame a função onTitleDoubleClick, caso exista uma, e ocorra um evento de doubleClick no título;
 
 <a href="#progresso">Voltar ao topo ^</a>
 
