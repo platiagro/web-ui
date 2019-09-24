@@ -91,13 +91,12 @@ Esse componente é responsável por estruturar o layout principal da aplicação
 Esse componente também é responsável por rotear o conteúdo principal da aplicação.
 
 - [x] Espera-se que o componente seja do tipo Layout;
-- [x] Espera-se que possua um filho MainDrawer;
 - [x] Espera-se que possua um filho Layout;
 - [x] Espera-se que o filho Layout possua um filho Header;
 - [x] Espera-se que o filho Layout possua um filho Content;
 - [x] Espera-se que o filho Layout possua um filho Footer;
 - [x] Espera-se que o filho Header, do filho Layout, possua um filho Route;
-- [x] Espera-se que o filho Route, do filho Header, do filho Layout, possua uma propriedade component igual a MainHeader;
+- [x] Espera-se que o filho Route, do filho Header, do filho Layout, possua uma propriedade render que retorne um component MainHeader;
 - [x] Espera-se que o filho Content, do filho Layout, possua um filho Switch;
 - [x] Espera-se que as rotas principais (mainRoutes) sejam mapeadas dentro do componente Switch;
 - [x] Espera-se que o filho Footer, do filho Layout, possua um filho MainFooter;

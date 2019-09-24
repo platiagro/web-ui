@@ -16,7 +16,6 @@ import { Layout } from 'antd';
 
 import mainRoutes from '../../routes/main';
 
-import MainDrawer from '../MainDrawer';
 import MainHeader from '../MainHeader';
 import MainFooter from '../MainFooter';
 
@@ -24,10 +23,12 @@ const { Header, Content, Footer } = Layout;
 
 const App = () => (
   <Layout>
-    <MainDrawer />
     <Layout>
       <Header>
-        <Route component={MainHeader} />
+        <Route
+          // eslint-disable-next-line
+          render={(props) => <MainHeader {...props} mainRoutes={mainRoutes} />}
+        />
       </Header>
       <Content>
         <Switch>

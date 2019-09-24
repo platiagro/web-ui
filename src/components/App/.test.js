@@ -25,12 +25,6 @@ describe('App component', () => {
     expect(wrapper.is(Layout)).toBeTruthy();
   });
 
-  it('is expected to have a child MainDrawer;', () => {
-    const wrapper = shallow(<App />);
-
-    expect(wrapper.children(MainDrawer).exists()).toBeTruthy();
-  });
-
   it('is expected to have a Layout child', () => {
     const wrapper = shallow(<App />);
 
@@ -82,17 +76,22 @@ describe('App component', () => {
     ).toBeTruthy();
   });
 
-  it('Route child of Header child of Layout child is expected to have component props equal to MainHeader', () => {
-    const wrapper = shallow(<App />);
+  it(
+    'Route child of Header child of Layout child is expected to have a render ' +
+      'props that returns a MainHeader component',
+    () => {
+      const wrapper = shallow(<App />);
 
-    expect(
-      wrapper
-        .children(Layout)
-        .children(Header)
-        .children(Route)
-        .get(0).props.component
-    ).toBe(MainHeader);
-  });
+      expect(
+        wrapper
+          .children(Layout)
+          .children(Header)
+          .children(Route)
+          .get(0)
+          .props.render()
+      ).toMatchObject(<MainHeader />);
+    }
+  );
 
   it('Content child of Layout child is expected to have a Switch child', () => {
     const wrapper = shallow(<App />);

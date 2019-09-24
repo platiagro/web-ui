@@ -2,11 +2,10 @@
 
 exports[`App component is expected render html correctly 1`] = `
 <Adapter>
-  <MainDrawer />
   <Adapter>
     <Adapter>
       <Route
-        component={[Function]}
+        render={[Function]}
       />
     </Adapter>
     <Adapter>
