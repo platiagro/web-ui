@@ -1,50 +1,51 @@
+/* 
+  Main component of the application.
+  
+  This component is responsible for structuring the main layout of the
+  application.
+  
+  This component is also responsible for routing the main content of the
+  application.
+*/
+
 import React from 'react';
 
-import PropTypes from 'prop-types';
+import { Switch, Route } from 'react-router-dom';
 
 import { Layout } from 'antd';
-import MainHeader from '../MainHeader';
-import MainContent from '../MainContent';
-import MainFooter from '../MainFooter';
-import MainDrawer from '../MainDrawer';
 
 import mainRoutes from '../../routes/main';
 
-/* 
-  This component is responsible for control some app logic (pages also control
-  some logics) and render the others components of app.
-  
-  This receive a location object with pathname key in props.
-  Location props is required with the same format (contain pathname key).
-*/
-const App = ({ location }) => {
-  // search for current path in mainRoutes
-  let currentRoute = mainRoutes.find((route) => {
-    return route.path === location.pathname;
-  });
+import MainDrawer from '../MainDrawer';
+import MainHeader from '../MainHeader';
+import MainFooter from '../MainFooter';
 
-  // current path not in mainRoutes
-  if (!currentRoute)
-    currentRoute = mainRoutes.find((route) => {
-      return route.path === '*';
-    });
+const { Header, Content, Footer } = Layout;
 
-  return (
-    <Layout className='layout'>
-      <MainDrawer />
-      <MainHeader selectedKeys={[currentRoute.path]} mainRoutes={mainRoutes} />
-      <MainContent
-        title={currentRoute.title}
-        subTitle={currentRoute.subTitle}
-        mainRoutes={mainRoutes}
-      />
-      <MainFooter />
+const App = () => (
+  <Layout>
+    <MainDrawer />
+    <Layout>
+      <Header>
+        <Route component={MainHeader} />
+      </Header>
+      <Content>
+        <Switch>
+          {mainRoutes.map((mainRoute) => (
+            <Route
+              key={mainRoute.path}
+              exact={mainRoute.exact}
+              path={mainRoute.path}
+              component={mainRoute.component}
+            />
+          ))}
+        </Switch>
+      </Content>
+      <Footer>
+        <MainFooter />
+      </Footer>
     </Layout>
-  );
-};
-
-App.propTypes = {
-  location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
-};
+  </Layout>
+);
 
 export default App;

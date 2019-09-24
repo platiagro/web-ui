@@ -1,161 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App component should renders html correctly with invalid route 1`] = `
-<Adapter
-  className="layout"
->
+exports[`App component is expected render html correctly 1`] = `
+<Adapter>
   <MainDrawer />
-  <MainHeader
-    mainRoutes={
-      Array [
-        Object {
-          "component": [Function],
-          "exact": true,
-          "path": "/",
-          "subTitle": "Esse é o subtítulo da página de ínicio (ALTERAR)",
-          "title": "Início",
-        },
-        Object {
-          "component": [Function],
-          "path": "/projects",
-          "subTitle": "Crie, experimente e implante modelos de forma rápida e fácil.",
-          "title": "Projetos",
-        },
-        Object {
-          "component": [Function],
-          "path": "/implanted-models",
-          "subTitle": "Esse é o subtítulo da página de modelos implantados (ALTERAR)",
-          "title": "Modelos Implantados",
-        },
-        Object {
-          "component": [Function],
-          "notInMenu": true,
-          "path": "*",
-          "subTitle": "Não foi possível localizar a página.",
-          "title": "Erro 404",
-        },
-      ]
-    }
-    selectedKeys={
-      Array [
-        "*",
-      ]
-    }
-  />
-  <MainContent
-    mainRoutes={
-      Array [
-        Object {
-          "component": [Function],
-          "exact": true,
-          "path": "/",
-          "subTitle": "Esse é o subtítulo da página de ínicio (ALTERAR)",
-          "title": "Início",
-        },
-        Object {
-          "component": [Function],
-          "path": "/projects",
-          "subTitle": "Crie, experimente e implante modelos de forma rápida e fácil.",
-          "title": "Projetos",
-        },
-        Object {
-          "component": [Function],
-          "path": "/implanted-models",
-          "subTitle": "Esse é o subtítulo da página de modelos implantados (ALTERAR)",
-          "title": "Modelos Implantados",
-        },
-        Object {
-          "component": [Function],
-          "notInMenu": true,
-          "path": "*",
-          "subTitle": "Não foi possível localizar a página.",
-          "title": "Erro 404",
-        },
-      ]
-    }
-    subTitle="Não foi possível localizar a página."
-    title="Erro 404"
-  />
-  <MainFooter />
-</Adapter>
-`;
-
-exports[`App component should renders html correctly with valid route 1`] = `
-<Adapter
-  className="layout"
->
-  <MainDrawer />
-  <MainHeader
-    mainRoutes={
-      Array [
-        Object {
-          "component": [Function],
-          "exact": true,
-          "path": "/",
-          "subTitle": "Esse é o subtítulo da página de ínicio (ALTERAR)",
-          "title": "Início",
-        },
-        Object {
-          "component": [Function],
-          "path": "/projects",
-          "subTitle": "Crie, experimente e implante modelos de forma rápida e fácil.",
-          "title": "Projetos",
-        },
-        Object {
-          "component": [Function],
-          "path": "/implanted-models",
-          "subTitle": "Esse é o subtítulo da página de modelos implantados (ALTERAR)",
-          "title": "Modelos Implantados",
-        },
-        Object {
-          "component": [Function],
-          "notInMenu": true,
-          "path": "*",
-          "subTitle": "Não foi possível localizar a página.",
-          "title": "Erro 404",
-        },
-      ]
-    }
-    selectedKeys={
-      Array [
-        "/",
-      ]
-    }
-  />
-  <MainContent
-    mainRoutes={
-      Array [
-        Object {
-          "component": [Function],
-          "exact": true,
-          "path": "/",
-          "subTitle": "Esse é o subtítulo da página de ínicio (ALTERAR)",
-          "title": "Início",
-        },
-        Object {
-          "component": [Function],
-          "path": "/projects",
-          "subTitle": "Crie, experimente e implante modelos de forma rápida e fácil.",
-          "title": "Projetos",
-        },
-        Object {
-          "component": [Function],
-          "path": "/implanted-models",
-          "subTitle": "Esse é o subtítulo da página de modelos implantados (ALTERAR)",
-          "title": "Modelos Implantados",
-        },
-        Object {
-          "component": [Function],
-          "notInMenu": true,
-          "path": "*",
-          "subTitle": "Não foi possível localizar a página.",
-          "title": "Erro 404",
-        },
-      ]
-    }
-    subTitle="Esse é o subtítulo da página de ínicio (ALTERAR)"
-    title="Início"
-  />
-  <MainFooter />
+  <Adapter>
+    <Adapter>
+      <Route
+        component={[Function]}
+      />
+    </Adapter>
+    <Adapter>
+      <Switch>
+        <Route
+          component={[Function]}
+          exact={true}
+          key="/"
+          path="/"
+        />
+        <Route
+          component={[Function]}
+          key="/projects"
+          path="/projects"
+        />
+        <Route
+          component={[Function]}
+          key="/implanted-models"
+          path="/implanted-models"
+        />
+        <Route
+          component={[Function]}
+          key="*"
+          path="*"
+        />
+      </Switch>
+    </Adapter>
+    <Adapter>
+      <MainFooter />
+    </Adapter>
+  </Adapter>
 </Adapter>
 `;
