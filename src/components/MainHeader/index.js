@@ -1,54 +1,47 @@
-import React from 'react';
+/* 
+  Main application header.
 
-import PropTypes from 'prop-types';
+  This component is responsible for displaying the logo and main menu of
+  the application.
+*/
+
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Layout, Menu } from 'antd';
+import { Menu } from 'antd';
 
 import logo from '../../assets/logo.png';
 
 import './style.scss';
 
-const { Header } = Layout;
+import getCurrentRoute from '../../utils';
 
-/* 
-  This component is responsible for renders the app header.
-
-  The header contain menu and logo.
-
-  The menu is rendered with the mainRoutes props.
-  The menu active item is set with the selectedKeys props.
-  
-  Both props is required.
-*/
-const MainHeader = ({ selectedKeys, mainRoutes }) => {
-  return (
-    <Header>
-      <div className='logo'>
-        <img src={logo} alt='PlatIAgro' />
-      </div>
-      <Menu
-        className='main-header-menu'
-        theme='dark'
-        mode='horizontal'
-        selectedKeys={selectedKeys}
-      >
-        {mainRoutes.map((route) =>
+const MainHeader = ({ location, mainRoutes }) => (
+  <div>
+    <div className='logo'>
+      <img src={logo} alt='PlatIAgro Logo' />
+    </div>
+    <Menu
+      className='main-header-menu'
+      theme='dark'
+      mode='horizontal'
+      selectedKeys={[
+        location && mainRoutes
+          ? getCurrentRoute(location, mainRoutes).path
+          : null,
+      ]}
+    >
+      {mainRoutes &&
+        mainRoutes.map((route) =>
           route.notInMenu ? null : (
             <Menu.Item key={route.path}>
               <Link to={route.path}>{route.title}</Link>
             </Menu.Item>
           )
         )}
-      </Menu>
-    </Header>
-  );
-};
-
-MainHeader.propTypes = {
-  selectedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-  mainRoutes: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+    </Menu>
+  </div>
+);
 
 export default MainHeader;

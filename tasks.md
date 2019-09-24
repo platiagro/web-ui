@@ -44,7 +44,7 @@ Acompanhe o progresso do projeto.
 - [ ] Projeto Finalizado (MVP - ForAgri)
   - [ ] Componentes Sem Estado
     - [x] App
-    - [ ] Cabeçalho Principal (MainHeader)
+    - [x] Cabeçalho Principal (MainHeader)
     - [ ] Rodapé Principal (MainFooter)
     - [ ] Cabeçalho do Conteúdo (ContentHeader)
     - [ ] Modal Novo Projeto (NewProjectModal)
@@ -109,17 +109,14 @@ Cabeçalho principal da aplicação.
 Esse componente é responsável por exibir o logotipo e o menu principal
 da aplicação.
 
-- [ ] Espera-se que o componente contenha um logotipo;
-- [ ] Espera-se que o componente receba uma propriedade rotas principais (mainRoutes);
-- [ ] Espera-se que a propriedade rotas principais (mainRoutes) seja um vetor (array);
-- [ ] Espera-se que qualquer elemento da propriedade rotas principais (mainRoutes) seja um objeto;
-- [ ] Espera-se que qualquer objeto filho da propriedade rotas principais (mainRoutes) contenha a chave (key) caminho (path);
-- [ ] Espera-se que qualquer objeto filho da propriedade rotas principais (mainRoutes) contenha a chave (key) título (title);
-- [ ] Espera-se que a propriedade rotas principais (mainRoutes) seja mapeada em um menu utilizando o framework Ant Design;
-- [ ] Espera-se que a key de cada elemento do menu seja o atributo path do objeto filho das rotas principais (mainRoutes);
-- [ ] Espera-se que esse componente receba uma propriedade location (para receber essa propriedade o componente precisa estar roteado `<Route component={MainHeader} />`);
-- [ ] Espera-se que a propriedade location possua a chave (key) pathname;
-- [ ] Espera-se que a propriedade selectedKeys do menu Ant Design seja preenchida com o resultado da chamada de função getCurrentRoute(location.pathname, mainRoutes) do arquivo utils.js;
+- [x] Espera-se que o componente contenha um logotipo;
+- [x] Espera-se que o componente receba uma propriedade rotas principais (mainRoutes);
+- [x] Espera-se que o componente possua um filho Menu (componente antdesign)
+- [x] Espera-se que a propriedade rotas principais (mainRoutes) seja mapeada em componentes Menu.Item (antd), filhos do Menu (antd);
+- [x] Espera-se que o componente Menu.Item possua como chave (key) o atributo path do objeto de rota, elemento do vetor mainRoutes;
+- [x] Espera-se que cada Menu.Item possua um filho Link
+- [x] Espera-se que esse componente receba uma propriedade location (para receber essa propriedade o componente precisa estar roteado `<Route component={MainHeader} />`);
+- [x] Espera-se que a propriedade selectedKeys do menu Ant Design seja preenchida com o resultado da chamada de função getCurrentRoute(location.pathname, mainRoutes) do arquivo utils.js;
 
 <a href="#progresso">Voltar ao topo ^</a>
 

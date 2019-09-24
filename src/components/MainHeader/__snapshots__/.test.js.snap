@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MainHeader component should renders html correctly 1`] = `
-<Adapter>
+exports[`MainHeader component is expected render html correctly 1`] = `
+<div>
   <div
     className="logo"
   >
     <img
-      alt="PlatIAgro"
+      alt="PlatIAgro Logo"
       src="logo.png"
     />
   </div>
@@ -15,38 +15,10 @@ exports[`MainHeader component should renders html correctly 1`] = `
     mode="horizontal"
     selectedKeys={
       Array [
-        "/",
+        null,
       ]
     }
     theme="dark"
-  >
-    <MenuItem
-      key="/"
-    >
-      <Link
-        to="/"
-      >
-        Início
-      </Link>
-    </MenuItem>
-    <MenuItem
-      key="/projects"
-    >
-      <Link
-        to="/projects"
-      >
-        Projetos
-      </Link>
-    </MenuItem>
-    <MenuItem
-      key="/implanted-models"
-    >
-      <Link
-        to="/implanted-models"
-      >
-        Modelos Implantados
-      </Link>
-    </MenuItem>
-  </Menu>
-</Adapter>
+  />
+</div>
 `;
