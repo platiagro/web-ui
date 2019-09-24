@@ -1,6 +1,7 @@
 # Tarefas para finalizar MVP (ForAgri) <!-- omit in toc -->
 
 ## Índice <!-- omit in toc -->
+
 - [Progresso](#progresso)
 - [Componentes Sem Estado](#componentes-sem-estado)
   - [App](#app)
@@ -37,6 +38,7 @@
 ---
 
 ## Progresso
+
 Acompanhe o progresso do projeto.
 
 - [ ] Projeto Finalizado (MVP - ForAgri)
@@ -77,31 +79,32 @@ Acompanhe o progresso do projeto.
 ---
 
 ## Componentes Sem Estado
+
 Abaixo estão listados e descritos os componentes sem estado.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### App
+
 Componente principal da aplicação.  
 Esse componente é responsável por estruturar o layout principal da aplicação.
 
-- [ ] Espera-se que o componente seja uma função;
-- [ ] Espera-se que o componente possua um filho principal Layout;
-- [ ] Espera-se que o filho Layout possua um filho Sider;
-- [ ] Espera-se que o filho Layout possua um filho Layout;
-- [ ] Espera-se que o filho Layout, do filho Layout, possua um filho Header;
-- [ ] Espera-se que o filho Layout, do filho Layout, possua um filho Content;
-- [ ] Espera-se que o filho Layout, do filho Layout, possua um filho Footer;
-- [ ] Espera-se que o filho Header, do filho Layout, do filho Layout, possua um filho MainHeader;
+- [ ] Espera-se que o componente seja do tipo Layout;
+- [ ] Espera-se que possua um filho Sider;
+- [ ] Espera-se que possua um filho Layout;
+- [ ] Espera-se que o filho Layout possua um filho Header;
+- [ ] Espera-se que o filho Layout possua um filho Content;
+- [ ] Espera-se que o filho Layout possua um filho Footer;
+- [ ] Espera-se que o filho Header, do filho Layout, possua um filho MainHeader;
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Cabeçalho Principal (MainHeader)
+
 Cabeçalho principal da aplicação.  
 Esse componente é responsável por exibir o logotipo e o menu principal
-da aplicação.  
+da aplicação.
 
-- [ ] Espera-se que o componente seja uma função;
 - [ ] Espera-se que o componente contenha um logotipo;
 - [ ] Espera-se que o componente receba uma propriedade rotas principais (mainRoutes);
 - [ ] Espera-se que a propriedade rotas principais (mainRoutes) seja um vetor (array);
@@ -117,6 +120,7 @@ da aplicação.
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Rodapé Principal (MainFooter)
+
 Rodapé principal da aplicação.  
 Esse componente é responsável por exibir o rodapé principal da aplicação.
 
@@ -126,6 +130,7 @@ Esse componente é responsável por exibir o rodapé principal da aplicação.
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Cabeçalho do Conteúdo (ContentHeader)
+
 Cabeçalho do conteúdo principal.  
 Esse componente é responsável por exibir um título.  
 Esse componente pode exibir um subtítulo.  
@@ -133,7 +138,6 @@ Esse componente pode exibir uma seta para voltar a tela anterior.
 Esse componente pode exibir um breadcrumbs.
 Esse componente pode receber um evento de duplo clique no título, para permitir a edição do mesmo.
 
-- [ ] Espera-se que o componente seja uma função;
 - [ ] Espera-se que o componente receba uma propriedade título (title);
 - [ ] Espera-se que o componente renderize o título;
 - [ ] Espera-se que o componente seja capaz de receber uma propriedade subtítulo (subtitle);
@@ -148,6 +152,7 @@ Esse componente pode receber um evento de duplo clique no título, para permitir
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Modal Novo Projeto (NewProjectModal)
+
 Componente para criação de um novo projeto.  
 Esse componente é responsável por exibir um modal com formulário para adicionar um novo projeto.  
 Esse formulário possui apenas um campo, que é o nome do projeto.  
@@ -160,29 +165,32 @@ Se o botão criar for clicado, um novo projeto deve ser criado.
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Menu Lateral Esquerdo (LeftSideMenu)
+
 Componente menu para exibir "ferramentas" do fluxograma.  
 Esse menu deve ser "dobrável".  
 Esse menu deve conter as "abas" templates, dados de entrada, engenharia de atributos e treinamento.  
 Todas as abas devem estar desativadas, exceto templates.  
-Ao clicar em um dos templates do menu, o fluxo deve ser adicionado ao experimento.  
+Ao clicar em um dos templates do menu, o fluxo deve ser adicionado ao experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Conteúdo do Experimento (ExperimentContent)
+
 Componente para exibir um experimento.  
 Esse componente deve possuir um corpo, onde o fluxo do experimento será montado.  
 Esse componente deve possuir um botão para executar o experimento.  
-Esse componente deve possuir um botão para implantar um experimento.  
+Esse componente deve possuir um botão para implantar um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Drawer Lateral Direito (RightSideDrawer)
-Componente para exibir a configuração de um passo do fluxo de um experimento.  
+
+Componente para exibir a configuração de um passo do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
-
 ### Alerta (Alert)
+
 Componente que exibe uma mensagem ao usuário.
 
 <a href="#progresso">Voltar ao topo ^</a>
@@ -190,11 +198,13 @@ Componente que exibe uma mensagem ao usuário.
 ---
 
 ## Componentes Com Estado
+
 Abaixo estão listados e descritos os componentes com estado.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Tabela de Projetos (ProjectsTable)
+
 Componente para listar projetos.  
 Esse componente é responsável por exibir uma tabela com os projetos cadastrados.  
 Quando esse componente for montado, ele deve realizar uma requisição para buscar os projetos cadastrados.  
@@ -207,51 +217,60 @@ Esse componente deve possuir paginação.
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Abas de Experimento (ExperimentsTabs)
+
 Componente para exibir os experimentos do projeto em abas.  
 Quando esse componente for montado, ele deve realizar uma requisição para buscar os experimentos do projeto.  
 Esse componente deve ter um botão que permita adicionar novas abas (experimentos).  
-Um duplo clique sobre uma aba (experimento), deve permitir que o nome do mesmo seja editado.  
+Um duplo clique sobre uma aba (experimento), deve permitir que o nome do mesmo seja editado.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Fluxo do Experimento (ExperimentFlow)
+
 Componente para exibir o fluxo de um experimento.  
 Quando esse componente for montado, ele deve realizar uma requisição para buscar os dados do fluxo do experimento.  
-Cada passo do fluxo deve permitir um clique que irá abrir o drawer de configuração do passo.  
+Cada passo do fluxo deve permitir um clique que irá abrir o drawer de configuração do passo.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Conteúdo Drawer Conjunto de Dados (DataSetDrawerContent)
+
 Componente para exibir as configurações do passo "Conjunto de Dados" do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Tabela de Conjunto de Dados (DataSetTable)
+
 Componente para exibir a tabela de conjunto de dados, no passo "Conjunto de Dados" do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
-### Conteúdo Drawer Criação de Atributos Por Tempo 
+### Conteúdo Drawer Criação de Atributos Por Tempo
+
 Componente para exibir as configurações do passo "Criação de Atributos Por Tempo" do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Conteúdo Drawer Pré-Seleção de Atributos (AttributePreSelectionDrawerContent)
+
 Componente para exibir as configurações do passo "Pré-Seleção de Atributos" do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Conteúdo Drawer Criação de Atributos Genéricos (GenericAttributeCreationDrawerContent)
+
 Componente para exibir as configurações do passo "Criação de Atributos Genéricos" do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)
+
 Componente para exibir as configurações do passo "Filtro de Atributos" do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Conteúdo Drawer AutoML (AutoMLDrawerContent)
+
 Componente para exibir as configurações do passo "AutoML" do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
@@ -259,26 +278,31 @@ Componente para exibir as configurações do passo "AutoML" do fluxo de um exper
 ---
 
 ## Páginas
+
 Abaixo estão listadas e descritas as páginas da aplicação, que fazem referência direta a uma rota.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Ínicio (raiz /)
+
 Página inicial da aplicação.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Projetos (/projects)
+
 Página de projetos da aplicação.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Projeto ID (/projects/{p_id})
+
 Página de um projeto da aplicação.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Experimento ID (/projects/{p_id}/experiments/{e_id})
+
 Página de um experimento, de um projeto da aplicação.
 
 <a href="#progresso">Voltar ao topo ^</a>
@@ -286,26 +310,31 @@ Página de um experimento, de um projeto da aplicação.
 ---
 
 ## Rotas
+
 Abaixo estão listadas e descritas as rotas acessíveis da aplicação.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Ínicio (raiz /)
+
 Rota que exibe a página `<Root />`
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Projetos (/projects)
+
 Rota que exibe a página `<Projects />`
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Projeto ID (/projects/{p_id})
+
 Rota que exibe a página `<Project id={p_id} />`
 
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Experimento ID (/projects/{p_id}/experiments/{e_id})
+
 Rota que exibe a página `<Experiment id={e_id} />` como filha da página `<Project id={p_id}>`
 
 <a href="#progresso">Voltar ao topo ^</a>
