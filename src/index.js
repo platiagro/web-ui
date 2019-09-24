@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -13,7 +13,7 @@ import App from './components/App';
 
 ReactDOM.render(
   <Router>
-    <Route component={App} />
+    <App />
   </Router>,
   document.getElementById('root')
 );
