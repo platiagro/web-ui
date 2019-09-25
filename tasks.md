@@ -45,7 +45,7 @@ Acompanhe o progresso do projeto.
   - [ ] Componentes Sem Estado
     - [x] App
     - [x] Cabeçalho Principal (MainHeader)
-    - [ ] Rodapé Principal (MainFooter)
+    - [x] Rodapé Principal (MainFooter)
     - [ ] Cabeçalho do Conteúdo (ContentHeader)
     - [ ] Modal Novo Projeto (NewProjectModal)
     - [ ] Menu Lateral Esquerdo (LeftSideMenu)
@@ -125,9 +125,9 @@ Esse componente também é responsável por alterar as rotas principais da aplic
 ### Rodapé Principal (MainFooter)
 
 Rodapé principal da aplicação.  
-Esse componente é responsável por exibir o rodapé principal da aplicação.
+Esse componente é responsável por exibir a mensagem de copyright no rodapé principal da aplicação.  
 
-- [ ] Espera-se que esse componente renderize uma mensagem de copyright com o ano atual;
+- [x] Espera-se que esse componente renderize uma mensagem de copyright com o ano atual;
 
 <a href="#progresso">Voltar ao topo ^</a>
 

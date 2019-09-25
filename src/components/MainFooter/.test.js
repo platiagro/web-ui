@@ -5,13 +5,27 @@ import { shallow } from 'enzyme';
 import MainFooter from '.';
 
 describe('MainFooter component', () => {
-  it('renders without crashing', () => {
+  it('is expected render without crashing', () => {
     shallow(<MainFooter />);
   });
 
-  it('renders html correctly', () => {
-    const mainFooterShalowed = shallow(<MainFooter />);
+  it('is expected to render a copyright message with the current year.', () => {
+    const wrapper = shallow(<MainFooter />);
+    const year = new Date().getFullYear();
 
-    expect(mainFooterShalowed).toMatchSnapshot();
+    expect(wrapper.text()).toContain(year);
+  });
+
+  it('is expected render html correctly', () => {
+    const wrapper = shallow(<MainFooter />);
+
+    expect(wrapper).toMatchSnapshot();
   });
 });
+
+/* 
+Rodapé principal da aplicação.  
+Esse componente é responsável por exibir a mensagem de copyright no rodapé principal da aplicação.  
+
+- [ ] ;
+*/

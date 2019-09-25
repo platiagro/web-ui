@@ -2,14 +2,10 @@ import React from 'react';
 
 import './style.scss';
 
-import { Layout } from 'antd';
-
-const { Footer } = Layout;
-
-const MainFooter = () => (
-  <Footer className='main-footer'>
-    PlatIAgro ©2019 - Todos os direitos reservados
-  </Footer>
-);
+const MainFooter = () => {
+  const year = new Date().getFullYear();
+  const message = `PlatIAgro© ${year} - Todos os direitos reservados`;
+  return <div className='main-footer'>{message}</div>;
+};
 
 export default MainFooter;
