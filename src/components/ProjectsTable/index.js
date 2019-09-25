@@ -16,10 +16,11 @@ const tableColumns = [
     title: 'Data de Criação',
     dataIndex: 'created',
     key: 'created',
+    width: 200,
   },
 ];
 
-const ProjectsTable = ({ projectList, rowSelection }) => {
+const ProjectsTable = ({ projectList, rowSelection, enterProjetc }) => {
   projectList.forEach((project) => {
     const projectAux = project;
     projectAux.experiments = (
@@ -36,7 +37,7 @@ const ProjectsTable = ({ projectList, rowSelection }) => {
           onDoubleClick: (event) => {
             event.preventDefault();
             // eslint-disable-next-line
-            console.log(record, rowIndex);
+            enterProjetc(record, rowIndex);
           }, // double click row
         };
       }}
@@ -50,6 +51,7 @@ const ProjectsTable = ({ projectList, rowSelection }) => {
 };
 
 ProjectsTable.propTypes = {
+  enterProjetc: PropTypes.func.isRequired,
   projectList: PropTypes.arrayOf(PropTypes.object).isRequired,
   rowSelection: PropTypes.shape({
     selectedRowKeys: PropTypes.array,
