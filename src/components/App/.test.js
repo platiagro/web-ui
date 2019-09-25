@@ -89,7 +89,7 @@ describe('App component', () => {
           .children(Route)
           .get(0)
           .props.render()
-      ).toMatchObject(<MainHeader />);
+      ).toMatchObject(<MainHeader mainRoutes={mainRoutes} />);
     }
   );
 

@@ -3,9 +3,13 @@
 
   This component is responsible for displaying the logo and main menu of
   the application.
+
+  This component is also responsible for changing the main routes of the application according to menu clicks.
 */
 
 import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
@@ -43,5 +47,15 @@ const MainHeader = ({ location, mainRoutes }) => (
     </Menu>
   </div>
 );
+
+MainHeader.propTypes = {
+  location: PropTypes.objectOf(PropTypes.any),
+  mainRoutes: PropTypes.arrayOf(PropTypes.any),
+};
+
+MainHeader.defaultProps = {
+  location: null,
+  mainRoutes: null,
+};
 
 export default MainHeader;

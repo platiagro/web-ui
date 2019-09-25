@@ -107,7 +107,8 @@ Esse componente também é responsável por rotear o conteúdo principal da apli
 
 Cabeçalho principal da aplicação.  
 Esse componente é responsável por exibir o logotipo e o menu principal
-da aplicação.
+da aplicação.  
+Esse componente também é responsável por alterar as rotas principais da aplicação, de acordo com os cliques no menu.  
 
 - [x] Espera-se que o componente contenha um logotipo;
 - [x] Espera-se que o componente receba uma propriedade rotas principais (mainRoutes);
@@ -117,6 +118,7 @@ da aplicação.
 - [x] Espera-se que cada Menu.Item possua um filho Link
 - [x] Espera-se que esse componente receba uma propriedade location (para receber essa propriedade o componente precisa estar roteado `<Route component={MainHeader} />`);
 - [x] Espera-se que a propriedade selectedKeys do menu Ant Design seja preenchida com o resultado da chamada de função getCurrentRoute(location.pathname, mainRoutes) do arquivo utils.js;
+- [x] Espera-se que ao clicar sobre um item do menu, a rota seja alterada;
 
 <a href="#progresso">Voltar ao topo ^</a>
 
@@ -125,7 +127,6 @@ da aplicação.
 Rodapé principal da aplicação.  
 Esse componente é responsável por exibir o rodapé principal da aplicação.
 
-- [ ] Espera-se que o componente seja uma função;
 - [ ] Espera-se que esse componente renderize uma mensagem de copyright com o ano atual;
 
 <a href="#progresso">Voltar ao topo ^</a>

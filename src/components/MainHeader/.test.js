@@ -133,6 +133,30 @@ describe('MainHeader component', () => {
     }
   );
 
+  it('Clicking on a menu item is expected to change a route', () => {
+    const routes = [
+      { path: '/', title: 'Root' },
+      { path: '/projects', title: 'Projetos' },
+    ];
+
+    const wrapper = mount(
+      <MemoryRouter initialEntries={['/']} initialIndex={0}>
+        <Route
+          render={(props) => <MainHeader {...props} mainRoutes={routes} />}
+        />
+      </MemoryRouter>
+    );
+
+    wrapper
+      .find(Link)
+      .at(1)
+      .simulate('click', { button: 0 });
+
+    expect(wrapper.find(MainHeader).prop('location').pathname).toEqual(
+      routes[1].path
+    );
+  });
+
   it('is expected render html correctly', () => {
     const wrapper = shallow(<MainHeader />);
 
