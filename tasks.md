@@ -140,16 +140,19 @@ Esse componente pode exibir uma seta para voltar a tela anterior.
 Esse componente pode exibir um breadcrumbs.
 Esse componente pode receber um evento de duplo clique no título, para permitir a edição do mesmo.
 
-- [ ] Espera-se que o componente receba uma propriedade título (title);
-- [ ] Espera-se que o componente renderize o título;
-- [ ] Espera-se que o componente seja capaz de receber uma propriedade subtítulo (subtitle);
-- [ ] Espera-se que o componente renderize o subtítulo, quando houver um;
-- [ ] Espera-se que o componente seja capaz de receber uma propriedade backPath;
-- [ ] Espera-se que o componente renderize a seta "voltar" com o caminho contído na propriedade backPath, quando houver um caminho na mesma;
-- [ ] Espera-se que o componente seja capaz de receber uma propriedade breadcrumbs;
-- [ ] Espera-se que o componente renderize o breadcrumbs contído na propriedade breadcrumbs, quando houver um;
-- [ ] Espera-se que o componente seja capaz de receber uma propriedade onTitleDoubleClick;
-- [ ] Espera-se que o componente chame a função onTitleDoubleClick, caso exista uma, e ocorra um evento de doubleClick no título;
+- [ ] Espera-se que o componente renderize o título, recebido por props;
+- [ ] Espera-se que o título receba um evento onTitleDoubleClick, caso o mesmo exista nas props;
+- [ ] Espera-se que um duplo clique no título, chame a função onTitleDoubleClick;
+- [ ] Espera-se que um duplo clique no título, não tenha eventos, caso a props onTitleDoubleClick não esteja definida;
+- [ ] Espera-se que o componente renderize o subtítulo, recebido por props;
+- [ ] Espera-se que o componente não renderize o subtítulo, se não existir nas props;
+- [ ] Espera-se que o componente renderize a seta "voltar" com o caminho contido na propriedade backPath, quando houver um caminho na mesma;
+- [ ] Espera-se que ao clicar na seta "voltar" do componente a rota seja alterada para o caminho contido na propriedade backPath;
+- [ ] Espera-se que o componente não renderize a seta "voltar", quando não houver a props backPath;
+- [ ] Espera-se que o componente renderize o breadcrumbs contido na propriedade breadcrumbs, quando houver uma;
+- [ ] Espera-se que ao clicar em um elemento do breadcrumbs a rota seja alterada para o caminho contido na propriedade path do elemento;
+- [ ] Espera-se que o componente não renderize os breadcrumbs, quando não houver a props;
+
 
 <a href="#progresso">Voltar ao topo ^</a>
 
