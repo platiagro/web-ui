@@ -13,11 +13,6 @@ exports[`ProjectsTable component should renders html correctly 1`] = `
         "title": "Nome do Projeto",
       },
       Object {
-        "dataIndex": "experiments",
-        "key": "experiments",
-        "title": "Experimentos",
-      },
-      Object {
         "dataIndex": "created",
         "key": "created",
         "title": "Data de Criação",
@@ -260,6 +255,11 @@ exports[`ProjectsTable component should renders html correctly 1`] = `
     Object {
       "onChange": [Function],
       "selectedRowKeys": Array [],
+    }
+  }
+  scroll={
+    Object {
+      "y": "calc(100vh - 480px)",
     }
   }
   showHeader={true}
