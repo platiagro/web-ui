@@ -1,64 +1,177 @@
 import React from 'react';
 
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+
+import { PageHeader } from 'antd';
 
 import ContentHeader from '.';
 
-describe('ContentHeader component should', () => {
-  it('renders without crashing', () => {
+describe('ContentHeader component', () => {
+  it('is expected render without crashing', () => {
     shallow(<ContentHeader />);
   });
 
-  it('have a title props', () => {
-    const contentHeaderShalowed = shallow(<ContentHeader />);
+  it('is expected to be a PageHeader (antd)', () => {
+    const wrapper = shallow(<ContentHeader />);
 
-    expect(contentHeaderShalowed.prop('title')).toBeDefined();
+    expect(wrapper.is(PageHeader)).toBeTruthy();
   });
 
-  it('have a subTitle props', () => {
-    const contentHeaderShalowed = shallow(<ContentHeader />);
+  it('is expected to render the title received by props', () => {
+    const title = 'Title';
+    const wrapper = shallow(<ContentHeader title={title} />);
 
-    expect(contentHeaderShalowed.prop('subTitle')).toBeDefined();
+    expect(wrapper.html()).toContain(title);
   });
 
-  it('renders html correctly without title and subtitle', () => {
-    const contentHeaderShalowed = shallow(<ContentHeader />);
+  it(
+    'The title is expected to receive an onTitleDoubleClick event if it' +
+      ' exists in the props',
+    () => {
+      const title = 'Title';
+      const handleTitleDoubleClick = jest.fn(() => true);
+      const wrapper = shallow(
+        <ContentHeader
+          title={title}
+          onTitleDoubleClick={handleTitleDoubleClick}
+        />
+      );
 
-    expect(contentHeaderShalowed.prop('title')).toBe('');
-    expect(contentHeaderShalowed.prop('subTitle')).toBe('');
-    expect(contentHeaderShalowed).toMatchSnapshot();
-  });
+      expect(wrapper.prop('title').props.onDoubleClick).toBe(
+        handleTitleDoubleClick
+      );
+    }
+  );
 
-  it('renders html correctly with title and no subtitle', () => {
-    const title = 'Título';
-    const contentHeaderShalowed = shallow(<ContentHeader title={title} />);
+  it('A double click on the title is expected to call the onTitleDoubleClick function', () => {
+    const title = 'Title';
+    const handleTitleDoubleClick = jest.fn(() => true);
 
-    expect(contentHeaderShalowed.prop('title')).toBe(title);
-    expect(contentHeaderShalowed.prop('subTitle')).toBe('');
-    expect(contentHeaderShalowed).toMatchSnapshot();
-  });
-
-  it('renders html correctly with subtitle and no title', () => {
-    const subTitle = 'Subtítulo';
-    const contentHeaderShalowed = shallow(
-      <ContentHeader subTitle={subTitle} />
+    const wrapper = mount(
+      <ContentHeader
+        title={title}
+        onTitleDoubleClick={handleTitleDoubleClick}
+      />
     );
 
-    expect(contentHeaderShalowed.prop('title')).toBe('');
-    expect(contentHeaderShalowed.prop('subTitle')).toBe(subTitle);
-    expect(contentHeaderShalowed).toMatchSnapshot();
+    wrapper
+      .find('span')
+      .at(1)
+      .simulate('doubleClick');
+
+    expect(handleTitleDoubleClick).toHaveBeenCalled();
   });
 
-  it('renders html correctly with title and subtitle', () => {
-    const title = 'Título';
-    const subTitle = 'Subtítulo';
+  it(
+    'A double click on the title is expected to have no events if props' +
+      ' onTitleDoubleClick is not set',
+    () => {
+      const title = 'Title';
+      const wrapper = shallow(<ContentHeader title={title} />);
 
-    const contentHeaderShalowed = shallow(
-      <ContentHeader title={title} subTitle={subTitle} />
-    );
+      expect(wrapper.prop('title').props).toBeUndefined();
+    }
+  );
 
-    expect(contentHeaderShalowed.prop('title')).toBe(title);
-    expect(contentHeaderShalowed.prop('subTitle')).toBe(subTitle);
-    expect(contentHeaderShalowed).toMatchSnapshot();
+  it('is expected to render the subtitle received by props', () => {
+    const subTitle = 'subTitle';
+    const wrapper = shallow(<ContentHeader subTitle={subTitle} />);
+
+    expect(wrapper.html()).toContain(subTitle);
   });
+
+  it('is not expected to render subtitle if not present in props', () => {
+    const wrapper = shallow(<ContentHeader />);
+
+    expect(wrapper.prop('subTitle')).toBeUndefined();
+  });
+
+  it(
+    'The component is expected to render a "back" arrow with the function' +
+      ' contained in the onBack property, if any',
+    () => {
+      const title = 'Title';
+      const onBack = jest.fn(() => true);
+      const wrapper = mount(<ContentHeader title={title} onBack={onBack} />);
+
+      expect(wrapper.prop('onBack')).toBe(onBack);
+      expect(wrapper.find('i').html()).toContain('arrow-left');
+    }
+  );
+
+  it(
+    'is expected that when clicking on the component\'s "back" arrow the' +
+      'function contained in the onBack property will be called',
+    () => {
+      const title = 'Title';
+      const onBack = jest.fn(() => true);
+
+      const wrapper = mount(<ContentHeader title={title} onBack={onBack} />);
+
+      wrapper.find('i').simulate('click');
+
+      expect(onBack).toHaveBeenCalled();
+    }
+  );
+
+  it('is not expected to render back arrow when no onBack props', () => {
+    const title = 'Title';
+    const wrapper = mount(<ContentHeader title={title} />);
+
+    expect(wrapper.find('i').exists()).not.toBeTruthy();
+  });
+
+  it(
+    'is expected to render breadcrumbs contained in the breadcrumbs property' +
+      ' when there is one',
+    () => {
+      const breadcrumbs = [
+        {
+          path: 'projects',
+          breadcrumbName: 'Projetos',
+        },
+        {
+          path: '2',
+          breadcrumbName: 'Projeto 2',
+        },
+        {
+          path: 'experiment/3',
+          breadcrumbName: 'Experimento 3',
+        },
+      ];
+      const title = 'Title';
+      const wrapper = mount(
+        <ContentHeader title={title} breadcrumbs={breadcrumbs} />
+      );
+
+      expect(wrapper.html()).toContain(breadcrumbs[0].breadcrumbName);
+    }
+  );
+
+  // it(
+  //   'Clicking on a breadcrumbs element is expected to change the route to' +
+  //     " the path contained in the element's path property",
+  //   () => {}
+  // );
+
+  // it('is not expected to render breadcrumbs when there is no props', () => {});
+
+  // it('', () => {});
+
+  // it('is expected render html correctly', () => {
+  //   const wrapper = shallow(
+  //     <ContentHeader />
+  //   );
+
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 });
+
+/*
+Cabeçalho do conteúdo principal.  
+Esse componente é responsável por exibir um título.  
+Esse componente pode exibir um subtítulo.  
+Esse componente pode exibir uma seta para voltar a tela anterior.  
+Esse componente pode exibir um breadcrumbs.
+Esse componente pode receber um evento de duplo clique no título, para permitir a edição do mesmo.
+*/

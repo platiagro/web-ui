@@ -1,22 +1,44 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+// import PropTypes from 'prop-types';
 
 import { PageHeader } from 'antd';
 
-import './style.scss';
+// import './style.scss';
 
-const ContentHeader = ({ title, subTitle }) => (
-  <PageHeader className='content-header' title={title} subTitle={subTitle} />
-);
+const ContentHeader = ({
+  title,
+  onTitleDoubleClick,
+  subTitle,
+  onBack,
+  breadcrumbs,
+}) => {
+  const componentTitle = onTitleDoubleClick ? (
+    <span onDoubleClick={onTitleDoubleClick}>{title}</span>
+  ) : (
+    title
+  );
 
-ContentHeader.propTypes = {
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
+  const routes = breadcrumbs;
+
+  return (
+    <PageHeader
+      title={componentTitle}
+      subTitle={subTitle}
+      onBack={onBack}
+      breadcrumb={{ routes }}
+    />
+  );
 };
 
-ContentHeader.defaultProps = {
-  title: '',
-  subTitle: '',
-};
+// ContentHeader.propTypes = {
+//   title: PropTypes.string,
+//   subTitle: PropTypes.string,
+// };
+
+// ContentHeader.defaultProps = {
+//   title: '',
+//   subTitle: '',
+// };
 
 export default ContentHeader;

@@ -108,7 +108,7 @@ Esse componente também é responsável por rotear o conteúdo principal da apli
 Cabeçalho principal da aplicação.  
 Esse componente é responsável por exibir o logotipo e o menu principal
 da aplicação.  
-Esse componente também é responsável por alterar as rotas principais da aplicação, de acordo com os cliques no menu.  
+Esse componente também é responsável por alterar as rotas principais da aplicação, de acordo com os cliques no menu.
 
 - [x] Espera-se que o componente contenha um logotipo;
 - [x] Espera-se que o componente receba uma propriedade rotas principais (mainRoutes);
@@ -125,7 +125,7 @@ Esse componente também é responsável por alterar as rotas principais da aplic
 ### Rodapé Principal (MainFooter)
 
 Rodapé principal da aplicação.  
-Esse componente é responsável por exibir a mensagem de copyright no rodapé principal da aplicação.  
+Esse componente é responsável por exibir a mensagem de copyright no rodapé principal da aplicação.
 
 - [x] Espera-se que esse componente renderize uma mensagem de copyright com o ano atual;
 
@@ -140,19 +140,19 @@ Esse componente pode exibir uma seta para voltar a tela anterior.
 Esse componente pode exibir um breadcrumbs.
 Esse componente pode receber um evento de duplo clique no título, para permitir a edição do mesmo.
 
-- [ ] Espera-se que o componente renderize o título, recebido por props;
-- [ ] Espera-se que o título receba um evento onTitleDoubleClick, caso o mesmo exista nas props;
-- [ ] Espera-se que um duplo clique no título, chame a função onTitleDoubleClick;
-- [ ] Espera-se que um duplo clique no título, não tenha eventos, caso a props onTitleDoubleClick não esteja definida;
-- [ ] Espera-se que o componente renderize o subtítulo, recebido por props;
-- [ ] Espera-se que o componente não renderize o subtítulo, se não existir nas props;
-- [ ] Espera-se que o componente renderize a seta "voltar" com o caminho contido na propriedade backPath, quando houver um caminho na mesma;
-- [ ] Espera-se que ao clicar na seta "voltar" do componente a rota seja alterada para o caminho contido na propriedade backPath;
-- [ ] Espera-se que o componente não renderize a seta "voltar", quando não houver a props backPath;
-- [ ] Espera-se que o componente renderize o breadcrumbs contido na propriedade breadcrumbs, quando houver uma;
+- [x] Espera-se que o componente seja um PageHeader (antd);
+- [x] Espera-se que o componente renderize o título, recebido por props;
+- [x] Espera-se que o título receba um evento onTitleDoubleClick, caso o mesmo exista nas props;
+- [x] Espera-se que um duplo clique no título, chame a função onTitleDoubleClick;
+- [x] Espera-se que um duplo clique no título, não tenha eventos, caso a props onTitleDoubleClick não esteja definida;
+- [x] Espera-se que o componente renderize o subtítulo, recebido por props;
+- [x] Espera-se que o componente não renderize o subtítulo, se não existir nas props;
+- [x] Espera-se que o componente renderize a seta "voltar" com a função contida na propriedade onBack, quando houver;
+- [x] Espera-se que ao clicar na seta "voltar" do componente a função contida na propriedade onBack seja chamada;
+- [x] Espera-se que o componente não renderize a seta "voltar", quando não houver a props onBack;
+- [x] Espera-se que o componente renderize o breadcrumbs contido na propriedade breadcrumbs, quando houver uma;
 - [ ] Espera-se que ao clicar em um elemento do breadcrumbs a rota seja alterada para o caminho contido na propriedade path do elemento;
 - [ ] Espera-se que o componente não renderize os breadcrumbs, quando não houver a props;
-
 
 <a href="#progresso">Voltar ao topo ^</a>
 
