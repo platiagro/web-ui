@@ -2,6 +2,11 @@
 
 exports[`App component is expected render html correctly 1`] = `
 <Adapter>
+  <MainDrawer
+    title="Conjunto de dados"
+  >
+    <DataSetDrawerContent />
+  </MainDrawer>
   <Adapter>
     <Adapter>
       <Route

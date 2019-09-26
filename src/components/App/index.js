@@ -18,11 +18,16 @@ import mainRoutes from '../../routes/main';
 
 import MainHeader from '../MainHeader';
 import MainFooter from '../MainFooter';
+import MainDrawer from '../MainDrawer';
+import DataSetDrawerContent from '../DataSetDrawerContent';
 
 const { Header, Content, Footer } = Layout;
 
 const App = () => (
   <Layout>
+    <MainDrawer title='Conjunto de dados'>
+      <DataSetDrawerContent />
+    </MainDrawer>
     <Layout>
       <Header>
         <Route
