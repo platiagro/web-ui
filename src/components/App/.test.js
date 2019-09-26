@@ -7,7 +7,6 @@ import mainRoutes from '../../routes/main';
 
 import App from '.';
 import MainHeader from '../MainHeader';
-import MainDrawer from '../MainDrawer';
 import MainFooter from '../MainFooter';
 
 import { Layout } from 'antd';
