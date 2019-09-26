@@ -2,20 +2,10 @@
 
 exports[`MainDrawer component renders html correctly 1`] = `
 <withConfigConsumer(Drawer)
-  closable={false}
+  closable={true}
   onClose={null}
   placement="right"
-  title="Basic Drawer"
-  visible={false}
->
-  <p>
-    Some contents...
-  </p>
-  <p>
-    Some contents...
-  </p>
-  <p>
-    Some contents...
-  </p>
-</withConfigConsumer(Drawer)>
+  visible={true}
+  width={350}
+/>
 `;

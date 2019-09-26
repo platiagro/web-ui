@@ -2,17 +2,16 @@ import React from 'react';
 
 import { Drawer } from 'antd';
 
-const MainDrawer = () => (
+const MainDrawer = ({ children, title }) => (
   <Drawer
-    title='Basic Drawer'
+    width={350}
+    title={title}
     placement='right'
-    closable={false}
+    closable
     onClose={null}
-    visible={false}
+    visible
   >
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
+    {children}
   </Drawer>
 );
 
