@@ -1,3 +1,9 @@
+/* 
+  Main footer of the application.
+  
+  This component is responsible for displaying a copyright message in the main
+  application footer.
+*/
 import React from 'react';
 
 import './style.scss';

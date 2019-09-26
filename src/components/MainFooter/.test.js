@@ -22,10 +22,3 @@ describe('MainFooter component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 });
-
-/* 
-Rodapé principal da aplicação.  
-Esse componente é responsável por exibir a mensagem de copyright no rodapé principal da aplicação.  
-
-- [ ] ;
-*/
