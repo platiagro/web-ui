@@ -19,14 +19,14 @@ import mainRoutes from '../../routes/main';
 import MainHeader from '../MainHeader';
 import MainFooter from '../MainFooter';
 import MainDrawer from '../MainDrawer';
-import DataSetDrawerContent from '../DataSetDrawerContent';
+import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 
 const { Header, Content, Footer } = Layout;
 
 const App = () => (
   <Layout>
-    <MainDrawer title='Conjunto de dados'>
-      <DataSetDrawerContent />
+    <MainDrawer title='Criação de atributos por tempo'>
+      <TimeAttributeCreationDrawerContent />
     </MainDrawer>
     <Layout>
       <Header>
