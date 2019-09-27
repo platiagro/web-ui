@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { Upload, Button, Icon, Divider } from 'antd';
+import { Upload, Button, Icon, Divider, Select } from 'antd';
 
 import DataSetTable from '../DataSetTable';
+import InfoHelper from '../InfoHelper';
+
+const { Option } = Select;
 
 const DataSetDrawerContent = () => (
   <div>
@@ -31,10 +34,18 @@ const DataSetDrawerContent = () => (
 
     <Button>Importar</Button>
 
-    <br />
-
     <Divider />
 
+    <p>Qual é o seu atributo alvo?</p>
+    <Select style={{ width: 200 }} placeholder='Selecione'>
+      <Option value='id'>id</Option>
+      <Option value='hour'>hora</Option>
+      <Option value='type'>Tipo</Option>
+    </Select>
+
+    <InfoHelper content='Seu modelo será treinado para prever os valores do alvo.' />
+
+    <br />
     <br />
 
     <DataSetTable />
