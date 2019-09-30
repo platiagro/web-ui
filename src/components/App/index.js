@@ -19,14 +19,14 @@ import mainRoutes from '../../routes/main';
 import MainHeader from '../MainHeader';
 import MainFooter from '../MainFooter';
 import MainDrawer from '../MainDrawer';
-import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
+import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
 
 const { Header, Content, Footer } = Layout;
 
 const App = () => (
   <Layout>
-    <MainDrawer title='Pré-seleção de atributos'>
-      <AttributePreSelectionDrawerContent />
+    <MainDrawer title='Criação de atributos genéricos'>
+      <GenericAttributeCreationDrawerContent />
     </MainDrawer>
     <Layout>
       <Header>
