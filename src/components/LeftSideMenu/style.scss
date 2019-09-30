@@ -1,0 +1,44 @@
+.left-side-menu {
+  background: #fff;
+  height: 100%;
+  overflow-y: auto;
+
+  .collapse-menu-items {
+    border-radius: 4px;
+    margin: 8px;
+    border: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    .ant-collapse-header {
+      background-color: #f7f7f7;
+      border: 0;
+    }
+    .icon-collapse-header {
+      margin-right: 8px;
+    }
+    .collapse-item {
+      color: rgba(0, 0, 0, 0.85);
+      background-color: #f7f7f7;
+      border-radius: 4px;
+      width: 100%;
+      text-align: left;
+    }
+  }
+  .ant-collapse-borderless > .ant-collapse-item {
+    border: 0;
+  }
+
+  .collapse-menu-search-bar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #fff;
+    padding: 12px 8px;
+    transition: all ease 0.3s;
+    &:hover {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+  }
+}

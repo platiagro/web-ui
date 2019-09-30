@@ -11,6 +11,7 @@
   - [Modal Novo Projeto (NewProjectModal)](#modal-novo-projeto-newprojectmodal)
   - [Menu Lateral Esquerdo (LeftSideMenu)](#menu-lateral-esquerdo-leftsidemenu)
   - [Conteúdo do Experimento (ExperimentContent)](#conte%c3%bado-do-experimento-experimentcontent)
+  - [Container do Experimento (ExperimentContainer)](#container-do-experimento-experimentcontainer)
   - [Drawer Lateral Direito (RightSideDrawer)](#drawer-lateral-direito-rightsidedrawer)
   - [Alerta (Alert)](#alerta-alert)
 - [Componentes Com Estado](#componentes-com-estado)
@@ -51,6 +52,7 @@ Acompanhe o progresso do projeto.
     - [ ] Menu Lateral Esquerdo (LeftSideMenu)
     - [ ] Conteúdo do Experimento (ExperimentContent)
     - [x] **Drawer Lateral Direito (RightSideDrawer)**
+    - [ ] Container do Experimento (ExperimentContainer)
     - [ ] Alerta (Alert)
   - [ ] Componentes Com Estado
     - [x] **Tabela de Projetos (ProjectsTable)**
@@ -185,6 +187,12 @@ Componente para exibir um experimento.
 Esse componente deve possuir um corpo, onde o fluxo do experimento será montado.  
 Esse componente deve possuir um botão para executar o experimento.  
 Esse componente deve possuir um botão para implantar um experimento.
+
+<a href="#progresso">Voltar ao topo ^</a>
+
+### Container do Experimento (ExperimentContainer)
+
+Componente para agrupar ExperimentContent, ExperimentsTabs e LeftSideMenu.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
