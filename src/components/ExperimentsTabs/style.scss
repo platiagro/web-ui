@@ -1,20 +1,5 @@
-.tab-container {
-  width: 100%;
-}
-.ant-tabs-tab,
-.ant-tabs-nav {
-  transition: all ease 1s;
-}
-.readOnly {
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  width: 120px;
-  transition: all ease 0.2s;
-
-  &:focus {
-    outline: none;
-    box-shadow: none;
-    border: none;
-  }
+.ant-tabs-bar {
+  background: #f0f2f5;
+  margin: 0;
+  padding-left: 8px;
 }

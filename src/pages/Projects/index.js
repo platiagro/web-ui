@@ -2,12 +2,11 @@ import React from 'react';
 import _ from 'lodash';
 import './style.scss';
 
-import { Divider, Button, Empty, Layout } from 'antd';
+import { Divider, Button, Empty } from 'antd';
 
 import NewProjectModal from '../../components/NewProjectModal';
 import ProjectsTable from '../../components/ProjectsTable';
-import ExperimentsTabs from '../../components/ExperimentsTabs';
-import LeftSideMenu from '../../components/LeftSideMenu';
+import ExperimentContainer from '../../components/ExperimentContainer';
 
 import meh from '../../assets/meh.svg';
 
@@ -215,6 +214,13 @@ class Projects extends React.Component {
     this.hideModal = this.hideModal.bind(this);
   }
 
+  // componentDidMount() {
+  //   const { projectList } = this.state;
+  //   this.setState({
+  //     projectDetail: projectList[0],
+  //   });
+  // }
+
   handleCreate = () => {
     const { form } = this.formRef.props;
     form.validateFields((err, values) => {
@@ -234,14 +240,10 @@ class Projects extends React.Component {
   };
 
   onSelectChange = (selectedRowKeys) => {
-    // eslint-disable-next-line
-    // console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   };
 
-  enterProjetc = (clickedProject, rowIndex) => {
-    // eslint-disable-next-line no-console
-    // console.log('clickedProject: ', clickedProject, rowIndex);
+  enterProjetc = (clickedProject) => {
     this.setState({ projectDetail: clickedProject });
   };
 
@@ -296,14 +298,7 @@ class Projects extends React.Component {
     const hasSelected = selectedRowKeys.length > 0;
 
     return !_.isEmpty(projectDetail) ? (
-      <Layout.Content>
-        <Layout>
-          <LeftSideMenu />
-          <Layout.Content>
-            <ExperimentsTabs details={projectDetail} />
-          </Layout.Content>
-        </Layout>
-      </Layout.Content>
+      <ExperimentContainer details={projectDetail} />
     ) : (
       <div className='project-page'>
         <NewProjectModal

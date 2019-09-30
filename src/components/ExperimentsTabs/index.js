@@ -1,36 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './style.scss';
 import { Tabs } from 'antd';
 import DraggableTabs from '../DraggableTabs';
+import ExperimentContent from '../ExperimentContent';
 
 const { TabPane } = Tabs;
 
 class ExperimentsTabs extends React.Component {
   constructor(props) {
     super(props);
-    // this.newTabIndex = 0;
-    // const panes = [];
     this.state = {
       activeKey: null,
-      panes: [
-        {
-          title: 'Experimento 1',
-          content: 'Content of Tab Pane 1',
-          key: 'exp0',
-        },
-      ],
+      panes: [],
     };
   }
 
   componentDidMount() {
     const {
-      state: { panes },
       props: { details },
     } = this;
-    console.log(details);
-    this.setState({ panes: details.experimentsList }, () => {
-      // this.newTabIndex = panes.length;
+    this.setState({
+      panes: details.experimentsList,
+      activeKey:
+        details.experimentsList.length > 0
+          ? details.experimentsList[0].key
+          : null,
     });
   }
 
@@ -43,42 +39,27 @@ class ExperimentsTabs extends React.Component {
   };
 
   add = () => {
-    const { panes } = this.state;
+    const {
+      props: { details },
+      state: { panes },
+    } = this;
+
     const index = panes.length + 1;
-    // // eslint-disable-next-line no-plusplus
     const activeKey = `exp${index}`;
 
     panes.push({
-      title: `Experimento ${index}`,
-      content: `Experimento ${index}`,
+      title: `${details.projectName}_${index}`,
+      content: 'content',
       key: activeKey,
     });
     this.setState({ panes, activeKey });
   };
 
-  remove = (targetKey) => {
-    const { panes } = this.state;
-    let { activeKey } = this.state;
-
-    let lastIndex;
-    panes.forEach((pane, i) => {
-      if (pane.key === targetKey) {
-        lastIndex = i - 1;
-      }
-    });
-    const panels = panes.filter((pane) => pane.key !== targetKey);
-    if (panels.length && activeKey === targetKey) {
-      if (lastIndex >= 0) {
-        activeKey = panels[lastIndex].key;
-      } else {
-        activeKey = panels[0].key;
-      }
-    }
-    this.setState({ panes, activeKey });
-  };
-
   render() {
-    const { activeKey, panes } = this.state;
+    const {
+      state: { activeKey, panes },
+      props: { details },
+    } = this;
     return (
       <div className='tab-container'>
         <DraggableTabs
@@ -88,9 +69,9 @@ class ExperimentsTabs extends React.Component {
           type='editable-card'
           onTabClick={this.handleClick}
         >
-          {panes.map((pane) => (
+          {panes.map((pane, index) => (
             <TabPane tab={pane.title} closable={false} key={pane.key}>
-              {pane.content}
+              <ExperimentContent details={details.experimentsList[index]} />
             </TabPane>
           ))}
         </DraggableTabs>
@@ -98,8 +79,11 @@ class ExperimentsTabs extends React.Component {
     );
   }
 }
-// ExperimentsTabs.propTypes = {
-
-// };
+ExperimentsTabs.propTypes = {
+  details: PropTypes.shape({
+    experimentsList: PropTypes.array,
+    projectName: PropTypes.string,
+  }).isRequired,
+};
 
 export default ExperimentsTabs;

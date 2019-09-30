@@ -2,38 +2,39 @@
 
 ## Índice <!-- omit in toc -->
 
-- [Progresso](#progresso)
-- [Componentes Sem Estado](#componentes-sem-estado)
-  - [App](#app)
-  - [Cabeçalho Principal (MainHeader)](#cabe%c3%a7alho-principal-mainheader)
-  - [Rodapé Principal (MainFooter)](#rodap%c3%a9-principal-mainfooter)
-  - [Cabeçalho do Conteúdo (ContentHeader)](#cabe%c3%a7alho-do-conte%c3%bado-contentheader)
-  - [Modal Novo Projeto (NewProjectModal)](#modal-novo-projeto-newprojectmodal)
-  - [Menu Lateral Esquerdo (LeftSideMenu)](#menu-lateral-esquerdo-leftsidemenu)
-  - [Conteúdo do Experimento (ExperimentContent)](#conte%c3%bado-do-experimento-experimentcontent)
-  - [Drawer Lateral Direito (RightSideDrawer)](#drawer-lateral-direito-rightsidedrawer)
-  - [Alerta (Alert)](#alerta-alert)
-- [Componentes Com Estado](#componentes-com-estado)
-  - [Tabela de Projetos (ProjectsTable)](#tabela-de-projetos-projectstable)
-  - [Abas de Experimento (ExperimentsTabs)](#abas-de-experimento-experimentstabs)
-  - [Fluxo do Experimento (ExperimentFlow)](#fluxo-do-experimento-experimentflow)
-  - [Conteúdo Drawer Conjunto de Dados (DataSetDrawerContent)](#conte%c3%bado-drawer-conjunto-de-dados-datasetdrawercontent)
-  - [Tabela de Conjunto de Dados (DataSetTable)](#tabela-de-conjunto-de-dados-datasettable)
-  - [Conteúdo Drawer Criação de Atributos Por Tempo](#conte%c3%bado-drawer-cria%c3%a7%c3%a3o-de-atributos-por-tempo)
-  - [Conteúdo Drawer Pré-Seleção de Atributos (AttributePreSelectionDrawerContent)](#conte%c3%bado-drawer-pr%c3%a9-sele%c3%a7%c3%a3o-de-atributos-attributepreselectiondrawercontent)
-  - [Conteúdo Drawer Criação de Atributos Genéricos (GenericAttributeCreationDrawerContent)](#conte%c3%bado-drawer-cria%c3%a7%c3%a3o-de-atributos-gen%c3%a9ricos-genericattributecreationdrawercontent)
-  - [Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)](#conte%c3%bado-drawer-filtro-de-atributos-attributefilterdrawercontent)
-  - [Conteúdo Drawer AutoML (AutoMLDrawerContent)](#conte%c3%bado-drawer-automl-automldrawercontent)
-- [Páginas](#p%c3%a1ginas)
-  - [Ínicio (raiz /)](#%c3%8dnicio-raiz)
-  - [Projetos (/projects)](#projetos-projects)
-  - [Projeto ID (/projects/{p_id})](#projeto-id-projectspid)
-  - [Experimento ID (/projects/{p_id}/experiments/{e_id})](#experimento-id-projectspidexperimentseid)
-- [Rotas](#rotas)
-  - [Ínicio (raiz /)](#%c3%8dnicio-raiz--1)
-  - [Projetos (/projects)](#projetos-projects-1)
-  - [Projeto ID (/projects/{p_id})](#projeto-id-projectspid-1)
-  - [Experimento ID (/projects/{p_id}/experiments/{e_id})](#experimento-id-projectspidexperimentseid-1)
+- [Progresso](#Progresso)
+- [Componentes Sem Estado](#Componentes-Sem-Estado)
+  - [App](#App)
+  - [Cabeçalho Principal (MainHeader)](#Cabe%C3%A7alho-Principal-MainHeader)
+  - [Rodapé Principal (MainFooter)](#Rodap%C3%A9-Principal-MainFooter)
+  - [Cabeçalho do Conteúdo (ContentHeader)](#Cabe%C3%A7alho-do-Conte%C3%BAdo-ContentHeader)
+  - [Modal Novo Projeto (NewProjectModal)](#Modal-Novo-Projeto-NewProjectModal)
+  - [Menu Lateral Esquerdo (LeftSideMenu)](#Menu-Lateral-Esquerdo-LeftSideMenu)
+  - [Conteúdo do Experimento (ExperimentContent)](#Conte%C3%BAdo-do-Experimento-ExperimentContent)
+  - [Container do Experimento (ExperimentContainer)](#Container-do-Experimento-ExperimentContainer)
+  - [Drawer Lateral Direito (RightSideDrawer)](#Drawer-Lateral-Direito-RightSideDrawer)
+  - [Alerta (Alert)](#Alerta-Alert)
+- [Componentes Com Estado](#Componentes-Com-Estado)
+  - [Tabela de Projetos (ProjectsTable)](#Tabela-de-Projetos-ProjectsTable)
+  - [Abas de Experimento (ExperimentsTabs)](#Abas-de-Experimento-ExperimentsTabs)
+  - [Fluxo do Experimento (ExperimentFlow)](#Fluxo-do-Experimento-ExperimentFlow)
+  - [Conteúdo Drawer Conjunto de Dados (DataSetDrawerContent)](#Conte%C3%BAdo-Drawer-Conjunto-de-Dados-DataSetDrawerContent)
+  - [Tabela de Conjunto de Dados (DataSetTable)](#Tabela-de-Conjunto-de-Dados-DataSetTable)
+  - [Conteúdo Drawer Criação de Atributos Por Tempo](#Conte%C3%BAdo-Drawer-Cria%C3%A7%C3%A3o-de-Atributos-Por-Tempo)
+  - [Conteúdo Drawer Pré-Seleção de Atributos (AttributePreSelectionDrawerContent)](#Conte%C3%BAdo-Drawer-Pr%C3%A9-Sele%C3%A7%C3%A3o-de-Atributos-AttributePreSelectionDrawerContent)
+  - [Conteúdo Drawer Criação de Atributos Genéricos (GenericAttributeCreationDrawerContent)](#Conte%C3%BAdo-Drawer-Cria%C3%A7%C3%A3o-de-Atributos-Gen%C3%A9ricos-GenericAttributeCreationDrawerContent)
+  - [Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)](#Conte%C3%BAdo-Drawer-Filtro-de-Atributos-AttributeFilterDrawerContent)
+  - [Conteúdo Drawer AutoML (AutoMLDrawerContent)](#Conte%C3%BAdo-Drawer-AutoML-AutoMLDrawerContent)
+- [Páginas](#P%C3%A1ginas)
+  - [Ínicio (raiz /)](#%C3%8Dnicio-raiz)
+  - [Projetos (/projects)](#Projetos-projects)
+  - [Projeto ID (/projects/{p_id})](#Projeto-ID-projectspid)
+  - [Experimento ID (/projects/{p_id}/experiments/{e_id})](#Experimento-ID-projectspidexperimentseid)
+- [Rotas](#Rotas)
+  - [Ínicio (raiz /)](#%C3%8Dnicio-raiz--1)
+  - [Projetos (/projects)](#Projetos-projects-1)
+  - [Projeto ID (/projects/{p_id})](#Projeto-ID-projectspid-1)
+  - [Experimento ID (/projects/{p_id}/experiments/{e_id})](#Experimento-ID-projectspidexperimentseid-1)
 
 ---
 
@@ -50,6 +51,7 @@ Acompanhe o progresso do projeto.
     - [ ] Modal Novo Projeto (NewProjectModal)
     - [ ] Menu Lateral Esquerdo (LeftSideMenu)
     - [ ] Conteúdo do Experimento (ExperimentContent)
+    - [ ] Container do Experimento (ExperimentContainer)
     - [ ] Drawer Lateral Direito (RightSideDrawer)
     - [ ] Alerta (Alert)
   - [ ] Componentes Com Estado
@@ -181,6 +183,12 @@ Componente para exibir um experimento.
 Esse componente deve possuir um corpo, onde o fluxo do experimento será montado.  
 Esse componente deve possuir um botão para executar o experimento.  
 Esse componente deve possuir um botão para implantar um experimento.
+
+<a href="#progresso">Voltar ao topo ^</a>
+
+### Container do Experimento (ExperimentContainer)
+
+Componente para agrupar ExperimentContent, ExperimentsTabs e LeftSideMenu.
 
 <a href="#progresso">Voltar ao topo ^</a>
 

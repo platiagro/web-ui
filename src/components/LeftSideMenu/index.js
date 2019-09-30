@@ -3,51 +3,42 @@ import './style.scss';
 import { Layout, Icon, Input, Collapse, Button } from 'antd';
 
 const { Sider } = Layout;
-// const { SubMenu } = Menu;
 const { Panel } = Collapse;
 
-const customPanelStyle = {
-  background: '#f7f7f7',
-  borderRadius: 4,
-  marginBottom: 24,
-  border: 0,
-  overflow: 'hidden',
-};
-
 const LeftSideMenu = () => (
-  <Sider
-    width={250}
-    style={{ background: '#fff', height: 400, overflowY: 'auto', padding: 20 }}
-  >
-    <Input.Search
-      style={{ position: 'sticky', top: 0 }}
-      placeholder='Pesquisar'
-      onSearch={(value) => console.log('PESQUISADO', value)}
-    />
+  <Sider width={250} className='left-side-menu'>
+    <div className='collapse-menu-search-bar'>
+      <Input.Search
+        placeholder='Pesquisar'
+        allowClear
+        // eslint-disable-next-line no-console
+        onSearch={(value) => console.log('PESQUISADO', value)}
+      />
+    </div>
     <Collapse bordered={false}>
       <Panel
         header={
-          <>
+          <span>
             <Icon className='icon-collapse-header' type='file' />
-            <span>Template</span>
-          </>
+            Template
+          </span>
         }
         key='1'
-        style={customPanelStyle}
+        className='collapse-menu-items'
       >
         <Button>Template ForAgri</Button>
       </Panel>
       <Panel
         header={
-          <>
+          <span>
             <Icon className='icon-collapse-header' type='database' />
-            <span>Dados de entrada</span>
-          </>
+            Dados de entrada
+          </span>
         }
         key='2'
-        style={customPanelStyle}
+        className='collapse-menu-items'
       >
-        <Button disabled>Upload</Button>
+        <p>Upload</p>
       </Panel>
       <Panel
         header={
@@ -57,21 +48,27 @@ const LeftSideMenu = () => (
           </span>
         }
         key='3'
-        style={customPanelStyle}
+        className='collapse-menu-items'
       >
-        <p>c</p>
+        <p>Pré-seleção</p>
+        <p>Seleção</p>
+        <p>Criação de Variáveis por tempo</p>
+        <p>Criação de Variáveis genéricas</p>
+        <p>Filtro de atributos</p>
       </Panel>
       <Panel
         header={
-          <>
+          <span>
             <Icon className='icon-collapse-header' type='share-alt' />
-            <span>Treinamento</span>
-          </>
+            Treinamento
+          </span>
         }
         key='4'
-        style={customPanelStyle}
+        className='collapse-menu-items'
       >
-        <p>c</p>
+        <p>AutoML</p>
+        <p>Regressão Logística</p>
+        <p>Regressão</p>
       </Panel>
     </Collapse>
   </Sider>

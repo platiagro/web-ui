@@ -30,7 +30,7 @@ const App = () => (
           render={(props) => <MainHeader {...props} mainRoutes={mainRoutes} />}
         />
       </Header>
-      <Content>
+      <Layout>
         <Switch>
           {mainRoutes.map((mainRoute) => (
             <Route
@@ -41,7 +41,7 @@ const App = () => (
             />
           ))}
         </Switch>
-      </Content>
+      </Layout>
       <Footer>
         <MainFooter />
       </Footer>
