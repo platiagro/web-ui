@@ -60,7 +60,7 @@ Acompanhe o progresso do projeto.
     - [x] **Tabela de Conjunto de Dados (DataSetTable)**
     - [x] **Conteúdo Drawer Criação de Atributos Por Tempo (TimeAttributeCreationDrawerContent)**
     - [x] **Conteúdo Drawer Pré-Seleção de Atributos (AttributePreSelectionDrawerContent)**
-    - [ ] Conteúdo Drawer Criação de Atributos Genéricos (GenericAttributeCreationDrawerContent)
+    - [x] **Conteúdo Drawer Criação de Atributos Genéricos (GenericAttributeCreationDrawerContent)**
     - [ ] Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)
     - [ ] Conteúdo Drawer AutoML (AutoMLDrawerContent)
   - [ ] Páginas
