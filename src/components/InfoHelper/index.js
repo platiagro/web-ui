@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Icon, Popover } from 'antd';
 
-const InfoHelper = ({ content }) => (
+const InfoHelper = ({ content, width = 150 }) => (
   <Popover
     overlayStyle={{
-      width: 150,
+      width,
     }}
     content={content}
     trigger='click'
