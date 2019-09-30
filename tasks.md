@@ -46,19 +46,19 @@ Acompanhe o progresso do projeto.
     - [x] App
     - [x] Cabeçalho Principal (MainHeader)
     - [x] Rodapé Principal (MainFooter)
-    - [ ] Cabeçalho do Conteúdo (ContentHeader)
-    - [ ] Modal Novo Projeto (NewProjectModal)
+    - [x] **Cabeçalho do Conteúdo (ContentHeader)**
+    - [x] **Modal Novo Projeto (NewProjectModal)**
     - [ ] Menu Lateral Esquerdo (LeftSideMenu)
     - [ ] Conteúdo do Experimento (ExperimentContent)
-    - [ ] Drawer Lateral Direito (RightSideDrawer)
+    - [x] **Drawer Lateral Direito (RightSideDrawer)**
     - [ ] Alerta (Alert)
   - [ ] Componentes Com Estado
     - [ ] Tabela de Projetos (ProjectsTable)
     - [ ] Abas de Experimento (ExperimentsTabs)
     - [ ] Fluxo do Experimento (ExperimentFlow)
-    - [ ] Conteúdo Drawer Conjunto de Dados (DataSetDrawerContent)
-    - [ ] Tabela de Conjunto de Dados (DataSetTable)
-    - [ ] Conteúdo Drawer Criação de Atributos Por Tempo (TimeAttributeCreationDrawerContent)
+    - [x] **Conteúdo Drawer Conjunto de Dados (DataSetDrawerContent)**
+    - [x] **Tabela de Conjunto de Dados (DataSetTable)**
+    - [x] **Conteúdo Drawer Criação de Atributos Por Tempo (TimeAttributeCreationDrawerContent)**
     - [ ] Conteúdo Drawer Pré-Seleção de Atributos (AttributePreSelectionDrawerContent)
     - [ ] Conteúdo Drawer Criação de Atributos Genéricos (GenericAttributeCreationDrawerContent)
     - [ ] Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)
