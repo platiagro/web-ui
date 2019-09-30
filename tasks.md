@@ -53,7 +53,7 @@ Acompanhe o progresso do projeto.
     - [x] **Drawer Lateral Direito (RightSideDrawer)**
     - [ ] Alerta (Alert)
   - [ ] Componentes Com Estado
-    - [ ] Tabela de Projetos (ProjectsTable)
+    - [x] **Tabela de Projetos (ProjectsTable)**
     - [ ] Abas de Experimento (ExperimentsTabs)
     - [ ] Fluxo do Experimento (ExperimentFlow)
     - [x] **Conteúdo Drawer Conjunto de Dados (DataSetDrawerContent)**
