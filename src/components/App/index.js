@@ -19,14 +19,14 @@ import mainRoutes from '../../routes/main';
 import MainHeader from '../MainHeader';
 import MainFooter from '../MainFooter';
 import MainDrawer from '../MainDrawer';
-import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
+import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
 
 const { Header, Content, Footer } = Layout;
 
 const App = () => (
   <Layout>
-    <MainDrawer title='Criação de atributos por tempo'>
-      <TimeAttributeCreationDrawerContent />
+    <MainDrawer title='Pré-seleção de atributos'>
+      <AttributePreSelectionDrawerContent />
     </MainDrawer>
     <Layout>
       <Header>
