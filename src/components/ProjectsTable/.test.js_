@@ -88,13 +88,21 @@ const rowSelection = {
 describe('ProjectsTable component should', () => {
   it('renders without crashing', () => {
     shallow(
-      <ProjectsTable projectList={projects} rowSelection={rowSelection} />
+      <ProjectsTable
+        enterProject={() => true}
+        projectList={projects}
+        rowSelection={rowSelection}
+      />
     );
   });
 
   it('renders html correctly', () => {
     const projectsTableShallowed = shallow(
-      <ProjectsTable projectList={projects} rowSelection={rowSelection} />
+      <ProjectsTable
+        enterProject={() => true}
+        projectList={projects}
+        rowSelection={rowSelection}
+      />
     );
 
     expect(projectsTableShallowed).toMatchSnapshot();
