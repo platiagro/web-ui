@@ -19,14 +19,14 @@ import mainRoutes from '../../routes/main';
 import MainHeader from '../MainHeader';
 import MainFooter from '../MainFooter';
 import MainDrawer from '../MainDrawer';
-import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
+import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 
 const { Header, Content, Footer } = Layout;
 
 const App = () => (
   <Layout>
-    <MainDrawer title='Criação de atributos genéricos'>
-      <GenericAttributeCreationDrawerContent />
+    <MainDrawer title='Filtro de atributos'>
+      <AttributeFilterDrawerContent />
     </MainDrawer>
     <Layout>
       <Header>
