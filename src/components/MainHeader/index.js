@@ -13,9 +13,10 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
-import { Menu } from 'antd';
+import { Menu, Icon } from 'antd';
 
 import logo from '../../assets/logo.png';
+import logoDemo from '../../assets/logoDemo.png';
 
 import './style.scss';
 
@@ -23,8 +24,13 @@ import getCurrentRoute from '../../utils';
 
 const MainHeader = ({ location, mainRoutes }) => (
   <div>
+    {/* left logo PlatIAgro */}
     <div className='logo'>
       <img src={logo} alt='PlatIAgro Logo' />
+    </div>
+    {/* right logo Demonstração ForAgri */}
+    <div className='logoDemo'>
+      <img src={logoDemo} alt='Demonstração ForAGRI' />
     </div>
     <Menu
       className='main-header-menu'
@@ -40,7 +46,10 @@ const MainHeader = ({ location, mainRoutes }) => (
         mainRoutes.map((route) =>
           route.notInMenu ? null : (
             <Menu.Item key={route.path}>
-              <Link to={route.path}>{route.title}</Link>
+              <Link to={route.path}>
+                <Icon type={route.icon} />
+                {route.title}
+              </Link>
             </Menu.Item>
           )
         )}

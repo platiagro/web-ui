@@ -1,10 +1,32 @@
+.ant-layout-header {
+  z-index: 1;
+  padding: 0px;
+}
+
 .main-header-menu {
+  width: 100%;
   line-height: 64px;
+  background: linear-gradient(91.64deg, #3f6600 1.09%, #004e66 98.14%);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+
+  .ant-menu-item {
+    a {
+      color: #fff;
+    }
+  }
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
 }
 
 .logo {
-  width: 120px;
-  height: 31px;
-  margin: 0px 40px 16px 0;
+  margin: 0 40px;
   float: left;
+}
+
+.logoDemo {
+  margin: 0 40px;
+  float: right;
 }
