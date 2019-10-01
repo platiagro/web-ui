@@ -64,7 +64,7 @@ Acompanhe o progresso do projeto.
     - [x] **Conteúdo Drawer Pré-Seleção de Atributos (AttributePreSelectionDrawerContent)**
     - [x] **Conteúdo Drawer Criação de Atributos Genéricos (GenericAttributeCreationDrawerContent)**
     - [x] **Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)**
-    - [ ] Conteúdo Drawer AutoML (AutoMLDrawerContent)
+    - [x] **Conteúdo Drawer AutoML (AutoMLDrawerContent)**
   - [ ] Páginas
     - [ ] Ínicio (raiz /)
     - [ ] Projetos (/projects)
