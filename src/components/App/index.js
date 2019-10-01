@@ -18,16 +18,11 @@ import mainRoutes from '../../routes/main';
 
 import MainHeader from '../MainHeader';
 import MainFooter from '../MainFooter';
-import MainDrawer from '../MainDrawer';
-import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer } = Layout;
 
 const App = () => (
   <Layout>
-    <MainDrawer title='Filtro de atributos'>
-      <AttributeFilterDrawerContent />
-    </MainDrawer>
     <Layout>
       <Header>
         <Route
