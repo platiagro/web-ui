@@ -63,7 +63,7 @@ Acompanhe o progresso do projeto.
     - [x] **Conteúdo Drawer Criação de Atributos Por Tempo (TimeAttributeCreationDrawerContent)**
     - [x] **Conteúdo Drawer Pré-Seleção de Atributos (AttributePreSelectionDrawerContent)**
     - [x] **Conteúdo Drawer Criação de Atributos Genéricos (GenericAttributeCreationDrawerContent)**
-    - [ ] Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)
+    - [x] **Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)**
     - [ ] Conteúdo Drawer AutoML (AutoMLDrawerContent)
   - [ ] Páginas
     - [ ] Ínicio (raiz /)
