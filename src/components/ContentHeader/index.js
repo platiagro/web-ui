@@ -4,7 +4,7 @@ import React from 'react';
 
 import { PageHeader } from 'antd';
 
-// import './style.scss';
+import './style.scss';
 
 const ContentHeader = ({
   title,
@@ -23,6 +23,7 @@ const ContentHeader = ({
 
   return (
     <PageHeader
+      className='contentHeader'
       title={componentTitle}
       subTitle={subTitle}
       onBack={onBack}
