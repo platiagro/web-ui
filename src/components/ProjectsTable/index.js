@@ -2,36 +2,29 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Table, Tooltip } from 'antd';
+import { Table } from 'antd';
 
 import './style.scss';
 
 const tableColumns = [
   {
     title: 'Nome do Projeto',
-    dataIndex: 'projectName',
-    key: 'projectName',
+    dataIndex: 'name',
+    key: 'name',
   },
   {
     title: 'Data de Criação',
-    dataIndex: 'created',
-    key: 'created',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
     width: 200,
+    render: (value) => new Date(value).toLocaleString(),
   },
 ];
 
-const ProjectsTable = ({ projectList, rowSelection, enterProjetc }) => {
-  projectList.forEach((project) => {
-    const projectAux = project;
-    projectAux.experiments = (
-      <Tooltip title={project.experimentsList.join(', ')}>
-        <span>{project.experimentsList.join(', ')}</span>
-      </Tooltip>
-    );
-  });
-
+const ProjectsTable = ({ projectList, enterProjetc }) => {
   return (
     <Table
+      rowKey={(record) => record.uuid}
       onRow={(record, rowIndex) => {
         return {
           onDoubleClick: (event) => {
@@ -41,7 +34,6 @@ const ProjectsTable = ({ projectList, rowSelection, enterProjetc }) => {
           }, // double click row
         };
       }}
-      rowSelection={rowSelection}
       dataSource={projectList}
       columns={tableColumns}
       pagination={{ pageSize: 9 }}
@@ -53,10 +45,6 @@ const ProjectsTable = ({ projectList, rowSelection, enterProjetc }) => {
 ProjectsTable.propTypes = {
   enterProjetc: PropTypes.func.isRequired,
   projectList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  rowSelection: PropTypes.shape({
-    selectedRowKeys: PropTypes.array,
-    onChange: PropTypes.func,
-  }).isRequired,
 };
 
 export default ProjectsTable;
