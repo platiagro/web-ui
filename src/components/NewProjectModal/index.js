@@ -40,7 +40,7 @@ class NewProjectModal extends React.Component {
       >
         <Form layout='vertical'>
           <Form.Item label='Qual o nome do seu projeto?'>
-            {getFieldDecorator('project-name', {
+            {getFieldDecorator('projectName', {
               rules: [
                 {
                   required: true,
