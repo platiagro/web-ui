@@ -2,209 +2,212 @@ import React from 'react';
 import _ from 'lodash';
 import './style.scss';
 
-import { Divider, Button, Empty } from 'antd';
+import { Button, Empty, Spin } from 'antd';
 
 import NewProjectModal from '../../components/NewProjectModal';
 import ProjectsTable from '../../components/ProjectsTable';
 import ExperimentContainer from '../../components/ExperimentContainer';
+import ContentHeader from '../../components/ContentHeader';
 
-import meh from '../../assets/meh.svg';
+import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
+
+import api from '../../services/api';
+
+// remove after tests
+const projects = [
+  {
+    key: '1',
+    projectName: 'workshp_ForAgri_0',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '2',
+    projectName: 'workshp_ForAgri_1',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+      {
+        title: 'Experimento 2',
+        content: 'Content of Tab Pane 1',
+        key: 'exp2',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '3',
+    projectName: 'workshp_ForAgri_2',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+      {
+        title: 'Experimento 2',
+        content: 'Content of Tab Pane 1',
+        key: 'exp2',
+      },
+      {
+        title: 'Experimento 3',
+        content: 'Content of Tab Pane 1',
+        key: 'exp3',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '4',
+    projectName: 'workshp_ForAgri_3',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+      {
+        title: 'Experimento 2',
+        content: 'Content of Tab Pane 1',
+        key: 'exp2',
+      },
+      {
+        title: 'Experimento 3',
+        content: 'Content of Tab Pane 1',
+        key: 'exp3',
+      },
+      {
+        title: 'Experimento 4',
+        content: 'Content of Tab Pane 1',
+        key: 'exp4',
+      },
+      {
+        title: 'Experimento 5',
+        content: 'Content of Tab Pane 1',
+        key: 'exp5',
+      },
+      {
+        title: 'Experimento 6',
+        content: 'Content of Tab Pane 1',
+        key: 'exp6',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '5',
+    projectName: 'workshp_ForAgri_4',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+      {
+        title: 'Experimento 2',
+        content: 'Content of Tab Pane 1',
+        key: 'exp2',
+      },
+      {
+        title: 'Experimento 3',
+        content: 'Content of Tab Pane 1',
+        key: 'exp3',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '6',
+    projectName: 'workshp_ForAgri_5',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+      {
+        title: 'Experimento 2',
+        content: 'Content of Tab Pane 1',
+        key: 'exp2',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '7',
+    projectName: 'workshp_ForAgri_6',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '8',
+    projectName: 'workshp_ForAgri_7',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+      {
+        title: 'Experimento 2',
+        content: 'Content of Tab Pane 1',
+        key: 'exp2',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '9',
+    projectName: 'workshp_ForAgri_8',
+    experimentsList: [
+      {
+        title: 'Experimento 1',
+        content: 'Content of Tab Pane 1',
+        key: 'exp1',
+      },
+      {
+        title: 'Experimento 2',
+        content: 'Content of Tab Pane 1',
+        key: 'exp2',
+      },
+    ],
+    created: '11/10/2019 12:59:21',
+  },
+  {
+    key: '10',
+    projectName: 'workshp_ForAgri_9',
+    experimentsList: [],
+    created: '11/10/2019 12:59:21',
+  },
+];
+
+projects.forEach((project) => {
+  const projectAux = project;
+  projectAux.experiments = project.experimentsList.join(', ');
+});
 
 class Projects extends React.Component {
   constructor(props) {
     super(props);
 
-    // remove after tests
-    const projects = [
-      {
-        key: '1',
-        projectName: 'workshp_ForAgri_0',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '2',
-        projectName: 'workshp_ForAgri_1',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-          {
-            title: 'Experimento 2',
-            content: 'Content of Tab Pane 1',
-            key: 'exp2',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '3',
-        projectName: 'workshp_ForAgri_2',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-          {
-            title: 'Experimento 2',
-            content: 'Content of Tab Pane 1',
-            key: 'exp2',
-          },
-          {
-            title: 'Experimento 3',
-            content: 'Content of Tab Pane 1',
-            key: 'exp3',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '4',
-        projectName: 'workshp_ForAgri_3',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-          {
-            title: 'Experimento 2',
-            content: 'Content of Tab Pane 1',
-            key: 'exp2',
-          },
-          {
-            title: 'Experimento 3',
-            content: 'Content of Tab Pane 1',
-            key: 'exp3',
-          },
-          {
-            title: 'Experimento 4',
-            content: 'Content of Tab Pane 1',
-            key: 'exp4',
-          },
-          {
-            title: 'Experimento 5',
-            content: 'Content of Tab Pane 1',
-            key: 'exp5',
-          },
-          {
-            title: 'Experimento 6',
-            content: 'Content of Tab Pane 1',
-            key: 'exp6',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '5',
-        projectName: 'workshp_ForAgri_4',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-          {
-            title: 'Experimento 2',
-            content: 'Content of Tab Pane 1',
-            key: 'exp2',
-          },
-          {
-            title: 'Experimento 3',
-            content: 'Content of Tab Pane 1',
-            key: 'exp3',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '6',
-        projectName: 'workshp_ForAgri_5',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-          {
-            title: 'Experimento 2',
-            content: 'Content of Tab Pane 1',
-            key: 'exp2',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '7',
-        projectName: 'workshp_ForAgri_6',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '8',
-        projectName: 'workshp_ForAgri_7',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-          {
-            title: 'Experimento 2',
-            content: 'Content of Tab Pane 1',
-            key: 'exp2',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '9',
-        projectName: 'workshp_ForAgri_8',
-        experimentsList: [
-          {
-            title: 'Experimento 1',
-            content: 'Content of Tab Pane 1',
-            key: 'exp1',
-          },
-          {
-            title: 'Experimento 2',
-            content: 'Content of Tab Pane 1',
-            key: 'exp2',
-          },
-        ],
-        created: '11/10/2019 12:59:21',
-      },
-      {
-        key: '10',
-        projectName: 'workshp_ForAgri_9',
-        experimentsList: [],
-        created: '11/10/2019 12:59:21',
-      },
-    ];
-
-    projects.forEach((project) => {
-      const projectAux = project;
-      projectAux.experiments = project.experimentsList.join(', ');
-    });
-
     this.state = {
-      projectList: projects,
-      selectedRowKeys: [],
+      loading: false,
+      projectList: [],
       modalIsVisible: false,
       projectDetail: {},
     };
@@ -214,33 +217,38 @@ class Projects extends React.Component {
     this.hideModal = this.hideModal.bind(this);
   }
 
-  // componentDidMount() {
-  //   const { projectList } = this.state;
-  //   this.setState({
-  //     projectDetail: projectList[0],
-  //   });
-  // }
+  async componentDidMount() {
+    this.setState({ loading: true });
+
+    const response = await api.get(`/projects`);
+
+    this.setState({ loading: false });
+
+    this.setState({ projectList: response.data.payload });
+  }
 
   handleCreate = () => {
     const { form } = this.formRef.props;
-    form.validateFields((err, values) => {
+    form.validateFields(async (err, values) => {
       if (err) {
         return;
       }
 
-      // eslint-disable-next-line
-      console.log('Received values of form: ', values);
+      const response = await api.post('/projects', JSON.stringify(values), {
+        headers: {
+          'content-type': 'application/json',
+        },
+      });
+
       form.resetFields();
       this.setState({ modalIsVisible: false });
+
+      this.enterProjetc(response.data.payload);
     });
   };
 
   saveFormRef = (formRef) => {
     this.formRef = formRef;
-  };
-
-  onSelectChange = (selectedRowKeys) => {
-    this.setState({ selectedRowKeys });
   };
 
   enterProjetc = (clickedProject) => {
@@ -260,18 +268,15 @@ class Projects extends React.Component {
   }
 
   renderBody() {
-    const { projectList, selectedRowKeys } = this.state;
+    const { loading, projectList } = this.state;
 
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-    };
+    if (loading) return <Spin />;
 
     return projectList.length === 0 ? (
       <Empty
-        image={meh}
+        image={emptyPlaceholder}
         imageStyle={{
-          height: 60,
+          height: 136,
         }}
         description={
           <span>
@@ -287,20 +292,17 @@ class Projects extends React.Component {
       <ProjectsTable
         enterProjetc={this.enterProjetc}
         projectList={projectList}
-        rowSelection={rowSelection}
       />
     );
   }
 
   render() {
-    const { modalIsVisible, selectedRowKeys, projectDetail } = this.state;
-
-    const hasSelected = selectedRowKeys.length > 0;
+    const { loading, modalIsVisible, projectDetail } = this.state;
 
     return !_.isEmpty(projectDetail) ? (
       <ExperimentContainer details={projectDetail} />
     ) : (
-      <div className='project-page'>
+      <div className='projectPage'>
         <NewProjectModal
           wrappedComponentRef={this.saveFormRef}
           visible={modalIsVisible}
@@ -308,19 +310,24 @@ class Projects extends React.Component {
           onCreate={this.handleCreate}
         />
 
-        <div className='header'>
-          <Button onClick={this.showModal} type='primary' icon='plus'>
-            Novo Projeto
-          </Button>
+        <ContentHeader
+          title='Projetos'
+          subTitle='Crie, experimente e implante fluxos de forma rápida e fácil.'
+        />
 
-          <Divider type='vertical' />
-
-          <Button disabled={!hasSelected}>Excluir</Button>
+        <div className='projectPageBody'>
+          <div className='header'>
+            <Button
+              disabled={loading}
+              onClick={this.showModal}
+              type='primary'
+              icon='plus'
+            >
+              Novo Projeto
+            </Button>
+          </div>
+          <div className='body'>{this.renderBody()}</div>
         </div>
-
-        <Divider />
-
-        <div className='body'>{this.renderBody()}</div>
       </div>
     );
   }
