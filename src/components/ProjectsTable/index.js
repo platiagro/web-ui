@@ -24,6 +24,7 @@ const tableColumns = [
 const ProjectsTable = ({ projectList, enterProjetc }) => {
   return (
     <Table
+      className='projectsTable'
       rowKey={(record) => record.uuid}
       onRow={(record, rowIndex) => {
         return {
