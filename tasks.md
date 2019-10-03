@@ -12,9 +12,9 @@
   - [Menu Lateral Esquerdo (LeftSideMenu)](#menu-lateral-esquerdo-leftsidemenu)
   - [Conteúdo do Experimento (ExperimentContent)](#conte%c3%bado-do-experimento-experimentcontent)
   - [Container do Experimento (ExperimentContainer)](#container-do-experimento-experimentcontainer)
-  - [Drawer Lateral Direito (RightSideDrawer)](#drawer-lateral-direito-rightsidedrawer)
   - [Alerta (Alert)](#alerta-alert)
 - [Componentes Com Estado](#componentes-com-estado)
+  - [Drawer Principal (MainDrawer)](#drawer-principal-maindrawer)
   - [Tabela de Projetos (ProjectsTable)](#tabela-de-projetos-projectstable)
   - [Abas de Experimento (ExperimentsTabs)](#abas-de-experimento-experimentstabs)
   - [Fluxo do Experimento (ExperimentFlow)](#fluxo-do-experimento-experimentflow)
@@ -51,10 +51,10 @@ Acompanhe o progresso do projeto.
     - [x] **Modal Novo Projeto (NewProjectModal)**
     - [ ] Menu Lateral Esquerdo (LeftSideMenu)
     - [ ] Conteúdo do Experimento (ExperimentContent)
-    - [x] **Drawer Lateral Direito (RightSideDrawer)**
     - [ ] Container do Experimento (ExperimentContainer)
     - [ ] Alerta (Alert)
   - [ ] Componentes Com Estado
+    - [x] **Drawer Principal (MainDrawer)**
     - [x] **Tabela de Projetos (ProjectsTable)**
     - [ ] Abas de Experimento (ExperimentsTabs)
     - [ ] Fluxo do Experimento (ExperimentFlow)
@@ -196,12 +196,6 @@ Componente para agrupar ExperimentContent, ExperimentsTabs e LeftSideMenu.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
-### Drawer Lateral Direito (RightSideDrawer)
-
-Componente para exibir a configuração de um passo do fluxo de um experimento.
-
-<a href="#progresso">Voltar ao topo ^</a>
-
 ### Alerta (Alert)
 
 Componente que exibe uma mensagem ao usuário.
@@ -213,6 +207,12 @@ Componente que exibe uma mensagem ao usuário.
 ## Componentes Com Estado
 
 Abaixo estão listados e descritos os componentes com estado.
+
+<a href="#progresso">Voltar ao topo ^</a>
+
+### Drawer Principal (MainDrawer)
+
+Componente para exibir a configuração de um passo do fluxo de um experimento.
 
 <a href="#progresso">Voltar ao topo ^</a>
 
