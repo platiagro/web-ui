@@ -70,13 +70,13 @@ Acompanhe o progresso do projeto.
     - [x] Projetos (/projects)
     - [x] Fluxos Implantados (/implanted-flows)
     - [ ] Projeto ID (/projects/{p_id})
-    - [ ] Experimento ID (/projects/{p_id}/experiments/{e_id})
+    - [ ] Experimento ID (/projects/{p_id}/#{e_id})
   - [ ] Rotas
     - [x] Ínicio (raiz /)
     - [x] Projetos (/projects)
     - [x] Fluxos Implantados (/implanted-flows)
     - [ ] Projeto ID (/projects/{p_id})
-    - [ ] Experimento ID (/projects/{p_id}/experiments/{e_id})
+    - [ ] Experimento ID (/projects/{p_id}/#{e_id})
 
 <a href="#progresso">Voltar ao topo ^</a>
 
