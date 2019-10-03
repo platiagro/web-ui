@@ -244,6 +244,16 @@ Componente para exibir o fluxo de um experimento.
 Quando esse componente for montado, ele deve realizar uma requisição para buscar os dados do fluxo do experimento.  
 Cada passo do fluxo deve permitir um clique que irá abrir o drawer de configuração do passo.
 
+- [ ] Mais 3 fluxos: 
+  - [ ] Trocar AutoML por Regressão;
+  - [ ] Dados -> Filtro -> Regressão;
+  - [ ] Dados -> Filtro -> AutoML;
+- [ ] Não pode clicar em Regressão antes de Executar;
+- [ ] Tarefas que já nascem configuradas: 
+  - Pré-seleção de atributos
+  - Regressão
+
+
 <a href="#progresso">Voltar ao topo ^</a>
 
 ### Conteúdo Drawer Conjunto de Dados (DataSetDrawerContent)
