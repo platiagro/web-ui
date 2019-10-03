@@ -1,9 +1,7 @@
 /* istanbul ignore file */
-import React from 'react';
-
-import { Redirect } from 'react-router-dom';
-
+import Root from '../pages/Root';
 import Projects from '../pages/Projects';
+import ImplantedFlows from '../pages/ImplantedFlows';
 import E404 from '../pages/E404'; // 404 error
 
 const mainRoutes = [
@@ -12,28 +10,23 @@ const mainRoutes = [
     exact: true,
     icon: 'home',
     title: 'Início',
-    subTitle: 'Esse é o subtítulo da página de ínicio (ALTERAR)',
-    component: () => <Redirect to='/projects' />,
+    component: Root,
   },
   {
     path: '/projects',
     icon: 'experiment',
     title: 'Projetos',
-    subTitle: 'Crie, experimente e implante modelos de forma rápida e fácil.',
     component: Projects,
   },
   {
-    path: '/implanted-models',
+    path: '/implanted-flows',
     icon: 'apartment',
-    title: 'Modelos Implantados',
-    subTitle: 'Esse é o subtítulo da página de modelos implantados (ALTERAR)',
-    component: E404,
+    title: 'Fluxos Implantados',
+    component: ImplantedFlows,
   },
   {
     path: '*',
     notInMenu: true,
-    title: 'Erro 404',
-    subTitle: 'Não foi possível localizar a página.',
     component: E404,
   },
 ];
