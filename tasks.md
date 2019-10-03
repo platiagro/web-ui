@@ -66,13 +66,15 @@ Acompanhe o progresso do projeto.
     - [x] **Conteúdo Drawer Filtro de Atributos (AttributeFilterDrawerContent)**
     - [x] **Conteúdo Drawer AutoML (AutoMLDrawerContent)**
   - [ ] Páginas
-    - [ ] Ínicio (raiz /)
-    - [ ] Projetos (/projects)
+    - [x] Ínicio (raiz /)
+    - [x] Projetos (/projects)
+    - [x] Fluxos Implantados (/implanted-flows)
     - [ ] Projeto ID (/projects/{p_id})
     - [ ] Experimento ID (/projects/{p_id}/experiments/{e_id})
   - [ ] Rotas
-    - [ ] Ínicio (raiz /)
-    - [ ] Projetos (/projects)
+    - [x] Ínicio (raiz /)
+    - [x] Projetos (/projects)
+    - [x] Fluxos Implantados (/implanted-flows)
     - [ ] Projeto ID (/projects/{p_id})
     - [ ] Experimento ID (/projects/{p_id}/experiments/{e_id})
 
