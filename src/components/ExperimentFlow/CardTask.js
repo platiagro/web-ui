@@ -64,7 +64,10 @@ export default function CardTask({
       className={`card${state ? ' setted-up ' : ''}${state}${
         selected ? ' selected' : ''
       }`}
-      onClick={() => taskClick(task)}
+      onClick={(e) => {
+        e.stopPropagation();
+        taskClick(task);
+      }}
       role='presentation'
     >
       <div className='title-icon'>

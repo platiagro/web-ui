@@ -70,7 +70,7 @@ class ExperimentsTabs extends React.Component {
           onTabClick={this.handleClick}
         >
           {panes.map((pane, index) => (
-            <TabPane tab={pane.title} closable={false} key={pane.key}>
+            <TabPane tab={pane.title} closable={false} key={pane.uuid}>
               <ExperimentContent details={details.experimentsList[index]} />
             </TabPane>
           ))}

@@ -5,13 +5,19 @@ import _ from 'lodash';
 import './style.scss';
 import { ArcherContainer, ArcherElement } from 'react-archer';
 import CardTask from './CardTask';
+import MainDrawer from '../MainDrawer';
+import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
+import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
+import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
+import AutoMLDrawerContent from '../AutoMLDrawerContent';
+import DataSetDrawerContent from '../DataSetDrawerContent';
+import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 
 class ExperimentFlow extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      // dataSelected: false,
       selected: {
         conjunto_dados: false,
         atributos_tempo: false,
@@ -35,144 +41,186 @@ class ExperimentFlow extends React.Component {
     this.setState({ selected: newSelected });
   };
 
+  handleClose = () => {
+    const { selected } = this.state;
+    this.setState({ selected: _.mapValues(selected, () => false) });
+  };
+
+  openDrawer = () => {
+    const { selected } = this.state;
+    return _.indexOf(Object.values(selected), true) !== -1 ? true : false;
+  };
+
+  switchDrawer = () => {
+    const { selected } = this.state;
+    if (selected.conjunto_dados) {
+      return <DataSetDrawerContent />;
+    }
+    if (selected.atributos_tempo) {
+      return <TimeAttributeCreationDrawerContent />;
+    }
+    if (selected.pre_selecao1) {
+      return <AttributePreSelectionDrawerContent />;
+    }
+    if (selected.atributos_genericos) {
+      return <GenericAttributeCreationDrawerContent />;
+    }
+    if (selected.pre_selecao2) {
+      return <AttributePreSelectionDrawerContent />;
+    }
+    if (selected.filtro_atributos) {
+      return <AttributeFilterDrawerContent />;
+    }
+    if (selected.automl) {
+      return <AutoMLDrawerContent />;
+    }
+  };
+
   render() {
     // eslint-disable-next-line no-unused-vars
     const { selected } = this.state;
     return (
-      <ArcherContainer strokeColor='gray'>
-        <div className='flow-container template-complete-automl'>
-          <div className='item dados'>
-            <ArcherElement
-              id='dados'
-              relations={[
-                {
-                  targetId: 'atributo-tempo',
-                  targetAnchor: 'top',
-                  sourceAnchor: 'bottom',
-                },
-              ]}
-            >
-              <CardTask
-                selected={selected.conjunto_dados}
-                task='conjunto_dados'
-                taskClick={this.handleClick}
-                title='Conjunto de dados'
-              />
-            </ArcherElement>
-          </div>
+      <>
+        <MainDrawer isOpen={this.openDrawer()} onClose={this.handleClose}>
+          {this.switchDrawer()}
+        </MainDrawer>
+        <ArcherContainer strokeColor='gray'>
+          <div className='grid-wraper'>
+            <div className='flow-container template-complete-automl'>
+              <div className='item dados'>
+                <ArcherElement
+                  id='dados'
+                  relations={[
+                    {
+                      targetId: 'atributo-tempo',
+                      targetAnchor: 'top',
+                      sourceAnchor: 'bottom',
+                    },
+                  ]}
+                >
+                  <CardTask
+                    selected={selected.conjunto_dados}
+                    task='conjunto_dados'
+                    taskClick={this.handleClick}
+                    title='Conjunto de dados'
+                  />
+                </ArcherElement>
+              </div>
 
-          <div className='item atributo-tempo'>
-            <ArcherElement
-              id='atributo-tempo'
-              relations={[
-                {
-                  targetId: 'pre1',
-                  targetAnchor: 'top',
-                  sourceAnchor: 'bottom',
-                },
-              ]}
-            >
-              <CardTask
-                task='atributos_tempo'
-                selected={selected.atributos_tempo}
-                taskClick={this.handleClick}
-                title='Criação de atributos por tempo'
-              />
-            </ArcherElement>
-          </div>
+              <div className='item atributo-tempo'>
+                <ArcherElement
+                  id='atributo-tempo'
+                  relations={[
+                    {
+                      targetId: 'pre1',
+                      targetAnchor: 'top',
+                      sourceAnchor: 'bottom',
+                    },
+                  ]}
+                >
+                  <CardTask
+                    task='atributos_tempo'
+                    selected={selected.atributos_tempo}
+                    taskClick={this.handleClick}
+                    title='Criação de atributos por tempo'
+                  />
+                </ArcherElement>
+              </div>
 
-          <div className='item pre1'>
-            <ArcherElement
-              id='pre1'
-              relations={[
-                {
-                  targetId: 'atributo-gen',
-                  targetAnchor: 'left',
-                  sourceAnchor: 'right',
-                },
-              ]}
-            >
-              <CardTask
-                task='pre_selecao1'
-                selected={selected.pre_selecao1}
-                taskClick={this.handleClick}
-                title='Pré-seleção de atributos'
-              />
-            </ArcherElement>
-          </div>
+              <div className='item pre1'>
+                <ArcherElement
+                  id='pre1'
+                  relations={[
+                    {
+                      targetId: 'atributo-gen',
+                      targetAnchor: 'left',
+                      sourceAnchor: 'right',
+                    },
+                  ]}
+                >
+                  <CardTask
+                    task='pre_selecao1'
+                    selected={selected.pre_selecao1}
+                    taskClick={this.handleClick}
+                    title='Pré-seleção de atributos'
+                  />
+                </ArcherElement>
+              </div>
 
-          <div className='item atributo-gen'>
-            <ArcherElement
-              id='atributo-gen'
-              relations={[
-                {
-                  targetId: 'pre2',
-                  targetAnchor: 'bottom',
-                  sourceAnchor: 'top',
-                },
-              ]}
-            >
-              <CardTask
-                task='atributos_genericos'
-                selected={selected.atributos_genericos}
-                taskClick={this.handleClick}
-                title='Criação de atributos genéricos'
-              />
-            </ArcherElement>
-          </div>
+              <div className='item atributo-gen'>
+                <ArcherElement
+                  id='atributo-gen'
+                  relations={[
+                    {
+                      targetId: 'pre2',
+                      targetAnchor: 'bottom',
+                      sourceAnchor: 'top',
+                    },
+                  ]}
+                >
+                  <CardTask
+                    task='atributos_genericos'
+                    selected={selected.atributos_genericos}
+                    taskClick={this.handleClick}
+                    title='Criação de atributos genéricos'
+                  />
+                </ArcherElement>
+              </div>
 
-          <div className='item pre2'>
-            <ArcherElement
-              id='pre2'
-              relations={[
-                {
-                  targetId: 'filtro',
-                  targetAnchor: 'bottom',
-                  sourceAnchor: 'top',
-                },
-              ]}
-            >
-              <CardTask
-                task='pre_selecao2'
-                selected={selected.pre_selecao2}
-                taskClick={this.handleClick}
-                title='Pré-seleção de atributos'
-              />
-            </ArcherElement>
-          </div>
+              <div className='item pre2'>
+                <ArcherElement
+                  id='pre2'
+                  relations={[
+                    {
+                      targetId: 'filtro',
+                      targetAnchor: 'bottom',
+                      sourceAnchor: 'top',
+                    },
+                  ]}
+                >
+                  <CardTask
+                    task='pre_selecao2'
+                    selected={selected.pre_selecao2}
+                    taskClick={this.handleClick}
+                    title='Pré-seleção de atributos'
+                  />
+                </ArcherElement>
+              </div>
 
-          <div className='item filtro'>
-            <ArcherElement
-              id='filtro'
-              relations={[
-                {
-                  targetId: 'automl',
-                  targetAnchor: 'left',
-                  sourceAnchor: 'right',
-                },
-              ]}
-            >
-              <CardTask
-                task='filtro_atributos'
-                selected={selected.filtro_atributos}
-                taskClick={this.handleClick}
-                title='Filtro de atributos'
-              />
-            </ArcherElement>
-          </div>
+              <div className='item filtro'>
+                <ArcherElement
+                  id='filtro'
+                  relations={[
+                    {
+                      targetId: 'automl',
+                      targetAnchor: 'left',
+                      sourceAnchor: 'right',
+                    },
+                  ]}
+                >
+                  <CardTask
+                    task='filtro_atributos'
+                    selected={selected.filtro_atributos}
+                    taskClick={this.handleClick}
+                    title='Filtro de atributos'
+                  />
+                </ArcherElement>
+              </div>
 
-          <div className='item automl'>
-            <ArcherElement id='automl'>
-              <CardTask
-                task='automl'
-                selected={selected.automl}
-                taskClick={this.handleClick}
-                title='AutoML'
-              />
-            </ArcherElement>
+              <div className='item automl'>
+                <ArcherElement id='automl'>
+                  <CardTask
+                    task='automl'
+                    selected={selected.automl}
+                    taskClick={this.handleClick}
+                    title='AutoML'
+                  />
+                </ArcherElement>
+              </div>
+            </div>
           </div>
-        </div>
-      </ArcherContainer>
+        </ArcherContainer>
+      </>
     );
   }
 }

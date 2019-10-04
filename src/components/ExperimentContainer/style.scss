@@ -1,3 +1,20 @@
 .experiment-container {
-  background-color: #fff;
+  // background-color: #fff;
+  background-color: #f0f2f5;
+  padding: 60px;
+
+  .experiment-wraper {
+    background-color: #fff;
+    background-size: 25px 25px;
+    background-image: radial-gradient(
+      circle,
+      #58585896 1px,
+      rgba(0, 0, 0, 0) 1px
+    );
+  }
 }
+
+// .experiment-content {
+//   background-color: #fff;
+//   margin: 60px;
+// }

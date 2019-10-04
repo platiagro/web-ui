@@ -203,20 +203,29 @@
 .pre2 {
   grid-area: pre2;
 }
+
+.grid-wraper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
 .flow-container {
-  position: relative;
-  width: 100%;
-  //   display: flex;
+  //   position: relative;
+  display: grid;
+  //   width: 100%;
+
   //   justify-content: space-between;
   //   align-items: center;
-  height: calc(100vh - 240px);
-  overflow: hidden;
-  background-size: 20px 20px;
-  background-image: radial-gradient(
-    circle,
-    #58585862 1px,
-    rgba(0, 0, 0, 0) 1px
-  );
+  //   height: calc(100vh - 240px);
+  //   overflow: hidden;
+  //   background-size: 20px 20px;
+  //   background-image: radial-gradient(
+  //     circle,
+  //     #58585862 1px,
+  //     rgba(0, 0, 0, 0) 1px
+  //   );
+
   .card {
     display: flex;
     justify-content: space-between;
@@ -226,11 +235,13 @@
     box-sizing: border-box;
     border-radius: 4px;
     padding: 16px;
-    width: 220px;
-    height: 72px;
+    font-size: 1em;
+    // width: 100%;
+    // max-width: 220px;
+    height: 8vh;
     user-select: none;
-    // position: absolute;
     cursor: pointer;
+
     .title-icon {
       display: flex;
       align-items: center;
@@ -255,7 +266,7 @@
       background-size: 15px 2px, 15px 2px, 2px 15px, 2px 15px;
       background-position: left top, right bottom, left bottom, right top;
       animation: border-dance 1s infinite linear;
-      border: none;
+      border-color: transparent;
     }
     &.success {
       background: #d9f7be;
@@ -278,12 +289,17 @@
       }
     }
   }
-  display: grid;
 }
 
 .template-complete-automl {
   justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr;
   align-content: center;
+  // align-content: space-evenly;
+
+  grid-column-gap: 4vw;
+  grid-row-gap: 4vh;
+
   grid-template-areas:
     'dados filtro automl'
     'atributoT pre2 .'
@@ -291,10 +307,12 @@
 }
 
 .item {
-  display: flex;
-  margin: 2.5vw;
-  justify-content: center;
-  align-items: center;
+  //   display: flex;
+  //   margin: 12px;
+  //   padding: 1.5vw;
+  //   justify-content: center;
+  //   align-items: center;
+  max-width: 220px;
 }
 
 .executing {
