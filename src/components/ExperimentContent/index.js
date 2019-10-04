@@ -35,7 +35,7 @@ const ExperimentContent = (props) => {
       <div className='experiment-content-header'>
         <EditableTitle value={details.title} />
 
-        <div className='experiment-deployed'>
+        <div style={{ display: 'none' }} className='experiment-deployed'>
           <Input className='experiment-url' value={url} />
           <CopyToClipboard onCopy={info} text={url}>
             <Button type='primary'>Copiar URL</Button>
