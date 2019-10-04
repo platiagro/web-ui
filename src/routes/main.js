@@ -21,7 +21,7 @@ const mainRoutes = [
     component: Projects,
   },
   {
-    path: '/projects/:id',
+    path: '/projects/:projectId/:experimentId?',
     notInMenu: true,
     title: 'Projeto',
     component: Project,
