@@ -2,33 +2,25 @@ import React from 'react';
 
 import { Drawer } from 'antd';
 
-class MainDrawer extends React.Component {
-  constructor(props) {
-    super(props);
+const MainDrawer = ({ children, title, isOpen, onClose }) => {
+  // const [visible, setVisible] = useState(false);
 
-    this.state = { visible: true };
-  }
+  // useEffect(() => {
+  //   setVisible(isOpen);
+  // }, [isOpen]);
 
-  handleClose = () => {
-    this.setState({ visible: false });
-  };
-
-  render() {
-    const { children, title } = this.props;
-    const { visible } = this.state;
-    return (
-      <Drawer
-        width={350}
-        title={title}
-        placement='right'
-        closable
-        onClose={this.handleClose}
-        visible={visible}
-      >
-        {children}
-      </Drawer>
-    );
-  }
-}
+  return (
+    <Drawer
+      width={350}
+      title={title}
+      placement='right'
+      closable
+      onClose={onClose}
+      visible={isOpen}
+    >
+      {children}
+    </Drawer>
+  );
+};
 
 export default MainDrawer;

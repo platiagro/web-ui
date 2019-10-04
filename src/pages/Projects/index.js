@@ -41,6 +41,7 @@ class Projects extends React.Component {
   //   const response = await api.get(`/projects`);
 
   //   this.setState({ loading: false });
+  //   console.log(response.data.payload);
 
   //   this.setState({ projectList: response.data.payload });
   // }
@@ -78,7 +79,9 @@ class Projects extends React.Component {
   };
 
   enterProjetc = (clickedProject) => {
-    this.setState({ projectDetail: clickedProject });
+    console.log(clickedProject);
+    window.location = `projects/${clickedProject.key - 1}`;
+    // this.setState({ projectDetail: clickedProject });
   };
 
   showModal() {
