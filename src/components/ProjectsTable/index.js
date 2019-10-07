@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 import { Table } from 'antd';
 
 import './style.scss';
@@ -11,6 +11,9 @@ const tableColumns = [
     title: 'Nome do Projeto',
     dataIndex: 'name',
     key: 'name',
+    render: (value, record) => (
+      <Link to={`projects/${record.uuid}`}>{value}</Link>
+    ),
   },
   {
     title: 'Data de Criação',
@@ -21,20 +24,20 @@ const tableColumns = [
   },
 ];
 
-const ProjectsTable = ({ projectList, enterProjetc }) => {
+const ProjectsTable = ({ projectList }) => {
   return (
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
-      onRow={(record, rowIndex) => {
-        return {
-          onDoubleClick: (event) => {
-            event.preventDefault();
-            // eslint-disable-next-line
-            enterProjetc(record, rowIndex);
-          }, // double click row
-        };
-      }}
+      // onRow={(record, rowIndex) => {
+      //   return {
+      //     onDoubleClick: (event) => {
+      //       event.preventDefault();
+      //       // eslint-disable-next-line
+      //       enterProjetc(record, rowIndex);
+      //     }, // double click row
+      //   };
+      // }}
       dataSource={projectList}
       columns={tableColumns}
       pagination={{ pageSize: 9 }}
@@ -44,7 +47,6 @@ const ProjectsTable = ({ projectList, enterProjetc }) => {
 };
 
 ProjectsTable.propTypes = {
-  enterProjetc: PropTypes.func.isRequired,
   projectList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

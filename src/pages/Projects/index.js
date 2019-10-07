@@ -12,7 +12,7 @@ import ContentHeader from '../../components/ContentHeader';
 
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 
-import api from '../../services/api';
+import * as services from '../../services/api';
 
 projects.forEach((project) => {
   const projectAux = project;
@@ -35,23 +35,8 @@ class Projects extends React.Component {
     this.hideModal = this.hideModal.bind(this);
   }
 
-  // async componentDidMount() {
-  //   this.setState({ loading: true });
-
-  //   const response = await api.get(`/projects`);
-
-  //   this.setState({ loading: false });
-  //   console.log(response.data.payload);
-
-  //   this.setState({ projectList: response.data.payload });
-  // }
-
   componentDidMount() {
-    this.setState({ loading: true }, () => {
-      setTimeout(() => {
-        this.setState({ projectList: projects, loading: false });
-      }, 1000);
-    });
+    this.projectsFetch();
   }
 
   handleCreate = () => {
@@ -61,28 +46,42 @@ class Projects extends React.Component {
         return;
       }
 
-      const response = await api.post('/projects', JSON.stringify(values), {
-        headers: {
-          'content-type': 'application/json',
-        },
-      });
+      const response = await services.api.post(
+        '/projects',
+        JSON.stringify(values),
+        {
+          headers: {
+            'content-type': 'application/json',
+          },
+        }
+      );
 
       form.resetFields();
       this.setState({ modalIsVisible: false });
-
-      this.enterProjetc(response.data.payload);
+      this.projectsFetch();
+      // this.enterProjetc(response.data.payload);
     });
+  };
+
+  projectsFetch = async () => {
+    this.setState({ loading: true });
+
+    const response = await services.getAllProjects();
+
+    this.setState({ loading: false });
+
+    if (!!response) this.setState({ projectList: response.data.payload });
   };
 
   saveFormRef = (formRef) => {
     this.formRef = formRef;
   };
 
-  enterProjetc = (clickedProject) => {
-    console.log(clickedProject);
-    window.location = `projects/${clickedProject.key - 1}`;
-    // this.setState({ projectDetail: clickedProject });
-  };
+  // enterProjetc = (clickedProject) => {
+  //   console.log(clickedProject);
+  //   window.location = `projects/${clickedProject.key - 1}`;
+  //   // this.setState({ projectDetail: clickedProject });
+  // };
 
   showModal() {
     this.setState({ modalIsVisible: true });
@@ -128,9 +127,7 @@ class Projects extends React.Component {
   render() {
     const { loading, modalIsVisible, projectDetail } = this.state;
 
-    return !_.isEmpty(projectDetail) ? (
-      <ExperimentContainer details={projectDetail} />
-    ) : (
+    return (
       <div className='projectPage'>
         <NewProjectModal
           wrappedComponentRef={this.saveFormRef}

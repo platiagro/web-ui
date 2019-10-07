@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PropTypes from 'prop-types';
@@ -30,10 +31,12 @@ const ExperimentContent = (props) => {
   const info = () => {
     message.info('URL Copiada', 1);
   };
+
+  // console.log(details);
   return (
     <div className='experiment-content'>
       <div className='experiment-content-header'>
-        <EditableTitle value={details.title} />
+        <EditableTitle value={details.name} />
 
         <div style={{ display: 'none' }} className='experiment-deployed'>
           <Input className='experiment-url' value={url} />
