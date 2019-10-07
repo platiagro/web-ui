@@ -16,7 +16,7 @@ import projects from './projects_mock';
 //   );
 // };
 const Project = ({ match }) => (
-  <ExperimentContainer details={projects[match.params.id]} />
+  <ExperimentContainer details={projects[match.params.projectId]} />
 );
 
 export default Project;
