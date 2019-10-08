@@ -5,59 +5,55 @@ import './style.scss';
 import { Tabs } from 'antd';
 import DraggableTabs from '../DraggableTabs';
 import ExperimentContent from '../ExperimentContent';
+import * as services from '../../services/api';
 
 const { TabPane } = Tabs;
-
 class ExperimentsTabs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activeKey: null,
-      panes: [],
     };
   }
 
   componentDidMount() {
     const {
-      props: { details },
+      props: { details, params },
     } = this;
     this.setState({
-      panes: details.experimentList,
-      activeKey:
-        details.experimentList.length > 0
-          ? details.experimentList[0].uuid
-          : null,
+      activeKey: details.experimentList.length > 0 ? params.experimentId : null,
     });
   }
 
   onChange = (activeKey) => {
-    if (activeKey !== 'add_tab') this.setState({ activeKey });
+    if (activeKey !== 'add_tab') {
+      this.setState({ activeKey });
+    }
   };
 
   handleClick = (tabkey, event) => {
     if (tabkey === 'add_tab' && !!event) this.add();
   };
 
-  add = () => {
-    // const {
-    //   props: { details },
-    //   state: { panes },
-    // } = this;
-    // const index = panes.length + 1;
-    // const activeKey = `exp${index}`;
-    // panes.push({
-    //   title: `${details.projectName}_${index}`,
-    //   content: 'content',
-    //   key: activeKey,
-    // });
-    // this.setState({ panes, activeKey });
-    console.log('CRIANDO');
+  add = async () => {
+    const {
+      props: { details, fetch },
+      state: { panes },
+    } = this;
+
+    const index = details.experimentList.length + 1;
+    const newTabName = `${details.name}_${index}`;
+    const response = await services.createExperiment(details.uuid, newTabName);
+    if (!!response) {
+      await fetch(details.uuid);
+      this.setState({ activeKey: response.data.payload.uuid });
+    }
   };
 
   render() {
     const {
-      state: { activeKey, panes },
-      props: { details },
+      state: { activeKey },
+      props: { details, fetch },
     } = this;
     return (
       <div className='tab-container'>
@@ -68,9 +64,12 @@ class ExperimentsTabs extends React.Component {
           type='editable-card'
           onTabClick={this.handleClick}
         >
-          {panes.map((pane, index) => (
+          {details.experimentList.map((pane, index) => (
             <TabPane tab={pane.name} closable={false} key={pane.uuid}>
-              <ExperimentContent details={details.experimentList[index]} />
+              <ExperimentContent
+                fetch={fetch}
+                details={details.experimentList[index]}
+              />
             </TabPane>
           ))}
         </DraggableTabs>

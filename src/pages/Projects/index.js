@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import './style.scss';
 
 import { Button, Empty, Spin } from 'antd';
@@ -7,7 +6,6 @@ import { Button, Empty, Spin } from 'antd';
 import projects from './projects_mock';
 import NewProjectModal from '../../components/NewProjectModal';
 import ProjectsTable from '../../components/ProjectsTable';
-import ExperimentContainer from '../../components/ExperimentContainer';
 import ContentHeader from '../../components/ContentHeader';
 
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
@@ -56,10 +54,11 @@ class Projects extends React.Component {
         }
       );
 
-      form.resetFields();
-      this.setState({ modalIsVisible: false });
+      if (!!response) {
+        form.resetFields();
+        this.setState({ modalIsVisible: false });
+      }
       this.projectsFetch();
-      // this.enterProjetc(response.data.payload);
     });
   };
 
@@ -125,7 +124,7 @@ class Projects extends React.Component {
   }
 
   render() {
-    const { loading, modalIsVisible, projectDetail } = this.state;
+    const { loading, modalIsVisible } = this.state;
 
     return (
       <div className='projectPage'>

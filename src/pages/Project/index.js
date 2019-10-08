@@ -32,6 +32,8 @@ export default class Project extends Component {
     if (project) auxDetails.uuid = project.data.payload.uuid;
     if (experiments) auxDetails.experimentList = experiments.data.payload;
 
+    // console.log(auxDetails);
+
     this.setState({ details: auxDetails, loading: false });
   };
 
@@ -41,10 +43,17 @@ export default class Project extends Component {
   };
 
   render() {
-    const { details } = this.state;
+    const {
+      state: { details },
+      props: { match },
+    } = this;
 
     return details.uuid ? (
-      <ExperimentContainer details={details} />
+      <ExperimentContainer
+        params={match.params}
+        fetch={this.fetchDetails}
+        details={details}
+      />
     ) : (
       this.getErrorPage()
     );

@@ -3,13 +3,51 @@
   height: 100%;
   overflow-y: auto;
 
-  .collapse-menu-items {
+  .collapse-menu {
     border-radius: 4px;
     margin: 8px;
     border: 0;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
+
+    .collapse-menu-items {
+      color: rgba(0, 0, 0, 0.85);
+      background-color: #f7f7f7;
+      border-radius: 4px;
+      padding: 8px;
+      margin-top: 8px;
+      cursor: pointer;
+      user-select: none;
+      border: 1px solid transparent;
+
+      &:hover {
+        background-color: #f9f9f9;
+        border-color: #e2e2e2;
+      }
+      &:active {
+        background-color: #f1f1f1;
+      }
+      &.disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+        text-decoration: none;
+        background-color: #f1f1f1a4;
+        color: rgba(0, 0, 0, 0.397);
+
+        &:hover {
+          background-color: #f1f1f1a4;
+          border-color: transparent;
+          cursor: not-allowed;
+        }
+        &:active {
+          background-color: #f1f1f1a4;
+          border-color: transparent;
+        }
+      }
+    }
+    .ant-collapse-content-box {
+      display: flex;
+      flex-direction: column;
+    }
 
     .ant-collapse-header {
       background-color: #f7f7f7;

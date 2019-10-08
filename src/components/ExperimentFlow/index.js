@@ -12,6 +12,7 @@ import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerCo
 import AutoMLDrawerContent from '../AutoMLDrawerContent';
 import DataSetDrawerContent from '../DataSetDrawerContent';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
+import { Button, Input } from 'antd';
 
 class ExperimentFlow extends React.Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class ExperimentFlow extends React.Component {
         filtro_atributos: false,
         automl: false,
       },
+      demoStateData: '',
     };
   }
 
@@ -78,13 +80,32 @@ class ExperimentFlow extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { selected } = this.state;
+    const { selected, demoStateData } = this.state;
     return (
       <>
         <MainDrawer isOpen={this.openDrawer()} onClose={this.handleClose}>
           {this.switchDrawer()}
         </MainDrawer>
+
         <ArcherContainer strokeColor='gray'>
+          <Button onClick={() => this.setState({ demoStateData: '' })}>
+            Reset
+          </Button>
+          <Button onClick={() => this.setState({ demoStateData: 'ok' })}>
+            Complete
+          </Button>
+          <Button onClick={() => this.setState({ demoStateData: 'loading' })}>
+            Loading
+          </Button>
+          <Button onClick={() => this.setState({ demoStateData: 'wait' })}>
+            Wait
+          </Button>
+          <Button onClick={() => this.setState({ demoStateData: 'warn' })}>
+            Error
+          </Button>
+          <Button onClick={() => this.setState({ demoStateData: 'success' })}>
+            Success
+          </Button>
           <div className='grid-wraper'>
             <div className='flow-container template-complete-automl'>
               <div className='item dados'>
@@ -103,6 +124,7 @@ class ExperimentFlow extends React.Component {
                     task='conjunto_dados'
                     taskClick={this.handleClick}
                     title='Conjunto de dados'
+                    state={demoStateData}
                   />
                 </ArcherElement>
               </div>

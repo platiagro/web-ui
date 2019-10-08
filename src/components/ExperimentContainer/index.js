@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import './style.scss';
-import { Layout, Input, Icon } from 'antd';
+import { Layout, Icon } from 'antd';
+import AutosizeInput from 'react-input-autosize';
 import ExperimentsTabs from '../ExperimentsTabs';
 import LeftSideMenu from '../LeftSideMenu';
 import ContentHeader from '../ContentHeader';
@@ -10,26 +11,11 @@ import * as projectsServices from '../../services/projectsApi';
 
 const { Content } = Layout;
 
-const updateName = async () => {
-  this.setState({ loading: true });
-  const { match } = this.props;
-  const auxDetails = { name: null, uuid: null, experimentList: [] };
-  const project = await projectsServices.getProject(match.params.projectId);
-  const experiments = await projectsServices.getExperimentList(
-    match.params.projectId
-  );
-
-  if (!!project) auxDetails.name = project.data.payload.name;
-  if (!!project) auxDetails.uuid = project.data.payload.uuid;
-  if (!!experiments) auxDetails.experimentList = experiments.data.payload;
-
-  console.log(auxDetails);
-
-  this.setState({ details: auxDetails, loading: false });
-};
-
 const EditableTitle = (props) => {
-  const { name, uuid } = props.details;
+  const {
+    details: { name, uuid },
+    fetch,
+  } = props;
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [newVal, setNewVal] = useState(name);
@@ -39,14 +25,14 @@ const EditableTitle = (props) => {
   };
 
   let handleSubmit = async (e) => {
-    if (!!e.currentTarget.value && e.currentTarget.value !== name) {
+    setLoading(true);
+    if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
       const response = await projectsServices.updateProject(
         uuid,
         e.currentTarget.value
       );
       if (!!response) {
-        console.log(response);
-      } else {
+        fetch();
       }
     } else {
       console.log('NÃO MUDOU');
@@ -54,29 +40,56 @@ const EditableTitle = (props) => {
     }
 
     setEditMode(false);
+    setLoading(false);
+  };
+
+  let handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.currentTarget.blur();
+      // handleSubmit(e);
+    }
   };
 
   return (
-    <Input
-      onBlur={handleSubmit}
-      onDoubleClick={() => {
-        setEditMode(true);
-      }}
-      onPressEnter={handleSubmit}
-      onChange={handleChange}
-      className={
-        editMode
-          ? 'ant-page-header-heading-title project-title'
-          : 'ant-page-header-heading-title project-title edit-mode'
-      }
-      value={newVal}
-      readOnly={!editMode}
-    />
+    // <Input
+    //   onBlur={handleSubmit}
+    //   onDoubleClick={() => {
+    //     setEditMode(true);
+    //   }}
+    //   onPressEnter={handleSubmit}
+    //   onChange={handleChange}
+    //   className={
+    //     editMode
+    //       ? 'ant-page-header-heading-title project-title'
+    //       : 'ant-page-header-heading-title project-title edit-mode'
+    //   }
+    //   value={newVal}
+    //   readOnly={!editMode}
+    // />
+    <>
+      <AutosizeInput
+        onBlur={handleSubmit}
+        onClick={() => {
+          setEditMode(true);
+        }}
+        onKeyPress={handleKeyPress}
+        onChange={handleChange}
+        className={
+          editMode
+            ? 'ant-page-header-heading-title autosize-input-custom'
+            : 'ant-page-header-heading-title autosize-input-custom edit-mode'
+        }
+        value={newVal}
+        readOnly={!editMode}
+        disabled={loading}
+      />
+      {loading && <Icon type='loading' />}
+    </>
   );
 };
 
 const ExperimentContainer = (props) => {
-  const { details } = props;
+  const { details, fetch, params } = props;
   const history = useHistory();
   function handleClick() {
     history.push('/projects');
@@ -85,7 +98,7 @@ const ExperimentContainer = (props) => {
   return (
     <>
       <ContentHeader
-        title={<EditableTitle details={details} />}
+        title={<EditableTitle fetch={fetch} details={details} />}
         subTitle={details.uuid}
         onBack={handleClick}
       />
@@ -94,7 +107,7 @@ const ExperimentContainer = (props) => {
         {/* <Layout className='experiment-content'> */}
         <LeftSideMenu />
         <Content className='experiment-wraper'>
-          <ExperimentsTabs details={details} />
+          <ExperimentsTabs params={params} fetch={fetch} details={details} />
         </Content>
         {/* </Layout> */}
       </Layout>
@@ -104,8 +117,10 @@ const ExperimentContainer = (props) => {
 };
 
 ExperimentContainer.propTypes = {
-  experimentsList: PropTypes.array.isRequired,
-  projectName: PropTypes.string.isRequired,
+  details: PropTypes.shape({
+    experimentsList: PropTypes.array,
+    projectName: PropTypes.string,
+  }).isRequired,
 };
 
 export default ExperimentContainer;
