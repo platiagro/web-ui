@@ -22,10 +22,10 @@ class ExperimentsTabs extends React.Component {
       props: { details },
     } = this;
     this.setState({
-      panes: details.experimentsList,
+      panes: details.experimentList,
       activeKey:
-        details.experimentsList.length > 0
-          ? details.experimentsList[0].key
+        details.experimentList.length > 0
+          ? details.experimentList[0].uuid
           : null,
     });
   }
@@ -39,20 +39,19 @@ class ExperimentsTabs extends React.Component {
   };
 
   add = () => {
-    const {
-      props: { details },
-      state: { panes },
-    } = this;
-
-    const index = panes.length + 1;
-    const activeKey = `exp${index}`;
-
-    panes.push({
-      title: `${details.projectName}_${index}`,
-      content: 'content',
-      key: activeKey,
-    });
-    this.setState({ panes, activeKey });
+    // const {
+    //   props: { details },
+    //   state: { panes },
+    // } = this;
+    // const index = panes.length + 1;
+    // const activeKey = `exp${index}`;
+    // panes.push({
+    //   title: `${details.projectName}_${index}`,
+    //   content: 'content',
+    //   key: activeKey,
+    // });
+    // this.setState({ panes, activeKey });
+    console.log('CRIANDO');
   };
 
   render() {
@@ -70,8 +69,8 @@ class ExperimentsTabs extends React.Component {
           onTabClick={this.handleClick}
         >
           {panes.map((pane, index) => (
-            <TabPane tab={pane.title} closable={false} key={pane.uuid}>
-              <ExperimentContent details={details.experimentsList[index]} />
+            <TabPane tab={pane.name} closable={false} key={pane.uuid}>
+              <ExperimentContent details={details.experimentList[index]} />
             </TabPane>
           ))}
         </DraggableTabs>
@@ -81,7 +80,7 @@ class ExperimentsTabs extends React.Component {
 }
 ExperimentsTabs.propTypes = {
   details: PropTypes.shape({
-    experimentsList: PropTypes.array,
+    experimentList: PropTypes.array,
     projectName: PropTypes.string,
   }).isRequired,
 };

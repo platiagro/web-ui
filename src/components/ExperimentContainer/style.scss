@@ -1,5 +1,4 @@
 .experiment-container {
-  // background-color: #fff;
   background-color: #f0f2f5;
   padding: 60px;
 
@@ -14,7 +13,18 @@
   }
 }
 
-// .experiment-content {
-//   background-color: #fff;
-//   margin: 60px;
-// }
+.project-title {
+  width: auto;
+  cursor: pointer;
+}
+.edit-mode {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  &:focus,
+  &:active {
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+}
