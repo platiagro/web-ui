@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Spin } from 'antd';
 import ExperimentContainer from '../../components/ExperimentContainer';
 import E404 from '../E404'; // 404 error
-import * as services from '../../services/api';
+import * as projectsServices from '../../services/projectsApi';
 
 export default class Project extends Component {
   constructor(props) {
@@ -23,16 +23,14 @@ export default class Project extends Component {
     this.setState({ loading: true });
     const { match } = this.props;
     const auxDetails = { name: null, uuid: null, experimentList: [] };
-    const project = await services.getProject(match.params.projectId);
-    const experiments = await services.getExperimentList(
+    const project = await projectsServices.getProject(match.params.projectId);
+    const experiments = await projectsServices.getExperimentList(
       match.params.projectId
     );
 
     if (project) auxDetails.name = project.data.payload.name;
     if (project) auxDetails.uuid = project.data.payload.uuid;
     if (experiments) auxDetails.experimentList = experiments.data.payload;
-
-    console.log(auxDetails);
 
     this.setState({ details: auxDetails, loading: false });
   };

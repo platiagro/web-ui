@@ -1,8 +1,6 @@
 const getCurrentRoute = (location, mainRoutes) => {
   const pathWithoutParams = `/${location.pathname.split('/')[1]}`;
 
-  console.log(pathWithoutParams, location.pathname);
-
   // search for current path in mainRoutes
   let currentRoute = mainRoutes.find((route) => {
     return route.path === location.pathname;

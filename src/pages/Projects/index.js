@@ -12,7 +12,7 @@ import ContentHeader from '../../components/ContentHeader';
 
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 
-import * as services from '../../services/api';
+import * as projectsServices from '../../services/projectsApi';
 
 projects.forEach((project) => {
   const projectAux = project;
@@ -46,7 +46,7 @@ class Projects extends React.Component {
         return;
       }
 
-      const response = await services.api.post(
+      const response = await projectsServices.projectsApi.post(
         '/projects',
         JSON.stringify(values),
         {
@@ -66,7 +66,7 @@ class Projects extends React.Component {
   projectsFetch = async () => {
     this.setState({ loading: true });
 
-    const response = await services.getAllProjects();
+    const response = await projectsServices.getAllProjects();
 
     this.setState({ loading: false });
 

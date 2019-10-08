@@ -6,7 +6,7 @@ import { Layout, Input, Icon } from 'antd';
 import ExperimentsTabs from '../ExperimentsTabs';
 import LeftSideMenu from '../LeftSideMenu';
 import ContentHeader from '../ContentHeader';
-import * as services from '../../services/api';
+import * as projectsServices from '../../services/projectsApi';
 
 const { Content } = Layout;
 
@@ -14,8 +14,10 @@ const updateName = async () => {
   this.setState({ loading: true });
   const { match } = this.props;
   const auxDetails = { name: null, uuid: null, experimentList: [] };
-  const project = await services.getProject(match.params.projectId);
-  const experiments = await services.getExperimentList(match.params.projectId);
+  const project = await projectsServices.getProject(match.params.projectId);
+  const experiments = await projectsServices.getExperimentList(
+    match.params.projectId
+  );
 
   if (!!project) auxDetails.name = project.data.payload.name;
   if (!!project) auxDetails.uuid = project.data.payload.uuid;
@@ -38,7 +40,7 @@ const EditableTitle = (props) => {
 
   let handleSubmit = async (e) => {
     if (!!e.currentTarget.value && e.currentTarget.value !== name) {
-      const response = await services.updateProject(
+      const response = await projectsServices.updateProject(
         uuid,
         e.currentTarget.value
       );
