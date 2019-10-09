@@ -4,15 +4,17 @@ import { Icon, Tooltip } from 'antd';
 
 export default function CardTask({
   icon = 'control',
+  iconTheme = 'filled',
   title,
   pos = [0, 0],
-  state = '',
   selected,
   taskClick,
   task,
+  params,
+  condition,
 }) {
   const getIcon = () => {
-    switch (state) {
+    switch (condition) {
       case 'loading':
         return (
           <Tooltip placement='right' title='Tarefa sendo executada'>
@@ -61,9 +63,9 @@ export default function CardTask({
   return (
     <div
       style={{ left: pos[0], top: pos[1] }}
-      className={`card${state ? ' setted-up ' : ''}${state}${
-        selected ? ' selected' : ''
-      }`}
+      className={`card ${params ? ' setted-up ' : ''}${
+        condition ? condition : ''
+      }${selected ? ' selected' : ''}`}
       onClick={(e) => {
         e.stopPropagation();
         taskClick(task);
@@ -71,7 +73,7 @@ export default function CardTask({
       role='presentation'
     >
       <div className='title-icon'>
-        <Icon style={{ fontSize: '18px' }} theme='filled' type={icon} />
+        <Icon style={{ fontSize: '18px' }} theme={iconTheme} type={icon} />
         <span>{title}</span>
       </div>
       {getIcon()}

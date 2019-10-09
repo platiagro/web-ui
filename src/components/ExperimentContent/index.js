@@ -1,79 +1,105 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import _ from 'lodash';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PropTypes from 'prop-types';
 import './style.scss';
-import { Button, Divider, Tooltip, Input, Icon, message } from 'antd';
-import AutosizeInput from 'react-input-autosize';
+import { Button, Divider, Tooltip, Input, message } from 'antd';
+import EditableTitle from './EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
-import * as projectsServices from '../../services/projectsApi';
-// const { Content } = Layout;
-const EditableTitle = (props) => {
-  const {
-    details: { uuid, name, projectId },
-    fetch,
-  } = props;
-  // const { value } = props;
-  const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [newVal, setNewVal] = useState(name);
-
-  const handleChange = (e) => {
-    setNewVal(e.currentTarget.value);
-  };
-
-  const handleSubmit = async (e) => {
-    console.log(e.currentTarget.value.trim(), name, uuid, projectId);
-    setLoading(true);
-    if (!!e.currentTarget.value && e.currentTarget.value !== name) {
-      const response = await projectsServices.updateExperiment(
-        projectId,
-        uuid,
-        e.currentTarget.value
-      );
-      if (!!response) {
-        fetch();
-      }
-    } else {
-      console.log('NÃO MUDOU');
-      setNewVal(name);
-    }
-
-    setEditMode(false);
-    setLoading(false);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      e.currentTarget.blur();
-      // handleSubmit(e);
-    }
-  };
-
-  return (
-    <div>
-      <AutosizeInput
-        onBlur={handleSubmit}
-        onClick={() => {
-          setEditMode(true);
-        }}
-        onKeyPress={handleKeyPress}
-        onChange={handleChange}
-        className={
-          editMode
-            ? 'experiment-title autosize-input-custom'
-            : 'experiment-title autosize-input-custom edit-mode'
-        }
-        value={newVal}
-        readOnly={!editMode}
-        disabled={loading}
-      />
-      {loading && <Icon type='loading' />}
-    </div>
-  );
-};
+import MainDrawer from '../MainDrawer';
+import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
+import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
+import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
+import AutoMLDrawerContent from '../AutoMLDrawerContent';
+import DataSetDrawerContent from '../DataSetDrawerContent';
+import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
+// import * as projectsServices from '../../services/projectsApi';
+import col from './mock_col';
 
 const ExperimentContent = (props) => {
+  const [columns, setColumns] = useState(col);
+
+  const [parameters, setParameters] = useState({
+    atributos_tempo: {
+      group: [],
+      period: null,
+    },
+  });
+
+  const [selected, setSelected] = useState({
+    conjunto_dados: false,
+    atributos_tempo: false,
+    pre_selecao1: false,
+    atributos_genericos: false,
+    pre_selecao2: false,
+    filtro_atributos: false,
+    automl: false,
+  });
+
+  //Seleções dos atributos de tempo
+  const handleSelectTime = (e) => {
+    const params = { ...parameters };
+    params.atributos_tempo.group = e;
+    setParameters(params);
+  };
+
+  const handleRadioSelectTime = (e) => {
+    const params = { ...parameters };
+    params.atributos_tempo.period = e.target.value;
+    setParameters(params);
+  };
+
+  const handleClick = (task) => {
+    // const { selected } = this.state;
+    let newSelected = { ...selected };
+    newSelected = _.mapValues(selected, (value, key) => {
+      if (key === task) return !value;
+      return false;
+    });
+
+    setSelected(newSelected);
+  };
+
+  const openDrawer = () => {
+    return _.indexOf(Object.values(selected), true) !== -1;
+  };
+
+  const handleClose = () => {
+    setSelected(_.mapValues(selected, () => false));
+  };
+
+  const switchDrawer = () => {
+    if (selected.conjunto_dados) {
+      return <DataSetDrawerContent />;
+    }
+    if (selected.atributos_tempo) {
+      return (
+        <TimeAttributeCreationDrawerContent
+          parameter={parameters.atributos_tempo}
+          dataSets={columns}
+          handleSelect={handleSelectTime}
+          handleRadioSelect={handleRadioSelectTime}
+        />
+      );
+    }
+    if (selected.pre_selecao1) {
+      return <AttributePreSelectionDrawerContent />;
+    }
+    if (selected.atributos_genericos) {
+      return <GenericAttributeCreationDrawerContent />;
+    }
+    if (selected.pre_selecao2) {
+      return <AttributePreSelectionDrawerContent />;
+    }
+    if (selected.filtro_atributos) {
+      return <AttributeFilterDrawerContent />;
+    }
+    if (selected.automl) {
+      return <AutoMLDrawerContent />;
+    }
+  };
+
   const { details, fetch } = props;
   const url = '.../modelo_workshop.foragri.com/api/';
   const info = () => {
@@ -104,7 +130,15 @@ const ExperimentContent = (props) => {
           </Button>
         </div>
       </div>
-      <ExperimentFlow />
+      <MainDrawer isOpen={openDrawer()} onClose={handleClose}>
+        {switchDrawer()}
+      </MainDrawer>
+      <ExperimentFlow
+        selected={selected}
+        parameters={parameters}
+        columns={columns}
+        handleClick={handleClick}
+      />
     </div>
   );
 };
@@ -113,10 +147,6 @@ ExperimentContent.propTypes = {
   details: PropTypes.shape({
     title: PropTypes.string,
   }).isRequired,
-};
-
-EditableTitle.propTypes = {
-  value: PropTypes.string.isRequired,
 };
 
 export default ExperimentContent;
