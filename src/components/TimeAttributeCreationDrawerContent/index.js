@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
+import _ from 'lodash';
 
 import { Select, Icon, Radio, Divider, Table } from 'antd';
 
@@ -67,81 +69,96 @@ const data = [
   },
 ];
 
-const TimeAttributeCreationDrawerContent = () => (
-  <div>
-    <p>Agrupamento de atributos</p>
-    <p>
-      <small>
-        Selecione os atributos categóricos (definidos por categorias) que serão
-        agrupados para criar novos atributos.
-      </small>
-    </p>
-    <Select mode='multiple' style={{ width: '100%' }} placeholder='Selecione'>
-      <Option value='typeOne'>Tipo Um</Option>
-      <Option value='typeTwo'>Tipo Dois</Option>
-      <Option value='typeThree'>Tipo Três</Option>
-      <Option value='typeFour'>Tipo Quatro</Option>
-    </Select>
-    <p style={{ marginTop: 10 }}>
-      <Icon type='exclamation-circle' />
-      <span style={{ marginLeft: 10 }}>
-        A escolha dos atributos afetará também a criação de atributos genéricos.
-      </span>
-    </p>
+const TimeAttributeCreationDrawerContent = ({
+  dataSets,
+  parameter,
+  handleSelect,
+  handleRadioSelect,
+}) => {
+  const options = _.filter(dataSets, ['datatype', 'factor']);
+  return (
+    <div>
+      <p>Agrupamento de atributos</p>
+      <p>
+        <small>
+          Selecione os atributos categóricos (definidos por categorias) que
+          serão agrupados para criar novos atributos.
+        </small>
+      </p>
+      <Select
+        onChange={handleSelect}
+        mode='multiple'
+        style={{ width: '100%' }}
+        placeholder='Selecione'
+        value={parameter.group}
+      >
+        {options.map((item) => (
+          <Option value={item.name}>{item.name}</Option>
+        ))}
+      </Select>
+      <p style={{ marginTop: 10 }}>
+        <Icon type='exclamation-circle' />
+        <span style={{ marginLeft: 10 }}>
+          A escolha dos atributos afetará também a criação de atributos
+          genéricos.
+        </span>
+      </p>
 
-    <br />
+      <br />
 
-    <p>Período de agrupamento</p>
-    <p>
-      <small>
-        Com o período serão calculadas medidas em relação a momentos anteriores
-        ao atual. Exemplo: média de preço dos últimos 3, 6 e 9 dias ou meses.
-      </small>
-    </p>
-    <Radio.Group>
-      <Radio style={radioStyle} value='none'>
-        Nenhum
-      </Radio>
-      <Radio style={radioStyle} value='daily'>
-        Diário
-      </Radio>
-      <Radio style={radioStyle} value='monthly'>
-        Mensal
-      </Radio>
-      <Radio style={radioStyle} value='dailyMonthly'>
-        Diário e Mensal
-      </Radio>
-    </Radio.Group>
+      <p>Período de agrupamento</p>
+      <p>
+        <small>
+          Com o período serão calculadas medidas em relação a momentos
+          anteriores ao atual. Exemplo: média de preço dos últimos 3, 6 e 9 dias
+          ou meses.
+        </small>
+      </p>
+      <Radio.Group onChange={handleRadioSelect} value={parameter.period}>
+        <Radio style={radioStyle} value='none'>
+          Nenhum
+        </Radio>
+        <Radio style={radioStyle} value='daily'>
+          Diário
+        </Radio>
+        <Radio style={radioStyle} value='monthly'>
+          Mensal
+        </Radio>
+        <Radio style={radioStyle} value='dailyMonthly'>
+          Diário e Mensal
+        </Radio>
+      </Radio.Group>
 
-    <br />
-    <br />
+      <br />
+      <br />
 
-    <Divider orientation='left'>
-      <Icon type='bulb' />
-      Dica
-    </Divider>
+      <Divider orientation='left'>
+        <Icon type='bulb' />
+        Dica
+      </Divider>
 
-    <p>
-      <small>
-        Suponha que o seu conjunto de dados contenha os atributos Fruta, Preço
-        Kg e Colheita.
-      </small>
-    </p>
-    <p>
-      <small>
-        Abaixo, o atributo Preço Médio (média de preço nos 3 últimos dias de
-        colheita) foi criado a partir do agrupamento do atributo Fruta e do
-        período Diário.
-      </small>
-    </p>
-    <Table
-      className='tipTable'
-      columns={columns}
-      dataSource={data}
-      size='middle'
-      pagination={false}
-    />
-  </div>
-);
+      <p>
+        <small>
+          Suponha que o seu conjunto de dados contenha os atributos Fruta, Preço
+          Kg e Colheita.
+        </small>
+      </p>
+      <p>
+        <small>
+          Abaixo, o atributo Preço Médio (média de preço nos 3 últimos dias de
+          colheita) foi criado a partir do agrupamento do atributo Fruta e do
+          período Diário.
+        </small>
+      </p>
+      <Table
+        className='tipTable'
+        columns={columns}
+        dataSource={data}
+        size='middle'
+        pagination={false}
+      />
+    </div>
+  );
+};
 
 export default TimeAttributeCreationDrawerContent;
