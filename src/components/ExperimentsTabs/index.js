@@ -5,7 +5,7 @@ import './style.scss';
 import { Tabs } from 'antd';
 import DraggableTabs from '../DraggableTabs';
 import ExperimentContent from '../ExperimentContent';
-import * as services from '../../services/api';
+import * as projectsServices from '../../services/projectsApi';
 
 const { TabPane } = Tabs;
 class ExperimentsTabs extends React.Component {
@@ -38,12 +38,14 @@ class ExperimentsTabs extends React.Component {
   add = async () => {
     const {
       props: { details, fetch },
-      state: { panes },
     } = this;
 
     const index = details.experimentList.length + 1;
     const newTabName = `${details.name}_${index}`;
-    const response = await services.createExperiment(details.uuid, newTabName);
+    const response = await projectsServices.createExperiment(
+      details.uuid,
+      newTabName
+    );
     if (!!response) {
       await fetch(details.uuid);
       this.setState({ activeKey: response.data.payload.uuid });

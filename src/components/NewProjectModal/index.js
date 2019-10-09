@@ -28,6 +28,11 @@ class NewProjectModal extends React.Component {
     const { visible, onCancel, onCreate, form } = this.props;
     const { getFieldDecorator, getFieldsError } = form;
 
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      onCreate();
+    };
+
     return (
       <Modal
         visible={visible}
@@ -38,9 +43,9 @@ class NewProjectModal extends React.Component {
         onOk={onCreate}
         okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
       >
-        <Form layout='vertical'>
+        <Form layout='vertical' onSubmit={handleSubmit}>
           <Form.Item label='Qual o nome do seu projeto?'>
-            {getFieldDecorator('projectName', {
+            {getFieldDecorator('name', {
               rules: [
                 {
                   required: true,

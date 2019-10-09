@@ -6,7 +6,7 @@ import './style.scss';
 import { Button, Divider, Tooltip, Input, Icon, message } from 'antd';
 import AutosizeInput from 'react-input-autosize';
 import ExperimentFlow from '../ExperimentFlow';
-import * as services from '../../services/api';
+import * as projectsServices from '../../services/projectsApi';
 // const { Content } = Layout;
 const EditableTitle = (props) => {
   const {
@@ -26,7 +26,7 @@ const EditableTitle = (props) => {
     console.log(e.currentTarget.value.trim(), name, uuid, projectId);
     setLoading(true);
     if (!!e.currentTarget.value && e.currentTarget.value !== name) {
-      const response = await services.updateExperiment(
+      const response = await projectsServices.updateExperiment(
         projectId,
         uuid,
         e.currentTarget.value

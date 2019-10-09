@@ -44,16 +44,7 @@ class Projects extends React.Component {
         return;
       }
 
-      const response = await projectsServices.projectsApi.post(
-        '/projects',
-        JSON.stringify(values),
-        {
-          headers: {
-            'content-type': 'application/json',
-          },
-        }
-      );
-
+      const response = await projectsServices.createProject(values.name);
       if (!!response) {
         form.resetFields();
         this.setState({ modalIsVisible: false });

@@ -25,6 +25,19 @@ export const getProject = async (id) => {
   }
 };
 
+export const createProject = async (projectName) => {
+  try {
+    const body = {
+      name: projectName,
+    };
+    const response = await projectsApi.post(`/projects/`, body);
+
+    return response;
+  } catch (error) {
+    message.error(error.message);
+  }
+};
+
 export const updateProject = async (id, projectName) => {
   try {
     const body = {
@@ -53,7 +66,10 @@ export const createExperiment = async (id, experimentName) => {
     const body = {
       name: experimentName,
     };
-    const response = await api.post(`/projects/${id}/experiments/`, body);
+    const response = await projectsApi.post(
+      `/projects/${id}/experiments/`,
+      body
+    );
 
     return response;
   } catch (error) {
@@ -70,7 +86,7 @@ export const updateExperiment = async (
     const body = {
       name: experimentName,
     };
-    const response = await api.patch(
+    const response = await projectsApi.patch(
       `/projects/${projectId}/experiments/${experimentId}`,
       body
     );

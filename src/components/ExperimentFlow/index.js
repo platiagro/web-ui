@@ -12,7 +12,7 @@ import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerCo
 import AutoMLDrawerContent from '../AutoMLDrawerContent';
 import DataSetDrawerContent from '../DataSetDrawerContent';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
-import { Button, Input } from 'antd';
+import { Button } from 'antd';
 
 class ExperimentFlow extends React.Component {
   constructor(props) {
