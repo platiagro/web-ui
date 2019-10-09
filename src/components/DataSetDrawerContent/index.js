@@ -5,6 +5,8 @@ import { Upload, Button, Icon, Divider, Select, Spin } from 'antd';
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
 
+import { uploadDataSet } from '../../services/dataSetApi';
+
 const { Option } = Select;
 
 class DataSetDrawerContent extends React.Component {
@@ -19,30 +21,40 @@ class DataSetDrawerContent extends React.Component {
     };
   }
 
-  handleUpload = () => {
+  handleUpload = async () => {
     const { dataSetFileList, dataSetHeaderFileList } = this.state;
     const formData = new FormData();
+    let response = null;
 
-    dataSetFileList.forEach((file) => {
-      formData.append('dataSetFiles[]', file);
-    });
+    formData.append(
+      'dataset',
+      dataSetFileList[0].originFileObj,
+      dataSetFileList[0]
+    );
 
-    dataSetHeaderFileList.forEach((file) => {
-      formData.append('dataSetHeaderFiles[]', file);
-    });
+    if (dataSetHeaderFileList.lenght > 0)
+      formData.append('header', dataSetHeaderFileList[0]);
+
+    // formData.append('userpic', myFileInput.files[0], 'chris.jpg');
+
+    console.log(formData);
 
     this.setState({
       uploading: true,
     });
 
-    setTimeout(
-      () =>
-        this.setState({
-          uploading: false,
-          dataSetColumns: true,
-        }),
-      2000
-    );
+    response = await uploadDataSet(formData);
+
+    console.log(response);
+
+    // setTimeout(
+    //   () =>
+    //     this.setState({
+    //       uploading: false,
+    //       dataSetColumns: true,
+    //     }),
+    //   2000
+    // );
 
     // // You can use any AJAX library you like
     // reqwest({
@@ -131,7 +143,7 @@ class DataSetDrawerContent extends React.Component {
     };
 
     return (
-      <Upload {...props}>
+      <Upload {...props} disabled={uploading} accept='.csv'>
         <Button disabled={uploading}>
           <Icon type='upload' />
           Selecionar
@@ -172,7 +184,7 @@ class DataSetDrawerContent extends React.Component {
     };
 
     return (
-      <Upload {...props}>
+      <Upload {...props} disabled={uploading} accept='.txt'>
         <Button disabled={!(dataSetFileList.length > 0) || uploading}>
           <Icon type='upload' />
           Selecionar cabeçalho
