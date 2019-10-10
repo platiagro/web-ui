@@ -2,8 +2,6 @@
 import axios from 'axios';
 import { message } from 'antd';
 
-console.log(process.env);
-
 export const projectsApi = axios.create({
   baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:3000',
 });
