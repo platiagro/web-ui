@@ -5,7 +5,7 @@ import { Upload, Button, Icon, Divider, Select, Spin } from 'antd';
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
 
-import { uploadDataSet } from '../../services/dataSetApi';
+import { uploadDataSet, getHeaderColumns } from '../../services/dataSetApi';
 
 const { Option } = Select;
 
@@ -14,10 +14,12 @@ class DataSetDrawerContent extends React.Component {
     super(props);
 
     this.state = {
+      uploading: false,
       dataSetFileList: [],
       dataSetHeaderFileList: [],
-      uploading: false,
       dataSetColumns: null,
+      dataSetId: null,
+      targetColumnId: null,
     };
   }
 
@@ -46,19 +48,21 @@ class DataSetDrawerContent extends React.Component {
 
     response = await uploadDataSet(formData);
 
-    // headerColumns;
+    headerColumns = await getHeaderColumns(response.data.payload.header.uuid);
 
     this.setState({
       uploading: false,
       dataSetFileList: [],
       dataSetHeaderFileList: [],
+      dataSetColumns: headerColumns.data.payload,
+      dataSetId: response.data.payload.dataset.uuid,
     });
-
-    console.log(response);
   };
 
+  handleOnChange = (targetColumnId) => this.setState({ targetColumnId });
+
   renderTable() {
-    const { dataSetColumns, uploading } = this.state;
+    const { dataSetColumns, uploading, targetColumnId } = this.state;
 
     if (uploading)
       return (
@@ -73,10 +77,16 @@ class DataSetDrawerContent extends React.Component {
         <Divider />
 
         <p>Qual é o seu atributo alvo?</p>
-        <Select style={{ width: 200 }} placeholder='Selecione'>
-          <Option value='id'>id</Option>
-          <Option value='hour'>hora</Option>
-          <Option value='type'>Tipo</Option>
+        <Select
+          onChange={this.handleOnChange}
+          style={{ width: 200 }}
+          placeholder='Selecione'
+        >
+          {dataSetColumns.map((column) => (
+            <Option key={column.uuid} value={column.uuid}>
+              {column.name}
+            </Option>
+          ))}
         </Select>
 
         <InfoHelper content='Seu modelo será treinado para prever os valores do alvo.' />
@@ -84,7 +94,10 @@ class DataSetDrawerContent extends React.Component {
         <br />
         <br />
 
-        <DataSetTable />
+        <DataSetTable
+          targetColumnId={targetColumnId}
+          dataSource={dataSetColumns}
+        />
       </div>
     );
   }

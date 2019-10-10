@@ -37,7 +37,7 @@ const ExperimentContent = (props) => {
     automl: false,
   });
 
-  //Seleções dos atributos de tempo
+  // Seleções dos atributos de tempo
   const handleSelectTime = (e) => {
     const params = { ...parameters };
     params.atributos_tempo.group = e;
