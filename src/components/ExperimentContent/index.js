@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import _ from 'lodash';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -17,7 +16,8 @@ import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerCo
 // import * as projectsServices from '../../services/projectsApi';
 import col from './mock_col';
 
-const ExperimentContent = (props) => {
+const ExperimentContent = ({ details, fetch }) => {
+  // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(col);
 
   const [parameters, setParameters] = useState({
@@ -25,6 +25,11 @@ const ExperimentContent = (props) => {
       group: [],
       period: null,
     },
+    pre_selecao1: { cutoff: 0.6, correlation: 0.6 },
+    pre_selecao2: { cutoff: 0.6, correlation: 0.6 },
+    // atributos_genericos: { group: [] },
+    filtro_atributos: [],
+    automl: { time: null },
   });
 
   const [selected, setSelected] = useState({
@@ -37,19 +42,64 @@ const ExperimentContent = (props) => {
     automl: false,
   });
 
-  // Seleções dos atributos de tempo
-  const handleSelectTime = (e) => {
+  const url = '.../modelo_workshop.foragri.com/api/';
+  const info = () => {
+    message.info('URL Copiada', 1);
+  };
+
+  // Métodos para alterar valores dos Drawers
+  // Atributos por tempo
+  const setGroup = (e) => {
     const params = { ...parameters };
     params.atributos_tempo.group = e;
     setParameters(params);
   };
 
-  const handleRadioSelectTime = (e) => {
+  const setPeriod = (e) => {
     const params = { ...parameters };
     params.atributos_tempo.period = e.target.value;
     setParameters(params);
   };
+  // Pré-seleção 1
+  const setCutoffPre1 = (e) => {
+    const params = { ...parameters };
+    params.pre_selecao1.cutoff = e;
+    setParameters(params);
+  };
+  const setCorrelationPre1 = (e) => {
+    const params = { ...parameters };
+    params.pre_selecao1.correlation = e;
+    setParameters(params);
+  };
+  // Atributos Genéricos
+  // const setFeatureTools = (e) => {
+  //   const params = { ...parameters };
+  //   params.atributos_genericos.feature_tools = e;
+  //   setParameters(params);
+  // };
+  // Pré-seleção 2
+  const setCutoffPre2 = (e) => {
+    const params = { ...parameters };
+    params.pre_selecao2.cutoff = e;
+    setParameters(params);
+  };
+  const setCorrelationPre2 = (e) => {
+    const params = { ...parameters };
+    params.pre_selecao2.correlation = e;
+    setParameters(params);
+  };
+  const setFilter = (e) => {
+    const params = { ...parameters };
+    params.filtro_atributos = e;
+    setParameters(params);
+  };
+  const setAutoML = (e) => {
+    const params = { ...parameters };
+    params.automl.time = e;
+    setParameters(params);
+  };
 
+  // Click para abrir drawer de cada tarefa
   const handleClick = (task) => {
     // const { selected } = this.state;
     let newSelected = { ...selected };
@@ -61,14 +111,17 @@ const ExperimentContent = (props) => {
     setSelected(newSelected);
   };
 
+  // Abrir Drawer
   const openDrawer = () => {
     return _.indexOf(Object.values(selected), true) !== -1;
   };
 
+  // Fechar Drawer
   const handleClose = () => {
     setSelected(_.mapValues(selected, () => false));
   };
 
+  // Selecioanr o Drawer certo
   const switchDrawer = () => {
     if (selected.conjunto_dados) {
       return <DataSetDrawerContent />;
@@ -78,32 +131,59 @@ const ExperimentContent = (props) => {
         <TimeAttributeCreationDrawerContent
           parameter={parameters.atributos_tempo}
           dataSets={columns}
-          handleSelect={handleSelectTime}
-          handleRadioSelect={handleRadioSelectTime}
+          setGroup={setGroup}
+          setPeriod={setPeriod}
         />
       );
     }
     if (selected.pre_selecao1) {
-      return <AttributePreSelectionDrawerContent />;
+      return (
+        <AttributePreSelectionDrawerContent
+          parameter={parameters.pre_selecao1}
+          dataSets={columns}
+          setCutoff={setCutoffPre1}
+          setCorrelation={setCorrelationPre1}
+        />
+      );
     }
     if (selected.atributos_genericos) {
-      return <GenericAttributeCreationDrawerContent />;
+      return (
+        <GenericAttributeCreationDrawerContent
+          parameter={parameters.atributos_tempo}
+          dataSets={columns}
+          setFeatureTools={setGroup}
+        />
+      );
     }
     if (selected.pre_selecao2) {
-      return <AttributePreSelectionDrawerContent />;
+      return (
+        <AttributePreSelectionDrawerContent
+          parameter={parameters.pre_selecao2}
+          dataSets={columns}
+          setCutoff={setCutoffPre2}
+          setCorrelation={setCorrelationPre2}
+        />
+      );
     }
     if (selected.filtro_atributos) {
-      return <AttributeFilterDrawerContent />;
+      return (
+        <AttributeFilterDrawerContent
+          parameter={parameters.filtro_atributos}
+          dataSets={columns}
+          setFilter={setFilter}
+        />
+      );
     }
     if (selected.automl) {
-      return <AutoMLDrawerContent />;
+      return (
+        <AutoMLDrawerContent
+          parameter={parameters.automl}
+          dataSets={columns}
+          setAutoML={setAutoML}
+        />
+      );
     }
-  };
-
-  const { details, fetch } = props;
-  const url = '.../modelo_workshop.foragri.com/api/';
-  const info = () => {
-    message.info('URL Copiada', 1);
+    return null;
   };
 
   return (
@@ -121,7 +201,12 @@ const ExperimentContent = (props) => {
           </Tooltip>
         </div>
         <div className='experiment-actions'>
-          <Button icon='play-circle' type='primary'>
+          <Button
+            icon='play-circle'
+            type='primary'
+            // eslint-disable-next-line no-console
+            onClick={() => console.log(details.name, parameters)}
+          >
             Executar
           </Button>
           <Divider type='vertical' />
@@ -145,8 +230,9 @@ const ExperimentContent = (props) => {
 
 ExperimentContent.propTypes = {
   details: PropTypes.shape({
-    title: PropTypes.string,
+    name: PropTypes.string,
   }).isRequired,
+  fetch: PropTypes.func.isRequired,
 };
 
 export default ExperimentContent;

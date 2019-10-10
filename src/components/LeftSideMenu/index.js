@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import PropType from 'prop-types';
 import _ from 'lodash';
 import './style.scss';
 import { Layout, Icon, Input, Collapse, Empty } from 'antd';
+
 const { Sider } = Layout;
 const { Panel } = Collapse;
 
@@ -31,24 +33,24 @@ const items = {
 
 const LeftSideMenu = () => {
   const [menuItems, setItems] = useState(items);
-  let handleFilter = (e) => {
+  const handleFilter = (e) => {
     // console.log(e.currentTarget.value);
-    let v = e.currentTarget.value;
+    const v = e.currentTarget.value;
     if (!v) {
       setItems(items);
     } else {
-      let auxItem = { template: [], data: [], attr: [], train: [] };
+      const auxItem = { template: [], data: [], attr: [], train: [] };
 
-      const template = items['template'].filter((item) => {
+      const template = items.template.filter((item) => {
         return item.toLowerCase().includes(v.toLowerCase());
       });
-      const data = items['data'].filter((item) => {
+      const data = items.data.filter((item) => {
         return item.toLowerCase().includes(v.toLowerCase());
       });
-      const attr = items['attr'].filter((item) => {
+      const attr = items.attr.filter((item) => {
         return item.toLowerCase().includes(v.toLowerCase());
       });
-      const train = items['train'].filter((item) => {
+      const train = items.train.filter((item) => {
         return item.toLowerCase().includes(v.toLowerCase());
       });
       auxItem.template = template;
@@ -72,7 +74,7 @@ const LeftSideMenu = () => {
         />
       </div>
       <Collapse bordered={false}>
-        {!_.isEmpty(menuItems['template']) && (
+        {!_.isEmpty(menuItems.template) && (
           <Panel
             header={
               <span>
@@ -83,12 +85,12 @@ const LeftSideMenu = () => {
             key='1'
             className='collapse-menu'
           >
-            {menuItems['template'].map((title) => (
+            {menuItems.template.map((title) => (
               <Item key={title} title={title} />
             ))}
           </Panel>
         )}
-        {!_.isEmpty(menuItems['data']) && (
+        {!_.isEmpty(menuItems.data) && (
           <Panel
             header={
               <span>
@@ -99,12 +101,12 @@ const LeftSideMenu = () => {
             key='2'
             className='collapse-menu'
           >
-            {menuItems['data'].map((title) => (
+            {menuItems.data.map((title) => (
               <Item key={title} title={title} disabled />
             ))}
           </Panel>
         )}
-        {!_.isEmpty(menuItems['attr']) && (
+        {!_.isEmpty(menuItems.attr) && (
           <Panel
             header={
               <span>
@@ -115,12 +117,12 @@ const LeftSideMenu = () => {
             key='3'
             className='collapse-menu'
           >
-            {menuItems['attr'].map((title) => (
+            {menuItems.attr.map((title) => (
               <Item key={title} title={title} disabled />
             ))}
           </Panel>
         )}
-        {!_.isEmpty(menuItems['train']) && (
+        {!_.isEmpty(menuItems.train) && (
           <Panel
             header={
               <span>
@@ -131,21 +133,27 @@ const LeftSideMenu = () => {
             key='4'
             className='collapse-menu'
           >
-            {menuItems['train'].map((title) => (
+            {menuItems.train.map((title) => (
               <Item key={title} title={title} disabled />
             ))}
           </Panel>
         )}
-        {_.every(menuItems, function(property) {
+        {_.every(menuItems, (property) => {
           return _.isEmpty(property);
         }) && (
           <div>
-            <Empty description={'Vazio'} image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            <Empty description='Vazio' image={Empty.PRESENTED_IMAGE_SIMPLE} />
           </div>
         )}
       </Collapse>
     </Sider>
   );
 };
-
+Item.defaultProps = {
+  disabled: false,
+};
+Item.propTypes = {
+  disabled: PropType.bool,
+  title: PropType.string.isRequired,
+};
 export default LeftSideMenu;

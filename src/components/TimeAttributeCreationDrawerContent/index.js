@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { Select, Icon, Radio, Divider, Table } from 'antd';
@@ -72,10 +72,10 @@ const data = [
 const TimeAttributeCreationDrawerContent = ({
   dataSets,
   parameter,
-  handleSelect,
-  handleRadioSelect,
+  setGroup,
+  setPeriod,
 }) => {
-  const options = _.filter(dataSets, ['datatype', 'factor']);
+  const options = _.filter(dataSets, ['datatype', 'Categorical']);
   return (
     <div>
       <p>Agrupamento de atributos</p>
@@ -86,14 +86,16 @@ const TimeAttributeCreationDrawerContent = ({
         </small>
       </p>
       <Select
-        onChange={handleSelect}
+        onChange={setGroup}
         mode='multiple'
         style={{ width: '100%' }}
         placeholder='Selecione'
         value={parameter.group}
       >
         {options.map((item) => (
-          <Option value={item.name}>{item.name}</Option>
+          <Option key={item.uuid} value={item.name}>
+            {item.name}
+          </Option>
         ))}
       </Select>
       <p style={{ marginTop: 10 }}>
@@ -114,7 +116,7 @@ const TimeAttributeCreationDrawerContent = ({
           ou meses.
         </small>
       </p>
-      <Radio.Group onChange={handleRadioSelect} value={parameter.period}>
+      <Radio.Group onChange={setPeriod} value={parameter.period}>
         <Radio style={radioStyle} value='none'>
           Nenhum
         </Radio>
@@ -161,4 +163,13 @@ const TimeAttributeCreationDrawerContent = ({
   );
 };
 
+TimeAttributeCreationDrawerContent.propTypes = {
+  dataSets: PropTypes.arrayOf(PropTypes.any).isRequired,
+  parameter: PropTypes.shape({
+    period: PropTypes.string,
+    group: PropTypes.array,
+  }).isRequired,
+  setGroup: PropTypes.func.isRequired,
+  setPeriod: PropTypes.func.isRequired,
+};
 export default TimeAttributeCreationDrawerContent;
