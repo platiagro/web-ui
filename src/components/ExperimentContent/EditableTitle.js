@@ -20,7 +20,7 @@ const EditableTitle = (props) => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(e.currentTarget.value.trim(), name, uuid, projectId);
+    console.log(e.currentTarget.value, name);
     setLoading(true);
     if (!!e.currentTarget.value && e.currentTarget.value !== name) {
       const response = await projectsServices.updateExperiment(
@@ -40,10 +40,11 @@ const EditableTitle = (props) => {
     setLoading(false);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = async (e) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();
-      // handleSubmit(e);
+    } else if (e.key === 'Escape') {
+      setNewVal(name);
     }
   };
 
@@ -54,7 +55,7 @@ const EditableTitle = (props) => {
         onClick={() => {
           setEditMode(true);
         }}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
         onChange={handleChange}
         className={
           editMode

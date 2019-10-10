@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import './style.scss';
 import { ArcherContainer, ArcherElement } from 'react-archer';
 import CardTask from './CardTask';
@@ -51,7 +51,7 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 title='Criação de atributos por tempo'
                 params={
                   !_.isEmpty(parameters.atributos_tempo.group) &&
-                  !_.isEmpty(parameters.atributos_tempo.period)
+                  !!parameters.atributos_tempo.period
                 }
               />
             </ArcherElement>
@@ -73,6 +73,10 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 selected={selected.pre_selecao1}
                 taskClick={handleClick}
                 title='Pré-seleção de atributos'
+                params={
+                  parameters.pre_selecao1.cutoff >= 0 &&
+                  parameters.pre_selecao1.correlation >= 0
+                }
               />
             </ArcherElement>
           </div>
@@ -93,6 +97,7 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 selected={selected.atributos_genericos}
                 taskClick={handleClick}
                 title='Criação de atributos genéricos'
+                params={!_.isEmpty(parameters.atributos_tempo.group)}
               />
             </ArcherElement>
           </div>
@@ -113,6 +118,10 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 selected={selected.pre_selecao2}
                 taskClick={handleClick}
                 title='Pré-seleção de atributos'
+                params={
+                  parameters.pre_selecao2.cutoff >= 0 &&
+                  parameters.pre_selecao2.correlation >= 0
+                }
               />
             </ArcherElement>
           </div>
@@ -133,6 +142,7 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 selected={selected.filtro_atributos}
                 taskClick={handleClick}
                 title='Filtro de atributos'
+                params={!_.isEmpty(parameters.filtro_atributos)}
               />
             </ArcherElement>
           </div>
@@ -146,6 +156,7 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 title='AutoML'
                 icon='share-alt'
                 iconTheme='outlined'
+                params={parameters.automl.time >= 0}
               />
             </ArcherElement>
           </div>
@@ -155,11 +166,10 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
   );
 };
 
-// ExperimentFlow.propTypes = {
-//   details: PropTypes.shape({
-//     experimentsList: PropTypes.array,
-//     projectName: PropTypes.string,
-//   }).isRequired,
-// };
+ExperimentFlow.propTypes = {
+  selected: PropTypes.objectOf(PropTypes.bool).isRequired,
+  parameters: PropTypes.objectOf(PropTypes.any).isRequired,
+  handleClick: PropTypes.func.isRequired,
+};
 
 export default ExperimentFlow;

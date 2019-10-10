@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { Select, Icon, Divider, Table } from 'antd';
 
@@ -56,56 +58,79 @@ const data = [
   },
 ];
 
-const GenericAttributeCreationDrawerContent = () => (
-  <div>
-    <p>Agrupamento de atributos</p>
-    <p>
-      <small>
-        Selecione os atributos categóricos (definidos por categorias) que serão
-        agrupados para criar novos atributos.
-      </small>
-    </p>
-    <Select mode='multiple' style={{ width: '100%' }} placeholder='Selecione'>
-      <Option value='typeOne'>Tipo Um</Option>
-      <Option value='typeTwo'>Tipo Dois</Option>
-      <Option value='typeThree'>Tipo Três</Option>
-      <Option value='typeFour'>Tipo Quatro</Option>
-    </Select>
-    <p style={{ marginTop: 10 }}>
-      <Icon type='exclamation-circle' />
-      <span style={{ marginLeft: 10 }}>
-        A escolha dos atributos afetará também a criação de atributos por tempo.
-      </span>
-    </p>
+const GenericAttributeCreationDrawerContent = ({
+  dataSets,
+  parameter,
+  setFeatureTools,
+}) => {
+  const options = _.filter(dataSets, ['datatype', 'Categorical']);
+  return (
+    <div>
+      <p>Agrupamento de atributos</p>
+      <p>
+        <small>
+          Selecione os atributos categóricos (definidos por categorias) que
+          serão agrupados para criar novos atributos.
+        </small>
+      </p>
+      <Select
+        value={parameter.group}
+        onChange={setFeatureTools}
+        mode='multiple'
+        style={{ width: '100%' }}
+        placeholder='Selecione'
+      >
+        {options.map((item) => (
+          <Option key={item.uuid} value={item.name}>
+            {item.name}
+          </Option>
+        ))}
+      </Select>
+      <p style={{ marginTop: 10 }}>
+        <Icon type='exclamation-circle' />
+        <span style={{ marginLeft: 10 }}>
+          A escolha dos atributos afetará também a criação de atributos por
+          tempo.
+        </span>
+      </p>
 
-    <br />
-    <br />
+      <br />
+      <br />
 
-    <Divider orientation='left'>
-      <Icon type='bulb' />
-      Dica
-    </Divider>
+      <Divider orientation='left'>
+        <Icon type='bulb' />
+        Dica
+      </Divider>
 
-    <p>
-      <small>
-        Suponha que o seu conjunto de dados contenha os atributos Fruta, Tipo e
-        Preço.
-      </small>
-    </p>
-    <p>
-      <small>
-        A partir do agrupamento de atributos, novos serão criados. Abaixo, o
-        atributo Preço Médio foi criado a partir do agrupamento de Fruta e Tipo.
-      </small>
-    </p>
-    <Table
-      className='tipTable'
-      columns={columns}
-      dataSource={data}
-      size='middle'
-      pagination={false}
-    />
-  </div>
-);
+      <p>
+        <small>
+          Suponha que o seu conjunto de dados contenha os atributos Fruta, Tipo
+          e Preço.
+        </small>
+      </p>
+      <p>
+        <small>
+          A partir do agrupamento de atributos, novos serão criados. Abaixo, o
+          atributo Preço Médio foi criado a partir do agrupamento de Fruta e
+          Tipo.
+        </small>
+      </p>
+      <Table
+        className='tipTable'
+        columns={columns}
+        dataSource={data}
+        size='middle'
+        pagination={false}
+      />
+    </div>
+  );
+};
 
+GenericAttributeCreationDrawerContent.propTypes = {
+  dataSets: PropTypes.arrayOf(PropTypes.any).isRequired,
+  parameter: PropTypes.shape({
+    group: PropTypes.array,
+  }).isRequired,
+  setFeatureTools: PropTypes.func.isRequired,
+};
 export default GenericAttributeCreationDrawerContent;

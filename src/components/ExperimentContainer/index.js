@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import './style.scss';
 import { Layout, Icon } from 'antd';
 import AutosizeInput from 'react-input-autosize';
@@ -20,22 +20,23 @@ const EditableTitle = (props) => {
   const [loading, setLoading] = useState(false);
   const [newVal, setNewVal] = useState(name);
 
-  let handleChange = (e) => {
+  const handleChange = (e) => {
     setNewVal(e.currentTarget.value);
   };
 
-  let handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     setLoading(true);
     if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
       const response = await projectsServices.updateProject(
         uuid,
         e.currentTarget.value
       );
-      if (!!response) {
+      if (response) {
         fetch();
+      } else {
+        setNewVal(name);
       }
     } else {
-      console.log('NÃO MUDOU');
       setNewVal(name);
     }
 
@@ -43,36 +44,22 @@ const EditableTitle = (props) => {
     setLoading(false);
   };
 
-  let handleKeyPress = (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();
-      // handleSubmit(e);
+    } else if (e.key === 'Escape') {
+      setNewVal(name);
     }
   };
 
   return (
-    // <Input
-    //   onBlur={handleSubmit}
-    //   onDoubleClick={() => {
-    //     setEditMode(true);
-    //   }}
-    //   onPressEnter={handleSubmit}
-    //   onChange={handleChange}
-    //   className={
-    //     editMode
-    //       ? 'ant-page-header-heading-title project-title'
-    //       : 'ant-page-header-heading-title project-title edit-mode'
-    //   }
-    //   value={newVal}
-    //   readOnly={!editMode}
-    // />
     <>
       <AutosizeInput
         onBlur={handleSubmit}
         onClick={() => {
           setEditMode(true);
         }}
-        onKeyPress={handleKeyPress}
+        onKeyUp={handleKeyPress}
         onChange={handleChange}
         className={
           editMode
@@ -88,8 +75,7 @@ const EditableTitle = (props) => {
   );
 };
 
-const ExperimentContainer = (props) => {
-  const { details, fetch, params } = props;
+const ExperimentContainer = ({ details, fetch, params }) => {
   const history = useHistory();
   function handleClick() {
     history.push('/projects');
@@ -118,9 +104,18 @@ const ExperimentContainer = (props) => {
 
 ExperimentContainer.propTypes = {
   details: PropTypes.shape({
-    experimentsList: PropTypes.array,
-    projectName: PropTypes.string,
+    uuid: PropTypes.string,
   }).isRequired,
+  fetch: PropTypes.func.isRequired,
+  params: PropTypes.objectOf(PropTypes.string).isRequired,
+};
+
+EditableTitle.propTypes = {
+  details: PropTypes.shape({
+    uuid: PropTypes.string,
+    name: PropTypes.string,
+  }).isRequired,
+  fetch: PropTypes.func.isRequired,
 };
 
 export default ExperimentContainer;

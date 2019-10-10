@@ -63,9 +63,9 @@ export default function CardTask({
   return (
     <div
       style={{ left: pos[0], top: pos[1] }}
-      className={`card ${params ? ' setted-up ' : ''}${
-        condition ? condition : ''
-      }${selected ? ' selected' : ''}`}
+      className={`card ${params ? ' setted-up ' : ''}${condition}${
+        selected ? ' selected' : ''
+      }`}
       onClick={(e) => {
         e.stopPropagation();
         taskClick(task);
