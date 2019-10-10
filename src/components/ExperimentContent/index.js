@@ -30,6 +30,7 @@ const ExperimentContent = ({ details, fetch }) => {
     // atributos_genericos: { group: [] },
     filtro_atributos: [],
     automl: { time: null },
+    conjunto_dados: { target: null, columns: [], dataset: null },
   });
 
   const [selected, setSelected] = useState({
@@ -98,6 +99,11 @@ const ExperimentContent = ({ details, fetch }) => {
     params.automl.time = e;
     setParameters(params);
   };
+  const setTarget = (e) => {
+    const params = { ...parameters };
+    params.conjunto_dados.target = e;
+    setParameters(params);
+  };
 
   // Click para abrir drawer de cada tarefa
   const handleClick = (task) => {
@@ -124,7 +130,15 @@ const ExperimentContent = ({ details, fetch }) => {
   // Selecioanr o Drawer certo
   const switchDrawer = () => {
     if (selected.conjunto_dados) {
-      return <DataSetDrawerContent />;
+      return (
+        <DataSetDrawerContent
+          parameter={parameters.conjunto_dados}
+          setTarget={setTarget}
+          columns={columns}
+          // setDataset={setDataset}
+          // setColumns={setColumnsList}
+        />
+      );
     }
     if (selected.atributos_tempo) {
       return (

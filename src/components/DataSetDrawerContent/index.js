@@ -18,10 +18,20 @@ class DataSetDrawerContent extends React.Component {
       uploading: false,
       dataSetFileList: [],
       dataSetHeaderFileList: [],
-      dataSetColumns: null,
+      dataSetColumns: [],
       dataSetId: null,
       targetColumnId: null,
     };
+  }
+
+  // handleColumnSelect = (column) => {};
+
+  componentDidMount() {
+    const { parameter, columns } = this.props;
+    this.setState({
+      targetColumnId: parameter.target,
+      dataSetColumns: columns,
+    });
   }
 
   handleUpload = async () => {
@@ -60,7 +70,11 @@ class DataSetDrawerContent extends React.Component {
     });
   };
 
-  handleOnChange = (targetColumnId) => this.setState({ targetColumnId });
+  handleOnChange = (targetColumnId) => {
+    const { setTarget } = this.props;
+    this.setState({ targetColumnId });
+    setTarget(targetColumnId);
+  };
 
   renderTable() {
     const { dataSetColumns, uploading, targetColumnId } = this.state;
@@ -82,6 +96,7 @@ class DataSetDrawerContent extends React.Component {
           onChange={this.handleOnChange}
           style={{ width: 200 }}
           placeholder='Selecione'
+          value={targetColumnId}
         >
           {dataSetColumns.map((column) => (
             <Option key={column.uuid} value={column.uuid}>
