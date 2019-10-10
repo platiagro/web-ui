@@ -20,18 +20,18 @@ const EditableTitle = (props) => {
   const [loading, setLoading] = useState(false);
   const [newVal, setNewVal] = useState(name);
 
-  let handleChange = (e) => {
+  const handleChange = (e) => {
     setNewVal(e.currentTarget.value);
   };
 
-  let handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     setLoading(true);
     if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
       const response = await projectsServices.updateProject(
         uuid,
         e.currentTarget.value
       );
-      if (!!response) {
+      if (response) {
         fetch();
       }
     } else {
@@ -43,7 +43,7 @@ const EditableTitle = (props) => {
     setLoading(false);
   };
 
-  let handleKeyPress = (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();
       // handleSubmit(e);
@@ -107,7 +107,12 @@ const ExperimentContainer = (props) => {
         {/* <Layout className='experiment-content'> */}
         <LeftSideMenu />
         <Content className='experiment-wraper'>
-          <ExperimentsTabs params={params} fetch={fetch} details={details} />
+          <ExperimentsTabs
+            params={params}
+            history={history}
+            fetch={fetch}
+            details={details}
+          />
         </Content>
         {/* </Layout> */}
       </Layout>

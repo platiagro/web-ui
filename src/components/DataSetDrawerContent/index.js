@@ -25,19 +25,20 @@ class DataSetDrawerContent extends React.Component {
     const { dataSetFileList, dataSetHeaderFileList } = this.state;
     const formData = new FormData();
     let response = null;
+    let headerColumns;
 
     formData.append(
       'dataset',
       dataSetFileList[0].originFileObj,
-      dataSetFileList[0]
+      dataSetFileList[0].name
     );
 
     if (dataSetHeaderFileList.lenght > 0)
-      formData.append('header', dataSetHeaderFileList[0]);
-
-    // formData.append('userpic', myFileInput.files[0], 'chris.jpg');
-
-    console.log(formData);
+      formData.append(
+        'header',
+        dataSetHeaderFileList[0].originFileObj,
+        dataSetHeaderFileList[0].name
+      );
 
     this.setState({
       uploading: true,
@@ -45,37 +46,15 @@ class DataSetDrawerContent extends React.Component {
 
     response = await uploadDataSet(formData);
 
+    // headerColumns;
+
+    this.setState({
+      uploading: false,
+      dataSetFileList: [],
+      dataSetHeaderFileList: [],
+    });
+
     console.log(response);
-
-    // setTimeout(
-    //   () =>
-    //     this.setState({
-    //       uploading: false,
-    //       dataSetColumns: true,
-    //     }),
-    //   2000
-    // );
-
-    // // You can use any AJAX library you like
-    // reqwest({
-    //   url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    //   method: 'post',
-    //   processData: false,
-    //   data: formData,
-    //   success: () => {
-    //     this.setState({
-    //       fileList: [],
-    //       uploading: false,
-    //     });
-    //     message.success('upload successfully.');
-    //   },
-    //   error: () => {
-    //     this.setState({
-    //       uploading: false,
-    //     });
-    //     message.error('upload failed.');
-    //   },
-    // });
   };
 
   renderTable() {

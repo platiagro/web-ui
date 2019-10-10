@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './style.scss';
 import { Tabs } from 'antd';
+import { Redirect } from 'react-router-dom';
 import DraggableTabs from '../DraggableTabs';
 import ExperimentContent from '../ExperimentContent';
 import * as projectsServices from '../../services/projectsApi';
@@ -20,6 +21,7 @@ class ExperimentsTabs extends React.Component {
     const {
       props: { details, params },
     } = this;
+
     this.setState({
       activeKey: details.experimentList.length > 0 ? params.experimentId : null,
     });
@@ -27,7 +29,14 @@ class ExperimentsTabs extends React.Component {
 
   onChange = (activeKey) => {
     if (activeKey !== 'add_tab') {
-      this.setState({ activeKey });
+      const { params, history } = this.props;
+      const url = `/projects/${params.projectId}/${activeKey}`;
+
+      history.push(url);
+
+      this.setState({
+        activeKey,
+      });
     }
   };
 
@@ -46,7 +55,7 @@ class ExperimentsTabs extends React.Component {
       details.uuid,
       newTabName
     );
-    if (!!response) {
+    if (response) {
       await fetch(details.uuid);
       this.setState({ activeKey: response.data.payload.uuid });
     }
