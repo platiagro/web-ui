@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   reactjs:
@@ -8,6 +8,8 @@ services:
       - ./:/app
     working_dir: /app
     ports:
-      - 80:80
+      - ${PORT:-80}:${PORT:-80}
+    environment:
+      - PORT=${PORT:-80}
     tty: true
     stdin_open: true
