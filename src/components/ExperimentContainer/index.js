@@ -92,6 +92,16 @@ const ExperimentContainer = ({ details, fetch, params }) => {
     history.push('/projects');
   }
 
+  // console.log(
+  //   'Details',
+  //   details,
+  //   'Flow',
+  //   flowDetails,
+  //   'Params',
+  //   params.experimentId
+  // );
+  console.log(details);
+
   return (
     <>
       <ContentHeader
@@ -102,7 +112,11 @@ const ExperimentContainer = ({ details, fetch, params }) => {
       {/* <div style={{ margin: '40px' }}> */}
       <Layout className='experiment-container'>
         {/* <Layout className='experiment-content'> */}
-        <LeftSideMenu setFlowDetails={setFlowDetails} />
+        <LeftSideMenu
+          params={params}
+          setFlowDetails={setFlowDetails}
+          fetch={fetch}
+        />
         <Content className='experiment-wraper'>
           <ExperimentsTabs
             params={params}

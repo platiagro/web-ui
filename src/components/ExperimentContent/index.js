@@ -17,10 +17,8 @@ import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerCo
 import col from './mock_col';
 
 const ExperimentContent = ({ details, fetch, flowDetails }) => {
-  console.log(flowDetails);
-
   // eslint-disable-next-line no-unused-vars
-  const [columns, setColumns] = useState();
+  const [columns, setColumns] = useState([]);
 
   const [parameters, setParameters] = useState({
     atributos_tempo: {
@@ -251,7 +249,8 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
         value: automl.time * 60,
       },
     ];
-    console.log(parms);
+
+    console.log(parms, flowDetails);
   };
 
   // Selecioanr o Drawer certo

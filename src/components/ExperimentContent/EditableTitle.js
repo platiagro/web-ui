@@ -26,7 +26,7 @@ const EditableTitle = (props) => {
       const response = await projectsServices.updateExperiment(
         projectId,
         uuid,
-        e.currentTarget.value
+        { name: e.currentTarget.value }
       );
       if (!!response) {
         fetch();

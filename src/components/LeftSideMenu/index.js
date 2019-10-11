@@ -3,8 +3,8 @@ import PropType from 'prop-types';
 import _ from 'lodash';
 import './style.scss';
 import { Layout, Icon, Input, Collapse, Empty } from 'antd';
-
 import { getPipelines } from '../../services/pipelinesApi';
+import { updateExperiment } from '../../services/projectsApi';
 
 const { Sider } = Layout;
 const { Panel } = Collapse;
@@ -67,6 +67,16 @@ const fetchPipelines = async (setFlowDetails) => {
 
     if (template.default) setFlowDetails(template);
 
+    // const response = await updateExperiment(
+    //   params.projectId,
+    //   params.experimentId,
+    //   {
+    //     pipelineIdTrain: template.pipelineTrainId,
+    //     pipelineIdDeploy: template.pipelineDeployId,
+    //   }
+    // );
+    // console.log(object)
+
     return templateAux;
   });
 };
@@ -82,16 +92,14 @@ const Item = ({ title, disabled }) => (
   </div>
 );
 
-const TemplateItem = ({ template }) => (
+const TemplateItem = ({ handleClick, template, disabled = false }) => (
   <div
-    onClick={() =>
-      console.log(
-        'Cliclou no menu',
-        template.name,
-        template.pipelineDeployId,
-        template.pipelineTrainId
-      )}
-    className={`collapse-menu-items${template.disabled ? ' disabled' : ''}`}
+    onClick={() => {
+      handleClick(template);
+    }}
+    className={`collapse-menu-items${template.disabled ? ' disabled' : ''}${
+      disabled ? ' disabled' : ''
+    }`}
     role='presentation'
   >
     <Icon className='icon-collapse-header' type='more' />
@@ -99,11 +107,29 @@ const TemplateItem = ({ template }) => (
   </div>
 );
 
-const LeftSideMenu = ({ setFlowDetails }) => {
+const LeftSideMenu = ({ setFlowDetails, params, fetch }) => {
   // Similar ao componentDidMount
   useEffect(() => {
     fetchPipelines(setFlowDetails);
   }, []);
+
+  const handleClick = async (template) => {
+    // console.log(template.pipelineTrainId, template.pipelineDeployId);
+
+    const response = await updateExperiment(
+      params.projectId,
+      params.experimentId,
+      {
+        pipelineIdTrain: template.pipelineTrainId,
+        pipelineIdDeploy: template.pipelineDeployId,
+      }
+    );
+
+    if (response) {
+      setFlowDetails(template, params);
+      await fetch();
+    }
+  };
 
   const [menuItems, setItems] = useState(items);
   const handleFilter = (e) => {
@@ -159,7 +185,12 @@ const LeftSideMenu = ({ setFlowDetails }) => {
             className='collapse-menu'
           >
             {menuItems.template.map((template) => (
-              <TemplateItem key={template.name} template={template} />
+              <TemplateItem
+                disabled={!params.experimentId}
+                key={template.name}
+                template={template}
+                handleClick={handleClick}
+              />
             ))}
           </Panel>
         )}

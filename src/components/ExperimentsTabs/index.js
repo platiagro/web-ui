@@ -19,8 +19,9 @@ const ExperimentsTabs = ({ details, params, fetch, flowDetails }) => {
     );
   }, []);
 
-  const onChange = (key) => {
+  const onChange = async (key) => {
     if (key !== 'add_tab') {
+      await fetch(details.uuid);
       history.push(`/projects/${params.projectId}/${key}`);
       setActiveKey(key);
     }
@@ -34,13 +35,18 @@ const ExperimentsTabs = ({ details, params, fetch, flowDetails }) => {
     );
     if (response) {
       await fetch(details.uuid);
+      history.push(
+        `/projects/${params.projectId}/${response.data.payload.uuid}`
+      );
+
       setActiveKey(response.data.payload.uuid);
     }
   };
 
   const handleClick = (tabkey, event) => {
-    console.log(tabkey);
-    if (tabkey === 'add_tab' && !!event) add();
+    if (tabkey === 'add_tab' && !!event) {
+      add();
+    }
   };
 
   return (

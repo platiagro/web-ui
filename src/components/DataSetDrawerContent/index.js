@@ -97,7 +97,6 @@ class DataSetDrawerContent extends React.Component {
   handleColumnSelect = async (e, row) => {
     const res = await updateColumn(row.headerId, row.uuid, e);
     if (res) {
-      console.log(res);
       const cols = [...this.props.columns];
       cols[row.position].datatype = e;
       this.props.setColumns(cols);

@@ -25,7 +25,6 @@ const ContentHeader = ({
     <PageHeader
       className='contentHeader'
       title={componentTitle}
-      subTitle={subTitle}
       onBack={onBack}
       breadcrumb={{ routes }}
     />
