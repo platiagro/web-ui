@@ -76,6 +76,17 @@ const EditableTitle = (props) => {
 };
 
 const ExperimentContainer = ({ details, fetch, params }) => {
+  /**
+   *    {
+   *      name: 'Auto Featuring Com Auto Machine Learning',
+   *      databaseName: 'AutoFeaturing + AutoML',
+   *      pipelineTrainId: null,
+   *      pipelineDeployId: null,
+   *      disabled: false,
+   *      default: true,
+   *    },
+   */
+  const [flowDetails, setFlowDetails] = useState();
   const history = useHistory();
   function handleClick() {
     history.push('/projects');
@@ -91,13 +102,14 @@ const ExperimentContainer = ({ details, fetch, params }) => {
       {/* <div style={{ margin: '40px' }}> */}
       <Layout className='experiment-container'>
         {/* <Layout className='experiment-content'> */}
-        <LeftSideMenu />
+        <LeftSideMenu setFlowDetails={setFlowDetails} />
         <Content className='experiment-wraper'>
           <ExperimentsTabs
             params={params}
             history={history}
             fetch={fetch}
             details={details}
+            flowDetails={flowDetails}
           />
         </Content>
         {/* </Layout> */}

@@ -1,11 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropType from 'prop-types';
 import _ from 'lodash';
 import './style.scss';
 import { Layout, Icon, Input, Collapse, Empty } from 'antd';
 
+import { getPipelines } from '../../services/pipelinesApi';
+
 const { Sider } = Layout;
 const { Panel } = Collapse;
+
+const items = {
+  template: [
+    {
+      name: 'Regressão Linear / Regressão Lógistica',
+      databaseName: 'Linear Regression/Logistic Regression',
+      pipelineTrainId: null,
+      pipelineDeployId: null,
+      disabled: true,
+      default: false,
+    },
+    {
+      name: 'Auto Machine Learning',
+      databaseName: 'AutoML',
+      pipelineTrainId: null,
+      pipelineDeployId: null,
+      disabled: true,
+      default: false,
+    },
+    {
+      name: 'Auto Featuring Com Regressão Linear / Regressão Lógistica',
+      databaseName: 'AutoFeaturing + Linear Regression/Logistic Regression',
+      pipelineTrainId: null,
+      pipelineDeployId: null,
+      disabled: true,
+      default: false,
+    },
+    {
+      name: 'Auto Featuring Com Auto Machine Learning',
+      databaseName: 'AutoFeaturing + AutoML',
+      pipelineTrainId: null,
+      pipelineDeployId: null,
+      disabled: false,
+      default: true,
+    },
+  ],
+  data: ['Conjunto de dados'],
+  attr: [
+    'Pré-seleção de atributos',
+    'Seleção de atributos',
+    'Criação de atributos por tempo',
+    'Criação de atributos genéricas',
+    'Filtro de atributos',
+  ],
+  train: ['AutoML', 'Regressão Logística', 'Regressão'],
+};
+
+const fetchPipelines = async (setFlowDetails) => {
+  let pipelines;
+  pipelines = await getPipelines();
+
+  items.template = items.template.map((template) => {
+    const templateAux = template;
+
+    templateAux.pipelineTrainId = pipelines[template.databaseName].trainId;
+    templateAux.pipelineDeployId = pipelines[template.databaseName].deployId;
+
+    if (template.default) setFlowDetails(template);
+
+    return templateAux;
+  });
+};
 
 const Item = ({ title, disabled }) => (
   <div
@@ -18,20 +82,29 @@ const Item = ({ title, disabled }) => (
   </div>
 );
 
-const items = {
-  template: ['AutoML 1', 'AutoML 2', 'Regressão 1', 'Regressão 2'],
-  data: ['Conjunto de dados'],
-  attr: [
-    'Pré-seleção de atributos',
-    'Seleção de atributos',
-    'Criação de atributos por tempo',
-    'Criação de atributos genéricas',
-    'Filtro de atributos',
-  ],
-  train: ['AutoML', 'Regressão Logística', 'Regressão'],
-};
+const TemplateItem = ({ template }) => (
+  <div
+    onClick={() =>
+      console.log(
+        'Cliclou no menu',
+        template.name,
+        template.pipelineDeployId,
+        template.pipelineTrainId
+      )}
+    className={`collapse-menu-items${template.disabled ? ' disabled' : ''}`}
+    role='presentation'
+  >
+    <Icon className='icon-collapse-header' type='more' />
+    {template.name}
+  </div>
+);
 
-const LeftSideMenu = () => {
+const LeftSideMenu = ({ setFlowDetails }) => {
+  // Similar ao componentDidMount
+  useEffect(() => {
+    fetchPipelines(setFlowDetails);
+  }, []);
+
   const [menuItems, setItems] = useState(items);
   const handleFilter = (e) => {
     // console.log(e.currentTarget.value);
@@ -42,7 +115,7 @@ const LeftSideMenu = () => {
       const auxItem = { template: [], data: [], attr: [], train: [] };
 
       const template = items.template.filter((item) => {
-        return item.toLowerCase().includes(v.toLowerCase());
+        return item.name.toLowerCase().includes(v.toLowerCase());
       });
       const data = items.data.filter((item) => {
         return item.toLowerCase().includes(v.toLowerCase());
@@ -85,8 +158,8 @@ const LeftSideMenu = () => {
             key='1'
             className='collapse-menu'
           >
-            {menuItems.template.map((title) => (
-              <Item key={title} title={title} />
+            {menuItems.template.map((template) => (
+              <TemplateItem key={template.name} template={template} />
             ))}
           </Panel>
         )}

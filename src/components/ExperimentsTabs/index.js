@@ -10,7 +10,7 @@ import ExperimentContent from '../ExperimentContent';
 import * as projectsServices from '../../services/projectsApi';
 
 const { TabPane } = Tabs;
-const ExperimentsTabs = ({ details, params, fetch }) => {
+const ExperimentsTabs = ({ details, params, fetch, flowDetails }) => {
   const [activeKey, setActiveKey] = useState(null);
   const history = useHistory();
   useEffect(() => {
@@ -57,6 +57,7 @@ const ExperimentsTabs = ({ details, params, fetch }) => {
             <ExperimentContent
               fetch={fetch}
               details={details.experimentList[index]}
+              flowDetails={flowDetails}
             />
           </TabPane>
         ))}

@@ -16,7 +16,9 @@ import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerCo
 // import * as projectsServices from '../../services/projectsApi';
 import col from './mock_col';
 
-const ExperimentContent = ({ details, fetch }) => {
+const ExperimentContent = ({ details, fetch, flowDetails }) => {
+  console.log(flowDetails);
+
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(col);
 
