@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 
 import { Menu, Icon } from 'antd';
 
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo-vazado.png';
 import logoDemo from '../../assets/logoDemo.png';
 
 import './style.scss';

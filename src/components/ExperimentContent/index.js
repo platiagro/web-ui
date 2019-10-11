@@ -20,7 +20,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   console.log(flowDetails);
 
   // eslint-disable-next-line no-unused-vars
-  const [columns, setColumns] = useState(col);
+  const [columns, setColumns] = useState();
 
   const [parameters, setParameters] = useState({
     atributos_tempo: {
@@ -32,7 +32,12 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     // atributos_genericos: { group: [] },
     filtro_atributos: [],
     automl: { time: null },
-    conjunto_dados: { target: null, columns: [], dataset: null },
+    conjunto_dados: {
+      target: null,
+      datasetId: null,
+      txtName: null,
+      csvName: null,
+    },
   });
 
   const [selected, setSelected] = useState({
@@ -91,6 +96,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     params.pre_selecao2.correlation = e;
     setParameters(params);
   };
+
   const setFilter = (e) => {
     const params = { ...parameters };
     params.filtro_atributos = e;
@@ -101,9 +107,32 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     params.automl.time = e;
     setParameters(params);
   };
+
+  // Set Datasets
+
+  const setCSV = (e) => {
+    const params = { ...parameters };
+    params.conjunto_dados.csvName = e;
+    setParameters(params);
+  };
+  const setTXT = (e) => {
+    const params = { ...parameters };
+    params.conjunto_dados.txtName = e;
+    setParameters(params);
+  };
   const setTarget = (e) => {
     const params = { ...parameters };
     params.conjunto_dados.target = e;
+    setParameters(params);
+  };
+
+  const setUploadedColumns = (e) => {
+    setColumns(e);
+  };
+
+  const setDataset = (e) => {
+    const params = { ...parameters };
+    params.conjunto_dados.datasetId = e;
     setParameters(params);
   };
 
@@ -129,6 +158,102 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     setSelected(_.mapValues(selected, () => false));
   };
 
+  // Executar
+  const mountObjectRequest = () => {
+    // Montar objeto
+    console.log(columns);
+    const {
+      atributos_tempo,
+      pre_selecao1,
+      pre_selecao2,
+      filtro_atributos,
+      automl,
+      conjunto_dados,
+    } = parameters;
+
+    const insertComma = (arr) => {
+      return arr.join(', ');
+    };
+
+    const findDate = () => {
+      let date = _.find(columns, { datatype: 'Date' });
+      return date ? date.name : '';
+    };
+
+    const findTarget = (id) => {
+      let target = _.find(columns, { uuid: id });
+      return target ? target.name : '';
+    };
+
+    const parms = [
+      {
+        name: 'experiment-id',
+        value: details.uuid,
+      },
+      {
+        name: 'bucket',
+        value: 'mlpipeline',
+      },
+      {
+        name: 'csv',
+        value: conjunto_dados.csvName,
+      },
+      {
+        name: 'txt',
+        value: conjunto_dados.txtName,
+      },
+      {
+        name: 'target',
+        value: findTarget(conjunto_dados.target),
+      },
+      {
+        name: 'date',
+        value: findDate(),
+      },
+      {
+        name: 'date-format',
+        value: '%Y-%m-%d',
+      },
+      {
+        name: 'feature-temporal-group',
+        value: insertComma(atributos_tempo.group),
+      },
+      {
+        name: 'feature-temporal-period',
+        value: atributos_tempo.period,
+      },
+      {
+        name: 'preselection-1-na-cutoff',
+        value: pre_selecao1.cutoff,
+      },
+      {
+        name: 'preselection-1-correlation-cutoff',
+        value: pre_selecao1.correlation,
+      },
+      {
+        name: 'feature-tools-group',
+        value: insertComma(atributos_tempo.group),
+      },
+      {
+        name: 'preselection-2-na-cutoff',
+        value: pre_selecao2.cutoff,
+      },
+      {
+        name: 'preselection-2-correlation-cutoff',
+        value: pre_selecao2.correlation,
+      },
+      {
+        name: 'filter-columns',
+        value: insertComma(filtro_atributos),
+      },
+      {
+        name: 'automl-time-limit',
+        value: automl.time * 60,
+      },
+    ];
+    console.log(parms);
+  };
+
   // Selecioanr o Drawer certo
   const switchDrawer = () => {
     if (selected.conjunto_dados) {
@@ -137,8 +262,10 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
           parameter={parameters.conjunto_dados}
           setTarget={setTarget}
           columns={columns}
-          // setDataset={setDataset}
-          // setColumns={setColumnsList}
+          setColumns={setUploadedColumns}
+          setDataset={setDataset}
+          setCSV={setCSV}
+          setTXT={setTXT}
         />
       );
     }
@@ -221,12 +348,17 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
             icon='play-circle'
             type='primary'
             // eslint-disable-next-line no-console
-            onClick={() => console.log(details.name, parameters)}
+            onClick={mountObjectRequest}
+            disabled={!parameters.conjunto_dados.datasetId}
           >
             Executar
           </Button>
           <Divider type='vertical' />
-          <Button icon='tool' type='primary'>
+          <Button
+            icon='tool'
+            type='primary'
+            disabled={!parameters.conjunto_dados.datasetId}
+          >
             Implantar
           </Button>
         </div>
@@ -247,6 +379,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
 ExperimentContent.propTypes = {
   details: PropTypes.shape({
     name: PropTypes.string,
+    uuid: PropTypes.string,
   }).isRequired,
   fetch: PropTypes.func.isRequired,
 };

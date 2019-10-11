@@ -1,12 +1,20 @@
+/* eslint-disable react/no-unused-state */
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-
+import _ from 'lodash';
 import { Upload, Button, Icon, Divider, Select, Spin } from 'antd';
 
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
-
-import { uploadDataSet, getHeaderColumns } from '../../services/dataSetApi';
+import {
+  uploadDataSet,
+  getHeaderColumns,
+  updateColumn,
+} from '../../services/dataSetApi';
+import col from '../ExperimentContent/mock_col';
 
 const { Option } = Select;
 
@@ -24,18 +32,19 @@ class DataSetDrawerContent extends React.Component {
     };
   }
 
-  // handleColumnSelect = (column) => {};
-
   componentDidMount() {
     const { parameter, columns } = this.props;
     this.setState({
       targetColumnId: parameter.target,
-      dataSetColumns: columns,
+      dataSetColumns: !_.isEmpty(columns) ? columns : null,
+      dataSetId: parameter.dataSetId,
     });
   }
 
   handleUpload = async () => {
     const { dataSetFileList, dataSetHeaderFileList } = this.state;
+    const { setCSV, setTXT, setColumns, setTarget, setDataset } = this.props;
+
     const formData = new FormData();
     let response = null;
     let headerColumns;
@@ -46,12 +55,17 @@ class DataSetDrawerContent extends React.Component {
       dataSetFileList[0].name
     );
 
-    if (dataSetHeaderFileList.lenght > 0)
+    if (dataSetHeaderFileList.lenght > 0) {
       formData.append(
         'header',
         dataSetHeaderFileList[0].originFileObj,
         dataSetHeaderFileList[0].name
       );
+    }
+
+    setCSV(dataSetFileList[0].name);
+
+    if (dataSetHeaderFileList[0]) setTXT(dataSetHeaderFileList[0].name);
 
     this.setState({
       uploading: true,
@@ -67,13 +81,27 @@ class DataSetDrawerContent extends React.Component {
       dataSetHeaderFileList: [],
       dataSetColumns: headerColumns.data.payload,
       dataSetId: response.data.payload.dataset.uuid,
+      targetColumnId: null,
     });
+    setColumns(headerColumns.data.payload);
+    setDataset(response.data.payload.dataset.uuid);
+    setTarget(null);
   };
 
   handleOnChange = (targetColumnId) => {
     const { setTarget } = this.props;
     this.setState({ targetColumnId });
     setTarget(targetColumnId);
+  };
+
+  handleColumnSelect = async (e, row) => {
+    const res = await updateColumn(row.headerId, row.uuid, e);
+    if (res) {
+      console.log(res);
+      const cols = [...this.props.columns];
+      cols[row.position].datatype = e;
+      this.props.setColumns(cols);
+    }
   };
 
   renderTable() {
@@ -113,6 +141,7 @@ class DataSetDrawerContent extends React.Component {
         <DataSetTable
           targetColumnId={targetColumnId}
           dataSource={dataSetColumns}
+          handleSelect={this.handleColumnSelect}
         />
       </div>
     );

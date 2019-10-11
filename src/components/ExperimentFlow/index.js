@@ -29,6 +29,10 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 taskClick={handleClick}
                 title='Conjunto de dados'
                 icon='database'
+                params={
+                  !!parameters.conjunto_dados.datasetId &&
+                  !!parameters.conjunto_dados.target
+                }
               />
             </ArcherElement>
           </div>
@@ -156,7 +160,7 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 title='AutoML'
                 icon='share-alt'
                 iconTheme='outlined'
-                params={parameters.automl.time >= 0}
+                params={!!parameters.automl.time}
               />
             </ArcherElement>
           </div>

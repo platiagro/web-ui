@@ -1,5 +1,16 @@
 .dataSetTable {
   .targetColumn {
     background: #108ee9;
+    color: #fff;
+    &:hover {
+      color: #666;
+    }
+  }
+
+  .ant-table-tbody > tr > td {
+    max-width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
