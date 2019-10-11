@@ -100,7 +100,7 @@ const ExperimentContainer = ({ details, fetch, params }) => {
   //   'Params',
   //   params.experimentId
   // );
-  console.log(details);
+  // console.log(details);
 
   return (
     <>

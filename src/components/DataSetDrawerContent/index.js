@@ -9,6 +9,7 @@ import { Upload, Button, Icon, Divider, Select, Spin } from 'antd';
 
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
+import { updateExperiment } from '../../services/projectsApi';
 import {
   uploadDataSet,
   getHeaderColumns,
@@ -43,7 +44,14 @@ class DataSetDrawerContent extends React.Component {
 
   handleUpload = async () => {
     const { dataSetFileList, dataSetHeaderFileList } = this.state;
-    const { setCSV, setTXT, setColumns, setTarget, setDataset } = this.props;
+    const {
+      setCSV,
+      setTXT,
+      setColumns,
+      setTarget,
+      setDataset,
+      details,
+    } = this.props;
 
     const formData = new FormData();
     let response = null;
@@ -74,6 +82,13 @@ class DataSetDrawerContent extends React.Component {
     response = await uploadDataSet(formData);
 
     headerColumns = await getHeaderColumns(response.data.payload.header.uuid);
+
+    if (response) {
+      await updateExperiment(details.projectId, details.uuid, {
+        datasetId: response.data.payload.dataset.uuid,
+        headerId: response.data.payload.header.uuid,
+      });
+    }
 
     this.setState({
       uploading: false,

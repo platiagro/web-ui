@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PropTypes from 'prop-types';
@@ -14,12 +14,30 @@ import AutoMLDrawerContent from '../AutoMLDrawerContent';
 import DataSetDrawerContent from '../DataSetDrawerContent';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 // import * as projectsServices from '../../services/projectsApi';
+import { updateExperiment } from '../../services/projectsApi';
+import {
+  getHeader,
+  getHeaderColumns,
+  getDataSet,
+} from '../../services/dataSetApi';
 import col from './mock_col';
 
 const ExperimentContent = ({ details, fetch, flowDetails }) => {
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState([]);
 
+  useEffect(async () => {
+    console.log(details.datasetId, details.headerId, details);
+
+    const responseHeader = await getHeader(details.headerId);
+    console.log(responseHeader.data.payload);
+
+    const responseDataset = await getDataSet(details.datasetId);
+    console.log(responseDataset.data.payload);
+
+    const responseColumns = await getHeaderColumns(details.headerId);
+    console.log(responseColumns.data.payload);
+  }, []);
   const [parameters, setParameters] = useState({
     atributos_tempo: {
       group: [],
@@ -157,7 +175,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   };
 
   // Executar
-  const mountObjectRequest = () => {
+  const mountObjectRequest = async () => {
     // Montar objeto
     console.log(columns);
     const {
@@ -174,12 +192,16 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     };
 
     const findDate = () => {
-      let date = _.find(columns, { datatype: 'Date' });
+      let date = _.find(columns, {
+        datatype: 'Date',
+      });
       return date ? date.name : '';
     };
 
     const findTarget = (id) => {
-      let target = _.find(columns, { uuid: id });
+      let target = _.find(columns, {
+        uuid: id,
+      });
       return target ? target.name : '';
     };
 
@@ -250,7 +272,16 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
       },
     ];
 
-    console.log(parms, flowDetails);
+    const res = await updateExperiment(details.projectId, details.uuid, {
+      pipelineIdTrain: flowDetails.pipelineTrainId,
+      pipelineIdDeploy: flowDetails.pipelineDeployId,
+      targetColumnId: conjunto_dados.target,
+    });
+
+    if (res) {
+      await fetch();
+      console.log(res);
+    }
   };
 
   // Selecioanr o Drawer certo
@@ -265,6 +296,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
           setDataset={setDataset}
           setCSV={setCSV}
           setTXT={setTXT}
+          details={details}
         />
       );
     }

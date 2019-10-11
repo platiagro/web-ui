@@ -67,16 +67,6 @@ const fetchPipelines = async (setFlowDetails) => {
 
     if (template.default) setFlowDetails(template);
 
-    // const response = await updateExperiment(
-    //   params.projectId,
-    //   params.experimentId,
-    //   {
-    //     pipelineIdTrain: template.pipelineTrainId,
-    //     pipelineIdDeploy: template.pipelineDeployId,
-    //   }
-    // );
-    // console.log(object)
-
     return templateAux;
   });
 };
