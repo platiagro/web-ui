@@ -99,9 +99,9 @@ const TemplateItem = ({ handleClick, template, disabled = false }) => (
 
 const LeftSideMenu = ({ setFlowDetails, params, fetch }) => {
   // Similar ao componentDidMount
-  useEffect(() => {
-    fetchPipelines(setFlowDetails);
-  }, []);
+  // useEffect(() => {
+  // fetchPipelines(setFlowDetails);
+  // }, []);
 
   const handleClick = async (template) => {
     // console.log(template.pipelineTrainId, template.pipelineDeployId);

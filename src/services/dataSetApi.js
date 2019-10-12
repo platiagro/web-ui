@@ -3,7 +3,8 @@ import axios from 'axios';
 import { message } from 'antd';
 
 export const dataSetApi = axios.create({
-  baseURL: process.env.REACT_APP_DATASET_API || 'http://localhost:3001',
+  // baseURL: process.env.REACT_APP_DATASET_API || 'http://localhost:3001',
+  baseURL: 'http://localhost:3001',
 });
 
 export const getDataSet = async (id) => {
@@ -55,9 +56,9 @@ export const updateColumn = async (headerId, columnId, datatype) => {
 export const uploadDataSet = async (form) => {
   try {
     const response = await dataSetApi.post(`/datasets`, form);
-
     return response;
   } catch (error) {
-    message.error(error.message);
+    console.error(error.message);
+    message.error(error.response.data.message);
   }
 };

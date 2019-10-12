@@ -26,18 +26,25 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState([]);
 
-  useEffect(async () => {
-    console.log(details.datasetId, details.headerId, details);
+  // useEffect(async () => {
+  //   console.log(details.datasetId, details.headerId, details);
+  //   // const responseHeader = await getHeader(details.headerId);
+  //   // console.log(responseHeader.data.payload);
+  //   // const responseDataset = await getDataSet(details.datasetId);
+  //   // console.log(responseDataset.data.payload);
+  //   // const responseColumns = await getHeaderColumns(details.headerId);
+  //   // console.log(responseColumns.data.payload);
+  // }, []);
 
-    const responseHeader = await getHeader(details.headerId);
-    console.log(responseHeader.data.payload);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     // You can await here
+  //     const response = await MyAPI.getData(someId);
+  //     // ...
+  //   }
+  //   fetchData();
+  // }, [someId]);
 
-    const responseDataset = await getDataSet(details.datasetId);
-    console.log(responseDataset.data.payload);
-
-    const responseColumns = await getHeaderColumns(details.headerId);
-    console.log(responseColumns.data.payload);
-  }, []);
   const [parameters, setParameters] = useState({
     atributos_tempo: {
       group: [],
@@ -65,6 +72,26 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     filtro_atributos: false,
     automl: false,
   });
+
+  // useEffect(() => {
+  //   console.log(parameters.conjunto_dados);
+  //   const res = await updateExperiment(details.projectId, details.uuid, {
+  //     pipelineIdTrain: flowDetails.pipelineTrainId,
+  //     pipelineIdDeploy: flowDetails.pipelineDeployId,
+  //     targetColumnId: conjunto_dados.target,
+  //   });
+  //   console.log(res);
+  // }, [parameters]);
+
+  useEffect(() => {
+    console.log(parameters.conjunto_dados.target);
+    // const res = await updateExperiment(details.projectId, details.uuid, {
+    //   pipelineIdTrain: flowDetails.pipelineTrainId,
+    //   pipelineIdDeploy: flowDetails.pipelineDeployId,
+    //   targetColumnId: conjunto_dados.target,
+    // });
+    // console.log(res);
+  }, [parameters]);
 
   const url = '.../modelo_workshop.foragri.com/api/';
   const info = () => {
@@ -272,16 +299,16 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
       },
     ];
 
-    const res = await updateExperiment(details.projectId, details.uuid, {
-      pipelineIdTrain: flowDetails.pipelineTrainId,
-      pipelineIdDeploy: flowDetails.pipelineDeployId,
-      targetColumnId: conjunto_dados.target,
-    });
+    // const res = await updateExperiment(details.projectId, details.uuid, {
+    //   pipelineIdTrain: flowDetails.pipelineTrainId,
+    //   pipelineIdDeploy: flowDetails.pipelineDeployId,
+    //   targetColumnId: conjunto_dados.target,
+    // });
 
-    if (res) {
-      await fetch();
-      console.log(res);
-    }
+    // if (res) {
+    //   await fetch();
+    //   console.log(res);
+    // }
   };
 
   // Selecioanr o Drawer certo

@@ -5,7 +5,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import _ from 'lodash';
-import { Upload, Button, Icon, Divider, Select, Spin } from 'antd';
+import { Upload, Button, Icon, Divider, Select, Spin, message } from 'antd';
 
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
@@ -53,6 +53,11 @@ class DataSetDrawerContent extends React.Component {
       details,
     } = this.props;
 
+    // setCSV(dataSetFileList[0].originFileObj.name);
+
+    // if (dataSetHeaderFileList[0]) {
+    //   setTXT(dataSetHeaderFileList[0].originFileObj.name);
+    // }
     const formData = new FormData();
     let response = null;
     let headerColumns;
@@ -63,7 +68,7 @@ class DataSetDrawerContent extends React.Component {
       dataSetFileList[0].name
     );
 
-    if (dataSetHeaderFileList.lenght > 0) {
+    if (dataSetHeaderFileList[0]) {
       formData.append(
         'header',
         dataSetHeaderFileList[0].originFileObj,
@@ -80,27 +85,39 @@ class DataSetDrawerContent extends React.Component {
     });
 
     response = await uploadDataSet(formData);
-
-    headerColumns = await getHeaderColumns(response.data.payload.header.uuid);
-
     if (response) {
+      headerColumns = await getHeaderColumns(response.data.payload.header.uuid);
+
       await updateExperiment(details.projectId, details.uuid, {
         datasetId: response.data.payload.dataset.uuid,
         headerId: response.data.payload.header.uuid,
       });
-    }
 
-    this.setState({
-      uploading: false,
-      dataSetFileList: [],
-      dataSetHeaderFileList: [],
-      dataSetColumns: headerColumns.data.payload,
-      dataSetId: response.data.payload.dataset.uuid,
-      targetColumnId: null,
-    });
-    setColumns(headerColumns.data.payload);
-    setDataset(response.data.payload.dataset.uuid);
-    setTarget(null);
+      this.setState({
+        uploading: false,
+        dataSetFileList: [],
+        dataSetHeaderFileList: [],
+        dataSetColumns: headerColumns.data.payload,
+        dataSetId: response.data.payload.dataset.uuid,
+        targetColumnId: null,
+      });
+      setColumns(headerColumns.data.payload);
+      setDataset(response.data.payload.dataset.uuid);
+      setTarget(null);
+    } else {
+      // this.setState({ uploading: false });
+      this.setState({
+        uploading: false,
+        dataSetFileList: [],
+        dataSetHeaderFileList: [],
+        dataSetColumns: null,
+        dataSetId: null,
+        targetColumnId: null,
+      });
+      setColumns([]);
+      setDataset(null);
+      setTarget(null);
+    }
   };
 
   handleOnChange = (targetColumnId) => {
