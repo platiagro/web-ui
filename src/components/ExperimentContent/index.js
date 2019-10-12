@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -20,7 +21,6 @@ import {
   getHeaderColumns,
   getDataSet,
 } from '../../services/dataSetApi';
-import col from './mock_col';
 
 const ExperimentContent = ({ details, fetch, flowDetails }) => {
   // eslint-disable-next-line no-unused-vars
@@ -35,15 +35,6 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   //   // const responseColumns = await getHeaderColumns(details.headerId);
   //   // console.log(responseColumns.data.payload);
   // }, []);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     // You can await here
-  //     const response = await MyAPI.getData(someId);
-  //     // ...
-  //   }
-  //   fetchData();
-  // }, [someId]);
 
   const [parameters, setParameters] = useState({
     atributos_tempo: {
@@ -84,7 +75,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   // }, [parameters]);
 
   useEffect(() => {
-    console.log(parameters.conjunto_dados.target);
+    console.log('PARAMS', parameters.conjunto_dados);
     // const res = await updateExperiment(details.projectId, details.uuid, {
     //   pipelineIdTrain: flowDetails.pipelineTrainId,
     //   pipelineIdDeploy: flowDetails.pipelineDeployId,
@@ -191,6 +182,27 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     setSelected(newSelected);
   };
 
+  // DidMount
+  useEffect(() => {
+    async function fetchColumns() {
+      // You can await here
+      const responseHeader = await getHeader(details.headerId);
+      if (responseHeader) setTXT(responseHeader.data.payload.originalName);
+
+      const col = await getHeaderColumns(details.headerId);
+      if (col) setColumns(col.data.payload);
+
+      const responseDataset = await getDataSet(details.datasetId);
+      if (responseDataset) setCSV(responseDataset.data.payload.originalName);
+
+      // const dataset = await getDataSet(details.datasetId);
+      // console.log(dataset.data.payload);
+
+      // ...
+    }
+    fetchColumns();
+  }, []);
+
   // Abrir Drawer
   const openDrawer = () => {
     return _.indexOf(Object.values(selected), true) !== -1;
@@ -219,14 +231,14 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     };
 
     const findDate = () => {
-      let date = _.find(columns, {
+      const date = _.find(columns, {
         datatype: 'Date',
       });
       return date ? date.name : '';
     };
 
     const findTarget = (id) => {
-      let target = _.find(columns, {
+      const target = _.find(columns, {
         uuid: id,
       });
       return target ? target.name : '';

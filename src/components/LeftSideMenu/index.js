@@ -56,8 +56,7 @@ const items = {
 };
 
 const fetchPipelines = async (setFlowDetails) => {
-  let pipelines;
-  pipelines = await getPipelines();
+  const pipelines = await getPipelines();
 
   items.template = items.template.map((template) => {
     const templateAux = template;

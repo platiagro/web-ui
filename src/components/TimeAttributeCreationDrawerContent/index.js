@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { Select, Icon, Button, Radio, Divider, Table } from 'antd';
+import { Select, Icon, Radio, Divider, Table } from 'antd';
 
 import ResultsDrawer from '../ResultsDrawer';
 import ResultsButtonBar from '../ResultsButtonBar';
@@ -78,8 +78,8 @@ const TimeAttributeCreationDrawerContent = ({
   setGroup,
   setPeriod,
 }) => {
-  const [results, setResults] = useState(true);
-  const [showResults, setShowResults] = useState(true);
+  const [results, setResults] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   // results = {
   //   table: {
   //     header: [],

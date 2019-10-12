@@ -36,10 +36,10 @@ export const getHeaderColumns = async (id) => {
   }
 };
 
-export const updateColumn = async (headerId, columnId, datatype) => {
+export const updateColumn = async (headerId, columnId, newType) => {
   try {
     const body = {
-      datatype,
+      datatype: newType,
     };
 
     const response = await dataSetApi.patch(
@@ -49,7 +49,8 @@ export const updateColumn = async (headerId, columnId, datatype) => {
 
     return response;
   } catch (error) {
-    message.error(error.message);
+    console.error(error);
+    message.error(error.response.data.message);
   }
 };
 

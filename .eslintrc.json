@@ -4,7 +4,12 @@
   "rules": {
     "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/jsx-wrap-multilines": ["error", { "prop": "ignore" }]
+    "react/jsx-wrap-multilines": ["error", { "prop": "ignore" }],
+    "react/prop-types": "warn",
+    "no-console": "warn",
+    "camelcase": "off",
+    "no-unused-vars": "warn",
+    "react/jsx-props-no-spreading": "off"
   },
   "env": {
     "browser": true,
