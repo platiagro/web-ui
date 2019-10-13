@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './style.scss';
 import { Tabs } from 'antd';
@@ -10,9 +10,10 @@ import ExperimentContent from '../ExperimentContent';
 import * as projectsServices from '../../services/projectsApi';
 
 const { TabPane } = Tabs;
-const ExperimentsTabs = ({ details, params, fetch, flowDetails }) => {
+const ExperimentsTabs = ({ fetch, details, flowDetails }) => {
   const [activeKey, setActiveKey] = useState(null);
   const history = useHistory();
+  const params = useParams();
   useEffect(() => {
     setActiveKey(
       details.experimentList.length > 0 ? params.experimentId : null
@@ -61,9 +62,9 @@ const ExperimentsTabs = ({ details, params, fetch, flowDetails }) => {
         {details.experimentList.map((pane, index) => (
           <TabPane tab={pane.name} closable={false} key={pane.uuid}>
             <ExperimentContent
-              fetch={fetch}
               details={details.experimentList[index]}
               flowDetails={flowDetails}
+              fetch={fetch}
             />
           </TabPane>
         ))}
@@ -77,8 +78,6 @@ ExperimentsTabs.propTypes = {
     name: PropTypes.string,
     uuid: PropTypes.string,
   }).isRequired,
-  params: PropTypes.objectOf(PropTypes.string).isRequired,
-  fetch: PropTypes.func.isRequired,
 };
 
 export default ExperimentsTabs;

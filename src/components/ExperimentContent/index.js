@@ -5,6 +5,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PropTypes from 'prop-types';
 import './style.scss';
 import { Button, Divider, Tooltip, Input, message } from 'antd';
+import { useParams } from 'react-router-dom';
 import EditableTitle from './EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../MainDrawer';
@@ -22,28 +23,35 @@ import {
   getDataSet,
 } from '../../services/dataSetApi';
 
-const ExperimentContent = ({ details, fetch, flowDetails }) => {
-  // eslint-disable-next-line no-unused-vars
+const ExperimentContent = ({ details, flowDetails, fetch }) => {
+  const params = useParams();
+
   const [columns, setColumns] = useState([]);
 
-  // useEffect(async () => {
-  //   console.log(details.datasetId, details.headerId, details);
-  //   // const responseHeader = await getHeader(details.headerId);
-  //   // console.log(responseHeader.data.payload);
-  //   // const responseDataset = await getDataSet(details.datasetId);
-  //   // console.log(responseDataset.data.payload);
-  //   // const responseColumns = await getHeaderColumns(details.headerId);
-  //   // console.log(responseColumns.data.payload);
-  // }, []);
+  // const [experimentParameters, setParameters] = useState({
+  //   atributos_tempo: {
+  //     group: [],
+  //     period: null,
+  //   },
+  //   pre_selecao1: { cutoff: 0.6, correlation: 0.6 },
+  //   pre_selecao2: { cutoff: 0.6, correlation: 0.6 },
+  //   filtro_atributos: [],
+  //   automl: { time: null },
+  //   conjunto_dados: {
+  //     target: null,
+  //     datasetId: null,
+  //     txtName: null,
+  //     csvName: null,
+  //   },
+  // });
 
-  const [parameters, setParameters] = useState({
+  const baseParameters = {
     atributos_tempo: {
       group: [],
       period: null,
     },
     pre_selecao1: { cutoff: 0.6, correlation: 0.6 },
     pre_selecao2: { cutoff: 0.6, correlation: 0.6 },
-    // atributos_genericos: { group: [] },
     filtro_atributos: [],
     automl: { time: null },
     conjunto_dados: {
@@ -52,7 +60,11 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
       txtName: null,
       csvName: null,
     },
-  });
+  };
+
+  const [experimentParameters, setParameters] = useState(
+    JSON.parse(details.parameters) || baseParameters
+  );
 
   const [selected, setSelected] = useState({
     conjunto_dados: false,
@@ -64,26 +76,6 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     automl: false,
   });
 
-  // useEffect(() => {
-  //   console.log(parameters.conjunto_dados);
-  //   const res = await updateExperiment(details.projectId, details.uuid, {
-  //     pipelineIdTrain: flowDetails.pipelineTrainId,
-  //     pipelineIdDeploy: flowDetails.pipelineDeployId,
-  //     targetColumnId: conjunto_dados.target,
-  //   });
-  //   console.log(res);
-  // }, [parameters]);
-
-  useEffect(() => {
-    console.log('PARAMS', parameters.conjunto_dados);
-    // const res = await updateExperiment(details.projectId, details.uuid, {
-    //   pipelineIdTrain: flowDetails.pipelineTrainId,
-    //   pipelineIdDeploy: flowDetails.pipelineDeployId,
-    //   targetColumnId: conjunto_dados.target,
-    // });
-    // console.log(res);
-  }, [parameters]);
-
   const url = '.../modelo_workshop.foragri.com/api/';
   const info = () => {
     message.info('URL Copiada', 1);
@@ -92,72 +84,66 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   // Métodos para alterar valores dos Drawers
   // Atributos por tempo
   const setGroup = (e) => {
-    const params = { ...parameters };
-    params.atributos_tempo.group = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.atributos_tempo.group = e;
+    setParameters(newParameters);
   };
 
   const setPeriod = (e) => {
-    const params = { ...parameters };
-    params.atributos_tempo.period = e.target.value;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.atributos_tempo.period = e.target.value;
+    setParameters(newParameters);
   };
   // Pré-seleção 1
   const setCutoffPre1 = (e) => {
-    const params = { ...parameters };
-    params.pre_selecao1.cutoff = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.pre_selecao1.cutoff = e;
+    setParameters(newParameters);
   };
   const setCorrelationPre1 = (e) => {
-    const params = { ...parameters };
-    params.pre_selecao1.correlation = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.pre_selecao1.correlation = e;
+    setParameters(newParameters);
   };
-  // Atributos Genéricos
-  // const setFeatureTools = (e) => {
-  //   const params = { ...parameters };
-  //   params.atributos_genericos.feature_tools = e;
-  //   setParameters(params);
-  // };
   // Pré-seleção 2
   const setCutoffPre2 = (e) => {
-    const params = { ...parameters };
-    params.pre_selecao2.cutoff = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.pre_selecao2.cutoff = e;
+    setParameters(newParameters);
   };
   const setCorrelationPre2 = (e) => {
-    const params = { ...parameters };
-    params.pre_selecao2.correlation = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.pre_selecao2.correlation = e;
+    setParameters(newParameters);
   };
 
   const setFilter = (e) => {
-    const params = { ...parameters };
-    params.filtro_atributos = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.filtro_atributos = e;
+    setParameters(newParameters);
   };
   const setAutoML = (e) => {
-    const params = { ...parameters };
-    params.automl.time = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.automl.time = e;
+    setParameters(newParameters);
   };
 
   // Set Datasets
 
   const setCSV = (e) => {
-    const params = { ...parameters };
-    params.conjunto_dados.csvName = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.conjunto_dados.csvName = e;
+    setParameters(newParameters);
   };
   const setTXT = (e) => {
-    const params = { ...parameters };
-    params.conjunto_dados.txtName = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.conjunto_dados.txtName = e;
+    setParameters(newParameters);
   };
   const setTarget = (e) => {
-    const params = { ...parameters };
-    params.conjunto_dados.target = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.conjunto_dados.target = e;
+    setParameters(newParameters);
   };
 
   const setUploadedColumns = (e) => {
@@ -165,14 +151,13 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   };
 
   const setDataset = (e) => {
-    const params = { ...parameters };
-    params.conjunto_dados.datasetId = e;
-    setParameters(params);
+    const newParameters = { ...experimentParameters };
+    newParameters.conjunto_dados.datasetId = e;
+    setParameters(newParameters);
   };
 
   // Click para abrir drawer de cada tarefa
   const handleClick = (task) => {
-    // const { selected } = this.state;
     let newSelected = { ...selected };
     newSelected = _.mapValues(selected, (value, key) => {
       if (key === task) return !value;
@@ -182,10 +167,11 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     setSelected(newSelected);
   };
 
-  // DidMount
+  // DidMount montagem das colunas
   useEffect(() => {
     async function fetchColumns() {
       // You can await here
+
       const responseHeader = await getHeader(details.headerId);
       if (responseHeader) setTXT(responseHeader.data.payload.originalName);
 
@@ -194,14 +180,21 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
 
       const responseDataset = await getDataSet(details.datasetId);
       if (responseDataset) setCSV(responseDataset.data.payload.originalName);
-
-      // const dataset = await getDataSet(details.datasetId);
-      // console.log(dataset.data.payload);
-
-      // ...
     }
-    fetchColumns();
+    if (details.headerId) fetchColumns();
+
+    if (details.targetColumnId) setTarget(details.targetColumnId);
+
+    if (details.datasetId) setDataset(details.datasetId);
+
+    // if (!details.parameters) {
+    //   setParameters(baseParameters);
+    // }
   }, []);
+
+  // useEffect(() => {
+  //   console.log('PARAMS', experimentParameters);
+  // }, [experimentParameters]);
 
   // Abrir Drawer
   const openDrawer = () => {
@@ -209,14 +202,17 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   };
 
   // Fechar Drawer
-  const handleClose = () => {
-    setSelected(_.mapValues(selected, () => false));
+  const handleClose = async () => {
+    const res = await updateExperiment(details.projectId, details.uuid, {
+      parameters: JSON.stringify(experimentParameters),
+    });
+
+    if (res) setSelected(_.mapValues(selected, () => false));
   };
 
   // Executar
   const mountObjectRequest = async () => {
     // Montar objeto
-    console.log(columns);
     const {
       atributos_tempo,
       pre_selecao1,
@@ -224,7 +220,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
       filtro_atributos,
       automl,
       conjunto_dados,
-    } = parameters;
+    } = experimentParameters;
 
     const insertComma = (arr) => {
       return arr.join(', ');
@@ -321,6 +317,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     //   await fetch();
     //   console.log(res);
     // }
+    console.log(parms);
   };
 
   // Selecioanr o Drawer certo
@@ -328,7 +325,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     if (selected.conjunto_dados) {
       return (
         <DataSetDrawerContent
-          parameter={parameters.conjunto_dados}
+          parameter={experimentParameters.conjunto_dados}
           setTarget={setTarget}
           columns={columns}
           setColumns={setUploadedColumns}
@@ -342,7 +339,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     if (selected.atributos_tempo) {
       return (
         <TimeAttributeCreationDrawerContent
-          parameter={parameters.atributos_tempo}
+          parameter={experimentParameters.atributos_tempo}
           dataSets={columns}
           setGroup={setGroup}
           setPeriod={setPeriod}
@@ -352,7 +349,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     if (selected.pre_selecao1) {
       return (
         <AttributePreSelectionDrawerContent
-          parameter={parameters.pre_selecao1}
+          parameter={experimentParameters.pre_selecao1}
           dataSets={columns}
           setCutoff={setCutoffPre1}
           setCorrelation={setCorrelationPre1}
@@ -362,7 +359,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     if (selected.atributos_genericos) {
       return (
         <GenericAttributeCreationDrawerContent
-          parameter={parameters.atributos_tempo}
+          parameter={experimentParameters.atributos_tempo}
           dataSets={columns}
           setFeatureTools={setGroup}
         />
@@ -371,7 +368,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     if (selected.pre_selecao2) {
       return (
         <AttributePreSelectionDrawerContent
-          parameter={parameters.pre_selecao2}
+          parameter={experimentParameters.pre_selecao2}
           dataSets={columns}
           setCutoff={setCutoffPre2}
           setCorrelation={setCorrelationPre2}
@@ -381,7 +378,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     if (selected.filtro_atributos) {
       return (
         <AttributeFilterDrawerContent
-          parameter={parameters.filtro_atributos}
+          parameter={experimentParameters.filtro_atributos}
           dataSets={columns}
           setFilter={setFilter}
         />
@@ -390,7 +387,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
     if (selected.automl) {
       return (
         <AutoMLDrawerContent
-          parameter={parameters.automl}
+          parameter={experimentParameters.automl}
           dataSets={columns}
           setAutoML={setAutoML}
         />
@@ -402,7 +399,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   return (
     <div className='experiment-content'>
       <div className='experiment-content-header'>
-        <EditableTitle fetch={fetch} details={details} />
+        <EditableTitle fetchDetails={fetch} details={details} />
 
         <div style={{ display: 'none' }} className='experiment-deployed'>
           <Input className='experiment-url' value={url} />
@@ -419,7 +416,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
             type='primary'
             // eslint-disable-next-line no-console
             onClick={mountObjectRequest}
-            disabled={!parameters.conjunto_dados.datasetId}
+            disabled={!experimentParameters.conjunto_dados.datasetId}
           >
             Executar
           </Button>
@@ -427,7 +424,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
           <Button
             icon='tool'
             type='primary'
-            disabled={!parameters.conjunto_dados.datasetId}
+            disabled={!experimentParameters.conjunto_dados.datasetId}
           >
             Implantar
           </Button>
@@ -438,7 +435,7 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
       </MainDrawer>
       <ExperimentFlow
         selected={selected}
-        parameters={parameters}
+        parameters={experimentParameters}
         columns={columns}
         handleClick={handleClick}
       />
@@ -446,12 +443,11 @@ const ExperimentContent = ({ details, fetch, flowDetails }) => {
   );
 };
 
-ExperimentContent.propTypes = {
-  details: PropTypes.shape({
-    name: PropTypes.string,
-    uuid: PropTypes.string,
-  }).isRequired,
-  fetch: PropTypes.func.isRequired,
-};
+// ExperimentContent.propTypes = {
+//   details: PropTypes.shape({
+//     name: PropTypes.string,
+//     uuid: PropTypes.string,
+//   }).isRequired,
+// };
 
 export default ExperimentContent;

@@ -31,10 +31,10 @@ const EditableTitle = (props) => {
         uuid,
         e.currentTarget.value
       );
-      if (response) {
-        fetch();
-      } else {
+      if (!response) {
         setNewVal(name);
+      } else {
+        await fetch();
       }
     } else {
       setNewVal(name);
@@ -75,7 +75,7 @@ const EditableTitle = (props) => {
   );
 };
 
-const ExperimentContainer = ({ details, fetch, params }) => {
+const ExperimentContainer = ({ details, fetch }) => {
   /**
    *    {
    *      name: 'Auto Featuring Com Auto Machine Learning',
@@ -105,22 +105,16 @@ const ExperimentContainer = ({ details, fetch, params }) => {
   return (
     <>
       <ContentHeader
-        title={<EditableTitle fetch={fetch} details={details} />}
+        title={<EditableTitle details={details} fetch={fetch} />}
         subTitle={details.uuid}
         onBack={handleClick}
       />
       {/* <div style={{ margin: '40px' }}> */}
       <Layout className='experiment-container'>
         {/* <Layout className='experiment-content'> */}
-        <LeftSideMenu
-          params={params}
-          setFlowDetails={setFlowDetails}
-          fetch={fetch}
-        />
+        <LeftSideMenu fetch={fetch} setFlowDetails={setFlowDetails} />
         <Content className='experiment-wraper'>
           <ExperimentsTabs
-            params={params}
-            history={history}
             fetch={fetch}
             details={details}
             flowDetails={flowDetails}
@@ -137,8 +131,6 @@ ExperimentContainer.propTypes = {
   details: PropTypes.shape({
     uuid: PropTypes.string,
   }).isRequired,
-  fetch: PropTypes.func.isRequired,
-  params: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 EditableTitle.propTypes = {
@@ -146,7 +138,6 @@ EditableTitle.propTypes = {
     uuid: PropTypes.string,
     name: PropTypes.string,
   }).isRequired,
-  fetch: PropTypes.func.isRequired,
 };
 
 export default ExperimentContainer;

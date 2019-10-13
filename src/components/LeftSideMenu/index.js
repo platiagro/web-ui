@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropType from 'prop-types';
 import _ from 'lodash';
 import './style.scss';
 import { Layout, Icon, Input, Collapse, Empty } from 'antd';
+import { useParams } from 'react-router-dom';
+
 import { getPipelines } from '../../services/pipelinesApi';
 import { updateExperiment } from '../../services/projectsApi';
 
@@ -96,11 +98,12 @@ const TemplateItem = ({ handleClick, template, disabled = false }) => (
   </div>
 );
 
-const LeftSideMenu = ({ setFlowDetails, params, fetch }) => {
+const LeftSideMenu = ({ setFlowDetails, fetch }) => {
   // Similar ao componentDidMount
   // useEffect(() => {
   // fetchPipelines(setFlowDetails);
   // }, []);
+  const params = useParams();
 
   const handleClick = async (template) => {
     // console.log(template.pipelineTrainId, template.pipelineDeployId);

@@ -5,7 +5,7 @@
     "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-wrap-multilines": ["error", { "prop": "ignore" }],
-    "react/prop-types": "warn",
+    "react/prop-types": "off",
     "no-console": "warn",
     "camelcase": "off",
     "no-unused-vars": "warn",

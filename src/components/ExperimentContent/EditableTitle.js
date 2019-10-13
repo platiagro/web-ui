@@ -8,7 +8,7 @@ import * as projectsServices from '../../services/projectsApi';
 const EditableTitle = (props) => {
   const {
     details: { uuid, name, projectId },
-    fetch,
+    fetchDetails,
   } = props;
   // const { value } = props;
   const [editMode, setEditMode] = useState(false);
@@ -28,8 +28,10 @@ const EditableTitle = (props) => {
         uuid,
         { name: e.currentTarget.value }
       );
-      if (!!response) {
-        fetch();
+      if (!response) {
+        setNewVal(name);
+      } else {
+        const res = await fetchDetails();
       }
     } else {
       console.log('NÃO MUDOU');

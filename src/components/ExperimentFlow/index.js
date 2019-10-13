@@ -31,7 +31,10 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
                 icon='database'
                 params={
                   !!parameters.conjunto_dados.datasetId &&
-                  !!parameters.conjunto_dados.target
+                  Boolean(
+                    parameters.conjunto_dados.target &&
+                      parameters.conjunto_dados.target.trim()
+                  )
                 }
               />
             </ArcherElement>

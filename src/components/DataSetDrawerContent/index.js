@@ -65,7 +65,7 @@ const DataSetDrawerContent = ({
       await updateExperiment(details.projectId, details.uuid, {
         datasetId: response.data.payload.dataset.uuid,
         headerId: response.data.payload.header.uuid,
-        targetColumnId: '',
+        targetColumnId: ' ',
       });
       setTXT(response.data.payload.header.originalName);
       setColumns(headerColumns.data.payload);
@@ -103,7 +103,11 @@ const DataSetDrawerContent = ({
         </div>
       );
 
-    return _.isEmpty(col) ? null : (
+    // console.log(
+    //   Boolean(details.targetColumnId && details.targetColumnId.trim())
+    // );
+
+    return _.isEmpty(columns) ? null : (
       <div>
         <Divider />
 

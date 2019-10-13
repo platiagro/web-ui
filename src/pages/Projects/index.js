@@ -25,7 +25,6 @@ class Projects extends React.Component {
       loading: false,
       projectList: [],
       modalIsVisible: false,
-      projectDetail: {},
     };
 
     this.renderBody = this.renderBody.bind(this);
@@ -45,7 +44,7 @@ class Projects extends React.Component {
       }
 
       const response = await projectsServices.createProject(values.name);
-      if (!!response) {
+      if (response) {
         form.resetFields();
         this.setState({ modalIsVisible: false });
       }
@@ -60,7 +59,7 @@ class Projects extends React.Component {
 
     this.setState({ loading: false });
 
-    if (!!response) this.setState({ projectList: response.data.payload });
+    if (response) this.setState({ projectList: response.data.payload });
   };
 
   saveFormRef = (formRef) => {

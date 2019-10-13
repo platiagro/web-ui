@@ -32,8 +32,6 @@ export default class Project extends Component {
     if (project) auxDetails.uuid = project.data.payload.uuid;
     if (experiments) auxDetails.experimentList = experiments.data.payload;
 
-    // console.log(auxDetails);
-
     this.setState({ details: auxDetails, loading: false });
   };
 
