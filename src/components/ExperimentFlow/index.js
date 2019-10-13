@@ -8,7 +8,7 @@ import { ArcherContainer, ArcherElement } from 'react-archer';
 import CardTask from './CardTask';
 
 const ExperimentFlow = ({ selected, parameters, handleClick }) => {
-  return (
+  return parameters.template ? (
     <ArcherContainer strokeColor='gray'>
       <div className='grid-wraper'>
         <div className='flow-container template-complete-automl'>
@@ -170,7 +170,7 @@ const ExperimentFlow = ({ selected, parameters, handleClick }) => {
         </div>
       </div>
     </ArcherContainer>
-  );
+  ) : null;
 };
 
 ExperimentFlow.propTypes = {

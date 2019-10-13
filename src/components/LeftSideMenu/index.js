@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropType from 'prop-types';
 import _ from 'lodash';
 import './style.scss';
@@ -34,7 +34,7 @@ const items = {
       databaseName: 'AutoFeaturing + Linear Regression/Logistic Regression',
       pipelineTrainId: null,
       pipelineDeployId: null,
-      disabled: true,
+      disabled: false,
       default: false,
     },
     {
@@ -43,7 +43,7 @@ const items = {
       pipelineTrainId: null,
       pipelineDeployId: null,
       disabled: false,
-      default: true,
+      default: false,
     },
   ],
   data: ['Conjunto de dados'],
@@ -100,14 +100,13 @@ const TemplateItem = ({ handleClick, template, disabled = false }) => (
 
 const LeftSideMenu = ({ setFlowDetails, fetch }) => {
   // Similar ao componentDidMount
-  // useEffect(() => {
-  // fetchPipelines(setFlowDetails);
-  // }, []);
+  useEffect(() => {
+    fetchPipelines(setFlowDetails);
+  }, []);
   const params = useParams();
 
   const handleClick = async (template) => {
-    // console.log(template.pipelineTrainId, template.pipelineDeployId);
-
+    console.log(template.databaseName);
     const response = await updateExperiment(
       params.projectId,
       params.experimentId,

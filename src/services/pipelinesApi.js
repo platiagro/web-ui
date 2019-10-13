@@ -5,7 +5,8 @@ import { message } from 'antd';
 // /pipeline/apis/v1beta1/pipelines
 
 export const pipelinesApi = axios.create({
-  baseURL: process.env.REACT_APP_PIPELINES_API || 'http://localhost:3002',
+  // baseURL: process.env.REACT_APP_PIPELINES_API || 'http://localhost:3002',
+  baseURL: 'http://10.50.11.180:31380/',
   crossDomain: true, // /!!process.env.REACT_APP_PIPELINES_API,
 });
 

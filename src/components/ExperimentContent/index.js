@@ -55,11 +55,12 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     filtro_atributos: [],
     automl: { time: null },
     conjunto_dados: {
-      target: null,
+      target: undefined,
       datasetId: null,
       txtName: null,
       csvName: null,
     },
+    template: null,
   };
 
   const [experimentParameters, setParameters] = useState(
@@ -146,6 +147,12 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     setParameters(newParameters);
   };
 
+  const setTemplate = () => {
+    const newParameters = { ...experimentParameters };
+    newParameters.template = flowDetails.databaseName;
+    setParameters(newParameters);
+  };
+
   const setUploadedColumns = (e) => {
     setColumns(e);
   };
@@ -183,18 +190,38 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     }
     if (details.headerId) fetchColumns();
 
-    if (details.targetColumnId) setTarget(details.targetColumnId);
+    if (details.targetColumnId) {
+      if (details.targetColumnId.length > 5) setTarget(details.targetColumnId);
+      else setTarget(undefined);
+    }
 
     if (details.datasetId) setDataset(details.datasetId);
 
     // if (!details.parameters) {
     //   setParameters(baseParameters);
     // }
+    // console.log(details);
   }, []);
 
-  // useEffect(() => {
-  //   console.log('PARAMS', experimentParameters);
-  // }, [experimentParameters]);
+  useEffect(() => {
+    async function updateTemplate() {
+      const res = await updateExperiment(details.projectId, details.uuid, {
+        parameters: JSON.stringify({
+          ...experimentParameters,
+          template: flowDetails.databaseName,
+        }),
+      });
+
+      if (res) {
+        console.log(res);
+        setTemplate();
+      }
+    }
+
+    if (flowDetails) {
+      updateTemplate();
+    }
+  }, [flowDetails]);
 
   // Abrir Drawer
   const openDrawer = () => {
@@ -240,6 +267,10 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
       return target ? target.name : '';
     };
 
+    const getPeriod = () => {
+      return atributos_tempo.period ? atributos_tempo.period : '';
+    };
+
     const parms = [
       {
         name: 'experiment-id',
@@ -275,15 +306,15 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
       },
       {
         name: 'feature-temporal-period',
-        value: atributos_tempo.period,
+        value: getPeriod(),
       },
       {
         name: 'preselection-1-na-cutoff',
-        value: pre_selecao1.cutoff,
+        value: pre_selecao1.cutoff.toString(),
       },
       {
         name: 'preselection-1-correlation-cutoff',
-        value: pre_selecao1.correlation,
+        value: pre_selecao1.correlation.toString(),
       },
       {
         name: 'feature-tools-group',
@@ -291,11 +322,11 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
       },
       {
         name: 'preselection-2-na-cutoff',
-        value: pre_selecao2.cutoff,
+        value: pre_selecao2.cutoff.toString(),
       },
       {
         name: 'preselection-2-correlation-cutoff',
-        value: pre_selecao2.correlation,
+        value: pre_selecao2.correlation.toString(),
       },
       {
         name: 'filter-columns',
@@ -303,10 +334,21 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
       },
       {
         name: 'automl-time-limit',
-        value: automl.time * 60,
+        value: (automl.time * 60).toString(),
       },
     ];
 
+    const mountName = () => {
+      return `${flowDetails.databaseName} ${details.name}`;
+    };
+
+    const runRequestTrain = {
+      pipeline_spec: {
+        parameters: parms,
+        pipeline_id: flowDetails.pipelineTrainId,
+      },
+      name: mountName(),
+    };
     // const res = await updateExperiment(details.projectId, details.uuid, {
     //   pipelineIdTrain: flowDetails.pipelineTrainId,
     //   pipelineIdDeploy: flowDetails.pipelineDeployId,
@@ -317,7 +359,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     //   await fetch();
     //   console.log(res);
     // }
-    console.log(parms);
+    console.log(JSON.stringify(runRequestTrain));
+    console.log(experimentParameters);
   };
 
   // Selecioanr o Drawer certo
@@ -416,7 +459,13 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
             type='primary'
             // eslint-disable-next-line no-console
             onClick={mountObjectRequest}
-            disabled={!experimentParameters.conjunto_dados.datasetId}
+            disabled={Boolean(
+              !(
+                !!experimentParameters.conjunto_dados.datasetId &&
+                experimentParameters.conjunto_dados.target !== undefined &&
+                experimentParameters.template
+              )
+            )}
           >
             Executar
           </Button>
@@ -424,7 +473,13 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           <Button
             icon='tool'
             type='primary'
-            disabled={!experimentParameters.conjunto_dados.datasetId}
+            disabled={Boolean(
+              !(
+                !!experimentParameters.conjunto_dados.datasetId &&
+                experimentParameters.conjunto_dados.target !== undefined &&
+                experimentParameters.template
+              )
+            )}
           >
             Implantar
           </Button>

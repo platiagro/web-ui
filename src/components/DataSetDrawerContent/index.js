@@ -73,7 +73,7 @@ const DataSetDrawerContent = ({
     }
     setDataSetHeaderFileList([]);
     setDataSetFileList([]);
-    setTarget(null);
+    setTarget(undefined);
     setUploading(false);
   };
 
@@ -103,10 +103,6 @@ const DataSetDrawerContent = ({
         </div>
       );
 
-    // console.log(
-    //   Boolean(details.targetColumnId && details.targetColumnId.trim())
-    // );
-
     return _.isEmpty(columns) ? null : (
       <div>
         <Divider />
@@ -117,6 +113,7 @@ const DataSetDrawerContent = ({
           style={{ width: 200 }}
           placeholder='Selecione'
           value={parameter.target}
+          showSearch
         >
           {columns.map((column) => (
             <Option key={column.uuid} value={column.uuid}>

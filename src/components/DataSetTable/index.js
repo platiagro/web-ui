@@ -11,13 +11,26 @@ const setRowKey = (record) => record.uuid;
 const setTargetColor = (record, targetColumnId) =>
   record.uuid === targetColumnId ? 'targetColumn' : null;
 
-const MySelect = ({ value, ...others }) => (
-  <Select defaultValue={value} {...others}>
-    <Option value='Date'>Data/Hora</Option>
-    <Option value='Numerical'>Numérico</Option>
-    <Option value='Categorical'>Categórico</Option>
-  </Select>
-);
+const MySelect = ({ value, ...others }) => {
+  let fixedVal = value;
+  const numRegex = /num/i;
+  const dateRegex = /dat/i;
+  const factorRegex = /fact|cate/i;
+  if (value.match(numRegex)) {
+    fixedVal = 'Numerical';
+  } else if (value.match(dateRegex)) {
+    fixedVal = 'Date';
+  } else if (value.match(factorRegex)) {
+    fixedVal = 'Categorical';
+  }
+  return (
+    <Select value={fixedVal} {...others}>
+      <Option value='Date'>Data/Hora</Option>
+      <Option value='Numerical'>Numérico</Option>
+      <Option value='Categorical'>Categórico</Option>
+    </Select>
+  );
+};
 
 const DataSetTable = ({ dataSource, targetColumnId, handleSelect }) => {
   const columns = [
