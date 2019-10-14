@@ -2,7 +2,11 @@ import React from 'react';
 
 import { Tag, Icon, Divider, Table } from 'antd';
 
+import { getResultTable } from '../../services/resultsApi';
+
 import { columnsResult, dataResult } from './tableMock';
+
+import responseMock from './responseMock.json';
 
 const timeGroup = {
   none: 'Nenhum',
@@ -28,6 +32,19 @@ const convertMinutesToTime = (minutesReceived) => {
   return timeString;
 };
 
+const fetchResultTable = async () => {
+  const getObject = {
+    task: 'feature-temporal',
+    headerId: '7c3232a0-7325-4afd-a01d-9170617fac06',
+  };
+
+  const experimentId = '5260e774-0672-479d-9d8f-b4e49198a524';
+
+  const result = await getResultTable(experimentId, getObject);
+
+  return result;
+};
+
 const ResultsDrawer = ({
   target,
   timeAttributes,
@@ -38,132 +55,140 @@ const ResultsDrawer = ({
   table,
   tableStatistics,
   confusionMatrix,
-}) => (
-  <div>
-    {timeAttributes ? (
-      <div>
-        <p>Atributos agrupados: </p>
-        {timeAttributes.group.map((attribute) => (
-          <Tag key={attribute}>{attribute}</Tag>
-        ))}
+}) => {
+  // const resultTable = table ? fetchResultTable() : null;
+  const resultTable = table ? responseMock.payload : null;
+  return (
+    <div>
+      {timeAttributes ? (
+        <div>
+          <p>Atributos agrupados: </p>
+          {timeAttributes.group.map((attribute) => (
+            <Tag key={attribute}>{attribute}</Tag>
+          ))}
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        <p>Período de agrupamento: </p>
-        <Tag>{timeGroup[timeAttributes.period]}</Tag>
-      </div>
-    ) : null}
+          <p>Período de agrupamento: </p>
+          <Tag>{timeGroup[timeAttributes.period]}</Tag>
+        </div>
+      ) : null}
 
-    {target ? (
-      <div>
-        <p>Alvo: </p>
-        <Tag>{target}</Tag>
-      </div>
-    ) : null}
+      {target ? (
+        <div>
+          <p>Alvo: </p>
+          <Tag>{target}</Tag>
+        </div>
+      ) : null}
 
-    {attributesPreSelection ? (
-      <div>
-        <p>Limite de dados faltantes para um atributo: </p>
-        <Tag>{convertToLocaleBr(attributesPreSelection.cutoff)}</Tag>
+      {attributesPreSelection ? (
+        <div>
+          <p>Limite de dados faltantes para um atributo: </p>
+          <Tag>{convertToLocaleBr(attributesPreSelection.cutoff)}</Tag>
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        <p>Indicador máximo de correlação: </p>
-        <Tag>{convertToLocaleBr(attributesPreSelection.correlation)}</Tag>
-      </div>
-    ) : null}
+          <p>Indicador máximo de correlação: </p>
+          <Tag>{convertToLocaleBr(attributesPreSelection.correlation)}</Tag>
+        </div>
+      ) : null}
 
-    {genericAttributes ? (
-      <div>
-        <p>Atributos agrupados: </p>
-        {genericAttributes.group.map((attribute) => (
-          <Tag key={attribute}>{attribute}</Tag>
-        ))}
-      </div>
-    ) : null}
+      {genericAttributes ? (
+        <div>
+          <p>Atributos agrupados: </p>
+          {genericAttributes.group.map((attribute) => (
+            <Tag key={attribute}>{attribute}</Tag>
+          ))}
+        </div>
+      ) : null}
 
-    {attributesFilter ? (
-      <div>
-        <p>Atributos excluídos: </p>
-        {attributesFilter.map((attribute) => (
-          <Tag key={attribute}>{attribute}</Tag>
-        ))}
-      </div>
-    ) : null}
+      {attributesFilter ? (
+        <div>
+          <p>Atributos excluídos: </p>
+          {attributesFilter.map((attribute) => (
+            <Tag key={attribute}>{attribute}</Tag>
+          ))}
+        </div>
+      ) : null}
 
-    {autoML ? (
-      <div>
-        <p>Nome do modelo: </p>
-        <Tag>neighbourhood_group</Tag>
+      {autoML ? (
+        <div>
+          <p>Nome do modelo: </p>
+          <Tag>neighbourhood_group</Tag>
 
-        {console.log(autoML)}
+          <br />
+          <br />
 
-        <br />
-        <br />
+          <p>Tempo de treinamento: </p>
+          <Tag>{convertMinutesToTime(autoML.time)}</Tag>
+        </div>
+      ) : null}
 
-        <p>Tempo de treinamento: </p>
-        <Tag>{convertMinutesToTime(autoML.time)}</Tag>
-      </div>
-    ) : null}
+      {table ? (
+        <div>
+          <Divider />
 
-    {table ? (
-      <div>
-        <Divider />
+          {tableStatistics ? (
+            <div>
+              <p>
+                <strong>Atributos resultantes</strong>
+              </p>
+              <span>{resultTable.totalColumnsBefore}</span>
+              <Icon type='arrow-right' />
+              <span>{resultTable.totalColumnsAfter}</span>
+              <Icon type='arrow-up' />
+              <span>
+                {`Mais ${resultTable.diff} atributos (+ ${resultTable.percentageDiff})`}
+              </span>
 
-        {tableStatistics ? (
-          <div>
-            <p>
-              <strong>Atributos resultantes</strong>
-            </p>
-            <span>15 </span>
-            <Icon type='arrow-right' />
-            <span> 45 </span>
-            <Icon type='arrow-up' />
-            <span>Mais 30 atributos (+ 200%)</span>
+              <br />
+              <br />
+            </div>
+          ) : null}
 
-            <br />
-            <br />
-          </div>
-        ) : null}
+          <p>
+            <small>
+              Exibindo N de&nbsp;
+              {resultTable.totalLines}
+              &nbsp;observações
+            </small>
+          </p>
+          <Table
+            dataSource={resultTable.rows} // {dataResult}
+            columns={resultTable.header} // {columnsResult}
+            size='middle'
+            pagination={false}
+            // scroll={{ y: 340 }}
+          />
+        </div>
+      ) : null}
 
-        <p>
-          <small>Exibindo N de 1.234 observações</small>
-        </p>
-        <Table
-          dataSource={dataResult}
-          columns={columnsResult}
-          size='middle'
-          pagination={false}
-          // scroll={{ y: 340 }}
-        />
-      </div>
-    ) : null}
+      {confusionMatrix ? (
+        <div>
+          <Divider />
 
-    {confusionMatrix ? (
-      <div>
-        <Divider />
+          <p>
+            <strong>Matriz de confusão</strong>
+          </p>
+          <p>
+            A matriz de confusão mede o desemplenho de modelos de classificação,
+            a partir da frequência de previsões corretas e incorretas. Para
+            isso, são utilizados dados de teste com valores reais conhecidos.
+          </p>
 
-        <p>
-          <strong>Matriz de confusão</strong>
-        </p>
-        <p>
-          A matriz de confusão mede o desemplenho de modelos de classificação, a
-          partir da frequência de previsões corretas e incorretas. Para isso,
-          são utilizados dados de teste com valores reais conhecidos.
-        </p>
+          <br />
+          <br />
 
-        <br />
-        <br />
-
-        <img
-          alt='confusion matrix'
-          src='https://www.oreilly.com/library/view/machine-learning-with/9781789343700/assets/c3c87197-7a32-4095-a4f8-7ea43559918d.png'
-        />
-      </div>
-    ) : null}
-  </div>
-);
+          <img
+            alt='confusion matrix'
+            src='http://localhost:3001/results/5260e774-0672-479d-9d8f-b4e49198a524/confusionMatrix'
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 export default ResultsDrawer;
