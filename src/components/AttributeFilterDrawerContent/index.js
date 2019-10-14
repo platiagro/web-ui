@@ -44,7 +44,7 @@ const AttributeFilterDrawerContent = ({
           </Select>
         </div>
       ) : (
-        <ResultsDrawer attributesFilter />
+        <ResultsDrawer attributesFilter={parameter} />
       )}
       {results ? (
         <ResultsButtonBar

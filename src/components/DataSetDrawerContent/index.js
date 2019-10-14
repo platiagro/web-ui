@@ -19,6 +19,8 @@ import {
 import ResultsDrawer from '../ResultsDrawer';
 import ResultsButtonBar from '../ResultsButtonBar';
 
+import { findTarget } from '../../utils';
+
 import col from '../ExperimentContent/mock_col';
 
 const { Option } = Select;
@@ -123,7 +125,6 @@ const DataSetDrawerContent = ({
 
         <p>Qual é o seu atributo alvo?</p>
         <Select
-          labelInValue
           onChange={handleTargetChange}
           style={{ width: 200 }}
           placeholder='Selecione'
@@ -243,7 +244,7 @@ const DataSetDrawerContent = ({
           {renderTable()}
         </div>
       ) : (
-        <ResultsDrawer target parameter={parameter} table />
+        <ResultsDrawer target={findTarget(columns, parameter.target)} table />
       )}
       {results ? (
         <ResultsButtonBar

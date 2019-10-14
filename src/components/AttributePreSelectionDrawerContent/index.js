@@ -101,7 +101,11 @@ const AttributePreSelectionDrawerContent = ({
           <InfoHelper width={300} content={infoHelperContent} />
         </div>
       ) : (
-        <ResultsDrawer attributesPreSelection table tableStatistics />
+        <ResultsDrawer
+          attributesPreSelection={parameter}
+          table
+          tableStatistics
+        />
       )}
       {results ? (
         <ResultsButtonBar

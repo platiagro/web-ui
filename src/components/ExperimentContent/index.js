@@ -161,7 +161,6 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
   const setTarget = (e) => {
     const newParameters = { ...experimentParameters };
     newParameters.conjunto_dados.target = e;
-    console.log(e);
     setParameters(newParameters);
   };
 
@@ -626,8 +625,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           setCSV={setCSV}
           setTXT={setTXT}
           details={details}
-          runStatus='Succeeded' // runStatus}
-          taskStatus='Succeeded' // taskStatus.conjunto_dados}
+          runStatus='Succeeded' // {runStatus}
+          taskStatus='Succeeded' // {taskStatus.conjunto_dados}
         />
       );
     }
@@ -638,8 +637,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           dataSets={columns}
           setGroup={setGroup}
           setPeriod={setPeriod}
-          runStatus={runStatus}
-          taskStatus={taskStatus.atributos_tempo}
+          runStatus='Succeeded' // {runStatus}
+          taskStatus='Succeeded' // {taskStatus.atributos_tempo}
         />
       );
     }
@@ -650,8 +649,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           dataSets={columns}
           setCutoff={setCutoffPre1}
           setCorrelation={setCorrelationPre1}
-          runStatus={runStatus}
-          taskStatus={taskStatus.pre_selecao1}
+          runStatus='Succeeded' // {runStatus}
+          taskStatus='Succeeded' // {taskStatus.pre_selecao1}
         />
       );
     }
@@ -661,8 +660,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           parameter={experimentParameters.atributos_tempo}
           dataSets={columns}
           setFeatureTools={setGroup}
-          runStatus={runStatus}
-          taskStatus={taskStatus.atributos_genericos}
+          runStatus='Succeeded' // {runStatus}
+          taskStatus='Succeeded' // {taskStatus.atributos_genericos}
         />
       );
     }
@@ -673,8 +672,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           dataSets={columns}
           setCutoff={setCutoffPre2}
           setCorrelation={setCorrelationPre2}
-          runStatus={runStatus}
-          taskStatus={taskStatus.pre_selecao2}
+          runStatus='Succeeded' // {runStatus}
+          taskStatus='Succeeded' // {taskStatus.pre_selecao2}
         />
       );
     }
@@ -684,8 +683,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           parameter={experimentParameters.filtro_atributos}
           dataSets={columns}
           setFilter={setFilter}
-          runStatus={runStatus}
-          taskStatus={taskStatus.filtro_atributos}
+          runStatus='Succeeded' // {runStatus}
+          taskStatus='Succeeded' // {taskStatus.filtro_atributos}
         />
       );
     }
@@ -695,8 +694,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           parameter={experimentParameters.automl}
           dataSets={columns}
           setAutoML={setAutoML}
-          runStatus={runStatus}
-          taskStatus={taskStatus.automl}
+          runStatus='Succeeded' // {runStatus}
+          taskStatus='Succeeded' // {taskStatus.automl}
         />
       );
     }

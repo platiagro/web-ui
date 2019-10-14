@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const getCurrentRoute = (location, mainRoutes) => {
   const pathWithoutParams = `/${location.pathname.split('/')[1]}`;
 
@@ -19,6 +21,13 @@ const getCurrentRoute = (location, mainRoutes) => {
     });
 
   return currentRoute;
+};
+
+export const findTarget = (columns, id) => {
+  const target = _.find(columns, {
+    uuid: id,
+  });
+  return target ? target.name : '';
 };
 
 export default getCurrentRoute;

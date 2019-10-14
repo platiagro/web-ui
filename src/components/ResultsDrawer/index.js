@@ -4,6 +4,30 @@ import { Tag, Icon, Divider, Table } from 'antd';
 
 import { columnsResult, dataResult } from './tableMock';
 
+const timeGroup = {
+  none: 'Nenhum',
+  daily: 'Diário',
+  monthly: 'Mensal',
+  dailyMonthly: 'Diário e Mensal',
+};
+
+const convertToLocaleBr = (number) => number.toLocaleString('pt-BR');
+
+const convertMinutesToTime = (minutesReceived) => {
+  const dateObj = new Date(minutesReceived * 60 * 1000);
+  const hours = dateObj.getUTCHours();
+  const minutes = dateObj.getUTCMinutes();
+  const seconds = dateObj.getSeconds();
+
+  const timeString = `${hours
+    .toString()
+    .padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+  return timeString;
+};
+
 const ResultsDrawer = ({
   target,
   timeAttributes,
@@ -14,56 +38,58 @@ const ResultsDrawer = ({
   table,
   tableStatistics,
   confusionMatrix,
-  parameter,
 }) => (
   <div>
     {timeAttributes ? (
       <div>
         <p>Atributos agrupados: </p>
-        <Tag>neighbourhood_group</Tag>
-        <Tag>room_type</Tag>
+        {timeAttributes.group.map((attribute) => (
+          <Tag key={attribute}>{attribute}</Tag>
+        ))}
 
         <br />
         <br />
 
         <p>Período de agrupamento: </p>
-        <Tag>Diário</Tag>
+        <Tag>{timeGroup[timeAttributes.period]}</Tag>
       </div>
     ) : null}
 
     {target ? (
       <div>
         <p>Alvo: </p>
-        <Tag>{console.log(parameter)}</Tag>
+        <Tag>{target}</Tag>
       </div>
     ) : null}
 
     {attributesPreSelection ? (
       <div>
         <p>Limite de dados faltantes para um atributo: </p>
-        <Tag>0,6</Tag>
+        <Tag>{convertToLocaleBr(attributesPreSelection.cutoff)}</Tag>
 
         <br />
         <br />
 
         <p>Indicador máximo de correlação: </p>
-        <Tag>0,8</Tag>
+        <Tag>{convertToLocaleBr(attributesPreSelection.correlation)}</Tag>
       </div>
     ) : null}
 
     {genericAttributes ? (
       <div>
         <p>Atributos agrupados: </p>
-        <Tag>neighbourhood_group</Tag>
-        <Tag>room_type</Tag>
+        {genericAttributes.group.map((attribute) => (
+          <Tag key={attribute}>{attribute}</Tag>
+        ))}
       </div>
     ) : null}
 
     {attributesFilter ? (
       <div>
         <p>Atributos excluídos: </p>
-        <Tag>neighbourhood_group</Tag>
-        <Tag>room_type</Tag>
+        {attributesFilter.map((attribute) => (
+          <Tag key={attribute}>{attribute}</Tag>
+        ))}
       </div>
     ) : null}
 
@@ -72,11 +98,13 @@ const ResultsDrawer = ({
         <p>Nome do modelo: </p>
         <Tag>neighbourhood_group</Tag>
 
+        {console.log(autoML)}
+
         <br />
         <br />
 
         <p>Tempo de treinamento: </p>
-        <Tag>00:30:00</Tag>
+        <Tag>{convertMinutesToTime(autoML.time)}</Tag>
       </div>
     ) : null}
 

@@ -185,7 +185,7 @@ const TimeAttributeCreationDrawerContent = ({
           />
         </div>
       ) : (
-        <ResultsDrawer timeAttributes table tableStatistics />
+        <ResultsDrawer timeAttributes={parameter} table tableStatistics />
       )}
       {results ? (
         <ResultsButtonBar

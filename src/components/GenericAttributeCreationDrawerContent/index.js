@@ -138,7 +138,7 @@ const GenericAttributeCreationDrawerContent = ({
           />
         </div>
       ) : (
-        <ResultsDrawer genericAttributes table tableStatistics />
+        <ResultsDrawer genericAttributes={parameter} table tableStatistics />
       )}
       {results ? (
         <ResultsButtonBar
