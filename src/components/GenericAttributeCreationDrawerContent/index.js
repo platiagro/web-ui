@@ -63,7 +63,7 @@ const GenericAttributeCreationDrawerContent = ({
   parameter,
   setFeatureTools,
 }) => {
-  const options = _.filter(dataSets, ['datatype', 'Categorical']);
+  const options = _.filter(dataSets, ['datatype', 'factor']);
   return (
     <div>
       <p>Agrupamento de atributos</p>
