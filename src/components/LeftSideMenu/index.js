@@ -64,6 +64,8 @@ const items = {
 const fetchPipelines = async (setFlowDetails) => {
   const pipelines = await getPipelines();
 
+  if (!pipelines) message.error('Cross-Origin Request Blocked');
+
   items.template = items.template.map((template) => {
     const templateAux = template;
 
@@ -72,7 +74,6 @@ const fetchPipelines = async (setFlowDetails) => {
       templateAux.pipelineDeployId = pipelines[template.databaseName].deployId;
       if (templateAux.template === 4) templateAux.disabled = false;
     } else {
-      message.error('Cross-Origin Request Blocked');
       templateAux.disabled = true;
     }
 
