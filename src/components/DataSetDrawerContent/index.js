@@ -72,6 +72,12 @@ const DataSetDrawerContent = ({
 
       setColumns(headerColumns.data.payload);
       setDataset(response.data.payload.dataset.uuid);
+    } else {
+      console.log('ERROR');
+      // setColumns([]);
+      // setDataset(null);
+      // setTXT(null);
+      // setCSV(null);
     }
     setDataSetHeaderFileList([]);
     setDataSetFileList([]);
@@ -89,7 +95,7 @@ const DataSetDrawerContent = ({
   const handleColumnSelect = async (e, row) => {
     const res = await updateColumn(row.headerId, row.uuid, e);
     if (res) {
-      console.log('CHANGE DATATYPE', res);
+      console.log('CHANGE DATATYPE', res, e);
       const cols = [...columns];
       cols[row.position].datatype = e;
       setColumns(cols);

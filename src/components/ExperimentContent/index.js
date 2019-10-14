@@ -34,7 +34,7 @@ import {
 
 const { Paragraph } = Typography;
 
-const ExperimentContent = ({ details, flowDetails, fetch }) => {
+const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
   const params = useParams();
 
   const [columns, setColumns] = useState([]);
@@ -624,6 +624,120 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     }
   };
 
+  // Deploy
+  const deployRequest = async () => {
+    // Montar objeto
+    const {
+      atributos_tempo,
+      pre_selecao1,
+      pre_selecao2,
+      filtro_atributos,
+      automl,
+      conjunto_dados,
+    } = experimentParameters;
+
+    const insertComma = (arr) => {
+      return arr.join(', ');
+    };
+
+    const findDate = () => {
+      const date = _.find(columns, {
+        datatype: 'DateTime',
+      });
+      return date ? date.name : '';
+    };
+
+    const findTarget = (id) => {
+      const target = _.find(columns, {
+        uuid: id,
+      });
+      return target ? target.name : '';
+    };
+
+    const getPeriod = () => {
+      return atributos_tempo.period ? atributos_tempo.period : '';
+    };
+
+    const parms = [
+      {
+        name: 'deployment-name',
+        value: details.uuid.toLowerCase(),
+      },
+      {
+        name: 'experiment-id',
+        value: details.uuid,
+      },
+      {
+        name: 'bucket',
+        value: 'mlpipeline',
+      },
+      {
+        name: 'csv',
+        value: conjunto_dados.csvName,
+      },
+      {
+        name: 'txt',
+        value: conjunto_dados.txtName,
+      },
+      {
+        name: 'target',
+        value: findTarget(conjunto_dados.target),
+      },
+      {
+        name: 'date',
+        value: findDate(),
+      },
+      {
+        name: 'date-format',
+        value: '%Y-%m-%d',
+      },
+      {
+        name: 'feature-temporal-group',
+        value: insertComma(atributos_tempo.group),
+      },
+      {
+        name: 'feature-temporal-period',
+        value: getPeriod(),
+      },
+      {
+        name: 'feature-tools-group',
+        value: insertComma(atributos_tempo.group),
+      },
+    ];
+
+    const mountName = () => {
+      return `${projectName} - ${details.name}`;
+    };
+
+    const runRequestDeploy = {
+      pipeline_spec: {
+        parameters: parms,
+        pipeline_id: details.pipelineIdDeploy,
+      },
+      name: mountName(),
+    };
+
+    console.log(JSON.stringify(runRequestDeploy));
+
+    const deployResponse = await startRun(JSON.stringify(runRequestDeploy));
+    if (deployResponse) {
+      console.log(deployResponse.data.run.id);
+      // const updateRes = await updateExperiment(
+      //   details.projectId,
+      //   details.uuid,
+      //   {
+      //     runId: runResponse.data.run.id,
+      //   }
+      // );
+      // if (updateRes) {
+      //   // await fetch();
+      //   pollingRun(runResponse.data.run.id);
+      // }
+    }
+  };
+
+  // FIM DEPLOY
+
   // Selecioanr o Drawer certo
   const switchDrawer = () => {
     if (selected.conjunto_dados) {
@@ -723,6 +837,27 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
       </Button>
     );
 
+  const deployButton = () =>
+    runStatus === 'Succeeded' ? (
+      <div>
+        <Icon
+          style={{ fontSize: '18px', color: '#389E0D', marginRight: '8px' }}
+          theme='filled'
+          type='check-circle'
+        />
+        <span>Implantado</span>
+      </div>
+    ) : (
+      <Button
+        icon='tool'
+        type='primary'
+        disabled={runStatus !== 'Succeeded'}
+        onClick={deployRequest}
+      >
+        Implantar
+      </Button>
+    );
+
   return (
     <div className='experiment-content'>
       <div className='experiment-content-header'>
@@ -744,6 +879,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
             icon='tool'
             type='primary'
             disabled={runStatus !== 'Succeeded'}
+            onClick={deployRequest}
           >
             Implantar
           </Button>
