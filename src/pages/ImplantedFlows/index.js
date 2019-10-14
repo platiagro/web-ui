@@ -8,30 +8,8 @@ import ImplantedFlowsTable from '../../components/ImplantedFlowsTable';
 
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 
-// remove after tests
-const flows = [
-  {
-    key: '1',
-    flowName: 'Projeto 1 - Experimento 3',
-    url: '.../testandoURLlonga/modelo_workshop.foragri123.com/api/',
-    created: '11/10/2019 12:59:21',
-    action: 'http',
-  },
-  {
-    key: '2',
-    flowName: 'Lero 1 - Lero Lero 2',
-    url: '.../testandoURLlonga/modelo_workshop.foragri123.com/api/',
-    created: '11/10/2019 12:59:21',
-    action: 'http',
-  },
-  {
-    key: '3',
-    flowName: 'Colheita - Melhor Época',
-    url: '.../testandoURLlonga/modelo_workshop.foragri123.com/api/',
-    created: '11/10/2019 12:59:21',
-    action: 'http',
-  },
-];
+import { getDeployments } from '../../services/pipelinesApi';
+
 
 class ImplantedFlows extends React.Component {
   constructor(props) {
@@ -46,16 +24,17 @@ class ImplantedFlows extends React.Component {
   }
 
   componentDidMount() {
+    this.deploymentsFetch();
+  }
+
+  deploymentsFetch = async () => {
     this.setState({ loading: true });
 
-    // const response = await api.get(`/projects`);
+    const response = await getDeployments();
 
-    setTimeout(() => this.setState({ loading: false }), 3000);
+    this.setState({ loading: false });
 
-    // this.setState({ loading: false });
-
-    // this.setState({ projectList: response.data.payload });
-    this.setState({ flowList: flows });
+    if (response) this.setState({ flowList: response });
   }
 
   renderBody() {
@@ -82,8 +61,8 @@ class ImplantedFlows extends React.Component {
         }
       />
     ) : (
-      <ImplantedFlowsTable flowList={flowList} />
-    );
+        <ImplantedFlowsTable flowList={flowList} />
+      );
   }
 
   render() {
