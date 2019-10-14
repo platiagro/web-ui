@@ -15,6 +15,10 @@ import {
   getHeaderColumns,
   updateColumn,
 } from '../../services/dataSetApi';
+
+import ResultsDrawer from '../ResultsDrawer';
+import ResultsButtonBar from '../ResultsButtonBar';
+
 import col from '../ExperimentContent/mock_col';
 
 const { Option } = Select;
@@ -28,10 +32,18 @@ const DataSetDrawerContent = ({
   details,
   columns,
   parameter,
+  runStatus,
+  taskStatus,
 }) => {
   const [uploading, setUploading] = useState(false);
   const [dataSetFileList, setDataSetFileList] = useState([]);
   const [dataSetHeaderFileList, setDataSetHeaderFileList] = useState([]);
+  // resultados
+  const [results, setResults] = useState(
+    (runStatus === 'Failed' || runStatus === 'Succeeded') &&
+      taskStatus === 'Succeeded'
+  );
+  const [showResults, setShowResults] = useState(results);
 
   // Handle upload csv e txt
   const handleUpload = async () => {
@@ -111,6 +123,7 @@ const DataSetDrawerContent = ({
 
         <p>Qual é o seu atributo alvo?</p>
         <Select
+          labelInValue
           onChange={handleTargetChange}
           style={{ width: 200 }}
           placeholder='Selecione'
@@ -204,28 +217,40 @@ const DataSetDrawerContent = ({
 
   return (
     <div>
-      <p>Arquivo .csv com os dados de entrada</p>
-      {renderDataSetUpload()}
+      {!showResults ? (
+        <div>
+          <p>Arquivo .csv com os dados de entrada</p>
+          {renderDataSetUpload()}
 
-      <br />
+          <br />
 
-      <p>
-        Cabeçalho com os atributos
-        <small>(Opcional)</small>
-      </p>
-      {renderDataSetHeaderUpload()}
+          <p>
+            Cabeçalho com os atributos
+            <small>(Opcional)</small>
+          </p>
+          {renderDataSetHeaderUpload()}
 
-      <br />
+          <br />
 
-      <Button
-        onClick={handleUpload}
-        loading={uploading}
-        disabled={!dataSetFileList.length > 0}
-      >
-        Importar
-      </Button>
+          <Button
+            onClick={handleUpload}
+            loading={uploading}
+            disabled={!dataSetFileList.length > 0}
+          >
+            Importar
+          </Button>
 
-      {renderTable()}
+          {renderTable()}
+        </div>
+      ) : (
+        <ResultsDrawer target parameter={parameter} table />
+      )}
+      {results ? (
+        <ResultsButtonBar
+          setShowResults={setShowResults}
+          showResults={showResults}
+        />
+      ) : null}
     </div>
   );
 };

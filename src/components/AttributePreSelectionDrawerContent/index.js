@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { InputNumber } from 'antd';
 
 import InfoHelper from '../InfoHelper';
+import ResultsDrawer from '../ResultsDrawer';
+import ResultsButtonBar from '../ResultsButtonBar';
 
 const infoHelperContent = (
   <div>
@@ -34,59 +36,79 @@ const AttributePreSelectionDrawerContent = ({
   parameter,
   setCutoff,
   setCorrelation,
+  runStatus,
+  taskStatus,
 }) => {
+  // resultados
+  const [results, setResults] = useState(
+    (runStatus === 'Failed' || runStatus === 'Succeeded') &&
+      taskStatus === 'Succeeded'
+  );
+  const [showResults, setShowResults] = useState(results);
   return (
     <div>
-      <p>Limite de dados faltantes para um atributo</p>
-      <p>
-        <small>
-          Valor que indica quando um atributo será excluído do conjunto de
-          dados, a partir da proporção de dados faltantes. Os valores devem
-          estar entre 0,0 e 1,0
-        </small>
-      </p>
-      <InputNumber
-        value={parameter.cutoff}
-        onChange={setCutoff}
-        decimalSeparator=','
-        min={0}
-        max={1}
-        step={0.1}
-      />
-      <InfoHelper
-        width={200}
-        content={
-          'Exemplo: 0,6 indica que os atributos com 60% ou mais' +
-          ' dos dados faltantes serão excluídos do conjunto de dados.'
-        }
-      />
+      {!showResults ? (
+        <div>
+          <p>Limite de dados faltantes para um atributo</p>
+          <p>
+            <small>
+              Valor que indica quando um atributo será excluído do conjunto de
+              dados, a partir da proporção de dados faltantes. Os valores devem
+              estar entre 0,0 e 1,0
+            </small>
+          </p>
+          <InputNumber
+            value={parameter.cutoff}
+            onChange={setCutoff}
+            decimalSeparator=','
+            min={0}
+            max={1}
+            step={0.1}
+          />
+          <InfoHelper
+            width={200}
+            content={
+              'Exemplo: 0,6 indica que os atributos com 60% ou mais' +
+              ' dos dados faltantes serão excluídos do conjunto de dados.'
+            }
+          />
 
-      <br />
-      <br />
-      <br />
+          <br />
+          <br />
+          <br />
 
-      <p>Indicador máximo de correlação</p>
-      <p>
-        <small>
-          O indicador de correlação mostra o quanto dois atributos são
-          relacionados entre si. O&nbsp;
-          <span style={{ textDecoration: 'underline' }}>
-            indicador máximo de correlação
-          </span>
-          &nbsp;define um valor como ponto de corte para exclusão dos atributos,
-          baseado na correlação entre eles. Os valores devem estar entre 0,0 e
-          1,0.
-        </small>
-      </p>
-      <InputNumber
-        value={parameter.correlation}
-        onChange={setCorrelation}
-        decimalSeparator=','
-        min={0}
-        max={1}
-        step={0.1}
-      />
-      <InfoHelper width={300} content={infoHelperContent} />
+          <p>Indicador máximo de correlação</p>
+          <p>
+            <small>
+              O indicador de correlação mostra o quanto dois atributos são
+              relacionados entre si. O&nbsp;
+              <span style={{ textDecoration: 'underline' }}>
+                indicador máximo de correlação
+              </span>
+              &nbsp;define um valor como ponto de corte para exclusão dos
+              atributos, baseado na correlação entre eles. Os valores devem
+              estar entre 0,0 e 1,0.
+            </small>
+          </p>
+          <InputNumber
+            value={parameter.correlation}
+            onChange={setCorrelation}
+            decimalSeparator=','
+            min={0}
+            max={1}
+            step={0.1}
+          />
+          <InfoHelper width={300} content={infoHelperContent} />
+        </div>
+      ) : (
+        <ResultsDrawer attributesPreSelection table tableStatistics />
+      )}
+      {results ? (
+        <ResultsButtonBar
+          setShowResults={setShowResults}
+          showResults={showResults}
+        />
+      ) : null}
     </div>
   );
 };

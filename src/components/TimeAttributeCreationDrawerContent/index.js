@@ -77,9 +77,15 @@ const TimeAttributeCreationDrawerContent = ({
   parameter,
   setGroup,
   setPeriod,
+  runStatus,
+  taskStatus,
 }) => {
-  const [results, setResults] = useState(false);
-  const [showResults, setShowResults] = useState(false);
+  // resultados
+  const [results, setResults] = useState(
+    (runStatus === 'Failed' || runStatus === 'Succeeded') &&
+      taskStatus === 'Succeeded'
+  );
+  const [showResults, setShowResults] = useState(results);
   // results = {
   //   table: {
   //     header: [],
@@ -179,7 +185,7 @@ const TimeAttributeCreationDrawerContent = ({
           />
         </div>
       ) : (
-        <ResultsDrawer />
+        <ResultsDrawer timeAttributes table tableStatistics />
       )}
       {results ? (
         <ResultsButtonBar

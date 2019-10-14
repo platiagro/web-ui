@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { Select, Icon, Divider, Table } from 'antd';
+
+import ResultsDrawer from '../ResultsDrawer';
+import ResultsButtonBar from '../ResultsButtonBar';
 
 import './style.scss';
 
@@ -62,66 +65,87 @@ const GenericAttributeCreationDrawerContent = ({
   dataSets,
   parameter,
   setFeatureTools,
+  runStatus,
+  taskStatus,
 }) => {
   const options = _.filter(dataSets, ['datatype', 'factor']);
+  // resultados
+  const [results, setResults] = useState(
+    (runStatus === 'Failed' || runStatus === 'Succeeded') &&
+      taskStatus === 'Succeeded'
+  );
+  const [showResults, setShowResults] = useState(results);
+
   return (
     <div>
-      <p>Agrupamento de atributos</p>
-      <p>
-        <small>
-          Selecione os atributos categóricos (definidos por categorias) que
-          serão agrupados para criar novos atributos.
-        </small>
-      </p>
-      <Select
-        value={parameter.group}
-        onChange={setFeatureTools}
-        mode='multiple'
-        style={{ width: '100%' }}
-        placeholder='Selecione'
-      >
-        {options.map((item) => (
-          <Option key={item.uuid} value={item.name}>
-            {item.name}
-          </Option>
-        ))}
-      </Select>
-      <p style={{ marginTop: 10 }}>
-        <Icon type='exclamation-circle' />
-        <span style={{ marginLeft: 10 }}>
-          A escolha dos atributos afetará também a criação de atributos por
-          tempo.
-        </span>
-      </p>
+      {!showResults ? (
+        <div>
+          <p>Agrupamento de atributos</p>
+          <p>
+            <small>
+              Selecione os atributos categóricos (definidos por categorias) que
+              serão agrupados para criar novos atributos.
+            </small>
+          </p>
+          <Select
+            value={parameter.group}
+            onChange={setFeatureTools}
+            mode='multiple'
+            style={{ width: '100%' }}
+            placeholder='Selecione'
+          >
+            {options.map((item) => (
+              <Option key={item.uuid} value={item.name}>
+                {item.name}
+              </Option>
+            ))}
+          </Select>
+          <p style={{ marginTop: 10 }}>
+            <Icon type='exclamation-circle' />
+            <span style={{ marginLeft: 10 }}>
+              A escolha dos atributos afetará também a criação de atributos por
+              tempo.
+            </span>
+          </p>
 
-      <br />
-      <br />
+          <br />
+          <br />
 
-      <Divider orientation='left'>
-        <Icon type='bulb' />
-        Dica
-      </Divider>
+          <Divider orientation='left'>
+            <Icon type='bulb' />
+            Dica
+          </Divider>
 
-      <p>
-        <small>
-          Suponha que o seu conjunto de dados contenha os atributos Fruta, Tipo
-          e Preço.
-        </small>
-      </p>
-      <p>
-        <small>
-          A partir do agrupamento de atributos, novos serão criados. Abaixo, o
-          atributo Preço Médio foi criado a partir do agrupamento de Fruta e
-          Tipo.
-        </small>
-      </p>
-      <Table
-        className='tipTable'
-        columns={columns}
-        dataSource={data}
-        size='middle'
-        pagination={false}
-      />
+          <p>
+            <small>
+              Suponha que o seu conjunto de dados contenha os atributos Fruta,
+              Tipo e Preço.
+            </small>
+          </p>
+          <p>
+            <small>
+              A partir do agrupamento de atributos, novos serão criados. Abaixo,
+              o atributo Preço Médio foi criado a partir do agrupamento de Fruta
+              e Tipo.
+            </small>
+          </p>
+          <Table
+            className='tipTable'
+            columns={columns}
+            dataSource={data}
+            size='middle'
+            pagination={false}
+          />
+        </div>
+      ) : (
+        <ResultsDrawer genericAttributes table tableStatistics />
+      )}
+      {results ? (
+        <ResultsButtonBar
+          setShowResults={setShowResults}
+          showResults={showResults}
+        />
+      ) : null}
     </div>
   );
 };
