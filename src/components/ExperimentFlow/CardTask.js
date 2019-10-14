@@ -60,7 +60,6 @@ export default function CardTask({
         return null;
     }
   };
-  console.log(loading === 'Loading');
 
   return (
     <div
