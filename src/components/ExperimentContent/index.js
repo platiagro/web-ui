@@ -4,7 +4,15 @@ import _ from 'lodash';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PropTypes from 'prop-types';
 import './style.scss';
-import { Button, Divider, Tooltip, Input, message } from 'antd';
+import {
+  Button,
+  Divider,
+  Tooltip,
+  Input,
+  message,
+  Icon,
+  Typography,
+} from 'antd';
 import { useParams } from 'react-router-dom';
 import EditableTitle from './EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
@@ -17,41 +25,29 @@ import DataSetDrawerContent from '../DataSetDrawerContent';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 // import * as projectsServices from '../../services/projectsApi';
 import { updateExperiment } from '../../services/projectsApi';
+import { startRun, getStatusRun } from '../../services/pipelinesApi';
 import {
   getHeader,
   getHeaderColumns,
   getDataSet,
 } from '../../services/dataSetApi';
 
+const { Paragraph } = Typography;
+
 const ExperimentContent = ({ details, flowDetails, fetch }) => {
   const params = useParams();
 
   const [columns, setColumns] = useState([]);
 
-  // const [experimentParameters, setParameters] = useState({
-  //   atributos_tempo: {
-  //     group: [],
-  //     period: null,
-  //   },
-  //   pre_selecao1: { cutoff: 0.6, correlation: 0.6 },
-  //   pre_selecao2: { cutoff: 0.6, correlation: 0.6 },
-  //   filtro_atributos: [],
-  //   automl: { time: null },
-  //   conjunto_dados: {
-  //     target: null,
-  //     datasetId: null,
-  //     txtName: null,
-  //     csvName: null,
-  //   },
-  // });
+  const [runStatus, setRunStatus] = useState(null);
 
   const baseParameters = {
     atributos_tempo: {
       group: [],
       period: null,
     },
-    pre_selecao1: { cutoff: 0.6, correlation: 0.6 },
-    pre_selecao2: { cutoff: 0.6, correlation: 0.6 },
+    pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
+    pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
     filtro_atributos: [],
     automl: { time: null },
     conjunto_dados: {
@@ -60,7 +56,6 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
       txtName: null,
       csvName: null,
     },
-    template: null,
   };
 
   const [experimentParameters, setParameters] = useState(
@@ -75,6 +70,16 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     pre_selecao2: false,
     filtro_atributos: false,
     automl: false,
+  });
+
+  const [taskStatus, setTaskStatus] = useState({
+    conjunto_dados: null,
+    atributos_tempo: null,
+    pre_selecao1: null,
+    atributos_genericos: null,
+    pre_selecao2: null,
+    filtro_atributos: null,
+    automl: null,
   });
 
   const url = '.../modelo_workshop.foragri.com/api/';
@@ -147,9 +152,9 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     setParameters(newParameters);
   };
 
-  const setTemplate = () => {
+  const setTemplate = (obj) => {
     const newParameters = { ...experimentParameters };
-    newParameters.template = flowDetails.databaseName;
+    newParameters.template = obj;
     setParameters(newParameters);
   };
 
@@ -174,54 +179,281 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     setSelected(newSelected);
   };
 
+  const pollingRun = (pollingId) => {
+    let intervalPolling;
+    async function fetchRunStatus() {
+      const runRes = await getStatusRun(pollingId);
+
+      if (runRes) {
+        if (
+          runRes.data.run.status === 'Running' ||
+          runRes.data.run.status === undefined
+        ) {
+          console.log('[STATUS]', runRes.data.run.status);
+          setRunStatus(runRes.data.run.status);
+          const manifest = JSON.parse(
+            runRes.data.pipeline_runtime.workflow_manifest
+          );
+
+          const tasks = { ...taskStatus };
+
+          tasks.conjunto_dados = runRes.data.run.status;
+
+          tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'feature-temporal'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              ).phase
+            : 'wait';
+
+          tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'pre-selection-1'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'pre-selection-1'
+              ).phase
+            : 'wait';
+
+          tasks.atributos_genericos = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'feature-tools'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-tools'
+              ).phase
+            : 'wait';
+
+          tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'pre-selection-2'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'pre-selection-2'
+              ).phase
+            : 'wait';
+
+          tasks.filtro_atributos = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'filter'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'filter'
+              ).phase
+            : 'wait';
+
+          tasks.automl = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'automl'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'automl'
+              ).phase
+            : 'wait';
+
+          setTaskStatus(tasks);
+        } else {
+          clearInterval(intervalPolling);
+          console.log('Finalizou', runRes.data.run);
+          setRunStatus(runRes.data.run.status);
+
+          const manifest = JSON.parse(
+            runRes.data.pipeline_runtime.workflow_manifest
+          );
+
+          //   // feature-temporal
+          //   // pre-selection-1
+          //   // feature-tools
+          //   // pre-selection-2
+          //   // filter
+          //   // automl
+          //   // regression
+          const tasks = { ...taskStatus };
+
+          tasks.conjunto_dados = runRes.data.run.status;
+
+          tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'feature-temporal'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              ).phase
+            : null;
+
+          tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'pre-selection-1'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'pre-selection-1'
+              ).phase
+            : null;
+
+          tasks.atributos_genericos = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'feature-tools'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-tools'
+              ).phase
+            : null;
+
+          tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'pre-selection-2'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'pre-selection-2'
+              ).phase
+            : null;
+
+          tasks.filtro_atributos = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'filter'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'filter'
+              ).phase
+            : null;
+
+          tasks.automl = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'automl'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'automl'
+              ).phase
+            : null;
+
+          setTaskStatus(tasks);
+        }
+      }
+    }
+
+    console.log('Start polling id: ', pollingId);
+    setTaskStatus(_.mapValues(taskStatus, () => 'wait'));
+    setRunStatus('Running');
+    intervalPolling = setInterval(() => {
+      fetchRunStatus();
+    }, 10000);
+  };
+
   // DidMount montagem das colunas
   useEffect(() => {
+    console.log('DidMount');
+    let isSubscribed = true;
+
     async function fetchColumns() {
       // You can await here
 
       const responseHeader = await getHeader(details.headerId);
-      if (responseHeader) setTXT(responseHeader.data.payload.originalName);
+      if (responseHeader && isSubscribed)
+        setTXT(responseHeader.data.payload.originalName);
 
       const col = await getHeaderColumns(details.headerId);
-      if (col) setColumns(col.data.payload);
+      if (col && isSubscribed) setColumns(col.data.payload);
 
       const responseDataset = await getDataSet(details.datasetId);
-      if (responseDataset) setCSV(responseDataset.data.payload.originalName);
-    }
-    if (details.headerId) fetchColumns();
+      if (responseDataset && isSubscribed)
+        setCSV(responseDataset.data.payload.originalName);
 
-    if (details.targetColumnId) {
-      if (details.targetColumnId.length > 5) setTarget(details.targetColumnId);
-      else setTarget(undefined);
+      if (details.runId) {
+        // const runRes = await getStatusRun(
+        //   'fc9d173f-ede3-11e9-9413-52540006ce68'
+        // );
+        console.log(details.runId);
+        const runRes = await getStatusRun(details.runId);
+
+        if (runRes) {
+          console.log('Status Run', runRes.data.run.status);
+          if (isSubscribed) setRunStatus(runRes.data.run.status);
+          if (
+            runRes.data.run.status === 'Running' ||
+            runRes.data.run.status === undefined
+          ) {
+            console.log('Preparing to polling');
+
+            if (isSubscribed) {
+              setTaskStatus(_.mapValues(taskStatus, () => 'Running'));
+              pollingRun(details.runId);
+            }
+          } else {
+            const manifest = JSON.parse(
+              runRes.data.pipeline_runtime.workflow_manifest
+            );
+            console.log(manifest.status.nodes);
+
+            if (isSubscribed) {
+              //   // feature-temporal
+              //   // pre-selection-1
+              //   // feature-tools
+              //   // pre-selection-2
+              //   // filter
+              //   // automl
+              //   // regression
+              const tasks = { ...taskStatus };
+
+              tasks.conjunto_dados = runRes.data.run.status;
+
+              tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              )
+                ? Object.values(manifest.status.nodes).find(
+                    (n) => n.displayName === 'feature-temporal'
+                  ).phase
+                : null;
+
+              tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'pre-selection-1'
+              )
+                ? Object.values(manifest.status.nodes).find(
+                    (n) => n.displayName === 'pre-selection-1'
+                  ).phase
+                : null;
+
+              tasks.atributos_genericos = Object.values(
+                manifest.status.nodes
+              ).find((n) => n.displayName === 'feature-tools')
+                ? Object.values(manifest.status.nodes).find(
+                    (n) => n.displayName === 'feature-tools'
+                  ).phase
+                : null;
+
+              tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'pre-selection-2'
+              )
+                ? Object.values(manifest.status.nodes).find(
+                    (n) => n.displayName === 'pre-selection-2'
+                  ).phase
+                : null;
+
+              tasks.filtro_atributos = Object.values(
+                manifest.status.nodes
+              ).find((n) => n.displayName === 'filter')
+                ? Object.values(manifest.status.nodes).find(
+                    (n) => n.displayName === 'filter'
+                  ).phase
+                : null;
+
+              tasks.automl = Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'automl'
+              )
+                ? Object.values(manifest.status.nodes).find(
+                    (n) => n.displayName === 'automl'
+                  ).phase
+                : null;
+
+              setTaskStatus(tasks);
+            }
+          }
+        }
+      }
+    }
+    if (details.headerId && isSubscribed) fetchColumns();
+
+    if (details.targetColumnId && isSubscribed) {
+      if (details.targetColumnId.length > 5 && isSubscribed)
+        setTarget(details.targetColumnId);
+      else if (isSubscribed) setTarget(undefined);
     }
 
     if (details.datasetId) setDataset(details.datasetId);
 
-    // if (!details.parameters) {
-    //   setParameters(baseParameters);
-    // }
-    // console.log(details);
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
-
-  useEffect(() => {
-    async function updateTemplate() {
-      const res = await updateExperiment(details.projectId, details.uuid, {
-        parameters: JSON.stringify({
-          ...experimentParameters,
-          template: flowDetails.databaseName,
-        }),
-      });
-
-      if (res) {
-        console.log(res);
-        setTemplate();
-      }
-    }
-
-    if (flowDetails) {
-      updateTemplate();
-    }
-  }, [flowDetails]);
 
   // Abrir Drawer
   const openDrawer = () => {
@@ -339,28 +571,33 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     ];
 
     const mountName = () => {
-      return `${flowDetails.databaseName} ${details.name}`;
+      return `[${details.template}] ${details.name}`;
     };
 
     const runRequestTrain = {
       pipeline_spec: {
         parameters: parms,
-        pipeline_id: flowDetails.pipelineTrainId,
+        pipeline_id: details.pipelineIdTrain,
       },
       name: mountName(),
     };
-    // const res = await updateExperiment(details.projectId, details.uuid, {
-    //   pipelineIdTrain: flowDetails.pipelineTrainId,
-    //   pipelineIdDeploy: flowDetails.pipelineDeployId,
-    //   targetColumnId: conjunto_dados.target,
-    // });
 
-    // if (res) {
-    //   await fetch();
-    //   console.log(res);
-    // }
     console.log(JSON.stringify(runRequestTrain));
-    console.log(experimentParameters);
+    const runResponse = await startRun(JSON.stringify(runRequestTrain));
+    if (runResponse) {
+      console.log(runResponse.data.run.id);
+      const updateRes = await updateExperiment(
+        details.projectId,
+        details.uuid,
+        {
+          runId: runResponse.data.run.id,
+        }
+      );
+      if (updateRes) {
+        // await fetch();
+        pollingRun(runResponse.data.run.id);
+      }
+    }
   };
 
   // Selecioanr o Drawer certo
@@ -439,6 +676,27 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     return null;
   };
 
+  const executeButton = () =>
+    runStatus === 'Succeeded' ? (
+      <div>
+        <Icon
+          style={{ fontSize: '18px', color: '#389E0D', marginRight: '8px' }}
+          theme='filled'
+          type='check-circle'
+        />
+        <span>Executado</span>
+      </div>
+    ) : (
+      <Button
+        icon={runStatus !== 'Running' ? 'play-circle' : 'loading'}
+        type='primary'
+        onClick={mountObjectRequest}
+        disabled={runStatus === 'Running'}
+      >
+        Executar
+      </Button>
+    );
+
   return (
     <div className='experiment-content'>
       <div className='experiment-content-header'>
@@ -454,32 +712,12 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           </Tooltip>
         </div>
         <div className='experiment-actions'>
-          <Button
-            icon='play-circle'
-            type='primary'
-            // eslint-disable-next-line no-console
-            onClick={mountObjectRequest}
-            disabled={Boolean(
-              !(
-                !!experimentParameters.conjunto_dados.datasetId &&
-                experimentParameters.conjunto_dados.target !== undefined &&
-                experimentParameters.template
-              )
-            )}
-          >
-            Executar
-          </Button>
+          {executeButton()}
           <Divider type='vertical' />
           <Button
             icon='tool'
             type='primary'
-            disabled={Boolean(
-              !(
-                !!experimentParameters.conjunto_dados.datasetId &&
-                experimentParameters.conjunto_dados.target !== undefined &&
-                experimentParameters.template
-              )
-            )}
+            disabled={runStatus !== 'Succeeded'}
           >
             Implantar
           </Button>
@@ -493,6 +731,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
         parameters={experimentParameters}
         columns={columns}
         handleClick={handleClick}
+        details={details}
+        taskStatus={taskStatus}
       />
     </div>
   );

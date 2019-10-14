@@ -36,6 +36,11 @@
         outline: none;
       }
     }
+
+    .experiment-actions {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .experiment-content-body {

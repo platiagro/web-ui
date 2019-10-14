@@ -15,7 +15,7 @@ export default function CardTask({
 }) {
   const getIcon = () => {
     switch (condition) {
-      case 'loading':
+      case 'Running':
         return (
           <Tooltip placement='right' title='Tarefa sendo executada'>
             <Icon
@@ -35,7 +35,7 @@ export default function CardTask({
             />
           </Tooltip>
         );
-      case 'success':
+      case 'Succeeded':
         return (
           <Tooltip placement='right' title='Tarefa executada com sucesso'>
             <Icon
@@ -45,7 +45,7 @@ export default function CardTask({
             />
           </Tooltip>
         );
-      case 'warn':
+      case 'Failed':
         return (
           <Tooltip placement='right' title='Tarefa executada com falha'>
             <Icon

@@ -20,6 +20,7 @@ const items = {
       pipelineDeployId: null,
       disabled: true,
       default: false,
+      template: 1,
     },
     {
       name: 'Auto Machine Learning',
@@ -28,14 +29,16 @@ const items = {
       pipelineDeployId: null,
       disabled: true,
       default: false,
+      template: 2,
     },
     {
       name: 'Auto Featuring Com Regressão Linear / Regressão Lógistica',
       databaseName: 'AutoFeaturing + Linear Regression/Logistic Regression',
       pipelineTrainId: null,
       pipelineDeployId: null,
-      disabled: false,
+      disabled: true,
       default: false,
+      template: 3,
     },
     {
       name: 'Auto Featuring Com Auto Machine Learning',
@@ -44,6 +47,7 @@ const items = {
       pipelineDeployId: null,
       disabled: false,
       default: false,
+      template: 4,
     },
   ],
   data: ['Conjunto de dados'],
@@ -106,13 +110,13 @@ const LeftSideMenu = ({ setFlowDetails, fetch }) => {
   const params = useParams();
 
   const handleClick = async (template) => {
-    console.log(template.databaseName);
     const response = await updateExperiment(
       params.projectId,
       params.experimentId,
       {
         pipelineIdTrain: template.pipelineTrainId,
         pipelineIdDeploy: template.pipelineDeployId,
+        template: template.databaseName,
       }
     );
 

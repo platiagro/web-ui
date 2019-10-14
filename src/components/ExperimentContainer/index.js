@@ -118,6 +118,7 @@ const ExperimentContainer = ({ details, fetch }) => {
             fetch={fetch}
             details={details}
             flowDetails={flowDetails}
+            setFlowDetails={setFlowDetails}
           />
         </Content>
         {/* </Layout> */}

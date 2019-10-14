@@ -123,11 +123,7 @@ export default class DraggableTabs extends React.Component {
 
     return (
       <DndProvider backend={HTML5Backend}>
-        <Tabs
-          renderTabBar={this.renderTabBar}
-          {...this.props}
-          destroyInactiveTabPane
-        >
+        <Tabs renderTabBar={this.renderTabBar} {...this.props}>
           {orderTabs}
           <TabPane key='add_tab' tab={<Icon type='plus' />} closable={false} />
         </Tabs>

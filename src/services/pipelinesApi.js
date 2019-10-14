@@ -6,7 +6,7 @@ import { message } from 'antd';
 
 export const pipelinesApi = axios.create({
   // baseURL: process.env.REACT_APP_PIPELINES_API || 'http://localhost:3002',
-  baseURL: 'http://10.50.11.180:31380/',
+  baseURL: 'http://10.50.11.15:31380/',
   crossDomain: true, // /!!process.env.REACT_APP_PIPELINES_API,
 });
 
@@ -34,6 +34,31 @@ export const getPipelines = async () => {
     });
 
     return returnPipelines;
+  } catch (error) {
+    message.error(error.message);
+  }
+};
+
+export const startRun = async (body) => {
+  try {
+    const response = await pipelinesApi.post(
+      '/pipeline/apis/v1beta1/runs',
+      body
+    );
+
+    return response;
+  } catch (error) {
+    message.error(error.message);
+  }
+};
+
+export const getStatusRun = async (runId) => {
+  try {
+    const response = await pipelinesApi.get(
+      `/pipeline/apis/v1beta1/runs/${runId}`
+    );
+
+    return response;
   } catch (error) {
     message.error(error.message);
   }
