@@ -53,10 +53,11 @@ const DataSetDrawerContent = ({
       );
     }
 
+    formData.append('experimentId', details.uuid);
+
     setCSV(dataSetFileList[0].name);
 
     setUploading(true);
-
     response = await uploadDataSet(formData);
     // Depois da resposta preencher os estados
     if (response) {
@@ -66,6 +67,7 @@ const DataSetDrawerContent = ({
         datasetId: response.data.payload.dataset.uuid,
         headerId: response.data.payload.header.uuid,
         targetColumnId: ' ',
+        runId: null,
       });
       setTXT(response.data.payload.header.originalName);
       setColumns(headerColumns.data.payload);
