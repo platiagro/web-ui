@@ -34,14 +34,12 @@ import {
 
 const { Paragraph } = Typography;
 
-const ExperimentContent = ({ details, flowDetails, fetch }) => {
+const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
   const params = useParams();
 
   const [columns, setColumns] = useState([]);
 
-  // TODO
-  // const [runStatus, setRunStatus] = useState(null);
-  const [runStatus, setRunStatus] = useState(null);
+  const [runStatus, setRunStatus] = useState('Loading');
 
   const baseParameters = {
     atributos_tempo: {
@@ -209,7 +207,13 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
 
           const tasks = { ...taskStatus };
 
-          tasks.conjunto_dados = runRes.data.run.status;
+          tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'feature-temporal'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              ).phase
+            : null;
 
           tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
             (n) => n.displayName === 'feature-temporal'
@@ -278,7 +282,13 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           //   // regression
           const tasks = { ...taskStatus };
 
-          tasks.conjunto_dados = runRes.data.run.status;
+          tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'feature-temporal'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              ).phase
+            : null;
 
           tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
             (n) => n.displayName === 'feature-temporal'
@@ -351,14 +361,14 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
 
       const responseHeader = await getHeader(details.headerId);
       if (responseHeader && isSubscribed)
-        setTXT(responseHeader.data.payload.originalName);
+        setTXT(responseHeader.data.payload.uuid);
 
       const col = await getHeaderColumns(details.headerId);
       if (col && isSubscribed) setColumns(col.data.payload);
 
       const responseDataset = await getDataSet(details.datasetId);
       if (responseDataset && isSubscribed)
-        setCSV(responseDataset.data.payload.originalName);
+        setCSV(responseDataset.data.payload.uuid);
 
       if (details.runId) {
         // const runRes = await getStatusRun(
@@ -396,7 +406,13 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
               //   // regression
               const tasks = { ...taskStatus };
 
-              tasks.conjunto_dados = runRes.data.run.status;
+              tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              )
+                ? Object.values(manifest.status.nodes).find(
+                    (n) => n.displayName === 'feature-temporal'
+                  ).phase
+                : null;
 
               tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
                 (n) => n.displayName === 'feature-temporal'
@@ -450,6 +466,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
             }
           }
         }
+      } else {
       }
     }
     if (details.headerId && isSubscribed) fetchColumns();
@@ -461,6 +478,10 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     }
 
     if (details.datasetId) setDataset(details.datasetId);
+
+    if (!details.runId) {
+      setRunStatus(null);
+    }
 
     return () => {
       isSubscribed = false;
@@ -499,7 +520,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
 
     const findDate = () => {
       const date = _.find(columns, {
-        datatype: 'Date',
+        datatype: 'DateTime',
       });
       return date ? date.name : '';
     };
@@ -595,6 +616,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     };
 
     console.log(JSON.stringify(runRequestTrain));
+
     const runResponse = await startRun(JSON.stringify(runRequestTrain));
     if (runResponse) {
       console.log(runResponse.data.run.id);
@@ -612,6 +634,120 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     }
   };
 
+  // Deploy
+  const deployRequest = async () => {
+    // Montar objeto
+    const {
+      atributos_tempo,
+      pre_selecao1,
+      pre_selecao2,
+      filtro_atributos,
+      automl,
+      conjunto_dados,
+    } = experimentParameters;
+
+    const insertComma = (arr) => {
+      return arr.join(', ');
+    };
+
+    const findDate = () => {
+      const date = _.find(columns, {
+        datatype: 'DateTime',
+      });
+      return date ? date.name : '';
+    };
+
+    const findTarget = (id) => {
+      const target = _.find(columns, {
+        uuid: id,
+      });
+      return target ? target.name : '';
+    };
+
+    const getPeriod = () => {
+      return atributos_tempo.period ? atributos_tempo.period : '';
+    };
+
+    const parms = [
+      {
+        name: 'deployment-name',
+        value: details.uuid.toLowerCase(),
+      },
+      {
+        name: 'experiment-id',
+        value: details.uuid,
+      },
+      {
+        name: 'bucket',
+        value: 'mlpipeline',
+      },
+      {
+        name: 'csv',
+        value: conjunto_dados.csvName,
+      },
+      {
+        name: 'txt',
+        value: conjunto_dados.txtName,
+      },
+      {
+        name: 'target',
+        value: findTarget(conjunto_dados.target),
+      },
+      {
+        name: 'date',
+        value: findDate(),
+      },
+      {
+        name: 'date-format',
+        value: '%Y-%m-%d',
+      },
+      {
+        name: 'feature-temporal-group',
+        value: insertComma(atributos_tempo.group),
+      },
+      {
+        name: 'feature-temporal-period',
+        value: getPeriod(),
+      },
+      {
+        name: 'feature-tools-group',
+        value: insertComma(atributos_tempo.group),
+      },
+    ];
+
+    const mountName = () => {
+      return `${projectName} - ${details.name}`;
+    };
+
+    const runRequestDeploy = {
+      pipeline_spec: {
+        parameters: parms,
+        pipeline_id: details.pipelineIdDeploy,
+      },
+      name: mountName(),
+    };
+
+    console.log(JSON.stringify(runRequestDeploy));
+
+    const deployResponse = await startRun(JSON.stringify(runRequestDeploy));
+    if (deployResponse) {
+      console.log(deployResponse.data.run.id);
+      // const updateRes = await updateExperiment(
+      //   details.projectId,
+      //   details.uuid,
+      //   {
+      //     runId: runResponse.data.run.id,
+      //   }
+      // );
+      // if (updateRes) {
+      //   // await fetch();
+      //   pollingRun(runResponse.data.run.id);
+      // }
+    }
+  };
+
+  // FIM DEPLOY
+
   // Selecioanr o Drawer certo
   const switchDrawer = () => {
     if (selected.conjunto_dados) {
@@ -625,8 +761,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           setCSV={setCSV}
           setTXT={setTXT}
           details={details}
-          runStatus='Succeeded' // {runStatus}
-          taskStatus='Succeeded' // {taskStatus.conjunto_dados}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.conjunto_dados} // 'Succeeded' // {taskStatus.conjunto_dados}
         />
       );
     }
@@ -637,8 +773,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           dataSets={columns}
           setGroup={setGroup}
           setPeriod={setPeriod}
-          runStatus='Succeeded' // {runStatus}
-          taskStatus='Succeeded' // {taskStatus.atributos_tempo}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
         />
       );
     }
@@ -649,8 +785,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           dataSets={columns}
           setCutoff={setCutoffPre1}
           setCorrelation={setCorrelationPre1}
-          runStatus='Succeeded' // {runStatus}
-          taskStatus='Succeeded' // {taskStatus.pre_selecao1}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.pre_selecao1} // 'Succeeded' // {taskStatus.pre_selecao1}
         />
       );
     }
@@ -660,8 +796,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           parameter={experimentParameters.atributos_tempo}
           dataSets={columns}
           setFeatureTools={setGroup}
-          runStatus='Succeeded' // {runStatus}
-          taskStatus='Succeeded' // {taskStatus.atributos_genericos}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
         />
       );
     }
@@ -672,8 +808,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           dataSets={columns}
           setCutoff={setCutoffPre2}
           setCorrelation={setCorrelationPre2}
-          runStatus='Succeeded' // {runStatus}
-          taskStatus='Succeeded' // {taskStatus.pre_selecao2}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.pre_selecao2} // 'Succeeded' // {taskStatus.pre_selecao2}
         />
       );
     }
@@ -683,8 +819,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           parameter={experimentParameters.filtro_atributos}
           dataSets={columns}
           setFilter={setFilter}
-          runStatus='Succeeded' // {runStatus}
-          taskStatus='Succeeded' // {taskStatus.filtro_atributos}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
         />
       );
     }
@@ -694,8 +830,8 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           parameter={experimentParameters.automl}
           dataSets={columns}
           setAutoML={setAutoML}
-          runStatus='Succeeded' // {runStatus}
-          taskStatus='Succeeded' // {taskStatus.automl}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.automl} // 'Succeeded' // {taskStatus.automl}
         />
       );
     }
@@ -717,9 +853,32 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
         icon={runStatus !== 'Running' ? 'play-circle' : 'loading'}
         type='primary'
         onClick={mountObjectRequest}
-        disabled={runStatus === 'Running'}
+        disabled={
+          runStatus === 'Running' || (runStatus === 'Loading' && details.runId)
+        }
       >
         Executar
+      </Button>
+    );
+
+  const deployButton = () =>
+    runStatus === 'Succeeded' ? (
+      <div>
+        <Icon
+          style={{ fontSize: '18px', color: '#389E0D', marginRight: '8px' }}
+          theme='filled'
+          type='check-circle'
+        />
+        <span>Implantado</span>
+      </div>
+    ) : (
+      <Button
+        icon='tool'
+        type='primary'
+        disabled={runStatus !== 'Succeeded'}
+        onClick={deployRequest}
+      >
+        Implantar
       </Button>
     );
 
@@ -744,6 +903,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
             icon='tool'
             type='primary'
             disabled={runStatus !== 'Succeeded'}
+            onClick={deployRequest}
           >
             Implantar
           </Button>
@@ -759,6 +919,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
         handleClick={handleClick}
         details={details}
         taskStatus={taskStatus}
+        runStatus={runStatus}
       />
     </div>
   );

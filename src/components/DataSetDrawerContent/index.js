@@ -69,8 +69,6 @@ const DataSetDrawerContent = ({
 
     formData.append('experimentId', details.uuid);
 
-    setCSV(dataSetFileList[0].name);
-
     setUploading(true);
     response = await uploadDataSet(formData);
     // Depois da resposta preencher os estados
@@ -83,9 +81,17 @@ const DataSetDrawerContent = ({
         targetColumnId: ' ',
         runId: null,
       });
-      setTXT(response.data.payload.header.originalName);
+      setTXT(response.data.payload.header.uuid);
+      setCSV(response.data.payload.dataset.uuid);
+
       setColumns(headerColumns.data.payload);
       setDataset(response.data.payload.dataset.uuid);
+    } else {
+      console.log('ERROR');
+      // setColumns([]);
+      // setDataset(null);
+      // setTXT(null);
+      // setCSV(null);
     }
     setDataSetHeaderFileList([]);
     setDataSetFileList([]);
@@ -103,7 +109,7 @@ const DataSetDrawerContent = ({
   const handleColumnSelect = async (e, row) => {
     const res = await updateColumn(row.headerId, row.uuid, e);
     if (res) {
-      console.log('CHANGE DATATYPE', res);
+      console.log('CHANGE DATATYPE', res, e);
       const cols = [...columns];
       cols[row.position].datatype = e;
       setColumns(cols);

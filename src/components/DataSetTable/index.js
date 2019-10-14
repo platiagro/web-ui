@@ -19,13 +19,13 @@ const MySelect = ({ value, ...others }) => {
   if (value.match(numRegex)) {
     fixedVal = 'numeric';
   } else if (value.match(dateRegex)) {
-    fixedVal = 'date';
+    fixedVal = 'DateTime';
   } else if (value.match(factorRegex)) {
     fixedVal = 'factor';
   }
   return (
     <Select value={fixedVal} {...others}>
-      <Option value='date'>Data/Hora</Option>
+      <Option value='DateTime'>Data/Hora</Option>
       <Option value='numeric'>Numérico</Option>
       <Option value='factor'>Categórico</Option>
     </Select>

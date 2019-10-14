@@ -66,6 +66,7 @@ const ExperimentsTabs = ({ fetch, details, flowDetails, setFlowDetails }) => {
               flowDetails={flowDetails}
               fetch={fetch}
               setFlowDetails={setFlowDetails}
+              projectName={details.name}
             />
           </TabPane>
         ))}
