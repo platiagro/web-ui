@@ -91,7 +91,7 @@ const TimeAttributeCreationDrawerContent = ({
   //   attributesBefore: 15,
   //   attributesAfter: 45,
   // }
-  const options = _.filter(dataSets, ['datatype', 'Categorical']);
+  const options = _.filter(dataSets, ['datatype', 'factor']);
   return (
     <div>
       {!showResults ? (

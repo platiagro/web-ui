@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropType from 'prop-types';
 import _ from 'lodash';
 import './style.scss';
-import { Layout, Icon, Input, Collapse, Empty } from 'antd';
+import { Layout, Icon, Input, Collapse, Empty, message } from 'antd';
 import { useParams } from 'react-router-dom';
 
 import { getPipelines } from '../../services/pipelinesApi';
@@ -64,11 +64,18 @@ const items = {
 const fetchPipelines = async (setFlowDetails) => {
   const pipelines = await getPipelines();
 
+  if (!pipelines) message.error('Cross-Origin Request Blocked');
+
   items.template = items.template.map((template) => {
     const templateAux = template;
 
-    templateAux.pipelineTrainId = pipelines[template.databaseName].trainId;
-    templateAux.pipelineDeployId = pipelines[template.databaseName].deployId;
+    if (pipelines) {
+      templateAux.pipelineTrainId = pipelines[template.databaseName].trainId;
+      templateAux.pipelineDeployId = pipelines[template.databaseName].deployId;
+      if (templateAux.template === 4) templateAux.disabled = false;
+    } else {
+      templateAux.disabled = true;
+    }
 
     if (template.default) setFlowDetails(template);
 

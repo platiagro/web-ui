@@ -3,8 +3,7 @@ import axios from 'axios';
 import { message } from 'antd';
 
 export const dataSetApi = axios.create({
-  // baseURL: process.env.REACT_APP_DATASET_API || 'http://localhost:3001',
-  baseURL: 'http://localhost:3001',
+  baseURL: process.env.REACT_APP_DATASET_API || '/datasets/apis',
 });
 
 export const getDataSet = async (id) => {

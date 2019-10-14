@@ -17,17 +17,17 @@ const MySelect = ({ value, ...others }) => {
   const dateRegex = /dat/i;
   const factorRegex = /fact|cate/i;
   if (value.match(numRegex)) {
-    fixedVal = 'Numerical';
+    fixedVal = 'numeric';
   } else if (value.match(dateRegex)) {
-    fixedVal = 'Date';
+    fixedVal = 'date';
   } else if (value.match(factorRegex)) {
-    fixedVal = 'Categorical';
+    fixedVal = 'factor';
   }
   return (
     <Select value={fixedVal} {...others}>
-      <Option value='Date'>Data/Hora</Option>
-      <Option value='Numerical'>Numérico</Option>
-      <Option value='Categorical'>Categórico</Option>
+      <Option value='date'>Data/Hora</Option>
+      <Option value='numeric'>Numérico</Option>
+      <Option value='factor'>Categórico</Option>
     </Select>
   );
 };
