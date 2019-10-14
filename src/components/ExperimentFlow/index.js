@@ -13,6 +13,7 @@ const ExperimentFlow = ({
   parameters,
   handleClick,
   taskStatus,
+  runStatus,
 }) => {
   const AutomlComplete = () => (
     <ArcherContainer strokeColor='gray'>
@@ -35,6 +36,7 @@ const ExperimentFlow = ({
                 taskClick={handleClick}
                 title='Conjunto de dados'
                 icon='database'
+                loading={runStatus}
                 condition={taskStatus.conjunto_dados}
                 params={
                   !!parameters.conjunto_dados.datasetId &&
@@ -63,6 +65,7 @@ const ExperimentFlow = ({
                 selected={selected.atributos_tempo}
                 taskClick={handleClick}
                 title='Criação de atributos por tempo'
+                loading={runStatus}
                 condition={taskStatus.atributos_tempo}
                 params={
                   !_.isEmpty(parameters.atributos_tempo.group) &&
@@ -88,6 +91,7 @@ const ExperimentFlow = ({
                 selected={selected.pre_selecao1}
                 taskClick={handleClick}
                 title='Pré-seleção de atributos'
+                loading={runStatus}
                 condition={taskStatus.pre_selecao1}
                 params={
                   parameters.pre_selecao1.cutoff >= 0 &&
@@ -113,6 +117,7 @@ const ExperimentFlow = ({
                 selected={selected.atributos_genericos}
                 taskClick={handleClick}
                 title='Criação de atributos genéricos'
+                loading={runStatus}
                 condition={taskStatus.atributos_genericos}
                 params={!_.isEmpty(parameters.atributos_tempo.group)}
               />
@@ -135,6 +140,7 @@ const ExperimentFlow = ({
                 selected={selected.pre_selecao2}
                 taskClick={handleClick}
                 title='Pré-seleção de atributos'
+                loading={runStatus}
                 condition={taskStatus.pre_selecao2}
                 params={
                   parameters.pre_selecao2.cutoff >= 0 &&
@@ -161,6 +167,7 @@ const ExperimentFlow = ({
                 taskClick={handleClick}
                 title='Filtro de atributos'
                 condition={taskStatus.filtro_atributos}
+                loading={runStatus}
                 params={!_.isEmpty(parameters.filtro_atributos)}
               />
             </ArcherElement>
@@ -176,6 +183,7 @@ const ExperimentFlow = ({
                 icon='share-alt'
                 iconTheme='outlined'
                 condition={taskStatus.automl}
+                loading={runStatus}
                 params={!!parameters.automl.time}
               />
             </ArcherElement>
@@ -206,6 +214,7 @@ const ExperimentFlow = ({
                 taskClick={handleClick}
                 title='Conjunto de dados'
                 condition={taskStatus.conjunto_dados}
+                loading={runStatus}
                 icon='database'
                 params={
                   !!parameters.conjunto_dados.datasetId &&
@@ -235,6 +244,7 @@ const ExperimentFlow = ({
                 taskClick={handleClick}
                 title='Filtro de atributos'
                 condition={taskStatus.filtro_atributos}
+                loading={runStatus}
                 params={!_.isEmpty(parameters.filtro_atributos)}
               />
             </ArcherElement>
@@ -250,6 +260,7 @@ const ExperimentFlow = ({
                 icon='share-alt'
                 iconTheme='outlined'
                 condition={taskStatus.automl}
+                loading={runStatus}
                 params={!!parameters.automl.time}
               />
             </ArcherElement>

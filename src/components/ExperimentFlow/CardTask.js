@@ -12,6 +12,7 @@ export default function CardTask({
   task,
   params,
   condition,
+  loading,
 }) {
   const getIcon = () => {
     switch (condition) {
@@ -59,13 +60,14 @@ export default function CardTask({
         return null;
     }
   };
+  console.log(loading === 'Loading');
 
   return (
     <div
       style={{ left: pos[0], top: pos[1] }}
       className={`card ${params ? ' setted-up ' : ''}${condition}${
-        selected ? ' selected' : ''
-      }`}
+        loading === 'Loading' ? ' Loading ' : ''
+      }${selected ? ' selected' : ''}`}
       onClick={(e) => {
         e.stopPropagation();
         taskClick(task);

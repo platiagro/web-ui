@@ -39,7 +39,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
 
   const [columns, setColumns] = useState([]);
 
-  const [runStatus, setRunStatus] = useState(null);
+  const [runStatus, setRunStatus] = useState('Loading');
 
   const baseParameters = {
     atributos_tempo: {
@@ -197,7 +197,13 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
 
           const tasks = { ...taskStatus };
 
-          tasks.conjunto_dados = runRes.data.run.status;
+          tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'feature-temporal'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              ).phase
+            : null;
 
           tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
             (n) => n.displayName === 'feature-temporal'
@@ -266,7 +272,13 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
           //   // regression
           const tasks = { ...taskStatus };
 
-          tasks.conjunto_dados = runRes.data.run.status;
+          tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
+            (n) => n.displayName === 'feature-temporal'
+          )
+            ? Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              ).phase
+            : null;
 
           tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
             (n) => n.displayName === 'feature-temporal'
@@ -384,7 +396,13 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
               //   // regression
               const tasks = { ...taskStatus };
 
-              tasks.conjunto_dados = runRes.data.run.status;
+              tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
+                (n) => n.displayName === 'feature-temporal'
+              )
+                ? Object.values(manifest.status.nodes).find(
+                    (n) => n.displayName === 'feature-temporal'
+                  ).phase
+                : null;
 
               tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
                 (n) => n.displayName === 'feature-temporal'
@@ -692,7 +710,9 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
         icon={runStatus !== 'Running' ? 'play-circle' : 'loading'}
         type='primary'
         onClick={mountObjectRequest}
-        disabled={runStatus === 'Running'}
+        disabled={
+          runStatus === 'Running' || (runStatus === 'Loading' && details.runId)
+        }
       >
         Executar
       </Button>
@@ -734,6 +754,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
         handleClick={handleClick}
         details={details}
         taskStatus={taskStatus}
+        runStatus={runStatus}
       />
     </div>
   );
