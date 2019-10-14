@@ -141,10 +141,10 @@ const TimeAttributeCreationDrawerContent = ({
             <Radio style={radioStyle} value='daily'>
               Diário
             </Radio>
-            <Radio style={radioStyle} value='monthly'>
+            <Radio style={radioStyle} value='month'>
               Mensal
             </Radio>
-            <Radio style={radioStyle} value='dailyMonthly'>
+            <Radio style={radioStyle} value='daily,month'>
               Diário e Mensal
             </Radio>
           </Radio.Group>

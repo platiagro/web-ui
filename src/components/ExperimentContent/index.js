@@ -339,14 +339,14 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
 
       const responseHeader = await getHeader(details.headerId);
       if (responseHeader && isSubscribed)
-        setTXT(responseHeader.data.payload.originalName);
+        setTXT(responseHeader.data.payload.uuid);
 
       const col = await getHeaderColumns(details.headerId);
       if (col && isSubscribed) setColumns(col.data.payload);
 
       const responseDataset = await getDataSet(details.datasetId);
       if (responseDataset && isSubscribed)
-        setCSV(responseDataset.data.payload.originalName);
+        setCSV(responseDataset.data.payload.uuid);
 
       if (details.runId) {
         // const runRes = await getStatusRun(
@@ -487,7 +487,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
 
     const findDate = () => {
       const date = _.find(columns, {
-        datatype: 'Date',
+        datatype: 'DateTime',
       });
       return date ? date.name : '';
     };
@@ -583,6 +583,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     };
 
     console.log(JSON.stringify(runRequestTrain));
+
     const runResponse = await startRun(JSON.stringify(runRequestTrain));
     if (runResponse) {
       console.log(runResponse.data.run.id);
