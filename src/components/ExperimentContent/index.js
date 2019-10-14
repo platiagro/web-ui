@@ -456,6 +456,7 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
             }
           }
         }
+      } else {
       }
     }
     if (details.headerId && isSubscribed) fetchColumns();
@@ -467,6 +468,10 @@ const ExperimentContent = ({ details, flowDetails, fetch }) => {
     }
 
     if (details.datasetId) setDataset(details.datasetId);
+
+    if (!details.runId) {
+      setRunStatus(null);
+    }
 
     return () => {
       isSubscribed = false;
