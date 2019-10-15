@@ -6,23 +6,46 @@ export const resultsApi = axios.create({
   baseURL: process.env.REACT_APP_DATASET_API || '/datasets/apis',
 });
 
-// id is experiment id
-export const getResultTable = async (id, body) => {
+export const getResultTable = async (experimentId, task, headerId) => {
   try {
-    const send = JSON.stringify(body);
-
-    console.log(send);
-
-    const getObject = {
-      task: 'feature-temporal',
-      headerId: '7c3232a0-7325-4afd-a01d-9170617fac06',
-    };
-
-    const response = await resultsApi.get(`/results/${id}`, {
-      data: getObject,
-    });
+    const response = await resultsApi.get(
+      `/results/${experimentId}/${task}/${headerId}`
+    );
 
     return response.data.payload;
+  } catch (error) {
+    message.error(error.message);
+  }
+};
+
+export const getDatasetTable = async (experimentId, datasetId) => {
+  try {
+    const response = await resultsApi.get(
+      `/results/${experimentId}/dataset/${datasetId}`
+    );
+
+    return response.data.payload;
+  } catch (error) {
+    message.error(error.message);
+  }
+};
+
+export const getConfusionMatrix = async (experimentId) => {
+  try {
+    const response = await resultsApi.get(
+      `/results/${experimentId}/confusionMatrix/`,
+      { responseType: 'blob' }
+    );
+
+    console.log(response.data);
+
+    // Obtain a blob: URL for the image data.
+    // const arrayBufferView = new Uint8Array(response.data);
+    // const blob = new Blob(response.data);
+    const urlCreator = window.URL || window.webkitURL;
+    const imageUrl = urlCreator.createObjectURL(response.data);
+
+    return imageUrl;
   } catch (error) {
     message.error(error.message);
   }

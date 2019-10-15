@@ -38,6 +38,8 @@ const AttributePreSelectionDrawerContent = ({
   setCorrelation,
   runStatus,
   taskStatus,
+  details,
+  preType,
 }) => {
   // resultados
   const [results, setResults] = useState(
@@ -102,7 +104,9 @@ const AttributePreSelectionDrawerContent = ({
         </div>
       ) : (
         <ResultsDrawer
+          details={details}
           attributesPreSelection={parameter}
+          preType={preType}
           table
           tableStatistics
         />

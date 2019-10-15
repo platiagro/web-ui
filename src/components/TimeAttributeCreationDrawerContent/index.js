@@ -79,6 +79,7 @@ const TimeAttributeCreationDrawerContent = ({
   setPeriod,
   runStatus,
   taskStatus,
+  details,
 }) => {
   // resultados
   const [results, setResults] = useState(
@@ -185,7 +186,12 @@ const TimeAttributeCreationDrawerContent = ({
           />
         </div>
       ) : (
-        <ResultsDrawer timeAttributes={parameter} table tableStatistics />
+        <ResultsDrawer
+          details={details}
+          timeAttributes={parameter}
+          table
+          tableStatistics
+        />
       )}
       {results ? (
         <ResultsButtonBar

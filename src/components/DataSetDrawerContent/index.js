@@ -255,7 +255,11 @@ const DataSetDrawerContent = ({
           {renderTable()}
         </div>
       ) : (
-        <ResultsDrawer target={findTarget(columns, parameter.target)} table />
+        <ResultsDrawer
+          details={details}
+          target={findTarget(columns, parameter.target)}
+          table
+        />
       )}
       {results ? (
         <ResultsButtonBar

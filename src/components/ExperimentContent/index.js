@@ -929,8 +929,8 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           setCSV={setCSV}
           setTXT={setTXT}
           details={details}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.conjunto_dados} // 'Succeeded' // {taskStatus.conjunto_dados}
+          runStatus={runStatus}
+          taskStatus={taskStatus.conjunto_dados}
         />
       );
     }
@@ -941,8 +941,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           dataSets={columns}
           setGroup={setGroup}
           setPeriod={setPeriod}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
+          runStatus={runStatus}
+          details={details}
+          taskStatus={taskStatus.atributos_tempo}
         />
       );
     }
@@ -950,11 +951,13 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
       return (
         <AttributePreSelectionDrawerContent
           parameter={experimentParameters.pre_selecao1}
+          preType={1}
           dataSets={columns}
           setCutoff={setCutoffPre1}
           setCorrelation={setCorrelationPre1}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.pre_selecao1} // 'Succeeded' // {taskStatus.pre_selecao1}
+          runStatus={runStatus}
+          taskStatus={taskStatus.pre_selecao1}
+          details={details}
         />
       );
     }
@@ -964,8 +967,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           parameter={experimentParameters.atributos_tempo}
           dataSets={columns}
           setFeatureTools={setGroup}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
+          runStatus={runStatus}
+          taskStatus={taskStatus.atributos_genericos}
+          details={details}
         />
       );
     }
@@ -973,11 +977,13 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
       return (
         <AttributePreSelectionDrawerContent
           parameter={experimentParameters.pre_selecao2}
+          preType={2}
           dataSets={columns}
           setCutoff={setCutoffPre2}
           setCorrelation={setCorrelationPre2}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.pre_selecao2} // 'Succeeded' // {taskStatus.pre_selecao2}
+          runStatus={runStatus}
+          taskStatus={taskStatus.pre_selecao2}
+          details={details}
         />
       );
     }
@@ -987,8 +993,8 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           parameter={experimentParameters.filtro_atributos}
           dataSets={columns}
           setFilter={setFilter}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
+          runStatus={runStatus}
+          taskStatus={taskStatus.filtro_atributos}
         />
       );
     }
@@ -998,8 +1004,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           parameter={experimentParameters.automl}
           dataSets={columns}
           setAutoML={setAutoML}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.automl} // 'Succeeded' // {taskStatus.automl}
+          runStatus={runStatus}
+          taskStatus={taskStatus.automl}
+          details={details}
         />
       );
     }

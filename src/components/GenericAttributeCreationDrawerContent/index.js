@@ -67,6 +67,7 @@ const GenericAttributeCreationDrawerContent = ({
   setFeatureTools,
   runStatus,
   taskStatus,
+  details,
 }) => {
   const options = _.filter(dataSets, ['datatype', 'factor']);
   // resultados
@@ -138,7 +139,12 @@ const GenericAttributeCreationDrawerContent = ({
           />
         </div>
       ) : (
-        <ResultsDrawer genericAttributes={parameter} table tableStatistics />
+        <ResultsDrawer
+          details={details}
+          genericAttributes={parameter}
+          table
+          tableStatistics
+        />
       )}
       {results ? (
         <ResultsButtonBar

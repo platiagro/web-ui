@@ -13,6 +13,7 @@ const AttributeFilterDrawerContent = ({
   setFilter,
   runStatus,
   taskStatus,
+  details,
 }) => {
   // resultados
   const [results, setResults] = useState(

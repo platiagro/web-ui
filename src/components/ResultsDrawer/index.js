@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Tag, Icon, Divider, Table } from 'antd';
+import { Tag, Icon, Divider, Table, Spin } from 'antd';
 
-import { getResultTable } from '../../services/resultsApi';
+import {
+  getResultTable,
+  getDatasetTable,
+  getConfusionMatrix,
+} from '../../services/resultsApi';
 
 import { columnsResult, dataResult } from './tableMock';
 
@@ -32,33 +36,96 @@ const convertMinutesToTime = (minutesReceived) => {
   return timeString;
 };
 
-const fetchResultTable = async () => {
-  const getObject = {
-    task: 'feature-temporal',
-    headerId: '7c3232a0-7325-4afd-a01d-9170617fac06',
-  };
+const fetchResultTable = async (
+  experimentId,
+  task,
+  headerId,
+  setIsLoading,
+  setResultTable
+) => {
+  const result = await getResultTable(experimentId, task, headerId);
+  setResultTable(result);
+  setIsLoading(false);
+};
 
-  const experimentId = '5260e774-0672-479d-9d8f-b4e49198a524';
+const fetchDatasetTable = async (
+  experimentId,
+  datasetId,
+  setIsLoading,
+  setResultTable
+) => {
+  const result = await getDatasetTable(experimentId, datasetId);
+  setResultTable(result);
+  setIsLoading(false);
+};
 
-  const result = await getResultTable(experimentId, getObject);
-
-  return result;
+const fetchConfusionMatrix = async (
+  experimentId,
+  setIsLoading,
+  setconfusionMatrixImage
+) => {
+  const result = await getConfusionMatrix(experimentId);
+  setconfusionMatrixImage(result);
+  setIsLoading(false);
 };
 
 const ResultsDrawer = ({
   target,
   timeAttributes,
   attributesPreSelection,
+  preType,
   genericAttributes,
   attributesFilter,
   autoML,
   table,
   tableStatistics,
   confusionMatrix,
+  details,
 }) => {
-  // const resultTable = table ? fetchResultTable() : null;
-  const resultTable = table ? responseMock.payload : null;
-  return (
+  const [resultTable, setResultTable] = useState(null);
+  const [confusionMatrixImage, setconfusionMatrixImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  console.log(details);
+  useEffect(() => {
+    if (table && target) {
+      fetchDatasetTable(
+        details.uuid,
+        details.datasetId,
+        setIsLoading,
+        setResultTable
+      );
+    } else if (table) {
+      let task;
+
+      if (timeAttributes) {
+        task = 'feature-temporal';
+      } else if (attributesPreSelection) {
+        if (preType === 1) {
+          task = 'pre-selection-1';
+        } else {
+          task = 'pre-selection-2';
+        }
+      } else if (genericAttributes) {
+        task = 'feature-tools';
+      }
+
+      fetchResultTable(
+        details.uuid,
+        task,
+        details.headerId,
+        setIsLoading,
+        setResultTable
+      );
+    } else if (confusionMatrix) {
+      fetchConfusionMatrix(details.uuid, setIsLoading, setconfusionMatrixImage);
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return isLoading ? (
+    <Spin />
+  ) : (
     <div>
       {timeAttributes ? (
         <div>
@@ -116,7 +183,7 @@ const ResultsDrawer = ({
       {autoML ? (
         <div>
           <p>Nome do modelo: </p>
-          <Tag>neighbourhood_group</Tag>
+          <Tag>{details.name}</Tag>
 
           <br />
           <br />
@@ -126,7 +193,7 @@ const ResultsDrawer = ({
         </div>
       ) : null}
 
-      {table ? (
+      {table && resultTable ? (
         <div>
           <Divider />
 
@@ -140,7 +207,7 @@ const ResultsDrawer = ({
               <span>{resultTable.totalColumnsAfter}</span>
               <Icon type='arrow-up' />
               <span>
-                {`Mais ${resultTable.diff} atributos (+ ${resultTable.percentageDiff})`}
+                {`Mais ${resultTable.diff} atributos (+ ${resultTable.percentageDiff}%)`}
               </span>
 
               <br />
@@ -181,10 +248,7 @@ const ResultsDrawer = ({
           <br />
           <br />
 
-          <img
-            alt='confusion matrix'
-            src='http://localhost:3001/results/5260e774-0672-479d-9d8f-b4e49198a524/confusionMatrix'
-          />
+          <img alt='confusion matrix' src={confusionMatrixImage} />
         </div>
       ) : null}
     </div>

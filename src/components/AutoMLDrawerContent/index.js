@@ -11,6 +11,7 @@ const AutoMLDrawerContent = ({
   setAutoML,
   runStatus,
   taskStatus,
+  details,
 }) => {
   // resultados
   const [results, setResults] = useState(
@@ -32,7 +33,7 @@ const AutoMLDrawerContent = ({
           <small> minutos</small>
         </div>
       ) : (
-        <ResultsDrawer autoML={parameter} confusionMatrix />
+        <ResultsDrawer details={details} autoML={parameter} confusionMatrix />
       )}
       {results ? (
         <ResultsButtonBar
