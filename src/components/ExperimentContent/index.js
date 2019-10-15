@@ -971,19 +971,19 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
     console.log(JSON.stringify(runRequestDeploy));
 
-    // const deployResponse = await startRun(JSON.stringify(runRequestDeploy));
-    // if (deployResponse) {
-    //   console.log(deployResponse);
-    //   console.log(deployResponse.data.run.id);
-    //   // const resUpdate = await updateExperiment(
-    //   //   details.projectId,
-    //   //   details.uuid,
-    //   //   {
-    //   //     runStatus: 'Deployed',
-    //   //   }
-    //   // );
-    //   // if (resUpdate) fetch();
-    // }
+    const deployResponse = await startRun(JSON.stringify(runRequestDeploy));
+    if (deployResponse) {
+      console.log(deployResponse);
+      console.log(deployResponse.data.run.id);
+      const resUpdate = await updateExperiment(
+        details.projectId,
+        details.uuid,
+        {
+          runStatus: 'Deployed',
+        }
+      );
+      if (resUpdate) fetch();
+    }
   };
 
   // FIM DEPLOY
@@ -1225,7 +1225,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
       <div className='experiment-content-header'>
         <EditableTitle fetchDetails={fetch} details={details} />
 
-        {details.runStatus === 'Deployed' && (
+        {/* {details.runStatus === 'Deployed' && (
           <Paragraph
             style={{ marginBottom: 0, width: '20vw' }}
             ellipsis
@@ -1233,7 +1233,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           >
             {url}
           </Paragraph>
-        )}
+        )} */}
         <div className='experiment-actions'>
           {details.runStatus !== 'Deployed' && executeButton()}
           {details.runStatus !== 'Deployed' && <Divider type='vertical' />}
