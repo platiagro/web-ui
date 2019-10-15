@@ -61,10 +61,16 @@ const Root = () => {
                   <Icon type='file-text' />
                   <span>Ver tutorial para o ForAGRI</span>
                 </div>
-                <div>
-                  <Icon type='wechat' />
-                  <span>Avaliar a plataforma</span>
-                </div>
+                <a
+                  rel='noopener noreferrer'
+                  target='_blank'
+                  href='https://forms.gle/6g7pyZ3N7seuSxxm8'
+                >
+                  <div>
+                    <Icon type='wechat' />
+                    <span>Avaliar a plataforma</span>
+                  </div>
+                </a>
               </div>
             </div>
           </Col>
