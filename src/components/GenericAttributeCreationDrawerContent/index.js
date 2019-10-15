@@ -68,8 +68,13 @@ const GenericAttributeCreationDrawerContent = ({
   runStatus,
   taskStatus,
   details,
+  targetId,
 }) => {
   const options = _.filter(dataSets, ['datatype', 'factor']);
+  const optionsTarget = _.filter(options, function(o) {
+    return o.uuid !== targetId;
+  });
+
   // resultados
   const [results, setResults] = useState(
     (runStatus === 'Failed' || runStatus === 'Succeeded') &&
@@ -95,7 +100,7 @@ const GenericAttributeCreationDrawerContent = ({
             style={{ width: '100%' }}
             placeholder='Selecione'
           >
-            {options.map((item) => (
+            {optionsTarget.map((item) => (
               <Option key={item.uuid} value={item.name}>
                 {item.name}
               </Option>

@@ -39,7 +39,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
     pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
     filtro_atributos: [],
-    automl: { time: null },
+    automl: { time: 3 },
     conjunto_dados: {
       target: undefined,
       datasetId: null,
@@ -81,7 +81,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     pre_selecao2: null,
     filtro_atributos: null,
     automl: null,
-    regression: false,
+    regression: null,
   });
 
   const url =
@@ -179,6 +179,12 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     setSelected(newSelected);
   };
 
+  const getPhase = (param, manifest, alter = null) => {
+    return Object.values(manifest).find((n) => n.displayName === param)
+      ? Object.values(manifest).find((n) => n.displayName === param).phase
+      : alter;
+  };
+
   const pollingRun = (pollingId) => {
     let intervalPolling;
     async function fetchRunStatus() {
@@ -189,7 +195,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           runRes.data.run.status === 'Running' ||
           runRes.data.run.status === undefined
         ) {
-          console.log('[STATUS]', runRes.data.run.status);
+          console.info('[STATUS]', runRes.data.run.status);
 
           if (runRes.data.run.status) {
             setRunStatus(runRes.data.run.status);
@@ -199,77 +205,68 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
             const tasks = { ...taskStatus };
 
-            // tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
-            //   (n) => n.displayName === 'feature-temporal'
-            // )
-            //   ? Object.values(manifest.status.nodes).find(
-            //       (n) => n.displayName === 'feature-temporal'
-            //     ).phase
-            //   : null;
+            // if (
+            //   details.template === 'Linear Regression/Logistic Regression' ||
+            //   details.template === 'AutoML'
+            // ) {
+            //   tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
+            // } else {
+            //   tasks.conjunto_dados = getPhase(
+            //     'feature-temporal',
+            //     manifest.status.nodes
+            //   );
+            // }
+            tasks.conjunto_dados = 'Succeeded';
 
-            tasks.conjunto_dados = 'wait';
+            tasks.atributos_tempo = getPhase(
+              'feature-temporal',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'feature-temporal'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'feature-temporal'
-                ).phase
-              : 'wait';
+            tasks.pre_selecao1 = getPhase(
+              'pre-selection-1',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'pre-selection-1'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'pre-selection-1'
-                ).phase
-              : 'wait';
+            tasks.atributos_genericos = getPhase(
+              'feature-tools',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.atributos_genericos = Object.values(
-              manifest.status.nodes
-            ).find((n) => n.displayName === 'feature-tools')
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'feature-tools'
-                ).phase
-              : 'wait';
+            tasks.pre_selecao2 = getPhase(
+              'pre-selection-2',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'pre-selection-2'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'pre-selection-2'
-                ).phase
-              : 'wait';
+            tasks.filtro_atributos = getPhase(
+              'filter',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.filtro_atributos = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'filter'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'filter'
-                ).phase
-              : 'wait';
+            tasks.automl = getPhase('automl', manifest.status.nodes, 'Pending');
 
-            tasks.automl = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'automl'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'automl'
-                ).phase
-              : 'wait';
-
-            tasks.regression = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'regression'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'regression'
-                ).phase
-              : 'wait';
+            tasks.regression = getPhase(
+              'regression',
+              manifest.status.nodes,
+              'Pending'
+            );
 
             setTaskStatus(tasks);
           }
         } else {
           clearInterval(intervalPolling);
           console.log('Finalizou', runRes.data.run);
+          if (runRes.data.run.status === 'Succeeded') {
+            message.success(`${runRes.data.run.name} finalizou com Sucesso!`);
+          } else if (runRes.data.run.status === 'Failed') {
+            message.error(`${runRes.data.run.name} finalizou com Falha!`);
+          }
+
           setRunStatus(runRes.data.run.status);
 
           const manifest = JSON.parse(
@@ -285,69 +282,45 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           //   // regression
           const tasks = { ...taskStatus };
 
-          tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'feature-temporal'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-temporal'
-              ).phase
-            : null;
+          // if (
+          //   details.template === 'Linear Regression/Logistic Regression' ||
+          //   details.template === 'AutoML'
+          // ) {
+          //   tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
+          // } else {
+          //   tasks.conjunto_dados = getPhase(
+          //     'feature-temporal',
+          //     manifest.status.nodes
+          //   );
+          // }
 
-          tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'feature-temporal'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-temporal'
-              ).phase
-            : null;
+          tasks.conjunto_dados = 'Succeeded';
 
-          tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'pre-selection-1'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'pre-selection-1'
-              ).phase
-            : null;
+          tasks.atributos_tempo = getPhase(
+            'feature-temporal',
+            manifest.status.nodes
+          );
 
-          tasks.atributos_genericos = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'feature-tools'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-tools'
-              ).phase
-            : null;
+          tasks.pre_selecao1 = getPhase(
+            'pre-selection-1',
+            manifest.status.nodes
+          );
 
-          tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'pre-selection-2'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'pre-selection-2'
-              ).phase
-            : null;
+          tasks.atributos_genericos = getPhase(
+            'feature-tools',
+            manifest.status.nodes
+          );
 
-          tasks.filtro_atributos = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'filter'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'filter'
-              ).phase
-            : null;
+          tasks.pre_selecao2 = getPhase(
+            'pre-selection-2',
+            manifest.status.nodes
+          );
 
-          tasks.automl = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'automl'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'automl'
-              ).phase
-            : null;
+          tasks.filtro_atributos = getPhase('filter', manifest.status.nodes);
 
-          tasks.regression = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'regression'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'regression'
-              ).phase
-            : null;
+          tasks.automl = getPhase('automl', manifest.status.nodes);
+
+          tasks.regression = getPhase('regression', manifest.status.nodes);
 
           setTaskStatus(tasks);
         }
@@ -355,7 +328,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     }
 
     console.log('Start polling id: ', pollingId);
-    setTaskStatus(_.mapValues(taskStatus, () => 'wait'));
+    setTaskStatus(_.mapValues(taskStatus, () => 'Pending'));
     setRunStatus('Running');
     intervalPolling = setInterval(() => {
       fetchRunStatus();
@@ -383,17 +356,16 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
         // const runRes = await getStatusRun(
         //   'fc9d173f-ede3-11e9-9413-52540006ce68'
         // );
-        console.log(details.runId);
         const runRes = await getStatusRun(details.runId);
 
         if (runRes) {
-          console.log('Status Run', runRes.data.run.status);
+          console.info('[STATUS]', runRes.data.run.status);
           if (isSubscribed) setRunStatus(runRes.data.run.status);
           if (
             runRes.data.run.status === 'Running' ||
             runRes.data.run.status === undefined
           ) {
-            console.log('Preparing to polling');
+            console.info('Preparing to polling');
 
             if (isSubscribed) {
               setTaskStatus(_.mapValues(taskStatus, () => 'Running'));
@@ -403,7 +375,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
             const manifest = JSON.parse(
               runRes.data.pipeline_runtime.workflow_manifest
             );
-            console.log(manifest.status.nodes);
 
             if (isSubscribed) {
               //   // feature-temporal
@@ -415,75 +386,56 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
               //   // regression
               const tasks = { ...taskStatus };
 
-              tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-temporal'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'feature-temporal'
-                  ).phase
-                : null;
+              // if (
+              //   details.template === 'Linear Regression/Logistic Regression' ||
+              //   details.template === 'AutoML'
+              // ) {
+              //   tasks.conjunto_dados = getPhase(
+              //     'filter',
+              //     manifest.status.nodes
+              //   );
+              // } else {
+              //   tasks.conjunto_dados = getPhase(
+              //     'feature-temporal',
+              //     manifest.status.nodes
+              //   );
+              // }
 
-              tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-temporal'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'feature-temporal'
-                  ).phase
-                : null;
+              tasks.conjunto_dados = 'Succeeded';
 
-              tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'pre-selection-1'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'pre-selection-1'
-                  ).phase
-                : null;
-
-              tasks.atributos_genericos = Object.values(
+              tasks.atributos_tempo = getPhase(
+                'feature-temporal',
                 manifest.status.nodes
-              ).find((n) => n.displayName === 'feature-tools')
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'feature-tools'
-                  ).phase
-                : null;
+              );
 
-              tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'pre-selection-2'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'pre-selection-2'
-                  ).phase
-                : null;
-
-              tasks.filtro_atributos = Object.values(
+              tasks.pre_selecao1 = getPhase(
+                'pre-selection-1',
                 manifest.status.nodes
-              ).find((n) => n.displayName === 'filter')
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'filter'
-                  ).phase
-                : null;
+              );
 
-              tasks.automl = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'automl'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'automl'
-                  ).phase
-                : null;
+              tasks.atributos_genericos = getPhase(
+                'feature-tools',
+                manifest.status.nodes
+              );
 
-              tasks.regression = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'regression'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'regression'
-                  ).phase
-                : null;
+              tasks.pre_selecao2 = getPhase(
+                'pre-selection-2',
+                manifest.status.nodes
+              );
+
+              tasks.filtro_atributos = getPhase(
+                'filter',
+                manifest.status.nodes
+              );
+
+              tasks.automl = getPhase('automl', manifest.status.nodes);
+
+              tasks.regression = getPhase('regression', manifest.status.nodes);
 
               setTaskStatus(tasks);
             }
           }
         }
-      } else {
       }
     }
     if (details.headerId && isSubscribed) fetchColumns();
@@ -784,7 +736,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     };
 
     console.log(JSON.stringify(runRequestTrain));
-    console.log(details, experimentParameters);
 
     const runResponse = await startRun(JSON.stringify(runRequestTrain));
     if (runResponse) {
@@ -839,52 +790,172 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
       return atributos_tempo.period ? atributos_tempo.period : '';
     };
 
-    const parms = [
-      {
-        name: 'deployment-name',
-        value: details.uuid.toLowerCase().slice(0, 8),
-      },
-      {
-        name: 'experiment-id',
-        value: details.uuid,
-      },
-      {
-        name: 'bucket',
-        value: 'mlpipeline',
-      },
-      {
-        name: 'csv',
-        value: conjunto_dados.csvName,
-      },
-      {
-        name: 'txt',
-        value: conjunto_dados.txtName,
-      },
-      {
-        name: 'target',
-        value: findTarget(conjunto_dados.target),
-      },
-      {
-        name: 'date',
-        value: findDate(),
-      },
-      {
-        name: 'date-format',
-        value: '%Y-%m-%d',
-      },
-      {
-        name: 'feature-temporal-group',
-        value: insertComma(atributos_tempo.group),
-      },
-      {
-        name: 'feature-temporal-period',
-        value: getPeriod(),
-      },
-      {
-        name: 'feature-tools-group',
-        value: insertComma(atributos_tempo.group),
-      },
-    ];
+    let parms;
+
+    switch (details.template) {
+      case 'AutoML':
+        parms = [
+          {
+            name: 'deployment-name',
+            value: details.uuid.toLowerCase(),
+          },
+          {
+            name: 'experiment-id',
+            value: details.uuid,
+          },
+          {
+            name: 'bucket',
+            value: 'mlpipeline',
+          },
+          {
+            name: 'csv',
+            value: conjunto_dados.csvName,
+          },
+          {
+            name: 'txt',
+            value: conjunto_dados.txtName,
+          },
+          {
+            name: 'target',
+            value: findTarget(conjunto_dados.target),
+          },
+          {
+            name: 'date',
+            value: findDate(),
+          },
+        ];
+        break;
+      case 'AutoFeaturing + Linear Regression/Logistic Regression':
+        parms = [
+          {
+            name: 'deployment-name',
+            value: details.uuid.toLowerCase(),
+          },
+          {
+            name: 'experiment-id',
+            value: details.uuid,
+          },
+          {
+            name: 'bucket',
+            value: 'mlpipeline',
+          },
+          {
+            name: 'csv',
+            value: conjunto_dados.csvName,
+          },
+          {
+            name: 'txt',
+            value: conjunto_dados.txtName,
+          },
+          {
+            name: 'target',
+            value: findTarget(conjunto_dados.target),
+          },
+          {
+            name: 'date',
+            value: findDate(),
+          },
+          {
+            name: 'date-format',
+            value: '%Y-%m-%d',
+          },
+          {
+            name: 'feature-temporal-group',
+            value: insertComma(atributos_tempo.group),
+          },
+          {
+            name: 'feature-temporal-period',
+            value: getPeriod(),
+          },
+          {
+            name: 'feature-tools-group',
+            value: insertComma(atributos_tempo.group),
+          },
+        ];
+        break;
+      case 'AutoFeaturing + AutoML':
+        parms = [
+          {
+            name: 'deployment-name',
+            value: details.uuid.toLowerCase(),
+          },
+          {
+            name: 'experiment-id',
+            value: details.uuid,
+          },
+          {
+            name: 'bucket',
+            value: 'mlpipeline',
+          },
+          {
+            name: 'csv',
+            value: conjunto_dados.csvName,
+          },
+          {
+            name: 'txt',
+            value: conjunto_dados.txtName,
+          },
+          {
+            name: 'target',
+            value: findTarget(conjunto_dados.target),
+          },
+          {
+            name: 'date',
+            value: findDate(),
+          },
+          {
+            name: 'date-format',
+            value: '%Y-%m-%d',
+          },
+          {
+            name: 'feature-temporal-group',
+            value: insertComma(atributos_tempo.group),
+          },
+          {
+            name: 'feature-temporal-period',
+            value: getPeriod(),
+          },
+          {
+            name: 'feature-tools-group',
+            value: insertComma(atributos_tempo.group),
+          },
+        ];
+        break;
+      case 'Linear Regression/Logistic Regression':
+        parms = [
+          {
+            name: 'deployment-name',
+            value: details.uuid.toLowerCase(),
+          },
+          {
+            name: 'experiment-id',
+            value: details.uuid,
+          },
+          {
+            name: 'bucket',
+            value: 'mlpipeline',
+          },
+          {
+            name: 'csv',
+            value: conjunto_dados.csvName,
+          },
+          {
+            name: 'txt',
+            value: conjunto_dados.txtName,
+          },
+          {
+            name: 'target',
+            value: findTarget(conjunto_dados.target),
+          },
+          {
+            name: 'date',
+            value: findDate(),
+          },
+        ];
+        break;
+      default:
+        parms = [];
+    }
 
     const mountName = () => {
       return `${projectName} - ${details.name}`;
@@ -900,19 +971,19 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
     console.log(JSON.stringify(runRequestDeploy));
 
-    const deployResponse = await startRun(JSON.stringify(runRequestDeploy));
-    if (deployResponse) {
-      console.log(deployResponse);
-      console.log(deployResponse.data.run.id);
-      const resUpdate = await updateExperiment(
-        details.projectId,
-        details.uuid,
-        {
-          runStatus: 'Deployed',
-        }
-      );
-      if (resUpdate) fetch();
-    }
+    // const deployResponse = await startRun(JSON.stringify(runRequestDeploy));
+    // if (deployResponse) {
+    //   console.log(deployResponse);
+    //   console.log(deployResponse.data.run.id);
+    //   // const resUpdate = await updateExperiment(
+    //   //   details.projectId,
+    //   //   details.uuid,
+    //   //   {
+    //   //     runStatus: 'Deployed',
+    //   //   }
+    //   // );
+    //   // if (resUpdate) fetch();
+    // }
   };
 
   // FIM DEPLOY
@@ -942,9 +1013,10 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           dataSets={columns}
           setGroup={setGroup}
           setPeriod={setPeriod}
-          runStatus={runStatus}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
+          targetId={experimentParameters.conjunto_dados.target}
           details={details}
-          taskStatus={taskStatus.atributos_tempo}
         />
       );
     }
@@ -968,8 +1040,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           parameter={experimentParameters.atributos_tempo}
           dataSets={columns}
           setFeatureTools={setGroup}
-          runStatus={runStatus}
-          taskStatus={taskStatus.atributos_genericos}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
+          targetId={experimentParameters.conjunto_dados.target}
           details={details}
         />
       );
@@ -994,8 +1067,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           parameter={experimentParameters.filtro_atributos}
           dataSets={columns}
           setFilter={setFilter}
-          runStatus={runStatus}
-          taskStatus={taskStatus.filtro_atributos}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
+          targetId={experimentParameters.conjunto_dados.target}
         />
       );
     }

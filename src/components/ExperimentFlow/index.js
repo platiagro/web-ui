@@ -428,7 +428,7 @@ const ExperimentFlow = ({
                 task='regression'
                 selected={selected.regression}
                 taskClick={handleClick}
-                title='Regressão Logística'
+                title='Regressão'
                 icon='share-alt'
                 iconTheme='outlined'
                 condition={taskStatus.regression}
@@ -505,7 +505,7 @@ const ExperimentFlow = ({
                 task='regression'
                 selected={selected.regression}
                 taskClick={handleClick}
-                title='Regressão Logística'
+                title='Regressão'
                 icon='share-alt'
                 iconTheme='outlined'
                 condition={taskStatus.regression}
@@ -535,7 +535,6 @@ const ExperimentFlow = ({
   };
 
   return switchTemplate(details.template);
-  // return details.pipelineIdTrain ? <AutomlComplete /> : null;
 };
 
 ExperimentFlow.propTypes = {

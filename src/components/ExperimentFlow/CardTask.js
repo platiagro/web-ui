@@ -18,7 +18,7 @@ export default function CardTask({
     switch (condition) {
       case 'Running':
         return (
-          <Tooltip placement='right' title='Tarefa sendo executada'>
+          <Tooltip placement='right' title='Tarefa em execução'>
             <Icon
               style={{ fontSize: '18px', color: '#666666' }}
               type='setting'
@@ -26,9 +26,9 @@ export default function CardTask({
             />
           </Tooltip>
         );
-      case 'wait':
+      case 'Pending':
         return (
-          <Tooltip placement='right' title='Tarefa aguardando execução'>
+          <Tooltip placement='right' title='Tarefa pendente'>
             <Icon
               style={{ fontSize: '18px', color: '#666666' }}
               type='clock-circle'
@@ -69,7 +69,7 @@ export default function CardTask({
       }${selected ? ' selected' : ''}`}
       onClick={(e) => {
         e.stopPropagation();
-        taskClick(task);
+        if (condition !== 'Pending' && condition !== 'Running') taskClick(task);
       }}
       role='presentation'
     >

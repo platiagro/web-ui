@@ -174,7 +174,7 @@ const LeftSideMenu = ({ setFlowDetails, fetch }) => {
           prefix={<Icon type='search' />}
         />
       </div>
-      <Collapse bordered={false}>
+      <Collapse bordered={false} defaultActiveKey={['1']}>
         {!_.isEmpty(menuItems.template) && (
           <Panel
             header={
