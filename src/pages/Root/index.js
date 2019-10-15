@@ -63,8 +63,8 @@ const Root = () => {
                   href='https://forms.gle/6g7pyZ3N7seuSxxm8'
                 >
                   <div>
-                    <Icon type='file-text' />
-                    <span>Ver tutorial para o ForAGRI</span>
+                    <Icon type='home' />
+                    <span>Página ForAGRI</span>
                   </div>
                 </a>
                 <a
