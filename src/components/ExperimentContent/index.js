@@ -194,7 +194,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           runRes.data.run.status === 'Running' ||
           runRes.data.run.status === undefined
         ) {
-          console.log('[STATUS]', runRes.data.run.status);
+          console.info('[STATUS]', runRes.data.run.status);
 
           if (runRes.data.run.status) {
             setRunStatus(runRes.data.run.status);
@@ -280,7 +280,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           //   // automl
           //   // regression
           const tasks = { ...taskStatus };
-          console.log(manifest.status.nodes);
 
           // if (
           //   details.template === 'Linear Regression/Logistic Regression' ||
@@ -356,17 +355,16 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
         // const runRes = await getStatusRun(
         //   'fc9d173f-ede3-11e9-9413-52540006ce68'
         // );
-        console.log(details.runId);
         const runRes = await getStatusRun(details.runId);
 
         if (runRes) {
-          console.log('Status Run', runRes.data.run.status);
+          console.info('[STATUS]', runRes.data.run.status);
           if (isSubscribed) setRunStatus(runRes.data.run.status);
           if (
             runRes.data.run.status === 'Running' ||
             runRes.data.run.status === undefined
           ) {
-            console.log('Preparing to polling');
+            console.info('Preparing to polling');
 
             if (isSubscribed) {
               setTaskStatus(_.mapValues(taskStatus, () => 'Running'));
@@ -376,7 +374,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
             const manifest = JSON.parse(
               runRes.data.pipeline_runtime.workflow_manifest
             );
-            console.log(manifest.status.nodes);
 
             if (isSubscribed) {
               //   // feature-temporal
@@ -387,7 +384,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
               //   // automl
               //   // regression
               const tasks = { ...taskStatus };
-              console.log(manifest.status.nodes);
 
               // if (
               //   details.template === 'Linear Regression/Logistic Regression' ||

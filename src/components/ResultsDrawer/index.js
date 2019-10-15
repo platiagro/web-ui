@@ -85,7 +85,7 @@ const ResultsDrawer = ({
   const [resultTable, setResultTable] = useState(null);
   const [confusionMatrixImage, setconfusionMatrixImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(details);
+
   useEffect(() => {
     if (table && target) {
       fetchDatasetTable(

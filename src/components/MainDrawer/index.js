@@ -17,7 +17,9 @@ const MainDrawer = ({
 
   return (
     <Drawer
-      width={isFinished === 'Succeeded' ? '60vw' : 350}
+      width={
+        isFinished === 'Succeeded' || isFinished === 'Failed' ? '60vw' : 350
+      }
       title={title}
       placement='right'
       closable

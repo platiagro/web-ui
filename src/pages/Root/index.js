@@ -57,10 +57,16 @@ const Root = () => {
                   <Icon type='experiment' />
                   <span>Criar um novo projeto</span>
                 </div>
-                <div>
-                  <Icon type='file-text' />
-                  <span>Ver tutorial para o ForAGRI</span>
-                </div>
+                <a
+                  rel='noopener noreferrer'
+                  target='_blank'
+                  href='https://forms.gle/6g7pyZ3N7seuSxxm8'
+                >
+                  <div>
+                    <Icon type='file-text' />
+                    <span>Ver tutorial para o ForAGRI</span>
+                  </div>
+                </a>
                 <a
                   rel='noopener noreferrer'
                   target='_blank'
