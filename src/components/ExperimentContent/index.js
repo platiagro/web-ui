@@ -12,6 +12,7 @@ import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
 import AutoMLDrawerContent from '../AutoMLDrawerContent';
 import DataSetDrawerContent from '../DataSetDrawerContent';
+import ResultsDrawer from '../ResultsDrawer';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 import { updateExperiment } from '../../services/projectsApi';
 import { startRun, getStatusRun } from '../../services/pipelinesApi';
@@ -1010,6 +1011,13 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
         />
       );
     }
+    if (
+      selected.regression &&
+      runStatus === 'Succeeded' &&
+      taskStatus.regression === 'Succeeded'
+    ) {
+      return <ResultsDrawer hideDivider details={details} plot />;
+    }
 
     return null;
   };
@@ -1035,6 +1043,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     }
     if (selected.automl) {
       return 'AutoML';
+    }
+    if (selected.regression) {
+      return 'Regressão Logística';
     }
     return null;
   };

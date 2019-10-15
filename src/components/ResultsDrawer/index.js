@@ -5,12 +5,8 @@ import { Tag, Icon, Divider, Table, Spin } from 'antd';
 import {
   getResultTable,
   getDatasetTable,
-  getConfusionMatrix,
+  getPlot,
 } from '../../services/resultsApi';
-
-import { columnsResult, dataResult } from './tableMock';
-
-import responseMock from './responseMock.json';
 
 const timeGroup = {
   none: 'Nenhum',
@@ -59,13 +55,9 @@ const fetchDatasetTable = async (
   setIsLoading(false);
 };
 
-const fetchConfusionMatrix = async (
-  experimentId,
-  setIsLoading,
-  setconfusionMatrixImage
-) => {
-  const result = await getConfusionMatrix(experimentId);
-  setconfusionMatrixImage(result);
+const fetchPlot = async (experimentId, setIsLoading, setPlot) => {
+  const result = await getPlot(experimentId);
+  setPlot(result);
   setIsLoading(false);
 };
 
@@ -79,13 +71,13 @@ const ResultsDrawer = ({
   autoML,
   table,
   tableStatistics,
-  confusionMatrix,
+  plot,
   details,
+  hideDivider,
 }) => {
   const [resultTable, setResultTable] = useState(null);
-  const [confusionMatrixImage, setconfusionMatrixImage] = useState(null);
+  const [plotDetails, setPlot] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(details);
   useEffect(() => {
     if (table && target) {
       fetchDatasetTable(
@@ -116,8 +108,8 @@ const ResultsDrawer = ({
         setIsLoading,
         setResultTable
       );
-    } else if (confusionMatrix) {
-      fetchConfusionMatrix(details.uuid, setIsLoading, setconfusionMatrixImage);
+    } else if (plot) {
+      fetchPlot(details.uuid, setIsLoading, setPlot);
     } else {
       setIsLoading(false);
     }
@@ -232,23 +224,36 @@ const ResultsDrawer = ({
         </div>
       ) : null}
 
-      {confusionMatrix ? (
+      {plot ? (
         <div>
-          <Divider />
+          {hideDivider ? null : <Divider />}
 
           <p>
-            <strong>Matriz de confusão</strong>
+            <strong>
+              {plotDetails.type === 'error-distribution'
+                ? 'Gráfico de distribuição do erro'
+                : 'Matriz de confusão'}
+            </strong>
           </p>
-          <p>
-            A matriz de confusão mede o desemplenho de modelos de classificação,
-            a partir da frequência de previsões corretas e incorretas. Para
-            isso, são utilizados dados de teste com valores reais conhecidos.
-          </p>
+          {plotDetails.type === 'error-distribution' ? (
+            <p>
+              O gráfico de distribuição do erro indica o desempenho de modelos
+              para problemas de regressão, a partir das inferências. Para isso,
+              são utilizados dados de teste com valores reais conhecidos.
+            </p>
+          ) : (
+            <p>
+              A matriz de confusão mede o desemplenho de modelos de
+              classificação, a partir da frequência de previsões corretas e
+              incorretas. Para isso, são utilizados dados de teste com valores
+              reais conhecidos.
+            </p>
+          )}
 
           <br />
           <br />
 
-          <img alt='confusion matrix' src={confusionMatrixImage} />
+          <img alt='plot' src={plotDetails.imageUrl} />
         </div>
       ) : null}
     </div>

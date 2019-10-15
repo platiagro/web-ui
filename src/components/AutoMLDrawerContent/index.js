@@ -33,7 +33,7 @@ const AutoMLDrawerContent = ({
           <small> minutos</small>
         </div>
       ) : (
-        <ResultsDrawer details={details} autoML={parameter} confusionMatrix />
+        <ResultsDrawer details={details} autoML={parameter} plot />
       )}
       {results ? (
         <ResultsButtonBar

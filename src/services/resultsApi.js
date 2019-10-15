@@ -30,22 +30,18 @@ export const getDatasetTable = async (experimentId, datasetId) => {
   }
 };
 
-export const getConfusionMatrix = async (experimentId) => {
+export const getPlot = async (experimentId) => {
   try {
-    const response = await resultsApi.get(
-      `/results/${experimentId}/confusionMatrix/`,
-      { responseType: 'blob' }
-    );
-
-    console.log(response.data);
-
-    // Obtain a blob: URL for the image data.
-    // const arrayBufferView = new Uint8Array(response.data);
-    // const blob = new Blob(response.data);
     const urlCreator = window.URL || window.webkitURL;
-    const imageUrl = urlCreator.createObjectURL(response.data);
+    const type = await resultsApi.get(`/results/${experimentId}/type/`);
+    const plot = await resultsApi.get(`/results/${experimentId}/plot/`, {
+      responseType: 'blob',
+    });
+    const imageUrl = urlCreator.createObjectURL(plot.data);
 
-    return imageUrl;
+    const response = { type: type.data.type, imageUrl };
+
+    return response;
   } catch (error) {
     message.error(error.message);
   }
