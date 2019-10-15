@@ -2,7 +2,13 @@ import React from 'react';
 
 import { Drawer } from 'antd';
 
-const MainDrawer = ({ children, title, isOpen, onClose }) => {
+const MainDrawer = ({
+  children,
+  title,
+  isOpen,
+  onClose,
+  isFinished = null,
+}) => {
   // const [visible, setVisible] = useState(false);
 
   // useEffect(() => {
@@ -11,7 +17,7 @@ const MainDrawer = ({ children, title, isOpen, onClose }) => {
 
   return (
     <Drawer
-      width={350}
+      width={isFinished === 'Succeeded' ? '60vw' : 350}
       title={title}
       placement='right'
       closable

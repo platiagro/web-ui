@@ -49,6 +49,7 @@ export const startRun = async (body) => {
     return response;
   } catch (error) {
     message.error(error.message);
+    console.error(error.response.data.message);
   }
 };
 
@@ -66,9 +67,7 @@ export const getStatusRun = async (runId) => {
 
 export const getDeployments = async () => {
   try {
-    const response = await pipelinesApi.get(
-      '/pipeline/apis/v1beta1/runs'
-    );
+    const response = await pipelinesApi.get('/pipeline/apis/v1beta1/runs');
     const returnDeployments = [];
 
     response.data.runs.forEach((run) => {
@@ -86,16 +85,19 @@ export const getDeployments = async () => {
       const isDeployment = manifest.includes('SeldonDeployment');
 
       if (isDeployment) {
-        const deploymentName = run.pipeline_spec.parameters
-          .find(p => p.name === 'deployment-name').value;
-        const experimentId = run.pipeline_spec.parameters
-          .find(p => p.name === 'experiment-id').value;
-        const target = run.pipeline_spec.parameters
-          .find(p => p.name === 'target').value;
-        const date = run.pipeline_spec.parameters
-          .find(p => p.name === 'date').value;
-        const csv = run.pipeline_spec.parameters
-          .find(p => p.name === 'csv').value;
+        const deploymentName = run.pipeline_spec.parameters.find(
+          (p) => p.name === 'deployment-name'
+        ).value;
+        const experimentId = run.pipeline_spec.parameters.find(
+          (p) => p.name === 'experiment-id'
+        ).value;
+        const target = run.pipeline_spec.parameters.find(
+          (p) => p.name === 'target'
+        ).value;
+        const date = run.pipeline_spec.parameters.find((p) => p.name === 'date')
+          .value;
+        const csv = run.pipeline_spec.parameters.find((p) => p.name === 'csv')
+          .value;
         const getUrl = window.location;
         const url = `${getUrl.protocol}//${getUrl.host}/seldon/kubeflow/${deploymentName}/api/v0.1/predictions`;
         const deployment = {
@@ -103,7 +105,7 @@ export const getDeployments = async () => {
           flowName: name,
           url: url,
           created: created,
-          action: `explorer?experiment_id=${experimentId}&target_var=${target}&date_var=${date}&csv=${csv}`
+          action: `explorer?experiment_id=${experimentId}&target_var=${target}&date_var=${date}&csv=${csv}`,
         };
         returnDeployments.push(deployment);
       }

@@ -78,7 +78,7 @@ const DataSetDrawerContent = ({
       await updateExperiment(details.projectId, details.uuid, {
         datasetId: response.data.payload.dataset.uuid,
         headerId: response.data.payload.header.uuid,
-        targetColumnId: ' ',
+        targetColumnId: null,
         runId: null,
       });
       setTXT(response.data.payload.header.uuid);
@@ -87,11 +87,16 @@ const DataSetDrawerContent = ({
       setColumns(headerColumns.data.payload);
       setDataset(response.data.payload.dataset.uuid);
     } else {
-      console.log('ERROR');
-      // setColumns([]);
-      // setDataset(null);
-      // setTXT(null);
-      // setCSV(null);
+      setColumns([]);
+      setDataset(null);
+      setTXT(null);
+      setCSV(null);
+      await updateExperiment(details.projectId, details.uuid, {
+        datasetId: null,
+        headerId: null,
+        targetColumnId: null,
+        runId: null,
+      });
     }
     setDataSetHeaderFileList([]);
     setDataSetFileList([]);
@@ -109,7 +114,7 @@ const DataSetDrawerContent = ({
   const handleColumnSelect = async (e, row) => {
     const res = await updateColumn(row.headerId, row.uuid, e);
     if (res) {
-      console.log('CHANGE DATATYPE', res, e);
+      console.log('[DATATYPE]', e);
       const cols = [...columns];
       cols[row.position].datatype = e;
       setColumns(cols);

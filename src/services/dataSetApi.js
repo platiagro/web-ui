@@ -61,6 +61,7 @@ export const uploadDataSet = async (form) => {
     return response;
   } catch (error) {
     console.error(error.message);
-    message.error(error.response.data.message, 5);
+    console.error(error.response.data.message);
+    message.error('Importação falhou', 10);
   }
 };
