@@ -77,10 +77,11 @@ const Root = () => {
           <Col className='logo-content home-columns' span={12}>
             <img className='logo-color' alt='foragri logo' src={logoBody} />
             <p className='home-text'>
-              A PlatIAgro é uma plataforma aberta de IA para o agronegócio lorem
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              A PlatIAgro é uma plataforma de IA voltada para os temas
+              relacionados ao agronegócio. Sua missão é oferecer um ambiente
+              facilitador do desenvolvimento e implantação de modelos
+              estatísticos ou matemáticos que introduzam inteligência nos
+              processos.
             </p>
           </Col>
         </Row>
