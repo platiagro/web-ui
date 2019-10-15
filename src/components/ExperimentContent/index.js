@@ -80,7 +80,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     pre_selecao2: null,
     filtro_atributos: null,
     automl: null,
-    regression: false,
+    regression: null,
   });
 
   const url =
@@ -204,17 +204,18 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
             const tasks = { ...taskStatus };
 
-            if (
-              details.template === 'Linear Regression/Logistic Regression' ||
-              details.template === 'AutoML'
-            ) {
-              tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
-            } else {
-              tasks.conjunto_dados = getPhase(
-                'feature-temporal',
-                manifest.status.nodes
-              );
-            }
+            // if (
+            //   details.template === 'Linear Regression/Logistic Regression' ||
+            //   details.template === 'AutoML'
+            // ) {
+            //   tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
+            // } else {
+            //   tasks.conjunto_dados = getPhase(
+            //     'feature-temporal',
+            //     manifest.status.nodes
+            //   );
+            // }
+            tasks.conjunto_dados = 'Succeeded';
 
             tasks.atributos_tempo = getPhase(
               'feature-temporal',
@@ -259,6 +260,12 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
         } else {
           clearInterval(intervalPolling);
           console.log('Finalizou', runRes.data.run);
+          if (runRes.data.run.status === 'Succeeded') {
+            message.success(`${runRes.data.run.name} finalizou com Sucesso!`);
+          } else if (runRes.data.run.status === 'Failed') {
+            message.error(`${runRes.data.run.name} finalizou com Falha!`);
+          }
+
           setRunStatus(runRes.data.run.status);
 
           const manifest = JSON.parse(
@@ -275,17 +282,19 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           const tasks = { ...taskStatus };
           console.log(manifest.status.nodes);
 
-          if (
-            details.template === 'Linear Regression/Logistic Regression' ||
-            details.template === 'AutoML'
-          ) {
-            tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
-          } else {
-            tasks.conjunto_dados = getPhase(
-              'feature-temporal',
-              manifest.status.nodes
-            );
-          }
+          // if (
+          //   details.template === 'Linear Regression/Logistic Regression' ||
+          //   details.template === 'AutoML'
+          // ) {
+          //   tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
+          // } else {
+          //   tasks.conjunto_dados = getPhase(
+          //     'feature-temporal',
+          //     manifest.status.nodes
+          //   );
+          // }
+
+          tasks.conjunto_dados = 'Succeeded';
 
           tasks.atributos_tempo = getPhase(
             'feature-temporal',
@@ -380,20 +389,22 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
               const tasks = { ...taskStatus };
               console.log(manifest.status.nodes);
 
-              if (
-                details.template === 'Linear Regression/Logistic Regression' ||
-                details.template === 'AutoML'
-              ) {
-                tasks.conjunto_dados = getPhase(
-                  'filter',
-                  manifest.status.nodes
-                );
-              } else {
-                tasks.conjunto_dados = getPhase(
-                  'feature-temporal',
-                  manifest.status.nodes
-                );
-              }
+              // if (
+              //   details.template === 'Linear Regression/Logistic Regression' ||
+              //   details.template === 'AutoML'
+              // ) {
+              //   tasks.conjunto_dados = getPhase(
+              //     'filter',
+              //     manifest.status.nodes
+              //   );
+              // } else {
+              //   tasks.conjunto_dados = getPhase(
+              //     'feature-temporal',
+              //     manifest.status.nodes
+              //   );
+              // }
+
+              tasks.conjunto_dados = 'Succeeded';
 
               tasks.atributos_tempo = getPhase(
                 'feature-temporal',
@@ -428,7 +439,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
             }
           }
         }
-      } else {
       }
     }
     if (details.headerId && isSubscribed) fetchColumns();
@@ -729,7 +739,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     };
 
     console.log(JSON.stringify(runRequestTrain));
-    console.log(details, experimentParameters);
 
     const runResponse = await startRun(JSON.stringify(runRequestTrain));
     if (runResponse) {

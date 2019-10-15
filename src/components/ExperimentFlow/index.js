@@ -535,7 +535,6 @@ const ExperimentFlow = ({
   };
 
   return switchTemplate(details.template);
-  // return details.pipelineIdTrain ? <AutomlComplete /> : null;
 };
 
 ExperimentFlow.propTypes = {

@@ -81,7 +81,7 @@
       }
     }
     &.Running {
-      pointer-events: none;
+      cursor: progress;
       background-image: linear-gradient(90deg, #52c41a 50%, transparent 50%),
         linear-gradient(90deg, #52c41a 50%, transparent 50%),
         linear-gradient(0deg, #52c41a 50%, transparent 50%),
@@ -93,7 +93,7 @@
       border-color: transparent;
     }
     &.Pending {
-      pointer-events: none;
+      cursor: progress;
     }
 
     &.Succeeded {
