@@ -80,6 +80,7 @@ const TimeAttributeCreationDrawerContent = ({
   runStatus,
   taskStatus,
   details,
+  targetId,
 }) => {
   // resultados
   const [results, setResults] = useState(
@@ -99,6 +100,10 @@ const TimeAttributeCreationDrawerContent = ({
   //   attributesAfter: 45,
   // }
   const options = _.filter(dataSets, ['datatype', 'factor']);
+  const optionsTarget = _.filter(options, function(o) {
+    return o.uuid !== targetId;
+  });
+
   return (
     <div>
       {!showResults ? (
@@ -117,7 +122,7 @@ const TimeAttributeCreationDrawerContent = ({
             placeholder='Selecione'
             value={parameter.group}
           >
-            {options.map((item) => (
+            {optionsTarget.map((item) => (
               <Option key={item.uuid} value={item.name}>
                 {item.name}
               </Option>

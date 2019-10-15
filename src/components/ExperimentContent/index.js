@@ -38,7 +38,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
     pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
     filtro_atributos: [],
-    automl: { time: null },
+    automl: { time: 3 },
     conjunto_dados: {
       target: undefined,
       datasetId: null,
@@ -941,9 +941,10 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           dataSets={columns}
           setGroup={setGroup}
           setPeriod={setPeriod}
-          runStatus={runStatus}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
+          targetId={experimentParameters.conjunto_dados.target}
           details={details}
-          taskStatus={taskStatus.atributos_tempo}
         />
       );
     }
@@ -967,8 +968,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           parameter={experimentParameters.atributos_tempo}
           dataSets={columns}
           setFeatureTools={setGroup}
-          runStatus={runStatus}
-          taskStatus={taskStatus.atributos_genericos}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
+          targetId={experimentParameters.conjunto_dados.target}
           details={details}
         />
       );
@@ -993,8 +995,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           parameter={experimentParameters.filtro_atributos}
           dataSets={columns}
           setFilter={setFilter}
-          runStatus={runStatus}
-          taskStatus={taskStatus.filtro_atributos}
+          runStatus={runStatus} // 'Succeeded' // {runStatus}
+          taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
+          targetId={experimentParameters.conjunto_dados.target}
         />
       );
     }

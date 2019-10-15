@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
+import _ from 'lodash';
 
 import ResultsDrawer from '../ResultsDrawer';
 import ResultsButtonBar from '../ResultsButtonBar';
@@ -14,13 +15,18 @@ const AttributeFilterDrawerContent = ({
   runStatus,
   taskStatus,
   details,
+  targetId,
 }) => {
+  const optionsTarget = _.filter(dataSets, function(o) {
+    return o.uuid !== targetId;
+  });
   // resultados
   const [results, setResults] = useState(
     (runStatus === 'Failed' || runStatus === 'Succeeded') &&
       taskStatus === 'Succeeded'
   );
   const [showResults, setShowResults] = useState(results);
+  console.log(targetId);
 
   return (
     <div>
@@ -37,7 +43,7 @@ const AttributeFilterDrawerContent = ({
             style={{ width: '100%' }}
             placeholder='Selecione'
           >
-            {dataSets.map((item) => (
+            {optionsTarget.map((item) => (
               <Option key={item.uuid} value={item.name}>
                 {item.name}
               </Option>
