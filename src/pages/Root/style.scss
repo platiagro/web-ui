@@ -46,11 +46,11 @@
       align-items: center;
       background: rgba(250, 140, 22, 0.07);
       border-radius: 4px;
-      width: 10vw;
-      height: 10vw;
-      i {
-        font-size: 2vw;
-        font-weight: 400;
+      width: 12vw;
+      height: 12vw;
+      min-width: 12vw;
+      img {
+        width: 4vw;
       }
       span {
         margin-top: 1.5vh;
