@@ -26,7 +26,7 @@ export default function CardTask({
             />
           </Tooltip>
         );
-      case 'wait':
+      case 'Pending':
         return (
           <Tooltip placement='right' title='Tarefa aguardando execução'>
             <Icon

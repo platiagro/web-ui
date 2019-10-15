@@ -178,6 +178,12 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     setSelected(newSelected);
   };
 
+  const getPhase = (param, manifest, alter = null) => {
+    return Object.values(manifest).find((n) => n.displayName === param)
+      ? Object.values(manifest).find((n) => n.displayName === param).phase
+      : alter;
+  };
+
   const pollingRun = (pollingId) => {
     let intervalPolling;
     async function fetchRunStatus() {
@@ -198,71 +204,55 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
             const tasks = { ...taskStatus };
 
-            // tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
-            //   (n) => n.displayName === 'feature-temporal'
-            // )
-            //   ? Object.values(manifest.status.nodes).find(
-            //       (n) => n.displayName === 'feature-temporal'
-            //     ).phase
-            //   : null;
+            if (
+              details.template === 'Linear Regression/Logistic Regression' ||
+              details.template === 'AutoML'
+            ) {
+              tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
+            } else {
+              tasks.conjunto_dados = getPhase(
+                'feature-temporal',
+                manifest.status.nodes
+              );
+            }
 
-            tasks.conjunto_dados = 'wait';
+            tasks.atributos_tempo = getPhase(
+              'feature-temporal',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'feature-temporal'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'feature-temporal'
-                ).phase
-              : 'wait';
+            tasks.pre_selecao1 = getPhase(
+              'pre-selection-1',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'pre-selection-1'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'pre-selection-1'
-                ).phase
-              : 'wait';
+            tasks.atributos_genericos = getPhase(
+              'feature-tools',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.atributos_genericos = Object.values(
-              manifest.status.nodes
-            ).find((n) => n.displayName === 'feature-tools')
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'feature-tools'
-                ).phase
-              : 'wait';
+            tasks.pre_selecao2 = getPhase(
+              'pre-selection-2',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'pre-selection-2'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'pre-selection-2'
-                ).phase
-              : 'wait';
+            tasks.filtro_atributos = getPhase(
+              'filter',
+              manifest.status.nodes,
+              'Pending'
+            );
 
-            tasks.filtro_atributos = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'filter'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'filter'
-                ).phase
-              : 'wait';
+            tasks.automl = getPhase('automl', manifest.status.nodes, 'Pending');
 
-            tasks.automl = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'automl'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'automl'
-                ).phase
-              : 'wait';
-
-            tasks.regression = Object.values(manifest.status.nodes).find(
-              (n) => n.displayName === 'regression'
-            )
-              ? Object.values(manifest.status.nodes).find(
-                  (n) => n.displayName === 'regression'
-                ).phase
-              : 'wait';
+            tasks.regression = getPhase(
+              'regression',
+              manifest.status.nodes,
+              'Pending'
+            );
 
             setTaskStatus(tasks);
           }
@@ -283,70 +273,45 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           //   // automl
           //   // regression
           const tasks = { ...taskStatus };
+          console.log(manifest.status.nodes);
 
-          tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'feature-temporal'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-temporal'
-              ).phase
-            : null;
+          if (
+            details.template === 'Linear Regression/Logistic Regression' ||
+            details.template === 'AutoML'
+          ) {
+            tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
+          } else {
+            tasks.conjunto_dados = getPhase(
+              'feature-temporal',
+              manifest.status.nodes
+            );
+          }
 
-          tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'feature-temporal'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-temporal'
-              ).phase
-            : null;
+          tasks.atributos_tempo = getPhase(
+            'feature-temporal',
+            manifest.status.nodes
+          );
 
-          tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'pre-selection-1'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'pre-selection-1'
-              ).phase
-            : null;
+          tasks.pre_selecao1 = getPhase(
+            'pre-selection-1',
+            manifest.status.nodes
+          );
 
-          tasks.atributos_genericos = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'feature-tools'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-tools'
-              ).phase
-            : null;
+          tasks.atributos_genericos = getPhase(
+            'feature-tools',
+            manifest.status.nodes
+          );
 
-          tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'pre-selection-2'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'pre-selection-2'
-              ).phase
-            : null;
+          tasks.pre_selecao2 = getPhase(
+            'pre-selection-2',
+            manifest.status.nodes
+          );
 
-          tasks.filtro_atributos = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'filter'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'filter'
-              ).phase
-            : null;
+          tasks.filtro_atributos = getPhase('filter', manifest.status.nodes);
 
-          tasks.automl = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'automl'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'automl'
-              ).phase
-            : null;
+          tasks.automl = getPhase('automl', manifest.status.nodes);
 
-          tasks.regression = Object.values(manifest.status.nodes).find(
-            (n) => n.displayName === 'regression'
-          )
-            ? Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'regression'
-              ).phase
-            : null;
+          tasks.regression = getPhase('regression', manifest.status.nodes);
 
           setTaskStatus(tasks);
         }
@@ -354,7 +319,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     }
 
     console.log('Start polling id: ', pollingId);
-    setTaskStatus(_.mapValues(taskStatus, () => 'wait'));
+    setTaskStatus(_.mapValues(taskStatus, () => 'Pending'));
     setRunStatus('Running');
     intervalPolling = setInterval(() => {
       fetchRunStatus();
@@ -413,70 +378,51 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
               //   // automl
               //   // regression
               const tasks = { ...taskStatus };
+              console.log(manifest.status.nodes);
 
-              tasks.conjunto_dados = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-temporal'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'feature-temporal'
-                  ).phase
-                : null;
+              if (
+                details.template === 'Linear Regression/Logistic Regression' ||
+                details.template === 'AutoML'
+              ) {
+                tasks.conjunto_dados = getPhase(
+                  'filter',
+                  manifest.status.nodes
+                );
+              } else {
+                tasks.conjunto_dados = getPhase(
+                  'feature-temporal',
+                  manifest.status.nodes
+                );
+              }
 
-              tasks.atributos_tempo = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'feature-temporal'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'feature-temporal'
-                  ).phase
-                : null;
-
-              tasks.pre_selecao1 = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'pre-selection-1'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'pre-selection-1'
-                  ).phase
-                : null;
-
-              tasks.atributos_genericos = Object.values(
+              tasks.atributos_tempo = getPhase(
+                'feature-temporal',
                 manifest.status.nodes
-              ).find((n) => n.displayName === 'feature-tools')
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'feature-tools'
-                  ).phase
-                : null;
+              );
 
-              tasks.pre_selecao2 = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'pre-selection-2'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'pre-selection-2'
-                  ).phase
-                : null;
-
-              tasks.filtro_atributos = Object.values(
+              tasks.pre_selecao1 = getPhase(
+                'pre-selection-1',
                 manifest.status.nodes
-              ).find((n) => n.displayName === 'filter')
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'filter'
-                  ).phase
-                : null;
+              );
 
-              tasks.automl = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'automl'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'automl'
-                  ).phase
-                : null;
+              tasks.atributos_genericos = getPhase(
+                'feature-tools',
+                manifest.status.nodes
+              );
 
-              tasks.regression = Object.values(manifest.status.nodes).find(
-                (n) => n.displayName === 'regression'
-              )
-                ? Object.values(manifest.status.nodes).find(
-                    (n) => n.displayName === 'regression'
-                  ).phase
-                : null;
+              tasks.pre_selecao2 = getPhase(
+                'pre-selection-2',
+                manifest.status.nodes
+              );
+
+              tasks.filtro_atributos = getPhase(
+                'filter',
+                manifest.status.nodes
+              );
+
+              tasks.automl = getPhase('automl', manifest.status.nodes);
+
+              tasks.regression = getPhase('regression', manifest.status.nodes);
 
               setTaskStatus(tasks);
             }
