@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Layout, Icon, Row, Col } from 'antd';
+import React, { useState, useCallback } from 'react';
+import { Layout, Row, Col } from 'antd';
 import { useHistory } from 'react-router-dom';
 import NewProjectModal from '../../components/NewProjectModal';
 import logoBody from '../../assets/logo-colorido.svg';
@@ -15,33 +15,37 @@ const { Content } = Layout;
 const Root = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const history = useHistory();
+  const [formRef, setFormRef] = useState(null);
+
   function handleClick() {
-    history.push('/projects');
+    setModalVisible(true);
   }
 
-  const handleCreate = (e) => {
-    // form.validateFields(async (err, values) => {
-    //   if (err) {
-    //     return;
-    //   }
+  const saveFormRef = useCallback((node) => {
+    if (node !== null) {
+      setFormRef(node);
+    }
+  }, []);
 
-    //   const response = await projectsServices.createProject(values.name);
-    //   if (!!response) {
-    //     form.resetFields();
-    //     this.setState({ modalIsVisible: false });
-    //   }
-    //   this.projectsFetch();
-    // });
-    setModalVisible(false);
+  const handleCreate = () => {
+    formRef.validateFields(async (err, values) => {
+      if (err) {
+        return;
+      }
+
+      const response = await projectsServices.createProject(values.name);
+      if (response) {
+        setModalVisible(false);
+        formRef.resetFields();
+        history.push(`/projects/${response.data.payload.uuid}`);
+      }
+    });
   };
-
-  // const saveFormRef = (formRef) => {
-  //   this.formRef = formRef;
-  // };
 
   return (
     <Layout className='rootPage'>
       <NewProjectModal
+        ref={saveFormRef}
         visible={modalVisible}
         onCancel={() => {
           setModalVisible(false);
