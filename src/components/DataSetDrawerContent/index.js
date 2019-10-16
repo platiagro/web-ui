@@ -261,7 +261,7 @@ const DataSetDrawerContent = ({
           table
         />
       )}
-      {results ? (
+      {results && taskStatus === 'Failed' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}
           showResults={showResults}

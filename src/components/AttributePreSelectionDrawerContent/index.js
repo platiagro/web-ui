@@ -111,7 +111,7 @@ const AttributePreSelectionDrawerContent = ({
           tableStatistics
         />
       )}
-      {results ? (
+      {results && taskStatus === 'Failed' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}
           showResults={showResults}

@@ -53,7 +53,7 @@ const AttributeFilterDrawerContent = ({
       ) : (
         <ResultsDrawer attributesFilter={parameter} />
       )}
-      {results ? (
+      {results && taskStatus === 'Failed' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}
           showResults={showResults}

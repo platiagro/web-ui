@@ -151,7 +151,7 @@ const GenericAttributeCreationDrawerContent = ({
           tableStatistics
         />
       )}
-      {results ? (
+      {results && taskStatus === 'Failed' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}
           showResults={showResults}
