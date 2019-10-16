@@ -263,6 +263,14 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
           console.log('Finalizou', runRes.data.run);
           if (runRes.data.run.status === 'Succeeded') {
             message.success(`${runRes.data.run.name} finalizou com Sucesso!`);
+            const resUpdate = await updateExperiment(
+              details.projectId,
+              details.uuid,
+              {
+                runStatus: 'Succeeded',
+              }
+            );
+            console.info(resUpdate);
           } else if (runRes.data.run.status === 'Failed') {
             message.error(`${runRes.data.run.name} finalizou com Falha!`);
           }
@@ -400,6 +408,17 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
               //     manifest.status.nodes
               //   );
               // }
+
+              if (runRes.data.run.status === 'Succeeded') {
+                const resUpdate = await updateExperiment(
+                  details.projectId,
+                  details.uuid,
+                  {
+                    runStatus: 'Succeeded',
+                  }
+                );
+                console.info(resUpdate);
+              }
 
               tasks.conjunto_dados = 'Succeeded';
 
