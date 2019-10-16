@@ -38,6 +38,7 @@ class Projects extends React.Component {
 
   handleCreate = () => {
     const { form } = this.formRef.props;
+    const { history } = this.props;
     form.validateFields(async (err, values) => {
       if (err) {
         return;
@@ -46,9 +47,11 @@ class Projects extends React.Component {
       const response = await projectsServices.createProject(values.name);
       if (response) {
         form.resetFields();
-        this.setState({ modalIsVisible: false });
+        this.setState({ modalIsVisible: false }, () => {
+          history.push(`/projects/${response.data.payload.uuid}`);
+        });
       }
-      this.projectsFetch();
+      // this.projectsFetch(); Não precisa do fetch, já vai para a prox pagina
     });
   };
 
