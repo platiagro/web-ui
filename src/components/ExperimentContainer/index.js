@@ -112,7 +112,11 @@ const ExperimentContainer = ({ details, fetch }) => {
       {/* <div style={{ margin: '40px' }}> */}
       <Layout className='experiment-container'>
         {/* <Layout className='experiment-content'> */}
-        <LeftSideMenu fetch={fetch} setFlowDetails={setFlowDetails} />
+        <LeftSideMenu
+          fetch={fetch}
+          setFlowDetails={setFlowDetails}
+          details={details}
+        />
         <Content className='experiment-wraper'>
           <ExperimentsTabs
             fetch={fetch}

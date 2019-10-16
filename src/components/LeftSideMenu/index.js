@@ -109,7 +109,7 @@ const TemplateItem = ({ handleClick, template, disabled = false }) => (
   </div>
 );
 
-const LeftSideMenu = ({ setFlowDetails, fetch }) => {
+const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
   // Similar ao componentDidMount
   useEffect(() => {
     fetchPipelines(setFlowDetails);
@@ -131,6 +131,16 @@ const LeftSideMenu = ({ setFlowDetails, fetch }) => {
       setFlowDetails(template, params);
       await fetch();
     }
+  };
+
+  // Block change template after deploy or succeeded
+  const getRunStatus = () => {
+    return (
+      _.find(details.experimentList, { uuid: params.experimentId })
+        .runStatus === 'Deployed' ||
+      _.find(details.experimentList, { uuid: params.experimentId })
+        .runStatus === 'Succeeded'
+    );
   };
 
   const [menuItems, setItems] = useState(items);
@@ -188,7 +198,7 @@ const LeftSideMenu = ({ setFlowDetails, fetch }) => {
           >
             {menuItems.template.map((template) => (
               <TemplateItem
-                disabled={!params.experimentId}
+                disabled={!params.experimentId || getRunStatus()}
                 key={template.name}
                 template={template}
                 handleClick={handleClick}
