@@ -209,7 +209,7 @@ const ResultsDrawer = ({
 
           <p>
             <small>
-              Exibindo N de&nbsp;
+              Exibindo 10 de&nbsp;
               {resultTable.totalLines}
               &nbsp;observações
             </small>
