@@ -36,9 +36,9 @@ const tableColumns = [
     dataIndex: 'action',
     key: 'action',
     render: (value) => (
-      <Link to='/notebook/kubeflow-anonymous/server-1/tree?'>
+      <a target='_blank' href='/notebook/kubeflow-anonymous/server-1/tree?'>
         Monitoramento
-      </Link>
+      </a>
     ),
   },
 ];
@@ -50,7 +50,7 @@ const ImplantedFlowsTable = ({ flowList }) => {
       dataSource={flowList}
       columns={tableColumns}
       pagination={{ pageSize: 9 }}
-      // scroll={{ y: 'calc(100vh - 480px)' }}
+    // scroll={{ y: 'calc(100vh - 480px)' }}
     />
   );
 };
