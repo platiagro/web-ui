@@ -53,7 +53,7 @@ class NewProjectModal extends React.Component {
                 },
               ],
               initialValue: 'Novo Projeto',
-            })(<Input />)}
+            })(<Input allowClear autoFocus />)}
           </Form.Item>
         </Form>
       </Modal>
