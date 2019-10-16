@@ -67,7 +67,7 @@ export const getStatusRun = async (runId) => {
 
 export const getDeployments = async () => {
   try {
-    const response = await pipelinesApi.get('/pipeline/apis/v1beta1/runs');
+    const response = await pipelinesApi.get('/pipeline/apis/v1beta1/runs?page_size=100');
     const returnDeployments = [];
 
     if (response.data.runs) {
