@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { Table } from 'antd';
+import { Table, Typography, Tooltip } from 'antd';
+import { Link } from 'react-router-dom';
 
 import './style.scss';
+
+const { Paragraph } = Typography;
 
 const tableColumns = [
   {
@@ -14,6 +17,13 @@ const tableColumns = [
     title: 'URL',
     dataIndex: 'url',
     key: 'url',
+    render: (value) => (
+      <Tooltip title={value}>
+        <Paragraph ellipsis copyable>
+          {value}
+        </Paragraph>
+      </Tooltip>
+    ),
   },
   {
     title: 'Data de Criação',
@@ -25,7 +35,11 @@ const tableColumns = [
     title: 'Ação',
     dataIndex: 'action',
     key: 'action',
-    render: (value) => <a href={value}>Monitoramento</a>,
+    render: (value) => (
+      <Link to='/notebook/kubeflow-anonymous/server-1/tree?'>
+        Monitoramento
+      </Link>
+    ),
   },
 ];
 

@@ -87,7 +87,7 @@ export const updateExperiment = async (projectId, experimentId, body) => {
     return response;
   } catch (error) {
     console.error(error.message);
-    message.error(error.response.data.message);
+    if (error.response) message.error(error.response.data.message);
   }
 };
 

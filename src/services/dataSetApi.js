@@ -49,7 +49,7 @@ export const updateColumn = async (headerId, columnId, newType) => {
     return response;
   } catch (error) {
     console.error(error);
-    message.error(error.response.data.message);
+    if (error.response) message.error(error.response.data.message);
   }
 };
 
@@ -61,7 +61,7 @@ export const uploadDataSet = async (form) => {
     return response;
   } catch (error) {
     console.error(error.message);
-    console.error(error.response.data.message);
-    message.error('Importação falhou', 10);
+    if (error.response) console.error(error.response.data.message);
+    message.error('Importação falhou', 15);
   }
 };

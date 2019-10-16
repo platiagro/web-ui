@@ -10,7 +10,6 @@ import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 
 import { getDeployments } from '../../services/pipelinesApi';
 
-
 class ImplantedFlows extends React.Component {
   constructor(props) {
     super(props);
@@ -35,7 +34,7 @@ class ImplantedFlows extends React.Component {
     this.setState({ loading: false });
 
     if (response) this.setState({ flowList: response });
-  }
+  };
 
   renderBody() {
     const { loading, flowList } = this.state;
@@ -61,8 +60,8 @@ class ImplantedFlows extends React.Component {
         }
       />
     ) : (
-        <ImplantedFlowsTable flowList={flowList} />
-      );
+      <ImplantedFlowsTable flowList={flowList} />
+    );
   }
 
   render() {

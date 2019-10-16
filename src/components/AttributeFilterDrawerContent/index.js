@@ -25,6 +25,7 @@ const AttributeFilterDrawerContent = ({
     (runStatus === 'Failed' || runStatus === 'Succeeded') &&
       taskStatus === 'Succeeded'
   );
+
   const [showResults, setShowResults] = useState(results);
   console.log(targetId);
 
@@ -53,7 +54,7 @@ const AttributeFilterDrawerContent = ({
       ) : (
         <ResultsDrawer attributesFilter={parameter} />
       )}
-      {results && taskStatus === 'Failed' ? (
+      {runStatus === 'Failed' && taskStatus === 'Succeeded' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}
           showResults={showResults}

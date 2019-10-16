@@ -227,6 +227,8 @@ const DataSetDrawerContent = ({
     );
   };
 
+  console.log(runStatus, taskStatus);
+
   return (
     <div>
       {!showResults ? (
@@ -261,7 +263,7 @@ const DataSetDrawerContent = ({
           table
         />
       )}
-      {results && taskStatus === 'Failed' ? (
+      {runStatus === 'Failed' && taskStatus === 'Succeeded' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}
           showResults={showResults}

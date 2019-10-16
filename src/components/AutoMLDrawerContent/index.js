@@ -35,7 +35,7 @@ const AutoMLDrawerContent = ({
       ) : (
         <ResultsDrawer details={details} autoML={parameter} plot />
       )}
-      {results && taskStatus === 'Failed' ? (
+      {runStatus === 'Failed' && taskStatus === 'Succeeded' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}
           showResults={showResults}

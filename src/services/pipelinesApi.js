@@ -49,7 +49,7 @@ export const startRun = async (body) => {
     return response;
   } catch (error) {
     message.error(error.message);
-    console.error(error.response.data.message);
+    if (error.response) console.error(error.response.data.message);
   }
 };
 
