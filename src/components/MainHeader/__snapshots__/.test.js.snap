@@ -7,7 +7,15 @@ exports[`MainHeader component is expected render html correctly 1`] = `
   >
     <img
       alt="PlatIAgro Logo"
-      src="logo.png"
+      src="logo-vazado.png"
+    />
+  </div>
+  <div
+    className="logoDemo"
+  >
+    <img
+      alt="Demonstração ForAGRI"
+      src="logoDemo.png"
     />
   </div>
   <Menu

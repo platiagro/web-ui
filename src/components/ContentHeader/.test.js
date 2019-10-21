@@ -26,7 +26,7 @@ describe('ContentHeader component', () => {
 
   it(
     'The title is expected to receive an onTitleDoubleClick event if it' +
-      ' exists in the props',
+    ' exists in the props',
     () => {
       const title = 'Title';
       const handleTitleDoubleClick = jest.fn(() => true);
@@ -64,7 +64,7 @@ describe('ContentHeader component', () => {
 
   it(
     'A double click on the title is expected to have no events if props' +
-      ' onTitleDoubleClick is not set',
+    ' onTitleDoubleClick is not set',
     () => {
       const title = 'Title';
       const wrapper = shallow(<ContentHeader title={title} />);
@@ -73,12 +73,12 @@ describe('ContentHeader component', () => {
     }
   );
 
-  it('is expected to render the subtitle received by props', () => {
-    const subTitle = 'subTitle';
-    const wrapper = shallow(<ContentHeader subTitle={subTitle} />);
-
-    expect(wrapper.html()).toContain(subTitle);
-  });
+  //  it('is expected to render the subtitle received by props', () => {
+  //    const subTitle = 'subTitle';
+  //    const wrapper = shallow(<ContentHeader subTitle={subTitle} />);
+  //
+  //    expect(wrapper.html()).toContain(subTitle);
+  //  });
 
   it('is not expected to render subtitle if not present in props', () => {
     const wrapper = shallow(<ContentHeader />);
@@ -88,7 +88,7 @@ describe('ContentHeader component', () => {
 
   it(
     'The component is expected to render a "back" arrow with the function' +
-      ' contained in the onBack property, if any',
+    ' contained in the onBack property, if any',
     () => {
       const title = 'Title';
       const onBack = jest.fn(() => true);
@@ -101,7 +101,7 @@ describe('ContentHeader component', () => {
 
   it(
     'is expected that when clicking on the component\'s "back" arrow the' +
-      'function contained in the onBack property will be called',
+    'function contained in the onBack property will be called',
     () => {
       const title = 'Title';
       const onBack = jest.fn(() => true);
@@ -123,7 +123,7 @@ describe('ContentHeader component', () => {
 
   it(
     'is expected to render breadcrumbs contained in the breadcrumbs property' +
-      ' when there is one',
+    ' when there is one',
     () => {
       const breadcrumbs = [
         {
@@ -168,10 +168,10 @@ describe('ContentHeader component', () => {
 });
 
 /*
-Cabeçalho do conteúdo principal.  
-Esse componente é responsável por exibir um título.  
-Esse componente pode exibir um subtítulo.  
-Esse componente pode exibir uma seta para voltar a tela anterior.  
+Cabeçalho do conteúdo principal.
+Esse componente é responsável por exibir um título.
+Esse componente pode exibir um subtítulo.
+Esse componente pode exibir uma seta para voltar a tela anterior.
 Esse componente pode exibir um breadcrumbs.
 Esse componente pode receber um evento de duplo clique no título, para permitir a edição do mesmo.
 */
