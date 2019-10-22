@@ -1,9 +1,10 @@
 language: node_js
 
 env:
-  - CI=false # not fails on warnings
-  - REPO=platiagro
-  - VERSION=0.0.1-SNAPSHOT
+  global:
+    - CI=false # not fails on warnings
+    - REPO=platiagro
+    - VERSION=0.0.1-SNAPSHOT
 
 services:
   - docker
