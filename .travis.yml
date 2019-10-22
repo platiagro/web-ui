@@ -1,5 +1,8 @@
 language: node_js
 
+services:
+  - docker
+
 node_js:
   - "8"
 
@@ -18,10 +21,20 @@ before_script:
 script:
   - snyk test
   - yarn test --coverage
+  - yarn build
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t platiagro/web-ui:0.0.1-test .  
 
 after_script:
   - codecov
   - snyk monitor
+  - docker images
 
 notifications:
   email: false
+
+deploy:
+  provider: script
+  script: docker push platiagro/web-ui:0.0.1-test
+  on:
+    branch: master
