@@ -1,0 +1,49 @@
+.experiment-content {
+  display: flex;
+  flex-direction: column;
+  // background-color: #fff;
+
+  .experiment-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    .experiment-deployed {
+      display: flex;
+      align-items: center;
+      .experiment-url {
+        max-width: 250px;
+      }
+    }
+    .experiment-deployed > * {
+      margin: 0 6px;
+    }
+    .experiment-title {
+      font-weight: bold;
+      max-width: 180px;
+      cursor: pointer;
+    }
+    .edit-mode {
+      border: none;
+      outline: none;
+      box-shadow: none;
+      &:focus,
+      &:active {
+        border: none;
+        outline: none;
+      }
+    }
+
+    .experiment-actions {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .experiment-content-body {
+    background-color: #c5c5c5;
+  }
+}

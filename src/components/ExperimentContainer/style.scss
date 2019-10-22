@@ -1,0 +1,29 @@
+.experiment-container {
+  background-color: #f0f2f5;
+  padding: 2vh 2vw;
+
+  .experiment-wraper {
+    background-color: #fff;
+    background-size: 25px 25px;
+    background-image: radial-gradient(
+      circle,
+      #58585896 1px,
+      rgba(0, 0, 0, 0) 1px
+    );
+  }
+}
+
+.edit-mode {
+  input {
+    cursor: text;
+    border-color: transparent;
+    &:hover {
+      border-color: #d9d9d9;
+    }
+    &:focus,
+    &:active {
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+}
