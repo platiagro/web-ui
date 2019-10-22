@@ -1,7 +1,9 @@
 language: node_js
 
 env:
-  - CI=false
+  - CI=false # not fails on warnings
+  - REPO=platiagro
+  - VERSION=0.0.1-SNAPSHOT
 
 services:
   - docker
@@ -23,7 +25,7 @@ script:
   - yarn test --coverage
   - yarn build
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t platiagro/web-ui:0.0.1-test .  
+  - docker build -t "$REPO/web-ui:$VERSION" .  
 
 after_script:
   - codecov
@@ -35,6 +37,6 @@ notifications:
 
 deploy:
   provider: script
-  script: docker push platiagro/web-ui:0.0.1-test
+  script: docker push "$REPO/web-ui:$VERSION"
   on:
     branch: master
