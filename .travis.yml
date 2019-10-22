@@ -4,32 +4,23 @@ services:
   - docker
 
 node_js:
-  - "8"
+  - "10"
 
 dist: trusty
-
-addons:
-  chrome: stable
 
 cache: yarn
 
 before_script:
   - rm -rf ./node_modules package-lock.json
-  - yarn global add snyk
-  - yarn global add codecov
+  - npm install
   - yarn
-  - yarn install
 
 script:
-  - snyk test
-  - yarn test --coverage
-  - yarn build
+  - npm run build
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t platiagro/web-ui:0.0.1-test .  
 
 after_script:
-  - codecov
-  - snyk monitor
   - docker images
 
 notifications:
