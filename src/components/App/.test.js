@@ -11,7 +11,7 @@ import MainFooter from '../MainFooter';
 
 import { Layout } from 'antd';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer } = Layout;
 
 describe('App component', () => {
   it('is expected render without crashing', () => {
@@ -41,17 +41,6 @@ describe('App component', () => {
     ).toBeTruthy();
   });
 
-  it('Layout child is expected to have a Content child', () => {
-    const wrapper = shallow(<App />);
-
-    expect(
-      wrapper
-        .children(Layout)
-        .children(Content)
-        .exists()
-    ).toBeTruthy();
-  });
-
   it('Layout child is expected to have a Footer child', () => {
     const wrapper = shallow(<App />);
 
@@ -77,7 +66,7 @@ describe('App component', () => {
 
   it(
     'Route child of Header child of Layout child is expected to have a render ' +
-      'props that returns a MainHeader component',
+    'props that returns a MainHeader component',
     () => {
       const wrapper = shallow(<App />);
 
@@ -98,7 +87,7 @@ describe('App component', () => {
     expect(
       wrapper
         .children(Layout)
-        .children(Content)
+        .children(Layout)
         .children(Switch)
         .exists()
     ).toBeTruthy();
@@ -112,7 +101,7 @@ describe('App component', () => {
     expect(
       wrapper
         .children(Layout)
-        .children(Content)
+        .children(Layout)
         .children(Switch)
         .children(Route)
         .get(0).props.path
@@ -121,7 +110,7 @@ describe('App component', () => {
     expect(
       wrapper
         .children(Layout)
-        .children(Content)
+        .children(Layout)
         .children(Switch)
         .children(Route)
         .get(1).props.path
