@@ -1,23 +1,41 @@
 language: node_js
 
+env:
+  global:
+    - CI=false # not fails on warnings
+
+services:
+  - docker
+
 node_js:
-  - "8"
+  - "10"
+
 dist: trusty
-addons:
-  chrome: stable
+
+cache: yarn
+
 before_script:
-  - npm install -g snyk
-  - npm install -g codecov
+  - yarn global add snyk
+  - yarn global add codecov
+  - yarn
 
 script:
   - snyk test
-  - npm test -- --coverage
+  - yarn test --coverage
+  - yarn build
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t "$DOCKER_REPO/web-ui:$VERSION" .  
 
 after_script:
   - codecov
-
-after_success:
   - snyk monitor
+  - docker images
 
 notifications:
   email: false
+
+deploy:
+  provider: script
+  script: docker push "$DOCKER_REPO/web-ui:$VERSION"
+  on:
+    branch: master
