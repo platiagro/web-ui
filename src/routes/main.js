@@ -1,5 +1,7 @@
 /* istanbul ignore file */
 import Root from '../pages/Root';
+import Components from '../pages/Components';
+import Component from '../pages/ComponentDetail';
 import Projects from '../pages/Projects';
 import Project from '../pages/Project';
 import ImplantedFlows from '../pages/ImplantedFlows';
@@ -12,6 +14,19 @@ const mainRoutes = [
     icon: 'home',
     title: 'Início',
     component: Root,
+  },
+  {
+    path: '/components',
+    exact: true,
+    icon: 'experiment',
+    title: 'Componentes',
+    component: Components,
+  },
+  {
+    path: '/components/:componentId',
+    notInMenu: true,
+    title: 'Componente',
+    component: Component,
   },
   {
     path: '/projects',
