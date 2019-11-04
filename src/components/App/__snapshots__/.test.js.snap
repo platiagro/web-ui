@@ -19,6 +19,17 @@ exports[`App component is expected render html correctly 1`] = `
         <Route
           component={[Function]}
           exact={true}
+          key="/components"
+          path="/components"
+        />
+        <Route
+          component={[Function]}
+          key="/components/:componentId"
+          path="/components/:componentId"
+        />
+        <Route
+          component={[Function]}
+          exact={true}
           key="/projects"
           path="/projects"
         />

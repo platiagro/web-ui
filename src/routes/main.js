@@ -18,7 +18,7 @@ const mainRoutes = [
   {
     path: '/components',
     exact: true,
-    icon: 'experiment',
+    icon: 'code',
     title: 'Componentes',
     component: Components,
   },
