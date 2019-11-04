@@ -1,12 +1,17 @@
 /* eslint-disable react/prop-types */
 import './style.scss';
+
 import React, { Component } from 'react';
+
 import { Col, Icon, message, Row, Spin, Upload } from 'antd';
+
 import ContentHeader from '../../components/ContentHeader';
 import ComponentsParametersTable from '../../components/Component/ParametersTable';
 import EditableTitle from '../../components/EditableTitle';
 import NewParameterForm from '../../components/Component/NewParameterForm';
+
 import E404 from '../E404'; // 404 error
+
 import * as componentsServices from '../../services/componentsApi';
 
 const { Dragger } = Upload;
@@ -73,23 +78,28 @@ export default class ComponentDetail extends Component {
       },
       onChange(info) {
         const { status } = info.file;
-        if (status !== 'uploading') {
-          console.log(info.file, info.fileList);
-        }
         if (status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully.`);
+          message.success(`${info.file.name} salvo com sucesso.`);
         } else if (status === 'removed') {
-          message.success(`${info.file.name} file removed successfully.`);
+          if (!info.file.error) {
+            message.success(`${info.file.name} removido com sucesso.`);
+          }
         } else if (status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
+          if (info.file.error.status === 400) {
+            message.error(`Só é possível realizar o upload de um arquivo!`);
+          } else {
+            message.error(`Falha no upload do arquivo ${info.file.name}`);
+          }
         }
       },
       onRemove: async (file) => {
-        const response = await componentsServices.deleteFiles(details.uuid, [
-          file.name,
-        ]);
-        if (!response) {
-          return false;
+        if (!file.error) {
+          const response = await componentsServices.deleteFiles(details.uuid, [
+            file.name,
+          ]);
+          if (!response) {
+            return false;
+          }
         }
         return true;
       },
@@ -101,11 +111,13 @@ export default class ComponentDetail extends Component {
         type: null,
         required: null,
         default: null,
-        detail: null,
+        details: null,
       };
       newParameter.name = values.name;
       newParameter.type = values.type;
       newParameter.required = values.required;
+      newParameter.default = values.defaultValue;
+      newParameter.details = values.details;
 
       const { uuid, parameters } = details;
       let checkParameters = true;
@@ -117,14 +129,21 @@ export default class ComponentDetail extends Component {
 
       if (checkParameters) {
         parameters.push(newParameter);
-        await componentsServices.updateParameters(uuid, parameters);
-        this.setState(details);
-        message.success(
-          `Parâmetro ${newParameter.name} adicionado com sucesso`
+        const response = await componentsServices.updateParameters(
+          uuid,
+          parameters
         );
-      } else {
-        message.error('Já existe parâmetro com esse nome adicionado');
+        if (response) {
+          this.setState(details);
+          message.success(
+            `Parâmetro ${newParameter.name} adicionado com sucesso`
+          );
+          return true;
+        }
+        return false;
       }
+      message.error('Já existe parâmetro com esse nome adicionado');
+      return false;
     };
 
     return (
@@ -140,11 +159,7 @@ export default class ComponentDetail extends Component {
               <Icon type='inbox' />
             </p>
             <p className='ant-upload-text'>
-              Click or drag file to this area to upload
-            </p>
-            <p className='ant-upload-hint'>
-              Support for a single or bulk upload. Strictly prohibit from
-              uploading company data or other band files
+              Clique ou arraste o arquivo para esta área para fazer o upload
             </p>
           </Dragger>
         </Col>

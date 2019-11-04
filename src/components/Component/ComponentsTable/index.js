@@ -20,6 +20,8 @@ class ComponentTable extends React.Component {
         render: (value, record) => (
           <Link to={`components/${record.uuid}`}>{value}</Link>
         ),
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        ellipsis: true,
       },
       {
         title: 'Data de Criação',
@@ -27,6 +29,8 @@ class ComponentTable extends React.Component {
         key: 'createdAt',
         width: 200,
         render: (value) => new Date(value).toLocaleString(),
+        sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+        ellipsis: true,
       },
       {
         title: '',

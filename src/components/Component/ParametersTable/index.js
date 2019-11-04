@@ -16,6 +16,8 @@ class ParametersTable extends React.Component {
         title: 'Parâmetro',
         dataIndex: 'name',
         key: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        ellipsis: true,
       },
       {
         title: 'Tipo',
@@ -41,13 +43,20 @@ class ParametersTable extends React.Component {
             value = 'Não';
             color = 'volcano';
           }
-          return <Tag color={color}>{value}</Tag>;
+          return (
+            <Tag
+              color={color}
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
+              {value}
+            </Tag>
+          );
         },
       },
       {
         title: 'Detalhes',
-        dataIndex: 'detail',
-        key: 'detail',
+        dataIndex: 'details',
+        key: 'details',
       },
       {
         title: '',
