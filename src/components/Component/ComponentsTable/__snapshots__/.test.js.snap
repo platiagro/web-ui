@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ComponentTable component is expected render html correctly 1`] = `
+<withStore(Table)
+  className="componentsTable"
+  columns={
+    Array [
+      Object {
+        "dataIndex": "name",
+        "ellipsis": true,
+        "key": "name",
+        "render": [Function],
+        "sorter": [Function],
+        "title": "Nome do Componente",
+      },
+      Object {
+        "dataIndex": "createdAt",
+        "ellipsis": true,
+        "key": "createdAt",
+        "render": [Function],
+        "sorter": [Function],
+        "title": "Data de Criação",
+        "width": 200,
+      },
+      Object {
+        "key": "action",
+        "render": [Function],
+        "title": "",
+        "width": 100,
+      },
+    ]
+  }
+  dataSource={
+    Array [
+      Object {
+        "createdAt": "2019-11-04T17:16:53.000Z",
+        "file": "",
+        "name": "teste 2",
+        "updatedAt": null,
+        "uuid": "9014c0e6-534b-4e7d-a8db-cd5c9d8ee540",
+      },
+      Object {
+        "createdAt": "2019-11-04T17:16:48.000Z",
+        "file": "",
+        "name": "teste 1",
+        "updatedAt": null,
+        "uuid": "58af2581-de59-40ea-8051-cf28a9c3f5b1",
+      },
+      Object {
+        "createdAt": "2019-11-04T17:16:43.000Z",
+        "file": "",
+        "name": "teste ",
+        "updatedAt": null,
+        "uuid": "80b35439-d45b-4ae1-b437-8069a5663510",
+      },
+    ]
+  }
+  pagination={
+    Object {
+      "pageSize": 9,
+    }
+  }
+  rowKey={[Function]}
+  scroll={
+    Object {
+      "y": "calc(100vh - 480px)",
+    }
+  }
+/>
+`;
