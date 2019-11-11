@@ -7,81 +7,10 @@ import { useParams } from 'react-router-dom';
 
 import { getPipelines } from '../../services/pipelinesApi';
 import { updateExperiment } from '../../services/projectsApi';
+import * as componentsServices from '../../services/componentsApi';
 
 const { Sider } = Layout;
 const { Panel } = Collapse;
-
-const items = {
-  template: [
-    {
-      name: 'Regressão Linear / Regressão Lógistica',
-      databaseName: 'Linear Regression/Logistic Regression',
-      pipelineTrainId: null,
-      pipelineDeployId: null,
-      disabled: false,
-      default: false,
-      template: 1,
-    },
-    {
-      name: 'Auto Machine Learning',
-      databaseName: 'AutoML',
-      pipelineTrainId: null,
-      pipelineDeployId: null,
-      disabled: false,
-      default: false,
-      template: 2,
-    },
-    {
-      name: 'Auto Featuring Com Regressão Linear / Regressão Lógistica',
-      databaseName: 'AutoFeaturing + Linear Regression/Logistic Regression',
-      pipelineTrainId: null,
-      pipelineDeployId: null,
-      disabled: false,
-      default: false,
-      template: 3,
-    },
-    {
-      name: 'Auto Featuring Com Auto Machine Learning',
-      databaseName: 'AutoFeaturing + AutoML',
-      pipelineTrainId: null,
-      pipelineDeployId: null,
-      disabled: false,
-      default: false,
-      template: 4,
-    },
-  ],
-  data: ['Conjunto de dados'],
-  attr: [
-    'Pré-seleção de atributos',
-    'Seleção de atributos',
-    'Criação de atributos por tempo',
-    'Criação de atributos genéricas',
-    'Filtro de atributos',
-  ],
-  train: ['AutoML', 'Regressão Logística', 'Regressão'],
-};
-
-const fetchPipelines = async (setFlowDetails) => {
-  const pipelines = await getPipelines();
-
-  if (!pipelines) message.error('Cross-Origin Request Blocked');
-
-  items.template = items.template.map((template) => {
-    const templateAux = template;
-
-    if (pipelines) {
-      templateAux.pipelineTrainId = pipelines[template.databaseName].trainId;
-      templateAux.pipelineDeployId = pipelines[template.databaseName].deployId;
-      if (templateAux.template === 4) templateAux.disabled = false;
-    } else {
-      templateAux.disabled = true;
-    }
-
-    if (template.default) setFlowDetails(template);
-
-    return templateAux;
-  });
-};
 
 const Item = ({ title, disabled }) => (
   <div
@@ -110,8 +39,92 @@ const TemplateItem = ({ handleClick, template, disabled = false }) => (
 );
 
 const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
+  const [items, setItems] = useState({
+    template: [
+      {
+        name: 'Regressão Linear / Regressão Lógistica',
+        databaseName: 'Linear Regression/Logistic Regression',
+        pipelineTrainId: null,
+        pipelineDeployId: null,
+        disabled: false,
+        default: false,
+        template: 1,
+      },
+      {
+        name: 'Auto Machine Learning',
+        databaseName: 'AutoML',
+        pipelineTrainId: null,
+        pipelineDeployId: null,
+        disabled: false,
+        default: false,
+        template: 2,
+      },
+      {
+        name: 'Auto Featuring Com Regressão Linear / Regressão Lógistica',
+        databaseName: 'AutoFeaturing + Linear Regression/Logistic Regression',
+        pipelineTrainId: null,
+        pipelineDeployId: null,
+        disabled: false,
+        default: false,
+        template: 3,
+      },
+      {
+        name: 'Auto Featuring Com Auto Machine Learning',
+        databaseName: 'AutoFeaturing + AutoML',
+        pipelineTrainId: null,
+        pipelineDeployId: null,
+        disabled: false,
+        default: false,
+        template: 4,
+      },
+    ],
+    data: ['Conjunto de dados'],
+    attr: [
+      'Pré-seleção de atributos',
+      'Seleção de atributos',
+      'Criação de atributos por tempo',
+      'Criação de atributos genéricas',
+      'Filtro de atributos',
+    ],
+    train: ['AutoML', 'Regressão Logística', 'Regressão'],
+  });
+  const [menuItems, setMenuItems] = useState([]);
+
   // Similar ao componentDidMount
   useEffect(() => {
+    const fetchPipelines = async (fn) => {
+      const pipelines = await getPipelines();
+
+      if (!pipelines) message.error('Cross-Origin Request Blocked');
+
+      items.template = items.template.map((template) => {
+        const templateAux = template;
+
+        if (pipelines) {
+          templateAux.pipelineTrainId =
+            pipelines[template.databaseName].trainId;
+          templateAux.pipelineDeployId =
+            pipelines[template.databaseName].deployId;
+          if (templateAux.template === 4) templateAux.disabled = false;
+        } else {
+          templateAux.disabled = true;
+        }
+
+        if (template.default) fn(template);
+
+        return templateAux;
+      });
+    };
+
+    async function fetchComponents() {
+      const response = await componentsServices.getAllComponents();
+
+      const auxItems = items;
+      auxItems.components = response.data.payload;
+      setMenuItems(auxItems);
+    }
+
+    fetchComponents();
     fetchPipelines(setFlowDetails);
   }, []);
   const params = useParams();
@@ -143,15 +156,23 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
     );
   };
 
-  const [menuItems, setItems] = useState(items);
   const handleFilter = (e) => {
     // console.log(e.currentTarget.value);
     const v = e.currentTarget.value;
     if (!v) {
-      setItems(items);
+      setMenuItems(items);
     } else {
-      const auxItem = { template: [], data: [], attr: [], train: [] };
+      const auxItem = {
+        components: [],
+        template: [],
+        data: [],
+        attr: [],
+        train: [],
+      };
 
+      const itemsComponents = items.components.filter((item) => {
+        return item.name.toLowerCase().includes(v.toLowerCase());
+      });
       const template = items.template.filter((item) => {
         return item.name.toLowerCase().includes(v.toLowerCase());
       });
@@ -164,12 +185,14 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
       const train = items.train.filter((item) => {
         return item.toLowerCase().includes(v.toLowerCase());
       });
+
+      auxItem.components = itemsComponents;
       auxItem.template = template;
       auxItem.data = data;
       auxItem.attr = attr;
       auxItem.train = train;
 
-      setItems(auxItem);
+      setMenuItems(auxItem);
     }
   };
 
@@ -185,6 +208,26 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
         />
       </div>
       <Collapse bordered={false} defaultActiveKey={['1']}>
+        {!_.isEmpty(menuItems.components) && (
+          <Panel
+            header={
+              <span>
+                <Icon className='icon-collapse-header' type='file' />
+                Componentes
+              </span>
+            }
+            key='1'
+            className='collapse-menu'
+          >
+            {menuItems.components.map(({ name }) => (
+              <Item
+                disabled={!params.experimentId || getRunStatus()}
+                key={name}
+                title={name}
+              />
+            ))}
+          </Panel>
+        )}
         {!_.isEmpty(menuItems.template) && (
           <Panel
             header={
@@ -193,7 +236,7 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
                 Template
               </span>
             }
-            key='1'
+            key='2'
             className='collapse-menu'
           >
             {menuItems.template.map((template) => (
@@ -214,7 +257,7 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
                 Dados de entrada
               </span>
             }
-            key='2'
+            key='3'
             className='collapse-menu'
           >
             {menuItems.data.map((title) => (
@@ -230,7 +273,7 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
                 Eng. de atributos
               </span>
             }
-            key='3'
+            key='4'
             className='collapse-menu'
           >
             {menuItems.attr.map((title) => (
@@ -246,7 +289,7 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
                 Treinamento
               </span>
             }
-            key='4'
+            key='5'
             className='collapse-menu'
           >
             {menuItems.train.map((title) => (
