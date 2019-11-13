@@ -28,6 +28,7 @@ class Components extends React.Component {
 
   handleCreate = () => {
     const { form } = this.formRef.props;
+    const { history } = this.props;
     form.validateFields(async (err, values) => {
       if (err) {
         return;
@@ -37,7 +38,7 @@ class Components extends React.Component {
       if (response) {
         form.resetFields();
         this.setState({ modalIsVisible: false }, () => {
-          this.componentsFetch();
+          history.push(`/components/${response.data.payload.uuid}`);
         });
       }
     });
