@@ -51,8 +51,7 @@ export default class ComponentDetail extends Component {
       }
 
       if (component.data.payload.file) {
-        const dir = `components/${auxDetails.uuid}/`;
-        fileDetails.name = component.data.payload.file.replace(dir, '');
+        fileDetails.name = component.data.payload.file.split('/').pop();
         fileDetails.url = `${componentsServices.downloadUrl}/${auxDetails.uuid}/${fileDetails.name}`;
         auxDetails.file = fileDetails;
       }
