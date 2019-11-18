@@ -110,8 +110,8 @@ class UploadFileNotebookModal extends React.Component {
     let optionsNamespaces;
     if (namespaces) {
       optionsNamespaces = namespaces.map((namespace) => (
-        <Option key={namespaces} value={namespace}>
-          {namespace}
+        <Option key={namespace.namespace} value={namespace.namespace}>
+          {namespace.namespace}
         </Option>
       ));
     }
@@ -155,7 +155,7 @@ class UploadFileNotebookModal extends React.Component {
 
 UploadFileNotebookModal.propTypes = {
   details: PropTypes.object.isRequired,
-  namespaces: PropTypes.arrayOf(PropTypes.string).isRequired,
+  namespaces: PropTypes.arrayOf(PropTypes.object).isRequired,
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   form: PropTypes.shape({

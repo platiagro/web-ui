@@ -123,7 +123,7 @@ class ComponentTable extends React.Component {
 
 ComponentTable.propTypes = {
   details: PropTypes.object.isRequired,
-  namespaces: PropTypes.arrayOf(PropTypes.string).isRequired,
+  namespaces: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeDetails: PropTypes.func.isRequired,
 };
 

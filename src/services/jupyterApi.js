@@ -14,7 +14,9 @@ export const componentsApi = axios.create({
 
 export const getNamespaces = async () => {
   try {
-    const response = await componentsApi.get(`/jupyter/api/namespaces`);
+    const response = await componentsApi.get(
+      `/kubeflow/api/workgroup/env-info`
+    );
     return response;
   } catch (error) {
     message.error(error.message);
