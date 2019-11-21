@@ -47,7 +47,7 @@ class ComponentTable extends React.Component {
             cancelText='Não'
             placement='left'
           >
-            <a href='#'>Delete</a>
+            <a href='#'>Remover</a>
           </Popconfirm>
         ),
       },
