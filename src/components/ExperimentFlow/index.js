@@ -1,11 +1,14 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import './style.scss';
 import { ArcherContainer, ArcherElement } from 'react-archer';
 import CardTask from './CardTask';
+import * as componentsServices from '../../services/componentsApi';
+
+const maxNColumns = 3;
 
 const ExperimentFlow = ({
   details,
@@ -15,6 +18,88 @@ const ExperimentFlow = ({
   taskStatus,
   runStatus,
 }) => {
+  const [componentsList, setComponentsList] = useState({});
+  const [gridTemplate, setGridTemplate] = useState('');
+
+  useEffect(() => {
+    const fetchComponents = async () => {
+      const response = await componentsServices.getAllComponents();
+
+      return response.data.payload;
+    };
+
+    const fetchComponentsDetails = async () => {
+      const components = await fetchComponents();
+
+      const aux = {};
+
+      let lastComponent;
+
+      details.componentsList.forEach((c) => {
+        const componentDetails = components.find((e) => {
+          return e.uuid === c.componentId;
+        });
+
+        const { name } = componentDetails;
+
+        const normalizedName = name
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[- ]/g, '_');
+
+        const checkIfKeyExists = (key, i) => {
+          const composedKey = i !== 0 ? `${key}${i}` : key;
+
+          if (!(composedKey in aux)) {
+            return composedKey;
+          }
+          return checkIfKeyExists(key, i + 1);
+        };
+
+        const source = lastComponent;
+
+        const componentName = checkIfKeyExists(normalizedName, 0);
+
+        if (source) aux[source].target = componentName;
+
+        lastComponent = componentName;
+        aux[componentName] = { ...c, name };
+      });
+
+      setComponentsList(aux);
+    };
+
+    fetchComponentsDetails();
+  }, [details]);
+
+  useEffect(() => {
+    const orderComponents = () => {
+      const nRows =
+        Math.floor((Object.keys(componentsList).length - 1) / maxNColumns) + 1;
+      const grid2D = [...new Array(nRows)].map(() => []);
+
+      Object.keys(componentsList).forEach((key) => {
+        const { position } = componentsList[key];
+        grid2D[Math.floor(position / maxNColumns)][
+          position % maxNColumns
+        ] = key;
+      });
+
+      let template = '``';
+
+      const rows = grid2D.map((row) => {
+        return `'${row.join("' '")}'`;
+      });
+
+      template = rows.join('\n');
+
+      setGridTemplate(template);
+    };
+
+    orderComponents();
+  }, [componentsList]);
+
   const AutomlComplete = () => (
     <ArcherContainer strokeColor='gray'>
       <div className='grid-wraper'>
@@ -519,6 +604,66 @@ const ExperimentFlow = ({
     </ArcherContainer>
   );
 
+  const CustomTemplate = () => (
+    <ArcherContainer strokeColor='gray'>
+      <div className='grid-wraper'>
+        <div
+          className='flow-container template-custom'
+          style={{
+            gridTemplateAreas: gridTemplate,
+            gridTemplateColumns: `${new Array(maxNColumns)
+              .fill('1fr')
+              .join(' ')}`,
+          }}
+        >
+          {Object.keys(componentsList).map((key) => (
+            <div className={`item ${key}`} key={key}>
+              <ArcherElement
+                id={key}
+                relations={
+                  'target' in componentsList[key]
+                    ? [
+                        {
+                          targetId: componentsList[key].target,
+                          targetAnchor:
+                            componentsList[key].position % maxNColumns ===
+                            maxNColumns - 1
+                              ? 'top'
+                              : 'left',
+                          sourceAnchor:
+                            componentsList[key].position % maxNColumns ===
+                            maxNColumns - 1
+                              ? 'bottom'
+                              : 'right',
+                        },
+                      ]
+                    : []
+                }
+              >
+                <CardTask
+                  selected={selected.conjunto_dados}
+                  task={key}
+                  experimentComponentId={componentsList[key].uuid}
+                  taskClick={handleClick}
+                  title={componentsList[key].name}
+                  condition={taskStatus.conjunto_dados}
+                  loading={runStatus}
+                  params={
+                    !!parameters.conjunto_dados.datasetId &&
+                    Boolean(
+                      parameters.conjunto_dados.target &&
+                        parameters.conjunto_dados.target.trim()
+                    )
+                  }
+                />
+              </ArcherElement>
+            </div>
+          ))}
+        </div>
+      </div>
+    </ArcherContainer>
+  );
+
   const switchTemplate = (type) => {
     switch (type) {
       case 'AutoML':
@@ -529,6 +674,8 @@ const ExperimentFlow = ({
         return <AutomlComplete />;
       case 'Linear Regression/Logistic Regression':
         return <RegressionSimple />;
+      case null:
+        return <CustomTemplate />;
       default:
         return null;
     }

@@ -6,13 +6,16 @@ import { Layout, Icon, Input, Collapse, Empty, message } from 'antd';
 import { useParams } from 'react-router-dom';
 
 import { getPipelines } from '../../services/pipelinesApi';
-import { updateExperiment } from '../../services/projectsApi';
+import {
+  updateExperiment,
+  createExperimentComponent,
+} from '../../services/projectsApi';
 import * as componentsServices from '../../services/componentsApi';
 
 const { Sider } = Layout;
 const { Panel } = Collapse;
 
-const Item = ({ title, disabled }) => (
+const MockedItem = ({ title, disabled }) => (
   <div
     onClick={() => console.log('Cliclou no menu', title)}
     className={`collapse-menu-items${disabled ? ' disabled' : ''}`}
@@ -23,22 +26,22 @@ const Item = ({ title, disabled }) => (
   </div>
 );
 
-const TemplateItem = ({ handleClick, template, disabled = false }) => (
+const Item = ({ item, title, handleClick, disabled = false }) => (
   <div
     onClick={() => {
-      handleClick(template);
+      handleClick(item);
     }}
-    className={`collapse-menu-items${template.disabled ? ' disabled' : ''}${
+    className={`collapse-menu-items${item.disabled ? ' disabled' : ''}${
       disabled ? ' disabled' : ''
     }`}
     role='presentation'
   >
     <Icon className='icon-collapse-header' type='more' />
-    {template.name}
+    {title}
   </div>
 );
 
-const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
+const LeftSideMenu = ({ fetch, details }) => {
   const [items, setItems] = useState({
     template: [
       {
@@ -78,21 +81,22 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
         template: 4,
       },
     ],
-    data: ['Conjunto de dados'],
-    attr: [
-      'Pré-seleção de atributos',
-      'Seleção de atributos',
-      'Criação de atributos por tempo',
-      'Criação de atributos genéricas',
-      'Filtro de atributos',
-    ],
-    train: ['AutoML', 'Regressão Logística', 'Regressão'],
+    // data: ['Conjunto de dados'],
+    // attr: [
+    //   'Pré-seleção de atributos',
+    //   'Seleção de atributos',
+    //   'Criação de atributos por tempo',
+    //   'Criação de atributos genéricas',
+    //   'Filtro de atributos',
+    // ],
+    // train: ['AutoML', 'Regressão Logística', 'Regressão'],
   });
   const [menuItems, setMenuItems] = useState([]);
+  const [addingComponent, setAddingComponent] = useState(false);
 
   // Similar ao componentDidMount
   useEffect(() => {
-    const fetchPipelines = async (fn) => {
+    const fetchPipelines = async () => {
       const pipelines = await getPipelines();
 
       if (!pipelines) message.error('Cross-Origin Request Blocked');
@@ -110,8 +114,6 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
           templateAux.disabled = true;
         }
 
-        if (template.default) fn(template);
-
         return templateAux;
       });
     };
@@ -125,11 +127,14 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
     }
 
     fetchComponents();
-    fetchPipelines(setFlowDetails);
+    fetchPipelines();
   }, []);
   const params = useParams();
+  const experiment = details.experimentList.find((e) => {
+    return e.uuid === params.experimentId;
+  });
 
-  const handleClick = async (template) => {
+  const handleTemplateClick = async (template) => {
     const response = await updateExperiment(
       params.projectId,
       params.experimentId,
@@ -141,8 +146,33 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
     );
 
     if (response) {
-      setFlowDetails(template, params);
       await fetch();
+    }
+  };
+
+  const handleComponentClick = async (component) => {
+    if (!addingComponent) {
+      setAddingComponent(true);
+      const removePipelineId = updateExperiment(
+        params.projectId,
+        params.experimentId,
+        {
+          pipelineIdTrain: null,
+          pipelineIdDeploy: null,
+          template: null,
+        }
+      );
+
+      const addComponents = createExperimentComponent(
+        params.projectId,
+        params.experimentId,
+        component.uuid,
+        experiment.componentsList.length
+      );
+
+      await Promise.all([removePipelineId, addComponents]);
+      await fetch();
+      setAddingComponent(false);
     }
   };
 
@@ -219,11 +249,13 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
             key='1'
             className='collapse-menu'
           >
-            {menuItems.components.map(({ name }) => (
+            {menuItems.components.map((component) => (
               <Item
                 disabled={!params.experimentId || getRunStatus()}
-                key={name}
-                title={name}
+                item={component}
+                title={component.name}
+                key={component.name}
+                handleClick={handleComponentClick}
               />
             ))}
           </Panel>
@@ -240,16 +272,17 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
             className='collapse-menu'
           >
             {menuItems.template.map((template) => (
-              <TemplateItem
+              <Item
                 disabled={!params.experimentId || getRunStatus()}
+                item={template}
+                title={template.name}
                 key={template.name}
-                template={template}
-                handleClick={handleClick}
+                handleClick={handleTemplateClick}
               />
             ))}
           </Panel>
         )}
-        {!_.isEmpty(menuItems.data) && (
+        {/* {!_.isEmpty(menuItems.data) && (
           <Panel
             header={
               <span>
@@ -261,7 +294,7 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
             className='collapse-menu'
           >
             {menuItems.data.map((title) => (
-              <Item key={title} title={title} disabled />
+              <MockedItem key={title} title={title} disabled />
             ))}
           </Panel>
         )}
@@ -277,7 +310,7 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
             className='collapse-menu'
           >
             {menuItems.attr.map((title) => (
-              <Item key={title} title={title} disabled />
+              <MockedItem key={title} title={title} disabled />
             ))}
           </Panel>
         )}
@@ -293,10 +326,10 @@ const LeftSideMenu = ({ setFlowDetails, fetch, details }) => {
             className='collapse-menu'
           >
             {menuItems.train.map((title) => (
-              <Item key={title} title={title} disabled />
+              <MockedItem key={title} title={title} disabled />
             ))}
           </Panel>
-        )}
+        )} */}
         {_.every(menuItems, (property) => {
           return _.isEmpty(property);
         }) && (

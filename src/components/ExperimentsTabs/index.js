@@ -10,7 +10,7 @@ import ExperimentContent from '../ExperimentContent';
 import * as projectsServices from '../../services/projectsApi';
 
 const { TabPane } = Tabs;
-const ExperimentsTabs = ({ fetch, details, flowDetails, setFlowDetails }) => {
+const ExperimentsTabs = ({ fetch, details }) => {
   const [activeKey, setActiveKey] = useState(null);
   const history = useHistory();
   const params = useParams();
@@ -63,9 +63,7 @@ const ExperimentsTabs = ({ fetch, details, flowDetails, setFlowDetails }) => {
           <TabPane tab={pane.name} closable={false} key={pane.uuid}>
             <ExperimentContent
               details={details.experimentList[index]}
-              flowDetails={flowDetails}
               fetch={fetch}
-              setFlowDetails={setFlowDetails}
               projectName={details.name}
             />
           </TabPane>

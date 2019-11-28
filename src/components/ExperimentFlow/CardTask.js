@@ -10,6 +10,7 @@ export default function CardTask({
   selected,
   taskClick,
   task,
+  experimentComponentId,
   params,
   condition,
   loading,
@@ -69,7 +70,10 @@ export default function CardTask({
       }${selected ? ' selected' : ''}`}
       onClick={(e) => {
         e.stopPropagation();
-        if (condition !== 'Pending' && condition !== 'Running') taskClick(task);
+        if (condition !== 'Pending' && condition !== 'Running') {
+          if (experimentComponentId) taskClick(task, experimentComponentId);
+          else taskClick(task);
+        }
       }}
       role='presentation'
     >

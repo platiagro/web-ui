@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import EditableTitle from './EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../MainDrawer';
+import CustomDrawerContent from '../CustomDrawerContent';
 import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
 import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
@@ -24,10 +25,12 @@ import {
 
 const { Paragraph } = Typography;
 
-const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
+const ExperimentContent = ({ details, fetch, projectName }) => {
   const params = useParams();
 
   const [columns, setColumns] = useState([]);
+
+  const [selectedComponent, setSelectedComponent] = useState('');
 
   const [runStatus, setRunStatus] = useState('Loading');
 
@@ -61,6 +64,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     filtro_atributos: false,
     automl: false,
     regression: false,
+    custom_drawer: false,
   });
 
   // TODO
@@ -169,12 +173,18 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
   };
 
   // Click para abrir drawer de cada tarefa
-  const handleClick = (task) => {
+  const handleClick = (task, experimentComponentId) => {
     let newSelected = { ...selected };
-    newSelected = _.mapValues(selected, (value, key) => {
-      if (key === task) return !value;
-      return false;
-    });
+
+    if (experimentComponentId) {
+      newSelected.custom_drawer = true;
+      setSelectedComponent(experimentComponentId);
+    } else {
+      newSelected = _.mapValues(selected, (value, key) => {
+        if (key === task) return !value;
+        return false;
+      });
+    }
 
     setSelected(newSelected);
   };
@@ -1009,6 +1019,16 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
   // Selecioanr o Drawer certo
   const switchDrawer = () => {
+    if (selected.custom_drawer) {
+      return (
+        <CustomDrawerContent
+          details={details}
+          fetch={fetch}
+          experimentComponentId={selectedComponent}
+          handleClose={handleClose}
+        />
+      );
+    }
     if (selected.conjunto_dados) {
       return (
         <DataSetDrawerContent

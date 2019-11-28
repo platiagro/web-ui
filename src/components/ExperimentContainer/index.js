@@ -86,7 +86,6 @@ const ExperimentContainer = ({ details, fetch }) => {
    *      default: true,
    *    },
    */
-  const [flowDetails, setFlowDetails] = useState();
   const history = useHistory();
   function handleClick() {
     history.push('/projects');
@@ -112,18 +111,9 @@ const ExperimentContainer = ({ details, fetch }) => {
       {/* <div style={{ margin: '40px' }}> */}
       <Layout className='experiment-container'>
         {/* <Layout className='experiment-content'> */}
-        <LeftSideMenu
-          fetch={fetch}
-          setFlowDetails={setFlowDetails}
-          details={details}
-        />
+        <LeftSideMenu fetch={fetch} details={details} />
         <Content className='experiment-wraper'>
-          <ExperimentsTabs
-            fetch={fetch}
-            details={details}
-            flowDetails={flowDetails}
-            setFlowDetails={setFlowDetails}
-          />
+          <ExperimentsTabs fetch={fetch} details={details} />
         </Content>
         {/* </Layout> */}
       </Layout>
