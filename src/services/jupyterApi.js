@@ -34,11 +34,10 @@ export const getNotebook = async (namespace) => {
   }
 };
 
-export const uploadFile = async (id, namespace, notebook, fileName) => {
+export const uploadFile = async (namespace, notebook, filePath, fileName) => {
   try {
     const responseFileBase64 = await componentsServices.downloadBase64(
-      id,
-      fileName
+      filePath
     );
 
     if (!responseFileBase64) {

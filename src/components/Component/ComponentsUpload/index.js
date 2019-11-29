@@ -48,8 +48,9 @@ class ComponentTable extends React.Component {
       action: `${componentsServices.uploadUrl}/${details.uuid}`,
       defaultFileList: details.file ? [details.file] : [],
       beforeUpload: (file) => {
-        const upFile = file;
-        upFile.url = `${componentsServices.downloadUrl}/${details.uuid}/${file.name}`;
+        const auxFile = file;
+        auxFile.path = `components/${details.uuid}/${file.name}`;
+        auxFile.url = `${componentsServices.downloadUrl}/${details.uuid}/${file.name}`;
       },
       onChange(info) {
         const { status } = info.file;
@@ -89,7 +90,8 @@ class ComponentTable extends React.Component {
     return (
       <>
         <UploadFileNotebookModal
-          details={details}
+          filePath={details.file ? details.file.path : ''}
+          fileName={details.file ? details.file.name : ''}
           namespaces={namespaces}
           wrappedComponentRef={this.saveFormRef}
           visible={modalIsVisible}

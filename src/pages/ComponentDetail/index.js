@@ -14,6 +14,8 @@ import EditableTitle from '../../components/EditableTitle';
 
 import E404 from '../E404'; // 404 error
 
+import uuidv4 from 'uuid/v4';
+
 import * as componentsServices from '../../services/componentsApi';
 import * as jupyterServices from '../../services/jupyterApi';
 
@@ -36,8 +38,8 @@ export default class ComponentDetail extends Component {
   fetchDetails = async () => {
     this.setState({ loading: true });
     const { match } = this.props;
-    const fileDetails = { uid: 1, name: null, status: 'done', url: null };
     const auxDetails = { name: null, uuid: null, file: null, parameters: [] };
+    const fileDetails = { uid: uuidv4(), status: 'done' };
     const component = await componentsServices.getComponent(
       match.params.componentId
     );
@@ -52,15 +54,16 @@ export default class ComponentDetail extends Component {
 
       if (component.data.payload.file) {
         fileDetails.name = component.data.payload.file.split('/').pop();
+        fileDetails.path = `components/${auxDetails.uuid}/${fileDetails.name}`;
         fileDetails.url = `${componentsServices.downloadUrl}/${auxDetails.uuid}/${fileDetails.name}`;
         auxDetails.file = fileDetails;
       }
     }
 
-    const namespacesRespose = await jupyterServices.getNamespaces();
+    const namespacesResponse = await jupyterServices.getNamespaces();
     let jupyterNamespaces;
-    if (namespacesRespose) {
-      jupyterNamespaces = namespacesRespose.data.namespaces;
+    if (namespacesResponse) {
+      jupyterNamespaces = namespacesResponse.data.namespaces;
     }
 
     this.setState({

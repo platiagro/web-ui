@@ -81,14 +81,15 @@ class UploadFileNotebookModal extends React.Component {
         return;
       }
 
-      const { details } = this.props;
+      const { filePath, fileName } = this.props;
       const { namespace, notebook } = values;
       this.setState({ loading: true });
+
       const response = await jupyterServices.uploadFile(
-        details.uuid,
         namespace,
         notebook,
-        details.file.name
+        filePath,
+        fileName
       );
 
       if (response) {
@@ -154,7 +155,8 @@ class UploadFileNotebookModal extends React.Component {
 }
 
 UploadFileNotebookModal.propTypes = {
-  details: PropTypes.object.isRequired,
+  filePath: PropTypes.string.isRequired,
+  fileName: PropTypes.string.isRequired,
   namespaces: PropTypes.arrayOf(PropTypes.object).isRequired,
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,

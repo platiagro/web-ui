@@ -95,10 +95,14 @@ export const deleteComponent = async (id) => {
   }
 };
 
-export const downloadBase64 = async (id, filename) => {
+export const downloadBase64 = async (filePath) => {
   try {
-    const response = await componentsApi.get(
-      `/components/downloadBase64/${id}/${filename}`
+    const body = {
+      path: filePath,
+    };
+    const response = await componentsApi.post(
+      '/components/downloadBase64',
+      body
     );
     return response;
   } catch (error) {
