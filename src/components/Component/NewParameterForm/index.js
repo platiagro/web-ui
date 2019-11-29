@@ -48,7 +48,11 @@ class NewParameterForm extends React.Component {
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          onSubmit(values);
+          onSubmit(values).then((response) => {
+            if (response === true) {
+              this.props.form.resetFields();
+            }
+          });
         }
       });
     };
