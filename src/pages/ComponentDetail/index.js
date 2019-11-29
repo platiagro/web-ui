@@ -5,6 +5,8 @@ import React, { Component } from 'react';
 
 import { Col, message, Row, Spin } from 'antd';
 
+import uuidv4 from 'uuid/v4';
+
 import ContentHeader from '../../components/ContentHeader';
 import ComponentsParametersTable from '../../components/Component/ParametersTable';
 import ComponentsUpload from '../../components/Component/ComponentsUpload';
@@ -13,8 +15,6 @@ import NewParameterForm from '../../components/Component/NewParameterForm';
 import EditableTitle from '../../components/EditableTitle';
 
 import E404 from '../E404'; // 404 error
-
-import uuidv4 from 'uuid/v4';
 
 import * as componentsServices from '../../services/componentsApi';
 import * as jupyterServices from '../../services/jupyterApi';
