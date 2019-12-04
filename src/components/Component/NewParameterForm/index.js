@@ -18,26 +18,37 @@ class NewParameterForm extends React.Component {
     this.state = {
       modalIsVisible: false,
     };
+  }
 
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
+  componentDidUpdate() {
+    const { result, onUpdateComponentParamsReset } = this.props;
+    const { modalIsVisible } = this.state;
+
+    if (result) {
+      onUpdateComponentParamsReset();
+      if (modalIsVisible) {
+        this.hideModal();
+      } else {
+        this.props.form.resetFields();
+      }
+    }
   }
 
   saveFormRef = (formRef) => {
     this.formRef = formRef;
   };
 
-  showModal() {
+  showModal = () => {
     this.setState({ modalIsVisible: true });
-  }
+  };
 
-  hideModal() {
+  hideModal = () => {
     const { form } = this.formRef.props;
 
     this.setState({ modalIsVisible: false });
 
     form.resetFields();
-  }
+  };
 
   render() {
     const { onSubmit } = this.props;
@@ -48,11 +59,7 @@ class NewParameterForm extends React.Component {
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          onSubmit(values).then((response) => {
-            if (response === true) {
-              this.props.form.resetFields();
-            }
-          });
+          onSubmit(values);
         }
       });
     };
@@ -63,12 +70,7 @@ class NewParameterForm extends React.Component {
         if (err) {
           return;
         }
-        const response = onSubmit(values);
-        response.then((result) => {
-          if (result === true) {
-            this.hideModal();
-          }
-        });
+        onSubmit(values);
       });
     };
 

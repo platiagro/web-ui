@@ -1,88 +1,44 @@
 import './style.scss';
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { Button, Empty, Spin } from 'antd';
-import NewComponentModal from '../../components/Component/NewComponentModal';
+
 import ComponentsTable from '../../components/Component/ComponentsTable';
 import ContentHeader from '../../components/ContentHeader';
+import NewComponentModal from '../../components/Component/NewComponentModal';
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
-import * as componentsServices from '../../services/componentsApi';
+
+import {
+  addComponent,
+  deleteComponent,
+  fetchComponents,
+  toggleModal,
+} from '../../actions/componentsActions';
 
 class Components extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: false,
-      componentList: [],
-      modalIsVisible: false,
-    };
-
     this.renderBody = this.renderBody.bind(this);
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
   }
 
   componentDidMount() {
     this.componentsFetch();
   }
 
-  handleCreate = () => {
-    const { form } = this.formRef.props;
-    const { history } = this.props;
-    form.validateFields(async (err, values) => {
-      if (err) {
-        return;
-      }
-
-      const response = await componentsServices.createComponent(values.name);
-      if (response) {
-        form.resetFields();
-        this.setState({ modalIsVisible: false }, () => {
-          history.push(`/components/${response.data.payload.uuid}`);
-        });
-      }
-    });
-  };
-
   componentsFetch = async () => {
-    this.setState({ loading: true });
-
-    const response = await componentsServices.getAllComponents();
-
-    this.setState({ loading: false });
-
-    if (response) this.setState({ componentList: response.data.payload });
+    const { onFetchComponents } = this.props;
+    onFetchComponents();
   };
-
-  saveFormRef = (formRef) => {
-    this.formRef = formRef;
-  };
-
-  showModal() {
-    this.setState({ modalIsVisible: true });
-  }
-
-  hideModal() {
-    const { form } = this.formRef.props;
-
-    this.setState({ modalIsVisible: false });
-
-    form.resetFields();
-  }
 
   renderBody() {
-    const { loading, componentList } = this.state;
+    const { loading, componentList, onDeleteComponent } = this.props;
 
     if (loading) return <Spin />;
 
     const handleDelete = async (component) => {
-      this.setState({ loading: true });
-
-      await componentsServices.deleteComponent(component.uuid);
-
-      this.setState({ loading: false });
-
-      this.componentsFetch();
+      onDeleteComponent(component.uuid);
     };
 
     return componentList.length === 0 ? (
@@ -109,15 +65,19 @@ class Components extends React.Component {
   }
 
   render() {
-    const { loading, modalIsVisible } = this.state;
+    const { loading, modalIsVisible, history } = this.props;
+    const { onAddComponent, onToggleModal } = this.props;
+
+    const handleCreate = (name) => {
+      onAddComponent(name, history);
+    };
 
     return (
       <div className='componentsPage'>
         <NewComponentModal
-          wrappedComponentRef={this.saveFormRef}
           visible={modalIsVisible}
-          onCancel={this.hideModal}
-          onCreate={this.handleCreate}
+          onCreate={handleCreate}
+          onCancel={onToggleModal}
         />
 
         <ContentHeader title='Componentes' />
@@ -126,7 +86,7 @@ class Components extends React.Component {
           <div className='header'>
             <Button
               disabled={loading}
-              onClick={this.showModal}
+              onClick={onToggleModal}
               type='primary'
               icon='plus'
             >
@@ -140,4 +100,30 @@ class Components extends React.Component {
   }
 }
 
-export default Components;
+const mapStateToProps = (state) => {
+  return {
+    ...state.components,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddComponent: (post, history) => {
+      dispatch(addComponent(post, history));
+    },
+    onDeleteComponent: (id) => {
+      dispatch(deleteComponent(id));
+    },
+    onFetchComponents: () => {
+      dispatch(fetchComponents());
+    },
+    onToggleModal: () => {
+      dispatch(toggleModal());
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Components);
