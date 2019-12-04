@@ -118,10 +118,11 @@ const setComponentName = (name) => {
   };
 };
 
-export const updateComponentName = (id, name) => {
+export const updateComponentName = (editableDetails, name) => {
+  const { uuid } = editableDetails;
   return (dispatch) => {
     return componentsServices
-      .updateComponent(id, name)
+      .updateComponent(uuid, name)
       .then((response) => {
         if (response) {
           dispatch(setComponentName(name));

@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import AutosizeInput from 'react-input-autosize';
 
 const EditableTitle = (props) => {
-  const {
-    details: { name, uuid },
-    onUpdate,
-  } = props;
+  const { details, onUpdate } = props;
+  const { name } = details;
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [newVal, setNewVal] = useState(name);
@@ -19,7 +17,7 @@ const EditableTitle = (props) => {
   const handleSubmit = async (e) => {
     setLoading(true);
     if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
-      onUpdate(uuid, e.currentTarget.value);
+      onUpdate(details, e.currentTarget.value);
     } else {
       setNewVal(name);
     }
