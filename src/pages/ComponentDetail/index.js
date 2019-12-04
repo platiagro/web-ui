@@ -20,7 +20,6 @@ import {
   getNamespaces,
   updateComponentFile,
   updateComponentParams,
-  updateComponentParamsReset,
   updateComponentName,
 } from '../../actions/componentActions';
 
@@ -46,14 +45,11 @@ class ComponentDetail extends Component {
   };
 
   renderBody() {
-    const { details, namespaces, updateParamsResult } = this.props;
-    const {
-      onUpdateComponentFile,
-      onUpdateComponentParams,
-      onUpdateComponentParamsReset,
-    } = this.props;
+    const { details, namespaces } = this.props;
+    const { onUpdateComponentFile, onUpdateComponentParams } = this.props;
+    const { uuid, parameters } = details;
 
-    const handleSubmit = async (values) => {
+    const handleSubmit = (values, callback) => {
       const newParameter = {
         name: values.name,
         type: values.type,
@@ -62,7 +58,6 @@ class ComponentDetail extends Component {
         details: values.details,
       };
 
-      const { uuid, parameters } = details;
       let checkParameters = true;
       parameters.forEach((parameter) => {
         if (parameter.name === newParameter.name) {
@@ -71,8 +66,8 @@ class ComponentDetail extends Component {
       });
 
       if (checkParameters) {
-        parameters.push(newParameter);
-        parameters.sort((a, b) => {
+        const newParameters = [...parameters, newParameter];
+        newParameters.sort((a, b) => {
           if (a.name < b.name) {
             return -1;
           }
@@ -81,7 +76,12 @@ class ComponentDetail extends Component {
           }
           return 0;
         });
-        onUpdateComponentParams(uuid, parameters, newParameter.name, true);
+        onUpdateComponentParams(
+          uuid,
+          newParameters,
+          newParameter.name,
+          callback
+        );
         return true;
       }
       message.error('Já existe parâmetro com esse nome adicionado');
@@ -93,11 +93,7 @@ class ComponentDetail extends Component {
         <Col span={14} className='col'>
           <h2>Definição de parâmetros</h2>
           <h1>Adicione os parâmetros que serão configurados no experimento.</h1>
-          <NewParameterForm
-            result={updateParamsResult}
-            onSubmit={handleSubmit}
-            onUpdateComponentParamsReset={onUpdateComponentParamsReset}
-          />
+          <NewParameterForm onSubmit={handleSubmit} />
         </Col>
         <Col span={10} className='col'>
           <ComponentsUpload
@@ -116,8 +112,18 @@ class ComponentDetail extends Component {
       const { uuid, parameters } = details;
       const index = parameters.indexOf(removedParameter, 0);
       if (index > -1) {
-        parameters.splice(index, 1);
-        onUpdateComponentParams(uuid, parameters, removedParameter.name, false);
+        const newParameters = [...parameters];
+        newParameters.splice(index, 1);
+        onUpdateComponentParams(
+          uuid,
+          newParameters,
+          removedParameter.name,
+          (name, result) => {
+            if (result) {
+              message.success(`Parâmetro ${name} removido com sucesso`);
+            }
+          }
+        );
       } else {
         message.error(`Erro ao remover parâmetro ${removedParameter.name}`);
       }
@@ -181,11 +187,8 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateComponentFile: (file) => {
       dispatch(updateComponentFile(file));
     },
-    onUpdateComponentParams: (id, parameters, parameterName, isAdd) => {
-      dispatch(updateComponentParams(id, parameters, parameterName, isAdd));
-    },
-    onUpdateComponentParamsReset: () => {
-      dispatch(updateComponentParamsReset());
+    onUpdateComponentParams: (id, parameters, parameterName, callback) => {
+      dispatch(updateComponentParams(id, parameters, parameterName, callback));
     },
     onUpdateComponentName: (id, name) => {
       dispatch(updateComponentName(id, name));

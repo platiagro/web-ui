@@ -4,13 +4,10 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Button, Form, Input, Select, Switch } from 'antd';
+import { Button, Form, Input, message, Select, Switch } from 'antd';
 
 import NewParameterModal from '../NewParameterModal';
 
-const { Option } = Select;
-
-// eslint-disable-next-line
 class NewParameterForm extends React.Component {
   constructor(props) {
     super(props);
@@ -18,20 +15,6 @@ class NewParameterForm extends React.Component {
     this.state = {
       modalIsVisible: false,
     };
-  }
-
-  componentDidUpdate() {
-    const { result, onUpdateComponentParamsReset } = this.props;
-    const { modalIsVisible } = this.state;
-
-    if (result) {
-      onUpdateComponentParamsReset();
-      if (modalIsVisible) {
-        this.hideModal();
-      } else {
-        this.props.form.resetFields();
-      }
-    }
   }
 
   saveFormRef = (formRef) => {
@@ -50,16 +33,29 @@ class NewParameterForm extends React.Component {
     form.resetFields();
   };
 
+  resultCallback = (name, result) => {
+    const { modalIsVisible } = this.state;
+    if (result) {
+      message.success(`Parâmetro ${name} adicionado com sucesso`);
+      if (modalIsVisible) {
+        this.hideModal();
+      } else {
+        this.props.form.resetFields();
+      }
+    }
+  };
+
   render() {
     const { onSubmit } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { modalIsVisible } = this.state;
+    const { Option } = Select;
 
     const handleSubmit = (e) => {
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          onSubmit(values);
+          onSubmit(values, this.resultCallback);
         }
       });
     };
@@ -70,7 +66,7 @@ class NewParameterForm extends React.Component {
         if (err) {
           return;
         }
-        onSubmit(values);
+        onSubmit(values, this.resultCallback);
       });
     };
 

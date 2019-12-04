@@ -4,7 +4,6 @@ import {
   FETCH_JUPYTER_NAMESPACES,
   UPDATE_COMPONENT_FILE,
   UPDATE_COMPONENT_PARAMS,
-  UPDATE_COMPONENT_PARAMS_RESET,
   UPDATE_COMPONENT_NAME,
 } from '../actions/componentActions';
 
@@ -12,7 +11,6 @@ const initialState = {
   details: {},
   namespaces: [],
   loading: false,
-  updateParamsResult: null,
 };
 
 export default function postReducer(state = initialState, action) {
@@ -30,15 +28,9 @@ export default function postReducer(state = initialState, action) {
     }
     case UPDATE_COMPONENT_PARAMS: {
       const auxDetails = { ...state.details };
-      auxDetails.params = action.params;
-      return {
-        ...state,
-        details: auxDetails,
-        updateParamsResult: action.success,
-      };
+      auxDetails.parameters = action.parameters;
+      return { ...state, details: auxDetails };
     }
-    case UPDATE_COMPONENT_PARAMS_RESET:
-      return { ...state, updateParamsResult: null };
     case UPDATE_COMPONENT_NAME: {
       const auxDetails = { ...state.details };
       auxDetails.name = action.name;

@@ -8,7 +8,6 @@ export const FETCH_COMPONENT_DETAIL = 'FETCH_COMPONENT_DETAIL';
 export const FETCH_JUPYTER_NAMESPACES = 'FETCH_JUPYTER_NAMESPACES';
 export const UPDATE_COMPONENT_FILE = 'UPDATE_COMPONENT_FILE';
 export const UPDATE_COMPONENT_PARAMS = 'UPDATE_COMPONENT_PARAMS';
-export const UPDATE_COMPONENT_PARAMS_RESET = 'UPDATE_COMPONENT_PARAMS_RESET';
 export const UPDATE_COMPONENT_NAME = 'UPDATE_COMPONENT_NAME';
 
 const fetchStarted = () => {
@@ -82,40 +81,33 @@ export const updateComponentFile = (file) => {
   };
 };
 
-const setComponentParams = (params, success) => {
+const setComponentParams = (parameters) => {
   return {
     type: UPDATE_COMPONENT_PARAMS,
-    params,
-    success,
+    parameters,
   };
 };
 
-export const updateComponentParams = (id, parameters, parameterName, isAdd) => {
+export const updateComponentParams = (
+  id,
+  parameters,
+  parameterName,
+  callback
+) => {
   return (dispatch) => {
     return componentsServices
       .updateParameters(id, parameters)
       .then((response) => {
         if (response) {
-          dispatch(setComponentParams(response.data.payload.parameters, true));
-          if (isAdd) {
-            message.success(
-              `Parâmetro ${parameterName} adicionado com sucesso`
-            );
-          } else {
-            message.success(`Parâmetro ${parameterName} removido com sucesso`);
+          if (callback) {
+            callback(parameterName, true);
           }
+          dispatch(setComponentParams(response.data.payload.parameters));
         }
       })
       .catch((error) => {
-        dispatch(setComponentParams(parameters, false));
         throw error;
       });
-  };
-};
-
-export const updateComponentParamsReset = () => {
-  return {
-    type: UPDATE_COMPONENT_PARAMS_RESET,
   };
 };
 
