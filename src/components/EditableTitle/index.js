@@ -14,10 +14,16 @@ const EditableTitle = (props) => {
     setNewVal(e.currentTarget.value);
   };
 
+  const updateCallback = (result) => {
+    if (!result) {
+      setNewVal(name);
+    }
+  };
+
   const handleSubmit = async (e) => {
     setLoading(true);
     if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
-      onUpdate(details, e.currentTarget.value);
+      onUpdate(details, e.currentTarget.value, updateCallback);
     } else {
       setNewVal(name);
     }

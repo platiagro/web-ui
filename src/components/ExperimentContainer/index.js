@@ -29,9 +29,16 @@ const ExperimentContainer = ({ details, fetch }) => {
     history.push('/projects');
   }
 
-  const updateProjectName = async (editableDetails, newName) => {
+  const updateProjectName = async (
+    editableDetails,
+    newName,
+    resultCallback
+  ) => {
     const { uuid } = editableDetails;
-    await projectsServices.updateProject(uuid, newName);
+    const response = await projectsServices.updateProject(uuid, newName);
+    if (!response) {
+      resultCallback(false);
+    }
   };
 
   // console.log(

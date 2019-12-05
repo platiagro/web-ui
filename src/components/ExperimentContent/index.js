@@ -1240,11 +1240,17 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
       </Button>
     );
 
-  const updateExperimenttName = async (editableDetails, newName) => {
+  const updateExperimenttName = async (
+    editableDetails,
+    newName,
+    resultCallback
+  ) => {
     const { uuid, projectId } = editableDetails;
     const response = await updateExperiment(projectId, uuid, { name: newName });
     if (response) {
       fetch();
+    } else {
+      resultCallback(false);
     }
   };
 

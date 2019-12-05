@@ -118,7 +118,7 @@ const setComponentName = (name) => {
   };
 };
 
-export const updateComponentName = (editableDetails, name) => {
+export const updateComponentName = (editableDetails, name, resultCallback) => {
   const { uuid } = editableDetails;
   return (dispatch) => {
     return componentsServices
@@ -126,6 +126,8 @@ export const updateComponentName = (editableDetails, name) => {
       .then((response) => {
         if (response) {
           dispatch(setComponentName(name));
+        } else if (resultCallback) {
+          resultCallback(false);
         }
       })
       .catch((error) => {

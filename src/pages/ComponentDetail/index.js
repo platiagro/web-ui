@@ -190,8 +190,8 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateComponentParams: (id, parameters, parameterName, callback) => {
       dispatch(updateComponentParams(id, parameters, parameterName, callback));
     },
-    onUpdateComponentName: (editableDetails, name) => {
-      dispatch(updateComponentName(editableDetails, name));
+    onUpdateComponentName: (editableDetails, name, resultCallback) => {
+      dispatch(updateComponentName(editableDetails, name, resultCallback));
     },
   };
 };
