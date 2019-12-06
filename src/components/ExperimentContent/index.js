@@ -4,7 +4,7 @@ import _ from 'lodash';
 import './style.scss';
 import { Button, Divider, message, Icon, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
-import EditableTitle from './EditableTitle';
+import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../MainDrawer';
 import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
@@ -1239,10 +1239,25 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
         Implantar
       </Button>
     );
+
+  const updateExperimenttName = async (
+    editableDetails,
+    newName,
+    resultCallback
+  ) => {
+    const { uuid, projectId } = editableDetails;
+    const response = await updateExperiment(projectId, uuid, { name: newName });
+    if (response) {
+      fetch();
+    } else {
+      resultCallback(false);
+    }
+  };
+
   return (
     <div className='experiment-content'>
       <div className='experiment-content-header'>
-        <EditableTitle fetchDetails={fetch} details={details} />
+        <EditableTitle details={details} onUpdate={updateExperimenttName} />
 
         {/* {details.runStatus === 'Deployed' && (
           <Paragraph

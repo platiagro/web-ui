@@ -14,12 +14,18 @@ const hasErrors = (fieldsError) => {
 // eslint-disable-next-line
 class NewComponentModal extends React.Component {
   render() {
-    const { visible, onCancel, onCreate, form } = this.props;
+    const { visible, form, history } = this.props;
+    const { onCreate, onCancel } = this.props;
     const { getFieldDecorator, getFieldsError } = form;
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      onCreate();
+      form.validateFields(async (err, values) => {
+        if (err) {
+          return;
+        }
+        onCreate(values.name, history);
+      });
     };
 
     return (
@@ -29,10 +35,10 @@ class NewComponentModal extends React.Component {
         okText='Criar'
         cancelText='Cancelar'
         onCancel={onCancel}
-        onOk={onCreate}
+        onOk={handleSubmit}
         okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
       >
-        <Form layout='vertical' onSubmit={handleSubmit}>
+        <Form layout='vertical'>
           <Form.Item label='Qual o nome do seu componente?'>
             {getFieldDecorator('name', {
               rules: [

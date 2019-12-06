@@ -1,79 +1,16 @@
+import './style.scss';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import './style.scss';
-import { Layout, Icon } from 'antd';
-import AutosizeInput from 'react-input-autosize';
+import { Layout } from 'antd';
 import ExperimentsTabs from '../ExperimentsTabs';
 import LeftSideMenu from '../LeftSideMenu';
 import ContentHeader from '../ContentHeader';
+import EditableTitle from '../EditableTitle';
+
 import * as projectsServices from '../../services/projectsApi';
 
 const { Content } = Layout;
-
-const EditableTitle = (props) => {
-  const {
-    details: { name, uuid },
-    fetch,
-  } = props;
-  const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [newVal, setNewVal] = useState(name);
-
-  const handleChange = (e) => {
-    setNewVal(e.currentTarget.value);
-  };
-
-  const handleSubmit = async (e) => {
-    setLoading(true);
-    if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
-      const response = await projectsServices.updateProject(
-        uuid,
-        e.currentTarget.value
-      );
-      if (!response) {
-        setNewVal(name);
-      } else {
-        await fetch();
-      }
-    } else {
-      setNewVal(name);
-    }
-
-    setEditMode(false);
-    setLoading(false);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      e.currentTarget.blur();
-    } else if (e.key === 'Escape') {
-      setNewVal(name);
-    }
-  };
-
-  return (
-    <>
-      <AutosizeInput
-        onBlur={handleSubmit}
-        onClick={() => {
-          setEditMode(true);
-        }}
-        onKeyUp={handleKeyPress}
-        onChange={handleChange}
-        className={
-          editMode
-            ? 'ant-page-header-heading-title autosize-input-custom'
-            : 'ant-page-header-heading-title autosize-input-custom edit-mode'
-        }
-        value={newVal}
-        readOnly={!editMode}
-        disabled={loading}
-      />
-      {loading && <Icon type='loading' />}
-    </>
-  );
-};
 
 const ExperimentContainer = ({ details, fetch }) => {
   /**
@@ -92,6 +29,18 @@ const ExperimentContainer = ({ details, fetch }) => {
     history.push('/projects');
   }
 
+  const updateProjectName = async (
+    editableDetails,
+    newName,
+    resultCallback
+  ) => {
+    const { uuid } = editableDetails;
+    const response = await projectsServices.updateProject(uuid, newName);
+    if (!response) {
+      resultCallback(false);
+    }
+  };
+
   // console.log(
   //   'Details',
   //   details,
@@ -105,7 +54,7 @@ const ExperimentContainer = ({ details, fetch }) => {
   return (
     <>
       <ContentHeader
-        title={<EditableTitle details={details} fetch={fetch} />}
+        title={<EditableTitle details={details} onUpdate={updateProjectName} />}
         subTitle={details.uuid}
         onBack={handleClick}
       />

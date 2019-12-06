@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import { Icon } from 'antd';
 import PropTypes from 'prop-types';
 import AutosizeInput from 'react-input-autosize';
-import * as componentsApi from '../../services/componentsApi';
 
 const EditableTitle = (props) => {
-  const {
-    details: { name, uuid },
-    fetch,
-  } = props;
+  const { details, onUpdate } = props;
+  const { name } = details;
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [newVal, setNewVal] = useState(name);
@@ -17,19 +14,16 @@ const EditableTitle = (props) => {
     setNewVal(e.currentTarget.value);
   };
 
+  const updateCallback = (result) => {
+    if (!result) {
+      setNewVal(name);
+    }
+  };
+
   const handleSubmit = async (e) => {
     setLoading(true);
     if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
-      const response = await componentsApi.updateComponent(
-        uuid,
-        e.currentTarget.value
-      );
-
-      if (!response) {
-        setNewVal(name);
-      } else {
-        await fetch();
-      }
+      onUpdate(details, e.currentTarget.value, updateCallback);
     } else {
       setNewVal(name);
     }
@@ -74,6 +68,7 @@ EditableTitle.propTypes = {
     uuid: PropTypes.string,
     name: PropTypes.string,
   }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditableTitle;

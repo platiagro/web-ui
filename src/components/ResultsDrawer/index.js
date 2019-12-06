@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import { Tag, Icon, Divider, Table, Spin } from 'antd';
 
+import NotebookEdit from '../Component/EditComponentNotebook';
+
 import {
   getResultTable,
   getDatasetTable,
@@ -75,6 +77,22 @@ const ResultsDrawer = ({
   details,
   hideDivider,
 }) => {
+  let fileName;
+
+  if (timeAttributes) {
+    fileName = 'FeatureTemporal.ipynb';
+  } else if (attributesPreSelection) {
+    if (preType === 1) {
+      fileName = 'PreSelec-1.ipynb';
+    } else {
+      fileName = 'PreSelec-2.ipynb';
+    }
+  } else if (genericAttributes) {
+    fileName = 'FeatureTools.ipynb';
+  } else if (plot) {
+    fileName = 'Regression.ipynb';
+  }
+
   const [resultTable, setResultTable] = useState(null);
   const [plotDetails, setPlot] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -115,6 +133,7 @@ const ResultsDrawer = ({
     }
   }, []);
 
+  // eslint-disable-next-line no-return-assign
   return isLoading ? (
     <Spin />
   ) : (
@@ -254,7 +273,15 @@ const ResultsDrawer = ({
           <br />
 
           <img alt='plot' src={plotDetails.imageUrl} />
+          <br />
         </div>
+      ) : null}
+
+      {fileName ? (
+        <NotebookEdit
+          filePath={`${details.uuid}/${fileName}`}
+          fileName={fileName}
+        />
       ) : null}
     </div>
   );

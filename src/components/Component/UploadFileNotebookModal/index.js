@@ -96,7 +96,7 @@ class UploadFileNotebookModal extends React.Component {
         message.success(`Upload realizado com sucesso.`);
         this.onCancelModal();
         await this.sleep(1000);
-        window.open(`/notebook/${namespace}/${notebook}/tree?`);
+        window.open(`/notebook/${namespace}/${notebook}/notebooks/${fileName}`);
       }
 
       this.setState({ loading: false });
