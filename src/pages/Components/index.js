@@ -1,45 +1,37 @@
 import './style.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-
 import { Button, Empty, Spin } from 'antd';
-
 import ComponentsTable from '../../components/Component/ComponentsTable';
 import ContentHeader from '../../components/ContentHeader';
 import NewComponentModal from '../../components/Component/NewComponentModal';
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
-
 import {
   addComponent,
   deleteComponent,
   fetchComponents,
   toggleModal,
-} from '../../actions/componentsActions';
+} from '../../store/actions/componentsActions';
 
-class Components extends React.Component {
-  constructor(props) {
-    super(props);
+const Components = (props) => {
+  const { componentList, loading, modalIsVisible, history } = props;
+  const {
+    onAddComponent,
+    onDeleteComponent,
+    onFetchComponents,
+    onToggleModal,
+  } = props;
 
-    this.renderBody = this.renderBody.bind(this);
-  }
-
-  componentDidMount() {
-    this.componentsFetch();
-  }
-
-  componentsFetch = async () => {
-    const { onFetchComponents } = this.props;
+  useEffect(() => {
     onFetchComponents();
+  }, []);
+
+  const handleDelete = async (component) => {
+    onDeleteComponent(component.uuid);
   };
 
-  renderBody() {
-    const { loading, componentList, onDeleteComponent } = this.props;
-
+  const renderBody = () => {
     if (loading) return <Spin />;
-
-    const handleDelete = async (component) => {
-      onDeleteComponent(component.uuid);
-    };
 
     return componentList.length === 0 ? (
       <Empty
@@ -62,43 +54,38 @@ class Components extends React.Component {
     ) : (
       <ComponentsTable componentList={componentList} onDelete={handleDelete} />
     );
-  }
+  };
 
-  render() {
-    const { loading, modalIsVisible, history } = this.props;
-    const { onAddComponent, onToggleModal } = this.props;
+  const handleCreate = (name) => {
+    onAddComponent(name, history);
+  };
 
-    const handleCreate = (name) => {
-      onAddComponent(name, history);
-    };
+  return (
+    <div className='componentsPage'>
+      <NewComponentModal
+        visible={modalIsVisible}
+        onCreate={handleCreate}
+        onCancel={onToggleModal}
+      />
 
-    return (
-      <div className='componentsPage'>
-        <NewComponentModal
-          visible={modalIsVisible}
-          onCreate={handleCreate}
-          onCancel={onToggleModal}
-        />
+      <ContentHeader title='Componentes' />
 
-        <ContentHeader title='Componentes' />
-
-        <div className='componentsPageBody'>
-          <div className='header'>
-            <Button
-              disabled={loading}
-              onClick={onToggleModal}
-              type='primary'
-              icon='plus'
-            >
-              Novo Compomente
-            </Button>
-          </div>
-          <div className='body'>{this.renderBody()}</div>
+      <div className='componentsPageBody'>
+        <div className='header'>
+          <Button
+            disabled={loading}
+            onClick={onToggleModal}
+            type='primary'
+            icon='plus'
+          >
+            Novo Compomente
+          </Button>
         </div>
+        <div className='body'>{renderBody()}</div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {

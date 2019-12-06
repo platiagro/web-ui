@@ -1,4 +1,4 @@
-import * as componentsServices from '../services/componentsApi';
+import * as componentsServices from '../../services/componentsApi';
 
 export const ADD_COMPONENT = 'ADD_COMPONENT';
 export const DELETE_COMPONENT = 'DELETE_COMPONENT';

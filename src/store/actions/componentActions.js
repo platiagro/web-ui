@@ -1,7 +1,6 @@
 import uuidv4 from 'uuid/v4';
-import { message } from 'antd';
-import * as componentsServices from '../services/componentsApi';
-import * as jupyterServices from '../services/jupyterApi';
+import * as componentsServices from '../../services/componentsApi';
+import * as jupyterServices from '../../services/jupyterApi';
 
 export const FETCH_COMPONENT_DETAIL_STARTED = 'FETCH_COMPONENT_DETAIL_STARTED';
 export const FETCH_COMPONENT_DETAIL = 'FETCH_COMPONENT_DETAIL';

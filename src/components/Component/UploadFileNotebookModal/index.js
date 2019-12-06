@@ -1,45 +1,37 @@
-/* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/destructuring-assignment */
-import React from 'react';
-
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { Form, Modal, message, Select, Spin } from 'antd';
-
 import * as jupyterServices from '../../../services/jupyterApi';
 
 const { Option } = Select;
 
 /* 
-  This function is used to check if form has errors
-*/
+    This function is used to check if form has errors
+  */
 const hasErrors = (fieldsError) => {
   return Object.keys(fieldsError).some((field) => fieldsError[field]);
 };
 
-class UploadFileNotebookModal extends React.Component {
-  constructor(props) {
-    super(props);
+const sleep = (milliseconds) => {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
 
-    this.state = {
-      loading: false,
-      listNotebook: [],
-    };
-  }
+const UploadFileNotebookModal = (props) => {
+  const { namespaces, visible, form, filePath, fileName, onCancel } = props;
+  const { getFieldDecorator, getFieldsError } = form;
+  const [loading, setLoading] = useState(false);
+  const [listNotebook, setListNotebook] = useState([]);
 
-  sleep = (milliseconds) => {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  };
-
-  onCancelModal = () => {
-    const { onCancel } = this.props;
-    this.setState({ listNotebook: [] });
+  const onCancelModal = () => {
+    form.resetFields();
+    setListNotebook([]);
     onCancel();
   };
 
-  onChangeNamespace = async (namespaceSelected) => {
-    this.setState({ loading: true });
+  const onChangeNamespace = async (namespaceSelected) => {
+    setLoading(true);
+
     const response = await jupyterServices.getNotebook(namespaceSelected);
 
     let optionsNotebooks;
@@ -65,26 +57,23 @@ class UploadFileNotebookModal extends React.Component {
         ];
       }
     }
-    this.setState({
-      listNotebook: optionsNotebooks,
-    });
-    this.props.form.setFieldsValue({
+
+    setListNotebook(optionsNotebooks);
+    setLoading(false);
+    form.setFieldsValue({
       notebook: '',
     });
-    this.setState({ loading: false });
   };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields(async (err, values) => {
+    form.validateFields(async (err, values) => {
       if (err) {
         return;
       }
 
-      const { filePath, fileName } = this.props;
+      setLoading(true);
       const { namespace, notebook } = values;
-      this.setState({ loading: true });
-
       const response = await jupyterServices.uploadFile(
         namespace,
         notebook,
@@ -94,65 +83,52 @@ class UploadFileNotebookModal extends React.Component {
 
       if (response) {
         message.success(`Upload realizado com sucesso.`);
-        this.onCancelModal();
-        await this.sleep(1000);
+        onCancelModal();
+        await sleep(1000);
         window.open(`/notebook/${namespace}/${notebook}/notebooks/${fileName}`);
       }
-
-      this.setState({ loading: false });
+      setLoading(false);
     });
   };
 
-  render() {
-    const { namespaces, visible, form } = this.props;
-    const { getFieldDecorator, getFieldsError } = form;
-    const { listNotebook } = this.state;
-
-    let optionsNamespaces;
-    if (namespaces) {
-      optionsNamespaces = namespaces.map((namespace) => (
-        <Option key={namespace.namespace} value={namespace.namespace}>
-          {namespace.namespace}
-        </Option>
-      ));
-    }
-
-    const formUI = (
-      <Form layout='vertical'>
-        <Form.Item label='Namespaces: '>
-          {getFieldDecorator('namespace', {
-            rules: [{ required: true, message: ' ' }],
-          })(
-            <Select onChange={this.onChangeNamespace}>
-              {optionsNamespaces}
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item label='Notebooks: '>
-          {getFieldDecorator('notebook', {
-            rules: [{ required: true, message: ' ' }],
-          })(<Select>{listNotebook}</Select>)}
-        </Form.Item>
-      </Form>
-    );
-
-    return (
-      <Modal
-        visible={visible}
-        title='Editar arquivo no jupyter notebook'
-        okText='Editar'
-        cancelText='Cancelar'
-        onCancel={this.onCancelModal}
-        onOk={this.handleSubmit}
-        okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
-      >
-        <Spin spinning={this.state.loading} delay={100}>
-          {formUI}
-        </Spin>
-      </Modal>
-    );
+  let optionsNamespaces;
+  if (namespaces) {
+    optionsNamespaces = namespaces.map((namespace) => (
+      <Option key={namespace.namespace} value={namespace.namespace}>
+        {namespace.namespace}
+      </Option>
+    ));
   }
-}
+
+  return (
+    <Modal
+      visible={visible}
+      title='Editar arquivo no jupyter notebook'
+      okText='Editar'
+      cancelText='Cancelar'
+      onCancel={onCancelModal}
+      onOk={handleSubmit}
+      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+    >
+      <Spin spinning={loading} delay={100}>
+        <Form layout='vertical'>
+          <Form.Item label='Namespaces: '>
+            {getFieldDecorator('namespace', {
+              rules: [{ required: true, message: ' ' }],
+            })(
+              <Select onChange={onChangeNamespace}>{optionsNamespaces}</Select>
+            )}
+          </Form.Item>
+          <Form.Item label='Notebooks: '>
+            {getFieldDecorator('notebook', {
+              rules: [{ required: true, message: ' ' }],
+            })(<Select>{listNotebook}</Select>)}
+          </Form.Item>
+        </Form>
+      </Spin>
+    </Modal>
+  );
+};
 
 UploadFileNotebookModal.propTypes = {
   filePath: PropTypes.string.isRequired,

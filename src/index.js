@@ -13,7 +13,7 @@ import thunk from 'redux-thunk';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
-import rootReducer from './reducers';
+import rootReducer from './store/reducers';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
