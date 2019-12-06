@@ -1,133 +1,96 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/destructuring-assignment */
-import React from 'react';
-
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { Button, Form, Input, message, Select, Switch } from 'antd';
-
 import NewParameterModal from '../NewParameterModal';
 
-class NewParameterForm extends React.Component {
-  constructor(props) {
-    super(props);
+const { Option } = Select;
 
-    this.state = {
-      modalIsVisible: false,
-    };
-  }
+const NewParameterForm = (props) => {
+  const { form, onSubmit } = props;
+  const { getFieldDecorator } = form;
+  const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  saveFormRef = (formRef) => {
-    this.formRef = formRef;
+  const showModal = () => {
+    setModalIsVisible(true);
   };
 
-  showModal = () => {
-    this.setState({ modalIsVisible: true });
+  const hideModal = () => {
+    setModalIsVisible(false);
   };
 
-  hideModal = () => {
-    const { form } = this.formRef.props;
-
-    this.setState({ modalIsVisible: false });
-
-    form.resetFields();
-  };
-
-  resultCallback = (name, result) => {
-    const { modalIsVisible } = this.state;
+  const resultCallback = (name, result) => {
     if (result) {
       message.success(`Parâmetro ${name} adicionado com sucesso`);
-      if (modalIsVisible) {
-        this.hideModal();
-      } else {
-        this.props.form.resetFields();
-      }
+      props.form.resetFields();
     }
   };
 
-  render() {
-    const { onSubmit } = this.props;
-    const { getFieldDecorator } = this.props.form;
-    const { modalIsVisible } = this.state;
-    const { Option } = Select;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    form.validateFields((err, values) => {
+      if (!err) {
+        onSubmit(values, resultCallback);
+      }
+    });
+  };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      this.props.form.validateFields((err, values) => {
-        if (!err) {
-          onSubmit(values, this.resultCallback);
-        }
-      });
-    };
-
-    const handleCreateAdvancedParameter = () => {
-      const { form } = this.formRef.props;
-      form.validateFields(async (err, values) => {
-        if (err) {
-          return;
-        }
-        onSubmit(values, this.resultCallback);
-      });
-    };
-
-    return (
-      <Form onSubmit={handleSubmit}>
-        <Form.Item style={{ marginBottom: 0, maxHeight: '32px' }}>
-          <Form.Item
-            style={{ display: 'inline-block', width: 'calc(50% - 30px)' }}
-          >
-            {getFieldDecorator('name', {
-              rules: [{ required: true, message: ' ' }],
-            })(<Input placeholder='Nome' />)}
-          </Form.Item>
-          <span
-            style={{
-              display: 'inline-block',
-              width: '24px',
-              textAlign: 'center',
-            }}
-          >
-            {' '}
-          </span>
-          <Form.Item
-            style={{ display: 'inline-block', width: 'calc(50% - 30px)' }}
-          >
-            {getFieldDecorator('type', {
-              rules: [{ required: true, message: ' ' }],
-            })(
-              <Select placeholder='Tipo'>
-                <Option value='float'>Float</Option>
-                <Option value='int'>Int</Option>
-                <Option value='string'>String</Option>
-              </Select>
-            )}
-          </Form.Item>
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Form.Item style={{ marginBottom: 0, maxHeight: '32px' }}>
+        <Form.Item
+          style={{ display: 'inline-block', width: 'calc(50% - 30px)' }}
+        >
+          {getFieldDecorator('name', {
+            rules: [{ required: true, message: ' ' }],
+          })(<Input placeholder='Nome' />)}
         </Form.Item>
-        <Form.Item style={{ marginBottom: 0 }}>
-          <NewParameterModal
-            wrappedComponentRef={this.saveFormRef}
-            visible={modalIsVisible}
-            onCancel={this.hideModal}
-            onCreate={handleCreateAdvancedParameter}
-          />
-          <a href='#' onClick={this.showModal}>
-            Avançado
-          </a>
+        <span
+          style={{
+            display: 'inline-block',
+            width: '24px',
+            textAlign: 'center',
+          }}
+        >
+          {' '}
+        </span>
+        <Form.Item
+          style={{ display: 'inline-block', width: 'calc(50% - 30px)' }}
+        >
+          {getFieldDecorator('type', {
+            rules: [{ required: true, message: ' ' }],
+          })(
+            <Select placeholder='Tipo'>
+              <Option value='float'>Float</Option>
+              <Option value='int'>Int</Option>
+              <Option value='string'>String</Option>
+            </Select>
+          )}
         </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('required', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Switch />)}
-          <span> Obrigatório</span>
-        </Form.Item>
-        <Button type='primary' htmlType='submit' className='login-form-button'>
-          Adicionar parâmetro
-        </Button>
-      </Form>
-    );
-  }
-}
+      </Form.Item>
+      <Form.Item style={{ marginBottom: 0 }}>
+        <NewParameterModal
+          visible={modalIsVisible}
+          onCancel={hideModal}
+          onSubmit={onSubmit}
+        />
+        <a href='#' onClick={showModal}>
+          Avançado
+        </a>
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('required', {
+          valuePropName: 'checked',
+          initialValue: true,
+        })(<Switch />)}
+        <span> Obrigatório</span>
+      </Form.Item>
+      <Button type='primary' htmlType='submit' className='login-form-button'>
+        Adicionar parâmetro
+      </Button>
+    </Form>
+  );
+};
 
 NewParameterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,

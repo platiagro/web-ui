@@ -87,11 +87,4 @@ ExperimentContainer.propTypes = {
   }).isRequired,
 };
 
-EditableTitle.propTypes = {
-  details: PropTypes.shape({
-    uuid: PropTypes.string,
-    name: PropTypes.string,
-  }).isRequired,
-};
-
 export default ExperimentContainer;

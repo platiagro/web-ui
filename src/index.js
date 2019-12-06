@@ -1,21 +1,13 @@
 /* istanbul ignore file */
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import { BrowserRouter as Router } from 'react-router-dom';
-
 import './style.scss';
 import 'antd/dist/antd.css';
-
-import { createStore, applyMiddleware } from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
-
-import rootReducer from './reducers';
-
-const store = createStore(rootReducer, applyMiddleware(thunk));
+import store from './store/store';
 
 ReactDOM.render(
   <Provider store={store}>

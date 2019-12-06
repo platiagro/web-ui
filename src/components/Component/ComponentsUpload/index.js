@@ -1,119 +1,102 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
-
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { Button, Icon, message, Upload } from 'antd';
-
 import UploadFileNotebookModal from '../UploadFileNotebookModal';
-
 import * as componentsServices from '../../../services/componentsApi';
 
-class ComponentsUpload extends React.Component {
-  constructor(props) {
-    super(props);
+const { Dragger } = Upload;
 
-    this.state = {
-      modalIsVisible: false,
-    };
-  }
+const ComponentsUpload = (props) => {
+  const { details, namespaces, updateComponentFile } = props;
+  const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  saveFormRef = (formRef) => {
-    this.formRef = formRef;
+  const showModal = () => {
+    setModalIsVisible(true);
   };
 
-  showModal = () => {
-    this.setState({ modalIsVisible: true });
+  const hideModal = () => {
+    // const { form } = this.formRef.props;
+
+    // this.setState({ modalIsVisible: false });
+
+    // form.resetFields();
+    setModalIsVisible(false);
   };
 
-  hideModal = () => {
-    const { form } = this.formRef.props;
-
-    this.setState({ modalIsVisible: false });
-
-    form.resetFields();
-  };
-
-  render() {
-    const { Dragger } = Upload;
-    const { details, namespaces, updateComponentFile } = this.props;
-    const { modalIsVisible } = this.state;
-
-    const DraggerProps = {
-      multiple: false,
-      action: `${componentsServices.uploadUrl}/${details.uuid}`,
-      defaultFileList: details.file ? [details.file] : [],
-      beforeUpload: (file) => {
-        const auxFile = file;
-        auxFile.path = `components/${details.uuid}/${file.name}`;
-        auxFile.url = `${componentsServices.downloadUrl}/${details.uuid}/${file.name}`;
-      },
-      onChange(info) {
-        const { status } = info.file;
-        if (status === 'done') {
-          message.success(`${info.file.name} salvo com sucesso.`);
-          updateComponentFile(info.file);
-        } else if (status === 'removed') {
-          if (!info.file.error) {
-            message.success(`${info.file.name} removido com sucesso.`);
-          }
-        } else if (status === 'error') {
-          if (info.file.error.status === 400) {
-            message.error(`Só é possível realizar o upload de um arquivo!`);
-          } else {
-            message.error(`Falha no upload do arquivo ${info.file.name}`);
-          }
+  const DraggerProps = {
+    multiple: false,
+    action: `${componentsServices.uploadUrl}/${details.uuid}`,
+    defaultFileList: details.file ? [details.file] : [],
+    beforeUpload: (file) => {
+      const auxFile = file;
+      auxFile.path = `components/${details.uuid}/${file.name}`;
+      auxFile.url = `${componentsServices.downloadUrl}/${details.uuid}/${file.name}`;
+    },
+    onChange(info) {
+      const { status } = info.file;
+      if (status === 'done') {
+        message.success(`${info.file.name} salvo com sucesso.`);
+        updateComponentFile(info.file);
+      } else if (status === 'removed') {
+        if (!info.file.error) {
+          message.success(`${info.file.name} removido com sucesso.`);
         }
-      },
-      onRemove: async (file) => {
-        if (!file.error) {
-          const response = await componentsServices.deleteFiles(details.uuid, [
-            file.name,
-          ]);
-          if (!response) {
-            return false;
-          }
+      } else if (status === 'error') {
+        if (info.file.error.status === 400) {
+          message.error(`Só é possível realizar o upload de um arquivo!`);
+        } else {
+          message.error(`Falha no upload do arquivo ${info.file.name}`);
         }
-        updateComponentFile(null);
-        return true;
-      },
-    };
+      }
+    },
+    onRemove: async (file) => {
+      if (!file.error) {
+        const response = await componentsServices.deleteFiles(details.uuid, [
+          file.name,
+        ]);
+        if (!response) {
+          return false;
+        }
+      }
+      updateComponentFile(null);
+      return true;
+    },
+  };
 
-    return (
-      <>
-        <UploadFileNotebookModal
-          filePath={details.file ? details.file.path : ''}
-          fileName={details.file ? details.file.name : ''}
-          namespaces={namespaces}
-          wrappedComponentRef={this.saveFormRef}
-          visible={modalIsVisible}
-          onCancel={this.hideModal}
-        />
-        <Dragger {...DraggerProps}>
-          <p className='ant-upload-drag-icon'>
-            <Icon type='inbox' />
-          </p>
-          <p className='ant-upload-text'>
-            Clique ou arraste o arquivo para esta área para fazer o upload
-          </p>
-        </Dragger>
-        <br />
-        <Button
-          className='float-right'
-          style={
-            details.file
-              ? { float: 'right' }
-              : { display: 'none', float: 'right' }
-          }
-          onClick={this.showModal}
-          type='primary'
-        >
-          Editar arquivo
-        </Button>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <UploadFileNotebookModal
+        filePath={details.file ? details.file.path : ''}
+        fileName={details.file ? details.file.name : ''}
+        namespaces={namespaces}
+        visible={modalIsVisible}
+        onCancel={hideModal}
+      />
+      <Dragger {...DraggerProps}>
+        <p className='ant-upload-drag-icon'>
+          <Icon type='inbox' />
+        </p>
+        <p className='ant-upload-text'>
+          Clique ou arraste o arquivo para esta área para fazer o upload
+        </p>
+      </Dragger>
+      <br />
+      <Button
+        className='float-right'
+        style={
+          details.file
+            ? { float: 'right' }
+            : { display: 'none', float: 'right' }
+        }
+        onClick={showModal}
+        type='primary'
+      >
+        Editar arquivo
+      </Button>
+    </>
+  );
+};
 
 ComponentsUpload.propTypes = {
   details: PropTypes.shape({

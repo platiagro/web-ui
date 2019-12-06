@@ -1,60 +1,49 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
-
 import UploadFileNotebookModal from '../UploadFileNotebookModal';
 import * as jupyterServices from '../../../services/jupyterApi';
 
-class NotebookEdit extends React.Component {
-  constructor(props) {
-    super(props);
+const EditComponentNotebook = (props) => {
+  const { filePath, fileName } = props;
+  const [visible, setVisible] = useState(false);
+  const [namespaces, setNamespaces] = useState([]);
 
-    this.state = { visible: false, namespaces: [] };
-    this.showModal = this.showModal.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-  }
-
-  componentDidMount() {
-    this.fetchDetails();
-  }
-
-  fetchDetails = async () => {
+  const fetchDetails = async () => {
     const namespacesRespose = await jupyterServices.getNamespaces();
     let jupyterNamespaces;
     if (namespacesRespose) {
       jupyterNamespaces = namespacesRespose.data.namespaces;
     }
-    this.setState({ namespaces: jupyterNamespaces });
+    setNamespaces(jupyterNamespaces);
   };
 
-  handleCancel() {
-    this.setState({ visible: false });
-  }
+  useEffect(() => {
+    fetchDetails();
+  }, []);
 
-  showModal() {
-    this.setState({ visible: true });
-  }
+  const handleCancel = () => {
+    setVisible(false);
+  };
 
-  render() {
-    const { visible, namespaces } = this.state;
-    const { filePath, fileName } = this.props;
+  const showModal = () => {
+    setVisible(true);
+  };
 
-    return (
-      <>
-        <UploadFileNotebookModal
-          visible={visible}
-          onCancel={this.handleCancel}
-          fileName={fileName}
-          filePath={filePath}
-          namespaces={namespaces}
-        />
-        <br />
-        <Button type='primary' onClick={this.showModal}>
-          Editar no Notebook
-        </Button>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <UploadFileNotebookModal
+        visible={visible}
+        onCancel={handleCancel}
+        fileName={fileName}
+        filePath={filePath}
+        namespaces={namespaces}
+      />
+      <br />
+      <Button type='primary' onClick={showModal}>
+        Editar no Notebook
+      </Button>
+    </>
+  );
+};
 
-export default NotebookEdit;
+export default EditComponentNotebook;
