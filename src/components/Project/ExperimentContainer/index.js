@@ -1,5 +1,5 @@
 import './style.scss';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Layout } from 'antd';
@@ -22,8 +22,6 @@ const { Content } = Layout;
  *    },
  */
 const ExperimentContainer = (props) => {
-  console.log(props);
-
   const { details, fetch, flowDetail, onUpdateProjectName } = props;
   const history = useHistory();
   const handleClick = () => {

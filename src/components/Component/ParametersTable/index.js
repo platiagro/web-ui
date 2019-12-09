@@ -1,11 +1,31 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/**
+ * Component responsible for:
+ * - List the component parameters
+ * - Remove component parameter
+ */
 import './style.scss';
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Popconfirm, Table, Tag } from 'antd';
+import { connect } from 'react-redux';
+import { Popconfirm, message, Table, Tag } from 'antd';
+import { removeParam } from '../../../store/actions/componentActions';
 
 const ParametersTable = (props) => {
-  const { parameterList, onDelete } = props;
+  const { details, onRemoveParam } = props;
+  const { uuid, parameters } = details;
+
+  /**
+   * Function to handle parameter delete
+   * @param {Object} removedParameter
+   */
+  const handleDelete = (removedParameter) => {
+    onRemoveParam(uuid, parameters, removedParameter).then((response) => {
+      if (response) {
+        message.success(
+          `Parâmetro ${removedParameter.name} removido com sucesso`
+        );
+      }
+    });
+  };
 
   const tableColumns = [
     {
@@ -63,12 +83,13 @@ const ParametersTable = (props) => {
           value={record}
           title={`Tem certeza de que deseja excluir o parâmetro ${record.name} ?`}
           onConfirm={() => {
-            onDelete(record);
+            handleDelete(record);
           }}
           okText='Sim'
           cancelText='Não'
           placement='left'
         >
+          {/* eslint-disable jsx-a11y/anchor-is-valid */}
           <a href='#'>Remover</a>
         </Popconfirm>
       ),
@@ -79,7 +100,7 @@ const ParametersTable = (props) => {
     <Table
       className='parametersTable'
       rowKey={(record) => record.name}
-      dataSource={parameterList}
+      dataSource={parameters}
       columns={tableColumns}
       pagination={{ pageSize: 9 }}
       scroll={{ y: 'calc(100vh - 480px)' }}
@@ -87,9 +108,21 @@ const ParametersTable = (props) => {
   );
 };
 
-ParametersTable.propTypes = {
-  parameterList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onDelete: PropTypes.func.isRequired,
+const mapStateToProps = (state) => {
+  return {
+    details: state.component.details,
+  };
 };
 
-export default ParametersTable;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onRemoveParam: (id, parameters, removedParameter) => {
+      return dispatch(removeParam(id, parameters, removedParameter));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ParametersTable);

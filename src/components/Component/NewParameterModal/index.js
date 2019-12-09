@@ -1,40 +1,63 @@
+/**
+ * Component responsible for:
+ * - Structuring the advanced new component parameter layout
+ * - Add parameter
+ */
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Input, message, Modal, Select, Switch } from 'antd';
+import { addParam } from '../../../store/actions/componentActions';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 const NewParameterModal = (props) => {
-  const { visible, onCancel, onSubmit, form } = props;
+  const { details, form, visible, onCancel, onAddParam } = props;
+  const { uuid, parameters } = details;
   const { getFieldDecorator, getFieldsError } = form;
 
-  /* 
-  This function is used to check if form has errors
-*/
+  /**
+   * Function used to check if form has errors
+   * @param {string[]} fieldsError
+   */
   const hasErrors = (fieldsError) => {
     return Object.keys(fieldsError).some((field) => fieldsError[field]);
   };
 
+  /**
+   * Function to handle modal cancel
+   */
   const handleCancel = () => {
     form.resetFields();
     onCancel();
   };
 
-  const resultCallback = (name, result) => {
-    if (result) {
-      message.success(`Parâmetro ${name} adicionado com sucesso`);
-      handleCancel();
-    }
-  };
-
+  /**
+   * Function to handle form submit
+   * @param {Event} e
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields((err, values) => {
-      if (err) {
-        return;
+      if (!err) {
+        const newParameter = {
+          name: values.name,
+          type: values.type,
+          required: values.required,
+          default: values.defaultValue,
+          details: values.details,
+        };
+
+        onAddParam(uuid, parameters, newParameter).then((response) => {
+          if (response) {
+            message.success(
+              `Parâmetro ${newParameter.name} adicionado com sucesso`
+            );
+            handleCancel();
+          }
+        });
       }
-      onSubmit(values, resultCallback);
     });
   };
 
@@ -48,7 +71,7 @@ const NewParameterModal = (props) => {
       onOk={handleSubmit}
       okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
     >
-      <Form layout='vertical' onSubmit={handleSubmit}>
+      <Form layout='vertical'>
         <Form.Item label='Nome: '>
           {getFieldDecorator('name', {
             rules: [{ required: true, message: ' ' }],
@@ -84,12 +107,28 @@ const NewParameterModal = (props) => {
 
 NewParameterModal.propTypes = {
   visible: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
   form: PropTypes.shape({
     getFieldDecorator: PropTypes.func,
     getFieldsError: PropTypes.func,
   }).isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
 };
 
-export default Form.create({ name: 'new-parameter' })(NewParameterModal);
+const mapStateToProps = (state) => {
+  return {
+    details: state.component.details,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddParam: (id, parameters, newParameter) => {
+      return dispatch(addParam(id, parameters, newParameter));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create({ name: 'new-parameter-modal' })(NewParameterModal));

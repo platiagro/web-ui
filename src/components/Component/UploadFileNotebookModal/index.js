@@ -1,4 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/**
+ * Component responsible for:
+ * - Structuring the upload file notebook layout
+ * - Upload file to notebook
+ */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Modal, message, Select, Spin } from 'antd';
@@ -6,13 +10,18 @@ import * as jupyterServices from '../../../services/jupyterApi';
 
 const { Option } = Select;
 
-/* 
-    This function is used to check if form has errors
-  */
+/**
+ * Function used to check if form has errors
+ * @param {string[]} fieldsError
+ */
 const hasErrors = (fieldsError) => {
   return Object.keys(fieldsError).some((field) => fieldsError[field]);
 };
 
+/**
+ * Function to sleep
+ * @param {int} milliseconds
+ */
 const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
@@ -23,12 +32,18 @@ const UploadFileNotebookModal = (props) => {
   const [loading, setLoading] = useState(false);
   const [listNotebook, setListNotebook] = useState([]);
 
+  /**
+   * Funtion to handle modal cancel
+   */
   const onCancelModal = () => {
     form.resetFields();
     setListNotebook([]);
     onCancel();
   };
 
+  /**
+   * Funtion to handle namespace change
+   */
   const onChangeNamespace = async (namespaceSelected) => {
     setLoading(true);
 
@@ -52,6 +67,7 @@ const UploadFileNotebookModal = (props) => {
               window.open('/jupyter/');
             }}
           >
+            {/* eslint-disable jsx-a11y/anchor-is-valid */}
             <a>Criar notebook</a>
           </Option>,
         ];
@@ -65,6 +81,10 @@ const UploadFileNotebookModal = (props) => {
     });
   };
 
+  /**
+   * Function to handle form submit
+   * @param {Event} e
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields(async (err, values) => {

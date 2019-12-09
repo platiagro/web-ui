@@ -1,36 +1,60 @@
+/**
+ * Component responsible for:
+ * - Structuring the add component form layout
+ * - Add new component
+ */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Modal, Form, Input } from 'antd';
+import {
+  addComponent,
+  toggleModal,
+} from '../../../store/actions/componentsActions';
 
 const NewComponentModal = (props) => {
-  const { visible, form, history } = props;
-  const { onCreate, onCancel } = props;
+  const { modalIsVisible, form } = props;
+  const { onAddComponent, onToggleModal } = props;
   const { getFieldDecorator, getFieldsError } = form;
+  const history = useHistory();
 
-  /* 
-  This function is used to check if form has errors
-*/
+  /**
+   * Function used to check if form has errors
+   * @param {string[]} fieldsError
+   */
   const hasErrors = (fieldsError) => {
     return Object.keys(fieldsError).some((field) => fieldsError[field]);
   };
 
+  /**
+   * Function to handle modal cancel
+   */
+  const handleCancel = () => {
+    form.resetFields();
+    onToggleModal();
+  };
+
+  /**
+   * Function to handle form submit
+   * @param {Event} e
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields(async (err, values) => {
       if (err) {
         return;
       }
-      onCreate(values.name, history);
+      onAddComponent(values.name, history);
     });
   };
 
   return (
     <Modal
-      visible={visible}
+      visible={modalIsVisible}
       title='Novo Componente'
       okText='Criar'
       cancelText='Cancelar'
-      onCancel={onCancel}
+      onCancel={handleCancel}
       onOk={handleSubmit}
       okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
     >
@@ -50,14 +74,24 @@ const NewComponentModal = (props) => {
   );
 };
 
-NewComponentModal.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  form: PropTypes.shape({
-    getFieldDecorator: PropTypes.func,
-    getFieldsError: PropTypes.func,
-  }).isRequired,
+const mapStateToProps = (state) => {
+  return {
+    modalIsVisible: state.components.modalIsVisible,
+  };
 };
 
-export default Form.create({ name: 'new-component' })(NewComponentModal);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddComponent: (post, history) => {
+      dispatch(addComponent(post, history));
+    },
+    onToggleModal: () => {
+      dispatch(toggleModal());
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create({ name: 'new-component' })(NewComponentModal));
