@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import uuidv4 from 'uuid/v4';
 import * as componentsServices from '../../services/componentsApi';
 import * as jupyterServices from '../../services/jupyterApi';
@@ -87,27 +88,66 @@ const setComponentParams = (parameters) => {
   };
 };
 
-export const updateComponentParams = (
-  id,
-  parameters,
-  parameterName,
-  callback
-) => {
-  return (dispatch) => {
-    return componentsServices
-      .updateParameters(id, parameters)
-      .then((response) => {
-        if (response) {
-          if (callback) {
-            callback(parameterName, true);
+export const addParam = (id, parameters, newParameter) => {
+  let checkParameters = true;
+  parameters.forEach((parameter) => {
+    if (parameter.name === newParameter.name) {
+      checkParameters = false;
+    }
+  });
+
+  if (checkParameters) {
+    const newParameters = [...parameters, newParameter];
+    newParameters.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+    return (dispatch) => {
+      return componentsServices
+        .updateParameters(id, newParameters)
+        .then((response) => {
+          if (response) {
+            dispatch(setComponentParams(response.data.payload.parameters));
+            return true;
           }
-          dispatch(setComponentParams(response.data.payload.parameters));
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
-  };
+          return false;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    };
+  }
+  message.error('Já existe parâmetro com esse nome adicionado');
+  return false;
+};
+
+export const removeParam = (id, parameters, removedParameter) => {
+  const index = parameters.indexOf(removedParameter, 0);
+  if (index > -1) {
+    const newParameters = [...parameters];
+    newParameters.splice(index, 1);
+    return (dispatch) => {
+      return componentsServices
+        .updateParameters(id, newParameters)
+        .then((response) => {
+          if (response) {
+            dispatch(setComponentParams(response.data.payload.parameters));
+            return true;
+          }
+          return false;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    };
+  }
+  message.error(`Erro ao remover parâmetro ${removedParameter.name}`);
+  return false;
 };
 
 const setComponentName = (name) => {

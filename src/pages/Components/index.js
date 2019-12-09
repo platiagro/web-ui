@@ -1,3 +1,8 @@
+/**
+ * Component responsible for:
+ * - Structuring the components page layout
+ * - Fetch the components list
+ */
 import './style.scss';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -7,28 +12,17 @@ import ContentHeader from '../../components/ContentHeader';
 import NewComponentModal from '../../components/Component/NewComponentModal';
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 import {
-  addComponent,
-  deleteComponent,
   fetchComponents,
   toggleModal,
 } from '../../store/actions/componentsActions';
 
 const Components = (props) => {
-  const { componentList, loading, modalIsVisible, history } = props;
-  const {
-    onAddComponent,
-    onDeleteComponent,
-    onFetchComponents,
-    onToggleModal,
-  } = props;
+  const { componentList, loading } = props;
+  const { onFetchComponents, onToggleModal } = props;
 
   useEffect(() => {
     onFetchComponents();
   }, []);
-
-  const handleDelete = async (component) => {
-    onDeleteComponent(component.uuid);
-  };
 
   const renderBody = () => {
     if (loading) return <Spin />;
@@ -52,23 +46,15 @@ const Components = (props) => {
         }
       />
     ) : (
-      <ComponentsTable componentList={componentList} onDelete={handleDelete} />
+      <ComponentsTable />
     );
-  };
-
-  const handleCreate = (name) => {
-    onAddComponent(name, history);
   };
 
   return (
     <div className='componentsPage'>
-      <NewComponentModal
-        visible={modalIsVisible}
-        onCreate={handleCreate}
-        onCancel={onToggleModal}
-      />
-
       <ContentHeader title='Componentes' />
+
+      <NewComponentModal />
 
       <div className='componentsPageBody'>
         <div className='header'>
@@ -95,12 +81,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddComponent: (post, history) => {
-      dispatch(addComponent(post, history));
-    },
-    onDeleteComponent: (id) => {
-      dispatch(deleteComponent(id));
-    },
     onFetchComponents: () => {
       dispatch(fetchComponents());
     },

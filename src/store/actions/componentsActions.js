@@ -17,8 +17,8 @@ export const addComponent = (name, history) => {
     return componentsServices
       .createComponent(name)
       .then((response) => {
-        dispatch(dispatchAdd());
         if (response) {
+          dispatch(dispatchAdd());
           history.push(`/components/${response.data.payload.uuid}`);
         }
       })
