@@ -2,22 +2,22 @@ import uuidv4 from 'uuid/v4';
 import * as componentsServices from '../../services/componentsApi';
 import * as jupyterServices from '../../services/jupyterApi';
 
-export const FETCH_COMPONENT_DETAIL_STARTED = 'FETCH_COMPONENT_DETAIL_STARTED';
-export const FETCH_COMPONENT_DETAIL = 'FETCH_COMPONENT_DETAIL';
-export const FETCH_JUPYTER_NAMESPACES = 'FETCH_JUPYTER_NAMESPACES';
-export const UPDATE_COMPONENT_FILE = 'UPDATE_COMPONENT_FILE';
-export const UPDATE_COMPONENT_PARAMS = 'UPDATE_COMPONENT_PARAMS';
-export const UPDATE_COMPONENT_NAME = 'UPDATE_COMPONENT_NAME';
+export const COMPONENT_FETCH_DETAIL_STARTED = 'COMPONENT_FETCH_DETAIL_STARTED';
+export const COMPONENT_FETCH_DETAIL = 'COMPONENT_FETCH_DETAIL';
+export const COMPONENT_FETCH_NAMESPACES = 'COMPONENT_FETCH_NAMESPACES';
+export const COMPONENT_UPDATE_FILE = 'COMPONENT_UPDATE_FILE';
+export const COMPONENT_UPDATE_PARAMS = 'COMPONENT_UPDATE_PARAMS';
+export const COMPONENT_UPDATE_NAME = 'COMPONENT_UPDATE_NAME';
 
 const fetchStarted = () => {
   return {
-    type: FETCH_COMPONENT_DETAIL_STARTED,
+    type: COMPONENT_FETCH_DETAIL_STARTED,
   };
 };
 
 const setComponentDetail = (detail) => {
   return {
-    type: FETCH_COMPONENT_DETAIL,
+    type: COMPONENT_FETCH_DETAIL,
     detail,
   };
 };
@@ -53,7 +53,7 @@ export const getComponentDetail = (id) => {
 
 const setNamespaces = (namespaces) => {
   return {
-    type: FETCH_JUPYTER_NAMESPACES,
+    type: COMPONENT_FETCH_NAMESPACES,
     namespaces,
   };
 };
@@ -75,14 +75,14 @@ export const getNamespaces = () => {
 
 export const updateComponentFile = (file) => {
   return {
-    type: UPDATE_COMPONENT_FILE,
+    type: COMPONENT_UPDATE_FILE,
     file,
   };
 };
 
 const setComponentParams = (parameters) => {
   return {
-    type: UPDATE_COMPONENT_PARAMS,
+    type: COMPONENT_UPDATE_PARAMS,
     parameters,
   };
 };
@@ -112,7 +112,7 @@ export const updateComponentParams = (
 
 const setComponentName = (name) => {
   return {
-    type: UPDATE_COMPONENT_NAME,
+    type: COMPONENT_UPDATE_NAME,
     name,
   };
 };

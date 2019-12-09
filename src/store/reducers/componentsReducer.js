@@ -1,9 +1,9 @@
 import {
-  ADD_COMPONENT,
-  DELETE_COMPONENT,
-  FETCH_COMPONENTS_STARTED,
-  FETCH_COMPONENTS,
-  TOGGLE_MODAL_VISIBILITY,
+  COMPONENTS_ADD,
+  COMPONENTS_DELETE,
+  COMPONENTS_FETCH_STARTED,
+  COMPONENTS_FETCH,
+  COMPONENTS_TOGGLE_MODAL,
 } from '../actions/componentsActions';
 
 const initialState = {
@@ -15,13 +15,13 @@ const initialState = {
 
 export default function postReducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_COMPONENT:
+    case COMPONENTS_ADD:
       return {
         ...state,
         loading: false,
         modalIsVisible: false,
       };
-    case DELETE_COMPONENT:
+    case COMPONENTS_DELETE:
       return {
         ...state,
         loading: false,
@@ -29,14 +29,14 @@ export default function postReducer(state = initialState, action) {
           (component) => component.uuid !== action.id
         ),
       };
-    case FETCH_COMPONENTS_STARTED:
+    case COMPONENTS_FETCH_STARTED:
       return {
         ...state,
         loading: true,
       };
-    case FETCH_COMPONENTS:
+    case COMPONENTS_FETCH:
       return { ...state, componentList: action.components, loading: false };
-    case TOGGLE_MODAL_VISIBILITY:
+    case COMPONENTS_TOGGLE_MODAL:
       return {
         ...state,
         modalIsVisible: !state.modalIsVisible,

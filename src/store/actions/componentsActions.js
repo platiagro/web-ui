@@ -1,14 +1,14 @@
 import * as componentsServices from '../../services/componentsApi';
 
-export const ADD_COMPONENT = 'ADD_COMPONENT';
-export const DELETE_COMPONENT = 'DELETE_COMPONENT';
-export const FETCH_COMPONENTS_STARTED = 'FETCH_COMPONENTS_STARTED';
-export const FETCH_COMPONENTS = 'FETCH_COMPONENTS';
-export const TOGGLE_MODAL_VISIBILITY = 'MODAL_VISIBILITY';
+export const COMPONENTS_ADD = 'COMPONENTS_ADD';
+export const COMPONENTS_DELETE = 'COMPONENTS_DELETE';
+export const COMPONENTS_FETCH_STARTED = 'COMPONENTS_FETCH_STARTED';
+export const COMPONENTS_FETCH = 'COMPONENTS_FETCH';
+export const COMPONENTS_TOGGLE_MODAL = 'COMPONENTS_TOGGLE_MODAL';
 
 const dispatchAdd = () => {
   return {
-    type: ADD_COMPONENT,
+    type: COMPONENTS_ADD,
   };
 };
 
@@ -30,7 +30,7 @@ export const addComponent = (name, history) => {
 
 const dispatchDelete = (id) => {
   return {
-    type: DELETE_COMPONENT,
+    type: COMPONENTS_DELETE,
     id,
   };
 };
@@ -52,13 +52,13 @@ export const deleteComponent = (id) => {
 
 const fetchStarted = () => {
   return {
-    type: FETCH_COMPONENTS_STARTED,
+    type: COMPONENTS_FETCH_STARTED,
   };
 };
 
 const dispatchFetchComponents = (components) => {
   return {
-    type: FETCH_COMPONENTS,
+    type: COMPONENTS_FETCH,
     components,
   };
 };
@@ -79,6 +79,6 @@ export const fetchComponents = () => {
 
 export const toggleModal = () => {
   return {
-    type: TOGGLE_MODAL_VISIBILITY,
+    type: COMPONENTS_TOGGLE_MODAL,
   };
 };

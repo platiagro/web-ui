@@ -1,59 +1,52 @@
-/* eslint-disable react/prop-types */
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Spin } from 'antd';
 import ExperimentContainer from '../../components/ExperimentContainer';
-import E404 from '../E404'; // 404 error
-import * as projectsServices from '../../services/projectsApi';
+import E404 from '../E404';
+import { getProjectDetail } from '../../store/actions/projectActions';
 
-export default class Project extends Component {
-  constructor(props) {
-    super(props);
+const Project = (props) => {
+  const { details, loading, match } = props;
+  const { onGetProjectDetaill } = props;
 
-    this.state = {
-      loading: false,
-      details: { name: null, uuid: null, experimentList: [] },
-    };
-  }
-
-  componentDidMount() {
-    this.fetchDetails();
-  }
-
-  fetchDetails = async () => {
-    this.setState({ loading: true });
-    const { match } = this.props;
-    const auxDetails = { name: null, uuid: null, experimentList: [] };
-    const project = await projectsServices.getProject(match.params.projectId);
-    const experiments = await projectsServices.getExperimentList(
-      match.params.projectId
-    );
-
-    if (project) auxDetails.name = project.data.payload.name;
-    if (project) auxDetails.uuid = project.data.payload.uuid;
-    if (experiments) auxDetails.experimentList = experiments.data.payload;
-
-    this.setState({ details: auxDetails, loading: false });
+  const fetchDetails = () => {
+    onGetProjectDetaill(match.params.projectId);
   };
 
-  getErrorPage = () => {
-    const { loading } = this.state;
+  useEffect(() => {
+    fetchDetails();
+  }, []);
+
+  const getErrorPage = () => {
     return loading ? <Spin /> : <E404 />;
   };
 
-  render() {
-    const {
-      state: { details },
-      props: { match },
-    } = this;
+  return details.uuid ? (
+    <ExperimentContainer
+      params={match.params}
+      fetch={fetchDetails}
+      details={details}
+    />
+  ) : (
+    getErrorPage()
+  );
+};
 
-    return details.uuid ? (
-      <ExperimentContainer
-        params={match.params}
-        fetch={this.fetchDetails}
-        details={details}
-      />
-    ) : (
-      this.getErrorPage()
-    );
-  }
-}
+const mapStateToProps = (state) => {
+  return {
+    ...state.project,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGetProjectDetaill: (id) => {
+      dispatch(getProjectDetail(id));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Project);
