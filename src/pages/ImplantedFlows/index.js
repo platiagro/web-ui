@@ -1,44 +1,27 @@
-import React from 'react';
 import './style.scss';
-
+import React, { useState, useEffect } from 'react';
 import { Empty, Spin } from 'antd';
-
 import ContentHeader from '../../components/ContentHeader';
 import ImplantedFlowsTable from '../../components/ImplantedFlowsTable';
-
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
-
 import { getDeployments } from '../../services/pipelinesApi';
 
-class ImplantedFlows extends React.Component {
-  constructor(props) {
-    super(props);
+const ImplantedFlows = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [flowList, setFlowList] = useState([]);
 
-    this.state = {
-      loading: false,
-      flowList: [],
-    };
-
-    this.renderBody = this.renderBody.bind(this);
-  }
-
-  componentDidMount() {
-    this.deploymentsFetch();
-  }
-
-  deploymentsFetch = async () => {
-    this.setState({ loading: true });
-
+  const deploymentsFetch = async () => {
+    setLoading(true);
     const response = await getDeployments();
-
-    this.setState({ loading: false });
-
-    if (response) this.setState({ flowList: response });
+    setLoading(false);
+    if (response) setFlowList(response);
   };
 
-  renderBody() {
-    const { loading, flowList } = this.state;
+  useEffect(() => {
+    deploymentsFetch();
+  }, []);
 
+  const renderBody = () => {
     if (loading) return <Spin />;
 
     return flowList.length === 0 ? (
@@ -62,22 +45,20 @@ class ImplantedFlows extends React.Component {
     ) : (
       <ImplantedFlowsTable flowList={flowList} />
     );
-  }
+  };
 
-  render() {
-    return (
-      <div className='implantedFlowsPage'>
-        <ContentHeader
-          title='Fluxos implantados'
-          subTitle='Monitore o desempenho do seu fluxo em tempo real.'
-        />
+  return (
+    <div className='implantedFlowsPage'>
+      <ContentHeader
+        title='Fluxos implantados'
+        subTitle='Monitore o desempenho do seu fluxo em tempo real.'
+      />
 
-        <div className='implantedFlowsPageBody'>
-          <div className='body'>{this.renderBody()}</div>
-        </div>
+      <div className='implantedFlowsPageBody'>
+        <div className='body'>{renderBody()}</div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default ImplantedFlows;
