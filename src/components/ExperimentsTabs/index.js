@@ -34,14 +34,13 @@ const ExperimentsTabs = ({ fetch, details, flowDetails, setFlowDetails }) => {
       details.uuid,
       newTabName
     );
-    if (response) {
-      await fetch(details.uuid);
-      history.push(
-        `/projects/${params.projectId}/${response.data.payload.uuid}`
-      );
-
-      setActiveKey(response.data.payload.uuid);
-    }
+    // if (response) {
+    // await fetch(details.uuid);
+    // history.push(
+    //   `/projects/${params.projectId}/${response.data.payload.uuid}`
+    // );
+    // setActiveKey(response.data.payload.uuid);
+    // }
   };
 
   const handleClick = (tabkey, event) => {

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Spin } from 'antd';
-import ExperimentContainer from '../../components/ExperimentContainer';
+import ExperimentContainer from '../../components/Project/ExperimentContainer';
 import E404 from '../E404';
 import { getProjectDetail } from '../../store/actions/projectActions';
 
 const Project = (props) => {
-  const { details, loading, match } = props;
+  const { details, flowDetail, loading, match } = props;
   const { onGetProjectDetaill } = props;
 
   const fetchDetails = () => {
@@ -17,16 +17,16 @@ const Project = (props) => {
     fetchDetails();
   }, []);
 
+  useEffect(() => {
+    fetchDetails();
+  }, [flowDetail]);
+
   const getErrorPage = () => {
     return loading ? <Spin /> : <E404 />;
   };
 
   return details.uuid ? (
-    <ExperimentContainer
-      params={match.params}
-      fetch={fetchDetails}
-      details={details}
-    />
+    <ExperimentContainer fetch={fetchDetails} />
   ) : (
     getErrorPage()
   );
