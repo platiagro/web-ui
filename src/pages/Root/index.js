@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Layout, Row, Col } from 'antd';
 import { useHistory } from 'react-router-dom';
-import NewProjectModal from '../../components/NewProjectModal';
+import NewProjectModal from '../../components/Project/NewProjectModal';
 import logoBody from '../../assets/logo-colorido.svg';
 import ic_projeto from '../../assets/ic_projeto.svg';
 import ic_avaliacao from '../../assets/ic_avaliacao.svg';

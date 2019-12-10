@@ -1,41 +1,36 @@
-import React from 'react';
+/**
+ * Component responsible for:
+ * - Structuring the projects page layout
+ * - Fetch the projects list
+ */
+import React, { useEffect } from 'react';
 import './style.scss';
 
 import { Button, Empty, Spin } from 'antd';
 
 import { connect } from 'react-redux';
-import NewProjectModal from '../../components/NewProjectModal';
-import ProjectsTable from '../../components/ProjectsTable';
+import NewProjectModal from '../../components/Project/NewProjectModal';
+import ProjectsTable from '../../components/Project/ProjectsTable';
 import ContentHeader from '../../components/ContentHeader';
 
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 
 import {
-  addProject,
   fetchProjects,
   toggleModal,
 } from '../../store/actions/projectsActions';
 
-class Projects extends React.Component {
-  constructor(props) {
-    super(props);
+const Projects = (props) => {
+  const { projectsList, loading } = props;
 
-    this.renderBody = this.renderBody.bind(this);
-  }
+  // Actions
+  const { onFetchProjects, onToggleModal } = props;
 
-  componentDidMount() {
-    const { onFetchProjects } = this.props;
+  useEffect(() => {
     onFetchProjects();
-  }
+  }, []);
 
-  handleCreate = (name) => {
-    const { onAddProject, history } = this.props;
-    onAddProject(name, history);
-  };
-
-  renderBody() {
-    const { projectsList, loading } = this.props;
-
+  const renderBody = () => {
     if (loading) return <Spin />;
 
     return projectsList.length === 0 ? (
@@ -55,46 +50,35 @@ class Projects extends React.Component {
         }
       />
     ) : (
-      <ProjectsTable
-        enterProjetc={this.enterProjetc}
-        projectList={projectsList}
+      <ProjectsTable />
+    );
+  };
+
+  return (
+    <div className='projectPage'>
+      <ContentHeader
+        title='Projetos'
+        subTitle='Crie, experimente e implante fluxos de forma rápida e fácil.'
       />
-    );
-  }
 
-  render() {
-    const { onToggleModal, loading, modalIsVisible } = this.props;
+      <NewProjectModal />
 
-    return (
-      <div className='projectPage'>
-        <NewProjectModal
-          visible={modalIsVisible}
-          onCancel={onToggleModal}
-          onCreate={this.handleCreate}
-        />
-
-        <ContentHeader
-          title='Projetos'
-          subTitle='Crie, experimente e implante fluxos de forma rápida e fácil.'
-        />
-
-        <div className='projectPageBody'>
-          <div className='header'>
-            <Button
-              disabled={loading}
-              onClick={onToggleModal}
-              type='primary'
-              icon='plus'
-            >
-              Novo Projeto
-            </Button>
-          </div>
-          <div className='body'>{this.renderBody()}</div>
+      <div className='projectPageBody'>
+        <div className='header'>
+          <Button
+            disabled={loading}
+            onClick={onToggleModal}
+            type='primary'
+            icon='plus'
+          >
+            Novo Projeto
+          </Button>
         </div>
+        <div className='body'>{renderBody()}</div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -104,9 +88,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddProject: (name, history) => {
-      dispatch(addProject(name, history));
-    },
     onFetchProjects: () => {
       dispatch(fetchProjects());
     },
