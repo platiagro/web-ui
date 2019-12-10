@@ -6,7 +6,7 @@ import { Button, Divider, message, Icon, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
-import MainDrawer from '../MainDrawer';
+import MainDrawer from '../Drawer/MainDrawer';
 import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
 import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
