@@ -1,3 +1,6 @@
+/**
+ * Reducer to store state for component page
+ */
 import {
   COMPONENT_FETCH_DETAIL_STARTED,
   COMPONENT_FETCH_DETAIL,

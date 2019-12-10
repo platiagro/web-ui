@@ -1,13 +1,16 @@
+/**
+ * Component responsible for:
+ * - Structuring the root page layout
+ */
+import './style.scss';
 import React, { useState, useCallback } from 'react';
-import { Layout, Row, Col } from 'antd';
 import { useHistory } from 'react-router-dom';
+import { Layout, Row, Col } from 'antd';
 import NewProjectModal from '../../components/NewProjectModal';
 import logoBody from '../../assets/logo-colorido.svg';
 import ic_projeto from '../../assets/ic_projeto.svg';
 import ic_avaliacao from '../../assets/ic_avaliacao.svg';
 import ic_programacao from '../../assets/ic_programacao.svg';
-
-import './style.scss';
 import * as projectsServices from '../../services/projectsApi';
 
 const { Content } = Layout;
@@ -17,16 +20,19 @@ const Root = () => {
   const history = useHistory();
   const [formRef, setFormRef] = useState(null);
 
-  function handleClick() {
-    setModalVisible(true);
-  }
+  // Function to change modal visibility
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
+  // Function to save form reference
   const saveFormRef = useCallback((node) => {
     if (node !== null) {
       setFormRef(node);
     }
   }, []);
 
+  // Function to handle project creation
   const handleCreate = () => {
     formRef.validateFields(async (err, values) => {
       if (err) {
@@ -47,9 +53,7 @@ const Root = () => {
       <NewProjectModal
         ref={saveFormRef}
         visible={modalVisible}
-        onCancel={() => {
-          setModalVisible(false);
-        }}
+        onCancel={toggleModal}
         onCreate={handleCreate}
       />
       <Content className='rootPageBody'>
@@ -61,7 +65,7 @@ const Root = () => {
             <div className='card-content'>
               <p className='home-subtitle'>Você pode:</p>
               <div className='home-cards'>
-                <div role='presentation' onClick={handleClick}>
+                <div role='presentation' onClick={toggleModal}>
                   <img src={ic_projeto} alt='Icone de experimento' />
                   <span>Criar um novo projeto</span>
                 </div>

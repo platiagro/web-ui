@@ -1,4 +1,6 @@
-/* istanbul ignore file */
+/**
+ * List of the possible routes
+ */
 import Root from '../pages/Root';
 import Components from '../pages/Components';
 import Component from '../pages/ComponentDetail';

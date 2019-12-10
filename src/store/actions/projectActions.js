@@ -1,3 +1,6 @@
+/**
+ * Actions for project page
+ */
 import { message } from 'antd';
 import * as pipelinesServices from '../../services/pipelinesApi';
 import * as projectsServices from '../../services/projectsApi';
@@ -8,12 +11,19 @@ export const PROJECT_UPDATE_NAME = 'PROJECT_UPDATE_NAME';
 export const PROJECT_GET_PIPELINES = 'PROJECT_GET_PIPELINES';
 export const PROJECT_UPDATE_EXPERIMENT = 'PROJECT_UPDATE_EXPERIMENT';
 
+/**
+ * Function to dispatch action PROJECT_FETCH_DETAIL_STARTED
+ */
 const fetchStarted = () => {
   return {
     type: PROJECT_FETCH_DETAIL_STARTED,
   };
 };
 
+/**
+ * Function to dispatch action PROJECT_FETCH_DETAIL
+ * @param {Object} detail
+ */
 const setProjectDetail = (detail) => {
   return {
     type: PROJECT_FETCH_DETAIL,
@@ -21,6 +31,10 @@ const setProjectDetail = (detail) => {
   };
 };
 
+/**
+ * Function to fetch project detail and dispatch to reducer
+ * @param {String} id
+ */
 export const getProjectDetail = (id) => {
   return (dispatch) => {
     dispatch(fetchStarted());
@@ -49,6 +63,10 @@ export const getProjectDetail = (id) => {
   };
 };
 
+/**
+ * Function to dispatch action PROJECT_UPDATE_NAME
+ * @param {String} name
+ */
 const setProjectName = (name) => {
   return {
     type: PROJECT_UPDATE_NAME,
@@ -56,7 +74,12 @@ const setProjectName = (name) => {
   };
 };
 
-export const updateProjectName = (editableDetails, name, resultCallback) => {
+/**
+ * Function to update project name and dispatch to reducer
+ * @param {Object} editableDetails
+ * @param {String} name
+ */
+export const updateProjectName = (editableDetails, name) => {
   const { uuid } = editableDetails;
   return (dispatch) => {
     return projectsServices
@@ -64,9 +87,9 @@ export const updateProjectName = (editableDetails, name, resultCallback) => {
       .then((response) => {
         if (response) {
           dispatch(setProjectName(name));
-        } else if (resultCallback) {
-          resultCallback(false);
+          return true;
         }
+        return false;
       })
       .catch((error) => {
         throw error;
@@ -74,6 +97,10 @@ export const updateProjectName = (editableDetails, name, resultCallback) => {
   };
 };
 
+/**
+ * Function to dispatch action PROJECT_GET_PIPELINES
+ * @param {Object} flowDetail
+ */
 const setFlowDetails = (flowDetail) => {
   return {
     type: PROJECT_GET_PIPELINES,
@@ -81,6 +108,10 @@ const setFlowDetails = (flowDetail) => {
   };
 };
 
+/**
+ * Function to fetch pipelines and dispatch to reducer
+ * @param {Object[]} templateItems
+ */
 export const getPipelines = (templateItems) => {
   return (dispatch) => {
     return pipelinesServices
@@ -115,6 +146,13 @@ export const getPipelines = (templateItems) => {
   };
 };
 
+/**
+ * Function to update project experiment and dispatch to reducer
+ * @param {String} projectId
+ * @param {String} experimentId
+ * @param {Object} body
+ * @param {Object} template
+ */
 export const updateExperiment = (projectId, experimentId, body, template) => {
   return (dispatch) => {
     return projectsServices

@@ -1,5 +1,6 @@
 /**
  * Component responsible for:
+ * - Structuring the table layout
  * - List all available components
  * - Routing to component detail page on item click
  * - Delete selected component

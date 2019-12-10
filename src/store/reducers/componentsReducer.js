@@ -1,3 +1,6 @@
+/**
+ * Reducer to store state for components page
+ */
 import {
   COMPONENTS_ADD,
   COMPONENTS_DELETE,

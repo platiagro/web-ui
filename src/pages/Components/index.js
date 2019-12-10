@@ -20,10 +20,12 @@ const Components = (props) => {
   const { componentList, loading } = props;
   const { onFetchComponents, onToggleModal } = props;
 
+  // Fetch components on component did mount
   useEffect(() => {
     onFetchComponents();
   }, []);
 
+  // Function to render body
   const renderBody = () => {
     if (loading) return <Spin />;
 
