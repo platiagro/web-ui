@@ -42,7 +42,7 @@ const dispatchFetchProjects = (projects) => {
 
 export const fetchProjects = () => {
   return (dispatch) => {
-    dispatchEvent(fetchStarted());
+    dispatch(fetchStarted());
     return projectsServices
       .getAllProjects()
       .then((response) => {
