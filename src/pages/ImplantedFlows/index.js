@@ -1,3 +1,8 @@
+/**
+ * Component responsible for:
+ * - Structuring the implanted flows layout
+ * - Fetch and List the implantations
+ */
 import './style.scss';
 import React, { useState, useEffect } from 'react';
 import { Empty, Spin } from 'antd';
@@ -10,6 +15,9 @@ const ImplantedFlows = (props) => {
   const [loading, setLoading] = useState(false);
   const [flowList, setFlowList] = useState([]);
 
+  /**
+   * Function to fetch the implatantions
+   */
   const deploymentsFetch = async () => {
     setLoading(true);
     const response = await getDeployments();
@@ -21,6 +29,9 @@ const ImplantedFlows = (props) => {
     deploymentsFetch();
   }, []);
 
+  /**
+   * Funtion to render page body
+   */
   const renderBody = () => {
     if (loading) return <Spin />;
 

@@ -1,3 +1,8 @@
+/**
+ * Component responsible for:
+ * - Structuring the editable title layout
+ * - Update the title
+ */
 import React, { useState } from 'react';
 import { Icon } from 'antd';
 import PropTypes from 'prop-types';
@@ -10,20 +15,20 @@ const EditableTitle = (props) => {
   const [loading, setLoading] = useState(false);
   const [newVal, setNewVal] = useState(name);
 
+  // Funtion to handle text change
   const handleChange = (e) => {
     setNewVal(e.currentTarget.value);
   };
 
-  const updateCallback = (result) => {
-    if (!result) {
-      setNewVal(name);
-    }
-  };
-
-  const handleSubmit = async (e) => {
+  // Funtion to handle submit
+  const handleSubmit = (e) => {
     setLoading(true);
     if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
-      onUpdate(details, e.currentTarget.value, updateCallback);
+      onUpdate(details, e.currentTarget.value).then((response) => {
+        if (!response) {
+          setNewVal(name);
+        }
+      });
     } else {
       setNewVal(name);
     }
@@ -32,6 +37,7 @@ const EditableTitle = (props) => {
     setLoading(false);
   };
 
+  // Funtion to handle the key press
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();

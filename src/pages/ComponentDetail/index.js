@@ -28,20 +28,21 @@ const ComponentDetail = (props) => {
     onUpdateComponentName,
   } = props;
 
+  // Fetch detail and namespaces on component did mount
   useEffect(() => {
     onGetComponentDetail(match.params.componentId);
     onGetNamespaces();
   }, []);
 
+  // Function to get error page
   const getErrorPage = () => {
     return loading ? <Spin /> : <E404 />;
   };
 
+  // Function to handle click on back button
   const handleClick = () => {
     history.push('/components');
   };
-
-  if (loading) return <Spin />;
 
   return details.uuid ? (
     <div className='componentPage'>
@@ -91,8 +92,8 @@ const mapDispatchToProps = (dispatch) => {
     onGetNamespaces: () => {
       dispatch(getNamespaces());
     },
-    onUpdateComponentName: (editableDetails, name, resultCallback) => {
-      dispatch(updateComponentName(editableDetails, name, resultCallback));
+    onUpdateComponentName: (editableDetails, name) => {
+      return dispatch(updateComponentName(editableDetails, name));
     },
   };
 };
