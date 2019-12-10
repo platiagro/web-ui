@@ -25,12 +25,17 @@ const hasErrors = (fieldsError) => {
 // eslint-disable-next-line
 class NewProjectModal extends React.Component {
   render() {
-    const { visible, onCancel, onCreate, form } = this.props;
+    const { visible, onCancel, onCreate, form, history } = this.props;
     const { getFieldDecorator, getFieldsError } = form;
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      onCreate();
+      form.validateFields(async (err, values) => {
+        if (err) {
+          return;
+        }
+        onCreate(values.name, history);
+      });
     };
 
     return (
@@ -40,10 +45,10 @@ class NewProjectModal extends React.Component {
         okText='Criar'
         cancelText='Cancelar'
         onCancel={onCancel}
-        onOk={onCreate}
+        onOk={handleSubmit}
         okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
       >
-        <Form layout='vertical' onSubmit={handleSubmit}>
+        <Form layout='vertical'>
           <Form.Item label='Qual o nome do seu projeto?'>
             {getFieldDecorator('name', {
               rules: [

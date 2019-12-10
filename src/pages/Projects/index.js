@@ -3,96 +3,42 @@ import './style.scss';
 
 import { Button, Empty, Spin } from 'antd';
 
-import projects from './projects_mock';
+import { connect } from 'react-redux';
 import NewProjectModal from '../../components/NewProjectModal';
 import ProjectsTable from '../../components/ProjectsTable';
 import ContentHeader from '../../components/ContentHeader';
 
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 
-import * as projectsServices from '../../services/projectsApi';
-
-projects.forEach((project) => {
-  const projectAux = project;
-  projectAux.experiments = project.experimentsList.join(', ');
-});
+import {
+  addProject,
+  fetchProjects,
+  toggleModal,
+} from '../../store/actions/projectsActions';
 
 class Projects extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: false,
-      projectList: [],
-      modalIsVisible: false,
-    };
-
     this.renderBody = this.renderBody.bind(this);
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
   }
 
   componentDidMount() {
-    this.projectsFetch();
+    const { onFetchProjects } = this.props;
+    onFetchProjects();
   }
 
-  handleCreate = () => {
-    const { form } = this.formRef.props;
-    const { history } = this.props;
-    form.validateFields(async (err, values) => {
-      if (err) {
-        return;
-      }
-
-      const response = await projectsServices.createProject(values.name);
-      if (response) {
-        form.resetFields();
-        this.setState({ modalIsVisible: false }, () => {
-          history.push(`/projects/${response.data.payload.uuid}`);
-        });
-      }
-      // this.projectsFetch(); Não precisa do fetch, já vai para a prox pagina
-    });
+  handleCreate = (name) => {
+    const { onAddProject, history } = this.props;
+    onAddProject(name, history);
   };
-
-  projectsFetch = async () => {
-    this.setState({ loading: true });
-
-    const response = await projectsServices.getAllProjects();
-
-    this.setState({ loading: false });
-
-    if (response) this.setState({ projectList: response.data.payload });
-  };
-
-  saveFormRef = (formRef) => {
-    this.formRef = formRef;
-  };
-
-  // enterProjetc = (clickedProject) => {
-  //   console.log(clickedProject);
-  //   window.location = `projects/${clickedProject.key - 1}`;
-  //   // this.setState({ projectDetail: clickedProject });
-  // };
-
-  showModal() {
-    this.setState({ modalIsVisible: true });
-  }
-
-  hideModal() {
-    const { form } = this.formRef.props;
-
-    this.setState({ modalIsVisible: false });
-
-    form.resetFields();
-  }
 
   renderBody() {
-    const { loading, projectList } = this.state;
+    const { projectsList, loading } = this.props;
 
     if (loading) return <Spin />;
 
-    return projectList.length === 0 ? (
+    return projectsList.length === 0 ? (
       <Empty
         image={emptyPlaceholder}
         imageStyle={{
@@ -111,20 +57,19 @@ class Projects extends React.Component {
     ) : (
       <ProjectsTable
         enterProjetc={this.enterProjetc}
-        projectList={projectList}
+        projectList={projectsList}
       />
     );
   }
 
   render() {
-    const { loading, modalIsVisible } = this.state;
+    const { onToggleModal, loading, modalIsVisible } = this.props;
 
     return (
       <div className='projectPage'>
         <NewProjectModal
-          wrappedComponentRef={this.saveFormRef}
           visible={modalIsVisible}
-          onCancel={this.hideModal}
+          onCancel={onToggleModal}
           onCreate={this.handleCreate}
         />
 
@@ -137,7 +82,7 @@ class Projects extends React.Component {
           <div className='header'>
             <Button
               disabled={loading}
-              onClick={this.showModal}
+              onClick={onToggleModal}
               type='primary'
               icon='plus'
             >
@@ -151,4 +96,27 @@ class Projects extends React.Component {
   }
 }
 
-export default Projects;
+const mapStateToProps = (state) => {
+  return {
+    ...state.projects,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddProject: (name, history) => {
+      dispatch(addProject(name, history));
+    },
+    onFetchProjects: () => {
+      dispatch(fetchProjects());
+    },
+    onToggleModal: () => {
+      dispatch(toggleModal());
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Projects);
