@@ -1,36 +1,51 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/**
+ * Component responsible for:
+ * - Structuring the basic new component parameter layout
+ * - Add parameter
+ */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Button, Form, Input, message, Select, Switch } from 'antd';
 import NewParameterModal from '../NewParameterModal';
+import { addParam } from '../../../store/actions/componentActions';
 
 const { Option } = Select;
 
 const NewParameterForm = (props) => {
-  const { form, onSubmit } = props;
+  const { details, form, onAddParam } = props;
+  const { uuid, parameters } = details;
   const { getFieldDecorator } = form;
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  const showModal = () => {
-    setModalIsVisible(true);
+  /**
+   * Function to toggle modal visibility
+   */
+  const toggleModal = () => {
+    setModalIsVisible(!modalIsVisible);
   };
 
-  const hideModal = () => {
-    setModalIsVisible(false);
-  };
-
-  const resultCallback = (name, result) => {
-    if (result) {
-      message.success(`Parâmetro ${name} adicionado com sucesso`);
-      props.form.resetFields();
-    }
-  };
-
+  /**
+   * Function to handle form submit
+   * @param {Event} e
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        onSubmit(values, resultCallback);
+        const newParameter = {
+          name: values.name,
+          type: values.type,
+          required: values.required,
+        };
+
+        onAddParam(uuid, parameters, newParameter).then((response) => {
+          if (response) {
+            message.success(
+              `Parâmetro ${newParameter.name} adicionado com sucesso`
+            );
+            form.resetFields();
+          }
+        });
       }
     });
   };
@@ -71,10 +86,11 @@ const NewParameterForm = (props) => {
       <Form.Item style={{ marginBottom: 0 }}>
         <NewParameterModal
           visible={modalIsVisible}
-          onCancel={hideModal}
-          onSubmit={onSubmit}
+          onCancel={toggleModal}
+          onSubmit={handleSubmit}
         />
-        <a href='#' onClick={showModal}>
+        {/* eslint-disable jsx-a11y/anchor-is-valid */}
+        <a href='#' onClick={toggleModal}>
           Avançado
         </a>
       </Form.Item>
@@ -92,12 +108,21 @@ const NewParameterForm = (props) => {
   );
 };
 
-NewParameterForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  form: PropTypes.shape({
-    getFieldDecorator: PropTypes.func,
-    getFieldsError: PropTypes.func,
-  }).isRequired,
+const mapStateToProps = (state) => {
+  return {
+    details: state.component.details,
+  };
 };
 
-export default Form.create({ name: 'new_parameter' })(NewParameterForm);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddParam: (id, parameters, newParameter) => {
+      return dispatch(addParam(id, parameters, newParameter));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create({ name: 'new_parameter' })(NewParameterForm));

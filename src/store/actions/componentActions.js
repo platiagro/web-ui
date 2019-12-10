@@ -1,3 +1,7 @@
+/**
+ * Actions for component page
+ */
+import { message } from 'antd';
 import uuidv4 from 'uuid/v4';
 import * as componentsServices from '../../services/componentsApi';
 import * as jupyterServices from '../../services/jupyterApi';
@@ -9,12 +13,19 @@ export const COMPONENT_UPDATE_FILE = 'COMPONENT_UPDATE_FILE';
 export const COMPONENT_UPDATE_PARAMS = 'COMPONENT_UPDATE_PARAMS';
 export const COMPONENT_UPDATE_NAME = 'COMPONENT_UPDATE_NAME';
 
+/**
+ * Function to dispatch action COMPONENT_FETCH_DETAIL_STARTED
+ */
 const fetchStarted = () => {
   return {
     type: COMPONENT_FETCH_DETAIL_STARTED,
   };
 };
 
+/**
+ * Function to dispatch action COMPONENT_FETCH_DETAIL
+ * @param {Object} detail
+ */
 const setComponentDetail = (detail) => {
   return {
     type: COMPONENT_FETCH_DETAIL,
@@ -22,6 +33,10 @@ const setComponentDetail = (detail) => {
   };
 };
 
+/**
+ * Function to fetch component detail and dispatch to reducer
+ * @param {String} id
+ */
 export const getComponentDetail = (id) => {
   return (dispatch) => {
     dispatch(fetchStarted());
@@ -51,6 +66,10 @@ export const getComponentDetail = (id) => {
   };
 };
 
+/**
+ * Function to dispatch action COMPONENT_FETCH_NAMESPACES
+ * @param {Object[]} namespaces
+ */
 const setNamespaces = (namespaces) => {
   return {
     type: COMPONENT_FETCH_NAMESPACES,
@@ -58,6 +77,9 @@ const setNamespaces = (namespaces) => {
   };
 };
 
+/**
+ * Function to fetch jupyter namespaces and dispatch to reducer
+ */
 export const getNamespaces = () => {
   return (dispatch) => {
     return jupyterServices
@@ -73,6 +95,10 @@ export const getNamespaces = () => {
   };
 };
 
+/**
+ * Function to dispatch action COMPONENT_UPDATE_FILE
+ * @param {Object} file
+ */
 export const updateComponentFile = (file) => {
   return {
     type: COMPONENT_UPDATE_FILE,
@@ -80,6 +106,10 @@ export const updateComponentFile = (file) => {
   };
 };
 
+/**
+ * Function to dispatch action COMPONENT_UPDATE_PARAMS
+ * @param {Object[]} parameters
+ */
 const setComponentParams = (parameters) => {
   return {
     type: COMPONENT_UPDATE_PARAMS,
@@ -87,29 +117,84 @@ const setComponentParams = (parameters) => {
   };
 };
 
-export const updateComponentParams = (
-  id,
-  parameters,
-  parameterName,
-  callback
-) => {
-  return (dispatch) => {
-    return componentsServices
-      .updateParameters(id, parameters)
-      .then((response) => {
-        if (response) {
-          if (callback) {
-            callback(parameterName, true);
+/**
+ * Function to add new parameter and dispatch to reducer
+ * @param {String} id
+ * @param {Object[]} parameters
+ * @param {Object} newParameter
+ */
+export const addParam = (id, parameters, newParameter) => {
+  let checkParameters = true;
+  parameters.forEach((parameter) => {
+    if (parameter.name === newParameter.name) {
+      checkParameters = false;
+    }
+  });
+
+  if (checkParameters) {
+    const newParameters = [...parameters, newParameter];
+    newParameters.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+    return (dispatch) => {
+      return componentsServices
+        .updateParameters(id, newParameters)
+        .then((response) => {
+          if (response) {
+            dispatch(setComponentParams(response.data.payload.parameters));
+            return true;
           }
-          dispatch(setComponentParams(response.data.payload.parameters));
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
-  };
+          return false;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    };
+  }
+  message.error('Já existe parâmetro com esse nome adicionado');
+  return false;
 };
 
+/**
+ * Function to remove parameter and dispatch to reducer
+ * @param {String} id
+ * @param {Object[]} parameters
+ * @param {Object} removedParameter
+ */
+export const removeParam = (id, parameters, removedParameter) => {
+  const index = parameters.indexOf(removedParameter, 0);
+  if (index > -1) {
+    const newParameters = [...parameters];
+    newParameters.splice(index, 1);
+    return (dispatch) => {
+      return componentsServices
+        .updateParameters(id, newParameters)
+        .then((response) => {
+          if (response) {
+            dispatch(setComponentParams(response.data.payload.parameters));
+            return true;
+          }
+          return false;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    };
+  }
+  message.error(`Erro ao remover parâmetro ${removedParameter.name}`);
+  return false;
+};
+
+/**
+ * Function to dispatch action COMPONENT_UPDATE_NAME
+ * @param {String} name
+ */
 const setComponentName = (name) => {
   return {
     type: COMPONENT_UPDATE_NAME,
@@ -117,7 +202,12 @@ const setComponentName = (name) => {
   };
 };
 
-export const updateComponentName = (editableDetails, name, resultCallback) => {
+/**
+ * Function to update name and dispatch to reducer
+ * @param {Object} editableDetails
+ * @param {String} name
+ */
+export const updateComponentName = (editableDetails, name) => {
   const { uuid } = editableDetails;
   return (dispatch) => {
     return componentsServices
@@ -125,9 +215,9 @@ export const updateComponentName = (editableDetails, name, resultCallback) => {
       .then((response) => {
         if (response) {
           dispatch(setComponentName(name));
-        } else if (resultCallback) {
-          resultCallback(false);
+          return true;
         }
+        return false;
       })
       .catch((error) => {
         throw error;

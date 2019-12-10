@@ -1,3 +1,6 @@
+/**
+ * Reducer to store state for project page
+ */
 import {
   PROJECT_FETCH_DETAIL_STARTED,
   PROJECT_FETCH_DETAIL,

@@ -1,12 +1,19 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/**
+ * Component responsible for:
+ * - Structuring the table layout
+ * - List all available components
+ * - Routing to component detail page on item click
+ * - Delete selected component
+ */
 import './style.scss';
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Popconfirm, Table } from 'antd';
+import { deleteComponent } from '../../../store/actions/componentsActions';
 
 const ComponentsTable = (props) => {
-  const { componentList, onDelete } = props;
+  const { componentList, onDeleteComponent } = props;
   const tableColumns = [
     {
       title: 'Nome do Componente',
@@ -36,12 +43,13 @@ const ComponentsTable = (props) => {
           value={record}
           title={`Tem certeza de que deseja excluir o componente ${record.name} ?`}
           onConfirm={() => {
-            onDelete(record);
+            onDeleteComponent(record.uuid);
           }}
           okText='Sim'
           cancelText='Não'
           placement='left'
         >
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a href='#'>Remover</a>
         </Popconfirm>
       ),
@@ -60,9 +68,21 @@ const ComponentsTable = (props) => {
   );
 };
 
-ComponentsTable.propTypes = {
-  componentList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onDelete: PropTypes.func.isRequired,
+const mapStateToProps = (state) => {
+  return {
+    componentList: state.components.componentList,
+  };
 };
 
-export default ComponentsTable;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onDeleteComponent: (id) => {
+      dispatch(deleteComponent(id));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ComponentsTable);

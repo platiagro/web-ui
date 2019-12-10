@@ -1,29 +1,20 @@
-/* eslint-disable react/forbid-prop-types */
+/**
+ * Component responsible for:
+ * - Upload file
+ * - Delete uploaded file
+ */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Button, Icon, message, Upload } from 'antd';
 import UploadFileNotebookModal from '../UploadFileNotebookModal';
 import * as componentsServices from '../../../services/componentsApi';
+import { updateComponentFile } from '../../../store/actions/componentActions';
 
 const { Dragger } = Upload;
 
 const ComponentsUpload = (props) => {
-  const { details, namespaces, updateComponentFile } = props;
+  const { details, namespaces, onUpdateComponentFile } = props;
   const [modalIsVisible, setModalIsVisible] = useState(false);
-
-  const showModal = () => {
-    setModalIsVisible(true);
-  };
-
-  const hideModal = () => {
-    // const { form } = this.formRef.props;
-
-    // this.setState({ modalIsVisible: false });
-
-    // form.resetFields();
-    setModalIsVisible(false);
-  };
-
   const DraggerProps = {
     multiple: false,
     action: `${componentsServices.uploadUrl}/${details.uuid}`,
@@ -37,7 +28,7 @@ const ComponentsUpload = (props) => {
       const { status } = info.file;
       if (status === 'done') {
         message.success(`${info.file.name} salvo com sucesso.`);
-        updateComponentFile(info.file);
+        onUpdateComponentFile(info.file);
       } else if (status === 'removed') {
         if (!info.file.error) {
           message.success(`${info.file.name} removido com sucesso.`);
@@ -59,9 +50,16 @@ const ComponentsUpload = (props) => {
           return false;
         }
       }
-      updateComponentFile(null);
+      onUpdateComponentFile(null);
       return true;
     },
+  };
+
+  /**
+   * Function to toggle modal visibility
+   */
+  const toggleModal = () => {
+    setModalIsVisible(!modalIsVisible);
   };
 
   return (
@@ -71,7 +69,7 @@ const ComponentsUpload = (props) => {
         fileName={details.file ? details.file.name : ''}
         namespaces={namespaces}
         visible={modalIsVisible}
-        onCancel={hideModal}
+        onCancel={toggleModal}
       />
       <Dragger {...DraggerProps}>
         <p className='ant-upload-drag-icon'>
@@ -89,7 +87,7 @@ const ComponentsUpload = (props) => {
             ? { float: 'right' }
             : { display: 'none', float: 'right' }
         }
-        onClick={showModal}
+        onClick={toggleModal}
         type='primary'
       >
         Editar arquivo
@@ -98,23 +96,22 @@ const ComponentsUpload = (props) => {
   );
 };
 
-ComponentsUpload.propTypes = {
-  details: PropTypes.shape({
-    uuid: PropTypes.string,
-    file: PropTypes.shape({
-      name: PropTypes.string,
-      path: PropTypes.string,
-      status: PropTypes.string,
-      uid: PropTypes.string,
-      url: PropTypes.string,
-    }),
-  }).isRequired,
-  namespaces: PropTypes.arrayOf(
-    PropTypes.shape({
-      namespace: PropTypes.string,
-    })
-  ).isRequired,
-  updateComponentFile: PropTypes.func.isRequired,
+const mapStateToProps = (state) => {
+  return {
+    details: state.component.details,
+    namespaces: state.component.namespaces,
+  };
 };
 
-export default ComponentsUpload;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUpdateComponentFile: (file) => {
+      dispatch(updateComponentFile(file));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ComponentsUpload);

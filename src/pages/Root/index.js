@@ -1,3 +1,8 @@
+
+/**
+ * Component responsible for:
+ * - Structuring the root page layout
+ */
 import React from 'react';
 import './style.scss';
 
@@ -20,6 +25,7 @@ const Root = (props) => {
   return (
     <Layout className='rootPage'>
       <NewProjectModal />
+
       <Content className='rootPageBody'>
         <Row className='body'>
           <Col className='home-columns' span={12}>

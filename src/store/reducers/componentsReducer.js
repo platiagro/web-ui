@@ -1,3 +1,6 @@
+/**
+ * Reducer to store state for components page
+ */
 import {
   COMPONENTS_ADD,
   COMPONENTS_DELETE,
@@ -16,11 +19,7 @@ const initialState = {
 export default function postReducer(state = initialState, action) {
   switch (action.type) {
     case COMPONENTS_ADD:
-      return {
-        ...state,
-        loading: false,
-        modalIsVisible: false,
-      };
+      return { ...state, modalIsVisible: false };
     case COMPONENTS_DELETE:
       return {
         ...state,

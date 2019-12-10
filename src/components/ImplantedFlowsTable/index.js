@@ -1,9 +1,11 @@
-import React from 'react';
-
-import { Table, Typography, Tooltip } from 'antd';
-import { Link } from 'react-router-dom';
-
+/**
+ * Component responsible for:
+ * - Structuring the table layout
+ * - List all implantations
+ */
 import './style.scss';
+import React from 'react';
+import { Table, Typography, Tooltip } from 'antd';
 
 const { Paragraph } = Typography;
 
@@ -29,7 +31,6 @@ const tableColumns = [
     title: 'Data de Criação',
     dataIndex: 'created',
     key: 'created',
-    // render: (value) => new Date(value).toLocaleString(),
   },
   {
     title: 'Ação',
@@ -46,11 +47,9 @@ const tableColumns = [
 const ImplantedFlowsTable = ({ flowList }) => {
   return (
     <Table
-      // rowKey={(record) => record.uuid}
       dataSource={flowList}
       columns={tableColumns}
       pagination={{ pageSize: 9 }}
-    // scroll={{ y: 'calc(100vh - 480px)' }}
     />
   );
 };
