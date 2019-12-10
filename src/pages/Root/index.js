@@ -1,57 +1,25 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
+import './style.scss';
+
 import { Layout, Row, Col } from 'antd';
-import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import NewProjectModal from '../../components/Project/NewProjectModal';
 import logoBody from '../../assets/logo-colorido.svg';
 import ic_projeto from '../../assets/ic_projeto.svg';
 import ic_avaliacao from '../../assets/ic_avaliacao.svg';
 import ic_programacao from '../../assets/ic_programacao.svg';
 
-import './style.scss';
-import * as projectsServices from '../../services/projectsApi';
+import { toggleModal } from '../../store/actions/projectsActions';
 
 const { Content } = Layout;
 
-const Root = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const history = useHistory();
-  const [formRef, setFormRef] = useState(null);
-
-  function handleClick() {
-    setModalVisible(true);
-  }
-
-  const saveFormRef = useCallback((node) => {
-    if (node !== null) {
-      setFormRef(node);
-    }
-  }, []);
-
-  const handleCreate = () => {
-    formRef.validateFields(async (err, values) => {
-      if (err) {
-        return;
-      }
-
-      const response = await projectsServices.createProject(values.name);
-      if (response) {
-        setModalVisible(false);
-        formRef.resetFields();
-        history.push(`/projects/${response.data.payload.uuid}`);
-      }
-    });
-  };
+const Root = (props) => {
+  const { onToggleModal } = props;
 
   return (
     <Layout className='rootPage'>
-      <NewProjectModal
-        ref={saveFormRef}
-        visible={modalVisible}
-        onCancel={() => {
-          setModalVisible(false);
-        }}
-        onCreate={handleCreate}
-      />
+      <NewProjectModal />
       <Content className='rootPageBody'>
         <Row className='body'>
           <Col className='home-columns' span={12}>
@@ -61,7 +29,7 @@ const Root = () => {
             <div className='card-content'>
               <p className='home-subtitle'>Você pode:</p>
               <div className='home-cards'>
-                <div role='presentation' onClick={handleClick}>
+                <div role='presentation' onClick={onToggleModal}>
                   <img src={ic_projeto} alt='Icone de experimento' />
                   <span>Criar um novo projeto</span>
                 </div>
@@ -105,4 +73,21 @@ const Root = () => {
   );
 };
 
-export default Root;
+const mapStateToProps = (state) => {
+  return {
+    ...state.projects,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onToggleModal: () => {
+      dispatch(toggleModal());
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Root);
