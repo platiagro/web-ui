@@ -4,9 +4,11 @@ import _ from 'lodash';
 import './style.scss';
 import { Button, Divider, message, Icon, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
-import MainDrawer from '../MainDrawer';
+import MainDrawer from '../Drawer/MainDrawer';
+import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
 import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
 import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
@@ -29,7 +31,14 @@ import taskGetPhases from './util';
 
 const { Paragraph } = Typography;
 
-const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
+const ExperimentContent = ({
+  details,
+  flowDetails,
+  fetch,
+  projectName,
+  onShowDrawer,
+  onSelectDrawer,
+}) => {
   const params = useParams();
 
   const [columns, setColumns] = useState([]);
@@ -68,16 +77,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     regression: false,
   });
 
-  // TODO
-  // const [taskStatus, setTaskStatus] = useState({
-  //   conjunto_dados: null,
-  //   atributos_tempo: null,
-  //   pre_selecao1: null,
-  //   atributos_genericos: null,
-  //   pre_selecao2: null,
-  //   filtro_atributos: null,
-  //   automl: null,
-  // });
   const [taskStatus, setTaskStatus] = useState({
     conjunto_dados: null,
     atributos_tempo: null,
@@ -173,6 +172,135 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     setParameters(newParameters);
   };
 
+  // getting drawer title
+  const getTitle = (task) => {
+    switch (task) {
+      case 'conjunto_dados':
+        return 'Conjunto de dados';
+      case 'atributos_tempo':
+        return 'Criação de atributos por tempo';
+      case 'pre_selecao1':
+        return 'Pré-seleção de atributos';
+      case 'atributos_genericos':
+        return 'Criação de atributos genéricos';
+      case 'pre_selecao2':
+        return 'Pré-seleção de atributos';
+      case 'filtro_atributos':
+        return 'Filtro de atributos';
+      case 'automl':
+        return 'AutoML';
+      case 'regression':
+        return 'Regressão Logística';
+      default:
+        return null;
+    }
+  };
+
+  // getting drawer child
+  // Selecioanr o Drawer certo
+  const getChild = (task) => {
+    switch (task) {
+      case 'conjunto_dados':
+        return (
+          <DataSetDrawerContent
+            parameter={experimentParameters.conjunto_dados}
+            setTarget={setTarget}
+            columns={columns}
+            setColumns={setUploadedColumns}
+            setDataset={setDataset}
+            setCSV={setCSV}
+            setTXT={setTXT}
+            details={details}
+            runStatus={runStatus}
+            taskStatus={taskStatus.conjunto_dados}
+          />
+        );
+      case 'atributos_tempo':
+        return (
+          <TimeAttributeCreationDrawerContent
+            parameter={experimentParameters.atributos_tempo}
+            dataSets={columns}
+            setGroup={setGroup}
+            setPeriod={setPeriod}
+            runStatus={runStatus} // 'Succeeded' // {runStatus}
+            taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
+            targetId={experimentParameters.conjunto_dados.target}
+            details={details}
+          />
+        );
+      case 'pre_selecao1':
+        return (
+          <AttributePreSelectionDrawerContent
+            parameter={experimentParameters.pre_selecao1}
+            preType={1}
+            dataSets={columns}
+            setCutoff={setCutoffPre1}
+            setCorrelation={setCorrelationPre1}
+            runStatus={runStatus}
+            taskStatus={taskStatus.pre_selecao1}
+            details={details}
+          />
+        );
+      case 'atributos_genericos':
+        return (
+          <GenericAttributeCreationDrawerContent
+            parameter={experimentParameters.atributos_tempo}
+            dataSets={columns}
+            setFeatureTools={setGroup}
+            runStatus={runStatus} // 'Succeeded' // {runStatus}
+            taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
+            targetId={experimentParameters.conjunto_dados.target}
+            details={details}
+          />
+        );
+      case 'pre_selecao2':
+        return (
+          <AttributePreSelectionDrawerContent
+            parameter={experimentParameters.pre_selecao2}
+            preType={2}
+            dataSets={columns}
+            setCutoff={setCutoffPre2}
+            setCorrelation={setCorrelationPre2}
+            runStatus={runStatus}
+            taskStatus={taskStatus.pre_selecao2}
+            details={details}
+          />
+        );
+      case 'filtro_atributos':
+        return (
+          <AttributeFilterDrawerContent
+            parameter={experimentParameters.filtro_atributos}
+            dataSets={columns}
+            setFilter={setFilter}
+            runStatus={runStatus} // 'Succeeded' // {runStatus}
+            taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
+            targetId={experimentParameters.conjunto_dados.target}
+          />
+        );
+      case 'automl':
+        return (
+          <AutoMLDrawerContent
+            parameter={experimentParameters.automl}
+            dataSets={columns}
+            setAutoML={setAutoML}
+            runStatus={runStatus}
+            taskStatus={taskStatus.automl}
+            details={details}
+          />
+        );
+      default:
+        return null;
+    }
+    // NÃO REMOVER
+    // if (
+    //   selected.regression &&
+    //   runStatus === 'Succeeded' &&
+    //   taskStatus.regression === 'Succeeded'
+    // ) {
+    //   return <ResultsDrawer hideDivider details={details} plot />;
+    // }
+  };
+
   // Click para abrir drawer de cada tarefa
   const handleClick = (task) => {
     let newSelected = { ...selected };
@@ -182,6 +310,13 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     });
 
     setSelected(newSelected);
+
+    const drawerTitle = getTitle(task);
+    const drawerChild = getChild(task);
+    const drawerContent = { title: drawerTitle, children: drawerChild };
+
+    onSelectDrawer(drawerContent);
+    onShowDrawer();
   };
 
   // DidMount montagem das colunas
@@ -203,9 +338,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
         setCSV(responseDataset.data.payload.uuid);
 
       if (details.runId) {
-        // const runRes = await getStatusRun(
-        //   'fc9d173f-ede3-11e9-9413-52540006ce68'
-        // );
         const runRes = await getStatusRun(details.runId);
 
         if (runRes) {
@@ -245,7 +377,7 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
               }
 
               const tasks = taskGetPhases(taskStatus, manifest);
-              console.log(tasks)
+              console.log(tasks);
               setTaskStatus(tasks);
             }
           }
@@ -283,142 +415,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     });
 
     if (res) setSelected(_.mapValues(selected, () => false));
-  };
-
-  // Selecioanr o Drawer certo
-  const switchDrawer = () => {
-    if (selected.conjunto_dados) {
-      return (
-        <DataSetDrawerContent
-          parameter={experimentParameters.conjunto_dados}
-          setTarget={setTarget}
-          columns={columns}
-          setColumns={setUploadedColumns}
-          setDataset={setDataset}
-          setCSV={setCSV}
-          setTXT={setTXT}
-          details={details}
-          runStatus={runStatus}
-          taskStatus={taskStatus.conjunto_dados}
-        />
-      );
-    }
-    if (selected.atributos_tempo) {
-      return (
-        <TimeAttributeCreationDrawerContent
-          parameter={experimentParameters.atributos_tempo}
-          dataSets={columns}
-          setGroup={setGroup}
-          setPeriod={setPeriod}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
-          targetId={experimentParameters.conjunto_dados.target}
-          details={details}
-        />
-      );
-    }
-    if (selected.pre_selecao1) {
-      return (
-        <AttributePreSelectionDrawerContent
-          parameter={experimentParameters.pre_selecao1}
-          preType={1}
-          dataSets={columns}
-          setCutoff={setCutoffPre1}
-          setCorrelation={setCorrelationPre1}
-          runStatus={runStatus}
-          taskStatus={taskStatus.pre_selecao1}
-          details={details}
-        />
-      );
-    }
-    if (selected.atributos_genericos) {
-      return (
-        <GenericAttributeCreationDrawerContent
-          parameter={experimentParameters.atributos_tempo}
-          dataSets={columns}
-          setFeatureTools={setGroup}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
-          targetId={experimentParameters.conjunto_dados.target}
-          details={details}
-        />
-      );
-    }
-    if (selected.pre_selecao2) {
-      return (
-        <AttributePreSelectionDrawerContent
-          parameter={experimentParameters.pre_selecao2}
-          preType={2}
-          dataSets={columns}
-          setCutoff={setCutoffPre2}
-          setCorrelation={setCorrelationPre2}
-          runStatus={runStatus}
-          taskStatus={taskStatus.pre_selecao2}
-          details={details}
-        />
-      );
-    }
-    if (selected.filtro_atributos) {
-      return (
-        <AttributeFilterDrawerContent
-          parameter={experimentParameters.filtro_atributos}
-          dataSets={columns}
-          setFilter={setFilter}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
-          targetId={experimentParameters.conjunto_dados.target}
-        />
-      );
-    }
-    if (selected.automl) {
-      return (
-        <AutoMLDrawerContent
-          parameter={experimentParameters.automl}
-          dataSets={columns}
-          setAutoML={setAutoML}
-          runStatus={runStatus}
-          taskStatus={taskStatus.automl}
-          details={details}
-        />
-      );
-    }
-    if (
-      selected.regression &&
-      runStatus === 'Succeeded' &&
-      taskStatus.regression === 'Succeeded'
-    ) {
-      return <ResultsDrawer hideDivider details={details} plot />;
-    }
-
-    return null;
-  };
-
-  const getTitle = () => {
-    if (selected.conjunto_dados) {
-      return 'Conjunto de dados';
-    }
-    if (selected.atributos_tempo) {
-      return 'Criação de atributos por tempo';
-    }
-    if (selected.pre_selecao1) {
-      return 'Pré-seleção de atributos';
-    }
-    if (selected.atributos_genericos) {
-      return 'Criação de atributos genéricos';
-    }
-    if (selected.pre_selecao2) {
-      return 'Pré-seleção de atributos';
-    }
-    if (selected.filtro_atributos) {
-      return 'Filtro de atributos';
-    }
-    if (selected.automl) {
-      return 'AutoML';
-    }
-    if (selected.regression) {
-      return 'Regressão Logística';
-    }
-    return null;
   };
 
   const enableRun = () => {
@@ -548,29 +544,13 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
       <div className='experiment-content-header'>
         <EditableTitle details={details} onUpdate={updateExperimenttName} />
 
-        {/* {details.runStatus === 'Deployed' && (
-          <Paragraph
-            style={{ marginBottom: 0, width: '20vw' }}
-            ellipsis
-            copyable
-          >
-            {url}
-          </Paragraph>
-        )} */}
         <div className='experiment-actions'>
           {details.runStatus !== 'Deployed' && executeButton()}
           {details.runStatus !== 'Deployed' && <Divider type='vertical' />}
           {deployButton()}
         </div>
       </div>
-      <MainDrawer
-        isOpen={openDrawer()}
-        onClose={handleClose}
-        isFinished={runStatus}
-        title={getTitle()}
-      >
-        {switchDrawer()}
-      </MainDrawer>
+      <MainDrawer onClose={handleClose} isFinished={runStatus} />
       <ExperimentFlow
         selected={selected}
         parameters={experimentParameters}
@@ -584,11 +564,12 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
   );
 };
 
-// ExperimentContent.propTypes = {
-//   details: PropTypes.shape({
-//     name: PropTypes.string,
-//     uuid: PropTypes.string,
-//   }).isRequired,
-// };
+const mapDispatchToProps = (dispatch) => ({
+  onShowDrawer: () => dispatch(showDrawer()),
+  onSelectDrawer: (drawerContent) => dispatch(selectDrawer(drawerContent)),
+});
 
-export default ExperimentContent;
+export default connect(
+  null,
+  mapDispatchToProps
+)(ExperimentContent);
