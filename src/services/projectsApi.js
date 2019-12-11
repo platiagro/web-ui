@@ -2,8 +2,11 @@
 import axios from 'axios';
 import { message } from 'antd';
 
+export const URL =
+  process.env.REACT_APP_PROJECTS_API || 'http://localhost:3000';
+
 export const projectsApi = axios.create({
-  baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:3000',
+  baseURL: URL,
 });
 
 export const getAllProjects = async () => {

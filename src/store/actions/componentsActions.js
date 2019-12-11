@@ -12,7 +12,7 @@ export const COMPONENTS_TOGGLE_MODAL = 'COMPONENTS_TOGGLE_MODAL';
 /**
  * Function to dispatch action COMPONENTS_ADD
  */
-const dispatchAdd = () => {
+export const dispatchAdd = () => {
   return {
     type: COMPONENTS_ADD,
   };
@@ -25,17 +25,12 @@ const dispatchAdd = () => {
  */
 export const addComponent = (name, history) => {
   return (dispatch) => {
-    return componentsServices
-      .createComponent(name)
-      .then((response) => {
-        if (response) {
-          dispatch(dispatchAdd());
-          history.push(`/components/${response.data.payload.uuid}`);
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
+    return componentsServices.createComponent(name).then((response) => {
+      if (response) {
+        dispatch(dispatchAdd());
+        history.push(`/components/${response.data.payload.uuid}`);
+      }
+    });
   };
 };
 
@@ -43,7 +38,7 @@ export const addComponent = (name, history) => {
  * Function to dispatch action COMPONENTS_DELETE
  * @param {String} id
  */
-const dispatchDelete = (id) => {
+export const dispatchDelete = (id) => {
   return {
     type: COMPONENTS_DELETE,
     id,
@@ -56,23 +51,18 @@ const dispatchDelete = (id) => {
  */
 export const deleteComponent = (id) => {
   return (dispatch) => {
-    return componentsServices
-      .deleteComponent(id)
-      .then((response) => {
-        if (response) {
-          dispatch(dispatchDelete(id));
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
+    return componentsServices.deleteComponent(id).then((response) => {
+      if (response) {
+        dispatch(dispatchDelete(id));
+      }
+    });
   };
 };
 
 /**
  * Function to dispatch action COMPONENTS_FETCH_STARTED
  */
-const fetchStarted = () => {
+export const fetchStarted = () => {
   return {
     type: COMPONENTS_FETCH_STARTED,
   };
@@ -82,7 +72,7 @@ const fetchStarted = () => {
  * Function to dispatch action COMPONENTS_FETCH
  * @param {Object[]} components
  */
-const dispatchFetchComponents = (components) => {
+export const dispatchFetchComponents = (components) => {
   return {
     type: COMPONENTS_FETCH,
     components,
@@ -95,14 +85,11 @@ const dispatchFetchComponents = (components) => {
 export const fetchComponents = () => {
   return (dispatch) => {
     dispatch(fetchStarted());
-    return componentsServices
-      .getAllComponents()
-      .then((response) => {
+    return componentsServices.getAllComponents().then((response) => {
+      if (response) {
         dispatch(dispatchFetchComponents(response.data.payload));
-      })
-      .catch((error) => {
-        throw error;
-      });
+      }
+    });
   };
 };
 

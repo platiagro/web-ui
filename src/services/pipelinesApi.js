@@ -2,15 +2,11 @@
 import axios from 'axios';
 import { message } from 'antd';
 
-// /pipeline/apis/v1beta1/pipelines
+export const URL = process.env.REACT_APP_PIPELINES_API || '';
 
 export const pipelinesApi = axios.create({
-  baseURL: process.env.REACT_APP_PIPELINES_API || '',
-  // baseURL: 'http://10.50.11.15:31380/',
-  // crossDomain: true, // /!!process.env.REACT_APP_PIPELINES_API,
+  baseURL: URL,
 });
-
-// { databaseName: null, trainId: null, deployId: null };
 
 export const getPipelines = async () => {
   try {
@@ -67,21 +63,23 @@ export const getStatusRun = async (runId) => {
 
 export const getDeployments = async () => {
   try {
-    const response = await pipelinesApi.get('/pipeline/apis/v1beta1/runs?page_size=100');
+    const response = await pipelinesApi.get(
+      '/pipeline/apis/v1beta1/runs?page_size=100'
+    );
     const returnDeployments = [];
 
     if (response.data.runs) {
       response.data.runs.forEach((run) => {
         const manifest = run.pipeline_spec.workflow_manifest;
         const runId = run.id;
-        const name = run.name;
+        const { name } = run;
         const createdAt = new Date(run.created_at);
-        const day = ('0' + createdAt.getDate()).slice(-2);
-        const month = ('0' + (createdAt.getMonth() + 1)).slice(-2);
+        const day = `0${createdAt.getDate()}`.slice(-2);
+        const month = `0${createdAt.getMonth() + 1}`.slice(-2);
         const year = createdAt.getFullYear();
-        const hour = ('0' + createdAt.getHours()).slice(-2);
-        const min = ('0' + createdAt.getMinutes()).slice(-2);
-        const sec = ('0' + createdAt.getSeconds()).slice(-2);
+        const hour = `0${createdAt.getHours()}`.slice(-2);
+        const min = `0${createdAt.getMinutes()}`.slice(-2);
+        const sec = `0${createdAt.getSeconds()}`.slice(-2);
         const created = `${day}/${month}/${year} ${hour}:${min}:${sec}`;
         const isDeployment = manifest.includes('SeldonDeployment');
 
@@ -105,8 +103,8 @@ export const getDeployments = async () => {
           const deployment = {
             key: runId,
             flowName: name,
-            url: url,
-            created: created,
+            url,
+            created,
             action: `explorer?experiment_id=${experimentId}&target_var=${target}&date_var=${date}&csv=${csv}`,
           };
           returnDeployments.push(deployment);
