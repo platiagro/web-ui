@@ -16,7 +16,7 @@ export const COMPONENT_UPDATE_NAME = 'COMPONENT_UPDATE_NAME';
 /**
  * Function to dispatch action COMPONENT_FETCH_DETAIL_STARTED
  */
-const fetchStarted = () => {
+export const fetchStarted = () => {
   return {
     type: COMPONENT_FETCH_DETAIL_STARTED,
   };
@@ -26,7 +26,7 @@ const fetchStarted = () => {
  * Function to dispatch action COMPONENT_FETCH_DETAIL
  * @param {Object} detail
  */
-const setComponentDetail = (detail) => {
+export const setComponentDetail = (detail) => {
   return {
     type: COMPONENT_FETCH_DETAIL,
     detail,
@@ -40,29 +40,24 @@ const setComponentDetail = (detail) => {
 export const getComponentDetail = (id) => {
   return (dispatch) => {
     dispatch(fetchStarted());
-    return componentsServices
-      .getComponent(id)
-      .then((response) => {
-        if (response) {
-          const details = { ...response.data.payload };
-          if (!details.parameters) {
-            details.parameters = [];
-          }
-          if (details.file) {
-            const fileDetails = { uid: uuidv4(), status: 'done' };
-            fileDetails.name = details.file.split('/').pop();
-            fileDetails.path = `components/${details.uuid}/${fileDetails.name}`;
-            fileDetails.url = `${componentsServices.downloadUrl}/${details.uuid}/${fileDetails.name}`;
-            details.file = fileDetails;
-          } else {
-            details.file = null;
-          }
-          dispatch(setComponentDetail(details));
+    return componentsServices.getComponent(id).then((response) => {
+      if (response) {
+        const details = { ...response.data.payload };
+        if (!details.parameters) {
+          details.parameters = [];
         }
-      })
-      .catch((error) => {
-        throw error;
-      });
+        if (details.file) {
+          const fileDetails = { uid: uuidv4(), status: 'done' };
+          fileDetails.name = details.file.split('/').pop();
+          fileDetails.path = `components/${details.uuid}/${fileDetails.name}`;
+          fileDetails.url = `${componentsServices.downloadUrl}/${details.uuid}/${fileDetails.name}`;
+          details.file = fileDetails;
+        } else {
+          details.file = null;
+        }
+        dispatch(setComponentDetail(details));
+      }
+    });
   };
 };
 
@@ -70,7 +65,7 @@ export const getComponentDetail = (id) => {
  * Function to dispatch action COMPONENT_FETCH_NAMESPACES
  * @param {Object[]} namespaces
  */
-const setNamespaces = (namespaces) => {
+export const setNamespaces = (namespaces) => {
   return {
     type: COMPONENT_FETCH_NAMESPACES,
     namespaces,
@@ -82,16 +77,11 @@ const setNamespaces = (namespaces) => {
  */
 export const getNamespaces = () => {
   return (dispatch) => {
-    return jupyterServices
-      .getNamespaces()
-      .then((response) => {
-        if (response) {
-          dispatch(setNamespaces(response.data.namespaces));
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
+    return jupyterServices.getNamespaces().then((response) => {
+      if (response) {
+        dispatch(setNamespaces(response.data.namespaces));
+      }
+    });
   };
 };
 
@@ -110,7 +100,7 @@ export const updateComponentFile = (file) => {
  * Function to dispatch action COMPONENT_UPDATE_PARAMS
  * @param {Object[]} parameters
  */
-const setComponentParams = (parameters) => {
+export const setComponentParams = (parameters) => {
   return {
     type: COMPONENT_UPDATE_PARAMS,
     parameters,
@@ -137,10 +127,7 @@ export const addParam = (id, parameters, newParameter) => {
       if (a.name < b.name) {
         return -1;
       }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
+      return 1;
     });
     return (dispatch) => {
       return componentsServices
@@ -151,9 +138,6 @@ export const addParam = (id, parameters, newParameter) => {
             return true;
           }
           return false;
-        })
-        .catch((error) => {
-          throw error;
         });
     };
   }
@@ -181,9 +165,6 @@ export const removeParam = (id, parameters, removedParameter) => {
             return true;
           }
           return false;
-        })
-        .catch((error) => {
-          throw error;
         });
     };
   }
@@ -195,7 +176,7 @@ export const removeParam = (id, parameters, removedParameter) => {
  * Function to dispatch action COMPONENT_UPDATE_NAME
  * @param {String} name
  */
-const setComponentName = (name) => {
+export const setComponentName = (name) => {
   return {
     type: COMPONENT_UPDATE_NAME,
     name,
@@ -210,17 +191,12 @@ const setComponentName = (name) => {
 export const updateComponentName = (editableDetails, name) => {
   const { uuid } = editableDetails;
   return (dispatch) => {
-    return componentsServices
-      .updateComponent(uuid, name)
-      .then((response) => {
-        if (response) {
-          dispatch(setComponentName(name));
-          return true;
-        }
-        return false;
-      })
-      .catch((error) => {
-        throw error;
-      });
+    return componentsServices.updateComponent(uuid, name).then((response) => {
+      if (response) {
+        dispatch(setComponentName(name));
+        return true;
+      }
+      return false;
+    });
   };
 };
