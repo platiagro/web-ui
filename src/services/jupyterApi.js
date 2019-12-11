@@ -8,15 +8,13 @@ import * as componentsServices from './componentsApi';
 
 export const URL = process.env.REACT_APP_JUPYTER_API || '';
 
-export const componentsApi = axios.create({
+export const jupyterApi = axios.create({
   baseURL: URL,
 });
 
 export const getNamespaces = async () => {
   try {
-    const response = await componentsApi.get(
-      `/kubeflow/api/workgroup/env-info`
-    );
+    const response = await jupyterApi.get(`/kubeflow/api/workgroup/env-info`);
     return response;
   } catch (error) {
     message.error(error.message);
@@ -25,7 +23,7 @@ export const getNamespaces = async () => {
 
 export const getNotebook = async (namespace) => {
   try {
-    const response = await componentsApi.get(
+    const response = await jupyterApi.get(
       `/jupyter/api/namespaces/${namespace}/notebooks`
     );
     return response;
@@ -57,7 +55,7 @@ export const uploadFile = async (namespace, notebook, filePath, fileName) => {
     const cookies = new Cookies();
     cookies.set('_xsrf', uuid, { path: '/' });
 
-    const response = await componentsApi.put(
+    const response = await jupyterApi.put(
       `/notebook/${namespace}/${notebook}/api/contents/${fileName}`,
       body,
       {

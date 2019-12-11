@@ -22,6 +22,11 @@ import {
   getDataSet,
 } from '../../services/dataSetApi';
 
+import deployRequest from './deployRequest';
+import pollingRun from './polling';
+import mountObjectRequest from './mountObjectRequest';
+import taskGetPhases from './util';
+
 const { Paragraph } = Typography;
 
 const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
@@ -179,169 +184,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     setSelected(newSelected);
   };
 
-  const getPhase = (param, manifest, alter = null) => {
-    return Object.values(manifest).find((n) => n.displayName === param)
-      ? Object.values(manifest).find((n) => n.displayName === param).phase
-      : alter;
-  };
-
-  const pollingRun = (pollingId) => {
-    let intervalPolling;
-    async function fetchRunStatus() {
-      const runRes = await getStatusRun(pollingId);
-
-      if (runRes) {
-        if (
-          runRes.data.run.status === 'Running' ||
-          runRes.data.run.status === undefined
-        ) {
-          console.info('[STATUS]', runRes.data.run.status);
-
-          if (runRes.data.run.status) {
-            setRunStatus(runRes.data.run.status);
-            const manifest = JSON.parse(
-              runRes.data.pipeline_runtime.workflow_manifest
-            );
-
-            const tasks = { ...taskStatus };
-
-            // if (
-            //   details.template === 'Linear Regression/Logistic Regression' ||
-            //   details.template === 'AutoML'
-            // ) {
-            //   tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
-            // } else {
-            //   tasks.conjunto_dados = getPhase(
-            //     'feature-temporal',
-            //     manifest.status.nodes
-            //   );
-            // }
-            tasks.conjunto_dados = 'Succeeded';
-
-            tasks.atributos_tempo = getPhase(
-              'feature-temporal',
-              manifest.status.nodes,
-              'Pending'
-            );
-
-            tasks.pre_selecao1 = getPhase(
-              'pre-selection-1',
-              manifest.status.nodes,
-              'Pending'
-            );
-
-            tasks.atributos_genericos = getPhase(
-              'feature-tools',
-              manifest.status.nodes,
-              'Pending'
-            );
-
-            tasks.pre_selecao2 = getPhase(
-              'pre-selection-2',
-              manifest.status.nodes,
-              'Pending'
-            );
-
-            tasks.filtro_atributos = getPhase(
-              'filter',
-              manifest.status.nodes,
-              'Pending'
-            );
-
-            tasks.automl = getPhase('automl', manifest.status.nodes, 'Pending');
-
-            tasks.regression = getPhase(
-              'regression',
-              manifest.status.nodes,
-              'Pending'
-            );
-
-            setTaskStatus(tasks);
-          }
-        } else {
-          clearInterval(intervalPolling);
-          console.log('Finalizou', runRes.data.run);
-          if (runRes.data.run.status === 'Succeeded') {
-            message.success(`${runRes.data.run.name} finalizou com Sucesso!`);
-            const resUpdate = await updateExperiment(
-              details.projectId,
-              details.uuid,
-              {
-                runStatus: 'Succeeded',
-              }
-            );
-            console.info(resUpdate);
-          } else if (runRes.data.run.status === 'Failed') {
-            message.error(`${runRes.data.run.name} finalizou com Falha!`);
-          }
-
-          setRunStatus(runRes.data.run.status);
-
-          const manifest = JSON.parse(
-            runRes.data.pipeline_runtime.workflow_manifest
-          );
-
-          //   // feature-temporal
-          //   // pre-selection-1
-          //   // feature-tools
-          //   // pre-selection-2
-          //   // filter
-          //   // automl
-          //   // regression
-          const tasks = { ...taskStatus };
-
-          // if (
-          //   details.template === 'Linear Regression/Logistic Regression' ||
-          //   details.template === 'AutoML'
-          // ) {
-          //   tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
-          // } else {
-          //   tasks.conjunto_dados = getPhase(
-          //     'feature-temporal',
-          //     manifest.status.nodes
-          //   );
-          // }
-
-          tasks.conjunto_dados = 'Succeeded';
-
-          tasks.atributos_tempo = getPhase(
-            'feature-temporal',
-            manifest.status.nodes
-          );
-
-          tasks.pre_selecao1 = getPhase(
-            'pre-selection-1',
-            manifest.status.nodes
-          );
-
-          tasks.atributos_genericos = getPhase(
-            'feature-tools',
-            manifest.status.nodes
-          );
-
-          tasks.pre_selecao2 = getPhase(
-            'pre-selection-2',
-            manifest.status.nodes
-          );
-
-          tasks.filtro_atributos = getPhase('filter', manifest.status.nodes);
-
-          tasks.automl = getPhase('automl', manifest.status.nodes);
-
-          tasks.regression = getPhase('regression', manifest.status.nodes);
-
-          setTaskStatus(tasks);
-        }
-      }
-    }
-
-    console.log('Start polling id: ', pollingId);
-    setTaskStatus(_.mapValues(taskStatus, () => 'Pending'));
-    setRunStatus('Running');
-    intervalPolling = setInterval(() => {
-      fetchRunStatus();
-    }, 3000);
-  };
   // DidMount montagem das colunas
   useEffect(() => {
     let isSubscribed = true;
@@ -377,7 +219,13 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
             if (isSubscribed) {
               setTaskStatus(_.mapValues(taskStatus, () => 'Running'));
-              pollingRun(details.runId);
+              pollingRun(
+                details,
+                details.runId,
+                taskStatus,
+                setTaskStatus,
+                setRunStatus
+              );
             }
           } else {
             const manifest = JSON.parse(
@@ -385,30 +233,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
             );
 
             if (isSubscribed) {
-              //   // feature-temporal
-              //   // pre-selection-1
-              //   // feature-tools
-              //   // pre-selection-2
-              //   // filter
-              //   // automl
-              //   // regression
-              const tasks = { ...taskStatus };
-
-              // if (
-              //   details.template === 'Linear Regression/Logistic Regression' ||
-              //   details.template === 'AutoML'
-              // ) {
-              //   tasks.conjunto_dados = getPhase(
-              //     'filter',
-              //     manifest.status.nodes
-              //   );
-              // } else {
-              //   tasks.conjunto_dados = getPhase(
-              //     'feature-temporal',
-              //     manifest.status.nodes
-              //   );
-              // }
-
               if (runRes.data.run.status === 'Succeeded') {
                 const resUpdate = await updateExperiment(
                   details.projectId,
@@ -420,37 +244,8 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
                 console.info(resUpdate);
               }
 
-              tasks.conjunto_dados = 'Succeeded';
-
-              tasks.atributos_tempo = getPhase(
-                'feature-temporal',
-                manifest.status.nodes
-              );
-
-              tasks.pre_selecao1 = getPhase(
-                'pre-selection-1',
-                manifest.status.nodes
-              );
-
-              tasks.atributos_genericos = getPhase(
-                'feature-tools',
-                manifest.status.nodes
-              );
-
-              tasks.pre_selecao2 = getPhase(
-                'pre-selection-2',
-                manifest.status.nodes
-              );
-
-              tasks.filtro_atributos = getPhase(
-                'filter',
-                manifest.status.nodes
-              );
-
-              tasks.automl = getPhase('automl', manifest.status.nodes);
-
-              tasks.regression = getPhase('regression', manifest.status.nodes);
-
+              const tasks = taskGetPhases(taskStatus, manifest);
+              console.log(tasks)
               setTaskStatus(tasks);
             }
           }
@@ -489,523 +284,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
     if (res) setSelected(_.mapValues(selected, () => false));
   };
-
-  // Executar
-  const mountObjectRequest = async () => {
-    // Montar objeto
-    const {
-      atributos_tempo,
-      pre_selecao1,
-      pre_selecao2,
-      filtro_atributos,
-      automl,
-      conjunto_dados,
-    } = experimentParameters;
-
-    setRunStatus('StartRun');
-
-    const insertComma = (arr) => {
-      return arr.join(', ');
-    };
-
-    const findDate = () => {
-      const date = _.find(columns, {
-        datatype: 'DateTime',
-      });
-      return date ? date.name : '';
-    };
-
-    const findTarget = (id) => {
-      const target = _.find(columns, {
-        uuid: id,
-      });
-      return target ? target.name : '';
-    };
-
-    const getPeriod = () => {
-      return atributos_tempo.period ? atributos_tempo.period : '';
-    };
-
-    let parms;
-
-    switch (details.template) {
-      case 'AutoML':
-        parms = [
-          {
-            name: 'experiment-id',
-            value: details.uuid,
-          },
-          {
-            name: 'bucket',
-            value: 'mlpipeline',
-          },
-          {
-            name: 'csv',
-            value: conjunto_dados.csvName,
-          },
-          {
-            name: 'txt',
-            value: conjunto_dados.txtName,
-          },
-          {
-            name: 'target',
-            value: findTarget(conjunto_dados.target),
-          },
-          {
-            name: 'date',
-            value: findDate(),
-          },
-          {
-            name: 'date-format',
-            value: '%Y-%m-%d',
-          },
-          {
-            name: 'filter-columns',
-            value: insertComma(filtro_atributos),
-          },
-          {
-            name: 'automl-time-limit',
-            value: (automl.time * 60).toString(),
-          },
-        ];
-        break;
-      case 'AutoFeaturing + Linear Regression/Logistic Regression':
-        parms = [
-          {
-            name: 'experiment-id',
-            value: details.uuid,
-          },
-          {
-            name: 'bucket',
-            value: 'mlpipeline',
-          },
-          {
-            name: 'csv',
-            value: conjunto_dados.csvName,
-          },
-          {
-            name: 'txt',
-            value: conjunto_dados.txtName,
-          },
-          {
-            name: 'target',
-            value: findTarget(conjunto_dados.target),
-          },
-          {
-            name: 'date',
-            value: findDate(),
-          },
-          {
-            name: 'date-format',
-            value: '%Y-%m-%d',
-          },
-          {
-            name: 'feature-temporal-group',
-            value: insertComma(atributos_tempo.group),
-          },
-          {
-            name: 'feature-temporal-period',
-            value: getPeriod(),
-          },
-          {
-            name: 'preselection-1-na-cutoff',
-            value: pre_selecao1.cutoff.toString(),
-          },
-          {
-            name: 'preselection-1-correlation-cutoff',
-            value: pre_selecao1.correlation.toString(),
-          },
-          {
-            name: 'feature-tools-group',
-            value: insertComma(atributos_tempo.group),
-          },
-          {
-            name: 'preselection-2-na-cutoff',
-            value: pre_selecao2.cutoff.toString(),
-          },
-          {
-            name: 'preselection-2-correlation-cutoff',
-            value: pre_selecao2.correlation.toString(),
-          },
-          {
-            name: 'filter-columns',
-            value: insertComma(filtro_atributos),
-          },
-        ];
-        break;
-      case 'AutoFeaturing + AutoML':
-        parms = [
-          {
-            name: 'experiment-id',
-            value: details.uuid,
-          },
-          {
-            name: 'bucket',
-            value: 'mlpipeline',
-          },
-          {
-            name: 'csv',
-            value: conjunto_dados.csvName,
-          },
-          {
-            name: 'txt',
-            value: conjunto_dados.txtName,
-          },
-          {
-            name: 'target',
-            value: findTarget(conjunto_dados.target),
-          },
-          {
-            name: 'date',
-            value: findDate(),
-          },
-          {
-            name: 'date-format',
-            value: '%Y-%m-%d',
-          },
-          {
-            name: 'feature-temporal-group',
-            value: insertComma(atributos_tempo.group),
-          },
-          {
-            name: 'feature-temporal-period',
-            value: getPeriod(),
-          },
-          {
-            name: 'preselection-1-na-cutoff',
-            value: pre_selecao1.cutoff.toString(),
-          },
-          {
-            name: 'preselection-1-correlation-cutoff',
-            value: pre_selecao1.correlation.toString(),
-          },
-          {
-            name: 'feature-tools-group',
-            value: insertComma(atributos_tempo.group),
-          },
-          {
-            name: 'preselection-2-na-cutoff',
-            value: pre_selecao2.cutoff.toString(),
-          },
-          {
-            name: 'preselection-2-correlation-cutoff',
-            value: pre_selecao2.correlation.toString(),
-          },
-          {
-            name: 'filter-columns',
-            value: insertComma(filtro_atributos),
-          },
-          {
-            name: 'automl-time-limit',
-            value: (automl.time * 60).toString(),
-          },
-        ];
-        break;
-      case 'Linear Regression/Logistic Regression':
-        parms = [
-          {
-            name: 'experiment-id',
-            value: details.uuid,
-          },
-          {
-            name: 'bucket',
-            value: 'mlpipeline',
-          },
-          {
-            name: 'csv',
-            value: conjunto_dados.csvName,
-          },
-          {
-            name: 'txt',
-            value: conjunto_dados.txtName,
-          },
-          {
-            name: 'target',
-            value: findTarget(conjunto_dados.target),
-          },
-          {
-            name: 'date',
-            value: findDate(),
-          },
-          {
-            name: 'date-format',
-            value: '%Y-%m-%d',
-          },
-          {
-            name: 'filter-columns',
-            value: insertComma(filtro_atributos),
-          },
-        ];
-        break;
-      default:
-        parms = [];
-    }
-
-    const mountName = () => {
-      return `[${details.template}] ${details.name}`;
-    };
-
-    const runRequestTrain = {
-      pipeline_spec: {
-        parameters: parms,
-        pipeline_id: details.pipelineIdTrain,
-        // pipeline_id: null,
-      },
-      name: mountName(),
-    };
-
-    console.log(JSON.stringify(runRequestTrain));
-
-    const runResponse = await startRun(JSON.stringify(runRequestTrain));
-    if (runResponse) {
-      // console.log(runResponse.data.run.id);
-      const updateRes = await updateExperiment(
-        details.projectId,
-        details.uuid,
-        {
-          runId: runResponse.data.run.id,
-        }
-      );
-      if (updateRes) {
-        // await fetch();
-        pollingRun(runResponse.data.run.id);
-      }
-    } else {
-      setRunStatus(null);
-    }
-  };
-
-  // Deploy
-  const deployRequest = async () => {
-    // Montar objeto
-    const {
-      atributos_tempo,
-      pre_selecao1,
-      pre_selecao2,
-      filtro_atributos,
-      automl,
-      conjunto_dados,
-    } = experimentParameters;
-
-    const insertComma = (arr) => {
-      return arr.join(', ');
-    };
-
-    const findDate = () => {
-      const date = _.find(columns, {
-        datatype: 'DateTime',
-      });
-      return date ? date.name : '';
-    };
-
-    const findTarget = (id) => {
-      const target = _.find(columns, {
-        uuid: id,
-      });
-      return target ? target.name : '';
-    };
-
-    const getPeriod = () => {
-      return atributos_tempo.period ? atributos_tempo.period : '';
-    };
-
-    let parms;
-
-    switch (details.template) {
-      case 'AutoML':
-        parms = [
-          {
-            name: 'deployment-name',
-            value: details.uuid.toLowerCase(),
-          },
-          {
-            name: 'experiment-id',
-            value: details.uuid,
-          },
-          {
-            name: 'bucket',
-            value: 'mlpipeline',
-          },
-          {
-            name: 'csv',
-            value: conjunto_dados.csvName,
-          },
-          {
-            name: 'txt',
-            value: conjunto_dados.txtName,
-          },
-          {
-            name: 'target',
-            value: findTarget(conjunto_dados.target),
-          },
-          {
-            name: 'date',
-            value: findDate(),
-          },
-        ];
-        break;
-      case 'AutoFeaturing + Linear Regression/Logistic Regression':
-        parms = [
-          {
-            name: 'deployment-name',
-            value: details.uuid.toLowerCase(),
-          },
-          {
-            name: 'experiment-id',
-            value: details.uuid,
-          },
-          {
-            name: 'bucket',
-            value: 'mlpipeline',
-          },
-          {
-            name: 'csv',
-            value: conjunto_dados.csvName,
-          },
-          {
-            name: 'txt',
-            value: conjunto_dados.txtName,
-          },
-          {
-            name: 'target',
-            value: findTarget(conjunto_dados.target),
-          },
-          {
-            name: 'date',
-            value: findDate(),
-          },
-          {
-            name: 'date-format',
-            value: '%Y-%m-%d',
-          },
-          {
-            name: 'feature-temporal-group',
-            value: insertComma(atributos_tempo.group),
-          },
-          {
-            name: 'feature-temporal-period',
-            value: getPeriod(),
-          },
-          {
-            name: 'feature-tools-group',
-            value: insertComma(atributos_tempo.group),
-          },
-        ];
-        break;
-      case 'AutoFeaturing + AutoML':
-        parms = [
-          {
-            name: 'deployment-name',
-            value: details.uuid.toLowerCase(),
-          },
-          {
-            name: 'experiment-id',
-            value: details.uuid,
-          },
-          {
-            name: 'bucket',
-            value: 'mlpipeline',
-          },
-          {
-            name: 'csv',
-            value: conjunto_dados.csvName,
-          },
-          {
-            name: 'txt',
-            value: conjunto_dados.txtName,
-          },
-          {
-            name: 'target',
-            value: findTarget(conjunto_dados.target),
-          },
-          {
-            name: 'date',
-            value: findDate(),
-          },
-          {
-            name: 'date-format',
-            value: '%Y-%m-%d',
-          },
-          {
-            name: 'feature-temporal-group',
-            value: insertComma(atributos_tempo.group),
-          },
-          {
-            name: 'feature-temporal-period',
-            value: getPeriod(),
-          },
-          {
-            name: 'feature-tools-group',
-            value: insertComma(atributos_tempo.group),
-          },
-        ];
-        break;
-      case 'Linear Regression/Logistic Regression':
-        parms = [
-          {
-            name: 'deployment-name',
-            value: details.uuid.toLowerCase(),
-          },
-          {
-            name: 'experiment-id',
-            value: details.uuid,
-          },
-          {
-            name: 'bucket',
-            value: 'mlpipeline',
-          },
-          {
-            name: 'csv',
-            value: conjunto_dados.csvName,
-          },
-          {
-            name: 'txt',
-            value: conjunto_dados.txtName,
-          },
-          {
-            name: 'target',
-            value: findTarget(conjunto_dados.target),
-          },
-          {
-            name: 'date',
-            value: findDate(),
-          },
-        ];
-        break;
-      default:
-        parms = [];
-    }
-
-    const mountName = () => {
-      return `${projectName} - ${details.name}`;
-    };
-
-    const runRequestDeploy = {
-      pipeline_spec: {
-        parameters: parms,
-        pipeline_id: details.pipelineIdDeploy,
-      },
-      name: mountName(),
-    };
-
-    console.log(JSON.stringify(runRequestDeploy));
-
-    const deployResponse = await startRun(JSON.stringify(runRequestDeploy));
-    if (deployResponse) {
-      console.log(deployResponse);
-      console.log(deployResponse.data.run.id);
-      const resUpdate = await updateExperiment(
-        details.projectId,
-        details.uuid,
-        {
-          runStatus: 'Deployed',
-        }
-      );
-      if (resUpdate) fetch();
-    }
-  };
-
-  // FIM DEPLOY
 
   // Selecioanr o Drawer certo
   const switchDrawer = () => {
@@ -1207,7 +485,16 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
             : 'loading'
         }
         type='primary'
-        onClick={mountObjectRequest}
+        onClick={() => {
+          mountObjectRequest(
+            columns,
+            details,
+            experimentParameters,
+            setRunStatus,
+            taskStatus,
+            setTaskStatus
+          );
+        }}
         disabled={
           runStatus === 'Running' ||
           (runStatus === 'Loading' && details.runId) ||
@@ -1234,7 +521,9 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
         icon='tool'
         type='primary'
         disabled={runStatus !== 'Succeeded'}
-        onClick={deployRequest}
+        onClick={() => {
+          deployRequest(columns, details, experimentParameters, projectName);
+        }}
       >
         Implantar
       </Button>
