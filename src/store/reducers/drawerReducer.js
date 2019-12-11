@@ -11,6 +11,7 @@ import {
 const initialState = {
   visible: false,
   title: '',
+  children: null,
 };
 
 // REDUCER
@@ -21,7 +22,7 @@ export default function drawerReducer(state = initialState, action) {
     case HIDE_DRAWER:
       return { ...state, visible: action.visible };
     case SELECT_DRAWER:
-      return { ...state, title: action.title };
+      return { ...state, title: action.title, children: action.children };
     default:
       return state;
   }

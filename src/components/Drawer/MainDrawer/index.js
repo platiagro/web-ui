@@ -29,6 +29,7 @@ const MainDrawer = ({
 const mapStateToProps = (state) => ({
   visible: state.drawer.visible,
   title: state.drawer.title,
+  children: state.drawer.children,
 });
 
 const mapDispatchToProps = (dispatch) => ({

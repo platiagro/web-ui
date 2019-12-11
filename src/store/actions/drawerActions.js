@@ -33,4 +33,5 @@ export const hideDrawer = () => ({
 export const selectDrawer = (drawerContent) => ({
   type: SELECT_DRAWER,
   title: drawerContent.title,
+  children: drawerContent.children,
 });
