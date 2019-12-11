@@ -25,7 +25,6 @@ export const getAllComponents = async () => {
 export const getComponent = async (id) => {
   try {
     const response = await componentsApi.get(`/components/${id}`);
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -38,7 +37,6 @@ export const createComponent = async (componentName) => {
       name: componentName,
     };
     const response = await componentsApi.post(`/components/`, body);
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -51,7 +49,6 @@ export const updateComponent = async (id, componentName) => {
       name: componentName,
     };
     const response = await componentsApi.patch(`/components/${id}`, body);
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -64,7 +61,6 @@ export const updateParameters = async (id, componentParameters) => {
       parameters: componentParameters,
     };
     const response = await componentsApi.patch(`/components/${id}`, body);
-
     return response;
   } catch (error) {
     message.error(error.message);

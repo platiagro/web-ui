@@ -14,7 +14,7 @@ export const PROJECT_UPDATE_EXPERIMENT = 'PROJECT_UPDATE_EXPERIMENT';
 /**
  * Function to dispatch action PROJECT_FETCH_DETAIL_STARTED
  */
-const fetchStarted = () => {
+export const fetchStarted = () => {
   return {
     type: PROJECT_FETCH_DETAIL_STARTED,
   };
@@ -24,7 +24,7 @@ const fetchStarted = () => {
  * Function to dispatch action PROJECT_FETCH_DETAIL
  * @param {Object} detail
  */
-const setProjectDetail = (detail) => {
+export const setProjectDetail = (detail) => {
   return {
     type: PROJECT_FETCH_DETAIL,
     detail,
@@ -38,13 +38,13 @@ const setProjectDetail = (detail) => {
 export const getProjectDetail = (id) => {
   return (dispatch) => {
     dispatch(fetchStarted());
-    return projectsServices
-      .getProject(id)
-      .then((projectResponse) => {
-        if (!projectResponse) {
-          dispatch(setProjectDetail({}));
-        } else {
-          projectsServices.getExperimentList(id).then((experimentResponse) => {
+    return projectsServices.getProject(id).then(async (projectResponse) => {
+      if (!projectResponse) {
+        dispatch(setProjectDetail({}));
+      } else {
+        await projectsServices
+          .getExperimentList(id)
+          .then((experimentResponse) => {
             if (!experimentResponse) {
               dispatch(setProjectDetail({}));
             } else {
@@ -55,11 +55,8 @@ export const getProjectDetail = (id) => {
               dispatch(setProjectDetail(auxDetails));
             }
           });
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
+      }
+    });
   };
 };
 
@@ -67,7 +64,7 @@ export const getProjectDetail = (id) => {
  * Function to dispatch action PROJECT_UPDATE_NAME
  * @param {String} name
  */
-const setProjectName = (name) => {
+export const setProjectName = (name) => {
   return {
     type: PROJECT_UPDATE_NAME,
     name,
@@ -82,18 +79,13 @@ const setProjectName = (name) => {
 export const updateProjectName = (editableDetails, name) => {
   const { uuid } = editableDetails;
   return (dispatch) => {
-    return projectsServices
-      .updateProject(uuid, name)
-      .then((response) => {
-        if (response) {
-          dispatch(setProjectName(name));
-          return true;
-        }
-        return false;
-      })
-      .catch((error) => {
-        throw error;
-      });
+    return projectsServices.updateProject(uuid, name).then((response) => {
+      if (response) {
+        dispatch(setProjectName(name));
+        return true;
+      }
+      return false;
+    });
   };
 };
 
@@ -101,7 +93,7 @@ export const updateProjectName = (editableDetails, name) => {
  * Function to dispatch action PROJECT_GET_PIPELINES
  * @param {Object} flowDetail
  */
-const setFlowDetails = (flowDetail) => {
+export const setFlowDetails = (flowDetail) => {
   return {
     type: PROJECT_GET_PIPELINES,
     flowDetail,
@@ -114,35 +106,27 @@ const setFlowDetails = (flowDetail) => {
  */
 export const getPipelines = (templateItems) => {
   return (dispatch) => {
-    return pipelinesServices
-      .getPipelines()
-      .then((pipelines) => {
-        if (!pipelines) message.error('Cross-Origin Request Blocked');
+    return pipelinesServices.getPipelines().then((pipelines) => {
+      if (!pipelines) message.error('Cross-Origin Request Blocked');
+      const items = { ...templateItems };
+      items.template = items.template.map((template) => {
+        const templateAux = template;
+        if (pipelines) {
+          templateAux.pipelineTrainId =
+            pipelines[template.databaseName].trainId;
+          templateAux.pipelineDeployId =
+            pipelines[template.databaseName].deployId;
+          if (templateAux.template === 4) templateAux.disabled = false;
+        } else {
+          templateAux.disabled = true;
+        }
 
-        const items = { ...templateItems };
-        items.template = items.template.map((template) => {
-          const templateAux = template;
-
-          if (pipelines) {
-            templateAux.pipelineTrainId =
-              pipelines[template.databaseName].trainId;
-            templateAux.pipelineDeployId =
-              pipelines[template.databaseName].deployId;
-            if (templateAux.template === 4) templateAux.disabled = false;
-          } else {
-            templateAux.disabled = true;
-          }
-
-          if (template.default) {
-            dispatch(setFlowDetails(template));
-          }
-
-          return templateAux;
-        });
-      })
-      .catch((error) => {
-        throw error;
+        if (template.default) {
+          dispatch(setFlowDetails(template));
+        }
+        return templateAux;
       });
+    });
   };
 };
 
@@ -161,9 +145,6 @@ export const updateExperiment = (projectId, experimentId, body, template) => {
         if (response) {
           dispatch(setFlowDetails(template));
         }
-      })
-      .catch((error) => {
-        throw error;
       });
   };
 };
