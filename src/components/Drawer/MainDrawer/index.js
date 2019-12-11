@@ -12,12 +12,12 @@ const MainDrawer = ({
 }) => {
   return (
     <Drawer
+      placement='right'
+      closable
       width={
         isFinished === 'Succeeded' || isFinished === 'Failed' ? '60vw' : 350
       }
       title={title}
-      placement='right'
-      closable
       onClose={onClose}
       visible={visible}
     >
@@ -26,7 +26,10 @@ const MainDrawer = ({
   );
 };
 
-const mapStateToProps = (state) => ({ visible: state.drawer.visible });
+const mapStateToProps = (state) => ({
+  visible: state.drawer.visible,
+  title: state.drawer.title,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onClose: () => dispatch(hideDrawer()),

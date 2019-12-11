@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../Drawer/MainDrawer';
-import { showDrawer } from '../../store/actions/drawerActions';
+import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
 import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
 import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
@@ -31,7 +31,8 @@ const ExperimentContent = ({
   flowDetails,
   fetch,
   projectName,
-  displayDrawer,
+  onShowDrawer,
+  onSelectDrawer,
 }) => {
   const params = useParams();
 
@@ -166,6 +167,29 @@ const ExperimentContent = ({
     setParameters(newParameters);
   };
 
+  const getTitle = (task) => {
+    switch (task) {
+      case 'conjunto_dados':
+        return 'Conjunto de dados';
+      case 'atributos_tempo':
+        return 'Criação de atributos por tempo';
+      case 'pre_selecao1':
+        return 'Pré-seleção de atributos';
+      case 'atributos_genericos':
+        return 'Criação de atributos genéricos';
+      case 'pre_selecao2':
+        return 'Pré-seleção de atributos';
+      case 'filtro_atributos':
+        return 'Filtro de atributos';
+      case 'automl':
+        return 'AutoML';
+      case 'regression':
+        return 'Regressão Logística';
+      default:
+        return null;
+    }
+  };
+
   // Click para abrir drawer de cada tarefa
   const handleClick = (task) => {
     let newSelected = { ...selected };
@@ -174,9 +198,13 @@ const ExperimentContent = ({
       return false;
     });
 
+    const taskTitle = getTitle(task);
+    const drawerContent = { title: taskTitle };
+
     setSelected(newSelected);
 
-    displayDrawer();
+    onSelectDrawer(drawerContent);
+    onShowDrawer();
   };
 
   const getPhase = (param, manifest, alter = null) => {
@@ -338,9 +366,6 @@ const ExperimentContent = ({
         setCSV(responseDataset.data.payload.uuid);
 
       if (details.runId) {
-        // const runRes = await getStatusRun(
-        //   'fc9d173f-ede3-11e9-9413-52540006ce68'
-        // );
         const runRes = await getStatusRun(details.runId);
 
         if (runRes) {
@@ -1077,34 +1102,6 @@ const ExperimentContent = ({
     return null;
   };
 
-  const getTitle = () => {
-    if (selected.conjunto_dados) {
-      return 'Conjunto de dados';
-    }
-    if (selected.atributos_tempo) {
-      return 'Criação de atributos por tempo';
-    }
-    if (selected.pre_selecao1) {
-      return 'Pré-seleção de atributos';
-    }
-    if (selected.atributos_genericos) {
-      return 'Criação de atributos genéricos';
-    }
-    if (selected.pre_selecao2) {
-      return 'Pré-seleção de atributos';
-    }
-    if (selected.filtro_atributos) {
-      return 'Filtro de atributos';
-    }
-    if (selected.automl) {
-      return 'AutoML';
-    }
-    if (selected.regression) {
-      return 'Regressão Logística';
-    }
-    return null;
-  };
-
   const enableRun = () => {
     const {
       atributos_tempo: { period },
@@ -1221,26 +1218,13 @@ const ExperimentContent = ({
       <div className='experiment-content-header'>
         <EditableTitle details={details} onUpdate={updateExperimenttName} />
 
-        {/* {details.runStatus === 'Deployed' && (
-          <Paragraph
-            style={{ marginBottom: 0, width: '20vw' }}
-            ellipsis
-            copyable
-          >
-            {url}
-          </Paragraph>
-        )} */}
         <div className='experiment-actions'>
           {details.runStatus !== 'Deployed' && executeButton()}
           {details.runStatus !== 'Deployed' && <Divider type='vertical' />}
           {deployButton()}
         </div>
       </div>
-      <MainDrawer
-        onClose={handleClose}
-        isFinished={runStatus}
-        title={getTitle()}
-      >
+      <MainDrawer onClose={handleClose} isFinished={runStatus}>
         {switchDrawer()}
       </MainDrawer>
       <ExperimentFlow
@@ -1257,7 +1241,8 @@ const ExperimentContent = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  displayDrawer: () => dispatch(showDrawer()),
+  onShowDrawer: () => dispatch(showDrawer()),
+  onSelectDrawer: (drawerContent) => dispatch(selectDrawer(drawerContent)),
 });
 
 export default connect(
