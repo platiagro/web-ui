@@ -291,6 +291,7 @@ const ExperimentContent = ({
       default:
         return null;
     }
+    // NÃO REMOVER
     // if (
     //   selected.regression &&
     //   runStatus === 'Succeeded' &&
@@ -376,7 +377,7 @@ const ExperimentContent = ({
               }
 
               const tasks = taskGetPhases(taskStatus, manifest);
-              console.log(tasks)
+              console.log(tasks);
               setTaskStatus(tasks);
             }
           }
@@ -414,142 +415,6 @@ const ExperimentContent = ({
     });
 
     if (res) setSelected(_.mapValues(selected, () => false));
-  };
-
-  // Selecioanr o Drawer certo
-  const switchDrawer = () => {
-    if (selected.conjunto_dados) {
-      return (
-        <DataSetDrawerContent
-          parameter={experimentParameters.conjunto_dados}
-          setTarget={setTarget}
-          columns={columns}
-          setColumns={setUploadedColumns}
-          setDataset={setDataset}
-          setCSV={setCSV}
-          setTXT={setTXT}
-          details={details}
-          runStatus={runStatus}
-          taskStatus={taskStatus.conjunto_dados}
-        />
-      );
-    }
-    if (selected.atributos_tempo) {
-      return (
-        <TimeAttributeCreationDrawerContent
-          parameter={experimentParameters.atributos_tempo}
-          dataSets={columns}
-          setGroup={setGroup}
-          setPeriod={setPeriod}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
-          targetId={experimentParameters.conjunto_dados.target}
-          details={details}
-        />
-      );
-    }
-    if (selected.pre_selecao1) {
-      return (
-        <AttributePreSelectionDrawerContent
-          parameter={experimentParameters.pre_selecao1}
-          preType={1}
-          dataSets={columns}
-          setCutoff={setCutoffPre1}
-          setCorrelation={setCorrelationPre1}
-          runStatus={runStatus}
-          taskStatus={taskStatus.pre_selecao1}
-          details={details}
-        />
-      );
-    }
-    if (selected.atributos_genericos) {
-      return (
-        <GenericAttributeCreationDrawerContent
-          parameter={experimentParameters.atributos_tempo}
-          dataSets={columns}
-          setFeatureTools={setGroup}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
-          targetId={experimentParameters.conjunto_dados.target}
-          details={details}
-        />
-      );
-    }
-    if (selected.pre_selecao2) {
-      return (
-        <AttributePreSelectionDrawerContent
-          parameter={experimentParameters.pre_selecao2}
-          preType={2}
-          dataSets={columns}
-          setCutoff={setCutoffPre2}
-          setCorrelation={setCorrelationPre2}
-          runStatus={runStatus}
-          taskStatus={taskStatus.pre_selecao2}
-          details={details}
-        />
-      );
-    }
-    if (selected.filtro_atributos) {
-      return (
-        <AttributeFilterDrawerContent
-          parameter={experimentParameters.filtro_atributos}
-          dataSets={columns}
-          setFilter={setFilter}
-          runStatus={runStatus} // 'Succeeded' // {runStatus}
-          taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
-          targetId={experimentParameters.conjunto_dados.target}
-        />
-      );
-    }
-    if (selected.automl) {
-      return (
-        <AutoMLDrawerContent
-          parameter={experimentParameters.automl}
-          dataSets={columns}
-          setAutoML={setAutoML}
-          runStatus={runStatus}
-          taskStatus={taskStatus.automl}
-          details={details}
-        />
-      );
-    }
-    if (
-      selected.regression &&
-      runStatus === 'Succeeded' &&
-      taskStatus.regression === 'Succeeded'
-    ) {
-      return <ResultsDrawer hideDivider details={details} plot />;
-    }
-
-    return null;
-  };
-
-  const getTitle = () => {
-    if (selected.conjunto_dados) {
-      return 'Conjunto de dados';
-    }
-    if (selected.atributos_tempo) {
-      return 'Criação de atributos por tempo';
-    }
-    if (selected.pre_selecao1) {
-      return 'Pré-seleção de atributos';
-    }
-    if (selected.atributos_genericos) {
-      return 'Criação de atributos genéricos';
-    }
-    if (selected.pre_selecao2) {
-      return 'Pré-seleção de atributos';
-    }
-    if (selected.filtro_atributos) {
-      return 'Filtro de atributos';
-    }
-    if (selected.automl) {
-      return 'AutoML';
-    }
-    if (selected.regression) {
-      return 'Regressão Logística';
-    }
-    return null;
   };
 
   const enableRun = () => {
