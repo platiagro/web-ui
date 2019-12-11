@@ -1,20 +1,15 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import { Drawer } from 'antd';
+import { hideDrawer } from '../../../store/actions/drawerActions';
 
 const MainDrawer = ({
   children,
   title,
-  isOpen,
   onClose,
   isFinished = null,
+  visible,
 }) => {
-  // const [visible, setVisible] = useState(false);
-
-  // useEffect(() => {
-  //   setVisible(isOpen);
-  // }, [isOpen]);
-
   return (
     <Drawer
       width={
@@ -24,11 +19,20 @@ const MainDrawer = ({
       placement='right'
       closable
       onClose={onClose}
-      visible={isOpen}
+      visible={visible}
     >
       {children}
     </Drawer>
   );
 };
 
-export default MainDrawer;
+const mapStateToProps = (state) => ({ visible: state.drawer.visible });
+
+const mapDispatchToProps = (dispatch) => ({
+  onClose: () => dispatch(hideDrawer()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainDrawer);

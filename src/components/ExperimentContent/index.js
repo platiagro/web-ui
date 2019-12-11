@@ -4,9 +4,11 @@ import _ from 'lodash';
 import './style.scss';
 import { Button, Divider, message, Icon, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../Drawer/MainDrawer';
+import { showDrawer } from '../../store/actions/drawerActions';
 import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
 import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
@@ -24,7 +26,13 @@ import {
 
 const { Paragraph } = Typography;
 
-const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
+const ExperimentContent = ({
+  details,
+  flowDetails,
+  fetch,
+  projectName,
+  displayDrawer,
+}) => {
   const params = useParams();
 
   const [columns, setColumns] = useState([]);
@@ -63,16 +71,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     regression: false,
   });
 
-  // TODO
-  // const [taskStatus, setTaskStatus] = useState({
-  //   conjunto_dados: null,
-  //   atributos_tempo: null,
-  //   pre_selecao1: null,
-  //   atributos_genericos: null,
-  //   pre_selecao2: null,
-  //   filtro_atributos: null,
-  //   automl: null,
-  // });
   const [taskStatus, setTaskStatus] = useState({
     conjunto_dados: null,
     atributos_tempo: null,
@@ -177,6 +175,8 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
     });
 
     setSelected(newSelected);
+
+    displayDrawer();
   };
 
   const getPhase = (param, manifest, alter = null) => {
@@ -205,17 +205,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
 
             const tasks = { ...taskStatus };
 
-            // if (
-            //   details.template === 'Linear Regression/Logistic Regression' ||
-            //   details.template === 'AutoML'
-            // ) {
-            //   tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
-            // } else {
-            //   tasks.conjunto_dados = getPhase(
-            //     'feature-temporal',
-            //     manifest.status.nodes
-            //   );
-            // }
             tasks.conjunto_dados = 'Succeeded';
 
             tasks.atributos_tempo = getPhase(
@@ -281,26 +270,14 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
             runRes.data.pipeline_runtime.workflow_manifest
           );
 
-          //   // feature-temporal
-          //   // pre-selection-1
-          //   // feature-tools
-          //   // pre-selection-2
-          //   // filter
-          //   // automl
-          //   // regression
+          // feature-temporal
+          // pre-selection-1
+          // feature-tools
+          // pre-selection-2
+          // filter
+          // automl
+          // regression
           const tasks = { ...taskStatus };
-
-          // if (
-          //   details.template === 'Linear Regression/Logistic Regression' ||
-          //   details.template === 'AutoML'
-          // ) {
-          //   tasks.conjunto_dados = getPhase('filter', manifest.status.nodes);
-          // } else {
-          //   tasks.conjunto_dados = getPhase(
-          //     'feature-temporal',
-          //     manifest.status.nodes
-          //   );
-          // }
 
           tasks.conjunto_dados = 'Succeeded';
 
@@ -385,29 +362,14 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
             );
 
             if (isSubscribed) {
-              //   // feature-temporal
-              //   // pre-selection-1
-              //   // feature-tools
-              //   // pre-selection-2
-              //   // filter
-              //   // automl
-              //   // regression
+              // feature-temporal
+              // pre-selection-1
+              // feature-tools
+              // pre-selection-2
+              // filter
+              // automl
+              // regression
               const tasks = { ...taskStatus };
-
-              // if (
-              //   details.template === 'Linear Regression/Logistic Regression' ||
-              //   details.template === 'AutoML'
-              // ) {
-              //   tasks.conjunto_dados = getPhase(
-              //     'filter',
-              //     manifest.status.nodes
-              //   );
-              // } else {
-              //   tasks.conjunto_dados = getPhase(
-              //     'feature-temporal',
-              //     manifest.status.nodes
-              //   );
-              // }
 
               if (runRes.data.run.status === 'Succeeded') {
                 const resUpdate = await updateExperiment(
@@ -1275,7 +1237,6 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
         </div>
       </div>
       <MainDrawer
-        isOpen={openDrawer()}
         onClose={handleClose}
         isFinished={runStatus}
         title={getTitle()}
@@ -1295,11 +1256,11 @@ const ExperimentContent = ({ details, flowDetails, fetch, projectName }) => {
   );
 };
 
-// ExperimentContent.propTypes = {
-//   details: PropTypes.shape({
-//     name: PropTypes.string,
-//     uuid: PropTypes.string,
-//   }).isRequired,
-// };
+const mapDispatchToProps = (dispatch) => ({
+  displayDrawer: () => dispatch(showDrawer()),
+});
 
-export default ExperimentContent;
+export default connect(
+  null,
+  mapDispatchToProps
+)(ExperimentContent);
