@@ -6,17 +6,15 @@ import { Layout, Icon, Input, Collapse, Empty } from 'antd';
 import _ from 'lodash';
 import LeftSideMenuItem from '../LeftSideMenuItem';
 import LeftSideMenuTemplateItem from '../LeftSideMenuTemplateItem';
-import {
-  getPipelines,
-  updateExperiment,
-} from '../../../store/actions/projectActions';
+import { getPipelines } from '../../../store/actions/projectActions';
+import { updateExperiment } from '../../../store/actions/experimentActions';
 import items from './items';
 
 const { Sider } = Layout;
 const { Panel } = Collapse;
 
 const LeftSideMenu = (props) => {
-  const { details, onGetPipelines, onUpdateExperiment } = props;
+  const { experimentsList, onGetPipelines, onUpdateExperiment } = props;
   const [menuItems, setItems] = useState(items);
   const params = useParams();
 
@@ -25,21 +23,22 @@ const LeftSideMenu = (props) => {
   }, []);
 
   const handleClick = (template) => {
+    const { pipelineIdTrain, pipelineIdDeploy, databaseName } = template;
     const body = {
-      pipelineIdTrain: template.pipelineTrainId,
-      pipelineIdDeploy: template.pipelineDeployId,
-      template: template.databaseName,
+      pipelineIdTrain,
+      pipelineIdDeploy,
+      template: databaseName,
     };
-    onUpdateExperiment(params.projectId, params.experimentId, body, template);
+    onUpdateExperiment(params.projectId, params.experimentId, body);
   };
 
   // Block change template after deploy or succeeded
   const getRunStatus = () => {
     return (
-      _.find(details.experimentList, { uuid: params.experimentId })
-        .runStatus === 'Deployed' ||
-      _.find(details.experimentList, { uuid: params.experimentId })
-        .runStatus === 'Succeeded'
+      _.find(experimentsList, { uuid: params.experimentId }).runStatus ===
+        'Deployed' ||
+      _.find(experimentsList, { uuid: params.experimentId }).runStatus ===
+        'Succeeded'
     );
   };
 
@@ -166,7 +165,7 @@ const LeftSideMenu = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    details: state.project.details,
+    experimentsList: state.project.experimentsList,
   };
 };
 
@@ -175,8 +174,8 @@ const mapDispatchToProps = (dispatch) => {
     onGetPipelines: (templateItems) => {
       dispatch(getPipelines(templateItems));
     },
-    onUpdateExperiment: (projectId, experimentId, body, template) => {
-      dispatch(updateExperiment(projectId, experimentId, body, template));
+    onUpdateExperiment: (projectId, experimentId, body) => {
+      dispatch(updateExperiment(projectId, experimentId, body));
     },
   };
 };
