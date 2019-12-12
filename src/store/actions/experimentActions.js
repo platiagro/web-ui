@@ -49,13 +49,15 @@ const setExperimentDetails = (experiment) => {
   };
 };
 
-export const getExperiment = (id) => {
+export const getExperiment = (projectId, experimentId) => {
   return (dispatch) => {
     dispatch(fetchStarted());
-    return projectsServices.getExperiment(id).then(async (experiment) => {
-      if (experiment) dispatch(setExperimentDetails(experiment.data.payload));
-      else dispatch(setExperimentDetails({}));
-    });
+    return projectsServices
+      .getExperiment(projectId, experimentId)
+      .then(async (experiment) => {
+        if (experiment) dispatch(setExperimentDetails(experiment.data.payload));
+        else dispatch(setExperimentDetails({}));
+      });
   };
 };
 
@@ -71,7 +73,7 @@ export const updateExperiment = (projectId, experimentId, body) => {
     return projectsServices
       .updateExperiment(projectId, experimentId, body)
       .then((response) => {
-        if (response) dispatch(getExperiment(experimentId));
+        if (response) dispatch(getExperiment(projectId, experimentId));
       });
   };
 };
