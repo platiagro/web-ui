@@ -21,8 +21,6 @@ import ResultsButtonBar from '../ResultsButtonBar';
 
 import { findTarget } from '../../utils';
 
-import col from '../ExperimentContent/mock_col';
-
 const { Option } = Select;
 
 const DataSetDrawerContent = ({
