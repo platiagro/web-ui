@@ -1,20 +1,21 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import _ from 'lodash';
-import PropTypes from 'prop-types';
 import './style.scss';
 import { ArcherContainer, ArcherElement } from 'react-archer';
+import { connect } from 'react-redux';
 import CardTask from './CardTask';
 
-const ExperimentFlow = ({
-  details,
-  selected,
-  parameters,
-  handleClick,
-  taskStatus,
-  runStatus,
-}) => {
+const ExperimentFlow = (props) => {
+  const {
+    template,
+    selected,
+    runStatus,
+    parameters,
+    taskStatus,
+    handleClick,
+  } = props;
+
   const AutomlComplete = () => (
     <ArcherContainer strokeColor='gray'>
       <div className='grid-wraper'>
@@ -534,13 +535,27 @@ const ExperimentFlow = ({
     }
   };
 
-  return switchTemplate(details.template);
+  return switchTemplate(template);
 };
 
-ExperimentFlow.propTypes = {
-  selected: PropTypes.objectOf(PropTypes.bool).isRequired,
-  parameters: PropTypes.objectOf(PropTypes.any).isRequired,
-  handleClick: PropTypes.func.isRequired,
+const mapStateToProps = (state) => {
+  const {
+    template,
+    selected,
+    parameters,
+    runStatus,
+    taskStatus,
+  } = state.experiment;
+  return {
+    template,
+    selected,
+    parameters,
+    runStatus,
+    taskStatus,
+  };
 };
 
-export default ExperimentFlow;
+export default connect(
+  mapStateToProps,
+  null
+)(ExperimentFlow);

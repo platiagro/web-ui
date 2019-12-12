@@ -471,15 +471,7 @@ const ExperimentContent = (props) => {
         </div>
       </div>
       <MainDrawer onClose={handleClose} isFinished={runStatus} />
-      <ExperimentFlow
-        selected={selected}
-        parameters={parameters}
-        columns={columns}
-        handleClick={handleClick}
-        details={details}
-        taskStatus={taskStatus}
-        runStatus={runStatus}
-      />
+      <ExperimentFlow handleClick={handleClick} />
     </div>
   );
 };
