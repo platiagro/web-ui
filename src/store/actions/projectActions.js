@@ -11,6 +11,26 @@ export const PROJECT_UPDATE_NAME = 'PROJECT_UPDATE_NAME';
 export const PROJECT_GET_PIPELINES = 'PROJECT_GET_PIPELINES';
 export const PROJECT_UPDATE_EXPERIMENT = 'PROJECT_UPDATE_EXPERIMENT';
 
+export const PROJECT_SET_COLUMNS = 'PROJECT_SET_COLUMNS';
+export const PROJECT_SET_RUN_STATUS = 'PROJECT_SET_RUN_STATUS';
+export const PROJECT_SET_PARAMETERS = 'PROJECT_SET_PARAMETERS';
+export const PROJECT_SET_SELECTED_DRAWER = 'PROJECT_SET_SELECTED_DRAWER';
+export const PROJECT_SET_TASK_STATUS = 'PROJECT_SET_TASK_STATUS';
+
+export const PROJECT_SET_GROUP = 'PROJECT_SET_GROUP';
+export const PROJECT_SET_PERIOD = 'PROJECT_SET_PERIOD';
+export const PROJECT_SET_CUT_OFF_PRE_1 = 'PROJECT_SET_CUT_OFF_PRE_1';
+export const PROJECT_SET_CORRELATION_PRE_1 = 'PROJECT_SET_CORRELATION_PRE_1';
+export const PROJECT_SET_CUT_OFF_PRE_2 = 'PROJECT_SET_CUT_OFF_PRE_2';
+export const PROJECT_SET_CORRELATION_PRE_2 = 'PROJECT_SET_CORRELATION_PRE_2';
+export const PROJECT_SET_FILTER = 'PROJECT_SET_FILTER';
+export const PROJECT_SET_AUTOML = 'PROJECT_SET_AUTOML';
+export const PROJECT_SET_CSV = 'PROJECT_SET_CSV';
+export const PROJECT_SET_TXT = 'PROJECT_SET_TXT';
+export const PROJECT_SET_TARGET = 'PROJECT_SET_TARGET';
+export const PROJECT_SET_TEMPLATE = 'PROJECT_SET_TEMPLATE';
+export const PROJECT_SET_DATASET = 'PROJECT_SET_DATASET';
+
 /**
  * Function to dispatch action PROJECT_FETCH_DETAIL_STARTED
  */
@@ -146,5 +166,131 @@ export const updateExperiment = (projectId, experimentId, body, template) => {
           dispatch(setFlowDetails(template));
         }
       });
+  };
+};
+
+export const setColumns = (columns) => {
+  return {
+    type: PROJECT_SET_COLUMNS,
+    columns,
+  };
+};
+
+export const setRunStatus = (status) => {
+  return {
+    type: PROJECT_SET_RUN_STATUS,
+    status,
+  };
+};
+
+export const setParameters = (parameters) => {
+  return {
+    type: PROJECT_SET_PARAMETERS,
+    parameters,
+  };
+};
+
+export const setSelectedDrawer = (selected) => {
+  return {
+    type: PROJECT_SET_SELECTED_DRAWER,
+    selected,
+  };
+};
+
+export const setTaskStatus = (status) => {
+  return {
+    type: PROJECT_SET_GROUP,
+    status,
+  };
+};
+
+export const setGroup = (group) => {
+  return {
+    type: PROJECT_SET_GROUP,
+    group,
+  };
+};
+
+export const setPeriod = (period) => {
+  return {
+    type: PROJECT_SET_PERIOD,
+    period,
+  };
+};
+
+export const setCutoffPre1 = (cutOffPre1) => {
+  return {
+    type: PROJECT_SET_CUT_OFF_PRE_1,
+    cutOffPre1,
+  };
+};
+
+export const setCorrelationPre1 = (correlationPre1) => {
+  return {
+    type: PROJECT_SET_CORRELATION_PRE_1,
+    correlationPre1,
+  };
+};
+
+export const setCutoffPre2 = (cutOffPre2) => {
+  return {
+    type: PROJECT_SET_CUT_OFF_PRE_2,
+    cutOffPre2,
+  };
+};
+
+export const setCorrelationPre2 = (correlationPre2) => {
+  return {
+    type: PROJECT_SET_CORRELATION_PRE_2,
+    correlationPre2,
+  };
+};
+
+export const setFilter = (filter) => {
+  return {
+    type: PROJECT_SET_FILTER,
+    filter,
+  };
+};
+
+export const setAutoML = (automl) => {
+  return {
+    type: PROJECT_SET_AUTOML,
+    automl,
+  };
+};
+
+export const setCsv = (csv) => {
+  return {
+    type: PROJECT_SET_CSV,
+    csv,
+  };
+};
+
+export const setTxt = (txt) => {
+  return {
+    type: PROJECT_SET_TXT,
+    txt,
+  };
+};
+
+export const setTarget = (target) => {
+  return {
+    type: PROJECT_SET_TARGET,
+    target,
+  };
+};
+
+export const setTemplate = (template) => {
+  return {
+    type: PROJECT_SET_TEMPLATE,
+    template,
+  };
+};
+
+export const setDataset = (dataset) => {
+  return {
+    type: PROJECT_SET_DATASET,
+    dataset,
   };
 };
