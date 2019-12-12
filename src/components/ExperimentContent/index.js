@@ -48,13 +48,13 @@ import {
   setTarget,
   setTemplate,
   setDataset,
-} from '../../store/actions/projectActions';
+} from '../../store/actions/experimentActions';
 
 const ExperimentContent = (props) => {
   const {
     columns,
     details,
-    experimentParameters,
+    parameters,
     fetch,
     projectName,
     runStatus,
@@ -123,7 +123,7 @@ const ExperimentContent = (props) => {
       case 'conjunto_dados':
         return (
           <DataSetDrawerContent
-            parameter={experimentParameters.conjunto_dados}
+            parameter={parameters.conjunto_dados}
             setTarget={onSetTarget}
             columns={columns}
             setColumns={setUploadedColumns}
@@ -138,20 +138,20 @@ const ExperimentContent = (props) => {
       case 'atributos_tempo':
         return (
           <TimeAttributeCreationDrawerContent
-            parameter={experimentParameters.atributos_tempo}
+            parameter={parameters.atributos_tempo}
             dataSets={columns}
             setGroup={onSetGroup}
             setPeriod={onSetPeriod}
             runStatus={runStatus} // 'Succeeded' // {runStatus}
             taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
-            targetId={experimentParameters.conjunto_dados.target}
+            targetId={parameters.conjunto_dados.target}
             details={details}
           />
         );
       case 'pre_selecao1':
         return (
           <AttributePreSelectionDrawerContent
-            parameter={experimentParameters.pre_selecao1}
+            parameter={parameters.pre_selecao1}
             preType={1}
             dataSets={columns}
             setCutoff={onSetCutoffPre1}
@@ -164,19 +164,19 @@ const ExperimentContent = (props) => {
       case 'atributos_genericos':
         return (
           <GenericAttributeCreationDrawerContent
-            parameter={experimentParameters.atributos_tempo}
+            parameter={parameters.atributos_tempo}
             dataSets={columns}
             setFeatureTools={onSetGroup}
             runStatus={runStatus} // 'Succeeded' // {runStatus}
             taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
-            targetId={experimentParameters.conjunto_dados.target}
+            targetId={parameters.conjunto_dados.target}
             details={details}
           />
         );
       case 'pre_selecao2':
         return (
           <AttributePreSelectionDrawerContent
-            parameter={experimentParameters.pre_selecao2}
+            parameter={parameters.pre_selecao2}
             preType={2}
             dataSets={columns}
             setCutoff={onSetCutoffPre2}
@@ -189,18 +189,18 @@ const ExperimentContent = (props) => {
       case 'filtro_atributos':
         return (
           <AttributeFilterDrawerContent
-            parameter={experimentParameters.filtro_atributos}
+            parameter={parameters.filtro_atributos}
             dataSets={columns}
             setFilter={onSetFilter}
             runStatus={runStatus} // 'Succeeded' // {runStatus}
             taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
-            targetId={experimentParameters.conjunto_dados.target}
+            targetId={parameters.conjunto_dados.target}
           />
         );
       case 'automl':
         return (
           <AutoMLDrawerContent
-            parameter={experimentParameters.automl}
+            parameter={parameters.automl}
             dataSets={columns}
             setAutoML={onSetAutoML}
             runStatus={runStatus}
@@ -331,7 +331,7 @@ const ExperimentContent = (props) => {
   // Fechar Drawer
   const handleClose = async () => {
     const res = await updateExperiment(details.projectId, details.uuid, {
-      parameters: JSON.stringify(experimentParameters),
+      parameters: JSON.stringify(parameters),
     });
 
     if (res) onSetSelectedDrawer(_.mapValues(selected, () => false));
@@ -342,7 +342,7 @@ const ExperimentContent = (props) => {
       atributos_tempo: { period },
       automl: { time },
       conjunto_dados: { target, datasetId, csvName },
-    } = experimentParameters;
+    } = parameters;
 
     switch (details.template) {
       case 'AutoML':
@@ -405,7 +405,7 @@ const ExperimentContent = (props) => {
           mountObjectRequest(
             columns,
             details,
-            experimentParameters,
+            parameters,
             onSetRunStatus,
             taskStatus,
             onSetTaskStatus
@@ -438,7 +438,7 @@ const ExperimentContent = (props) => {
         type='primary'
         disabled={runStatus !== 'Succeeded'}
         onClick={() => {
-          deployRequest(columns, details, experimentParameters, projectName);
+          deployRequest(columns, details, parameters, projectName);
         }}
       >
         Implantar
@@ -473,7 +473,7 @@ const ExperimentContent = (props) => {
       <MainDrawer onClose={handleClose} isFinished={runStatus} />
       <ExperimentFlow
         selected={selected}
-        parameters={experimentParameters}
+        parameters={parameters}
         columns={columns}
         handleClick={handleClick}
         details={details}
@@ -486,11 +486,11 @@ const ExperimentContent = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    columns: state.project.columns,
-    runStatus: state.project.runStatus,
-    experimentParameters: state.project.experimentParameters,
-    selected: state.project.selected,
-    taskStatus: state.project.taskStatus,
+    columns: state.experiment.columns,
+    runStatus: state.experiment.runStatus,
+    parameters: state.experiment.parameters,
+    selected: state.experiment.selected,
+    taskStatus: state.experiment.taskStatus,
   };
 };
 

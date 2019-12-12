@@ -64,6 +64,18 @@ export const getExperimentList = async (id) => {
   }
 };
 
+export const getExperiment = async (projectId, experimentId) => {
+  try {
+    const response = await projectsApi.get(
+      `/projects/${projectId}/experiments/${experimentId}`
+    );
+
+    return response;
+  } catch (error) {
+    message.error(error.message);
+  }
+};
+
 export const createExperiment = async (id, experimentName) => {
   try {
     const body = {
