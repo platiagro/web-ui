@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
 import './style.scss';
-import { Button, Divider, message, Icon, Typography } from 'antd';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import _ from 'lodash';
+import { Button, Divider, message, Icon, Typography } from 'antd';
 import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../Drawer/MainDrawer';
@@ -17,7 +17,7 @@ import DataSetDrawerContent from '../DataSetDrawerContent';
 import ResultsDrawer from '../ResultsDrawer';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 import { updateExperiment } from '../../services/projectsApi';
-import { startRun, getStatusRun } from '../../services/pipelinesApi';
+import { getStatusRun } from '../../services/pipelinesApi';
 import {
   getHeader,
   getHeaderColumns,
@@ -29,147 +29,67 @@ import pollingRun from './polling';
 import mountObjectRequest from './mountObjectRequest';
 import taskGetPhases from './util';
 
-const { Paragraph } = Typography;
+import {
+  setColumns,
+  setRunStatus,
+  setParameters,
+  setSelectedDrawer,
+  setTaskStatus,
+  setGroup,
+  setPeriod,
+  setCutoffPre1,
+  setCorrelationPre1,
+  setCutoffPre2,
+  setCorrelationPre2,
+  setFilter,
+  setAutoML,
+  setCsv,
+  setTxt,
+  setTarget,
+  setTemplate,
+  setDataset,
+} from '../../store/actions/projectActions';
 
-const ExperimentContent = ({
-  details,
-  flowDetails,
-  fetch,
-  projectName,
-  onShowDrawer,
-  onSelectDrawer,
-}) => {
+const ExperimentContent = (props) => {
+  const {
+    columns,
+    details,
+    experimentParameters,
+    fetch,
+    projectName,
+    runStatus,
+    selected,
+    taskStatus,
+  } = props;
+
+  const {
+    onShowDrawer,
+    onSelectDrawer,
+    onSetColumns,
+    onSetRunStatus,
+    onSetParameters,
+    onSetSelectedDrawer,
+    onSetTaskStatus,
+    onSetGroup,
+    onSetPeriod,
+    onSetCutoffPre1,
+    onSetCorrelationPre1,
+    onSetCutoffPre2,
+    onSetCorrelationPre2,
+    onSetFilter,
+    onSetAutoML,
+    onSetCsv,
+    onSetTxt,
+    onSetTarget,
+    onSetTemplate,
+    onSetDataset,
+  } = props;
+
   const params = useParams();
 
-  const [columns, setColumns] = useState([]);
-
-  const [runStatus, setRunStatus] = useState('Loading');
-
-  const baseParameters = {
-    atributos_tempo: {
-      group: [],
-      period: null,
-    },
-    pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
-    pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
-    filtro_atributos: [],
-    automl: { time: 3 },
-    conjunto_dados: {
-      target: undefined,
-      datasetId: null,
-      txtName: null,
-      csvName: null,
-    },
-  };
-
-  const [experimentParameters, setParameters] = useState(
-    JSON.parse(details.parameters) || baseParameters
-  );
-
-  const [selected, setSelected] = useState({
-    conjunto_dados: false,
-    atributos_tempo: false,
-    pre_selecao1: false,
-    atributos_genericos: false,
-    pre_selecao2: false,
-    filtro_atributos: false,
-    automl: false,
-    regression: false,
-  });
-
-  const [taskStatus, setTaskStatus] = useState({
-    conjunto_dados: null,
-    atributos_tempo: null,
-    pre_selecao1: null,
-    atributos_genericos: null,
-    pre_selecao2: null,
-    filtro_atributos: null,
-    automl: null,
-    regression: null,
-  });
-
-  const url =
-    'http://localhost:8000/seldon/kubeflow/irrigacao-autofeaturing-regression-c96ac290/api/v0.1/predictions';
-
-  // Métodos para alterar valores dos Drawers
-  // Atributos por tempo
-  const setGroup = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.atributos_tempo.group = e;
-    setParameters(newParameters);
-  };
-
-  const setPeriod = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.atributos_tempo.period = e.target.value;
-    setParameters(newParameters);
-  };
-  // Pré-seleção 1
-  const setCutoffPre1 = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.pre_selecao1.cutoff = e;
-    setParameters(newParameters);
-  };
-  const setCorrelationPre1 = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.pre_selecao1.correlation = e;
-    setParameters(newParameters);
-  };
-  // Pré-seleção 2
-  const setCutoffPre2 = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.pre_selecao2.cutoff = e;
-    setParameters(newParameters);
-  };
-  const setCorrelationPre2 = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.pre_selecao2.correlation = e;
-    setParameters(newParameters);
-  };
-
-  const setFilter = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.filtro_atributos = e;
-    setParameters(newParameters);
-  };
-  const setAutoML = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.automl.time = e;
-    setParameters(newParameters);
-  };
-
-  // Set Datasets
-
-  const setCSV = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.conjunto_dados.csvName = e;
-    setParameters(newParameters);
-  };
-  const setTXT = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.conjunto_dados.txtName = e;
-    setParameters(newParameters);
-  };
-  const setTarget = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.conjunto_dados.target = e;
-    setParameters(newParameters);
-  };
-
-  const setTemplate = (obj) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.template = obj;
-    setParameters(newParameters);
-  };
-
   const setUploadedColumns = (e) => {
-    setColumns(e);
-  };
-
-  const setDataset = (e) => {
-    const newParameters = { ...experimentParameters };
-    newParameters.conjunto_dados.datasetId = e;
-    setParameters(newParameters);
+    console.log(e);
+    onSetColumns(e);
   };
 
   // getting drawer title
@@ -204,12 +124,12 @@ const ExperimentContent = ({
         return (
           <DataSetDrawerContent
             parameter={experimentParameters.conjunto_dados}
-            setTarget={setTarget}
+            setTarget={onSetTarget}
             columns={columns}
             setColumns={setUploadedColumns}
-            setDataset={setDataset}
-            setCSV={setCSV}
-            setTXT={setTXT}
+            setDataset={onSetDataset}
+            setCSV={onSetCsv}
+            setTXT={onSetTxt}
             details={details}
             runStatus={runStatus}
             taskStatus={taskStatus.conjunto_dados}
@@ -220,8 +140,8 @@ const ExperimentContent = ({
           <TimeAttributeCreationDrawerContent
             parameter={experimentParameters.atributos_tempo}
             dataSets={columns}
-            setGroup={setGroup}
-            setPeriod={setPeriod}
+            setGroup={onSetGroup}
+            setPeriod={onSetPeriod}
             runStatus={runStatus} // 'Succeeded' // {runStatus}
             taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
             targetId={experimentParameters.conjunto_dados.target}
@@ -234,8 +154,8 @@ const ExperimentContent = ({
             parameter={experimentParameters.pre_selecao1}
             preType={1}
             dataSets={columns}
-            setCutoff={setCutoffPre1}
-            setCorrelation={setCorrelationPre1}
+            setCutoff={onSetCutoffPre1}
+            setCorrelation={onSetCorrelationPre1}
             runStatus={runStatus}
             taskStatus={taskStatus.pre_selecao1}
             details={details}
@@ -246,7 +166,7 @@ const ExperimentContent = ({
           <GenericAttributeCreationDrawerContent
             parameter={experimentParameters.atributos_tempo}
             dataSets={columns}
-            setFeatureTools={setGroup}
+            setFeatureTools={onSetGroup}
             runStatus={runStatus} // 'Succeeded' // {runStatus}
             taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
             targetId={experimentParameters.conjunto_dados.target}
@@ -259,8 +179,8 @@ const ExperimentContent = ({
             parameter={experimentParameters.pre_selecao2}
             preType={2}
             dataSets={columns}
-            setCutoff={setCutoffPre2}
-            setCorrelation={setCorrelationPre2}
+            setCutoff={onSetCutoffPre2}
+            setCorrelation={onSetCorrelationPre2}
             runStatus={runStatus}
             taskStatus={taskStatus.pre_selecao2}
             details={details}
@@ -271,7 +191,7 @@ const ExperimentContent = ({
           <AttributeFilterDrawerContent
             parameter={experimentParameters.filtro_atributos}
             dataSets={columns}
-            setFilter={setFilter}
+            setFilter={onSetFilter}
             runStatus={runStatus} // 'Succeeded' // {runStatus}
             taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
             targetId={experimentParameters.conjunto_dados.target}
@@ -282,7 +202,7 @@ const ExperimentContent = ({
           <AutoMLDrawerContent
             parameter={experimentParameters.automl}
             dataSets={columns}
-            setAutoML={setAutoML}
+            setAutoML={onSetAutoML}
             runStatus={runStatus}
             taskStatus={taskStatus.automl}
             details={details}
@@ -309,7 +229,7 @@ const ExperimentContent = ({
       return false;
     });
 
-    setSelected(newSelected);
+    onSetSelectedDrawer(newSelected);
 
     const drawerTitle = getTitle(task);
     const drawerChild = getChild(task);
@@ -328,21 +248,21 @@ const ExperimentContent = ({
 
       const responseHeader = await getHeader(details.headerId);
       if (responseHeader && isSubscribed)
-        setTXT(responseHeader.data.payload.uuid);
+        onSetTxt(responseHeader.data.payload.uuid);
 
       const col = await getHeaderColumns(details.headerId);
-      if (col && isSubscribed) setColumns(col.data.payload);
+      if (col && isSubscribed) onSetColumns(col.data.payload);
 
       const responseDataset = await getDataSet(details.datasetId);
       if (responseDataset && isSubscribed)
-        setCSV(responseDataset.data.payload.uuid);
+        onSetCsv(responseDataset.data.payload.uuid);
 
       if (details.runId) {
         const runRes = await getStatusRun(details.runId);
 
         if (runRes) {
           console.info('[STATUS]', runRes.data.run.status);
-          if (isSubscribed) setRunStatus(runRes.data.run.status);
+          if (isSubscribed) onSetRunStatus(runRes.data.run.status);
           if (
             runRes.data.run.status === 'Running' ||
             runRes.data.run.status === undefined
@@ -350,13 +270,13 @@ const ExperimentContent = ({
             console.info('Preparing to polling');
 
             if (isSubscribed) {
-              setTaskStatus(_.mapValues(taskStatus, () => 'Running'));
+              onSetTaskStatus(_.mapValues(taskStatus, () => 'Running'));
               pollingRun(
                 details,
                 details.runId,
                 taskStatus,
-                setTaskStatus,
-                setRunStatus
+                onSetTaskStatus,
+                onSetRunStatus
               );
             }
           } else {
@@ -378,7 +298,7 @@ const ExperimentContent = ({
 
               const tasks = taskGetPhases(taskStatus, manifest);
               console.log(tasks);
-              setTaskStatus(tasks);
+              onSetTaskStatus(tasks);
             }
           }
         }
@@ -388,14 +308,14 @@ const ExperimentContent = ({
 
     if (details.targetColumnId && isSubscribed) {
       if (details.targetColumnId.length > 5 && isSubscribed)
-        setTarget(details.targetColumnId);
-      else if (isSubscribed) setTarget(undefined);
+        onSetTarget(details.targetColumnId);
+      else if (isSubscribed) onSetTarget(undefined);
     }
 
-    if (details.datasetId) setDataset(details.datasetId);
+    if (details.datasetId) onSetDataset(details.datasetId);
 
     if (!details.runId) {
-      setRunStatus(null);
+      onSetRunStatus(null);
     }
 
     return () => {
@@ -414,7 +334,7 @@ const ExperimentContent = ({
       parameters: JSON.stringify(experimentParameters),
     });
 
-    if (res) setSelected(_.mapValues(selected, () => false));
+    if (res) onSetSelectedDrawer(_.mapValues(selected, () => false));
   };
 
   const enableRun = () => {
@@ -486,9 +406,9 @@ const ExperimentContent = ({
             columns,
             details,
             experimentParameters,
-            setRunStatus,
+            onSetRunStatus,
             taskStatus,
-            setTaskStatus
+            onSetTaskStatus
           );
         }}
         disabled={
@@ -564,12 +484,76 @@ const ExperimentContent = ({
   );
 };
 
+const mapStateToProps = (state) => {
+  return {
+    columns: state.project.columns,
+    runStatus: state.project.runStatus,
+    experimentParameters: state.project.experimentParameters,
+    selected: state.project.selected,
+    taskStatus: state.project.taskStatus,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => ({
   onShowDrawer: () => dispatch(showDrawer()),
   onSelectDrawer: (drawerContent) => dispatch(selectDrawer(drawerContent)),
+  onSetColumns: (columns) => {
+    dispatch(setColumns(columns));
+  },
+  onSetRunStatus: (status) => {
+    dispatch(setRunStatus(status));
+  },
+  onSetParameters: (parameters) => {
+    dispatch(setParameters(parameters));
+  },
+  onSetSelectedDrawer: (selectedDrawer) => {
+    dispatch(setSelectedDrawer(selectedDrawer));
+  },
+  onSetTaskStatus: (taskStatus) => {
+    dispatch(setTaskStatus(taskStatus));
+  },
+  onSetGroup: (group) => {
+    dispatch(setGroup(group));
+  },
+  onSetPeriod: (period) => {
+    dispatch(setPeriod(period));
+  },
+  onSetCutoffPre1: (cutOffPre1) => {
+    dispatch(setCutoffPre1(cutOffPre1));
+  },
+  onSetCorrelationPre1: (correlationPre1) => {
+    dispatch(setCorrelationPre1(correlationPre1));
+  },
+  onSetCutoffPre2: (cutOffPre2) => {
+    dispatch(setCutoffPre2(cutOffPre2));
+  },
+  onSetCorrelationPre2: (correlationPre2) => {
+    dispatch(setCorrelationPre2(correlationPre2));
+  },
+  onSetFilter: (filter) => {
+    dispatch(setFilter(filter));
+  },
+  onSetAutoML: (automl) => {
+    dispatch(setAutoML(automl));
+  },
+  onSetCsv: (csv) => {
+    dispatch(setCsv(csv));
+  },
+  onSetTxt: (txt) => {
+    dispatch(setTxt(txt));
+  },
+  onSetTarget: (target) => {
+    dispatch(setTarget(target));
+  },
+  onSetTemplate: (template) => {
+    dispatch(setTemplate(template));
+  },
+  onSetDataset: (dataset) => {
+    dispatch(setDataset(dataset));
+  },
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ExperimentContent);
