@@ -6,6 +6,7 @@ import * as projectsServices from '../../services/projectsApi';
 export const EXPERIMENT_FETCH_STARTED = 'EXPERIMENT_FETCH_STARTED';
 export const EXPERIMENT_FETCH = 'EXPERIMENT_FETCH';
 export const EXPERIMENT_UPDATE = 'EXPERIMENT_UPDATE';
+export const EXPERIMENT_UPDATE_NAME = 'EXPERIMENT_UPDATE_NAME';
 
 export const EXPERIMENT_SET_COLUMNS = 'EXPERIMENT_SET_COLUMNS';
 export const EXPERIMENT_SET_RUN_STATUS = 'EXPERIMENT_SET_RUN_STATUS';
@@ -74,6 +75,36 @@ export const updateExperiment = (projectId, experimentId, body) => {
       .updateExperiment(projectId, experimentId, body)
       .then((response) => {
         if (response) dispatch(getExperiment(projectId, experimentId));
+      });
+  };
+};
+
+/**
+ * Function to dispatch action EXPERIMENT_UPDATE_NAME
+ */
+export const setExperimentName = (name) => {
+  return {
+    type: EXPERIMENT_UPDATE_NAME,
+    name,
+  };
+};
+
+/**
+ * Function to update experiment name and dispatch to reducer
+ * @param {Object} editableDetails
+ * @param {String} name
+ */
+export const updateExperimentName = (editableDetails, name) => {
+  const { uuid, projectId } = editableDetails;
+  return (dispatch) => {
+    return projectsServices
+      .updateExperiment(projectId, uuid, { name })
+      .then((response) => {
+        if (response) {
+          dispatch(setExperimentName(name));
+          return true;
+        }
+        return false;
       });
   };
 };

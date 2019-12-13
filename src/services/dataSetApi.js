@@ -2,8 +2,10 @@
 import axios from 'axios';
 import { message } from 'antd';
 
+export const URL = process.env.REACT_APP_DATASET_API || '/datasets/apis';
+
 export const dataSetApi = axios.create({
-  baseURL: process.env.REACT_APP_DATASET_API || '/datasets/apis',
+  baseURL: URL,
 });
 
 export const getDataSet = async (id) => {
@@ -18,7 +20,6 @@ export const getDataSet = async (id) => {
 export const getHeader = async (id) => {
   try {
     const response = await dataSetApi.get(`/headers/${id}`);
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -28,7 +29,6 @@ export const getHeader = async (id) => {
 export const getHeaderColumns = async (id) => {
   try {
     const response = await dataSetApi.get(`/headers/${id}/columns`);
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -48,7 +48,6 @@ export const updateColumn = async (headerId, columnId, newType) => {
 
     return response;
   } catch (error) {
-    console.error(error);
     if (error.response) message.error(error.response.data.message);
   }
 };
@@ -57,11 +56,8 @@ export const uploadDataSet = async (form) => {
   try {
     const response = await dataSetApi.post(`/datasets`, form);
     message.success('Importação concluída.');
-
     return response;
   } catch (error) {
-    console.error(error.message);
-    if (error.response) console.error(error.response.data.message);
     message.error('Importação falhou', 15);
   }
 };
