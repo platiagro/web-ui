@@ -28,7 +28,6 @@ export const getPipelines = async () => {
         returnPipelines[name].deployId = pipeline.id;
       }
     });
-
     return returnPipelines;
   } catch (error) {
     message.error(error.message);
@@ -41,11 +40,9 @@ export const startRun = async (body) => {
       '/pipeline/apis/v1beta1/runs',
       body
     );
-
     return response;
   } catch (error) {
     message.error(error.message);
-    if (error.response) console.error(error.response.data.message);
   }
 };
 
@@ -54,7 +51,6 @@ export const getStatusRun = async (runId) => {
     const response = await pipelinesApi.get(
       `/pipeline/apis/v1beta1/runs/${runId}`
     );
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -111,56 +107,8 @@ export const getDeployments = async () => {
         }
       });
     }
-
     return returnDeployments;
   } catch (error) {
     message.error(error.message);
   }
 };
-
-// export const getHeader = async (id) => {
-//   try {
-//     const response = await dataSetApi.get(`/headers/${id}`);
-
-//     return response;
-//   } catch (error) {
-//     message.error(error.message);
-//   }
-// };
-
-// export const getHeaderColumns = async (id) => {
-//   try {
-//     const response = await dataSetApi.get(`/headers/${id}/columns`);
-
-//     return response;
-//   } catch (error) {
-//     message.error(error.message);
-//   }
-// };
-
-// export const updateColumn = async (headerId, columnId, datatype) => {
-//   try {
-//     const body = {
-//       datatype,
-//     };
-
-//     const response = await dataSetApi.patch(
-//       `/headers/${headerId}/columns/${columnId}`,
-//       body
-//     );
-
-//     return response;
-//   } catch (error) {
-//     message.error(error.message);
-//   }
-// };
-
-// export const uploadDataSet = async (form) => {
-//   try {
-//     const response = await dataSetApi.post(`/datasets`, form);
-
-//     return response;
-//   } catch (error) {
-//     message.error(error.message);
-//   }
-// };

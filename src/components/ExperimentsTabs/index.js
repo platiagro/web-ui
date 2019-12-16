@@ -28,8 +28,13 @@ const ExperimentsTabs = (props) => {
   const params = useParams();
 
   useEffect(() => {
+<<<<<<< HEAD
     onSetActiveKey(
       details.experimentList.length > 0 ? params.experimentId : null
+=======
+    setActiveKey(
+      details.experimentsList.length > 0 ? params.experimentId : null
+>>>>>>> 51c7a3e1a13724aea9eff9bd21f92df7d1146c2b
     );
     return () => onSetActiveKey(null);
   }, []);
@@ -51,6 +56,24 @@ const ExperimentsTabs = (props) => {
       onSetActiveKey(key);
     }
   };
+<<<<<<< HEAD
+=======
+  const add = async () => {
+    const index = details.experimentsList.length + 1;
+    const newTabName = `${details.name}_${index}`;
+    const response = await projectsServices.createExperiment(
+      details.uuid,
+      newTabName
+    );
+    // if (response) {
+    // await fetch(details.uuid);
+    // history.push(
+    //   `/projects/${params.projectId}/${response.data.payload.uuid}`
+    // );
+    // setActiveKey(response.data.payload.uuid);
+    // }
+  };
+>>>>>>> 51c7a3e1a13724aea9eff9bd21f92df7d1146c2b
 
   const handleClick = (tabkey, event) => {
     if (tabkey === 'add_tab' && !!event) {
@@ -69,10 +92,10 @@ const ExperimentsTabs = (props) => {
         type='editable-card'
         onTabClick={handleClick}
       >
-        {details.experimentList.map((pane, index) => (
+        {details.experimentsList.map((pane, index) => (
           <TabPane tab={pane.name} closable={false} key={pane.uuid}>
             <ExperimentContent
-              details={details.experimentList[index]}
+              details={details.experimentsList[index]}
               flowDetails={flowDetails}
               fetch={fetch}
               setFlowDetails={setFlowDetails}
