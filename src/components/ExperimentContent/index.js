@@ -30,6 +30,7 @@ import mountObjectRequest from './mountObjectRequest';
 import taskGetPhases from './util';
 
 import {
+  updateExperimentName,
   setColumns,
   setRunStatus,
   setParameters,
@@ -65,6 +66,7 @@ const ExperimentContent = (props) => {
   const {
     onShowDrawer,
     onSelectDrawer,
+    onUpdateExperimentName,
     onSetColumns,
     onSetRunStatus,
     onSetParameters,
@@ -445,24 +447,10 @@ const ExperimentContent = (props) => {
       </Button>
     );
 
-  const updateExperimenttName = async (
-    editableDetails,
-    newName,
-    resultCallback
-  ) => {
-    const { uuid, projectId } = editableDetails;
-    const response = await updateExperiment(projectId, uuid, { name: newName });
-    if (response) {
-      fetch();
-    } else {
-      resultCallback(false);
-    }
-  };
-
   return (
     <div className='experiment-content'>
       <div className='experiment-content-header'>
-        <EditableTitle details={details} onUpdate={updateExperimenttName} />
+        <EditableTitle details={details} onUpdate={onUpdateExperimentName} />
 
         <div className='experiment-actions'>
           {details.runStatus !== 'Deployed' && executeButton()}
@@ -497,6 +485,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   onShowDrawer: () => dispatch(showDrawer()),
   onSelectDrawer: (drawerContent) => dispatch(selectDrawer(drawerContent)),
+  onUpdateExperimentName: (editableDetails, name) => {
+    return dispatch(updateExperimentName(editableDetails, name));
+  },
   onSetColumns: (columns) => {
     dispatch(setColumns(columns));
   },
