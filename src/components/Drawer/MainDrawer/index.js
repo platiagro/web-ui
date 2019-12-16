@@ -1,8 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Drawer } from 'antd';
 import { hideDrawer } from '../../../store/actions/drawerActions';
 
+/**
+ * Main drawer container of application.
+ */
 const MainDrawer = ({
   children,
   title,
@@ -24,6 +28,24 @@ const MainDrawer = ({
       {children}
     </Drawer>
   );
+};
+
+MainDrawer.propTypes = {
+  /** children drawer */
+  children: PropTypes.element.isRequired,
+  /** title of drawer */
+  title: PropTypes.string.isRequired,
+  /** on close handle function */
+  onClose: PropTypes.func.isRequired,
+  /** if drawer task is finished */
+  isFinished: PropTypes.oneOf(['Succeeded', 'Failed', null]),
+  /** drawer is visible */
+  visible: PropTypes.bool.isRequired,
+};
+
+MainDrawer.defaultProps = {
+  /** is finished prop default is null */
+  isFinished: null,
 };
 
 const mapStateToProps = (state) => ({
