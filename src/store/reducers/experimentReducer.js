@@ -87,7 +87,7 @@ export default function experimentReducer(state = initialState, action) {
     case EXPERIMENT_FETCH:
       if (experiment.parameters == null) delete experiment.parameters;
       else experiment.parameters = JSON.parse(experiment.parameters);
-      return { ...state, ...experiment };
+      return { ...initialState, ...experiment };
     case EXPERIMENT_SET_COLUMNS:
       return { ...state, columns: action.columns };
     case EXPERIMENT_SET_RUN_STATUS:

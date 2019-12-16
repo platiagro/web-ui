@@ -6,23 +6,17 @@ import { Tabs } from 'antd';
 import { connect } from 'react-redux';
 import DraggableTabs from '../DraggableTabs';
 import ExperimentContent from '../ExperimentContent';
-import {
-  setActiveKey,
-  addExperiment,
-} from '../../store/actions/projectActions';
+import { addExperiment } from '../../store/actions/projectActions';
+import { getExperiment } from '../../store/actions/experimentActions';
 
 const { TabPane } = Tabs;
 
 const ExperimentsTabs = (props) => {
   const { uuid, name, experimentsList, activeKey } = props;
-  const { fetch, onSetActiveKey, onAddExperiment } = props;
+  const { onGetExperiment, onAddExperiment } = props;
+
   const history = useHistory();
   const params = useParams();
-
-  useEffect(() => {
-    onSetActiveKey(experimentsList.length > 0 ? params.experimentId : null);
-    return () => onSetActiveKey(null);
-  }, []);
 
   useEffect(() => {
     if (activeKey) {
@@ -33,7 +27,7 @@ const ExperimentsTabs = (props) => {
   const onChange = async (key) => {
     if (key !== 'add_tab') {
       history.push(`/projects/${params.projectId}/${key}`);
-      onSetActiveKey(key);
+      onGetExperiment(params.project, key);
     }
   };
 
@@ -54,13 +48,9 @@ const ExperimentsTabs = (props) => {
         type='editable-card'
         onTabClick={handleClick}
       >
-        {experimentsList.map((pane, index) => (
+        {experimentsList.map((pane) => (
           <TabPane tab={pane.name} closable={false} key={pane.uuid}>
-            <ExperimentContent
-              details={experimentsList[index]}
-              fetch={fetch}
-              projectName={name}
-            />
+            <ExperimentContent />
           </TabPane>
         ))}
       </DraggableTabs>
@@ -71,11 +61,14 @@ const ExperimentsTabs = (props) => {
 const mapStateToProps = (state) => {
   return {
     ...state.project,
+    activeKey: state.experiment.uuid,
   };
 };
 
 const dispatchToProps = (dispatch) => ({
-  onSetActiveKey: (key) => dispatch(setActiveKey(key)),
+  onGetExperiment: (projectId, experimentId) => {
+    dispatch(getExperiment(projectId, experimentId));
+  },
   onAddExperiment: (projectId, experimentId, name, history) =>
     dispatch(addExperiment(projectId, experimentId, name, history)),
 });

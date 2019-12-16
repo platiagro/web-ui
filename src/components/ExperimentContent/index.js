@@ -20,6 +20,8 @@ import pollingRun from './polling';
 import mountObjectRequest from './mountObjectRequest';
 import taskGetPhases from './util';
 
+import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
+
 import {
   updateExperimentName,
   setColumns,
@@ -34,19 +36,23 @@ import {
 
 const ExperimentContent = (props) => {
   const {
+    uuid,
+    projectId,
+    targetColumnId,
     columns,
-    details,
+    headerId,
+    datasetId,
+    runId,
+    template,
     parameters,
-    fetch,
     projectName,
     runStatus,
     selected,
     taskStatus,
+    details,
   } = props;
 
   const {
-    onShowDrawer,
-    onSelectDrawer,
     onUpdateExperimentName,
     onSetColumns,
     onSetRunStatus,
@@ -65,19 +71,19 @@ const ExperimentContent = (props) => {
     async function fetchColumns() {
       // You can await here
 
-      const responseHeader = await getHeader(details.headerId);
+      const responseHeader = await getHeader(headerId);
       if (responseHeader && isSubscribed)
         onSetTxt(responseHeader.data.payload.uuid);
 
-      const col = await getHeaderColumns(details.headerId);
+      const col = await getHeaderColumns(headerId);
       if (col && isSubscribed) onSetColumns(col.data.payload);
 
-      const responseDataset = await getDataSet(details.datasetId);
+      const responseDataset = await getDataSet(datasetId);
       if (responseDataset && isSubscribed)
         onSetCsv(responseDataset.data.payload.uuid);
 
-      if (details.runId) {
-        const runRes = await getStatusRun(details.runId);
+      if (runId) {
+        const runRes = await getStatusRun(runId);
 
         if (runRes) {
           console.info('[STATUS]', runRes.data.run.status);
@@ -92,7 +98,7 @@ const ExperimentContent = (props) => {
               onSetTaskStatus(_.mapValues(taskStatus, () => 'Running'));
               pollingRun(
                 details,
-                details.runId,
+                runId,
                 taskStatus,
                 onSetTaskStatus,
                 onSetRunStatus
@@ -105,13 +111,9 @@ const ExperimentContent = (props) => {
 
             if (isSubscribed) {
               if (runRes.data.run.status === 'Succeeded') {
-                const resUpdate = await updateExperiment(
-                  details.projectId,
-                  details.uuid,
-                  {
-                    runStatus: 'Succeeded',
-                  }
-                );
+                const resUpdate = await updateExperiment(projectId, uuid, {
+                  runStatus: 'Succeeded',
+                });
                 console.info(resUpdate);
               }
 
@@ -123,17 +125,17 @@ const ExperimentContent = (props) => {
         }
       }
     }
-    if (details.headerId && isSubscribed) fetchColumns();
+    if (headerId && isSubscribed) fetchColumns();
 
-    if (details.targetColumnId && isSubscribed) {
-      if (details.targetColumnId.length > 5 && isSubscribed)
-        onSetTarget(details.targetColumnId);
+    if (targetColumnId && isSubscribed) {
+      if (targetColumnId.length > 5 && isSubscribed)
+        onSetTarget(targetColumnId);
       else if (isSubscribed) onSetTarget(undefined);
     }
 
-    if (details.datasetId) onSetDataset(details.datasetId);
+    if (datasetId) onSetDataset(datasetId);
 
-    if (!details.runId) {
+    if (!runId) {
       onSetRunStatus(null);
     }
 
@@ -149,7 +151,7 @@ const ExperimentContent = (props) => {
 
   // Fechar Drawer
   const handleClose = async () => {
-    const res = await updateExperiment(details.projectId, details.uuid, {
+    const res = await updateExperiment(projectId, uuid, {
       parameters: JSON.stringify(parameters),
     });
 
@@ -163,7 +165,7 @@ const ExperimentContent = (props) => {
       conjunto_dados: { target, datasetId, csvName },
     } = parameters;
 
-    switch (details.template) {
+    switch (template) {
       case 'AutoML':
         return Boolean(
           _.isNull(time) ||
@@ -232,7 +234,7 @@ const ExperimentContent = (props) => {
         }}
         disabled={
           runStatus === 'Running' ||
-          (runStatus === 'Loading' && details.runId) ||
+          (runStatus === 'Loading' && runId) ||
           runStatus === 'StartRun' ||
           enableRun()
         }
@@ -242,7 +244,7 @@ const ExperimentContent = (props) => {
     );
 
   const deployButton = () =>
-    details.runStatus === 'Deployed' ? (
+    runStatus === 'Deployed' ? (
       <div>
         <Icon
           style={{ fontSize: '18px', color: '#389E0D', marginRight: '8px' }}
@@ -270,8 +272,8 @@ const ExperimentContent = (props) => {
         <EditableTitle details={details} onUpdate={onUpdateExperimentName} />
 
         <div className='experiment-actions'>
-          {details.runStatus !== 'Deployed' && executeButton()}
-          {details.runStatus !== 'Deployed' && <Divider type='vertical' />}
+          {runStatus !== 'Deployed' && executeButton()}
+          {runStatus !== 'Deployed' && <Divider type='vertical' />}
           {deployButton()}
         </div>
       </div>
@@ -282,13 +284,7 @@ const ExperimentContent = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return {
-    columns: state.experiment.columns,
-    runStatus: state.experiment.runStatus,
-    parameters: state.experiment.parameters,
-    selected: state.experiment.selected,
-    taskStatus: state.experiment.taskStatus,
-  };
+  return { ...state.experiment, details: state.experiment };
 };
 
 const mapDispatchToProps = (dispatch) => ({

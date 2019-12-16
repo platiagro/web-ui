@@ -1,7 +1,10 @@
+/* eslint-disable import/no-cycle */
 /**
  * Actions for experiment details
  */
 import * as projectsServices from '../../services/projectsApi';
+
+import { getProject } from './projectActions';
 
 export const EXPERIMENT_FETCH_STARTED = 'EXPERIMENT_FETCH_STARTED';
 export const EXPERIMENT_FETCH = 'EXPERIMENT_FETCH';
@@ -43,7 +46,7 @@ export const fetchStarted = () => {
  * Function to dispatch action PROJECT_FETCH_DETAIL
  * @param {Object} project
  */
-const setExperimentDetails = (experiment) => {
+export const setExperimentDetails = (experiment) => {
   return {
     type: EXPERIMENT_FETCH,
     experiment,
@@ -74,7 +77,9 @@ export const updateExperiment = (projectId, experimentId, body) => {
     return projectsServices
       .updateExperiment(projectId, experimentId, body)
       .then((response) => {
-        if (response) dispatch(getExperiment(projectId, experimentId));
+        if (response) {
+          dispatch(getExperiment(projectId, experimentId));
+        }
       });
   };
 };
@@ -102,6 +107,7 @@ export const updateExperimentName = (editableDetails, name) => {
       .then((response) => {
         if (response) {
           dispatch(setExperimentName(name));
+          dispatch(getProject(projectId));
           return true;
         }
         return false;
