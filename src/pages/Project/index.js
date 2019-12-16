@@ -31,14 +31,9 @@ const Project = (props) => {
     history.push('/projects');
   };
 
-  // Funtion to fetch project detail
-  const fetchDetails = () => {
-    onGetProject(match.params.projectId);
-  };
-
   // Fetch details on component did mount
   useEffect(() => {
-    fetchDetails();
+    onGetProject(match.params.projectId);
     return () => {
       onResetProject();
     };
@@ -64,7 +59,7 @@ const Project = (props) => {
       <Layout className='experiment-container'>
         <LeftSideMenu />
         <Content className='experiment-wraper'>
-          <ExperimentsTabs fetch={fetchDetails} flowDetails={{}} />
+          <ExperimentsTabs />
         </Content>
       </Layout>
     </>

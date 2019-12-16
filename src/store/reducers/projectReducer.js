@@ -17,7 +17,6 @@ const initialState = {
   createdAt: '',
   experimentsList: [],
   loading: false,
-  activeKey: null,
 };
 
 export default function projectReducer(state = initialState, action) {
@@ -39,7 +38,6 @@ export default function projectReducer(state = initialState, action) {
       const experimentsListAux = [newExperiment, ...state.experimentsList];
       return {
         ...state,
-        activeKey: newExperiment.uuid,
         experimentsList: experimentsListAux,
       };
     }

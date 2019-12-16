@@ -5,6 +5,8 @@ import { message } from 'antd';
 import * as pipelinesServices from '../../services/pipelinesApi';
 import * as projectsServices from '../../services/projectsApi';
 
+import { setExperimentDetails } from './experimentActions';
+
 export const PROJECT_RESET = 'PROJECT_RESET';
 export const PROJECT_FETCH_DETAIL_STARTED = 'PROJECT_FETCH_DETAIL_STARTED';
 export const PROJECT_FETCH_DETAIL = 'PROJECT_FETCH_DETAIL';
@@ -148,6 +150,8 @@ export const addExperiment = (projectId, name) => {
       .then((response) => {
         if (response) {
           dispatch(addExperimentDispatch(response.data.payload));
+          if (response) dispatch(setExperimentDetails(response.data.payload));
+          else dispatch(setExperimentDetails({}));
         }
       })
       .catch((error) => {
