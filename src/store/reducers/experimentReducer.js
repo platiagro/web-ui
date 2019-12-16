@@ -80,11 +80,14 @@ const initialState = {
 };
 
 export default function experimentReducer(state = initialState, action) {
+  const { experiment } = action;
   switch (action.type) {
     case EXPERIMENT_FETCH_STARTED:
       return { ...state, loading: true };
     case EXPERIMENT_FETCH:
-      return { ...state, ...action.project };
+      if (experiment.parameters == null) delete experiment.parameters;
+      else experiment.parameters = JSON.parse(experiment.parameters);
+      return { ...state, ...experiment };
     case EXPERIMENT_SET_COLUMNS:
       return { ...state, columns: action.columns };
     case EXPERIMENT_SET_RUN_STATUS:
@@ -96,69 +99,69 @@ export default function experimentReducer(state = initialState, action) {
     case EXPERIMENT_SET_TASK_STATUS:
       return { ...state, taskStatus: action.status };
     case EXPERIMENT_SET_GROUP: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.atributos_tempo.group = action.group;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_PERIOD: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.atributos_tempo.period = action.period;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_CUT_OFF_PRE_1: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.pre_selecao1.cutoff = action.cutOffPre1;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_CORRELATION_PRE_1: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.pre_selecao1.correlation = action.correlationPre1;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_CUT_OFF_PRE_2: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.pre_selecao2.cutoff = action.cutOffPre2;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_CORRELATION_PRE_2: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.pre_selecao2.correlation = action.correlationPre2;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_FILTER: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.filtro_atributos = action.filter;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_AUTOML: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.automl.time = action.automl;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_CSV: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.conjunto_dados.csvName = action.csv;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_TXT: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.conjunto_dados.txtName = action.txt;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_TARGET: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.conjunto_dados.target = action.target;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_TEMPLATE: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.template = action.template;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_DATASET: {
-      const newParameters = { ...state.experimentParameters };
+      const newParameters = { ...state.parameters };
       newParameters.conjunto_dados.datasetId = action.dataset;
-      return { ...state, experimentParameters: newParameters };
+      return { ...state, parameters: newParameters };
     }
     default:
       return state;

@@ -1,21 +1,12 @@
 /* eslint-disable no-unused-vars */
 import './style.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import _ from 'lodash';
-import { Button, Divider, message, Icon, Typography } from 'antd';
+import { Button, Divider, Icon } from 'antd';
 import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../Drawer/MainDrawer';
-import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
-import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
-import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
-import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
-import AutoMLDrawerContent from '../AutoMLDrawerContent';
-import DataSetDrawerContent from '../DataSetDrawerContent';
-import ResultsDrawer from '../ResultsDrawer';
-import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 import { updateExperiment } from '../../services/projectsApi';
 import { getStatusRun } from '../../services/pipelinesApi';
 import {
@@ -30,23 +21,12 @@ import mountObjectRequest from './mountObjectRequest';
 import taskGetPhases from './util';
 
 import {
-  setColumns,
   setRunStatus,
-  setParameters,
   setSelectedDrawer,
   setTaskStatus,
-  setGroup,
-  setPeriod,
-  setCutoffPre1,
-  setCorrelationPre1,
-  setCutoffPre2,
-  setCorrelationPre2,
-  setFilter,
-  setAutoML,
   setCsv,
   setTxt,
   setTarget,
-  setTemplate,
   setDataset,
 } from '../../store/actions/experimentActions';
 
@@ -63,181 +43,15 @@ const ExperimentContent = (props) => {
   } = props;
 
   const {
-    onShowDrawer,
-    onSelectDrawer,
     onSetColumns,
     onSetRunStatus,
-    onSetParameters,
     onSetSelectedDrawer,
     onSetTaskStatus,
-    onSetGroup,
-    onSetPeriod,
-    onSetCutoffPre1,
-    onSetCorrelationPre1,
-    onSetCutoffPre2,
-    onSetCorrelationPre2,
-    onSetFilter,
-    onSetAutoML,
     onSetCsv,
     onSetTxt,
     onSetTarget,
-    onSetTemplate,
     onSetDataset,
   } = props;
-
-  const params = useParams();
-
-  const setUploadedColumns = (e) => {
-    console.log(e);
-    onSetColumns(e);
-  };
-
-  // getting drawer title
-  const getTitle = (task) => {
-    switch (task) {
-      case 'conjunto_dados':
-        return 'Conjunto de dados';
-      case 'atributos_tempo':
-        return 'Criação de atributos por tempo';
-      case 'pre_selecao1':
-        return 'Pré-seleção de atributos';
-      case 'atributos_genericos':
-        return 'Criação de atributos genéricos';
-      case 'pre_selecao2':
-        return 'Pré-seleção de atributos';
-      case 'filtro_atributos':
-        return 'Filtro de atributos';
-      case 'automl':
-        return 'AutoML';
-      case 'regression':
-        return 'Regressão Logística';
-      default:
-        return null;
-    }
-  };
-
-  // getting drawer child
-  // Selecioanr o Drawer certo
-  const getChild = (task) => {
-    switch (task) {
-      case 'conjunto_dados':
-        return (
-          <DataSetDrawerContent
-            parameter={parameters.conjunto_dados}
-            setTarget={onSetTarget}
-            columns={columns}
-            setColumns={setUploadedColumns}
-            setDataset={onSetDataset}
-            setCSV={onSetCsv}
-            setTXT={onSetTxt}
-            details={details}
-            runStatus={runStatus}
-            taskStatus={taskStatus.conjunto_dados}
-          />
-        );
-      case 'atributos_tempo':
-        return (
-          <TimeAttributeCreationDrawerContent
-            parameter={parameters.atributos_tempo}
-            dataSets={columns}
-            setGroup={onSetGroup}
-            setPeriod={onSetPeriod}
-            runStatus={runStatus} // 'Succeeded' // {runStatus}
-            taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
-            targetId={parameters.conjunto_dados.target}
-            details={details}
-          />
-        );
-      case 'pre_selecao1':
-        return (
-          <AttributePreSelectionDrawerContent
-            parameter={parameters.pre_selecao1}
-            preType={1}
-            dataSets={columns}
-            setCutoff={onSetCutoffPre1}
-            setCorrelation={onSetCorrelationPre1}
-            runStatus={runStatus}
-            taskStatus={taskStatus.pre_selecao1}
-            details={details}
-          />
-        );
-      case 'atributos_genericos':
-        return (
-          <GenericAttributeCreationDrawerContent
-            parameter={parameters.atributos_tempo}
-            dataSets={columns}
-            setFeatureTools={onSetGroup}
-            runStatus={runStatus} // 'Succeeded' // {runStatus}
-            taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
-            targetId={parameters.conjunto_dados.target}
-            details={details}
-          />
-        );
-      case 'pre_selecao2':
-        return (
-          <AttributePreSelectionDrawerContent
-            parameter={parameters.pre_selecao2}
-            preType={2}
-            dataSets={columns}
-            setCutoff={onSetCutoffPre2}
-            setCorrelation={onSetCorrelationPre2}
-            runStatus={runStatus}
-            taskStatus={taskStatus.pre_selecao2}
-            details={details}
-          />
-        );
-      case 'filtro_atributos':
-        return (
-          <AttributeFilterDrawerContent
-            parameter={parameters.filtro_atributos}
-            dataSets={columns}
-            setFilter={onSetFilter}
-            runStatus={runStatus} // 'Succeeded' // {runStatus}
-            taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
-            targetId={parameters.conjunto_dados.target}
-          />
-        );
-      case 'automl':
-        return (
-          <AutoMLDrawerContent
-            parameter={parameters.automl}
-            dataSets={columns}
-            setAutoML={onSetAutoML}
-            runStatus={runStatus}
-            taskStatus={taskStatus.automl}
-            details={details}
-          />
-        );
-      default:
-        return null;
-    }
-    // NÃO REMOVER
-    // if (
-    //   selected.regression &&
-    //   runStatus === 'Succeeded' &&
-    //   taskStatus.regression === 'Succeeded'
-    // ) {
-    //   return <ResultsDrawer hideDivider details={details} plot />;
-    // }
-  };
-
-  // Click para abrir drawer de cada tarefa
-  const handleClick = (task) => {
-    let newSelected = { ...selected };
-    newSelected = _.mapValues(selected, (value, key) => {
-      if (key === task) return !value;
-      return false;
-    });
-
-    onSetSelectedDrawer(newSelected);
-
-    const drawerTitle = getTitle(task);
-    const drawerChild = getChild(task);
-    const drawerContent = { title: drawerTitle, children: drawerChild };
-
-    onSelectDrawer(drawerContent);
-    onShowDrawer();
-  };
 
   // DidMount montagem das colunas
   useEffect(() => {
@@ -471,15 +285,7 @@ const ExperimentContent = (props) => {
         </div>
       </div>
       <MainDrawer onClose={handleClose} isFinished={runStatus} />
-      <ExperimentFlow
-        selected={selected}
-        parameters={parameters}
-        columns={columns}
-        handleClick={handleClick}
-        details={details}
-        taskStatus={taskStatus}
-        runStatus={runStatus}
-      />
+      <ExperimentFlow />
     </div>
   );
 };
@@ -495,46 +301,14 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onShowDrawer: () => dispatch(showDrawer()),
-  onSelectDrawer: (drawerContent) => dispatch(selectDrawer(drawerContent)),
-  onSetColumns: (columns) => {
-    dispatch(setColumns(columns));
-  },
   onSetRunStatus: (status) => {
     dispatch(setRunStatus(status));
-  },
-  onSetParameters: (parameters) => {
-    dispatch(setParameters(parameters));
   },
   onSetSelectedDrawer: (selectedDrawer) => {
     dispatch(setSelectedDrawer(selectedDrawer));
   },
   onSetTaskStatus: (taskStatus) => {
     dispatch(setTaskStatus(taskStatus));
-  },
-  onSetGroup: (group) => {
-    dispatch(setGroup(group));
-  },
-  onSetPeriod: (period) => {
-    dispatch(setPeriod(period));
-  },
-  onSetCutoffPre1: (cutOffPre1) => {
-    dispatch(setCutoffPre1(cutOffPre1));
-  },
-  onSetCorrelationPre1: (correlationPre1) => {
-    dispatch(setCorrelationPre1(correlationPre1));
-  },
-  onSetCutoffPre2: (cutOffPre2) => {
-    dispatch(setCutoffPre2(cutOffPre2));
-  },
-  onSetCorrelationPre2: (correlationPre2) => {
-    dispatch(setCorrelationPre2(correlationPre2));
-  },
-  onSetFilter: (filter) => {
-    dispatch(setFilter(filter));
-  },
-  onSetAutoML: (automl) => {
-    dispatch(setAutoML(automl));
   },
   onSetCsv: (csv) => {
     dispatch(setCsv(csv));
@@ -544,9 +318,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onSetTarget: (target) => {
     dispatch(setTarget(target));
-  },
-  onSetTemplate: (template) => {
-    dispatch(setTemplate(template));
   },
   onSetDataset: (dataset) => {
     dispatch(setDataset(dataset));
