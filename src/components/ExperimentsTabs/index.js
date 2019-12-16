@@ -1,51 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './style.scss';
 import { Tabs } from 'antd';
+import { connect } from 'react-redux';
+
+import {
+  setActiveKey,
+  addExperiment,
+} from '../../store/actions/experimentsTabsActions';
 
 import DraggableTabs from '../DraggableTabs';
 import ExperimentContent from '../ExperimentContent';
-import * as projectsServices from '../../services/projectsApi';
 
 const { TabPane } = Tabs;
-const ExperimentsTabs = ({ fetch, details, flowDetails, setFlowDetails }) => {
-  const [activeKey, setActiveKey] = useState(null);
+const ExperimentsTabs = (props) => {
+  const { activeKey } = props;
+  const {
+    fetch,
+    details,
+    flowDetails,
+    setFlowDetails,
+    onSetActiveKey,
+    onAddExperiment,
+  } = props;
   const history = useHistory();
   const params = useParams();
+
   useEffect(() => {
-    setActiveKey(
+    onSetActiveKey(
       details.experimentList.length > 0 ? params.experimentId : null
     );
+    return () => onSetActiveKey(null);
   }, []);
+
+  useEffect(() => {
+    fetch(details.uuid);
+  }, [activeKey]);
+
+  useEffect(() => {
+    if (activeKey) {
+      history.push(`/projects/${params.projectId}/${activeKey}`);
+    }
+  }, [details]);
 
   const onChange = async (key) => {
     if (key !== 'add_tab') {
       await fetch(details.uuid);
       history.push(`/projects/${params.projectId}/${key}`);
-      setActiveKey(key);
+      onSetActiveKey(key);
     }
-  };
-  const add = async () => {
-    const index = details.experimentList.length + 1;
-    const newTabName = `${details.name}_${index}`;
-    const response = await projectsServices.createExperiment(
-      details.uuid,
-      newTabName
-    );
-    // if (response) {
-    // await fetch(details.uuid);
-    // history.push(
-    //   `/projects/${params.projectId}/${response.data.payload.uuid}`
-    // );
-    // setActiveKey(response.data.payload.uuid);
-    // }
   };
 
   const handleClick = (tabkey, event) => {
     if (tabkey === 'add_tab' && !!event) {
-      add();
+      const index = details.experimentList.length + 1;
+      const newTabName = `${details.name}_${index}`;
+      onAddExperiment(details.uuid, newTabName, history);
     }
   };
 
@@ -73,12 +84,17 @@ const ExperimentsTabs = ({ fetch, details, flowDetails, setFlowDetails }) => {
     </div>
   );
 };
-ExperimentsTabs.propTypes = {
-  details: PropTypes.shape({
-    experimentList: PropTypes.array,
-    name: PropTypes.string,
-    uuid: PropTypes.string,
-  }).isRequired,
+
+const mapStateToProps = (state) => {
+  return {
+    activeKey: state.experimentsTabs.activeKey,
+  };
 };
 
-export default ExperimentsTabs;
+const dispatchToProps = (dispatch) => ({
+  onSetActiveKey: (key) => dispatch(setActiveKey(key)),
+  onAddExperiment: (projectId, experimentId, name, history) =>
+    dispatch(addExperiment(projectId, experimentId, name, history)),
+});
+
+export default connect(mapStateToProps, dispatchToProps)(ExperimentsTabs);
