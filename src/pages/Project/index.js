@@ -15,14 +15,15 @@ import ExperimentsTabs from '../../components/ExperimentsTabs';
 import LeftSideMenu from '../../components/Project/LeftSideMenu';
 import {
   getProject,
+  resetProject,
   updateProjectName,
 } from '../../store/actions/projectActions';
 
 const { Content } = Layout;
 
 const Project = (props) => {
-  const { uuid, name, experimentsList, loading, match } = props;
-  const { onGetProject, onUpdateProjectName } = props;
+  const { uuid, name, loading, match } = props;
+  const { onGetProject, onResetProject, onUpdateProjectName } = props;
   const history = useHistory();
 
   // Handle click on back button
@@ -38,12 +39,10 @@ const Project = (props) => {
   // Fetch details on component did mount
   useEffect(() => {
     fetchDetails();
+    return () => {
+      onResetProject();
+    };
   }, []);
-
-  // // Fetch details on flow detail change
-  // useEffect(() => {
-  //   fetchDetails();
-  // }, [flowDetail]);
 
   // Funtion to get the error page
   const getErrorPage = () => {
@@ -65,11 +64,7 @@ const Project = (props) => {
       <Layout className='experiment-container'>
         <LeftSideMenu />
         <Content className='experiment-wraper'>
-          <ExperimentsTabs
-            fetch={fetchDetails}
-            details={{ uuid, name, experimentsList }}
-            flowDetails={{}}
-          />
+          <ExperimentsTabs fetch={fetchDetails} flowDetails={{}} />
         </Content>
       </Layout>
     </>
@@ -88,6 +83,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onGetProject: (id) => {
       dispatch(getProject(id));
+    },
+    onResetProject: () => {
+      dispatch(resetProject());
     },
     onUpdateProjectName: (editableDetails, name) => {
       return dispatch(updateProjectName(editableDetails, name));

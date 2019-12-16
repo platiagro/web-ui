@@ -7,7 +7,6 @@ import components from './componentsReducer';
 import project from './projectReducer';
 import drawer from './drawerReducer';
 import projects from './projectsReducer';
-import experimentsTabs from './experimentsTabsReducer';
 import experiment from './experimentReducer';
 
 export default combineReducers({
@@ -16,6 +15,5 @@ export default combineReducers({
   project,
   drawer,
   projects,
-  experimentsTabs,
   experiment,
 });

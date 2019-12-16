@@ -5,11 +5,23 @@ import { message } from 'antd';
 import * as pipelinesServices from '../../services/pipelinesApi';
 import * as projectsServices from '../../services/projectsApi';
 
+export const PROJECT_RESET = 'PROJECT_RESET';
 export const PROJECT_FETCH_DETAIL_STARTED = 'PROJECT_FETCH_DETAIL_STARTED';
 export const PROJECT_FETCH_DETAIL = 'PROJECT_FETCH_DETAIL';
 export const PROJECT_UPDATE_NAME = 'PROJECT_UPDATE_NAME';
 export const PROJECT_GET_PIPELINES = 'PROJECT_GET_PIPELINES';
 export const PROJECT_UPDATE_EXPERIMENT = 'PROJECT_UPDATE_EXPERIMENT';
+export const PROJECT_SET_ACTIVE_KEY = 'PROJECT_SET_ACTIVE_KEY';
+export const PROJECT_ADD_EXPERIMENT = 'PROJECT_ADD_EXPERIMENT';
+
+/**
+ * Function to dispatch action PROJECT_RESET
+ */
+export const resetProject = () => {
+  return {
+    type: PROJECT_RESET,
+  };
+};
 
 /**
  * Function to dispatch action PROJECT_FETCH_DETAIL_STARTED
@@ -112,6 +124,35 @@ export const getPipelines = (templateItems) => {
         return templateAux;
       });
     });
+  };
+};
+
+export const setActiveKey = (key) => {
+  return {
+    type: PROJECT_SET_ACTIVE_KEY,
+    activeKey: key,
+  };
+};
+
+const addExperimentDispatch = (newExperiment) => {
+  return {
+    type: PROJECT_ADD_EXPERIMENT,
+    newExperiment,
+  };
+};
+
+export const addExperiment = (projectId, name) => {
+  return (dispatch) => {
+    return projectsServices
+      .createExperiment(projectId, name)
+      .then((response) => {
+        if (response) {
+          dispatch(addExperimentDispatch(response.data.payload));
+        }
+      })
+      .catch((error) => {
+        throw error;
+      });
   };
 };
 
