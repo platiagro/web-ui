@@ -20,6 +20,8 @@ import pollingRun from './polling';
 import mountObjectRequest from './mountObjectRequest';
 import taskGetPhases from './util';
 
+import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
+
 import {
   updateExperimentName,
   setColumns,

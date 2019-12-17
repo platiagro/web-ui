@@ -4,9 +4,8 @@ import { Link, Route, MemoryRouter } from 'react-router-dom';
 
 import { shallow, mount } from 'enzyme';
 
-import MainHeader from '.';
-
 import { Menu } from 'antd';
+import MainHeader from '..';
 
 const routes = [
   { path: '/', title: 'Root', icon: 'home' },
@@ -18,9 +17,13 @@ describe('MainHeader component', () => {
     shallow(<MainHeader />);
   });
 
+  it('is expected render html correctly', () => {
+    const wrapper = shallow(<MainHeader />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it('is expected to contain a logo.', () => {
     const wrapper = shallow(<MainHeader />);
-
     expect(wrapper.find('.logo').exists()).toBeTruthy();
   });
 
@@ -30,19 +33,16 @@ describe('MainHeader component', () => {
         <MainHeader mainRoutes={routes} />
       </MemoryRouter>
     );
-
     expect(wrapper.children().prop('mainRoutes')).toBe(routes);
   });
 
   it('is expected to have a child Menu', () => {
     const wrapper = shallow(<MainHeader />);
-
     expect(wrapper.children(Menu).exists()).toBeTruthy();
   });
 
   it('mainRoutes property is expected to map into Menu.Item components, children of Menu', () => {
     const wrapper = shallow(<MainHeader mainRoutes={routes} />);
-
     expect(
       wrapper
         .children(Menu)
@@ -56,7 +56,6 @@ describe('MainHeader component', () => {
       'of the route object, element of the mainRoutes vector',
     () => {
       const wrapper = shallow(<MainHeader mainRoutes={routes} />);
-
       expect(
         wrapper
           .children(Menu)
@@ -67,13 +66,11 @@ describe('MainHeader component', () => {
   );
 
   it('Menu.Item component is expected to have a child Link', () => {
-    const routes = [
+    const testRoutes = [
       { path: '/', title: 'Root' },
       { path: '/projects', title: 'Projetos' },
     ];
-
-    const wrapper = shallow(<MainHeader mainRoutes={routes} />);
-
+    const wrapper = shallow(<MainHeader mainRoutes={testRoutes} />);
     expect(
       wrapper
         .children(Menu)
@@ -89,10 +86,9 @@ describe('MainHeader component', () => {
     () => {
       const wrapper = mount(
         <MemoryRouter>
-          <Route component={MainHeader} />} />
+          <Route component={MainHeader} />
         </MemoryRouter>
       );
-
       expect(wrapper.find(MainHeader).prop('location')).toBeDefined();
     }
   );
@@ -108,7 +104,6 @@ describe('MainHeader component', () => {
           />
         </MemoryRouter>
       );
-
       expect(wrapper.find(Menu).prop('selectedKeys')).toEqual([routes[0].path]);
     }
   );
@@ -130,11 +125,5 @@ describe('MainHeader component', () => {
     expect(wrapper.find(MainHeader).prop('location').pathname).toEqual(
       routes[1].path
     );
-  });
-
-  it('is expected render html correctly', () => {
-    const wrapper = shallow(<MainHeader />);
-
-    expect(wrapper).toMatchSnapshot();
   });
 });

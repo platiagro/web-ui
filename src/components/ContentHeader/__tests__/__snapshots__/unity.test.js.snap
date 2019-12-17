@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentHeader component is expected render html correctly 1`] = `
+<PageHeader
+  backIcon={
+    <Icon
+      type="arrow-left"
+    />
+  }
+  breadcrumb={
+    Object {
+      "routes": undefined,
+    }
+  }
+  className="contentHeader"
+/>
+`;
