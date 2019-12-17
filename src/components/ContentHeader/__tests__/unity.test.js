@@ -1,32 +1,32 @@
 import React from 'react';
-
-import { shallow, mount } from 'enzyme';
-
 import { PageHeader } from 'antd';
-
-import ContentHeader from '.';
+import { shallow, mount } from 'enzyme';
+import ContentHeader from '..';
 
 describe('ContentHeader component', () => {
   it('is expected render without crashing', () => {
     shallow(<ContentHeader />);
   });
 
+  it('is expected render html correctly', () => {
+    const wrapper = shallow(<ContentHeader />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it('is expected to be a PageHeader (antd)', () => {
     const wrapper = shallow(<ContentHeader />);
-
     expect(wrapper.is(PageHeader)).toBeTruthy();
   });
 
   it('is expected to render the title received by props', () => {
     const title = 'Title';
     const wrapper = shallow(<ContentHeader title={title} />);
-
     expect(wrapper.html()).toContain(title);
   });
 
   it(
     'The title is expected to receive an onTitleDoubleClick event if it' +
-    ' exists in the props',
+      ' exists in the props',
     () => {
       const title = 'Title';
       const handleTitleDoubleClick = jest.fn(() => true);
@@ -36,7 +36,6 @@ describe('ContentHeader component', () => {
           onTitleDoubleClick={handleTitleDoubleClick}
         />
       );
-
       expect(wrapper.prop('title').props.onDoubleClick).toBe(
         handleTitleDoubleClick
       );
@@ -64,7 +63,7 @@ describe('ContentHeader component', () => {
 
   it(
     'A double click on the title is expected to have no events if props' +
-    ' onTitleDoubleClick is not set',
+      ' onTitleDoubleClick is not set',
     () => {
       const title = 'Title';
       const wrapper = shallow(<ContentHeader title={title} />);
@@ -82,18 +81,16 @@ describe('ContentHeader component', () => {
 
   it('is not expected to render subtitle if not present in props', () => {
     const wrapper = shallow(<ContentHeader />);
-
     expect(wrapper.prop('subTitle')).toBeUndefined();
   });
 
   it(
     'The component is expected to render a "back" arrow with the function' +
-    ' contained in the onBack property, if any',
+      ' contained in the onBack property, if any',
     () => {
       const title = 'Title';
       const onBack = jest.fn(() => true);
       const wrapper = mount(<ContentHeader title={title} onBack={onBack} />);
-
       expect(wrapper.prop('onBack')).toBe(onBack);
       expect(wrapper.find('i').html()).toContain('arrow-left');
     }
@@ -101,15 +98,12 @@ describe('ContentHeader component', () => {
 
   it(
     'is expected that when clicking on the component\'s "back" arrow the' +
-    'function contained in the onBack property will be called',
+      'function contained in the onBack property will be called',
     () => {
       const title = 'Title';
       const onBack = jest.fn(() => true);
-
       const wrapper = mount(<ContentHeader title={title} onBack={onBack} />);
-
       wrapper.find('i').simulate('click');
-
       expect(onBack).toHaveBeenCalled();
     }
   );
@@ -117,13 +111,12 @@ describe('ContentHeader component', () => {
   it('is not expected to render back arrow when no onBack props', () => {
     const title = 'Title';
     const wrapper = mount(<ContentHeader title={title} />);
-
     expect(wrapper.find('i').exists()).not.toBeTruthy();
   });
 
   it(
     'is expected to render breadcrumbs contained in the breadcrumbs property' +
-    ' when there is one',
+      ' when there is one',
     () => {
       const breadcrumbs = [
         {
@@ -143,7 +136,6 @@ describe('ContentHeader component', () => {
       const wrapper = mount(
         <ContentHeader title={title} breadcrumbs={breadcrumbs} />
       );
-
       expect(wrapper.html()).toContain(breadcrumbs[0].breadcrumbName);
     }
   );

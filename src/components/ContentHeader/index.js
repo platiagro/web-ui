@@ -1,10 +1,7 @@
-import React from 'react';
-
-// import PropTypes from 'prop-types';
-
-import { PageHeader } from 'antd';
-
 import './style.scss';
+import React from 'react';
+import { PageHeader } from 'antd';
+// import PropTypes from 'prop-types';
 
 const ContentHeader = ({
   title,
