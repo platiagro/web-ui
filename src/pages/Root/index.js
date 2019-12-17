@@ -1,20 +1,16 @@
-
 /**
  * Component responsible for:
  * - Structuring the root page layout
  */
-import React from 'react';
 import './style.scss';
-
-import { Layout, Row, Col } from 'antd';
+import React from 'react';
 import { connect } from 'react-redux';
-
+import { Layout, Row, Col } from 'antd';
 import NewProjectModal from '../../components/Project/NewProjectModal';
 import logoBody from '../../assets/logo-colorido.svg';
 import ic_projeto from '../../assets/ic_projeto.svg';
 import ic_avaliacao from '../../assets/ic_avaliacao.svg';
 import ic_programacao from '../../assets/ic_programacao.svg';
-
 import { toggleModal } from '../../store/actions/projectsActions';
 
 const { Content } = Layout;

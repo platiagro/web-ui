@@ -14,15 +14,16 @@ import EditableTitle from '../../components/EditableTitle';
 import ExperimentsTabs from '../../components/ExperimentsTabs';
 import LeftSideMenu from '../../components/Project/LeftSideMenu';
 import {
-  getProjectDetail,
+  getProject,
+  resetProject,
   updateProjectName,
 } from '../../store/actions/projectActions';
 
 const { Content } = Layout;
 
 const Project = (props) => {
-  const { details, flowDetail, loading, match } = props;
-  const { onGetProjectDetaill, onUpdateProjectName } = props;
+  const { uuid, name, loading, match } = props;
+  const { onGetProject, onResetProject, onUpdateProjectName } = props;
   const history = useHistory();
 
   // Handle click on back button
@@ -30,43 +31,35 @@ const Project = (props) => {
     history.push('/projects');
   };
 
-  // Funtion to fetch project detail
-  const fetchDetails = () => {
-    onGetProjectDetaill(match.params.projectId);
-  };
-
   // Fetch details on component did mount
   useEffect(() => {
-    fetchDetails();
+    onGetProject(match.params.projectId);
+    return () => {
+      onResetProject();
+    };
   }, []);
-
-  // Fetch details on flow detail change
-  useEffect(() => {
-    fetchDetails();
-  }, [flowDetail]);
 
   // Funtion to get the error page
   const getErrorPage = () => {
     return loading ? <Spin /> : <E404 />;
   };
 
-  return details.uuid ? (
+  return uuid ? (
     <>
       <ContentHeader
         title={
-          <EditableTitle details={details} onUpdate={onUpdateProjectName} />
+          <EditableTitle
+            details={{ uuid, name }}
+            onUpdate={onUpdateProjectName}
+          />
         }
-        subTitle={details.uuid}
+        subTitle={uuid}
         onBack={handleClick}
       />
       <Layout className='experiment-container'>
         <LeftSideMenu />
         <Content className='experiment-wraper'>
-          <ExperimentsTabs
-            fetch={fetchDetails}
-            details={details}
-            flowDetails={flowDetail}
-          />
+          <ExperimentsTabs />
         </Content>
       </Layout>
     </>
@@ -83,8 +76,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetProjectDetaill: (id) => {
-      dispatch(getProjectDetail(id));
+    onGetProject: (id) => {
+      dispatch(getProject(id));
+    },
+    onResetProject: () => {
+      dispatch(resetProject());
     },
     onUpdateProjectName: (editableDetails, name) => {
       return dispatch(updateProjectName(editableDetails, name));

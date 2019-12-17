@@ -21,7 +21,6 @@ export const getAllProjects = async () => {
 export const getProject = async (id) => {
   try {
     const response = await projectsApi.get(`/projects/${id}`);
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -34,7 +33,6 @@ export const createProject = async (projectName) => {
       name: projectName,
     };
     const response = await projectsApi.post(`/projects/`, body);
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -47,7 +45,6 @@ export const updateProject = async (id, projectName) => {
       name: projectName,
     };
     const response = await projectsApi.patch(`/projects/${id}`, body);
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -57,7 +54,17 @@ export const updateProject = async (id, projectName) => {
 export const getExperimentList = async (id) => {
   try {
     const response = await projectsApi.get(`/projects/${id}/experiments`);
+    return response;
+  } catch (error) {
+    message.error(error.message);
+  }
+};
 
+export const getExperiment = async (projectId, experimentId) => {
+  try {
+    const response = await projectsApi.get(
+      `/projects/${projectId}/experiments/${experimentId}`
+    );
     return response;
   } catch (error) {
     message.error(error.message);
@@ -73,7 +80,6 @@ export const createExperiment = async (id, experimentName) => {
       `/projects/${id}/experiments/`,
       body
     );
-
     return response;
   } catch (error) {
     message.error(error.message);
@@ -86,10 +92,8 @@ export const updateExperiment = async (projectId, experimentId, body) => {
       `/projects/${projectId}/experiments/${experimentId}`,
       body
     );
-
     return response;
   } catch (error) {
-    console.error(error.message);
     if (error.response) message.error(error.response.data.message);
   }
 };

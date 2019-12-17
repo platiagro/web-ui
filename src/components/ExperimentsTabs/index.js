@@ -1,51 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './style.scss';
 import { Tabs } from 'antd';
-
+import { connect } from 'react-redux';
 import DraggableTabs from '../DraggableTabs';
 import ExperimentContent from '../ExperimentContent';
-import * as projectsServices from '../../services/projectsApi';
+import { addExperiment } from '../../store/actions/projectActions';
+import { getExperiment } from '../../store/actions/experimentActions';
 
 const { TabPane } = Tabs;
-const ExperimentsTabs = ({ fetch, details, flowDetails, setFlowDetails }) => {
-  const [activeKey, setActiveKey] = useState(null);
+
+const ExperimentsTabs = (props) => {
+  const { uuid, name, experimentsList, activeKey } = props;
+  const { onGetExperiment, onAddExperiment } = props;
+
   const history = useHistory();
   const params = useParams();
+
   useEffect(() => {
-    setActiveKey(
-      details.experimentList.length > 0 ? params.experimentId : null
-    );
-  }, []);
+    if (activeKey) {
+      history.push(`/projects/${params.projectId}/${activeKey}`);
+    }
+  }, [experimentsList]);
 
   const onChange = async (key) => {
     if (key !== 'add_tab') {
-      await fetch(details.uuid);
       history.push(`/projects/${params.projectId}/${key}`);
-      setActiveKey(key);
+      onGetExperiment(params.project, key);
     }
-  };
-  const add = async () => {
-    const index = details.experimentList.length + 1;
-    const newTabName = `${details.name}_${index}`;
-    const response = await projectsServices.createExperiment(
-      details.uuid,
-      newTabName
-    );
-    // if (response) {
-    // await fetch(details.uuid);
-    // history.push(
-    //   `/projects/${params.projectId}/${response.data.payload.uuid}`
-    // );
-    // setActiveKey(response.data.payload.uuid);
-    // }
   };
 
   const handleClick = (tabkey, event) => {
     if (tabkey === 'add_tab' && !!event) {
-      add();
+      const index = experimentsList.length + 1;
+      const newTabName = `${name}_${index}`;
+      onAddExperiment(uuid, newTabName, history);
     }
   };
 
@@ -58,27 +48,32 @@ const ExperimentsTabs = ({ fetch, details, flowDetails, setFlowDetails }) => {
         type='editable-card'
         onTabClick={handleClick}
       >
-        {details.experimentList.map((pane, index) => (
+        {experimentsList.map((pane) => (
           <TabPane tab={pane.name} closable={false} key={pane.uuid}>
-            <ExperimentContent
-              details={details.experimentList[index]}
-              flowDetails={flowDetails}
-              fetch={fetch}
-              setFlowDetails={setFlowDetails}
-              projectName={details.name}
-            />
+            <ExperimentContent />
           </TabPane>
         ))}
       </DraggableTabs>
     </div>
   );
 };
-ExperimentsTabs.propTypes = {
-  details: PropTypes.shape({
-    experimentList: PropTypes.array,
-    name: PropTypes.string,
-    uuid: PropTypes.string,
-  }).isRequired,
+
+const mapStateToProps = (state) => {
+  return {
+    ...state.project,
+    activeKey: state.experiment.uuid,
+  };
 };
 
-export default ExperimentsTabs;
+const dispatchToProps = (dispatch) => ({
+  onGetExperiment: (projectId, experimentId) => {
+    dispatch(getExperiment(projectId, experimentId));
+  },
+  onAddExperiment: (projectId, experimentId, name, history) =>
+    dispatch(addExperiment(projectId, experimentId, name, history)),
+});
+
+export default connect(
+  mapStateToProps,
+  dispatchToProps
+)(ExperimentsTabs);

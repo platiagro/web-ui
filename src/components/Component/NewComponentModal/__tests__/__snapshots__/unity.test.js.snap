@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewComponentModal component is expected render html correctly 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(Form(NewComponentModal))>
+    <Form(NewComponentModal)
+      modalIsVisible={false}
+      onAddComponent={[Function]}
+      onToggleModal={[Function]}
+    >
+      <NewComponentModal
+        form={
+          Object {
+            "getFieldDecorator": [Function],
+            "getFieldError": [Function],
+            "getFieldInstance": [Function],
+            "getFieldProps": [Function],
+            "getFieldValue": [Function],
+            "getFieldsError": [Function],
+            "getFieldsValue": [Function],
+            "isFieldTouched": [Function],
+            "isFieldValidating": [Function],
+            "isFieldsTouched": [Function],
+            "isFieldsValidating": [Function],
+            "isSubmitting": [Function],
+            "resetFields": [Function],
+            "setFields": [Function],
+            "setFieldsInitialValue": [Function],
+            "setFieldsValue": [Function],
+            "submit": [Function],
+            "validateFields": [Function],
+            "validateFieldsAndScroll": [Function],
+          }
+        }
+        modalIsVisible={false}
+        onAddComponent={[Function]}
+        onToggleModal={[Function]}
+      >
+        <Modal
+          cancelText="Cancelar"
+          confirmLoading={false}
+          maskTransitionName="fade"
+          okButtonProps={
+            Object {
+              "disabled": false,
+            }
+          }
+          okText="Criar"
+          okType="primary"
+          onCancel={[Function]}
+          onOk={[Function]}
+          title="Novo Componente"
+          transitionName="zoom"
+          visible={false}
+          width={520}
+        >
+          <Component
+            cancelText="Cancelar"
+            closeIcon={
+              <span
+                className="ant-modal-close-x"
+              >
+                <Icon
+                  className="ant-modal-close-icon"
+                  type="close"
+                />
+              </span>
+            }
+            confirmLoading={false}
+            footer={
+              <LocaleReceiver
+                componentName="Modal"
+                defaultLocale={
+                  Object {
+                    "cancelText": "Cancel",
+                    "justOkText": "OK",
+                    "okText": "OK",
+                  }
+                }
+              >
+                [Function]
+              </LocaleReceiver>
+            }
+            maskTransitionName="fade"
+            okButtonProps={
+              Object {
+                "disabled": false,
+              }
+            }
+            okText="Criar"
+            okType="primary"
+            onCancel={[Function]}
+            onClose={[Function]}
+            onOk={[Function]}
+            prefixCls="ant-modal"
+            title="Novo Componente"
+            transitionName="zoom"
+            visible={false}
+            width={520}
+            wrapClassName=""
+          >
+            <PortalWrapper
+              visible={false}
+            />
+          </Component>
+        </Modal>
+      </NewComponentModal>
+    </Form(NewComponentModal)>
+  </Connect(Form(NewComponentModal))>
+</Provider>
+`;

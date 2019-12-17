@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import './style.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import _ from 'lodash';
-import { Button, Divider, message, Icon, Typography } from 'antd';
+import { Button, Divider, Icon } from 'antd';
 import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../Drawer/MainDrawer';
+
 import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
 import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDrawerContent';
 import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
@@ -16,6 +16,7 @@ import AutoMLDrawerContent from '../AutoMLDrawerContent';
 import DataSetDrawer from '../Drawer/DataSetDrawer';
 import ResultsDrawer from '../Drawer/ResultsDrawer';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
+
 import { updateExperiment } from '../../services/projectsApi';
 import { getStatusRun } from '../../services/pipelinesApi';
 import {
@@ -29,62 +30,51 @@ import pollingRun from './polling';
 import mountObjectRequest from './mountObjectRequest';
 import taskGetPhases from './util';
 
+import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
+
 import {
+  updateExperimentName,
   setColumns,
   setRunStatus,
-  setParameters,
   setSelectedDrawer,
   setTaskStatus,
-  setGroup,
-  setPeriod,
-  setCutoffPre1,
-  setCorrelationPre1,
-  setCutoffPre2,
-  setCorrelationPre2,
-  setFilter,
-  setAutoML,
   setCsv,
   setTxt,
   setTarget,
-  setTemplate,
   setDataset,
-} from '../../store/actions/projectActions';
+} from '../../store/actions/experimentActions';
 
 const ExperimentContent = (props) => {
   const {
+    uuid,
+    projectId,
+    targetColumnId,
     columns,
-    details,
-    experimentParameters,
-    fetch,
+    headerId,
+    datasetId,
+    runId,
+    template,
+    parameters,
     projectName,
     runStatus,
     selected,
     taskStatus,
+    details,
   } = props;
 
   const {
-    onShowDrawer,
-    onSelectDrawer,
+    onUpdateExperimentName,
     onSetColumns,
     onSetRunStatus,
-    onSetParameters,
     onSetSelectedDrawer,
     onSetTaskStatus,
-    onSetGroup,
-    onSetPeriod,
-    onSetCutoffPre1,
-    onSetCorrelationPre1,
-    onSetCutoffPre2,
-    onSetCorrelationPre2,
-    onSetFilter,
-    onSetAutoML,
     onSetCsv,
     onSetTxt,
     onSetTarget,
-    onSetTemplate,
     onSetDataset,
   } = props;
 
+  //daqui
   const params = useParams();
 
   const setUploadedColumns = (e) => {
@@ -238,7 +228,7 @@ const ExperimentContent = (props) => {
     onSelectDrawer(drawerContent);
     onShowDrawer();
   };
-
+  // até aqui
   // DidMount montagem das colunas
   useEffect(() => {
     let isSubscribed = true;
@@ -246,19 +236,19 @@ const ExperimentContent = (props) => {
     async function fetchColumns() {
       // You can await here
 
-      const responseHeader = await getHeader(details.headerId);
+      const responseHeader = await getHeader(headerId);
       if (responseHeader && isSubscribed)
         onSetTxt(responseHeader.data.payload.uuid);
 
-      const col = await getHeaderColumns(details.headerId);
+      const col = await getHeaderColumns(headerId);
       if (col && isSubscribed) onSetColumns(col.data.payload);
 
-      const responseDataset = await getDataSet(details.datasetId);
+      const responseDataset = await getDataSet(datasetId);
       if (responseDataset && isSubscribed)
         onSetCsv(responseDataset.data.payload.uuid);
 
-      if (details.runId) {
-        const runRes = await getStatusRun(details.runId);
+      if (runId) {
+        const runRes = await getStatusRun(runId);
 
         if (runRes) {
           console.info('[STATUS]', runRes.data.run.status);
@@ -273,7 +263,7 @@ const ExperimentContent = (props) => {
               onSetTaskStatus(_.mapValues(taskStatus, () => 'Running'));
               pollingRun(
                 details,
-                details.runId,
+                runId,
                 taskStatus,
                 onSetTaskStatus,
                 onSetRunStatus
@@ -286,13 +276,9 @@ const ExperimentContent = (props) => {
 
             if (isSubscribed) {
               if (runRes.data.run.status === 'Succeeded') {
-                const resUpdate = await updateExperiment(
-                  details.projectId,
-                  details.uuid,
-                  {
-                    runStatus: 'Succeeded',
-                  }
-                );
+                const resUpdate = await updateExperiment(projectId, uuid, {
+                  runStatus: 'Succeeded',
+                });
                 console.info(resUpdate);
               }
 
@@ -304,17 +290,17 @@ const ExperimentContent = (props) => {
         }
       }
     }
-    if (details.headerId && isSubscribed) fetchColumns();
+    if (headerId && isSubscribed) fetchColumns();
 
-    if (details.targetColumnId && isSubscribed) {
-      if (details.targetColumnId.length > 5 && isSubscribed)
-        onSetTarget(details.targetColumnId);
+    if (targetColumnId && isSubscribed) {
+      if (targetColumnId.length > 5 && isSubscribed)
+        onSetTarget(targetColumnId);
       else if (isSubscribed) onSetTarget(undefined);
     }
 
-    if (details.datasetId) onSetDataset(details.datasetId);
+    if (datasetId) onSetDataset(datasetId);
 
-    if (!details.runId) {
+    if (!runId) {
       onSetRunStatus(null);
     }
 
@@ -330,8 +316,8 @@ const ExperimentContent = (props) => {
 
   // Fechar Drawer
   const handleClose = async () => {
-    const res = await updateExperiment(details.projectId, details.uuid, {
-      parameters: JSON.stringify(experimentParameters),
+    const res = await updateExperiment(projectId, uuid, {
+      parameters: JSON.stringify(parameters),
     });
 
     if (res) onSetSelectedDrawer(_.mapValues(selected, () => false));
@@ -342,9 +328,9 @@ const ExperimentContent = (props) => {
       atributos_tempo: { period },
       automl: { time },
       conjunto_dados: { target, datasetId, csvName },
-    } = experimentParameters;
+    } = parameters;
 
-    switch (details.template) {
+    switch (template) {
       case 'AutoML':
         return Boolean(
           _.isNull(time) ||
@@ -405,7 +391,7 @@ const ExperimentContent = (props) => {
           mountObjectRequest(
             columns,
             details,
-            experimentParameters,
+            parameters,
             onSetRunStatus,
             taskStatus,
             onSetTaskStatus
@@ -413,7 +399,7 @@ const ExperimentContent = (props) => {
         }}
         disabled={
           runStatus === 'Running' ||
-          (runStatus === 'Loading' && details.runId) ||
+          (runStatus === 'Loading' && runId) ||
           runStatus === 'StartRun' ||
           enableRun()
         }
@@ -423,7 +409,7 @@ const ExperimentContent = (props) => {
     );
 
   const deployButton = () =>
-    details.runStatus === 'Deployed' ? (
+    runStatus === 'Deployed' ? (
       <div>
         <Icon
           style={{ fontSize: '18px', color: '#389E0D', marginRight: '8px' }}
@@ -438,103 +424,51 @@ const ExperimentContent = (props) => {
         type='primary'
         disabled={runStatus !== 'Succeeded'}
         onClick={() => {
-          deployRequest(columns, details, experimentParameters, projectName);
+          deployRequest(columns, details, parameters, projectName);
         }}
       >
         Implantar
       </Button>
     );
 
-  const updateExperimenttName = async (
-    editableDetails,
-    newName,
-    resultCallback
-  ) => {
-    const { uuid, projectId } = editableDetails;
-    const response = await updateExperiment(projectId, uuid, { name: newName });
-    if (response) {
-      fetch();
-    } else {
-      resultCallback(false);
-    }
-  };
-
   return (
     <div className='experiment-content'>
       <div className='experiment-content-header'>
-        <EditableTitle details={details} onUpdate={updateExperimenttName} />
+        <EditableTitle details={details} onUpdate={onUpdateExperimentName} />
 
         <div className='experiment-actions'>
-          {details.runStatus !== 'Deployed' && executeButton()}
-          {details.runStatus !== 'Deployed' && <Divider type='vertical' />}
+          {runStatus !== 'Deployed' && executeButton()}
+          {runStatus !== 'Deployed' && <Divider type='vertical' />}
           {deployButton()}
         </div>
       </div>
       <MainDrawer onClose={handleClose} isFinished={runStatus} />
-      <ExperimentFlow
-        selected={selected}
-        parameters={experimentParameters}
-        columns={columns}
-        handleClick={handleClick}
-        details={details}
-        taskStatus={taskStatus}
-        runStatus={runStatus}
-      />
+      <ExperimentFlow />
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {
-    columns: state.project.columns,
-    runStatus: state.project.runStatus,
-    experimentParameters: state.project.experimentParameters,
-    selected: state.project.selected,
-    taskStatus: state.project.taskStatus,
-  };
+  return { ...state.experiment, details: state.experiment };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onShowDrawer: () => dispatch(showDrawer()),
   onSelectDrawer: (drawerContent) => dispatch(selectDrawer(drawerContent)),
+  onUpdateExperimentName: (editableDetails, name) => {
+    return dispatch(updateExperimentName(editableDetails, name));
+  },
   onSetColumns: (columns) => {
     dispatch(setColumns(columns));
   },
   onSetRunStatus: (status) => {
     dispatch(setRunStatus(status));
   },
-  onSetParameters: (parameters) => {
-    dispatch(setParameters(parameters));
-  },
   onSetSelectedDrawer: (selectedDrawer) => {
     dispatch(setSelectedDrawer(selectedDrawer));
   },
   onSetTaskStatus: (taskStatus) => {
     dispatch(setTaskStatus(taskStatus));
-  },
-  onSetGroup: (group) => {
-    dispatch(setGroup(group));
-  },
-  onSetPeriod: (period) => {
-    dispatch(setPeriod(period));
-  },
-  onSetCutoffPre1: (cutOffPre1) => {
-    dispatch(setCutoffPre1(cutOffPre1));
-  },
-  onSetCorrelationPre1: (correlationPre1) => {
-    dispatch(setCorrelationPre1(correlationPre1));
-  },
-  onSetCutoffPre2: (cutOffPre2) => {
-    dispatch(setCutoffPre2(cutOffPre2));
-  },
-  onSetCorrelationPre2: (correlationPre2) => {
-    dispatch(setCorrelationPre2(correlationPre2));
-  },
-  onSetFilter: (filter) => {
-    dispatch(setFilter(filter));
-  },
-  onSetAutoML: (automl) => {
-    dispatch(setAutoML(automl));
   },
   onSetCsv: (csv) => {
     dispatch(setCsv(csv));
@@ -544,9 +478,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onSetTarget: (target) => {
     dispatch(setTarget(target));
-  },
-  onSetTemplate: (template) => {
-    dispatch(setTemplate(template));
   },
   onSetDataset: (dataset) => {
     dispatch(setDataset(dataset));
