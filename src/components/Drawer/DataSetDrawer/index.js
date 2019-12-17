@@ -7,25 +7,26 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import { Upload, Button, Icon, Divider, Select, Spin, message } from 'antd';
 
+import { connect } from 'react-redux';
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
-import { updateExperiment } from '../../services/projectsApi';
+import { updateExperiment } from '../../../services/projectsApi';
 import {
   uploadDataSet,
   getHeaderColumns,
   updateColumn,
-} from '../../services/dataSetApi';
+} from '../../../services/dataSetApi';
 
 import ResultsDrawer from '../ResultsDrawer';
 import ResultsButtonBar from '../ResultsButtonBar';
 
-import { findTarget } from '../../utils';
+import { findTarget } from '../../../utils';
 
-import col from '../ExperimentContent/mock_col';
+import { uploadDataset } from '../../../store/actions/drawerActions';
 
 const { Option } = Select;
 
-const DataSetDrawerContent = ({
+const DataSetDrawer = ({
   setCSV,
   setTXT,
   setColumns,
@@ -36,10 +37,14 @@ const DataSetDrawerContent = ({
   parameter,
   runStatus,
   taskStatus,
+  handleUploadDataset,
+  dataset,
+  loading,
 }) => {
-  const [uploading, setUploading] = useState(false);
+  // hooks to handle files
   const [dataSetFileList, setDataSetFileList] = useState([]);
   const [dataSetHeaderFileList, setDataSetHeaderFileList] = useState([]);
+
   // resultados
   const [results, setResults] = useState(
     (runStatus === 'Failed' || runStatus === 'Succeeded') &&
@@ -50,8 +55,6 @@ const DataSetDrawerContent = ({
   // Handle upload csv e txt
   const handleUpload = async () => {
     const formData = new FormData();
-    let response = null;
-    let headerColumns;
 
     formData.append(
       'dataset',
@@ -69,39 +72,39 @@ const DataSetDrawerContent = ({
 
     formData.append('experimentId', details.uuid);
 
-    setUploading(true);
-    response = await uploadDataSet(formData);
-    // Depois da resposta preencher os estados
-    if (response) {
-      headerColumns = await getHeaderColumns(response.data.payload.header.uuid);
+    handleUploadDataset(formData);
+    //   // Depois da resposta preencher os estados
+    //   if (response) {
+    //     headerColumns = await getHeaderColumns(response.data.payload.header.uuid);
 
-      await updateExperiment(details.projectId, details.uuid, {
-        datasetId: response.data.payload.dataset.uuid,
-        headerId: response.data.payload.header.uuid,
-        targetColumnId: null,
-        runId: null,
-      });
-      setTXT(response.data.payload.header.uuid);
-      setCSV(response.data.payload.dataset.uuid);
+    //     await updateExperiment(details.projectId, details.uuid, {
+    //       datasetId: response.data.payload.dataset.uuid,
+    //       headerId: response.data.payload.header.uuid,
+    //       targetColumnId: null,
+    //       runId: null,
+    //     });
 
-      setColumns(headerColumns.data.payload);
-      setDataset(response.data.payload.dataset.uuid);
-    } else {
-      setColumns([]);
-      setDataset(null);
-      setTXT(null);
-      setCSV(null);
-      await updateExperiment(details.projectId, details.uuid, {
-        datasetId: null,
-        headerId: null,
-        targetColumnId: null,
-        runId: null,
-      });
-    }
+    //     setTXT(response.data.payload.header.uuid);
+    //     setCSV(response.data.payload.dataset.uuid);
+
+    //     setColumns(headerColumns.data.payload);
+    //     setDataset(response.data.payload.dataset.uuid);
+
+    //   } else {
+    //     setColumns([]);
+    //     setDataset(null);
+    //     setTXT(null);
+    //     setCSV(null);
+    //     await updateExperiment(details.projectId, details.uuid, {
+    //       datasetId: null,
+    //       headerId: null,
+    //       targetColumnId: null,
+    //       runId: null,
+    //     });
+    //   }
     setDataSetHeaderFileList([]);
     setDataSetFileList([]);
     setTarget(undefined);
-    setUploading(false);
   };
 
   const handleTargetChange = async (targetId) => {
@@ -122,7 +125,7 @@ const DataSetDrawerContent = ({
   };
 
   const renderTable = () => {
-    if (uploading)
+    if (loading)
       return (
         <div>
           <Divider />
@@ -186,9 +189,9 @@ const DataSetDrawerContent = ({
     };
 
     return (
-      <Upload {...props} disabled={uploading} accept='.csv'>
-        <Button disabled={uploading}>
-          <Icon type={uploading ? 'loading' : 'upload'} />
+      <Upload {...props} disabled={loading} accept='.csv'>
+        <Button disabled={loading}>
+          <Icon type={loading ? 'loading' : 'upload'} />
           Selecionar
         </Button>
       </Upload>
@@ -218,16 +221,14 @@ const DataSetDrawerContent = ({
     };
 
     return (
-      <Upload {...props} disabled={uploading} accept='.txt'>
-        <Button disabled={!(dataSetFileList.length > 0) || uploading}>
-          <Icon type={uploading ? 'loading' : 'upload'} />
+      <Upload {...props} disabled={loading} accept='.txt'>
+        <Button disabled={!(dataSetFileList.length > 0) || loading}>
+          <Icon type={loading ? 'loading' : 'upload'} />
           Selecionar cabeçalho
         </Button>
       </Upload>
     );
   };
-
-  console.log(runStatus, taskStatus);
 
   return (
     <div>
@@ -248,7 +249,7 @@ const DataSetDrawerContent = ({
 
           <Button
             onClick={handleUpload}
-            loading={uploading}
+            loading={loading}
             disabled={!dataSetFileList.length > 0}
           >
             Importar
@@ -273,4 +274,16 @@ const DataSetDrawerContent = ({
   );
 };
 
-export default DataSetDrawerContent;
+const mapStateToProps = ({ drawer: { dataset, loading } }) => ({
+  dataset,
+  loading,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleUploadDataset: (form) => dispatch(uploadDataset(form)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DataSetDrawer);

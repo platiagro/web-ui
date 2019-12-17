@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { InputNumber } from 'antd';
 
-import ResultsDrawer from '../ResultsDrawer';
-import ResultsButtonBar from '../ResultsButtonBar';
+import ResultsDrawer from '../Drawer/ResultsDrawer';
+import ResultsButtonBar from '../Drawer/ResultsButtonBar';
 
 const AutoMLDrawerContent = ({
   parameter,

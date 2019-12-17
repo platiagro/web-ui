@@ -13,8 +13,8 @@ import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDr
 import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
 import AutoMLDrawerContent from '../AutoMLDrawerContent';
-import DataSetDrawerContent from '../DataSetDrawerContent';
-import ResultsDrawer from '../ResultsDrawer';
+import DataSetDrawer from '../Drawer/DataSetDrawer';
+import ResultsDrawer from '../Drawer/ResultsDrawer';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 import { updateExperiment } from '../../services/projectsApi';
 import { getStatusRun } from '../../services/pipelinesApi';
@@ -122,7 +122,7 @@ const ExperimentContent = (props) => {
     switch (task) {
       case 'conjunto_dados':
         return (
-          <DataSetDrawerContent
+          <DataSetDrawer
             parameter={experimentParameters.conjunto_dados}
             setTarget={onSetTarget}
             columns={columns}

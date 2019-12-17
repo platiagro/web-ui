@@ -32,18 +32,20 @@ const MainDrawer = ({
 
 MainDrawer.propTypes = {
   /** children drawer */
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
   /** title of drawer */
   title: PropTypes.string.isRequired,
   /** on close handle function */
   onClose: PropTypes.func.isRequired,
   /** if drawer task is finished */
-  isFinished: PropTypes.oneOf(['Succeeded', 'Failed', null]),
+  isFinished: PropTypes.oneOf(['Succeeded', 'Failed', 'Loading', null]),
   /** drawer is visible */
   visible: PropTypes.bool.isRequired,
 };
 
 MainDrawer.defaultProps = {
+  /** children prop default is null */
+  children: null,
   /** is finished prop default is null */
   isFinished: null,
 };

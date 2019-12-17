@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import { Tag, Icon, Divider, Table, Spin } from 'antd';
 
-import NotebookEdit from '../Component/EditComponentNotebook';
+import NotebookEdit from '../../Component/EditComponentNotebook';
 
 import {
   getResultTable,
   getDatasetTable,
   getPlot,
-} from '../../services/resultsApi';
+} from '../../../services/resultsApi';
 
 const timeGroup = {
   none: 'Nenhum',

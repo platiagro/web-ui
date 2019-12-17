@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { InputNumber } from 'antd';
 
-import InfoHelper from '../InfoHelper';
-import ResultsDrawer from '../ResultsDrawer';
-import ResultsButtonBar from '../ResultsButtonBar';
+import InfoHelper from '../Drawer/InfoHelper';
+import ResultsDrawer from '../Drawer/ResultsDrawer';
+import ResultsButtonBar from '../Drawer/ResultsButtonBar';
 
 const infoHelperContent = (
   <div>
@@ -44,7 +44,7 @@ const AttributePreSelectionDrawerContent = ({
   // resultados
   const [results, setResults] = useState(
     (runStatus === 'Failed' || runStatus === 'Succeeded') &&
-    taskStatus === 'Succeeded'
+      taskStatus === 'Succeeded'
   );
   const [showResults, setShowResults] = useState(results);
   return (
@@ -103,14 +103,14 @@ const AttributePreSelectionDrawerContent = ({
           <InfoHelper width={300} content={infoHelperContent} />
         </div>
       ) : (
-          <ResultsDrawer
-            details={details}
-            attributesPreSelection={parameter}
-            preType={preType}
-            table
-            tableStatistics
-          />
-        )}
+        <ResultsDrawer
+          details={details}
+          attributesPreSelection={parameter}
+          preType={preType}
+          table
+          tableStatistics
+        />
+      )}
       {runStatus === 'Failed' && taskStatus === 'Succeeded' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}
