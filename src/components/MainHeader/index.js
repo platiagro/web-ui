@@ -6,20 +6,13 @@
 
   This component is also responsible for changing the main routes of the application according to menu clicks.
 */
-
+import './style.scss';
 import React from 'react';
-
 import PropTypes from 'prop-types';
-
 import { Link } from 'react-router-dom';
-
 import { Menu, Icon } from 'antd';
-
 import logo from '../../assets/logo-vazado.png';
 import logoDemo from '../../assets/logoDemo.png';
-
-import './style.scss';
-
 import getCurrentRoute from '../../utils';
 
 const MainHeader = ({ location, mainRoutes }) => (
