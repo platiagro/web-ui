@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImplantedFlowsTable component is expected render html correctly 1`] = `
+<withStore(Table)
+  columns={
+    Array [
+      Object {
+        "dataIndex": "flowName",
+        "key": "flowName",
+        "title": "Nome",
+      },
+      Object {
+        "dataIndex": "url",
+        "key": "url",
+        "render": [Function],
+        "title": "URL",
+      },
+      Object {
+        "dataIndex": "created",
+        "key": "created",
+        "title": "Data de Criação",
+      },
+      Object {
+        "dataIndex": "action",
+        "key": "action",
+        "render": [Function],
+        "title": "Ação",
+      },
+    ]
+  }
+  dataSource={
+    Array [
+      Object {
+        "action": "action",
+        "created": "created",
+        "flowName": "flowName",
+        "key": "key",
+        "url": "url",
+      },
+    ]
+  }
+  pagination={
+    Object {
+      "pageSize": 9,
+    }
+  }
+/>
+`;

@@ -24,6 +24,10 @@ const ExperimentsTabs = (props) => {
     }
   }, [experimentsList]);
 
+  /**
+   * Handle tabs swapping
+   * @param {String} key
+   */
   const onChange = async (key) => {
     if (key !== 'add_tab') {
       history.push(`/projects/${params.projectId}/${key}`);
@@ -31,6 +35,11 @@ const ExperimentsTabs = (props) => {
     }
   };
 
+  /**
+   * Deals with creating a new project experiment
+   * @param {String} tabkey Tab key from antd component
+   * @param {Object} event
+   */
   const handleClick = (tabkey, event) => {
     if (tabkey === 'add_tab' && !!event) {
       const index = experimentsList.length + 1;
@@ -58,6 +67,10 @@ const ExperimentsTabs = (props) => {
   );
 };
 
+/**
+ * Selecting data (state) from Store and connecting co component needs
+ * @param {Object} state
+ */
 const mapStateToProps = (state) => {
   return {
     ...state.project,
@@ -65,6 +78,10 @@ const mapStateToProps = (state) => {
   };
 };
 
+/**
+ * Dispathing actions to the Store
+ * @param {Object} dispatch References component actions
+ */
 const dispatchToProps = (dispatch) => ({
   onGetExperiment: (projectId, experimentId) => {
     dispatch(getExperiment(projectId, experimentId));
