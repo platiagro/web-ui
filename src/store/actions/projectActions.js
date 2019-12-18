@@ -127,6 +127,10 @@ export const getPipelines = (templateItems) => {
   };
 };
 
+/**
+ * Funtion to set ActiveKey and dispatch PROJECT_SET_ACTIVE_KEY action to Reducer
+ * @param {Object} key
+ */
 export const setActiveKey = (key) => {
   return {
     type: PROJECT_SET_ACTIVE_KEY,
@@ -134,6 +138,10 @@ export const setActiveKey = (key) => {
   };
 };
 
+/**
+ * Function to dispatch PROJECT_ADD_EXPERIMENT action to Reducer
+ * @param {Object} newExperiment
+ */
 const addExperimentDispatch = (newExperiment) => {
   return {
     type: PROJECT_ADD_EXPERIMENT,
@@ -141,6 +149,11 @@ const addExperimentDispatch = (newExperiment) => {
   };
 };
 
+/**
+ * Function to create a new project experiment
+ * @param {String} projectId
+ * @param {String} name
+ */
 export const addExperiment = (projectId, name) => {
   return (dispatch) => {
     return projectsServices
