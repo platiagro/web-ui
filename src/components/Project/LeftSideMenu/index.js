@@ -13,7 +13,7 @@ import items from './items';
 const { Sider } = Layout;
 const { Panel } = Collapse;
 
-const LeftSideMenu = (props) => {
+export const LeftSideMenu = (props) => {
   const { experimentsList, onGetPipelines, onUpdateExperiment } = props;
   const [menuItems, setItems] = useState(items);
   const params = useParams();
@@ -43,7 +43,6 @@ const LeftSideMenu = (props) => {
   };
 
   const handleFilter = (e) => {
-    // console.log(e.currentTarget.value);
     const v = e.currentTarget.value;
     if (!v) {
       setItems(items);
@@ -180,7 +179,8 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
+const LeftSideMenuConnected = connect(
   mapStateToProps,
   mapDispatchToProps
 )(LeftSideMenu);
+export default LeftSideMenuConnected;
