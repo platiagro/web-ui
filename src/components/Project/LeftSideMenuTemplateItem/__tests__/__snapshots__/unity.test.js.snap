@@ -2,7 +2,7 @@
 
 exports[`LeftSideMenuTemplateItem component is expected render html correctly 1`] = `
 <div
-  className="collapse-menu-items"
+  className="collapse-menu-items disabled disabled"
   onClick={[Function]}
   role="presentation"
 >
