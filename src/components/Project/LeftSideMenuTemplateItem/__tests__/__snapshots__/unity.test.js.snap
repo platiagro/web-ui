@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LeftSideMenuTemplateItem component is expected render html correctly 1`] = `
+<div
+  className="collapse-menu-items"
+  onClick={[Function]}
+  role="presentation"
+>
+  <Icon
+    className="icon-collapse-header"
+    type="more"
+  />
+</div>
+`;

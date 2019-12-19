@@ -2,7 +2,7 @@ import React from 'react';
 import PropType from 'prop-types';
 import { Icon } from 'antd';
 
-const Item = ({ title, disabled }) => (
+const LeftSideMenuItem = ({ title, disabled }) => (
   <div
     onClick={() => console.log('Cliclou no menu', title)}
     className={`collapse-menu-items${disabled ? ' disabled' : ''}`}
@@ -13,12 +13,12 @@ const Item = ({ title, disabled }) => (
   </div>
 );
 
-Item.defaultProps = {
+LeftSideMenuItem.defaultProps = {
   disabled: false,
 };
-Item.propTypes = {
+LeftSideMenuItem.propTypes = {
   disabled: PropType.bool,
   title: PropType.string.isRequired,
 };
 
-export default Item;
+export default LeftSideMenuItem;

@@ -2,7 +2,11 @@ import React from 'react';
 import PropType from 'prop-types';
 import { Icon } from 'antd';
 
-const TemplateItem = ({ handleClick, template, disabled = false }) => (
+const LeftSideMenuTemplateItem = ({
+  handleClick,
+  template,
+  disabled = false,
+}) => (
   <div
     onClick={() => {
       handleClick(template);
@@ -17,4 +21,4 @@ const TemplateItem = ({ handleClick, template, disabled = false }) => (
   </div>
 );
 
-export default TemplateItem;
+export default LeftSideMenuTemplateItem;
