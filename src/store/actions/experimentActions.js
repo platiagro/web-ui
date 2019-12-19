@@ -2,6 +2,13 @@
 /**
  * Actions for experiment details
  */
+
+import {
+  uploadDataset as uploadDatasetService,
+  getHeaderColumns,
+} from '../../services/dataSetApi';
+import { showLoader, hideLoader } from './drawerActions';
+
 import * as projectsServices from '../../services/projectsApi';
 
 import { getProject } from './projectActions';
@@ -13,7 +20,6 @@ export const EXPERIMENT_UPDATE_NAME = 'EXPERIMENT_UPDATE_NAME';
 
 export const EXPERIMENT_SET_COLUMNS = 'EXPERIMENT_SET_COLUMNS';
 export const EXPERIMENT_SET_RUN_STATUS = 'EXPERIMENT_SET_RUN_STATUS';
-export const EXPERIMENT_SET_PARAMETERS = 'EXPERIMENT_SET_PARAMETERS';
 export const EXPERIMENT_SET_SELECTED_DRAWER = 'EXPERIMENT_SET_SELECTED_DRAWER';
 export const EXPERIMENT_SET_TASK_STATUS = 'EXPERIMENT_SET_TASK_STATUS';
 
@@ -27,11 +33,10 @@ export const EXPERIMENT_SET_CORRELATION_PRE_2 =
   'EXPERIMENT_SET_CORRELATION_PRE_2';
 export const EXPERIMENT_SET_FILTER = 'EXPERIMENT_SET_FILTER';
 export const EXPERIMENT_SET_AUTOML = 'EXPERIMENT_SET_AUTOML';
-export const EXPERIMENT_SET_CSV = 'EXPERIMENT_SET_CSV';
-export const EXPERIMENT_SET_TXT = 'EXPERIMENT_SET_TXT';
 export const EXPERIMENT_SET_TARGET = 'EXPERIMENT_SET_TARGET';
 export const EXPERIMENT_SET_TEMPLATE = 'EXPERIMENT_SET_TEMPLATE';
-export const EXPERIMENT_SET_DATASET = 'EXPERIMENT_SET_DATASET';
+
+export const EXPERIMENT_UPLOAD_DATASET = 'EXPERIMENT_UPLOAD_DATASET';
 
 /**
  * Function to dispatch action EXPERIMENT_FETCH
@@ -129,13 +134,6 @@ export const setRunStatus = (status) => {
   };
 };
 
-export const setParameters = (parameters) => {
-  return {
-    type: EXPERIMENT_SET_PARAMETERS,
-    parameters,
-  };
-};
-
 export const setSelectedDrawer = (selected) => {
   return {
     type: EXPERIMENT_SET_SELECTED_DRAWER,
@@ -206,20 +204,6 @@ export const setAutoML = (automl) => {
   };
 };
 
-export const setCsv = (csv) => {
-  return {
-    type: EXPERIMENT_SET_CSV,
-    csv,
-  };
-};
-
-export const setTxt = (txt) => {
-  return {
-    type: EXPERIMENT_SET_TXT,
-    txt,
-  };
-};
-
 export const setTarget = (target) => {
   return {
     type: EXPERIMENT_SET_TARGET,
@@ -234,9 +218,52 @@ export const setTemplate = (template) => {
   };
 };
 
-export const setDataset = (dataset) => {
-  return {
-    type: EXPERIMENT_SET_DATASET,
-    dataset,
+/**
+ * Dispatch to upload dataset success
+ */
+export const uploadDatasetSuccess = (experiment) => ({
+  type: EXPERIMENT_UPLOAD_DATASET,
+  experiment,
+});
+
+/**
+ * Async action to upload dataset
+ */
+export const uploadDataset = (projectId, form) => {
+  const experimentId = form.get('experimentId');
+
+  return (dispatch) => {
+    dispatch(showLoader());
+
+    return uploadDatasetService(form)
+      .then((responseDataset) => {
+        const {
+          dataset: { uuid: datasetId, originalName: csvName },
+          header: { uuid: headerId, originalName: txtName },
+        } = responseDataset.data.payload;
+
+        projectsServices
+          .updateExperiment(projectId, experimentId, {
+            datasetId,
+            headerId,
+            targetColumnId: null,
+            runId: null,
+          })
+          .then(() => {
+            getHeaderColumns(headerId).then((responseColumns) => {
+              const { payload: columns } = responseColumns.data;
+
+              const experiment = {
+                datasetId,
+                headerId,
+                parameters: { conjunto_dados: { datasetId, txtName, csvName } },
+                columns,
+              };
+
+              dispatch(uploadDatasetSuccess(experiment));
+            });
+          });
+      })
+      .finally(() => dispatch(hideLoader()));
   };
 };

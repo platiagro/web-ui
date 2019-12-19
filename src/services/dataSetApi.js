@@ -52,7 +52,7 @@ export const updateColumn = async (headerId, columnId, newType) => {
   }
 };
 
-export const uploadDataSet = async (form) => {
+export const uploadDataset = async (form) => {
   try {
     const response = await dataSetApi.post(`/datasets`, form);
     message.success('Importação concluída.');

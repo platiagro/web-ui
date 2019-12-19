@@ -2,12 +2,11 @@
  * Reducer for Drawer
  */
 import {
-  SHOW_DRAWER,
-  HIDE_DRAWER,
-  SELECT_DRAWER,
-  START_LOADING,
-  END_LOADING,
-  UPLOAD_DATASET,
+  DRAWER_SHOW_DRAWER,
+  DRAWER_HIDE_DRAWER,
+  DRAWER_SELECT_DRAWER,
+  DRAWER_START_LOADING,
+  DRAWER_END_LOADING,
 } from '../actions/drawerActions';
 
 // INITIAL STATE
@@ -17,27 +16,22 @@ const initialState = {
   title: '',
   children: null,
   loading: false,
-  // DATASET DRAWER
-  dataset: null,
 };
 
 // REDUCER
 export default function drawerReducer(state = initialState, action) {
   switch (action.type) {
     // MAIN DRAWER
-    case SHOW_DRAWER:
+    case DRAWER_SHOW_DRAWER:
       return { ...state, visible: action.visible };
-    case HIDE_DRAWER:
+    case DRAWER_HIDE_DRAWER:
       return { ...state, visible: action.visible };
-    case SELECT_DRAWER:
+    case DRAWER_SELECT_DRAWER:
       return { ...state, title: action.title, children: action.children };
-    case START_LOADING:
+    case DRAWER_START_LOADING:
       return { ...state, loading: action.loading };
-    case END_LOADING:
+    case DRAWER_END_LOADING:
       return { ...state, loading: action.loading };
-    // DATASET DRAWER
-    case UPLOAD_DATASET:
-      return { ...state, dataset: action.dataset };
     default:
       return state;
   }

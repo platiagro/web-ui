@@ -1,21 +1,16 @@
-import { uploadDataSet as uploadDatasetService } from '../../services/dataSetApi';
-
 /**
  * Actions for Drawer
  */
 
 // ACTION TYPES
 // MAIN DRAWER
-export const SHOW_DRAWER = 'SHOW_DRAWER';
-export const HIDE_DRAWER = 'HIDE_DRAWER';
-export const SELECT_DRAWER = 'SELECT_DRAWER';
-export const START_LOADING = 'START_LOADING';
-export const END_LOADING = 'END_LOADING';
+export const DRAWER_SHOW_DRAWER = 'DRAWER_SHOW_DRAWER';
+export const DRAWER_HIDE_DRAWER = 'DRAWER_HIDE_DRAWER';
+export const DRAWER_SELECT_DRAWER = 'DRAWER_SELECT_DRAWER';
+export const DRAWER_START_LOADING = 'DRAWER_START_LOADING';
+export const DRAWER_END_LOADING = 'DRAWER_END_LOADING';
 // export const SHOW_DRAWER_RESULT = 'SHOW_DRAWER_RESULT';
 // export const HIDE_DRAWER_RESULT = 'HIDE_DRAWER_RESULT';
-
-// DATASET DRAWER
-export const UPLOAD_DATASET = 'UPLOAD_DATASET';
 
 // DISPATCHS
 // MAIN DRAWER
@@ -23,7 +18,7 @@ export const UPLOAD_DATASET = 'UPLOAD_DATASET';
  * Dispatch to show drawer
  */
 export const showDrawer = () => ({
-  type: SHOW_DRAWER,
+  type: DRAWER_SHOW_DRAWER,
   visible: true,
 });
 
@@ -31,7 +26,7 @@ export const showDrawer = () => ({
  * Dispatch to hide drawer
  */
 export const hideDrawer = () => ({
-  type: HIDE_DRAWER,
+  type: DRAWER_HIDE_DRAWER,
   visible: false,
 });
 
@@ -40,7 +35,7 @@ export const hideDrawer = () => ({
  * @param {Object} drawerContent - drawer content object
  */
 export const selectDrawer = (drawerContent) => ({
-  type: SELECT_DRAWER,
+  type: DRAWER_SELECT_DRAWER,
   title: drawerContent.title,
   children: drawerContent.children,
 });
@@ -49,7 +44,7 @@ export const selectDrawer = (drawerContent) => ({
  * Dispatch to show loader (start loading)
  */
 export const showLoader = () => ({
-  type: START_LOADING,
+  type: DRAWER_START_LOADING,
   loading: true,
 });
 
@@ -57,30 +52,6 @@ export const showLoader = () => ({
  * Dispatch to hide loader (end loading)
  */
 export const hideLoader = () => ({
-  type: END_LOADING,
+  type: DRAWER_END_LOADING,
   loading: false,
 });
-
-// DATASET DRAWER
-/**
- * Dispatch to upload dataset success
- */
-export const uploadDatasetSuccess = (dataset) => ({
-  type: UPLOAD_DATASET,
-  dataset,
-});
-
-/**
- * Async action to upload dataset with loading
- */
-export const uploadDataset = (form) => {
-  return (dispatch) => {
-    dispatch(showLoader());
-
-    return uploadDatasetService(form)
-      .then((response) => {
-        dispatch(uploadDatasetSuccess(response.data));
-      })
-      .finally(() => dispatch(hideLoader()));
-  };
-};

@@ -9,7 +9,7 @@ import GenericAttributeCreationDrawerContent from '../GenericAttributeCreationDr
 import AttributeFilterDrawerContent from '../AttributeFilterDrawerContent';
 import AttributePreSelectionDrawerContent from '../AttributePreSelectionDrawerContent';
 import AutoMLDrawerContent from '../AutoMLDrawerContent';
-import DataSetDrawerContent from '../DataSetDrawerContent';
+import DataSetDrawerContent from '../Drawer/DataSetDrawer';
 import TimeAttributeCreationDrawerContent from '../TimeAttributeCreationDrawerContent';
 import CardTask from './CardTask';
 
@@ -25,10 +25,7 @@ import {
   setCorrelationPre2,
   setFilter,
   setAutoML,
-  setCsv,
-  setTxt,
   setTarget,
-  setDataset,
 } from '../../store/actions/experimentActions';
 
 const ExperimentFlow = (props) => {
@@ -94,12 +91,9 @@ const ExperimentFlow = (props) => {
           <DataSetDrawerContent
             parameter={parameters.conjunto_dados}
             setTarget={onSetTarget}
-            columns={columns}
+            // columns={columns}
             setColumns={onSetColumns}
-            setDataset={onSetDataset}
-            setCSV={onSetCsv}
-            setTXT={onSetTxt}
-            details={details}
+            // details={details}
             runStatus={runStatus}
             taskStatus={taskStatus.conjunto_dados}
           />
@@ -783,17 +777,8 @@ const mapDispatchToProps = (dispatch) => ({
   onSetAutoML: (automl) => {
     dispatch(setAutoML(automl));
   },
-  onSetCsv: (csv) => {
-    dispatch(setCsv(csv));
-  },
-  onSetTxt: (txt) => {
-    dispatch(setTxt(txt));
-  },
   onSetTarget: (target) => {
     dispatch(setTarget(target));
-  },
-  onSetDataset: (dataset) => {
-    dispatch(setDataset(dataset));
   },
 });
 

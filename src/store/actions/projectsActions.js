@@ -5,7 +5,7 @@ export const PROJECTS_FETCH = 'PROJECTS_FETCH';
 export const PROJECTS_FETCH_STARTED = 'PROJECTS_FETCH_STARTED';
 export const PROJECTS_TOGGLE_MODAL = 'PROJECTS_TOGGLE_MODAL';
 
-const dispatchAdd = () => {
+export const dispatchAdd = () => {
   return {
     type: PROJECTS_ADD,
   };
@@ -27,13 +27,13 @@ export const addProject = (name, history) => {
   };
 };
 
-const fetchStarted = () => {
+export const fetchStarted = () => {
   return {
     type: PROJECTS_FETCH_STARTED,
   };
 };
 
-const dispatchFetchProjects = (projects) => {
+export const dispatchFetchProjects = (projects) => {
   return {
     type: PROJECTS_FETCH,
     projects,

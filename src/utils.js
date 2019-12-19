@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const getCurrentRoute = (location, mainRoutes) => {
+export const getCurrentRoute = (location, mainRoutes) => {
   const pathWithoutParams = `/${location.pathname.split('/')[1]}`;
 
   // search for current path in mainRoutes

@@ -12,7 +12,7 @@ import { updateComponentFile } from '../../../store/actions/componentActions';
 
 const { Dragger } = Upload;
 
-const ComponentsUpload = (props) => {
+export const ComponentsUpload = (props) => {
   const { details, namespaces, onUpdateComponentFile } = props;
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const DraggerProps = {
@@ -111,7 +111,8 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
+const ComponentsUploadConnected = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ComponentsUpload);
+export default ComponentsUploadConnected;

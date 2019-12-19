@@ -11,34 +11,25 @@ import { connect } from 'react-redux';
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
 import { updateExperiment } from '../../../services/projectsApi';
-import {
-  uploadDataSet,
-  getHeaderColumns,
-  updateColumn,
-} from '../../../services/dataSetApi';
+import { getHeaderColumns, updateColumn } from '../../../services/dataSetApi';
 
 import ResultsDrawer from '../ResultsDrawer';
 import ResultsButtonBar from '../ResultsButtonBar';
 
 import { findTarget } from '../../../utils';
 
-import { uploadDataset } from '../../../store/actions/drawerActions';
+import { uploadDataset } from '../../../store/actions/experimentActions';
 
 const { Option } = Select;
 
 const DataSetDrawer = ({
-  setCSV,
-  setTXT,
   setColumns,
   setTarget,
-  setDataset,
   details,
-  columns,
   parameter,
   runStatus,
   taskStatus,
   handleUploadDataset,
-  dataset,
   loading,
 }) => {
   // hooks to handle files
@@ -51,6 +42,8 @@ const DataSetDrawer = ({
       taskStatus === 'Succeeded'
   );
   const [showResults, setShowResults] = useState(results);
+
+  const { columns } = details;
 
   // Handle upload csv e txt
   const handleUpload = async () => {
@@ -72,7 +65,7 @@ const DataSetDrawer = ({
 
     formData.append('experimentId', details.uuid);
 
-    handleUploadDataset(formData);
+    handleUploadDataset(details.projectId, formData);
     //   // Depois da resposta preencher os estados
     //   if (response) {
     //     headerColumns = await getHeaderColumns(response.data.payload.header.uuid);
@@ -274,13 +267,14 @@ const DataSetDrawer = ({
   );
 };
 
-const mapStateToProps = ({ drawer: { dataset, loading } }) => ({
-  dataset,
+const mapStateToProps = ({ drawer: { loading }, experiment: details }) => ({
   loading,
+  details,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleUploadDataset: (form) => dispatch(uploadDataset(form)),
+  handleUploadDataset: (projectId, form) =>
+    dispatch(uploadDataset(projectId, form)),
 });
 
 export default connect(

@@ -6,7 +6,6 @@ import {
   EXPERIMENT_FETCH_STARTED,
   EXPERIMENT_SET_COLUMNS,
   EXPERIMENT_SET_RUN_STATUS,
-  EXPERIMENT_SET_PARAMETERS,
   EXPERIMENT_SET_SELECTED_DRAWER,
   EXPERIMENT_SET_TASK_STATUS,
   EXPERIMENT_SET_GROUP,
@@ -17,12 +16,27 @@ import {
   EXPERIMENT_SET_CORRELATION_PRE_2,
   EXPERIMENT_SET_FILTER,
   EXPERIMENT_SET_AUTOML,
-  EXPERIMENT_SET_CSV,
-  EXPERIMENT_SET_TXT,
   EXPERIMENT_SET_TARGET,
   EXPERIMENT_SET_TEMPLATE,
-  EXPERIMENT_SET_DATASET,
+  EXPERIMENT_UPLOAD_DATASET,
 } from '../actions/experimentActions';
+
+const parameters = {
+  atributos_tempo: {
+    group: [],
+    period: null,
+  },
+  pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
+  pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
+  filtro_atributos: [],
+  automl: { time: 3 },
+  conjunto_dados: {
+    target: undefined,
+    datasetId: null,
+    txtName: null,
+    csvName: null,
+  },
+};
 
 const initialState = {
   uuid: '',
@@ -33,22 +47,7 @@ const initialState = {
   datasetId: '',
   headerId: '',
   targetColumnId: '',
-  parameters: {
-    atributos_tempo: {
-      group: [],
-      period: null,
-    },
-    pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
-    pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
-    filtro_atributos: [],
-    automl: { time: 3 },
-    conjunto_dados: {
-      target: undefined,
-      datasetId: null,
-      txtName: null,
-      csvName: null,
-    },
-  },
+  parameters,
   createdAt: '',
   runId: '',
   runStatus: '',
@@ -92,8 +91,6 @@ export default function experimentReducer(state = initialState, action) {
       return { ...state, columns: action.columns };
     case EXPERIMENT_SET_RUN_STATUS:
       return { ...state, runStatus: action.status };
-    case EXPERIMENT_SET_PARAMETERS:
-      return { ...state, parameters: action.parameters };
     case EXPERIMENT_SET_SELECTED_DRAWER:
       return { ...state, selected: action.selected };
     case EXPERIMENT_SET_TASK_STATUS:
@@ -138,16 +135,6 @@ export default function experimentReducer(state = initialState, action) {
       newParameters.automl.time = action.automl;
       return { ...state, parameters: newParameters };
     }
-    case EXPERIMENT_SET_CSV: {
-      const newParameters = { ...state.parameters };
-      newParameters.conjunto_dados.csvName = action.csv;
-      return { ...state, parameters: newParameters };
-    }
-    case EXPERIMENT_SET_TXT: {
-      const newParameters = { ...state.parameters };
-      newParameters.conjunto_dados.txtName = action.txt;
-      return { ...state, parameters: newParameters };
-    }
     case EXPERIMENT_SET_TARGET: {
       const newParameters = { ...state.parameters };
       newParameters.conjunto_dados.target = action.target;
@@ -158,11 +145,19 @@ export default function experimentReducer(state = initialState, action) {
       newParameters.template = action.template;
       return { ...state, parameters: newParameters };
     }
-    case EXPERIMENT_SET_DATASET: {
-      const newParameters = { ...state.parameters };
-      newParameters.conjunto_dados.datasetId = action.dataset;
-      return { ...state, parameters: newParameters };
-    }
+    case EXPERIMENT_UPLOAD_DATASET:
+      return {
+        ...state,
+        ...experiment,
+        targetColumnId: '',
+        parameters: {
+          ...parameters,
+          conjunto_dados: {
+            target: undefined,
+            ...experiment.parameters.conjunto_dados,
+          },
+        },
+      };
     default:
       return state;
   }
