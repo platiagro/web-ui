@@ -4,39 +4,22 @@ import thunk from 'redux-thunk';
 import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 
-import { Button, Empty, Spin } from 'antd';
-import ComponentsTable from '../../../components/Component/ComponentsTable';
+import { Button } from 'antd';
 import ContentHeader from '../../../components/ContentHeader';
-import NewComponentModal from '../../../components/Component/NewComponentModal';
-import Components from '..';
+import ProjectsTable from '../../../components/Project/ProjectsTable';
+import NewProjectModal from '../../../components/Project/NewProjectModal';
+import Projects from '..';
 
-const componentsList = [
+const projects = [
   {
-    uuid: '9014c0e6-534b-4e7d-a8db-cd5c9d8ee540',
-    createdAt: '2019-11-05T17:16:53.000Z',
-    updatedAt: null,
-    name: 'teste 2',
-    file: '',
-  },
-  {
-    uuid: '58af2581-de59-40ea-8051-cf28a9c3f5b1',
-    createdAt: '2019-11-04T17:16:48.000Z',
-    updatedAt: null,
-    name: 'teste 1',
-    file: '',
-  },
-  {
-    uuid: '80b35439-d45b-4ae1-b437-8069a5663510',
-    createdAt: '2019-11-07T17:16:43.000Z',
-    updatedAt: null,
-    name: 'teste ',
-    file: '',
+    uuid: '01',
+    name: 'test01',
   },
 ];
 
 const initialState = {
-  components: {
-    componentList: [],
+  projects: {
+    projectsList: [],
     modalIsVisible: false,
     loading: false,
     error: null,
@@ -53,11 +36,11 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-describe('Components page', () => {
+describe('Projects page', () => {
   it('is expected render without crashing', () => {
     shallow(
       <Provider store={store}>
-        <Components />
+        <Projects />
       </Provider>
     );
   });
@@ -65,21 +48,21 @@ describe('Components page', () => {
   it('is expected render html correctly', () => {
     const wrapper = shallow(
       <Provider store={store}>
-        <Components />
+        <Projects />
       </Provider>
     );
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render self and subcomponents', () => {
+  it('should render self and subProjects', () => {
     const wrapper = mount(
       <Provider store={store}>
-        <Components />
+        <Projects />
       </Provider>
     );
 
     expect(wrapper.find(ContentHeader).exists()).toBeTruthy();
-    expect(wrapper.find(NewComponentModal).exists()).toBeTruthy();
+    expect(wrapper.find(NewProjectModal).exists()).toBeTruthy();
   });
 
   it('onToggleModal', () => {
@@ -87,7 +70,7 @@ describe('Components page', () => {
     store.dispatch = jest.fn();
     const wrapper = mount(
       <Provider store={store}>
-        <Components />
+        <Projects />
       </Provider>
     );
 
