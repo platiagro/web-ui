@@ -7,7 +7,7 @@ import nock from 'nock';
 import { Button, message, Upload } from 'antd';
 import { URL } from '../../../../services/componentsApi';
 import UploadFileNotebookModal from '../../UploadFileNotebookModal';
-import ComponentsUploadConnected, { ComponentsUpload } from '..';
+import ComponentsUpload from '..';
 
 const { Dragger } = Upload;
 
@@ -40,27 +40,27 @@ const store = mockStore({
 
 describe('ComponentsUpload component', () => {
   it('is expected render without crashing', () => {
-    shallow(<ComponentsUpload details={details} namespaces={namespaces} />);
-  });
-
-  it('is expected render with redux without crashing', () => {
-    mount(
+    shallow(
       <Provider store={store}>
-        <ComponentsUploadConnected />
+        <ComponentsUpload />
       </Provider>
     );
   });
 
   it('is expected render html correctly', () => {
     const wrapper = shallow(
-      <ComponentsUpload details={details} namespaces={namespaces} />
+      <Provider store={store}>
+        <ComponentsUpload />
+      </Provider>
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it('toggleModal', () => {
-    const wrapper = shallow(
-      <ComponentsUpload details={details} namespaces={namespaces} />
+    const wrapper = mount(
+      <Provider store={store}>
+        <ComponentsUpload />
+      </Provider>
     );
     const button = wrapper.find(Button);
     button.simulate('click');
@@ -71,7 +71,7 @@ describe('ComponentsUpload component', () => {
   it('DraggerProps', async () => {
     const wrapper = mount(
       <Provider store={store}>
-        <ComponentsUploadConnected />
+        <ComponentsUpload />
       </Provider>
     );
 

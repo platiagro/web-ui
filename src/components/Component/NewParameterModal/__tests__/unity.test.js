@@ -1,9 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { Modal } from 'antd';
 import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
+import { Input, Modal, Select } from 'antd';
 import NewParameterModal from '..';
 
 const component = {
@@ -28,6 +28,10 @@ const store = mockStore(initialState);
 const onCancel = () => {};
 
 describe('NewParameterModal component', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('is expected render without crashing', () => {
     shallow(
       <Provider store={store}>
@@ -58,6 +62,10 @@ describe('NewParameterModal component', () => {
   });
 
   it('onOk should be called', () => {
+    // work around to ignore console log antd
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
     const wrapper = mount(
       <Provider store={store}>
         <NewParameterModal visible onCancel={onCancel} />
@@ -82,5 +90,38 @@ describe('NewParameterModal component', () => {
     const spyHandleCancel = jest.spyOn(modal, 'handleCancel');
     modal.handleCancel();
     expect(spyHandleCancel).toHaveBeenCalled();
+  });
+
+  it('handleSubmit', () => {
+    // mock dispatch response
+    store.dispatch = jest.fn().mockImplementation(() => {
+      return Promise.resolve(true);
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <NewParameterModal visible onCancel={onCancel} />
+      </Provider>
+    );
+
+    // change input value
+    wrapper
+      .find(Input)
+      .at(0)
+      .simulate('change', {
+        target: { value: 'name' },
+      });
+
+    // change select value
+    wrapper.find(Select).simulate('click');
+    wrapper
+      .find('MenuItem')
+      .at(0)
+      .simulate('click');
+
+    const event = { preventDefault: () => {} };
+    const modal = wrapper.find(Modal).instance();
+    modal.handleOk(event);
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
   });
 });

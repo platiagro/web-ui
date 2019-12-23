@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditComponentNotebook component is expected render html correctly 1`] = `
+<Fragment>
+  <Form(UploadFileNotebookModal)
+    fileName="fileName"
+    filePath="filePath"
+    namespaces={Array []}
+    onCancel={[Function]}
+    visible={false}
+  />
+  <br />
+  <Button
+    block={false}
+    ghost={false}
+    htmlType="button"
+    loading={false}
+    onClick={[Function]}
+    type="primary"
+  >
+    Editar no Notebook
+  </Button>
+</Fragment>
+`;

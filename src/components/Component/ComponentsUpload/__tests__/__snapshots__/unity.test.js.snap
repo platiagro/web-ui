@@ -1,60 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ComponentsUpload component is expected render html correctly 1`] = `
-<Fragment>
-  <Form(UploadFileNotebookModal)
-    fileName=""
-    filePath=""
-    namespaces={
-      Array [
-        Object {
-          "namespace": "anonymous",
-          "role": "contributor",
-          "user": "anonymous@kubeflow.org",
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
         },
-      ]
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
     }
-    onCancel={[Function]}
-    visible={false}
-  />
-  <Dragger
-    action="http://localhost:3000/components/upload/1"
-    beforeUpload={[Function]}
-    defaultFileList={Array []}
-    multiple={false}
-    onChange={[Function]}
-    onRemove={[Function]}
-  >
-    <p
-      className="ant-upload-drag-icon"
-    >
-      <Icon
-        type="inbox"
-      />
-    </p>
-    <p
-      className="ant-upload-text"
-    >
-      Clique ou arraste o arquivo para esta área para fazer o upload
-    </p>
-  </Dragger>
-  <br />
-  <Button
-    block={false}
-    className="float-right"
-    ghost={false}
-    htmlType="button"
-    loading={false}
-    onClick={[Function]}
-    style={
-      Object {
-        "display": "none",
-        "float": "right",
-      }
-    }
-    type="primary"
-  >
-    Editar arquivo
-  </Button>
-</Fragment>
+  }
+>
+  <Connect(ComponentsUpload) />
+</ContextProvider>
 `;
