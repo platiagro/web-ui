@@ -21,25 +21,24 @@ const EditComponentNotebook = (props) => {
     fetchDetails();
   }, []);
 
-  const handleCancel = () => {
-    setVisible(false);
-  };
-
-  const showModal = () => {
-    setVisible(true);
+  /**
+   * Function to toggle modal visibility
+   */
+  const toggleModal = () => {
+    setVisible(!visible);
   };
 
   return (
     <>
       <UploadFileNotebookModal
         visible={visible}
-        onCancel={handleCancel}
+        onCancel={toggleModal}
         fileName={fileName}
         filePath={filePath}
         namespaces={namespaces}
       />
       <br />
-      <Button type='primary' onClick={showModal}>
+      <Button type='primary' onClick={toggleModal}>
         Editar no Notebook
       </Button>
     </>

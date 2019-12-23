@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { Popconfirm, Table } from 'antd';
 import { deleteComponent } from '../../../store/actions/componentsActions';
 
-export const ComponentsTable = (props) => {
+const ComponentsTable = (props) => {
   const { componentList, onDeleteComponent } = props;
   const tableColumns = [
     {
@@ -82,8 +82,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const ComponentsTableConnected = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ComponentsTable);
-export default ComponentsTableConnected;
