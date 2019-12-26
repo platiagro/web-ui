@@ -77,8 +77,9 @@ export const getDeployments = async () => {
         const min = `0${createdAt.getMinutes()}`.slice(-2);
         const sec = `0${createdAt.getSeconds()}`.slice(-2);
         const created = `${day}/${month}/${year} ${hour}:${min}:${sec}`;
-        const isDeployment = manifest.includes('SeldonDeployment');
+        const deployStatus = status === 'Succeeded';
 
+        const isDeployment = manifest.includes('SeldonDeployment');
         if (isDeployment) {
           const deploymentName = run.pipeline_spec.parameters.find(
             (p) => p.name === 'deployment-name'
@@ -101,7 +102,7 @@ export const getDeployments = async () => {
             flowName: name,
             url,
             created,
-            status,
+            deployStatus,
             action: `explorer?experiment_id=${experimentId}&target_var=${target}&date_var=${date}&csv=${csv}`,
           };
           returnDeployments.push(deployment);

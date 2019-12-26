@@ -5,11 +5,19 @@ import ImplantedFlowsTable from '..';
 
 const implatedFlows = [
   {
-    key: 'key',
+    key: 'key 1',
     flowName: 'flowName',
     url: 'url',
     created: 'created',
     status: 'Succeeded',
+    action: 'action',
+  },
+  {
+    key: 'key 2',
+    flowName: 'flowName',
+    url: 'url',
+    created: 'created',
+    status: 'Failed',
     action: 'action',
   },
 ];
