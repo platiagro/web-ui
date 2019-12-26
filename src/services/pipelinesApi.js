@@ -68,7 +68,7 @@ export const getDeployments = async () => {
       response.data.runs.forEach((run) => {
         const manifest = run.pipeline_spec.workflow_manifest;
         const runId = run.id;
-        const { name } = run;
+        const { name, status } = run;
         const createdAt = new Date(run.created_at);
         const day = `0${createdAt.getDate()}`.slice(-2);
         const month = `0${createdAt.getMonth() + 1}`.slice(-2);
@@ -77,8 +77,9 @@ export const getDeployments = async () => {
         const min = `0${createdAt.getMinutes()}`.slice(-2);
         const sec = `0${createdAt.getSeconds()}`.slice(-2);
         const created = `${day}/${month}/${year} ${hour}:${min}:${sec}`;
-        const isDeployment = manifest.includes('SeldonDeployment');
+        const deployStatus = status === 'Succeeded';
 
+        const isDeployment = manifest.includes('SeldonDeployment');
         if (isDeployment) {
           const deploymentName = run.pipeline_spec.parameters.find(
             (p) => p.name === 'deployment-name'
@@ -101,6 +102,7 @@ export const getDeployments = async () => {
             flowName: name,
             url,
             created,
+            deployStatus,
             action: `explorer?experiment_id=${experimentId}&target_var=${target}&date_var=${date}&csv=${csv}`,
           };
           returnDeployments.push(deployment);

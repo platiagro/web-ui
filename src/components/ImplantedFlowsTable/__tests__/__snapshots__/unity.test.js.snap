@@ -21,6 +21,12 @@ exports[`ImplantedFlowsTable component is expected render html correctly 1`] = `
         "title": "Data de Criação",
       },
       Object {
+        "dataIndex": "deployStatus",
+        "key": "deployStatus",
+        "render": [Function],
+        "title": "Status",
+      },
+      Object {
         "dataIndex": "action",
         "key": "action",
         "render": [Function],
@@ -34,7 +40,16 @@ exports[`ImplantedFlowsTable component is expected render html correctly 1`] = `
         "action": "action",
         "created": "created",
         "flowName": "flowName",
-        "key": "key",
+        "key": "key 1",
+        "status": "Succeeded",
+        "url": "url",
+      },
+      Object {
+        "action": "action",
+        "created": "created",
+        "flowName": "flowName",
+        "key": "key 2",
+        "status": "Failed",
         "url": "url",
       },
     ]

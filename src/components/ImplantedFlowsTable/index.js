@@ -5,7 +5,7 @@
  */
 import './style.scss';
 import React from 'react';
-import { Table, Typography, Tooltip } from 'antd';
+import { Icon, Table, Typography, Tooltip } from 'antd';
 
 const { Paragraph } = Typography;
 
@@ -21,9 +21,7 @@ const tableColumns = [
     key: 'url',
     render: (value) => (
       <Tooltip title={value}>
-        <Paragraph ellipsis copyable>
-          {value}
-        </Paragraph>
+        <Paragraph copyable>{value}</Paragraph>
       </Tooltip>
     ),
   },
@@ -31,6 +29,34 @@ const tableColumns = [
     title: 'Data de Criação',
     dataIndex: 'created',
     key: 'created',
+  },
+  {
+    title: 'Status',
+    dataIndex: 'deployStatus',
+    key: 'deployStatus',
+    render: (value) => {
+      let color;
+      let type;
+      if (value) {
+        color = '#389E0D';
+        type = 'check-circle';
+      } else {
+        color = '#FF0000';
+        type = 'close-circle';
+      }
+      return (
+        <Icon
+          style={{
+            fontSize: '20px',
+            color,
+            display: 'block',
+            margin: 'auto',
+          }}
+          theme='filled'
+          type={type}
+        />
+      );
+    },
   },
   {
     title: 'Ação',
