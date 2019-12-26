@@ -3,10 +3,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Popconfirm, Table } from 'antd';
-import { act } from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
-import ComponentsTableConnected, { ComponentsTable } from '..';
+import ComponentsTable from '..';
 
 const components = [
   {
@@ -44,21 +43,23 @@ const store = mockStore(initialState);
 
 describe('ComponentTable component', () => {
   it('is expected render without crashing', () => {
-    shallow(<ComponentsTable />);
-  });
-
-  it('is expected render with redux without crashing', () => {
     shallow(
       <Provider store={store}>
         <Router>
-          <ComponentsTableConnected />
+          <ComponentsTable />
         </Router>
       </Provider>
     );
   });
 
   it('is expected render html correctly', () => {
-    const wrapper = shallow(<ComponentsTable />);
+    const wrapper = shallow(
+      <Provider store={store}>
+        <Router>
+          <ComponentsTable />
+        </Router>
+      </Provider>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -66,7 +67,7 @@ describe('ComponentTable component', () => {
     const wrapper = mount(
       <Provider store={store}>
         <Router>
-          <ComponentsTableConnected />
+          <ComponentsTable />
         </Router>
       </Provider>
     );
@@ -77,7 +78,7 @@ describe('ComponentTable component', () => {
     const wrapper = mount(
       <Provider store={store}>
         <Router>
-          <ComponentsTableConnected />
+          <ComponentsTable />
         </Router>
       </Provider>
     );
@@ -109,7 +110,7 @@ describe('ComponentTable component', () => {
     const wrapper = mount(
       <Provider store={store}>
         <Router>
-          <ComponentsTableConnected />
+          <ComponentsTable />
         </Router>
       </Provider>
     );
