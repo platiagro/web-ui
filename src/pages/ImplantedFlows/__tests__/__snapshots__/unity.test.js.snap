@@ -1,109 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ImplantedFlows component is expected render body with empty html correctly 1`] = `
-<ImplantedFlows>
+<div
+  className="implantedFlowsPage"
+>
+  <ContentHeader
+    subTitle="Monitore o desempenho do seu fluxo em tempo real."
+    title="Fluxos implantados"
+  />
   <div
-    className="implantedFlowsPage"
+    className="implantedFlowsPageBody"
   >
-    <ContentHeader
-      subTitle="Monitore o desempenho do seu fluxo em tempo real."
-      title="Fluxos implantados"
-    >
-      <PageHeader
-        backIcon={
-          <Icon
-            type="arrow-left"
-          />
-        }
-        breadcrumb={
-          Object {
-            "routes": undefined,
-          }
-        }
-        className="contentHeader"
-        title="Fluxos implantados"
-      >
-        <div
-          className="ant-page-header contentHeader ant-page-header-ghost"
-        >
-          <div
-            className="ant-page-header-heading"
-          >
-            <span
-              className="ant-page-header-heading-title"
-            >
-              Fluxos implantados
-            </span>
-          </div>
-        </div>
-      </PageHeader>
-    </ContentHeader>
     <div
-      className="implantedFlowsPageBody"
+      className="body"
     >
-      <div
-        className="body"
-      >
-        <Empty
-          description={
+      <Empty
+        description={
+          <span>
             <span>
-              <span>
-                <strong>
-                  Nenhum fluxo implantado
-                </strong>
-              </span>
-              <br />
-              <span>
-                Crie fluxos em "Projetos" para depois implantá-los
-              </span>
+              <strong>
+                Nenhum fluxo implantado
+              </strong>
             </span>
+            <br />
+            <span>
+              Crie fluxos em "Projetos" para depois implantá-los
+            </span>
+          </span>
+        }
+        image="emptyPlaceholder.png"
+        imageStyle={
+          Object {
+            "height": 136,
           }
-          image="emptyPlaceholder.png"
-          imageStyle={
-            Object {
-              "height": 136,
-            }
-          }
-        >
-          <LocaleReceiver
-            componentName="Empty"
-          >
-            <div
-              className="ant-empty"
-            >
-              <div
-                className="ant-empty-image"
-                style={
-                  Object {
-                    "height": 136,
-                  }
-                }
-              >
-                <img
-                  alt="empty"
-                  src="emptyPlaceholder.png"
-                />
-              </div>
-              <p
-                className="ant-empty-description"
-              >
-                <span>
-                  <span>
-                    <strong>
-                      Nenhum fluxo implantado
-                    </strong>
-                  </span>
-                  <br />
-                  <span>
-                    Crie fluxos em "Projetos" para depois implantá-los
-                  </span>
-                </span>
-              </p>
-            </div>
-          </LocaleReceiver>
-        </Empty>
-      </div>
+        }
+      />
     </div>
   </div>
-</ImplantedFlows>
+</div>
 `;

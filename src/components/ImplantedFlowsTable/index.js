@@ -21,9 +21,7 @@ const tableColumns = [
     key: 'url',
     render: (value) => (
       <Tooltip title={value}>
-        <Paragraph ellipsis copyable>
-          {value}
-        </Paragraph>
+        <Paragraph copyable>{value}</Paragraph>
       </Tooltip>
     ),
   },
