@@ -31,57 +31,47 @@ const components = [
   },
 ];
 
-const initialState = {
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
   components: {
     componentList: components,
   },
+});
+
+const setupShallow = () => {
+  const wrapper = shallow(<ComponentsTable store={store} />);
+  return wrapper.dive().dive();
 };
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const store = mockStore(initialState);
+const setupMount = () => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <Router>
+        <ComponentsTable />
+      </Router>
+    </Provider>
+  );
+  return wrapper;
+};
 
 describe('ComponentTable component', () => {
   it('is expected render without crashing', () => {
-    shallow(
-      <Provider store={store}>
-        <Router>
-          <ComponentsTable />
-        </Router>
-      </Provider>
-    );
+    setupShallow();
   });
 
   it('is expected render html correctly', () => {
-    const wrapper = shallow(
-      <Provider store={store}>
-        <Router>
-          <ComponentsTable />
-        </Router>
-      </Provider>
-    );
+    const wrapper = setupShallow();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('is expected to exist Table', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <Router>
-          <ComponentsTable />
-        </Router>
-      </Provider>
-    );
+    const wrapper = setupShallow();
     expect(wrapper.find(Table).exists()).toBeTruthy();
   });
 
   it('sort records', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <Router>
-          <ComponentsTable />
-        </Router>
-      </Provider>
-    );
+    const wrapper = setupMount();
 
     const renderedNames = () => {
       return wrapper.find('TableRow').map((row) => row.props().record.name);
@@ -107,14 +97,7 @@ describe('ComponentTable component', () => {
   });
 
   it('onDeleteComponent should be called', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <Router>
-          <ComponentsTable />
-        </Router>
-      </Provider>
-    );
-
+    const wrapper = setupMount();
     const popconfirm = wrapper.find(Popconfirm);
     const triggerNode = popconfirm.at(0).find('[href="#"]');
     triggerNode.simulate('click');

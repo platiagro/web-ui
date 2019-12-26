@@ -38,70 +38,75 @@ const store = mockStore({
   },
 });
 
+const setupShallow = () => {
+  const wrapper = shallow(<ComponentsUpload store={store} />);
+  return wrapper.dive().dive();
+};
+
 describe('ComponentsUpload component', () => {
   it('is expected render without crashing', () => {
-    shallow(
-      <Provider store={store}>
-        <ComponentsUpload />
-      </Provider>
-    );
+    setupShallow();
   });
 
   it('is expected render html correctly', () => {
-    const wrapper = shallow(
-      <Provider store={store}>
-        <ComponentsUpload />
-      </Provider>
-    );
+    const wrapper = setupShallow();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('toggleModal', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <ComponentsUpload />
-      </Provider>
-    );
+    const wrapper = setupShallow();
     const button = wrapper.find(Button);
     button.simulate('click');
     const modal = wrapper.find(UploadFileNotebookModal);
     expect(modal.props().visible).toBe(true);
   });
 
-  it('DraggerProps', async () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <ComponentsUpload />
-      </Provider>
-    );
-
+  it('Dragger call beforeUpload without crashing', () => {
+    const wrapper = setupShallow();
     const dragger = wrapper.find(Dragger);
     const draggerProps = dragger.props();
+    draggerProps.beforeUpload({ name: 'name' });
+  });
 
+  it('Dragger check onChange with status done', () => {
+    const wrapper = setupShallow();
+    const dragger = wrapper.find(Dragger);
+    const draggerProps = dragger.props();
     const spyMsgSuccess = jest
       .spyOn(message, 'success')
       .mockImplementation(() => {});
-    const spyMsgError = jest
-      .spyOn(message, 'error')
-      .mockImplementation(() => {});
 
-    // call beforeUpload without crashing
-    draggerProps.beforeUpload({ name: 'name' });
-
-    // check onChange with status done
     draggerProps.onChange({ file: { name: 'name', status: 'done' } });
     expect(spyMsgSuccess).toHaveBeenCalledWith(`name salvo com sucesso.`);
+  });
 
-    // check onChange with status removed and error
+  it('Dragger check onChange with status removed', () => {
+    const wrapper = setupShallow();
+    const dragger = wrapper.find(Dragger);
+    const draggerProps = dragger.props();
+    const spyMsgSuccess = jest
+      .spyOn(message, 'success')
+      .mockImplementation(() => {});
+
+    // call onChange with status removed and error
     draggerProps.onChange({
       file: { status: 'removed', error: { status: 400 } },
     });
 
-    // check onChange with status removed without error
+    // call onChange with status removed without error
     draggerProps.onChange({ file: { name: 'name', status: 'removed' } });
     expect(spyMsgSuccess).toHaveBeenCalledWith(`name removido com sucesso.`);
+  });
 
-    // check onChange with status error with response 400
+  it('Dragger check onChange with status error', () => {
+    const wrapper = setupShallow();
+    const dragger = wrapper.find(Dragger);
+    const draggerProps = dragger.props();
+    const spyMsgError = jest
+      .spyOn(message, 'error')
+      .mockImplementation(() => {});
+
+    // call onChange with status error and error 400
     draggerProps.onChange({
       file: { name: 'name', status: 'error', error: { status: 400 } },
     });
@@ -109,11 +114,17 @@ describe('ComponentsUpload component', () => {
       `Só é possível realizar o upload de um arquivo!`
     );
 
-    // check onChange with status error with response 500
+    // call onChange with status error and error 500
     draggerProps.onChange({
       file: { name: 'name', status: 'error', error: { status: 500 } },
     });
     expect(spyMsgError).toHaveBeenCalledWith(`Falha no upload do arquivo name`);
+  });
+
+  it('Dragger check onRemove', async () => {
+    const wrapper = setupShallow();
+    const dragger = wrapper.find(Dragger);
+    const draggerProps = dragger.props();
 
     // check onRemove success
     nock(URL)
@@ -125,18 +136,24 @@ describe('ComponentsUpload component', () => {
       })
       .then((response) => {
         expect(response).toBe(true);
+      })
+      .catch((error) => {
+        throw error;
       });
 
     // check onRemove error
     nock(URL)
       .post(`/components/deleteFiles/${details.uuid}`)
-      .reply(400);
+      .reply(400, { message: 'message' });
     await draggerProps
       .onRemove({
         file: { name: 'name' },
       })
       .then((response) => {
         expect(response).toBe(false);
+      })
+      .catch((error) => {
+        throw error;
       });
 
     // check onRemove with file error

@@ -16,49 +16,45 @@ const component = {
   ],
 };
 
-const initialState = {
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
   component: {
     details: component,
   },
+});
+
+const setupShallow = () => {
+  const wrapper = shallow(<ParametersTable store={store} />);
+  return wrapper.dive().dive();
 };
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const store = mockStore(initialState);
+const setupMount = () => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <ParametersTable />
+    </Provider>
+  );
+  return wrapper;
+};
 
 describe('ParametersTable component', () => {
   it('is expected render without crashing', () => {
-    shallow(
-      <Provider store={store}>
-        <ParametersTable />
-      </Provider>
-    );
+    setupShallow();
   });
 
   it('is expected render html correctly', () => {
-    const wrapper = shallow(
-      <Provider store={store}>
-        <ParametersTable />
-      </Provider>
-    );
+    const wrapper = setupShallow();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('is expected to exist Table', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <ParametersTable />
-      </Provider>
-    );
+    const wrapper = setupShallow();
     expect(wrapper.find(Table).exists()).toBeTruthy();
   });
 
   it('sort records', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <ParametersTable />
-      </Provider>
-    );
+    const wrapper = setupMount();
 
     const renderedNames = () => {
       return wrapper.find('TableRow').map((row) => row.props().record.name);
@@ -76,12 +72,7 @@ describe('ParametersTable component', () => {
   });
 
   it('onDeleteComponent should be called', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <ParametersTable />
-      </Provider>
-    );
-
+    const wrapper = setupMount();
     const popconfirm = wrapper.find(Popconfirm);
     const triggerNode = popconfirm.at(0).find('[href="#"]');
     triggerNode.simulate('click');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import NewParameterModal from '../../NewParameterModal';
@@ -17,15 +17,27 @@ const component = {
   ],
 };
 
-const initialState = {
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
   component: {
     details: component,
   },
+});
+
+const setupShallow = () => {
+  const wrapper = shallow(<NewParameterForm store={store} />);
+  return wrapper.dive().dive();
 };
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const store = mockStore(initialState);
+const setupMount = () => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <NewParameterForm />
+    </Provider>
+  );
+  return wrapper;
+};
 
 describe('NewParameterForm component', () => {
   afterEach(() => {
@@ -33,39 +45,25 @@ describe('NewParameterForm component', () => {
   });
 
   it('is expected render without crashing', () => {
-    shallow(
-      <Provider store={store}>
-        <NewParameterForm />
-      </Provider>
-    );
+    setupShallow();
   });
 
   it('is expected render html correctly', () => {
-    const wrapper = shallow(
-      <Provider store={store}>
-        <NewParameterForm />
-      </Provider>
-    );
+    const wrapper = setupShallow();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should render self and subcomponents', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewParameterForm />
-      </Provider>
-    );
-    expect(wrapper.find('Form(NewParameterForm)').exists()).toBeTruthy();
+    const wrapper = setupMount();
+    expect(wrapper.find(Form).exists()).toBeTruthy();
+    expect(wrapper.find(Input).exists()).toBeTruthy();
+    expect(wrapper.find(Select).exists()).toBeTruthy();
     expect(wrapper.find(NewParameterForm).exists()).toBeTruthy();
-    expect(wrapper.find(NewParameterModal).exists()).toBeTruthy();
+    expect(wrapper.find(Button).exists()).toBeTruthy();
   });
 
   it('toggleModal', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewParameterForm />
-      </Provider>
-    );
+    const wrapper = setupMount();
     wrapper.find('[href="#"]').simulate('click');
     const props = wrapper.find(NewParameterModal).props();
     expect(props.visible).toBeTruthy();
@@ -77,11 +75,7 @@ describe('NewParameterForm component', () => {
       return Promise.resolve(true);
     });
 
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewParameterForm />
-      </Provider>
-    );
+    const wrapper = setupMount();
 
     // change input value
     wrapper.find(Input).simulate('change', {

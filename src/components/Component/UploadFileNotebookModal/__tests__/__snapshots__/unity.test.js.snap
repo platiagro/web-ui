@@ -1,42 +1,151 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UploadFileNotebookModal component is expected render html correctly 1`] = `
-<UploadFileNotebookModal
-  fileName="fileName"
-  filePath="filePath"
-  form={
+<Modal
+  cancelText="Cancelar"
+  confirmLoading={false}
+  maskTransitionName="fade"
+  okButtonProps={
     Object {
-      "getFieldDecorator": [Function],
-      "getFieldError": [Function],
-      "getFieldInstance": [Function],
-      "getFieldProps": [Function],
-      "getFieldValue": [Function],
-      "getFieldsError": [Function],
-      "getFieldsValue": [Function],
-      "isFieldTouched": [Function],
-      "isFieldValidating": [Function],
-      "isFieldsTouched": [Function],
-      "isFieldsValidating": [Function],
-      "isSubmitting": [Function],
-      "resetFields": [Function],
-      "setFields": [Function],
-      "setFieldsInitialValue": [Function],
-      "setFieldsValue": [Function],
-      "submit": [Function],
-      "validateFields": [Function],
-      "validateFieldsAndScroll": [Function],
+      "disabled": false,
     }
   }
-  namespaces={
-    Array [
-      Object {
-        "namespace": "anonymous",
-        "role": "contributor",
-        "user": "anonymous@kubeflow.org",
-      },
-    ]
-  }
+  okText="Editar"
+  okType="primary"
   onCancel={[Function]}
+  onOk={[Function]}
+  title="Editar arquivo no jupyter notebook"
+  transitionName="zoom"
   visible={true}
-/>
+  width={520}
+>
+  <Spin
+    delay={100}
+    size="default"
+    spinning={false}
+    wrapperClassName=""
+  >
+    <Form
+      colon={true}
+      hideRequiredMark={false}
+      layout="vertical"
+      onSubmit={[Function]}
+    >
+      <FormItem
+        hasFeedback={false}
+        label="Namespaces: "
+      >
+        <Select
+          choiceTransitionName="zoom"
+          data-__field={
+            Object {
+              "name": "namespace",
+            }
+          }
+          data-__meta={
+            Object {
+              "name": "namespace",
+              "originalProps": Object {
+                "children": Array [
+                  <Option
+                    value="anonymous"
+                  >
+                    anonymous
+                  </Option>,
+                ],
+                "choiceTransitionName": "zoom",
+                "onChange": [Function],
+                "showSearch": false,
+                "transitionName": "slide-up",
+              },
+              "ref": null,
+              "rules": Array [
+                Object {
+                  "message": " ",
+                  "required": true,
+                },
+              ],
+              "trigger": "onChange",
+              "validate": Array [
+                Object {
+                  "rules": Array [
+                    Object {
+                      "message": " ",
+                      "required": true,
+                    },
+                  ],
+                  "trigger": Array [
+                    "onChange",
+                  ],
+                },
+              ],
+              "valuePropName": "value",
+            }
+          }
+          id="upload-file-notebook_namespace"
+          onChange={[Function]}
+          showSearch={false}
+          transitionName="slide-up"
+        >
+          <Option
+            key="anonymous"
+            value="anonymous"
+          >
+            anonymous
+          </Option>
+        </Select>
+      </FormItem>
+      <FormItem
+        hasFeedback={false}
+        label="Notebooks: "
+      >
+        <Select
+          choiceTransitionName="zoom"
+          data-__field={
+            Object {
+              "name": "notebook",
+            }
+          }
+          data-__meta={
+            Object {
+              "name": "notebook",
+              "originalProps": Object {
+                "children": Array [],
+                "choiceTransitionName": "zoom",
+                "showSearch": false,
+                "transitionName": "slide-up",
+              },
+              "ref": null,
+              "rules": Array [
+                Object {
+                  "message": " ",
+                  "required": true,
+                },
+              ],
+              "trigger": "onChange",
+              "validate": Array [
+                Object {
+                  "rules": Array [
+                    Object {
+                      "message": " ",
+                      "required": true,
+                    },
+                  ],
+                  "trigger": Array [
+                    "onChange",
+                  ],
+                },
+              ],
+              "valuePropName": "value",
+            }
+          }
+          id="upload-file-notebook_notebook"
+          onChange={[Function]}
+          showSearch={false}
+          transitionName="slide-up"
+        />
+      </FormItem>
+    </Form>
+  </Spin>
+</Modal>
 `;

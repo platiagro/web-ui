@@ -6,7 +6,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Modal, Form, Input } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import {
   addComponent,
   toggleModal,

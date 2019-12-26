@@ -1,9 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { Form, Input, message, Modal, Select, Switch } from 'antd';
 import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
-import { Input, Modal, Select } from 'antd';
 import NewParameterModal from '..';
 
 const component = {
@@ -27,38 +27,46 @@ const mockStore = configureMockStore(middlewares);
 const store = mockStore(initialState);
 const onCancel = () => {};
 
+const setupShallow = () => {
+  const wrapper = shallow(
+    <NewParameterModal visible onCancel={onCancel} store={store} />
+  );
+  return wrapper
+    .dive()
+    .dive()
+    .dive();
+};
+
+const setupMount = () => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <NewParameterModal visible onCancel={onCancel} />
+    </Provider>
+  );
+  return wrapper;
+};
+
 describe('NewParameterModal component', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('is expected render without crashing', () => {
-    shallow(
-      <Provider store={store}>
-        <NewParameterModal visible onCancel={onCancel} />
-      </Provider>
-    );
+    setupShallow();
   });
 
   it('is expected render html correctly', () => {
-    const wrapper = shallow(
-      <Provider store={store}>
-        <NewParameterModal visible onCancel={onCancel} />
-      </Provider>
-    );
+    const wrapper = setupShallow();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should render self and subcomponents', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewParameterModal visible onCancel={onCancel} />
-      </Provider>
-    );
-
-    expect(wrapper.find('Form(NewParameterModal)').exists()).toBeTruthy();
-    expect(wrapper.find(NewParameterModal).exists()).toBeTruthy();
+    const wrapper = setupShallow();
     expect(wrapper.find(Modal).exists()).toBeTruthy();
+    expect(wrapper.find(Form).exists()).toBeTruthy();
+    expect(wrapper.find(Input).exists()).toBeTruthy();
+    expect(wrapper.find(Select).exists()).toBeTruthy();
+    expect(wrapper.find(Switch).exists()).toBeTruthy();
   });
 
   it('onOk should be called', () => {
@@ -66,12 +74,7 @@ describe('NewParameterModal component', () => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewParameterModal visible onCancel={onCancel} />
-      </Provider>
-    );
-
+    const wrapper = setupMount();
     const event = { preventDefault: () => {} };
     const modal = wrapper.find(Modal).instance();
     const spyHandleOk = jest.spyOn(modal, 'handleOk');
@@ -80,12 +83,7 @@ describe('NewParameterModal component', () => {
   });
 
   it('onCancel should be called', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewParameterModal visible onCancel={onCancel} />
-      </Provider>
-    );
-
+    const wrapper = setupMount();
     const modal = wrapper.find(Modal).instance();
     const spyHandleCancel = jest.spyOn(modal, 'handleCancel');
     modal.handleCancel();
@@ -98,11 +96,7 @@ describe('NewParameterModal component', () => {
       return Promise.resolve(true);
     });
 
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewParameterModal visible onCancel={onCancel} />
-      </Provider>
-    );
+    const wrapper = setupMount();
 
     // change input value
     wrapper
