@@ -9,6 +9,7 @@ const implatedFlows = [
     flowName: 'flowName',
     url: 'url',
     created: 'created',
+    status: 'Succeeded',
     action: 'action',
   },
 ];

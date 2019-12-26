@@ -33,6 +33,11 @@ const tableColumns = [
     key: 'created',
   },
   {
+    title: 'Status',
+    dataIndex: 'status',
+    key: 'status',
+  },
+  {
     title: 'Ação',
     dataIndex: 'action',
     key: 'action',

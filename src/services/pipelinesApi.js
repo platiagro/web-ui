@@ -68,7 +68,7 @@ export const getDeployments = async () => {
       response.data.runs.forEach((run) => {
         const manifest = run.pipeline_spec.workflow_manifest;
         const runId = run.id;
-        const { name } = run;
+        const { name, status } = run;
         const createdAt = new Date(run.created_at);
         const day = `0${createdAt.getDate()}`.slice(-2);
         const month = `0${createdAt.getMonth() + 1}`.slice(-2);
@@ -101,6 +101,7 @@ export const getDeployments = async () => {
             flowName: name,
             url,
             created,
+            status,
             action: `explorer?experiment_id=${experimentId}&target_var=${target}&date_var=${date}&csv=${csv}`,
           };
           returnDeployments.push(deployment);
