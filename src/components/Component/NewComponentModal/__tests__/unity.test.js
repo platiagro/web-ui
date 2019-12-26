@@ -1,24 +1,28 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { Modal } from 'antd';
-import { shallow, mount } from 'enzyme';
+import { Form, Input, Modal } from 'antd';
+import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
-
 import NewComponentModal from '..';
 
-const initialState = {
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
   components: {
     componentList: [],
     modalIsVisible: false,
     loading: false,
     error: null,
   },
-};
+});
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const store = mockStore(initialState);
+const setupShallow = () => {
+  const wrapper = shallow(<NewComponentModal store={store} />);
+  return wrapper
+    .dive()
+    .dive()
+    .dive();
+};
 
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
@@ -28,58 +32,58 @@ jest.mock('react-router-dom', () => ({
 
 describe('NewComponentModal component', () => {
   it('is expected render without crashing', () => {
-    shallow(
-      <Provider store={store}>
-        <NewComponentModal />
-      </Provider>
-    );
+    setupShallow();
   });
 
   it('is expected render html correctly', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewComponentModal />
-      </Provider>
-    );
+    const wrapper = setupShallow();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should render self and subcomponents', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewComponentModal />
-      </Provider>
-    );
-
-    expect(wrapper.find('Form(NewComponentModal)').exists()).toBeTruthy();
-    expect(wrapper.find(NewComponentModal).exists()).toBeTruthy();
+    const wrapper = setupShallow();
     expect(wrapper.find(Modal).exists()).toBeTruthy();
+    expect(wrapper.find(Form).exists()).toBeTruthy();
+    expect(wrapper.find(Input).exists()).toBeTruthy();
   });
 
-  it('onOk should be called', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewComponentModal />
-      </Provider>
-    );
+  it('Modal onCancel', () => {
+    store.dispatch = jest.fn();
+    const wrapper = setupShallow();
+    const modal = wrapper.find(Modal);
+    const modalProps = modal.props();
+    modalProps.onCancel();
+    expect(store.dispatch).toHaveBeenCalledWith({
+      type: 'COMPONENTS_TOGGLE_MODAL',
+    });
+  });
 
+  it('Modal onOk without input', () => {
+    // work around to ignore console log error antd
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const spyConsoleWarn = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const wrapper = setupShallow();
     const event = { preventDefault: () => {} };
-    const modal = wrapper.find(Modal).instance();
-    const spyHandleOk = jest.spyOn(modal, 'handleOk');
-    modal.handleOk(event);
-    expect(spyHandleOk).toHaveBeenCalled();
+    const modal = wrapper.find(Modal);
+    const modalProps = modal.props();
+    modalProps.onOk(event);
+    expect(spyConsoleWarn).toHaveBeenCalled();
   });
 
-  it('onCancel should be called', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <NewComponentModal />
-      </Provider>
-    );
-
-    const modal = wrapper.find(Modal).instance();
-    const spyHandleCancel = jest.spyOn(modal, 'handleCancel');
-    modal.handleCancel();
-    expect(spyHandleCancel).toHaveBeenCalled();
+  it('Modal onOk with input', () => {
+    store.dispatch = jest.fn();
+    const wrapper = setupShallow();
+    const event = { preventDefault: () => {} };
+    const input = wrapper.find(Input);
+    input.simulate('change', {
+      currentTarget: { value: 'testee' },
+    });
+    const modal = wrapper.find(Modal);
+    const modalProps = modal.props();
+    modalProps.onOk(event);
+    expect(store.dispatch).toHaveBeenCalled();
   });
 });

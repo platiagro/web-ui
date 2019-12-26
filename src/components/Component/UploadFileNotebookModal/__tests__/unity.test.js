@@ -27,47 +27,48 @@ const sleep = (milliseconds) => {
 
 const onCancel = () => {};
 
+const setupShallow = () => {
+  const wrapper = shallow(
+    <UploadFileNotebookModal
+      visible
+      namespaces={namespaces}
+      filePath='filePath'
+      fileName='fileName'
+      onCancel={onCancel}
+    />
+  );
+  return wrapper.dive();
+};
+
+const setupMount = () => {
+  const wrapper = mount(
+    <UploadFileNotebookModal
+      visible
+      namespaces={namespaces}
+      filePath='filePath'
+      fileName='fileName'
+      onCancel={onCancel}
+    />
+  );
+  return wrapper;
+};
+
 describe('UploadFileNotebookModal component', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('is expected render without crashing', () => {
-    shallow(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
+    setupShallow();
   });
 
   it('is expected render html correctly', () => {
-    const wrapper = shallow(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
+    const wrapper = setupShallow();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should render self and subcomponents', () => {
-    const wrapper = mount(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
-
+    const wrapper = setupShallow();
     expect(wrapper.find(Modal).exists()).toBeTruthy();
     expect(wrapper.find(Spin).exists()).toBeTruthy();
     expect(wrapper.find(Form).exists()).toBeTruthy();
@@ -78,16 +79,7 @@ describe('UploadFileNotebookModal component', () => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    const wrapper = mount(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
-
+    const wrapper = setupMount();
     const event = { preventDefault: () => {} };
     const modal = wrapper.find(Modal).instance();
     const spyHandleOk = jest.spyOn(modal, 'handleOk');
@@ -96,15 +88,7 @@ describe('UploadFileNotebookModal component', () => {
   });
 
   it('onCancel should be called', () => {
-    const wrapper = mount(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
+    const wrapper = setupMount();
     act(() => {
       const modal = wrapper.find(Modal).instance();
       const spyHandleCancel = jest.spyOn(modal, 'handleCancel');
@@ -114,15 +98,7 @@ describe('UploadFileNotebookModal component', () => {
   });
 
   it('onChangeNamespace without notebook', async () => {
-    const wrapper = mount(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
+    const wrapper = setupMount();
 
     // mock get notebook list response
     nock(jupyterServices.URL)
@@ -151,15 +127,7 @@ describe('UploadFileNotebookModal component', () => {
   });
 
   it('onChangeNamespace with notebook', async () => {
-    const wrapper = mount(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
+    const wrapper = setupMount();
 
     // mock get notebook list response
     nock(jupyterServices.URL)
@@ -188,15 +156,7 @@ describe('UploadFileNotebookModal component', () => {
   });
 
   it('create new notebook', async () => {
-    const wrapper = mount(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
+    const wrapper = setupMount();
 
     // mock get notebook list response
     nock(jupyterServices.URL)
@@ -228,15 +188,7 @@ describe('UploadFileNotebookModal component', () => {
   });
 
   it('handleSubmit', async () => {
-    const wrapper = mount(
-      <UploadFileNotebookModal
-        visible
-        namespaces={namespaces}
-        filePath='filePath'
-        fileName='fileName'
-        onCancel={onCancel}
-      />
-    );
+    const wrapper = setupMount();
 
     // mock get notebook list response
     nock(jupyterServices.URL)

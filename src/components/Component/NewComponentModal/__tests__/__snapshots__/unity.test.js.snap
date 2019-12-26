@@ -1,122 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NewComponentModal component is expected render html correctly 1`] = `
-<Provider
-  store={
+<Modal
+  cancelText="Cancelar"
+  confirmLoading={false}
+  maskTransitionName="fade"
+  okButtonProps={
     Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
+      "disabled": false,
     }
   }
+  okText="Criar"
+  okType="primary"
+  onCancel={[Function]}
+  onOk={[Function]}
+  title="Novo Componente"
+  transitionName="zoom"
+  visible={false}
+  width={520}
 >
-  <Connect(Form(NewComponentModal))>
-    <Form(NewComponentModal)
-      modalIsVisible={false}
-      onAddComponent={[Function]}
-      onToggleModal={[Function]}
+  <Form
+    colon={true}
+    hideRequiredMark={false}
+    layout="vertical"
+    onSubmit={[Function]}
+  >
+    <FormItem
+      hasFeedback={false}
+      label="Qual o nome do seu componente?"
     >
-      <NewComponentModal
-        form={
+      <Input
+        allowClear={true}
+        autoFocus={true}
+        data-__field={
           Object {
-            "getFieldDecorator": [Function],
-            "getFieldError": [Function],
-            "getFieldInstance": [Function],
-            "getFieldProps": [Function],
-            "getFieldValue": [Function],
-            "getFieldsError": [Function],
-            "getFieldsValue": [Function],
-            "isFieldTouched": [Function],
-            "isFieldValidating": [Function],
-            "isFieldsTouched": [Function],
-            "isFieldsValidating": [Function],
-            "isSubmitting": [Function],
-            "resetFields": [Function],
-            "setFields": [Function],
-            "setFieldsInitialValue": [Function],
-            "setFieldsValue": [Function],
-            "submit": [Function],
-            "validateFields": [Function],
-            "validateFieldsAndScroll": [Function],
+            "name": "name",
           }
         }
-        modalIsVisible={false}
-        onAddComponent={[Function]}
-        onToggleModal={[Function]}
-      >
-        <Modal
-          cancelText="Cancelar"
-          confirmLoading={false}
-          maskTransitionName="fade"
-          okButtonProps={
-            Object {
-              "disabled": false,
-            }
-          }
-          okText="Criar"
-          okType="primary"
-          onCancel={[Function]}
-          onOk={[Function]}
-          title="Novo Componente"
-          transitionName="zoom"
-          visible={false}
-          width={520}
-        >
-          <Component
-            cancelText="Cancelar"
-            closeIcon={
-              <span
-                className="ant-modal-close-x"
-              >
-                <Icon
-                  className="ant-modal-close-icon"
-                  type="close"
-                />
-              </span>
-            }
-            confirmLoading={false}
-            footer={
-              <LocaleReceiver
-                componentName="Modal"
-                defaultLocale={
-                  Object {
-                    "cancelText": "Cancel",
-                    "justOkText": "OK",
-                    "okText": "OK",
-                  }
-                }
-              >
-                [Function]
-              </LocaleReceiver>
-            }
-            maskTransitionName="fade"
-            okButtonProps={
+        data-__meta={
+          Object {
+            "name": "name",
+            "originalProps": Object {
+              "allowClear": true,
+              "autoFocus": true,
+              "type": "text",
+            },
+            "ref": null,
+            "rules": Array [
               Object {
-                "disabled": false,
-              }
-            }
-            okText="Criar"
-            okType="primary"
-            onCancel={[Function]}
-            onClose={[Function]}
-            onOk={[Function]}
-            prefixCls="ant-modal"
-            title="Novo Componente"
-            transitionName="zoom"
-            visible={false}
-            width={520}
-            wrapClassName=""
-          >
-            <PortalWrapper
-              visible={false}
-            />
-          </Component>
-        </Modal>
-      </NewComponentModal>
-    </Form(NewComponentModal)>
-  </Connect(Form(NewComponentModal))>
-</Provider>
+                "message": "Por favor insira um nome para o componente!",
+                "required": true,
+              },
+            ],
+            "trigger": "onChange",
+            "validate": Array [
+              Object {
+                "rules": Array [
+                  Object {
+                    "message": "Por favor insira um nome para o componente!",
+                    "required": true,
+                  },
+                ],
+                "trigger": Array [
+                  "onChange",
+                ],
+              },
+            ],
+            "valuePropName": "value",
+          }
+        }
+        id="new-component_name"
+        onChange={[Function]}
+        type="text"
+      />
+    </FormItem>
+  </Form>
+</Modal>
 `;
