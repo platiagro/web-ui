@@ -225,15 +225,15 @@ const ExperimentContent = (props) => {
       // You can await here
 
       const responseHeader = await getHeader(headerId);
-      if (responseHeader && isSubscribed)
-        onSetTxt(responseHeader.data.payload.uuid);
+      // if (responseHeader && isSubscribed)
+      //   onSetTxt(responseHeader.data.payload.uuid);
 
       const col = await getHeaderColumns(headerId);
       if (col && isSubscribed) onSetColumns(col.data.payload);
 
       const responseDataset = await getDataSet(datasetId);
-      if (responseDataset && isSubscribed)
-        onSetCsv(responseDataset.data.payload.uuid);
+      // if (responseDataset && isSubscribed)
+      //   onSetCsv(responseDataset.data.payload.uuid);
 
       if (runId) {
         const runRes = await getStatusRun(runId);
@@ -286,7 +286,7 @@ const ExperimentContent = (props) => {
       else if (isSubscribed) onSetTarget(undefined);
     }
 
-    if (datasetId) onSetDataset(datasetId);
+    // if (datasetId) onSetDataset(datasetId);
 
     if (!runId) {
       onSetRunStatus(null);

@@ -64,6 +64,7 @@ export const getExperiment = (projectId, experimentId) => {
     return projectsServices
       .getExperiment(projectId, experimentId)
       .then(async (experiment) => {
+        console.log(experiment);
         if (experiment) dispatch(setExperimentDetails(experiment.data.payload));
         else dispatch(setExperimentDetails({}));
       });
