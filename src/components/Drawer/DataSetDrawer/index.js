@@ -1,3 +1,5 @@
+// TODO: otimizar e refatorar esse componente
+
 /* eslint-disable react/no-unused-state */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
@@ -43,7 +45,7 @@ const DataSetDrawer = ({
   );
   const [showResults, setShowResults] = useState(results);
 
-  const { columns } = details;
+  const { columns, targetColumnId } = details;
 
   // Handle upload csv e txt
   const handleUpload = async () => {
@@ -135,7 +137,7 @@ const DataSetDrawer = ({
           onChange={handleTargetChange}
           style={{ width: 200 }}
           placeholder='Selecione'
-          value={parameter.target}
+          value={targetColumnId}
           showSearch
         >
           {columns.map((column) => (
@@ -151,7 +153,7 @@ const DataSetDrawer = ({
         <br />
 
         <DataSetTable
-          targetColumnId={parameter.target}
+          targetColumnId={targetColumnId}
           dataSource={columns}
           handleSelect={handleColumnSelect}
         />
@@ -277,7 +279,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(uploadDataset(projectId, form)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DataSetDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(DataSetDrawer);

@@ -58,15 +58,37 @@ export const setExperimentDetails = (experiment) => {
   };
 };
 
+// TODO: implementar setTarget
+// TODO: implementar setColumnType
+// TODO: implementar parametros conjunto de dados no set dataset
+// TODO: alterar parametros ao selecionar template no menu
+/**
+ * Async action to fetch experiment dataset
+ * @param {String} projectId
+ * @param {String} experimentId
+ */
 export const getExperiment = (projectId, experimentId) => {
   return (dispatch) => {
     dispatch(fetchStarted());
     return projectsServices
       .getExperiment(projectId, experimentId)
       .then(async (experiment) => {
-        console.log(experiment);
-        if (experiment) dispatch(setExperimentDetails(experiment.data.payload));
-        else dispatch(setExperimentDetails({}));
+        if (experiment) {
+          const { headerId } = experiment.data.payload;
+
+          console.log(experiment.data.payload);
+
+          getHeaderColumns(headerId).then((responseColumns) => {
+            const { payload: columns } = responseColumns.data;
+
+            const experimentDetails = {
+              ...experiment.data.payload,
+              columns,
+            };
+
+            dispatch(setExperimentDetails(experimentDetails));
+          });
+        } else dispatch(setExperimentDetails({}));
       });
   };
 };
@@ -205,17 +227,20 @@ export const setAutoML = (automl) => {
   };
 };
 
-export const setTarget = (target) => {
-  return {
-    type: EXPERIMENT_SET_TARGET,
-    target,
-  };
-};
-
 export const setTemplate = (template) => {
   return {
     type: EXPERIMENT_SET_TEMPLATE,
     template,
+  };
+};
+
+/**
+ * Dispatch to set experiment target
+ */
+export const setTarget = (targetColumnId) => {
+  return {
+    type: EXPERIMENT_SET_TARGET,
+    targetColumnId,
   };
 };
 
