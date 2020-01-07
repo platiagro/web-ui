@@ -7,6 +7,7 @@ import { Button, Divider, Icon } from 'antd';
 import EditableTitle from '../EditableTitle';
 import ExperimentFlow from '../ExperimentFlow';
 import MainDrawer from '../Drawer/MainDrawer';
+
 import { updateExperiment } from '../../services/projectsApi';
 import { getStatusRun } from '../../services/pipelinesApi';
 import {
@@ -28,10 +29,7 @@ import {
   setRunStatus,
   setSelectedDrawer,
   setTaskStatus,
-  setCsv,
-  setTxt,
   setTarget,
-  setDataset,
 } from '../../store/actions/experimentActions';
 
 const ExperimentContent = (props) => {
@@ -64,6 +62,161 @@ const ExperimentContent = (props) => {
     onSetDataset,
   } = props;
 
+  // daqui
+  // const params = useParams();
+
+  // const setUploadedColumns = (e) => {
+  //   console.log(e);
+  //   onSetColumns(e);
+  // };
+
+  // // getting drawer title
+  // const getTitle = (task) => {
+  //   switch (task) {
+  //     case 'conjunto_dados':
+  //       return 'Conjunto de dados';
+  //     case 'atributos_tempo':
+  //       return 'Criação de atributos por tempo';
+  //     case 'pre_selecao1':
+  //       return 'Pré-seleção de atributos';
+  //     case 'atributos_genericos':
+  //       return 'Criação de atributos genéricos';
+  //     case 'pre_selecao2':
+  //       return 'Pré-seleção de atributos';
+  //     case 'filtro_atributos':
+  //       return 'Filtro de atributos';
+  //     case 'automl':
+  //       return 'AutoML';
+  //     case 'regression':
+  //       return 'Regressão Logística';
+  //     default:
+  //       return null;
+  //   }
+  // };
+
+  // // getting drawer child
+  // // Selecioanr o Drawer certo
+  // const getChild = (task) => {
+  //   switch (task) {
+  //     case 'conjunto_dados':
+  //       return (
+  //         <DataSetDrawer
+  //           parameter={experimentParameters.conjunto_dados}
+  //           setTarget={onSetTarget}
+  //           columns={columns}
+  //           setColumns={setUploadedColumns}
+  //           setDataset={onSetDataset}
+  //           setCSV={onSetCsv}
+  //           setTXT={onSetTxt}
+  //           details={details}
+  //           runStatus={runStatus}
+  //           taskStatus={taskStatus.conjunto_dados}
+  //         />
+  //       );
+  //     case 'atributos_tempo':
+  //       return (
+  //         <TimeAttributeCreationDrawerContent
+  //           parameter={experimentParameters.atributos_tempo}
+  //           dataSets={columns}
+  //           setGroup={onSetGroup}
+  //           setPeriod={onSetPeriod}
+  //           runStatus={runStatus} // 'Succeeded' // {runStatus}
+  //           taskStatus={taskStatus.atributos_tempo} // 'Succeeded' // {taskStatus.atributos_tempo}
+  //           targetId={experimentParameters.conjunto_dados.target}
+  //           details={details}
+  //         />
+  //       );
+  //     case 'pre_selecao1':
+  //       return (
+  //         <AttributePreSelectionDrawerContent
+  //           parameter={experimentParameters.pre_selecao1}
+  //           preType={1}
+  //           dataSets={columns}
+  //           setCutoff={onSetCutoffPre1}
+  //           setCorrelation={onSetCorrelationPre1}
+  //           runStatus={runStatus}
+  //           taskStatus={taskStatus.pre_selecao1}
+  //           details={details}
+  //         />
+  //       );
+  //     case 'atributos_genericos':
+  //       return (
+  //         <GenericAttributeCreationDrawerContent
+  //           parameter={experimentParameters.atributos_tempo}
+  //           dataSets={columns}
+  //           setFeatureTools={onSetGroup}
+  //           runStatus={runStatus} // 'Succeeded' // {runStatus}
+  //           taskStatus={taskStatus.atributos_genericos} // 'Succeeded' // {taskStatus.atributos_genericos}
+  //           targetId={experimentParameters.conjunto_dados.target}
+  //           details={details}
+  //         />
+  //       );
+  //     case 'pre_selecao2':
+  //       return (
+  //         <AttributePreSelectionDrawerContent
+  //           parameter={experimentParameters.pre_selecao2}
+  //           preType={2}
+  //           dataSets={columns}
+  //           setCutoff={onSetCutoffPre2}
+  //           setCorrelation={onSetCorrelationPre2}
+  //           runStatus={runStatus}
+  //           taskStatus={taskStatus.pre_selecao2}
+  //           details={details}
+  //         />
+  //       );
+  //     case 'filtro_atributos':
+  //       return (
+  //         <AttributeFilterDrawerContent
+  //           parameter={experimentParameters.filtro_atributos}
+  //           dataSets={columns}
+  //           setFilter={onSetFilter}
+  //           runStatus={runStatus} // 'Succeeded' // {runStatus}
+  //           taskStatus={taskStatus.filtro_atributos} // 'Succeeded' // {taskStatus.filtro_atributos}
+  //           targetId={experimentParameters.conjunto_dados.target}
+  //         />
+  //       );
+  //     case 'automl':
+  //       return (
+  //         <AutoMLDrawerContent
+  //           parameter={experimentParameters.automl}
+  //           dataSets={columns}
+  //           setAutoML={onSetAutoML}
+  //           runStatus={runStatus}
+  //           taskStatus={taskStatus.automl}
+  //           details={details}
+  //         />
+  //       );
+  //     default:
+  //       return null;
+  //   }
+  //   // NÃO REMOVER
+  //   // if (
+  //   //   selected.regression &&
+  //   //   runStatus === 'Succeeded' &&
+  //   //   taskStatus.regression === 'Succeeded'
+  //   // ) {
+  //   //   return <ResultsDrawer hideDivider details={details} plot />;
+  //   // }
+  // };
+
+  // // Click para abrir drawer de cada tarefa
+  // const handleClick = (task) => {
+  //   let newSelected = { ...selected };
+  //   newSelected = _.mapValues(selected, (value, key) => {
+  //     if (key === task) return !value;
+  //     return false;
+  //   });
+
+  //   onSetSelectedDrawer(newSelected);
+
+  //   const drawerTitle = getTitle(task);
+  //   const drawerChild = getChild(task);
+  //   const drawerContent = { title: drawerTitle, children: drawerChild };
+
+  //   onSelectDrawer(drawerContent);
+  //   onShowDrawer();
+  // };
+  // até aqui
   // DidMount montagem das colunas
   useEffect(() => {
     let isSubscribed = true;
@@ -72,15 +225,15 @@ const ExperimentContent = (props) => {
       // You can await here
 
       const responseHeader = await getHeader(headerId);
-      if (responseHeader && isSubscribed)
-        onSetTxt(responseHeader.data.payload.uuid);
+      // if (responseHeader && isSubscribed)
+      //   onSetTxt(responseHeader.data.payload.uuid);
 
       const col = await getHeaderColumns(headerId);
       if (col && isSubscribed) onSetColumns(col.data.payload);
 
       const responseDataset = await getDataSet(datasetId);
-      if (responseDataset && isSubscribed)
-        onSetCsv(responseDataset.data.payload.uuid);
+      // if (responseDataset && isSubscribed)
+      //   onSetCsv(responseDataset.data.payload.uuid);
 
       if (runId) {
         const runRes = await getStatusRun(runId);
@@ -133,7 +286,7 @@ const ExperimentContent = (props) => {
       else if (isSubscribed) onSetTarget(undefined);
     }
 
-    if (datasetId) onSetDataset(datasetId);
+    // if (datasetId) onSetDataset(datasetId);
 
     if (!runId) {
       onSetRunStatus(null);
@@ -162,7 +315,7 @@ const ExperimentContent = (props) => {
     const {
       atributos_tempo: { period },
       automl: { time },
-      conjunto_dados: { target, datasetId, csvName },
+      conjunto_dados: { target, csvName },
     } = parameters;
 
     switch (template) {
@@ -305,21 +458,9 @@ const mapDispatchToProps = (dispatch) => ({
   onSetTaskStatus: (taskStatus) => {
     dispatch(setTaskStatus(taskStatus));
   },
-  onSetCsv: (csv) => {
-    dispatch(setCsv(csv));
-  },
-  onSetTxt: (txt) => {
-    dispatch(setTxt(txt));
-  },
   onSetTarget: (target) => {
     dispatch(setTarget(target));
   },
-  onSetDataset: (dataset) => {
-    dispatch(setDataset(dataset));
-  },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExperimentContent);
+export default connect(mapStateToProps, mapDispatchToProps)(ExperimentContent);

@@ -7,30 +7,21 @@ import _ from 'lodash';
 import LeftSideMenuItem from '../LeftSideMenuItem';
 import LeftSideMenuTemplateItem from '../LeftSideMenuTemplateItem';
 import { getPipelines } from '../../../store/actions/projectActions';
-import { updateExperiment } from '../../../store/actions/experimentActions';
 import items from './items';
 
 const { Sider } = Layout;
 const { Panel } = Collapse;
 
+// FIXME: refatorar esse componente
+// FIXME: alterar nome do componente para nome descritivo, sugestão ProjectMenu ou ExperimentMenu
 export const LeftSideMenu = (props) => {
-  const { experimentsList, onGetPipelines, onUpdateExperiment } = props;
+  const { experimentsList, onGetPipelines } = props;
   const [menuItems, setItems] = useState(items);
   const params = useParams();
 
   useEffect(() => {
     onGetPipelines(items);
   }, []);
-
-  const handleClick = (template) => {
-    const { pipelineIdTrain, pipelineIdDeploy, databaseName } = template;
-    const body = {
-      pipelineIdTrain,
-      pipelineIdDeploy,
-      template: databaseName,
-    };
-    onUpdateExperiment(params.projectId, params.experimentId, body);
-  };
 
   // Block change template after deploy or succeeded
   const getRunStatus = () => {
@@ -97,7 +88,6 @@ export const LeftSideMenu = (props) => {
                 disabled={!params.experimentId || getRunStatus()}
                 key={template.name}
                 template={template}
-                handleClick={handleClick}
               />
             ))}
           </Panel>
@@ -172,9 +162,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onGetPipelines: (templateItems) => {
       dispatch(getPipelines(templateItems));
-    },
-    onUpdateExperiment: (projectId, experimentId, body) => {
-      dispatch(updateExperiment(projectId, experimentId, body));
     },
   };
 };

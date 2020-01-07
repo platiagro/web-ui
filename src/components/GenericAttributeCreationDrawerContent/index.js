@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 import { Select, Icon, Divider, Table } from 'antd';
 
-import ResultsDrawer from '../ResultsDrawer';
-import ResultsButtonBar from '../ResultsButtonBar';
+import ResultsDrawer from '../Drawer/ResultsDrawer';
+import ResultsButtonBar from '../Drawer/ResultsButtonBar';
 
 import './style.scss';
 

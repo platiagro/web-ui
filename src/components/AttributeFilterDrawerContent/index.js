@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Select } from 'antd';
 import _ from 'lodash';
 
-import ResultsDrawer from '../ResultsDrawer';
-import ResultsButtonBar from '../ResultsButtonBar';
+import ResultsDrawer from '../Drawer/ResultsDrawer';
+import ResultsButtonBar from '../Drawer/ResultsButtonBar';
 
 const { Option } = Select;
 
@@ -17,13 +17,13 @@ const AttributeFilterDrawerContent = ({
   details,
   targetId,
 }) => {
-  const optionsTarget = _.filter(dataSets, function (o) {
+  const optionsTarget = _.filter(dataSets, function(o) {
     return o.uuid !== targetId;
   });
   // resultados
   const [results, setResults] = useState(
     (runStatus === 'Failed' || runStatus === 'Succeeded') &&
-    taskStatus === 'Succeeded'
+      taskStatus === 'Succeeded'
   );
 
   const [showResults, setShowResults] = useState(results);
@@ -52,8 +52,8 @@ const AttributeFilterDrawerContent = ({
           </Select>
         </div>
       ) : (
-          <ResultsDrawer attributesFilter={parameter} />
-        )}
+        <ResultsDrawer attributesFilter={parameter} />
+      )}
       {runStatus === 'Failed' && taskStatus === 'Succeeded' ? (
         <ResultsButtonBar
           setShowResults={setShowResults}

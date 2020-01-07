@@ -2,6 +2,13 @@
 /**
  * Actions for experiment details
  */
+
+import {
+  uploadDataset as uploadDatasetService,
+  getHeaderColumns,
+} from '../../services/dataSetApi';
+import { showLoader, hideLoader } from './drawerActions';
+
 import * as projectsServices from '../../services/projectsApi';
 
 import { getProject } from './projectActions';
@@ -13,7 +20,6 @@ export const EXPERIMENT_UPDATE_NAME = 'EXPERIMENT_UPDATE_NAME';
 
 export const EXPERIMENT_SET_COLUMNS = 'EXPERIMENT_SET_COLUMNS';
 export const EXPERIMENT_SET_RUN_STATUS = 'EXPERIMENT_SET_RUN_STATUS';
-export const EXPERIMENT_SET_PARAMETERS = 'EXPERIMENT_SET_PARAMETERS';
 export const EXPERIMENT_SET_SELECTED_DRAWER = 'EXPERIMENT_SET_SELECTED_DRAWER';
 export const EXPERIMENT_SET_TASK_STATUS = 'EXPERIMENT_SET_TASK_STATUS';
 
@@ -27,11 +33,28 @@ export const EXPERIMENT_SET_CORRELATION_PRE_2 =
   'EXPERIMENT_SET_CORRELATION_PRE_2';
 export const EXPERIMENT_SET_FILTER = 'EXPERIMENT_SET_FILTER';
 export const EXPERIMENT_SET_AUTOML = 'EXPERIMENT_SET_AUTOML';
-export const EXPERIMENT_SET_CSV = 'EXPERIMENT_SET_CSV';
-export const EXPERIMENT_SET_TXT = 'EXPERIMENT_SET_TXT';
 export const EXPERIMENT_SET_TARGET = 'EXPERIMENT_SET_TARGET';
 export const EXPERIMENT_SET_TEMPLATE = 'EXPERIMENT_SET_TEMPLATE';
-export const EXPERIMENT_SET_DATASET = 'EXPERIMENT_SET_DATASET';
+
+export const EXPERIMENT_UPLOAD_DATASET = 'EXPERIMENT_UPLOAD_DATASET';
+
+// default experiment template parameters
+const experimentTemplateParameters = {
+  atributos_tempo: {
+    group: [],
+    period: null,
+  },
+  pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
+  pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
+  filtro_atributos: [],
+  automl: { time: 3 },
+  conjunto_dados: {
+    target: undefined,
+    datasetId: null,
+    txtName: null,
+    csvName: null,
+  },
+};
 
 /**
  * Function to dispatch action EXPERIMENT_FETCH
@@ -53,14 +76,33 @@ export const setExperimentDetails = (experiment) => {
   };
 };
 
+// TODO: implementar setTarget
+// TODO: implementar setColumnType
+/**
+ * Async action to fetch experiment dataset
+ * @param {String} projectId
+ * @param {String} experimentId
+ */
 export const getExperiment = (projectId, experimentId) => {
   return (dispatch) => {
     dispatch(fetchStarted());
     return projectsServices
       .getExperiment(projectId, experimentId)
       .then(async (experiment) => {
-        if (experiment) dispatch(setExperimentDetails(experiment.data.payload));
-        else dispatch(setExperimentDetails({}));
+        if (experiment) {
+          const { headerId } = experiment.data.payload;
+
+          getHeaderColumns(headerId).then((responseColumns) => {
+            const { payload: columns } = responseColumns.data;
+
+            const experimentDetails = {
+              ...experiment.data.payload,
+              columns,
+            };
+
+            dispatch(setExperimentDetails(experimentDetails));
+          });
+        } else dispatch(setExperimentDetails({}));
       });
   };
 };
@@ -70,7 +112,6 @@ export const getExperiment = (projectId, experimentId) => {
  * @param {String} projectId
  * @param {String} experimentId
  * @param {Object} body
- * @param {Object} template
  */
 export const updateExperiment = (projectId, experimentId, body) => {
   return (dispatch) => {
@@ -122,17 +163,11 @@ export const setColumns = (columns) => {
   };
 };
 
+// FIXME: quando entramos em um experimento, o run status está sendo excluído
 export const setRunStatus = (status) => {
   return {
     type: EXPERIMENT_SET_RUN_STATUS,
     status,
-  };
-};
-
-export const setParameters = (parameters) => {
-  return {
-    type: EXPERIMENT_SET_PARAMETERS,
-    parameters,
   };
 };
 
@@ -206,37 +241,150 @@ export const setAutoML = (automl) => {
   };
 };
 
-export const setCsv = (csv) => {
-  return {
-    type: EXPERIMENT_SET_CSV,
-    csv,
-  };
-};
-
-export const setTxt = (txt) => {
-  return {
-    type: EXPERIMENT_SET_TXT,
-    txt,
-  };
-};
-
-export const setTarget = (target) => {
+/**
+ * Dispatch to set experiment target success
+ * @param {String} targetId
+ */
+export const setTargetSuccess = (targetId) => {
   return {
     type: EXPERIMENT_SET_TARGET,
-    target,
+    targetId,
   };
 };
 
-export const setTemplate = (template) => {
+/**
+ * Async action to set experiment target
+ * @param {String} projectId
+ * @param {Object} experimentId
+ * @param {Object} targetColumnId
+ */
+export const setTarget = (projectId, experimentId, targetColumnId) => {
+  return (dispatch) => {
+    projectsServices
+      .updateExperiment(projectId, experimentId, {
+        targetColumnId,
+      })
+      .then(() => {
+        dispatch(setTargetSuccess(targetColumnId));
+      });
+  };
+};
+
+/**
+ * Dispatch to set experiment template success
+ * @param {Object} newExperimentDetails
+ */
+export const setTemplateSuccess = (newExperimentDetails) => {
   return {
     type: EXPERIMENT_SET_TEMPLATE,
-    template,
+    newExperimentDetails,
   };
 };
 
-export const setDataset = (dataset) => {
-  return {
-    type: EXPERIMENT_SET_DATASET,
-    dataset,
+// FIXME: adicionar loading ao selecionar template
+/**
+ * Async action to set experiment template
+ * @param {String} projectId
+ * @param {Object} experimentId
+ * @param {Object} template
+ */
+export const setTemplate = (projectId, experimentId, template) => {
+  return (dispatch) => {
+    const {
+      databaseName: templateName,
+      pipelineDeployId: pipelineIdDeploy,
+      pipelineTrainId: pipelineIdTrain,
+    } = template;
+
+    const templateDetails = {
+      template: templateName,
+      pipelineIdDeploy,
+      pipelineIdTrain,
+      datasetId: null,
+      headerId: null,
+      targetColumnId: null,
+      runId: null,
+      runStatus: null,
+    };
+
+    const newExperimentDetails = { ...templateDetails };
+
+    projectsServices
+      .updateExperiment(projectId, experimentId, {
+        ...newExperimentDetails,
+        parameters: JSON.stringify(experimentTemplateParameters),
+      })
+      .then(() => {
+        dispatch(
+          setTemplateSuccess({
+            ...newExperimentDetails,
+            parameters: experimentTemplateParameters,
+            columns: [],
+          })
+        );
+      });
+  };
+};
+
+/**
+ * Dispatch to upload dataset success
+ * @param {Object} newExperimentDetails
+ */
+export const uploadDatasetSuccess = (newExperimentDetails) => ({
+  type: EXPERIMENT_UPLOAD_DATASET,
+  newExperimentDetails,
+});
+
+// FIXME: remover experimentId do form e adicionar como parametro da função
+/**
+ * Async action to upload dataset
+ * @param {String} projectId
+ * @param {Object} form
+ */
+export const uploadDataset = (projectId, form) => {
+  const experimentId = form.get('experimentId');
+
+  return (dispatch) => {
+    dispatch(showLoader());
+
+    return uploadDatasetService(form)
+      .then((responseDataset) => {
+        const {
+          dataset: { uuid: datasetId, originalName: csvName },
+          header: { uuid: headerId, originalName: txtName },
+        } = responseDataset.data.payload;
+
+        const newParameters = {
+          ...experimentTemplateParameters,
+          conjunto_dados: { target: undefined, datasetId, txtName, csvName },
+        };
+
+        const newExperimentDetails = {
+          datasetId,
+          headerId,
+          targetColumnId: null,
+          runId: null,
+        };
+
+        projectsServices
+          .updateExperiment(projectId, experimentId, {
+            ...newExperimentDetails,
+            parameters: JSON.stringify(newParameters),
+          })
+          .then(() => {
+            getHeaderColumns(headerId).then((responseColumns) => {
+              const { payload: columns } = responseColumns.data;
+
+              dispatch(
+                uploadDatasetSuccess({
+                  ...newExperimentDetails,
+                  parameters: newParameters,
+                  columns,
+                })
+              );
+            });
+          });
+      })
+      .finally(() => dispatch(hideLoader()));
   };
 };

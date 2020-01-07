@@ -1,7 +1,11 @@
 import React from 'react';
-import PropType from 'prop-types';
+import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 
+// FIXME: alterar nome do componente para nome descritivo, sugestão ProjectMenuItem
+/**
+ * Common project menu item.
+ */
 const LeftSideMenuItem = ({ title, disabled }) => (
   <div
     onClick={() => console.log('Cliclou no menu', title)}
@@ -13,12 +17,16 @@ const LeftSideMenuItem = ({ title, disabled }) => (
   </div>
 );
 
-LeftSideMenuItem.defaultProps = {
-  disabled: false,
-};
 LeftSideMenuItem.propTypes = {
-  disabled: PropType.bool,
-  title: PropType.string.isRequired,
+  /** item is disabled */
+  disabled: PropTypes.bool,
+  /** item title */
+  title: PropTypes.string.isRequired,
+};
+
+LeftSideMenuItem.defaultProps = {
+  /** disabled prop default is null */
+  disabled: false,
 };
 
 export default LeftSideMenuItem;

@@ -6,7 +6,6 @@ import {
   EXPERIMENT_FETCH_STARTED,
   EXPERIMENT_SET_COLUMNS,
   EXPERIMENT_SET_RUN_STATUS,
-  EXPERIMENT_SET_PARAMETERS,
   EXPERIMENT_SET_SELECTED_DRAWER,
   EXPERIMENT_SET_TASK_STATUS,
   EXPERIMENT_SET_GROUP,
@@ -17,13 +16,34 @@ import {
   EXPERIMENT_SET_CORRELATION_PRE_2,
   EXPERIMENT_SET_FILTER,
   EXPERIMENT_SET_AUTOML,
-  EXPERIMENT_SET_CSV,
-  EXPERIMENT_SET_TXT,
   EXPERIMENT_SET_TARGET,
   EXPERIMENT_SET_TEMPLATE,
-  EXPERIMENT_SET_DATASET,
+  EXPERIMENT_UPLOAD_DATASET,
 } from '../actions/experimentActions';
 
+// FIXME: Alterar nome da variável txtName para headerFileName
+// FIXME: Alterar nome da variável csvName para datasetFileName
+const parameters = {
+  atributos_tempo: {
+    group: [],
+    period: null,
+  },
+  pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
+  pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
+  filtro_atributos: [],
+  automl: { time: 3 },
+  conjunto_dados: {
+    target: undefined,
+    datasetId: null,
+    txtName: null,
+    csvName: null,
+  },
+};
+
+/**
+ * FIXME: Remover redundancia de dados. targetColumnId, datasetId e headerId
+ * já existem nos parametros
+ */
 const initialState = {
   uuid: '',
   name: '',
@@ -33,22 +53,7 @@ const initialState = {
   datasetId: '',
   headerId: '',
   targetColumnId: '',
-  parameters: {
-    atributos_tempo: {
-      group: [],
-      period: null,
-    },
-    pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
-    pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
-    filtro_atributos: [],
-    automl: { time: 3 },
-    conjunto_dados: {
-      target: undefined,
-      datasetId: null,
-      txtName: null,
-      csvName: null,
-    },
-  },
+  parameters,
   createdAt: '',
   runId: '',
   runStatus: '',
@@ -79,8 +84,12 @@ const initialState = {
   },
 };
 
+/**
+ * FIXME: sugerir nome descritivo para propriedade 'experiment' da action,
+ * sugestão newExperimentDetails
+ */
 export default function experimentReducer(state = initialState, action) {
-  const { experiment } = action;
+  const { experiment, newExperimentDetails, targetId } = action;
   switch (action.type) {
     case EXPERIMENT_FETCH_STARTED:
       return { ...state, loading: true };
@@ -92,8 +101,6 @@ export default function experimentReducer(state = initialState, action) {
       return { ...state, columns: action.columns };
     case EXPERIMENT_SET_RUN_STATUS:
       return { ...state, runStatus: action.status };
-    case EXPERIMENT_SET_PARAMETERS:
-      return { ...state, parameters: action.parameters };
     case EXPERIMENT_SET_SELECTED_DRAWER:
       return { ...state, selected: action.selected };
     case EXPERIMENT_SET_TASK_STATUS:
@@ -138,31 +145,17 @@ export default function experimentReducer(state = initialState, action) {
       newParameters.automl.time = action.automl;
       return { ...state, parameters: newParameters };
     }
-    case EXPERIMENT_SET_CSV: {
-      const newParameters = { ...state.parameters };
-      newParameters.conjunto_dados.csvName = action.csv;
-      return { ...state, parameters: newParameters };
-    }
-    case EXPERIMENT_SET_TXT: {
-      const newParameters = { ...state.parameters };
-      newParameters.conjunto_dados.txtName = action.txt;
-      return { ...state, parameters: newParameters };
-    }
     case EXPERIMENT_SET_TARGET: {
-      const newParameters = { ...state.parameters };
-      newParameters.conjunto_dados.target = action.target;
-      return { ...state, parameters: newParameters };
+      return { ...state, targetColumnId: targetId };
     }
     case EXPERIMENT_SET_TEMPLATE: {
-      const newParameters = { ...state.parameters };
-      newParameters.template = action.template;
-      return { ...state, parameters: newParameters };
+      return { ...state, ...newExperimentDetails };
     }
-    case EXPERIMENT_SET_DATASET: {
-      const newParameters = { ...state.parameters };
-      newParameters.conjunto_dados.datasetId = action.dataset;
-      return { ...state, parameters: newParameters };
-    }
+    case EXPERIMENT_UPLOAD_DATASET:
+      return {
+        ...state,
+        ...newExperimentDetails,
+      };
     default:
       return state;
   }
