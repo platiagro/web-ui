@@ -38,7 +38,14 @@ MainDrawer.propTypes = {
   /** on close handle function */
   onClose: PropTypes.func.isRequired,
   /** if drawer task is finished */
-  isFinished: PropTypes.oneOf(['Succeeded', 'Failed', 'Loading', null]),
+  isFinished: PropTypes.oneOf([
+    'StartRun',
+    'Running',
+    'Succeeded',
+    'Failed',
+    'Loading',
+    null,
+  ]),
   /** drawer is visible */
   visible: PropTypes.bool.isRequired,
 };
@@ -60,7 +67,4 @@ const mapDispatchToProps = (dispatch) => ({
   onClose: () => dispatch(hideDrawer()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainDrawer);

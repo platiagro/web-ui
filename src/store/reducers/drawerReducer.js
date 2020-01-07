@@ -2,9 +2,9 @@
  * Reducer for Drawer
  */
 import {
-  DRAWER_SHOW_DRAWER,
-  DRAWER_HIDE_DRAWER,
-  DRAWER_SELECT_DRAWER,
+  DRAWER_SHOW,
+  DRAWER_HIDE,
+  DRAWER_SELECT_CHILDREN,
   DRAWER_START_LOADING,
   DRAWER_END_LOADING,
 } from '../actions/drawerActions';
@@ -22,11 +22,11 @@ const initialState = {
 export default function drawerReducer(state = initialState, action) {
   switch (action.type) {
     // MAIN DRAWER
-    case DRAWER_SHOW_DRAWER:
+    case DRAWER_SHOW:
       return { ...state, visible: action.visible };
-    case DRAWER_HIDE_DRAWER:
+    case DRAWER_HIDE:
       return { ...state, visible: action.visible };
-    case DRAWER_SELECT_DRAWER:
+    case DRAWER_SELECT_CHILDREN:
       return { ...state, title: action.title, children: action.children };
     case DRAWER_START_LOADING:
       return { ...state, loading: action.loading };

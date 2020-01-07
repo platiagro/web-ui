@@ -60,8 +60,7 @@ export const setExperimentDetails = (experiment) => {
 
 // TODO: implementar setTarget
 // TODO: implementar setColumnType
-// TODO: implementar parametros conjunto de dados no set dataset
-// TODO: alterar parametros ao selecionar template no menu
+// TODO: alterar parametros ao selecionar template no menu (incluindo pipeline e deploy id)
 /**
  * Async action to fetch experiment dataset
  * @param {String} projectId
@@ -75,8 +74,6 @@ export const getExperiment = (projectId, experimentId) => {
       .then(async (experiment) => {
         if (experiment) {
           const { headerId } = experiment.data.payload;
-
-          console.log(experiment.data.payload);
 
           getHeaderColumns(headerId).then((responseColumns) => {
             const { payload: columns } = responseColumns.data;
@@ -93,12 +90,12 @@ export const getExperiment = (projectId, experimentId) => {
   };
 };
 
+// FIXME: adicionar callback aos parametros para generalizar a função
 /**
  * Function to update project experiment and dispatch to reducer
  * @param {String} projectId
  * @param {String} experimentId
  * @param {Object} body
- * @param {Object} template
  */
 export const updateExperiment = (projectId, experimentId, body) => {
   return (dispatch) => {
@@ -227,15 +224,9 @@ export const setAutoML = (automl) => {
   };
 };
 
-export const setTemplate = (template) => {
-  return {
-    type: EXPERIMENT_SET_TEMPLATE,
-    template,
-  };
-};
-
 /**
  * Dispatch to set experiment target
+ * @param {String} targetColumnId
  */
 export const setTarget = (targetColumnId) => {
   return {
@@ -245,15 +236,92 @@ export const setTarget = (targetColumnId) => {
 };
 
 /**
- * Dispatch to upload dataset success
+ * Dispatch to set experiment template success
+ * @param {Object} newExperimentDetails
  */
-export const uploadDatasetSuccess = (experiment) => ({
-  type: EXPERIMENT_UPLOAD_DATASET,
-  experiment,
-});
+export const setTemplateSuccess = (newExperimentDetails) => {
+  return {
+    type: EXPERIMENT_SET_TEMPLATE,
+    newExperimentDetails,
+  };
+};
 
 /**
+ * Async action to set experiment template
+ * @param {String} projectId
+ * @param {Object} experimentId
+ * @param {Object} template
+ */
+export const setTemplate = (projectId, experimentId, template) => {
+  return (dispatch) => {
+    const {
+      databaseName: templateName,
+      pipelineDeployId: pipelineIdDeploy,
+      pipelineTrainId: pipelineIdTrain,
+    } = template;
+
+    const parameters = {
+      atributos_tempo: {
+        group: [],
+        period: null,
+      },
+      pre_selecao1: { cutoff: 0.1, correlation: 0.7 },
+      pre_selecao2: { cutoff: 0.1, correlation: 0.7 },
+      filtro_atributos: [],
+      automl: { time: 3 },
+      conjunto_dados: {
+        target: undefined,
+        datasetId: null,
+        txtName: null,
+        csvName: null,
+      },
+    };
+
+    const templateDetails = {
+      template: templateName,
+      pipelineIdDeploy,
+      pipelineIdTrain,
+      datasetId: null,
+      headerId: null,
+      targetColumnId: null,
+      runId: null,
+      runStatus: null,
+    };
+
+    const newExperimentDetails = { ...templateDetails };
+
+    projectsServices
+      .updateExperiment(projectId, experimentId, {
+        ...newExperimentDetails,
+        parameters: JSON.stringify(parameters),
+      })
+      .then(() => {
+        dispatch(
+          setTemplateSuccess({
+            ...newExperimentDetails,
+            parameters,
+            columns: [],
+          })
+        );
+      });
+  };
+};
+
+/**
+ * Dispatch to upload dataset success
+ * @param {Object} newExperimentDetails
+ */
+export const uploadDatasetSuccess = (newExperimentDetails) => ({
+  type: EXPERIMENT_UPLOAD_DATASET,
+  newExperimentDetails,
+});
+
+// FIXME: remover experimentId do form e adicionar como parametro da função
+// TODO: implementar parametros conjunto de dados no set dataset
+/**
  * Async action to upload dataset
+ * @param {String} projectId
+ * @param {Object} form
  */
 export const uploadDataset = (projectId, form) => {
   const experimentId = form.get('experimentId');
@@ -279,14 +347,14 @@ export const uploadDataset = (projectId, form) => {
             getHeaderColumns(headerId).then((responseColumns) => {
               const { payload: columns } = responseColumns.data;
 
-              const experiment = {
+              const newExperimentDetails = {
                 datasetId,
                 headerId,
                 parameters: { conjunto_dados: { datasetId, txtName, csvName } },
                 columns,
               };
 
-              dispatch(uploadDatasetSuccess(experiment));
+              dispatch(uploadDatasetSuccess(newExperimentDetails));
             });
           });
       })

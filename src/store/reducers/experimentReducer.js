@@ -21,6 +21,8 @@ import {
   EXPERIMENT_UPLOAD_DATASET,
 } from '../actions/experimentActions';
 
+// FIXME: Alterar nome da variável txtName para headerFileName
+// FIXME: Alterar nome da variável csvName para datasetFileName
 const parameters = {
   atributos_tempo: {
     group: [],
@@ -78,8 +80,12 @@ const initialState = {
   },
 };
 
+/**
+ * FIXME: sugerir nome descritivo para propriedade 'experiment' da action,
+ * sugestão newExperimentDetails
+ */
 export default function experimentReducer(state = initialState, action) {
-  const { experiment } = action;
+  const { experiment, newExperimentDetails } = action;
   switch (action.type) {
     case EXPERIMENT_FETCH_STARTED:
       return { ...state, loading: true };
@@ -141,20 +147,18 @@ export default function experimentReducer(state = initialState, action) {
       return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_TEMPLATE: {
-      const newParameters = { ...state.parameters };
-      newParameters.template = action.template;
-      return { ...state, parameters: newParameters };
+      return { ...state, ...newExperimentDetails };
     }
     case EXPERIMENT_UPLOAD_DATASET:
       return {
         ...state,
-        ...experiment,
+        ...newExperimentDetails,
         targetColumnId: '',
         parameters: {
           ...parameters,
           conjunto_dados: {
             target: undefined,
-            ...experiment.parameters.conjunto_dados,
+            ...newExperimentDetails.parameters.conjunto_dados,
           },
         },
       };
