@@ -5,6 +5,9 @@ import { getStatusRun } from '../../services/pipelinesApi';
 import { updateExperiment } from '../../services/projectsApi';
 import taskGetPhases from './util';
 
+/**
+ * FIXME: passar polling para o backend e implementar websocket
+ */
 const pollingRun = (
   details,
   pollingId,

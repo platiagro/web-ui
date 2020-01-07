@@ -13,25 +13,28 @@ import { connect } from 'react-redux';
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
 import { updateExperiment } from '../../../services/projectsApi';
-import { getHeaderColumns, updateColumn } from '../../../services/dataSetApi';
+import { updateColumn } from '../../../services/dataSetApi';
 
 import ResultsDrawer from '../ResultsDrawer';
 import ResultsButtonBar from '../ResultsButtonBar';
 
 import { findTarget } from '../../../utils';
 
-import { uploadDataset } from '../../../store/actions/experimentActions';
+import {
+  setTarget,
+  uploadDataset,
+} from '../../../store/actions/experimentActions';
 
 const { Option } = Select;
 
 const DataSetDrawer = ({
   setColumns,
-  setTarget,
   details,
   parameter,
   runStatus,
   taskStatus,
   handleUploadDataset,
+  handleSetTarget,
   loading,
 }) => {
   // hooks to handle files
@@ -68,45 +71,13 @@ const DataSetDrawer = ({
     formData.append('experimentId', details.uuid);
 
     handleUploadDataset(details.projectId, formData);
-    //   // Depois da resposta preencher os estados
-    //   if (response) {
-    //     headerColumns = await getHeaderColumns(response.data.payload.header.uuid);
 
-    //     await updateExperiment(details.projectId, details.uuid, {
-    //       datasetId: response.data.payload.dataset.uuid,
-    //       headerId: response.data.payload.header.uuid,
-    //       targetColumnId: null,
-    //       runId: null,
-    //     });
-
-    //     setTXT(response.data.payload.header.uuid);
-    //     setCSV(response.data.payload.dataset.uuid);
-
-    //     setColumns(headerColumns.data.payload);
-    //     setDataset(response.data.payload.dataset.uuid);
-
-    //   } else {
-    //     setColumns([]);
-    //     setDataset(null);
-    //     setTXT(null);
-    //     setCSV(null);
-    //     await updateExperiment(details.projectId, details.uuid, {
-    //       datasetId: null,
-    //       headerId: null,
-    //       targetColumnId: null,
-    //       runId: null,
-    //     });
-    //   }
     setDataSetHeaderFileList([]);
     setDataSetFileList([]);
-    setTarget(undefined);
   };
 
   const handleTargetChange = async (targetId) => {
-    await updateExperiment(details.projectId, details.uuid, {
-      targetColumnId: targetId,
-    });
-    setTarget(targetId);
+    handleSetTarget(details.projectId, details.uuid, targetId);
   };
 
   const handleColumnSelect = async (e, row) => {
@@ -277,6 +248,8 @@ const mapStateToProps = ({ drawer: { loading }, experiment: details }) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleUploadDataset: (projectId, form) =>
     dispatch(uploadDataset(projectId, form)),
+  handleSetTarget: (projectId, experimentId, targetId) =>
+    dispatch(setTarget(projectId, experimentId, targetId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataSetDrawer);

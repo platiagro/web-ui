@@ -1,3 +1,10 @@
+// FIXME: Rotas não estão funcionando como deveriam
+/**
+ * FIXME: Quando acessamos um projeto e um experimento, e depois voltamos e
+ * selecionamos outro projeto, o sistema está tentando acessar o experiment
+ * acessado no outro projeto
+ */
+
 /**
  * List of the possible routes
  */

@@ -40,6 +40,10 @@ const parameters = {
   },
 };
 
+/**
+ * FIXME: Remover redundancia de dados. targetColumnId, datasetId e headerId
+ * já existem nos parametros
+ */
 const initialState = {
   uuid: '',
   name: '',
@@ -85,7 +89,7 @@ const initialState = {
  * sugestão newExperimentDetails
  */
 export default function experimentReducer(state = initialState, action) {
-  const { experiment, newExperimentDetails } = action;
+  const { experiment, newExperimentDetails, targetId } = action;
   switch (action.type) {
     case EXPERIMENT_FETCH_STARTED:
       return { ...state, loading: true };
@@ -142,9 +146,7 @@ export default function experimentReducer(state = initialState, action) {
       return { ...state, parameters: newParameters };
     }
     case EXPERIMENT_SET_TARGET: {
-      const newParameters = { ...state.parameters };
-      newParameters.conjunto_dados.target = action.target;
-      return { ...state, parameters: newParameters };
+      return { ...state, targetColumnId: targetId };
     }
     case EXPERIMENT_SET_TEMPLATE: {
       return { ...state, ...newExperimentDetails };
@@ -153,14 +155,6 @@ export default function experimentReducer(state = initialState, action) {
       return {
         ...state,
         ...newExperimentDetails,
-        targetColumnId: '',
-        parameters: {
-          ...parameters,
-          conjunto_dados: {
-            target: undefined,
-            ...newExperimentDetails.parameters.conjunto_dados,
-          },
-        },
       };
     default:
       return state;
