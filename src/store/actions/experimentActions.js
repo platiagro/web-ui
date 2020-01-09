@@ -1,11 +1,13 @@
+// FIXME: quando criamos um novo experimento o menu de templates está travando
+
 /* eslint-disable import/no-cycle */
 /**
  * Actions for experiment details
  */
-
 import {
   uploadDataset as uploadDatasetService,
   getHeaderColumns,
+  updateColumn,
 } from '../../services/dataSetApi';
 import { showLoader, hideLoader } from './drawerActions';
 
@@ -37,6 +39,8 @@ export const EXPERIMENT_SET_TARGET = 'EXPERIMENT_SET_TARGET';
 export const EXPERIMENT_SET_TEMPLATE = 'EXPERIMENT_SET_TEMPLATE';
 
 export const EXPERIMENT_UPLOAD_DATASET = 'EXPERIMENT_UPLOAD_DATASET';
+export const EXPERIMENT_SET_COLUMN_TYPE = 'EXPERIMENT_SET_COLUMN_TYPE';
+export const EXPERIMENT_CLEAR_SELECTED_TASK = 'EXPERIMENT_CLEAR_SELECTED_TASK';
 
 // default experiment template parameters
 const experimentTemplateParameters = {
@@ -76,8 +80,6 @@ export const setExperimentDetails = (experiment) => {
   };
 };
 
-// TODO: implementar setTarget
-// TODO: implementar setColumnType
 /**
  * Async action to fetch experiment dataset
  * @param {String} projectId
@@ -153,13 +155,6 @@ export const updateExperimentName = (editableDetails, name) => {
         }
         return false;
       });
-  };
-};
-
-export const setColumns = (columns) => {
-  return {
-    type: EXPERIMENT_SET_COLUMNS,
-    columns,
   };
 };
 
@@ -242,13 +237,69 @@ export const setAutoML = (automl) => {
 };
 
 /**
- * Dispatch to set experiment target success
- * @param {String} targetId
+ * Dispatch to clear selected task
  */
-export const setTargetSuccess = (targetId) => {
+export const clearSelected = () => {
+  // const to deselect tasks
+  const selected = {
+    conjunto_dados: false,
+    atributos_tempo: false,
+    pre_selecao1: false,
+    atributos_genericos: false,
+    pre_selecao2: false,
+    filtro_atributos: false,
+    automl: false,
+    regression: false,
+  };
+
+  return {
+    type: EXPERIMENT_CLEAR_SELECTED_TASK,
+    selected,
+  };
+};
+
+// FIXME: adicionar loading ao selecionar tipo da coluna
+/**
+ * Dispatch to set dataset column type
+ * @param {String} columnType
+ * @param {number} columnPosition
+ */
+export const setColumnTypeSuccess = (columnType, columnPosition) => {
+  return {
+    type: EXPERIMENT_SET_COLUMN_TYPE,
+    columnType,
+    columnPosition,
+  };
+};
+
+/**
+ * Async action to set dataset column type
+ * @param {String} headerId
+ * @param {String} columnId
+ * @param {String} columnType
+ * @param {number} columnPosition
+ */
+export const setColumnType = (
+  headerId,
+  columnId,
+  columnType,
+  columnPosition
+) => {
+  return (dispatch) => {
+    return updateColumn(headerId, columnId, columnType).then(() => {
+      dispatch(setColumnTypeSuccess(columnType, columnPosition));
+    });
+  };
+};
+
+/**
+ * Dispatch to set experiment target success
+ * @param {String} newExperimentDetails
+ */
+export const setTargetSuccess = (newExperimentDetails) => {
   return {
     type: EXPERIMENT_SET_TARGET,
-    targetId,
+    newExperimentDetails,
   };
 };
 
@@ -257,15 +308,27 @@ export const setTargetSuccess = (targetId) => {
  * @param {String} projectId
  * @param {Object} experimentId
  * @param {Object} targetColumnId
+ * @param {Object} parameters
  */
-export const setTarget = (projectId, experimentId, targetColumnId) => {
+export const setTarget = (
+  projectId,
+  experimentId,
+  targetColumnId,
+  parameters
+) => {
   return (dispatch) => {
+    const newParameters = { ...parameters };
+    newParameters.conjunto_dados.target = targetColumnId;
+
     projectsServices
       .updateExperiment(projectId, experimentId, {
         targetColumnId,
+        parameters: JSON.stringify(newParameters),
       })
       .then(() => {
-        dispatch(setTargetSuccess(targetColumnId));
+        dispatch(
+          setTargetSuccess({ targetColumnId, parameters: newParameters })
+        );
       });
   };
 };

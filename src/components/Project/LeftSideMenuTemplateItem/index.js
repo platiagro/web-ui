@@ -16,6 +16,7 @@ const LeftSideMenuTemplateItem = ({
   onSetTemplate,
   template,
 }) => (
+  // menu item container
   <div
     onClick={() => {
       onSetTemplate(projectId, experimentId, template);
@@ -25,7 +26,10 @@ const LeftSideMenuTemplateItem = ({
     }`}
     role='presentation'
   >
+    {/* menu item icon */}
     <Icon className='icon-collapse-header' type='more' />
+
+    {/* menu item name */}
     {template.name}
   </div>
 );

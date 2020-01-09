@@ -5,6 +5,7 @@ import {
   EXPERIMENT_FETCH,
   EXPERIMENT_FETCH_STARTED,
   EXPERIMENT_SET_COLUMNS,
+  EXPERIMENT_SET_COLUMN_TYPE,
   EXPERIMENT_SET_RUN_STATUS,
   EXPERIMENT_SET_SELECTED_DRAWER,
   EXPERIMENT_SET_TASK_STATUS,
@@ -19,6 +20,7 @@ import {
   EXPERIMENT_SET_TARGET,
   EXPERIMENT_SET_TEMPLATE,
   EXPERIMENT_UPLOAD_DATASET,
+  EXPERIMENT_CLEAR_SELECTED_TASK,
 } from '../actions/experimentActions';
 
 // FIXME: Alterar nome da variável txtName para headerFileName
@@ -89,7 +91,7 @@ const initialState = {
  * sugestão newExperimentDetails
  */
 export default function experimentReducer(state = initialState, action) {
-  const { experiment, newExperimentDetails, targetId } = action;
+  const { experiment, newExperimentDetails } = action;
   switch (action.type) {
     case EXPERIMENT_FETCH_STARTED:
       return { ...state, loading: true };
@@ -97,8 +99,6 @@ export default function experimentReducer(state = initialState, action) {
       if (experiment.parameters == null) delete experiment.parameters;
       else experiment.parameters = JSON.parse(experiment.parameters);
       return { ...initialState, ...experiment };
-    case EXPERIMENT_SET_COLUMNS:
-      return { ...state, columns: action.columns };
     case EXPERIMENT_SET_RUN_STATUS:
       return { ...state, runStatus: action.status };
     case EXPERIMENT_SET_SELECTED_DRAWER:
@@ -145,17 +145,27 @@ export default function experimentReducer(state = initialState, action) {
       newParameters.automl.time = action.automl;
       return { ...state, parameters: newParameters };
     }
+    case EXPERIMENT_CLEAR_SELECTED_TASK: {
+      const { selected } = action;
+
+      return { ...state, selected };
+    }
+    case EXPERIMENT_SET_COLUMN_TYPE: {
+      const { columnPosition, columnType } = action;
+      const newColumns = [...state.columns];
+
+      newColumns[columnPosition].datatype = columnType;
+
+      return { ...state, columns: newColumns };
+    }
     case EXPERIMENT_SET_TARGET: {
-      return { ...state, targetColumnId: targetId };
+      return { ...state, ...newExperimentDetails };
     }
     case EXPERIMENT_SET_TEMPLATE: {
       return { ...state, ...newExperimentDetails };
     }
     case EXPERIMENT_UPLOAD_DATASET:
-      return {
-        ...state,
-        ...newExperimentDetails,
-      };
+      return { ...state, ...newExperimentDetails };
     default:
       return state;
   }

@@ -16,7 +16,7 @@ import CardTask from './CardTask';
 import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
 import {
   setSelectedDrawer,
-  setColumns,
+  // setColumns,
   setGroup,
   setPeriod,
   setCutoffPre1,
@@ -748,7 +748,7 @@ const mapDispatchToProps = (dispatch) => ({
   onShowDrawer: () => dispatch(showDrawer()),
   onSelectDrawer: (drawerContent) => dispatch(selectDrawer(drawerContent)),
   onSetColumns: (columns) => {
-    dispatch(setColumns(columns));
+    // dispatch(setColumns(columns));
   },
   onSetSelectedDrawer: (selectedDrawer) => {
     dispatch(setSelectedDrawer(selectedDrawer));
@@ -782,7 +782,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExperimentFlow);
+export default connect(mapStateToProps, mapDispatchToProps)(ExperimentFlow);
