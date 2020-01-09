@@ -1,3 +1,5 @@
+// TODO: alterar estilo das tarefas selecionadas
+
 /**
  * Actions for Drawer
  */

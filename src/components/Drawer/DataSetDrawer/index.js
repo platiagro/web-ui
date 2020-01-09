@@ -12,8 +12,6 @@ import { Upload, Button, Icon, Divider, Select, Spin, message } from 'antd';
 import { connect } from 'react-redux';
 import DataSetTable from '../DataSetTable';
 import InfoHelper from '../InfoHelper';
-import { updateExperiment } from '../../../services/projectsApi';
-import { updateColumn } from '../../../services/dataSetApi';
 
 import ResultsDrawer from '../ResultsDrawer';
 import ResultsButtonBar from '../ResultsButtonBar';
@@ -23,6 +21,7 @@ import { findTarget } from '../../../utils';
 import {
   setTarget,
   uploadDataset,
+  setColumnType,
 } from '../../../store/actions/experimentActions';
 
 const { Option } = Select;
@@ -33,8 +32,9 @@ const DataSetDrawer = ({
   parameter,
   runStatus,
   taskStatus,
-  handleUploadDataset,
-  handleSetTarget,
+  uploadDatasetAction,
+  setTargetAction,
+  setColumnTypeAction,
   loading,
 }) => {
   // hooks to handle files
@@ -51,7 +51,7 @@ const DataSetDrawer = ({
   const { columns, targetColumnId } = details;
 
   // Handle upload csv e txt
-  const handleUpload = async () => {
+  const handleUploadDataset = () => {
     const formData = new FormData();
 
     formData.append(
@@ -70,24 +70,26 @@ const DataSetDrawer = ({
 
     formData.append('experimentId', details.uuid);
 
-    handleUploadDataset(details.projectId, formData);
+    uploadDatasetAction(details.projectId, formData);
 
     setDataSetHeaderFileList([]);
     setDataSetFileList([]);
   };
 
-  const handleTargetChange = async (targetId) => {
-    handleSetTarget(details.projectId, details.uuid, targetId);
+  const handleTargetSet = (targetId) => {
+    setTargetAction(
+      details.projectId,
+      details.uuid,
+      targetId,
+      details.parameters
+    );
   };
 
-  const handleColumnSelect = async (e, row) => {
-    const res = await updateColumn(row.headerId, row.uuid, e);
-    if (res) {
-      console.log('[DATATYPE]', e);
-      const cols = [...columns];
-      cols[row.position].datatype = e;
-      setColumns(cols);
-    }
+  const handleSetColumnType = (e, row) => {
+    const { headerId, uuid: columnId, position: columnPosition } = row;
+    const columnType = e;
+
+    setColumnTypeAction(headerId, columnId, columnType, columnPosition);
   };
 
   const renderTable = () => {
@@ -105,7 +107,7 @@ const DataSetDrawer = ({
 
         <p>Qual é o seu atributo alvo?</p>
         <Select
-          onChange={handleTargetChange}
+          onChange={handleTargetSet}
           style={{ width: 200 }}
           placeholder='Selecione'
           value={targetColumnId}
@@ -126,7 +128,7 @@ const DataSetDrawer = ({
         <DataSetTable
           targetColumnId={targetColumnId}
           dataSource={columns}
-          handleSelect={handleColumnSelect}
+          handleSelect={handleSetColumnType}
         />
       </div>
     );
@@ -214,7 +216,7 @@ const DataSetDrawer = ({
           <br />
 
           <Button
-            onClick={handleUpload}
+            onClick={handleUploadDataset}
             loading={loading}
             disabled={!dataSetFileList.length > 0}
           >
@@ -246,10 +248,12 @@ const mapStateToProps = ({ drawer: { loading }, experiment: details }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleUploadDataset: (projectId, form) =>
+  uploadDatasetAction: (projectId, form) =>
     dispatch(uploadDataset(projectId, form)),
-  handleSetTarget: (projectId, experimentId, targetId) =>
-    dispatch(setTarget(projectId, experimentId, targetId)),
+  setTargetAction: (projectId, experimentId, targetId, parameters) =>
+    dispatch(setTarget(projectId, experimentId, targetId, parameters)),
+  setColumnTypeAction: (headerId, columnId, columnType, columnPosition) =>
+    dispatch(setColumnType(headerId, columnId, columnType, columnPosition)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataSetDrawer);

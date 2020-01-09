@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Drawer } from 'antd';
+import { clearSelected } from '../../../store/actions/experimentActions';
 import { hideDrawer } from '../../../store/actions/drawerActions';
 
 /**
@@ -15,6 +16,7 @@ const MainDrawer = ({
   visible,
 }) => {
   return (
+    // main drawer - drawer container
     <Drawer
       placement='right'
       closable
@@ -25,6 +27,7 @@ const MainDrawer = ({
       onClose={onClose}
       visible={visible}
     >
+      {/* children drawer - drawer content */}
       {children}
     </Drawer>
   );
@@ -44,6 +47,7 @@ MainDrawer.propTypes = {
     'Succeeded',
     'Failed',
     'Loading',
+    '',
     null,
   ]),
   /** drawer is visible */
@@ -64,7 +68,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onClose: () => dispatch(hideDrawer()),
+  onClose: () => {
+    dispatch(clearSelected());
+    dispatch(hideDrawer());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainDrawer);
