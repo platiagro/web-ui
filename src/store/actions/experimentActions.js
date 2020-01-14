@@ -398,15 +398,13 @@ export const uploadDatasetSuccess = (newExperimentDetails) => ({
   newExperimentDetails,
 });
 
-// FIXME: remover experimentId do form e adicionar como parametro da função
 /**
  * Async action to upload dataset
  * @param {String} projectId
+ * @param {string} experimentId
  * @param {Object} form
  */
-export const uploadDataset = (projectId, form) => {
-  const experimentId = form.get('experimentId');
-
+export const uploadDataset = (projectId, experimentId, form) => {
   return (dispatch) => {
     dispatch(showLoader());
 
