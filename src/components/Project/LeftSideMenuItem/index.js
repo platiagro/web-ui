@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 
-// FIXME: alterar nome do componente para nome descritivo, sugestão ProjectMenuItem
 /**
  * Common project menu item.
  */

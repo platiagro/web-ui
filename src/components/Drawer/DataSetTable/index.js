@@ -1,11 +1,3 @@
-// FIXME: Refatorar esse componente
-/**
- * FIXME: Quando acessamos um experimento, e mudamos para a ultima página da
- * tabela do dataset, e acessamos outro experimento e abrimos o drawer do
- * dataset, a pagina da tabela continua a última. Nesse caso ele está armazenando
- * apenas a paginação e não os dados da tabela.
- */
-
 import React from 'react';
 
 import { Table, Select, Tooltip } from 'antd';

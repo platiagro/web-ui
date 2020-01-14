@@ -1,4 +1,3 @@
-// FIXME: tecla enter não está enviando formulário
 /**
  * Component responsible for:
  * - Structuring the add project form layout

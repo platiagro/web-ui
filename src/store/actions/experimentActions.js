@@ -1,5 +1,3 @@
-// FIXME: quando criamos um novo experimento o menu de templates está travando
-
 /* eslint-disable import/no-cycle */
 /**
  * Actions for experiment details
@@ -158,7 +156,6 @@ export const updateExperimentName = (editableDetails, name) => {
   };
 };
 
-// FIXME: quando entramos em um experimento, o run status está sendo excluído
 export const setRunStatus = (status) => {
   return {
     type: EXPERIMENT_SET_RUN_STATUS,
@@ -258,7 +255,6 @@ export const clearSelected = () => {
   };
 };
 
-// FIXME: adicionar loading ao selecionar tipo da coluna
 /**
  * Dispatch to set dataset column type
  * @param {String} columnType
@@ -344,7 +340,7 @@ export const setTemplateSuccess = (newExperimentDetails) => {
   };
 };
 
-// FIXME: adicionar loading ao selecionar template
+
 /**
  * Async action to set experiment template
  * @param {String} projectId

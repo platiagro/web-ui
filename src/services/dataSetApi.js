@@ -52,7 +52,6 @@ export const updateColumn = async (headerId, columnId, newType) => {
   }
 };
 
-// FIXME: Retornar colunas na requisição que faz upload do dataset
 export const uploadDataset = async (form) => {
   try {
     const response = await dataSetApi.post(`/datasets`, form);

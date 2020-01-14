@@ -1,5 +1,3 @@
-// FIXME: adicionar parametros aos templates
-// FIXME: adicionar tasks aos templates
 const items = {
   template: [
     {

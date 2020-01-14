@@ -23,8 +23,6 @@ import {
   EXPERIMENT_CLEAR_SELECTED_TASK,
 } from '../actions/experimentActions';
 
-// FIXME: Alterar nome da variável txtName para headerFileName
-// FIXME: Alterar nome da variável csvName para datasetFileName
 const parameters = {
   atributos_tempo: {
     group: [],
@@ -42,10 +40,6 @@ const parameters = {
   },
 };
 
-/**
- * FIXME: Remover redundancia de dados. targetColumnId, datasetId e headerId
- * já existem nos parametros
- */
 const initialState = {
   uuid: '',
   name: '',
@@ -86,10 +80,6 @@ const initialState = {
   },
 };
 
-/**
- * FIXME: sugerir nome descritivo para propriedade 'experiment' da action,
- * sugestão newExperimentDetails
- */
 export default function experimentReducer(state = initialState, action) {
   const { experiment, newExperimentDetails } = action;
   switch (action.type) {

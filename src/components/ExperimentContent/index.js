@@ -22,7 +22,7 @@ import mountObjectRequest from './mountObjectRequest';
 import taskGetPhases from './util';
 
 import { showDrawer, selectDrawer } from '../../store/actions/drawerActions';
-// FIXME: remover imports não utilizados
+
 import {
   updateExperimentName,
   // setColumns,
@@ -458,7 +458,6 @@ const mapDispatchToProps = (dispatch) => ({
   onSetTaskStatus: (taskStatus) => {
     dispatch(setTaskStatus(taskStatus));
   },
-  // FIXME: remover actions desnecessárias
   onSetTarget: (target) => {
     // dispatch(setTarget(target));
   },

@@ -5,7 +5,6 @@ import { Icon } from 'antd';
 
 import { setTemplate } from '../../../store/actions/experimentActions';
 
-// FIXME: alterar nome do componente para nome descritivo, sugestão ProjectMenuTemplateItem
 /**
  * Common project menu template item.
  */

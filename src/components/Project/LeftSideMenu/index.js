@@ -12,8 +12,6 @@ import items from './items';
 const { Sider } = Layout;
 const { Panel } = Collapse;
 
-// FIXME: refatorar esse componente
-// FIXME: alterar nome do componente para nome descritivo, sugestão ProjectMenu ou ExperimentMenu
 export const LeftSideMenu = (props) => {
   const { experimentsList, onGetPipelines } = props;
   const [menuItems, setItems] = useState(items);

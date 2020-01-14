@@ -1,5 +1,3 @@
-// TODO: otimizar e refatorar esse componente
-
 /* eslint-disable react/no-unused-state */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
