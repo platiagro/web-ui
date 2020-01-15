@@ -16,22 +16,16 @@ import { Layout } from 'antd';
 
 import mainRoutes from '../../routes/main';
 
-import MainHeader from '../MainHeader';
+import MainHeader from '../MainHeader/_';
 import MainFooter from '../MainFooter';
 
 const { Header, Footer } = Layout;
 
 const App = () => (
   <Layout>
+    <MainHeader />
     <Layout>
-      <Header>
-        <Route
-          // eslint-disable-next-line
-          render={(props) => <MainHeader {...props} mainRoutes={mainRoutes} />}
-        />
-      </Header>
-      <Layout>
-        <Switch>
+      {/* <Switch>
           {mainRoutes.map((mainRoute) => (
             <Route
               key={mainRoute.path}
@@ -40,12 +34,11 @@ const App = () => (
               component={mainRoute.component}
             />
           ))}
-        </Switch>
-      </Layout>
-      <Footer>
-        <MainFooter />
-      </Footer>
+        </Switch> */}
     </Layout>
+    <Footer>
+      <MainFooter />
+    </Footer>
   </Layout>
 );
 
