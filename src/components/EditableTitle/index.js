@@ -1,80 +1,91 @@
-/**
- * Component responsible for:
- * - Structuring the editable title layout
- * - Update the title
- */
+// CORE LIBS
 import React, { useState } from 'react';
-import { Icon } from 'antd';
 import PropTypes from 'prop-types';
+
+// UI LIBS
+import { Icon } from 'antd';
 import AutosizeInput from 'react-input-autosize';
 
-const EditableTitle = (props) => {
-  const { details, onUpdate } = props;
-  const { name } = details;
-  const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [newVal, setNewVal] = useState(name);
+/**
+ * EditableTitle.
+ * This component is responsible for displaying an editable title.
+ */
+const EditableTitle = ({
+  title,
+  loading,
+  handleSubmit,
+  className,
+  editingClassName,
+}) => {
+  // HOOKS
+  // editing hook
+  const [editing, setEditing] = useState(false);
+  // input value hook
+  const [inputValue, setInputValue] = useState(title);
 
-  // Funtion to handle text change
-  const handleChange = (e) => {
-    setNewVal(e.currentTarget.value);
+  // FUNCTIONS
+  // before submit
+  const beforeSubmit = (e) => {
+    // removing white spaces from title
+    const newTitle = e.currentTarget.value.trim();
+
+    if (newTitle !== title)
+      if (newTitle.length > 0) handleSubmit(newTitle);
+      else setInputValue(title);
   };
-
-  // Funtion to handle submit
-  const handleSubmit = (e) => {
-    setLoading(true);
-    if (!!e.currentTarget.value.trim() && e.currentTarget.value !== name) {
-      onUpdate(details, e.currentTarget.value).then((response) => {
-        if (!response) {
-          setNewVal(name);
-        }
-      });
-    } else {
-      setNewVal(name);
-    }
-
-    setEditMode(false);
-    setLoading(false);
-  };
-
-  // Funtion to handle the key press
+  // handle the key press
   const handleKeyPress = (e) => {
+    const input = e.currentTarget;
+    // on enter key press
     if (e.key === 'Enter') {
-      e.currentTarget.blur();
+      input.blur();
+      // on esc key press
     } else if (e.key === 'Escape') {
-      setNewVal(name);
+      setInputValue(title);
+      setTimeout(() => input.blur(), 100);
     }
   };
+  // handle input change
+  const handleChange = (e) => {
+    setInputValue(e.currentTarget.value);
+  };
 
+  // RENDER
   return (
-    <>
+    // div container
+    <div>
+      {/* input */}
       <AutosizeInput
-        onBlur={handleSubmit}
+        onBlur={beforeSubmit}
         onClick={() => {
-          setEditMode(true);
+          setEditing(true);
         }}
         onKeyUp={handleKeyPress}
         onChange={handleChange}
-        className={
-          editMode
-            ? 'ant-page-header-heading-title autosize-input-custom'
-            : 'ant-page-header-heading-title autosize-input-custom edit-mode'
-        }
-        value={newVal}
-        readOnly={!editMode}
+        className={editing ? className : editingClassName}
+        value={inputValue}
+        readOnly={!editing}
         disabled={loading}
       />
+      {/* loading */}
       {loading && <Icon type='loading' />}
-    </>
+    </div>
   );
 };
 
+// PROP TYPES
 EditableTitle.propTypes = {
-  details: PropTypes.shape({
-    uuid: PropTypes.string,
-    name: PropTypes.string,
-  }).isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  /** editable title string */
+  title: PropTypes.string.isRequired,
+  /** editable title is loading */
+  loading: PropTypes.bool.isRequired,
+  /** editable title submit function */
+  handleSubmit: PropTypes.func.isRequired,
+  /** editable title default css class string */
+  className: PropTypes.string.isRequired,
+  /** editable title editing css class string */
+  editingClassName: PropTypes.string.isRequired,
 };
 
+// EXPORT
 export default EditableTitle;

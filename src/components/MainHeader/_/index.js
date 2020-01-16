@@ -49,4 +49,5 @@ const MainHeader = () => (
   </Header>
 );
 
+// EXPORT
 export default MainHeader;

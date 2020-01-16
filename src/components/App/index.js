@@ -19,7 +19,12 @@ import mainRoutes from '../../routes/main';
 import MainHeader from '../MainHeader/_';
 import MainFooter from '../MainFooter';
 
+import EditableTitle from '../EditableTitle';
+
 const { Header, Footer } = Layout;
+
+const editableTitleClassName =
+  'ant-page-header-heading-title autosize-input-custom';
 
 const App = () => (
   <Layout>
@@ -35,6 +40,13 @@ const App = () => (
             />
           ))}
         </Switch> */}
+      <EditableTitle
+        loading={false}
+        title='Titulo'
+        handleSubmit={(title) => alert(title)}
+        className={editableTitleClassName}
+        editingClassName={`${editableTitleClassName} edit-mode`}
+      />
     </Layout>
     <Footer>
       <MainFooter />
