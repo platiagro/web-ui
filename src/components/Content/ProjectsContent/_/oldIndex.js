@@ -64,16 +64,7 @@ const Projects = (props) => {
       <NewProjectModal />
 
       <div className='projectPageBody'>
-        <div className='header'>
-          <Button
-            disabled={loading}
-            onClick={onToggleModal}
-            type='primary'
-            icon='plus'
-          >
-            Novo Projeto
-          </Button>
-        </div>
+        <div className='header' />
         <div className='body'>{renderBody()}</div>
       </div>
     </div>

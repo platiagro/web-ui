@@ -6,7 +6,7 @@ import './style.scss';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Layout, Row, Col } from 'antd';
-import NewProjectModal from '../../components/Project/NewProjectModal';
+// import NewProjectModal from '../../components/Project/NewProjectModal';
 import logoBody from '../../assets/logo-colorido.svg';
 import ic_projeto from '../../assets/ic_projeto.svg';
 import ic_avaliacao from '../../assets/ic_avaliacao.svg';
@@ -20,7 +20,7 @@ const Root = (props) => {
 
   return (
     <Layout className='rootPage'>
-      <NewProjectModal />
+      {/* <NewProjectModal /> */}
 
       <Content className='rootPageBody'>
         <Row className='body'>
@@ -89,7 +89,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Root);
+export default connect(mapStateToProps, mapDispatchToProps)(Root);

@@ -4,7 +4,7 @@
 import Root from '../pages/Root';
 import Components from '../pages/Components';
 import Component from '../pages/ComponentDetail';
-import Projects from '../pages/Projects';
+// import Projects from '../pages/Projects';
 import Project from '../pages/Project';
 import ImplantedFlows from '../pages/ImplantedFlows';
 import E404 from '../pages/E404'; // 404 error
@@ -35,7 +35,7 @@ const mainRoutes = [
     exact: true,
     icon: 'experiment',
     title: 'Projetos',
-    component: Projects,
+    // component: Projects,
   },
   {
     path: '/projects/:projectId/:experimentId?',

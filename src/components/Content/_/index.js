@@ -8,6 +8,9 @@ import { Layout } from 'antd';
 // COMPONENTS
 import ContentHeader from '../ContentHeader';
 
+// CONTENTS
+import ProjectsContent from '../ProjectsContent/_';
+
 /**
  * Content.
  * This component is responsible for displaying the content.
@@ -25,9 +28,12 @@ const Content = ({ showHeader }) => {
 
   // RENDER
   return (
+    // layout component
     <Layout>
       {/* show header */}
       {showHeader && renderContentHeader()}
+      {/* projects content */}
+      <ProjectsContent />
     </Layout>
   );
 };
