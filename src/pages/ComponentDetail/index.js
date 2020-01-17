@@ -8,7 +8,7 @@ import './style.scss';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Col, Row, Spin } from 'antd';
-import ContentHeader from '../../components/ContentHeader';
+import ContentHeader from '../../components/Content/ContentHeader';
 import ComponentsParametersTable from '../../components/Component/ParametersTable';
 import ComponentsUpload from '../../components/Component/ComponentsUpload';
 import NewParameterForm from '../../components/Component/NewParameterForm';
@@ -98,7 +98,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ComponentDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ComponentDetail);

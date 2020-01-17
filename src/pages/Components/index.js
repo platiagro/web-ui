@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Button, Empty, Spin } from 'antd';
 import ComponentsTable from '../../components/Component/ComponentsTable';
-import ContentHeader from '../../components/ContentHeader';
+import ContentHeader from '../../components/Content/ContentHeader';
 import NewComponentModal from '../../components/Component/NewComponentModal';
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 import {
@@ -92,7 +92,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Components);
+export default connect(mapStateToProps, mapDispatchToProps)(Components);

@@ -6,7 +6,7 @@
 import './style.scss';
 import React, { useState, useEffect } from 'react';
 import { Empty, Spin } from 'antd';
-import ContentHeader from '../../components/ContentHeader';
+import ContentHeader from '../../components/Content/ContentHeader';
 import ImplantedFlowsTable from '../../components/ImplantedFlowsTable';
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 import { getDeployments } from '../../services/pipelinesApi';

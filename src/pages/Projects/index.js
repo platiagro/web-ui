@@ -11,7 +11,7 @@ import { Button, Empty, Spin } from 'antd';
 import { connect } from 'react-redux';
 import NewProjectModal from '../../components/Project/NewProjectModal';
 import ProjectsTable from '../../components/Project/ProjectsTable';
-import ContentHeader from '../../components/ContentHeader';
+import ContentHeader from '../../components/Content/ContentHeader';
 
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 
@@ -97,7 +97,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Projects);
+export default connect(mapStateToProps, mapDispatchToProps)(Projects);

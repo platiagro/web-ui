@@ -19,30 +19,14 @@ import mainRoutes from '../../routes/main';
 import MainHeader from '../MainHeader/_';
 import MainFooter from '../MainFooter';
 
-import ContentHeader from '../ContentHeader';
+import Content from '../Content/_';
 
 const { Header, Footer } = Layout;
 
 const App = () => (
   <Layout>
     <MainHeader />
-    <Layout>
-      <ContentHeader
-        title='Título'
-        editable
-        handleGoBack={() => alert('goBack!')}
-      />
-      {/* <Switch>
-          {mainRoutes.map((mainRoute) => (
-            <Route
-              key={mainRoute.path}
-              exact={mainRoute.exact}
-              path={mainRoute.path}
-              component={mainRoute.component}
-            />
-          ))}
-        </Switch> */}
-    </Layout>
+    <Content showHeader />
     <Footer>
       <MainFooter />
     </Footer>

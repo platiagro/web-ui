@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Layout, Spin } from 'antd';
 import E404 from '../E404';
-import ContentHeader from '../../components/ContentHeader';
+import ContentHeader from '../../components/Content/ContentHeader';
 import EditableTitle from '../../components/EditableTitle';
 import ExperimentsTabs from '../../components/ExperimentsTabs';
 import LeftSideMenu from '../../components/Project/LeftSideMenu';
@@ -88,7 +88,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(Project);
