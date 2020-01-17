@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // COMPONENTS
 import NewProjectButton from '../NewProjectButton';
+import ProjectsEmpty from '../ProjectsEmpty';
 
 // STYLES
 import './style.scss';
@@ -14,6 +15,7 @@ const ProjectsContent = () => (
       disabled={false}
       handleClick={() => alert('newProject!')}
     />
+    <ProjectsEmpty />
   </div>
 );
 
