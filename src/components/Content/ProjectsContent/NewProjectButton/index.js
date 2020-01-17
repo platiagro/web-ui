@@ -11,7 +11,13 @@ import { Button } from 'antd';
  */
 const NewProjectButton = ({ handleClick, disabled }) => (
   // button component
-  <Button disabled={disabled} onClick={handleClick} type='primary' icon='plus'>
+  <Button
+    disabled={disabled}
+    onClick={handleClick}
+    className='newProjectButton'
+    type='primary'
+    icon='plus'
+  >
     Novo Projeto
   </Button>
 );

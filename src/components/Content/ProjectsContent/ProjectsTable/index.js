@@ -1,25 +1,25 @@
-/**
- * Component responsible for:
- * - Structuring the table layout
- * - List all available projects
- * - Routing to project detail page on item click
- */
+// CORE LIBS
 import React from 'react';
-import './style.scss';
+import PropTypes from 'prop-types';
 
-import { Link } from 'react-router-dom';
-import { Table } from 'antd';
-import { connect } from 'react-redux';
+// UI LIBS
+import { Table, Button } from 'antd';
 
-const ProjectsTable = (props) => {
-  const { projectsList } = props;
-  const tableColumns = [
+/**
+ * Projects Table.
+ * This component is responsible for displaying projects table.
+ */
+const ProjectsTable = ({ projects, handleClickProject }) => {
+  // table columns config
+  const columnsConfig = [
     {
       title: 'Nome do Projeto',
       dataIndex: 'name',
       key: 'name',
       render: (value, record) => (
-        <Link to={`projects/${record.uuid}`}>{value}</Link>
+        <Button type='link' onClick={() => handleClickProject(record.uuid)}>
+          {value}
+        </Button>
       ),
     },
     {
@@ -31,22 +31,26 @@ const ProjectsTable = (props) => {
     },
   ];
 
+  // RENDER
   return (
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
-      dataSource={projectsList}
-      columns={tableColumns}
+      dataSource={projects}
+      columns={columnsConfig}
       pagination={{ pageSize: 9 }}
       scroll={{ y: 'calc(100vh - 480px)' }}
     />
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    projectsList: state.projects.projectsList,
-  };
+// PROP TYPES
+ProjectsTable.propTypes = {
+  /** projects list */
+  projects: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** projects table click project handle */
+  handleClickProject: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(ProjectsTable);
+// EXPORT
+export default ProjectsTable;
