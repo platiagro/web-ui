@@ -23,7 +23,7 @@ import menuItemsMock from '../MainMenu/_itemsListMock';
 const { Header } = Layout;
 
 /**
- * Main header.
+ * Main Header.
  * This component is responsible for displaying the PlatIA logo, main menu and
  * Foragri demo logo.
  */

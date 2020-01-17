@@ -7,7 +7,7 @@ import { Icon } from 'antd';
 import AutosizeInput from 'react-input-autosize';
 
 /**
- * EditableTitle.
+ * Editable Title.
  * This component is responsible for displaying an editable title.
  */
 const EditableTitle = ({
@@ -29,6 +29,7 @@ const EditableTitle = ({
     // removing white spaces from title
     const newTitle = e.currentTarget.value.trim();
 
+    // checking if newTitle and title is same and newTitle length is more than zero
     if (newTitle !== title)
       if (newTitle.length > 0) handleSubmit(newTitle);
       else setInputValue(title);
@@ -38,10 +39,13 @@ const EditableTitle = ({
     const input = e.currentTarget;
     // on enter key press
     if (e.key === 'Enter') {
+      // blur input
       input.blur();
       // on esc key press
     } else if (e.key === 'Escape') {
+      // set title as value input
       setInputValue(title);
+      // blur input in 100ms to avoid submit
       setTimeout(() => input.blur(), 100);
     }
   };
