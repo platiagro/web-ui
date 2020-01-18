@@ -11,6 +11,9 @@ import ContentHeader from '../ContentHeader';
 // CONTENTS
 import ProjectsContent from '../ProjectsContent/_';
 
+// MOCKS
+import projectsMock from '../ProjectsContent/ProjectsTable/_projectsMock';
+
 /**
  * Content.
  * This component is responsible for displaying the content.
@@ -33,7 +36,7 @@ const Content = ({ showHeader }) => {
       {/* show header */}
       {showHeader && renderContentHeader()}
       {/* projects content */}
-      <ProjectsContent />
+      <ProjectsContent projects={projectsMock} />
     </Layout>
   );
 };

@@ -11,10 +11,11 @@ import NewProjectModal from '../NewProjectModal';
 // STYLES
 import './style.scss';
 
-// MOCKS
-import projectsMock from '../ProjectsTable/_projectsMock';
-
-const ProjectsContent = () => {
+/**
+ * Editable Title.
+ * This component is responsible for displaying an editable title.
+ */
+const ProjectsContent = ({ projects }) => {
   // HOOKS
   // editing hook
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,6 +30,17 @@ const ProjectsContent = () => {
     setModalVisible(false);
   };
 
+  // COMPONENTS RENDERS
+  // projects empty
+  const renderProjectsEmpty = () => <ProjectsEmpty />;
+  // projects table
+  const renderProjectsTable = () => (
+    <ProjectsTable
+      projects={projects}
+      handleClickProject={(uuid) => alert(uuid)}
+    />
+  );
+
   // RENDER
   return (
     // div container
@@ -41,15 +53,17 @@ const ProjectsContent = () => {
         handleCloseModal={hideModal}
         handleNewProject={(projectName) => alert(projectName)}
       />
-      {/* projects empty */}
-      {/* <ProjectsEmpty /> */}
-      {/* projects table */}
-      <ProjectsTable
-        projects={projectsMock}
-        handleClickProject={(uuid) => alert(uuid)}
-      />
+      {/* projects table or projects empty */}
+      {projects.length > 0 ? renderProjectsTable() : renderProjectsEmpty()}
     </div>
   );
 };
 
+// PROP TYPES
+ProjectsContent.propTypes = {
+  /** content header go back function */
+  projects: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+// EXPORT
 export default ProjectsContent;
