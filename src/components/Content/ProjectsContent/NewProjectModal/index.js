@@ -1,59 +1,53 @@
-/**
- * Component responsible for:
- * - Structuring the add project form layout
- * - Add new project
- */
-
+// CORE LIBS
 import React from 'react';
+import PropTypes from 'prop-types';
 
+// UI LIBS
 import { Modal, Form, Input } from 'antd';
-import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
-import {
-  addProject,
-  toggleModal,
-} from '../../../store/actions/projectsActions';
-
-const NewProjectModal = (props) => {
-  const { modalIsVisible, form } = props;
-  const { onAddProject, onToggleModal } = props;
+/**
+ * New Project Modal.
+ * This component is responsible for displaying a new project modal.
+ */
+const NewProjectModal = ({
+  visible,
+  handleCloseModal,
+  handleNewProject,
+  form,
+}) => {
+  // getting form utils
   const { getFieldDecorator, getFieldsError } = form;
-  const history = useHistory();
 
-  /**
-   * Function used to check if form has errors
-   * @param {string[]} fieldsError
-   */
+  // FUNCTIONS
+  // Function used to check if form has errors
   const hasErrors = (fieldsError) => {
     return Object.keys(fieldsError).some((field) => fieldsError[field]);
   };
-
-  /**
-   * Function to handle modal cancel
-   */
+  // Function to handle modal cancel
   const handleCancel = () => {
+    // resetting form fields
     form.resetFields();
-    onToggleModal();
+    // closing modal
+    handleCloseModal();
   };
-
-  /**
-   * Function to handle form submit
-   * @param {Event} e
-   */
+  // Function to handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
+    // validating form fields
     form.validateFields(async (err, values) => {
       if (err) {
         return;
       }
-      onAddProject(values.name, history);
+      handleNewProject(values.name);
     });
   };
 
+  // TODO: corrigir envio ao pressionar enter
+  // RENDER
   return (
+    // modal component
     <Modal
-      visible={modalIsVisible}
+      visible={visible}
       title='Novo Projeto'
       okText='Criar'
       cancelText='Cancelar'
@@ -61,6 +55,7 @@ const NewProjectModal = (props) => {
       onOk={handleSubmit}
       okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
     >
+      {/* form details */}
       <Form layout='vertical'>
         <Form.Item label='Qual o nome do seu projeto?'>
           {getFieldDecorator('name', {
@@ -78,24 +73,17 @@ const NewProjectModal = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    modalIsVisible: state.projects.modalIsVisible,
-  };
+// PROP TYPES
+NewProjectModal.propTypes = {
+  /** new project modal visible */
+  visible: PropTypes.bool.isRequired,
+  /** new project modal close handler */
+  handleCloseModal: PropTypes.func.isRequired,
+  /** new project modal new project handler */
+  handleNewProject: PropTypes.func.isRequired,
+  /** new project modal form */
+  form: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onAddProject: (name, history) => {
-      dispatch(addProject(name, history));
-    },
-    onToggleModal: () => {
-      dispatch(toggleModal());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Form.create({ name: 'new-project' })(NewProjectModal));
+// EXPORT
+export default Form.create({ name: 'newProjectForm' })(NewProjectModal);
