@@ -34,7 +34,7 @@ const NewProjectModal = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     // validating form fields
-    form.validateFields(async (err, values) => {
+    form.validateFields((err, values) => {
       if (err) {
         return;
       }
