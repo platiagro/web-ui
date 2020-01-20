@@ -7,6 +7,10 @@ import { Row, Col } from 'antd';
 
 // COMPONENTS
 import ComponentsMenuSearch from '../ComponentsMenuSearch';
+import ComponentsMenu from '../ComponentsMenu';
+
+// MOCKS
+import componentsMock from './_componentsMock';
 
 /**
  * Components Menu Block.
@@ -16,6 +20,7 @@ const ComponentsMenuBlock = () => {
   return (
     <div>
       <ComponentsMenuSearch handleChange={(e) => alert(e.target.value)} />
+      <ComponentsMenu components={componentsMock} />
     </div>
   );
 };
