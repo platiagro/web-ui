@@ -12,8 +12,8 @@ import NewProjectModal from '../NewProjectModal';
 import './style.scss';
 
 /**
- * Editable Title.
- * This component is responsible for displaying an editable title.
+ * Projects Content.
+ * This component is responsible for displaying the projects content.
  */
 const ProjectsContent = ({ projects }) => {
   // HOOKS
@@ -43,8 +43,8 @@ const ProjectsContent = ({ projects }) => {
 
   // RENDER
   return (
-    // div container
-    <div className='projectsPage'>
+    // fragment
+    <>
       {/* new project button */}
       <NewProjectButton disabled={false} handleClick={showModal} />
       {/* new project modal */}
@@ -55,13 +55,13 @@ const ProjectsContent = ({ projects }) => {
       />
       {/* projects table or projects empty */}
       {projects.length > 0 ? renderProjectsTable() : renderProjectsEmpty()}
-    </div>
+    </>
   );
 };
 
 // PROP TYPES
 ProjectsContent.propTypes = {
-  /** content header go back function */
+  /** projects content projects list */
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

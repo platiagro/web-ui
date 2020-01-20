@@ -10,6 +10,10 @@ import ContentHeader from '../ContentHeader';
 
 // CONTENTS
 import ProjectsContent from '../ProjectsContent/_';
+import ProjectContent from '../ProjectContent/_';
+
+// STYLES
+import './style.scss';
 
 // MOCKS
 import projectsMock from '../ProjectsContent/ProjectsTable/_projectsMock';
@@ -33,10 +37,15 @@ const Content = ({ showHeader }) => {
   return (
     // layout component
     <Layout>
-      {/* show header */}
+      {/* content header */}
       {showHeader && renderContentHeader()}
-      {/* projects content */}
-      <ProjectsContent projects={projectsMock} />
+      {/* div content page */}
+      <div className='contentPage'>
+        {/* projects content */}
+        {/* <ProjectsContent projects={projectsMock} /> */}
+        {/* project content */}
+        <ProjectContent />
+      </div>
     </Layout>
   );
 };
