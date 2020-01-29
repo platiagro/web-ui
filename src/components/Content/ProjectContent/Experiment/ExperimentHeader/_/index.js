@@ -1,6 +1,5 @@
 // CORE LIBS
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // UI LIBS
 import { Row, Col } from 'antd';
@@ -14,33 +13,43 @@ import DeployExperimentButton from '../DeployExperimentButton';
 // editable title class name const
 const editableTitleClassName = 'editable-title autosize-input-custom';
 
-const ExperimentHeader = () => {
-  return (
-    <Row>
-      <Col span={18}>
-        <EditableTitle
-          title='Experimento 01'
-          loading={false}
-          className={editableTitleClassName}
-          editingClassName={`${editableTitleClassName} edit-mode`}
-        />
-        <DeleteExperimentButton
-          disabled={false}
-          handleClick={() => alert('delete experiment')}
-        />
-      </Col>
-      <Col span={6}>
-        <TrainExperimentButton
-          disabled={false}
-          handleClick={() => alert('train experiment')}
-        />
-        <DeployExperimentButton
-          disabled={false}
-          handleClick={() => alert('deploy experiment')}
-        />
-      </Col>
-    </Row>
-  );
-};
+/**
+ * Experiment Header.
+ * This component is responsible for displaying the experiment header.
+ */
+const ExperimentHeader = () => (
+  // row container
+  <Row>
+    {/* column container */}
+    <Col span={18}>
+      {/* editable title */}
+      <EditableTitle
+        title='Experimento 01'
+        loading={false}
+        className={editableTitleClassName}
+        editingClassName={`${editableTitleClassName} edit-mode`}
+      />
+      {/* delete button */}
+      <DeleteExperimentButton
+        disabled={false}
+        handleClick={() => alert('delete experiment')}
+      />
+    </Col>
+    {/* column container */}
+    <Col span={6}>
+      {/* train button */}
+      <TrainExperimentButton
+        disabled={false}
+        handleClick={() => alert('train experiment')}
+      />
+      {/* deploy button */}
+      <DeployExperimentButton
+        disabled={false}
+        handleClick={() => alert('deploy experiment')}
+      />
+    </Col>
+  </Row>
+);
 
+// EXPORT
 export default ExperimentHeader;
