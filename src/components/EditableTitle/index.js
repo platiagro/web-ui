@@ -56,8 +56,8 @@ const EditableTitle = ({
 
   // RENDER
   return (
-    // div container
-    <div>
+    // fragment container
+    <>
       {/* input */}
       <AutosizeInput
         onBlur={beforeSubmit}
@@ -73,7 +73,7 @@ const EditableTitle = ({
       />
       {/* loading */}
       {loading && <Icon type='loading' />}
-    </div>
+    </>
   );
 };
 
