@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Tabs, Row, Col } from 'antd';
+import { Tabs } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';

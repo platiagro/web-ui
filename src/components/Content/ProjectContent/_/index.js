@@ -9,6 +9,7 @@ import { Row, Col } from 'antd';
 import ComponentsMenuBlock from '../ComponentsMenuBlock/_';
 import ExperimentsTabs from '../ExperimentsTabs/_';
 import NewExperimentButton from '../NewExperimentButton';
+import Experiment from '../Experiment/_';
 
 // MOCKS
 import componentsMock from '../ComponentsMenuBlock/_/_componentsMock';
@@ -38,6 +39,9 @@ const ProjectContent = () => {
               handleClick={() => alert('new experiment')}
             />
           </Col>
+        </Row>
+        <Row>
+          <Experiment />
         </Row>
       </Col>
     </Row>
