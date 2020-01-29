@@ -4,13 +4,20 @@ import PropTypes from 'prop-types';
 
 // COMPONENTS
 import TrainExperimentButton from '../TrainExperimentButton';
+import DeployExperimentButton from '../DeployExperimentButton';
 
 const ExperimentHeader = () => {
   return (
-    <TrainExperimentButton
-      disabled={false}
-      handleClick={() => alert('train experiment')}
-    />
+    <div>
+      <TrainExperimentButton
+        disabled={false}
+        handleClick={() => alert('train experiment')}
+      />
+      <DeployExperimentButton
+        disabled={false}
+        handleClick={() => alert('deploy experiment')}
+      />
+    </div>
   );
 };
 
