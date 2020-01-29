@@ -7,9 +7,12 @@ import { Row, Col } from 'antd';
 
 // COMPONENTS
 import ComponentsMenuBlock from '../ComponentsMenuBlock/_';
+import ExperimentsTabs from '../ExperimentsTabs/_';
+import NewExperimentButton from '../NewExperimentButton';
 
 // MOCKS
 import componentsMock from '../ComponentsMenuBlock/_/_componentsMock';
+import experimentsMock from '../ExperimentsTabs/_/_experimentsMock';
 
 /**
  * Project Content.
@@ -21,7 +24,22 @@ const ProjectContent = () => {
       <Col span={5}>
         <ComponentsMenuBlock components={componentsMock} />
       </Col>
-      <Col span={19}>Flow</Col>
+      <Col span={19}>
+        <Row gutter={15}>
+          <Col span={23}>
+            <ExperimentsTabs
+              experiments={experimentsMock}
+              handleChange={(key) => alert(key)}
+            />
+          </Col>
+          <Col span={1}>
+            <NewExperimentButton
+              disabled={false}
+              handleClick={() => alert('new experiment')}
+            />
+          </Col>
+        </Row>
+      </Col>
     </Row>
   );
 };

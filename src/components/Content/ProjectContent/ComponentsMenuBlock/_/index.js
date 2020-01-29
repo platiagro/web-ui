@@ -22,13 +22,19 @@ const ComponentsMenuBlock = ({ components }) => {
     if (!filter) return setFilteredComponents(components);
 
     // convert filter to lower case
-    const lowerFilter = filter.toLowerCase();
+    const lowerCaseFilter = filter.toLowerCase();
 
     // filtering components
     const newFilteredComponents = components.filter((componentSubMenu) => {
+      // iterating the sub menus
       const filteredSubMenu = componentSubMenu.items.filter((item) => {
-        return item.title.toLowerCase().includes(lowerFilter);
+        // convert item title to lower case
+        const lowerCaseTitle = item.title.toLowerCase();
+
+        // filter components
+        return lowerCaseTitle.includes(lowerCaseFilter);
       });
+      // filter sub menus
       return filteredSubMenu.length > 0;
     });
     return setFilteredComponents(newFilteredComponents);
