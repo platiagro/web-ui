@@ -28,6 +28,7 @@ const ExperimentHeader = () => (
         loading={false}
         className={editableTitleClassName}
         editingClassName={`${editableTitleClassName} edit-mode`}
+        handleSubmit={(title) => alert(title)}
       />
       {/* delete button */}
       <DeleteExperimentButton
@@ -39,13 +40,14 @@ const ExperimentHeader = () => (
     <Col span={6}>
       {/* train button */}
       <TrainExperimentButton
-        disabled={false}
         handleClick={() => alert('train experiment')}
+        disabled={false}
+        experimentRunning={false}
       />
       {/* deploy button */}
       <DeployExperimentButton
-        disabled={false}
         handleClick={() => alert('deploy experiment')}
+        disabled={false}
       />
     </Col>
   </Row>

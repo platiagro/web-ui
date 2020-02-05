@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Tabs } from 'antd';
+import { Tabs, Icon } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';
@@ -16,6 +16,18 @@ const { TabPane } = Tabs;
  * This component is responsible for displaying experiments tabs.
  */
 const ExperimentsTabs = ({ experiments, handleChange }) => {
+  // COMPONENTS RENDERS
+  // title
+  const renderTitle = (title, running) => (
+    // react fragment
+    <>
+      {/* title */}
+      {title}
+      {/* running spinner */}
+      {running && <Icon type='loading' />}
+    </>
+  );
+
   return (
     // draggable tabs component
     <DraggableTabs
@@ -25,8 +37,8 @@ const ExperimentsTabs = ({ experiments, handleChange }) => {
       onChange={handleChange}
     >
       {/* rendering tabs */}
-      {experiments.map(({ title, key }) => (
-        <TabPane tab={title} key={key} />
+      {experiments.map(({ title, key, running }) => (
+        <TabPane tab={renderTitle(title, running)} key={key} />
       ))}
     </DraggableTabs>
   );

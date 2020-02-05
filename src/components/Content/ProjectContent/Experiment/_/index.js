@@ -7,9 +7,17 @@ import { Row } from 'antd';
 
 // COMPONENTS
 import ExperimentHeader from '../ExperimentHeader/_';
+import ExperimentFlow from '../ExperimentFlow/_';
 
-const Experiment = () => {
-  return <ExperimentHeader />;
-};
+const Experiment = () => (
+  <>
+    <Row>
+      <ExperimentHeader />
+    </Row>
+    <Row>
+      <ExperimentFlow />
+    </Row>
+  </>
+);
 
 export default Experiment;

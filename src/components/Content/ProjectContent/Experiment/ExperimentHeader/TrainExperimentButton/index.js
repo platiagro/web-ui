@@ -9,14 +9,18 @@ import { Button } from 'antd';
  * Train Experiment Button.
  * This component is responsible for show train experiment button.
  */
-const TrainExperimentButton = ({ handleClick, disabled }) => (
+const TrainExperimentButton = ({
+  handleClick,
+  disabled,
+  experimentRunning,
+}) => (
   // button component
   <Button
     disabled={disabled}
     onClick={handleClick}
     className='trainExperimentButton'
     type='primary'
-    icon='play-circle'
+    icon={experimentRunning ? 'loading' : 'play-circle'}
   >
     Executar
   </Button>
@@ -24,10 +28,12 @@ const TrainExperimentButton = ({ handleClick, disabled }) => (
 
 // PROP TYPES
 TrainExperimentButton.propTypes = {
-  /** train experiment button is disabled */
-  disabled: PropTypes.bool.isRequired,
   /** train experiment button click function */
   handleClick: PropTypes.func.isRequired,
+  /** train experiment button is disabled */
+  disabled: PropTypes.bool.isRequired,
+  /** train experiment is running */
+  experimentRunning: PropTypes.bool.isRequired,
 };
 
 // EXPORT
