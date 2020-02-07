@@ -19,7 +19,7 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => (
     theme='dark'
     mode='horizontal'
     selectedKeys={selectedItems}
-    onClick={handleItemClick}
+    onClick={(e) => handleItemClick(e.key)}
   >
     {/* mapping menu items */}
     {itemsList.map(({ icon, key, title }) => (

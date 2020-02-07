@@ -37,7 +37,7 @@ const MainHeader = () => (
     <MainMenu
       itemsList={menuItemsMock}
       selectedItems={['home']}
-      handleItemClick={() => alert('Click!')}
+      handleItemClick={(menu) => alert(menu)}
       className='mainMenu'
     />
     {/* logo demo foragri */}
