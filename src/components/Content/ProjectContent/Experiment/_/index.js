@@ -9,13 +9,16 @@ import { Row } from 'antd';
 import ExperimentHeader from '../ExperimentHeader/_';
 import ExperimentFlow from '../ExperimentFlow/_';
 
+// MOCKS
+import flowMock from '../ExperimentFlow/_/_flowMock';
+
 const Experiment = () => (
   <>
     <Row>
       <ExperimentHeader />
     </Row>
     <Row>
-      <ExperimentFlow />
+      <ExperimentFlow components={flowMock} />
     </Row>
   </>
 );
