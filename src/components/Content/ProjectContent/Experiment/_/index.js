@@ -7,6 +7,7 @@ import { Row } from 'antd';
 // COMPONENTS
 import ExperimentHeader from '../ExperimentHeader/_';
 import ExperimentFlow from '../ExperimentFlow/_';
+import Drawer from '../Drawer/_';
 
 // MOCKS
 import flowMock from '../ExperimentFlow/_/_flowMock';
@@ -18,6 +19,8 @@ import flowMock from '../ExperimentFlow/_/_flowMock';
 const Experiment = () => (
   // frangment container
   <>
+    {/* drawer */}
+    <Drawer title='Drawer Title' visible handleClose={(e) => alert(e)} />
     {/* row container  */}
     <Row>
       {/* experiment header */}
