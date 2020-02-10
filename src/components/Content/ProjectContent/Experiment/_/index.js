@@ -20,7 +20,11 @@ const Experiment = () => (
   // frangment container
   <>
     {/* drawer */}
-    <Drawer title='Drawer Title' visible handleClose={(e) => alert(e)} />
+    <Drawer
+      title='Drawer Title'
+      visible
+      handleClose={(e) => alert('close drawer')}
+    />
     {/* row container  */}
     <Row>
       {/* experiment header */}

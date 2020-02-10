@@ -99,6 +99,8 @@ const DatasetDrawer = ({
         newDatasetFileList = newDatasetFileList.slice(-1);
         // setting new file list
         setDatasetFileList(newDatasetFileList);
+        // cleaning dataset header file list
+        setDatasetHeaderFileList([]);
       },
       // handler to prepare dataset upload
       beforeUpload: (file) => {
@@ -218,7 +220,7 @@ const DatasetDrawer = ({
         <ColumnsTable
           targetColumnId={targetColumnId}
           columns={columns}
-          handleSelect={handleChangeColumnType}
+          handleChangeType={handleChangeColumnType}
         />
       </div>
     );
