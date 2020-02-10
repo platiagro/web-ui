@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { PageHeader } from 'antd';
 
 // COMPONENTS
-import EditableTitle from '../../EditableTitle';
+import EditableTitle from '../EditableTitle';
 
 // STYLES
 import './style.scss';

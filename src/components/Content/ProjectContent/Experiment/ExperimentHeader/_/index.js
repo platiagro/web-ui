@@ -5,7 +5,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 
 // COMPONENTS
-import EditableTitle from '../../../../../EditableTitle';
+import EditableTitle from '../../../../EditableTitle';
 import DeleteExperimentButton from '../DeleteExperimentButton';
 import TrainExperimentButton from '../TrainExperimentButton';
 import DeployExperimentButton from '../DeployExperimentButton';

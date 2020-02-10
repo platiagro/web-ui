@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Upload, Button, Icon, Divider, Select } from 'antd';
 
 // COMPONENTS
-// import ColumnsTable from '../ColumnsTable';
+import ColumnsTable from './ColumnsTable';
 import InputTip from '../InputTip';
 
 // SELECT COMPONENTS
@@ -210,19 +210,71 @@ const DatasetDrawer = ({
           ))}
         </Select>
         {/* input tip */}
-        <InputTip content='Seu modelo será treinado para prever os valores do alvo.' />
+        <InputTip tip='Seu modelo será treinado para prever os valores do alvo.' />
         {/* line breaks */}
         <br />
         <br />
         {/* dataset columns table */}
         <ColumnsTable
           targetColumnId={targetColumnId}
-          dataSource={columns}
+          columns={columns}
           handleSelect={handleChangeColumnType}
         />
       </div>
     );
   };
+
+  // RENDER
+  return (
+    // div container
+    <div>
+      {/* dataset upload block */}
+      <p>Arquivo .csv com os dados de entrada</p>
+      {renderDatasetUpload()}
+      {/* line break */}
+      <br />
+      {/* dataset header upload block */}
+      <p>
+        Cabeçalho com os atributos
+        <small>(Opcional)</small>
+      </p>
+      {renderDatasetHeaderUpload()}
+      {/* line break */}
+      <br />
+      {/* upload button */}
+      <Button
+        onClick={handleUpload}
+        loading={loading}
+        disabled={!datasetFileList.length > 0}
+      >
+        Importar
+      </Button>
+      {/* columns table */}
+      {renderColumnsTable()}
+    </div>
+  );
+};
+
+// PROP TYPES
+DatasetDrawer.propTypes = {
+  /** dataset drawer current project id string */
+  projectId: PropTypes.string.isRequired,
+  /** dataset drawer current experiment id string */
+  experimentId: PropTypes.string.isRequired,
+  /** dataset drawer is loading dataset */
+  loading: PropTypes.bool.isRequired,
+  /** dataset drawer dataset columns */
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** dataset drawer target column id string */
+  targetColumnId: PropTypes.string.isRequired,
+  /** dataset drawer current experiment parameters */
+  parameters: PropTypes.objectOf(PropTypes.object).isRequired,
+  /** dataset drawer set target handler */
+  handleSetTarget: PropTypes.func.isRequired,
+  /** dataset drawer set column type handler */
+  handleSetColumnType: PropTypes.func.isRequired,
+  /** dataset drawer upload dataset and header handler */
+  handleUploadFiles: PropTypes.func.isRequired,
 };
 
 // EXPORT

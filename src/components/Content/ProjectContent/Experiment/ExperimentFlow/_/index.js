@@ -32,7 +32,9 @@ const ExperimentFlow = ({ components }) => {
     component
   ) => {
     // component box
-    const componentBox = <ComponentBox {...component} />;
+    const componentBox = (
+      <ComponentBox handleClick={(e) => alert(e)} {...component} />
+    );
 
     // render component box with arrow connection
     if (!isLastFlowComponent)
@@ -90,7 +92,7 @@ const ExperimentFlow = ({ components }) => {
       // building grid row
       gridRowAux.push(
         // column container
-        <Col span={columnSize}>
+        <Col key={`col-${component.key}`} span={columnSize}>
           {/* rendering flow grid column */}
           {renderFlowGridColumn(
             isLastRowComponent,
@@ -108,13 +110,18 @@ const ExperimentFlow = ({ components }) => {
     });
 
     // building flow grid
-    flowGrid = flowGridAux.map((flowGridRow) => (
-      // row container
-      <Row gutter={[48, 96]} type='flex'>
-        {/* flow grid row */}
-        {flowGridRow}
-      </Row>
-    ));
+    flowGrid = flowGridAux.map((flowGridRow, index) => {
+      // row key
+      const key = `row${index}`;
+
+      return (
+        // row container
+        <Row key={key} gutter={[48, 96]} type='flex'>
+          {/* flow grid row */}
+          {flowGridRow}
+        </Row>
+      );
+    });
 
     return flowGrid;
   };
