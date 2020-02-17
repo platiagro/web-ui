@@ -12,7 +12,7 @@ import ContentHeader from '../../components/Content/ContentHeader';
 import ComponentsParametersTable from '../../components/Component/ParametersTable';
 import ComponentsUpload from '../../components/Component/ComponentsUpload';
 import NewParameterForm from '../../components/Component/NewParameterForm';
-import EditableTitle from '../../components/EditableTitle';
+import EditableTitle from '../../components/Content/EditableTitle';
 import E404 from '../E404'; // 404 error
 import {
   getComponentDetail,
