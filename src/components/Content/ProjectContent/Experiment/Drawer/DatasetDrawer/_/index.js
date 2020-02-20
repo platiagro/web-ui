@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import { Upload, Button, Icon, Divider, Select } from 'antd';
 
 // COMPONENTS
-import ColumnsTable from './ColumnsTable';
-import InputTip from '../InputTip';
+import ColumnsTable from '../ColumnsTable';
+import InputTip from '../../InputTip';
 
 // SELECT COMPONENTS
 const { Option } = Select;

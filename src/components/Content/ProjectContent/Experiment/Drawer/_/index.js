@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import { Drawer as AntDrawer } from 'antd';
 
 // COMPONENTS
-import DatasetDrawer from '../DatasetDrawer';
+import DatasetDrawer from '../DatasetDrawer/_';
+import GenericDrawer from '../GenericDrawer/_';
 // import ResultsDrawer from '../ResultsDrawer';
 // import ResultsButtonBar from '../ResultsButtonBar';
 
@@ -25,7 +26,7 @@ const Drawer = ({ title, visible, handleClose }) => (
     closable
     onClose={handleClose}
   >
-    <DatasetDrawer
+    {/* <DatasetDrawer
       handleSetColumnType={(headerId, columnId, columnType, columnPosition) =>
         alert(
           `headerId: ${headerId}, columnId: ${columnId}, columnType: ${columnType}, columnPosition: ${columnPosition}`
@@ -47,7 +48,8 @@ const Drawer = ({ title, visible, handleClose }) => (
       targetColumnId='01'
       loading={false}
       columns={columnsMock}
-    />
+    /> */}
+    <GenericDrawer />
   </AntDrawer>
 );
 
