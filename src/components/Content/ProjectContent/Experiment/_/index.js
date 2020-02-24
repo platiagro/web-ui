@@ -23,6 +23,7 @@ const Experiment = () => (
     <Drawer
       title='Drawer Title'
       visible
+      results
       handleClose={(e) => alert('close drawer')}
     />
     {/* row container  */}
