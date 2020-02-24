@@ -13,6 +13,7 @@ import GenericDrawer from '../GenericDrawer/_';
 
 // MOCKS
 import columnsMock from '../DatasetDrawer/ColumnsTable/_columnsMock';
+import genericDrawerMock from '../GenericDrawer/_/_genericDrawerMock';
 
 /**
  * Drawer.
@@ -49,7 +50,7 @@ const Drawer = ({ title, visible, handleClose }) => (
       loading={false}
       columns={columnsMock}
     /> */}
-    <GenericDrawer />
+    <GenericDrawer drawerInputs={genericDrawerMock} />
   </AntDrawer>
 );
 
