@@ -1,17 +1,14 @@
 // CORE LIBS
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Upload, Button, Icon, Divider, Select } from 'antd';
+import { Icon, Divider } from 'antd';
 
 // COMPONENTS
 import SelectInput from '../SelectInput';
 import RadioInput from '../RadioInput';
 import NumberInput from '../NumberInput';
-
-// SELECT COMPONENTS
-const { Option } = Select;
 
 // INPUT TYPES
 const inputTypes = {
@@ -42,12 +39,42 @@ const inputTypes = {
 };
 
 /**
- * Dataset Drawer.
- * This component is responsible for displaying dataset content in drawer.
+ * Generic Drawer.
+ * This component is responsible for displaying generic drawer content.
  */
-const GenericDrawer = ({ drawerInputs }) => (
-  <div>{drawerInputs.map((input) => inputTypes[input.type](input))}</div>
+const GenericDrawer = ({ drawerInputs, drawerTip }) => (
+  // div container
+  <div>
+    {/* rendering drawer inputs */}
+    {drawerInputs.map((input) => inputTypes[input.type](input))}
+    {/* rendering drawer tip node */}
+    {drawerTip && (
+      <div>
+        {/* divider */}
+        <Divider orientation='left'>
+          <Icon type='bulb' />
+          Dica
+        </Divider>
+        {/* drawer tip node */}
+        {drawerTip}
+      </div>
+    )}
+  </div>
 );
+
+// PROP TYPES
+GenericDrawer.propTypes = {
+  /** generic drawer inputs list */
+  drawerInputs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** generic drawer tip node */
+  drawerTip: PropTypes.node,
+};
+
+// PROP DEFAULT VALUES
+GenericDrawer.defaultProps = {
+  /** generic drawer tip node */
+  drawerTip: undefined,
+};
 
 // EXPORT
 export default GenericDrawer;

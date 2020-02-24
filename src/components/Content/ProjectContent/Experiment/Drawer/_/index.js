@@ -50,7 +50,15 @@ const Drawer = ({ title, visible, handleClose }) => (
       loading={false}
       columns={columnsMock}
     /> */}
-    <GenericDrawer drawerInputs={genericDrawerMock} />
+    <GenericDrawer
+      drawerInputs={genericDrawerMock}
+      drawerTip={
+        <div>
+          <h3>Teste de dica!</h3>
+          <p>Essa é uma dica!</p>
+        </div>
+      }
+    />
   </AntDrawer>
 );
 
