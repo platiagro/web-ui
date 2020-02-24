@@ -33,6 +33,18 @@ const genericDrawerMock = [
       { uuid: 'opcao4', name: 'Opção 4' },
     ],
   },
+  // number
+  {
+    uuid: 'number1',
+    type: 'number',
+    title: 'Título Number 1',
+    description: 'Essa é uma descrição de um input dinâmico',
+    warning: 'Esse é um aviso de um input dinâmico',
+    tip: 'Essa é uma dica de um input dinâmico',
+    min: 0,
+    max: 10,
+    value: 10,
+  },
 ];
 
 // EXPORT

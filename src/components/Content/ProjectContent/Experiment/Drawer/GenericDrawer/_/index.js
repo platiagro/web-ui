@@ -8,6 +8,7 @@ import { Upload, Button, Icon, Divider, Select } from 'antd';
 // COMPONENTS
 import SelectInput from '../SelectInput';
 import RadioInput from '../RadioInput';
+import NumberInput from '../NumberInput';
 
 // SELECT COMPONENTS
 const { Option } = Select;
@@ -27,6 +28,14 @@ const inputTypes = {
     <RadioInput
       key={uuid}
       handleChange={(value) => alert(`(radio) Valor selecionado: ${value}`)}
+      {...props}
+    />
+  ),
+  // radio
+  number: ({ uuid, ...props }) => (
+    <NumberInput
+      key={uuid}
+      handleChange={(value) => alert(`(number) Valor selecionado: ${value}`)}
       {...props}
     />
   ),
