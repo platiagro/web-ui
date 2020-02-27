@@ -11,6 +11,7 @@ import Drawer from '../Drawer/_';
 
 // MOCKS
 import flowMock from '../ExperimentFlow/_/_flowMock';
+import resultsDrawerMock from '../Drawer/ResultsDrawer/_/_resultsDrawerMock';
 
 /**
  * Editable Title.
@@ -22,8 +23,8 @@ const Experiment = () => (
     {/* drawer */}
     <Drawer
       title='Drawer Title'
-      visible
-      results
+      isVisible
+      results={resultsDrawerMock}
       handleClose={(e) => alert('close drawer')}
     />
     {/* row container  */}

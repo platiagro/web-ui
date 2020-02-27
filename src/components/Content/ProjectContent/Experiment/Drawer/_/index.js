@@ -14,13 +14,12 @@ import ResultsButtonBar from '../ResultsButtonBar';
 // MOCKS
 import datasetColumnsMock from '../DatasetDrawer/ColumnsTable/_datasetColumnsMock';
 import genericDrawerMock from '../GenericDrawer/_/_genericDrawerMock';
-import resultsDrawerMock from '../ResultsDrawer/_/_resultsDrawerMock';
 
 /**
  * Drawer.
  * This component is responsible for displaying drawer.
  */
-const Drawer = ({ title, visible, handleClose, results, isDataset }) => {
+const Drawer = ({ title, isVisible, handleClose, results, isDataset }) => {
   // HOOKS
   // show results
   const [showResults, setShowResults] = useState(false);
@@ -37,7 +36,7 @@ const Drawer = ({ title, visible, handleClose, results, isDataset }) => {
     <AntDrawer
       width={350}
       title={title}
-      visible={visible}
+      visible={isVisible}
       closable
       onClose={handleClose}
     >
@@ -85,7 +84,7 @@ const Drawer = ({ title, visible, handleClose, results, isDataset }) => {
         />
       )}
       {/* rendering results drawer */}
-      {showResults && <ResultsDrawer results={resultsDrawerMock} />}
+      {showResults && <ResultsDrawer results={results} />}
 
       {/* rendering results button bar */}
       {results && (
@@ -97,6 +96,26 @@ const Drawer = ({ title, visible, handleClose, results, isDataset }) => {
       )}
     </AntDrawer>
   );
+};
+
+// PROP TYPES
+Drawer.propTypes = {
+  /** drawer title string */
+  title: PropTypes.string.isRequired,
+  /** drawer is visible */
+  isVisible: PropTypes.bool.isRequired,
+  /** drawer is dataset */
+  isDataset: PropTypes.bool.isRequired,
+  /** drawer results list */
+  results: PropTypes.arrayOf(PropTypes.object),
+  /** select input change handler */
+  handleClose: PropTypes.func.isRequired,
+};
+
+// PROP DEFAULT VALUES
+Drawer.defaultProps = {
+  /** drawer results list */
+  results: undefined,
 };
 
 // EXPORT
