@@ -7,11 +7,14 @@ import { Divider } from 'antd';
 
 // COMPONENTS
 import TagResult from '../TagResult';
+import TableResult from '../TableResult';
 
 // RESULTS TYPES
 const resultsTypes = {
   // tag
   tag: ({ uuid, ...props }) => <TagResult key={uuid} {...props} />,
+  // table
+  table: ({ uuid, ...props }) => <TableResult key={uuid} {...props} />,
 };
 
 /**

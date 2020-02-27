@@ -1,4 +1,3 @@
 // title
-// creationCounter
-// exhibitionCounter
-// resultsTable
+// description
+// plot
