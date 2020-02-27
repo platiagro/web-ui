@@ -8,6 +8,7 @@ import { Divider } from 'antd';
 // COMPONENTS
 import TagResult from '../TagResult';
 import TableResult from '../TableResult';
+import PlotResult from '../PlotResult';
 
 // RESULTS TYPES
 const resultsTypes = {
@@ -15,6 +16,8 @@ const resultsTypes = {
   tag: ({ uuid, ...props }) => <TagResult key={uuid} {...props} />,
   // table
   table: ({ uuid, ...props }) => <TableResult key={uuid} {...props} />,
+  // plot
+  plot: ({ uuid, ...props }) => <PlotResult key={uuid} {...props} />,
 };
 
 /**
@@ -27,7 +30,7 @@ const ResultsDrawer = ({ results }) => (
     {/* rendering results */}
     {results.map((result) => (
       // div result container
-      <div>
+      <div key={result.uuid}>
         {/* rendering result */}
         {resultsTypes[result.type](result)}
         {/* rendering divider */}

@@ -22,6 +22,7 @@ const TableResult = ({
   // report symbol
   const reportSymbol = isIncreased ? '+' : '-';
 
+  // RENDER
   return (
     // div container
     <div>

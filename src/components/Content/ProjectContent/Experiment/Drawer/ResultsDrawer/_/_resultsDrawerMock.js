@@ -69,6 +69,15 @@ const resultsDrawerMock = [
       ],
     },
   },
+  // plot result
+  {
+    uuid: 'results3',
+    type: 'plot',
+    title: 'Título Plot Result',
+    description: 'Essa é a descrição do resultado.',
+    plotUrl:
+      'https://scikit-learn.org/stable/_images/sphx_glr_plot_confusion_matrix_001.png',
+  },
 ];
 
 // EXPORT
