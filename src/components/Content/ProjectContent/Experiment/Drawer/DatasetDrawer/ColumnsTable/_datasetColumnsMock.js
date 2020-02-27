@@ -1,5 +1,5 @@
 // DATASET COLUMNS MOCK
-const columnsMock = [
+const datasetColumnsMock = [
   {
     uuid: '01',
     headerId: '01',
@@ -24,4 +24,4 @@ const columnsMock = [
 ];
 
 // EXPORT
-export default columnsMock;
+export default datasetColumnsMock;

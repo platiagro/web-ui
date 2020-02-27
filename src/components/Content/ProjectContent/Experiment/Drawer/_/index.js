@@ -8,12 +8,13 @@ import { Drawer as AntDrawer } from 'antd';
 // COMPONENTS
 import DatasetDrawer from '../DatasetDrawer/_';
 import GenericDrawer from '../GenericDrawer/_';
-import ResultsDrawer from '../ResultsDrawer';
+import ResultsDrawer from '../ResultsDrawer/_';
 import ResultsButtonBar from '../ResultsButtonBar';
 
 // MOCKS
-import columnsMock from '../DatasetDrawer/ColumnsTable/_columnsMock';
+import datasetColumnsMock from '../DatasetDrawer/ColumnsTable/_datasetColumnsMock';
 import genericDrawerMock from '../GenericDrawer/_/_genericDrawerMock';
+import resultsDrawerMock from '../ResultsDrawer/_/_resultsDrawerMock';
 
 /**
  * Drawer.
@@ -68,7 +69,7 @@ const Drawer = ({ title, visible, handleClose, results, isDataset }) => {
         )}
           targetColumnId='01'
           loading={false}
-          columns={columnsMock}
+          columns={datasetColumnsMock}
         />
       )}
       {/* rendering generic drawer */}
@@ -84,7 +85,7 @@ const Drawer = ({ title, visible, handleClose, results, isDataset }) => {
         />
       )}
       {/* rendering results drawer */}
-      {showResults && <ResultsDrawer />}
+      {showResults && <ResultsDrawer results={resultsDrawerMock} />}
 
       {/* rendering results button bar */}
       {results && (

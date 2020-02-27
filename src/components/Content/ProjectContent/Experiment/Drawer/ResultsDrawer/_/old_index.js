@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Tag, Icon, Divider, Table, Spin } from 'antd';
 
-import NotebookEdit from '../../Component/EditComponentNotebook';
+import NotebookEdit from '../../../../../Component/EditComponentNotebook';
 
 import {
   getResultTable,
