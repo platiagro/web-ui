@@ -40,5 +40,11 @@ const ResultsDrawer = ({ results }) => (
   </div>
 );
 
+// PROP TYPES
+ResultsDrawer.propTypes = {
+  /** results drawer results list */
+  results: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 // EXPORT
 export default ResultsDrawer;
