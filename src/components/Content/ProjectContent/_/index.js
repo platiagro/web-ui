@@ -1,6 +1,5 @@
 // CORE LIBS
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 // UI LIBS
 import { Row, Col } from 'antd';
@@ -19,34 +18,39 @@ import experimentsMock from '../ExperimentsTabs/_/_experimentsMock';
  * Project Content.
  * This component is responsible for displaying the project content.
  */
-const ProjectContent = () => {
-  return (
-    <Row gutter={24}>
-      <Col span={5}>
-        <ComponentsMenuBlock components={componentsMock} />
-      </Col>
-      <Col span={19}>
-        <Row gutter={15}>
-          <Col span={23}>
-            <ExperimentsTabs
-              experiments={experimentsMock}
-              handleChange={(key) => alert(key)}
-            />
-          </Col>
-          <Col span={1}>
-            <NewExperimentButton
-              disabled={false}
-              handleClick={() => alert('new experiment')}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Experiment />
-        </Row>
-      </Col>
-    </Row>
-  );
-};
+const ProjectContent = () => (
+  // project row container
+  <Row gutter={24}>
+    {/* menu column container */}
+    <Col span={5}>
+      <ComponentsMenuBlock components={componentsMock} />
+    </Col>
+    {/* experiment column container */}
+    <Col span={19}>
+      {/* experiment tabs row container */}
+      <Row gutter={15}>
+        {/* experiment tabs column container */}
+        <Col span={23}>
+          <ExperimentsTabs
+            experiments={experimentsMock}
+            handleChange={(key) => alert(key)}
+          />
+        </Col>
+        {/* new experiment column container */}
+        <Col span={1}>
+          <NewExperimentButton
+            disabled={false}
+            handleClick={() => alert('new experiment')}
+          />
+        </Col>
+      </Row>
+      {/* experiment row container */}
+      <Row>
+        <Experiment />
+      </Row>
+    </Col>
+  </Row>
+);
 
 // EXPORT
 export default ProjectContent;
