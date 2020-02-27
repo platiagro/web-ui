@@ -25,7 +25,7 @@ const Experiment = () => (
       title='Drawer Title'
       isVisible
       results={resultsDrawerMock}
-      handleClose={(e) => alert('close drawer')}
+      handleClose={(e) => alert('closing drawer')}
     />
     {/* row container  */}
     <Row>
