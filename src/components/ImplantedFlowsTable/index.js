@@ -8,56 +8,6 @@ import { Link } from 'react-router-dom';
 import './style.scss';
 
 // TODO: REFACTOR (OCLAIR)
-const testBodyJson = {
-  "data": {
-      "ndarray": [
-          [
-              "2016-01-05",
-              67,
-              83,
-              "Pandora",
-              1860,
-              1025,
-              2010,
-              307,
-              700,
-              1867,
-              28,
-              "Não"
-          ],
-          [
-              "2016-01-05",
-              66,
-              76,
-              "Pandora",
-              1686,
-              1680,
-              1900,
-              321,
-              1047,
-              1603,
-              31,
-              "Não"
-          ]
-      ],
-      "names": [
-          "Data",
-          "Temperatura",
-          "Umidade",
-          "Máquina",
-          "Vibração 1",
-          "Vibração 2",
-          "Vibração 3",
-          "Vibração 4",
-          "Vibração 5",
-          "Vibração 6",
-          "Horas desde a última falha",
-          "Falhará em breve"
-      ]
-  }
-}
-
-// TODO: REFACTOR (OCLAIR)
 const uploadJson = (e, value) => {
   const cleanedUrl = value.replace('http://10.50.11.143:31380', '');
 
