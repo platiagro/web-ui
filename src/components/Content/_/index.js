@@ -11,6 +11,7 @@ import ContentHeader from '../ContentHeader';
 // CONTENTS
 import ProjectsContent from '../ProjectsContent/_';
 import ProjectContent from '../ProjectContent/_';
+import TaskContent from '../TasksContent/_';
 
 // STYLES
 import './style.scss';
@@ -44,7 +45,9 @@ const Content = ({ showHeader }) => {
         {/* projects content */}
         {/* <ProjectsContent projects={projectsMock} /> */}
         {/* project content */}
-        <ProjectContent />
+        {/* <ProjectContent /> */}
+        {/* task content */}
+        <TaskContent />
       </div>
     </Layout>
   );
