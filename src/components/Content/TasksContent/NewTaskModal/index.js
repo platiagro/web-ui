@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input, Radio } from 'antd';
+import { Modal, Form, Input, Radio, Icon } from 'antd';
 
 /**
  * New Task Modal.
@@ -42,6 +42,7 @@ const NewTaskModal = ({
       handleNewTask(values);
     });
   };
+  // function to change template and reflect in name
   const changeTemplate = (e, f) => {
     setFieldsValue({ name: e.target.label });
     return e.target.value;
@@ -64,6 +65,7 @@ const NewTaskModal = ({
       <Form layout='vertical'>
         {/* templates */}
         <Form.Item label='Escolha um exemplo ou template para começar:'>
+          {/* configuring template radio input */}
           {getFieldDecorator('template', {
             rules: [
               {
@@ -75,9 +77,11 @@ const NewTaskModal = ({
             initialValue: templates[0].uuid,
             getValueFromEvent: changeTemplate,
           })(
+            // template radio input group
             <Radio.Group
               style={{ display: 'grid', gridTemplateColumns: '50% 50%' }}
             >
+              {/* template radio options */}
               {templates.map((template) => (
                 <Radio value={template.uuid} label={template.name}>
                   {template.name}
@@ -88,6 +92,7 @@ const NewTaskModal = ({
         </Form.Item>
         {/* name */}
         <Form.Item label='Qual o nome da sua tarefa?'>
+          {/* configuring name input */}
           {getFieldDecorator('name', {
             rules: [
               {
@@ -96,11 +101,24 @@ const NewTaskModal = ({
               },
             ],
             initialValue: templates[0].name,
+            // name input
           })(<Input allowClear autoFocus />)}
         </Form.Item>
+        {/* description */}
         <Form.Item label='Descrição (opcional):'>
+          {/* description text area */}
           {getFieldDecorator('description')(<Input.TextArea />)}
         </Form.Item>
+        {/* warning */}
+        <p style={{ marginTop: -5 }}>
+          {/* warning icon */}
+          <Icon type='exclamation-circle' />
+          {/* warning description */}
+          <span style={{ marginLeft: 10 }}>
+            Será aberta uma nova aba contendo dois notebooks para edição,
+            experimentação e implantação.
+          </span>
+        </p>
       </Form>
     </Modal>
   );
@@ -108,15 +126,17 @@ const NewTaskModal = ({
 
 // PROP TYPES
 NewTaskModal.propTypes = {
-  /** new project modal visible */
+  /** new task modal visible */
   visible: PropTypes.bool.isRequired,
-  /** new project modal close handler */
+  /**  new task modal templates list */
+  templates: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** new task modal close handler */
   handleCloseModal: PropTypes.func.isRequired,
-  /** new project modal new project handler */
+  /** new task modal new task handler */
   handleNewTask: PropTypes.func.isRequired,
-  /** new project modal form */
+  /** new task modal form */
   form: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 // EXPORT
-export default Form.create({ name: 'newProjectForm' })(NewTaskModal);
+export default Form.create({ name: 'newTaskForm' })(NewTaskModal);
