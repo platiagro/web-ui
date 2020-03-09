@@ -105,5 +105,11 @@ const TaskContent = ({ tasks }) => {
   );
 };
 
+// PROP TYPES
+TaskContent.propTypes = {
+  /** task content task list */
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 // EXPORT
 export default TaskContent;
