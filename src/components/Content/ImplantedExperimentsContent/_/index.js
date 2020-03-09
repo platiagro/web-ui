@@ -16,8 +16,9 @@ const ImplantedExperimentsContent = ({ implantedExperiments }) => (
     {implantedExperiments.length > 0 ? (
       <ImplantedExperimentsTable
         implantedExperiments={implantedExperiments}
-        handleTestInference={(uuid, file) =>
-          alert(`TEST ID ${uuid} FILENAME: ${file.name}`)
+        handleTestInference={
+          (uuid, file) => alert(`TEST ID ${uuid} FILENAME: ${file.name}`)
+          // eslint-disable-next-line
         }
       />
     ) : (
