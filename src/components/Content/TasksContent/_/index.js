@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import TasksEmpty from '../TasksEmpty';
 import NewTaskButton from '../NewTaskButton';
 import NewTaskModal from '../NewTaskModal';
+import EditTaskModal from '../EditTaskModal';
 import TasksTable from '../TasksTable';
 
 // MOCKS
@@ -22,7 +23,11 @@ const TaskContent = ({ tasks }) => {
   // edit task modal visibility hook
   const [editTaskModalVisible, setEditTaskModalVisible] = useState(false);
   // edit task modal initial values hook
-  const [editTaskModalValues, setEditTaskModalValues] = useState(false);
+  const [editTaskModalValues, setEditTaskModalValues] = useState({
+    uuid: null,
+    name: null,
+    description: null,
+  });
 
   // FUNCTIONS
   // show new task modal function
@@ -34,7 +39,18 @@ const TaskContent = ({ tasks }) => {
     setNewTaskModalVisible(false);
   };
   // show edit task modal function
-  const showEditTaskModal = () => {
+  const showEditTaskModal = (taskValues) => {
+    // creating task initial values object
+    const taskInitialValues = {
+      uuid: taskValues.uuid,
+      name: taskValues.name,
+      description: taskValues.description,
+    };
+
+    // setting task initial values
+    setEditTaskModalValues(taskInitialValues);
+
+    // showing edit task modal
     setEditTaskModalVisible(true);
   };
   // hide edit task modal function
@@ -50,7 +66,7 @@ const TaskContent = ({ tasks }) => {
     <TasksTable
       tasks={tasks}
       handleClickTask={(uuid) => alert(uuid)}
-      handleClickEdit={(uuid) => alert(`Edit ${uuid}`)}
+      handleClickEdit={(record) => showEditTaskModal(record)}
       handleClickDelete={(uuid) => alert(`Delete ${uuid}`)}
     />
   );
@@ -73,15 +89,16 @@ const TaskContent = ({ tasks }) => {
           )}
       />
       {/* edit task modal */}
-      {/* <EditTaskModal
+      <EditTaskModal
         visible={editTaskModalVisible}
+        initialValues={editTaskModalValues}
         handleCloseModal={hideEditTaskModal}
-        handleEditTask={(taskValues) =>
+        handleEditTask={(uuid, taskValues) =>
           alert(
-            `Edit ${taskValues.uuid} ${taskValues.name}, ${taskValues.description}`
+            `Edit ${uuid} ${taskValues.name}, ${taskValues.description}`
             // eslint-disable-next-line
           )}
-      /> */}
+      />
       {/* render tasks table or tasks empty */}
       {tasks.length > 0 ? renderTasksTable() : renderTasksEmpty()}
     </div>
