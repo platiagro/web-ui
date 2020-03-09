@@ -27,5 +27,11 @@ const ImplantedExperimentsContent = ({ implantedExperiments }) => (
   </div>
 );
 
+// PROP TYPES
+ImplantedExperimentsContent.propTypes = {
+  /** implanted experiments content implanted experiments list */
+  implantedExperiments: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 // EXPORT
 export default ImplantedExperimentsContent;
