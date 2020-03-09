@@ -17,7 +17,8 @@ import TaskContent from '../TasksContent/_';
 import './style.scss';
 
 // MOCKS
-import projectsMock from '../ProjectsContent/ProjectsTable/_projectsMock';
+import projectsMock from '../ProjectsContent/_/_projectsMock';
+import tasksMock from '../TasksContent/_/_tasksMock';
 
 /**
  * Content.
@@ -47,7 +48,7 @@ const Content = ({ showHeader }) => {
         {/* project content */}
         {/* <ProjectContent /> */}
         {/* task content */}
-        <TaskContent />
+        <TaskContent tasks={tasksMock} />
       </div>
     </Layout>
   );
