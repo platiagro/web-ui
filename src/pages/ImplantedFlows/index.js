@@ -7,7 +7,7 @@ import './style.scss';
 import React, { useState, useEffect } from 'react';
 import { Empty, Spin } from 'antd';
 import ContentHeader from '../../components/Content/ContentHeader';
-import ImplantedFlowsTable from '../../components/ImplantedFlowsTable';
+// import ImplantedFlowsTable from '../../components/ImplantedFlowsTable';
 import emptyPlaceholder from '../../assets/emptyPlaceholder.png';
 import { getDeployments } from '../../services/pipelinesApi';
 
@@ -35,27 +35,27 @@ const ImplantedFlows = (props) => {
   const renderBody = () => {
     if (loading) return <Spin />;
 
-    return flowList.length === 0 ? (
-      <Empty
-        image={emptyPlaceholder}
-        imageStyle={{
-          height: 136,
-        }}
-        description={
-          <span>
-            <span>
-              <strong>Nenhum fluxo implantado</strong>
-            </span>
-            <br />
-            <span>
-              Crie fluxos em &quot;Projetos&quot; para depois implantá-los
-            </span>
-          </span>
-        }
-      />
-    ) : (
-      <ImplantedFlowsTable flowList={flowList} />
-    );
+    // return flowList.length === 0 ? (
+    //   <Empty
+    //     image={emptyPlaceholder}
+    //     imageStyle={{
+    //       height: 136,
+    //     }}
+    //     description={
+    //       <span>
+    //         <span>
+    //           <strong>Nenhum fluxo implantado</strong>
+    //         </span>
+    //         <br />
+    //         <span>
+    //           Crie fluxos em &quot;Projetos&quot; para depois implantá-los
+    //         </span>
+    //       </span>
+    //     }
+    //   />
+    // ) : (
+    //   <ImplantedFlowsTable flowList={flowList} />
+    // );
   };
 
   return (

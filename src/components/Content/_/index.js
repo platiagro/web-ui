@@ -20,6 +20,7 @@ import './style.scss';
 // MOCKS
 import projectsMock from '../ProjectsContent/_/_projectsMock';
 import tasksMock from '../TasksContent/_/_tasksMock';
+import implantedExperimentsMock from '../ImplantedExperimentsContent/_/_implantedExperimentsMock';
 
 /**
  * Content.
@@ -51,7 +52,9 @@ const Content = ({ showHeader }) => {
         {/* task content */}
         {/* <TaskContent tasks={tasksMock} /> */}
         {/* implanted experiments content */}
-        <ImplantedExperimentsContent />
+        <ImplantedExperimentsContent
+          implantedExperiments={implantedExperimentsMock}
+        />
       </div>
     </Layout>
   );
