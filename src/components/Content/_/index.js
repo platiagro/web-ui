@@ -12,6 +12,7 @@ import ContentHeader from '../ContentHeader';
 import ProjectsContent from '../ProjectsContent/_';
 import ProjectContent from '../ProjectContent/_';
 import TaskContent from '../TasksContent/_';
+import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
 
 // STYLES
 import './style.scss';
@@ -48,7 +49,9 @@ const Content = ({ showHeader }) => {
         {/* project content */}
         {/* <ProjectContent /> */}
         {/* task content */}
-        <TaskContent tasks={tasksMock} />
+        {/* <TaskContent tasks={tasksMock} /> */}
+        {/* implanted experiments content */}
+        <ImplantedExperimentsContent />
       </div>
     </Layout>
   );
