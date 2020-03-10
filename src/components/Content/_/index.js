@@ -14,6 +14,7 @@ import ProjectContent from '../ProjectContent/_';
 import TaskContent from '../TasksContent/_';
 import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
 import HomeContent from '../HomeContent';
+import Error404Content from '../Error404Content';
 
 // STYLES
 import './style.scss';
@@ -58,7 +59,9 @@ const Content = ({ showHeader }) => {
         /> */}
       {/* </div> */}
       {/* home content */}
-      <HomeContent />
+      {/* <HomeContent /> */}
+      {/* error 404 content */}
+      <Error404Content />
     </Layout>
   );
 };
