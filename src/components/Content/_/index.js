@@ -13,6 +13,7 @@ import ProjectsContent from '../ProjectsContent/_';
 import ProjectContent from '../ProjectContent/_';
 import TaskContent from '../TasksContent/_';
 import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
+import HomeContent from '../HomeContent';
 
 // STYLES
 import './style.scss';
@@ -44,18 +45,20 @@ const Content = ({ showHeader }) => {
       {/* content header */}
       {showHeader && renderContentHeader()}
       {/* div content page */}
-      <div className='contentPage'>
-        {/* projects content */}
-        {/* <ProjectsContent projects={projectsMock} /> */}
-        {/* project content */}
-        {/* <ProjectContent /> */}
-        {/* task content */}
-        {/* <TaskContent tasks={tasksMock} /> */}
-        {/* implanted experiments content */}
-        <ImplantedExperimentsContent
+      {/* <div className='contentPage'> */}
+      {/* projects content */}
+      {/* <ProjectsContent projects={projectsMock} /> */}
+      {/* project content */}
+      {/* <ProjectContent /> */}
+      {/* task content */}
+      {/* <TaskContent tasks={tasksMock} /> */}
+      {/* implanted experiments content */}
+      {/* <ImplantedExperimentsContent
           implantedExperiments={implantedExperimentsMock}
-        />
-      </div>
+        /> */}
+      {/* </div> */}
+      {/* home content */}
+      <HomeContent />
     </Layout>
   );
 };

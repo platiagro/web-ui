@@ -26,7 +26,7 @@ const { Header, Footer } = Layout;
 const App = () => (
   <Layout>
     <MainHeader />
-    <Content showHeader />
+    <Content showHeader={false} />
     <Footer>
       <MainFooter />
     </Footer>

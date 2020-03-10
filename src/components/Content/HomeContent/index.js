@@ -1,23 +1,25 @@
-/**
- * Component responsible for:
- * - Structuring the root page layout
- */
-import './style.scss';
+// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+// UI LIBS
 import { Layout, Row, Col } from 'antd';
-// import NewProjectModal from '../../components/Project/NewProjectModal';
-import logoBody from '../../assets/logo-colorido.svg';
-import ic_projeto from '../../assets/ic_projeto.svg';
-import ic_avaliacao from '../../assets/ic_avaliacao.svg';
-import ic_programacao from '../../assets/ic_programacao.svg';
-import { toggleModal } from '../../store/actions/projectsActions';
+
+// COMPONENTS
+import NewProjectModal from '../ProjectsContent/NewProjectModal';
+
+// STYLES
+import './style.scss';
+
+// IMAGES
+import logoBody from '../../../assets/logo-colorido.svg';
+import ic_projeto from '../../../assets/ic_projeto.svg';
+import ic_avaliacao from '../../../assets/ic_avaliacao.svg';
+import ic_programacao from '../../../assets/ic_programacao.svg';
 
 const { Content } = Layout;
 
-const Root = (props) => {
-  const { onToggleModal } = props;
-
+const HomeContent = () => {
   return (
     <Layout className='rootPage'>
       {/* <NewProjectModal /> */}
@@ -31,7 +33,7 @@ const Root = (props) => {
             <div className='card-content'>
               <p className='home-subtitle'>Você pode:</p>
               <div className='home-cards'>
-                <div role='presentation' onClick={onToggleModal}>
+                <div role='presentation' onClick={() => alert()}>
                   <img src={ic_projeto} alt='Icone de experimento' />
                   <span>Criar um novo projeto</span>
                 </div>
@@ -75,18 +77,5 @@ const Root = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    ...state.projects,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onToggleModal: () => {
-      dispatch(toggleModal());
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Root);
+// EXPORT
+export default HomeContent;
