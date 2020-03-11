@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import ContentHeader from '../../ContentHeader';
+import ContentHeader from '../../ContentHeader/Container';
 import ImplantedExperimentsEmpty from '../ImplantedExperimentsEmpty';
 import ImplantedExperimentsTable from '../ImplantedExperimentsTable/_';
 
@@ -15,11 +15,7 @@ const ImplantedExperimentsContent = ({ implantedExperiments }) => (
   // fragment container
   <>
     {/* content header */}
-    <ContentHeader
-      title='Experimentos Implantados'
-      editable={false}
-      handleGoBack={() => alert('goBack!')}
-    />
+    <ContentHeader title='Experimentos Implantados' editable={false} />
     {/* div content page container */}
     <div className='contentPage'>
       {/* rendering implanted experiments table or implanted experiments empty */}

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import ContentHeader from '../../ContentHeader';
+import ContentHeader from '../../ContentHeader/Container';
 import NewProjectButton from '../NewProjectButton';
 import ProjectsEmpty from '../ProjectsEmpty';
 import ProjectsTable from '../ProjectsTable';
@@ -44,11 +44,7 @@ const ProjectsContent = ({ projects }) => {
     // fragment
     <>
       {/* content header */}
-      <ContentHeader
-        title='Projetos'
-        editable={false}
-        handleGoBack={() => alert('goBack!')}
-      />
+      <ContentHeader title='Projetos' editable={false} />
       {/* div content page container */}
       <div className='contentPage'>
         {/* new project button */}

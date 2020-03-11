@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import ContentHeader from '../../ContentHeader';
+import ContentHeader from '../../ContentHeader/Container';
 import TasksEmpty from '../TasksEmpty';
 import NewTaskButton from '../NewTaskButton';
 import NewTaskModal from '../NewTaskModal';
@@ -77,11 +77,7 @@ const TaskContent = ({ tasks }) => {
     // fragment container
     <>
       {/* content header */}
-      <ContentHeader
-        title='Tarefas'
-        editable={false}
-        handleGoBack={() => alert('goBack!')}
-      />
+      <ContentHeader title='Tarefas' editable={false} />
       {/* div content page container */}
       <div className='contentPage'>
         {/* new task button */}
