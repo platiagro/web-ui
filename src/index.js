@@ -7,18 +7,24 @@ import 'antd/dist/antd.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 // COMPONENTS
 import App from './components/App';
+
+// STORE
+import store from './store';
 
 // SERVICE WORKER
 import * as serviceWorker from './serviceWorker';
 
 // initializing react app
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );
 
