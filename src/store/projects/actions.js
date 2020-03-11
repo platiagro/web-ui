@@ -16,4 +16,4 @@ const fetchProjects = () => ({
 });
 
 // EXPORT
-export default { fetchProjects };
+export default fetchProjects;

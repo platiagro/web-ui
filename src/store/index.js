@@ -2,10 +2,10 @@
 import { combineReducers, createStore } from 'redux';
 
 // REDUCERS
-import projectsReducer from './projects/reducer';
+import projects from './projects/reducer';
 
 // COMBINED REDUCERS
-const reducers = combineReducers({ projectsReducer });
+const reducers = combineReducers({ projects });
 
 // STORE
 const store = createStore(reducers);

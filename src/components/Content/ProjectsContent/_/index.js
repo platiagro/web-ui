@@ -1,19 +1,17 @@
 // CORE LIBS
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 // COMPONENTS
 import ContentHeader from '../../ContentHeader/Container';
 import NewProjectButton from '../NewProjectButton';
-import ProjectsEmpty from '../ProjectsEmpty';
-import ProjectsTable from '../ProjectsTable';
+import ProjectsTable from '../ProjectsTable/Container';
 import NewProjectModal from '../NewProjectModal';
 
 /**
  * Projects Content.
  * This component is responsible for displaying the projects content.
  */
-const ProjectsContent = ({ projects }) => {
+const ProjectsContent = () => {
   // HOOKS
   // editing hook
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,17 +25,6 @@ const ProjectsContent = ({ projects }) => {
   const hideModal = () => {
     setModalVisible(false);
   };
-
-  // COMPONENTS RENDERS
-  // projects empty
-  const renderProjectsEmpty = () => <ProjectsEmpty />;
-  // projects table
-  const renderProjectsTable = () => (
-    <ProjectsTable
-      projects={projects}
-      handleClickProject={(uuid) => alert(uuid)}
-    />
-  );
 
   // RENDER
   return (
@@ -55,17 +42,11 @@ const ProjectsContent = ({ projects }) => {
           handleCloseModal={hideModal}
           handleNewProject={(projectName) => alert(projectName)}
         />
-        {/* projects table or projects empty */}
-        {projects.length > 0 ? renderProjectsTable() : renderProjectsEmpty()}
+        {/* projects table */}
+        <ProjectsTable />
       </div>
     </>
   );
-};
-
-// PROP TYPES
-ProjectsContent.propTypes = {
-  /** projects content projects list */
-  projects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // EXPORT

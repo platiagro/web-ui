@@ -7,7 +7,7 @@ const initialState = [];
 /**
  * projects reducer
  */
-const projectsReducer = (state = initialState, action) => {
+const projects = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_PROJECTS:
       return action.projects;
@@ -17,4 +17,4 @@ const projectsReducer = (state = initialState, action) => {
 };
 
 // EXPORT
-export default { projectsReducer };
+export default projects;
