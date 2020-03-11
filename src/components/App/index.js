@@ -27,7 +27,7 @@ const App = () => (
     {/* main header */}
     <MainHeader />
     {/* content */}
-    <Content showHeader={false} />
+    <Content />
     {/* footer */}
     <Footer>
       {/* main footer */}

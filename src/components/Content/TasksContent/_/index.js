@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
+import ContentHeader from '../../ContentHeader';
 import TasksEmpty from '../TasksEmpty';
 import NewTaskButton from '../NewTaskButton';
 import NewTaskModal from '../NewTaskModal';
@@ -73,35 +74,44 @@ const TaskContent = ({ tasks }) => {
 
   // RENDER
   return (
-    // div container
-    <div>
-      {/* new task button */}
-      <NewTaskButton disabled={false} handleClick={showNewTaskModal} />
-      {/* new task modal */}
-      <NewTaskModal
-        visible={newTaskModalVisible}
-        templates={templatesMock}
-        handleCloseModal={hideNewTaskModal}
-        handleNewTask={(taskValues) =>
-          alert(
-            `${taskValues.name}, ${taskValues.template}, ${taskValues.description}`
-            // eslint-disable-next-line
-          )}
+    // fragment container
+    <>
+      {/* content header */}
+      <ContentHeader
+        title='Tarefas'
+        editable={false}
+        handleGoBack={() => alert('goBack!')}
       />
-      {/* edit task modal */}
-      <EditTaskModal
-        visible={editTaskModalVisible}
-        initialValues={editTaskModalValues}
-        handleCloseModal={hideEditTaskModal}
-        handleEditTask={(uuid, taskValues) =>
-          alert(
-            `Edit ${uuid} ${taskValues.name}, ${taskValues.description}`
-            // eslint-disable-next-line
+      {/* div content page container */}
+      <div className='contentPage'>
+        {/* new task button */}
+        <NewTaskButton disabled={false} handleClick={showNewTaskModal} />
+        {/* new task modal */}
+        <NewTaskModal
+          visible={newTaskModalVisible}
+          templates={templatesMock}
+          handleCloseModal={hideNewTaskModal}
+          handleNewTask={(taskValues) =>
+            alert(
+              `${taskValues.name}, ${taskValues.template}, ${taskValues.description}`
+              // eslint-disable-next-line
           )}
-      />
-      {/* render tasks table or tasks empty */}
-      {tasks.length > 0 ? renderTasksTable() : renderTasksEmpty()}
-    </div>
+        />
+        {/* edit task modal */}
+        <EditTaskModal
+          visible={editTaskModalVisible}
+          initialValues={editTaskModalValues}
+          handleCloseModal={hideEditTaskModal}
+          handleEditTask={(uuid, taskValues) =>
+            alert(
+              `Edit ${uuid} ${taskValues.name}, ${taskValues.description}`
+              // eslint-disable-next-line
+          )}
+        />
+        {/* render tasks table or tasks empty */}
+        {tasks.length > 0 ? renderTasksTable() : renderTasksEmpty()}
+      </div>
+    </>
   );
 };
 

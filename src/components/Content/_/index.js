@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Layout } from 'antd';
 
-// COMPONENTS
-import ContentHeader from '../ContentHeader';
-
 // CONTENTS
 import ProjectsContent from '../ProjectsContent/_';
 import ProjectContent from '../ProjectContent/_';
@@ -28,48 +25,27 @@ import implantedExperimentsMock from '../ImplantedExperimentsContent/_/_implante
  * Content.
  * This component is responsible for displaying the content.
  */
-const Content = ({ showHeader }) => {
-  // COMPONENTS RENDERS
-  // content header
-  const renderContentHeader = () => (
-    <ContentHeader
-      title='Título'
-      editable
-      handleGoBack={() => alert('goBack!')}
-    />
-  );
-
+const Content = () => {
   // RENDER
   return (
     // layout component
     <Layout>
-      {/* content header */}
-      {showHeader && renderContentHeader()}
-      {/* div content page */}
-      {/* <div className='contentPage'> */}
       {/* projects content */}
-      {/* <ProjectsContent projects={projectsMock} /> */}
+      <ProjectsContent projects={projectsMock} />
       {/* project content */}
       {/* <ProjectContent /> */}
       {/* task content */}
       {/* <TaskContent tasks={tasksMock} /> */}
       {/* implanted experiments content */}
       {/* <ImplantedExperimentsContent
-          implantedExperiments={implantedExperimentsMock}
-        /> */}
-      {/* </div> */}
+        implantedExperiments={implantedExperimentsMock}
+      /> */}
       {/* home content */}
       {/* <HomeContent /> */}
       {/* error 404 content */}
-      <Error404Content />
+      {/* <Error404Content /> */}
     </Layout>
   );
-};
-
-// PROP TYPES
-Content.propTypes = {
-  /** content show sheader */
-  showHeader: PropTypes.bool.isRequired,
 };
 
 // EXPORT
