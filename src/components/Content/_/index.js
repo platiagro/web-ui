@@ -1,62 +1,65 @@
 // CORE LIBS
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Switch, Route } from 'react-router-dom';
 
 // UI LIBS
 import { Layout } from 'antd';
-
-// COMPONENTS
-import ContentHeader from '../ContentHeader';
 
 // CONTENTS
 import ProjectsContent from '../ProjectsContent/_';
 import ProjectContent from '../ProjectContent/_';
 import TaskContent from '../TasksContent/_';
+import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
+import HomeContent from '../HomeContent';
+import Error404Content from '../Error404Content';
 
 // STYLES
 import './style.scss';
 
 // MOCKS
-import projectsMock from '../ProjectsContent/ProjectsTable/_projectsMock';
+import projectsMock from '../ProjectsContent/_/_projectsMock';
+import tasksMock from '../TasksContent/_/_tasksMock';
+import implantedExperimentsMock from '../ImplantedExperimentsContent/_/_implantedExperimentsMock';
 
 /**
  * Content.
  * This component is responsible for displaying the content.
  */
-const Content = ({ showHeader }) => {
-  // COMPONENTS RENDERS
-  // content header
-  const renderContentHeader = () => (
-    <ContentHeader
-      title='Título'
-      editable
-      handleGoBack={() => alert('goBack!')}
-    />
-  );
-
+const Content = () => {
   // RENDER
   return (
     // layout component
     <Layout>
-      {/* content header */}
-      {showHeader && renderContentHeader()}
-      {/* div content page */}
-      <div className='contentPage'>
-        {/* projects content */}
-        {/* <ProjectsContent projects={projectsMock} /> */}
-        {/* project content */}
-        {/* <ProjectContent /> */}
+      <Switch>
+        {/* home content */}
+        <Route exact path='/'>
+          <HomeContent />
+        </Route>
         {/* task content */}
-        <TaskContent />
-      </div>
+        <Route exact path='/tarefas'>
+          <TaskContent tasks={tasksMock} />
+        </Route>
+        {/* projects content */}
+        <Route exact path='/projetos'>
+          <ProjectsContent projects={projectsMock} />
+        </Route>
+        {/* project content */}
+        <Route exact path='/projetos/:id'>
+          <ProjectContent />
+        </Route>
+        {/* implanted experiments content */}
+        <Route exact path='/experimentos-implantados'>
+          <ImplantedExperimentsContent
+            implantedExperiments={implantedExperimentsMock}
+          />
+        </Route>
+        {/* error 404 content */}
+        <Route path='*'>
+          <Error404Content />
+        </Route>
+      </Switch>
     </Layout>
   );
-};
-
-// PROP TYPES
-Content.propTypes = {
-  /** content show sheader */
-  showHeader: PropTypes.bool.isRequired,
 };
 
 // EXPORT

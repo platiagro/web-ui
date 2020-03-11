@@ -1,20 +1,24 @@
 /* istanbul ignore file */
+// STYLES (in this file styles need to be loading before all code)
 import './style.scss';
 import 'antd/dist/antd.css';
+
+// CORE LIBS
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import App from './components/App';
-import * as serviceWorker from './serviceWorker';
-import store from './store/store';
 
+// COMPONENTS
+import App from './components/App';
+
+// SERVICE WORKER
+import * as serviceWorker from './serviceWorker';
+
+// initializing react app
 ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
-  </Provider>,
+  <Router>
+    <App />
+  </Router>,
   document.getElementById('root')
 );
 

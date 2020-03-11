@@ -22,9 +22,9 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => (
     onClick={(e) => handleItemClick(e.key)}
   >
     {/* mapping menu items */}
-    {itemsList.map(({ icon, key, title }) => (
+    {itemsList.map(({ icon, title, path }) => (
       // menu item
-      <Item key={key}>
+      <Item key={path}>
         {/* menu item icon */}
         <Icon type={icon} />
         {/* menu item title */}
