@@ -6,7 +6,7 @@ import { Layout } from 'antd';
 
 // COMPONENTS
 import Logo from '../Logo';
-import MainMenu from '../MainMenu';
+import MainMenu from '../MainMenu/Container';
 
 // STYLES
 import './style.scss';
@@ -14,10 +14,6 @@ import './style.scss';
 // IMAGES
 import logo from '../../../assets/logo-vazado.png';
 import logoDemo from '../../../assets/logoDemo.png';
-
-// TODO: Remover mocks
-// MOCKS
-import menuItemsMock from '../MainMenu/_itemsListMock';
 
 // LAYOUT COMPONENTS
 const { Header } = Layout;
@@ -32,14 +28,8 @@ const MainHeader = () => (
   <Header className='mainHeader'>
     {/* logo platiagro */}
     <Logo logoSrc={logo} className='logoPlatiagro' altText='PlatIAgro logo' />
-    {/* TODO: Alterar para container component (redux) */}
     {/* main menu */}
-    <MainMenu
-      itemsList={menuItemsMock}
-      selectedItems={['home']}
-      handleItemClick={(menu) => alert(menu)}
-      className='mainMenu'
-    />
+    <MainMenu />
     {/* logo demo foragri */}
     <Logo
       logoSrc={logoDemo}

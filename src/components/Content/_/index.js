@@ -1,6 +1,6 @@
 // CORE LIBS
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Switch, Route } from 'react-router-dom';
 
 // UI LIBS
 import { Layout } from 'antd';
@@ -30,20 +30,34 @@ const Content = () => {
   return (
     // layout component
     <Layout>
-      {/* projects content */}
-      <ProjectsContent projects={projectsMock} />
-      {/* project content */}
-      {/* <ProjectContent /> */}
-      {/* task content */}
-      {/* <TaskContent tasks={tasksMock} /> */}
-      {/* implanted experiments content */}
-      {/* <ImplantedExperimentsContent
-        implantedExperiments={implantedExperimentsMock}
-      /> */}
-      {/* home content */}
-      {/* <HomeContent /> */}
-      {/* error 404 content */}
-      {/* <Error404Content /> */}
+      <Switch>
+        {/* home content */}
+        <Route exact path='/'>
+          <HomeContent />
+        </Route>
+        {/* task content */}
+        <Route exact path='/tarefas'>
+          <TaskContent tasks={tasksMock} />
+        </Route>
+        {/* projects content */}
+        <Route exact path='/projetos'>
+          <ProjectsContent projects={projectsMock} />
+        </Route>
+        {/* project content */}
+        <Route exact path='/projetos/:id'>
+          <ProjectContent />
+        </Route>
+        {/* implanted experiments content */}
+        <Route exact path='/experimentos-implantados'>
+          <ImplantedExperimentsContent
+            implantedExperiments={implantedExperimentsMock}
+          />
+        </Route>
+        {/* error 404 content */}
+        <Route path='*'>
+          <Error404Content />
+        </Route>
+      </Switch>
     </Layout>
   );
 };
