@@ -36,6 +36,7 @@ const ProjectsTable = ({ projects, handleClickProject }) => {
 
   // RENDER
   return projects && projects.length > 0 ? (
+    // table
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
@@ -45,6 +46,7 @@ const ProjectsTable = ({ projects, handleClickProject }) => {
       scroll={{ y: 'calc(100vh - 480px)' }}
     />
   ) : (
+    // projects empty
     <ProjectsEmpty />
   );
 };
