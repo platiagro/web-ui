@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Table, Button } from 'antd';
 
+// COMPONENTS
+import ProjectsEmpty from '../ProjectsEmpty';
+
 /**
  * Projects Table.
  * This component is responsible for displaying projects table.
@@ -32,7 +35,8 @@ const ProjectsTable = ({ projects, handleClickProject }) => {
   ];
 
   // RENDER
-  return (
+  return projects && projects.length > 0 ? (
+    // table
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
@@ -41,6 +45,9 @@ const ProjectsTable = ({ projects, handleClickProject }) => {
       pagination={{ pageSize: 9 }}
       scroll={{ y: 'calc(100vh - 480px)' }}
     />
+  ) : (
+    // projects empty
+    <ProjectsEmpty />
   );
 };
 

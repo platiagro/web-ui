@@ -1,5 +1,6 @@
 // CORE LIBS
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
 // COMPONENTS
@@ -25,6 +26,14 @@ const ContentHeaderContainer = ({ title, editable }) => {
       handleGoBack={goBackHandler}
     />
   );
+};
+
+// PROP TYPES
+ContentHeaderContainer.propTypes = {
+  /** content header has editable title */
+  editable: PropTypes.bool.isRequired,
+  /** content header title */
+  title: PropTypes.string.isRequired,
 };
 
 // EXPORT
