@@ -1,0 +1,11 @@
+// ACTION TYPES
+// fetch experiments
+const FETCH_EXPERIMENTS = 'FETCH_EXPERIMENTS';
+// organize experiments
+const ORGANIZE_EXPERIMENTS = 'ORGANIZE_EXPERIMENTS';
+
+// EXPORT
+export default {
+  FETCH_EXPERIMENTS,
+  ORGANIZE_EXPERIMENTS,
+};
