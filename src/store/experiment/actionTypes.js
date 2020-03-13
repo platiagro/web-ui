@@ -1,0 +1,23 @@
+// ACTION TYPES
+// fetch experiment
+const FETCH_EXPERIMENT = 'FETCH_EXPERIMENT';
+// create experiment
+const CREATE_EXPERIMENT = 'CREATE_EXPERIMENT';
+// delete experiment
+const DELETE_EXPERIMENT = 'DELETE_EXPERIMENT';
+// edit experiment name
+const EDIT_EXPERIMENT_NAME = 'EDIT_EXPERIMENT_NAME';
+// train experiment
+const TRAIN_EXPERIMENT = 'TRAIN_EXPERIMENT';
+// deploy experiment
+const DEPLOY_EXPERIMENT = 'DEPLOY_EXPERIMENT';
+
+// EXPORT
+export default {
+  FETCH_EXPERIMENT,
+  CREATE_EXPERIMENT,
+  DELETE_EXPERIMENT,
+  EDIT_EXPERIMENT_NAME,
+  TRAIN_EXPERIMENT,
+  DEPLOY_EXPERIMENT,
+};
