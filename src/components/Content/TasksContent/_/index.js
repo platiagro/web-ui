@@ -1,23 +1,18 @@
 // CORE LIBS
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 // COMPONENTS
 import ContentHeader from '../../ContentHeader/Container';
-import TasksEmpty from '../TasksEmpty';
 import NewTaskButton from '../NewTaskButton';
-import NewTaskModal from '../NewTaskModal';
-import EditTaskModal from '../EditTaskModal';
-import TasksTable from '../TasksTable';
-
-// MOCKS
-import templatesMock from '../NewTaskModal/_templatesMock';
+import NewTaskModal from '../NewTaskModal/Container';
+import EditTaskModal from '../EditTaskModal/Container';
+import TasksTable from '../TasksTable/Container';
 
 /**
  * Task Content.
  * This component is responsible for displaying task content.
  */
-const TaskContent = ({ tasks }) => {
+const TaskContent = () => {
   // HOOKS
   // new task modal visibility hook
   const [newTaskModalVisible, setNewTaskModalVisible] = useState(false);
@@ -59,19 +54,6 @@ const TaskContent = ({ tasks }) => {
     setEditTaskModalVisible(false);
   };
 
-  // COMPONENTS RENDERS
-  // tasks empty
-  const renderTasksEmpty = () => <TasksEmpty />;
-  // projects table
-  const renderTasksTable = () => (
-    <TasksTable
-      tasks={tasks}
-      handleClickTask={(uuid) => alert(uuid)}
-      handleClickEdit={(record) => showEditTaskModal(record)}
-      handleClickDelete={(uuid) => alert(`Delete ${uuid}`)}
-    />
-  );
-
   // RENDER
   return (
     // fragment container
@@ -85,36 +67,19 @@ const TaskContent = ({ tasks }) => {
         {/* new task modal */}
         <NewTaskModal
           visible={newTaskModalVisible}
-          templates={templatesMock}
           handleCloseModal={hideNewTaskModal}
-          handleNewTask={(taskValues) =>
-            alert(
-              `${taskValues.name}, ${taskValues.template}, ${taskValues.description}`
-              // eslint-disable-next-line
-          )}
         />
         {/* edit task modal */}
         <EditTaskModal
           visible={editTaskModalVisible}
           initialValues={editTaskModalValues}
           handleCloseModal={hideEditTaskModal}
-          handleEditTask={(uuid, taskValues) =>
-            alert(
-              `Edit ${uuid} ${taskValues.name}, ${taskValues.description}`
-              // eslint-disable-next-line
-          )}
         />
         {/* render tasks table or tasks empty */}
-        {tasks.length > 0 ? renderTasksTable() : renderTasksEmpty()}
+        <TasksTable handleClickEdit={(record) => showEditTaskModal(record)} />
       </div>
     </>
   );
-};
-
-// PROP TYPES
-TaskContent.propTypes = {
-  /** task content task list */
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // EXPORT
