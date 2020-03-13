@@ -1,8 +1,17 @@
 // ACTION TYPES
+// fetch project
+const FETCH_PROJECT = 'FETCH_PROJECT';
 // create project
-const FETCH_PROJECTS = 'FETCH_PROJECTS';
+const CREATE_PROJECT = 'CREATE_PROJECT';
+// edit project name
+const EDIT_PROJECT_NAME = 'EDIT_PROJECT_NAME';
+// delete project
+const DELETE_PROJECT = 'DELETE_PROJECT';
 
 // EXPORT
 export default {
-  FETCH_PROJECTS,
+  FETCH_PROJECT,
+  CREATE_PROJECT,
+  EDIT_PROJECT_NAME,
+  DELETE_PROJECT,
 };
