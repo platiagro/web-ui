@@ -23,7 +23,7 @@ const Experiment = () => (
     {/* drawer */}
     <Drawer
       title='Drawer Title'
-      isVisible
+      isVisible={false}
       results={resultsDrawerMock}
       handleClose={(e) => alert('closing drawer')}
     />

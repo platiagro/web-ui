@@ -15,5 +15,5 @@ const fetchProjects = () => ({
   projects: projectsMock,
 });
 
-// EXPORT
+// EXPORT DEFAULT
 export default fetchProjects;

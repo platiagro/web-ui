@@ -1,9 +1,9 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
-// projects mocks
-import projectsMock from '../../components/Content/ProjectsContent/_/_projectsMock';
 
 // MOCKS
+// projects mocks
+import projectsMock from '../../components/Content/ProjectsContent/_/_projectsMock';
 // project mock
 const projectMock = {
   uuid: '1234567899',
@@ -14,11 +14,12 @@ const projectMock = {
 // ACTIONS
 /**
  * fetch project action
+ * @param {string} uuid
  * @returns {type, project}
  */
-export const fetchProject = () => ({
+export const fetchProject = (uuid) => ({
   type: actionTypes.FETCH_PROJECT,
-  project: projectMock,
+  project: projectsMock.find((project) => project.uuid === uuid),
 });
 
 /**
