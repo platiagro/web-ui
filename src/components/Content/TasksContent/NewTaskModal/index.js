@@ -48,7 +48,6 @@ const NewTaskModal = ({
     return e.target.value;
   };
 
-  // TODO: corrigir envio ao pressionar enter
   // RENDER
   return (
     // modal component
@@ -74,7 +73,7 @@ const NewTaskModal = ({
                   'Por favor selecione um exemplo ou template para a tarefa!',
               },
             ],
-            initialValue: templates[0].uuid,
+            initialValue: templates.length > 0 ? templates[0].uuid : '',
             getValueFromEvent: changeTemplate,
           })(
             // template radio input group
@@ -83,7 +82,11 @@ const NewTaskModal = ({
             >
               {/* template radio options */}
               {templates.map((template) => (
-                <Radio value={template.uuid} label={template.name}>
+                <Radio
+                  key={template.uuid}
+                  value={template.uuid}
+                  label={template.name}
+                >
                   {template.name}
                 </Radio>
               ))}
@@ -100,7 +103,7 @@ const NewTaskModal = ({
                 message: 'Por favor insira um nome para a tarefa!',
               },
             ],
-            initialValue: templates[0].name,
+            initialValue: templates.length > 0 ? templates[0].name : '',
             // name input
           })(<Input allowClear autoFocus />)}
         </Form.Item>
