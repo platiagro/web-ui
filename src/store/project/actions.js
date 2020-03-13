@@ -33,10 +33,11 @@ export const createProject = () => ({
 
 /**
  * edit project name action
+ * @param {string} uuid
  * @param {string} newName
  * @returns {type, project}
  */
-export const editProjectName = (newName) => ({
+export const editProjectName = (uuid, newName) => ({
   type: actionTypes.EDIT_PROJECT_NAME,
   project: { ...projectMock, name: newName },
 });

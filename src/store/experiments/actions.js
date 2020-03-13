@@ -2,6 +2,7 @@
 import actionTypes from './actionTypes';
 
 // MOCKS
+// experiments
 import experimentsMock from '../../components/Content/ProjectContent/ExperimentsTabs/_/_experimentsMock';
 
 // ACTIONS
@@ -17,8 +18,8 @@ export const fetchExperiments = () => ({
 // TODO: passar lógica para o backend?
 /**
  * fetch projects action
- * @param {number} experimentPos
- * @param {number} newPos
+ * @param {number} experimentKey
+ * @param {number} hoverKey
  * @returns {type, experiments}
  */
 export const organizeExperiments = (experimentKey, hoverKey) => {
