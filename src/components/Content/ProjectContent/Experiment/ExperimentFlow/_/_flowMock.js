@@ -2,6 +2,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 01',
     key: 'tarefa01',
+    uuid: 'tarefa01',
     icon: 'database',
     iconTheme: 'filled',
     status: '',
@@ -11,6 +12,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 02',
     key: 'tarefa02',
+    uuid: 'tarefa02',
     icon: 'control',
     iconTheme: 'filled',
     status: 'Running',
@@ -20,6 +22,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 03',
     key: 'tarefa03',
+    uuid: 'tarefa03',
     icon: 'database',
     iconTheme: '',
     status: 'Pending',
@@ -29,6 +32,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 04',
     key: 'tarefa04',
+    uuid: 'tarefa04',
     icon: 'database',
     iconTheme: 'filled',
     status: 'Succeeded',
@@ -38,6 +42,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 05',
     key: 'tarefa05',
+    uuid: 'tarefa05',
     icon: 'database',
     iconTheme: 'filled',
     status: 'Failed',
@@ -47,6 +52,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 06',
     key: 'tarefa06',
+    uuid: 'tarefa06',
     icon: 'control',
     iconTheme: 'filled',
     status: 'Loading',
@@ -56,6 +62,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 07',
     key: 'tarefa07',
+    uuid: 'tarefa07',
     icon: 'database',
     iconTheme: '',
     status: '',
@@ -65,6 +72,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 08',
     key: 'tarefa08',
+    uuid: 'tarefa08',
     icon: 'database',
     iconTheme: 'filled',
     status: 'Succeeded',
@@ -74,6 +82,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 09',
     key: 'tarefa09',
+    uuid: 'tarefa09',
     icon: 'database',
     iconTheme: 'filled',
     status: '',
@@ -83,6 +92,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 10',
     key: 'tarefa10',
+    uuid: 'tarefa10',
     icon: 'control',
     iconTheme: 'filled',
     status: 'Running',
@@ -92,6 +102,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 11',
     key: 'tarefa11',
+    uuid: 'tarefa11',
     icon: 'database',
     iconTheme: '',
     status: 'Pending',
@@ -101,6 +112,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 12',
     key: 'tarefa12',
+    uuid: 'tarefa12',
     icon: 'database',
     iconTheme: 'filled',
     status: 'Succeeded',
@@ -110,6 +122,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 13',
     key: 'tarefa13',
+    uuid: 'tarefa13',
     icon: 'database',
     iconTheme: 'filled',
     status: 'Failed',
@@ -119,6 +132,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 14',
     key: 'tarefa14',
+    uuid: 'tarefa14',
     icon: 'control',
     iconTheme: 'filled',
     status: 'Loading',
@@ -128,6 +142,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 15',
     key: 'tarefa15',
+    uuid: 'tarefa15',
     icon: 'database',
     iconTheme: '',
     status: '',
@@ -137,6 +152,7 @@ const flowMock = [
   {
     componentTitle: 'Tarefa 16',
     key: 'tarefa16',
+    uuid: 'tarefa16',
     icon: 'database',
     iconTheme: 'filled',
     status: 'Succeeded',

@@ -1,23 +1,20 @@
 // ACTION TYPES
 // fetch experiments flow task
-const FETCH_EXPERIMENT_TASKS = 'FETCH_EXPERIMENT_TASKS';
-// fetch menu tasks
-const FETCH_MENU_TASKS = 'FETCH_MENU_TASKS';
-// fetch experiment train status
-const FETCH_EXPERIMENT_TRAIN_STATUS = 'FETCH_EXPERIMENT_TRAIN_STATUS';
-// add task to experiment
-const ADD_EXPERIMENT_TASK = 'ADD_EXPERIMENT_TASK';
-// remove task from experiment
-const REMOVE_EXPERIMENT_TASK = 'REMOVE_EXPERIMENT_TASK';
-// set experiment tasks params
-const SET_EXPERIMENT_TASKS_PARAMS = 'SET_EXPERIMENT_TASKS_PARAMS';
+const FETCH_FLOW_TASKS = 'FETCH_FLOW_TASKS';
+// fetch flow menu tasks
+const FETCH_FLOW_MENU_TASKS = 'FETCH_FLOW_MENU_TASKS';
+// add task to experiment flow
+const ADD_FLOW_TASK = 'ADD_FLOW_TASK';
+// remove task from experiment flow
+const REMOVE_FLOW_TASK = 'REMOVE_FLOW_TASK';
+// set experiment flow task params
+const SET_FLOW_TASK_PARAMS = 'SET_FLOW_TASK_PARAMS';
 
 // EXPORT
 export default {
-  FETCH_EXPERIMENT_TASKS,
-  FETCH_MENU_TASKS,
-  FETCH_EXPERIMENT_TRAIN_STATUS,
-  ADD_EXPERIMENT_TASK,
-  REMOVE_EXPERIMENT_TASK,
-  SET_EXPERIMENT_TASKS_PARAMS,
+  FETCH_FLOW_TASKS,
+  FETCH_FLOW_MENU_TASKS,
+  ADD_FLOW_TASK,
+  REMOVE_FLOW_TASK,
+  SET_FLOW_TASK_PARAMS,
 };
