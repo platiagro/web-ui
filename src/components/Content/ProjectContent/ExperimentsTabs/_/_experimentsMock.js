@@ -6,7 +6,7 @@ const experimentsListMock = [
     running: true,
     deployed: false,
     position: 0,
-    uuid: '01',
+    uuid: 'experiment1',
   },
   {
     title: 'Experimento 2',
@@ -14,7 +14,7 @@ const experimentsListMock = [
     running: false,
     deployed: false,
     position: 1,
-    uuid: '02',
+    uuid: 'experiment2',
   },
   {
     title: 'Experimento 3',
@@ -22,7 +22,7 @@ const experimentsListMock = [
     running: false,
     deployed: false,
     position: 2,
-    uuid: '03',
+    uuid: 'experiment3',
   },
   {
     title: 'Experimento 4',
@@ -30,7 +30,7 @@ const experimentsListMock = [
     running: false,
     deployed: false,
     position: 3,
-    uuid: '04',
+    uuid: 'experiment4',
   },
   {
     title: 'Experimento 5',
@@ -38,7 +38,7 @@ const experimentsListMock = [
     running: true,
     deployed: false,
     position: 4,
-    uuid: '05',
+    uuid: 'experiment5',
   },
   {
     title: 'Experimento 6',
@@ -46,7 +46,7 @@ const experimentsListMock = [
     running: false,
     deployed: false,
     position: 5,
-    uuid: '06',
+    uuid: 'experiment6',
   },
   {
     title: 'Experimento 7',
@@ -54,7 +54,7 @@ const experimentsListMock = [
     running: false,
     deployed: false,
     position: 6,
-    uuid: '07',
+    uuid: 'experiment7',
   },
   {
     title: 'Experimento 8',
@@ -62,7 +62,7 @@ const experimentsListMock = [
     running: false,
     deployed: false,
     position: 7,
-    uuid: '08',
+    uuid: 'experiment8',
   },
 ];
 

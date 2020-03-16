@@ -5,7 +5,7 @@ import React from 'react';
 import { Row } from 'antd';
 
 // COMPONENTS
-import ExperimentHeader from '../ExperimentHeader/_';
+import ExperimentHeader from '../ExperimentHeader/_/Container';
 import ExperimentFlow from '../ExperimentFlow/_';
 import Drawer from '../Drawer/_';
 
