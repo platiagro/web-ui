@@ -16,20 +16,6 @@ export const fetchImplantedExperiments = () => ({
 });
 
 /**
- * test implanted experiment inference action
- * @param {string} implantedExperimentUuid
- * @param {Object} file
- * @returns {type, inferenceResult}
- */
-export const testImplantedExperimentInference = (
-  implantedExperimentUuid,
-  file
-) => ({
-  type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE,
-  inferenceResult: [0.9, 0.1],
-});
-
-/**
  * delete implanted experiment action
  * @param {string} implantedExperimentUuid
  * @returns {type, implantedExperiments}
