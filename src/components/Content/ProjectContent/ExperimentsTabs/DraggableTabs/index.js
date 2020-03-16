@@ -66,7 +66,7 @@ const WrappedTabNode = DropTarget(TAB_TYPE, tabTargetConfig, (connect) => ({
  */
 const DraggableTabs = (props) => {
   // destructuring props
-  const { handleMoveTab, children } = props;
+  const { handleMoveTab, children, activeExperiment } = props;
 
   // tabs array
   const tabs = [];
@@ -97,7 +97,7 @@ const DraggableTabs = (props) => {
     // drag and drop provider
     <DndProvider backend={HTML5Backend}>
       {/* tabs rendering */}
-      <Tabs renderTabBar={renderTabBar} {...props}>
+      <Tabs activeKey={activeExperiment} renderTabBar={renderTabBar} {...props}>
         {tabs}
       </Tabs>
     </DndProvider>

@@ -15,7 +15,7 @@ const { TabPane } = Tabs;
  * Experiments Tabs.
  * This component is responsible for displaying experiments tabs.
  */
-const ExperimentsTabs = ({ experiments, handleChange }) => {
+const ExperimentsTabs = ({ experiments, handleChange, activeExperiment }) => {
   // COMPONENTS RENDERS
   // title
   const renderTitle = (title, running) => (
@@ -35,6 +35,7 @@ const ExperimentsTabs = ({ experiments, handleChange }) => {
         alert(`drag: ${dragKey}, hover: ${hoverKey}`);
       }}
       onChange={handleChange}
+      activeExperiment={activeExperiment}
     >
       {/* rendering tabs */}
       {experiments.map(({ title, key, running }) => (

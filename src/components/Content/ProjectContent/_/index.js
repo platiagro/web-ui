@@ -43,6 +43,7 @@ const ProjectContent = ({ experiment }) => (
             {/* experiment tabs column container */}
             <Col span={23}>
               <ExperimentsTabs
+                activeExperiment={null}
                 experiments={experimentsMock}
                 handleChange={(key) => alert(key)}
               />
