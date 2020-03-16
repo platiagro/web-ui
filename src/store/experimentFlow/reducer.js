@@ -9,10 +9,14 @@ const initialState = [];
  */
 const experimentFlow = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_PROJECT:
-      return action.project;
-    case actionTypes.EDIT_PROJECT_NAME:
-      return action.project;
+    case actionTypes.FETCH_FLOW_TASKS:
+      return action.flowTasks;
+    case actionTypes.ADD_FLOW_TASK:
+      return action.flowTasks;
+    case actionTypes.REMOVE_FLOW_TASK:
+      return action.flowTasks;
+    case actionTypes.SET_FLOW_TASK_PARAMS:
+      return action.flowTasks;
     default:
       return state;
   }
