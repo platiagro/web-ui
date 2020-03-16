@@ -34,12 +34,16 @@ export const organizeExperiments = (experimentKey, hoverKey) => {
     (experiment) => experiment.key === hoverKey
   ).position;
 
+  console.log(orderedExperiments);
+
   // moving to left
   if (experimentPosition > hoverPosition) {
     // removing experiment from array
     const movedExperiment = orderedExperiments.splice(experimentPosition, 1)[0];
+    console.log(movedExperiment);
     // changing moved experiment position
     movedExperiment.position = hoverPosition;
+    console.log(movedExperiment);
     // copying right experiments
     let rightExperiments = orderedExperiments.slice(hoverPosition);
     // changing position of right experiments
@@ -52,7 +56,7 @@ export const organizeExperiments = (experimentKey, hoverKey) => {
       return experimentChanged;
     });
     // chaging experiments array
-    orderedExperiments.splice(hoverPosition, rightExperiments.length(), [
+    orderedExperiments.splice(hoverPosition, rightExperiments.length, [
       movedExperiment,
       ...rightExperiments,
     ]);
@@ -76,16 +80,18 @@ export const organizeExperiments = (experimentKey, hoverKey) => {
       return experimentChanged;
     });
     // chaging experiments array
-    orderedExperiments.splice(experimentPosition, leftExperiments.length(), [
+    orderedExperiments.splice(experimentPosition, leftExperiments.length, [
       ...leftExperiments,
       movedExperiment,
     ]);
   }
 
+  console.log(orderedExperiments);
+
   // returning
   return {
     type: actionTypes.ORGANIZE_EXPERIMENTS,
-    experiments: orderedExperiments,
+    experiments: orderedExperiments[0],
   };
 };
 

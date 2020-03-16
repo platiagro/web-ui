@@ -8,7 +8,7 @@ import { Row, Col } from 'antd';
 // COMPONENTS
 import ContentHeader from '../../ContentHeader/ProjectContainer';
 import ComponentsMenuBlock from '../ComponentsMenuBlock/_';
-import ExperimentsTabs from '../ExperimentsTabs/_';
+import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton';
 import ExperimentEmpty from '../Experiment/ExperimentEmpty';
 import Experiment from '../Experiment/_';
@@ -48,14 +48,7 @@ const ProjectContent = () => {
             <Row gutter={15}>
               {/* experiment tabs column container */}
               <Col span={23}>
-                <ExperimentsTabs
-                  activeExperiment={experimentUuid}
-                  experiments={experimentsMock}
-                  handleChange={(key) => alert(key)}
-                  handleMoveTab={(dragKey, hoverKey) => {
-                    alert(`drag: ${dragKey}, hover: ${hoverKey}`);
-                  }}
-                />
+                <ExperimentsTabs />
               </Col>
               {/* new experiment column container */}
               <Col span={1}>
