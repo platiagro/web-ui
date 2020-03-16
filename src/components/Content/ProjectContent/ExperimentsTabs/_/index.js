@@ -49,8 +49,16 @@ const ExperimentsTabs = ({ experiments, handleChange, activeExperiment }) => {
 ExperimentsTabs.propTypes = {
   /** experiments list */
   experiments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** experiments tabs active experiment key */
+  activeExperiment: PropTypes.string,
   /** experiments tabs handle change function */
   handleChange: PropTypes.func.isRequired,
+};
+
+// PROP DEFAULT VALUES
+ExperimentsTabs.defaultProps = {
+  /** experiments tabs active experiment key */
+  activeExperiment: undefined,
 };
 
 // EXPORT
