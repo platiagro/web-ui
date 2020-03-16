@@ -52,6 +52,9 @@ const ProjectContent = () => {
                   activeExperiment={experimentUuid}
                   experiments={experimentsMock}
                   handleChange={(key) => alert(key)}
+                  handleMoveTab={(dragKey, hoverKey) => {
+                    alert(`drag: ${dragKey}, hover: ${hoverKey}`);
+                  }}
                 />
               </Col>
               {/* new experiment column container */}

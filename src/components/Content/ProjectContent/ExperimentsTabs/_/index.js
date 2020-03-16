@@ -15,7 +15,12 @@ const { TabPane } = Tabs;
  * Experiments Tabs.
  * This component is responsible for displaying experiments tabs.
  */
-const ExperimentsTabs = ({ experiments, handleChange, activeExperiment }) => {
+const ExperimentsTabs = ({
+  experiments,
+  handleChange,
+  handleMoveTab,
+  activeExperiment,
+}) => {
   // COMPONENTS RENDERS
   // title
   const renderTitle = (title, running) => (
@@ -31,9 +36,7 @@ const ExperimentsTabs = ({ experiments, handleChange, activeExperiment }) => {
   return (
     // draggable tabs component
     <DraggableTabs
-      handleMoveTab={(dragKey, hoverKey) => {
-        alert(`drag: ${dragKey}, hover: ${hoverKey}`);
-      }}
+      handleMoveTab={handleMoveTab}
       onChange={handleChange}
       activeExperiment={activeExperiment}
     >
@@ -51,8 +54,10 @@ ExperimentsTabs.propTypes = {
   experiments: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** experiments tabs active experiment key */
   activeExperiment: PropTypes.string,
-  /** experiments tabs handle change function */
+  /** experiments tabs handle tab change function */
   handleChange: PropTypes.func.isRequired,
+  /** experiments tabs handle move tab function */
+  handleMoveTab: PropTypes.func.isRequired,
 };
 
 // PROP DEFAULT VALUES
