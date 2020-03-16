@@ -59,6 +59,8 @@ ComponentsMenu.propTypes = {
   handleClick: PropTypes.func.isRequired,
   /** components list */
   components: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** components menu is disabled */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT
