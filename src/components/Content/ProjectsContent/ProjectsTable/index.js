@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Button } from 'antd';
+import { Table, Button, Popconfirm } from 'antd';
 
 // COMPONENTS
 import ProjectsEmpty from '../ProjectsEmpty';
@@ -12,7 +12,7 @@ import ProjectsEmpty from '../ProjectsEmpty';
  * Projects Table.
  * This component is responsible for displaying projects table.
  */
-const ProjectsTable = ({ projects, handleClickProject }) => {
+const ProjectsTable = ({ projects, handleClickProject, handleClickDelete }) => {
   // table columns config
   const columnsConfig = [
     {
@@ -31,6 +31,22 @@ const ProjectsTable = ({ projects, handleClickProject }) => {
       key: 'createdAt',
       width: 200,
       render: (value) => new Date(value).toLocaleString(),
+    },
+    {
+      title: 'Ação',
+      dataIndex: 'action',
+      key: 'action',
+      width: 200,
+      render: (value, record) => (
+        <Popconfirm
+          title='Você tem certeza que deseja excluir essa tarefa?'
+          onConfirm={() => handleClickDelete(record.uuid)}
+          okText='Yes'
+          cancelText='No'
+        >
+          <Button type='link'>Excluir</Button>
+        </Popconfirm>
+      ),
     },
   ];
 
@@ -57,6 +73,8 @@ ProjectsTable.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** projects table click project handle */
   handleClickProject: PropTypes.func.isRequired,
+  /** projects table delete project handle */
+  handleClickDelete: PropTypes.func.isRequired,
 };
 
 // EXPORT
