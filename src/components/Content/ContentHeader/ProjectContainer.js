@@ -39,8 +39,6 @@ const ContentHeaderProjectContainer = ({
   // getting project uuid
   const { projectUuid } = useParams();
 
-  console.log(projectUuid);
-
   // HOOKS
   // did mount hook
   useLayoutEffect(() => {
