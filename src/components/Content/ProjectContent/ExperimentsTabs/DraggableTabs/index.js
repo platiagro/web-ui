@@ -108,11 +108,19 @@ const DraggableTabs = (props) => {
 DraggableTabs.propTypes = {
   /** draggable tabs move tab handler */
   handleMoveTab: PropTypes.func.isRequired,
+  /** draggable tabs active experiment key */
+  activeExperiment: PropTypes.string,
   /** draggable tabs or tab */
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+};
+
+// PROP DEFAULT VALUES
+DraggableTabs.defaultProps = {
+  /** draggable tabs active experiment key */
+  activeExperiment: undefined,
 };
 
 // EXPORT
