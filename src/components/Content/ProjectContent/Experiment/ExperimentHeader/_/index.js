@@ -1,5 +1,6 @@
 // CORE LIBS
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // UI LIBS
 import { Row, Col } from 'antd';
@@ -17,7 +18,7 @@ const editableTitleClassName = 'editable-title autosize-input-custom';
  * Experiment Header.
  * This component is responsible for displaying the experiment header.
  */
-const ExperimentHeader = () => (
+const ExperimentHeader = ({ handleDeleteExperiment }) => (
   // row container
   <Row>
     {/* column container */}
@@ -33,7 +34,7 @@ const ExperimentHeader = () => (
       {/* delete button */}
       <DeleteExperimentButton
         disabled={false}
-        handleClick={() => alert('delete experiment')}
+        handleClick={handleDeleteExperiment}
       />
     </Col>
     {/* column container */}
@@ -52,6 +53,12 @@ const ExperimentHeader = () => (
     </Col>
   </Row>
 );
+
+// PROP TYPES
+ExperimentHeader.propTypes = {
+  /** experiment header delete experiment handler */
+  handleDeleteExperiment: PropTypes.func.isRequired,
+};
 
 // EXPORT
 export default ExperimentHeader;
