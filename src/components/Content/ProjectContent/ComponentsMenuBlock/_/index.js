@@ -61,8 +61,10 @@ const ComponentsMenuBlock = ({ components, disabled }) => {
 
 // PROP TYPES
 ComponentsMenuBlock.propTypes = {
-  /** components list */
+  /** components menu block components list */
   components: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** components menu block is disabled */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT
