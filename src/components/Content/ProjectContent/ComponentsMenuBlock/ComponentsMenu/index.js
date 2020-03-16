@@ -12,14 +12,19 @@ const { Item, SubMenu } = Menu;
  * Components Menu.
  * This component is responsible for displaying components menu.
  */
-const ComponentsMenu = ({ components, handleClick }) => {
+const ComponentsMenu = ({ components, handleClick, disabled }) => {
   // COMPONENTS RENDERS
   // menu item
-  const renderMenuItem = ({ title, key }) => <Item key={key}>{title}</Item>;
+  const renderMenuItem = ({ title, key }) => (
+    <Item disabled={disabled} key={key}>
+      {title}
+    </Item>
+  );
   // sub menu
   const renderSubMenu = ({ title, icon, key, items }) => (
     // sub menu component
     <SubMenu
+      disabled={disabled}
       key={key}
       title={
         // span container

@@ -10,7 +10,7 @@ import ComponentsMenu from '../ComponentsMenu';
  * Components Menu Block.
  * This component is responsible for displaying components menu with search.
  */
-const ComponentsMenuBlock = ({ components }) => {
+const ComponentsMenuBlock = ({ components, disabled }) => {
   // HOOKS
   // filtered components hook
   const [filteredComponents, setFilteredComponents] = useState(components);
@@ -45,9 +45,13 @@ const ComponentsMenuBlock = ({ components }) => {
     // div container
     <div>
       {/* components menu search */}
-      <ComponentsMenuSearch handleFilter={filterComponents} />
+      <ComponentsMenuSearch
+        disabled={disabled}
+        handleFilter={filterComponents}
+      />
       {/* components menu */}
       <ComponentsMenu
+        disabled={disabled}
         handleClick={(e) => alert(e.key)}
         components={filteredComponents}
       />

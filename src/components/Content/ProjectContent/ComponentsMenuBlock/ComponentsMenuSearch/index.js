@@ -9,7 +9,7 @@ import { Icon, Input } from 'antd';
  * Component Menu Search.
  * This component is responsible for displaying a component menu search.
  */
-const ComponentsMenuSearch = ({ handleFilter }) => {
+const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
   // HANDLERS
   // handle change
   const handleChange = (e) => {
@@ -25,6 +25,7 @@ const ComponentsMenuSearch = ({ handleFilter }) => {
     <div>
       {/* search input */}
       <Input
+        disabled={disabled}
         placeholder='Pesquisar'
         allowClear
         onChange={handleChange}

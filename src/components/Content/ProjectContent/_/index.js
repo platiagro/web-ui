@@ -31,7 +31,10 @@ const ProjectContent = ({ experiment }) => (
       <Row gutter={24}>
         {/* menu column container */}
         <Col span={5}>
-          <ComponentsMenuBlock components={componentsMock} />
+          <ComponentsMenuBlock
+            disabled={!experiment}
+            components={componentsMock}
+          />
         </Col>
         {/* experiment column container */}
         <Col span={19}>
