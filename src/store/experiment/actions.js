@@ -26,25 +26,6 @@ export const fetchExperiment = (uuid) => ({
 });
 
 /**
- * create experiment action
- * @returns {type, experiment}
- */
-export const createExperiment = () => ({
-  type: actionTypes.CREATE_EXPERIMENT,
-  experiment: experimentMock,
-});
-
-/**
- * delete experiment action
- * @param {string} uuid
- * @returns {type, experiments}
- */
-export const deleteExperiment = (uuid) => ({
-  type: actionTypes.DELETE_EXPERIMENT,
-  experiments: experimentsMock.filter((experiment) => experiment.uuid !== uuid),
-});
-
-/**
  * edit experiment name action
  * @param {string} uuid
  * @param {string} newName

@@ -13,6 +13,10 @@ const experiments = (state = initialState, action) => {
       return action.experiments;
     case actionTypes.ORGANIZE_EXPERIMENTS:
       return action.experiments;
+    case actionTypes.CREATE_EXPERIMENT:
+      return action.experiments;
+    case actionTypes.DELETE_EXPERIMENT:
+      return action.experiments;
     default:
       return state;
   }

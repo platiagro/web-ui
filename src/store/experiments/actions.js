@@ -88,3 +88,25 @@ export const organizeExperiments = (experimentKey, hoverKey) => {
     experiments: orderedExperiments,
   };
 };
+
+/**
+ * create experiment action
+ * @param {Object} experiment
+ * @returns {type, experiments}
+ */
+export const createExperiment = (experiment) => ({
+  type: actionTypes.CREATE_EXPERIMENT,
+  experiments: [...experimentsMock, experiment],
+});
+
+/**
+ * delete experiment action
+ * @param {string} experimentUuid
+ * @returns {type, experiments}
+ */
+export const deleteExperiment = (experimentUuid) => ({
+  type: actionTypes.DELETE_EXPERIMENT,
+  experiments: experimentsMock.filter(
+    (experiment) => experiment.uuid !== experimentUuid
+  ),
+});
