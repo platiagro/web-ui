@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import ContentHeader from '../../ContentHeader/Container';
 import NewProjectButton from '../NewProjectButton';
 import ProjectsTable from '../ProjectsTable/Container';
-import NewProjectModal from '../NewProjectModal';
+import NewProjectModal from '../NewProjectModal/Container';
 
 /**
  * Projects Content.
