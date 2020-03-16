@@ -44,7 +44,7 @@ const Content = () => {
           <ProjectsContent projects={projectsMock} />
         </Route>
         {/* project content */}
-        <Route exact path='/projetos/:id'>
+        <Route exact path='/projetos/:projectUuid'>
           <ProjectContent />
         </Route>
         {/* implanted experiments content */}

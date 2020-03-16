@@ -20,7 +20,7 @@ const editableTitleClassName =
  * This component is responsible for displaying the content header with editable
  * title and go back arrow.
  */
-const ContentHeader = ({ handleGoBack, editable, title }) => {
+const ContentHeader = ({ handleGoBack, handleSubmit, editable, title }) => {
   // COMPONENTS RENDERS
   // common title
   const renderTitle = () => title;
@@ -30,7 +30,7 @@ const ContentHeader = ({ handleGoBack, editable, title }) => {
     <EditableTitle
       loading={false}
       title={title}
-      handleSubmit={(titleSubmited) => alert(titleSubmited)}
+      handleSubmit={handleSubmit}
       className={editableTitleClassName}
       editingClassName={`${editableTitleClassName} edit-mode`}
     />
@@ -51,10 +51,18 @@ const ContentHeader = ({ handleGoBack, editable, title }) => {
 ContentHeader.propTypes = {
   /** content header go back function */
   handleGoBack: PropTypes.func.isRequired,
+  /** content header edit submit function */
+  handleSubmit: PropTypes.func,
   /** content header has editable title */
   editable: PropTypes.bool.isRequired,
   /** content header title */
   title: PropTypes.string.isRequired,
+};
+
+// PROP DEFAULT VALUES
+ContentHeader.defaultProps = {
+  /** content header edit submit function */
+  handleSubmit: undefined,
 };
 
 // EXPORT

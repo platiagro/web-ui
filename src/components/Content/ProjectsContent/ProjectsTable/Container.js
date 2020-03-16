@@ -3,14 +3,14 @@ import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+// COMPONENTS
+import ProjectsTable from './index';
+
 // ACTIONS
 import {
   fetchProjects,
   deleteProject,
 } from '../../../../store/projects/actions';
-
-// COMPONENTS
-import ProjectsTable from './index';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {

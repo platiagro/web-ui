@@ -5,7 +5,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 
 // COMPONENTS
-import ContentHeader from '../../ContentHeader/Container';
+import ContentHeader from '../../ContentHeader/ProjectContainer';
 import ComponentsMenuBlock from '../ComponentsMenuBlock/_';
 import ExperimentsTabs from '../ExperimentsTabs/_';
 import NewExperimentButton from '../NewExperimentButton';
@@ -23,7 +23,7 @@ const ProjectContent = () => (
   // fragment container
   <>
     {/* content header */}
-    <ContentHeader title='Projeto 01' editable />
+    <ContentHeader />
     {/* div content page container */}
     <div className='contentPage'>
       {/* project row container */}
