@@ -1,5 +1,6 @@
 // CORE LIBS
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 // UI LIBS
 import { Row, Col } from 'antd';
@@ -20,49 +21,55 @@ import experimentsMock from '../ExperimentsTabs/_/_experimentsMock';
  * Project Content.
  * This component is responsible for displaying the project content.
  */
-const ProjectContent = ({ experiment }) => (
-  // fragment container
-  <>
-    {/* content header */}
-    <ContentHeader />
-    {/* div content page container */}
-    <div className='contentPage'>
-      {/* project row container */}
-      <Row gutter={24}>
-        {/* menu column container */}
-        <Col span={5}>
-          <ComponentsMenuBlock
-            disabled={!experiment}
-            components={componentsMock}
-          />
-        </Col>
-        {/* experiment column container */}
-        <Col span={19}>
-          {/* experiment tabs row container */}
-          <Row gutter={15}>
-            {/* experiment tabs column container */}
-            <Col span={23}>
-              <ExperimentsTabs
-                activeExperiment={null}
-                experiments={experimentsMock}
-                handleChange={(key) => alert(key)}
-              />
-            </Col>
-            {/* new experiment column container */}
-            <Col span={1}>
-              <NewExperimentButton
-                disabled={false}
-                handleClick={() => alert('new experiment')}
-              />
-            </Col>
-          </Row>
-          {/* experiment row container */}
-          <Row>{experiment ? <Experiment /> : <ExperimentEmpty />}</Row>
-        </Col>
-      </Row>
-    </div>
-  </>
-);
+const ProjectContent = () => {
+  // CONSTANTS
+  const { experimentUuid } = useParams();
+
+  // RENDER
+  return (
+    // fragment container
+    <>
+      {/* content header */}
+      <ContentHeader />
+      {/* div content page container */}
+      <div className='contentPage'>
+        {/* project row container */}
+        <Row gutter={24}>
+          {/* menu column container */}
+          <Col span={5}>
+            <ComponentsMenuBlock
+              disabled={!experimentUuid}
+              components={componentsMock}
+            />
+          </Col>
+          {/* experiment column container */}
+          <Col span={19}>
+            {/* experiment tabs row container */}
+            <Row gutter={15}>
+              {/* experiment tabs column container */}
+              <Col span={23}>
+                <ExperimentsTabs
+                  activeExperiment={experimentUuid}
+                  experiments={experimentsMock}
+                  handleChange={(key) => alert(key)}
+                />
+              </Col>
+              {/* new experiment column container */}
+              <Col span={1}>
+                <NewExperimentButton
+                  disabled={false}
+                  handleClick={() => alert('new experiment')}
+                />
+              </Col>
+            </Row>
+            {/* experiment row container */}
+            <Row>{experimentUuid ? <Experiment /> : <ExperimentEmpty />}</Row>
+          </Col>
+        </Row>
+      </div>
+    </>
+  );
+};
 
 // EXPORT
 export default ProjectContent;
