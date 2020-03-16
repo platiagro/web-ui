@@ -9,6 +9,7 @@ import ContentHeader from '../../ContentHeader/ProjectContainer';
 import ComponentsMenuBlock from '../ComponentsMenuBlock/_';
 import ExperimentsTabs from '../ExperimentsTabs/_';
 import NewExperimentButton from '../NewExperimentButton';
+import ExperimentEmpty from '../Experiment/ExperimentEmpty';
 import Experiment from '../Experiment/_';
 
 // MOCKS
@@ -19,7 +20,7 @@ import experimentsMock from '../ExperimentsTabs/_/_experimentsMock';
  * Project Content.
  * This component is responsible for displaying the project content.
  */
-const ProjectContent = () => (
+const ProjectContent = ({ experiment }) => (
   // fragment container
   <>
     {/* content header */}
@@ -52,9 +53,7 @@ const ProjectContent = () => (
             </Col>
           </Row>
           {/* experiment row container */}
-          <Row>
-            <Experiment />
-          </Row>
+          <Row>{experiment ? <Experiment /> : <ExperimentEmpty />}</Row>
         </Col>
       </Row>
     </div>
