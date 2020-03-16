@@ -47,6 +47,10 @@ const Content = () => {
         <Route exact path='/projetos/:projectUuid'>
           <ProjectContent />
         </Route>
+        {/* experiment content */}
+        <Route exact path='/projetos/:projectUuid/:experimentUuid'>
+          <ProjectContent />
+        </Route>
         {/* implanted experiments content */}
         <Route exact path='/experimentos-implantados'>
           <ImplantedExperimentsContent
