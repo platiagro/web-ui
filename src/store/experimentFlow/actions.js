@@ -4,8 +4,6 @@ import actionTypes from './actionTypes';
 // MOCKS
 // experiment flow tasks mock
 import flowMock from '../../components/Content/ProjectContent/Experiment/ExperimentFlow/_/_flowMock';
-// flow menu tasks mock
-import flowMenuTasksMock from '../../components/Content/ProjectContent/ComponentsMenuBlock/_/_componentsMock';
 // task mock
 const taskMock = {
   componentTitle: 'Tarefa 17',
@@ -27,15 +25,6 @@ const taskMock = {
 export const fetchFlowTasks = (experimentUuid) => ({
   type: actionTypes.FETCH_FLOW_TASKS,
   flowTasks: flowMock,
-});
-
-/**
- * fetch experiment flow menu tasks action
- * @returns {type, flowMenuTasks}
- */
-export const fetchFlowMenuTasks = () => ({
-  type: actionTypes.FETCH_FLOW_MENU_TASKS,
-  flowMenuTasks: flowMenuTasksMock,
 });
 
 /**
