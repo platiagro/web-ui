@@ -3,7 +3,7 @@ import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 
 // ACTIONS
-import fetchProjects from '../../../../store/projects/actions';
+import { fetchProjects } from '../../../../store/projects/actions';
 
 // COMPONENTS
 import ProjectsTable from './index';

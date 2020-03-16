@@ -10,10 +10,27 @@ import projectsMock from '../../components/Content/ProjectsContent/_/_projectsMo
  * fetch projects action
  * @returns {type, projects}
  */
-const fetchProjects = () => ({
+export const fetchProjects = () => ({
   type: actionTypes.FETCH_PROJECTS,
   projects: projectsMock,
 });
 
-// EXPORT DEFAULT
-export default fetchProjects;
+/**
+ * create new project action
+ * @param {Object} project
+ * @returns {type, projects}
+ */
+export const createProject = (project) => ({
+  type: actionTypes.CREATE_PROJECT,
+  projects: [...projectsMock, project],
+});
+
+/**
+ * delete project action
+ * @param {string} projectUuid
+ * @returns {type, projects}
+ */
+export const deleteProject = (projectUuid) => ({
+  type: actionTypes.DELETE_PROJECT,
+  projects: projectsMock.filter((project) => project.uuid !== projectUuid),
+});
