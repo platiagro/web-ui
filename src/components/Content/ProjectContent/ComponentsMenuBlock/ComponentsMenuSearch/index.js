@@ -39,6 +39,8 @@ const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
 ComponentsMenuSearch.propTypes = {
   /** component menu search on change handler */
   handleFilter: PropTypes.func.isRequired,
+  /** component menu search is disabled */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT
