@@ -15,6 +15,7 @@ export const fetchExperiments = () => ({
   experiments: experimentsMock,
 });
 
+// FIXME: corrigir lógica
 // TODO: passar lógica para o backend?
 /**
  * fetch projects action
@@ -25,25 +26,31 @@ export const fetchExperiments = () => ({
 export const organizeExperiments = (experimentKey, hoverKey) => {
   // getting experiments
   const orderedExperiments = experimentsMock;
-  // getting experiment position
-  const experimentPosition = orderedExperiments.find(
+  // getting dragged experiment
+  const draggedExperiment = orderedExperiments.find(
     (experiment) => experiment.key === experimentKey
-  ).position;
-  // getting hover position
-  const hoverPosition = orderedExperiments.find(
+  );
+  // getting hover experiment
+  const hoverExperiment = orderedExperiments.find(
     (experiment) => experiment.key === hoverKey
-  ).position;
+  );
 
+  console.log(draggedExperiment);
+  console.log(hoverExperiment);
   console.log(orderedExperiments);
+
+  const experimentPosition = draggedExperiment.position;
+  const hoverPosition = hoverExperiment.position;
+
+  console.log(experimentPosition);
+  console.log(hoverPosition);
 
   // moving to left
   if (experimentPosition > hoverPosition) {
     // removing experiment from array
     const movedExperiment = orderedExperiments.splice(experimentPosition, 1)[0];
-    console.log(movedExperiment);
     // changing moved experiment position
     movedExperiment.position = hoverPosition;
-    console.log(movedExperiment);
     // copying right experiments
     let rightExperiments = orderedExperiments.slice(hoverPosition);
     // changing position of right experiments

@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -39,9 +39,10 @@ const ContentHeaderProjectContainer = ({
   // getting project uuid
   const { projectUuid } = useParams();
 
+  // FIXME: Corrigir título ao carregar
   // HOOKS
   // did mount hook
-  useLayoutEffect(() => {
+  useEffect(() => {
     // fetching projects
     handleFetchProject(projectUuid);
   }, []);
