@@ -7,15 +7,11 @@ import { Row, Col } from 'antd';
 
 // COMPONENTS
 import ContentHeader from '../../ContentHeader/ProjectContainer';
-import ComponentsMenuBlock from '../ComponentsMenuBlock/_';
+import ComponentsMenuBlock from '../ComponentsMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import ExperimentEmpty from '../Experiment/ExperimentEmpty';
 import Experiment from '../Experiment/_';
-
-// MOCKS
-import componentsMock from '../ComponentsMenuBlock/_/_componentsMock';
-import experimentsMock from '../ExperimentsTabs/_/_experimentsMock';
 
 /**
  * Project Content.
@@ -37,10 +33,7 @@ const ProjectContent = () => {
         <Row gutter={24}>
           {/* menu column container */}
           <Col span={5}>
-            <ComponentsMenuBlock
-              disabled={!experimentUuid}
-              components={componentsMock}
-            />
+            <ComponentsMenuBlock disabled={!experimentUuid} />
           </Col>
           {/* experiment column container */}
           <Col span={19}>

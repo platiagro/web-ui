@@ -12,7 +12,7 @@ import ComponentsMenu from '../ComponentsMenu';
  * Components Menu Block.
  * This component is responsible for displaying components menu with search.
  */
-const ComponentsMenuBlock = ({ components, disabled }) => {
+const ComponentsMenuBlock = ({ components, handleTaskMenuClick, disabled }) => {
   // HOOKS
   // filtered components hook
   const [filteredComponents, setFilteredComponents] = useState(components);
@@ -54,7 +54,7 @@ const ComponentsMenuBlock = ({ components, disabled }) => {
       {/* components menu */}
       <ComponentsMenu
         disabled={disabled}
-        handleClick={(e) => alert(e.key)}
+        handleClick={handleTaskMenuClick}
         components={filteredComponents}
       />
     </div>
@@ -67,6 +67,8 @@ ComponentsMenuBlock.propTypes = {
   components: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** components menu block is disabled */
   disabled: PropTypes.bool.isRequired,
+  /** components menu task click handler */
+  handleTaskMenuClick: PropTypes.func.isRequired,
 };
 
 // EXPORT
