@@ -18,11 +18,12 @@ const columnsNumber = 3;
 // column size
 const columnSize = 24 / columnsNumber;
 
+// TODO: alterar components para tasks
 /**
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
  */
-const ExperimentFlow = ({ components }) => {
+const ExperimentFlow = ({ components, handleTaskBoxClick }) => {
   // COMPONENTS RENDERS
   // flow grid column
   const renderFlowGridColumn = (
@@ -33,7 +34,7 @@ const ExperimentFlow = ({ components }) => {
   ) => {
     // component box
     const componentBox = (
-      <ComponentBox handleClick={(e) => alert(e)} {...component} />
+      <ComponentBox handleClick={handleTaskBoxClick} {...component} />
     );
 
     // render component box with arrow connection
@@ -140,6 +141,8 @@ const ExperimentFlow = ({ components }) => {
 ExperimentFlow.propTypes = {
   /** experiment flow components list */
   components: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** experiment flow task box click handler */
+  handleTaskBoxClick: PropTypes.func.isRequired,
 };
 
 // EXPORT

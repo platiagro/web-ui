@@ -7,6 +7,7 @@ import projects from './projects/reducer';
 import project from './project/reducer';
 import experiments from './experiments/reducer';
 import experiment from './experiment/reducer';
+import experimentFlow from './experimentFlow/reducer';
 import tasks from './tasks/reducer';
 
 // REDUX DEV TOOLS CONFIG
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   project,
   experiments,
   experiment,
+  experimentFlow,
   tasks,
 });
 

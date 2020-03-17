@@ -1,3 +1,5 @@
+// TODO: alterar nome para TaskBox...
+
 // CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -55,6 +57,7 @@ const ComponentBox = ({
   status,
   settedUp,
   selected,
+  uuid: taskUuid,
   handleClick,
 }) => {
   // CONSTANTS
@@ -67,8 +70,7 @@ const ComponentBox = ({
   const handleBoxClick = (e) => {
     e.preventDefault();
 
-    if (status !== 'Pending' && status !== 'Running')
-      handleClick(componentTitle);
+    if (status !== 'Pending' && status !== 'Running') handleClick(taskUuid);
   };
 
   // RENDERS

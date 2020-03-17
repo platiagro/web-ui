@@ -6,16 +6,15 @@ import { Row } from 'antd';
 
 // COMPONENTS
 import ExperimentHeader from '../ExperimentHeader/_/Container';
-import ExperimentFlow from '../ExperimentFlow/_';
+import ExperimentFlow from '../ExperimentFlow/_/Container';
 import Drawer from '../Drawer/_';
 
 // MOCKS
-import flowMock from '../ExperimentFlow/_/_flowMock';
 import resultsDrawerMock from '../Drawer/ResultsDrawer/_/_resultsDrawerMock';
 
 /**
- * Editable Title.
- * This component is responsible for displaying an editable title.
+ * Experiment.
+ * This component is responsible for displaying an experiment.
  */
 const Experiment = () => (
   // frangment container
@@ -35,7 +34,7 @@ const Experiment = () => (
     {/* row container */}
     <Row>
       {/* experiment flow */}
-      <ExperimentFlow components={flowMock} />
+      <ExperimentFlow />
     </Row>
   </>
 );
