@@ -9,6 +9,7 @@ import experiments from './experiments/reducer';
 import experiment from './experiment/reducer';
 import experimentFlow from './experimentFlow/reducer';
 import flowMenuTasks from './flowMenuTasks/reducer';
+import implantedExperiments from './implantedExperiments/reducer';
 import tasks from './tasks/reducer';
 
 // REDUX DEV TOOLS CONFIG
@@ -28,6 +29,7 @@ const reducers = combineReducers({
   experiment,
   experimentFlow,
   flowMenuTasks,
+  implantedExperiments,
   tasks,
 });
 

@@ -7,6 +7,7 @@ import { Table, Typography, Tooltip } from 'antd';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
+import ImplantedExperimentsEmpty from '../../ImplantedExperimentsEmpty';
 
 // STYLES
 import './style.scss';
@@ -72,11 +73,16 @@ const ImplantedExperimentsTable = ({
 
   // RENDER
   return (
-    <Table
-      dataSource={implantedExperiments}
-      columns={columnsConfig}
-      pagination={{ pageSize: 9 }}
-    />
+    // rendering implanted experiments table or implanted experiments empty
+    implantedExperiments.length > 0 ? (
+      <Table
+        dataSource={implantedExperiments}
+        columns={columnsConfig}
+        pagination={{ pageSize: 9 }}
+      />
+    ) : (
+      <ImplantedExperimentsEmpty />
+    )
   );
 };
 

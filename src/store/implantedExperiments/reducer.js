@@ -10,9 +10,9 @@ const initialState = [];
 const implantedExperiments = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_IMPLANTED_EXPERIMENTS:
-      return action.project;
+      return action.implantedExperiments;
     case actionTypes.DELETE_IMPLANTED_EXPERIMENT:
-      return action.project;
+      return action.implantedExperiments;
     default:
       return state;
   }
