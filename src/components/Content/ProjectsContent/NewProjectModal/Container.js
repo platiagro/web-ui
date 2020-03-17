@@ -1,30 +1,19 @@
 // CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 // ACTIONS
-import { createProject } from '../../../../store/projects/actions';
+import { createProjectRequest } from '../../../../store/project/actions';
 
 // COMPONENTS
 import NewProjectModal from './index';
 
-// MOCKS
-// project mock
-const projectMock = {
-  createdAt: 'October 13, 2014 11:13:00',
-};
-
 // DISPATCHS
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleCreateProject: (projectName) =>
-      dispatch(
-        createProject({
-          ...projectMock,
-          name: projectName,
-          uuid: projectName.toLowerCase(),
-        })
-      ),
+      dispatch(createProjectRequest(projectName, routerProps)),
   };
 };
 
@@ -46,4 +35,6 @@ const NewProjectModalContainer = ({
 );
 
 // EXPORT
-export default connect(null, mapDispatchToProps)(NewProjectModalContainer);
+export default withRouter(
+  connect(null, mapDispatchToProps)(NewProjectModalContainer)
+);
