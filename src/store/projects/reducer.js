@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -9,12 +12,12 @@ const initialState = [];
  */
 const projects = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_PROJECTS:
+    // fetch projects success
+    case actionTypes.FETCH_PROJECTS_SUCCESS:
       return action.projects;
-    case actionTypes.CREATE_PROJECT:
-      return action.projects;
-    case actionTypes.DELETE_PROJECT:
-      return action.projects;
+    // fetch projects fail
+    case actionTypes.FETCH_PROJECTS_FAIL:
+      return message.error(action.errorMessage);
     default:
       return state;
   }
