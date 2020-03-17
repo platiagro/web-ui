@@ -18,19 +18,26 @@ const editableTitleClassName = 'editable-title autosize-input-custom';
  * Experiment Header.
  * This component is responsible for displaying the experiment header.
  */
-const ExperimentHeader = ({ handleDeleteExperiment }) => (
+const ExperimentHeader = ({
+  title,
+  handleDeleteExperiment,
+  handleEditExperimentName,
+  handleTrainExperiment,
+  handleDeployExperiment,
+}) => (
   // row container
   <Row>
     {/* column container */}
     <Col span={18}>
       {/* editable title */}
       <EditableTitle
-        title='Experimento 01'
+        title={title}
         loading={false}
         className={editableTitleClassName}
         editingClassName={`${editableTitleClassName} edit-mode`}
-        handleSubmit={(title) => alert(title)}
+        handleSubmit={handleEditExperimentName}
       />
+      {/* TODO: adicionar popconfirm ao excluir */}
       {/* delete button */}
       <DeleteExperimentButton
         disabled={false}
@@ -41,13 +48,13 @@ const ExperimentHeader = ({ handleDeleteExperiment }) => (
     <Col span={6}>
       {/* train button */}
       <TrainExperimentButton
-        handleClick={() => alert('train experiment')}
+        handleClick={handleTrainExperiment}
         disabled={false}
         experimentRunning={false}
       />
       {/* deploy button */}
       <DeployExperimentButton
-        handleClick={() => alert('deploy experiment')}
+        handleClick={handleDeployExperiment}
         disabled={false}
       />
     </Col>
@@ -56,8 +63,16 @@ const ExperimentHeader = ({ handleDeleteExperiment }) => (
 
 // PROP TYPES
 ExperimentHeader.propTypes = {
+  /** experiment header experiment name */
+  title: PropTypes.string.isRequired,
   /** experiment header delete experiment handler */
   handleDeleteExperiment: PropTypes.func.isRequired,
+  /** experiment header edit experiment name handler */
+  handleEditExperimentName: PropTypes.func.isRequired,
+  /** experiment header train experiment handler */
+  handleTrainExperiment: PropTypes.func.isRequired,
+  /** experiment header deploy experiment handler */
+  handleDeployExperiment: PropTypes.func.isRequired,
 };
 
 // EXPORT

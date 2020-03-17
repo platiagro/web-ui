@@ -22,7 +22,9 @@ const experimentMock = {
  */
 export const fetchExperiment = (uuid) => ({
   type: actionTypes.FETCH_EXPERIMENT,
-  experiment: experimentsMock.filter((experiment) => experiment.uuid === uuid),
+  experiment: experimentsMock.filter(
+    (experiment) => experiment.uuid === uuid
+  )[0],
 });
 
 /**
@@ -33,7 +35,7 @@ export const fetchExperiment = (uuid) => ({
  */
 export const editExperimentName = (uuid, newName) => ({
   type: actionTypes.EDIT_EXPERIMENT_NAME,
-  experiment: { ...experimentMock, name: newName },
+  experiment: { ...experimentMock, title: newName },
 });
 
 /**
