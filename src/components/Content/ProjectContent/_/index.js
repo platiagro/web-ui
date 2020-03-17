@@ -9,7 +9,7 @@ import { Row, Col } from 'antd';
 import ContentHeader from '../../ContentHeader/ProjectContainer';
 import ComponentsMenuBlock from '../ComponentsMenuBlock/_';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
-import NewExperimentButton from '../NewExperimentButton';
+import NewExperimentButton from '../NewExperimentButton/Container';
 import ExperimentEmpty from '../Experiment/ExperimentEmpty';
 import Experiment from '../Experiment/_';
 
@@ -52,10 +52,7 @@ const ProjectContent = () => {
               </Col>
               {/* new experiment column container */}
               <Col span={1}>
-                <NewExperimentButton
-                  disabled={false}
-                  handleClick={() => alert('new experiment')}
-                />
+                <NewExperimentButton />
               </Col>
             </Row>
             {/* experiment row container */}

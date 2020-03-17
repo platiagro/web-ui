@@ -4,6 +4,14 @@ import actionTypes from './actionTypes';
 // MOCKS
 // experiments
 import experimentsMock from '../../components/Content/ProjectContent/ExperimentsTabs/_/_experimentsMock';
+// experiment mock
+const experimentMock = {
+  title: 'Experimento Mock',
+  key: 'experiment-mock',
+  running: false,
+  deployed: false,
+  uuid: 'experiment-mock',
+};
 
 // ACTIONS
 /**
@@ -109,7 +117,7 @@ export const organizeExperiments = (experimentKey, hoverKey) => {
  */
 export const createExperiment = (experiment) => ({
   type: actionTypes.CREATE_EXPERIMENT,
-  experiments: [...experimentsMock, experiment],
+  experiments: [...experimentsMock, experimentMock],
 });
 
 /**
