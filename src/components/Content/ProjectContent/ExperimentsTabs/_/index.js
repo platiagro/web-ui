@@ -41,8 +41,8 @@ const ExperimentsTabs = ({
       activeExperiment={activeExperiment}
     >
       {/* rendering tabs */}
-      {experiments.map(({ title, key, running }) => (
-        <TabPane tab={renderTitle(title, running)} key={key} />
+      {experiments.map(({ name, uuid, running }) => (
+        <TabPane tab={renderTitle(name, running)} key={uuid} />
       ))}
     </DraggableTabs>
   );
