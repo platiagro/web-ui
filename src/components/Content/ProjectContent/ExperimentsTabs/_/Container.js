@@ -8,14 +8,15 @@ import ExperimentsTabs from './index';
 
 // ACTIONS
 import {
-  fetchExperiments,
+  fetchExperimentsRequest,
   organizeExperiments,
 } from '../../../../../store/experiments/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchExperiments: () => dispatch(fetchExperiments()),
+    handleFetchExperiments: (projectId) =>
+      dispatch(fetchExperimentsRequest(projectId)),
     handleOrganizeExperiments: (experimentKey, hoverKey) =>
       dispatch(organizeExperiments(experimentKey, hoverKey)),
   };
@@ -40,24 +41,24 @@ const ExperimentTabsContainer = ({
   // getting history
   const history = useHistory();
   // getting project uuid
-  const { projectUuid, experimentUuid } = useParams();
+  const { projectId, experimentId } = useParams();
 
   // HOOKS
   // did mount hook
   useEffect(() => {
     // fetching projects
-    handleFetchExperiments();
+    handleFetchExperiments(projectId);
   }, []);
 
   // HANDLERS
   // go back
-  const handleChangeTab = (uuid) =>
-    history.push(`/projetos/${projectUuid}/${uuid}`);
+  const handleChangeTab = (targetId) =>
+    history.push(`/projetos/${projectId}/${targetId}`);
 
   // RENDER
   return (
     <ExperimentsTabs
-      activeExperiment={experimentUuid}
+      activeExperiment={experimentId}
       experiments={experiments}
       handleChange={handleChangeTab}
       handleMoveTab={handleOrganizeExperiments}
