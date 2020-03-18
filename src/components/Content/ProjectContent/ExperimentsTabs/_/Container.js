@@ -11,12 +11,15 @@ import {
   fetchExperimentsRequest,
   organizeExperiments,
 } from '../../../../../store/experiments/actions';
+import { fetchExperimentRequest } from '../../../../../store/experiment/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     handleFetchExperiments: (projectId) =>
       dispatch(fetchExperimentsRequest(projectId)),
+    handleFetchExperiment: (projectId, experimentId) =>
+      dispatch(fetchExperimentRequest(projectId, experimentId)),
     handleOrganizeExperiments: (experimentKey, hoverKey) =>
       dispatch(organizeExperiments(experimentKey, hoverKey)),
   };
@@ -36,6 +39,7 @@ const ExperimentTabsContainer = ({
   experiments,
   handleFetchExperiments,
   handleOrganizeExperiments,
+  handleFetchExperiment,
 }) => {
   // CONSTANTS
   // getting history
@@ -51,9 +55,14 @@ const ExperimentTabsContainer = ({
   }, []);
 
   // HANDLERS
-  // go back
-  const handleChangeTab = (targetId) =>
+  // change tab
+  const handleChangeTab = (targetId) => {
+    // fetching experiment
+    handleFetchExperiment(projectId, targetId);
+
+    // routing
     history.push(`/projetos/${projectId}/${targetId}`);
+  };
 
   // RENDER
   return (
