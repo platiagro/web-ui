@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ import ExperimentHeader from './index';
 // ACTIONS
 import { deleteExperiment } from '../../../../../../store/experiments/actions';
 import {
-  fetchExperiment,
+  fetchExperimentRequest,
   editExperimentName,
   trainExperiment,
   deployExperiment,
@@ -18,16 +18,16 @@ import {
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleDeleteExperiment: (experimentUuid) =>
-      dispatch(deleteExperiment(experimentUuid)),
-    handleFetchExperiment: (experimentUuid) =>
-      dispatch(fetchExperiment(experimentUuid)),
-    handleEditExperimentName: (experimentUuid, newName) =>
-      dispatch(editExperimentName(experimentUuid, newName)),
-    handleTrainExperiment: (experimentUuid) =>
-      dispatch(trainExperiment(experimentUuid)),
-    handleDeployExperiment: (experimentUuid) =>
-      dispatch(deployExperiment(experimentUuid)),
+    handleDeleteExperiment: (experimentId) =>
+      dispatch(deleteExperiment(experimentId)),
+    handleFetchExperiment: (projectId, experimentId) =>
+      dispatch(fetchExperimentRequest(projectId, experimentId)),
+    handleEditExperimentName: (experimentId, newName) =>
+      dispatch(editExperimentName(experimentId, newName)),
+    handleTrainExperiment: (experimentId) =>
+      dispatch(trainExperiment(experimentId)),
+    handleDeployExperiment: (experimentId) =>
+      dispatch(deployExperiment(experimentId)),
   };
 };
 
@@ -51,26 +51,26 @@ const ExperimentHeaderContainer = ({
 }) => {
   // CONSTANTS
   // getting project uuid
-  const { experimentUuid } = useParams();
+  const { projectId, experimentId } = useParams();
 
   // HOOKS
   // did mount hook
-  useLayoutEffect(() => {
+  useEffect(() => {
     // fetching projects
-    handleFetchExperiment(experimentUuid);
+    handleFetchExperiment(projectId, experimentId);
   }, []);
 
   // HANDLERS
   // delete experiment
-  const deleteHandler = () => handleDeleteExperiment(experimentUuid);
+  const deleteHandler = () => handleDeleteExperiment(experimentId);
   // edit experiment name
   const editExperimentNameHandler = (newName) =>
-    handleEditExperimentName(experimentUuid, newName);
+    handleEditExperimentName(experimentId, newName);
 
   // RENDER
   return (
     <ExperimentHeader
-      title={experiment.title}
+      title={experiment.name}
       handleEditExperimentName={editExperimentNameHandler}
       handleDeleteExperiment={deleteHandler}
       handleTrainExperiment={handleTrainExperiment}
