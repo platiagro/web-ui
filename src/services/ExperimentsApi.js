@@ -21,9 +21,25 @@ const experimentsPath = '/experiments';
  */
 const listExperiments = (projectId) =>
   new Promise((resolve, reject) => {
-    // requesting projects
+    // requesting experiments
     experimentsApi
       .get(`/${projectId}${experimentsPath}`)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+/**
+ * Detail Experiment
+ * @param {string} projectId
+ * @returns {Promise}
+ */
+const detailExperiment = (projectId, experimentId) =>
+  new Promise((resolve, reject) => {
+    // requesting experiment
+    experimentsApi
+      .get(`/${projectId}${experimentsPath}/${experimentId}`)
       // success
       .then((response) => resolve(response))
       // error
@@ -33,16 +49,8 @@ const listExperiments = (projectId) =>
 // EXPORT DEFAULT
 export default {
   listExperiments,
+  detailExperiment,
 };
-
-// export const getExperimentList = async (id) => {
-//   try {
-//     const response = await projectsApi.get(`/projects/${id}/experiments`);
-//     return response;
-//   } catch (error) {
-//     message.error(error.message);
-//   }
-// };
 
 // export const getExperiment = async (projectId, experimentId) => {
 //   try {
