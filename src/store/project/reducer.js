@@ -30,7 +30,7 @@ const project = (state = initialState, action) => {
       return message.error(action.errorMessage);
     // delete project success
     case actionTypes.DELETE_PROJECT_SUCCESS:
-      return message.info(`Projeto ${action.project.name} excluído!`);
+      return message.info(`Projeto excluído!`);
     // delete project fail
     case actionTypes.DELETE_PROJECT_FAIL:
       return message.error(action.errorMessage);

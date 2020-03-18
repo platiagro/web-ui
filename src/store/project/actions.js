@@ -55,6 +55,7 @@ export const fetchProjectRequest = (projectId) => (dispatch) => {
 /**
  * create project success action
  * @param {Object} response
+ * @param {Object} routerProps
  * @returns {Object} { type, project }
  */
 const createProjectSuccess = (response, routerProps) => {
@@ -152,12 +153,45 @@ export const editProjectNameRequest = (projectId, newProjectName) => (
     .catch((error) => dispatch(editProjectNameFail(error)));
 };
 
+// ** DELETE PROJECT
 /**
- * delete project action
- * @param {string} projectUuid
- * @returns {type, projects}
+ * delete project success action
+ * @param {Object} projectId
+ * @returns {Object} { type }
  */
-export const deleteProjectRequest = (projectUuid) => ({
-  type: actionTypes.DELETE_PROJECT_FAIL,
-  errorMessage: 'Imp Error',
-});
+const deleteProjectSuccess = (projectId) => {
+  return {
+    type: actionTypes.DELETE_PROJECT_SUCCESS,
+    projectId,
+  };
+};
+/**
+ * delete project fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const deleteProjectFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.DELETE_PROJECT_FAIL,
+    errorMessage,
+  };
+};
+/**
+ * delete project request action
+ * @returns {Function}
+ */
+export const deleteProjectRequest = (projectId) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.DELETE_PROJECT_REQUEST,
+  });
+
+  // deleting project
+  projectsApi
+    .deleteProject(projectId)
+    .then(() => dispatch(deleteProjectSuccess(projectId)))
+    .catch((error) => dispatch(deleteProjectFail(error)));
+};
