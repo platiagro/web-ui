@@ -7,16 +7,15 @@ import { useHistory } from 'react-router-dom';
 import ProjectsTable from './index';
 
 // ACTIONS
-import {
-  fetchProjects,
-  deleteProject,
-} from '../../../../store/projects/actions';
+import fetchProjectsRequest from '../../../../store/projects/actions';
+import { deleteProjectRequest } from '../../../../store/project/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchProjects: () => dispatch(fetchProjects()),
-    handleDeleteProject: (projectUuid) => dispatch(deleteProject(projectUuid)),
+    handleFetchProjects: () => dispatch(fetchProjectsRequest()),
+    handleDeleteProject: (projectUuid) =>
+      dispatch(deleteProjectRequest(projectUuid)),
   };
 };
 
