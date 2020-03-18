@@ -7,14 +7,17 @@ import { useHistory, useParams } from 'react-router-dom';
 import ContentHeader from './index';
 
 // ACTIONS
-import { fetchProject, editProjectName } from '../../../store/project/actions';
+import {
+  fetchProjectRequest,
+  editProjectNameRequest,
+} from '../../../store/project/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchProject: (projectUuid) => dispatch(fetchProject(projectUuid)),
-    handleEditProjectName: (newName) =>
-      dispatch(editProjectName(null, newName)),
+    handleFetchProject: (projectId) => dispatch(fetchProjectRequest(projectId)),
+    handleEditProjectName: (projectId, newName) =>
+      dispatch(editProjectNameRequest(projectId, newName)),
   };
 };
 
@@ -37,19 +40,22 @@ const ContentHeaderProjectContainer = ({
   // getting history
   const history = useHistory();
   // getting project uuid
-  const { projectUuid } = useParams();
+  const { projectId } = useParams();
 
   // FIXME: Corrigir título ao carregar
   // HOOKS
   // did mount hook
   useEffect(() => {
     // fetching projects
-    handleFetchProject(projectUuid);
+    handleFetchProject(projectId);
   }, []);
 
   // HANDLERS
   // go back
   const goBackHandler = () => history.goBack();
+  // edit project name
+  const editProjectNameHandler = (newProjectName) =>
+    handleEditProjectName(projectId, newProjectName);
 
   // RENDER
   return (
@@ -57,7 +63,7 @@ const ContentHeaderProjectContainer = ({
       title={project.name}
       editable
       handleGoBack={goBackHandler}
-      handleSubmit={handleEditProjectName}
+      handleSubmit={editProjectNameHandler}
     />
   );
 };
