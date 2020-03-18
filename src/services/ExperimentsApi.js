@@ -1,3 +1,40 @@
+// CORE LIBS
+import axios from 'axios';
+
+// CONSTANTS
+// api base url
+const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:3000';
+// projects path
+const projectsPath = '/projects';
+// api object
+const experimentsApi = axios.create({
+  baseURL: `${URL}${projectsPath}`,
+});
+// experiments path
+const experimentsPath = '/experiments';
+
+// API METHODS
+/**
+ * List Experiments
+ * @param {string} projectId
+ * @returns {Promise}
+ */
+const listExperiments = (projectId) =>
+  new Promise((resolve, reject) => {
+    // requesting projects
+    experimentsApi
+      .get(`/${projectId}${experimentsPath}`)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+// EXPORT DEFAULT
+export default {
+  listExperiments,
+};
+
 // export const getExperimentList = async (id) => {
 //   try {
 //     const response = await projectsApi.get(`/projects/${id}/experiments`);
