@@ -2,12 +2,14 @@
 import axios from 'axios';
 
 // CONSTANTS
-// url
+// api base url
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:3000';
 // api object
 const projectsApi = axios.create({
   baseURL: URL,
 });
+// projects path
+const projectsPath = '/projects';
 
 // API METHODS
 /**
@@ -18,7 +20,7 @@ const listProjects = () =>
   new Promise((resolve, reject) => {
     // requesting projects
     projectsApi
-      .get(`/projects`)
+      .get(projectsPath)
       // success
       .then((response) => resolve(response))
       // error
@@ -34,7 +36,7 @@ const detailProject = (projectId) =>
   new Promise((resolve, reject) => {
     // requesting project
     projectsApi
-      .get(`/projects/${projectId}`)
+      .get(`${projectsPath}/${projectId}`)
       // success
       .then((response) => resolve(response))
       // error
@@ -53,9 +55,9 @@ const createProject = (projectName) =>
       name: projectName,
     };
 
-    // requesting project
+    // creating project
     projectsApi
-      .post(`/projects`, body)
+      .post(projectsPath, body)
       // success
       .then((response) => resolve(response))
       // error
@@ -75,15 +77,36 @@ const updateProject = (projectId, projectName) =>
       name: projectName,
     };
 
-    // requesting project
+    // updating project
     projectsApi
-      .patch(`/projects/${projectId}`, body)
+      .patch(`${projectsPath}/${projectId}`, body)
       // success
       .then((response) => resolve(response))
       // error
       .catch((error) => reject(error));
   });
 
-export default { listProjects, detailProject, createProject, updateProject };
+/**
+ * Delete Project
+ * @param {string} projectId
+ * @returns {Promise}
+ */
+const deleteProject = (projectId) =>
+  new Promise((resolve, reject) => {
+    // deleting project
+    projectsApi
+      .delete(`${projectsPath}/${projectId}`)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
 
-// TODO: implementar delete project (não encontrei referencia)
+// EXPORT DEFAULT
+export default {
+  listProjects,
+  detailProject,
+  createProject,
+  updateProject,
+  deleteProject,
+};
