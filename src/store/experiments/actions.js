@@ -38,9 +38,10 @@ const fetchExperimentsFail = (error) => {
 
 /**
  * fetch experiments request action
+ * @param {string} projectId
  * @returns {Function}
  */
-export const fetchExperimentsRequest = () => (dispatch) => {
+export const fetchExperimentsRequest = (projectId) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_EXPERIMENTS_REQUEST,
@@ -48,7 +49,7 @@ export const fetchExperimentsRequest = () => (dispatch) => {
 
   // fetching experiments
   experimentsApi
-    .listExperiments()
+    .listExperiments(projectId)
     .then((response) => dispatch(fetchExperimentsSuccess(response)))
     .catch((error) => dispatch(fetchExperimentsFail(error)));
 };
