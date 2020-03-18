@@ -6,42 +6,31 @@ import PropTypes from 'prop-types';
 import { PageHeader } from 'antd';
 
 // COMPONENTS
-import EditableTitle from '../EditableTitle';
+import Title from '../Title';
 
 // STYLES
 import './style.scss';
-
-// editable title class name const
-const editableTitleClassName =
-  'ant-page-header-heading-title autosize-input-custom';
 
 /**
  * Content Header.
  * This component is responsible for displaying the content header with editable
  * title and go back arrow.
  */
-const ContentHeader = ({ handleGoBack, handleSubmit, editable, title }) => {
-  // COMPONENTS RENDERS
-  // common title
-  const renderTitle = () => title;
-  // editable title
-  const renderEditableTitle = () => (
-    // editable title component
-    <EditableTitle
-      loading={false}
-      title={title}
-      handleSubmit={handleSubmit}
-      className={editableTitleClassName}
-      editingClassName={`${editableTitleClassName} edit-mode`}
-    />
-  );
-
+const ContentHeader = ({ handleGoBack, handleSubmit, title }) => {
   // RENDER
   return (
     // page header component
     <PageHeader
       className='contentHeader'
-      title={editable ? renderEditableTitle() : renderTitle()}
+      title={
+        // title component
+        <Title
+          loading={false}
+          level={2}
+          title={title}
+          handleSubmit={handleSubmit}
+        />
+      }
       onBack={handleGoBack}
     />
   );
@@ -53,8 +42,6 @@ ContentHeader.propTypes = {
   handleGoBack: PropTypes.func.isRequired,
   /** content header edit submit function */
   handleSubmit: PropTypes.func,
-  /** content header has editable title */
-  editable: PropTypes.bool.isRequired,
   /** content header title */
   title: PropTypes.string.isRequired,
 };

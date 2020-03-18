@@ -11,7 +11,7 @@ import ContentHeader from './index';
  * This component is responsible for create a logic container for content header
  * with route control.
  */
-const ContentHeaderContainer = ({ title, editable }) => {
+const ContentHeaderContainer = ({ title }) => {
   // getting history
   const history = useHistory();
 
@@ -19,19 +19,11 @@ const ContentHeaderContainer = ({ title, editable }) => {
   const goBackHandler = () => history.goBack();
 
   // RENDER
-  return (
-    <ContentHeader
-      title={title}
-      editable={editable}
-      handleGoBack={goBackHandler}
-    />
-  );
+  return <ContentHeader title={title} handleGoBack={goBackHandler} />;
 };
 
 // PROP TYPES
 ContentHeaderContainer.propTypes = {
-  /** content header has editable title */
-  editable: PropTypes.bool.isRequired,
   /** content header title */
   title: PropTypes.string.isRequired,
 };

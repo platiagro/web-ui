@@ -6,13 +6,10 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 
 // COMPONENTS
-import EditableTitle from '../../../../EditableTitle';
+import Title from '../../../../Title';
 import DeleteExperimentButton from '../DeleteExperimentButton';
 import TrainExperimentButton from '../TrainExperimentButton';
 import DeployExperimentButton from '../DeployExperimentButton';
-
-// editable title class name const
-const editableTitleClassName = 'editable-title autosize-input-custom';
 
 /**
  * Experiment Header.
@@ -29,12 +26,11 @@ const ExperimentHeader = ({
   <Row>
     {/* column container */}
     <Col span={18}>
-      {/* editable title */}
-      <EditableTitle
+      {/* title */}
+      <Title
         title={title}
         loading={false}
-        className={editableTitleClassName}
-        editingClassName={`${editableTitleClassName} edit-mode`}
+        level={3}
         handleSubmit={handleEditExperimentName}
       />
       {/* TODO: adicionar popconfirm ao excluir */}

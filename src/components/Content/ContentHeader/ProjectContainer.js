@@ -42,7 +42,6 @@ const ContentHeaderProjectContainer = ({
   // getting project uuid
   const { projectId } = useParams();
 
-  // FIXME: Corrigir título ao carregar
   // HOOKS
   // did mount hook
   useEffect(() => {
@@ -61,7 +60,6 @@ const ContentHeaderProjectContainer = ({
   return (
     <ContentHeader
       title={project.name}
-      editable
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
     />
