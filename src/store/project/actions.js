@@ -1,32 +1,163 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
-// MOCKS
-// project mock
-const projectMock = {
-  uuid: '1234567899',
-  name: 'Projeto Mocked',
-  createdAt: 'October 13, 2014 11:13:00',
-};
+// SERVICES
+import projectsApi from '../../services/ProjectsApi';
 
 // ACTIONS
+// ** FETCH PROJECT
 /**
- * fetch project action
- * @param {string} uuid
- * @returns {type, project}
+ * fetch project success action
+ * @param {Object} response
+ * @returns {Object} { type, project }
  */
-export const fetchProject = (uuid) => ({
-  type: actionTypes.FETCH_PROJECT,
-  project: projectMock,
-});
+const fetchProjectSuccess = (response) => {
+  // getting project from response
+  const project = response.data;
+
+  return {
+    type: actionTypes.FETCH_PROJECT_SUCCESS,
+    project,
+  };
+};
+/**
+ * fetch project fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const fetchProjectFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.FETCH_PROJECT_FAIL,
+    errorMessage,
+  };
+};
+/**
+ * fetch project request action
+ * @returns {Function}
+ */
+export const fetchProjectRequest = (projectId) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.FETCH_PROJECT_REQUEST,
+  });
+
+  // fetching project
+  projectsApi
+    .detailProject(projectId)
+    .then((response) => dispatch(fetchProjectSuccess(response)))
+    .catch((error) => dispatch(fetchProjectFail(error)));
+};
+
+// ** CREATE PROJECT
+/**
+ * create project success action
+ * @param {Object} response
+ * @returns {Object} { type, project }
+ */
+const createProjectSuccess = (response, routerProps) => {
+  // getting project from response
+  const project = response.data;
+
+  // go to new project
+  routerProps.history.push(`/projetos/${project.uuid}`);
+
+  return {
+    type: actionTypes.CREATE_PROJECT_SUCCESS,
+    project,
+  };
+};
+/**
+ * create project fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const createProjectFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.CREATE_PROJECT_FAIL,
+    errorMessage,
+  };
+};
+/**
+ * create project request action
+ * @returns {Function}
+ */
+export const createProjectRequest = (projectName, routerProps) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.CREATE_PROJECT_REQUEST,
+  });
+
+  // creating project
+  projectsApi
+    .createProject(projectName)
+    .then((response) => dispatch(createProjectSuccess(response, routerProps)))
+    .catch((error) => dispatch(createProjectFail(error)));
+};
+
+// ** EDIT PROJECT NAME
+/**
+ * edit project name success action
+ * @param {Object} response
+ * @returns {Object} { type, project }
+ */
+const editProjectNameSuccess = (response) => {
+  // getting project from response
+  const project = response.data;
+
+  return {
+    type: actionTypes.EDIT_PROJECT_NAME_SUCCESS,
+    project,
+  };
+};
+/**
+ * edit project name fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const editProjectNameFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.EDIT_PROJECT_NAME_FAIL,
+    errorMessage,
+  };
+};
+/**
+ * edit project name request action
+ * @param {string} projectId
+ * @param {string} newProjectName
+ * @returns {Function}
+ */
+export const editProjectNameRequest = (projectId, newProjectName) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.EDIT_PROJECT_NAME_REQUEST,
+  });
+
+  // creating project
+  projectsApi
+    .updateProject(projectId, newProjectName)
+    .then((response) => dispatch(editProjectNameSuccess(response)))
+    .catch((error) => dispatch(editProjectNameFail(error)));
+};
 
 /**
- * edit project name action
- * @param {string} uuid
- * @param {string} newName
- * @returns {type, project}
+ * delete project action
+ * @param {string} projectUuid
+ * @returns {type, projects}
  */
-export const editProjectName = (uuid, newName) => ({
-  type: actionTypes.EDIT_PROJECT_NAME,
-  project: { ...projectMock, name: newName },
+export const deleteProjectRequest = (projectUuid) => ({
+  type: actionTypes.DELETE_PROJECT_FAIL,
+  errorMessage: 'Imp Error',
 });
