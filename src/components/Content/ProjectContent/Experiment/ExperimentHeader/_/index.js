@@ -30,7 +30,7 @@ const ExperimentHeader = ({
       <Title
         title={title}
         loading={false}
-        level={3}
+        level={4}
         handleSubmit={handleEditExperimentName}
       />
       {/* TODO: adicionar popconfirm ao excluir */}
