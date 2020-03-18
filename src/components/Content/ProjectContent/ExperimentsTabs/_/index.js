@@ -40,10 +40,15 @@ const ExperimentsTabs = ({
       onChange={handleChange}
       activeExperiment={activeExperiment}
     >
-      {/* rendering tabs */}
-      {experiments.map(({ name, uuid, running }) => (
-        <TabPane tab={renderTitle(name, running)} key={uuid} />
-      ))}
+      {experiments.length > 0 ? (
+        // rendering tabs
+        experiments.map(({ name, uuid, running }) => (
+          <TabPane tab={renderTitle(name, running)} key={uuid} />
+        ))
+      ) : (
+        // rendering empty tab
+        <TabPane tab={renderTitle('Sem experimentos')} disabled />
+      )}
     </DraggableTabs>
   );
 };
