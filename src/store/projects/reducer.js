@@ -3,6 +3,7 @@ import { message } from 'antd';
 
 // ACTION TYPES
 import actionTypes from './actionTypes';
+import projectActionTypes from '../project/actionTypes';
 
 // INITIAL STATE
 const initialState = [];
@@ -18,6 +19,9 @@ const projects = (state = initialState, action) => {
     // fetch projects fail
     case actionTypes.FETCH_PROJECTS_FAIL:
       return message.error(action.errorMessage);
+    // fetch projects success
+    case projectActionTypes.DELETE_PROJECT_SUCCESS:
+      return state.filter((project) => project.uuid !== action.projectId);
     default:
       return state;
   }
