@@ -19,7 +19,7 @@ import Experiment from '../Experiment/_';
  */
 const ProjectContent = () => {
   // CONSTANTS
-  const { experimentUuid } = useParams();
+  const { experimentId } = useParams();
 
   // RENDER
   return (
@@ -33,7 +33,7 @@ const ProjectContent = () => {
         <Row gutter={24}>
           {/* menu column container */}
           <Col span={5}>
-            <ComponentsMenuBlock disabled={!experimentUuid} />
+            <ComponentsMenuBlock disabled={!experimentId} />
           </Col>
           {/* experiment column container */}
           <Col span={19}>
@@ -49,7 +49,7 @@ const ProjectContent = () => {
               </Col>
             </Row>
             {/* experiment row container */}
-            <Row>{experimentUuid ? <Experiment /> : <ExperimentEmpty />}</Row>
+            <Row>{experimentId ? <Experiment /> : <ExperimentEmpty />}</Row>
           </Col>
         </Row>
       </div>
