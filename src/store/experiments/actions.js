@@ -1,27 +1,59 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
-// MOCKS
-// experiments
-import experimentsMock from '../../components/Content/ProjectContent/ExperimentsTabs/_/_experimentsMock';
-// experiment mock
-const experimentMock = {
-  title: 'Experimento Mock',
-  key: 'experiment-mock',
-  running: false,
-  deployed: false,
-  uuid: 'experiment-mock',
-};
+// SERVICES
+import experimentsApi from '../../services/ExperimentsApi';
 
 // ACTIONS
+// ** FETCH EXPERIMENTS
 /**
- * fetch experiments action
- * @returns {type, experiments}
+ * fetch experiments success action
+ * @param {Object} response
+ * @returns {Object} { type, experiments }
  */
-export const fetchExperiments = () => ({
-  type: actionTypes.FETCH_EXPERIMENTS,
-  experiments: experimentsMock,
-});
+const fetchExperimentsSuccess = (response) => {
+  // getting experiments from response
+  const experiments = response.data;
+
+  return {
+    type: actionTypes.FETCH_EXPERIMENTS_SUCCESS,
+    experiments,
+  };
+};
+
+/**
+ * fetch experiments fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const fetchExperimentsFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.FETCH_EXPERIMENTS_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * fetch experiments request action
+ * @returns {Function}
+ */
+export const fetchExperimentsRequest = () => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.FETCH_EXPERIMENTS_REQUEST,
+  });
+
+  // fetching experiments
+  experimentsApi
+    .listExperiments()
+    .then((response) => dispatch(fetchExperimentsSuccess(response)))
+    .catch((error) => dispatch(fetchExperimentsFail(error)));
+};
+
+// // // // // // // // // //
 
 // FIXME: corrigir lógica
 // TODO: passar lógica para o backend?
@@ -33,7 +65,7 @@ export const fetchExperiments = () => ({
  */
 export const organizeExperiments = (experimentKey, hoverKey) => {
   // getting experiments
-  const orderedExperiments = experimentsMock;
+  const orderedExperiments = []; // experimentsMock;
   // getting dragged experiment
   const draggedExperiment = orderedExperiments.find(
     (experiment) => experiment.key === experimentKey
@@ -117,7 +149,7 @@ export const organizeExperiments = (experimentKey, hoverKey) => {
  */
 export const createExperiment = (experiment) => ({
   type: actionTypes.CREATE_EXPERIMENT,
-  experiments: [...experimentsMock, experimentMock],
+  experiments: [], // [...experimentsMock, experimentMock],
 });
 
 /**
@@ -127,7 +159,7 @@ export const createExperiment = (experiment) => ({
  */
 export const deleteExperiment = (experimentUuid) => ({
   type: actionTypes.DELETE_EXPERIMENT,
-  experiments: experimentsMock.filter(
-    (experiment) => experiment.uuid !== experimentUuid
-  ),
+  experiments: [], // experimentsMock.filter(
+  // (experiment) => experiment.uuid !== experimentUuid
+  // ),
 });
