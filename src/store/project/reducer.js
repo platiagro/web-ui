@@ -6,9 +6,11 @@ import actionTypes from './actionTypes';
 
 // INITIAL STATE
 const initialState = {
-  uuid: '',
-  name: '',
-  createdAt: '',
+  createdAt: null,
+  experiments: null,
+  name: null,
+  updatedAt: null,
+  uuid: null,
 };
 
 /**
