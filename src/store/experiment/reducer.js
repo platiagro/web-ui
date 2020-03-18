@@ -8,13 +8,13 @@ import actionTypes from './actionTypes';
 const initialState = {
   createdAt: null,
   dataset: null,
-  name: null,
+  name: '',
   operators: null,
   position: null,
   projectId: null,
   target: null,
   updatedAt: null,
-  uuid: null,
+  uuid: '',
 };
 
 /**

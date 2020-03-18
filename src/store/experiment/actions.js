@@ -1,31 +1,63 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
-// MOCKS
-// experiments
-import experimentsMock from '../../components/Content/ProjectContent/ExperimentsTabs/_/_experimentsMock';
-// experiment
-const experimentMock = {
-  title: 'Experimento 123',
-  key: 'experiment123',
-  running: true,
-  deployed: false,
-  position: 0,
-  uuid: '123',
-};
+// SERVICES
+import experimentsApi from '../../services/ExperimentsApi';
 
 // ACTIONS
+// ** FETCH EXPERIMENT
 /**
- * fetch experiment action
- * @param {string} uuid
- * @returns {type, experiment}
+ * fetch experiment success action
+ * @param {Object} response
+ * @returns {Object} { type, experiment }
  */
-export const fetchExperiment = (uuid) => ({
-  type: actionTypes.FETCH_EXPERIMENT,
-  experiment: experimentsMock.filter(
-    (experiment) => experiment.uuid === uuid
-  )[0],
-});
+const fetchExperimentSuccess = (response) => {
+  // getting experiment from response
+  const experiment = response.data;
+
+  return {
+    type: actionTypes.FETCH_EXPERIMENT_SUCCESS,
+    experiment,
+  };
+};
+
+/**
+ * fetch experiment fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const fetchExperimentFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.FETCH_EXPERIMENT_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * fetch experiment request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @returns {Function}
+ */
+export const fetchExperimentRequest = (projectId, experimentId) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.FETCH_EXPERIMENT_REQUEST,
+  });
+
+  // fetching experiment
+  experimentsApi
+    .detailExperiment(projectId, experimentId)
+    .then((response) => dispatch(fetchExperimentSuccess(response)))
+    .catch((error) => dispatch(fetchExperimentFail(error)));
+};
+
+// // // // // // // // // //
 
 /**
  * edit experiment name action
@@ -35,7 +67,7 @@ export const fetchExperiment = (uuid) => ({
  */
 export const editExperimentName = (uuid, newName) => ({
   type: actionTypes.EDIT_EXPERIMENT_NAME,
-  experiment: { ...experimentMock, title: newName },
+  experiment: {}, // { ...experimentMock, title: newName },
 });
 
 /**
@@ -45,7 +77,7 @@ export const editExperimentName = (uuid, newName) => ({
  */
 export const trainExperiment = (uuid) => ({
   type: actionTypes.TRAIN_EXPERIMENT,
-  experiment: { ...experimentMock, running: true },
+  experiment: {}, // { ...experimentMock, running: true },
 });
 
 /**
@@ -55,5 +87,5 @@ export const trainExperiment = (uuid) => ({
  */
 export const deployExperiment = (uuid) => ({
   type: actionTypes.DEPLOY_EXPERIMENT,
-  experiment: { ...experimentMock, deployed: true },
+  experiment: {}, // { ...experimentMock, deployed: true },
 });
