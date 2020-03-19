@@ -115,8 +115,16 @@ const organizeExperiments = (
     );
   }
 
-  // returning new experiment list
-  return experimentsAux;
+  // returning new experiment list ordened by position
+  return experimentsAux.sort((a, b) => {
+    if (a.position < b.position) {
+      return -1;
+    }
+    if (a.position > b.position) {
+      return 1;
+    }
+    return 0;
+  });
 };
 
 // EXPORT DEFAULT
