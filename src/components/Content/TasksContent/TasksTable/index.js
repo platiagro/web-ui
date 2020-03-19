@@ -44,8 +44,8 @@ const TasksTable = ({
           <Popconfirm
             title='Você tem certeza que deseja excluir essa tarefa?'
             onConfirm={() => handleClickDelete(record.uuid)}
-            okText='Yes'
-            cancelText='No'
+            okText='Sim'
+            cancelText='Não'
           >
             <Button type='link'>Excluir</Button>
           </Popconfirm>
