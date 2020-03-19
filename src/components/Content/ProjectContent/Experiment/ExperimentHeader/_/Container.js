@@ -7,12 +7,12 @@ import { useParams } from 'react-router-dom';
 import ExperimentHeader from './index';
 
 // ACTIONS
-import { deleteExperiment } from '../../../../../../store/experiments/actions';
 import {
   fetchExperimentRequest,
   editExperimentName,
   trainExperiment,
   deployExperiment,
+  deleteExperiment,
 } from '../../../../../../store/experiment/actions';
 
 // DISPATCHS
