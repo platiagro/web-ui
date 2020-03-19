@@ -25,7 +25,7 @@ const experiments = (state = initialState, action) => {
     // experiment
     // create experiment success
     case experimentActionTypes.CREATE_EXPERIMENT_SUCCESS:
-      return [action.experiment, ...state];
+      return [...state, action.experiment];
     // edit experiment name success
     case experimentActionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
       return state.map((experiment) =>
