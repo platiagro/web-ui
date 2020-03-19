@@ -62,11 +62,16 @@ export const fetchExperimentRequest = (projectId, experimentId) => (
 /**
  * create experiment success action
  * @param {Object} response
+ * @param {string} projectId
+ * @param {Object} routerProps
  * @returns {Object} { type, experiment }
  */
-const createExperimentSuccess = (response) => {
+const createExperimentSuccess = (response, projectId, routerProps) => {
   // getting experiment from response
   const experiment = response.data;
+
+  // go to new experiment
+  routerProps.history.push(`/projetos/${projectId}/${experiment.uuid}`);
 
   return {
     type: actionTypes.CREATE_EXPERIMENT_SUCCESS,
@@ -93,11 +98,14 @@ const createExperimentFail = (error) => {
  * create experiment request action
  * @param {string} projectId
  * @param {string} experimentName
+ * @param {Object} routerProps
  * @returns {Function}
  */
-export const createExperimentRequest = (projectId, experimentName) => (
-  dispatch
-) => {
+export const createExperimentRequest = (
+  projectId,
+  experimentName,
+  routerProps
+) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_EXPERIMENT_REQUEST,
@@ -106,7 +114,9 @@ export const createExperimentRequest = (projectId, experimentName) => (
   // creating experiment
   experimentsApi
     .createExperiment(projectId, experimentName)
-    .then((response) => dispatch(createExperimentSuccess(response)))
+    .then((response) =>
+      dispatch(createExperimentSuccess(response, projectId, routerProps))
+    )
     .catch((error) => dispatch(createExperimentFail(error)));
 };
 

@@ -32,6 +32,7 @@ const experiment = (state = initialState, action) => {
     case actionTypes.DEPLOY_EXPERIMENT_SUCCESS:
       return action.experiment;
     case actionTypes.CREATE_EXPERIMENT_SUCCESS:
+      message.info(`Experimento ${action.experiment.name} criado!`);
       return action.experiment;
     case actionTypes.DELETE_EXPERIMENT_SUCCESS:
       return action.experiment;
