@@ -37,11 +37,7 @@ const ProjectsContent = () => {
         {/* new project button */}
         <NewProjectButton disabled={false} handleClick={showModal} />
         {/* new project modal */}
-        <NewProjectModal
-          visible={modalVisible}
-          handleCloseModal={hideModal}
-          handleNewProject={(projectName) => alert(projectName)}
-        />
+        <NewProjectModal visible={modalVisible} handleCloseModal={hideModal} />
         {/* projects table */}
         <ProjectsTable />
       </div>
