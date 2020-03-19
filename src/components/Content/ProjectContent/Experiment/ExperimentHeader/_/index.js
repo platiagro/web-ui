@@ -25,7 +25,7 @@ const ExperimentHeader = ({
   // row container
   <Row>
     {/* column container */}
-    <Col span={18}>
+    <Col span={19}>
       {/* title */}
       <Title
         title={title}
@@ -33,25 +33,28 @@ const ExperimentHeader = ({
         level={4}
         handleSubmit={handleEditExperimentName}
       />
-      {/* TODO: adicionar popconfirm ao excluir */}
-      {/* delete button */}
-      <DeleteExperimentButton
-        disabled={false}
-        handleClick={handleDeleteExperiment}
-      />
     </Col>
     {/* column container */}
-    <Col span={6}>
+    <Col span={2}>
       {/* train button */}
       <TrainExperimentButton
         handleClick={handleTrainExperiment}
         disabled={false}
         experimentRunning={false}
       />
+    </Col>
+    <Col span={2}>
       {/* deploy button */}
       <DeployExperimentButton
         handleClick={handleDeployExperiment}
         disabled={false}
+      />
+    </Col>
+    <Col span={1} style={{ paddingRight: '0.7vw' }}>
+      {/* delete button */}
+      <DeleteExperimentButton
+        disabled={false}
+        handleClick={handleDeleteExperiment}
       />
     </Col>
   </Row>
