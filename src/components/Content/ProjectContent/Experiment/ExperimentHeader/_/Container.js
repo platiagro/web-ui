@@ -9,7 +9,7 @@ import ExperimentHeader from './index';
 // ACTIONS
 import {
   fetchExperimentRequest,
-  editExperimentName,
+  editExperimentNameRequest,
   trainExperiment,
   deployExperiment,
   deleteExperiment,
@@ -22,8 +22,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(deleteExperiment(experimentId)),
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(fetchExperimentRequest(projectId, experimentId)),
-    handleEditExperimentName: (experimentId, newName) =>
-      dispatch(editExperimentName(experimentId, newName)),
+    handleEditExperimentName: (projectId, experimentId, newName) =>
+      dispatch(editExperimentNameRequest(projectId, experimentId, newName)),
     handleTrainExperiment: (experimentId) =>
       dispatch(trainExperiment(experimentId)),
     handleDeployExperiment: (experimentId) =>
@@ -65,7 +65,7 @@ const ExperimentHeaderContainer = ({
   const deleteHandler = () => handleDeleteExperiment(experimentId);
   // edit experiment name
   const editExperimentNameHandler = (newName) =>
-    handleEditExperimentName(experimentId, newName);
+    handleEditExperimentName(projectId, experimentId, newName);
 
   // RENDER
   return (
