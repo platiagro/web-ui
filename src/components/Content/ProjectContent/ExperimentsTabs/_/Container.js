@@ -9,7 +9,7 @@ import ExperimentsTabs from './index';
 // ACTIONS
 import {
   fetchExperimentsRequest,
-  organizeExperiments,
+  organizeExperimentsRequest,
 } from '../../../../../store/experiments/actions';
 import { fetchExperimentRequest } from '../../../../../store/experiment/actions';
 
@@ -20,8 +20,20 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchExperimentsRequest(projectId)),
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(fetchExperimentRequest(projectId, experimentId)),
-    handleOrganizeExperiments: (experimentKey, hoverKey) =>
-      dispatch(organizeExperiments(experimentKey, hoverKey)),
+    handleOrganizeExperiments: (
+      projectId,
+      dragExperimentId,
+      hoverExperimentId,
+      newPosition
+    ) =>
+      dispatch(
+        organizeExperimentsRequest(
+          projectId,
+          dragExperimentId,
+          hoverExperimentId,
+          newPosition
+        )
+      ),
   };
 };
 
@@ -63,6 +75,23 @@ const ExperimentTabsContainer = ({
     // routing
     history.push(`/projetos/${projectId}/${targetId}`);
   };
+  // organizing tabs
+  const handleOrganizeTabs = (dragExperimentId, hoverExperimentId) => {
+    // getting hover experiment
+    const hoverExperiment = experiments.find(
+      (experiment) => experiment.uuid === hoverExperimentId
+    );
+
+    // getting new position
+    const newPosition = hoverExperiment.position;
+
+    handleOrganizeExperiments(
+      projectId,
+      dragExperimentId,
+      hoverExperimentId,
+      newPosition
+    );
+  };
 
   // RENDER
   return (
@@ -70,7 +99,7 @@ const ExperimentTabsContainer = ({
       activeExperiment={experimentId}
       experiments={experiments}
       handleChange={handleChangeTab}
-      handleMoveTab={handleOrganizeExperiments}
+      handleMoveTab={handleOrganizeTabs}
     />
   );
 };
