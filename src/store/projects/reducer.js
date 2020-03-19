@@ -13,15 +13,28 @@ const initialState = [];
  */
 const projects = (state = initialState, action) => {
   switch (action.type) {
+    // SUCCESS
+    // projects
     // fetch projects success
     case actionTypes.FETCH_PROJECTS_SUCCESS:
       return action.projects;
+
+    // project
+    // delete project success
+    case projectActionTypes.DELETE_PROJECT_SUCCESS:
+      return state.filter((project) => project.uuid !== action.projectId);
+
+    // // // // // // //
+
+    // FAIL
+    // projects
     // fetch projects fail
     case actionTypes.FETCH_PROJECTS_FAIL:
       return message.error(action.errorMessage);
-    // fetch projects success
-    case projectActionTypes.DELETE_PROJECT_SUCCESS:
-      return state.filter((project) => project.uuid !== action.projectId);
+
+    // // // // // // //
+
+    // DEFAULT
     default:
       return state;
   }

@@ -20,6 +20,7 @@ const fetchProjectsSuccess = (response) => {
     projects,
   };
 };
+
 /**
  * fetch projects fail action
  * @param {Object} error
@@ -34,6 +35,7 @@ const fetchProjectsFail = (error) => {
     errorMessage,
   };
 };
+
 /**
  * fetch projects request action
  * @returns {Function}
