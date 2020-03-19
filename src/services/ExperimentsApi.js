@@ -46,37 +46,34 @@ const detailExperiment = (projectId, experimentId) =>
       .catch((error) => reject(error));
   });
 
+/**
+ * Create Experiment
+ * @param {string} projectId
+ * @param {string} experimentName
+ * @returns {Promise}
+ */
+const createExperiment = (projectId, experimentName) =>
+  new Promise((resolve, reject) => {
+    // creating body object
+    const body = {
+      name: experimentName,
+    };
+
+    // creating experiment
+    experimentsApi
+      .post(`/${projectId}${experimentsPath}`, body)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
 // EXPORT DEFAULT
 export default {
   listExperiments,
   detailExperiment,
+  createExperiment,
 };
-
-// export const getExperiment = async (projectId, experimentId) => {
-//   try {
-//     const response = await projectsApi.get(
-//       `/projects/${projectId}/experiments/${experimentId}`
-//     );
-//     return response;
-//   } catch (error) {
-//     message.error(error.message);
-//   }
-// };
-
-// export const createExperiment = async (id, experimentName) => {
-//   try {
-//     const body = {
-//       name: experimentName,
-//     };
-//     const response = await projectsApi.post(
-//       `/projects/${id}/experiments/`,
-//       body
-//     );
-//     return response;
-//   } catch (error) {
-//     message.error(error.message);
-//   }
-// };
 
 // export const updateExperiment = async (projectId, experimentId, body) => {
 //   try {
