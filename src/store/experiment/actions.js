@@ -57,6 +57,59 @@ export const fetchExperimentRequest = (projectId, experimentId) => (
     .catch((error) => dispatch(fetchExperimentFail(error)));
 };
 
+// ACTIONS
+// ** CREATE EXPERIMENT
+/**
+ * create experiment success action
+ * @param {Object} response
+ * @returns {Object} { type, experiment }
+ */
+const createExperimentSuccess = (response) => {
+  // getting experiment from response
+  const experiment = response.data;
+
+  return {
+    type: actionTypes.CREATE_EXPERIMENT_SUCCESS,
+    experiment,
+  };
+};
+
+/**
+ * create experiment fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const createExperimentFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.CREATE_EXPERIMENT_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * create experiment request action
+ * @param {string} projectId
+ * @param {string} experimentName
+ * @returns {Function}
+ */
+export const createExperimentRequest = (projectId, experimentName) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.CREATE_EXPERIMENT_REQUEST,
+  });
+
+  // creating experiment
+  experimentsApi
+    .createExperiment(projectId, experimentName)
+    .then((response) => dispatch(createExperimentSuccess(response)))
+    .catch((error) => dispatch(createExperimentFail(error)));
+};
+
 // // // // // // // // // //
 
 /**
@@ -88,4 +141,16 @@ export const trainExperiment = (uuid) => ({
 export const deployExperiment = (uuid) => ({
   type: actionTypes.DEPLOY_EXPERIMENT,
   experiment: {}, // { ...experimentMock, deployed: true },
+});
+
+/**
+ * delete experiment action
+ * @param {string} experimentUuid
+ * @returns {type, experiment}
+ */
+export const deleteExperiment = (experimentUuid) => ({
+  type: actionTypes.DELETE_EXPERIMENT,
+  experiments: [], // experimentsMock.filter(
+  // (experiment) => experiment.uuid !== experimentUuid
+  // ),
 });
