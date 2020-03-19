@@ -47,7 +47,11 @@ const ExperimentsTabs = ({
         ))
       ) : (
         // rendering empty tab
-        <TabPane tab={renderTitle('Sem experimentos')} disabled />
+        <TabPane
+          tab={renderTitle('Sem experimentos')}
+          disabled
+          key='sem experimento'
+        />
       )}
     </DraggableTabs>
   );
