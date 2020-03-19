@@ -1,7 +1,7 @@
 // CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useParams } from 'react-router-dom';
 
 // ACTIONS
 import { createExperimentRequest } from '../../../../store/experiment/actions';
@@ -12,8 +12,8 @@ import NewExperimentModal from './index';
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleCreateExperiment: (experimentName) =>
-      dispatch(createExperimentRequest(experimentName, routerProps)),
+    handleCreateExperiment: (projectId, experimentName) =>
+      dispatch(createExperimentRequest(projectId, experimentName, routerProps)),
   };
 };
 
@@ -26,13 +26,25 @@ const NewExperimentModalContainer = ({
   visible,
   handleCloseModal,
   handleCreateExperiment,
-}) => (
-  <NewExperimentModal
-    visible={visible}
-    handleCloseModal={handleCloseModal}
-    handleNewExperiment={handleCreateExperiment}
-  />
-);
+}) => {
+  // CONSTANTS
+  const { projectId } = useParams();
+
+  // HANDLERS
+  const newExperimentHandler = (experimentName) => {
+    handleCreateExperiment(projectId, experimentName);
+    handleCloseModal();
+  };
+
+  // RENDER
+  return (
+    <NewExperimentModal
+      visible={visible}
+      handleCloseModal={handleCloseModal}
+      handleNewExperiment={newExperimentHandler}
+    />
+  );
+};
 
 // EXPORT
 export default withRouter(
