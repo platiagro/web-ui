@@ -33,6 +33,11 @@ const experiments = (state = initialState, action) => {
           ? experiment
           : { ...experiment, name: action.experiment.name }
       );
+    // delete experiment success
+    case experimentActionTypes.DELETE_EXPERIMENT_SUCCESS:
+      return state.filter(
+        (experiment) => experiment.uuid !== action.experimentId
+      );
 
     // // // // // // //
 
