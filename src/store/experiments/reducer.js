@@ -5,6 +5,9 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 import experimentActionTypes from '../experiment/actionTypes';
 
+// UTILS
+import utils from '../../utils';
+
 // INITIAL STATE
 const initialState = [];
 
@@ -20,7 +23,13 @@ const experiments = (state = initialState, action) => {
       return action.experiments;
     // organize experiments success
     case actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS:
-      return action.experiments;
+      return [
+        ...utils.organizeExperiments(
+          state,
+          action.dragExperimentId,
+          action.hoverExperimentId
+        ),
+      ];
 
     // experiment
     // create experiment success
@@ -35,9 +44,7 @@ const experiments = (state = initialState, action) => {
       );
     // delete experiment success
     case experimentActionTypes.DELETE_EXPERIMENT_SUCCESS:
-      return state.filter(
-        (experiment) => experiment.uuid !== action.experimentId
-      );
+      return [...utils.deleteExperiment(state, action.experimentId)];
 
     // // // // // // //
 
