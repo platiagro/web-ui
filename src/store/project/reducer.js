@@ -26,7 +26,8 @@ const project = (state = initialState, action) => {
       return message.error(action.errorMessage);
     // create project success
     case actionTypes.CREATE_PROJECT_SUCCESS:
-      return message.info(`Projeto ${action.project.name} criado!`);
+      message.info(`Projeto ${action.project.name} criado!`);
+      return action.project;
     // create project fail
     case actionTypes.CREATE_PROJECT_FAIL:
       return message.error(action.errorMessage);
