@@ -3,21 +3,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 
 /**
  * Delete Experiment Button.
  * This component is responsible for show delete experiment button.
  */
 const DeleteExperimentButton = ({ handleClick, disabled }) => (
-  // button component
-  <Button
-    disabled={disabled}
-    onClick={handleClick}
-    className='deleteExperimentButton'
-    type='primary'
-    icon='delete'
-  />
+  // Popconfirm component
+  <Popconfirm
+    title='Você tem certeza que deseja excluir esse experimento?'
+    onConfirm={handleClick}
+    okText='Sim'
+    cancelText='Não'
+  >
+    {/* button component */}
+    <Button
+      disabled={disabled}
+      className='deleteExperimentButton'
+      type='danger'
+      icon='delete'
+      style={{ float: 'right' }}
+    />
+  </Popconfirm>
 );
 
 // PROP TYPES
