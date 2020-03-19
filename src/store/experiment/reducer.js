@@ -31,6 +31,10 @@ const experiment = (state = initialState, action) => {
       return action.experiment;
     case actionTypes.DEPLOY_EXPERIMENT_SUCCESS:
       return action.experiment;
+    case actionTypes.CREATE_EXPERIMENT_SUCCESS:
+      return action.experiment;
+    case actionTypes.DELETE_EXPERIMENT_SUCCESS:
+      return action.experiment;
 
     // FAIL
     case actionTypes.FETCH_EXPERIMENT_FAIL:
@@ -40,6 +44,10 @@ const experiment = (state = initialState, action) => {
     case actionTypes.TRAIN_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);
     case actionTypes.DEPLOY_EXPERIMENT_FAIL:
+      return message.error(action.errorMessage);
+    case actionTypes.CREATE_EXPERIMENT_FAIL:
+      return message.error(action.errorMessage);
+    case actionTypes.DELETE_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);
 
     // DEFAULT
