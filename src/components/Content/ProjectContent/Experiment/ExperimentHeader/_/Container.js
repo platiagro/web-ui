@@ -1,7 +1,7 @@
 // CORE LIBS
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { withRouter, useParams } from 'react-router-dom';
 
 // COMPONENTS
 import ExperimentHeader from './index';
@@ -12,14 +12,14 @@ import {
   editExperimentNameRequest,
   trainExperiment,
   deployExperiment,
-  deleteExperiment,
+  deleteExperimentRequest,
 } from '../../../../../../store/experiment/actions';
 
 // DISPATCHS
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleDeleteExperiment: (experimentId) =>
-      dispatch(deleteExperiment(experimentId)),
+    handleDeleteExperiment: (projectId, experimentId) =>
+      dispatch(deleteExperimentRequest(projectId, experimentId, routerProps)),
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(fetchExperimentRequest(projectId, experimentId)),
     handleEditExperimentName: (projectId, experimentId, newName) =>
@@ -62,7 +62,7 @@ const ExperimentHeaderContainer = ({
 
   // HANDLERS
   // delete experiment
-  const deleteHandler = () => handleDeleteExperiment(experimentId);
+  const deleteHandler = () => handleDeleteExperiment(projectId, experimentId);
   // edit experiment name
   const editExperimentNameHandler = (newName) =>
     handleEditExperimentName(projectId, experimentId, newName);
@@ -80,7 +80,6 @@ const ExperimentHeaderContainer = ({
 };
 
 // EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExperimentHeaderContainer);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ExperimentHeaderContainer)
+);
