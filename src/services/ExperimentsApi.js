@@ -86,10 +86,28 @@ const updateExperiment = (projectId, experimentId, experiment) =>
       .catch((error) => reject(error));
   });
 
+/**
+ * Delete Experiment
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @returns {Promise}
+ */
+const deleteExperiment = (projectId, experimentId) =>
+  new Promise((resolve, reject) => {
+    // deleting experiment
+    experimentsApi
+      .delete(`/${projectId}${experimentsPath}/${experimentId}`)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
 // EXPORT DEFAULT
 export default {
   listExperiments,
   detailExperiment,
   createExperiment,
   updateExperiment,
+  deleteExperiment,
 };
