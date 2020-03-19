@@ -3,6 +3,7 @@ import { message } from 'antd';
 
 // ACTION TYPES
 import actionTypes from './actionTypes';
+import experimentActionTypes from '../experiment/actionTypes';
 
 // INITIAL STATE
 const initialState = [];
@@ -17,6 +18,8 @@ const experiments = (state = initialState, action) => {
       return action.experiments;
     case actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS:
       return action.experiments;
+    case experimentActionTypes.CREATE_EXPERIMENT_SUCCESS:
+      return [action.experiment, ...state];
 
     // FAIL
     case actionTypes.FETCH_EXPERIMENTS_FAIL:
