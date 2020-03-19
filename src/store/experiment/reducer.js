@@ -23,6 +23,7 @@ const initialState = {
 const experiment = (state = initialState, action) => {
   switch (action.type) {
     // SUCCESS
+    // experiment
     case actionTypes.FETCH_EXPERIMENT_SUCCESS:
       return action.experiment;
     case actionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
@@ -35,9 +36,10 @@ const experiment = (state = initialState, action) => {
       message.info(`Experimento ${action.experiment.name} criado!`);
       return action.experiment;
     case actionTypes.DELETE_EXPERIMENT_SUCCESS:
-      return action.experiment;
+      return message.info(`Experimento excluído!`);
 
     // FAIL
+    // experiment
     case actionTypes.FETCH_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);
     case actionTypes.EDIT_EXPERIMENT_NAME_FAIL:

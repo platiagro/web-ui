@@ -181,6 +181,67 @@ export const editExperimentNameRequest = (projectId, experimentId, newName) => (
 
 // // // // // // // // // //
 
+// ** DELETE EXPERIMENT
+/**
+ * delete experiment success action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {Object} routerProps
+ * @returns {Object} { type }
+ */
+const deleteExperimentSuccess = (projectId, experimentId, routerProps) => {
+  // go to project
+  routerProps.history.push(`/projetos/${projectId}`);
+
+  return {
+    type: actionTypes.DELETE_EXPERIMENT_SUCCESS,
+    experimentId,
+  };
+};
+
+/**
+ * delete experiment fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const deleteExperimentFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.DELETE_EXPERIMENT_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * delete experiment request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {Object} routerProps
+ * @returns {Function}
+ */
+export const deleteExperimentRequest = (
+  projectId,
+  experimentId,
+  routerProps
+) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.DELETE_EXPERIMENT_REQUEST,
+  });
+
+  // deleting experiment
+  experimentsApi
+    .deleteExperiment(projectId, experimentId)
+    .then(() =>
+      dispatch(deleteExperimentSuccess(projectId, experimentId, routerProps))
+    )
+    .catch((error) => dispatch(deleteExperimentFail(error)));
+};
+
+// // // // // // // // // //
+
 /**
  * train experiment action
  * @param {string} uuid
@@ -199,16 +260,4 @@ export const trainExperiment = (uuid) => ({
 export const deployExperiment = (uuid) => ({
   type: actionTypes.DEPLOY_EXPERIMENT,
   experiment: {}, // { ...experimentMock, deployed: true },
-});
-
-/**
- * delete experiment action
- * @param {string} experimentUuid
- * @returns {type, experiment}
- */
-export const deleteExperiment = (experimentUuid) => ({
-  type: actionTypes.DELETE_EXPERIMENT,
-  experiments: [], // experimentsMock.filter(
-  // (experiment) => experiment.uuid !== experimentUuid
-  // ),
 });
