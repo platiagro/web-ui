@@ -14,12 +14,20 @@ const initialState = [];
 const experiments = (state = initialState, action) => {
   switch (action.type) {
     // SUCCESS
+    // experiments
     case actionTypes.FETCH_EXPERIMENTS_SUCCESS:
       return action.experiments;
     case actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS:
       return action.experiments;
+    // experiment
     case experimentActionTypes.CREATE_EXPERIMENT_SUCCESS:
       return [action.experiment, ...state];
+    case experimentActionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
+      return state.map((experiment) =>
+        experiment.uuid !== action.experiment.uuid
+          ? experiment
+          : { ...experiment, name: action.experiment.name }
+      );
 
     // FAIL
     case actionTypes.FETCH_EXPERIMENTS_FAIL:
