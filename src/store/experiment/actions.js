@@ -57,7 +57,8 @@ export const fetchExperimentRequest = (projectId, experimentId) => (
     .catch((error) => dispatch(fetchExperimentFail(error)));
 };
 
-// ACTIONS
+// // // // // // // // // //
+
 // ** CREATE EXPERIMENT
 /**
  * create experiment success action
@@ -122,16 +123,63 @@ export const createExperimentRequest = (
 
 // // // // // // // // // //
 
+// ** EDIT EXPERIMENT NAME
 /**
- * edit experiment name action
- * @param {string} uuid
- * @param {string} newName
- * @returns {type, experiment}
+ * edit experiment name success action
+ * @param {Object} response
+ * @returns {Object} { type, experiment }
  */
-export const editExperimentName = (uuid, newName) => ({
-  type: actionTypes.EDIT_EXPERIMENT_NAME,
-  experiment: {}, // { ...experimentMock, title: newName },
-});
+const editExperimentNameSuccess = (response) => {
+  // getting experiment from response
+  const experiment = response.data;
+
+  return {
+    type: actionTypes.EDIT_EXPERIMENT_NAME_SUCCESS,
+    experiment,
+  };
+};
+
+/**
+ * edit experiment name fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const editExperimentNameFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.EDIT_EXPERIMENT_NAME_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * edit experiment name request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} experiment
+ * @returns {Function}
+ */
+export const editExperimentNameRequest = (projectId, experimentId, newName) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.EDIT_EXPERIMENT_NAME_REQUEST,
+  });
+
+  // creating experiment object
+  const experiment = { name: newName };
+
+  // creating experiment
+  experimentsApi
+    .updateExperiment(projectId, experimentId, experiment)
+    .then((response) => dispatch(editExperimentNameSuccess(response)))
+    .catch((error) => dispatch(editExperimentNameFail(error)));
+};
+
+// // // // // // // // // //
 
 /**
  * train experiment action
