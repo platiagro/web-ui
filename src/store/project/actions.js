@@ -20,6 +20,7 @@ const fetchProjectSuccess = (response) => {
     project,
   };
 };
+
 /**
  * fetch project fail action
  * @param {Object} error
@@ -34,6 +35,7 @@ const fetchProjectFail = (error) => {
     errorMessage,
   };
 };
+
 /**
  * fetch project request action
  * @returns {Function}
@@ -50,6 +52,8 @@ export const fetchProjectRequest = (projectId) => (dispatch) => {
     .then((response) => dispatch(fetchProjectSuccess(response)))
     .catch((error) => dispatch(fetchProjectFail(error)));
 };
+
+// // // // // // // // // //
 
 // ** CREATE PROJECT
 /**
@@ -70,6 +74,7 @@ const createProjectSuccess = (response, routerProps) => {
     project,
   };
 };
+
 /**
  * create project fail action
  * @param {Object} error
@@ -84,6 +89,7 @@ const createProjectFail = (error) => {
     errorMessage,
   };
 };
+
 /**
  * create project request action
  * @returns {Function}
@@ -103,6 +109,8 @@ export const createProjectRequest = (projectName, routerProps) => (
     .catch((error) => dispatch(createProjectFail(error)));
 };
 
+// // // // // // // // // //
+
 // ** EDIT PROJECT NAME
 /**
  * edit project name success action
@@ -118,6 +126,7 @@ const editProjectNameSuccess = (response) => {
     project,
   };
 };
+
 /**
  * edit project name fail action
  * @param {Object} error
@@ -132,6 +141,7 @@ const editProjectNameFail = (error) => {
     errorMessage,
   };
 };
+
 /**
  * edit project name request action
  * @param {string} projectId
@@ -153,6 +163,8 @@ export const editProjectNameRequest = (projectId, newProjectName) => (
     .catch((error) => dispatch(editProjectNameFail(error)));
 };
 
+// // // // // // // // // //
+
 // ** DELETE PROJECT
 /**
  * delete project success action
@@ -165,6 +177,7 @@ const deleteProjectSuccess = (projectId) => {
     projectId,
   };
 };
+
 /**
  * delete project fail action
  * @param {Object} error
@@ -179,6 +192,7 @@ const deleteProjectFail = (error) => {
     errorMessage,
   };
 };
+
 /**
  * delete project request action
  * @returns {Function}
