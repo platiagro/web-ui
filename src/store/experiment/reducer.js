@@ -25,16 +25,16 @@ const experiment = (state = initialState, action) => {
     // SUCCESS
     // experiment
     case actionTypes.FETCH_EXPERIMENT_SUCCESS:
-      return action.experiment;
+      return { ...action.experiment };
     case actionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
-      return action.experiment;
+      return { ...action.experiment };
     case actionTypes.TRAIN_EXPERIMENT_SUCCESS:
-      return action.experiment;
+      return { ...action.experiment };
     case actionTypes.DEPLOY_EXPERIMENT_SUCCESS:
-      return action.experiment;
+      return { ...action.experiment };
     case actionTypes.CREATE_EXPERIMENT_SUCCESS:
       message.info(`Experimento ${action.experiment.name} criado!`);
-      return action.experiment;
+      return { ...action.experiment };
     case actionTypes.DELETE_EXPERIMENT_SUCCESS:
       return message.info(`Experimento excluído!`);
 
