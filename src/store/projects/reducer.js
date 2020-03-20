@@ -17,12 +17,12 @@ const projects = (state = initialState, action) => {
     // projects
     // fetch projects success
     case actionTypes.FETCH_PROJECTS_SUCCESS:
-      return action.projects;
+      return [...action.projects];
 
     // project
     // delete project success
     case projectActionTypes.DELETE_PROJECT_SUCCESS:
-      return state.filter((project) => project.uuid !== action.projectId);
+      return [...state.filter((project) => project.uuid !== action.projectId)];
 
     // // // // // // //
 
