@@ -22,17 +22,17 @@ const project = (state = initialState, action) => {
     // project
     // fetch project success
     case actionTypes.FETCH_PROJECT_SUCCESS:
-      return action.project;
+      return { ...action.project };
     // create project success
     case actionTypes.CREATE_PROJECT_SUCCESS:
       message.info(`Projeto ${action.project.name} criado!`);
-      return action.project;
+      return { ...action.project };
     // delete project success
     case actionTypes.DELETE_PROJECT_SUCCESS:
       return message.info(`Projeto excluído!`);
     // edit project name success
     case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
-      return action.project;
+      return { ...action.project };
 
     // // // // // // //
 
