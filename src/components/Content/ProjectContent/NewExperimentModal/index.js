@@ -39,6 +39,8 @@ const NewExperimentModal = ({
         return;
       }
       handleNewExperiment(values.name);
+
+      handleCancel();
     });
   };
 

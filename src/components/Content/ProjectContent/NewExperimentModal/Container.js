@@ -33,7 +33,6 @@ const NewExperimentModalContainer = ({
   // HANDLERS
   const newExperimentHandler = (experimentName) => {
     handleCreateExperiment(projectId, experimentName);
-    handleCloseModal();
   };
 
   // RENDER
