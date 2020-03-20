@@ -20,7 +20,7 @@ const experiments = (state = initialState, action) => {
     // experiments
     // fetch experiments success
     case actionTypes.FETCH_EXPERIMENTS_SUCCESS:
-      return action.experiments;
+      return [...action.experiments];
     // organize experiments success
     case actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS:
       return [
@@ -37,11 +37,13 @@ const experiments = (state = initialState, action) => {
       return [...state, action.experiment];
     // edit experiment name success
     case experimentActionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
-      return state.map((experiment) =>
-        experiment.uuid !== action.experiment.uuid
-          ? experiment
-          : { ...experiment, name: action.experiment.name }
-      );
+      return [
+        ...state.map((experiment) =>
+          experiment.uuid !== action.experiment.uuid
+            ? experiment
+            : { ...experiment, name: action.experiment.name }
+        ),
+      ];
     // delete experiment success
     case experimentActionTypes.DELETE_EXPERIMENT_SUCCESS:
       return [...utils.deleteExperiment(state, action.experimentId)];
