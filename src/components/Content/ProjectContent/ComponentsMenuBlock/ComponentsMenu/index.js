@@ -44,7 +44,12 @@ const ComponentsMenu = ({ components, handleClick, disabled }) => {
   // RENDER
   return (
     // menu component
-    <Menu onClick={handleClick} mode='inline' selectedKeys={[]}>
+    <Menu
+      onClick={handleClick}
+      mode='inline'
+      style={{ overflow: 'auto', padding: '10px', height: '68vh' }}
+      selectedKeys={[]}
+    >
       {/* rendering sub menus */}
       {components.map((componentSubMenu) => {
         return renderSubMenu(componentSubMenu);
