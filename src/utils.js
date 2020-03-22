@@ -127,5 +127,70 @@ const organizeExperiments = (
   });
 };
 
+/**
+ * Filter Menu
+ * Method to filter components list
+ * @param {Object} menu menu object
+ * @param {string} filter filter
+ * @returns {Object} filtered menu
+ */
+const filterMenu = (menu, filter) => {
+  // filter is empty
+  if (!filter) return menu;
+
+  // convert filter to lower case
+  const lowerCaseFilter = filter.toLowerCase();
+
+  // filtered menu object
+  const filteredMenu = {};
+
+  // filtering menu
+  Object.entries(menu).forEach(([submenu, items]) => {
+    // submenu filtered items
+    const filteredItems = items.filter((item) => {
+      // convert item name to lower case
+      const lowerCaseName = item.name.toLowerCase();
+
+      // filter item
+      return lowerCaseName.includes(lowerCaseFilter);
+    });
+
+    // inserting filtered items in filtered menu object
+    if (filteredItems.length > 0) filteredMenu[submenu] = filteredItems;
+  });
+
+  return filteredMenu;
+};
+
+/**
+ * Create Menu
+ * Method to create menu object
+ * @param {Object[]} components components list
+ * @returns {Object} menu object
+ */
+const createMenu = (components) => {
+  // menu object constant
+  const menu = {};
+
+  // creating menu object
+  components.forEach((component) => {
+    // getting component data
+    const { uuid, description, name } = component;
+    // mapping submenus
+    component.tags.forEach((tag) => {
+      // creating submenu
+      if (!menu[tag]) menu[tag] = [{ uuid, description, name }];
+      else menu[tag].push({ uuid, description, name });
+    });
+  });
+
+  return menu;
+};
+
 // EXPORT DEFAULT
-export default { deleteExperiment, organizeExperiments };
+export default {
+  deleteExperiment,
+  organizeExperiments,
+  filterMenu,
+  createMenu,
+};
