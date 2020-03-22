@@ -32,7 +32,7 @@ const Experiment = () => (
       <ExperimentHeader />
     </Row>
     {/* row container */}
-    <Row>
+    <Row style={{ overflow: 'auto', height: '60vh' }}>
       {/* experiment flow */}
       <ExperimentFlow />
     </Row>
