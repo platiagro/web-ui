@@ -1,5 +1,40 @@
 const flowMock = [
   {
+    uuid: '0',
+    componentId: '0',
+    position: 0,
+    experimentId: '0',
+    createdAt: '2020-03-22T21:04:35.365Z',
+    updatedAt: '2020-03-22T21:04:35.365Z',
+  },
+  {
+    uuid: '1',
+    componentId: '1',
+    position: 1,
+    experimentId: '1',
+    createdAt: '2020-03-22T21:04:35.365Z',
+    updatedAt: '2020-03-22T21:04:35.365Z',
+  },
+  {
+    uuid: '2',
+    componentId: '2',
+    position: 2,
+    experimentId: '2',
+    createdAt: '2020-03-22T21:04:35.365Z',
+    updatedAt: '2020-03-22T21:04:35.365Z',
+  },
+  {
+    uuid: '3',
+    componentId: '3',
+    position: 3,
+    experimentId: '3',
+    createdAt: '2020-03-22T21:04:35.365Z',
+    updatedAt: '2020-03-22T21:04:35.365Z',
+  },
+];
+
+/* [
+  {
     componentTitle: 'Tarefa 01',
     key: 'tarefa01',
     uuid: 'tarefa01',
@@ -159,6 +194,6 @@ const flowMock = [
     settedUp: true,
     selected: true,
   },
-];
+]; */
 
 export default flowMock;

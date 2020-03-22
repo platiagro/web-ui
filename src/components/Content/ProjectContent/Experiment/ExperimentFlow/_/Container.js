@@ -8,22 +8,22 @@ import ExperimentFlow from './index';
 
 // ACTIONS
 import {
-  fetchFlowTasks,
-  removeFlowTask,
-  setFlowTaskParams,
-} from '../../../../../../store/experimentFlow/actions';
+  fetchOperatorsRequest,
+  removeOperator,
+  setOperatorParams,
+} from '../../../../../../store/operators/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchFlowTasks: (experimentUuid) =>
-      dispatch(fetchFlowTasks(experimentUuid)),
+    handleFetchOperators: (projectId, experimentId) =>
+      dispatch(fetchOperatorsRequest(projectId, experimentId)),
   };
 };
 
 // STATES
 const mapStateToProps = (state) => {
-  return { flowTasks: state.experimentFlow };
+  return { operators: state.operators };
 };
 
 // TODO: Implementar "Conexão" Drawer
@@ -34,22 +34,22 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for experiment flow
  * with redux.
  */
-const ExperimentFlowContainer = ({ flowTasks, handleFetchFlowTasks }) => {
+const ExperimentFlowContainer = ({ operators, handleFetchOperators }) => {
   // CONSTANTS
   // getting experiment uuid
-  const { experimentUuid } = useParams();
+  const { projectId, experimentId } = useParams();
 
   // HOOKS
   // did mount hook
   useEffect(() => {
     // fetching projects
-    handleFetchFlowTasks(experimentUuid);
+    handleFetchOperators(projectId, experimentId);
   }, []);
 
   // RENDER
   return (
     <ExperimentFlow
-      components={flowTasks}
+      components={operators}
       handleTaskBoxClick={(taskUuid) => alert(taskUuid)}
     />
   );

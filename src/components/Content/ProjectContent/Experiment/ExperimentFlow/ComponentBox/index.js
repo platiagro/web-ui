@@ -51,7 +51,7 @@ const toolTipConfigs = {
  * This component is responsible for displaying experiment flow.
  */
 const ComponentBox = ({
-  componentTitle,
+  name,
   icon,
   iconTheme,
   status,
@@ -99,7 +99,7 @@ const ComponentBox = ({
         {/* component icon */}
         <Icon style={{ fontSize: '18px' }} theme={iconTheme} type={icon} />
         {/* component title */}
-        <span>{componentTitle}</span>
+        <span>{name}</span>
       </div>
       {/* rendering tooltip */}
       {renderTooltip()}
@@ -110,7 +110,7 @@ const ComponentBox = ({
 // PROP TYPES
 ComponentBox.propTypes = {
   /** component title string */
-  componentTitle: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   /** component icon string */
   icon: PropTypes.string.isRequired,
   /** component icon theme string */
