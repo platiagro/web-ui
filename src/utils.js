@@ -187,10 +187,56 @@ const createMenu = (components) => {
   return menu;
 };
 
+/**
+ * Get Tag Config
+ * Method to get tag config object
+ * @param {string} tag tag string
+ * @returns {Object} tag config object
+ */
+const getTagConfig = (tag) => {
+  // TAGS CONFIG
+  const tagsConfig = {
+    // user components
+    DEFAULT: { title: 'Meus Componentes', key: 'DEFAULT', icon: 'solution' },
+    // training
+    PREDICTOR: { title: 'Treinamento', key: 'PREDICTOR', icon: 'share-alt' },
+    // templates
+    TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: 'file' },
+  };
+
+  return tagsConfig[tag];
+};
+
+/**
+ * Get Component Data
+ * Method to get component data
+ * @param {Object[]} components components list
+ * @param {string} componentId component id
+ * @returns {Object} component data
+ */
+const getComponentData = (components, componentId) => {
+  if (components.length > 0 && componentId) {
+    // getting components data
+    const componentData = components.find(
+      (component) => component.uuid === componentId
+    );
+
+    const { name, tags } = componentData;
+
+    // getting icon
+    const { icon } = getTagConfig(tags[0]);
+
+    // returning component data
+    return { name, icon };
+  }
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
   organizeExperiments,
   filterMenu,
   createMenu,
+  getTagConfig,
+  getComponentData,
 };
