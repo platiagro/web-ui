@@ -1,0 +1,24 @@
+// ACTION TYPES
+// REQUEST
+// fetch templates request
+const FETCH_TEMPLATES_REQUEST = 'FETCH_TEMPLATES_REQUEST';
+
+// SUCCESS
+// fetch templates success
+const FETCH_TEMPLATES_SUCCESS = 'FETCH_TEMPLATES_SUCCESS';
+
+// FAIL
+// fetch templates fail
+const FETCH_TEMPLATES_FAIL = 'FETCH_TEMPLATES_FAIL';
+
+// EXPORT
+export default {
+  // REQUEST
+  FETCH_TEMPLATES_REQUEST,
+
+  // SUCCESS
+  FETCH_TEMPLATES_SUCCESS,
+
+  // FAIL
+  FETCH_TEMPLATES_FAIL,
+};
