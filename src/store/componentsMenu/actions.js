@@ -8,23 +8,6 @@ import templatesApi from '../../services/TemplatesApi';
 // UTILS
 import utils from '../../utils';
 
-// MOCKS
-// templates mock
-const templatesMock = [
-  {
-    uuid: '0',
-    name: 'Template 0',
-  },
-  {
-    uuid: '1',
-    name: 'Template 1',
-  },
-  {
-    uuid: '2',
-    name: 'Template 2',
-  },
-];
-
 // ACTIONS
 // ** FETCH COMPONENTS MENU
 /**
@@ -72,10 +55,6 @@ export const fetchComponentsMenuRequest = () => async (dispatch) => {
 
     // creating components menu
     let componentsMenu = {};
-
-    // TODO: REMOVE MOCK
-    // mocking templates
-    templatesResponse.data = templatesMock;
 
     // adding templates to menu
     if (templatesResponse.data && templatesResponse.data.length > 0)

@@ -7,7 +7,7 @@ import projects from './projects/reducer';
 import project from './project/reducer';
 import experiments from './experiments/reducer';
 import experiment from './experiment/reducer';
-import experimentFlow from './experimentFlow/reducer';
+import operators from './operators/reducer';
 import componentsMenu from './componentsMenu/reducer';
 import templates from './templates/reducer';
 import components from './components/reducer';
@@ -29,7 +29,7 @@ const reducers = combineReducers({
   project,
   experiments,
   experiment,
-  experimentFlow,
+  operators,
   componentsMenu,
   templates,
   components,
