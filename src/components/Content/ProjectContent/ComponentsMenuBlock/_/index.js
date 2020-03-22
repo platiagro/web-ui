@@ -12,50 +12,23 @@ import ComponentsMenu from '../ComponentsMenu';
  * Components Menu Block.
  * This component is responsible for displaying components menu with search.
  */
-const ComponentsMenuBlock = ({ components, handleTaskMenuClick, disabled }) => {
-  // HOOKS
-  // filtered components hook
-  const [filteredComponents, setFilteredComponents] = useState(components);
-
-  // FUNCTIONS
-  // filter components
-  const filterComponents = (filter) => {
-    // filter is empty
-    if (!filter) return setFilteredComponents(components);
-
-    // convert filter to lower case
-    const lowerCaseFilter = filter.toLowerCase();
-
-    // filtering components
-    const newFilteredComponents = components.filter((componentSubMenu) => {
-      // iterating the sub menus
-      const filteredSubMenu = componentSubMenu.items.filter((item) => {
-        // convert item title to lower case
-        const lowerCaseTitle = item.title.toLowerCase();
-
-        // filter components
-        return lowerCaseTitle.includes(lowerCaseFilter);
-      });
-      // filter sub menus
-      return filteredSubMenu.length > 0;
-    });
-    return setFilteredComponents(newFilteredComponents);
-  };
-
+const ComponentsMenuBlock = ({
+  components,
+  handleComponentClick,
+  handleFilter,
+  disabled,
+}) => {
   // RENDER
   return (
     // div container
     <div>
       {/* components menu search */}
-      <ComponentsMenuSearch
-        disabled={disabled}
-        handleFilter={filterComponents}
-      />
+      <ComponentsMenuSearch disabled={disabled} handleFilter={handleFilter} />
       {/* components menu */}
       <ComponentsMenu
         disabled={disabled}
-        handleClick={handleTaskMenuClick}
-        components={filteredComponents}
+        handleClick={handleComponentClick}
+        components={components}
       />
     </div>
   );
@@ -67,8 +40,10 @@ ComponentsMenuBlock.propTypes = {
   components: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** components menu block is disabled */
   disabled: PropTypes.bool.isRequired,
-  /** components menu task click handler */
-  handleTaskMenuClick: PropTypes.func.isRequired,
+  /** components menu component click handler */
+  handleComponentClick: PropTypes.func.isRequired,
+  /** components menu filter handler */
+  handleFilter: PropTypes.func.isRequired,
 };
 
 // EXPORT
