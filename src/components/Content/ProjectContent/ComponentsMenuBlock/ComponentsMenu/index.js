@@ -3,43 +3,64 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Tooltip } from 'antd';
 
 // MENU COMPONENTS
 const { Item, SubMenu } = Menu;
+
+// TAGS CONFIG
+const tagsConfig = {
+  // user components
+  DEFAULT: { title: 'Meus Componentes', key: 'DEFAULT', icon: 'solution' },
+  // training
+  PREDICTOR: { title: 'Treinamento', key: 'PREDICTOR', icon: 'share-alt' },
+  // templates
+  TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: 'file' },
+};
 
 /**
  * Components Menu.
  * This component is responsible for displaying components menu.
  */
-const ComponentsMenu = ({ components, handleClick, disabled }) => {
+const ComponentsMenu = ({ menu, handleClick, disabled }) => {
   // COMPONENTS RENDERS
   // menu item
-  const renderMenuItem = ({ title, key }) => (
-    <Item disabled={disabled} key={key}>
-      {title}
+  const renderMenuItem = ({ name, uuid, description }) => (
+    <Item disabled={disabled} key={uuid}>
+      {description ? (
+        <Tooltip title={description} text>
+          {name}
+        </Tooltip>
+      ) : (
+        name
+      )}
     </Item>
   );
   // sub menu
-  const renderSubMenu = ({ title, icon, key, items }) => (
-    // sub menu component
-    <SubMenu
-      disabled={disabled}
-      key={key}
-      title={
-        // span container
-        <span>
-          {/* sub menu icon */}
-          <Icon type={icon} />
-          {/* sub menu title */}
-          <span>{title}</span>
-        </span>
-      }
-    >
-      {/* rendering items */}
-      {items.map((item) => renderMenuItem(item))}
-    </SubMenu>
-  );
+  const renderSubMenu = (submenu, items) => {
+    // getting submenu config
+    const { icon, title, key } = tagsConfig[submenu];
+
+    return (
+      // sub menu component
+      <SubMenu
+        disabled={disabled}
+        key={key}
+        title={
+          // span container
+          <span>
+            {/* sub menu icon */}
+            <Icon type={icon} />
+            {/* sub menu title */}
+            <span>{title}</span>
+          </span>
+        }
+      >
+        {/* rendering items */}
+        {items.map((item) => renderMenuItem(item))}
+      </SubMenu>
+    );
+  };
 
   // RENDER
   return (
@@ -51,9 +72,9 @@ const ComponentsMenu = ({ components, handleClick, disabled }) => {
       selectedKeys={[]}
     >
       {/* rendering sub menus */}
-      {components.map((componentSubMenu) => {
-        return renderSubMenu(componentSubMenu);
-      })}
+      {Object.entries(menu).map(([submenu, items]) =>
+        renderSubMenu(submenu, items)
+      )}
     </Menu>
   );
 };
@@ -62,8 +83,8 @@ const ComponentsMenu = ({ components, handleClick, disabled }) => {
 ComponentsMenu.propTypes = {
   /** components menu click handler */
   handleClick: PropTypes.func.isRequired,
-  /** components list */
-  components: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** menu object */
+  menu: PropTypes.objectOf(PropTypes.any).isRequired,
   /** components menu is disabled */
   disabled: PropTypes.bool.isRequired,
 };

@@ -10,12 +10,17 @@ import ComponentsMenuBlock from './index';
 
 // ACTIONS
 import { addFlowTask } from '../../../../../store/experimentFlow/actions';
-import fetchFlowMenuTasks from '../../../../../store/flowMenuTasks/actions';
+import {
+  fetchComponentsMenuRequest,
+  filterComponentsMenu,
+} from '../../../../../store/componentsMenu/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchMenuTasks: () => dispatch(fetchFlowMenuTasks()),
+    handleFetchComponentsMenu: () => dispatch(fetchComponentsMenuRequest()),
+    handleFilterComponentsMenu: (filter) =>
+      dispatch(filterComponentsMenu(filter)),
     handleAddFlowTask: (experimentUuid, task) =>
       dispatch(addFlowTask(experimentUuid, task)),
   };
@@ -23,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { flowMenuTasks: state.flowMenuTasks };
+  return { componentsMenu: state.componentsMenu.filtered };
 };
 
 /**
@@ -32,8 +37,9 @@ const mapStateToProps = (state) => {
  * menu block with redux.
  */
 const ComponentsMenuBlockContainer = ({
-  flowMenuTasks,
-  handleFetchMenuTasks,
+  componentsMenu,
+  handleFetchComponentsMenu,
+  handleFilterComponentsMenu,
   handleAddFlowTask,
   disabled,
 }) => {
@@ -45,7 +51,7 @@ const ComponentsMenuBlockContainer = ({
   // did mount hook
   useEffect(() => {
     // fetching menu tasks
-    handleFetchMenuTasks();
+    handleFetchComponentsMenu();
   }, []);
 
   // HANDLERS
@@ -56,7 +62,8 @@ const ComponentsMenuBlockContainer = ({
   return (
     <ComponentsMenuBlock
       handleTaskMenuClick={addFlowTaskHandler}
-      components={flowMenuTasks}
+      handleFilter={handleFilterComponentsMenu}
+      menu={componentsMenu}
       disabled={disabled}
     />
   );

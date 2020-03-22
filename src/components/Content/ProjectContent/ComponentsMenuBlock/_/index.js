@@ -13,7 +13,7 @@ import ComponentsMenu from '../ComponentsMenu';
  * This component is responsible for displaying components menu with search.
  */
 const ComponentsMenuBlock = ({
-  components,
+  menu,
   handleComponentClick,
   handleFilter,
   disabled,
@@ -28,7 +28,7 @@ const ComponentsMenuBlock = ({
       <ComponentsMenu
         disabled={disabled}
         handleClick={handleComponentClick}
-        components={components}
+        menu={menu}
       />
     </div>
   );
@@ -37,7 +37,7 @@ const ComponentsMenuBlock = ({
 // PROP TYPES
 ComponentsMenuBlock.propTypes = {
   /** components menu block components list */
-  components: PropTypes.arrayOf(PropTypes.object).isRequired,
+  menu: PropTypes.objectOf(PropTypes.any).isRequired,
   /** components menu block is disabled */
   disabled: PropTypes.bool.isRequired,
   /** components menu component click handler */

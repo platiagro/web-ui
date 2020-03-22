@@ -1,6 +1,27 @@
 // COMPONENTS LIST MOCK
 const componentsListMock = [
   {
+    uuid: '0',
+    description: 'Essa é a descrição do componente 0',
+    name: 'Componente 0',
+    tags: ['PREDICTOR'],
+  },
+  {
+    uuid: '1',
+    description: 'Essa é a descrição do componente 1',
+    name: 'Componente 1',
+    tags: ['DEFAULT'],
+  },
+  {
+    uuid: '2',
+    description: 'Essa é a descrição do componente 2',
+    name: 'Componente 2',
+    tags: ['PREDICTOR', 'DEFAULT'],
+  },
+];
+
+/* const componentsListMock = [
+  {
     icon: 'file',
     title: 'Templates',
     key: 'templates',
@@ -36,7 +57,7 @@ const componentsListMock = [
       { key: 'treinamento2', title: 'Treinamento 2' },
     ],
   },
-];
+]; */
 
 // EXPORT
 export default componentsListMock;
