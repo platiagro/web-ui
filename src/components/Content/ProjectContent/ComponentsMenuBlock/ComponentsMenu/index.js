@@ -5,18 +5,11 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Menu, Icon, Tooltip } from 'antd';
 
+// UTILS
+import utils from '../../../../../utils';
+
 // MENU COMPONENTS
 const { Item, SubMenu } = Menu;
-
-// TAGS CONFIG
-const tagsConfig = {
-  // user components
-  DEFAULT: { title: 'Meus Componentes', key: 'DEFAULT', icon: 'solution' },
-  // training
-  PREDICTOR: { title: 'Treinamento', key: 'PREDICTOR', icon: 'share-alt' },
-  // templates
-  TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: 'file' },
-};
 
 /**
  * Components Menu.
@@ -39,7 +32,7 @@ const ComponentsMenu = ({ menu, handleClick, disabled }) => {
   // sub menu
   const renderSubMenu = (submenu, items) => {
     // getting submenu config
-    const { icon, title, key } = tagsConfig[submenu];
+    const { icon, title, key } = utils.getTagConfig(submenu);
 
     return (
       // sub menu component

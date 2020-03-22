@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import ComponentsMenuBlock from './index';
 
 // ACTIONS
-import { addFlowTask } from '../../../../../store/experimentFlow/actions';
+import { addOperator } from '../../../../../store/operators/actions';
 import {
   fetchComponentsMenuRequest,
   filterComponentsMenu,
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     handleFilterComponentsMenu: (filter) =>
       dispatch(filterComponentsMenu(filter)),
     handleAddFlowTask: (experimentUuid, task) =>
-      dispatch(addFlowTask(experimentUuid, task)),
+      dispatch(addOperator(experimentUuid, task)),
   };
 };
 
