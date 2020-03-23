@@ -38,7 +38,12 @@ const NewProjectModal = ({
       if (err) {
         return;
       }
+
+      // handling create new project
       handleNewProject(values.name);
+
+      // resetting form fields
+      form.resetFields();
     });
   };
 

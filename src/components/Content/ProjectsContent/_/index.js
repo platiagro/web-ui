@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 // COMPONENTS
 import ContentHeader from '../../ContentHeader/Container';
-import NewProjectButton from '../NewProjectButton';
+import NewProjectButton from '../NewProjectButton/Container';
 import ProjectsTable from '../ProjectsTable/Container';
 import NewProjectModal from '../NewProjectModal/Container';
 
@@ -12,20 +12,6 @@ import NewProjectModal from '../NewProjectModal/Container';
  * This component is responsible for displaying the projects content.
  */
 const ProjectsContent = () => {
-  // HOOKS
-  // editing hook
-  const [modalVisible, setModalVisible] = useState(false);
-
-  // FUNCTIONS
-  // show modal function
-  const showModal = () => {
-    setModalVisible(true);
-  };
-  // hide modal function
-  const hideModal = () => {
-    setModalVisible(false);
-  };
-
   // RENDER
   return (
     // fragment
@@ -35,9 +21,9 @@ const ProjectsContent = () => {
       {/* div content page container */}
       <div className='contentPage'>
         {/* new project button */}
-        <NewProjectButton disabled={false} handleClick={showModal} />
+        <NewProjectButton />
         {/* new project modal */}
-        <NewProjectModal visible={modalVisible} handleCloseModal={hideModal} />
+        <NewProjectModal />
         {/* projects table */}
         <ProjectsTable />
       </div>

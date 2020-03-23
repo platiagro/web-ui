@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 // ACTIONS
 import { createProjectRequest } from '../../../../store/project/actions';
+import { hideNewProjectModal } from '../../../../store/ui/actions';
 
 // COMPONENTS
 import NewProjectModal from './index';
@@ -12,9 +13,18 @@ import NewProjectModal from './index';
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
+    // create project action
     handleCreateProject: (projectName) =>
       dispatch(createProjectRequest(projectName, routerProps)),
+    // close modal action
+    handleCloseModal: () => dispatch(hideNewProjectModal()),
   };
+};
+
+// STATES
+const mapStateToProps = (state) => {
+  // new project modal visible
+  return { modalVisible: state.ui.newProjectModal.visible };
 };
 
 /**
@@ -23,12 +33,12 @@ const mapDispatchToProps = (dispatch, routerProps) => {
  * modal with redux.
  */
 const NewProjectModalContainer = ({
-  visible,
+  modalVisible,
   handleCloseModal,
   handleCreateProject,
 }) => (
   <NewProjectModal
-    visible={visible}
+    visible={modalVisible}
     handleCloseModal={handleCloseModal}
     handleNewProject={handleCreateProject}
   />
@@ -36,5 +46,5 @@ const NewProjectModalContainer = ({
 
 // EXPORT
 export default withRouter(
-  connect(null, mapDispatchToProps)(NewProjectModalContainer)
+  connect(mapStateToProps, mapDispatchToProps)(NewProjectModalContainer)
 );
