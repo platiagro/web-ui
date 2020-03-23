@@ -51,6 +51,14 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     type: actionTypes.FETCH_OPERATORS_REQUEST,
   });
 
+  // dataset operator mock
+  const dataset = {
+    icon: 'database',
+    name: 'Conjunto de Dados',
+    position: -1,
+    uuid: 'dataset',
+  };
+
   try {
     // getting operators
     const operatorsResponse = await operatorsApi.listOperators(
@@ -61,10 +69,13 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     const componentsResponse = await componentsApi.listComponents();
 
     // configuring operators
-    const configuredOperators = utils.configureOperators(
-      componentsResponse.data,
-      operatorsResponse.data
-    );
+    const configuredOperators = [
+      dataset,
+      ...utils.configureOperators(
+        componentsResponse.data,
+        operatorsResponse.data
+      ),
+    ];
 
     // dispatching success action
     dispatch(fetchOperatorsSuccess(configuredOperators));
