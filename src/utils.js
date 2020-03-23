@@ -247,6 +247,22 @@ const configureOperators = (components, operators) => {
   return configuredOperators;
 };
 
+/**
+ * Delect Operator
+ * Method to select operator or deselect all operators
+ * @param {string} operatorId operators list * omit/null this to deselect all *
+ * @param {Object[]} operators operators list
+ * @returns {Object[]} new operators list
+ */
+const selectOperator = (operatorId, operators) => {
+  // creating new operators list
+  const newOperators = operators.map((operator) =>
+    operator.uuid === operatorId ? { ...operator, selected: true } : operator
+  );
+
+  return newOperators;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -256,4 +272,5 @@ export default {
   getTagConfig,
   getComponentData,
   configureOperators,
+  selectOperator,
 };
