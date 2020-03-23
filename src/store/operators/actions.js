@@ -3,6 +3,10 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import operatorsApi from '../../services/OperatorsApi';
+import componentsApi from '../../services/ComponentsApi';
+
+// UTILS
+import utils from '../../utils';
 
 // ACTIONS
 // ** FETCH OPERATORS
@@ -11,10 +15,7 @@ import operatorsApi from '../../services/OperatorsApi';
  * @param {Object} response
  * @returns {Object} { type, operators }
  */
-const fetchOperatorsSuccess = (response) => {
-  // getting operators from response
-  const operators = response.data;
-
+const fetchOperatorsSuccess = (operators) => {
   return {
     type: actionTypes.FETCH_OPERATORS_SUCCESS,
     operators,
@@ -42,7 +43,7 @@ const fetchOperatorsFail = (error) => {
  * @param {string} experimentId
  * @returns {Function}
  */
-export const fetchOperatorsRequest = (projectId, experimentId) => (
+export const fetchOperatorsRequest = (projectId, experimentId) => async (
   dispatch
 ) => {
   // dispatching request action
@@ -50,11 +51,27 @@ export const fetchOperatorsRequest = (projectId, experimentId) => (
     type: actionTypes.FETCH_OPERATORS_REQUEST,
   });
 
-  // fetching operators
-  operatorsApi
-    .listOperators(projectId, experimentId)
-    .then((response) => dispatch(fetchOperatorsSuccess(response)))
-    .catch((error) => dispatch(fetchOperatorsFail(error)));
+  try {
+    // getting operators
+    const operatorsResponse = await operatorsApi.listOperators(
+      projectId,
+      experimentId
+    );
+    // getting components
+    const componentsResponse = await componentsApi.listComponents();
+
+    // configuring operators
+    const configuredOperators = utils.configureOperators(
+      componentsResponse.data,
+      operatorsResponse.data
+    );
+
+    // dispatching success action
+    dispatch(fetchOperatorsSuccess(configuredOperators));
+  } catch (e) {
+    // dispatching fail action
+    dispatch(fetchOperatorsFail(e));
+  }
 };
 
 // // // // // // // // // //
