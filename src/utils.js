@@ -220,7 +220,6 @@ const getComponentData = (components, componentId) => {
     const componentData = components.find(
       (component) => component.uuid === componentId
     );
-
     const { name, tags } = componentData;
 
     // getting icon
@@ -231,6 +230,23 @@ const getComponentData = (components, componentId) => {
   }
 };
 
+/**
+ * Configure Operators
+ * Method to configure operators
+ * @param {Object[]} components components list
+ * @param {Object[]} operators operators list
+ * @returns {Object[]} configured operators
+ */
+const configureOperators = (components, operators) => {
+  // creating configured operators
+  const configuredOperators = operators.map((operator) => ({
+    ...operator,
+    ...getComponentData(components, operator.componentId),
+  }));
+
+  return configuredOperators;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -239,4 +255,5 @@ export default {
   createMenu,
   getTagConfig,
   getComponentData,
+  configureOperators,
 };
