@@ -13,6 +13,7 @@ import templates from './templates/reducer';
 import components from './components/reducer';
 import implantedExperiments from './implantedExperiments/reducer';
 import tasks from './tasks/reducer';
+import ui from './ui/reducer';
 
 // REDUX DEV TOOLS CONFIG
 const composeEnhancers =
@@ -35,6 +36,7 @@ const reducers = combineReducers({
   components,
   implantedExperiments,
   tasks,
+  ui,
 });
 
 // STORE

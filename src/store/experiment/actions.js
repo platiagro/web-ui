@@ -4,6 +4,9 @@ import actionTypes from './actionTypes';
 // SERVICES
 import experimentsApi from '../../services/ExperimentsApi';
 
+// UI ACTIONS
+import { hideNewExperimentModal } from '../ui/actions';
+
 // ACTIONS
 // ** FETCH EXPERIMENT
 /**
@@ -67,17 +70,23 @@ export const fetchExperimentRequest = (projectId, experimentId) => (
  * @param {Object} routerProps
  * @returns {Object} { type, experiment }
  */
-const createExperimentSuccess = (response, projectId, routerProps) => {
+const createExperimentSuccess = (response, projectId, routerProps) => (
+  dispatch
+) => {
   // getting experiment from response
   const experiment = response.data;
 
-  // go to new experiment
-  routerProps.history.push(`/projetos/${projectId}/${experiment.uuid}`);
+  // dispatching hide new experiment modal action
+  dispatch(hideNewExperimentModal());
 
-  return {
+  // dispatching experiment success
+  dispatch({
     type: actionTypes.CREATE_EXPERIMENT_SUCCESS,
     experiment,
-  };
+  });
+
+  // go to new experiment
+  routerProps.history.push(`/projetos/${projectId}/${experiment.uuid}`);
 };
 
 /**

@@ -4,6 +4,9 @@ import actionTypes from './actionTypes';
 // SERVICES
 import projectsApi from '../../services/ProjectsApi';
 
+// UI ACTIONS
+import { hideNewProjectModal } from '../ui/actions';
+
 // ACTIONS
 // ** FETCH PROJECT
 /**
@@ -62,17 +65,21 @@ export const fetchProjectRequest = (projectId) => (dispatch) => {
  * @param {Object} routerProps
  * @returns {Object} { type, project }
  */
-const createProjectSuccess = (response, routerProps) => {
+const createProjectSuccess = (response, routerProps) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
-  // go to new project
-  routerProps.history.push(`/projetos/${project.uuid}`);
+  // dispatching hide modal
+  dispatch(hideNewProjectModal());
 
-  return {
+  // dispatching project success
+  dispatch({
     type: actionTypes.CREATE_PROJECT_SUCCESS,
     project,
-  };
+  });
+
+  // go to new project
+  routerProps.history.push(`/projetos/${project.uuid}`);
 };
 
 /**
