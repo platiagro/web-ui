@@ -1,0 +1,23 @@
+// ACTION TYPES
+// show new project modal
+const SHOW_NEW_PROJECT_MODAL = 'SHOW_NEW_PROJECT_MODAL';
+// hide new project modal
+const HIDE_NEW_PROJECT_MODAL = 'HIDE_NEW_PROJECT_MODAL';
+// show new experimento modal
+const SHOW_NEW_EXPERIMENT_MODAL = 'SHOW_NEW_EXPERIMENT_MODAL';
+// hide new experimento modal
+const HIDE_NEW_EXPERIMENT_MODAL = 'HIDE_NEW_EXPERIMENT_MODAL';
+// show drawer
+const SHOW_DRAWER = 'SHOW_DRAWER';
+// hide drawer
+const HIDE_DRAWER = 'HIDE_DRAWER';
+
+// EXPORT
+export default {
+  SHOW_NEW_PROJECT_MODAL,
+  HIDE_NEW_PROJECT_MODAL,
+  SHOW_NEW_EXPERIMENT_MODAL,
+  HIDE_NEW_EXPERIMENT_MODAL,
+  SHOW_DRAWER,
+  HIDE_DRAWER,
+};
