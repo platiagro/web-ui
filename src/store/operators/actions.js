@@ -43,6 +43,7 @@ const fetchOperatorsFail = (error) => {
  * @param {string} experimentId
  * @returns {Function}
  */
+// eslint-disable-next-line import/prefer-default-export
 export const fetchOperatorsRequest = (projectId, experimentId) => async (
   dispatch
 ) => {
@@ -86,39 +87,3 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
 };
 
 // // // // // // // // // //
-
-/**
- * add experiment operator action
- * @param {string} experimentUuid
- * @param {Object} task
- * @returns {type, operators}
- */
-export const addOperator = (experimentUuid, task) => ({
-  type: actionTypes.ADD_OPERATOR,
-  operators: [] /* [...flowMock, taskMock], */,
-});
-
-/**
- * remove experiment operator action
- * @param {string} experimentUuid
- * @param {string} taskUuid
- * @returns {type, operators}
- */
-export const removeOperator = (experimentUuid, taskUuid) => ({
-  type: actionTypes.REMOVE_OPERATOR,
-  operators: [] /* flowMock.filter((task) => task.uuid !== taskUuid), */,
-});
-
-/**
- * set experiment operator params action
- * @param {string} experimentUuid
- * @param {string} taskUuid
- * @param {Object} taskParams
- * @returns {type, operators}
- */
-export const setOperatorParams = (experimentUuid, taskUuid, taskParams) => ({
-  type: actionTypes.SET_OPERATOR_PARAMS,
-  operators: [] /* flowMock.map((task) =>
-    task.uuid !== 'tarefa07' ? task : { ...task, settedUp: true }
-  ), */,
-});

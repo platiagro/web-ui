@@ -15,25 +15,8 @@ const operators = (state = initialState, action) => {
       return [...action.operators];
 
     // operator
-    case actionTypes.ADD_OPERATOR_SUCCESS:
-      return [...action.operators];
-    case actionTypes.REMOVE_OPERATOR_SUCCESS:
-      return [...action.operators];
-    case actionTypes.SET_OPERATOR_PARAMS_SUCCESS:
-      return [...action.operators];
-
-    // FAIL
-    // operators
-    case actionTypes.FETCH_OPERATORS_FAIL:
-      return [...action.operators];
-
-    // operator
-    case actionTypes.ADD_OPERATOR_FAIL:
-      return [...action.operators];
-    case actionTypes.REMOVE_OPERATOR_FAIL:
-      return [...action.operators];
-    case actionTypes.SET_OPERATOR_PARAMS_FAIL:
-      return [...action.operators];
+    /*     case operatorActionTypes.SELECT_OPERATOR:
+      return [...action.operators]; */
 
     // DEFAULT
     default:

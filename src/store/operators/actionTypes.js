@@ -2,50 +2,23 @@
 // REQUEST
 // fetch operators request
 const FETCH_OPERATORS_REQUEST = 'FETCH_OPERATORS_REQUEST';
-// add operator to flow request
-const ADD_OPERATOR_REQUEST = 'ADD_OPERATOR_REQUEST';
-// remove operator from flow request
-const REMOVE_OPERATOR_REQUEST = 'REMOVE_OPERATOR_REQUEST';
-// set operator params request
-const SET_OPERATOR_PARAMS_REQUEST = 'SET_OPERATOR_PARAMS_REQUEST';
 
 // SUCCESS
 // fetch operators success
 const FETCH_OPERATORS_SUCCESS = 'FETCH_OPERATORS_SUCCESS';
-// add operator to flow success
-const ADD_OPERATOR_SUCCESS = 'ADD_OPERATOR_SUCCESS';
-// remove operator from flow success
-const REMOVE_OPERATOR_SUCCESS = 'REMOVE_OPERATOR_SUCCESS';
-// set operator params success
-const SET_OPERATOR_PARAMS_SUCCESS = 'SET_OPERATOR_PARAMS_SUCCESS';
 
 // FAIL
 // fetch operators fail
 const FETCH_OPERATORS_FAIL = 'FETCH_OPERATORS_FAIL';
-// add operator to flow fail
-const ADD_OPERATOR_FAIL = 'ADD_OPERATOR_FAIL';
-// remove operator from flow fail
-const REMOVE_OPERATOR_FAIL = 'REMOVE_OPERATOR_FAIL';
-// set operator params fail
-const SET_OPERATOR_PARAMS_FAIL = 'SET_OPERATOR_PARAMS_FAIL';
 
 // EXPORT
 export default {
   // REQUEST
   FETCH_OPERATORS_REQUEST,
-  ADD_OPERATOR_REQUEST,
-  REMOVE_OPERATOR_REQUEST,
-  SET_OPERATOR_PARAMS_REQUEST,
 
   // SUCCESS
   FETCH_OPERATORS_SUCCESS,
-  ADD_OPERATOR_SUCCESS,
-  REMOVE_OPERATOR_SUCCESS,
-  SET_OPERATOR_PARAMS_SUCCESS,
 
   // FAIL
   FETCH_OPERATORS_FAIL,
-  ADD_OPERATOR_FAIL,
-  REMOVE_OPERATOR_FAIL,
-  SET_OPERATOR_PARAMS_FAIL,
 };
