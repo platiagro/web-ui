@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 
 // UI LIBS
@@ -9,7 +9,7 @@ import { Row, Col } from 'antd';
 import ContentHeader from '../../ContentHeader/ProjectContainer';
 import ComponentsMenuBlock from '../ComponentsMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
-import NewExperimentButton from '../NewExperimentButton';
+import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
 import ExperimentEmpty from '../Experiment/ExperimentEmpty';
 import Experiment from '../Experiment/_';
@@ -21,22 +21,6 @@ import Experiment from '../Experiment/_';
 const ProjectContent = () => {
   // CONSTANTS
   const { experimentId } = useParams();
-
-  // HOOKS
-  // editing hook
-  const [newExperimentModalVisible, setnewExperimentModalVisible] = useState(
-    false
-  );
-
-  // FUNCTIONS
-  // show modal function
-  const showModal = () => {
-    setnewExperimentModalVisible(true);
-  };
-  // hide modal function
-  const hideModal = () => {
-    setnewExperimentModalVisible(false);
-  };
 
   // RENDER
   return (
@@ -63,12 +47,9 @@ const ProjectContent = () => {
               {/* new experiment column container */}
               <Col span={1}>
                 {/* new experiment button */}
-                <NewExperimentButton disabled={false} handleClick={showModal} />
+                <NewExperimentButton />
                 {/* new experiment modal */}
-                <NewExperimentModal
-                  visible={newExperimentModalVisible}
-                  handleCloseModal={hideModal}
-                />
+                <NewExperimentModal />
               </Col>
             </Row>
             {/* experiment row container */}

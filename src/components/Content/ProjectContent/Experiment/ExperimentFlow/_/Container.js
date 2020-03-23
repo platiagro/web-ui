@@ -13,11 +13,17 @@ import {
   setOperatorParams,
 } from '../../../../../../store/operators/actions';
 
+import { showOperatorDetails } from '../../../../../../store/operator/actions';
+
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
+    // fetch operators action
     handleFetchOperators: (projectId, experimentId) =>
       dispatch(fetchOperatorsRequest(projectId, experimentId)),
+    // show operator details action
+    handleShowOperatorDetails: (operator) =>
+      dispatch(showOperatorDetails(operator)),
   };
 };
 
@@ -37,7 +43,7 @@ const mapStateToProps = (state) => {
 const ExperimentFlowContainer = ({
   operators,
   handleFetchOperators,
-  handleTaskBoxClick,
+  handleShowOperatorDetails,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -54,7 +60,7 @@ const ExperimentFlowContainer = ({
   return (
     <ExperimentFlow
       components={operators}
-      handleTaskBoxClick={handleTaskBoxClick}
+      handleTaskBoxClick={handleShowOperatorDetails}
     />
   );
 };

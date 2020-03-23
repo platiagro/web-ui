@@ -38,9 +38,12 @@ const NewExperimentModal = ({
       if (err) {
         return;
       }
+
+      // handling create new experiment
       handleNewExperiment(values.name);
 
-      handleCancel();
+      // resetting form fields
+      form.resetFields();
     });
   };
 

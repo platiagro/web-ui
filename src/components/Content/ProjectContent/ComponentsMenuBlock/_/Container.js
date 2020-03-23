@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import ComponentsMenuBlock from './index';
 
 // ACTIONS
-import { addOperator } from '../../../../../store/operators/actions';
+import { addOperator } from '../../../../../store/operator/actions';
 import {
   fetchComponentsMenuRequest,
   filterComponentsMenu,

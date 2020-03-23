@@ -5,6 +5,7 @@ import { withRouter, useParams } from 'react-router-dom';
 
 // ACTIONS
 import { createExperimentRequest } from '../../../../store/experiment/actions';
+import { hideNewExperimentModal } from '../../../../store/ui/actions';
 
 // COMPONENTS
 import NewExperimentModal from './index';
@@ -12,9 +13,17 @@ import NewExperimentModal from './index';
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
+    // create experiment action
     handleCreateExperiment: (projectId, experimentName) =>
       dispatch(createExperimentRequest(projectId, experimentName, routerProps)),
+    // hide modal action
+    handleHideExperimentModal: () => dispatch(hideNewExperimentModal()),
   };
+};
+
+// STATES
+const mapStateToProps = (state) => {
+  return { modalVisible: state.ui.newExperimentModal.visible };
 };
 
 /**
@@ -23,8 +32,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
  * modal with redux.
  */
 const NewExperimentModalContainer = ({
-  visible,
-  handleCloseModal,
+  modalVisible,
+  handleHideExperimentModal,
   handleCreateExperiment,
 }) => {
   // CONSTANTS
@@ -38,8 +47,8 @@ const NewExperimentModalContainer = ({
   // RENDER
   return (
     <NewExperimentModal
-      visible={visible}
-      handleCloseModal={handleCloseModal}
+      visible={modalVisible}
+      handleCloseModal={handleHideExperimentModal}
       handleNewExperiment={newExperimentHandler}
     />
   );
@@ -47,5 +56,5 @@ const NewExperimentModalContainer = ({
 
 // EXPORT
 export default withRouter(
-  connect(null, mapDispatchToProps)(NewExperimentModalContainer)
+  connect(mapStateToProps, mapDispatchToProps)(NewExperimentModalContainer)
 );

@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import NewExperimentButton from './index';
 
 // ACTIONS
-import { createExperiment } from '../../../../store/experiments/actions';
+import { showNewExperimentModal } from '../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleCreateExperiment: () => dispatch(createExperiment()),
+    handleShowModal: () => dispatch(showNewExperimentModal()),
   };
 };
 
@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch) => {
  * This component is responsible for create a logic container for create new
  * experiment button with redux.
  */
-const NewExperimentButtonContainer = ({ handleCreateExperiment }) => (
-  <NewExperimentButton disabled={false} handleClick={handleCreateExperiment} />
+const NewExperimentButtonContainer = ({ handleShowModal }) => (
+  <NewExperimentButton disabled={false} handleClick={handleShowModal} />
 );
 
 // EXPORT

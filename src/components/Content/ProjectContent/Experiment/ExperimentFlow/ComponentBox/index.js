@@ -59,6 +59,7 @@ const ComponentBox = ({
   selected,
   uuid: taskUuid,
   handleClick,
+  operator,
 }) => {
   // CONSTANTS
   // class name
@@ -70,8 +71,7 @@ const ComponentBox = ({
   const handleBoxClick = (e) => {
     e.preventDefault();
 
-    if (status !== 'Pending' && status !== 'Running')
-      handleClick(taskUuid, name);
+    if (status !== 'Pending' && status !== 'Running') handleClick(operator);
   };
 
   // RENDERS

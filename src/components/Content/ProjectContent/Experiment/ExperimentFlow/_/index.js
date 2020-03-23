@@ -34,7 +34,11 @@ const ExperimentFlow = ({ components, handleTaskBoxClick }) => {
   ) => {
     // component box
     const componentBox = (
-      <ComponentBox handleClick={handleTaskBoxClick} {...component} />
+      <ComponentBox
+        handleClick={handleTaskBoxClick}
+        {...component}
+        operator={component}
+      />
     );
 
     // render component box with arrow connection
