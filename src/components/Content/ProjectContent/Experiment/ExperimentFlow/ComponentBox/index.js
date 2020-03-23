@@ -70,7 +70,8 @@ const ComponentBox = ({
   const handleBoxClick = (e) => {
     e.preventDefault();
 
-    if (status !== 'Pending' && status !== 'Running') handleClick(taskUuid);
+    if (status !== 'Pending' && status !== 'Running')
+      handleClick(taskUuid, name);
   };
 
   // RENDERS

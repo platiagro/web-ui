@@ -24,16 +24,18 @@ const ProjectContent = () => {
 
   // HOOKS
   // editing hook
-  const [modalVisible, setModalVisible] = useState(false);
+  const [newExperimentModalVisible, setnewExperimentModalVisible] = useState(
+    false
+  );
 
   // FUNCTIONS
   // show modal function
   const showModal = () => {
-    setModalVisible(true);
+    setnewExperimentModalVisible(true);
   };
   // hide modal function
   const hideModal = () => {
-    setModalVisible(false);
+    setnewExperimentModalVisible(false);
   };
 
   // RENDER
@@ -64,7 +66,7 @@ const ProjectContent = () => {
                 <NewExperimentButton disabled={false} handleClick={showModal} />
                 {/* new experiment modal */}
                 <NewExperimentModal
-                  visible={modalVisible}
+                  visible={newExperimentModalVisible}
                   handleCloseModal={hideModal}
                 />
               </Col>

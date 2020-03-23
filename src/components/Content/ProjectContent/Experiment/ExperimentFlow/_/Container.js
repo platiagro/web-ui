@@ -34,7 +34,11 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for experiment flow
  * with redux.
  */
-const ExperimentFlowContainer = ({ operators, handleFetchOperators }) => {
+const ExperimentFlowContainer = ({
+  operators,
+  handleFetchOperators,
+  handleTaskBoxClick,
+}) => {
   // CONSTANTS
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
@@ -50,7 +54,7 @@ const ExperimentFlowContainer = ({ operators, handleFetchOperators }) => {
   return (
     <ExperimentFlow
       components={operators}
-      handleTaskBoxClick={(taskUuid) => alert(taskUuid)}
+      handleTaskBoxClick={handleTaskBoxClick}
     />
   );
 };
