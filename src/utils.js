@@ -198,6 +198,12 @@ const getTagConfig = (tag) => {
   const tagsConfig = {
     // user components
     DEFAULT: { title: 'Meus Componentes', key: 'DEFAULT', icon: 'solution' },
+    // feature engineering
+    FEATURE_ENGINEERING: {
+      title: 'Engenharia de Atributos',
+      key: 'FEATURE_ENGINEERING',
+      icon: 'control',
+    },
     // training
     PREDICTOR: { title: 'Treinamento', key: 'PREDICTOR', icon: 'share-alt' },
     // templates

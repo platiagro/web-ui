@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Drawer as AntDrawer } from 'antd';
 
 // COMPONENTS
-import DatasetDrawer from '../DatasetDrawer/_';
+import DatasetDrawer from '../DatasetDrawer/_/Container';
 import GenericDrawer from '../GenericDrawer/_';
 import ResultsDrawer from '../ResultsDrawer/_';
 import ResultsButtonBar from '../ResultsButtonBar';

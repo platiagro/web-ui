@@ -1,0 +1,23 @@
+// ACTION TYPES
+// REQUEST
+// fetch columns request
+const FETCH_COLUMNS_REQUEST = 'FETCH_COLUMNS_REQUEST';
+
+// SUCCESS
+// fetch columns success
+const FETCH_COLUMNS_SUCCESS = 'FETCH_COLUMNS_SUCCESS';
+
+// FAIL
+// fetch columns fail
+const FETCH_COLUMNS_FAIL = 'FETCH_COLUMNS_FAIL';
+
+export default {
+  // REQUEST
+  FETCH_COLUMNS_REQUEST,
+
+  // SUCCESS
+  FETCH_COLUMNS_SUCCESS,
+
+  // FAIL
+  FETCH_COLUMNS_FAIL,
+};
