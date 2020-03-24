@@ -29,6 +29,22 @@ const listDatasetColumns = (datasetName) =>
   });
 
 /**
+ * Create Dataset
+ * @param {Object} formData form with dataset and feature types (header) files
+ * @returns {Promise}
+ */
+const createDataset = (formData) =>
+  new Promise((resolve, reject) => {
+    // creating dataset
+    datasetsApi
+      .post(datasetsPath, formData)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+/**
  * Detail Dataset
  * @param {string} datasetId
  * @returns {Promise}
@@ -38,27 +54,6 @@ const listDatasetColumns = (datasetName) =>
     // requesting dataset
     datasetsApi
       .get(`${datasetsPath}/${datasetId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  }); */
-
-/**
- * Create Dataset
- * @param {string} datasetName
- * @returns {Promise}
- */
-/* const createDataset = (datasetName) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: datasetName,
-    };
-
-    // creating dataset
-    datasetsApi
-      .post(datasetsPath, body)
       // success
       .then((response) => resolve(response))
       // error
@@ -106,8 +101,8 @@ const listDatasetColumns = (datasetName) =>
 // EXPORT DEFAULT
 export default {
   listDatasetColumns,
-  /*   detailDataset,
   createDataset,
+  /*     detailDataset,
   updateDataset,
   deleteDataset, */
 };

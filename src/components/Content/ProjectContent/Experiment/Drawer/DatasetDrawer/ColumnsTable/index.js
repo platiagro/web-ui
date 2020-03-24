@@ -30,8 +30,8 @@ const ColumnsTable = ({ columns, targetColumnId, handleChangeType }) => {
     },
     {
       title: 'Tipo de dado',
-      dataIndex: 'datatype',
-      key: 'datatype',
+      dataIndex: 'featuretype',
+      key: 'featuretype',
       render: (value, row, index) => (
         <TypeSelect
           value={value}
@@ -61,11 +61,11 @@ const ColumnsTable = ({ columns, targetColumnId, handleChangeType }) => {
     const factorRegex = /fact|cate/i;
     // checking type
     if (value.match(numRegex)) {
-      fixedVal = 'numeric';
+      fixedVal = 'Numerical';
     } else if (value.match(dateRegex)) {
       fixedVal = 'DateTime';
     } else if (value.match(factorRegex)) {
-      fixedVal = 'factor';
+      fixedVal = 'Categorical';
     }
 
     // rendering component
@@ -74,8 +74,8 @@ const ColumnsTable = ({ columns, targetColumnId, handleChangeType }) => {
       <Select value={fixedVal} {...others}>
         {/* options */}
         <Option value='DateTime'>Data/Hora</Option>
-        <Option value='numeric'>Numérico</Option>
-        <Option value='factor'>Categórico</Option>
+        <Option value='Numerical'>Numérico</Option>
+        <Option value='Categorical'>Categórico</Option>
       </Select>
     );
   };

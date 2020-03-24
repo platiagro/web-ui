@@ -167,7 +167,7 @@ const editExperimentNameFail = (error) => {
  * edit experiment name request action
  * @param {string} projectId
  * @param {string} experimentId
- * @param {string} experiment
+ * @param {string} newName
  * @returns {Function}
  */
 export const editExperimentNameRequest = (projectId, experimentId, newName) => (
@@ -270,3 +270,63 @@ export const deployExperiment = (uuid) => ({
   type: actionTypes.DEPLOY_EXPERIMENT,
   experiment: {}, // { ...experimentMock, deployed: true },
 });
+
+// // // // // // // // // //
+
+// ** SET DATASET
+/**
+ * set dataset success action
+ * @param {Object} response
+ * @returns {Object} { type, experiment }
+ */
+const setDatasetSuccess = (response) => {
+  // getting experiment from response
+  const experiment = response.data;
+
+  return {
+    type: actionTypes.SET_DATASET_SUCCESS,
+    experiment,
+  };
+};
+
+/**
+ * set dataset fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const setDatasetFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.SET_DATASET_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * set dataset request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} datasetName
+ * @returns {Function}
+ */
+export const setDatasetRequest = (projectId, experimentId, datasetName) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.SET_DATASET_REQUEST,
+  });
+
+  // creating experiment object
+  const experiment = { dataset: datasetName };
+
+  // creating experiment
+  experimentsApi
+    .updateExperiment(projectId, experimentId, experiment)
+    .then((response) => dispatch(setDatasetSuccess(response)))
+    .catch((error) => dispatch(setDatasetFail(error)));
+};
+
+// // // // // // // // // //

@@ -37,6 +37,8 @@ const experiment = (state = initialState, action) => {
       return { ...action.experiment };
     case actionTypes.DELETE_EXPERIMENT_SUCCESS:
       return message.info(`Experimento excluído!`);
+    case actionTypes.SET_DATASET_SUCCESS:
+      return { ...action.experiment };
 
     // FAIL
     // experiment
@@ -51,6 +53,8 @@ const experiment = (state = initialState, action) => {
     case actionTypes.CREATE_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);
     case actionTypes.DELETE_EXPERIMENT_FAIL:
+      return message.error(action.errorMessage);
+    case actionTypes.SET_DATASET_FAIL:
       return message.error(action.errorMessage);
 
     // DEFAULT

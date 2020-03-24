@@ -1,12 +1,16 @@
 // CORE LIBS
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import DatasetDrawer from './index';
 
 // ACTIONS
-import { fetchDatasetColumnsRequest } from '../../../../../../../store/dataset/actions';
+import {
+  fetchDatasetColumnsRequest,
+  createDatasetRequest,
+} from '../../../../../../../store/dataset/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -14,6 +18,9 @@ const mapDispatchToProps = (dispatch) => {
     // fetch dataset columns
     handleFetchDatasetColumns: (datasetName) =>
       dispatch(fetchDatasetColumnsRequest(datasetName)),
+    // create dataset
+    handleCreateDataset: (formData, projectId, experimentId) =>
+      dispatch(createDatasetRequest(formData, projectId, experimentId)),
   };
 };
 
@@ -36,10 +43,11 @@ const DatasetDrawerContainer = ({
   datasetName,
   targetColumn,
   handleFetchDatasetColumns,
+  handleCreateDataset,
 }) => {
   // CONSTANTS
   // getting experiment uuid
-  /*   const { operatorId } = useParams(); */
+  const { projectId, experimentId } = useParams();
 
   // HOOKS
   // did mount hook
@@ -49,14 +57,21 @@ const DatasetDrawerContainer = ({
   }, []);
 
   // HANDLERS
-  /*   const addFlowTaskHandler = (taskUuid) =>
-    handleAddFlowTask(experimentUuid, taskUuid); */
+  const createDatasetHandler = (formData) =>
+    handleCreateDataset(formData, projectId, experimentId);
 
   // RENDER
   return (
-    <DatasetDrawer columns={dataset.columns} targetColumnId={targetColumn} />
+    <DatasetDrawer
+      columns={dataset.columns}
+      targetColumnId={targetColumn}
+      handleUploadFiles={createDatasetHandler}
+    />
   );
 };
 
 // EXPORT
-export default connect(mapStateToProps, null)(DatasetDrawerContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DatasetDrawerContainer);

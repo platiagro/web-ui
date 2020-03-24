@@ -17,12 +17,9 @@ const { Option } = Select;
  * This component is responsible for displaying dataset content in drawer.
  */
 const DatasetDrawer = ({
-  projectId,
-  experimentId,
   loading,
   columns,
   targetColumnId,
-  parameters,
   handleSetTarget,
   handleSetColumnType,
   handleUploadFiles,
@@ -40,20 +37,20 @@ const DatasetDrawer = ({
     const formData = new FormData();
     // append dataset file to form data
     formData.append(
-      'dataset',
+      'file',
       datasetFileList[0].originFileObj,
       datasetFileList[0].name
     );
     // append dataset header file to form data
     if (datasetHeaderFileList[0]) {
       formData.append(
-        'header',
+        'featuretypes',
         datasetHeaderFileList[0].originFileObj,
         datasetHeaderFileList[0].name
       );
     }
     // uploading files
-    handleUploadFiles(projectId, experimentId, formData);
+    handleUploadFiles(formData);
     // cleaning dataset header file list
     setDatasetHeaderFileList([]);
     // cleaning dataset file list
@@ -62,7 +59,7 @@ const DatasetDrawer = ({
   // handler to set experiment target
   const handleChangeTarget = (targetId) => {
     // setting target
-    handleSetTarget(projectId, experimentId, targetId, parameters);
+    handleSetTarget(targetId);
   };
   // handler to set dataset column type
   const handleChangeColumnType = (e, row) => {
