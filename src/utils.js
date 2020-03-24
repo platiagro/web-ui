@@ -171,6 +171,8 @@ const filterMenu = (menu, filter) => {
 const createMenu = (components) => {
   // menu object constant
   const menu = {};
+  // sorted menu
+  const sortedMenu = {};
 
   // creating menu object
   components.forEach((component) => {
@@ -184,7 +186,14 @@ const createMenu = (components) => {
     });
   });
 
-  return menu;
+  // sorting menu
+  Object.keys(menu)
+    .sort()
+    .forEach((submenu) => {
+      sortedMenu[submenu] = menu[submenu];
+    });
+
+  return sortedMenu;
 };
 
 /**
