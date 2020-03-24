@@ -242,13 +242,14 @@ const configureOperators = (components, operators) => {
   const configuredOperators = operators.map((operator) => ({
     ...operator,
     ...getComponentData(components, operator.componentId),
+    ...{ selected: false },
   }));
 
   return configuredOperators;
 };
 
 /**
- * Delect Operator
+ * Select Operator
  * Method to select operator or deselect all operators
  * @param {string} operatorId operators list * omit/null this to deselect all *
  * @param {Object[]} operators operators list
@@ -257,7 +258,9 @@ const configureOperators = (components, operators) => {
 const selectOperator = (operatorId, operators) => {
   // creating new operators list
   const newOperators = operators.map((operator) =>
-    operator.uuid === operatorId ? { ...operator, selected: true } : operator
+    operator.uuid === operatorId
+      ? { ...operator, selected: true }
+      : { ...operator, selected: false }
   );
 
   return newOperators;

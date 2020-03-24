@@ -1,27 +1,25 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
-// SERVICES
+/* // SERVICES
 import operatorsApi from '../../services/OperatorsApi';
-import componentsApi from '../../services/ComponentsApi';
+import componentsApi from '../../services/ComponentsApi'; */
 
 // UI ACTIONS
 import { showDrawer } from '../ui/actions';
 
-// UTILS
-import utils from '../../utils';
-
 // ACTIONS
-// ** SHOW OPERATOR DETAILS
+// ** SELECT OPERATOR
 /**
- * show operator details action
+ * select operator action
  * @param {string} operator
  * @returns {Function}
  */
-export const showOperatorDetails = (operator) => (dispatch) => {
+export const selectOperator = (operator) => (dispatch) => {
   // dispatching action
   dispatch({
-    type: actionTypes.SHOW_OPERATOR_DETAILS,
+    type: actionTypes.SELECT_OPERATOR,
+    operatorId: operator.uuid,
   });
 
   // is operator dataset?

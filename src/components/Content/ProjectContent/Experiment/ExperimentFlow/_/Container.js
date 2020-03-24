@@ -13,7 +13,7 @@ import {
   setOperatorParams,
 } from '../../../../../../store/operators/actions';
 
-import { showOperatorDetails } from '../../../../../../store/operator/actions';
+import { selectOperator } from '../../../../../../store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -22,8 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchOperators: (projectId, experimentId) =>
       dispatch(fetchOperatorsRequest(projectId, experimentId)),
     // show operator details action
-    handleShowOperatorDetails: (operator) =>
-      dispatch(showOperatorDetails(operator)),
+    handleShowOperatorDetails: (operator) => dispatch(selectOperator(operator)),
   };
 };
 
