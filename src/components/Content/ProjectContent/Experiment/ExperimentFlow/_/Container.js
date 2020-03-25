@@ -7,20 +7,11 @@ import { useParams } from 'react-router-dom';
 import ExperimentFlow from './index';
 
 // ACTIONS
-import {
-  fetchOperatorsRequest,
-  removeOperator,
-  setOperatorParams,
-} from '../../../../../../store/operators/actions';
-
 import { selectOperator } from '../../../../../../store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // fetch operators action
-    handleFetchOperators: (projectId, experimentId) =>
-      dispatch(fetchOperatorsRequest(projectId, experimentId)),
     // show operator details action
     handleShowOperatorDetails: (operator) => dispatch(selectOperator(operator)),
   };
@@ -28,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { operators: state.operators };
+  return { operators: state.operators, datasetName: state.experiment.dataset };
 };
 
 // TODO: Implementar "Conexão" Drawer
@@ -39,21 +30,10 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for experiment flow
  * with redux.
  */
-const ExperimentFlowContainer = ({
-  operators,
-  handleFetchOperators,
-  handleShowOperatorDetails,
-}) => {
+const ExperimentFlowContainer = ({ operators, handleShowOperatorDetails }) => {
   // CONSTANTS
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
-
-  // HOOKS
-  // did mount hook
-  useEffect(() => {
-    // fetching projects
-    handleFetchOperators(projectId, experimentId);
-  }, []);
 
   // RENDER
   return (

@@ -2,7 +2,14 @@
 import actionTypes from './actionTypes';
 
 // INITIAL STATE
-const initialState = [];
+const initialState = {
+  icon: '',
+  name: '',
+  position: 0,
+  uuid: '',
+  selected: false,
+  params: {},
+};
 
 /**
  * operators reducer
@@ -10,10 +17,6 @@ const initialState = [];
 const operators = (state = initialState, action) => {
   switch (action.type) {
     // SUCCESS
-    // operators
-    case actionTypes.FETCH_OPERATORS_SUCCESS:
-      return [...action.operators];
-
     // operator
     case actionTypes.ADD_OPERATOR_SUCCESS:
       return [...action.operators];
@@ -23,10 +26,6 @@ const operators = (state = initialState, action) => {
       return [...action.operators];
 
     // FAIL
-    // operators
-    case actionTypes.FETCH_OPERATORS_FAIL:
-      return [...action.operators];
-
     // operator
     case actionTypes.ADD_OPERATOR_FAIL:
       return [...action.operators];

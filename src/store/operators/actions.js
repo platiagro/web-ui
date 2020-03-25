@@ -44,9 +44,11 @@ const fetchOperatorsFail = (error) => {
  * @returns {Function}
  */
 // eslint-disable-next-line import/prefer-default-export
-export const fetchOperatorsRequest = (projectId, experimentId) => async (
-  dispatch
-) => {
+export const fetchOperatorsRequest = (
+  projectId,
+  experimentId,
+  datasetName
+) => async (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_OPERATORS_REQUEST,
@@ -58,6 +60,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     name: 'Conjunto de Dados',
     position: -1,
     uuid: 'dataset',
+    params: { dataset: datasetName || '' },
   };
 
   try {

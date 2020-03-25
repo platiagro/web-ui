@@ -7,21 +7,31 @@ import experimentsApi from '../../services/ExperimentsApi';
 // UI ACTIONS
 import { hideNewExperimentModal } from '../ui/actions';
 
+// OPERATORS ACTIONS
+import { fetchOperatorsRequest } from '../operators/actions';
+
 // ACTIONS
 // ** FETCH EXPERIMENT
 /**
  * fetch experiment success action
  * @param {Object} response
+ * @param {Object} projectId
+ * @param {Object} experimentId
  * @returns {Object} { type, experiment }
  */
-const fetchExperimentSuccess = (response) => {
+const fetchExperimentSuccess = (response, projectId, experimentId) => (
+  dispatch
+) => {
   // getting experiment from response
   const experiment = response.data;
 
-  return {
+  // fetching operators
+  dispatch(fetchOperatorsRequest(projectId, experimentId, experiment.dataset));
+
+  dispatch({
     type: actionTypes.FETCH_EXPERIMENT_SUCCESS,
     experiment,
-  };
+  });
 };
 
 /**
@@ -56,7 +66,9 @@ export const fetchExperimentRequest = (projectId, experimentId) => (
   // fetching experiment
   experimentsApi
     .detailExperiment(projectId, experimentId)
-    .then((response) => dispatch(fetchExperimentSuccess(response)))
+    .then((response) =>
+      dispatch(fetchExperimentSuccess(response, projectId, experimentId))
+    )
     .catch((error) => dispatch(fetchExperimentFail(error)));
 };
 
