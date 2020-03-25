@@ -49,11 +49,13 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
     type: actionTypes.FETCH_DATASET_COLUMNS_REQUEST,
   });
 
-  // fetching dataset columns
-  datasetsApi
-    .listDatasetColumns(datasetName)
-    .then((response) => dispatch(fetchDatasetColumnsSuccess(response)))
-    .catch((error) => dispatch(fetchDatasetColumnsFail(error)));
+  if (datasetName)
+    // fetching dataset columns
+    datasetsApi
+      .listDatasetColumns(datasetName)
+      .then((response) => dispatch(fetchDatasetColumnsSuccess(response)))
+      .catch((error) => dispatch(fetchDatasetColumnsFail(error)));
+  else dispatch(fetchDatasetColumnsSuccess({ data: [] }));
 };
 
 // // // // // // // // // //

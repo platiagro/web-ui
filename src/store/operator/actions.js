@@ -25,8 +25,7 @@ export const selectOperator = (operator) => (dispatch) => {
   const isDataset = operator.uuid === 'dataset';
 
   // fetching dataset columns
-  if (isDataset && operator.params.dataset)
-    dispatch(fetchDatasetColumnsRequest(operator.params.dataset));
+  if (isDataset) dispatch(fetchDatasetColumnsRequest(operator.params.dataset));
 
   // dispatching action to show drawer
   dispatch(showDrawer(operator.name, isDataset));
