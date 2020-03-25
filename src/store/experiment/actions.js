@@ -91,6 +91,11 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
   // dispatching hide new experiment modal action
   dispatch(hideNewExperimentModal());
 
+  // fetching operators
+  dispatch(
+    fetchOperatorsRequest(projectId, experiment.uuid, experiment.dataset)
+  );
+
   // dispatching experiment success
   dispatch({
     type: actionTypes.CREATE_EXPERIMENT_SUCCESS,
