@@ -33,6 +33,32 @@ const listOperators = (projectId, experimentId) =>
   });
 
 /**
+ * Create Operator
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} componentId
+ * @returns {Promise}
+ */
+const createOperator = (projectId, experimentId, componentId) =>
+  new Promise((resolve, reject) => {
+    // creating body object
+    const body = {
+      componentId,
+    };
+
+    // creating operator
+    operatorsApi
+      .post(
+        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}`,
+        body
+      )
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+/**
  * Detail Operator
  * @param {string} projectId
  * @returns {Promise}
@@ -42,28 +68,6 @@ const listOperators = (projectId, experimentId) =>
     // requesting operator
     operatorsApi
       .get(`/${projectId}${operatorsPath}/${operatorId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  }); */
-
-/**
- * Create Operator
- * @param {string} projectId
- * @param {string} operatorName
- * @returns {Promise}
- */
-/* const createOperator = (projectId, operatorName) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: operatorName,
-    };
-
-    // creating operator
-    operatorsApi
-      .post(`/${projectId}${operatorsPath}`, body)
       // success
       .then((response) => resolve(response))
       // error
@@ -108,8 +112,8 @@ const listOperators = (projectId, experimentId) =>
 // EXPORT DEFAULT
 export default {
   listOperators,
-  /*   detailOperator,
   createOperator,
+  /*   detailOperator,
   updateOperator,
   deleteOperator, */
 };

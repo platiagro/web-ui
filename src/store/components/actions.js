@@ -40,7 +40,7 @@ const fetchComponentsFail = (error) => {
  * fetch components request action
  * @returns {Function}
  */
-const fetchComponentsRequest = () => (dispatch) => {
+export const fetchComponentsRequest = () => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_COMPONENTS_REQUEST,

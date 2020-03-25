@@ -1,11 +1,17 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
+// SERVICES
+import operatorsApi from '../../services/OperatorsApi';
+
 // UI ACTIONS
 import { showDrawer } from '../ui/actions';
 
 // DATASET ACTIONS
 import { fetchDatasetColumnsRequest } from '../dataset/actions';
+
+// UTILS
+import utils from '../../utils';
 
 // ACTIONS
 // ** SELECT OPERATOR
@@ -33,16 +39,80 @@ export const selectOperator = (operator) => (dispatch) => {
 
 // // // // // // // // // //
 
+// ** CREATE OPERATOR
 /**
- * add experiment operator action
- * @param {string} experimentUuid
- * @param {Object} task
- * @returns {type, operators}
+ * create operator success action
+ * @param {Object} response
+ * @param {Object} componentIcon
+ * @param {Object} componentName
+ * @returns {Object} { type, operator }
  */
-export const addOperator = (experimentUuid, task) => ({
-  type: actionTypes.ADD_OPERATOR,
-  operators: [] /* [...flowMock, taskMock], */,
-});
+const createOperatorSuccess = (response, componentIcon, componentName) => {
+  // getting operator from response
+  const operator = response.data;
+
+  // dispatching create operator success action
+  return {
+    type: actionTypes.CREATE_OPERATOR_SUCCESS,
+    operator: {
+      ...operator,
+      icon: componentIcon,
+      name: componentName,
+      selected: false,
+    },
+  };
+};
+
+/**
+ * create operator fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const createOperatorFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.CREATE_OPERATOR_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * create operator request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {Object} componentId
+ * @param {Object[]} components,
+ * @returns {Function}
+ */
+export const createOperatorRequest = (
+  projectId,
+  experimentId,
+  componentId,
+  components
+) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.CREATE_OPERATOR_REQUEST,
+  });
+
+  // getting component icon
+  const { name: componentName, icon: componentIcon } = utils.getComponentData(
+    components,
+    componentId
+  );
+
+  // creating operator
+  operatorsApi
+    .createOperator(projectId, experimentId, componentId)
+    .then((response) =>
+      dispatch(createOperatorSuccess(response, componentIcon, componentName))
+    )
+    .catch((error) => dispatch(createOperatorFail(error)));
+};
+
+// // // // // // // // // //
 
 /**
  * remove experiment operator action

@@ -7,6 +7,9 @@ import projectsApi from '../../services/ProjectsApi';
 // UI ACTIONS
 import { hideNewProjectModal } from '../ui/actions';
 
+// COMPONENTS ACTION
+import { fetchComponentsRequest } from '../components/actions';
+
 // ACTIONS
 // ** FETCH PROJECT
 /**
@@ -14,14 +17,17 @@ import { hideNewProjectModal } from '../ui/actions';
  * @param {Object} response
  * @returns {Object} { type, project }
  */
-const fetchProjectSuccess = (response) => {
+const fetchProjectSuccess = (response) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
-  return {
+  // fetch components
+  dispatch(fetchComponentsRequest());
+
+  dispatch({
     type: actionTypes.FETCH_PROJECT_SUCCESS,
     project,
-  };
+  });
 };
 
 /**

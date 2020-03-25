@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import ComponentsMenuBlock from './index';
 
 // ACTIONS
-import { addOperator } from '../../../../../store/operator/actions';
+import { createOperatorRequest } from '../../../../../store/operator/actions';
 import {
   fetchComponentsMenuRequest,
   filterComponentsMenu,
@@ -21,14 +21,19 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchComponentsMenu: () => dispatch(fetchComponentsMenuRequest()),
     handleFilterComponentsMenu: (filter) =>
       dispatch(filterComponentsMenu(filter)),
-    handleAddFlowTask: (experimentUuid, task) =>
-      dispatch(addOperator(experimentUuid, task)),
+    handleCreateOperator: (projectId, experimentId, componentId, components) =>
+      dispatch(
+        createOperatorRequest(projectId, experimentId, componentId, components)
+      ),
   };
 };
 
 // STATES
 const mapStateToProps = (state) => {
-  return { componentsMenu: state.componentsMenu.filtered };
+  return {
+    componentsMenu: state.componentsMenu.filtered,
+    components: state.components,
+  };
 };
 
 /**
@@ -37,15 +42,16 @@ const mapStateToProps = (state) => {
  * menu block with redux.
  */
 const ComponentsMenuBlockContainer = ({
+  components,
   componentsMenu,
   handleFetchComponentsMenu,
   handleFilterComponentsMenu,
-  handleAddFlowTask,
+  handleCreateOperator,
   disabled,
 }) => {
   // CONSTANTS
   // getting experiment uuid
-  const { experimentUuid } = useParams();
+  const { projectId, experimentId } = useParams();
 
   // HOOKS
   // did mount hook
@@ -55,13 +61,13 @@ const ComponentsMenuBlockContainer = ({
   }, []);
 
   // HANDLERS
-  const addFlowTaskHandler = (taskUuid) =>
-    handleAddFlowTask(experimentUuid, taskUuid);
+  const createOperatorHandler = ({ key: componentId }) =>
+    handleCreateOperator(projectId, experimentId, componentId, components);
 
   // RENDER
   return (
     <ComponentsMenuBlock
-      handleTaskMenuClick={addFlowTaskHandler}
+      handleComponentClick={createOperatorHandler}
       handleFilter={handleFilterComponentsMenu}
       menu={componentsMenu}
       disabled={disabled}

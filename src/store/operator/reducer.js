@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -17,22 +20,24 @@ const initialState = {
 const operators = (state = initialState, action) => {
   switch (action.type) {
     // SUCCESS
-    // operator
-    case actionTypes.ADD_OPERATOR_SUCCESS:
-      return [...action.operators];
+    // remove operator success
     case actionTypes.REMOVE_OPERATOR_SUCCESS:
-      return [...action.operators];
+      return [...action.operator];
+    // set operator params success
     case actionTypes.SET_OPERATOR_PARAMS_SUCCESS:
-      return [...action.operators];
+      return [...action.operator];
 
     // FAIL
     // operator
-    case actionTypes.ADD_OPERATOR_FAIL:
-      return [...action.operators];
+    // create operator fail
+    case actionTypes.CREATE_OPERATOR_FAIL:
+      return message.error(action.errorMessage);
+    // remove operator fail
     case actionTypes.REMOVE_OPERATOR_FAIL:
-      return [...action.operators];
+      return message.error(action.errorMessage);
+    // set operator params fail
     case actionTypes.SET_OPERATOR_PARAMS_FAIL:
-      return [...action.operators];
+      return message.error(action.errorMessage);
 
     // DEFAULT
     default:

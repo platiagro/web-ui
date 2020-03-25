@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import operatorActionTypes from '../operator/actionTypes';
@@ -17,19 +20,17 @@ const operators = (state = initialState, action) => {
   switch (action.type) {
     // SUCCESS
     // operators
+    // fetch operators success
     case actionTypes.FETCH_OPERATORS_SUCCESS:
       return [...action.operators];
 
-    // COMMON
     // operator
-    case operatorActionTypes.SELECT_OPERATOR:
-      return [...utils.selectOperator(action.operatorId, state)];
-
-    // ui
-    case uiActionTypes.HIDE_DRAWER:
-      return [...utils.selectOperator(undefined, state)];
+    // create operator success
+    case operatorActionTypes.CREATE_OPERATOR_SUCCESS:
+      return [...state, action.operator];
 
     // experiment
+    // set dataset success
     case experimentActionTypes.SET_DATASET_SUCCESS:
       return [
         ...state.map((operator) =>
@@ -44,6 +45,23 @@ const operators = (state = initialState, action) => {
             : operator
         ),
       ];
+
+    // FAIL
+    // operators
+    // fetch operators fail
+    case actionTypes.FETCH_OPERATORS_FAIL:
+      return message.error(action.errorMessage);
+
+    // COMMON
+    // operator
+    // select operator
+    case operatorActionTypes.SELECT_OPERATOR:
+      return [...utils.selectOperator(action.operatorId, state)];
+
+    // ui
+    // hide drawer
+    case uiActionTypes.HIDE_DRAWER:
+      return [...utils.selectOperator(undefined, state)];
 
     // DEFAULT
     default:
