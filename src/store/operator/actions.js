@@ -1,12 +1,11 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
-/* // SERVICES
-import operatorsApi from '../../services/OperatorsApi';
-import componentsApi from '../../services/ComponentsApi'; */
-
 // UI ACTIONS
 import { showDrawer } from '../ui/actions';
+
+// DATASET ACTIONS
+import { fetchDatasetColumnsRequest } from '../dataset/actions';
 
 // ACTIONS
 // ** SELECT OPERATOR
@@ -24,6 +23,10 @@ export const selectOperator = (operator) => (dispatch) => {
 
   // is operator dataset?
   const isDataset = operator.uuid === 'dataset';
+
+  // fetching dataset columns
+  if (isDataset && operator.params.dataset)
+    dispatch(fetchDatasetColumnsRequest(operator.params.dataset));
 
   // dispatching action to show drawer
   dispatch(showDrawer(operator.name, isDataset));

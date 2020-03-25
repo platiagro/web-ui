@@ -7,17 +7,11 @@ import { useParams } from 'react-router-dom';
 import DatasetDrawer from './index';
 
 // ACTIONS
-import {
-  fetchDatasetColumnsRequest,
-  createDatasetRequest,
-} from '../../../../../../../store/dataset/actions';
+import { createDatasetRequest } from '../../../../../../../store/dataset/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // fetch dataset columns
-    handleFetchDatasetColumns: (datasetName) =>
-      dispatch(fetchDatasetColumnsRequest(datasetName)),
     // create dataset
     handleCreateDataset: (formData, projectId, experimentId) =>
       dispatch(createDatasetRequest(formData, projectId, experimentId)),
@@ -40,21 +34,12 @@ const mapStateToProps = (state) => {
  */
 const DatasetDrawerContainer = ({
   dataset,
-  datasetName,
   targetColumn,
-  handleFetchDatasetColumns,
   handleCreateDataset,
 }) => {
   // CONSTANTS
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
-
-  // HOOKS
-  // did mount hook
-  useEffect(() => {
-    // fetching dataset columns
-    if (datasetName) handleFetchDatasetColumns(datasetName);
-  }, []);
 
   // HANDLERS
   const createDatasetHandler = (formData) =>
