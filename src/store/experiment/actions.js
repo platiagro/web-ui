@@ -263,28 +263,6 @@ export const deleteExperimentRequest = (
 
 // // // // // // // // // //
 
-/**
- * train experiment action
- * @param {string} uuid
- * @returns {type, experiment}
- */
-export const trainExperiment = (uuid) => ({
-  type: actionTypes.TRAIN_EXPERIMENT,
-  experiment: {}, // { ...experimentMock, running: true },
-});
-
-/**
- * deploy experiment name action
- * @param {string} uuid
- * @returns {type, experiment}
- */
-export const deployExperiment = (uuid) => ({
-  type: actionTypes.DEPLOY_EXPERIMENT,
-  experiment: {}, // { ...experimentMock, deployed: true },
-});
-
-// // // // // // // // // //
-
 // ** SET DATASET
 /**
  * set dataset success action
@@ -340,5 +318,27 @@ export const setDatasetRequest = (projectId, experimentId, datasetName) => (
     .then((response) => dispatch(setDatasetSuccess(response)))
     .catch((error) => dispatch(setDatasetFail(error)));
 };
+
+// // // // // // // // // //
+
+/**
+ * train experiment action
+ * @param {string} uuid
+ * @returns {type, experiment}
+ */
+export const trainExperiment = (uuid) => ({
+  type: actionTypes.TRAIN_EXPERIMENT,
+  experiment: {}, // { ...experimentMock, running: true },
+});
+
+/**
+ * deploy experiment name action
+ * @param {string} uuid
+ * @returns {type, experiment}
+ */
+export const deployExperiment = (uuid) => ({
+  type: actionTypes.DEPLOY_EXPERIMENT,
+  experiment: {}, // { ...experimentMock, deployed: true },
+});
 
 // // // // // // // // // //

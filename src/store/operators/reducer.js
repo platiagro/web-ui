@@ -2,6 +2,7 @@
 import actionTypes from './actionTypes';
 import operatorActionTypes from '../operator/actionTypes';
 import uiActionTypes from '../ui/actionTypes';
+import experimentActionTypes from '../experiment/actionTypes';
 
 // UTILS
 import utils from '../../utils';
@@ -27,6 +28,22 @@ const operators = (state = initialState, action) => {
     // ui
     case uiActionTypes.HIDE_DRAWER:
       return [...utils.selectOperator(undefined, state)];
+
+    // experiment
+    case experimentActionTypes.SET_DATASET_SUCCESS:
+      return [
+        ...state.map((operator) =>
+          operator.uuid === 'dataset'
+            ? {
+                ...operator,
+                params: {
+                  ...operator.params,
+                  dataset: action.experiment.dataset,
+                },
+              }
+            : operator
+        ),
+      ];
 
     // DEFAULT
     default:
