@@ -203,7 +203,7 @@ const DatasetDrawer = ({
           {/* mapping columns to select options */}
           {columns.map((column) => (
             // select option component
-            <Option key={column.uuid} value={column.uuid}>
+            <Option key={column.name} value={column.name}>
               {column.name}
             </Option>
           ))}

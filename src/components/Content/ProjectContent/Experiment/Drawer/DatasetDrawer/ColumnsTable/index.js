@@ -45,10 +45,10 @@ const ColumnsTable = ({ columns, targetColumnId, handleChangeType }) => {
 
   // FUNCTIONS
   // setting row key
-  const setRowKey = (record) => record.uuid;
+  const setRowKey = (record) => record.name;
   // highlighting target column
   const highlightTargetColumn = (record) =>
-    record.uuid === targetColumnId ? 'targetColumn' : null;
+    record.name === targetColumnId ? 'targetColumn' : null;
 
   // COMPONENTS
   // type select

@@ -326,6 +326,66 @@ export const setDatasetRequest = (projectId, experimentId, datasetName) => (
 
 // // // // // // // // // //
 
+// ** SET TARGET COLUMN
+/**
+ * set target column success action
+ * @param {Object} response
+ * @returns {Object} { type, experiment }
+ */
+const setTargetColumnSuccess = (response) => {
+  // getting experiment from response
+  const experiment = response.data;
+
+  return {
+    type: actionTypes.SET_TARGET_COLUMN_SUCCESS,
+    experiment,
+  };
+};
+
+/**
+ * set target column fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const setTargetColumnFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.SET_TARGET_COLUMN_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * set target column request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} targetColumnName
+ * @returns {Function}
+ */
+export const setTargetColumnRequest = (
+  projectId,
+  experimentId,
+  targetColumnName
+) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.SET_TARGET_COLUMN_REQUEST,
+  });
+
+  // creating experiment object
+  const experiment = { target: targetColumnName };
+
+  // creating experiment
+  experimentsApi
+    .updateExperiment(projectId, experimentId, experiment)
+    .then((response) => dispatch(setTargetColumnSuccess(response)))
+    .catch((error) => dispatch(setTargetColumnFail(error)));
+};
+
+// // // // // // // // // //
+
 /**
  * train experiment action
  * @param {string} uuid

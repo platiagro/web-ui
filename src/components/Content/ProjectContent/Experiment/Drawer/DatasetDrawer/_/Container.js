@@ -8,6 +8,7 @@ import DatasetDrawer from './index';
 
 // ACTIONS
 import { createDatasetRequest } from '../../../../../../../store/dataset/actions';
+import { setTargetColumnRequest } from '../../../../../../../store/experiment/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
     // create dataset
     handleCreateDataset: (formData, projectId, experimentId) =>
       dispatch(createDatasetRequest(formData, projectId, experimentId)),
+    // set experiment target
+    handleSetTarget: (formData, projectId, targetColumnName) =>
+      dispatch(setTargetColumnRequest(formData, projectId, targetColumnName)),
   };
 };
 
@@ -22,7 +26,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     dataset: state.dataset,
-    datasetName: state.experiment.dataset,
     targetColumn: state.experiment.target,
   };
 };
@@ -36,14 +39,19 @@ const DatasetDrawerContainer = ({
   dataset,
   targetColumn,
   handleCreateDataset,
+  handleSetTarget,
 }) => {
   // CONSTANTS
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
 
   // HANDLERS
+  // create dataset
   const createDatasetHandler = (formData) =>
     handleCreateDataset(formData, projectId, experimentId);
+  // set target
+  const setTargetHandler = (targetColumnName) =>
+    handleSetTarget(projectId, experimentId, targetColumnName);
 
   // RENDER
   return (
@@ -51,6 +59,7 @@ const DatasetDrawerContainer = ({
       columns={dataset.columns}
       targetColumnId={targetColumn}
       handleUploadFiles={createDatasetHandler}
+      handleSetTarget={setTargetHandler}
     />
   );
 };
