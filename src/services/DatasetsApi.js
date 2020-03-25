@@ -45,6 +45,29 @@ const createDataset = (formData) =>
   });
 
 /**
+ * Update Dataset Column
+ * @param {string} datasetName
+ * @param {string} columnName
+ * @param {string} columnNewType
+ * @returns {Promise}
+ */
+const updateDatasetColumn = (datasetName, columnName, columnNewType) =>
+  new Promise((resolve, reject) => {
+    // creating body object
+    const body = {
+      featuretype: columnNewType,
+    };
+
+    // updating dataset column
+    datasetsApi
+      .patch(`${datasetsPath}/${datasetName}/columns/${columnName}`, body)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+/**
  * Detail Dataset
  * @param {string} datasetId
  * @returns {Promise}
@@ -54,28 +77,6 @@ const createDataset = (formData) =>
     // requesting dataset
     datasetsApi
       .get(`${datasetsPath}/${datasetId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  }); */
-
-/**
- * Update Dataset
- * @param {string} datasetId
- * @param {string} datasetName
- * @returns {Promise}
- */
-/* const updateDataset = (datasetId, datasetName) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: datasetName,
-    };
-
-    // updating dataset
-    datasetsApi
-      .patch(`${datasetsPath}/${datasetId}`, body)
       // success
       .then((response) => resolve(response))
       // error
@@ -102,7 +103,7 @@ const createDataset = (formData) =>
 export default {
   listDatasetColumns,
   createDataset,
+  updateDatasetColumn,
   /*     detailDataset,
-  updateDataset,
   deleteDataset, */
 };

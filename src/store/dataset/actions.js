@@ -60,7 +60,6 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
 
 // // // // // // // // // //
 
-// ACTIONS
 // ** CREATE DATASET
 /**
  * create dataset success action
@@ -116,6 +115,63 @@ export const createDatasetRequest = (formData, projectId, experimentId) => (
       dispatch(createDatasetSuccess(response, projectId, experimentId))
     )
     .catch((error) => dispatch(createDatasetFail(error)));
+};
+
+// // // // // // // // // //
+
+// ** UPDATE DATASET COLUMN
+/**
+ * update dataset column success action
+ * @param {Object} response
+ * @returns {Object} { type, column }
+ */
+const updateDatasetColumnSuccess = (response) => {
+  // getting column from response
+  const column = response.data;
+
+  return {
+    type: actionTypes.UPDATE_DATASET_COLUMN_SUCCESS,
+    column,
+  };
+};
+
+/**
+ * update dataset column fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const updateDatasetColumnFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.UPDATE_DATASET_COLUMN_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * update dataset column request action
+ * @param {string} datasetName
+ * @param {string} columnName
+ * @param {string} columnNewType
+ * @returns {Function}
+ */
+export const updateDatasetColumnRequest = (
+  datasetName,
+  columnName,
+  columnNewType
+) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.UPDATE_DATASET_COLUMN_REQUEST,
+  });
+
+  // updating dataset columns
+  datasetsApi
+    .updateDatasetColumn(datasetName, columnName, columnNewType)
+    .then((response) => dispatch(updateDatasetColumnSuccess(response)))
+    .catch((error) => dispatch(updateDatasetColumnFail(error)));
 };
 
 // // // // // // // // // //

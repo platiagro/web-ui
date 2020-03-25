@@ -64,11 +64,11 @@ const DatasetDrawer = ({
   // handler to set dataset column type
   const handleChangeColumnType = (e, row) => {
     // get header id, column id and column position on array
-    const { headerId, uuid: columnId, position: columnPosition } = row;
+    const { name: columnId } = row;
     // set column type const
     const columnType = e;
     // setting column type
-    handleSetColumnType(headerId, columnId, columnType, columnPosition);
+    handleSetColumnType(columnId, columnType);
   };
 
   // COMPONENTS RENDERS

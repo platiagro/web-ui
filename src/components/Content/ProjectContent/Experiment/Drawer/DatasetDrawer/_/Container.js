@@ -7,7 +7,10 @@ import { useParams } from 'react-router-dom';
 import DatasetDrawer from './index';
 
 // ACTIONS
-import { createDatasetRequest } from '../../../../../../../store/dataset/actions';
+import {
+  createDatasetRequest,
+  updateDatasetColumnRequest,
+} from '../../../../../../../store/dataset/actions';
 import { setTargetColumnRequest } from '../../../../../../../store/experiment/actions';
 
 // DISPATCHS
@@ -16,6 +19,11 @@ const mapDispatchToProps = (dispatch) => {
     // create dataset
     handleCreateDataset: (formData, projectId, experimentId) =>
       dispatch(createDatasetRequest(formData, projectId, experimentId)),
+    // update dataset column
+    handleUpdateDatasetColumn: (datasetName, columnName, columnNewType) =>
+      dispatch(
+        updateDatasetColumnRequest(datasetName, columnName, columnNewType)
+      ),
     // set experiment target
     handleSetTarget: (formData, projectId, targetColumnName) =>
       dispatch(setTargetColumnRequest(formData, projectId, targetColumnName)),
@@ -26,6 +34,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     dataset: state.dataset,
+    datasetName: state.experiment.dataset,
     targetColumn: state.experiment.target,
   };
 };
@@ -37,8 +46,10 @@ const mapStateToProps = (state) => {
  */
 const DatasetDrawerContainer = ({
   dataset,
+  datasetName,
   targetColumn,
   handleCreateDataset,
+  handleUpdateDatasetColumn,
   handleSetTarget,
 }) => {
   // CONSTANTS
@@ -49,6 +60,9 @@ const DatasetDrawerContainer = ({
   // create dataset
   const createDatasetHandler = (formData) =>
     handleCreateDataset(formData, projectId, experimentId);
+  // update dataset column
+  const updateDatasetColumnHandler = (columnName, columnNewValue) =>
+    handleUpdateDatasetColumn(datasetName, columnName, columnNewValue);
   // set target
   const setTargetHandler = (targetColumnName) =>
     handleSetTarget(projectId, experimentId, targetColumnName);
@@ -60,6 +74,7 @@ const DatasetDrawerContainer = ({
       targetColumnId={targetColumn}
       handleUploadFiles={createDatasetHandler}
       handleSetTarget={setTargetHandler}
+      handleSetColumnType={updateDatasetColumnHandler}
     />
   );
 };
