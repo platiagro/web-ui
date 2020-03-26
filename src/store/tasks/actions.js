@@ -1,17 +1,24 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
+// SERVICES
 import * as taskServices from '../../services/taskApi';
+
+// UI ACTIONS
+import { tasksTableLoadingData, tasksTableDataLoaded } from '../ui/actions';
 
 // ACTIONS
 /**
  * Function to dispatch action ADD_TASK
  */
-export const dispatchAdd = (task) => {
-  return {
+export const dispatchAdd = (task) => (dispatch) => {
+  // hiding loading
+  dispatch(tasksTableDataLoaded());
+
+  dispatch({
     type: actionTypes.ADD_TASK,
     task,
-  };
+  });
 };
 
 /**
@@ -20,6 +27,9 @@ export const dispatchAdd = (task) => {
  */
 export const addTask = (task) => {
   return (dispatch) => {
+    // showing loading
+    dispatch(tasksTableLoadingData());
+
     return taskServices.createTask(task).then((response) => {
       if (response) {
         dispatch(dispatchAdd(response.data));
@@ -33,11 +43,14 @@ export const addTask = (task) => {
 /**
  * Function to dispatch action UPDATE_TASK
  */
-export const dispatchUpdate = (task) => {
-  return {
+export const dispatchUpdate = (task) => (dispatch) => {
+  // hiding loading
+  dispatch(tasksTableDataLoaded());
+
+  dispatch({
     type: actionTypes.UPDATE_TASK,
     task,
-  };
+  });
 };
 
 /**
@@ -46,6 +59,9 @@ export const dispatchUpdate = (task) => {
  */
 export const updateTask = (uuid, task) => {
   return (dispatch) => {
+    // showing loading
+    dispatch(tasksTableLoadingData());
+
     return taskServices.updateTask(uuid, task).then((response) => {
       if (response) {
         dispatch(dispatchUpdate(response.data));
@@ -60,11 +76,14 @@ export const updateTask = (uuid, task) => {
  * Function to dispatch action DELETE_TASK
  * @param {String} id
  */
-export const dispatchDelete = (id) => {
-  return {
+export const dispatchDelete = (id) => (dispatch) => {
+  // hiding loading
+  dispatch(tasksTableDataLoaded());
+
+  dispatch({
     type: actionTypes.DELETE_TASK,
     id,
-  };
+  });
 };
 
 /**
@@ -73,6 +92,9 @@ export const dispatchDelete = (id) => {
  */
 export const deleteTask = (id) => {
   return (dispatch) => {
+    // showing loading
+    dispatch(tasksTableLoadingData());
+
     return taskServices.deleteTask(id).then((response) => {
       if (response) {
         dispatch(dispatchDelete(id));
@@ -94,11 +116,14 @@ export const fetchStarted = () => {
  * Function to dispatch action FETCH_TASK
  * @param {Object[]} components
  */
-export const dispatchFetchTasks = (tasks) => {
-  return {
+export const dispatchFetchTasks = (tasks) => (dispatch) => {
+  // hiding loading
+  dispatch(tasksTableDataLoaded());
+
+  dispatch({
     type: actionTypes.FETCH_TASK,
     tasks,
-  };
+  });
 };
 
 /**
@@ -106,6 +131,9 @@ export const dispatchFetchTasks = (tasks) => {
  */
 export const fetchTasks = () => {
   return (dispatch) => {
+    // showing loading
+    dispatch(tasksTableLoadingData());
+
     dispatch(fetchStarted());
     return taskServices.getAllTasks().then((response) => {
       if (response) {

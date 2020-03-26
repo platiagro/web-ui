@@ -14,6 +14,7 @@ const TasksTable = ({
   handleClickTask,
   handleClickEdit,
   handleClickDelete,
+  loading,
 }) => {
   // table columns config
   const columnsConfig = [
@@ -63,6 +64,7 @@ const TasksTable = ({
       columns={columnsConfig}
       pagination={{ pageSize: 9 }}
       scroll={{ y: 'calc(100vh - 480px)' }}
+      loading={loading}
     />
   );
 };
@@ -71,6 +73,8 @@ const TasksTable = ({
 TasksTable.propTypes = {
   /** tasks list */
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** tasks table is loading */
+  loading: PropTypes.bool.isRequired,
   /** tasks table click task handle */
   handleClickTask: PropTypes.func.isRequired,
   /** tasks table click edit handle */

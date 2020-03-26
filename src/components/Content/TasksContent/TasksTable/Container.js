@@ -2,6 +2,9 @@
 import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 
+// UI COMPONENTS
+import { ConfigProvider } from 'antd';
+
 // ACTIONS
 import { deleteTask, fetchTasks } from '../../../../store/tasks/actions';
 
@@ -25,6 +28,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.tasks,
+    loading: state.ui.tasksTable.loading,
   };
 };
 
@@ -34,7 +38,9 @@ const mapStateToProps = (state) => {
  * with redux.
  */
 const TasksTableContainer = (props) => {
-  const { tasks } = props;
+  // states
+  const { tasks, loading } = props;
+  // dispatchs
   const { handleClickEdit, handleFetchTasks, handleDeleteTask } = props;
 
   // Fetch tasks on component did mount
@@ -43,15 +49,16 @@ const TasksTableContainer = (props) => {
   }, [handleFetchTasks]);
 
   // RENDER
-  return tasks.length > 0 ? (
-    <TasksTable
-      tasks={tasks}
-      handleClickTask={(uuid) => alert(uuid)}
-      handleClickEdit={handleClickEdit}
-      handleClickDelete={handleDeleteTask}
-    />
-  ) : (
-    <TasksEmpty />
+  return (
+    <ConfigProvider renderEmpty={TasksEmpty}>
+      <TasksTable
+        tasks={tasks}
+        handleClickTask={(uuid) => alert(uuid)}
+        handleClickEdit={handleClickEdit}
+        handleClickDelete={handleDeleteTask}
+        loading={loading}
+      />
+    </ConfigProvider>
   );
 };
 

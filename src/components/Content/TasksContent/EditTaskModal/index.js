@@ -14,6 +14,7 @@ const EditTaskModal = ({
   initialValues,
   handleCloseModal,
   handleEditTask,
+  loading,
   form,
 }) => {
   // getting form utils
@@ -54,6 +55,7 @@ const EditTaskModal = ({
       onCancel={handleCancel}
       onOk={handleSubmit}
       okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+      confirmLoading={loading}
     >
       {/* form details */}
       <Form layout='vertical'>

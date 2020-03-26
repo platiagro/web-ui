@@ -18,13 +18,19 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+// STATES
+const mapStateToProps = (state) => ({
+  loading: state.ui.tasksTable.loading,
+});
+
 /**
  * Edit Task Modal Container.
  * This component is responsible for create a logic container for edit task modal
  * with redux.
  */
-const NewTaskModalContainer = (props) => {
-  const { visible, initialValues } = props;
+const EditTaskModalContainer = (props) => {
+  // states
+  const { visible, loading, initialValues } = props;
   const { handleUpdateTask, handleCloseModal } = props;
 
   // RENDER
@@ -39,11 +45,14 @@ const NewTaskModalContainer = (props) => {
             handleCloseModal();
             message.success(`Alteração realizada com sucesso.`);
           }
-        })
-      }
+        })}
+      loading={loading}
     />
   );
 };
 
 // EXPORT
-export default connect(null, mapDispatchToProps)(NewTaskModalContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditTaskModalContainer);

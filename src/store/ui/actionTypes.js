@@ -17,6 +17,12 @@ const SHOW_DRAWER = 'SHOW_DRAWER';
 // hide drawer
 const HIDE_DRAWER = 'HIDE_DRAWER';
 
+// TASKS TABLE
+// loading data
+const TASKS_TABLE_LOADING_DATA = 'TASKS_TABLE_LOADING_DATA';
+// data loaded
+const TASKS_TABLE_DATA_LOADED = 'TASKS_TABLE_DATA_LOADED';
+
 // EXPORT
 export default {
   // NEW PROJECT MODAL
@@ -30,4 +36,8 @@ export default {
   // DRAWER
   SHOW_DRAWER,
   HIDE_DRAWER,
+
+  // TASKS TABLE
+  TASKS_TABLE_LOADING_DATA,
+  TASKS_TABLE_DATA_LOADED,
 };

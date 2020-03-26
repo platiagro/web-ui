@@ -85,3 +85,31 @@ export const hideDrawer = () => {
 };
 
 // // // // // // // // // //
+
+// ** TASKS TABLE LOADING DATA
+/**
+ * tasks table loading data
+ * @returns {Object} { type, tasksTableLoading }
+ */
+export const tasksTableLoadingData = () => {
+  return {
+    type: actionTypes.TASKS_TABLE_LOADING_DATA,
+    tasksTableLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** TASKS TABLE DATA LOADED
+/**
+ * tasks table loading data
+ * @returns {Object} { type, tasksTableLoading }
+ */
+export const tasksTableDataLoaded = () => {
+  return {
+    type: actionTypes.TASKS_TABLE_DATA_LOADED,
+    tasksTableLoading: false,
+  };
+};
+
+// // // // // // // // // //

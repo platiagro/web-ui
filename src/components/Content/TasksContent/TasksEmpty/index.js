@@ -11,7 +11,7 @@ import emptyImage from '../../../../assets/emptyPlaceholder.png';
  * Tasks Empty.
  * This component is responsible for displaying a tasks empty message.
  */
-const TasksEmpty = () => (
+const TasksEmpty = ({ children }) => (
   // empty component
   <Empty
     image={emptyImage}
@@ -27,7 +27,9 @@ const TasksEmpty = () => (
         <span>Clique no botão &quot;Nova Tarefa&quot; para começar</span>
       </span>
     }
-  />
+  >
+    {children}
+  </Empty>
 );
 
 // EXPORT

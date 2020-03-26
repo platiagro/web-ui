@@ -15,6 +15,7 @@ const NewTaskModal = ({
   handleCloseModal,
   handleNewTask,
   form,
+  loading,
 }) => {
   // getting form utils
   const { getFieldDecorator, getFieldsError, setFieldsValue } = form;
@@ -59,6 +60,7 @@ const NewTaskModal = ({
       onCancel={handleCancel}
       onOk={handleSubmit}
       okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+      confirmLoading={loading}
     >
       {/* form details */}
       <Form layout='vertical'>

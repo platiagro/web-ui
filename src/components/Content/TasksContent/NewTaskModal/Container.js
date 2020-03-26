@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.tasks,
+    loading: state.ui.tasksTable.loading,
   };
 };
 
@@ -31,7 +32,9 @@ const mapStateToProps = (state) => {
  * with redux.
  */
 const NewTaskModalContainer = (props) => {
-  const { tasks, visible } = props;
+  // states
+  const { tasks, visible, loading } = props;
+  // dispatchs
   const { handleAddTask, handleCloseModal } = props;
 
   const sleep = (milliseconds) => {
@@ -59,8 +62,8 @@ const NewTaskModalContainer = (props) => {
             await sleep(1000);
             window.open(`/notebook/anonymous/server`);
           }
-        })
-      }
+        })}
+      loading={loading}
     />
   );
 };
