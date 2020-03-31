@@ -235,13 +235,13 @@ const getComponentData = (components, componentId) => {
     const componentData = components.find(
       (component) => component.uuid === componentId
     );
-    const { name, tags } = componentData;
+    const { name, tags, trainingNotebookPath } = componentData;
 
     // getting icon
     const { icon } = getTagConfig(tags[0]);
 
     // returning component data
-    return { name, icon };
+    return { name, icon, trainingNotebookPath };
   }
 };
 

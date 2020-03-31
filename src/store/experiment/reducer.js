@@ -28,8 +28,6 @@ const experiment = (state = initialState, action) => {
       return { ...action.experiment };
     case actionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
       return { ...action.experiment };
-    case actionTypes.TRAIN_EXPERIMENT_SUCCESS:
-      return { ...action.experiment };
     case actionTypes.DEPLOY_EXPERIMENT_SUCCESS:
       return { ...action.experiment };
     case actionTypes.CREATE_EXPERIMENT_SUCCESS:
@@ -47,8 +45,6 @@ const experiment = (state = initialState, action) => {
     case actionTypes.FETCH_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);
     case actionTypes.EDIT_EXPERIMENT_NAME_FAIL:
-      return message.error(action.errorMessage);
-    case actionTypes.TRAIN_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);
     case actionTypes.DEPLOY_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);

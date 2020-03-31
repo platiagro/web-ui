@@ -7,13 +7,15 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentHeader from './index';
 
 // ACTIONS
+// experiment
 import {
   fetchExperimentRequest,
   editExperimentNameRequest,
-  trainExperiment,
   deployExperiment,
   deleteExperimentRequest,
 } from '../../../../../../store/experiment/actions';
+// pipelines
+import { trainExperimentRequest } from '../../../../../../store/pipelines/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -24,8 +26,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchExperimentRequest(projectId, experimentId)),
     handleEditExperimentName: (projectId, experimentId, newName) =>
       dispatch(editExperimentNameRequest(projectId, experimentId, newName)),
-    handleTrainExperiment: (experimentId) =>
-      dispatch(trainExperiment(experimentId)),
+    handleTrainExperiment: (experiment, operators) =>
+      dispatch(trainExperimentRequest(experiment, operators)),
     handleDeployExperiment: (experimentId) =>
       dispatch(deployExperiment(experimentId)),
   };
@@ -33,7 +35,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { experiment: state.experiment };
+  return { experiment: state.experiment, operators: state.operators };
 };
 
 /**
@@ -43,6 +45,7 @@ const mapStateToProps = (state) => {
  */
 const ExperimentHeaderContainer = ({
   experiment,
+  operators,
   handleDeleteExperiment,
   handleFetchExperiment,
   handleEditExperimentName,
@@ -66,6 +69,9 @@ const ExperimentHeaderContainer = ({
   // edit experiment name
   const editExperimentNameHandler = (newName) =>
     handleEditExperimentName(projectId, experimentId, newName);
+  // edit experiment name
+  const trainExperimentHandler = () =>
+    handleTrainExperiment(experiment, operators);
 
   // RENDER
   return (
@@ -73,7 +79,7 @@ const ExperimentHeaderContainer = ({
       title={experiment.name}
       handleEditExperimentName={editExperimentNameHandler}
       handleDeleteExperiment={deleteHandler}
-      handleTrainExperiment={handleTrainExperiment}
+      handleTrainExperiment={trainExperimentHandler}
       handleDeployExperiment={handleDeployExperiment}
     />
   );

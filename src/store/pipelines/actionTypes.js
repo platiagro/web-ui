@@ -1,0 +1,24 @@
+// ACTION TYPES
+// REQUEST
+// train experiment request
+const TRAIN_EXPERIMENT_REQUEST = 'TRAIN_EXPERIMENT_REQUEST';
+
+// SUCCESS
+// train experiment success
+const TRAIN_EXPERIMENT_SUCCESS = 'TRAIN_EXPERIMENT_SUCCESS';
+
+// FAIL
+// train experiment fail
+const TRAIN_EXPERIMENT_FAIL = 'TRAIN_EXPERIMENT_FAIL';
+
+// EXPORT
+export default {
+  // REQUEST
+  TRAIN_EXPERIMENT_REQUEST,
+
+  // SUCCESS
+  TRAIN_EXPERIMENT_SUCCESS,
+
+  // FAIL
+  TRAIN_EXPERIMENT_FAIL,
+};

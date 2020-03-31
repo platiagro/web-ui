@@ -15,6 +15,7 @@ import implantedExperiments from './implantedExperiments/reducer';
 import tasks from './tasks/reducer';
 import ui from './ui/reducer';
 import dataset from './dataset/reducer';
+import pipelines from './pipelines/reducer';
 
 // REDUX DEV TOOLS CONFIG
 const composeEnhancers =
@@ -39,6 +40,7 @@ const reducers = combineReducers({
   tasks,
   ui,
   dataset,
+  pipelines,
 });
 
 // STORE
