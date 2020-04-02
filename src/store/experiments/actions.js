@@ -4,6 +4,12 @@ import actionTypes from './actionTypes';
 // SERVICES
 import experimentsApi from '../../services/ExperimentsApi';
 
+// UI ACTIONS
+import {
+  experimentsTabsDataLoaded,
+  experimentsTabsLoadingData,
+} from '../ui/actions';
+
 // ACTIONS
 // ** FETCH EXPERIMENTS
 /**
@@ -11,14 +17,18 @@ import experimentsApi from '../../services/ExperimentsApi';
  * @param {Object} response
  * @returns {Object} { type, experiments }
  */
-const fetchExperimentsSuccess = (response) => {
+const fetchExperimentsSuccess = (response) => (dispatch) => {
   // getting experiments from response
   const experiments = response.data;
 
-  return {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching fetch experiments success action
+  dispatch({
     type: actionTypes.FETCH_EXPERIMENTS_SUCCESS,
     experiments,
-  };
+  });
 };
 
 /**
@@ -26,14 +36,18 @@ const fetchExperimentsSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const fetchExperimentsFail = (error) => {
+const fetchExperimentsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching fetch experiments fail action
+  dispatch({
     type: actionTypes.FETCH_EXPERIMENTS_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -46,6 +60,9 @@ export const fetchExperimentsRequest = (projectId) => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_EXPERIMENTS_REQUEST,
   });
+
+  // dispatching experiments tabs loading data action
+  dispatch(experimentsTabsLoadingData());
 
   // fetching experiments
   experimentsApi
@@ -62,12 +79,18 @@ export const fetchExperimentsRequest = (projectId) => (dispatch) => {
  * @param {Object} response
  * @returns {Object} { type, dragExperimentId, hoverExperimentId }
  */
-const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => {
-  return {
+const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
+  dispatch
+) => {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching organize experiments success action
+  dispatch({
     type: actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS,
     dragExperimentId,
     hoverExperimentId,
-  };
+  });
 };
 
 /**
@@ -75,14 +98,18 @@ const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const organizeExperimentsFail = (error) => {
+const organizeExperimentsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching organize experiments fail action
+  dispatch({
     type: actionTypes.ORGANIZE_EXPERIMENTS_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -103,13 +130,16 @@ export const organizeExperimentsRequest = (
     type: actionTypes.ORGANIZE_EXPERIMENTS_REQUEST,
   });
 
+  // dispatching experiments tabs loading data action
+  dispatch(experimentsTabsLoadingData());
+
   // constructing experiment object
   const experiment = { position: newPosition };
 
   // organizeing experiments
   experimentsApi
     .updateExperiment(projectId, dragExperimentId, experiment)
-    .then((response) =>
+    .then(() =>
       dispatch(organizeExperimentsSuccess(dragExperimentId, hoverExperimentId))
     )
     .catch((error) => dispatch(organizeExperimentsFail(error)));

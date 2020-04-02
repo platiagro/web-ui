@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Tabs, Icon } from 'antd';
+import { Tabs, Spin, Icon } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';
@@ -17,6 +17,7 @@ const { TabPane } = Tabs;
  */
 const ExperimentsTabs = ({
   experiments,
+  loading,
   handleChange,
   handleMoveTab,
   activeExperiment,
@@ -32,31 +33,51 @@ const ExperimentsTabs = ({
       {running && <Icon type='loading' />}
     </>
   );
+  // render tabs
+  const renderTabs = () => {
+    // if is loading
+    if (loading) {
+      // rendering loading tab
+      return (
+        <TabPane
+          tab={<Spin size='small' indicator={<Icon type='loading' spin />} />}
+          disabled
+          key='sem experimento'
+        />
+      );
+    }
+
+    // has experiments
+    if (experiments.length > 0) {
+      // rendering tabs
+      return experiments.map(({ name, uuid, running }) => (
+        <TabPane tab={renderTitle(name, running)} key={uuid} />
+      ));
+    }
+
+    // rendering empty tab
+    return (
+      <TabPane
+        tab={renderTitle('Sem experimentos')}
+        disabled
+        key='sem experimento'
+      />
+    );
+  };
 
   return (
-    // draggable tabs component
+    /* draggable tabs component */
     <DraggableTabs
       handleMoveTab={handleMoveTab}
       onChange={handleChange}
       activeExperiment={activeExperiment}
     >
-      {experiments.length > 0 ? (
-        // rendering tabs
-        experiments.map(({ name, uuid, running }) => (
-          <TabPane tab={renderTitle(name, running)} key={uuid} />
-        ))
-      ) : (
-        // rendering empty tab
-        <TabPane
-          tab={renderTitle('Sem experimentos')}
-          disabled
-          key='sem experimento'
-        />
-      )}
+      {renderTabs()}
     </DraggableTabs>
   );
 };
 
+// TODO: add loading prop
 // PROP TYPES
 ExperimentsTabs.propTypes = {
   /** experiments list */

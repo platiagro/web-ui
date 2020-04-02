@@ -11,6 +11,7 @@ import { Modal, Form, Input } from 'antd';
  */
 const NewExperimentModal = ({
   visible,
+  loading,
   handleCloseModal,
   handleNewExperiment,
   form,
@@ -58,7 +59,10 @@ const NewExperimentModal = ({
       cancelText='Cancelar'
       onCancel={handleCancel}
       onOk={handleSubmit}
-      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+      okButtonProps={{
+        disabled: hasErrors(getFieldsError()),
+        loading,
+      }}
     >
       {/* form details */}
       <Form layout='vertical'>

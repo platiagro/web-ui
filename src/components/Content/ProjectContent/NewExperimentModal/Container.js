@@ -23,7 +23,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { modalVisible: state.ui.newExperimentModal.visible };
+  return {
+    modalVisible: state.ui.newExperimentModal.visible,
+    loading: state.ui.experimentsTabs.loading,
+  };
 };
 
 /**
@@ -33,6 +36,7 @@ const mapStateToProps = (state) => {
  */
 const NewExperimentModalContainer = ({
   modalVisible,
+  loading,
   handleHideExperimentModal,
   handleCreateExperiment,
 }) => {
@@ -50,6 +54,7 @@ const NewExperimentModalContainer = ({
       visible={modalVisible}
       handleCloseModal={handleHideExperimentModal}
       handleNewExperiment={newExperimentHandler}
+      loading={loading}
     />
   );
 };

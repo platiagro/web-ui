@@ -10,6 +10,7 @@ const initialState = {
   projectsTable: { loading: false },
   projectName: { loading: false },
   componentsMenu: { loading: false },
+  experimentsTabs: { loading: false },
 };
 
 /**
@@ -145,6 +146,26 @@ const ui = (state = initialState, action) => {
         componentsMenu: {
           ...state.componentsMenu,
           loading: action.componentsMenuLoading,
+        },
+      };
+
+    // EXPERIMENTS TABS
+    // loading data
+    case actionTypes.EXPERIMENTS_TABS_LOADING_DATA:
+      return {
+        ...state,
+        experimentsTabs: {
+          ...state.experimentsTabs,
+          loading: action.experimentsTabsLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.EXPERIMENTS_TABS_DATA_LOADED:
+      return {
+        ...state,
+        experimentsTabs: {
+          ...state.experimentsTabs,
+          loading: action.experimentsTabsLoading,
         },
       };
 

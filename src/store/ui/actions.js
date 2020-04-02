@@ -197,3 +197,31 @@ export const componentsMenuDataLoaded = () => {
 };
 
 // // // // // // // // // //
+
+// ** EXPERIMENTS TABS LOADING DATA
+/**
+ * experiments tabs loading data
+ * @returns {Object} { type, experimentsTabsLoading }
+ */
+export const experimentsTabsLoadingData = () => {
+  return {
+    type: actionTypes.EXPERIMENTS_TABS_LOADING_DATA,
+    experimentsTabsLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** EXPERIMENTS TABS DATA LOADED
+/**
+ * experiments tabs loading data
+ * @returns {Object} { type, experimentsTabsLoading }
+ */
+export const experimentsTabsDataLoaded = () => {
+  return {
+    type: actionTypes.EXPERIMENTS_TABS_DATA_LOADED,
+    experimentsTabsLoading: false,
+  };
+};
+
+// // // // // // // // // //

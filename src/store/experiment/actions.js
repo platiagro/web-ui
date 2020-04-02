@@ -5,7 +5,11 @@ import actionTypes from './actionTypes';
 import experimentsApi from '../../services/ExperimentsApi';
 
 // UI ACTIONS
-import { hideNewExperimentModal } from '../ui/actions';
+import {
+  hideNewExperimentModal,
+  experimentsTabsDataLoaded,
+  experimentsTabsLoadingData,
+} from '../ui/actions';
 
 // OPERATORS ACTIONS
 import { fetchOperatorsRequest } from '../operators/actions';
@@ -91,6 +95,9 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
   // dispatching hide new experiment modal action
   dispatch(hideNewExperimentModal());
 
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
   // fetching operators
   dispatch(
     fetchOperatorsRequest(projectId, experiment.uuid, experiment.dataset)
@@ -111,14 +118,18 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const createExperimentFail = (error) => {
+const createExperimentFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching create experiment fail action
+  dispatch({
     type: actionTypes.CREATE_EXPERIMENT_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -138,6 +149,9 @@ export const createExperimentRequest = (
     type: actionTypes.CREATE_EXPERIMENT_REQUEST,
   });
 
+  // dispatching experiments tabs loading data action
+  dispatch(experimentsTabsLoadingData());
+
   // creating experiment
   experimentsApi
     .createExperiment(projectId, experimentName)
@@ -155,14 +169,18 @@ export const createExperimentRequest = (
  * @param {Object} response
  * @returns {Object} { type, experiment }
  */
-const editExperimentNameSuccess = (response) => {
+const editExperimentNameSuccess = (response) => (dispatch) => {
   // getting experiment from response
   const experiment = response.data;
 
-  return {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching edit experiment name success
+  dispatch({
     type: actionTypes.EDIT_EXPERIMENT_NAME_SUCCESS,
     experiment,
-  };
+  });
 };
 
 /**
@@ -170,14 +188,18 @@ const editExperimentNameSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const editExperimentNameFail = (error) => {
+const editExperimentNameFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching edit experiment name fail action
+  dispatch({
     type: actionTypes.EDIT_EXPERIMENT_NAME_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -194,6 +216,9 @@ export const editExperimentNameRequest = (projectId, experimentId, newName) => (
   dispatch({
     type: actionTypes.EDIT_EXPERIMENT_NAME_REQUEST,
   });
+
+  // dispatching experiments tabs loading data action
+  dispatch(experimentsTabsLoadingData());
 
   // creating experiment object
   const experiment = { name: newName };
@@ -215,14 +240,20 @@ export const editExperimentNameRequest = (projectId, experimentId, newName) => (
  * @param {Object} routerProps
  * @returns {Object} { type }
  */
-const deleteExperimentSuccess = (projectId, experimentId, routerProps) => {
+const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
+  dispatch
+) => {
   // go to project
   routerProps.history.push(`/projetos/${projectId}`);
 
-  return {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching delete experiment success
+  dispatch({
     type: actionTypes.DELETE_EXPERIMENT_SUCCESS,
     experimentId,
-  };
+  });
 };
 
 /**
@@ -230,14 +261,18 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const deleteExperimentFail = (error) => {
+const deleteExperimentFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiments tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
+  // dispatching delete experiment fail
+  dispatch({
     type: actionTypes.DELETE_EXPERIMENT_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -256,6 +291,9 @@ export const deleteExperimentRequest = (
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_REQUEST,
   });
+
+  // dispatching experiments tabs loading data action
+  dispatch(experimentsTabsLoadingData());
 
   // deleting experiment
   experimentsApi

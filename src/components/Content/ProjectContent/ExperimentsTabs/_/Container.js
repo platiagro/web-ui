@@ -39,7 +39,10 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { experiments: state.experiments };
+  return {
+    experiments: state.experiments,
+    loading: state.ui.experimentsTabs.loading,
+  };
 };
 
 /**
@@ -49,6 +52,7 @@ const mapStateToProps = (state) => {
  */
 const ExperimentTabsContainer = ({
   experiments,
+  loading,
   handleFetchExperiments,
   handleOrganizeExperiments,
   handleFetchExperiment,
@@ -100,6 +104,7 @@ const ExperimentTabsContainer = ({
       experiments={experiments}
       handleChange={handleChangeTab}
       handleMoveTab={handleOrganizeTabs}
+      loading={loading}
     />
   );
 };
