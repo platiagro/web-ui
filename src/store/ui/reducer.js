@@ -12,6 +12,7 @@ const initialState = {
   componentsMenu: { loading: false },
   experimentsTabs: { loading: false },
   experimentName: { loading: false },
+  experimentOperators: { loading: false },
 };
 
 /**
@@ -187,6 +188,26 @@ const ui = (state = initialState, action) => {
         experimentName: {
           ...state.experimentName,
           loading: action.experimentNameLoading,
+        },
+      };
+
+    // EXPERIMENT OPERATORS
+    // loading data
+    case actionTypes.EXPERIMENT_OPERATORS_LOADING_DATA:
+      return {
+        ...state,
+        experimentOperators: {
+          ...state.experimentOperators,
+          loading: action.experimentOperatorsLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.EXPERIMENT_OPERATORS_DATA_LOADED:
+      return {
+        ...state,
+        experimentOperators: {
+          ...state.experimentOperators,
+          loading: action.experimentOperatorsLoading,
         },
       };
 

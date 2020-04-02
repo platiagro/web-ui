@@ -11,6 +11,8 @@ import {
   experimentsTabsLoadingData,
   experimentNameDataLoaded,
   experimentNameLoadingData,
+  experimentOperatorsDataLoaded,
+  experimentOperatorsLoadingData,
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
@@ -282,6 +284,9 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
   // dispatching experiment name data loaded action
   dispatch(experimentNameDataLoaded());
 
+  // dispatching experiment operators data loaded action
+  dispatch(experimentOperatorsDataLoaded());
+
   // dispatching delete experiment success
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_SUCCESS,
@@ -303,6 +308,9 @@ const deleteExperimentFail = (error) => (dispatch) => {
 
   // dispatching experiment name data loaded action
   dispatch(experimentNameDataLoaded());
+
+  // dispatching experiment operators data loaded action
+  dispatch(experimentOperatorsDataLoaded());
 
   // dispatching delete experiment fail
   dispatch({
@@ -333,6 +341,9 @@ export const deleteExperimentRequest = (
 
   // dispatching experiment name loading data action
   dispatch(experimentNameLoadingData());
+
+  // dispatching experiment operators loading data action
+  dispatch(experimentOperatorsLoadingData());
 
   // deleting experiment
   experimentsApi

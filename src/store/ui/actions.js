@@ -253,3 +253,31 @@ export const experimentNameDataLoaded = () => {
 };
 
 // // // // // // // // // //
+
+// ** EXPERIMENT OPERATORS LOADING DATA
+/**
+ * experiment operators loading data
+ * @returns {Object} { type, experimentOperatorsLoading }
+ */
+export const experimentOperatorsLoadingData = () => {
+  return {
+    type: actionTypes.EXPERIMENT_OPERATORS_LOADING_DATA,
+    experimentOperatorsLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** EXPERIMENT OPERATORS DATA LOADED
+/**
+ * experiment operators loading data
+ * @returns {Object} { type, experimentOperatorsLoading }
+ */
+export const experimentOperatorsDataLoaded = () => {
+  return {
+    type: actionTypes.EXPERIMENT_OPERATORS_DATA_LOADED,
+    experimentOperatorsLoading: false,
+  };
+};
+
+// // // // // // // // // //

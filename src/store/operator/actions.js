@@ -5,7 +5,11 @@ import actionTypes from './actionTypes';
 import operatorsApi from '../../services/OperatorsApi';
 
 // UI ACTIONS
-import { showDrawer } from '../ui/actions';
+import {
+  showDrawer,
+  experimentOperatorsDataLoaded,
+  experimentOperatorsLoadingData,
+} from '../ui/actions';
 
 // DATASET ACTIONS
 import { fetchDatasetColumnsRequest } from '../dataset/actions';
@@ -47,12 +51,17 @@ export const selectOperator = (operator) => (dispatch) => {
  * @param {Object} componentName
  * @returns {Object} { type, operator }
  */
-const createOperatorSuccess = (response, componentIcon, componentName) => {
+const createOperatorSuccess = (response, componentIcon, componentName) => (
+  dispatch
+) => {
   // getting operator from response
   const operator = response.data;
 
+  // dispatching experiment operators data loaded action
+  dispatch(experimentOperatorsDataLoaded());
+
   // dispatching create operator success action
-  return {
+  dispatch({
     type: actionTypes.CREATE_OPERATOR_SUCCESS,
     operator: {
       ...operator,
@@ -60,7 +69,7 @@ const createOperatorSuccess = (response, componentIcon, componentName) => {
       name: componentName,
       selected: false,
     },
-  };
+  });
 };
 
 /**
@@ -68,14 +77,18 @@ const createOperatorSuccess = (response, componentIcon, componentName) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const createOperatorFail = (error) => {
+const createOperatorFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiment operators data loaded action
+  dispatch(experimentOperatorsDataLoaded());
+
+  // dispatching create operator fail
+  dispatch({
     type: actionTypes.CREATE_OPERATOR_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -96,6 +109,9 @@ export const createOperatorRequest = (
   dispatch({
     type: actionTypes.CREATE_OPERATOR_REQUEST,
   });
+
+  // dispatching experiment operators loading data action
+  dispatch(experimentOperatorsLoadingData());
 
   // getting component icon
   const { name: componentName, icon: componentIcon } = utils.getComponentData(

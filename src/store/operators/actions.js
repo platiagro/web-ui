@@ -5,6 +5,12 @@ import actionTypes from './actionTypes';
 import operatorsApi from '../../services/OperatorsApi';
 import componentsApi from '../../services/ComponentsApi';
 
+// UI ACTIONS
+import {
+  experimentOperatorsDataLoaded,
+  experimentOperatorsLoadingData,
+} from '../ui/actions';
+
 // UTILS
 import utils from '../../utils';
 
@@ -15,11 +21,15 @@ import utils from '../../utils';
  * @param {Object} response
  * @returns {Object} { type, operators }
  */
-const fetchOperatorsSuccess = (operators) => {
-  return {
+const fetchOperatorsSuccess = (operators) => (dispatch) => {
+  // dispatching experiment operators data loaded action
+  dispatch(experimentOperatorsDataLoaded());
+
+  // dispatching fetch operators success action
+  dispatch({
     type: actionTypes.FETCH_OPERATORS_SUCCESS,
     operators,
-  };
+  });
 };
 
 /**
@@ -27,14 +37,18 @@ const fetchOperatorsSuccess = (operators) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const fetchOperatorsFail = (error) => {
+const fetchOperatorsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiment operators data loaded action
+  dispatch(experimentOperatorsDataLoaded());
+
+  // dispatching fetch operators fail
+  dispatch({
     type: actionTypes.FETCH_OPERATORS_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -53,6 +67,9 @@ export const fetchOperatorsRequest = (
   dispatch({
     type: actionTypes.FETCH_OPERATORS_REQUEST,
   });
+
+  // dispatching experiment operators loading data action
+  dispatch(experimentOperatorsLoadingData());
 
   // dataset operator mock
   const dataset = {

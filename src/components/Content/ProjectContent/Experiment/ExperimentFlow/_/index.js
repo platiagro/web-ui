@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Row, Col } from 'antd';
+import { Spin, Row, Col } from 'antd';
 import { ArcherContainer, ArcherElement } from 'react-archer';
 
 // COMPONENTS
@@ -23,7 +23,7 @@ const columnSize = 24 / columnsNumber;
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
  */
-const ExperimentFlow = ({ components, handleTaskBoxClick }) => {
+const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
   // COMPONENTS RENDERS
   // flow grid column
   const renderFlowGridColumn = (
@@ -133,14 +133,18 @@ const ExperimentFlow = ({ components, handleTaskBoxClick }) => {
 
   // RENDER
   return (
-    // arrow connection container
-    <ArcherContainer strokeColor='gray' noCurves>
-      {/* flow grid */}
-      <div className='experiment-wraper'>{renderFlowGrid()}</div>
-    </ArcherContainer>
+    // loading spinner
+    <Spin spinning={loading}>
+      {/* arrow connection container */}
+      <ArcherContainer strokeColor='gray' noCurves>
+        {/* flow grid */}
+        <div className='experiment-wraper'>{renderFlowGrid()}</div>
+      </ArcherContainer>
+    </Spin>
   );
 };
 
+// TODO: add loading prop
 // PROP TYPES
 ExperimentFlow.propTypes = {
   /** experiment flow components list */

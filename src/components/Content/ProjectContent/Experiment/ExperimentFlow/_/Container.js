@@ -19,7 +19,11 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { operators: state.operators, datasetName: state.experiment.dataset };
+  return {
+    operators: state.operators,
+    datasetName: state.experiment.dataset,
+    loading: state.ui.experimentOperators.loading,
+  };
 };
 
 // TODO: Implementar "Conexão" Drawer
@@ -30,7 +34,11 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for experiment flow
  * with redux.
  */
-const ExperimentFlowContainer = ({ operators, handleShowOperatorDetails }) => {
+const ExperimentFlowContainer = ({
+  operators,
+  loading,
+  handleShowOperatorDetails,
+}) => {
   // CONSTANTS
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
@@ -39,6 +47,7 @@ const ExperimentFlowContainer = ({ operators, handleShowOperatorDetails }) => {
   return (
     <ExperimentFlow
       components={operators}
+      loading={loading}
       handleTaskBoxClick={handleShowOperatorDetails}
     />
   );
