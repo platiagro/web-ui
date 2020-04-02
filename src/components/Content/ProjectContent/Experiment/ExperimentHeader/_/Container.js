@@ -35,7 +35,11 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { experiment: state.experiment, operators: state.operators };
+  return {
+    experiment: state.experiment,
+    operators: state.operators,
+    loading: state.ui.experimentName.loading,
+  };
 };
 
 /**
@@ -46,6 +50,7 @@ const mapStateToProps = (state) => {
 const ExperimentHeaderContainer = ({
   experiment,
   operators,
+  loading,
   handleDeleteExperiment,
   handleFetchExperiment,
   handleEditExperimentName,
@@ -81,6 +86,7 @@ const ExperimentHeaderContainer = ({
       handleDeleteExperiment={deleteHandler}
       handleTrainExperiment={trainExperimentHandler}
       handleDeployExperiment={handleDeployExperiment}
+      loading={loading}
     />
   );
 };

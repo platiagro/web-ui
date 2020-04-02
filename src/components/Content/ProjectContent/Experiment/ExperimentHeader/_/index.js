@@ -17,6 +17,7 @@ import DeployExperimentButton from '../DeployExperimentButton';
  */
 const ExperimentHeader = ({
   title,
+  loading,
   handleDeleteExperiment,
   handleEditExperimentName,
   handleTrainExperiment,
@@ -29,7 +30,7 @@ const ExperimentHeader = ({
       {/* title */}
       <Title
         title={title}
-        loading={false}
+        loading={loading}
         level={4}
         handleSubmit={handleEditExperimentName}
       />
@@ -55,6 +56,7 @@ const ExperimentHeader = ({
       <DeleteExperimentButton
         disabled={false}
         handleClick={handleDeleteExperiment}
+        loading={loading}
       />
     </Col>
   </Row>

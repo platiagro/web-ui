@@ -11,6 +11,7 @@ const initialState = {
   projectName: { loading: false },
   componentsMenu: { loading: false },
   experimentsTabs: { loading: false },
+  experimentName: { loading: false },
 };
 
 /**
@@ -166,6 +167,26 @@ const ui = (state = initialState, action) => {
         experimentsTabs: {
           ...state.experimentsTabs,
           loading: action.experimentsTabsLoading,
+        },
+      };
+
+    // EXPERIMENT NAME
+    // loading data
+    case actionTypes.EXPERIMENT_NAME_LOADING_DATA:
+      return {
+        ...state,
+        experimentName: {
+          ...state.experimentName,
+          loading: action.experimentNameLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.EXPERIMENT_NAME_DATA_LOADED:
+      return {
+        ...state,
+        experimentName: {
+          ...state.experimentName,
+          loading: action.experimentNameLoading,
         },
       };
 

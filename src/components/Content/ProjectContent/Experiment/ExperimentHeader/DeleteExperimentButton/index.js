@@ -9,7 +9,7 @@ import { Button, Popconfirm } from 'antd';
  * Delete Experiment Button.
  * This component is responsible for show delete experiment button.
  */
-const DeleteExperimentButton = ({ handleClick, disabled }) => (
+const DeleteExperimentButton = ({ handleClick, disabled, loading }) => (
   // Popconfirm component
   <Popconfirm
     title='Você tem certeza que deseja excluir esse experimento?'
@@ -24,6 +24,7 @@ const DeleteExperimentButton = ({ handleClick, disabled }) => (
       type='danger'
       icon='delete'
       style={{ float: 'right' }}
+      loading={loading}
     />
   </Popconfirm>
 );
