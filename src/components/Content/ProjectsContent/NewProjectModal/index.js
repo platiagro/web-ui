@@ -11,6 +11,7 @@ import { Modal, Form, Input } from 'antd';
  */
 const NewProjectModal = ({
   visible,
+  loading,
   handleCloseModal,
   handleNewProject,
   form,
@@ -59,6 +60,7 @@ const NewProjectModal = ({
       onCancel={handleCancel}
       onOk={handleSubmit}
       okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+      confirmLoading={loading}
     >
       {/* form details */}
       <Form layout='vertical'>
@@ -78,6 +80,7 @@ const NewProjectModal = ({
   );
 };
 
+// TODO: create loading proptypes
 // PROP TYPES
 NewProjectModal.propTypes = {
   /** new project modal visible */

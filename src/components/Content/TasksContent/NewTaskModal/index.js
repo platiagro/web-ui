@@ -129,6 +129,7 @@ const NewTaskModal = ({
   );
 };
 
+// TODO: create loading proptypes
 // PROP TYPES
 NewTaskModal.propTypes = {
   /** new task modal visible */

@@ -4,6 +4,12 @@ import actionTypes from './actionTypes';
 // SERVICES
 import projectsApi from '../../services/ProjectsApi';
 
+// UI ACTIONS
+import {
+  projectsTableLoadingData,
+  projectsTableDataLoaded,
+} from '../ui/actions';
+
 // ACTIONS
 // ** FETCH PROJECTS
 /**
@@ -11,14 +17,18 @@ import projectsApi from '../../services/ProjectsApi';
  * @param {Object} response
  * @returns {Object} { type, projects }
  */
-const fetchProjectsSuccess = (response) => {
+const fetchProjectsSuccess = (response) => (dispatch) => {
   // getting projects from response
   const projects = response.data;
 
-  return {
+  // dispatching projects table data loaded action
+  dispatch(projectsTableDataLoaded());
+
+  // dispatching fetch projects success action
+  dispatch({
     type: actionTypes.FETCH_PROJECTS_SUCCESS,
     projects,
-  };
+  });
 };
 
 /**
@@ -26,14 +36,18 @@ const fetchProjectsSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const fetchProjectsFail = (error) => {
+const fetchProjectsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching projects table data loaded action
+  dispatch(projectsTableDataLoaded());
+
+  // dispatching fetch projects fail action
+  dispatch({
     type: actionTypes.FETCH_PROJECTS_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -45,6 +59,9 @@ const fetchProjectsRequest = () => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_PROJECTS_REQUEST,
   });
+
+  // dispatching projects table loading data action
+  dispatch(projectsTableLoadingData());
 
   // fetching projects
   projectsApi

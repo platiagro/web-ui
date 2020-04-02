@@ -113,3 +113,31 @@ export const tasksTableDataLoaded = () => {
 };
 
 // // // // // // // // // //
+
+// ** PROJECTS TABLE LOADING DATA
+/**
+ * projects table loading data
+ * @returns {Object} { type, projectsTableLoading }
+ */
+export const projectsTableLoadingData = () => {
+  return {
+    type: actionTypes.PROJECTS_TABLE_LOADING_DATA,
+    projectsTableLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** PROJECTS TABLE DATA LOADED
+/**
+ * projects table loading data
+ * @returns {Object} { type, projectsTableLoading }
+ */
+export const projectsTableDataLoaded = () => {
+  return {
+    type: actionTypes.PROJECTS_TABLE_DATA_LOADED,
+    projectsTableLoading: false,
+  };
+};
+
+// // // // // // // // // //

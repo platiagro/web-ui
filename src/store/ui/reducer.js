@@ -7,6 +7,7 @@ const initialState = {
   newExperimentModal: { visible: false },
   drawer: { visible: false, isDataset: false, title: 'Título Drawer' },
   tasksTable: { loading: false },
+  projectsTable: { loading: false },
 };
 
 /**
@@ -83,6 +84,26 @@ const ui = (state = initialState, action) => {
       return {
         ...state,
         tasksTable: { ...state.tasksTable, loading: action.tasksTableLoading },
+      };
+
+    // PROJECTS TABLE
+    // loading data
+    case actionTypes.PROJECTS_TABLE_LOADING_DATA:
+      return {
+        ...state,
+        projectsTable: {
+          ...state.projectsTable,
+          loading: action.projectsTableLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.PROJECTS_TABLE_DATA_LOADED:
+      return {
+        ...state,
+        projectsTable: {
+          ...state.projectsTable,
+          loading: action.projectsTableLoading,
+        },
       };
 
     // DEFAULT

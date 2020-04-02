@@ -24,7 +24,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 // STATES
 const mapStateToProps = (state) => {
   // new project modal visible
-  return { modalVisible: state.ui.newProjectModal.visible };
+  return {
+    modalVisible: state.ui.newProjectModal.visible,
+    loading: state.ui.projectsTable.loading,
+  };
 };
 
 /**
@@ -34,6 +37,7 @@ const mapStateToProps = (state) => {
  */
 const NewProjectModalContainer = ({
   modalVisible,
+  loading,
   handleCloseModal,
   handleCreateProject,
 }) => (
@@ -41,6 +45,7 @@ const NewProjectModalContainer = ({
     visible={modalVisible}
     handleCloseModal={handleCloseModal}
     handleNewProject={handleCreateProject}
+    loading={loading}
   />
 );
 

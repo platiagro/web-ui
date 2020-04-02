@@ -5,14 +5,16 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Table, Button, Popconfirm } from 'antd';
 
-// COMPONENTS
-import ProjectsEmpty from '../ProjectsEmpty';
-
 /**
  * Projects Table.
  * This component is responsible for displaying projects table.
  */
-const ProjectsTable = ({ projects, handleClickProject, handleClickDelete }) => {
+const ProjectsTable = ({
+  projects,
+  loading,
+  handleClickProject,
+  handleClickDelete,
+}) => {
   // table columns config
   const columnsConfig = [
     {
@@ -51,7 +53,7 @@ const ProjectsTable = ({ projects, handleClickProject, handleClickDelete }) => {
   ];
 
   // RENDER
-  return projects && projects.length > 0 ? (
+  return (
     // table
     <Table
       className='projectsTable'
@@ -60,13 +62,12 @@ const ProjectsTable = ({ projects, handleClickProject, handleClickDelete }) => {
       columns={columnsConfig}
       pagination={{ pageSize: 9 }}
       scroll={{ y: 'calc(100vh - 480px)' }}
+      loading={loading}
     />
-  ) : (
-    // projects empty
-    <ProjectsEmpty />
   );
 };
 
+// TODO: create loading proptypes
 // PROP TYPES
 ProjectsTable.propTypes = {
   /** projects list */

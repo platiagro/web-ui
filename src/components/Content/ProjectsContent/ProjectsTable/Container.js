@@ -3,7 +3,11 @@ import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+// UI COMPONENTS
+import { ConfigProvider } from 'antd';
+
 // COMPONENTS
+import ProjectsEmpty from '../ProjectsEmpty';
 import ProjectsTable from './index';
 
 // ACTIONS
@@ -21,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { projects: state.projects };
+  return { projects: state.projects, loading: state.ui.projectsTable.loading };
 };
 
 /**
@@ -31,6 +35,7 @@ const mapStateToProps = (state) => {
  */
 const ProjectsTableContainer = ({
   projects,
+  loading,
   handleFetchProjects,
   handleDeleteProject,
 }) => {
@@ -52,11 +57,14 @@ const ProjectsTableContainer = ({
 
   // RENDER
   return (
-    <ProjectsTable
-      projects={projects}
-      handleClickProject={handleClickProject}
-      handleClickDelete={handleDeleteProject}
-    />
+    <ConfigProvider renderEmpty={ProjectsEmpty}>
+      <ProjectsTable
+        projects={projects}
+        handleClickProject={handleClickProject}
+        handleClickDelete={handleDeleteProject}
+        loading={loading}
+      />
+    </ConfigProvider>
   );
 };
 

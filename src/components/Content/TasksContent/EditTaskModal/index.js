@@ -85,6 +85,7 @@ const EditTaskModal = ({
   );
 };
 
+// TODO: create loading proptypes
 // PROP TYPES
 EditTaskModal.propTypes = {
   /** edit task modal visible */

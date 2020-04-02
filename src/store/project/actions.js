@@ -5,7 +5,11 @@ import actionTypes from './actionTypes';
 import projectsApi from '../../services/ProjectsApi';
 
 // UI ACTIONS
-import { hideNewProjectModal } from '../ui/actions';
+import {
+  hideNewProjectModal,
+  projectsTableLoadingData,
+  projectsTableDataLoaded,
+} from '../ui/actions';
 
 // COMPONENTS ACTION
 import { fetchComponentsRequest } from '../components/actions';
@@ -75,10 +79,13 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
+  // dispatching projects table data loaded action
+  dispatch(projectsTableDataLoaded());
+
   // dispatching hide modal
   dispatch(hideNewProjectModal());
 
-  // dispatching project success
+  // dispatching create project success
   dispatch({
     type: actionTypes.CREATE_PROJECT_SUCCESS,
     project,
@@ -93,14 +100,18 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const createProjectFail = (error) => {
+const createProjectFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching projects table data loaded action
+  dispatch(projectsTableDataLoaded());
+
+  // dispatching create project fail
+  dispatch({
     type: actionTypes.CREATE_PROJECT_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -114,6 +125,9 @@ export const createProjectRequest = (projectName, routerProps) => (
   dispatch({
     type: actionTypes.CREATE_PROJECT_REQUEST,
   });
+
+  // dispatching projects table loading data action
+  dispatch(projectsTableLoadingData());
 
   // creating project
   projectsApi
@@ -184,11 +198,15 @@ export const editProjectNameRequest = (projectId, newProjectName) => (
  * @param {Object} projectId
  * @returns {Object} { type }
  */
-const deleteProjectSuccess = (projectId) => {
-  return {
+const deleteProjectSuccess = (projectId) => (dispatch) => {
+  // dispatching projects table data loaded action
+  dispatch(projectsTableDataLoaded());
+
+  // dispatching delete projects success action
+  dispatch({
     type: actionTypes.DELETE_PROJECT_SUCCESS,
     projectId,
-  };
+  });
 };
 
 /**
@@ -196,14 +214,18 @@ const deleteProjectSuccess = (projectId) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const deleteProjectFail = (error) => {
+const deleteProjectFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching projects table data loaded action
+  dispatch(projectsTableDataLoaded());
+
+  // dispatching delete projects fail action
+  dispatch({
     type: actionTypes.DELETE_PROJECT_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -215,6 +237,9 @@ export const deleteProjectRequest = (projectId) => (dispatch) => {
   dispatch({
     type: actionTypes.DELETE_PROJECT_REQUEST,
   });
+
+  // dispatching projects table loading data action
+  dispatch(projectsTableLoadingData());
 
   // deleting project
   projectsApi
