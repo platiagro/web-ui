@@ -141,3 +141,31 @@ export const projectsTableDataLoaded = () => {
 };
 
 // // // // // // // // // //
+
+// ** PROJECT NAME LOADING DATA
+/**
+ * project name loading data
+ * @returns {Object} { type, projectNameLoading }
+ */
+export const projectNameLoadingData = () => {
+  return {
+    type: actionTypes.PROJECT_NAME_LOADING_DATA,
+    projectNameLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** PROJECT NAME DATA LOADED
+/**
+ * project name loading data
+ * @returns {Object} { type, projectNameLoading }
+ */
+export const projectNameDataLoaded = () => {
+  return {
+    type: actionTypes.PROJECT_NAME_DATA_LOADED,
+    projectNameLoading: false,
+  };
+};
+
+// // // // // // // // // //

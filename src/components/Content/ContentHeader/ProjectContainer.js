@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { project: state.project };
+  return { project: state.project, loading: state.ui.projectName.loading };
 };
 
 /**
@@ -33,6 +33,7 @@ const mapStateToProps = (state) => {
  */
 const ContentHeaderProjectContainer = ({
   project,
+  loading,
   handleFetchProject,
   handleEditProjectName,
 }) => {
@@ -62,6 +63,7 @@ const ContentHeaderProjectContainer = ({
       title={project.name}
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
+      loading={loading}
     />
   );
 };

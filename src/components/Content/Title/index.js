@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, Typography } from 'antd';
+import { Icon, Spin, Typography } from 'antd';
 
 // TYPOGRAPHY COMPONENTS
 const { Title: AntTitle } = Typography;
@@ -32,12 +32,16 @@ const Title = ({ title, level, loading, handleSubmit }) => {
   return (
     // fragment container
     <>
-      {/* ant design title */}
-      <AntTitle level={level} editable={editable}>
-        {title}
-      </AntTitle>
       {/* loading */}
-      {loading && <Icon type='loading' />}
+      {loading ? (
+        <Spin indicator={<Icon type='loading' spin />} />
+      ) : (
+        // ant design title
+        <AntTitle level={level} value={title} editable={editable}>
+          {/* title */}
+          {title}
+        </AntTitle>
+      )}
     </>
   );
 };

@@ -9,6 +9,8 @@ import {
   hideNewProjectModal,
   projectsTableLoadingData,
   projectsTableDataLoaded,
+  projectNameLoadingData,
+  projectNameDataLoaded,
 } from '../ui/actions';
 
 // COMPONENTS ACTION
@@ -25,9 +27,13 @@ const fetchProjectSuccess = (response) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
-  // fetch components
+  // dispatching fetch components request action
   dispatch(fetchComponentsRequest());
 
+  // dispatching project name data loaded action
+  dispatch(projectNameDataLoaded());
+
+  // dispatching fetch project success action
   dispatch({
     type: actionTypes.FETCH_PROJECT_SUCCESS,
     project,
@@ -39,14 +45,18 @@ const fetchProjectSuccess = (response) => (dispatch) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const fetchProjectFail = (error) => {
+const fetchProjectFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching project name data loaded action
+  dispatch(projectNameDataLoaded());
+
+  // dispatching fetch project fail action
+  dispatch({
     type: actionTypes.FETCH_PROJECT_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -58,6 +68,9 @@ export const fetchProjectRequest = (projectId) => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_PROJECT_REQUEST,
   });
+
+  // dispatching project name loading data action
+  dispatch(projectNameLoadingData());
 
   // fetching project
   projectsApi
@@ -144,14 +157,18 @@ export const createProjectRequest = (projectName, routerProps) => (
  * @param {Object} response
  * @returns {Object} { type, project }
  */
-const editProjectNameSuccess = (response) => {
+const editProjectNameSuccess = (response) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
-  return {
+  // dispatching project name data loaded action
+  dispatch(projectNameDataLoaded());
+
+  // dispatching edit project name success
+  dispatch({
     type: actionTypes.EDIT_PROJECT_NAME_SUCCESS,
     project,
-  };
+  });
 };
 
 /**
@@ -159,14 +176,18 @@ const editProjectNameSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const editProjectNameFail = (error) => {
+const editProjectNameFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching project name data loaded action
+  dispatch(projectNameDataLoaded());
+
+  // dispatching edit project name fail
+  dispatch({
     type: actionTypes.EDIT_PROJECT_NAME_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -182,6 +203,9 @@ export const editProjectNameRequest = (projectId, newProjectName) => (
   dispatch({
     type: actionTypes.EDIT_PROJECT_NAME_REQUEST,
   });
+
+  // dispatching project name loading data action
+  dispatch(projectNameLoadingData());
 
   // creating project
   projectsApi

@@ -16,7 +16,7 @@ import './style.scss';
  * This component is responsible for displaying the content header with editable
  * title and go back arrow.
  */
-const ContentHeader = ({ handleGoBack, handleSubmit, title }) => {
+const ContentHeader = ({ handleGoBack, handleSubmit, title, loading }) => {
   // RENDER
   return (
     // page header component
@@ -25,7 +25,7 @@ const ContentHeader = ({ handleGoBack, handleSubmit, title }) => {
       title={
         // title component
         <Title
-          loading={false}
+          loading={loading}
           level={2}
           title={title}
           handleSubmit={handleSubmit}

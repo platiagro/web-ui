@@ -8,6 +8,7 @@ const initialState = {
   drawer: { visible: false, isDataset: false, title: 'Título Drawer' },
   tasksTable: { loading: false },
   projectsTable: { loading: false },
+  projectName: { loading: false },
 };
 
 /**
@@ -103,6 +104,26 @@ const ui = (state = initialState, action) => {
         projectsTable: {
           ...state.projectsTable,
           loading: action.projectsTableLoading,
+        },
+      };
+
+    // PROJECT NAME
+    // loading data
+    case actionTypes.PROJECT_NAME_LOADING_DATA:
+      return {
+        ...state,
+        projectName: {
+          ...state.projectName,
+          loading: action.projectNameLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.PROJECT_NAME_DATA_LOADED:
+      return {
+        ...state,
+        projectName: {
+          ...state.projectName,
+          loading: action.projectNameLoading,
         },
       };
 
