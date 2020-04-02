@@ -169,3 +169,31 @@ export const projectNameDataLoaded = () => {
 };
 
 // // // // // // // // // //
+
+// ** COMPONENTS MENU LOADING DATA
+/**
+ * components menu loading data
+ * @returns {Object} { type, componentsMenuLoading }
+ */
+export const componentsMenuLoadingData = () => {
+  return {
+    type: actionTypes.COMPONENTS_MENU_LOADING_DATA,
+    componentsMenuLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** COMPONENTS MENU DATA LOADED
+/**
+ * components menu loading data
+ * @returns {Object} { type, componentsMenuLoading }
+ */
+export const componentsMenuDataLoaded = () => {
+  return {
+    type: actionTypes.COMPONENTS_MENU_DATA_LOADED,
+    componentsMenuLoading: false,
+  };
+};
+
+// // // // // // // // // //

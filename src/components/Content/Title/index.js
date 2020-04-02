@@ -32,8 +32,9 @@ const Title = ({ title, level, loading, handleSubmit }) => {
   return (
     // fragment container
     <>
-      {/* loading */}
+      {/* if loading */}
       {loading ? (
+        // loading
         <Spin indicator={<Icon type='loading' spin />} />
       ) : (
         // ant design title

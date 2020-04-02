@@ -1,8 +1,11 @@
 // TODO: alterar nome para TasksMenu...
 
 // CORE LIBS
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
+// UI LIBS
+import { Spin } from 'antd';
 
 // COMPONENTS
 import ComponentsMenuSearch from '../ComponentsMenuSearch';
@@ -14,6 +17,7 @@ import ComponentsMenu from '../ComponentsMenu';
  */
 const ComponentsMenuBlock = ({
   menu,
+  loading,
   handleComponentClick,
   handleFilter,
   disabled,
@@ -24,16 +28,22 @@ const ComponentsMenuBlock = ({
     <div>
       {/* components menu search */}
       <ComponentsMenuSearch disabled={disabled} handleFilter={handleFilter} />
-      {/* components menu */}
-      <ComponentsMenu
-        disabled={disabled}
-        handleClick={handleComponentClick}
-        menu={menu}
-      />
+      {loading ? (
+        // loading
+        <Spin style={{ marginTop: '20px' }} />
+      ) : (
+        // components menu
+        <ComponentsMenu
+          disabled={disabled}
+          handleClick={handleComponentClick}
+          menu={menu}
+        />
+      )}
     </div>
   );
 };
 
+// TODO: add loading props
 // PROP TYPES
 ComponentsMenuBlock.propTypes = {
   /** components menu block components list */

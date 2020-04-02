@@ -33,6 +33,7 @@ const mapStateToProps = (state) => {
   return {
     componentsMenu: state.componentsMenu.filtered,
     components: state.components,
+    loading: state.ui.componentsMenu.loading,
   };
 };
 
@@ -43,6 +44,7 @@ const mapStateToProps = (state) => {
  */
 const ComponentsMenuBlockContainer = ({
   components,
+  loading,
   componentsMenu,
   handleFetchComponentsMenu,
   handleFilterComponentsMenu,
@@ -71,6 +73,7 @@ const ComponentsMenuBlockContainer = ({
       handleFilter={handleFilterComponentsMenu}
       menu={componentsMenu}
       disabled={disabled}
+      loading={loading}
     />
   );
 };

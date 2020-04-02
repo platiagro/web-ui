@@ -5,6 +5,12 @@ import actionTypes from './actionTypes';
 import componentsApi from '../../services/ComponentsApi';
 import templatesApi from '../../services/TemplatesApi';
 
+// UI ACTIONS
+import {
+  componentsMenuLoadingData,
+  componentsMenuDataLoaded,
+} from '../ui/actions';
+
 // UTILS
 import utils from '../../utils';
 
@@ -15,11 +21,15 @@ import utils from '../../utils';
  * @param {Object} componentsMenu
  * @returns {Object} { type, componentsMenu }
  */
-const fetchComponentsMenuSuccess = (componentsMenu) => {
-  return {
+const fetchComponentsMenuSuccess = (componentsMenu) => (dispatch) => {
+  // dispatching components menu data loaded action
+  dispatch(componentsMenuDataLoaded());
+
+  // dispatching fetch components menu success
+  dispatch({
     type: actionTypes.FETCH_COMPONENTS_MENU_SUCCESS,
     componentsMenu,
-  };
+  });
 };
 
 /**
@@ -27,14 +37,18 @@ const fetchComponentsMenuSuccess = (componentsMenu) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const fetchComponentsMenuFail = (error) => {
+const fetchComponentsMenuFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching components menu data loaded action
+  dispatch(componentsMenuDataLoaded());
+
+  // dispatching fetch components menu fail action
+  dispatch({
     type: actionTypes.FETCH_COMPONENTS_MENU_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -46,6 +60,9 @@ export const fetchComponentsMenuRequest = () => async (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_COMPONENTS_MENU_REQUEST,
   });
+
+  // dispatching components menu loading data action
+  dispatch(componentsMenuLoadingData());
 
   try {
     // getting templates

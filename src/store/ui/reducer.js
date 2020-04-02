@@ -9,6 +9,7 @@ const initialState = {
   tasksTable: { loading: false },
   projectsTable: { loading: false },
   projectName: { loading: false },
+  componentsMenu: { loading: false },
 };
 
 /**
@@ -124,6 +125,26 @@ const ui = (state = initialState, action) => {
         projectName: {
           ...state.projectName,
           loading: action.projectNameLoading,
+        },
+      };
+
+    // COMPONENTS MENU
+    // loading data
+    case actionTypes.COMPONENTS_MENU_LOADING_DATA:
+      return {
+        ...state,
+        componentsMenu: {
+          ...state.componentsMenu,
+          loading: action.componentsMenuLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.COMPONENTS_MENU_DATA_LOADED:
+      return {
+        ...state,
+        componentsMenu: {
+          ...state.componentsMenu,
+          loading: action.componentsMenuLoading,
         },
       };
 
