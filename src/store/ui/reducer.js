@@ -13,6 +13,7 @@ const initialState = {
   experimentsTabs: { loading: false },
   experimentName: { loading: false },
   experimentOperators: { loading: false },
+  datasetOperator: { loading: false },
 };
 
 /**
@@ -208,6 +209,26 @@ const ui = (state = initialState, action) => {
         experimentOperators: {
           ...state.experimentOperators,
           loading: action.experimentOperatorsLoading,
+        },
+      };
+
+    // DATASET OPERATOR
+    // loading data
+    case actionTypes.DATASET_OPERATOR_LOADING_DATA:
+      return {
+        ...state,
+        datasetOperator: {
+          ...state.datasetOperator,
+          loading: action.datasetOperatorLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.DATASET_OPERATOR_DATA_LOADED:
+      return {
+        ...state,
+        datasetOperator: {
+          ...state.datasetOperator,
+          loading: action.datasetOperatorLoading,
         },
       };
 

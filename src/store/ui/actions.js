@@ -281,3 +281,31 @@ export const experimentOperatorsDataLoaded = () => {
 };
 
 // // // // // // // // // //
+
+// ** DATASET OPERATOR LOADING DATA
+/**
+ * dataset operator loading data
+ * @returns {Object} { type, datasetOperatorLoading }
+ */
+export const datasetOperatorLoadingData = () => {
+  return {
+    type: actionTypes.DATASET_OPERATOR_LOADING_DATA,
+    datasetOperatorLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** DATASET OPERATOR DATA LOADED
+/**
+ * dataset operator loading data
+ * @returns {Object} { type, datasetOperatorLoading }
+ */
+export const datasetOperatorDataLoaded = () => {
+  return {
+    type: actionTypes.DATASET_OPERATOR_DATA_LOADED,
+    datasetOperatorLoading: false,
+  };
+};
+
+// // // // // // // // // //

@@ -7,6 +7,12 @@ import datasetsApi from '../../services/DatasetsApi';
 // EXPERIMENT ACTIONS
 import { setDatasetRequest } from '../experiment/actions';
 
+// UI ACTIONS
+import {
+  datasetOperatorDataLoaded,
+  datasetOperatorLoadingData,
+} from '../ui/actions';
+
 // ACTIONS
 // ** FETCH DATASET COLUMNS
 /**
@@ -14,14 +20,18 @@ import { setDatasetRequest } from '../experiment/actions';
  * @param {Object} response
  * @returns {Object} { type, columns }
  */
-const fetchDatasetColumnsSuccess = (response) => {
+const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
   // getting dataset columns from response
   const columns = response.data;
 
-  return {
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching fetch dataset columns success
+  dispatch({
     type: actionTypes.FETCH_DATASET_COLUMNS_SUCCESS,
     columns,
-  };
+  });
 };
 
 /**
@@ -29,14 +39,18 @@ const fetchDatasetColumnsSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const fetchDatasetColumnsFail = (error) => {
+const fetchDatasetColumnsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching fetch dataset columns fail
+  dispatch({
     type: actionTypes.FETCH_DATASET_COLUMNS_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -48,6 +62,9 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_DATASET_COLUMNS_REQUEST,
   });
+
+  // dispatching dataset operator loading data action
+  dispatch(datasetOperatorLoadingData());
 
   if (datasetName)
     // fetching dataset columns
@@ -74,6 +91,9 @@ const createDatasetSuccess = (response, projectId, experimentId) => (
 
   dispatch(setDatasetRequest(projectId, experimentId, dataset.name));
 
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
   dispatch({
     type: actionTypes.CREATE_DATASET_SUCCESS,
     dataset,
@@ -85,14 +105,18 @@ const createDatasetSuccess = (response, projectId, experimentId) => (
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const createDatasetFail = (error) => {
+const createDatasetFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching create dataset fail
+  dispatch({
     type: actionTypes.CREATE_DATASET_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -107,6 +131,9 @@ export const createDatasetRequest = (formData, projectId, experimentId) => (
   dispatch({
     type: actionTypes.CREATE_DATASET_REQUEST,
   });
+
+  // dispatching dataset operator loading data action
+  dispatch(datasetOperatorLoadingData());
 
   // createing dataset columns
   datasetsApi
@@ -125,14 +152,18 @@ export const createDatasetRequest = (formData, projectId, experimentId) => (
  * @param {Object} response
  * @returns {Object} { type, column }
  */
-const updateDatasetColumnSuccess = (response) => {
+const updateDatasetColumnSuccess = (response) => (dispatch) => {
   // getting column from response
   const column = response.data;
 
-  return {
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching update dataset column success
+  dispatch({
     type: actionTypes.UPDATE_DATASET_COLUMN_SUCCESS,
     column,
-  };
+  });
 };
 
 /**
@@ -140,14 +171,18 @@ const updateDatasetColumnSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const updateDatasetColumnFail = (error) => {
+const updateDatasetColumnFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching update dataset column fail
+  dispatch({
     type: actionTypes.UPDATE_DATASET_COLUMN_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -166,6 +201,9 @@ export const updateDatasetColumnRequest = (
   dispatch({
     type: actionTypes.UPDATE_DATASET_COLUMN_REQUEST,
   });
+
+  // dispatching dataset operator loading data action
+  dispatch(datasetOperatorLoadingData());
 
   // updating dataset columns
   datasetsApi

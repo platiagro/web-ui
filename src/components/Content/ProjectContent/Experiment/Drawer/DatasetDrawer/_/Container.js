@@ -36,6 +36,7 @@ const mapStateToProps = (state) => {
     dataset: state.dataset,
     datasetName: state.experiment.dataset,
     targetColumn: state.experiment.target,
+    loading: state.ui.datasetOperator.loading,
   };
 };
 
@@ -48,6 +49,7 @@ const DatasetDrawerContainer = ({
   dataset,
   datasetName,
   targetColumn,
+  loading,
   handleCreateDataset,
   handleUpdateDatasetColumn,
   handleSetTarget,
@@ -75,6 +77,7 @@ const DatasetDrawerContainer = ({
       handleUploadFiles={createDatasetHandler}
       handleSetTarget={setTargetHandler}
       handleSetColumnType={updateDatasetColumnHandler}
+      loading={loading}
     />
   );
 };
