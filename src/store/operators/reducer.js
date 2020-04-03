@@ -28,6 +28,11 @@ const operators = (state = initialState, action) => {
     // create operator success
     case operatorActionTypes.CREATE_OPERATOR_SUCCESS:
       return [...state, action.operator];
+    // remove operator success
+    case operatorActionTypes.REMOVE_OPERATOR_SUCCESS:
+      return [
+        ...state.filter((operator) => operator.uuid !== action.operatorId),
+      ];
 
     // experiment
     // set dataset success
@@ -56,7 +61,7 @@ const operators = (state = initialState, action) => {
     // operator
     // select operator
     case operatorActionTypes.SELECT_OPERATOR:
-      return [...utils.selectOperator(action.operatorId, state)];
+      return [...utils.selectOperator(action.operator.uuid, state)];
 
     // ui
     // hide drawer

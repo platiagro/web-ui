@@ -7,13 +7,9 @@ import { Drawer as AntDrawer } from 'antd';
 
 // COMPONENTS
 import DatasetDrawer from '../DatasetDrawer/_/Container';
-import GenericDrawer from '../GenericDrawer/_';
+import GenericDrawer from '../GenericDrawer/_/Container';
 import ResultsDrawer from '../ResultsDrawer/_';
 import ResultsButtonBar from '../ResultsButtonBar';
-
-// MOCKS
-import datasetColumnsMock from '../DatasetDrawer/ColumnsTable/_datasetColumnsMock';
-import genericDrawerMock from '../GenericDrawer/_/_genericDrawerMock';
 
 /**
  * Drawer.
@@ -41,48 +37,9 @@ const Drawer = ({ title, isVisible, handleClose, results, isDataset }) => {
       onClose={handleClose}
     >
       {/* rendering data set drawer */}
-      {isDataset && !showResults && (
-        <DatasetDrawer
-          handleSetColumnType={(
-            headerId,
-            columnId,
-            columnType,
-            columnPosition
-          ) =>
-            alert(
-              `headerId: ${headerId}, columnId: ${columnId}, columnType: ${columnType}, columnPosition: ${columnPosition}`
-              // eslint-disable-next-line
-        )}
-          projectId='01'
-          parameters={{ parametro: { subparametro: 'parametro-sub' } }}
-          handleSetTarget={(projectId, experimentId, targetId, parameters) =>
-            alert(
-              `projectId: ${projectId}, experimentId: ${experimentId}, targetId: ${targetId}, parameters: ${parameters}`
-              // eslint-disable-next-line
-        )}
-          experimentId='01'
-          handleUploadFiles={(projectId, experimentId, formData) =>
-            alert(
-              `projectId: ${projectId}, experimentId: ${experimentId}, formData: ${formData}`
-              // eslint-disable-next-line
-        )}
-          targetColumnId='01'
-          loading={false}
-          columns={datasetColumnsMock}
-        />
-      )}
+      {isDataset && !showResults && <DatasetDrawer />}
       {/* rendering generic drawer */}
-      {!isDataset && !showResults && (
-        <GenericDrawer
-          drawerInputs={genericDrawerMock}
-          drawerTip={
-            <div>
-              <h3>Teste de dica!</h3>
-              <p>Essa é uma dica!</p>
-            </div>
-          }
-        />
-      )}
+      {!isDataset && !showResults && <GenericDrawer />}
       {/* rendering results drawer */}
       {showResults && <ResultsDrawer results={results} />}
 

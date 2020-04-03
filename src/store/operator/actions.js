@@ -7,6 +7,7 @@ import operatorsApi from '../../services/OperatorsApi';
 // UI ACTIONS
 import {
   showDrawer,
+  hideDrawer,
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
 } from '../ui/actions';
@@ -28,7 +29,7 @@ export const selectOperator = (operator) => (dispatch) => {
   // dispatching action
   dispatch({
     type: actionTypes.SELECT_OPERATOR,
-    operatorId: operator.uuid,
+    operator,
   });
 
   // is operator dataset?
@@ -130,16 +131,71 @@ export const createOperatorRequest = (
 
 // // // // // // // // // //
 
+// ** REMOVE OPERATOR
 /**
- * remove experiment operator action
- * @param {string} experimentUuid
- * @param {string} taskUuid
- * @returns {type, operators}
+ * remove operator success action
+ * @param {Object} operatorId
+ * @returns {Object} { type, operatorId }
  */
-export const removeOperator = (experimentUuid, taskUuid) => ({
-  type: actionTypes.REMOVE_OPERATOR,
-  operators: [] /* flowMock.filter((task) => task.uuid !== taskUuid), */,
-});
+const removeOperatorSuccess = (operatorId) => (dispatch) => {
+  // dispatching experiment operators data loaded action
+  dispatch(experimentOperatorsDataLoaded());
+
+  // dispatching hide drawer action
+  dispatch(hideDrawer());
+
+  // dispatching remove operator success action
+  dispatch({
+    type: actionTypes.REMOVE_OPERATOR_SUCCESS,
+    operatorId,
+  });
+};
+
+/**
+ * remove operator fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const removeOperatorFail = (error) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching experiment operators data loaded action
+  dispatch(experimentOperatorsDataLoaded());
+
+  // dispatching remove operator fail
+  dispatch({
+    type: actionTypes.REMOVE_OPERATOR_FAIL,
+    errorMessage,
+  });
+};
+
+/**
+ * remove operator request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} operatorId
+ * @returns {Function}
+ */
+export const removeOperatorRequest = (projectId, experimentId, operatorId) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.REMOVE_OPERATOR_REQUEST,
+  });
+
+  // dispatching experiment operators loading data action
+  dispatch(experimentOperatorsLoadingData());
+
+  // creating operator
+  operatorsApi
+    .deleteOperator(projectId, experimentId, operatorId)
+    .then(() => dispatch(removeOperatorSuccess(operatorId)))
+    .catch((error) => dispatch(removeOperatorFail(error)));
+};
+
+// // // // // // // // // //
 
 /**
  * set experiment operator params action

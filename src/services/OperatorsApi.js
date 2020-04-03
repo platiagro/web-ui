@@ -59,6 +59,26 @@ const createOperator = (projectId, experimentId, componentId) =>
   });
 
 /**
+ * Delete Operator
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} operatorId
+ * @returns {Promise}
+ */
+const deleteOperator = (projectId, experimentId, operatorId) =>
+  new Promise((resolve, reject) => {
+    // deleting operator
+    operatorsApi
+      .delete(
+        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}`
+      )
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+/**
  * Detail Operator
  * @param {string} projectId
  * @returns {Promise}
@@ -92,28 +112,12 @@ const createOperator = (projectId, experimentId, componentId) =>
       .catch((error) => reject(error));
   }); */
 
-/**
- * Delete Operator
- * @param {string} projectId
- * @param {string} operatorId
- * @returns {Promise}
- */
-/* const deleteOperator = (projectId, operatorId) =>
-  new Promise((resolve, reject) => {
-    // deleting operator
-    operatorsApi
-      .delete(`/${projectId}${operatorsPath}/${operatorId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  }); */
-
 // EXPORT DEFAULT
 export default {
   listOperators,
   createOperator,
+  deleteOperator,
   /*   detailOperator,
   updateOperator,
-  deleteOperator, */
+   */
 };

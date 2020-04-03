@@ -9,6 +9,7 @@ import { Icon, Divider } from 'antd';
 import SelectInput from '../SelectInput';
 import RadioInput from '../RadioInput';
 import NumberInput from '../NumberInput';
+import RemoveOperatorButton from '../RemoveOperatorButton';
 
 // INPUT TYPES
 const inputTypes = {
@@ -42,11 +43,16 @@ const inputTypes = {
  * Generic Drawer.
  * This component is responsible for displaying generic drawer content.
  */
-const GenericDrawer = ({ drawerInputs, drawerTip }) => (
+const GenericDrawer = ({
+  drawerInputs,
+  drawerTip,
+  loading,
+  handleRemoveOperatorClick,
+}) => (
   // div container
   <div>
     {/* rendering drawer inputs */}
-    {drawerInputs.map((input) => inputTypes[input.type](input))}
+    {drawerInputs && drawerInputs.map((input) => inputTypes[input.type](input))}
     {/* rendering drawer tip node */}
     {drawerTip && (
       <div>
@@ -59,6 +65,13 @@ const GenericDrawer = ({ drawerInputs, drawerTip }) => (
         {drawerTip}
       </div>
     )}
+    {/* rendering remove operator button */}
+    <div>
+      <RemoveOperatorButton
+        loading={loading}
+        handleClick={handleRemoveOperatorClick}
+      />
+    </div>
   </div>
 );
 

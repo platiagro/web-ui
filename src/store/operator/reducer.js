@@ -15,14 +15,15 @@ const initialState = {
 };
 
 /**
- * operators reducer
+ * operator reducer
  */
-const operators = (state = initialState, action) => {
+const operator = (state = initialState, action) => {
   switch (action.type) {
     // SUCCESS
+    // operator
     // remove operator success
     case actionTypes.REMOVE_OPERATOR_SUCCESS:
-      return [...action.operator];
+      return message.success('Operador removido com sucesso!');
     // set operator params success
     case actionTypes.SET_OPERATOR_PARAMS_SUCCESS:
       return [...action.operator];
@@ -39,6 +40,11 @@ const operators = (state = initialState, action) => {
     case actionTypes.SET_OPERATOR_PARAMS_FAIL:
       return message.error(action.errorMessage);
 
+    // COMMON
+    // operator
+    case actionTypes.SELECT_OPERATOR:
+      return { ...state, ...action.operator };
+
     // DEFAULT
     default:
       return state;
@@ -46,4 +52,4 @@ const operators = (state = initialState, action) => {
 };
 
 // EXPORT
-export default operators;
+export default operator;
