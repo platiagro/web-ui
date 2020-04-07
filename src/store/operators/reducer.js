@@ -6,6 +6,7 @@ import actionTypes from './actionTypes';
 import operatorActionTypes from '../operator/actionTypes';
 import uiActionTypes from '../ui/actionTypes';
 import experimentActionTypes from '../experiment/actionTypes';
+import templatesActionTypes from '../templates/actionTypes';
 
 // UTILS
 import utils from '../../utils';
@@ -50,6 +51,11 @@ const operators = (state = initialState, action) => {
             : operator
         ),
       ];
+
+    /*     // templates
+    // set template success
+    case templatesActionTypes.SET_TEMPLATE_SUCCESS:
+      return [...action.operators]; */
 
     // FAIL
     // operators

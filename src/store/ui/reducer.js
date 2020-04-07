@@ -5,7 +5,9 @@ import actionTypes from './actionTypes';
 const initialState = {
   newProjectModal: { visible: false },
   newExperimentModal: { visible: false },
+  newTemplateModal: { visible: false },
   drawer: { visible: false, isDataset: false, title: 'Título Drawer' },
+  template: { loading: false },
   tasksTable: { loading: false },
   projectsTable: { loading: false },
   projectName: { loading: false },
@@ -58,6 +60,26 @@ const ui = (state = initialState, action) => {
         newExperimentModal: {
           ...state.newExperimentModal,
           visible: action.newExperimentModalVisible,
+        },
+      };
+
+    // NEW TEMPLATE MODAL
+    // show new template modal
+    case actionTypes.SHOW_NEW_TEMPLATE_MODAL:
+      return {
+        ...state,
+        newTemplateModal: {
+          ...state.newTemplateModal,
+          visible: action.newTemplateModalVisible,
+        },
+      };
+    // hide new template modal
+    case actionTypes.HIDE_NEW_TEMPLATE_MODAL:
+      return {
+        ...state,
+        newTemplateModal: {
+          ...state.newTemplateModal,
+          visible: action.newTemplateModalVisible,
         },
       };
 
@@ -229,6 +251,26 @@ const ui = (state = initialState, action) => {
         datasetOperator: {
           ...state.datasetOperator,
           loading: action.datasetOperatorLoading,
+        },
+      };
+
+    // TEMPLATE
+    // loading data
+    case actionTypes.TEMPLATE_LOADING_DATA:
+      return {
+        ...state,
+        template: {
+          ...state.template,
+          loading: action.templateLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.TEMPLATE_DATA_LOADED:
+      return {
+        ...state,
+        template: {
+          ...state.template,
+          loading: action.templateLoading,
         },
       };
 

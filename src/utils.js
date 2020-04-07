@@ -243,6 +243,8 @@ const getComponentData = (components, componentId) => {
     // returning component data
     return { name, icon, trainingNotebookPath };
   }
+
+  return null;
 };
 
 /**

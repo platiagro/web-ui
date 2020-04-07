@@ -10,6 +10,8 @@ import Title from '../../../../Title';
 import DeleteExperimentButton from '../DeleteExperimentButton';
 import TrainExperimentButton from '../TrainExperimentButton';
 import DeployExperimentButton from '../DeployExperimentButton';
+import NewTemplateButton from '../NewTemplateButton/Container';
+import NewTemplateModal from '../NewTemplateModal/Container';
 
 /**
  * Experiment Header.
@@ -25,8 +27,10 @@ const ExperimentHeader = ({
 }) => (
   // row container
   <Row>
+    {/* new template modal */}
+    <NewTemplateModal />
     {/* column container */}
-    <Col span={19}>
+    <Col span={16}>
       {/* title */}
       <Title
         title={title}
@@ -50,6 +54,10 @@ const ExperimentHeader = ({
         handleClick={handleDeployExperiment}
         disabled={false}
       />
+    </Col>
+    <Col span={3}>
+      {/* new template button */}
+      <NewTemplateButton />
     </Col>
     <Col span={1} style={{ paddingRight: '0.7vw' }}>
       {/* delete button */}

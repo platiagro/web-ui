@@ -58,6 +58,34 @@ export const hideNewExperimentModal = () => {
 
 // // // // // // // // // //
 
+// ** SHOW_NEW_TEMPLATE_MODAL
+/**
+ * show new template modal
+ * @returns {Object} { type, newTemplateModalVisible }
+ */
+export const showNewTemplateModal = () => {
+  return {
+    type: actionTypes.SHOW_NEW_TEMPLATE_MODAL,
+    newTemplateModalVisible: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** HIDE_NEW_TEMPLATE_MODAL
+/**
+ * hide new template modal
+ * @returns {Object} { type, newTemplateModalVisible }
+ */
+export const hideNewTemplateModal = () => {
+  return {
+    type: actionTypes.HIDE_NEW_TEMPLATE_MODAL,
+    newTemplateModalVisible: false,
+  };
+};
+
+// // // // // // // // // //
+
 // ** SHOW_DRAWER
 /**
  * show drawer
@@ -305,6 +333,34 @@ export const datasetOperatorDataLoaded = () => {
   return {
     type: actionTypes.DATASET_OPERATOR_DATA_LOADED,
     datasetOperatorLoading: false,
+  };
+};
+
+// // // // // // // // // //
+
+// ** TEMPLATE LOADING DATA
+/**
+ * template loading data
+ * @returns {Object} { type, templateLoading }
+ */
+export const templateLoadingData = () => {
+  return {
+    type: actionTypes.TEMPLATE_LOADING_DATA,
+    templateLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** TEMPLATE DATA LOADED
+/**
+ * template loading data
+ * @returns {Object} { type, templateLoading }
+ */
+export const templateDataLoaded = () => {
+  return {
+    type: actionTypes.TEMPLATE_DATA_LOADED,
+    templateLoading: false,
   };
 };
 

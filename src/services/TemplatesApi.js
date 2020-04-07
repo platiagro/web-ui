@@ -28,6 +28,29 @@ const listTemplates = () =>
   });
 
 /**
+ * Create Template
+ * @param {string} templateName
+ * @param {string} experimentId
+ * @returns {Promise}
+ */
+const createTemplate = (templateName, experimentId) =>
+  new Promise((resolve, reject) => {
+    // creating body object
+    const body = {
+      name: templateName,
+      experimentId,
+    };
+
+    // creating template
+    templatesApi
+      .post(templatesPath, body)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+/**
  * Detail Template
  * @param {string} templateId
  * @returns {Promise}
@@ -37,27 +60,6 @@ const listTemplates = () =>
     // requesting template
     templatesApi
       .get(`${templatesPath}/${templateId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  }); */
-
-/**
- * Create Template
- * @param {string} templateName
- * @returns {Promise}
- */
-/* const createTemplate = (templateName) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: templateName,
-    };
-
-    // creating template
-    templatesApi
-      .post(templatesPath, body)
       // success
       .then((response) => resolve(response))
       // error
@@ -105,8 +107,8 @@ const listTemplates = () =>
 // EXPORT DEFAULT
 export default {
   listTemplates,
-  /*   detailTemplate,
   createTemplate,
+  /*   detailTemplate,
   updateTemplate,
   deleteTemplate, */
 };

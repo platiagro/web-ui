@@ -14,6 +14,7 @@ import {
   fetchComponentsMenuRequest,
   filterComponentsMenu,
 } from '../../../../../store/componentsMenu/actions';
+import { setTemplateRequest } from '../../../../../store/templates/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -21,10 +22,24 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchComponentsMenu: () => dispatch(fetchComponentsMenuRequest()),
     handleFilterComponentsMenu: (filter) =>
       dispatch(filterComponentsMenu(filter)),
-    handleCreateOperator: (projectId, experimentId, componentId, components) =>
+    handleCreateOperator: (
+      projectId,
+      experimentId,
+      componentId,
+      components,
+      isTemplate
+    ) =>
       dispatch(
-        createOperatorRequest(projectId, experimentId, componentId, components)
+        createOperatorRequest(
+          projectId,
+          experimentId,
+          componentId,
+          components,
+          isTemplate
+        )
       ),
+    handleSetTemplate: (projectId, experimentId, templateId) =>
+      dispatch(setTemplateRequest(projectId, experimentId, templateId)),
   };
 };
 
@@ -49,6 +64,7 @@ const ComponentsMenuBlockContainer = ({
   handleFetchComponentsMenu,
   handleFilterComponentsMenu,
   handleCreateOperator,
+  handleSetTemplate,
   disabled,
 }) => {
   // CONSTANTS
@@ -63,8 +79,24 @@ const ComponentsMenuBlockContainer = ({
   }, []);
 
   // HANDLERS
-  const createOperatorHandler = ({ key: componentId }) =>
-    handleCreateOperator(projectId, experimentId, componentId, components);
+  const createOperatorHandler = ({ key: componentId, keyPath }) => {
+    // getting component type
+    const componentType = keyPath[1];
+    // is template
+    const isTemplate = componentType === 'TEMPLATES';
+
+    // is template
+    if (isTemplate) handleSetTemplate(projectId, experimentId, componentId);
+    // not is template
+    else
+      handleCreateOperator(
+        projectId,
+        experimentId,
+        componentId,
+        components,
+        isTemplate
+      );
+  };
 
   // RENDER
   return (
