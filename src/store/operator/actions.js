@@ -48,13 +48,17 @@ export const selectOperator = (operator) => (dispatch) => {
 /**
  * create operator success action
  * @param {Object} response
- * @param {Object} componentIcon
- * @param {Object} componentName
+ * @param {string} componentIcon
+ * @param {string} componentName
+ * @param {string} trainingNotebookPath
  * @returns {Object} { type, operator }
  */
-const createOperatorSuccess = (response, componentIcon, componentName) => (
-  dispatch
-) => {
+const createOperatorSuccess = (
+  response,
+  componentIcon,
+  componentName,
+  trainingNotebookPath
+) => (dispatch) => {
   // getting operator from response
   const operator = response.data;
 
@@ -68,6 +72,7 @@ const createOperatorSuccess = (response, componentIcon, componentName) => (
       ...operator,
       icon: componentIcon,
       name: componentName,
+      trainingNotebookPath,
       selected: false,
     },
   });
@@ -115,16 +120,24 @@ export const createOperatorRequest = (
   dispatch(experimentOperatorsLoadingData());
 
   // getting component icon
-  const { name: componentName, icon: componentIcon } = utils.getComponentData(
-    components,
-    componentId
-  );
+  const {
+    name: componentName,
+    icon: componentIcon,
+    trainingNotebookPath,
+  } = utils.getComponentData(components, componentId);
 
   // creating operator
   operatorsApi
     .createOperator(projectId, experimentId, componentId)
     .then((response) =>
-      dispatch(createOperatorSuccess(response, componentIcon, componentName))
+      dispatch(
+        createOperatorSuccess(
+          response,
+          componentIcon,
+          componentName,
+          trainingNotebookPath
+        )
+      )
     )
     .catch((error) => dispatch(createOperatorFail(error)));
 };
