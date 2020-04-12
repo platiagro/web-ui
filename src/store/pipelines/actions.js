@@ -77,7 +77,7 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
  */
 const getTrainExperimentStatusSuccess = (response) => {
   // getting status from response
-  const status = response.data;
+  const { status } = response.data;
 
   return {
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,

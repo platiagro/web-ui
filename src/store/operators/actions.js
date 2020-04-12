@@ -11,6 +11,9 @@ import {
   experimentOperatorsLoadingData,
 } from '../ui/actions';
 
+// PIPELINES ACTIONS
+import { getTrainExperimentStatusRequest } from '../pipelines/actions';
+
 // UTILS
 import utils from '../../utils';
 
@@ -21,9 +24,12 @@ import utils from '../../utils';
  * @param {Object} response
  * @returns {Object} { type, operators }
  */
-const fetchOperatorsSuccess = (operators) => (dispatch) => {
+const fetchOperatorsSuccess = (operators, experimentId) => (dispatch) => {
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
+
+  // dispatching get training experiment status request action
+  dispatch(getTrainExperimentStatusRequest(experimentId));
 
   // dispatching fetch operators success action
   dispatch({
@@ -99,7 +105,7 @@ export const fetchOperatorsRequest = (
     ];
 
     // dispatching success action
-    dispatch(fetchOperatorsSuccess(configuredOperators));
+    dispatch(fetchOperatorsSuccess(configuredOperators, experimentId));
   } catch (e) {
     // dispatching fail action
     dispatch(fetchOperatorsFail(e));

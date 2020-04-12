@@ -8,12 +8,16 @@ import ExperimentFlow from './index';
 
 // ACTIONS
 import { selectOperator } from '../../../../../../store/operator/actions';
+import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // show operator details action
     handleShowOperatorDetails: (operator) => dispatch(selectOperator(operator)),
+    // getting training experiment status
+    handleGetTrainExperimentStatus: (experimentId) =>
+      dispatch(getTrainExperimentStatusRequest(experimentId)),
   };
 };
 
@@ -25,6 +29,10 @@ const mapStateToProps = (state) => {
     loading: state.ui.experimentOperators.loading,
   };
 };
+
+// CONSTANTS
+// polling time in miliseconds;
+const pollingTime = 5000;
 
 // TODO: Implementar "Conexão" Drawer
 // TODO: Implementar "setagem" de parâmetros para tarefa
@@ -38,10 +46,23 @@ const ExperimentFlowContainer = ({
   operators,
   loading,
   handleShowOperatorDetails,
+  handleGetTrainExperimentStatus,
 }) => {
   // CONSTANTS
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
+
+  // HOOKS
+  // did mount hook
+  useEffect(() => {
+    // polling experiment status
+    const polling = setInterval(
+      () => handleGetTrainExperimentStatus(experimentId),
+      pollingTime
+    );
+
+    return () => clearInterval(polling);
+  });
 
   // RENDER
   return (
