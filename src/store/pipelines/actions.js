@@ -37,7 +37,6 @@ const trainExperimentFail = (error) => {
  * @param {Object[]} operators
  * @returns {Function}
  */
-// eslint-disable-next-line import/prefer-default-export
 export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   // dispatching request action
   dispatch({
@@ -66,6 +65,58 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
     .trainExperiment(trainObject)
     .then(() => dispatch(trainExperimentSuccess()))
     .catch((error) => dispatch(trainExperimentFail(error)));
+};
+
+// // // // // // // // // //
+
+// ** GET TRAIN EXPERIMENT STATUS
+/**
+ * get train experiment status success action
+ * @param {Object} response
+ * @returns {Object} { type }
+ */
+const getTrainExperimentStatusSuccess = (response) => {
+  // getting status from response
+  const status = response.data;
+
+  return {
+    type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
+    status,
+  };
+};
+
+/**
+ * get train experiment status fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const getTrainExperimentStatusFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * get train experiment status request action
+ * @param {string} experimentId
+ * @param {Object[]} operators
+ * @returns {Function}
+ */
+export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_REQUEST,
+  });
+
+  // training experiment
+  pipelinesApi
+    .getTrainExperimentStatus(experimentId)
+    .then((response) => dispatch(getTrainExperimentStatusSuccess(response)))
+    .catch((error) => dispatch(getTrainExperimentStatusFail(error)));
 };
 
 // // // // // // // // // //

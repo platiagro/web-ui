@@ -23,6 +23,9 @@ const pipelines = (state = initialState, action) => {
     // train experiment fail
     case actionTypes.TRAIN_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);
+    // get train experiment status fail
+    case actionTypes.GET_TRAIN_EXPERIMENT_FAIL:
+      return message.error(action.errorMessage);
 
     // DEFAULT
     default:
