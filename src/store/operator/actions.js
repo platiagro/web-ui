@@ -51,13 +51,15 @@ export const selectOperator = (operator) => (dispatch) => {
  * @param {string} componentIcon
  * @param {string} componentName
  * @param {string} trainingNotebookPath
+ * @param {string} inferenceNotebookPath
  * @returns {Object} { type, operator }
  */
 const createOperatorSuccess = (
   response,
   componentIcon,
   componentName,
-  trainingNotebookPath
+  trainingNotebookPath,
+  inferenceNotebookPath
 ) => (dispatch) => {
   // getting operator from response
   const operator = response.data;
@@ -73,6 +75,7 @@ const createOperatorSuccess = (
       icon: componentIcon,
       name: componentName,
       trainingNotebookPath,
+      inferenceNotebookPath,
       selected: false,
     },
   });
@@ -124,6 +127,7 @@ export const createOperatorRequest = (
     name: componentName,
     icon: componentIcon,
     trainingNotebookPath,
+    inferenceNotebookPath,
   } = utils.getComponentData(components, componentId);
 
   // creating operator
@@ -135,7 +139,8 @@ export const createOperatorRequest = (
           response,
           componentIcon,
           componentName,
-          trainingNotebookPath
+          trainingNotebookPath,
+          inferenceNotebookPath
         )
       )
     )

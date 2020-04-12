@@ -120,3 +120,69 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
 };
 
 // // // // // // // // // //
+
+// ** DEPLOY EXPERIMENT
+/**
+ * deploy experiment success action
+ * @returns {Object} { type }
+ */
+const deployExperimentSuccess = () => {
+  return {
+    type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
+  };
+};
+
+/**
+ * deploy experiment fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const deployExperimentFail = (error) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  return {
+    type: actionTypes.DEPLOY_EXPERIMENT_FAIL,
+    errorMessage,
+  };
+};
+
+/**
+ * deploy experiment request action
+ * @param {Object} experiment
+ * @param {Object[]} operators
+ * @returns {Function}
+ */
+export const deployExperimentRequest = (experiment, operators) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.DEPLOY_EXPERIMENT_REQUEST,
+  });
+
+  // getting experiment data
+  const { uuid: experimentId, dataset, target } = experiment;
+
+  // creating deploy object
+  const deployObject = { experimentId, dataset, target };
+
+  // getting operators
+  deployObject.components = operators.map((operator) => ({
+    operatorId: operator.uuid,
+    notebookPath: operator.inferenceNotebookPath,
+  }));
+
+  // filtering dataset
+  deployObject.components = deployObject.components.filter(
+    (operator) => operator.operatorId !== 'dataset'
+  );
+
+  // deploying experiment
+  pipelinesApi
+    .deployExperiment(deployObject)
+    .then(() => dispatch(deployExperimentSuccess()))
+    .catch((error) => dispatch(deployExperimentFail(error)));
+};
+
+// // // // // // // // // //

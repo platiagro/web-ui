@@ -17,6 +17,9 @@ const pipelines = (state = initialState, action) => {
     // train experiment success
     case actionTypes.TRAIN_EXPERIMENT_SUCCESS:
       return message.info('Treinamento iniciado!');
+    // deploy experiment success
+    case actionTypes.DEPLOY_EXPERIMENT_SUCCESS:
+      return message.info('Experimento implantado!');
 
     // FAIL
     // pipelines
@@ -25,6 +28,9 @@ const pipelines = (state = initialState, action) => {
       return message.error(action.errorMessage);
     // get train experiment status fail
     case actionTypes.GET_TRAIN_EXPERIMENT_FAIL:
+      return message.error(action.errorMessage);
+    // deploy experiment fail
+    case actionTypes.DEPLOY_EXPERIMENT_FAIL:
       return message.error(action.errorMessage);
 
     // DEFAULT

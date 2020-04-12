@@ -11,11 +11,13 @@ import ExperimentHeader from './index';
 import {
   fetchExperimentRequest,
   editExperimentNameRequest,
-  deployExperiment,
   deleteExperimentRequest,
 } from '../../../../../../store/experiment/actions';
 // pipelines
-import { trainExperimentRequest } from '../../../../../../store/pipelines/actions';
+import {
+  trainExperimentRequest,
+  deployExperimentRequest,
+} from '../../../../../../store/pipelines/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -28,8 +30,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(editExperimentNameRequest(projectId, experimentId, newName)),
     handleTrainExperiment: (experiment, operators) =>
       dispatch(trainExperimentRequest(experiment, operators)),
-    handleDeployExperiment: (experimentId) =>
-      dispatch(deployExperiment(experimentId)),
+    handleDeployExperiment: (experiment, operators) =>
+      dispatch(deployExperimentRequest(experiment, operators)),
   };
 };
 
@@ -77,6 +79,9 @@ const ExperimentHeaderContainer = ({
   // edit experiment name
   const trainExperimentHandler = () =>
     handleTrainExperiment(experiment, operators);
+  // edit experiment name
+  const deployExperimentHandler = () =>
+    handleDeployExperiment(experiment, operators);
 
   // RENDER
   return (
@@ -85,7 +90,7 @@ const ExperimentHeaderContainer = ({
       handleEditExperimentName={editExperimentNameHandler}
       handleDeleteExperiment={deleteHandler}
       handleTrainExperiment={trainExperimentHandler}
-      handleDeployExperiment={handleDeployExperiment}
+      handleDeployExperiment={deployExperimentHandler}
       loading={loading}
     />
   );

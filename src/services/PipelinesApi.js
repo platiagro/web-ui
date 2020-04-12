@@ -10,6 +10,8 @@ const pipelinesApi = axios.create({
 });
 // train path
 const trainPath = '/train';
+// deploy path
+const deployPath = '/deploy';
 
 /**
  * Train Experiment
@@ -43,8 +45,25 @@ const getTrainExperimentStatus = (experimentId) =>
       .catch((error) => reject(error));
   });
 
+/**
+ * Deploy Experiment
+ * @param {Object} deployObject
+ * @returns {Promise}
+ */
+const deployExperiment = (deployObject) =>
+  new Promise((resolve, reject) => {
+    // deploying experiment
+    pipelinesApi
+      .post(`${deployPath}`, deployObject)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
 // EXPORT DEFAULT
 export default {
   getTrainExperimentStatus,
   trainExperiment,
+  deployExperiment,
 };
