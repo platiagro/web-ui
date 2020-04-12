@@ -6,7 +6,7 @@ import actionTypes from './actionTypes';
 import operatorActionTypes from '../operator/actionTypes';
 import uiActionTypes from '../ui/actionTypes';
 import experimentActionTypes from '../experiment/actionTypes';
-import templatesActionTypes from '../templates/actionTypes';
+import pipelinesActionTypes from '../pipelines/actionTypes';
 
 // UTILS
 import utils from '../../utils';
@@ -52,10 +52,13 @@ const operators = (state = initialState, action) => {
         ),
       ];
 
-    /*     // templates
-    // set template success
-    case templatesActionTypes.SET_TEMPLATE_SUCCESS:
-      return [...action.operators]; */
+    // pipelines
+    // get training experiment status
+    case pipelinesActionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS:
+      return state.map((operator) => ({
+        ...operator,
+        status: action.status[operator.uuid],
+      }));
 
     // FAIL
     // operators
