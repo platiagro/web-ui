@@ -27,7 +27,24 @@ const trainExperiment = (trainObject) =>
       .catch((error) => reject(error));
   });
 
+/**
+ * Get Training Experiment Status
+ * @param {string} experimentId
+ * @returns {Promise}
+ */
+const getTrainExperimentStatus = (experimentId) =>
+  new Promise((resolve, reject) => {
+    // get training experiment status
+    pipelinesApi
+      .get(`${trainPath}/${experimentId}`)
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
 // EXPORT DEFAULT
 export default {
+  getTrainExperimentStatus,
   trainExperiment,
 };
