@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, InputNumber } from 'antd';
+import { Icon, Input } from 'antd';
 
 // COMPONENTS
 import InputTip from '../../InputTip';
@@ -19,9 +19,6 @@ const NumberInput = ({
   description,
   warning,
   tip,
-  min,
-  max,
-  step,
   placeholder,
   value,
   handleChange,
@@ -33,15 +30,11 @@ const NumberInput = ({
     {/* description */}
     <small>{description}</small>
     {/* number input */}
-    <InputNumber
+    <Input
       value={value || defaultValue}
       defaultValue={parseFloat(defaultValue)}
       onChange={handleChange}
       placeholder={placeholder}
-      min={min}
-      max={max}
-      step={step}
-      decimalSeparator=','
     />
     {/* tip */}
     {tip && <InputTip tip={tip} />}

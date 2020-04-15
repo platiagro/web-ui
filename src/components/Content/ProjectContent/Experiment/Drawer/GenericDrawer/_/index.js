@@ -9,32 +9,55 @@ import { Icon, Divider } from 'antd';
 import SelectInput from '../SelectInput';
 import RadioInput from '../RadioInput';
 import NumberInput from '../NumberInput';
+import StringInput from '../StringInput';
 import RemoveOperatorButton from '../RemoveOperatorButton';
 
 // INPUT TYPES
 const inputTypes = {
   // select
-  select: ({ uuid, ...props }) => (
+  select: ({ uuid, name, ...props }) => (
     <SelectInput
-      key={uuid}
+      key={uuid || name}
       handleChange={(value) => alert(`(select) Valor selecionado: ${value}`)}
       {...props}
+      name={name}
     />
   ),
   // radio
-  radio: ({ uuid, ...props }) => (
+  radio: ({ uuid, name, ...props }) => (
     <RadioInput
-      key={uuid}
+      key={uuid || name}
       handleChange={(value) => alert(`(radio) Valor selecionado: ${value}`)}
       {...props}
+      name={name}
     />
   ),
-  // radio
-  number: ({ uuid, ...props }) => (
+  // number (float)
+  number: ({ uuid, name, ...props }) => (
     <NumberInput
-      key={uuid}
-      handleChange={(value) => alert(`(number) Valor selecionado: ${value}`)}
+      key={uuid || name}
+      handleChange={(value) => alert(`(float) Valor selecionado: ${value}`)}
       {...props}
+      step='0.1'
+      name={name}
+    />
+  ),
+  // integer
+  integer: ({ uuid, name, ...props }) => (
+    <NumberInput
+      key={uuid || name}
+      handleChange={(value) => alert(`(integer) Valor selecionado: ${value}`)}
+      {...props}
+      name={name}
+    />
+  ),
+  // string
+  string: ({ uuid, name, ...props }) => (
+    <StringInput
+      key={uuid || name}
+      handleChange={(value) => alert(`(string) Valor selecionado: ${value}`)}
+      {...props}
+      name={name}
     />
   ),
 };
@@ -52,7 +75,9 @@ const GenericDrawer = ({
   // div container
   <div>
     {/* rendering drawer inputs */}
-    {drawerInputs && drawerInputs.map((input) => inputTypes[input.type](input))}
+    {drawerInputs &&
+      drawerInputs.length > 0 &&
+      drawerInputs.map((input) => inputTypes[input.type](input))}
     {/* rendering drawer tip node */}
     {drawerTip && (
       <div>

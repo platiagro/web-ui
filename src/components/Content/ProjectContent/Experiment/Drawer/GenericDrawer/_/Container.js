@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     operatorId: state.operator.uuid,
+    parameters: state.operator.parameters,
     loading: state.ui.experimentOperators.loading,
   };
 };
@@ -32,8 +33,7 @@ const mapStateToProps = (state) => {
  * redux.
  */
 const DatasetDrawerContainer = ({
-  drawerInputs,
-  drawerTip,
+  parameters,
   loading,
   operatorId,
   handleRemoveOperator,
@@ -51,6 +51,7 @@ const DatasetDrawerContainer = ({
   return (
     <GenericDrawer
       handleRemoveOperatorClick={removeOperatorHandler}
+      drawerInputs={parameters}
       loading={loading}
     />
   );

@@ -11,7 +11,7 @@ const initialState = {
   position: 0,
   uuid: '',
   selected: false,
-  params: {},
+  parameters: [],
 };
 
 /**

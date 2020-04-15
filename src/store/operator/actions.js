@@ -59,7 +59,8 @@ const createOperatorSuccess = (
   componentIcon,
   componentName,
   trainingNotebookPath,
-  inferenceNotebookPath
+  inferenceNotebookPath,
+  parameters
 ) => (dispatch) => {
   // getting operator from response
   const operator = response.data;
@@ -76,6 +77,7 @@ const createOperatorSuccess = (
       name: componentName,
       trainingNotebookPath,
       inferenceNotebookPath,
+      parameters,
       selected: false,
     },
   });
@@ -128,6 +130,7 @@ export const createOperatorRequest = (
     icon: componentIcon,
     trainingNotebookPath,
     inferenceNotebookPath,
+    parameters,
   } = utils.getComponentData(components, componentId);
 
   // creating operator
@@ -140,7 +143,8 @@ export const createOperatorRequest = (
           componentIcon,
           componentName,
           trainingNotebookPath,
-          inferenceNotebookPath
+          inferenceNotebookPath,
+          parameters
         )
       )
     )

@@ -230,6 +230,9 @@ const getTagConfig = (tag) => {
  * @returns {Object} component data
  */
 const getComponentData = (components, componentId) => {
+  // params to filter constant
+  const paramsToFilter = ['dataset', 'target', 'experiment_id', 'operator_id'];
+
   if (components.length > 0 && componentId) {
     // getting components data
     const componentData = components.find(
@@ -240,13 +243,29 @@ const getComponentData = (components, componentId) => {
       tags,
       trainingNotebookPath,
       inferenceNotebookPath,
+      parameters,
     } = componentData;
+
+    let filteredParams;
+
+    if (parameters) {
+      // filtering params
+      filteredParams = parameters.filter(
+        (param) => !paramsToFilter.includes(param.name)
+      );
+    }
 
     // getting icon
     const { icon } = getTagConfig(tags[0]);
 
     // returning component data
-    return { name, icon, trainingNotebookPath, inferenceNotebookPath };
+    return {
+      name,
+      icon,
+      trainingNotebookPath,
+      inferenceNotebookPath,
+      parameters: filteredParams,
+    };
   }
 
   return null;

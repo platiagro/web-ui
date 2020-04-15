@@ -23,7 +23,7 @@ const RemoveOperatorButton = ({ handleClick, disabled, loading }) => (
       className='removeOperatorButton'
       type='danger'
       icon='delete'
-      style={{ float: 'right' }}
+      style={{ float: 'right', marginTop: '1vh' }}
       loading={loading}
     />
   </Popconfirm>
