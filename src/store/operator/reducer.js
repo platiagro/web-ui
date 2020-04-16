@@ -25,8 +25,8 @@ const operator = (state = initialState, action) => {
     case actionTypes.REMOVE_OPERATOR_SUCCESS:
       return message.success('Operador removido com sucesso!');
     // set operator params success
-    case actionTypes.SET_OPERATOR_PARAMS_SUCCESS:
-      return [...action.operator];
+    case actionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
+      return { ...state, ...action.operator };
 
     // FAIL
     // operator
@@ -37,7 +37,7 @@ const operator = (state = initialState, action) => {
     case actionTypes.REMOVE_OPERATOR_FAIL:
       return message.error(action.errorMessage);
     // set operator params fail
-    case actionTypes.SET_OPERATOR_PARAMS_FAIL:
+    case actionTypes.SET_OPERATOR_PARAMETERS_FAIL:
       return message.error(action.errorMessage);
 
     // COMMON

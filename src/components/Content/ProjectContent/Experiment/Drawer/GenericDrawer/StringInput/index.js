@@ -3,16 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, Input } from 'antd';
+import { Icon, Input, Spin } from 'antd';
 
 // COMPONENTS
 import InputTip from '../../InputTip';
 
 /**
- * Number Input.
- * This component is responsible for displaying number input in generic drawer.
+ * String Input.
+ * This component is responsible for displaying string input in generic drawer.
  */
-const NumberInput = ({
+const StringInput = ({
   title,
   name,
   default: defaultValue,
@@ -22,6 +22,7 @@ const NumberInput = ({
   placeholder,
   value,
   handleChange,
+  loading,
 }) => (
   // div container
   <div>
@@ -33,9 +34,18 @@ const NumberInput = ({
     <Input
       value={value || defaultValue}
       defaultValue={parseFloat(defaultValue)}
-      onChange={handleChange}
+      onChange={(e) => handleChange(name, e.target.value)}
       placeholder={placeholder}
+      disabled={loading}
+      style={{ width: '90%' }}
     />
+    {/* loading */}
+    {loading && (
+      <Spin
+        style={{ marginLeft: '1vw' }}
+        indicator={<Icon type='loading' spin />}
+      />
+    )}
     {/* tip */}
     {tip && <InputTip tip={tip} />}
     {/* warning */}
@@ -52,7 +62,7 @@ const NumberInput = ({
 );
 
 // PROP TYPES
-NumberInput.propTypes = {
+StringInput.propTypes = {
   /** number input title string */
   title: PropTypes.string.isRequired,
   /** number input description string */
@@ -76,7 +86,7 @@ NumberInput.propTypes = {
 };
 
 // PROP DEFAULT VALUES
-NumberInput.defaultProps = {
+StringInput.defaultProps = {
   /** number input warning message string */
   warning: undefined,
   /** number input tip message string */
@@ -90,4 +100,4 @@ NumberInput.defaultProps = {
 };
 
 // EXPORT
-export default NumberInput;
+export default StringInput;

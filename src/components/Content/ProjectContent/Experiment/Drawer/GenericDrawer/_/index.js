@@ -33,31 +33,34 @@ const inputTypes = {
     />
   ),
   // number (float)
-  number: ({ uuid, name, ...props }) => (
+  number: ({ uuid, name, ...props }, loading, handleChange) => (
     <NumberInput
       key={uuid || name}
-      handleChange={(value) => alert(`(float) Valor selecionado: ${value}`)}
+      handleChange={handleChange}
       {...props}
       step='0.1'
       name={name}
+      loading={loading}
     />
   ),
   // integer
-  integer: ({ uuid, name, ...props }) => (
+  integer: ({ uuid, name, ...props }, loading, handleChange) => (
     <NumberInput
       key={uuid || name}
-      handleChange={(value) => alert(`(integer) Valor selecionado: ${value}`)}
+      handleChange={handleChange}
       {...props}
       name={name}
+      loading={loading}
     />
   ),
   // string
-  string: ({ uuid, name, ...props }) => (
+  string: ({ uuid, name, ...props }, loading, handleChange) => (
     <StringInput
       key={uuid || name}
-      handleChange={(value) => alert(`(string) Valor selecionado: ${value}`)}
+      handleChange={handleChange}
       {...props}
       name={name}
+      loading={loading}
     />
   ),
 };
@@ -70,6 +73,8 @@ const GenericDrawer = ({
   drawerInputs,
   drawerTip,
   loading,
+  parameterLoading,
+  handleChangeParameter,
   handleRemoveOperatorClick,
 }) => (
   // div container
@@ -77,7 +82,9 @@ const GenericDrawer = ({
     {/* rendering drawer inputs */}
     {drawerInputs &&
       drawerInputs.length > 0 &&
-      drawerInputs.map((input) => inputTypes[input.type](input))}
+      drawerInputs.map((input) =>
+        inputTypes[input.type](input, parameterLoading, handleChangeParameter)
+      )}
     {/* rendering drawer tip node */}
     {drawerTip && (
       <div>

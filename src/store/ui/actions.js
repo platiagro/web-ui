@@ -338,6 +338,34 @@ export const datasetOperatorDataLoaded = () => {
 
 // // // // // // // // // //
 
+// ** OPERATOR PARAMETER LOADING DATA
+/**
+ * operator parameter loading data
+ * @returns {Object} { type, operatorParameterLoading }
+ */
+export const operatorParameterLoadingData = () => {
+  return {
+    type: actionTypes.OPERATOR_PARAMETER_LOADING_DATA,
+    operatorParameterLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** DATASET OPERATOR DATA LOADED
+/**
+ * operator parameter data loaded
+ * @returns {Object} { type, operatorParameterLoading }
+ */
+export const operatorParameterDataLoaded = () => {
+  return {
+    type: actionTypes.OPERATOR_PARAMETER_DATA_LOADED,
+    operatorParameterLoading: false,
+  };
+};
+
+// // // // // // // // // //
+
 // ** TEMPLATE LOADING DATA
 /**
  * template loading data

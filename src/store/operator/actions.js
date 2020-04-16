@@ -10,6 +10,8 @@ import {
   hideDrawer,
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
+  operatorParameterLoadingData,
+  operatorParameterDataLoaded,
 } from '../ui/actions';
 
 // DATASET ACTIONS
@@ -220,16 +222,105 @@ export const removeOperatorRequest = (projectId, experimentId, operatorId) => (
 
 // // // // // // // // // //
 
+// ** SET OPERATOR PARAMS
 /**
- * set experiment operator params action
- * @param {string} experimentUuid
- * @param {string} taskUuid
- * @param {Object} taskParams
- * @returns {type, operators}
+ * set operator params success action
+ * @param {Object} operator
+ * @returns {Object} { type, operator }
  */
-export const setOperatorParams = (experimentUuid, taskUuid, taskParams) => ({
-  type: actionTypes.SET_OPERATOR_PARAMS,
-  operators: [] /* flowMock.map((task) =>
-    task.uuid !== 'tarefa07' ? task : { ...task, settedUp: true }
-  ), */,
-});
+const setOperatorParametersSuccess = (operator) => (dispatch) => {
+  // dispatching operator parameter data loaded action
+  dispatch(operatorParameterDataLoaded());
+
+  // dispatching set operator params success action
+  dispatch({
+    type: actionTypes.SET_OPERATOR_PARAMETERS_SUCCESS,
+    operator,
+  });
+};
+
+/**
+ * set operator params fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const setOperatorParametersFail = (error) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching operator parameter data loaded action
+  dispatch(operatorParameterDataLoaded());
+
+  // dispatching set operator params fail
+  dispatch({
+    type: actionTypes.SET_OPERATOR_PARAMETERS_FAIL,
+    errorMessage,
+  });
+};
+
+/**
+ * set operator params request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {Object} operator
+ * @param {string} parameterName
+ * @param {any} parameterValue
+ * @returns {Function}
+ */
+export const setOperatorParametersRequest = (
+  projectId,
+  experimentId,
+  operator,
+  parameterName,
+  parameterValue
+) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.SET_OPERATOR_PARAMETERS_REQUEST,
+  });
+
+  // dispatching operator parameter loading data action
+  dispatch(operatorParameterLoadingData());
+
+  // filtering parameters with value
+  const parametersWithValue = operator.parameters.filter(
+    (parameter) => parameter.value
+  );
+
+  // creating parameter object to update
+  const parameters = {};
+  parametersWithValue.forEach(({ name, value }) => {
+    parameters[name] = name === parameterName ? parameterValue : value;
+  });
+
+  // creating operator object
+  const operatorWithParameters = { parameters };
+
+  // creating operator
+  operatorsApi
+    .updateOperator(
+      projectId,
+      experimentId,
+      operator.uuid,
+      operatorWithParameters
+    )
+    .then(() => {
+      // getting operator data
+      const successOperator = { ...operator };
+
+      // changing param value
+      successOperator.parameters = successOperator.parameters.map(
+        (parameter) => ({
+          ...parameter,
+          value:
+            parameter.name === parameterName ? parameterValue : parameter.value,
+        })
+      );
+
+      // dispatching success action
+      dispatch(setOperatorParametersSuccess(successOperator));
+    })
+    .catch((error) => dispatch(setOperatorParametersFail(error)));
+};
+
+// // // // // // // // // //
