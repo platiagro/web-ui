@@ -83,7 +83,7 @@ export const fetchOperatorsRequest = (
     name: 'Conjunto de Dados',
     position: -1,
     uuid: 'dataset',
-    params: { dataset: datasetName || '' },
+    parameters: { dataset: datasetName || '' },
   };
 
   try {

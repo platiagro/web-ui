@@ -231,7 +231,12 @@ const getTagConfig = (tag) => {
  */
 const getComponentData = (components, componentId) => {
   // params to filter constant
-  const paramsToFilter = ['dataset', 'target', 'experiment_id', 'operator_id'];
+  const parametersToFilter = [
+    'dataset',
+    'target',
+    'experiment_id',
+    'operator_id',
+  ];
 
   if (components.length > 0 && componentId) {
     // getting components data
@@ -251,7 +256,7 @@ const getComponentData = (components, componentId) => {
     if (parameters) {
       // filtering params
       filteredParams = parameters.filter(
-        (param) => !paramsToFilter.includes(param.name)
+        (parameter) => !parametersToFilter.includes(parameter.name)
       );
     }
 
@@ -272,6 +277,28 @@ const getComponentData = (components, componentId) => {
 };
 
 /**
+ * Configure Operator Parameters
+ * Method to configure operator parameters
+ * @param {Object[]} componentParameters
+ * @param {Object} operatorParameters
+ * @returns {Object[]} configured operator parameters
+ */
+const configureOperatorParameters = (
+  componentParameters,
+  operatorParameters
+) => {
+  const configuredOperatorParameters = componentParameters.map((parameter) => ({
+    ...parameter,
+    value:
+      parameter.name in operatorParameters
+        ? operatorParameters[parameter.name]
+        : undefined,
+  }));
+
+  return configuredOperatorParameters;
+};
+
+/**
  * Configure Operators
  * Method to configure operators
  * @param {Object[]} components components list
@@ -280,11 +307,26 @@ const getComponentData = (components, componentId) => {
  */
 const configureOperators = (components, operators) => {
   // creating configured operators
-  const configuredOperators = operators.map((operator) => ({
-    ...operator,
-    ...getComponentData(components, operator.componentId),
-    ...{ selected: false },
-  }));
+  const configuredOperators = operators.map((operator) => {
+    // getting component data
+    const {
+      parameters: componentParameters,
+      ...restComponentData
+    } = getComponentData(components, operator.componentId);
+
+    // configuring operator parameters
+    const parameters = configureOperatorParameters(
+      componentParameters,
+      operator.parameters
+    );
+
+    return {
+      ...operator,
+      ...restComponentData,
+      parameters,
+      selected: false,
+    };
+  });
 
   return configuredOperators;
 };
@@ -316,5 +358,6 @@ export default {
   getTagConfig,
   getComponentData,
   configureOperators,
+  configureOperatorParameters,
   selectOperator,
 };
