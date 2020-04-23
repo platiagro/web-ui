@@ -5,7 +5,7 @@ import React from 'react';
 import { Layout, Row, Col } from 'antd';
 
 // COMPONENTS
-import NewProjectModal from '../ProjectsContent/NewProjectModal';
+import NewProjectModal from '../ProjectsContent/NewProjectModal/Container';
 
 // STYLES
 import './style.scss';
@@ -23,7 +23,7 @@ const { Content } = Layout;
  * Home Content.
  * This component is responsible for displaying the home content.
  */
-const HomeContent = () => {
+const HomeContent = ({ showNewProjectModal }) => {
   // RENDER
   return (
     // layout container
@@ -48,7 +48,7 @@ const HomeContent = () => {
               {/* cards */}
               <div className='home-cards'>
                 {/* new project card */}
-                <div role='presentation' onClick={() => alert()}>
+                <div role='presentation' onClick={showNewProjectModal}>
                   <img src={ic_projeto} alt='Icone de experimento' />
                   <span>Criar um novo projeto</span>
                 </div>

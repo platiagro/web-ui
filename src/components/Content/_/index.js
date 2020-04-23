@@ -10,7 +10,7 @@ import ProjectsContent from '../ProjectsContent/_';
 import ProjectContent from '../ProjectContent/_';
 import TaskContent from '../TasksContent/_';
 import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
-import HomeContent from '../HomeContent';
+import HomeContent from '../HomeContent/Container';
 import Error404Content from '../Error404Content';
 
 // STYLES
