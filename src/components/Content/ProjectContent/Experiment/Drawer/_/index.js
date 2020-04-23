@@ -15,7 +15,14 @@ import ResultsButtonBar from '../ResultsButtonBar';
  * Drawer.
  * This component is responsible for displaying drawer.
  */
-const Drawer = ({ title, isVisible, handleClose, results, isDataset }) => {
+const Drawer = ({
+  title,
+  isVisible,
+  handleClose,
+  results,
+  resultsLoading,
+  isDataset,
+}) => {
   // HOOKS
   // show results
   const [showResults, setShowResults] = useState(false);
@@ -30,7 +37,7 @@ const Drawer = ({ title, isVisible, handleClose, results, isDataset }) => {
   return (
     // ant design drawer container
     <AntDrawer
-      width={350}
+      width={showResults ? '30vw' : 350}
       title={title}
       visible={isVisible}
       closable
@@ -41,10 +48,12 @@ const Drawer = ({ title, isVisible, handleClose, results, isDataset }) => {
       {/* rendering generic drawer */}
       {!isDataset && !showResults && <GenericDrawer />}
       {/* rendering results drawer */}
-      {showResults && <ResultsDrawer results={results} />}
+      {showResults && (
+        <ResultsDrawer loading={resultsLoading} results={results} />
+      )}
 
       {/* rendering results button bar */}
-      {results && (
+      {results && results.length > 0 && (
         <ResultsButtonBar
           handleEditClick={handleEditClick}
           handleResultsClick={handleResultsClick}

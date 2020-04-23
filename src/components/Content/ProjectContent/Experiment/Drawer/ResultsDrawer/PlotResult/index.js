@@ -9,28 +9,42 @@ import PropTypes from 'prop-types';
 const PlotResult = ({ title, description, plotUrl }) => (
   // div container
   <div>
-    {/* rendering title */}
-    <p>
-      <strong>{title}</strong>
-    </p>
-    {/* rendering description */}
-    <p>{description}</p>
-    {/* breaking line */}
-    <br />
-    <br />
+    {title && (
+      /* rendering title */
+      <p>
+        <strong>{title}</strong>
+      </p>
+    )}
+    {description && (
+      <>
+        {/* rendering description */}
+        <p>{description}</p>
+        {/* breaking line */}
+        <br />
+        <br />
+      </>
+    )}
     {/* rendering plot */}
-    <img alt='plot' src={plotUrl} />
+    <img width='100%' alt='plot' src={plotUrl} />
   </div>
 );
 
 // PROP TYPES
 PlotResult.propTypes = {
   /** plot result title string */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /** plot result description string */
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   /** plot result plot url string */
   plotUrl: PropTypes.string.isRequired,
+};
+
+// Specifies the default values for props:
+PlotResult.defaultProps = {
+  /** plot result title */
+  title: undefined,
+  /** plot result description */
+  description: undefined,
 };
 
 // EXPORT

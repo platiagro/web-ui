@@ -101,6 +101,27 @@ const updateOperator = (projectId, experimentId, operatorId, operator) =>
   });
 
 /**
+ * Get Operator Results
+ *
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} operatorId
+ * @returns {Promise}
+ */
+const getOperatorResults = (projectId, experimentId, operatorId) =>
+  new Promise((resolve, reject) => {
+    // updating operator
+    operatorsApi
+      .get(
+        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/figures`
+      )
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+/**
  * Detail Operator
  * @param {string} projectId
  * @returns {Promise}
@@ -122,6 +143,7 @@ export default {
   createOperator,
   deleteOperator,
   updateOperator,
+  getOperatorResults,
   /*   detailOperator,
    */
 };

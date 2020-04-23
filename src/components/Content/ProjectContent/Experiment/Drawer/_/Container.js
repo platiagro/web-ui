@@ -19,7 +19,11 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { drawer: state.ui.drawer };
+  return {
+    drawer: state.ui.drawer,
+    results: state.operator.results,
+    resultsLoading: state.ui.operatorResults.loading,
+  };
 };
 
 /**
@@ -27,7 +31,12 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for drawer with
  * redux.
  */
-const DrawerContainer = ({ drawer, handleHideDrawer }) => {
+const DrawerContainer = ({
+  drawer,
+  handleHideDrawer,
+  results,
+  resultsLoading,
+}) => {
   /*   // CONSTANTS
   // getting experiment uuid
   const { operatorId } = useParams();
@@ -49,6 +58,8 @@ const DrawerContainer = ({ drawer, handleHideDrawer }) => {
       isVisible={drawer.visible}
       isDataset={drawer.isDataset}
       handleClose={handleHideDrawer}
+      results={results}
+      resultsLoading={resultsLoading}
       title={drawer.title}
     />
   );

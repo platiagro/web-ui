@@ -349,6 +349,28 @@ const selectOperator = (operatorId, operators) => {
   return newOperators;
 };
 
+/**
+ * Transform Results
+ *
+ * Method to transform operator results
+ * @param {string} operatorId operators list * omit/null this to deselect all *
+ * @param {string[]} results operators plot result list
+ * @returns {Object[]} new results list
+ */
+const transformResults = (operatorId, results) => {
+  // getting url creator
+  const urlCreator = window.URL || window.webkitURL;
+
+  // creating new operators list
+  const newResults = results.map((plotResult, index) => ({
+    type: 'plot',
+    uuid: `plot_${operatorId}_${index}`,
+    plotUrl: plotResult,
+  }));
+
+  return newResults;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -360,4 +382,5 @@ export default {
   configureOperators,
   configureOperatorParameters,
   selectOperator,
+  transformResults,
 };

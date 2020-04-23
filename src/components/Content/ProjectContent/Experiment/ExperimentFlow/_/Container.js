@@ -14,7 +14,8 @@ import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelin
 const mapDispatchToProps = (dispatch) => {
   return {
     // show operator details action
-    handleShowOperatorDetails: (operator) => dispatch(selectOperator(operator)),
+    handleShowOperatorDetails: (projectId, experimentId, operator) =>
+      dispatch(selectOperator(projectId, experimentId, operator)),
     // getting training experiment status
     handleGetTrainExperimentStatus: (experimentId) =>
       dispatch(getTrainExperimentStatusRequest(experimentId)),
@@ -64,12 +65,15 @@ const ExperimentFlowContainer = ({
     return () => clearInterval(polling);
   });
 
+  const selectOperatorHandler = (operator) =>
+    handleShowOperatorDetails(projectId, experimentId, operator);
+
   // RENDER
   return (
     <ExperimentFlow
       components={operators}
       loading={loading}
-      handleTaskBoxClick={handleShowOperatorDetails}
+      handleTaskBoxClick={selectOperatorHandler}
     />
   );
 };

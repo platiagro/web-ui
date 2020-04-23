@@ -12,6 +12,7 @@ const initialState = {
   uuid: '',
   selected: false,
   parameters: [],
+  results: [],
 };
 
 /**
@@ -27,6 +28,9 @@ const operator = (state = initialState, action) => {
     // set operator params success
     case actionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
       return { ...state, ...action.operator };
+    // get operator results success
+    case actionTypes.GET_OPERATOR_RESULTS_SUCCESS:
+      return { ...state, results: [...action.results] };
 
     // FAIL
     // operator
@@ -38,6 +42,9 @@ const operator = (state = initialState, action) => {
       return message.error(action.errorMessage);
     // set operator params fail
     case actionTypes.SET_OPERATOR_PARAMETERS_FAIL:
+      return message.error(action.errorMessage);
+    // get operator results fail
+    case actionTypes.GET_OPERATOR_RESULTS_FAIL:
       return message.error(action.errorMessage);
 
     // COMMON

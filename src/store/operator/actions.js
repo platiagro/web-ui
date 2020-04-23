@@ -12,6 +12,8 @@ import {
   experimentOperatorsLoadingData,
   operatorParameterLoadingData,
   operatorParameterDataLoaded,
+  operatorResultsDataLoaded,
+  operatorResultsLoadingData,
 } from '../ui/actions';
 
 // DATASET ACTIONS
@@ -21,13 +23,86 @@ import { fetchDatasetColumnsRequest } from '../dataset/actions';
 import utils from '../../utils';
 
 // ACTIONS
+// ** GET OPERATOR RESULTS
+/**
+ * get operator results success action
+ * @param {Object} response
+ * @param {string} operatorId
+ * @returns {Object} { type, results }
+ */
+const getOperatorResultsSuccess = (response, operatorId) => (dispatch) => {
+  // getting results
+  const results = utils.transformResults(operatorId, response.data);
+
+  // dispatching operator results data loaded action
+  dispatch(operatorResultsDataLoaded());
+
+  // dispatching get operator results success action
+  dispatch({
+    type: actionTypes.GET_OPERATOR_RESULTS_SUCCESS,
+    results,
+  });
+};
+
+/**
+ * get operator results fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const getOperatorResultsFail = (error) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching operator results data loaded action
+  dispatch(operatorResultsDataLoaded());
+
+  // dispatching get operator results fail
+  dispatch({
+    type: actionTypes.GET_OPERATOR_RESULTS_FAIL,
+    errorMessage,
+  });
+};
+
+/**
+ * set operator params request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} operatorId
+ * @returns {Function}
+ */
+export const getOperatorResultsRequest = (
+  projectId,
+  experimentId,
+  operatorId
+) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
+  });
+
+  // dispatching operator results loading data action
+  dispatch(operatorResultsLoadingData());
+
+  // creating operator
+  operatorsApi
+    .getOperatorResults(projectId, experimentId, operatorId)
+    .then((response) => {
+      // dispatching success action
+      dispatch(getOperatorResultsSuccess(response, operatorId));
+    })
+    .catch((error) => dispatch(getOperatorResultsFail(error)));
+};
+
+// // // // // // // // // //
 // ** SELECT OPERATOR
 /**
  * select operator action
  * @param {string} operator
  * @returns {Function}
  */
-export const selectOperator = (operator) => (dispatch) => {
+export const selectOperator = (projectId, experimentId, operator) => (
+  dispatch
+) => {
   // dispatching action
   dispatch({
     type: actionTypes.SELECT_OPERATOR,
@@ -40,6 +115,9 @@ export const selectOperator = (operator) => (dispatch) => {
   // fetching dataset columns
   if (isDataset)
     dispatch(fetchDatasetColumnsRequest(operator.parameters.dataset));
+
+  // getting results
+  dispatch(getOperatorResultsRequest(projectId, experimentId, operator.uuid));
 
   // dispatching action to show drawer
   dispatch(showDrawer(operator.name, isDataset));
