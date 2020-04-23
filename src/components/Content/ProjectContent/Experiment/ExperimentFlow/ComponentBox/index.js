@@ -2,13 +2,30 @@
 
 // CORE LIBS
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
 // UI LIBS
-import { Icon, Tooltip } from 'antd';
+import { Icon, Tooltip, Menu, Dropdown } from 'antd';
 
 // STYLES
 import './style.scss';
+
+// ACTIONS
+import {
+  removeOperatorRequest,
+} from 'store/operator/actions';
+
+// DISPATCHS
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // remove operator
+    handleRemoveOperator: (projectId, experimentId, operatorId) =>
+      dispatch(removeOperatorRequest(projectId, experimentId, operatorId)),
+
+  };
+};
 
 // tooltip configs
 const toolTipConfigs = {
@@ -60,11 +77,15 @@ const ComponentBox = ({
   uuid: taskUuid,
   handleClick,
   operator,
+  handleRemoveOperator,
 }) => {
   // CONSTANTS
   // class name
   const cssClass = `card ${settedUp && 'setted-up'} ${status} ${selected &&
     'selected'}`;
+
+  // getting experiment uuid
+  const { projectId, experimentId } = useParams();
 
   // HANDLERS
   // box click
@@ -74,7 +95,27 @@ const ComponentBox = ({
     if (status !== 'Pending' && status !== 'Running') handleClick(operator);
   };
 
+  // remove on right click menu
+  const removeOperator = () => {
+    handleRemoveOperator(projectId, experimentId, operator.uuid);
+  }
+
+  // box right click
+  const handleRightButtonClick = (e) => {
+    if (status !== 'Pending' && status !== 'Running' && e.key === 'edit') handleClick(operator);
+
+    if (status !== 'Pending' && status !== 'Running' && operator.uuid !== 'dataset' && e.key === 'remove') removeOperator();
+  }
+
   // RENDERS
+  //dropdown menu
+  const menu = (
+    <Menu onClick={handleRightButtonClick}>
+      <Menu.Item key="edit">Editar</Menu.Item>
+      {operator.uuid !== 'dataset' && <Menu.Item key="remove">Remover</Menu.Item>}
+    </Menu>
+  );
+
   // tooltip
   const renderTooltip = () => {
     if (!status || status === 'Loading') return null;
@@ -93,18 +134,21 @@ const ComponentBox = ({
 
   // RENDER
   return (
-    // div container
-    <div className={cssClass} onClick={handleBoxClick} role='presentation'>
-      {/* div title icon container */}
-      <div className='title-icon'>
-        {/* component icon */}
-        <Icon style={{ fontSize: '18px' }} theme={iconTheme} type={icon} />
-        {/* component title */}
-        <span>{name}</span>
+    // Right click menu
+    <Dropdown overlay={menu} trigger={['contextMenu']} >
+      {/* div container */}
+      <div className={cssClass} onClick={handleBoxClick} role='presentation'>
+        {/* div title icon container */}
+        <div className='title-icon'>
+          {/* component icon */}
+          <Icon style={{ fontSize: '18px' }} theme={iconTheme} type={icon} />
+          {/* component title */}
+          <span>{name}</span>
+        </div>
+        {/* rendering tooltip */}
+        {renderTooltip()}
       </div>
-      {/* rendering tooltip */}
-      {renderTooltip()}
-    </div>
+    </Dropdown>
   );
 };
 
@@ -124,7 +168,12 @@ ComponentBox.propTypes = {
   selected: PropTypes.bool.isRequired,
   /** component click handler */
   handleClick: PropTypes.func.isRequired,
+  /** component remove handler */
+  handleRemoveOperator: PropTypes.func.isRequired,
 };
 
 // EXPORT
-export default ComponentBox;
+export default connect(
+  null,
+  mapDispatchToProps
+)(ComponentBox);
