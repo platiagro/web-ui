@@ -48,12 +48,18 @@ const TasksTableContainer = (props) => {
     handleFetchTasks();
   }, [handleFetchTasks]);
 
+  // HANDLERS
+  const taskClickHandler = (taskId) =>
+    window.open(
+      `/notebook/anonymous/server/lab/tree/components/${taskId}/Training.ipynb`
+    );
+
   // RENDER
   return (
     <ConfigProvider renderEmpty={TasksEmpty}>
       <TasksTable
         tasks={tasks}
-        handleClickTask={(uuid) => alert(uuid)}
+        handleClickTask={taskClickHandler}
         handleClickEdit={handleClickEdit}
         handleClickDelete={handleDeleteTask}
         loading={loading}
