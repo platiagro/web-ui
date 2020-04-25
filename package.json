@@ -25,6 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:ci": "react-scripts test --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -52,6 +53,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "jest-sonar-reporter": "^2.0.0",
     "prettier": "^1.18.2"
   },
   "jest": {
