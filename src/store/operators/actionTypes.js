@@ -1,0 +1,24 @@
+// ACTION TYPES
+// REQUEST
+// fetch operators request
+const FETCH_OPERATORS_REQUEST = 'FETCH_OPERATORS_REQUEST';
+
+// SUCCESS
+// fetch operators success
+const FETCH_OPERATORS_SUCCESS = 'FETCH_OPERATORS_SUCCESS';
+
+// FAIL
+// fetch operators fail
+const FETCH_OPERATORS_FAIL = 'FETCH_OPERATORS_FAIL';
+
+// EXPORT
+export default {
+  // REQUEST
+  FETCH_OPERATORS_REQUEST,
+
+  // SUCCESS
+  FETCH_OPERATORS_SUCCESS,
+
+  // FAIL
+  FETCH_OPERATORS_FAIL,
+};

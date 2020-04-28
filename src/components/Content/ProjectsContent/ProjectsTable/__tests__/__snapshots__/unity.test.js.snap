@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ComponentTable component is expected render html correctly 1`] = `
+<withStore(Table)
+  className="projectsTable"
+  columns={
+    Array [
+      Object {
+        "dataIndex": "name",
+        "key": "name",
+        "render": [Function],
+        "title": "Nome do Projeto",
+      },
+      Object {
+        "dataIndex": "createdAt",
+        "key": "createdAt",
+        "render": [Function],
+        "title": "Data de Criação",
+        "width": 200,
+      },
+    ]
+  }
+  dataSource={
+    Array [
+      Object {
+        "createdAt": "2019-12-20T16:38:42.000Z",
+        "name": "name",
+        "uuid": "uuid",
+      },
+    ]
+  }
+  pagination={
+    Object {
+      "pageSize": 9,
+    }
+  }
+  rowKey={[Function]}
+  scroll={
+    Object {
+      "y": "calc(100vh - 480px)",
+    }
+  }
+/>
+`;

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InfoHelper component is expected render html correctly 1`] = `
+<Popover
+  mouseEnterDelay={0.1}
+  mouseLeaveDelay={0.1}
+  overlayStyle={
+    Object {
+      "width": 150,
+    }
+  }
+  placement="top"
+  transitionName="zoom-big"
+  trigger="click"
+>
+  <Icon
+    style={
+      Object {
+        "marginLeft": 10,
+      }
+    }
+    type="question-circle"
+  />
+</Popover>
+`;

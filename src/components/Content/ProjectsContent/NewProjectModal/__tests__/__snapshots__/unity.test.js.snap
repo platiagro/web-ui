@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewProjectModal component is expected render html correctly 1`] = `
+<Modal
+  cancelText="Cancelar"
+  confirmLoading={false}
+  maskTransitionName="fade"
+  okButtonProps={
+    Object {
+      "disabled": false,
+    }
+  }
+  okText="Criar"
+  okType="primary"
+  onCancel={[Function]}
+  onOk={[Function]}
+  title="Novo Projeto"
+  transitionName="zoom"
+  visible={false}
+  width={520}
+>
+  <Form
+    colon={true}
+    hideRequiredMark={false}
+    layout="vertical"
+    onSubmit={[Function]}
+  >
+    <FormItem
+      hasFeedback={false}
+      label="Qual o nome do seu projeto?"
+    >
+      <Input
+        allowClear={true}
+        autoFocus={true}
+        data-__field={
+          Object {
+            "name": "name",
+          }
+        }
+        data-__meta={
+          Object {
+            "initialValue": "Novo Projeto",
+            "name": "name",
+            "originalProps": Object {
+              "allowClear": true,
+              "autoFocus": true,
+              "type": "text",
+            },
+            "ref": null,
+            "rules": Array [
+              Object {
+                "message": "Por favor insira um nome para o projeto!",
+                "required": true,
+              },
+            ],
+            "trigger": "onChange",
+            "validate": Array [
+              Object {
+                "rules": Array [
+                  Object {
+                    "message": "Por favor insira um nome para o projeto!",
+                    "required": true,
+                  },
+                ],
+                "trigger": Array [
+                  "onChange",
+                ],
+              },
+            ],
+            "valuePropName": "value",
+          }
+        }
+        id="new-project_name"
+        onChange={[Function]}
+        type="text"
+        value="Novo Projeto"
+      />
+    </FormItem>
+  </Form>
+</Modal>
+`;
