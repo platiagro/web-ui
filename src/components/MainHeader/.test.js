@@ -8,11 +8,6 @@ import MainHeader from '.';
 
 import { Menu } from 'antd';
 
-const routes = [
-  { path: '/', title: 'Root', icon: 'home' },
-  { path: '/projects', title: 'Projetos', icon: 'experiment' },
-];
-
 describe('MainHeader component', () => {
   it('is expected render without crashing', () => {
     shallow(<MainHeader />);
@@ -25,6 +20,11 @@ describe('MainHeader component', () => {
   });
 
   it('is expected to receive a mainRoutes property.', () => {
+    const routes = [
+      { path: '/', title: 'Root' },
+      { path: '/projects', title: 'Projetos' },
+    ];
+
     const wrapper = shallow(
       <MemoryRouter>
         <MainHeader mainRoutes={routes} />
@@ -41,6 +41,11 @@ describe('MainHeader component', () => {
   });
 
   it('mainRoutes property is expected to map into Menu.Item components, children of Menu', () => {
+    const routes = [
+      { path: '/', title: 'Root' },
+      { path: '/projects', title: 'Projetos' },
+    ];
+
     const wrapper = shallow(<MainHeader mainRoutes={routes} />);
 
     expect(
@@ -55,6 +60,11 @@ describe('MainHeader component', () => {
     'Menu.Item component is expected to have a key with the path attribute ' +
       'of the route object, element of the mainRoutes vector',
     () => {
+      const routes = [
+        { path: '/', title: 'Root' },
+        { path: '/projects', title: 'Projetos' },
+      ];
+
       const wrapper = shallow(<MainHeader mainRoutes={routes} />);
 
       expect(
@@ -87,6 +97,11 @@ describe('MainHeader component', () => {
     'is expected to receive a location property (to receive this property ' +
       'the component must be routed `<Route component = {MainHeader} />`)',
     () => {
+      const routes = [
+        { path: '/', title: 'Root' },
+        { path: '/projects', title: 'Projetos' },
+      ];
+
       const wrapper = mount(
         <MemoryRouter>
           <Route component={MainHeader} />} />
@@ -101,6 +116,11 @@ describe('MainHeader component', () => {
     'Menu selectedKeys props is expected to populate with the result of the' +
       'getCurrentRoute(location.pathname, mainRoutes) function call from the utils.js file.',
     () => {
+      const routes = [
+        { path: '/', title: 'Root' },
+        { path: '/projects', title: 'Projetos' },
+      ];
+
       const wrapper = mount(
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
           <Route
@@ -114,6 +134,11 @@ describe('MainHeader component', () => {
   );
 
   it('Clicking on a menu item is expected to change a route', () => {
+    const routes = [
+      { path: '/', title: 'Root' },
+      { path: '/projects', title: 'Projetos' },
+    ];
+
     const wrapper = mount(
       <MemoryRouter initialEntries={['/']} initialIndex={0}>
         <Route

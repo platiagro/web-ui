@@ -1,0 +1,24 @@
+// ACTION TYPES
+// REQUEST
+// fetch projects request
+const FETCH_PROJECTS_REQUEST = 'FETCH_PROJECTS_REQUEST';
+
+// SUCCESS
+// fetch projects success
+const FETCH_PROJECTS_SUCCESS = 'FETCH_PROJECTS_SUCCESS';
+
+// FAIL
+// fetch projects fail
+const FETCH_PROJECTS_FAIL = 'FETCH_PROJECTS_FAIL';
+
+// EXPORT
+export default {
+  // REQUEST
+  FETCH_PROJECTS_REQUEST,
+
+  // SUCCESS
+  FETCH_PROJECTS_SUCCESS,
+
+  // FAIL
+  FETCH_PROJECTS_FAIL,
+};
