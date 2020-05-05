@@ -3,11 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Typography, Tooltip } from 'antd';
+import { Table, Typography, Tooltip, Button, Badge } from 'antd';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
 import ImplantedExperimentsEmpty from '../../ImplantedExperimentsEmpty';
+import LogsDrawer from '../../LogsDrawer/Container';
 
 // STYLES
 import './style.scss';
@@ -22,9 +23,29 @@ const { Paragraph } = Typography;
 const ImplantedExperimentsTable = ({
   implantedExperiments,
   handleTestInference,
+  handleOpenLog,
 }) => {
+  // CONSTANTS
+
+  // convert status to badge icon
+  const statusToBadge = {
+    Failed: 'error',
+    Running: 'processing',
+    Succeded: 'success'
+  }
+
   // table columns config
   const columnsConfig = [
+    // status column
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (value) => (
+        // badge
+        <Badge status={statusToBadge[value]} text={value} />
+      ),
+    },
     // name column
     {
       title: 'Nome',
@@ -58,6 +79,10 @@ const ImplantedExperimentsTable = ({
       render: (value, record) => (
         // fragment container
         <>
+          {/* see error logs */}
+          <Button type='link' onClick={handleOpenLog}>
+            Logs
+          </Button>
           {/* monitoring link */}
           <a target='_blank' href='/notebook/kubeflow-anonymous/server-1/tree?'>
             Monitoramento
@@ -75,14 +100,17 @@ const ImplantedExperimentsTable = ({
   return (
     // rendering implanted experiments table or implanted experiments empty
     implantedExperiments.length > 0 ? (
+      <>
       <Table
         dataSource={implantedExperiments}
         columns={columnsConfig}
         pagination={{ pageSize: 9 }}
       />
+      <LogsDrawer/>
+      </>
     ) : (
-      <ImplantedExperimentsEmpty />
-    )
+        <ImplantedExperimentsEmpty />
+      )
   );
 };
 

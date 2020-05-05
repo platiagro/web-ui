@@ -11,6 +11,7 @@ import {
   deleteImplantedExperiment,
 } from '../../../../../store/implantedExperiments/actions';
 import testImplantedExperimentInference from '../../../../../store/testExperimentInference/actions';
+import { showDrawer } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -21,6 +22,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(deleteImplantedExperiment(implantedExperimentUuid)),
     handleTestImplantedExperimentInference: (implantedExperimentUuid, file) =>
       dispatch(testImplantedExperimentInference(implantedExperimentUuid, file)),
+    handleShowDrawer: (title, isDataset) => dispatch(showDrawer('Logs', false)),
   };
 };
 
@@ -40,6 +42,7 @@ const ImplantedExperimentsTableContainer = ({
   handleFetchImplantedExperiments,
   handleDeleteImplantedExperiment,
   handleTestImplantedExperimentInference,
+  handleShowDrawer
 }) => {
   // HOOKS
   // did mount hook
@@ -48,11 +51,16 @@ const ImplantedExperimentsTableContainer = ({
     handleFetchImplantedExperiments();
   }, []);
 
+  const logOpen = () =>{
+    console.log('ABRINDO!!')
+  }
+
   // RENDER
   return (
     <ImplantedExperimentsTable
       implantedExperiments={implantedExperiments}
       handleTestInference={handleTestImplantedExperimentInference}
+      handleOpenLog={handleShowDrawer}
     />
   );
 };
