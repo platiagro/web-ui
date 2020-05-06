@@ -9,11 +9,11 @@ import { Icon, Popover } from 'antd';
  * Input Tip.
  * This component is responsible for displaying input tip.
  */
-const InputTip = ({ tip }) => (
+const InputTip = ({ tip, width = 150 }) => (
   // popover component
   <Popover
     overlayStyle={{
-      width: 150,
+      width,
     }}
     content={tip}
     trigger='click'
