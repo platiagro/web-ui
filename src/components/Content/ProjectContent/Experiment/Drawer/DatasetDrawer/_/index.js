@@ -165,7 +165,7 @@ const DatasetDrawer = ({
         <Button disabled={!(datasetFileList.length > 0) || loading}>
           {/* icon component */}
           <Icon type={loading ? 'loading' : 'upload'} />
-          Selecionar cabeçalho
+          Selecionar
         </Button>
       </Upload>
     );
@@ -234,8 +234,23 @@ const DatasetDrawer = ({
       <br />
       {/* dataset header upload block */}
       <p>
-        Cabeçalho com os atributos
-        <small>(Opcional)</small>
+        Arquivo .txt com os tipos dos atributos
+        <InputTip
+          width={250}
+          tip={
+            <>
+              <b>Arquivo opcional.</b>
+              <br />
+              Os tipos permitidos são:
+              <br />
+              Numerical, Categorical e DateTime.
+              <br />
+              Cada linha do arquivo deve conter um tipo de atributo.
+              <br />
+              A ordem deve ser a mesma das colunas dos dados de entrada.
+            </>
+          }
+        />
       </p>
       {renderDatasetHeaderUpload()}
       {/* line break */}
