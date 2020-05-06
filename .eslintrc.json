@@ -16,5 +16,6 @@
     "es6": true,
     "jest": true
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "import/resolver": "node"
 }
