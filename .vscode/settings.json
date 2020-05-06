@@ -1,0 +1,17 @@
+{
+  "editor.rulers": [80, 120],
+  "editor.tabSize": 2,
+  "prettier.jsxSingleQuote": true,
+  "prettier.arrowParens": "always",
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "files.watcherExclude": {
+    "**/build/**": true,
+    "**/coverage/**": true,
+    "**/node_modules/**": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true
+}
