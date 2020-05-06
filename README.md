@@ -4,11 +4,11 @@
 BADGES
 -->
 
-[![Known Vulnerabilities](https://snyk.io/test/github/cedric-matheus/web-ui/badge.svg)](https://snyk.io/test/github/cedric-matheus/web-ui/)
-[![Build Status](https://travis-ci.org/cedric-matheus/web-ui.svg)](https://travis-ci.org/cedric-matheus/web-ui)
-[![codecov](https://codecov.io/gh/cedric-matheus/web-ui/graph/badge.svg)](https://codecov.io/gh/cedric-matheus/web-ui)
+[![Build Status](https://github.com/platiagro/web-ui/workflows/Node.js%20CI/badge.svg)](https://github.com/platiagro/web-ui/actions?query=workflow%3A%22Node.js+CI%22)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=platiagro_web-ui&metric=alert_status)](https://sonarcloud.io/dashboard?id=platiagro_web-ui)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Gitter](https://badges.gitter.im/platiagro/community.svg)](https://gitter.im/platiagro/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Known Vulnerabilities](https://snyk.io/test/github/platiagro/web-ui/badge.svg)](https://snyk.io/test/github/platiagro/web-ui/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
