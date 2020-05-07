@@ -59,6 +59,13 @@ export const deleteTask = async (id) => {
     const response = await taskApi.delete(`/components/${id}`);
     return response;
   } catch (error) {
-    message.error(error.message);
+    if (error.response.status == 403) {
+      message.warn(
+        'Não é possível excluir a tarefa. Necessário excluir ela dos experimentos antes.',
+        5
+      );
+    } else {
+      message.error(error.message);
+    }
   }
 };
