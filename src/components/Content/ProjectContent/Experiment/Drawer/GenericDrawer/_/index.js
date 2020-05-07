@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, Divider } from 'antd';
+import { Icon, Divider, Empty } from 'antd';
 
 // COMPONENTS
 import SelectInput from '../SelectInput';
@@ -79,6 +79,13 @@ const GenericDrawer = ({
 }) => (
   // div container
   <div>
+    {/* Render empty component when drawer is empty */}
+    {drawerInputs && drawerInputs.length === 0 && (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description='Não necessita de configuração'
+      />
+    )}
     {/* rendering drawer inputs */}
     {drawerInputs &&
       drawerInputs.length > 0 &&
