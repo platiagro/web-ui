@@ -34,8 +34,10 @@ export const addTask = (task) => {
       if (response) {
         dispatch(dispatchAdd(response.data));
         return response;
+      } else {
+        dispatch(tasksTableDataLoaded());
+        return null;
       }
-      return null;
     });
   };
 };
@@ -66,8 +68,10 @@ export const updateTask = (uuid, task) => {
       if (response) {
         dispatch(dispatchUpdate(response.data));
         return response;
+      } else {
+        dispatch(tasksTableDataLoaded());
+        return null;
       }
-      return null;
     });
   };
 };
@@ -98,6 +102,8 @@ export const deleteTask = (id) => {
     return taskServices.deleteTask(id).then((response) => {
       if (response) {
         dispatch(dispatchDelete(id));
+      } else {
+        dispatch(tasksTableDataLoaded());
       }
     });
   };
@@ -138,6 +144,8 @@ export const fetchTasks = () => {
     return taskServices.getAllTasks().then((response) => {
       if (response) {
         dispatch(dispatchFetchTasks(response.data));
+      } else {
+        dispatch(tasksTableDataLoaded());
       }
     });
   };
