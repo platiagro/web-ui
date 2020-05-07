@@ -80,7 +80,7 @@ const ImplantedExperimentsTable = ({
         // fragment container
         <>
           {/* see error logs */}
-          <Button type='link' onClick={handleOpenLog}>
+          <Button type='link' onClick={() => handleOpenLog(record)}>
             Logs
           </Button>
           {/* upload inference test button */}
