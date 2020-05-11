@@ -16,6 +16,9 @@ const initialState = [];
  */
 const experiments = (state = initialState, action) => {
   switch (action.type) {
+    //reset initial fetch of experiments
+    case actionTypes.CLEAR_ALL_EXPERIMENTS:
+      return [];
     // SUCCESS
     // experiments
     // fetch experiments success
