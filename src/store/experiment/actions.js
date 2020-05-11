@@ -444,7 +444,7 @@ export const setDatasetRequest = (projectId, experimentId, datasetName) => (
   });
 
   // creating experiment object
-  const experiment = { dataset: datasetName };
+  const experiment = { dataset: datasetName, target: null };
 
   // creating experiment
   experimentsApi
