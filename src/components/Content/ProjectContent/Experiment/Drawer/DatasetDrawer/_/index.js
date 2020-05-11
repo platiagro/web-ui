@@ -18,6 +18,7 @@ const { Option } = Select;
  */
 const DatasetDrawer = ({
   loading,
+  targetLoading,
   columns,
   targetColumnId,
   handleSetTarget,
@@ -198,6 +199,8 @@ const DatasetDrawer = ({
           style={{ width: 200 }}
           placeholder='Selecione'
           value={targetColumnId || undefined}
+          loading={targetLoading}
+          disabled={targetLoading}
           showSearch
         >
           {/* mapping columns to select options */}
