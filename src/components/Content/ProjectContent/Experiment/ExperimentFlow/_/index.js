@@ -144,13 +144,14 @@ const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
   );
 };
 
-// TODO: add loading prop
 // PROP TYPES
 ExperimentFlow.propTypes = {
   /** experiment flow components list */
   components: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** experiment flow task box click handler */
   handleTaskBoxClick: PropTypes.func.isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

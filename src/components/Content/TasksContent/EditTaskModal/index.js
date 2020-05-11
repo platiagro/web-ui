@@ -85,7 +85,6 @@ const EditTaskModal = ({
   );
 };
 
-// TODO: create loading proptypes
 // PROP TYPES
 EditTaskModal.propTypes = {
   /** edit task modal visible */
@@ -98,6 +97,8 @@ EditTaskModal.propTypes = {
   handleEditTask: PropTypes.func.isRequired,
   /** edit task modal form */
   form: PropTypes.objectOf(PropTypes.any).isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

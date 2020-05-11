@@ -43,7 +43,6 @@ const ComponentsMenuBlock = ({
   );
 };
 
-// TODO: add loading props
 // PROP TYPES
 ComponentsMenuBlock.propTypes = {
   /** components menu block components list */
@@ -54,6 +53,8 @@ ComponentsMenuBlock.propTypes = {
   handleComponentClick: PropTypes.func.isRequired,
   /** components menu filter handler */
   handleFilter: PropTypes.func.isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

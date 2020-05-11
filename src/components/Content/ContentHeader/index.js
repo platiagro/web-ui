@@ -36,7 +36,6 @@ const ContentHeader = ({ handleGoBack, handleSubmit, title, loading }) => {
   );
 };
 
-// TODO: add loading props
 // PROP TYPES
 ContentHeader.propTypes = {
   /** content header go back function */
@@ -45,6 +44,8 @@ ContentHeader.propTypes = {
   handleSubmit: PropTypes.func,
   /** content header title */
   title: PropTypes.string.isRequired,
+  /** content header is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // PROP DEFAULT VALUES

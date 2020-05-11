@@ -80,7 +80,6 @@ const NewProjectModal = ({
   );
 };
 
-// TODO: create loading proptypes
 // PROP TYPES
 NewProjectModal.propTypes = {
   /** new project modal visible */
@@ -91,6 +90,8 @@ NewProjectModal.propTypes = {
   handleNewProject: PropTypes.func.isRequired,
   /** new project modal form */
   form: PropTypes.objectOf(PropTypes.any).isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

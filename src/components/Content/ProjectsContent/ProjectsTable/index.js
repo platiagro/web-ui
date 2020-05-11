@@ -67,7 +67,6 @@ const ProjectsTable = ({
   );
 };
 
-// TODO: create loading proptypes
 // PROP TYPES
 ProjectsTable.propTypes = {
   /** projects list */
@@ -76,6 +75,8 @@ ProjectsTable.propTypes = {
   handleClickProject: PropTypes.func.isRequired,
   /** projects table delete project handle */
   handleClickDelete: PropTypes.func.isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT
