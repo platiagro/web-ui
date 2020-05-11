@@ -197,7 +197,7 @@ const DatasetDrawer = ({
           onChange={handleChangeTarget}
           style={{ width: 200 }}
           placeholder='Selecione'
-          value={targetColumnId}
+          value={targetColumnId || undefined}
           showSearch
         >
           {/* mapping columns to select options */}
@@ -246,8 +246,7 @@ const DatasetDrawer = ({
               Numerical, Categorical e DateTime.
               <br />
               Cada linha do arquivo deve conter um tipo de atributo.
-              <br />
-              A ordem deve ser a mesma das colunas dos dados de entrada.
+              <br />A ordem deve ser a mesma das colunas dos dados de entrada.
             </>
           }
         />

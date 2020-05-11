@@ -97,6 +97,8 @@ export const getOperatorResultsRequest = (
 // ** SELECT OPERATOR
 /**
  * select operator action
+ * @param {string} projectId
+ * @param {string} experimentId
  * @param {string} operator
  * @returns {Function}
  */
@@ -113,8 +115,18 @@ export const selectOperator = (projectId, experimentId, operator) => (
   const isDataset = operator.uuid === 'dataset';
 
   // fetching dataset columns
-  if (isDataset)
-    dispatch(fetchDatasetColumnsRequest(operator.parameters.dataset));
+  if (isDataset) {
+    // dataset value
+    let datasetValue;
+
+    // getting dataset value
+    operator.parameters.forEach((parameter) => {
+      if (parameter.name === 'dataset') datasetValue = parameter.value;
+    });
+
+    // fetching dataset columns
+    dispatch(fetchDatasetColumnsRequest(datasetValue));
+  }
 
   // getting results
   dispatch(getOperatorResultsRequest(projectId, experimentId, operator.uuid));

@@ -37,7 +37,14 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
   dispatch(experimentNameDataLoaded());
 
   // fetching operators
-  dispatch(fetchOperatorsRequest(projectId, experimentId, experiment.dataset));
+  dispatch(
+    fetchOperatorsRequest(
+      projectId,
+      experimentId,
+      experiment.dataset,
+      experiment.target
+    )
+  );
 
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_SUCCESS,

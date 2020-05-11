@@ -43,10 +43,13 @@ const operators = (state = initialState, action) => {
           operator.uuid === 'dataset'
             ? {
                 ...operator,
-                parameters: {
-                  ...operator.parameters,
-                  dataset: action.experiment.dataset,
-                },
+                parameters: [
+                  {
+                    name: 'dataset',
+                    value: action.experiment.dataset,
+                  },
+                  { name: 'target', value: '' },
+                ],
               }
             : operator
         ),
