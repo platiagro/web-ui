@@ -15,7 +15,6 @@ import InputTip from '../../InputTip';
 const NumberInput = ({
   title,
   name,
-  default: defaultValue,
   description,
   warning,
   tip,
@@ -35,8 +34,7 @@ const NumberInput = ({
     <small>{description}</small>
     {/* number input */}
     <InputNumber
-      value={value || defaultValue}
-      defaultValue={parseFloat(defaultValue)}
+      value={value}
       onChange={(inputValue) => handleChange(name, inputValue)}
       placeholder={placeholder}
       min={min}

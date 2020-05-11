@@ -172,6 +172,7 @@ const createOperatorSuccess = (
       inferenceNotebookPath,
       parameters,
       selected: false,
+      settedUp: utils.checkOperatorSettedUp(parameters),
     },
   });
 };
@@ -226,6 +227,12 @@ export const createOperatorRequest = (
     parameters,
   } = utils.getComponentData(components, componentId);
 
+  // configuring parameters
+  const configuredParameters = utils.configureOperatorParameters(
+    parameters,
+    parameters
+  );
+
   // creating operator
   operatorsApi
     .createOperator(projectId, experimentId, componentId)
@@ -237,7 +244,7 @@ export const createOperatorRequest = (
           componentName,
           trainingNotebookPath,
           inferenceNotebookPath,
-          parameters
+          configuredParameters
         )
       )
     )
@@ -405,6 +412,11 @@ export const setOperatorParametersRequest = (
           value:
             parameter.name === parameterName ? parameterValue : parameter.value,
         })
+      );
+
+      // checking if is setted up
+      successOperator.settedUp = utils.checkOperatorSettedUp(
+        successOperator.parameters
       );
 
       // dispatching success action

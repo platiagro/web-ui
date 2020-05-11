@@ -88,6 +88,8 @@ export const fetchOperatorsRequest = (
       { name: 'dataset', value: datasetName || '' },
       { name: 'target', value: targetColumn || '' },
     ],
+    selected: false,
+    settedUp: datasetName && targetColumn,
   };
 
   try {
