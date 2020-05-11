@@ -48,7 +48,6 @@ const NewTemplateModal = ({
     });
   };
 
-  // TODO: corrigir envio ao pressionar enter
   // RENDER
   return (
     // modal component

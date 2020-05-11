@@ -1,5 +1,3 @@
-// TODO: alterar nome para TaskBox...
-
 // CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
@@ -13,9 +11,7 @@ import { Icon, Tooltip, Menu, Dropdown } from 'antd';
 import './style.scss';
 
 // ACTIONS
-import {
-  removeOperatorRequest,
-} from 'store/operator/actions';
+import { removeOperatorRequest } from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -23,7 +19,6 @@ const mapDispatchToProps = (dispatch) => {
     // remove operator
     handleRemoveOperator: (projectId, experimentId, operatorId) =>
       dispatch(removeOperatorRequest(projectId, experimentId, operatorId)),
-
   };
 };
 
@@ -98,21 +93,30 @@ const ComponentBox = ({
   // remove on right click menu
   const removeOperator = () => {
     handleRemoveOperator(projectId, experimentId, operator.uuid);
-  }
+  };
 
   // box right click
   const handleRightButtonClick = (e) => {
-    if (status !== 'Pending' && status !== 'Running' && e.key === 'edit') handleClick(operator);
+    if (status !== 'Pending' && status !== 'Running' && e.key === 'edit')
+      handleClick(operator);
 
-    if (status !== 'Pending' && status !== 'Running' && operator.uuid !== 'dataset' && e.key === 'remove') removeOperator();
-  }
+    if (
+      status !== 'Pending' &&
+      status !== 'Running' &&
+      operator.uuid !== 'dataset' &&
+      e.key === 'remove'
+    )
+      removeOperator();
+  };
 
   // RENDERS
   //dropdown menu
   const menu = (
     <Menu onClick={handleRightButtonClick}>
-      <Menu.Item key="edit">Editar</Menu.Item>
-      {operator.uuid !== 'dataset' && <Menu.Item key="remove">Remover</Menu.Item>}
+      <Menu.Item key='edit'>Editar</Menu.Item>
+      {operator.uuid !== 'dataset' && (
+        <Menu.Item key='remove'>Remover</Menu.Item>
+      )}
     </Menu>
   );
 
@@ -135,7 +139,7 @@ const ComponentBox = ({
   // RENDER
   return (
     // Right click menu
-    <Dropdown overlay={menu} trigger={['contextMenu']} >
+    <Dropdown overlay={menu} trigger={['contextMenu']}>
       {/* div container */}
       <div className={cssClass} onClick={handleBoxClick} role='presentation'>
         {/* div title icon container */}
@@ -173,7 +177,4 @@ ComponentBox.propTypes = {
 };
 
 // EXPORT
-export default connect(
-  null,
-  mapDispatchToProps
-)(ComponentBox);
+export default connect(null, mapDispatchToProps)(ComponentBox);

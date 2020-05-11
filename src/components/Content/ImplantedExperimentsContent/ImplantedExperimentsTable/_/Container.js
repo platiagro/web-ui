@@ -31,7 +31,6 @@ const mapStateToProps = (state) => {
   return { implantedExperiments: state.implantedExperiments };
 };
 
-// TODO: Implementar delete implanted experiment
 /**
  * Implanted Experiments Table Container.
  * This component is responsible for create a logic container for implanted
@@ -42,7 +41,7 @@ const ImplantedExperimentsTableContainer = ({
   handleFetchImplantedExperiments,
   handleDeleteImplantedExperiment,
   handleTestImplantedExperimentInference,
-  handleShowDrawer
+  handleShowDrawer,
 }) => {
   // HOOKS
   // did mount hook
@@ -51,9 +50,9 @@ const ImplantedExperimentsTableContainer = ({
     handleFetchImplantedExperiments();
   }, []);
 
-  const logOpen = () =>{
-    console.log('ABRINDO!!')
-  }
+  const logOpen = () => {
+    console.log('ABRINDO!!');
+  };
 
   // RENDER
   return (

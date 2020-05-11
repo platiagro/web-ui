@@ -1,5 +1,3 @@
-// TODO: alterar nome para TasksMenu...
-
 // CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';

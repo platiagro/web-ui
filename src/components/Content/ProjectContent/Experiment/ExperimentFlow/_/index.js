@@ -18,7 +18,6 @@ const columnsNumber = 3;
 // column size
 const columnSize = 24 / columnsNumber;
 
-// TODO: alterar components para tasks
 /**
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
