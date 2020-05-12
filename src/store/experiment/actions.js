@@ -84,9 +84,43 @@ export const fetchExperimentRequest = (projectId, experimentId) => (
   // fetching experiment
   experimentsApi
     .detailExperiment(projectId, experimentId)
-    .then((response) =>
-      dispatch(fetchExperimentSuccess(response, projectId, experimentId))
-    )
+    .then((response) => {
+      dispatch(fetchExperimentSuccess(response, projectId, experimentId));
+    })
+    .catch((error) => dispatch(fetchExperimentFail(error)));
+};
+
+/**
+ * fetch experiment request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @returns {Function}
+ */
+export const fetchExperimentActiveRequest = (projectId, experimentId) => (
+  dispatch
+) => {
+  // constant
+  const experiment = { isActive: true };
+  // dispatching request action
+  dispatch({
+    type: actionTypes.FETCH_EXPERIMENT_REQUEST,
+  });
+
+  // dispatching experiment name loading data action
+  dispatch(experimentNameLoadingData());
+
+  // At first should updtate isActive of clicked experiment
+  experimentsApi
+    .updateExperiment(projectId, experimentId, experiment)
+    .then(() => {
+      // then when update is successful fetch experiments detail
+      experimentsApi
+        .detailExperiment(projectId, experimentId)
+        .then((response) =>
+          dispatch(fetchExperimentSuccess(response, projectId, experimentId))
+        )
+        .catch((error) => dispatch(fetchExperimentFail(error)));
+    })
     .catch((error) => dispatch(fetchExperimentFail(error)));
 };
 
