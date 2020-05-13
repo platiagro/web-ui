@@ -14,10 +14,8 @@ import NewProjectModal from './index';
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     // create project action
-    handleCreateProject: (projectName, projectDescription) =>
-      dispatch(
-        createProjectRequest(projectName, projectDescription, routerProps)
-      ),
+    handleCreateProject: (projectName) =>
+      dispatch(createProjectRequest(projectName, routerProps)),
     // close modal action
     handleCloseModal: () => dispatch(hideNewProjectModal()),
   };

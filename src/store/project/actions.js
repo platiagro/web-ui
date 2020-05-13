@@ -131,11 +131,9 @@ const createProjectFail = (error) => (dispatch) => {
  * create project request action
  * @returns {Function}
  */
-export const createProjectRequest = (
-  projectName,
-  projectDescription,
-  routerProps
-) => (dispatch) => {
+export const createProjectRequest = (projectName, routerProps) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_PROJECT_REQUEST,
@@ -146,7 +144,7 @@ export const createProjectRequest = (
 
   // creating project
   projectsApi
-    .createProject(projectName, projectDescription)
+    .createProject(projectName)
     .then((response) => dispatch(createProjectSuccess(response, routerProps)))
     .catch((error) => dispatch(createProjectFail(error)));
 };
@@ -196,14 +194,11 @@ const editProjectNameFail = (error) => (dispatch) => {
  * edit project name request action
  * @param {string} projectId
  * @param {string} newProjectName
- * @param {string} newProjecDescription
  * @returns {Function}
  */
-export const editProjectNameRequest = (
-  projectId,
-  newProjectName,
-  newProjecDescription
-) => (dispatch) => {
+export const editProjectNameRequest = (projectId, newProjectName) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.EDIT_PROJECT_NAME_REQUEST,
@@ -214,7 +209,7 @@ export const editProjectNameRequest = (
 
   // creating project
   projectsApi
-    .updateProject(projectId, newProjectName, newProjecDescription)
+    .updateProject(projectId, newProjectName)
     .then((response) => dispatch(editProjectNameSuccess(response)))
     .catch((error) => dispatch(editProjectNameFail(error)));
 };

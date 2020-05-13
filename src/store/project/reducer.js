@@ -9,7 +9,6 @@ const initialState = {
   createdAt: null,
   experiments: null,
   name: null,
-  description: null,
   updatedAt: null,
   uuid: null,
 };
