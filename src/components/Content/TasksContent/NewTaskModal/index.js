@@ -41,6 +41,7 @@ const NewTaskModal = ({
         return;
       }
       handleNewTask(values);
+      form.resetFields();
     });
   };
   // function to change template and reflect in name

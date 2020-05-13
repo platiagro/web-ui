@@ -56,7 +56,6 @@ const createProject = (projectName, projectDescription) =>
       name: projectName,
       description: projectDescription,
     };
-    console.log(body);
     // creating project
     projectsApi
       .post(projectsPath, body)
