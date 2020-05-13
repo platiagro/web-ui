@@ -10,18 +10,16 @@ import ExperimentsTabs from './index';
 import {
   fetchExperimentsRequest,
   organizeExperimentsRequest,
-  clearAllExperiments,
 } from '../../../../../store/experiments/actions';
-import { fetchExperimentActiveRequest } from '../../../../../store/experiment/actions';
+import { fetchExperimentRequest } from '../../../../../store/experiment/actions';
 
 // DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    handleClearAllExperiments: () => dispatch(clearAllExperiments()),
     handleFetchExperiments: (projectId) =>
-      dispatch(fetchExperimentsRequest(projectId, routerProps)),
+      dispatch(fetchExperimentsRequest(projectId)),
     handleFetchExperiment: (projectId, experimentId) =>
-      dispatch(fetchExperimentActiveRequest(projectId, experimentId)),
+      dispatch(fetchExperimentRequest(projectId, experimentId)),
     handleOrganizeExperiments: (
       projectId,
       dragExperimentId,
@@ -58,7 +56,6 @@ const ExperimentTabsContainer = ({
   handleFetchExperiments,
   handleOrganizeExperiments,
   handleFetchExperiment,
-  handleClearAllExperiments,
 }) => {
   // CONSTANTS
   // getting history
@@ -71,25 +68,7 @@ const ExperimentTabsContainer = ({
   useEffect(() => {
     // fetching projects
     handleFetchExperiments(projectId);
-
-    return () => {
-      // clear all experiments of redux when dismount
-      handleClearAllExperiments();
-    };
   }, []);
-
-  // listen experiments to redirect to active
-  useEffect(() => {
-    // if has experiments and hasn't experiment id into url
-    if (experiments.length > 0 && !experimentId) {
-      // active tab is finded into experiments
-      const activeTab = experiments.find((element) => element.isActive);
-      // if active tab exists, then url will change
-      if (!!activeTab) {
-        history.push(`/projetos/${projectId}/${activeTab.uuid}`);
-      }
-    }
-  }, [experiments]);
 
   // HANDLERS
   // change tab

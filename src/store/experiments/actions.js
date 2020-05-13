@@ -71,18 +71,6 @@ export const fetchExperimentsRequest = (projectId) => (dispatch) => {
     .catch((error) => dispatch(fetchExperimentsFail(error)));
 };
 
-/**
- * clear all experiments action
- * @returns {Function}
- */
-export const clearAllExperiments = () => (dispatch) => {
-  // clear all experiments
-  console.log('action clear');
-  dispatch({
-    type: actionTypes.CLEAR_ALL_EXPERIMENTS,
-  });
-};
-
 // // // // // // // // // //
 
 // ** ORGANIZE EXPERIMENTS
