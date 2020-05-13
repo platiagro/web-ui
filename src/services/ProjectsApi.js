@@ -46,15 +46,17 @@ const detailProject = (projectId) =>
 /**
  * Create Project
  * @param {string} projectName
+ * @param {string} projectDescription
  * @returns {Promise}
  */
-const createProject = (projectName) =>
+const createProject = (projectName, projectDescription) =>
   new Promise((resolve, reject) => {
     // creating body object
     const body = {
       name: projectName,
+      description: projectDescription,
     };
-
+    console.log(body);
     // creating project
     projectsApi
       .post(projectsPath, body)
@@ -68,13 +70,15 @@ const createProject = (projectName) =>
  * Update Project
  * @param {string} projectId
  * @param {string} projectName
+ * @param {string} projectDescription
  * @returns {Promise}
  */
-const updateProject = (projectId, projectName) =>
+const updateProject = (projectId, projectName, projectDescription) =>
   new Promise((resolve, reject) => {
     // creating body object
     const body = {
       name: projectName,
+      description: projectDescription,
     };
 
     // updating project

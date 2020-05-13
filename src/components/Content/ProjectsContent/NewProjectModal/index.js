@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { Modal, Form, Input } from 'antd';
-
+const { TextArea } = Input;
 /**
  * New Project Modal.
  * This component is responsible for displaying a new project modal.
@@ -41,7 +41,7 @@ const NewProjectModal = ({
       }
 
       // handling create new project
-      handleNewProject(values.name);
+      handleNewProject(values.name, values.description);
 
       // resetting form fields
       form.resetFields();
@@ -75,6 +75,16 @@ const NewProjectModal = ({
             initialValue: 'Novo Projeto',
           })(<Input allowClear autoFocus />)}
         </Form.Item>
+        <Form.Item label='Qual a descrição do seu projeto?'>
+          {getFieldDecorator('description', {
+            rules: [
+              {
+                required: false,
+              },
+            ],
+            initialValue: 'Descrição do seu projeto',
+          })(<TextArea rows={4} />)}
+        </Form.Item>
       </Form>
     </Modal>
   );
@@ -94,4 +104,7 @@ NewProjectModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({ name: 'newProjectForm' })(NewProjectModal);
+export default Form.create({
+  name: 'newProjectForm',
+  description: 'newProjectForm',
+})(NewProjectModal);

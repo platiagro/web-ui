@@ -31,8 +31,8 @@ const ImplantedExperimentsTable = ({
   const statusToBadge = {
     Failed: 'error',
     Running: 'processing',
-    Succeded: 'success'
-  }
+    Succeded: 'success',
+  };
 
   // table columns config
   const columnsConfig = [
@@ -101,16 +101,16 @@ const ImplantedExperimentsTable = ({
     // rendering implanted experiments table or implanted experiments empty
     implantedExperiments.length > 0 ? (
       <>
-      <Table
-        dataSource={implantedExperiments}
-        columns={columnsConfig}
-        pagination={{ pageSize: 9 }}
-      />
-      <LogsDrawer/>
+        <Table
+          dataSource={implantedExperiments}
+          columns={columnsConfig}
+          pagination={{ pageSize: 9 }}
+        />
+        <LogsDrawer />
       </>
     ) : (
-        <ImplantedExperimentsEmpty />
-      )
+      <ImplantedExperimentsEmpty />
+    )
   );
 };
 

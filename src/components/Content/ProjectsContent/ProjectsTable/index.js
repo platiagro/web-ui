@@ -28,6 +28,11 @@ const ProjectsTable = ({
       ),
     },
     {
+      title: 'Descrição',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
       title: 'Data de Criação',
       dataIndex: 'createdAt',
       key: 'createdAt',
