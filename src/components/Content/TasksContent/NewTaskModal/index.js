@@ -129,7 +129,6 @@ const NewTaskModal = ({
   );
 };
 
-// TODO: create loading proptypes
 // PROP TYPES
 NewTaskModal.propTypes = {
   /** new task modal visible */
@@ -142,6 +141,8 @@ NewTaskModal.propTypes = {
   handleNewTask: PropTypes.func.isRequired,
   /** new task modal form */
   form: PropTypes.objectOf(PropTypes.any).isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

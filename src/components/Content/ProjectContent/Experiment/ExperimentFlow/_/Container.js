@@ -35,9 +35,6 @@ const mapStateToProps = (state) => {
 // polling time in miliseconds;
 const pollingTime = 5000;
 
-// TODO: Implementar "Conexão" Drawer
-// TODO: Implementar "setagem" de parâmetros para tarefa
-// TODO: Implementar excluir tarefa
 /**
  * Experiment Flow Container.
  * This component is responsible for create a logic container for experiment flow

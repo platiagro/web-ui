@@ -13,6 +13,9 @@ import {
   experimentNameLoadingData,
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
+  experimentTargetDataLoaded,
+  experimentTargetLoadingData,
+  datasetOperatorDataLoaded,
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
@@ -37,7 +40,14 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
   dispatch(experimentNameDataLoaded());
 
   // fetching operators
-  dispatch(fetchOperatorsRequest(projectId, experimentId, experiment.dataset));
+  dispatch(
+    fetchOperatorsRequest(
+      projectId,
+      experimentId,
+      experiment.dataset,
+      experiment.target
+    )
+  );
 
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_SUCCESS,
@@ -396,14 +406,17 @@ export const deleteExperimentRequest = (
  * @param {Object} response
  * @returns {Object} { type, experiment }
  */
-const setDatasetSuccess = (response) => {
+const setDatasetSuccess = (response) => (dispatch) => {
   // getting experiment from response
   const experiment = response.data;
 
-  return {
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  dispatch({
     type: actionTypes.SET_DATASET_SUCCESS,
     experiment,
-  };
+  });
 };
 
 /**
@@ -411,14 +424,17 @@ const setDatasetSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const setDatasetFail = (error) => {
+const setDatasetFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  dispatch({
     type: actionTypes.SET_DATASET_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -437,7 +453,7 @@ export const setDatasetRequest = (projectId, experimentId, datasetName) => (
   });
 
   // creating experiment object
-  const experiment = { dataset: datasetName };
+  const experiment = { dataset: datasetName, target: null };
 
   // creating experiment
   experimentsApi
@@ -454,14 +470,17 @@ export const setDatasetRequest = (projectId, experimentId, datasetName) => (
  * @param {Object} response
  * @returns {Object} { type, experiment }
  */
-const setTargetColumnSuccess = (response) => {
+const setTargetColumnSuccess = (response) => (dispatch) => {
   // getting experiment from response
   const experiment = response.data;
 
-  return {
+  // dispatching experiment target data loaded
+  dispatch(experimentTargetDataLoaded());
+
+  dispatch({
     type: actionTypes.SET_TARGET_COLUMN_SUCCESS,
     experiment,
-  };
+  });
 };
 
 /**
@@ -469,14 +488,17 @@ const setTargetColumnSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const setTargetColumnFail = (error) => {
+const setTargetColumnFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiment target data loaded
+  dispatch(experimentTargetDataLoaded());
+
+  dispatch({
     type: actionTypes.SET_TARGET_COLUMN_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -495,6 +517,9 @@ export const setTargetColumnRequest = (
   dispatch({
     type: actionTypes.SET_TARGET_COLUMN_REQUEST,
   });
+
+  // dispatching experiment target loading data
+  dispatch(experimentTargetLoadingData());
 
   // creating experiment object
   const experiment = { target: targetColumnName };

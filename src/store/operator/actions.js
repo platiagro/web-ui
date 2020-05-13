@@ -97,6 +97,8 @@ export const getOperatorResultsRequest = (
 // ** SELECT OPERATOR
 /**
  * select operator action
+ * @param {string} projectId
+ * @param {string} experimentId
  * @param {string} operator
  * @returns {Function}
  */
@@ -113,8 +115,18 @@ export const selectOperator = (projectId, experimentId, operator) => (
   const isDataset = operator.uuid === 'dataset';
 
   // fetching dataset columns
-  if (isDataset)
-    dispatch(fetchDatasetColumnsRequest(operator.parameters.dataset));
+  if (isDataset) {
+    // dataset value
+    let datasetValue;
+
+    // getting dataset value
+    operator.parameters.forEach((parameter) => {
+      if (parameter.name === 'dataset') datasetValue = parameter.value;
+    });
+
+    // fetching dataset columns
+    dispatch(fetchDatasetColumnsRequest(datasetValue));
+  }
 
   // getting results
   dispatch(getOperatorResultsRequest(projectId, experimentId, operator.uuid));
@@ -160,6 +172,7 @@ const createOperatorSuccess = (
       inferenceNotebookPath,
       parameters,
       selected: false,
+      settedUp: utils.checkOperatorSettedUp(parameters),
     },
   });
 };
@@ -214,6 +227,12 @@ export const createOperatorRequest = (
     parameters,
   } = utils.getComponentData(components, componentId);
 
+  // configuring parameters
+  const configuredParameters = utils.configureOperatorParameters(
+    parameters,
+    parameters
+  );
+
   // creating operator
   operatorsApi
     .createOperator(projectId, experimentId, componentId)
@@ -225,7 +244,7 @@ export const createOperatorRequest = (
           componentName,
           trainingNotebookPath,
           inferenceNotebookPath,
-          parameters
+          configuredParameters
         )
       )
     )
@@ -393,6 +412,11 @@ export const setOperatorParametersRequest = (
           value:
             parameter.name === parameterName ? parameterValue : parameter.value,
         })
+      );
+
+      // checking if is setted up
+      successOperator.settedUp = utils.checkOperatorSettedUp(
+        successOperator.parameters
       );
 
       // dispatching success action

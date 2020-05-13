@@ -34,6 +34,13 @@ const operators = (state = initialState, action) => {
       return [
         ...state.filter((operator) => operator.uuid !== action.operatorId),
       ];
+    // set operator parameter success
+    case operatorActionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
+      return state.map((operator) =>
+        operator.uuid === action.operator.uuid
+          ? { ...action.operator }
+          : { ...operator }
+      );
 
     // experiment
     // set dataset success
@@ -43,10 +50,31 @@ const operators = (state = initialState, action) => {
           operator.uuid === 'dataset'
             ? {
                 ...operator,
-                parameters: {
-                  ...operator.parameters,
-                  dataset: action.experiment.dataset,
-                },
+                parameters: [
+                  {
+                    name: 'dataset',
+                    value: action.experiment.dataset,
+                  },
+                  { name: 'target', value: '' },
+                ],
+                settedUp: false,
+              }
+            : operator
+        ),
+      ];
+    // set dataset success
+    case experimentActionTypes.SET_TARGET_COLUMN_SUCCESS:
+      return [
+        ...state.map((operator) =>
+          operator.uuid === 'dataset'
+            ? {
+                ...operator,
+                parameters: operator.parameters.map((parameter) =>
+                  parameter.name === 'target'
+                    ? { ...parameter, value: action.experiment.target }
+                    : parameter
+                ),
+                settedUp: true,
               }
             : operator
         ),

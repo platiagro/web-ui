@@ -18,7 +18,6 @@ const columnsNumber = 3;
 // column size
 const columnSize = 24 / columnsNumber;
 
-// TODO: alterar components para tasks
 /**
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
@@ -144,13 +143,14 @@ const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
   );
 };
 
-// TODO: add loading prop
 // PROP TYPES
 ExperimentFlow.propTypes = {
   /** experiment flow components list */
   components: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** experiment flow task box click handler */
   handleTaskBoxClick: PropTypes.func.isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

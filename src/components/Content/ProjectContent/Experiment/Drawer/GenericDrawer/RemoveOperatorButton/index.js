@@ -29,13 +29,14 @@ const RemoveOperatorButton = ({ handleClick, disabled, loading }) => (
   </Popconfirm>
 );
 
-// TODO: add loading props
 // PROP TYPES
 RemoveOperatorButton.propTypes = {
   /** remove operator button is disabled */
   disabled: PropTypes.bool.isRequired,
   /** remove operator button click function */
   handleClick: PropTypes.func.isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

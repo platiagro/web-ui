@@ -1,5 +1,3 @@
-// TODO: Alterar nome de components para tasks
-
 // CORE LIBS
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';

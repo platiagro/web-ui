@@ -91,9 +91,6 @@ const createDatasetSuccess = (response, projectId, experimentId) => (
 
   dispatch(setDatasetRequest(projectId, experimentId, dataset.name));
 
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
-
   dispatch({
     type: actionTypes.CREATE_DATASET_SUCCESS,
     dataset,

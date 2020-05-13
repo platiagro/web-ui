@@ -77,7 +77,6 @@ const ExperimentsTabs = ({
   );
 };
 
-// TODO: add loading prop
 // PROP TYPES
 ExperimentsTabs.propTypes = {
   /** experiments list */
@@ -88,6 +87,8 @@ ExperimentsTabs.propTypes = {
   handleChange: PropTypes.func.isRequired,
   /** experiments tabs handle move tab function */
   handleMoveTab: PropTypes.func.isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // PROP DEFAULT VALUES

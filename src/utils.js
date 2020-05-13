@@ -292,7 +292,7 @@ const configureOperatorParameters = (
     value:
       parameter.name in operatorParameters
         ? operatorParameters[parameter.name]
-        : undefined,
+        : parameter.default,
   }));
 
   return configuredOperatorParameters;
@@ -320,15 +320,42 @@ const configureOperators = (components, operators) => {
       operator.parameters
     );
 
+    // checking if operator is setted up
+    const settedUp = checkOperatorSettedUp(parameters);
+
     return {
       ...operator,
       ...restComponentData,
       parameters,
+      settedUp,
       selected: false,
     };
   });
 
   return configuredOperators;
+};
+
+/**
+ * Check Operator Setted Up
+ * Function to check if operator is setted up
+ * @param {Object[]} parameters operator parameters list
+ * @returns {boolean} operator is setted up?
+ */
+const checkOperatorSettedUp = (parameters) => {
+  // configuring setted up
+  let settedUp = true;
+
+  // checking if all parameters is setted up
+  parameters.forEach((parameter) => {
+    if (
+      parameter.value === null ||
+      parameter.value === undefined ||
+      parameter.value === ''
+    )
+      settedUp = false;
+  });
+
+  return settedUp;
 };
 
 /**
@@ -383,4 +410,5 @@ export default {
   configureOperatorParameters,
   selectOperator,
   transformResults,
+  checkOperatorSettedUp,
 };
