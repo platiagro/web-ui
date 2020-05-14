@@ -31,8 +31,8 @@ const ImplantedExperimentsTable = ({
   const statusToBadge = {
     Failed: 'error',
     Running: 'processing',
-    Succeded: 'success'
-  }
+    Succeded: 'success',
+  };
 
   // table columns config
   const columnsConfig = [
@@ -46,11 +46,11 @@ const ImplantedExperimentsTable = ({
         <Badge status={statusToBadge[value]} text={value} />
       ),
     },
-    // name column
+    // uuid
     {
-      title: 'Nome',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Identificador',
+      dataIndex: 'uuid',
+      key: 'uuid',
     },
     // url column
     {
@@ -83,10 +83,6 @@ const ImplantedExperimentsTable = ({
           <Button type='link' onClick={handleOpenLog}>
             Logs
           </Button>
-          {/* monitoring link */}
-          <a target='_blank' href='/notebook/kubeflow-anonymous/server-1/tree?'>
-            Monitoramento
-          </a>
           {/* upload inference test button */}
           <UploadInferenceTestButton
             handleUpload={(file) => handleTestInference(record.uuid, file)}
@@ -101,16 +97,16 @@ const ImplantedExperimentsTable = ({
     // rendering implanted experiments table or implanted experiments empty
     implantedExperiments.length > 0 ? (
       <>
-      <Table
-        dataSource={implantedExperiments}
-        columns={columnsConfig}
-        pagination={{ pageSize: 9 }}
-      />
-      <LogsDrawer/>
+        <Table
+          dataSource={implantedExperiments}
+          columns={columnsConfig}
+          pagination={{ pageSize: 9 }}
+        />
+        <LogsDrawer />
       </>
     ) : (
-        <ImplantedExperimentsEmpty />
-      )
+      <ImplantedExperimentsEmpty />
+    )
   );
 };
 
