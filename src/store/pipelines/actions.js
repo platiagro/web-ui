@@ -1,8 +1,17 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
+// EXPERIMENT ACTION TYPES
+import experimentActionTypes from '../experiment/actionTypes';
+
 // SERVICES
 import pipelinesApi from '../../services/PipelinesApi';
+
+// UI ACTIONS
+import {
+  experimentTrainingLoadingData,
+  experimentTrainingDataLoaded,
+} from '../ui/actions';
 
 // ACTIONS
 // ** TRAIN EXPERIMENT
@@ -21,14 +30,17 @@ const trainExperimentSuccess = () => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const trainExperimentFail = (error) => {
+const trainExperimentFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // dispatching experiment training data loaded
+  dispatch(experimentTrainingDataLoaded());
+
+  dispatch({
     type: actionTypes.TRAIN_EXPERIMENT_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
@@ -42,6 +54,9 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   dispatch({
     type: actionTypes.TRAIN_EXPERIMENT_REQUEST,
   });
+
+  // dispatching experiment training loading data action
+  dispatch(experimentTrainingLoadingData());
 
   // getting experiment data
   const { uuid: experimentId, dataset, target } = experiment;
@@ -75,14 +90,42 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
  * @param {Object} response
  * @returns {Object} { type }
  */
-const getTrainExperimentStatusSuccess = (response) => {
+const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
   // getting status from response
   const { status } = response.data;
 
-  return {
+  // training experiment is running?
+  let isRunning = false;
+
+  // training experiment is succeeded
+  let isSucceeded = true;
+
+  // checking status operators to verify if traning is running
+  if (Object.values(status).includes('Running')) isRunning = true;
+
+  // checking status operators to verify if traning is succeeded
+  Object.values(status).forEach((statusValue) => {
+    if (
+      statusValue === 'Running' ||
+      statusValue === 'Failed' ||
+      statusValue === '' ||
+      statusValue === 'Pending'
+    )
+      isSucceeded = false;
+  });
+
+  // experiment training is succeeded
+  if (isSucceeded)
+    dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_SUCCEEDED });
+
+  // experiment training not is running
+  if (!isRunning) dispatch(experimentTrainingDataLoaded());
+  else dispatch(experimentTrainingLoadingData());
+
+  dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
     status,
-  };
+  });
 };
 
 /**
@@ -90,14 +133,20 @@ const getTrainExperimentStatusSuccess = (response) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const getTrainExperimentStatusFail = (error) => {
+const getTrainExperimentStatusFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  return {
+  // experiment training not is running
+  if (errorMessage !== 'Network Error') {
+    dispatch(experimentTrainingDataLoaded());
+    dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_NOT_SUCCEEDED });
+  }
+
+  dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_FAIL,
     errorMessage,
-  };
+  });
 };
 
 /**
