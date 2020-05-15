@@ -16,6 +16,7 @@ const initialState = {
   experimentName: { loading: false },
   experimentOperators: { loading: false },
   experimentTarget: { loading: false },
+  experimentTraining: { loading: false },
   datasetOperator: { loading: false },
   operatorParameter: { loading: false },
   operatorResults: { loading: false },
@@ -214,6 +215,26 @@ const ui = (state = initialState, action) => {
         experimentTarget: {
           ...state.experimentTarget,
           loading: action.experimentTargetLoading,
+        },
+      };
+
+    // EXPERIMENT TRAINING
+    // loading data
+    case actionTypes.EXPERIMENT_TRAINING_LOADING_DATA:
+      return {
+        ...state,
+        experimentTraining: {
+          ...state.experimentTraining,
+          loading: action.experimentTrainingLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.EXPERIMENT_TRAINING_DATA_LOADED:
+      return {
+        ...state,
+        experimentTraining: {
+          ...state.experimentTraining,
+          loading: action.experimentTrainingLoading,
         },
       };
 
