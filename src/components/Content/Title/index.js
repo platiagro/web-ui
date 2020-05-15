@@ -3,10 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, Spin, Typography } from 'antd';
-
-// TYPOGRAPHY COMPONENTS
-const { Title: AntTitle } = Typography;
+import { Icon, Spin } from 'antd';
+import EditTitle from './EditTitle';
 
 /**
  * Title.
@@ -26,7 +24,7 @@ const Title = ({ title, level, loading, handleSubmit }) => {
 
   // CONSTANTS
   // is editable
-  const editable = handleSubmit ? { onChange: beforeSubmit } : undefined;
+  const editable = handleSubmit ? true : false;
 
   // RENDER
   return (
@@ -37,12 +35,8 @@ const Title = ({ title, level, loading, handleSubmit }) => {
         // loading
         <Spin indicator={<Icon type='loading' spin />} />
       ) : (
-        // ant design title
-        <AntTitle level={level} value={title} editable={editable}>
-          {/* title */}
-          {title}
-        </AntTitle>
-      )}
+          <EditTitle level={level} title={title} editable={editable} beforeSubmit={beforeSubmit} />
+        )}
     </>
   );
 };
