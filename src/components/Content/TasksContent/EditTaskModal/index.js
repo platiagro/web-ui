@@ -41,6 +41,7 @@ const EditTaskModal = ({
         return;
       }
       handleEditTask(initialValues.uuid, values);
+      form.resetFields();
     });
   };
 
