@@ -3,7 +3,7 @@ import actionTypes from './actionTypes';
 
 // INITIAL STATE
 const initialState = {
-  newProjectModal: { visible: false },
+  newProjectModal: { visible: false, title: 'Novo Projeto', record: undefined },
   newExperimentModal: { visible: false },
   newTemplateModal: { visible: false },
   drawer: { visible: false, isDataset: false, title: 'Título Drawer' },
@@ -33,6 +33,18 @@ const ui = (state = initialState, action) => {
         newProjectModal: {
           ...state.newProjectModal,
           visible: action.newProjectModalVisible,
+          title: 'Novo projeto',
+          record: undefined,
+        },
+      };
+    case actionTypes.SHOW_EDIT_PROJECT_MODAL:
+      return {
+        ...state,
+        newProjectModal: {
+          ...state.newProjectModal,
+          visible: action.newProjectModalVisible,
+          title: 'Editar projeto',
+          record: action.newProjectModalRecord,
         },
       };
     // hide new project modal
@@ -42,6 +54,7 @@ const ui = (state = initialState, action) => {
         newProjectModal: {
           ...state.newProjectModal,
           visible: action.newProjectModalVisible,
+          record: undefined,
         },
       };
 

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { Modal, Form, Input } from 'antd';
-
 /**
  * New Project Modal.
  * This component is responsible for displaying a new project modal.
@@ -15,6 +14,9 @@ const NewProjectModal = ({
   handleCloseModal,
   handleNewProject,
   form,
+  title,
+  record,
+  handleUpdateProject,
 }) => {
   // getting form utils
   const { getFieldDecorator, getFieldsError } = form;
@@ -41,7 +43,11 @@ const NewProjectModal = ({
       }
 
       // handling create new project
-      handleNewProject(values.name);
+      if (record !== undefined) {
+        handleUpdateProject(record.uuid, values.name, values.description);
+      } else {
+        handleNewProject(values.name, values.description);
+      }
 
       // resetting form fields
       form.resetFields();
@@ -54,8 +60,8 @@ const NewProjectModal = ({
     // modal component
     <Modal
       visible={visible}
-      title='Novo Projeto'
-      okText='Criar'
+      title={title}
+      okText={record ? 'Salvar' : 'Criar'}
       cancelText='Cancelar'
       onCancel={handleCancel}
       onOk={handleSubmit}
@@ -72,8 +78,18 @@ const NewProjectModal = ({
                 message: 'Por favor insira um nome para o projeto!',
               },
             ],
-            initialValue: 'Novo Projeto',
+            initialValue: record?.name ?? 'Novo Projeto',
           })(<Input allowClear autoFocus />)}
+        </Form.Item>
+        <Form.Item label='Descrição (Opicional):'>
+          {getFieldDecorator('description', {
+            rules: [
+              {
+                required: false,
+              },
+            ],
+            initialValue: record?.description,
+          })(<Input.TextArea rows={4} />)}
         </Form.Item>
       </Form>
     </Modal>
@@ -94,4 +110,7 @@ NewProjectModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({ name: 'newProjectForm' })(NewProjectModal);
+export default Form.create({
+  name: 'newProjectForm',
+  description: 'newProjectForm',
+})(NewProjectModal);

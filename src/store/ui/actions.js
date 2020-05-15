@@ -7,11 +7,19 @@ import actionTypes from './actionTypes';
  * show new project modal
  * @returns {Object} { type, newProjectModalVisible }
  */
-export const showNewProjectModal = () => {
-  return {
-    type: actionTypes.SHOW_NEW_PROJECT_MODAL,
-    newProjectModalVisible: true,
-  };
+export const showNewProjectModal = (record) => {
+  if (record !== undefined && record !== null) {
+    return {
+      type: actionTypes.SHOW_EDIT_PROJECT_MODAL,
+      newProjectModalVisible: true,
+      newProjectModalRecord: record,
+    };
+  } else {
+    return {
+      type: actionTypes.SHOW_NEW_PROJECT_MODAL,
+      newProjectModalVisible: true,
+    };
+  }
 };
 
 // // // // // // // // // //

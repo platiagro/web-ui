@@ -14,12 +14,17 @@ import ProjectsTable from './index';
 import fetchProjectsRequest from '../../../../store/projects/actions';
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
+// ACTIONS
+import { showNewProjectModal } from '../../../../store/ui/actions';
+
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     handleFetchProjects: () => dispatch(fetchProjectsRequest()),
     handleDeleteProject: (projectUuid) =>
       dispatch(deleteProjectRequest(projectUuid)),
+    handleShowNewProjectModal: (record) =>
+      dispatch(showNewProjectModal(record)),
   };
 };
 
@@ -38,6 +43,7 @@ const ProjectsTableContainer = ({
   loading,
   handleFetchProjects,
   handleDeleteProject,
+  handleShowNewProjectModal,
 }) => {
   // CONSTANTS
   // getting history
@@ -63,6 +69,7 @@ const ProjectsTableContainer = ({
         handleClickProject={handleClickProject}
         handleClickDelete={handleDeleteProject}
         loading={loading}
+        handleShowNewProjectModal={handleShowNewProjectModal}
       />
     </ConfigProvider>
   );

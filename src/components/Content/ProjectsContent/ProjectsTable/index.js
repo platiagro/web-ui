@@ -14,8 +14,13 @@ const ProjectsTable = ({
   loading,
   handleClickProject,
   handleClickDelete,
+  handleShowNewProjectModal,
 }) => {
   // table columns config
+  const handleModal = ({ uuid, name, description }) => {
+    console.log(uuid, name, description);
+    handleShowNewProjectModal({ uuid, name, description });
+  };
   const columnsConfig = [
     {
       title: 'Nome do Projeto',
@@ -28,6 +33,11 @@ const ProjectsTable = ({
       ),
     },
     {
+      title: 'Descrição',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
       title: 'Data de Criação',
       dataIndex: 'createdAt',
       key: 'createdAt',
@@ -38,16 +48,22 @@ const ProjectsTable = ({
       title: 'Ação',
       dataIndex: 'action',
       key: 'action',
-      width: 200,
+      width: 300,
       render: (value, record) => (
-        <Popconfirm
-          title='Você tem certeza que deseja excluir essa tarefa?'
-          onConfirm={() => handleClickDelete(record.uuid)}
-          okText='Sim'
-          cancelText='Não'
-        >
-          <Button type='link'>Excluir</Button>
-        </Popconfirm>
+        <>
+          <Button type='link' onClick={() => handleShowNewProjectModal(record)}>
+            Alterar nome e descrição
+          </Button>
+
+          <Popconfirm
+            title='Você tem certeza que deseja excluir essa tarefa?'
+            onConfirm={() => handleClickDelete(record.uuid)}
+            okText='Sim'
+            cancelText='Não'
+          >
+            <Button type='link'>Excluir</Button>
+          </Popconfirm>
+        </>
       ),
     },
   ];
@@ -55,6 +71,7 @@ const ProjectsTable = ({
   // RENDER
   return (
     // table
+
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
