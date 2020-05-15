@@ -81,7 +81,7 @@ const NewProjectModal = ({
             initialValue: record?.name ?? 'Novo Projeto',
           })(<Input allowClear autoFocus />)}
         </Form.Item>
-        <Form.Item label='Descrição (Opicional):'>
+        <Form.Item label='Descrição (Opcional):'>
           {getFieldDecorator('description', {
             rules: [
               {
