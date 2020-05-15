@@ -41,6 +41,7 @@ const mapStateToProps = (state) => {
     experiment: state.experiment,
     operators: state.operators,
     loading: state.ui.experimentName.loading,
+    trainingLoading: state.ui.experimentTraining.loading,
   };
 };
 
@@ -53,6 +54,7 @@ const ExperimentHeaderContainer = ({
   experiment,
   operators,
   loading,
+  trainingLoading,
   handleDeleteExperiment,
   handleFetchExperiment,
   handleEditExperimentName,
@@ -87,6 +89,8 @@ const ExperimentHeaderContainer = ({
   return (
     <ExperimentHeader
       title={experiment.name}
+      trainingLoading={trainingLoading}
+      trainingSucceeded={experiment.succeeded}
       handleEditExperimentName={editExperimentNameHandler}
       handleDeleteExperiment={deleteHandler}
       handleTrainExperiment={trainExperimentHandler}
