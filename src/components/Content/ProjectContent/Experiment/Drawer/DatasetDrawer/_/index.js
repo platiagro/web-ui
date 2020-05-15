@@ -24,6 +24,7 @@ const DatasetDrawer = ({
   handleSetTarget,
   handleSetColumnType,
   handleUploadFiles,
+  trainingSucceeded,
 }) => {
   // HOOKS
   // dataset file list hook
@@ -114,9 +115,9 @@ const DatasetDrawer = ({
     // rendering component
     return (
       // upload component
-      <Upload {...props} disabled={loading} accept='.csv'>
+      <Upload {...props} disabled={loading || trainingSucceeded} accept='.csv'>
         {/* upload button component */}
-        <Button disabled={loading}>
+        <Button disabled={loading || trainingSucceeded}>
           {/* icon component */}
           <Icon type={loading ? 'loading' : 'upload'} />
           Selecionar
@@ -161,9 +162,13 @@ const DatasetDrawer = ({
     // rendering component
     return (
       // upload component
-      <Upload {...props} disabled={loading} accept='.txt'>
+      <Upload {...props} disabled={loading || trainingSucceeded} accept='.txt'>
         {/* upload button component */}
-        <Button disabled={!(datasetFileList.length > 0) || loading}>
+        <Button
+          disabled={
+            !(datasetFileList.length > 0) || loading || trainingSucceeded
+          }
+        >
           {/* icon component */}
           <Icon type={loading ? 'loading' : 'upload'} />
           Selecionar
@@ -202,6 +207,7 @@ const DatasetDrawer = ({
           loading={targetLoading}
           disabled={targetLoading}
           showSearch
+          disabled={trainingSucceeded}
         >
           {/* mapping columns to select options */}
           {columns.map((column) => (
@@ -221,6 +227,7 @@ const DatasetDrawer = ({
           targetColumnId={targetColumnId}
           columns={columns}
           handleChangeType={handleChangeColumnType}
+          disabled={trainingSucceeded}
         />
       </div>
     );
@@ -261,7 +268,7 @@ const DatasetDrawer = ({
       <Button
         onClick={handleUpload}
         loading={loading}
-        disabled={!datasetFileList.length > 0}
+        disabled={!datasetFileList.length > 0 || trainingSucceeded}
       >
         Importar
       </Button>
@@ -291,6 +298,8 @@ DatasetDrawer.propTypes = {
   handleSetColumnType: PropTypes.func.isRequired,
   /** dataset drawer upload dataset and header handler */
   handleUploadFiles: PropTypes.func.isRequired,
+  /** experiment training is succeeded */
+  trainingSucceeded: PropTypes.bool.isRequired,
 };
 
 // EXPORT

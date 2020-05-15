@@ -38,6 +38,7 @@ const mapStateToProps = (state) => {
     targetColumn: state.experiment.target,
     loading: state.ui.datasetOperator.loading,
     targetLoading: state.ui.experimentTarget.loading,
+    trainingSucceeded: state.experiment.succeeded,
   };
 };
 
@@ -55,6 +56,7 @@ const DatasetDrawerContainer = ({
   handleCreateDataset,
   handleUpdateDatasetColumn,
   handleSetTarget,
+  trainingSucceeded,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -81,6 +83,7 @@ const DatasetDrawerContainer = ({
       handleSetColumnType={updateDatasetColumnHandler}
       loading={loading}
       targetLoading={targetLoading}
+      trainingSucceeded={trainingSucceeded}
     />
   );
 };
