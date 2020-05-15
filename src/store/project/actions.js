@@ -15,7 +15,8 @@ import {
 
 // COMPONENTS ACTION
 import { fetchComponentsRequest } from '../components/actions';
-
+//PROJECTS ACTIONS
+import fetchProjectsRequest from '../projects/actions';
 // ACTIONS
 // ** FETCH PROJECT
 /**
@@ -131,9 +132,11 @@ const createProjectFail = (error) => (dispatch) => {
  * create project request action
  * @returns {Function}
  */
-export const createProjectRequest = (projectName, routerProps) => (
-  dispatch
-) => {
+export const createProjectRequest = (
+  projectName,
+  projectDescription,
+  routerProps
+) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_PROJECT_REQUEST,
@@ -144,7 +147,7 @@ export const createProjectRequest = (projectName, routerProps) => (
 
   // creating project
   projectsApi
-    .createProject(projectName)
+    .createProject(projectName, projectDescription)
     .then((response) => dispatch(createProjectSuccess(response, routerProps)))
     .catch((error) => dispatch(createProjectFail(error)));
 };
@@ -169,6 +172,8 @@ const editProjectNameSuccess = (response) => (dispatch) => {
     type: actionTypes.EDIT_PROJECT_NAME_SUCCESS,
     project,
   });
+  dispatch(hideNewProjectModal());
+  dispatch(fetchProjectsRequest());
 };
 
 /**
@@ -194,11 +199,14 @@ const editProjectNameFail = (error) => (dispatch) => {
  * edit project name request action
  * @param {string} projectId
  * @param {string} newProjectName
+ * @param {string} newProjectDescription
  * @returns {Function}
  */
-export const editProjectNameRequest = (projectId, newProjectName) => (
-  dispatch
-) => {
+export const editProjectNameRequest = (
+  projectId,
+  newProjectName,
+  newProjectDescription
+) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.EDIT_PROJECT_NAME_REQUEST,
@@ -209,7 +217,7 @@ export const editProjectNameRequest = (projectId, newProjectName) => (
 
   // creating project
   projectsApi
-    .updateProject(projectId, newProjectName)
+    .updateProject(projectId, newProjectName, newProjectDescription)
     .then((response) => dispatch(editProjectNameSuccess(response)))
     .catch((error) => dispatch(editProjectNameFail(error)));
 };

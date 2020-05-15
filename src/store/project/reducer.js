@@ -9,6 +9,7 @@ const initialState = {
   createdAt: null,
   experiments: null,
   name: null,
+  description: null,
   updatedAt: null,
   uuid: null,
 };
@@ -33,7 +34,6 @@ const project = (state = initialState, action) => {
     // edit project name success
     case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
       return { ...action.project };
-
     // // // // // // //
 
     // FAIL
@@ -52,6 +52,8 @@ const project = (state = initialState, action) => {
       return message.error(action.errorMessage);
 
     // // // // // // //
+    case actionTypes.EDIT_PROJECT_REQUEST:
+      return message.error(action.errorMessage);
 
     // DEFAULT
     default:
