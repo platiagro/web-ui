@@ -290,6 +290,34 @@ export const experimentTargetDataLoaded = () => {
 
 // // // // // // // // // //
 
+// ** EXPERIMENT TRAINING LOADING DATA
+/**
+ * experiment training loading data
+ * @returns {Object} { type, experimentTrainingLoading }
+ */
+export const experimentTrainingLoadingData = () => {
+  return {
+    type: actionTypes.EXPERIMENT_TRAINING_LOADING_DATA,
+    experimentTrainingLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** EXPERIMENT TRAINING DATA LOADED
+/**
+ * experiment training loading data
+ * @returns {Object} { type, experimentTrainingLoading }
+ */
+export const experimentTrainingDataLoaded = () => {
+  return {
+    type: actionTypes.EXPERIMENT_TRAINING_DATA_LOADED,
+    experimentTrainingLoading: false,
+  };
+};
+
+// // // // // // // // // //
+
 // ** EXPERIMENT NAME LOADING DATA
 /**
  * experiment name loading data

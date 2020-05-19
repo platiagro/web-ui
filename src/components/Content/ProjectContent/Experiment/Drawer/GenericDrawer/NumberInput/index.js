@@ -24,6 +24,7 @@ const NumberInput = ({
   placeholder,
   value,
   loading,
+  disabled,
   handleChange,
 }) => (
   // div container
@@ -41,7 +42,7 @@ const NumberInput = ({
       max={max}
       step={step}
       decimalSeparator=','
-      disabled={loading}
+      disabled={loading || disabled}
     />
     {/* loading */}
     {loading && (
@@ -87,6 +88,8 @@ NumberInput.propTypes = {
   value: PropTypes.number,
   /** number input change handler */
   handleChange: PropTypes.func.isRequired,
+  /** number input is disabled */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // PROP DEFAULT VALUES

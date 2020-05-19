@@ -46,6 +46,8 @@ const mapStateToProps = (state) => {
     parameters: state.operator.parameters,
     loading: state.ui.experimentOperators.loading,
     parameterLoading: state.ui.operatorParameter.loading,
+    trainingSucceeded: state.experiment.succeeded,
+    trainingLoading: state.ui.experimentTraining.loading,
   };
 };
 
@@ -57,11 +59,13 @@ const mapStateToProps = (state) => {
 const DatasetDrawerContainer = ({
   parameters,
   loading,
+  trainingLoading,
   operator,
   operatorId,
   handleRemoveOperator,
   handleSetOperatorParameter,
   parameterLoading,
+  trainingSucceeded,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -87,6 +91,8 @@ const DatasetDrawerContainer = ({
       handleRemoveOperatorClick={removeOperatorHandler}
       drawerInputs={parameters}
       loading={loading}
+      trainingSucceeded={trainingSucceeded}
+      trainingLoading={trainingLoading}
       parameterLoading={parameterLoading}
       handleChangeParameter={setOperatorParameterHandler}
     />

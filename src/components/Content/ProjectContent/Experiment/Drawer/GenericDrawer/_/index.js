@@ -33,7 +33,13 @@ const inputTypes = {
     />
   ),
   // number (float)
-  number: ({ uuid, name, ...props }, loading, handleChange) => (
+  number: (
+    { uuid, name, ...props },
+    loading,
+    handleChange,
+    trainingSucceeded,
+    trainingLoading
+  ) => (
     <NumberInput
       key={uuid || name}
       handleChange={handleChange}
@@ -41,26 +47,41 @@ const inputTypes = {
       step='0.1'
       name={name}
       loading={loading}
+      disabled={trainingSucceeded || trainingLoading}
     />
   ),
   // integer
-  integer: ({ uuid, name, ...props }, loading, handleChange) => (
+  integer: (
+    { uuid, name, ...props },
+    loading,
+    handleChange,
+    trainingSucceeded,
+    trainingLoading
+  ) => (
     <NumberInput
       key={uuid || name}
       handleChange={handleChange}
       {...props}
       name={name}
       loading={loading}
+      disabled={trainingSucceeded || trainingLoading}
     />
   ),
   // string
-  string: ({ uuid, name, ...props }, loading, handleChange) => (
+  string: (
+    { uuid, name, ...props },
+    loading,
+    handleChange,
+    trainingSucceeded,
+    trainingLoading
+  ) => (
     <StringInput
       key={uuid || name}
       handleChange={handleChange}
       {...props}
       name={name}
       loading={loading}
+      disabled={trainingSucceeded || trainingLoading}
     />
   ),
 };
@@ -73,9 +94,11 @@ const GenericDrawer = ({
   drawerInputs,
   drawerTip,
   loading,
+  trainingLoading,
   parameterLoading,
   handleChangeParameter,
   handleRemoveOperatorClick,
+  trainingSucceeded,
 }) => (
   // div container
   <div>
@@ -90,7 +113,13 @@ const GenericDrawer = ({
     {drawerInputs &&
       drawerInputs.length > 0 &&
       drawerInputs.map((input) =>
-        inputTypes[input.type](input, parameterLoading, handleChangeParameter)
+        inputTypes[input.type](
+          input,
+          parameterLoading,
+          handleChangeParameter,
+          trainingSucceeded,
+          trainingLoading
+        )
       )}
     {/* rendering drawer tip node */}
     {drawerTip && (
@@ -109,6 +138,7 @@ const GenericDrawer = ({
       <RemoveOperatorButton
         loading={loading}
         handleClick={handleRemoveOperatorClick}
+        disabled={trainingSucceeded || trainingLoading}
       />
     </div>
   </div>
@@ -120,6 +150,10 @@ GenericDrawer.propTypes = {
   drawerInputs: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** generic drawer tip node */
   drawerTip: PropTypes.node,
+  /** training is succeded */
+  trainingSucceeded: PropTypes.bool.isRequired,
+  /** training is running */
+  trainingLoading: PropTypes.bool.isRequired,
 };
 
 // PROP DEFAULT VALUES

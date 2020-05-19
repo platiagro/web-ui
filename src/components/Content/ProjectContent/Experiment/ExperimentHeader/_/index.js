@@ -20,6 +20,8 @@ import NewTemplateModal from '../NewTemplateModal/Container';
 const ExperimentHeader = ({
   title,
   loading,
+  trainingLoading,
+  trainingSucceeded,
   handleDeleteExperiment,
   handleEditExperimentName,
   handleTrainExperiment,
@@ -44,15 +46,15 @@ const ExperimentHeader = ({
       {/* train button */}
       <TrainExperimentButton
         handleClick={handleTrainExperiment}
-        disabled={false}
-        experimentRunning={false}
+        disabled={loading || trainingLoading || trainingSucceeded}
+        experimentRunning={trainingLoading}
       />
     </Col>
     <Col span={2}>
       {/* deploy button */}
       <DeployExperimentButton
         handleClick={handleDeployExperiment}
-        disabled={false}
+        disabled={loading || trainingLoading || !trainingSucceeded}
       />
     </Col>
     <Col span={3}>
@@ -62,7 +64,7 @@ const ExperimentHeader = ({
     <Col span={1} style={{ paddingRight: '0.7vw' }}>
       {/* delete button */}
       <DeleteExperimentButton
-        disabled={false}
+        disabled={loading || trainingLoading}
         handleClick={handleDeleteExperiment}
         loading={loading}
       />
@@ -82,6 +84,10 @@ ExperimentHeader.propTypes = {
   handleTrainExperiment: PropTypes.func.isRequired,
   /** experiment header deploy experiment handler */
   handleDeployExperiment: PropTypes.func.isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
+  /** training is loading */
+  trainingLoading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

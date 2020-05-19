@@ -15,7 +15,12 @@ const { Option } = Select;
  * Columns Table.
  * This component is responsible for displaying dataset columns table
  */
-const ColumnsTable = ({ columns, targetColumnId, handleChangeType }) => {
+const ColumnsTable = ({
+  columns,
+  targetColumnId,
+  handleChangeType,
+  disabled,
+}) => {
   // columns configuration
   const columnsConfig = [
     {
@@ -34,6 +39,7 @@ const ColumnsTable = ({ columns, targetColumnId, handleChangeType }) => {
       key: 'featuretype',
       render: (value, row, index) => (
         <TypeSelect
+          disabled={disabled}
           value={value}
           onChange={(e) => {
             handleChangeType(e, row);
@@ -103,6 +109,8 @@ ColumnsTable.propTypes = {
   targetColumnId: PropTypes.string.isRequired,
   /** columns table change row type handler */
   handleChangeType: PropTypes.func.isRequired,
+  /** columns table type change is disabled  */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT
