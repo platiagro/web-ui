@@ -16,6 +16,7 @@ const DeleteExperimentButton = ({ handleClick, disabled, loading }) => (
     onConfirm={handleClick}
     okText='Sim'
     cancelText='Não'
+    disabled={disabled}
   >
     {/* button component */}
     <Button
