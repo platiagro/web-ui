@@ -37,7 +37,8 @@ const inputTypes = {
     { uuid, name, ...props },
     loading,
     handleChange,
-    trainingSucceeded
+    trainingSucceeded,
+    trainingLoading
   ) => (
     <NumberInput
       key={uuid || name}
@@ -46,7 +47,7 @@ const inputTypes = {
       step='0.1'
       name={name}
       loading={loading}
-      disabled={trainingSucceeded}
+      disabled={trainingSucceeded || trainingLoading}
     />
   ),
   // integer
@@ -54,7 +55,8 @@ const inputTypes = {
     { uuid, name, ...props },
     loading,
     handleChange,
-    trainingSucceeded
+    trainingSucceeded,
+    trainingLoading
   ) => (
     <NumberInput
       key={uuid || name}
@@ -62,7 +64,7 @@ const inputTypes = {
       {...props}
       name={name}
       loading={loading}
-      disabled={trainingSucceeded}
+      disabled={trainingSucceeded || trainingLoading}
     />
   ),
   // string
@@ -70,7 +72,8 @@ const inputTypes = {
     { uuid, name, ...props },
     loading,
     handleChange,
-    trainingSucceeded
+    trainingSucceeded,
+    trainingLoading
   ) => (
     <StringInput
       key={uuid || name}
@@ -78,7 +81,7 @@ const inputTypes = {
       {...props}
       name={name}
       loading={loading}
-      disabled={trainingSucceeded}
+      disabled={trainingSucceeded || trainingLoading}
     />
   ),
 };
@@ -91,6 +94,7 @@ const GenericDrawer = ({
   drawerInputs,
   drawerTip,
   loading,
+  trainingLoading,
   parameterLoading,
   handleChangeParameter,
   handleRemoveOperatorClick,
@@ -113,7 +117,8 @@ const GenericDrawer = ({
           input,
           parameterLoading,
           handleChangeParameter,
-          trainingSucceeded
+          trainingSucceeded,
+          trainingLoading
         )
       )}
     {/* rendering drawer tip node */}
@@ -133,7 +138,7 @@ const GenericDrawer = ({
       <RemoveOperatorButton
         loading={loading}
         handleClick={handleRemoveOperatorClick}
-        disabled={trainingSucceeded}
+        disabled={trainingSucceeded || trainingLoading}
       />
     </div>
   </div>
@@ -147,6 +152,8 @@ GenericDrawer.propTypes = {
   drawerTip: PropTypes.node,
   /** training is succeded */
   trainingSucceeded: PropTypes.bool.isRequired,
+  /** training is running */
+  trainingLoading: PropTypes.bool.isRequired,
 };
 
 // PROP DEFAULT VALUES
