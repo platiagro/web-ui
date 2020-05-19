@@ -18,6 +18,7 @@ const { Option } = Select;
  */
 const DatasetDrawer = ({
   loading,
+  trainingLoading,
   targetLoading,
   columns,
   targetColumnId,
@@ -115,9 +116,13 @@ const DatasetDrawer = ({
     // rendering component
     return (
       // upload component
-      <Upload {...props} disabled={loading || trainingSucceeded} accept='.csv'>
+      <Upload
+        {...props}
+        disabled={loading || trainingSucceeded || trainingLoading}
+        accept='.csv'
+      >
         {/* upload button component */}
-        <Button disabled={loading || trainingSucceeded}>
+        <Button disabled={loading || trainingSucceeded || trainingLoading}>
           {/* icon component */}
           <Icon type={loading ? 'loading' : 'upload'} />
           Selecionar
@@ -162,11 +167,18 @@ const DatasetDrawer = ({
     // rendering component
     return (
       // upload component
-      <Upload {...props} disabled={loading || trainingSucceeded} accept='.txt'>
+      <Upload
+        {...props}
+        disabled={loading || trainingSucceeded || trainingLoading}
+        accept='.txt'
+      >
         {/* upload button component */}
         <Button
           disabled={
-            !(datasetFileList.length > 0) || loading || trainingSucceeded
+            !(datasetFileList.length > 0) ||
+            loading ||
+            trainingSucceeded ||
+            trainingLoading
           }
         >
           {/* icon component */}
@@ -205,9 +217,8 @@ const DatasetDrawer = ({
           placeholder='Selecione'
           value={targetColumnId || undefined}
           loading={targetLoading}
-          disabled={targetLoading}
           showSearch
-          disabled={trainingSucceeded}
+          disabled={trainingSucceeded || targetLoading || trainingLoading}
         >
           {/* mapping columns to select options */}
           {columns.map((column) => (
@@ -227,7 +238,7 @@ const DatasetDrawer = ({
           targetColumnId={targetColumnId}
           columns={columns}
           handleChangeType={handleChangeColumnType}
-          disabled={trainingSucceeded}
+          disabled={trainingSucceeded || trainingLoading}
         />
       </div>
     );
@@ -268,7 +279,9 @@ const DatasetDrawer = ({
       <Button
         onClick={handleUpload}
         loading={loading}
-        disabled={!datasetFileList.length > 0 || trainingSucceeded}
+        disabled={
+          !datasetFileList.length > 0 || trainingSucceeded || trainingLoading
+        }
       >
         Importar
       </Button>
@@ -300,6 +313,8 @@ DatasetDrawer.propTypes = {
   handleUploadFiles: PropTypes.func.isRequired,
   /** experiment training is succeeded */
   trainingSucceeded: PropTypes.bool.isRequired,
+  /** experiment is training */
+  trainingLoading: PropTypes.bool.isRequired,
 };
 
 // EXPORT
