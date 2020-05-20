@@ -51,7 +51,7 @@ const TasksTableContainer = (props) => {
   // HANDLERS
   const taskClickHandler = (taskId) =>
     window.open(
-      `/notebook/anonymous/server/lab/tree/components/${taskId}/Training.ipynb`
+      `/notebook/anonymous/server/lab/tree/components/${taskId}/?open=Training.ipynb,Inference.ipynb`
     );
 
   // RENDER
