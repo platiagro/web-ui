@@ -57,11 +57,12 @@ const NewTaskModalContainer = (props) => {
       handleNewTask={(taskValues) =>
         handleAddTask(taskValues).then(async (response) => {
           if (response) {
+            console.log(response);
             handleCloseModal();
             message.success(`Tarefa adicionada com sucesso.`);
             await sleep(1000);
             window.open(
-              `/notebook/anonymous/server/?open=Training.ipynb,Inference.ipynb`
+              `/notebook/anonymous/server/lab/tree/components/${response.data.uuid}/?open=Training.ipynb,Inference.ipynb`
             );
           }
         })
