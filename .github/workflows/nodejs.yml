@@ -19,6 +19,15 @@ jobs:
         node-version: [12.x]
 
     steps:
+    - name: Set Docker TAG
+      id: var
+      run: |
+        echo ${{ github.ref }}
+        if [ ${{ github.ref }} = "refs/heads/master" ]; then
+          echo ::set-output name=TAG::0.0.2
+        else
+          echo ::set-output name=TAG::0.0.2-SNAPSHOT
+        fi
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -45,4 +54,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         registry: registry.hub.docker.com
         repository: platiagro/web-ui
-        tags: 0.0.2
+        tags: ${{ steps.var.outputs.TAG }}
