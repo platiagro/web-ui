@@ -63,7 +63,7 @@ const TasksTable = ({
       dataSource={tasks}
       columns={columnsConfig}
       pagination={{ pageSize: 9 }}
-      scroll={{ y: 'calc(100vh - 480px)' }}
+      scroll={{ y: 'calc(100vh - 325px)' }}
       loading={loading}
     />
   );
