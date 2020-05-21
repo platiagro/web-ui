@@ -38,8 +38,8 @@ jobs:
         yarn
     - name: Perform tests
       run: |
-        yarn test:ci
         yarn build
+        yarn test:ci
     - name: SonarCloud Scan
       if: ${{ always() }}
       uses: sonarsource/sonarcloud-github-action@master

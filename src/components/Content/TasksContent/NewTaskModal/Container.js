@@ -60,7 +60,9 @@ const NewTaskModalContainer = (props) => {
             handleCloseModal();
             message.success(`Tarefa adicionada com sucesso.`);
             await sleep(1000);
-            window.open(`/notebook/anonymous/server/`);
+            window.open(
+              `/notebook/anonymous/server/?open=Training.ipynb,Inference.ipynb`
+            );
           }
         })
       }
