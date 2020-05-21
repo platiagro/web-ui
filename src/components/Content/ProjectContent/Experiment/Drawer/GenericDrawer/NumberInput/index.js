@@ -14,6 +14,7 @@ import InputTip from '../../InputTip';
  */
 const NumberInput = ({
   title,
+  label,
   name,
   description,
   warning,
@@ -30,7 +31,7 @@ const NumberInput = ({
   // div container
   <div>
     {/* title */}
-    <p>{title || name}</p>
+    <p>{label || title || name}</p>
     {/* description */}
     <small>{description}</small>
     {/* number input */}
@@ -70,6 +71,8 @@ const NumberInput = ({
 NumberInput.propTypes = {
   /** number input title string */
   title: PropTypes.string.isRequired,
+  /** number input label string */
+  label: PropTypes.string.isRequired,
   /** number input description string */
   description: PropTypes.string.isRequired,
   /** number input warning message string */
