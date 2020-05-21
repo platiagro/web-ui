@@ -73,6 +73,8 @@ NumberInput.propTypes = {
   title: PropTypes.string.isRequired,
   /** number input label string */
   label: PropTypes.string.isRequired,
+  /** number input name string */
+  name: PropTypes.string.isRequired,
   /** number input description string */
   description: PropTypes.string.isRequired,
   /** number input warning message string */
