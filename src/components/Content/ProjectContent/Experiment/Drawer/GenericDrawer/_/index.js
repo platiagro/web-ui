@@ -40,15 +40,19 @@ const inputTypes = {
     trainingSucceeded,
     trainingLoading
   ) => (
-    <NumberInput
-      key={uuid || name}
-      handleChange={handleChange}
-      {...props}
-      step='0.1'
-      name={name}
-      loading={loading}
-      disabled={trainingSucceeded || trainingLoading}
-    />
+    <>
+      <NumberInput
+        key={uuid || name}
+        handleChange={handleChange}
+        {...props}
+        step='0.1'
+        name={name}
+        loading={loading}
+        disabled={trainingSucceeded || trainingLoading}
+      />
+      <br />
+      <br />
+    </>
   ),
   // integer
   integer: (
@@ -58,14 +62,18 @@ const inputTypes = {
     trainingSucceeded,
     trainingLoading
   ) => (
-    <NumberInput
-      key={uuid || name}
-      handleChange={handleChange}
-      {...props}
-      name={name}
-      loading={loading}
-      disabled={trainingSucceeded || trainingLoading}
-    />
+    <>
+      <NumberInput
+        key={uuid || name}
+        handleChange={handleChange}
+        {...props}
+        name={name}
+        loading={loading}
+        disabled={trainingSucceeded || trainingLoading}
+      />
+      <br />
+      <br />
+    </>
   ),
   // string
   string: (
@@ -75,14 +83,18 @@ const inputTypes = {
     trainingSucceeded,
     trainingLoading
   ) => (
-    <StringInput
-      key={uuid || name}
-      handleChange={handleChange}
-      {...props}
-      name={name}
-      loading={loading}
-      disabled={trainingSucceeded || trainingLoading}
-    />
+    <>
+      <StringInput
+        key={uuid || name}
+        handleChange={handleChange}
+        {...props}
+        name={name}
+        loading={loading}
+        disabled={trainingSucceeded || trainingLoading}
+      />
+      <br />
+      <br />
+    </>
   ),
 };
 
