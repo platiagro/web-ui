@@ -31,7 +31,6 @@ const projects = (state = initialState, action) => {
     // fetch projects fail
     case actionTypes.FETCH_PROJECTS_FAIL:
       return message.error(action.errorMessage);
-
     // // // // // // //
 
     // DEFAULT
