@@ -61,7 +61,7 @@ const NewTaskModalContainer = (props) => {
             message.success(`Tarefa adicionada com sucesso.`);
             await sleep(1000);
             window.open(
-              `/notebook/anonymous/server/lab/tree/components/${response.data.uuid}/?open=Training.ipynb,Inference.ipynb`
+              `/notebook/anonymous/server/lab/tree/components/${response.data.uuid}/?reset&open=Training.ipynb,Inference.ipynb`
             );
           }
         })
