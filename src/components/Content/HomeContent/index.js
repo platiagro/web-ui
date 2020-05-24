@@ -1,6 +1,8 @@
 // CORE LIBS
 import React from 'react';
 
+import { Link } from 'react-router-dom'
+
 // UI LIBS
 import { Layout, Row, Col } from 'antd';
 
@@ -13,8 +15,8 @@ import './style.scss';
 // IMAGES
 import logoBody from '../../../assets/logo-colorido.svg';
 import ic_projeto from '../../../assets/ic_projeto.svg';
-import ic_avaliacao from '../../../assets/ic_avaliacao.svg';
-import ic_programacao from '../../../assets/ic_programacao.svg';
+import ic_tarefa from '../../../assets/ic_tarefa.svg';
+import ic_documentacao from '../../../assets/ic_documentacao.svg';
 
 // LAYOUT COMPONENTS
 const { Content } = Layout;
@@ -23,7 +25,7 @@ const { Content } = Layout;
  * Home Content.
  * This component is responsible for displaying the home content.
  */
-const HomeContent = ({ showNewProjectModal }) => {
+const HomeContent = () => {
   // RENDER
   return (
     // layout container
@@ -39,7 +41,7 @@ const HomeContent = ({ showNewProjectModal }) => {
           <Col className='home-columns' span={12}>
             {/* title */}
             <p className='home-title'>
-              Demonstração da PlatIAgro para o ForAGRI 2019
+              Plataforma de Inteligência Artificial para o Agronegócio
             </p>
             {/* cards container */}
             <div className='card-content'>
@@ -48,30 +50,37 @@ const HomeContent = ({ showNewProjectModal }) => {
               {/* cards */}
               <div className='home-cards'>
                 {/* new project card */}
-                <div role='presentation' onClick={showNewProjectModal}>
-                  <img src={ic_projeto} alt='Icone de experimento' />
-                  <span>Criar um novo projeto</span>
-                </div>
-                {/* rating card */}
-                <a
-                  rel='noopener noreferrer'
-                  target='_blank'
-                  href='https://forms.gle/6g7pyZ3N7seuSxxm8'
-                >
+                <Link to='/projetos'>
                   <div>
-                    <img src={ic_avaliacao} alt='Icone de chat' />
-                    <span>Avaliar a plataforma</span>
+                    <img
+                      src={ic_projeto}
+                      alt='Desenho de um frasco utilizado na preparação de experimentos'
+                    />
+                    <span>Criar um projeto e experimentar diferentes fluxos de tarefas</span>
                   </div>
-                </a>
-                {/* foragri schedule card */}
+                </Link>
+                {/* rating card */}
+                <Link to='/tarefas'>
+                  <div>
+                    <img
+                      src={ic_tarefa}
+                      alt='Desenho de uma tela de execução de um interpretador de comandos de computador'
+                    />
+                    <span>Construir uma tarefa e conhecer as tarefas disponíveis</span>
+                  </div>
+                </Link>
+                {/* documentation card */}
                 <a
                   rel='noopener noreferrer'
                   target='_blank'
-                  href='https://joinups.cpqd.com.br/foragri/#programacao'
+                  href='https://platiagro.github.io/'
                 >
                   <div>
-                    <img src={ic_programacao} alt='Icone de calendario' />
-                    <span>Ver programação do ForAGRI</span>
+                    <img
+                      src={ic_documentacao}
+                      alt='Ponto de interrogação'
+                    />
+                    <span>Tirar suas dúvidas com a documentação da PlatIAgro</span>
                   </div>
                 </a>
               </div>
@@ -80,14 +89,21 @@ const HomeContent = ({ showNewProjectModal }) => {
           {/* column container */}
           <Col className='logo-content home-columns' span={12}>
             {/* platiagro logo */}
-            <img className='logo-color' alt='foragri logo' src={logoBody} />
+            <img
+              className='logo-color'
+              alt={`Logotipo da PlatIAgro: possui o desenho de duas folhas verdes,
+                    uma delas é formada por linhas e pontos, como um gráfico estatístico.
+                    O texto PlatIAgro está à direita do logotipo.`}
+              src={logoBody}
+            />
             {/* platiagro description */}
             <p className='home-text'>
-              A PlatIAgro é uma plataforma de IA voltada para os temas
-              relacionados ao agronegócio. Sua missão é oferecer um ambiente
-              facilitador do desenvolvimento e implantação de modelos
-              estatísticos ou matemáticos que introduzam inteligência nos
-              processos.
+              A Plataforma de Inteligência Artificial para o agronegócio – PlatIAgro –
+              é uma plataforma de IA voltada para os temas relacionados ao agronegócio.
+              <br />
+              Sua missão é oferecer um ambiente facilitador do desenvolvimento
+              de aplicações para diferentes atores da cadeia do agronegócio, como
+              produtores, indústria e órgãos fiscalizadores.
             </p>
           </Col>
         </Row>
