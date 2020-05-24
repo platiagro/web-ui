@@ -5,9 +5,8 @@ import { Layout } from 'antd';
 import mainRoutes from '../../../routes/main';
 import App from '..';
 import MainHeader from '../../MainHeader';
-import MainFooter from '../../MainFooter';
 
-const { Header, Footer } = Layout;
+const { Header } = Layout;
 
 describe('App component', () => {
   it('is expected render without crashing', () => {
@@ -35,17 +34,6 @@ describe('App component', () => {
       wrapper
         .children(Layout)
         .children(Header)
-        .exists()
-    ).toBeTruthy();
-  });
-
-  it('Layout child is expected to have a Footer child', () => {
-    const wrapper = shallow(<App />);
-
-    expect(
-      wrapper
-        .children(Layout)
-        .children(Footer)
         .exists()
     ).toBeTruthy();
   });
@@ -111,15 +99,3 @@ describe('App component', () => {
         .get(1).props.path
     ).toBe(path1);
   });
-
-  it('Footer child of Layout child is expected to have a MainFooter child', () => {
-    const wrapper = shallow(<App />);
-    expect(
-      wrapper
-        .children(Layout)
-        .children(Footer)
-        .children(MainFooter)
-        .exists()
-    ).toBeTruthy();
-  });
-});

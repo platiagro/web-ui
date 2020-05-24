@@ -6,7 +6,6 @@ import { Layout } from 'antd';
 
 // COMPONENTS
 import MainHeader from '../MainHeader/_';
-import MainFooter from '../MainFooter';
 import Content from '../Content/_';
 
 // LAYOUT COMPONENTS
@@ -28,11 +27,6 @@ const App = () => (
     <MainHeader />
     {/* content */}
     <Content />
-    {/* footer */}
-    <Footer>
-      {/* main footer */}
-      <MainFooter />
-    </Footer>
   </Layout>
 );
 
