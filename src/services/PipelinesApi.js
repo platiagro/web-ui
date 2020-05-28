@@ -11,7 +11,7 @@ const pipelinesApi = axios.create({
 // train path
 const trainPath = '/training';
 // deploy path
-const deployPath = '/deploy';
+const deployPath = '/deployments';
 
 /**
  * Train Experiment
