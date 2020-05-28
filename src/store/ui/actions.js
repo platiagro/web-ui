@@ -485,3 +485,29 @@ export const templateDataLoaded = () => {
 };
 
 // // // // // // // // // //
+
+// ** IMPLANTED EXPERIMENTS LOADING DATA
+/**
+ *  implanted experiments loading data
+ * @returns {Object} { type, implantedExperimentsLoading }
+ */
+export const implantedExperimentsLoadingData = () => {
+  return {
+    type: actionTypes.IMPLANTED_EXPERIMENTS_LOADING_DATA,
+    implantedExperimentsLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** IMPLANTED EXPERIMENTS DATA LOADED
+/**
+ * implanted experiments loading data
+ * @returns {Object} { type, implantedExperimentsLoading }
+ */
+export const implantedExperimentsDataLoaded = () => {
+  return {
+    type: actionTypes.IMPLANTED_EXPERIMENTS_DATA_LOADED,
+    implantedExperimentsLoading: false,
+  };
+};

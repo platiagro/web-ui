@@ -20,6 +20,7 @@ const initialState = {
   datasetOperator: { loading: false },
   operatorParameter: { loading: false },
   operatorResults: { loading: false },
+  implantedExperiments: { loading: false },
 };
 
 /**
@@ -368,6 +369,26 @@ const ui = (state = initialState, action) => {
         template: {
           ...state.template,
           loading: action.templateLoading,
+        },
+      };
+
+    // IMPLANTED EXPERIMENT
+    // loading data
+    case actionTypes.IMPLANTED_EXPERIMENTS_LOADING_DATA:
+      return {
+        ...state,
+        implantedExperiments: {
+          ...state.implantedExperiments,
+          loading: action.implantedExperimentsLoading,
+        },
+      };
+    // data loaded
+    case actionTypes.IMPLANTED_EXPERIMENTS_DATA_LOADED:
+      return {
+        ...state,
+        implantedExperiments: {
+          ...state.implantedExperiments,
+          loading: action.implantedExperimentsLoading,
         },
       };
 

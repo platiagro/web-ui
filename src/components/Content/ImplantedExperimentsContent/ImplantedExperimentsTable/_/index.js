@@ -7,7 +7,6 @@ import { Table, Typography, Tooltip, Button, Badge } from 'antd';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
-import ImplantedExperimentsEmpty from '../../ImplantedExperimentsEmpty';
 import LogsDrawer from '../../LogsDrawer/Container';
 
 // STYLES
@@ -24,6 +23,7 @@ const ImplantedExperimentsTable = ({
   implantedExperiments,
   handleTestInference,
   handleOpenLog,
+  loading,
 }) => {
   // CONSTANTS
 
@@ -31,8 +31,8 @@ const ImplantedExperimentsTable = ({
   const statusToBadge = {
     Failed: 'error',
     Running: 'processing',
-    Succeded: 'success'
-  }
+    Succeded: 'success',
+  };
 
   // table columns config
   const columnsConfig = [
@@ -46,7 +46,7 @@ const ImplantedExperimentsTable = ({
         <Badge status={statusToBadge[value]} text={value} />
       ),
     },
-    // name column
+    // name
     {
       title: 'Nome',
       dataIndex: 'name',
@@ -65,11 +65,11 @@ const ImplantedExperimentsTable = ({
         </Tooltip>
       ),
     },
-    // created column
+    // createdAt column
     {
       title: 'Data de Criação',
-      dataIndex: 'created',
-      key: 'created',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
     },
     // action column
     {
@@ -83,13 +83,11 @@ const ImplantedExperimentsTable = ({
           <Button type='link' onClick={handleOpenLog}>
             Logs
           </Button>
-          {/* monitoring link */}
-          <a target='_blank' href='/notebook/kubeflow-anonymous/server-1/tree?'>
-            Monitoramento
-          </a>
           {/* upload inference test button */}
           <UploadInferenceTestButton
-            handleUpload={(file) => handleTestInference(record.uuid, file)}
+            handleUpload={(file) =>
+              handleTestInference(record.experimentId, file)
+            }
           />
         </>
       ),
@@ -98,19 +96,16 @@ const ImplantedExperimentsTable = ({
 
   // RENDER
   return (
-    // rendering implanted experiments table or implanted experiments empty
-    implantedExperiments.length > 0 ? (
-      <>
+    // rendering implanted experiments table
+    <>
       <Table
         dataSource={implantedExperiments}
         columns={columnsConfig}
         pagination={{ pageSize: 9 }}
+        loading={loading}
       />
-      <LogsDrawer/>
-      </>
-    ) : (
-        <ImplantedExperimentsEmpty />
-      )
+      <LogsDrawer />
+    </>
   );
 };
 
