@@ -13,6 +13,7 @@ import DeployExperimentButton from '../DeployExperimentButton';
 import NewTemplateButton from '../NewTemplateButton/Container';
 import NewTemplateModal from '../NewTemplateModal/Container';
 
+import './styles.scss'
 /**
  * Experiment Header.
  * This component is responsible for displaying the experiment header.
@@ -20,55 +21,51 @@ import NewTemplateModal from '../NewTemplateModal/Container';
 const ExperimentHeader = ({
   title,
   loading,
+  trainingLoading,
+  trainingSucceeded,
   handleDeleteExperiment,
   handleEditExperimentName,
   handleTrainExperiment,
   handleDeployExperiment,
 }) => (
-  // row container
-  <Row>
-    {/* new template modal */}
-    <NewTemplateModal />
-    {/* column container */}
-    <Col span={16}>
-      {/* title */}
-      <Title
-        title={title}
-        loading={loading}
-        level={4}
-        handleSubmit={handleEditExperimentName}
-      />
-    </Col>
-    {/* column container */}
-    <Col span={2}>
-      {/* train button */}
-      <TrainExperimentButton
-        handleClick={handleTrainExperiment}
-        disabled={false}
-        experimentRunning={false}
-      />
-    </Col>
-    <Col span={2}>
-      {/* deploy button */}
-      <DeployExperimentButton
-        handleClick={handleDeployExperiment}
-        disabled={false}
-      />
-    </Col>
-    <Col span={3}>
-      {/* new template button */}
-      <NewTemplateButton />
-    </Col>
-    <Col span={1} style={{ paddingRight: '0.7vw' }}>
-      {/* delete button */}
-      <DeleteExperimentButton
-        disabled={false}
-        handleClick={handleDeleteExperiment}
-        loading={loading}
-      />
-    </Col>
-  </Row>
-);
+    // row container
+    <Row>
+      {/* new template modal */}
+      <NewTemplateModal />
+      {/* column container */}
+      <Col span={12}>
+        {/* title */}
+        <Title
+          title={title}
+          loading={loading}
+          level={4}
+          handleSubmit={handleEditExperimentName}
+        />
+      </Col>
+      {/* column container */}
+      <div className='buttons-config'>
+        {/* train button */}
+        <TrainExperimentButton
+          handleClick={handleTrainExperiment}
+          disabled={loading || trainingLoading || trainingSucceeded}
+          experimentRunning={trainingLoading}
+        />
+        {/* deploy button */}
+        <DeployExperimentButton
+          handleClick={handleDeployExperiment}
+          disabled={loading || trainingLoading || !trainingSucceeded}
+        />
+        {/* new template button */}
+        <NewTemplateButton />
+        {/* delete button */}
+        <DeleteExperimentButton
+          disabled={loading || trainingLoading}
+          handleClick={handleDeleteExperiment}
+          loading={loading}
+        />
+      </div>
+    </Row>
+  );
 
 // PROP TYPES
 ExperimentHeader.propTypes = {
@@ -82,6 +79,10 @@ ExperimentHeader.propTypes = {
   handleTrainExperiment: PropTypes.func.isRequired,
   /** experiment header deploy experiment handler */
   handleDeployExperiment: PropTypes.func.isRequired,
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
+  /** training is loading */
+  trainingLoading: PropTypes.bool.isRequired,
 };
 
 // EXPORT

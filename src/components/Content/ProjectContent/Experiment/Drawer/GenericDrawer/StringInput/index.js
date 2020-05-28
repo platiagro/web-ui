@@ -22,6 +22,7 @@ const StringInput = ({
   value,
   handleChange,
   loading,
+  disabled,
 }) => (
   // div container
   <div>
@@ -34,7 +35,7 @@ const StringInput = ({
       value={value}
       onChange={(e) => handleChange(name, e.target.value)}
       placeholder={placeholder}
-      disabled={loading}
+      disabled={loading || disabled}
       style={{ width: '90%' }}
     />
     {/* loading */}
@@ -61,39 +62,41 @@ const StringInput = ({
 
 // PROP TYPES
 StringInput.propTypes = {
-  /** number input title string */
+  /** string input title string */
   title: PropTypes.string.isRequired,
-  /** number input description string */
+  /** string input description string */
   description: PropTypes.string.isRequired,
-  /** number input warning message string */
+  /** string input warning message string */
   warning: PropTypes.string,
-  /** number input tip message string */
+  /** string input tip message string */
   tip: PropTypes.string,
-  /** number input min value id string */
+  /** string input min value id string */
   min: PropTypes.number.isRequired,
-  /** number input max value id string */
+  /** string input max value id string */
   max: PropTypes.number.isRequired,
-  /** number input step value id string */
+  /** string input step value id string */
   step: PropTypes.number,
-  /** number input placeholder string */
+  /** string input placeholder string */
   placeholder: PropTypes.number,
-  /** number input value id string */
+  /** string input value id string */
   value: PropTypes.number,
-  /** number input change handler */
+  /** string input change handler */
   handleChange: PropTypes.func.isRequired,
+  /** string input is disabled */
+  disabled: PropTypes.bool.isRequired,
 };
 
-// PROP DEFAULT VALUES
+// PROP DEFAULT VALUESstring
 StringInput.defaultProps = {
-  /** number input warning message string */
+  /** string input warning message string */
   warning: undefined,
-  /** number input tip message string */
+  /** string input tip message string */
   tip: undefined,
-  /** number input value id string */
+  /** string input value id string */
   value: undefined,
-  /** number input step value id string */
+  /** string input step value id string */
   step: undefined,
-  /** number input placeholder string */
+  /** string input placeholder string */
   placeholder: undefined,
 };
 

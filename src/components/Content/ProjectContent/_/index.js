@@ -14,6 +14,7 @@ import NewExperimentModal from '../NewExperimentModal/Container';
 import ExperimentEmpty from '../Experiment/ExperimentEmpty';
 import Experiment from '../Experiment/_';
 
+import './style.scss'
 /**
  * Project Content.
  * This component is responsible for displaying the project content.
@@ -39,19 +40,21 @@ const ProjectContent = () => {
           {/* experiment column container */}
           <Col span={19}>
             {/* experiment tabs row container */}
-            <Row gutter={15}>
-              {/* experiment tabs column container */}
-              <Col span={23}>
-                <ExperimentsTabs />
-              </Col>
+            {/* <Row gutter={15}> */}
+            {/* experiment tabs column container */}
+            {/* <Col span={23}> */}
+            <div className='row-tab-plus-button'>
+              <ExperimentsTabs />
+              {/* </Col> */}
               {/* new experiment column container */}
-              <Col span={1}>
-                {/* new experiment button */}
-                <NewExperimentButton />
-                {/* new experiment modal */}
-                <NewExperimentModal />
-              </Col>
-            </Row>
+              {/* <Col span={1}> */}
+              {/* new experiment button */}
+              <NewExperimentButton />
+              {/* new experiment modal */}
+              <NewExperimentModal />
+              {/* </Col> */}
+            </div>
+            {/* </Row> */}
             {/* experiment row container */}
             <Row>{experimentId ? <Experiment /> : <ExperimentEmpty />}</Row>
           </Col>

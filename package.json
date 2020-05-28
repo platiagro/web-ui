@@ -26,7 +26,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:ci": "env CI=true react-scripts test --silent --coverage --testResultsProcessor jest-sonar-reporter",
+    "test:ci": "react-scripts test --silent --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject"
   },
   "browserslist": {

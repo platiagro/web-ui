@@ -47,6 +47,8 @@ const mapStateToProps = (state) => {
     componentsMenu: state.componentsMenu.filtered,
     components: state.components,
     loading: state.ui.componentsMenu.loading,
+    trainingLoading: state.ui.experimentTraining.loading,
+    trainingSucceeded: state.experiment.succeeded,
   };
 };
 
@@ -58,6 +60,8 @@ const mapStateToProps = (state) => {
 const ComponentsMenuBlockContainer = ({
   components,
   loading,
+  trainingLoading,
+  trainingSucceeded,
   componentsMenu,
   handleFetchComponentsMenu,
   handleFilterComponentsMenu,
@@ -102,7 +106,7 @@ const ComponentsMenuBlockContainer = ({
       handleComponentClick={createOperatorHandler}
       handleFilter={handleFilterComponentsMenu}
       menu={componentsMenu}
-      disabled={disabled}
+      disabled={disabled || trainingLoading || trainingSucceeded}
       loading={loading}
     />
   );
