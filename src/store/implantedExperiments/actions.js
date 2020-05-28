@@ -8,24 +8,63 @@ import implantedExperimentsMock from '../../components/Content/ImplantedExperime
 // SERVICE
 import implantedExperimentsApi from 'services/implantedExperimentsApi';
 
+// UI ACTIONS
+import {
+  implantedExperimentsLoadingData,
+  implantedExperimentsDataLoaded,
+} from '../ui/actions';
+
 // ACTIONS
 /**
  * fetch implanted experiments action
  * @returns {type, implantedExperiments}
  */
 
+/**
+ * fetch implanted experiments success action
+ * @param {Object} response
+ * @returns {Object} { type, implanted }
+ */
+const implantedExperimentsSuccess = (response) => (dispatch) => {
+  // getting implanted experiments from response
+  const implanted = response.data;
+
+  // dispatching implanted experiments table data loaded action
+  dispatch(implantedExperimentsDataLoaded());
+
+  // dispatching fetch implanted experiments success action
+  dispatch({
+    type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS,
+    implantedExperiments: implanted,
+  });
+};
+
+/**
+ * fetch implanted experiments fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const implantedExperimentsFail = (error) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching implanted experiments table data loaded action
+  dispatch(implantedExperimentsDataLoaded());
+
+  // dispatching fetch implanted experiments fail action
+  dispatch({
+    type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS_FAIL,
+    errorMessage,
+  });
+};
+
 export const fetchImplantedExperiments = () => (dispatch) => {
+  dispatch(implantedExperimentsLoadingData());
   // fetching experiment
   implantedExperimentsApi
     .getDeployedExperiments()
-    .then((response) => {
-      // dispatching request action
-      dispatch({
-        type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS,
-        implantedExperiments: response.data,
-      });
-    })
-    .catch((error) => console.log(error));
+    .then((response) => dispatch(implantedExperimentsSuccess(response)))
+    .catch((error) => dispatch(implantedExperimentsFail(error)));
 };
 
 /**

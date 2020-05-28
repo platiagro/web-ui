@@ -7,7 +7,6 @@ import { Table, Typography, Tooltip, Button, Badge } from 'antd';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
-import ImplantedExperimentsEmpty from '../../ImplantedExperimentsEmpty';
 import LogsDrawer from '../../LogsDrawer/Container';
 
 // STYLES
@@ -24,6 +23,7 @@ const ImplantedExperimentsTable = ({
   implantedExperiments,
   handleTestInference,
   handleOpenLog,
+  loading,
 }) => {
   // CONSTANTS
 
@@ -46,11 +46,11 @@ const ImplantedExperimentsTable = ({
         <Badge status={statusToBadge[value]} text={value} />
       ),
     },
-    // uuid
+    // name
     {
-      title: 'Identificador',
-      dataIndex: 'uuid',
-      key: 'uuid',
+      title: 'Nome',
+      dataIndex: 'name',
+      key: 'name',
     },
     // url column
     {
@@ -65,11 +65,11 @@ const ImplantedExperimentsTable = ({
         </Tooltip>
       ),
     },
-    // created column
+    // createdAt column
     {
       title: 'Data de Criação',
-      dataIndex: 'created',
-      key: 'created',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
     },
     // action column
     {
@@ -85,7 +85,9 @@ const ImplantedExperimentsTable = ({
           </Button>
           {/* upload inference test button */}
           <UploadInferenceTestButton
-            handleUpload={(file) => handleTestInference(record.uuid, file)}
+            handleUpload={(file) =>
+              handleTestInference(record.experimentId, file)
+            }
           />
         </>
       ),
@@ -94,19 +96,16 @@ const ImplantedExperimentsTable = ({
 
   // RENDER
   return (
-    // rendering implanted experiments table or implanted experiments empty
-    implantedExperiments.length > 0 ? (
-      <>
-        <Table
-          dataSource={implantedExperiments}
-          columns={columnsConfig}
-          pagination={{ pageSize: 9 }}
-        />
-        <LogsDrawer />
-      </>
-    ) : (
-      <ImplantedExperimentsEmpty />
-    )
+    // rendering implanted experiments table
+    <>
+      <Table
+        dataSource={implantedExperiments}
+        columns={columnsConfig}
+        pagination={{ pageSize: 9 }}
+        loading={loading}
+      />
+      <LogsDrawer />
+    </>
   );
 };
 

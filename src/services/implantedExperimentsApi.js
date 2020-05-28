@@ -8,6 +8,7 @@ const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:3000';
 const pipelinesApi = axios.create({
   baseURL: `${URL}`,
 });
+const deploymentsPath = '/deployments';
 
 /**
  * Get Deployed Experiments
@@ -17,7 +18,7 @@ const getDeployedExperiments = () =>
   new Promise((resolve, reject) => {
     // get deployed experiment
     pipelinesApi
-      .get(`http://www.mocky.io/v2/5ebad2383600007c00f7e38e`)
+      .get(deploymentsPath)
       // success
       .then((response) => resolve(response))
       // error

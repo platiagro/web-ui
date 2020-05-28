@@ -2,8 +2,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
+// UI LIBS
+import { ConfigProvider } from 'antd';
+
 // COMPONENTS
 import ImplantedExperimentsTable from './index';
+import ImplantedExperimentsEmpty from '../../ImplantedExperimentsEmpty';
 
 // ACTIONS
 import {
@@ -28,7 +32,10 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { implantedExperiments: state.implantedExperiments };
+  return {
+    implantedExperiments: state.implantedExperiments,
+    loading: state.ui.implantedExperiments.loading,
+  };
 };
 
 /**
@@ -42,6 +49,7 @@ const ImplantedExperimentsTableContainer = ({
   handleDeleteImplantedExperiment,
   handleTestImplantedExperimentInference,
   handleShowDrawer,
+  loading,
 }) => {
   // HOOKS
   // did mount hook
@@ -56,11 +64,14 @@ const ImplantedExperimentsTableContainer = ({
 
   // RENDER
   return (
-    <ImplantedExperimentsTable
-      implantedExperiments={implantedExperiments}
-      handleTestInference={handleTestImplantedExperimentInference}
-      handleOpenLog={handleShowDrawer}
-    />
+    <ConfigProvider renderEmpty={ImplantedExperimentsEmpty}>
+      <ImplantedExperimentsTable
+        implantedExperiments={implantedExperiments}
+        handleTestInference={handleTestImplantedExperimentInference}
+        handleOpenLog={handleShowDrawer}
+        loading={loading}
+      />
+    </ConfigProvider>
   );
 };
 
