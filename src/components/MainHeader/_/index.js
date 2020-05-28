@@ -13,7 +13,6 @@ import './style.scss';
 
 // IMAGES
 import logo from '../../../assets/logo-vazado.png';
-import logoDemo from '../../../assets/logoDemo.png';
 
 // LAYOUT COMPONENTS
 const { Header } = Layout;
@@ -30,12 +29,6 @@ const MainHeader = () => (
     <Logo logoSrc={logo} className='logoPlatiagro' altText='PlatIAgro logo' />
     {/* main menu */}
     <MainMenu />
-    {/* logo demo foragri */}
-    <Logo
-      logoSrc={logoDemo}
-      className='logoDemo'
-      altText='Demonstração ForAGRI'
-    />
   </Header>
 );
 
