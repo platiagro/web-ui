@@ -28,7 +28,11 @@ const BoolInput = ({
   // div container
   <div>
     {/* title */}
-    <h3>{label || title || name}</h3>
+    <h3>
+      {label || title || name}
+      {/* tip */}
+      {tip && <InputTip tip={tip} />}
+    </h3>
     {/* description */}
     <small>{description}</small>
     <div style={{ marginTop: '10px' }}>
@@ -49,8 +53,6 @@ const BoolInput = ({
         indicator={<Icon type='loading' spin />}
       />
     )}
-    {/* tip */}
-    {tip && <InputTip tip={tip} />}
     {/* warning */}
     {warning && (
       // warning paragraph container

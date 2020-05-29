@@ -39,7 +39,11 @@ const SelectInput = ({
     // div container
     <div>
       {/* title */}
-      <p>{label || title || name}</p>
+      <h3>
+        {label || title || name}
+        {/* tip */}
+        {tip && <InputTip tip={tip} />}
+      </h3>
       {/* description */}
       <small>{description}</small>
       {/* select input */}
@@ -67,8 +71,6 @@ const SelectInput = ({
             );
           })}
       </Select>
-      {/* tip */}
-      {tip && <InputTip tip={tip} />}
       {/* warning */}
       {warning && (
         // warning paragraph container
