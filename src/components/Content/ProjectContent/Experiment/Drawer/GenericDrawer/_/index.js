@@ -112,7 +112,7 @@ const inputTypes = {
           handleChange={handleChange}
           {...props}
           name={name}
-          description={description}
+          tip={description}
           loading={loading}
           disabled={trainingSucceeded || trainingLoading}
         />
@@ -149,7 +149,7 @@ const inputTypes = {
         <StringInput
           key={uuid || name}
           handleChange={handleChange}
-          description={description}
+          tip={description}
           {...props}
           name={name}
           loading={loading}
