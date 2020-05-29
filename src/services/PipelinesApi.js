@@ -9,7 +9,7 @@ const pipelinesApi = axios.create({
   baseURL: `${URL}`,
 });
 // train path
-const trainPath = '/training';
+const trainPath = '/trainings';
 // deploy path
 const deployPath = '/deployments';
 
