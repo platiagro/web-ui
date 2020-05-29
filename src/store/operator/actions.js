@@ -379,6 +379,11 @@ export const setOperatorParametersRequest = (
   // dispatching operator parameter loading data action
   dispatch(operatorParameterLoadingData());
 
+  // formating parameter value
+  const formatedValue = Array.isArray(parameterValue)
+    ? parameterValue.join(',')
+    : parameterValue;
+
   // filtering parameters with value
   const parametersWithValue = operator.parameters.filter(
     (parameter) => parameter.value
@@ -387,7 +392,12 @@ export const setOperatorParametersRequest = (
   // creating parameter object to update
   const parameters = {};
   parametersWithValue.forEach(({ name, value }) => {
-    parameters[name] = name === parameterName ? parameterValue : value;
+    parameters[name] =
+      name === parameterName
+        ? formatedValue !== null
+          ? formatedValue
+          : undefined
+        : value;
   });
 
   // creating operator object
@@ -410,7 +420,11 @@ export const setOperatorParametersRequest = (
         (parameter) => ({
           ...parameter,
           value:
-            parameter.name === parameterName ? parameterValue : parameter.value,
+            parameter.name === parameterName
+              ? parameterValue !== null
+                ? parameterValue
+                : undefined
+              : parameter.value,
         })
       );
 
