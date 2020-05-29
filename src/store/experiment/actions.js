@@ -19,7 +19,10 @@ import {
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
-import { fetchOperatorsRequest } from '../operators/actions';
+import {
+  fetchOperatorsRequest,
+  clearOperatorsFeatureParametersRequest,
+} from '../operators/actions';
 
 // ACTIONS
 // ** FETCH EXPERIMENT
@@ -404,14 +407,36 @@ export const deleteExperimentRequest = (
 /**
  * set dataset success action
  * @param {Object} response
+ * @param {string} projectId
+ * @param {string} experimentId
  * @returns {Object} { type, experiment }
  */
-const setDatasetSuccess = (response) => (dispatch) => {
+const setDatasetSuccess = (response, projectId, experimentId) => (dispatch) => {
   // getting experiment from response
   const experiment = response.data;
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
+
+  // dispatching fetch operators
+  dispatch(
+    fetchOperatorsRequest(
+      projectId,
+      experimentId,
+      experiment.dataset,
+      experiment.target
+    )
+  );
+
+  // dispatching clear operator feature parameters
+  dispatch(
+    clearOperatorsFeatureParametersRequest(
+      projectId,
+      experimentId,
+      experiment.dataset,
+      experiment.operators
+    )
+  );
 
   dispatch({
     type: actionTypes.SET_DATASET_SUCCESS,
@@ -458,7 +483,9 @@ export const setDatasetRequest = (projectId, experimentId, datasetName) => (
   // creating experiment
   experimentsApi
     .updateExperiment(projectId, experimentId, experiment)
-    .then((response) => dispatch(setDatasetSuccess(response)))
+    .then((response) =>
+      dispatch(setDatasetSuccess(response, projectId, experimentId))
+    )
     .catch((error) => dispatch(setDatasetFail(error)));
 };
 
