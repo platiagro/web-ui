@@ -34,7 +34,7 @@ const inputTypes = {
   ),
   // feature
   feature: (
-    { uuid, name, multiple, ...props },
+    { uuid, name, multiple, description, ...props },
     loading,
     handleChange,
     trainingSucceeded,
@@ -47,17 +47,17 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         loading={loading}
+        tip={description}
         disabled={trainingSucceeded || trainingLoading}
         placeholder='Selecionar colunas'
         {...props}
       />
-      <br />
-      <br />
+      <Divider />
     </>
   ),
   // number (float)
   number: (
-    { uuid, name, multiple, options, ...props },
+    { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
@@ -72,11 +72,11 @@ const inputTypes = {
           {...props}
           step='0.1'
           name={name}
+          tip={description}
           loading={loading}
           disabled={trainingSucceeded || trainingLoading}
         />
-        <br />
-        <br />
+        <Divider />
       </>
     ) : (
       // number select input
@@ -90,15 +90,15 @@ const inputTypes = {
           disabled={trainingSucceeded || trainingLoading}
           placeholder='Selecionar'
           options={options}
+          tip={description}
           {...props}
         />
-        <br />
-        <br />
+        <Divider />
       </>
     ),
   // integer
   integer: (
-    { uuid, name, multiple, options, ...props },
+    { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
@@ -112,11 +112,11 @@ const inputTypes = {
           handleChange={handleChange}
           {...props}
           name={name}
+          description={description}
           loading={loading}
           disabled={trainingSucceeded || trainingLoading}
         />
-        <br />
-        <br />
+        <Divider />
       </>
     ) : (
       // integer select input
@@ -130,15 +130,15 @@ const inputTypes = {
           disabled={trainingSucceeded || trainingLoading}
           placeholder='Selecionar'
           options={options}
+          tip={description}
           {...props}
         />
-        <br />
-        <br />
+        <Divider />
       </>
     ),
   // string
   string: (
-    { uuid, name, multiple, options, ...props },
+    { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
@@ -149,13 +149,13 @@ const inputTypes = {
         <StringInput
           key={uuid || name}
           handleChange={handleChange}
+          description={description}
           {...props}
           name={name}
           loading={loading}
           disabled={trainingSucceeded || trainingLoading}
         />
-        <br />
-        <br />
+        <Divider />
       </>
     ) : (
       // string select input
@@ -169,10 +169,10 @@ const inputTypes = {
           disabled={trainingSucceeded || trainingLoading}
           placeholder='Selecionar'
           options={options}
+          tip={description}
           {...props}
         />
-        <br />
-        <br />
+        <Divider />
       </>
     ),
 };
