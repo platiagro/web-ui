@@ -58,11 +58,14 @@ const SelectInput = ({
       >
         {/* rendering select options */}
         {options &&
-          options.map((option) => (
-            <Option key={option.uuid} value={option.uuid}>
-              {option.name}
-            </Option>
-          ))}
+          options.map((option) => {
+            const { uuid, name } = option;
+            return (
+              <Option key={uuid || option} value={uuid || option}>
+                {name || option}
+              </Option>
+            );
+          })}
       </Select>
       {/* tip */}
       {tip && <InputTip tip={tip} />}

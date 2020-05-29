@@ -294,7 +294,11 @@ const configureOperatorParameters = (
   const configuredOperatorParameters = componentParameters.map((parameter) => {
     return {
       ...parameter,
-      options: parameter.type === 'feature' ? featureOptions : undefined,
+      options: parameter.options
+        ? parameter.options
+        : parameter.type === 'feature'
+        ? featureOptions
+        : undefined,
       value:
         parameter.name in operatorParameters
           ? parameter.type === 'feature'

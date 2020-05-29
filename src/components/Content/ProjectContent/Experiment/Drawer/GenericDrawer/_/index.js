@@ -57,68 +57,124 @@ const inputTypes = {
   ),
   // number (float)
   number: (
-    { uuid, name, ...props },
+    { uuid, name, multiple, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) => (
-    <>
-      <NumberInput
-        key={uuid || name}
-        handleChange={handleChange}
-        {...props}
-        step='0.1'
-        name={name}
-        loading={loading}
-        disabled={trainingSucceeded || trainingLoading}
-      />
-      <br />
-      <br />
-    </>
-  ),
+  ) =>
+    options === undefined ? (
+      // simple number input
+      <>
+        <NumberInput
+          key={uuid || name}
+          handleChange={handleChange}
+          {...props}
+          step='0.1'
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+        />
+        <br />
+        <br />
+      </>
+    ) : (
+      // number select input
+      <>
+        <SelectInput
+          key={uuid || name}
+          isMultiple={multiple ? true : ''}
+          handleChange={(value) => handleChange(name, parseFloat(value))}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+          placeholder='Selecionar'
+          options={options}
+          {...props}
+        />
+        <br />
+        <br />
+      </>
+    ),
   // integer
   integer: (
-    { uuid, name, ...props },
+    { uuid, name, multiple, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) => (
-    <>
-      <NumberInput
-        key={uuid || name}
-        handleChange={handleChange}
-        {...props}
-        name={name}
-        loading={loading}
-        disabled={trainingSucceeded || trainingLoading}
-      />
-      <br />
-      <br />
-    </>
-  ),
+  ) =>
+    options === undefined ? (
+      // simple integer input
+      <>
+        <NumberInput
+          key={uuid || name}
+          handleChange={handleChange}
+          {...props}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+        />
+        <br />
+        <br />
+      </>
+    ) : (
+      // integer select input
+      <>
+        <SelectInput
+          key={uuid || name}
+          isMultiple={multiple ? true : ''}
+          handleChange={(value) => handleChange(name, parseInt(value))}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+          placeholder='Selecionar'
+          options={options}
+          {...props}
+        />
+        <br />
+        <br />
+      </>
+    ),
   // string
   string: (
-    { uuid, name, ...props },
+    { uuid, name, multiple, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) => (
-    <>
-      <StringInput
-        key={uuid || name}
-        handleChange={handleChange}
-        {...props}
-        name={name}
-        loading={loading}
-        disabled={trainingSucceeded || trainingLoading}
-      />
-      <br />
-      <br />
-    </>
-  ),
+  ) =>
+    options === undefined ? (
+      <>
+        <StringInput
+          key={uuid || name}
+          handleChange={handleChange}
+          {...props}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+        />
+        <br />
+        <br />
+      </>
+    ) : (
+      // string select input
+      <>
+        <SelectInput
+          key={uuid || name}
+          isMultiple={multiple ? true : ''}
+          handleChange={(value) => handleChange(name, value)}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+          placeholder='Selecionar'
+          options={options}
+          {...props}
+        />
+        <br />
+        <br />
+      </>
+    ),
 };
 
 /**
