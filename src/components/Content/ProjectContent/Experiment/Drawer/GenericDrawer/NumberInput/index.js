@@ -31,20 +31,27 @@ const NumberInput = ({
   // div container
   <div>
     {/* title */}
-    <p>{label || title || name}</p>
+    <h3>
+      {label || title || name}
+      {/* tip */}
+      {tip && <InputTip tip={tip} />}
+    </h3>
+
     {/* description */}
     <small>{description}</small>
-    {/* number input */}
-    <InputNumber
-      value={value}
-      onChange={(inputValue) => handleChange(name, inputValue)}
-      placeholder={placeholder}
-      min={min}
-      max={max}
-      step={step}
-      decimalSeparator=','
-      disabled={loading || disabled}
-    />
+    <div style={{ marginTop: '10px' }}>
+      {/* number input */}
+      <InputNumber
+        value={value}
+        onChange={(inputValue) => handleChange(name, inputValue)}
+        placeholder={placeholder}
+        min={min}
+        max={max}
+        step={step}
+        decimalSeparator=','
+        disabled={loading || disabled}
+      />
+    </div>
     {/* loading */}
     {loading && (
       <Spin
@@ -52,8 +59,6 @@ const NumberInput = ({
         indicator={<Icon type='loading' spin />}
       />
     )}
-    {/* tip */}
-    {tip && <InputTip tip={tip} />}
     {/* warning */}
     {warning && (
       // warning paragraph container

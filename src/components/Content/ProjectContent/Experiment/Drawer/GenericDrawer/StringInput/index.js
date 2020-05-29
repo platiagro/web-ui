@@ -28,17 +28,19 @@ const StringInput = ({
   // div container
   <div>
     {/* title */}
-    <p>{label || title || name}</p>
+    <h3>{label || title || name}</h3>
     {/* description */}
     <small>{description}</small>
-    {/* number input */}
-    <Input
-      value={value}
-      onChange={(e) => handleChange(name, e.target.value)}
-      placeholder={placeholder}
-      disabled={loading || disabled}
-      style={{ width: '90%' }}
-    />
+    <div style={{ marginTop: '10px' }}>
+      {/* string input */}
+      <Input
+        value={value}
+        onChange={(e) => handleChange(name, e.target.value)}
+        placeholder={placeholder}
+        disabled={loading || disabled}
+        style={{ width: '90%' }}
+      />
+    </div>
     {/* loading */}
     {loading && (
       <Spin
