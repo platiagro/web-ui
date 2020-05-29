@@ -70,7 +70,7 @@ const ImplantedExperimentsTableContainer = ({
       <ImplantedExperimentsTable
         implantedExperiments={implantedExperiments}
         handleTestInference={handleTestImplantedExperimentInference}
-        handleOpenLog={handleShowDrawer}
+        handleOpenLog={handleOpenLog}
         loading={loading}
       />
     </ConfigProvider>
