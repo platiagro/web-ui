@@ -32,6 +32,29 @@ const inputTypes = {
       name={name}
     />
   ),
+  // feature
+  feature: (
+    { uuid, name, multiple, ...props },
+    loading,
+    handleChange,
+    trainingSucceeded,
+    trainingLoading
+  ) => (
+    <>
+      <SelectInput
+        key={uuid || name}
+        isMultiple={multiple ? true : ''}
+        handleChange={(value) => handleChange(name, value)}
+        name={name}
+        loading={loading}
+        disabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar colunas'
+        {...props}
+      />
+      <br />
+      <br />
+    </>
+  ),
   // number (float)
   number: (
     { uuid, name, ...props },
