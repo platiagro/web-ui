@@ -418,23 +418,12 @@ const setDatasetSuccess = (response, projectId, experimentId) => (dispatch) => {
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
-  // dispatching fetch operators
-  dispatch(
-    fetchOperatorsRequest(
-      projectId,
-      experimentId,
-      experiment.dataset,
-      experiment.target
-    )
-  );
-
   // dispatching clear operator feature parameters
   dispatch(
     clearOperatorsFeatureParametersRequest(
       projectId,
       experimentId,
-      experiment.dataset,
-      experiment.operators
+      experiment.dataset
     )
   );
 
