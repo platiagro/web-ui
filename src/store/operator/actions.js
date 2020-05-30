@@ -397,6 +397,8 @@ export const setOperatorParametersRequest = (
         ? formatedValue !== null
           ? formatedValue
           : undefined
+        : Array.isArray(value)
+        ? value.join(',')
         : value;
   });
 

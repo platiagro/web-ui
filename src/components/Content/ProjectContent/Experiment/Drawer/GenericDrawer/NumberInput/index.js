@@ -1,5 +1,5 @@
 // CORE LIBS
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -27,50 +27,58 @@ const NumberInput = ({
   loading,
   disabled,
   handleChange,
-}) => (
-  // div container
-  <div>
-    {/* title */}
-    <h3>
-      {label || title || name}
-      {/* tip */}
-      {tip && <InputTip tip={tip} />}
-    </h3>
+}) => {
+  const inputRef = useRef();
 
-    {/* description */}
-    <small>{description}</small>
-    <div style={{ marginTop: '10px' }}>
-      {/* number input */}
-      <InputNumber
-        value={value}
-        onChange={(inputValue) => handleChange(name, inputValue)}
-        placeholder={placeholder}
-        min={min}
-        max={max}
-        step={step}
-        decimalSeparator=','
-        disabled={loading || disabled}
-      />
+  return (
+    // div container
+    <div>
+      {/* title */}
+      <h3>
+        {label || title || name}
+        {/* tip */}
+        {tip && <InputTip tip={tip} />}
+      </h3>
+
+      {/* description */}
+      <small>{description}</small>
+      <div style={{ marginTop: '10px' }}>
+        {/* number input */}
+        <InputNumber
+          ref={inputRef}
+          value={value}
+          onChange={(value) => {
+            handleChange(name, value);
+            inputRef.current.blur();
+          }}
+          placeholder={placeholder}
+          min={min}
+          max={max}
+          step={step}
+          decimalSeparator=','
+          disabled={loading || disabled}
+        />
+      </div>
+      {/* loading */}
+      {loading && (
+        <Spin
+          style={{ marginLeft: '1vw' }}
+          indicator={<Icon type='loading' spin />}
+        />
+      )}
+      {/* warning */}
+      {warning && (
+        // warning paragraph container
+        <p style={{ marginTop: 10 }}>
+          {/* warning icon */}
+          <Icon type='exclamation-circle' />
+          {/* warning message */}
+          <span style={{ marginLeft: 10 }}>{warning}</span>
+        </p>
+      )}
     </div>
-    {/* loading */}
-    {loading && (
-      <Spin
-        style={{ marginLeft: '1vw' }}
-        indicator={<Icon type='loading' spin />}
-      />
-    )}
-    {/* warning */}
-    {warning && (
-      // warning paragraph container
-      <p style={{ marginTop: 10 }}>
-        {/* warning icon */}
-        <Icon type='exclamation-circle' />
-        {/* warning message */}
-        <span style={{ marginLeft: 10 }}>{warning}</span>
-      </p>
-    )}
-  </div>
-);
+  );
+};
 
 // PROP TYPES
 NumberInput.propTypes = {

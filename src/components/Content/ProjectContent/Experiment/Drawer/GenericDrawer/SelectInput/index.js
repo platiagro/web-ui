@@ -33,8 +33,6 @@ const SelectInput = ({
   // ref hook
   const selectRef = useRef(null);
 
-  console.log(placeholder);
-
   return (
     // div container
     <div>
