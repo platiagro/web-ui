@@ -30,15 +30,15 @@ const ProjectContent = () => {
       {/* content header */}
       <ContentHeader />
       {/* div content page container */}
-      <div className='contentPage'>
+      <div className='contentPage' style={{padding: '0'}}>
         {/* project row container */}
         <Row gutter={24}>
           {/* menu column container */}
-          <Col span={5}>
+          <Col span={5} style={{backgroundColor: '#f2f0f5'}}>
             <ComponentsMenuBlock disabled={!experimentId} />
           </Col>
           {/* experiment column container */}
-          <Col span={19}>
+          <Col span={19} style={{backgroundColor: '#f2f0f5'}}>
             {/* experiment tabs row container */}
             {/* <Row gutter={15}> */}
             {/* experiment tabs column container */}
@@ -56,7 +56,12 @@ const ProjectContent = () => {
             </div>
             {/* </Row> */}
             {/* experiment row container */}
-            <Row>{experimentId ? <Experiment /> : <ExperimentEmpty />}</Row>
+            <Row style={{
+              backgroundColor: '#fff',
+              border: '1px solid #e8e8e8',
+              height: '74.1vh',
+              padding: '13px 16px'
+            }}>{experimentId ? <Experiment /> : <ExperimentEmpty />}</Row>
           </Col>
         </Row>
       </div>

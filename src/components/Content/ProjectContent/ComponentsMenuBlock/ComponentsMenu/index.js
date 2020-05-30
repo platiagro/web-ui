@@ -61,7 +61,7 @@ const ComponentsMenu = ({ menu, handleClick, disabled }) => {
     <Menu
       onClick={handleClick}
       mode='inline'
-      style={{ overflow: 'auto', padding: '10px', height: '68vh' }}
+      style={{ overflow: 'auto', height: '73vh' }}
       selectedKeys={[]}
     >
       {/* rendering sub menus */}

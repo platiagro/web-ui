@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm, Icon } from 'antd';
 
 /**
  * Delete Experiment Button.
@@ -21,12 +21,14 @@ const DeleteExperimentButton = ({ handleClick, disabled, loading }) => (
     {/* button component */}
     <Button
       disabled={disabled}
-      className='deleteExperimentButton'
+      className='ant-btn-oval'
       type='danger'
-      icon='delete'
       style={{ float: 'right' }}
       loading={loading}
-    />
+    >
+      <Icon type='delete' theme='outlined' />
+      Excluir
+    </Button>
   </Popconfirm>
 );
 

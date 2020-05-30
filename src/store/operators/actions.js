@@ -5,6 +5,7 @@ import actionTypes from './actionTypes';
 import operatorsApi from '../../services/OperatorsApi';
 import datasetsApi from '../../services/DatasetsApi';
 import componentsApi from '../../services/ComponentsApi';
+import pipelinesApi from '../../services/PipelinesApi';
 
 // UI ACTIONS
 import {
@@ -118,13 +119,19 @@ export const fetchOperatorsRequest = (
       datasetColumns = response.data;
     }
 
+    // gettins pipelines status
+    const pipelinesResponse = await pipelinesApi.getTrainExperimentStatus(
+      experimentId
+    );
+
     // configuring operators
     const configuredOperators = [
       dataset,
       ...utils.configureOperators(
         componentsResponse.data,
         operatorsResponse.data,
-        datasetColumns
+        datasetColumns,
+        pipelinesResponse.data
       ),
     ];
 
