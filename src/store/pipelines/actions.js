@@ -101,7 +101,12 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
   let isSucceeded = true;
 
   // checking status operators to verify if traning is running
-  if (Object.values(status).includes('Running')) isRunning = true;
+  if (
+    Object.values(status).includes('Running') ||
+    Object.values(status).length === 0
+  ) {
+    isRunning = true;
+  }
 
   // checking status operators to verify if traning is succeeded
   Object.values(status).forEach((statusValue) => {

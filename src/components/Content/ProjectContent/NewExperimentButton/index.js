@@ -14,8 +14,8 @@ const NewExperimentButton = ({ handleClick, disabled }) => (
   <Button
     disabled={disabled}
     onClick={handleClick}
-    className='newExperimentButton'
-    type='primary'
+    size='small'
+    type='add'
     icon='plus'
   />
 );

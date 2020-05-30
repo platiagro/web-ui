@@ -25,7 +25,7 @@ const Experiment = () => {
         <ExperimentHeader />
       </Row>
       {/* row container */}
-      <Row style={{ overflow: 'auto', height: '60vh' }}>
+      <Row style={{ overflow: 'auto', height: '65vh', alignItems: 'stretch' }}>
         {/* experiment flow */}
         <ExperimentFlow />
       </Row>

@@ -22,11 +22,12 @@ const RemoveOperatorButton = ({ handleClick, disabled, loading }) => (
     <Button
       disabled={disabled}
       type='danger'
+      size='large'
       loading={loading}
       block
     >
-      Excluir Tarefa
       <Icon type='delete' />
+      Excluir tarefa
     </Button>
   </Popconfirm>
 );
