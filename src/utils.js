@@ -301,7 +301,7 @@ const configureOperatorParameters = (
         : undefined,
       value:
         parameter.name in operatorParameters
-          ? parameter.type === 'feature'
+          ? parameter.type === 'feature' || parameter.multiple
             ? operatorParameters[parameter.name].split(',')
             : operatorParameters[parameter.name]
           : parameter.type === 'feature'
