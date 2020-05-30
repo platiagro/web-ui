@@ -56,7 +56,9 @@ const ExperimentHeader = ({
           disabled={loading || trainingLoading || !trainingSucceeded}
         />
         {/* new template button */}
-        <NewTemplateButton />
+        <NewTemplateButton
+          disabled={loading || trainingLoading}
+        />
         {/* delete button */}
         <DeleteExperimentButton
           disabled={loading || trainingLoading}
