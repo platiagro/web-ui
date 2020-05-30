@@ -144,21 +144,9 @@ export const fetchOperatorsRequest = (
  * @param {Object} response
  * @returns {Object} { type, operators }
  */
-const clearOperatorsFeatureParametersSuccess = (projectId, experiment) => (
-  dispatch
-) => {
+const clearOperatorsFeatureParametersSuccess = () => (dispatch) => {
   // dispatching operator parameter loading data action
   dispatch(operatorParameterDataLoaded());
-
-  // dispatching fetch operators
-  dispatch(
-    fetchOperatorsRequest(
-      projectId,
-      experiment.uuid,
-      experiment.dataset,
-      experiment.target
-    )
-  );
 
   // dispatching clear operators feature parameters success action
   dispatch({
@@ -186,18 +174,20 @@ const clearOperatorsFeatureParametersFail = (error) => (dispatch) => {
 };
 
 /**
- * clear operators feature parameters request action
+ * clear operators feature parameters if request action
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} datasetName
- * @param {object[]} operators
  * @returns {Function}
  */
 export const clearOperatorsFeatureParametersRequest = (
   projectId,
   experimentId,
-  operators
-) => async (dispatch) => {
+  datasetName
+) => async (dispatch, getState) => {
+  // getting operators
+  const { operators } = getState();
+
   // dispatching request action
   dispatch({
     type: actionTypes.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
@@ -207,40 +197,45 @@ export const clearOperatorsFeatureParametersRequest = (
   dispatch(operatorParameterLoadingData());
 
   try {
-    let operatorComponent;
-
-    // getting components
-    const { data: components } = await componentsApi.listComponents();
-
     const operatorsWithFeatureParameter = [];
+
+    let operatorComponent;
+    let datasetColumns = [];
+
+    // getting dataset columns
+    if (datasetName) {
+      const response = await datasetsApi.listDatasetColumns(datasetName);
+
+      datasetColumns = response.data;
+    }
+
+    // transforming dataset columns in feature options
+    const featureOptions = utils.transformColumnsInParameterOptions(
+      datasetColumns
+    );
 
     // getting all operators with feature parameter
     operators.forEach((operator) => {
-      const configuredOperator = { ...operator };
-
-      // getting operator component
-      operatorComponent = components.find(
-        (component) => component.uuid === operator.componentId
-      );
+      const newOperator = { ...operator };
 
       // getting operator feature parameters
-      const operatorFeatureParameters = operatorComponent.parameters.filter(
-        (parameter) =>
-          parameter.type === 'feature' && parameter.name !== 'target'
-      );
+      const operatorFeatureParameters = operator.parameters.filter(
+        (parameter, index) => {
+          if (parameter.type === 'feature' && parameter.name !== 'target') {
+            // updating feature parameter options
+            newOperator.parameters[index].options = featureOptions;
 
-      // configuring operator parameters
-      const configuredParameters = utils.configureOperatorParameters(
-        operatorComponent.parameters,
-        operator.parameters
-      );
+            return true;
+          }
 
-      configuredOperator.parameters = configuredParameters;
+          return false;
+        }
+      );
 
       // adding operator to list if it has feature parameters
       if (operatorFeatureParameters.length > 0)
         operatorsWithFeatureParameter.push({
-          ...configuredOperator,
+          ...newOperator,
           operatorFeatureParameters,
         });
     });
