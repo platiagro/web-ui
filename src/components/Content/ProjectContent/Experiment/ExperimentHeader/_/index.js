@@ -44,6 +44,10 @@ const ExperimentHeader = ({
       </Col>
       {/* column container */}
       <div className='buttons-config'>
+        {/* new template button */}
+        <NewTemplateButton
+          disabled={loading || trainingLoading}
+        />
         {/* train button */}
         <TrainExperimentButton
           handleClick={handleTrainExperiment}
@@ -54,10 +58,6 @@ const ExperimentHeader = ({
         <DeployExperimentButton
           handleClick={handleDeployExperiment}
           disabled={loading || trainingLoading || !trainingSucceeded}
-        />
-        {/* new template button */}
-        <NewTemplateButton
-          disabled={loading || trainingLoading}
         />
         {/* delete button */}
         <DeleteExperimentButton

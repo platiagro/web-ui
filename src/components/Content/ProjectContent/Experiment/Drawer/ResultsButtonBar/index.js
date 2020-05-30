@@ -19,10 +19,22 @@ const ResultsButtonBar = ({
     {/* rendering edit or results button */}
     {showingResults ? (
       // edit button
-      <Button onClick={handleEditClick}>Editar</Button>
+      <Button
+        onClick={handleEditClick}
+        className='ant-btn-oval'
+        type='primary'
+      >
+        Visualizar parâmetros
+      </Button>
     ) : (
       // results button
-      <Button onClick={handleResultsClick}>Resultados</Button>
+      <Button
+        onClick={handleResultsClick}
+        className='ant-btn-oval'
+        type='primary'
+      >
+        Visualizar resultado
+      </Button>
     )}
   </div>
 );

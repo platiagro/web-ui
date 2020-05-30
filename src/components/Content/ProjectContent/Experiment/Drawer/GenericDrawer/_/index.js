@@ -193,6 +193,19 @@ const GenericDrawer = ({
 }) => (
   // div container
   <div>
+    {/* rendering remove operator button */}
+    <div>
+      {!trainingSucceeded && (
+        <>
+          <RemoveOperatorButton
+            loading={loading}
+            handleClick={handleRemoveOperatorClick}
+            disabled={trainingLoading}
+          />
+          <Divider />
+        </>
+      )}
+    </div>
     {/* Render empty component when drawer is empty */}
     {drawerInputs && drawerInputs.length === 0 && (
       <Empty
@@ -224,14 +237,6 @@ const GenericDrawer = ({
         {drawerTip}
       </div>
     )}
-    {/* rendering remove operator button */}
-    <div>
-      <RemoveOperatorButton
-        loading={loading}
-        handleClick={handleRemoveOperatorClick}
-        disabled={trainingSucceeded || trainingLoading}
-      />
-    </div>
   </div>
 );
 

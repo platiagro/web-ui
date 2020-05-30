@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 
 /**
  * New Template Button.
@@ -14,11 +14,11 @@ const NewTemplateButton = ({ handleClick, disabled }) => (
   <Button
     disabled={disabled}
     onClick={handleClick}
-    className='newTemplateButton'
-    type='primary'
-    icon='save'
+    className='ant-btn-oval'
+    type='primary-inverse'
   >
-    Salvar Template
+    <Icon type='apartment' theme='outlined' />
+    Salvar como template
   </Button>
 );
 

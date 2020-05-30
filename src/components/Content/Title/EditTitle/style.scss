@@ -1,10 +1,12 @@
+@import '../../../../variables.scss';
+
 .custom-edit-input-icon
 {
   margin-left: 0.5em;
   margin-bottom: 0.5em;
   font-size: 20px;
   font-weight: 600;
-  color: #1890FF;
+  color: $primary-color;
   cursor: pointer;
 }
 
