@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 
 /**
  * Train Experiment Button.
@@ -18,10 +18,10 @@ const TrainExperimentButton = ({
   <Button
     disabled={disabled}
     onClick={handleClick}
-    className='trainExperimentButton'
+    className='ant-btn-oval'
     type='primary'
-    icon={experimentRunning ? 'loading' : 'play-circle'}
   >
+    {experimentRunning ? <Icon type='loading' /> : <Icon type='play-circle' theme='filled' />}
     Executar
   </Button>
 );
