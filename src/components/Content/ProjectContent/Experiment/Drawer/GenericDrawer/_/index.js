@@ -210,7 +210,7 @@ const GenericDrawer = ({
     {drawerInputs && drawerInputs.length === 0 && (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description='Não necessita de configuração'
+        description='Não há parâmetros para configuração'
       />
     )}
     {/* rendering drawer inputs */}

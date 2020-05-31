@@ -27,6 +27,7 @@ const ExperimentHeader = ({
   handleEditExperimentName,
   handleTrainExperiment,
   handleDeployExperiment,
+  empty,
 }) => (
     // row container
     <Row>
@@ -46,12 +47,12 @@ const ExperimentHeader = ({
       <div className='buttons-config'>
         {/* new template button */}
         <NewTemplateButton
-          disabled={loading || trainingLoading}
+          disabled={loading || trainingLoading || empty}
         />
         {/* train button */}
         <TrainExperimentButton
           handleClick={handleTrainExperiment}
-          disabled={loading || trainingLoading || trainingSucceeded}
+          disabled={loading || trainingLoading || trainingSucceeded || empty}
           experimentRunning={trainingLoading}
         />
         {/* deploy button */}
@@ -85,6 +86,8 @@ ExperimentHeader.propTypes = {
   loading: PropTypes.bool.isRequired,
   /** training is loading */
   trainingLoading: PropTypes.bool.isRequired,
+  /** is empty (there isn't any operators) */
+  empty: PropTypes.bool.isRequired,
 };
 
 // EXPORT
