@@ -101,7 +101,7 @@ h4.ant-typography, .ant-typography h4 {
   font-weight: 700 !important;
 }
 
-.ant-btn.ant-btn-oval {
+.ant-btn.ant-btn-oval, .ant-btn-oval>.ant-btn {
   border-radius: 20px;
 }
 
@@ -166,20 +166,5 @@ h4.ant-typography, .ant-typography h4 {
     background-color: darken($white, 5%);
     border-color: darken($gray-light, 5%);
     color: darken($gray-light, 30%);
-  }
-}
-
-.ant-btn.ant-btn-danger.ant-btn-block {
-  background-color: $danger-light;
-  border-color: $danger-light;
-  color: $danger-dark;
-
-  &:hover, &:focus {
-    background-color: darken($danger-light, 10%);
-    border-color: darken($danger-light, 10%);
-  }
-
-  span, .anticon {
-    font-size: 1rem;
   }
 }
