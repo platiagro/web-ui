@@ -54,6 +54,11 @@ body,
   }
 }
 
+.ant-table-tbody > tr:hover.ant-table-row-selected > td,
+.ant-table-tbody > tr.ant-table-row-selected td {
+  background-color: #e6f7ff !important;
+}
+
 .ant-menu {
   &.ant-menu-light {
     border-bottom: 1px solid #e8e8e8;

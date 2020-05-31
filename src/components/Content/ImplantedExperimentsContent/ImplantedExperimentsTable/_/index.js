@@ -24,8 +24,8 @@ const ImplantedExperimentsTable = ({
   handleTestInference,
   handleOpenLog,
   loading,
+  selectedExperiment,
 }) => {
-  // CONSTANTS
 
   // convert status to badge icon
   const statusToBadge = {
@@ -107,6 +107,7 @@ const ImplantedExperimentsTable = ({
         columns={columnsConfig}
         pagination={{ pageSize: 9 }}
         loading={loading}
+        rowClassName={(record) => record.name === selectedExperiment ? 'ant-table-row-selected' : '' }
       />
       <LogsDrawer />
     </>
