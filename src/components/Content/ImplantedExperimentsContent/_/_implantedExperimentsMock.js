@@ -12,7 +12,7 @@ const implantedExperimentsMock = [
     name: 'Experimento 02',
     url: 'http://experimento-02.com.br',
     created: '23/02/2020',
-    status: "Succeded"
+    status: "Succeeded"
   },
   {
     uuid: '03',

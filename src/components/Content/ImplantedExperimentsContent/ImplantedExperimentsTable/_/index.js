@@ -31,7 +31,7 @@ const ImplantedExperimentsTable = ({
   const statusToBadge = {
     Failed: 'error',
     Running: 'processing',
-    Succeded: 'success',
+    Succeeded: 'success',
   };
 
   // table columns config
