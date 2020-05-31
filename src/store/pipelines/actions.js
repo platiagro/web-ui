@@ -178,9 +178,15 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
 // ** DEPLOY EXPERIMENT
 /**
  * deploy experiment success action
+ * @param {string} experimentId
+ * @param {Object} routerProps
  * @returns {Object} { type }
  */
-const deployExperimentSuccess = () => {
+const deployExperimentSuccess = (experimentId, routerProps) => () => {
+  // go to deployed experiments
+  routerProps.history.push(`/experimentos-implantados`);
+
+  // dispatching deploy experiment success
   return {
     type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
   };
@@ -205,9 +211,10 @@ const deployExperimentFail = (error) => {
  * deploy experiment request action
  * @param {Object} experiment
  * @param {Object[]} operators
+ * @param {Object} routerProps
  * @returns {Function}
  */
-export const deployExperimentRequest = (experiment, operators) => (
+export const deployExperimentRequest = (experiment, operators, routerProps) => (
   dispatch
 ) => {
   // dispatching request action
@@ -235,7 +242,7 @@ export const deployExperimentRequest = (experiment, operators) => (
   // deploying experiment
   pipelinesApi
     .deployExperiment(deployObject)
-    .then(() => dispatch(deployExperimentSuccess()))
+    .then(() => dispatch(deployExperimentSuccess(experiment, routerProps)))
     .catch((error) => dispatch(deployExperimentFail(error)));
 };
 
