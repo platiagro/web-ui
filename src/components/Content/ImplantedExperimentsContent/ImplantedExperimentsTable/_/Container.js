@@ -1,6 +1,8 @@
 // CORE LIBS
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 
 // UI LIBS
 import { ConfigProvider } from 'antd';
@@ -50,7 +52,12 @@ const ImplantedExperimentsTableContainer = ({
   handleTestImplantedExperimentInference,
   handleShowDrawer,
   loading,
+  location,
 }) => {
+  // CONSTANTS
+  const params = queryString.parse(location.search);
+  const selectedExperiment = params['experiment'];
+
   // HOOKS
   // did mount hook
   useEffect(() => {
@@ -70,13 +77,13 @@ const ImplantedExperimentsTableContainer = ({
         handleTestInference={handleTestImplantedExperimentInference}
         handleOpenLog={handleShowDrawer}
         loading={loading}
+        selectedExperiment={selectedExperiment}
       />
     </ConfigProvider>
   );
 };
 
 // EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ImplantedExperimentsTableContainer);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps )(ImplantedExperimentsTableContainer)
+);
