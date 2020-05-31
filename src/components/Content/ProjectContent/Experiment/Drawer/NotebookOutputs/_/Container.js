@@ -29,8 +29,6 @@ const NotebookOutputsContainer = ({
   // getting experiment uuid
   const { experimentId } = useParams();
 
-  console.log('status');
-  console.log(status);
   // HANDLERS
   const openNotebook = () => {
     const jupyterDomain =
