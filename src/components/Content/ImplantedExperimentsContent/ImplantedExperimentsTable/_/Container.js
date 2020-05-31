@@ -41,6 +41,10 @@ const mapStateToProps = (state) => {
   };
 };
 
+// CONSTANTS
+// polling time in miliseconds;
+const pollingTime = 30000;
+
 /**
  * Implanted Experiments Table Container.
  * This component is responsible for create a logic container for implanted
@@ -66,8 +70,16 @@ const ImplantedExperimentsTableContainer = ({
   // HOOKS
   // did mount hook
   useEffect(() => {
-    // fetching projects
+    // fetching deployed experiments
     handleFetchImplantedExperiments();
+
+    // polling deployed experiments
+    const polling = setInterval(
+      () => handleFetchImplantedExperiments(),
+      pollingTime
+    );
+
+    return () => clearInterval(polling);
   }, []);
 
   const handleOpenLog = (deployId) => {
