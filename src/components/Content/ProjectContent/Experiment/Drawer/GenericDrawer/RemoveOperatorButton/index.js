@@ -21,12 +21,11 @@ const RemoveOperatorButton = ({ handleClick, disabled, loading }) => (
     {/* button component */}
     <Button
       disabled={disabled}
+      className='ant-btn-oval'
       type='danger'
-      size='large'
       loading={loading}
-      block
     >
-      <Icon type='delete' />
+      <Icon type='delete' theme='outlined' />
       Excluir tarefa
     </Button>
   </Popconfirm>
