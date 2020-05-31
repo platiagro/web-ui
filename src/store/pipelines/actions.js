@@ -242,7 +242,7 @@ export const deployExperimentRequest = (experiment, operators, routerProps) => (
   // deploying experiment
   pipelinesApi
     .deployExperiment(deployObject)
-    .then(() => dispatch(deployExperimentSuccess(experiment, routerProps)))
+    .then(() => dispatch(deployExperimentSuccess(experiment.uuid, routerProps)))
     .catch((error) => dispatch(deployExperimentFail(error)));
 };
 
