@@ -10,6 +10,7 @@ import DatasetDrawer from '../DatasetDrawer/_/Container';
 import GenericDrawer from '../GenericDrawer/_/Container';
 import ResultsDrawer from '../ResultsDrawer/_';
 import ResultsButtonBar from '../ResultsButtonBar';
+import NotebookOutputs from '../NotebookOutputs/_/Container';
 
 /**
  * Drawer.
@@ -59,6 +60,11 @@ const Drawer = ({
           handleResultsClick={handleResultsClick}
           showingResults={showResults}
         />
+      )}
+
+      {/* rendering link to Jupyter */}
+      {!isDataset && !showResults && (
+        <NotebookOutputs />
       )}
     </AntDrawer>
   );
