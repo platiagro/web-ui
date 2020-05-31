@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleTrainExperiment: (experiment, operators) =>
       dispatch(trainExperimentRequest(experiment, operators)),
     handleDeployExperiment: (experiment, operators) =>
-      dispatch(deployExperimentRequest(experiment, operators)),
+      dispatch(deployExperimentRequest(experiment, operators, routerProps)),
   };
 };
 
