@@ -96,6 +96,7 @@ const ExperimentHeaderContainer = ({
       handleTrainExperiment={trainExperimentHandler}
       handleDeployExperiment={deployExperimentHandler}
       loading={loading}
+      empty={operators.length < 2}
     />
   );
 };
