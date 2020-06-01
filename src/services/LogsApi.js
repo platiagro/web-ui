@@ -9,16 +9,17 @@ const pipelinesApi = axios.create({
   baseURL: `${URL}`,
 });
 
+const deploymentsPath = '/deployments';
+
 /**
  * Deploy Experiment Logs
  * @returns {Promise}
  */
 const getDeployExperimentLogs = (deployId) =>
   new Promise((resolve, reject) => {
-    console.log('[SERVICE]', deployId);
     // deploying experiment logs
-    axios
-      .get('http://www.mocky.io/v2/5eb40e730e0000af2f081897?mocky-delay=1000ms')
+    pipelinesApi
+      .get(`${deploymentsPath}/logs?name=${deployId}`)
       // success
       .then((response) => resolve(response))
       // error
