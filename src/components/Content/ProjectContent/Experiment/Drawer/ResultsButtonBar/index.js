@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button } from 'antd';
+import { Button, Divider } from 'antd';
 
 /**
  * Results Button Bar.
@@ -27,14 +27,19 @@ const ResultsButtonBar = ({
         Visualizar parâmetros
       </Button>
     ) : (
-      // results button
-      <Button
-        onClick={handleResultsClick}
-        className='ant-btn-oval'
-        type='primary'
-      >
-        Visualizar resultado
-      </Button>
+      <>
+        {/* results button */}
+        <Button
+          onClick={handleResultsClick}
+          className='ant-btn-oval'
+          type='primary'
+        >
+          Visualizar resultado
+        </Button>
+
+        {/* divider */}
+        <Divider />
+      </>
     )}
   </div>
 );
