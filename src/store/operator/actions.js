@@ -26,13 +26,41 @@ import utils from '../../utils';
 // ** GET OPERATOR RESULTS
 /**
  * get operator results success action
- * @param {Object} response
+ * @param {Object} responseFigure
+ * @param {Object} responseTable
  * @param {string} operatorId
  * @returns {Object} { type, results }
  */
-const getOperatorResultsSuccess = (response, operatorId) => (dispatch) => {
-  // getting results
-  const results = utils.transformResults(operatorId, response.data);
+const getOperatorResultsSuccess = (
+  responseFigure,
+  responseTable,
+  operatorId
+) => (dispatch) => {
+  // getting figure results
+  const results = utils.transformResults(operatorId, responseFigure.data);
+
+  if (responseTable) {
+    // create columns in antd format
+    let tableColumns = [];
+    let index = 0;
+    for (let column of responseTable.data.columns) {
+      let tableColumn = {
+        title: column,
+        dataIndex: index,
+      };
+      tableColumns.push(tableColumn);
+      index++;
+    }
+
+    results.push({
+      type: 'table',
+      uuid: `table-${operatorId}`,
+      resultTable: {
+        columns: tableColumns,
+        rows: responseTable.data.data,
+      },
+    });
+  }
 
   // dispatching operator results data loaded action
   dispatch(operatorResultsDataLoaded());
@@ -83,12 +111,22 @@ export const getOperatorResultsRequest = (
   // dispatching operator results loading data action
   dispatch(operatorResultsLoadingData());
 
-  // creating operator
+  // get operator figure result
   operatorsApi
     .getOperatorResults(projectId, experimentId, operatorId)
-    .then((response) => {
-      // dispatching success action
-      dispatch(getOperatorResultsSuccess(response, operatorId));
+    .then((responseFigure) => {
+      // get operator dataset result
+      operatorsApi
+        .getOperatorResultsDataset(projectId, experimentId, operatorId)
+        .then((responseTable) => {
+          dispatch(
+            getOperatorResultsSuccess(responseFigure, responseTable, operatorId)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(getOperatorResultsSuccess(responseFigure, null, operatorId));
+        });
     })
     .catch((error) => dispatch(getOperatorResultsFail(error)));
 };
