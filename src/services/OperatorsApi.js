@@ -101,6 +101,26 @@ const updateOperator = (projectId, experimentId, operatorId, operator) =>
   });
 
 /**
+ * Get Operator Results Dataset
+ *
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} operatorId
+ * @returns {Promise}
+ */
+const getOperatorResultsDataset = (projectId, experimentId, operatorId) =>
+  new Promise((resolve, reject) => {
+    operatorsApi
+      .get(
+        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets`
+      )
+      // success
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+
+/**
  * Get Operator Results
  *
  * @param {string} projectId
@@ -143,6 +163,7 @@ export default {
   createOperator,
   deleteOperator,
   updateOperator,
+  getOperatorResultsDataset,
   getOperatorResults,
   /*   detailOperator,
    */
