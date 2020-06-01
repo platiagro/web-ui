@@ -43,6 +43,7 @@ const Drawer = ({
       visible={isVisible}
       closable
       onClose={handleClose}
+      keyboard={false}
     >
       {/* rendering data set drawer */}
       {isDataset && !showResults && <DatasetDrawer />}
@@ -63,9 +64,7 @@ const Drawer = ({
       )}
 
       {/* rendering link to Jupyter */}
-      {!isDataset && !showResults && (
-        <NotebookOutputs />
-      )}
+      {!isDataset && !showResults && <NotebookOutputs />}
     </AntDrawer>
   );
 };

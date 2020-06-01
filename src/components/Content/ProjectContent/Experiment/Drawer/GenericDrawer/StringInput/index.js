@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -25,7 +25,31 @@ const StringInput = ({
   loading,
   disabled,
 }) => {
-  const [inputValue, setInputValue] = useState(value);
+  // HOOKS
+  const inputRef = useRef();
+  const [currentValue, setCurrentValue] = useState(value);
+
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
+  // FUNCTIONS
+  const handleKeyPress = async (e) => {
+    if (e.key === 'Enter') {
+      e.currentTarget.blur();
+    } else if (e.key === 'Escape') {
+      await setCurrentValue(value);
+      inputRef.current.blur();
+    }
+  };
+
+  const beforeSubmit = () => {
+    const trimmedValue = value.trim();
+    const trimmedCurrentValue = currentValue.trim();
+
+    // new value is different from old
+    if (value !== currentValue) handleChange(name, currentValue);
+  };
 
   return (
     // div container
@@ -41,10 +65,11 @@ const StringInput = ({
       <div style={{ marginTop: '10px' }}>
         {/* string input */}
         <Input
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onBlur={() => setInputValue(value)}
-          onPressEnter={(e) => handleChange(name, e.target.value)}
+          ref={inputRef}
+          value={currentValue}
+          onChange={(e) => setCurrentValue(e.target.value)}
+          onBlur={beforeSubmit}
+          onKeyUp={handleKeyPress}
           placeholder={placeholder}
           disabled={loading || disabled}
           style={{ width: '90%' }}
