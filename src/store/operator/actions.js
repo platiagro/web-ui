@@ -43,7 +43,7 @@ const getOperatorResultsSuccess = (
     // create columns in antd format
     let tableColumns = [];
     let index = 0;
-    for (let column of responseTable.columns) {
+    for (let column of responseTable.data.columns) {
       let tableColumn = {
         title: column,
         dataIndex: index,
@@ -57,7 +57,7 @@ const getOperatorResultsSuccess = (
       uuid: `table-${operatorId}`,
       resultTable: {
         columns: tableColumns,
-        rows: responseTable.data,
+        rows: responseTable.data.data,
       },
     });
   }
