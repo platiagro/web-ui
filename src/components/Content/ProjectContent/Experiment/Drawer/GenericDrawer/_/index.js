@@ -10,6 +10,7 @@ import SelectInput from '../SelectInput';
 import RadioInput from '../RadioInput';
 import NumberInput from '../NumberInput';
 import StringInput from '../StringInput';
+import BooleanInput from '../BooleanInput';
 import RemoveOperatorButton from '../RemoveOperatorButton';
 
 // INPUT TYPES
@@ -175,6 +176,29 @@ const inputTypes = {
         <Divider />
       </>
     ),
+  // boolean
+  boolean: (
+    { uuid, name, multiple, description, ...props },
+    loading,
+    handleChange,
+    trainingSucceeded,
+    trainingLoading
+  ) => (
+    <>
+      <BooleanInput
+        key={uuid || name}
+        isMultiple={multiple ? true : ''}
+        handleChange={(name, value) => handleChange(name, value)}
+        name={name}
+        loading={loading}
+        tip={description}
+        disabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar colunas'
+        {...props}
+      />
+      <Divider />
+    </>
+  ),
 };
 
 /**
