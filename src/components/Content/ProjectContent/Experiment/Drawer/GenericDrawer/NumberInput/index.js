@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -28,7 +28,28 @@ const NumberInput = ({
   disabled,
   handleChange,
 }) => {
+  // HOOKS
   const inputRef = useRef();
+  const [currentValue, setCurrentValue] = useState(value);
+
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
+  // FUNCTIONS
+  const handleKeyPress = async (e) => {
+    if (e.key === 'Enter') {
+      e.currentTarget.blur();
+    } else if (e.key === 'Escape') {
+      await setCurrentValue(value);
+      inputRef.current.blur();
+    }
+  };
+
+  const beforeSubmit = () => {
+    // new value is different from old
+    if (value !== currentValue) handleChange(name, currentValue);
+  };
 
   return (
     // div container
@@ -46,10 +67,9 @@ const NumberInput = ({
         {/* number input */}
         <InputNumber
           ref={inputRef}
-          value={value}
+          value={currentValue}
           onChange={(value) => {
-            handleChange(name, value);
-            inputRef.current.blur();
+            setCurrentValue(value);
           }}
           placeholder={placeholder}
           min={min}
@@ -57,6 +77,8 @@ const NumberInput = ({
           step={step}
           decimalSeparator=','
           disabled={loading || disabled}
+          onKeyUp={handleKeyPress}
+          onBlur={beforeSubmit}
         />
       </div>
       {/* loading */}
