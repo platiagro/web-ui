@@ -21,6 +21,7 @@ import { fetchDatasetColumnsRequest } from '../dataset/actions';
 
 // UTILS
 import utils from '../../utils';
+import DatasetsApi from 'services/DatasetsApi';
 
 // ACTIONS
 // ** GET OPERATOR RESULTS
@@ -209,7 +210,7 @@ export const createOperatorRequest = (
   experimentId,
   componentId,
   components
-) => (dispatch) => {
+) => async (dispatch, getState) => {
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_OPERATOR_REQUEST,
@@ -227,10 +228,34 @@ export const createOperatorRequest = (
     parameters,
   } = utils.getComponentData(components, componentId);
 
+  // getting dataset name
+  const {
+    experiment: { dataset: datasetName },
+  } = getState();
+
+  console.log(datasetName);
+
+  // getting dataset columns
+  let datasetColumns = [];
+  if (datasetName)
+    try {
+      const response = await DatasetsApi.listDatasetColumns(datasetName);
+
+      datasetColumns = response.data;
+    } catch (e) {
+      dispatch(createOperatorFail(e));
+    }
+
+  // configuring feature options
+  const featureOptions = utils.transformColumnsInParameterOptions(
+    datasetColumns
+  );
+
   // configuring parameters
   const configuredParameters = utils.configureOperatorParameters(
     parameters,
-    parameters
+    parameters,
+    featureOptions
   );
 
   // creating operator
