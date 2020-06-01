@@ -9,10 +9,10 @@ import { Icon, Switch, Spin } from 'antd';
 import InputTip from '../../InputTip';
 
 /**
- * Bool Input.
- * This component is responsible for displaying bool (switch) input in generic drawer.
+ * Boolean Input.
+ * This component is responsible for displaying boolean (switch) input in generic drawer.
  */
-const BoolInput = ({
+const BooleanInput = ({
   title,
   label,
   name,
@@ -38,11 +38,12 @@ const BoolInput = ({
     <div style={{ marginTop: '10px' }}>
       {/* string input */}
       <Switch
+        checkedChildren={<Icon type='check' />}
+        unCheckedChildren={<Icon type='close' />}
         defaultChecked={value}
         onChange={(value) => handleChange(name, value)}
         placeholder={placeholder}
         disabled={loading || disabled}
-        style={{ width: '90%' }}
         loading={loading}
       />
     </div>
@@ -67,7 +68,7 @@ const BoolInput = ({
 );
 
 // PROP TYPES
-BoolInput.propTypes = {
+BooleanInput.propTypes = {
   /** string input title string */
   title: PropTypes.string.isRequired,
   /** string input label string */
@@ -95,7 +96,7 @@ BoolInput.propTypes = {
 };
 
 // PROP DEFAULT VALUES
-BoolInput.defaultProps = {
+BooleanInput.defaultProps = {
   /** string input warning message string */
   warning: undefined,
   /** string input tip message string */
@@ -109,4 +110,4 @@ BoolInput.defaultProps = {
 };
 
 // EXPORT
-export default BoolInput;
+export default BooleanInput;
