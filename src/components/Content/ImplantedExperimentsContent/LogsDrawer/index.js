@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Drawer as AntDrawer, Tabs, Table, ConfigProvider, Empty } from 'antd';
+import { Drawer as AntDrawer, Tabs, Table, ConfigProvider } from 'antd';
 
 const { TabPane } = Tabs;
 
