@@ -46,6 +46,9 @@ const Drawer = ({ title, isVisible, logs, handleClose }) => {
       title: 'Mensagem',
       dataIndex: 'message',
       key: 'message',
+      render: (value) => (
+        <span style={{ fontFamily: 'Monospace' }}>{value}</span>
+      ),
     },
   ];
 
