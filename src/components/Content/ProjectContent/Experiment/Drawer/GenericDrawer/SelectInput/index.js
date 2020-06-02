@@ -61,7 +61,7 @@ const SelectInput = ({
         {/* rendering select options */}
         {options &&
           options.map((option) => {
-            const { uuid, optionName } = option;
+            const { uuid, name: optionName } = option;
             return (
               <Option key={uuid || option} value={uuid || option}>
                 {optionName || option}
