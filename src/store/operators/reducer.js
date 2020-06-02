@@ -85,7 +85,18 @@ const operators = (state = initialState, action) => {
     case pipelinesActionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS:
       return state.map((operator) => ({
         ...operator,
-        status: action.status[operator.uuid],
+        status:
+          operator.uuid === 'dataset'
+            ? 'Succeeded'
+            : action.status[operator.uuid]
+            ? action.status[operator.uuid]
+            : 'Pending',
+      }));
+    // train experiment success
+    case pipelinesActionTypes.TRAIN_EXPERIMENT_SUCCESS:
+      return state.map((operator) => ({
+        ...operator,
+        status: operator.uuid === 'dataset' ? 'Succeeded' : 'Pending',
       }));
 
     // FAIL
