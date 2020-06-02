@@ -48,7 +48,8 @@ const StringInput = ({
     const trimmedCurrentValue = currentValue.trim();
 
     // new value is different from old
-    if (value !== currentValue) handleChange(name, currentValue);
+    if (trimmedValue !== trimmedCurrentValue)
+      handleChange(name, trimmedCurrentValue);
   };
 
   return (

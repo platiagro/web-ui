@@ -206,7 +206,6 @@ export const clearOperatorsFeatureParametersRequest = (
   try {
     const operatorsWithFeatureParameter = [];
 
-    let operatorComponent;
     let datasetColumns = [];
 
     // getting dataset columns

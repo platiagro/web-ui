@@ -188,7 +188,7 @@ const inputTypes = {
       <BooleanInput
         key={uuid || name}
         isMultiple={multiple ? true : ''}
-        handleChange={(name, value) => handleChange(name, value)}
+        handleChange={(inputName, value) => handleChange(inputName, value)}
         name={name}
         loading={loading}
         tip={description}

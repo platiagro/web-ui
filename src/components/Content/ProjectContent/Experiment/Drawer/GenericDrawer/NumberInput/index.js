@@ -68,8 +68,8 @@ const NumberInput = ({
         <InputNumber
           ref={inputRef}
           value={currentValue}
-          onChange={(value) => {
-            setCurrentValue(value);
+          onChange={(valueReceived) => {
+            setCurrentValue(valueReceived);
           }}
           placeholder={placeholder}
           min={min}

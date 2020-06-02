@@ -61,10 +61,10 @@ const SelectInput = ({
         {/* rendering select options */}
         {options &&
           options.map((option) => {
-            const { uuid, name } = option;
+            const { uuid, optionName } = option;
             return (
               <Option key={uuid || option} value={uuid || option}>
-                {name || option}
+                {optionName || option}
               </Option>
             );
           })}

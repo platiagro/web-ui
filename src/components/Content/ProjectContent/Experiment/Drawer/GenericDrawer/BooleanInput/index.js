@@ -41,7 +41,7 @@ const BooleanInput = ({
         checkedChildren={<Icon type='check' />}
         unCheckedChildren={<Icon type='close' />}
         defaultChecked={value}
-        onChange={(value) => handleChange(name, value)}
+        onChange={(valueReceived) => handleChange(name, valueReceived)}
         placeholder={placeholder}
         disabled={loading || disabled}
         loading={loading}
