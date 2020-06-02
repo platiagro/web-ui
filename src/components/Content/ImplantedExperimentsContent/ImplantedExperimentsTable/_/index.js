@@ -31,7 +31,7 @@ const ImplantedExperimentsTable = ({
   const statusToBadge = {
     Failed: 'error',
     Running: 'processing',
-    Succeded: 'success',
+    Succeeded: 'success',
   };
 
   // table columns config
@@ -70,6 +70,7 @@ const ImplantedExperimentsTable = ({
       title: 'Data de Criação',
       dataIndex: 'createdAt',
       key: 'createdAt',
+      render: (value) => new Date(value).toLocaleString(),
     },
     // action column
     {
@@ -80,7 +81,10 @@ const ImplantedExperimentsTable = ({
         // fragment container
         <>
           {/* see error logs */}
-          <Button type='link' onClick={handleOpenLog}>
+          <Button
+            type='link'
+            onClick={() => handleOpenLog(record.experimentId)}
+          >
             Logs
           </Button>
           {/* upload inference test button */}

@@ -398,6 +398,14 @@ const transformResults = (operatorId, results) => {
   return newResults;
 };
 
+const getErrorMessage = (error) => {
+  let msg = error.message;
+  if (error.response && error.response.data && error.response.data.message)
+    msg = error.response.data.message;
+
+  return msg;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -411,4 +419,5 @@ export default {
   selectOperator,
   transformResults,
   checkOperatorSettedUp,
+  getErrorMessage,
 };

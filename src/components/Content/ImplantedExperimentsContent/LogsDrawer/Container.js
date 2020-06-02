@@ -7,7 +7,6 @@ import Drawer from './index';
 
 // ACTIONS
 import { hideDrawer } from 'store/ui/actions';
-/* import { fetchOperatorRequest } from '../../../../../../store/operator/actions'; */
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -23,12 +22,13 @@ const mapStateToProps = (state) => {
     drawer: state.ui.drawer,
     results: state.operator.results,
     resultsLoading: state.ui.operatorResults.loading,
+    logs: state.logs.logs,
   };
 };
 
 /**
- * Drawer Container.
- * This component is responsible for create a logic container for drawer with
+ * Drawer Logs Container.
+ * This component is responsible for create a logic container for drawer log with
  * redux.
  */
 const DrawerContainer = ({
@@ -36,22 +36,8 @@ const DrawerContainer = ({
   handleHideDrawer,
   results,
   resultsLoading,
+  logs,
 }) => {
-  /*   // CONSTANTS
-  // getting experiment uuid
-  const { operatorId } = useParams();
-
-  // HOOKS
-  // did mount hook
-  useEffect(() => {
-    // fetching menu tasks
-    handleFetchOperator();
-  }, []);
-
-  // HANDLERS
-  const addFlowTaskHandler = (taskUuid) =>
-    handleAddFlowTask(experimentUuid, taskUuid); */
-
   // RENDER
   return (
     <Drawer
@@ -61,6 +47,7 @@ const DrawerContainer = ({
       results={results}
       resultsLoading={resultsLoading}
       title={drawer.title}
+      logs={logs}
     />
   );
 };
