@@ -3,7 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Typography, Tooltip, Button, Badge, Modal } from 'antd';
+import {
+  Table,
+  Typography,
+  Tooltip,
+  Popconfirm,
+  Badge,
+  Divider,
+  Button,
+  Modal,
+} from 'antd';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
@@ -23,6 +32,7 @@ const ImplantedExperimentsTable = ({
   implantedExperiments,
   handleTestInference,
   handleOpenLog,
+  handleDeleteImplantedExperiment,
   loading,
   selectedExperiment,
   experimentInference,
@@ -83,12 +93,20 @@ const ImplantedExperimentsTable = ({
         // fragment container
         <>
           {/* see error logs */}
-          <Button
-            type='link'
-            onClick={() => handleOpenLog(record.experimentId)}
+          <Popconfirm
+            placement='left'
+            title='Você tem certeza que deseja excluir essa implantação?'
+            okText='Sim'
+            cancelText='Não'
+            onConfirm={() =>
+              handleDeleteImplantedExperiment(record.experimentId)
+            }
           >
-            Logs
-          </Button>
+            <a>Deletar</a>
+          </Popconfirm>
+          <Divider type='vertical' />
+          <a onClick={() => handleOpenLog(record.experimentId)}>Logs</a>
+          <Divider type='vertical' />
           {/* upload inference test button */}
           <UploadInferenceTestButton
             handleUpload={(file) =>

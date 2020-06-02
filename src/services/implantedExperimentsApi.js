@@ -46,4 +46,5 @@ const testDeployedExperiments = (id, body) =>
 export default {
   getDeployedExperiments,
   testDeployedExperiments,
+  deleteDeployedExperiments,
 };

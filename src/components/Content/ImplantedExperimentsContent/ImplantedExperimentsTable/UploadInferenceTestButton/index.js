@@ -49,10 +49,10 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
       {...props}
     >
       {/* upload button link */}
-      <Button type='link'>
-        <Icon type='upload' style={{ marginRight: -5 }} />
+      <a>
+        <Icon type='upload' style={{ marginRight: 5 }} />
         Testar Inferência
-      </Button>
+      </a>
     </Upload>
   );
 };
