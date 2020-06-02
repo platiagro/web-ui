@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm, Icon } from 'antd';
 
 /**
  * Remove Operator Button.
@@ -12,7 +12,7 @@ import { Button, Popconfirm } from 'antd';
 const RemoveOperatorButton = ({ handleClick, disabled, loading }) => (
   // Popconfirm component
   <Popconfirm
-    title='Você tem certeza que deseja excluir esse operador?'
+    title='Você tem certeza que deseja excluir esta tarefa?'
     onConfirm={handleClick}
     okText='Sim'
     cancelText='Não'
@@ -21,12 +21,13 @@ const RemoveOperatorButton = ({ handleClick, disabled, loading }) => (
     {/* button component */}
     <Button
       disabled={disabled}
-      className='removeOperatorButton'
+      className='ant-btn-oval'
       type='danger'
-      icon='delete'
-      style={{ float: 'right', marginTop: '1vh' }}
       loading={loading}
-    />
+    >
+      <Icon type='delete' theme='outlined' />
+      Excluir tarefa
+    </Button>
   </Popconfirm>
 );
 

@@ -98,6 +98,8 @@
 
     &.Succeeded {
       background: #d9f7be;
+      border-style: solid;
+      border-color: #52c41a;
     }
     &.Failed {
       background: #fff1f0;

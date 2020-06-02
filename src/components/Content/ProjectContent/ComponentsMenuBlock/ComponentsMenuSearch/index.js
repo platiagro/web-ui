@@ -22,7 +22,12 @@ const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
   // RENDER
   return (
     // div container
-    <div>
+    <div
+      style={{
+        padding: '10px 16px',
+        backgroundColor: '#fff',
+        border: '1px solid #e8e8e8'
+      }}>
       {/* search input */}
       <Input
         disabled={disabled}

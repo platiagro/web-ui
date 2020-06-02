@@ -21,6 +21,7 @@ import { fetchDatasetColumnsRequest } from '../dataset/actions';
 
 // UTILS
 import utils from '../../utils';
+import DatasetsApi from 'services/DatasetsApi';
 
 // ACTIONS
 // ** GET OPERATOR RESULTS
@@ -247,7 +248,7 @@ export const createOperatorRequest = (
   experimentId,
   componentId,
   components
-) => (dispatch) => {
+) => async (dispatch, getState) => {
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_OPERATOR_REQUEST,
@@ -265,10 +266,34 @@ export const createOperatorRequest = (
     parameters,
   } = utils.getComponentData(components, componentId);
 
+  // getting dataset name
+  const {
+    experiment: { dataset: datasetName },
+  } = getState();
+
+  console.log(datasetName);
+
+  // getting dataset columns
+  let datasetColumns = [];
+  if (datasetName)
+    try {
+      const response = await DatasetsApi.listDatasetColumns(datasetName);
+
+      datasetColumns = response.data;
+    } catch (e) {
+      dispatch(createOperatorFail(e));
+    }
+
+  // configuring feature options
+  const featureOptions = utils.transformColumnsInParameterOptions(
+    datasetColumns
+  );
+
   // configuring parameters
   const configuredParameters = utils.configureOperatorParameters(
     parameters,
-    parameters
+    parameters,
+    featureOptions
   );
 
   // creating operator
@@ -417,6 +442,11 @@ export const setOperatorParametersRequest = (
   // dispatching operator parameter loading data action
   dispatch(operatorParameterLoadingData());
 
+  // formating parameter value
+  const formatedValue = Array.isArray(parameterValue)
+    ? parameterValue.join(',')
+    : parameterValue;
+
   // filtering parameters with value
   const parametersWithValue = operator.parameters.filter(
     (parameter) => parameter.value
@@ -425,7 +455,14 @@ export const setOperatorParametersRequest = (
   // creating parameter object to update
   const parameters = {};
   parametersWithValue.forEach(({ name, value }) => {
-    parameters[name] = name === parameterName ? parameterValue : value;
+    parameters[name] =
+      name === parameterName
+        ? formatedValue !== null
+          ? formatedValue
+          : undefined
+        : Array.isArray(value)
+        ? value.join(',')
+        : value;
   });
 
   // creating operator object
@@ -448,7 +485,11 @@ export const setOperatorParametersRequest = (
         (parameter) => ({
           ...parameter,
           value:
-            parameter.name === parameterName ? parameterValue : parameter.value,
+            parameter.name === parameterName
+              ? parameterValue !== null
+                ? parameterValue
+                : undefined
+              : parameter.value,
         })
       );
 

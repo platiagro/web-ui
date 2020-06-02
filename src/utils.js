@@ -233,7 +233,7 @@ const getComponentData = (components, componentId) => {
   // params to filter constant
   const parametersToFilter = [
     'dataset',
-    'target',
+    //'target',
     'experiment_id',
     'operator_id',
   ];
@@ -278,24 +278,56 @@ const getComponentData = (components, componentId) => {
 
 /**
  * Configure Operator Parameters
+ *
  * Method to configure operator parameters
+ *
  * @param {Object[]} componentParameters
  * @param {Object} operatorParameters
+ * @param {Object[]} featureOptions
  * @returns {Object[]} configured operator parameters
  */
 const configureOperatorParameters = (
   componentParameters,
-  operatorParameters
+  operatorParameters,
+  featureOptions
 ) => {
-  const configuredOperatorParameters = componentParameters.map((parameter) => ({
-    ...parameter,
-    value:
-      parameter.name in operatorParameters
-        ? operatorParameters[parameter.name]
-        : parameter.default,
-  }));
+  const configuredOperatorParameters = componentParameters.map((parameter) => {
+    return {
+      ...parameter,
+      options: parameter.options
+        ? parameter.options
+        : parameter.type === 'feature'
+        ? featureOptions
+        : undefined,
+      value:
+        parameter.name in operatorParameters
+          ? parameter.type === 'feature' || parameter.multiple
+            ? operatorParameters[parameter.name].split(',')
+            : operatorParameters[parameter.name]
+          : parameter.type === 'feature'
+          ? undefined
+          : parameter.default,
+    };
+  });
 
   return configuredOperatorParameters;
+};
+
+/**
+ * Transform Columns In Parameter Options
+ *
+ * Method to transform dataset columns in feature type parameter options
+ *
+ * @param {Object[]} datasetColumns dataset columns list
+ * @returns {Object[]} transformed columns
+ */
+const transformColumnsInParameterOptions = (datasetColumns) => {
+  const transformedColumns = datasetColumns.map((column) => ({
+    uuid: column.name,
+    name: column.name,
+  }));
+
+  return transformedColumns;
 };
 
 /**
@@ -303,9 +335,19 @@ const configureOperatorParameters = (
  * Method to configure operators
  * @param {Object[]} components components list
  * @param {Object[]} operators operators list
+ * @param {Object[]} datasetColumns dataset columns list
+ * @param {Object} pipelineStatus pipeline status object
  * @returns {Object[]} configured operators
  */
-const configureOperators = (components, operators) => {
+const configureOperators = (
+  components,
+  operators,
+  datasetColumns,
+  pipelineStatus
+) => {
+  // transforming dataset columns to feature parameter options
+  const featureOptions = transformColumnsInParameterOptions(datasetColumns);
+
   // creating configured operators
   const configuredOperators = operators.map((operator) => {
     // getting component data
@@ -317,11 +359,17 @@ const configureOperators = (components, operators) => {
     // configuring operator parameters
     const parameters = configureOperatorParameters(
       componentParameters,
-      operator.parameters
+      operator.parameters,
+      featureOptions
     );
 
     // checking if operator is setted up
     const settedUp = checkOperatorSettedUp(parameters);
+
+    let status = '';
+    if (pipelineStatus.status && pipelineStatus.status[operator]) {
+      status = pipelineStatus.status[operator];
+    }
 
     return {
       ...operator,
@@ -329,6 +377,7 @@ const configureOperators = (components, operators) => {
       parameters,
       settedUp,
       selected: false,
+      status,
     };
   });
 
@@ -420,4 +469,5 @@ export default {
   transformResults,
   checkOperatorSettedUp,
   getErrorMessage,
+  transformColumnsInParameterOptions,
 };

@@ -1,5 +1,5 @@
 // CORE LIBS
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -9,7 +9,7 @@ import { Icon, Select } from 'antd';
 import InputTip from '../../InputTip';
 
 // SELECT COMPONENTS
-const { Option } = Select;
+const { Option, blur } = Select;
 
 /**
  * Select Input.
@@ -17,6 +17,10 @@ const { Option } = Select;
  */
 const SelectInput = ({
   title,
+  label,
+  name,
+  loading,
+  disabled,
   description,
   warning,
   tip,
@@ -25,47 +29,72 @@ const SelectInput = ({
   value,
   options,
   handleChange,
-}) => (
-  // div container
-  <div>
-    {/* title */}
-    <p>{title}</p>
-    {/* description */}
-    <small>{description}</small>
-    {/* select input */}
-    <Select
-      onChange={handleChange}
-      mode={isMultiple ? 'multiple' : null}
-      style={{ width: '80%' }}
-      placeholder={placeholder}
-      value={value}
-    >
-      {/* rendering select options */}
-      {options.map((option) => (
-        <Option key={option.uuid} value={option.uuid}>
-          {option.name}
-        </Option>
-      ))}
-    </Select>
-    {/* tip */}
-    {tip && <InputTip tip={tip} />}
-    {/* warning */}
-    {warning && (
-      // warning paragraph container
-      <p style={{ marginTop: 10 }}>
-        {/* warning icon */}
-        <Icon type='exclamation-circle' />
-        {/* warning message */}
-        <span style={{ marginLeft: 10 }}>{warning}</span>
-      </p>
-    )}
-  </div>
-);
+}) => {
+  // ref hook
+  const selectRef = useRef(null);
+
+  return (
+    // div container
+    <div>
+      {/* title */}
+      <h3>
+        {label || title || name}
+        {/* tip */}
+        {tip && <InputTip tip={tip} />}
+      </h3>
+      {/* description */}
+      <small>{description}</small>
+      {/* select input */}
+      <Select
+        ref={selectRef}
+        onChange={(values) => {
+          selectRef.current.blur();
+          handleChange(values);
+        }}
+        mode={isMultiple ? 'multiple' : null}
+        style={{ width: '80%' }}
+        placeholder={placeholder}
+        value={value}
+        loading={loading}
+        disabled={loading || disabled}
+      >
+        {/* rendering select options */}
+        {options &&
+          options.map((option) => {
+            const { uuid, name: optionName } = option;
+            return (
+              <Option key={uuid || option} value={uuid || option}>
+                {optionName || option}
+              </Option>
+            );
+          })}
+      </Select>
+      {/* warning */}
+      {warning && (
+        // warning paragraph container
+        <p style={{ marginTop: 10 }}>
+          {/* warning icon */}
+          <Icon type='exclamation-circle' />
+          {/* warning message */}
+          <span style={{ marginLeft: 10 }}>{warning}</span>
+        </p>
+      )}
+    </div>
+  );
+};
 
 // PROP TYPES
 SelectInput.propTypes = {
   /** select input title string */
   title: PropTypes.string.isRequired,
+  /** select input label string */
+  label: PropTypes.string.isRequired,
+  /** select input name string */
+  name: PropTypes.string.isRequired,
+  /** select input is loading */
+  loading: PropTypes.bool.isRequired,
+  /** select input is disabled */
+  disabled: PropTypes.bool.isRequired,
   /** select input description string */
   description: PropTypes.string.isRequired,
   /** select input warning message string */

@@ -1,67 +1,61 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Icon, Typography, Input, Tooltip } from 'antd'
-import './style.scss'
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Icon, Typography, Input, Tooltip } from 'antd';
+import './style.scss';
 
-const { Title } = Typography
+const { Title } = Typography;
 
 const EditTitle = ({ title, level, editable, beforeSubmit }) => {
-  const [currentTitle, setCurrentTitle] = useState(title)
-  const [editMode, setEditMode] = useState(true)
+  const [currentTitle, setCurrentTitle] = useState(title);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    setCurrentTitle(title)
-  }, [title])
+    setCurrentTitle(title);
+  }, [title]);
 
   const handleSubmit = () => {
-    beforeSubmit(currentTitle)
-    setEditMode(false)
-  }
+    beforeSubmit(currentTitle);
+    setEditMode(false);
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();
     } else if (e.key === 'Escape') {
-      setCurrentTitle(title)
-      setEditMode(true)
+      setCurrentTitle(title);
+      setEditMode(false);
     }
-  }
-  return editMode ? (
+  };
+  return !editMode ? (
     <div className='custom-edit-title'>
-      <Title
-        level={level}>
-        {title}
-      </Title>
-      {editable &&
-        <Tooltip
-          title='Editar'
-        >
+      <Title level={level}>{title}</Title>
+      {editable && (
+        <Tooltip title='Editar'>
           <Icon
             className='custom-edit-input-icon'
             type='edit'
-            onClick={() => setEditMode(false)}
+            onClick={() => setEditMode(true)}
           />
-        </Tooltip>}
+        </Tooltip>
+      )}
     </div>
   ) : (
-      <Input
-        value={currentTitle}
-        onChange={(e) => setCurrentTitle(e.target.value)}
-        autoFocus
-        onFocus={(e) => e.target.select()}
-        onBlur={handleSubmit}
-        onKeyUp={handleKeyPress}
-      />
-    )
-
-}
+    <Input
+      value={currentTitle}
+      onChange={(e) => setCurrentTitle(e.target.value)}
+      autoFocus
+      onFocus={(e) => e.target.select()}
+      onBlur={handleSubmit}
+      onKeyUp={handleKeyPress}
+    />
+  );
+};
 
 EditTitle.propTypes = {
   title: PropTypes.string.isRequired,
   level: PropTypes.number.isRequired,
   editable: PropTypes.bool.isRequired,
-  beforeSubmit: PropTypes.func.isRequired
-}
+  beforeSubmit: PropTypes.func.isRequired,
+};
 
-
-export default EditTitle
+export default EditTitle;

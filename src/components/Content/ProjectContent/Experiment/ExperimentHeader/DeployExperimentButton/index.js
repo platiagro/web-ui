@@ -14,7 +14,7 @@ const DeployExperimentButton = ({ handleClick, disabled }) => (
   <Button
     disabled={disabled}
     onClick={handleClick}
-    className='deployExperimentButton'
+    className='ant-btn-oval'
     type='primary'
     icon='tool'
   >

@@ -56,12 +56,17 @@ const NewTaskModalContainer = (props) => {
       handleCloseModal={handleCloseModal}
       handleNewTask={(taskValues) =>
         handleAddTask(taskValues).then(async (response) => {
+          const jupyterDomain =
+            process.env.NODE_ENV === 'development'
+              ? process.env.REACT_APP_MAIN_DOMAIN
+              : '';
+
           if (response) {
             handleCloseModal();
             message.success(`Tarefa adicionada com sucesso.`);
             await sleep(1000);
             window.open(
-              `/notebook/anonymous/server/lab/tree/components/${response.data.uuid}/?reset&open=Training.ipynb,Inference.ipynb`
+              `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${response.data.uuid}/?reset&open=Training.ipynb,Inference.ipynb`
             );
           }
         })

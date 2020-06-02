@@ -92,7 +92,8 @@ const operators = (state = initialState, action) => {
     // operators
     // fetch operators fail
     case actionTypes.FETCH_OPERATORS_FAIL:
-      return message.error(action.errorMessage);
+      message.error(action.errorMessage);
+      return [];
 
     // COMMON
     // operator

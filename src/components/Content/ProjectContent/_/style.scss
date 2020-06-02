@@ -1,5 +1,5 @@
 .experiment-container {
-  background-color: #f0f2f5;
+  background-color: #f2f0f5;
   padding: 2vh 2vw;
 
   .experiment-wraper {
@@ -28,8 +28,9 @@
   }
 }
 
-.row-tab-plus-button
-{
+.row-tab-plus-button {
+  background-color: #f5f5f5;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
 }

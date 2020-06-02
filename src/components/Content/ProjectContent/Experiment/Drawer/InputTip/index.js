@@ -19,7 +19,10 @@ const InputTip = ({ tip, width = 150 }) => (
     trigger='click'
   >
     {/* icon component */}
-    <Icon style={{ marginLeft: 10 }} type='question-circle' />
+    <Icon
+      style={{ marginLeft: 10, float: 'right', marginTop: '5px' }}
+      type='question-circle'
+    />
   </Popover>
 );
 
