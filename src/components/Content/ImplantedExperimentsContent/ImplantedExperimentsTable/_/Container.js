@@ -1,6 +1,8 @@
 // CORE LIBS
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 
 // UI LIBS
 import { ConfigProvider } from 'antd';
@@ -39,6 +41,10 @@ const mapStateToProps = (state) => {
   };
 };
 
+// CONSTANTS
+// polling time in miliseconds;
+const pollingTime = 30000;
+
 /**
  * Implanted Experiments Table Container.
  * This component is responsible for create a logic container for implanted
@@ -52,12 +58,25 @@ const ImplantedExperimentsTableContainer = ({
   handleShowDrawer,
   loading,
   handleGetDeployExperimentLogs,
+  location,
 }) => {
+  // CONSTANTS
+  const params = queryString.parse(location.search);
+  const selectedExperiment = params['experiment'];
+
   // HOOKS
   // did mount hook
   useEffect(() => {
-    // fetching projects
+    // fetching deployed experiments
     handleFetchImplantedExperiments();
+
+    // polling deployed experiments
+    const polling = setInterval(
+      () => handleFetchImplantedExperiments(),
+      pollingTime
+    );
+
+    return () => clearInterval(polling);
   }, []);
 
   const handleOpenLog = (deployId) => {
@@ -72,13 +91,16 @@ const ImplantedExperimentsTableContainer = ({
         handleTestInference={handleTestImplantedExperimentInference}
         handleOpenLog={handleOpenLog}
         loading={loading}
+        selectedExperiment={selectedExperiment}
       />
     </ConfigProvider>
   );
 };
 
 // EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ImplantedExperimentsTableContainer);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ImplantedExperimentsTableContainer)
+);

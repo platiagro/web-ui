@@ -10,6 +10,7 @@ import SelectInput from '../SelectInput';
 import RadioInput from '../RadioInput';
 import NumberInput from '../NumberInput';
 import StringInput from '../StringInput';
+import BooleanInput from '../BooleanInput';
 import RemoveOperatorButton from '../RemoveOperatorButton';
 
 // INPUT TYPES
@@ -32,57 +33,171 @@ const inputTypes = {
       name={name}
     />
   ),
+  // feature
+  feature: (
+    { uuid, name, multiple, description, ...props },
+    loading,
+    handleChange,
+    trainingSucceeded,
+    trainingLoading
+  ) => (
+    <>
+      <SelectInput
+        key={uuid || name}
+        isMultiple={multiple ? true : ''}
+        handleChange={(value) => handleChange(name, value)}
+        name={name}
+        loading={loading}
+        tip={description}
+        disabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar colunas'
+        {...props}
+      />
+      <Divider />
+    </>
+  ),
   // number (float)
   number: (
-    { uuid, name, ...props },
+    { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) => (
-    <NumberInput
-      key={uuid || name}
-      handleChange={handleChange}
-      {...props}
-      step='0.1'
-      name={name}
-      loading={loading}
-      disabled={trainingSucceeded || trainingLoading}
-    />
-  ),
+  ) =>
+    options === undefined ? (
+      // simple number input
+      <>
+        <NumberInput
+          key={uuid || name}
+          handleChange={handleChange}
+          {...props}
+          step='0.1'
+          name={name}
+          tip={description}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+        />
+        <Divider />
+      </>
+    ) : (
+      // number select input
+      <>
+        <SelectInput
+          key={uuid || name}
+          isMultiple={multiple ? true : ''}
+          handleChange={(value) => handleChange(name, parseFloat(value))}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+          placeholder='Selecionar'
+          options={options}
+          tip={description}
+          {...props}
+        />
+        <Divider />
+      </>
+    ),
   // integer
   integer: (
-    { uuid, name, ...props },
+    { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) => (
-    <NumberInput
-      key={uuid || name}
-      handleChange={handleChange}
-      {...props}
-      name={name}
-      loading={loading}
-      disabled={trainingSucceeded || trainingLoading}
-    />
-  ),
+  ) =>
+    options === undefined ? (
+      // simple integer input
+      <>
+        <NumberInput
+          key={uuid || name}
+          handleChange={handleChange}
+          {...props}
+          name={name}
+          tip={description}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+        />
+        <Divider />
+      </>
+    ) : (
+      // integer select input
+      <>
+        <SelectInput
+          key={uuid || name}
+          isMultiple={multiple ? true : ''}
+          handleChange={(value) => handleChange(name, parseInt(value))}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+          placeholder='Selecionar'
+          options={options}
+          tip={description}
+          {...props}
+        />
+        <Divider />
+      </>
+    ),
   // string
   string: (
-    { uuid, name, ...props },
+    { uuid, name, multiple, description, options, ...props },
+    loading,
+    handleChange,
+    trainingSucceeded,
+    trainingLoading
+  ) =>
+    options === undefined ? (
+      <>
+        <StringInput
+          key={uuid || name}
+          handleChange={handleChange}
+          tip={description}
+          {...props}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+        />
+        <Divider />
+      </>
+    ) : (
+      // string select input
+      <>
+        <SelectInput
+          key={uuid || name}
+          isMultiple={multiple ? true : ''}
+          handleChange={(value) => handleChange(name, value)}
+          name={name}
+          loading={loading}
+          disabled={trainingSucceeded || trainingLoading}
+          placeholder='Selecionar'
+          options={options}
+          tip={description}
+          {...props}
+        />
+        <Divider />
+      </>
+    ),
+  // boolean
+  boolean: (
+    { uuid, name, multiple, description, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
   ) => (
-    <StringInput
-      key={uuid || name}
-      handleChange={handleChange}
-      {...props}
-      name={name}
-      loading={loading}
-      disabled={trainingSucceeded || trainingLoading}
-    />
+    <>
+      <BooleanInput
+        key={uuid || name}
+        isMultiple={multiple ? true : ''}
+        handleChange={(inputName, value) => handleChange(inputName, value)}
+        name={name}
+        loading={loading}
+        tip={description}
+        disabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar colunas'
+        {...props}
+      />
+      <Divider />
+    </>
   ),
 };
 
@@ -102,11 +217,24 @@ const GenericDrawer = ({
 }) => (
   // div container
   <div>
+    {/* rendering remove operator button */}
+    <div>
+      {!trainingSucceeded && (
+        <>
+          <RemoveOperatorButton
+            loading={loading}
+            handleClick={handleRemoveOperatorClick}
+            disabled={trainingLoading}
+          />
+          <Divider />
+        </>
+      )}
+    </div>
     {/* Render empty component when drawer is empty */}
     {drawerInputs && drawerInputs.length === 0 && (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description='Não necessita de configuração'
+        description='Não há parâmetros para configuração'
       />
     )}
     {/* rendering drawer inputs */}
@@ -133,14 +261,6 @@ const GenericDrawer = ({
         {drawerTip}
       </div>
     )}
-    {/* rendering remove operator button */}
-    <div>
-      <RemoveOperatorButton
-        loading={loading}
-        handleClick={handleRemoveOperatorClick}
-        disabled={trainingSucceeded || trainingLoading}
-      />
-    </div>
   </div>
 );
 

@@ -49,10 +49,16 @@ const TasksTableContainer = (props) => {
   }, [handleFetchTasks]);
 
   // HANDLERS
-  const taskClickHandler = (taskId) =>
+  const taskClickHandler = (taskId) => {
+    const jupyterDomain =
+      process.env.NODE_ENV === 'development'
+        ? process.env.REACT_APP_MAIN_DOMAIN
+        : '';
+
     window.open(
-      `/notebook/anonymous/server/lab/tree/components/${taskId}/?reset&open=Training.ipynb,Inference.ipynb`
+      `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${taskId}/?reset&open=Training.ipynb,Inference.ipynb`
     );
+  };
 
   // RENDER
   return (

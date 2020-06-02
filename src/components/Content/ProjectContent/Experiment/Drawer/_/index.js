@@ -10,6 +10,7 @@ import DatasetDrawer from '../DatasetDrawer/_/Container';
 import GenericDrawer from '../GenericDrawer/_/Container';
 import ResultsDrawer from '../ResultsDrawer/_';
 import ResultsButtonBar from '../ResultsButtonBar';
+import NotebookOutputs from '../NotebookOutputs/_/Container';
 
 /**
  * Drawer.
@@ -42,6 +43,7 @@ const Drawer = ({
       visible={isVisible}
       closable
       onClose={handleClose}
+      keyboard={false}
     >
       {/* rendering data set drawer */}
       {isDataset && !showResults && <DatasetDrawer />}
@@ -60,6 +62,9 @@ const Drawer = ({
           showingResults={showResults}
         />
       )}
+
+      {/* rendering link to Jupyter */}
+      {!isDataset && !showResults && <NotebookOutputs />}
     </AntDrawer>
   );
 };

@@ -20,8 +20,11 @@ const mapDispatchToProps = (dispatch) => {
  * This component is responsible for create a logic container for create new
  * template button with redux.
  */
-const NewTemplateButtonContainer = ({ handleShowModal }) => (
-  <NewTemplateButton disabled={false} handleClick={handleShowModal} />
+const NewTemplateButtonContainer = ({ handleShowModal, disabled }) => (
+  <NewTemplateButton
+    disabled={disabled}
+    handleClick={handleShowModal}
+  />
 );
 
 // EXPORT
