@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(deleteImplantedExperiment(implantedExperimentUuid)),
     handleTestImplantedExperimentInference: (implantedExperimentUuid, file) =>
       dispatch(testImplantedExperimentInference(implantedExperimentUuid, file)),
-    getDeployExperimentLogs: (deployId) =>
+    handleGetDeployExperimentLogs: (deployId) =>
       dispatch(getDeployExperimentLogs(deployId)),
   };
 };
@@ -51,7 +51,7 @@ const ImplantedExperimentsTableContainer = ({
   handleTestImplantedExperimentInference,
   handleShowDrawer,
   loading,
-  getDeployExperimentLogs,
+  handleGetDeployExperimentLogs,
 }) => {
   // HOOKS
   // did mount hook
@@ -61,7 +61,7 @@ const ImplantedExperimentsTableContainer = ({
   }, []);
 
   const handleOpenLog = (deployId) => {
-    getDeployExperimentLogs(deployId);
+    handleGetDeployExperimentLogs(deployId);
   };
 
   // RENDER handleOpenLog
