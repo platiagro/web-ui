@@ -233,7 +233,7 @@ const getComponentData = (components, componentId) => {
   // params to filter constant
   const parametersToFilter = [
     'dataset',
-    'target',
+    //'target',
     'experiment_id',
     'operator_id',
   ];
