@@ -339,7 +339,12 @@ const transformColumnsInParameterOptions = (datasetColumns) => {
  * @param {Object} pipelineStatus pipeline status object
  * @returns {Object[]} configured operators
  */
-const configureOperators = (components, operators, datasetColumns, pipelineStatus) => {
+const configureOperators = (
+  components,
+  operators,
+  datasetColumns,
+  pipelineStatus
+) => {
   // transforming dataset columns to feature parameter options
   const featureOptions = transformColumnsInParameterOptions(datasetColumns);
 
@@ -463,9 +468,6 @@ export default {
   selectOperator,
   transformResults,
   checkOperatorSettedUp,
-<<<<<<< HEAD
   getErrorMessage,
-=======
   transformColumnsInParameterOptions,
->>>>>>> Adjusting operator configuration
 };

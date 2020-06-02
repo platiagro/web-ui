@@ -57,11 +57,8 @@ const ImplantedExperimentsTableContainer = ({
   handleTestImplantedExperimentInference,
   handleShowDrawer,
   loading,
-<<<<<<< HEAD
   handleGetDeployExperimentLogs,
-=======
   location,
->>>>>>> Uses query param to highlights a deployment
 }) => {
   // CONSTANTS
   const params = queryString.parse(location.search);
@@ -102,5 +99,8 @@ const ImplantedExperimentsTableContainer = ({
 
 // EXPORT
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps )(ImplantedExperimentsTableContainer)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ImplantedExperimentsTableContainer)
 );
