@@ -58,21 +58,6 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   // dispatching experiment training loading data action
   dispatch(experimentTrainingLoadingData());
 
-  let parameters = [];
-  const newArray = operators.map(function (item) {
-    return item.parameters;
-  });
-
-  newArray.map(function (elem) {
-    let b = elem.length;
-    while (b--) {
-      const parameter = {
-        name: elem[b].name,
-        value: elem[b].value,
-      };
-      parameters.push(parameter);
-    }
-  });
   // getting experiment data
   const { uuid: experimentId, dataset, target } = experiment;
 
@@ -80,11 +65,19 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   const trainObject = { experimentId, dataset, target };
 
   // getting operators
-  trainObject.components = operators.map((operator) => ({
-    operatorId: operator.uuid,
-    notebookPath: operator.trainingNotebookPath,
-    parameters: parameters,
-  }));
+  trainObject.components = operators.map((operator) => {
+    // configuring parameters
+    const configuredParameters = operator.parameters.map((parameter) => ({
+      name: parameter.name,
+      value: parameter.value,
+    }));
+
+    return {
+      operatorId: operator.uuid,
+      notebookPath: operator.trainingNotebookPath,
+      parameters: configuredParameters,
+    };
+  });
 
   // filtering dataset
   trainObject.components = trainObject.components.filter(
@@ -200,7 +193,9 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
  */
 const deployExperimentSuccess = (experimentId, routerProps) => () => {
   // go to deployed experiments
-  routerProps.history.push(`/experimentos-implantados?experiment=${experimentId}`);
+  routerProps.history.push(
+    `/experimentos-implantados?experiment=${experimentId}`
+  );
 
   // dispatching deploy experiment success
   return {
