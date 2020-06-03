@@ -83,6 +83,7 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   trainObject.components = operators.map((operator) => ({
     operatorId: operator.uuid,
     notebookPath: operator.trainingNotebookPath,
+    parameters: parameters,
   }));
 
   // filtering dataset
