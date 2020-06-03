@@ -58,6 +58,21 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   // dispatching experiment training loading data action
   dispatch(experimentTrainingLoadingData());
 
+  let parameters = [];
+  const newArray = operators.map(function (item) {
+    return item.parameters;
+  });
+
+  newArray.map(function (elem) {
+    let b = elem.length;
+    while (b--) {
+      const parameter = {
+        name: elem[b].name,
+        value: elem[b].value,
+      };
+      parameters.push(parameter);
+    }
+  });
   // getting experiment data
   const { uuid: experimentId, dataset, target } = experiment;
 
