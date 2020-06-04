@@ -119,7 +119,7 @@ const DatasetDrawer = ({
       <Upload
         {...props}
         disabled={loading || trainingSucceeded || trainingLoading}
-        accept='.csv'
+        accept='.csv,.zip,.rar,.7zip'
       >
         {/* upload button component */}
         <Button disabled={loading || trainingSucceeded || trainingLoading}>
@@ -170,7 +170,7 @@ const DatasetDrawer = ({
       <Upload
         {...props}
         disabled={loading || trainingSucceeded || trainingLoading}
-        accept='.txt'
+        accept='.txt,.zip,.rar,.7zip'
       >
         {/* upload button component */}
         <Button
@@ -249,13 +249,13 @@ const DatasetDrawer = ({
     // div container
     <div>
       {/* dataset upload block */}
-      <p>Arquivo .csv com os dados de entrada</p>
+      <p>Arquivo .csv ou .zip com os dados de entrada</p>
       {renderDatasetUpload()}
       {/* line break */}
       <br />
       {/* dataset header upload block */}
       <p>
-        Arquivo .txt com os tipos dos atributos
+        Arquivo .txt ou .zip com os tipos dos atributos
         <InputTip
           width={250}
           tip={
