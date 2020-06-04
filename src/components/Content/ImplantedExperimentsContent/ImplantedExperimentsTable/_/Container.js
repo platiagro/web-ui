@@ -38,6 +38,7 @@ const mapStateToProps = (state) => {
   return {
     implantedExperiments: state.implantedExperiments,
     loading: state.ui.implantedExperiments.loading,
+    experimentInference: state.testExperimentInference,
   };
 };
 
@@ -59,6 +60,7 @@ const ImplantedExperimentsTableContainer = ({
   loading,
   handleGetDeployExperimentLogs,
   location,
+  experimentInference,
 }) => {
   // CONSTANTS
   const params = queryString.parse(location.search);
@@ -92,6 +94,7 @@ const ImplantedExperimentsTableContainer = ({
         handleOpenLog={handleOpenLog}
         loading={loading}
         selectedExperiment={selectedExperiment}
+        experimentInference={experimentInference}
       />
     </ConfigProvider>
   );

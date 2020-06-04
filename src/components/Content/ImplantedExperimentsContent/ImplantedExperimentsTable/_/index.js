@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Typography, Tooltip, Button, Badge } from 'antd';
+import { Table, Typography, Tooltip, Button, Badge, Modal } from 'antd';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
@@ -25,6 +25,7 @@ const ImplantedExperimentsTable = ({
   handleOpenLog,
   loading,
   selectedExperiment,
+  experimentInference,
 }) => {
 
   // convert status to badge icon
@@ -107,9 +108,19 @@ const ImplantedExperimentsTable = ({
         columns={columnsConfig}
         pagination={{ pageSize: 9 }}
         loading={loading}
-        rowClassName={(record) => record.name === selectedExperiment ? 'ant-table-row-selected' : '' }
+        rowClassName={(record) => record.name === selectedExperiment ? 'ant-table-row-selected' : ''}
       />
       <LogsDrawer />
+      <Modal
+        title="Basic Modal"
+        visible={experimentInference.modal}
+        onOk={() => { }}
+        onCancel={() => { }}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
     </>
   );
 };

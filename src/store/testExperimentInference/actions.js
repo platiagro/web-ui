@@ -3,7 +3,7 @@ import { message } from 'antd';
 
 // ACTION TYPES
 import actionTypes from './actionTypes';
-
+import implantedExperimentsApi from 'services/implantedExperimentsApi';
 // MOCKS
 // inference mock
 const inferenceMock = '[0.9, 0.1]';
@@ -15,13 +15,18 @@ const inferenceMock = '[0.9, 0.1]';
  * @param {Object} file
  * @returns {type, inferenceResult}
  */
-const testImplantedExperimentInference = (implantedExperimentUuid, file) => {
-  message.info(inferenceMock);
 
-  return {
-    type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE,
-    inferenceResult: inferenceMock,
-  };
+const testImplantedExperimentInference = (implantedExperimentUuid, file) => (dispatch) => {
+
+  implantedExperimentsApi
+    .testDeployedExperiments(implantedExperimentUuid, file)
+    .then(response => {
+      dispatch({
+        type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE,
+        inferenceResult: response.data.data,
+      })
+    })
+    .catch(error => console.log(error))
 };
 
 // EXPORT DEFAULT

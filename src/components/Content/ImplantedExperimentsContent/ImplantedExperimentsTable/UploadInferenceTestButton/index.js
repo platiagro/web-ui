@@ -12,22 +12,41 @@ import { Upload, Button, Icon } from 'antd';
 const UploadInferenceTestButton = ({ handleUpload }) => {
   // FUNCTIONS
   // handle upload action
-  const handleAction = (file) =>
-    new Promise((resolve, reject) => {
-      resolve(handleUpload(file));
-    });
+  // const handleAction = (file) =>
+  //   new Promise((resolve, reject) => {
+  //     resolve(handleUpload(file));
+  //   });
 
   // upload props
   const props = {
     name: 'file',
-    action: handleAction,
     showUploadList: false,
+    accept: '.csv',
   };
 
   // RENDER
   return (
     // upload component
-    <Upload {...props}>
+    <Upload beforeUpload={(file) => {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const result = e.target.result.trim().split('\n');
+        const [names, ...ndarray] = result;
+        const obj = {
+          data: {
+            names: names.split(','),
+            ndarray: ndarray.map((el) => el.split(',')),
+          },
+        };
+
+        handleUpload(obj);
+      };
+      reader.readAsText(file);
+      return false
+
+    }}{...props} >
+
       {/* upload button link */}
       <Button type='link'>
         <Icon type='upload' style={{ marginRight: -5 }} />
