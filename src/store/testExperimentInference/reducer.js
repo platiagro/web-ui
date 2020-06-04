@@ -2,7 +2,7 @@
 import actionTypes from './actionTypes';
 
 // INITIAL STATE
-const initialState = { modal: false, predictions: {} };
+const initialState = { names: [], ndarray: [] };
 
 /**
  * test experiment inference reducer
@@ -10,7 +10,9 @@ const initialState = { modal: false, predictions: {} };
 const testExperimentInference = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE:
-      return { ...state, modal: true, predictions: action.inferenceResult };
+      return { ...state, ...action.inferenceResult };
+    case actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE_FAILS:
+      return initialState;
     default:
       return state;
   }

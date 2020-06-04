@@ -4,9 +4,12 @@ import { message } from 'antd';
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import implantedExperimentsApi from 'services/implantedExperimentsApi';
-// MOCKS
-// inference mock
-const inferenceMock = '[0.9, 0.1]';
+import {
+  showExperimentInferenceModal,
+  implantedExperimentsLoadingData,
+  implantedExperimentsDataLoaded
+} from 'store/ui/actions'
+import utils from 'utils'
 
 // ACTIONS
 /**
@@ -18,6 +21,7 @@ const inferenceMock = '[0.9, 0.1]';
 
 const testImplantedExperimentInference = (implantedExperimentUuid, file) => (dispatch) => {
 
+  dispatch(implantedExperimentsLoadingData())
   implantedExperimentsApi
     .testDeployedExperiments(implantedExperimentUuid, file)
     .then(response => {
@@ -25,8 +29,17 @@ const testImplantedExperimentInference = (implantedExperimentUuid, file) => (dis
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE,
         inferenceResult: response.data.data,
       })
+      dispatch(showExperimentInferenceModal())
+      dispatch(implantedExperimentsDataLoaded())
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      dispatch({
+        type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE_FAILS,
+      })
+      dispatch(implantedExperimentsDataLoaded())
+      message.error(utils.getErrorMessage(error))
+
+    })
 };
 
 // EXPORT DEFAULT

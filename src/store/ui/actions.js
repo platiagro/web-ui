@@ -511,3 +511,27 @@ export const implantedExperimentsDataLoaded = () => {
     implantedExperimentsLoading: false,
   };
 };
+
+// ** SHOW_EXPERIMENT_INFERENCE_MODAL
+/**
+ * show experiment inference modal
+ * @returns {Object} { type, newTemplateModalVisible }
+ */
+export const showExperimentInferenceModal = () => {
+  return {
+    type: actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL,
+  };
+};
+
+// // // // // // // // // //
+
+// ** HIDE_EXPERIMENT_INFERENCE_MODAL
+/**
+ * hideexperiment inference modal
+ * @returns {Object} { type, newTemplateModalVisible }
+ */
+export const hideExperimentInferenceModal = () => {
+  return {
+    type: actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL,
+  };
+};

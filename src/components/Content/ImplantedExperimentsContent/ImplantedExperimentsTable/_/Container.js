@@ -18,6 +18,7 @@ import {
 } from '../../../../../store/implantedExperiments/actions';
 import testImplantedExperimentInference from '../../../../../store/testExperimentInference/actions';
 import { getDeployExperimentLogs } from 'store/logs/actions';
+import { hideExperimentInferenceModal } from 'store/ui/actions'
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -30,6 +31,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(testImplantedExperimentInference(implantedExperimentUuid, file)),
     handleGetDeployExperimentLogs: (deployId) =>
       dispatch(getDeployExperimentLogs(deployId)),
+    handleHideExperimentInferenceModal: () => dispatch(hideExperimentInferenceModal()),
   };
 };
 
@@ -39,6 +41,7 @@ const mapStateToProps = (state) => {
     implantedExperiments: state.implantedExperiments,
     loading: state.ui.implantedExperiments.loading,
     experimentInference: state.testExperimentInference,
+    experimentInferenceModal: state.ui.experimentInferenceModal.visible,
   };
 };
 
@@ -61,6 +64,9 @@ const ImplantedExperimentsTableContainer = ({
   handleGetDeployExperimentLogs,
   location,
   experimentInference,
+  experimentInferenceModal,
+  hideExperimentInferenceModal,
+  handleHideExperimentInferenceModal,
 }) => {
   // CONSTANTS
   const params = queryString.parse(location.search);
@@ -95,6 +101,8 @@ const ImplantedExperimentsTableContainer = ({
         loading={loading}
         selectedExperiment={selectedExperiment}
         experimentInference={experimentInference}
+        experimentInferenceModal={experimentInferenceModal}
+        closeModal={handleHideExperimentInferenceModal}
       />
     </ConfigProvider>
   );

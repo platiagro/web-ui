@@ -26,6 +26,8 @@ const ImplantedExperimentsTable = ({
   loading,
   selectedExperiment,
   experimentInference,
+  experimentInferenceModal,
+  closeModal,
 }) => {
 
   // convert status to badge icon
@@ -100,6 +102,7 @@ const ImplantedExperimentsTable = ({
   ];
 
   // RENDER
+  console.log(experimentInference)
   return (
     // rendering implanted experiments table
     <>
@@ -112,14 +115,25 @@ const ImplantedExperimentsTable = ({
       />
       <LogsDrawer />
       <Modal
-        title="Basic Modal"
-        visible={experimentInference.modal}
-        onOk={() => { }}
-        onCancel={() => { }}
+
+        title="Predições"
+        visible={experimentInferenceModal}
+        onOk={closeModal}
+        onCancel={closeModal}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <Table
+          dataSource={
+            experimentInference.ndarray.map((e, i) => {
+              const data = { key: i }
+              experimentInference.names.map((c, i) => {
+                data[c] = e[i]
+              })
+              return data
+            })
+          }
+          columns={experimentInference.names.map(name =>
+            ({ title: name, dataIndex: name, key: name }))} />;
+
       </Modal>
     </>
   );
