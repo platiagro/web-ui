@@ -56,7 +56,7 @@ const ProjectsTable = ({
           </Button>
 
           <Popconfirm
-            title='Você tem certeza que deseja excluir essa tarefa?'
+            title='Você tem certeza que deseja excluir esse projeto?'
             onConfirm={() => handleClickDelete(record.uuid)}
             okText='Sim'
             cancelText='Não'
