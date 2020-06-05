@@ -29,7 +29,6 @@ const ImplantedExperimentsTable = ({
   experimentInferenceModal,
   closeModal,
 }) => {
-
   // convert status to badge icon
   const statusToBadge = {
     Failed: 'error',
@@ -102,7 +101,6 @@ const ImplantedExperimentsTable = ({
   ];
 
   // RENDER
-  console.log(experimentInference)
   return (
     // rendering implanted experiments table
     <>
@@ -111,29 +109,32 @@ const ImplantedExperimentsTable = ({
         columns={columnsConfig}
         pagination={{ pageSize: 9 }}
         loading={loading}
-        rowClassName={(record) => record.name === selectedExperiment ? 'ant-table-row-selected' : ''}
+        rowClassName={(record) =>
+          record.name === selectedExperiment ? 'ant-table-row-selected' : ''
+        }
       />
       <LogsDrawer />
       <Modal
-
-        title="Predições"
+        title='Predições'
         visible={experimentInferenceModal}
         onOk={closeModal}
         onCancel={closeModal}
       >
         <Table
-          dataSource={
-            experimentInference.ndarray.map((e, i) => {
-              const data = { key: i }
-              experimentInference.names.map((c, i) => {
-                data[c] = e[i]
-              })
-              return data
-            })
-          }
-          columns={experimentInference.names.map(name =>
-            ({ title: name, dataIndex: name, key: name }))} />;
-
+          dataSource={experimentInference.ndarray.map((e, i) => {
+            const data = { key: i };
+            experimentInference.names.map((c, j) => {
+              data[c] = e[j];
+            });
+            return data;
+          })}
+          columns={experimentInference.names.map((name) => ({
+            title: name,
+            dataIndex: name,
+            key: name,
+          }))}
+        />
+        ;
       </Modal>
     </>
   );

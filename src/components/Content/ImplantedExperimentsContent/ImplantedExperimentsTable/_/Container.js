@@ -18,7 +18,7 @@ import {
 } from '../../../../../store/implantedExperiments/actions';
 import testImplantedExperimentInference from '../../../../../store/testExperimentInference/actions';
 import { getDeployExperimentLogs } from 'store/logs/actions';
-import { hideExperimentInferenceModal } from 'store/ui/actions'
+import { hideExperimentInferenceModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(testImplantedExperimentInference(implantedExperimentUuid, file)),
     handleGetDeployExperimentLogs: (deployId) =>
       dispatch(getDeployExperimentLogs(deployId)),
-    handleHideExperimentInferenceModal: () => dispatch(hideExperimentInferenceModal()),
+    closeModal: () => dispatch(hideExperimentInferenceModal()),
   };
 };
 
@@ -65,7 +65,7 @@ const ImplantedExperimentsTableContainer = ({
   location,
   experimentInference,
   experimentInferenceModal,
-  hideExperimentInferenceModal,
+  closeModal,
   handleHideExperimentInferenceModal,
 }) => {
   // CONSTANTS
@@ -102,7 +102,7 @@ const ImplantedExperimentsTableContainer = ({
         selectedExperiment={selectedExperiment}
         experimentInference={experimentInference}
         experimentInferenceModal={experimentInferenceModal}
-        closeModal={handleHideExperimentInferenceModal}
+        closeModal={closeModal}
       />
     </ConfigProvider>
   );

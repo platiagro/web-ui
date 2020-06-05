@@ -7,9 +7,9 @@ import implantedExperimentsApi from 'services/implantedExperimentsApi';
 import {
   showExperimentInferenceModal,
   implantedExperimentsLoadingData,
-  implantedExperimentsDataLoaded
-} from 'store/ui/actions'
-import utils from 'utils'
+  implantedExperimentsDataLoaded,
+} from 'store/ui/actions';
+import utils from 'utils';
 
 // ACTIONS
 /**
@@ -19,27 +19,27 @@ import utils from 'utils'
  * @returns {type, inferenceResult}
  */
 
-const testImplantedExperimentInference = (implantedExperimentUuid, file) => (dispatch) => {
-
-  dispatch(implantedExperimentsLoadingData())
+const testImplantedExperimentInference = (implantedExperimentUuid, file) => (
+  dispatch
+) => {
+  dispatch(implantedExperimentsLoadingData());
   implantedExperimentsApi
     .testDeployedExperiments(implantedExperimentUuid, file)
-    .then(response => {
+    .then((response) => {
       dispatch({
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE,
         inferenceResult: response.data.data,
-      })
-      dispatch(showExperimentInferenceModal())
-      dispatch(implantedExperimentsDataLoaded())
+      });
+      dispatch(showExperimentInferenceModal());
+      dispatch(implantedExperimentsDataLoaded());
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch({
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE_FAILS,
-      })
-      dispatch(implantedExperimentsDataLoaded())
-      message.error(utils.getErrorMessage(error))
-
-    })
+      });
+      dispatch(implantedExperimentsDataLoaded());
+      message.error(utils.getErrorMessage(error));
+    });
 };
 
 // EXPORT DEFAULT

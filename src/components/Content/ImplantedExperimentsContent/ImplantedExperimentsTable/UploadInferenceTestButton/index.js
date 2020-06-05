@@ -27,26 +27,27 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
   // RENDER
   return (
     // upload component
-    <Upload beforeUpload={(file) => {
-      const reader = new FileReader();
+    <Upload
+      beforeUpload={(file) => {
+        const reader = new FileReader();
 
-      reader.onload = (e) => {
-        const result = e.target.result.trim().split('\n');
-        const [names, ...ndarray] = result;
-        const obj = {
-          data: {
-            names: names.split(','),
-            ndarray: ndarray.map((el) => el.split(',')),
-          },
+        reader.onload = (e) => {
+          const result = e.target.result.trim().split('\n');
+          const [names, ...ndarray] = result;
+          const obj = {
+            data: {
+              names: names.split(','),
+              ndarray: ndarray.map((el) => el.split(',')),
+            },
+          };
+
+          handleUpload(obj);
         };
-
-        handleUpload(obj);
-      };
-      reader.readAsText(file);
-      return false
-
-    }}{...props} >
-
+        reader.readAsText(file);
+        return false;
+      }}
+      {...props}
+    >
       {/* upload button link */}
       <Button type='link'>
         <Icon type='upload' style={{ marginRight: -5 }} />

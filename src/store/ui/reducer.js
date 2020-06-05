@@ -21,7 +21,7 @@ const initialState = {
   operatorParameter: { loading: false },
   operatorResults: { loading: false },
   implantedExperiments: { loading: false },
-  experimentInferenceModal: { visible: false }
+  experimentInferenceModal: { visible: false },
 };
 
 /**
