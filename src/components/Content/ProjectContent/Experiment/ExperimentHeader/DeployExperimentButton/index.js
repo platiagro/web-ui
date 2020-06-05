@@ -3,21 +3,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 
 /**
  * Deploy Experiment Button.
  * This component is responsible for show deploy experiment button.
  */
-const DeployExperimentButton = ({ handleClick, disabled }) => (
+const DeployExperimentButton = ({ handleClick, disabled, loading }) => (
   // button component
   <Button
     disabled={disabled}
     onClick={handleClick}
     className='ant-btn-oval'
     type='primary'
-    icon='tool'
   >
+    {loading ? <Icon type='loading' /> : <Icon type='tool' />}
     Implantar
   </Button>
 );
@@ -28,6 +28,8 @@ DeployExperimentButton.propTypes = {
   disabled: PropTypes.bool.isRequired,
   /** deploy experiment button click function */
   handleClick: PropTypes.func.isRequired,
+  /** deployment is running / loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT
