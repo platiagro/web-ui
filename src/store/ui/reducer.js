@@ -21,6 +21,7 @@ const initialState = {
   operatorParameter: { loading: false },
   operatorResults: { loading: false },
   implantedExperiments: { loading: false },
+  experimentInferenceModal: { visible: false },
 };
 
 /**
@@ -389,6 +390,22 @@ const ui = (state = initialState, action) => {
         implantedExperiments: {
           ...state.implantedExperiments,
           loading: action.implantedExperimentsLoading,
+        },
+      };
+    case actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL:
+      return {
+        ...state,
+        experimentInferenceModal: {
+          ...state.experimentInferenceModal,
+          visible: true,
+        },
+      };
+    case actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL:
+      return {
+        ...state,
+        experimentInferenceModal: {
+          ...state.experimentInferenceModal,
+          visible: false,
         },
       };
 
