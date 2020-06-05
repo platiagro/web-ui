@@ -24,7 +24,6 @@ import {
   fetchOperatorsRequest,
   clearOperatorsFeatureParametersRequest,
 } from '../operators/actions';
-import experiment from './reducer';
 
 // ACTIONS
 // ** FETCH EXPERIMENT
