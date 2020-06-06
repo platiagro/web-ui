@@ -12,6 +12,7 @@ import {
   fetchExperimentRequest,
   editExperimentNameRequest,
   deleteExperimentRequest,
+  fetchExperimentDeployStatusRequest,
 } from '../../../../../../store/experiment/actions';
 // pipelines
 import {
@@ -32,6 +33,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(trainExperimentRequest(experiment, operators)),
     handleDeployExperiment: (experiment, operators) =>
       dispatch(deployExperimentRequest(experiment, operators, routerProps)),
+    handleFetchExperimentDeployStatus: (experimentId) =>
+      dispatch(fetchExperimentDeployStatusRequest(experimentId)),
   };
 };
 
@@ -60,10 +63,13 @@ const ExperimentHeaderContainer = ({
   handleEditExperimentName,
   handleTrainExperiment,
   handleDeployExperiment,
+  handleFetchExperimentDeployStatus,
 }) => {
   // CONSTANTS
   // getting project uuid
   const { projectId, experimentId } = useParams();
+  // polling time in miliseconds;
+  const pollingTime = 5000;
 
   // HOOKS
   // did mount hook
@@ -71,6 +77,18 @@ const ExperimentHeaderContainer = ({
     // fetching projects
     handleFetchExperiment(projectId, experimentId);
   }, []);
+
+  // HOOKS
+  // did mount hook
+  useEffect(() => {
+    // polling experiment deploy status
+    const polling = setInterval(
+      () => handleFetchExperimentDeployStatus(experimentId),
+      pollingTime
+    );
+
+    return () => clearInterval(polling);
+  });
 
   // HANDLERS
   // delete experiment
@@ -91,6 +109,7 @@ const ExperimentHeaderContainer = ({
       title={experiment.name}
       trainingLoading={trainingLoading}
       trainingSucceeded={experiment.succeeded}
+      deployStatus={experiment.deployStatus}
       handleEditExperimentName={editExperimentNameHandler}
       handleDeleteExperiment={deleteHandler}
       handleTrainExperiment={trainExperimentHandler}
