@@ -20,11 +20,7 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for notebook button
  * with redux.
  */
-const NotebookOutputsContainer = ({
-  operatorId,
-  componentId,
-  status,
-}) => {
+const NotebookOutputsContainer = ({ operatorId, componentId, status }) => {
   // CONSTANTS
   // getting experiment uuid
   const { experimentId } = useParams();
@@ -38,24 +34,18 @@ const NotebookOutputsContainer = ({
 
     if (status) {
       window.open(
-        `${jupyterDomain}/notebook/anonymous/server/lab/tree/experiments/${experimentId}/operators/${operatorId}/?reset&open=Training.ipynb`
+        `${jupyterDomain}/notebook/anonymous/server/lab/tree/experiments/${experimentId}/operators/${operatorId}/?reset&open=Experiment.ipynb`
       );
     } else {
       window.open(
-        `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${componentId}/?reset&open=Training.ipynb`
+        `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${componentId}/?reset&open=Experiment.ipynb`
       );
     }
   };
 
   // RENDER
-  return (
-    <NotebookOutputs
-      handleOpenNotebookClick={openNotebook}
-    />
-  );
+  return <NotebookOutputs handleOpenNotebookClick={openNotebook} />;
 };
 
 // EXPORT
-export default connect(
-  mapStateToProps
-)(NotebookOutputsContainer);
+export default connect(mapStateToProps)(NotebookOutputsContainer);

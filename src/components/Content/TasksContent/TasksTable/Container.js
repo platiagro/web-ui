@@ -56,7 +56,7 @@ const TasksTableContainer = (props) => {
         : '';
 
     window.open(
-      `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${taskId}/?reset&open=Training.ipynb,Inference.ipynb`
+      `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${taskId}/?reset&open=Experiment.ipynb,Deployment.ipynb`
     );
   };
 
