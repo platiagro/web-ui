@@ -46,7 +46,7 @@ const Drawer = ({
       keyboard={false}
     >
       {/* rendering data set drawer */}
-      {isDataset && !showResults && <DatasetDrawer />}
+      {isDataset && <DatasetDrawer />}
       {/* rendering generic drawer */}
       {!isDataset && !showResults && <GenericDrawer />}
       {/* rendering results drawer */}
