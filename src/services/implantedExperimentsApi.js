@@ -4,7 +4,7 @@ import axios from 'axios';
 // CONSTANTS
 // api base url
 const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:3000';
-const URL_SELDON = process.env.REACT_APP_MAIN_DOMAIN || 'http://localhost:3000';
+const URL_SELDON = process.env.REACT_APP_SELDON_API;
 // api object
 const pipelinesApi = axios.create({
   baseURL: `${URL}`,
@@ -35,7 +35,7 @@ const testDeployedExperiments = (id, body) =>
   new Promise((resolve, reject) => {
     // test deployed experiment
     seldonApi
-      .post(`/seldon/deployments/${id}/api/v1.0/predictions`, body)
+      .post(`/deployments/${id}/api/v1.0/predictions`, body)
       // success
       .then((response) => resolve(response))
       // error
