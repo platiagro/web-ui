@@ -119,7 +119,7 @@ const DatasetDrawer = ({
       <Upload
         {...props}
         disabled={loading || trainingSucceeded || trainingLoading}
-        accept='.csv,.zip,.rar,.7zip'
+        accept='.csv,.zip'
       >
         {/* upload button component */}
         <Button disabled={loading || trainingSucceeded || trainingLoading}>
@@ -170,7 +170,7 @@ const DatasetDrawer = ({
       <Upload
         {...props}
         disabled={loading || trainingSucceeded || trainingLoading}
-        accept='.txt,.zip,.rar,.7zip'
+        accept='.txt,.zip'
       >
         {/* upload button component */}
         <Button
@@ -209,8 +209,8 @@ const DatasetDrawer = ({
         {/* divider component */}
         <Divider />
         {/* target select block */}
-        <p>Qual é o seu atributo alvo?</p>
-        {/* select component */}
+        {/*  <p>Qual é o seu atributo alvo?</p>
+        {/* select component }
         <Select
           onChange={handleChangeTarget}
           style={{ width: 200 }}
@@ -219,17 +219,17 @@ const DatasetDrawer = ({
           loading={targetLoading}
           showSearch
           disabled={trainingSucceeded || targetLoading || trainingLoading}
-        >
-          {/* mapping columns to select options */}
+      > 
+          {/* mapping columns to select options }
           {columns.map((column) => (
             // select option component
             <Option key={column.name} value={column.name}>
               {column.name}
             </Option>
           ))}
-        </Select>
-        {/* input tip */}
-        <InputTip tip='Seu modelo será treinado para prever os valores do alvo.' />
+        </Select>*/}
+        {/* input tip 
+        <InputTip tip='Seu modelo será treinado para prever os valores do alvo.' />*/}
         {/* line breaks */}
         <br />
         <br />
