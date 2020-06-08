@@ -170,7 +170,7 @@ const DatasetDrawer = ({
       <Upload
         {...props}
         disabled={loading || trainingSucceeded || trainingLoading}
-        accept='.txt,.zip'
+        accept='.txt'
       >
         {/* upload button component */}
         <Button
@@ -208,29 +208,6 @@ const DatasetDrawer = ({
       <div>
         {/* divider component */}
         <Divider />
-        {/* target select block */}
-        {/*  <p>Qual é o seu atributo alvo?</p>
-        {/* select component }
-        <Select
-          onChange={handleChangeTarget}
-          style={{ width: 200 }}
-          placeholder='Selecione'
-          value={targetColumnId || undefined}
-          loading={targetLoading}
-          showSearch
-          disabled={trainingSucceeded || targetLoading || trainingLoading}
-      > 
-          {/* mapping columns to select options }
-          {columns.map((column) => (
-            // select option component
-            <Option key={column.name} value={column.name}>
-              {column.name}
-            </Option>
-          ))}
-        </Select>*/}
-        {/* input tip 
-        <InputTip tip='Seu modelo será treinado para prever os valores do alvo.' />*/}
-        {/* line breaks */}
         <br />
         <br />
         {/* dataset columns table */}
@@ -243,6 +220,7 @@ const DatasetDrawer = ({
       </div>
     );
   };
+  const showColumns = columns !== undefined && columns.length > 0;
 
   // RENDER
   return (
@@ -255,7 +233,7 @@ const DatasetDrawer = ({
       <br />
       {/* dataset header upload block */}
       <p>
-        Arquivo .txt ou .zip com os tipos dos atributos
+        Arquivo .txt com os tipos dos atributos
         <InputTip
           width={250}
           tip={
@@ -286,7 +264,7 @@ const DatasetDrawer = ({
         Importar
       </Button>
       {/* columns table */}
-      {renderColumnsTable()}
+      {showColumns && renderColumnsTable()}
     </div>
   );
 };
