@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // CONSTANTS
 // api base url
-const URL = process.env.REACT_APP_DATASET_API || 'http://localhost:3000';
+const URL = process.env.REACT_APP_DATASET_API || 'http://localhost:8080';
 // api object
 const datasetsApi = axios.create({
   baseURL: URL,

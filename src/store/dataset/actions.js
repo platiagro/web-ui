@@ -104,7 +104,20 @@ const createDatasetSuccess = (response, projectId, experimentId) => (
  */
 const createDatasetFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('featuretype must be one of')) {
+      errorMessage =
+        'Os tipos dos atributos devem ser DateTime, Numerical ou Categorical';
+    }
+    if (errorMessage.includes('featuretypes must be the same length')) {
+      errorMessage =
+        'Os tipos dos atributos devem ter o mesmo comprimento que as colunas dos dados de entrada';
+    }
+  }
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
