@@ -9,6 +9,7 @@ import { Divider, Spin, Icon, Table, Tabs } from 'antd';
 import TagResult from '../TagResult';
 import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
+import MetricsTitle from './MetricsTitle';
 
 // DESTRUCTURING TABS
 const { TabPane } = Tabs;
@@ -28,15 +29,6 @@ const resultsTypes = {
  * This component is responsible for displaying drawer with results.
  */
 const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
-  const MetricsTitle = () => {
-    return metricsLoading ? (
-      <span>
-        Métricas <Icon type='loading' />
-      </span>
-    ) : (
-      <span>Métricas</span>
-    );
-  };
   const dataSource = metrics.map((element, i) => {
     const objectKey = Object.keys(element)[0];
     const objectValor = element[objectKey];
@@ -86,7 +78,7 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
               ))}
             </TabPane>
             <TabPane
-              tab={<MetricsTitle />}
+              tab={<MetricsTitle loading={metricsLoading} />}
               key='2'
               disabled={metrics.length <= 0}
             >
