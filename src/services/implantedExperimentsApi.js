@@ -48,8 +48,8 @@ const testDeployedExperiments = (id, body) =>
 const deleteDeployedExperiments = (experimentId) =>
   new Promise((resolve, reject) => {
     // get deployed experiment
-    axios
-      .get('http://www.mocky.io/v2/5ed65ddd3400004d0006d9ae?mocky-delay=1000ms')
+    pipelinesApi
+      .delete(`${deploymentsPath}/${experimentId}`)
       // success
       .then((response) => resolve(response))
       // error
