@@ -62,23 +62,6 @@ const operators = (state = initialState, action) => {
             : operator
         ),
       ];
-    // set dataset success
-    case experimentActionTypes.SET_TARGET_COLUMN_SUCCESS:
-      return [
-        ...state.map((operator) =>
-          operator.uuid === 'dataset'
-            ? {
-                ...operator,
-                parameters: operator.parameters.map((parameter) =>
-                  parameter.name === 'target'
-                    ? { ...parameter, value: action.experiment.target }
-                    : parameter
-                ),
-                settedUp: true,
-              }
-            : operator
-        ),
-      ];
 
     // pipelines
     // get training experiment status
