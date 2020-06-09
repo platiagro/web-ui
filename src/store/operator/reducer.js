@@ -13,6 +13,7 @@ const initialState = {
   selected: false,
   parameters: [],
   results: [],
+  metrics: [],
 };
 
 /**
@@ -20,6 +21,9 @@ const initialState = {
  */
 const operator = (state = initialState, action) => {
   switch (action.type) {
+    //REQUEST INITIAL
+    case actionTypes.GET_OPERATOR_METRICS_REQUEST:
+      return { ...state, metrics: [] };
     // SUCCESS
     // operator
     // remove operator success
@@ -31,6 +35,8 @@ const operator = (state = initialState, action) => {
     // get operator results success
     case actionTypes.GET_OPERATOR_RESULTS_SUCCESS:
       return { ...state, results: [...action.results] };
+    case actionTypes.GET_OPERATOR_METRICS_SUCCESS:
+      return { ...state, metrics: [...action.metrics] };
 
     // FAIL
     // operator
@@ -45,7 +51,10 @@ const operator = (state = initialState, action) => {
       return message.error(action.errorMessage);
     // get operator results fail
     case actionTypes.GET_OPERATOR_RESULTS_FAIL:
-      return message.error(action.errorMessage);
+      message.error(action.errorMessage);
+      return { ...state, results: [] };
+    case actionTypes.GET_OPERATOR_METRICS_FAIL:
+      return { ...state, metrics: [] };
 
     // COMMON
     // operator

@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -14,6 +17,8 @@ import {
   operatorParameterDataLoaded,
   operatorResultsDataLoaded,
   operatorResultsLoadingData,
+  operatorMetricsLoadingData,
+  operatorMetricsDataLoaded,
 } from '../ui/actions';
 
 // DATASET ACTIONS
@@ -132,6 +137,34 @@ export const getOperatorResultsRequest = (
     .catch((error) => dispatch(getOperatorResultsFail(error)));
 };
 
+export const getOperatorMetricsRequest = (
+  projectId,
+  experimentId,
+  operatorId
+) => (dispatch) => {
+  // get operator figure metrics
+  dispatch({
+    type: actionTypes.GET_OPERATOR_METRICS_REQUEST,
+  });
+  dispatch(operatorMetricsLoadingData());
+
+  operatorsApi
+    .getOperatorMetrics(projectId, experimentId, operatorId)
+    .then((metrics) => {
+      dispatch({
+        type: actionTypes.GET_OPERATOR_METRICS_SUCCESS,
+        metrics,
+      });
+      dispatch(operatorMetricsDataLoaded());
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionTypes.GET_OPERATOR_METRICS_FAIL,
+      });
+      dispatch(operatorMetricsDataLoaded());
+    });
+};
+
 // // // // // // // // // //
 // ** SELECT OPERATOR
 /**
@@ -169,6 +202,7 @@ export const selectOperator = (projectId, experimentId, operator) => (
 
   // getting results
   dispatch(getOperatorResultsRequest(projectId, experimentId, operator.uuid));
+  dispatch(getOperatorMetricsRequest(projectId, experimentId, operator.uuid));
 
   // dispatching action to show drawer
   dispatch(showDrawer(operator.name, isDataset));

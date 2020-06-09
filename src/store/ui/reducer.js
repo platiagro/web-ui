@@ -20,6 +20,7 @@ const initialState = {
   datasetOperator: { loading: false },
   operatorParameter: { loading: false },
   operatorResults: { loading: false },
+  operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
   experimentInferenceModal: { visible: false },
 };
@@ -350,6 +351,26 @@ const ui = (state = initialState, action) => {
         operatorResults: {
           ...state.operatorResults,
           loading: action.operatorResultsLoading,
+        },
+      };
+
+    // OPERATOR METRICS
+    // loading data
+    case actionTypes.OPERATOR_METRICS_LOADING_DATA:
+      return {
+        ...state,
+        operatorMetrics: {
+          ...state.operatorMetrics,
+          loading: true,
+        },
+      };
+    // data loaded
+    case actionTypes.OPERATOR_METRICS_DATA_LOADED:
+      return {
+        ...state,
+        operatorMetrics: {
+          ...state.operatorMetrics,
+          loading: false,
         },
       };
 
