@@ -3,12 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Divider, Spin, Icon } from 'antd';
+import { Divider, Spin, Icon, Table, Tabs } from 'antd';
 
 // COMPONENTS
 import TagResult from '../TagResult';
 import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
+import MetricsTitle from './MetricsTitle';
+
+// DESTRUCTURING TABS
+const { TabPane } = Tabs;
 
 // RESULTS TYPES
 const resultsTypes = {
@@ -24,34 +28,78 @@ const resultsTypes = {
  * Results Drawer.
  * This component is responsible for displaying drawer with results.
  */
-const ResultsDrawer = ({ results, loading }) => (
-  // div container
-  <div>
-    {/* is loading */}
-    {loading ? (
-      // loading
-      <Spin indicator={<Icon type='loading' spin />} />
-    ) : (
-      /* rendering results */
-      results.map((result) => (
-        // div result container
-        <div key={result.uuid}>
-          {/* rendering result */}
-          {resultsTypes[result.type](result)}
-          {/* rendering divider */}
+const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
+  const dataSource = metrics.map((element, i) => {
+    const objectKey = Object.keys(element)[0];
+    const objectValor = element[objectKey];
+    const obj = {
+      key: i,
+      metrica: objectKey,
+      valor: JSON.stringify(objectValor),
+    };
+    return obj;
+  });
+
+  const columns = [
+    {
+      title: 'Métrica',
+      dataIndex: 'metrica',
+      key: 'metrica',
+      render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
+    },
+    {
+      title: 'Valor',
+      dataIndex: 'valor',
+      key: 'valor',
+      render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
+    },
+  ];
+
+  return (
+    // div container
+    <div>
+      {/* is loading */}
+      {loading ? (
+        // loading
+        <Spin indicator={<Icon type='loading' spin />} />
+      ) : (
+        /* rendering results and metrics */
+        <>
+          <Tabs defaultActiveKey='1'>
+            <TabPane tab='Resultados' key='1'>
+              {results.map((
+                result // div result container
+              ) => (
+                <div key={result.uuid}>
+                  {/* rendering result */}
+                  {resultsTypes[result.type](result)}
+                  {/* rendering divider */}
+                </div>
+              ))}
+            </TabPane>
+            <TabPane
+              tab={<MetricsTitle loading={metricsLoading} />}
+              key='2'
+              disabled={metrics.length <= 0}
+            >
+              <Table bordered dataSource={dataSource} columns={columns} />
+            </TabPane>
+          </Tabs>
           <Divider />
-        </div>
-      ))
-    )}
-  </div>
-);
+        </>
+      )}
+    </div>
+  );
+};
 
 // PROP TYPES
 ResultsDrawer.propTypes = {
   /** results drawer results list */
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** results drawer results list */
-  results: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** metrics drawer results list */
+  metrics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loading: PropTypes.bool.isRequired,
+  metricsLoading: PropTypes.bool.isRequired,
 };
 
 // EXPORT
