@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
