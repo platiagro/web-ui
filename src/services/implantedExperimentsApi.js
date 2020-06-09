@@ -36,6 +36,20 @@ const testDeployedExperiments = (id, body) =>
     // test deployed experiment
     seldonApi
       .post(`/deployments/${id}/api/v1.0/predictions`, body)
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+/**
+ * Get Deployed Experiments
+ * @param experimentId
+ * @returns {Promise}
+ */
+const deleteDeployedExperiments = (experimentId) =>
+  new Promise((resolve, reject) => {
+    // get deployed experiment
+    axios
+      .get('http://www.mocky.io/v2/5ed65ddd3400004d0006d9ae?mocky-delay=1000ms')
       // success
       .then((response) => resolve(response))
       // error
