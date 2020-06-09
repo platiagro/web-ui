@@ -3,6 +3,7 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import experimentsApi from '../../services/ExperimentsApi';
+import implantedExperimentsApi from '../../services/implantedExperimentsApi';
 
 // UI ACTIONS
 import {
@@ -41,6 +42,9 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
 
   // dispatching experiment name data loaded action
   dispatch(experimentNameDataLoaded());
+
+  // dispatching fetch experiment deploy status
+  dispatch(fetchExperimentDeployStatusRequest(experimentId));
 
   // fetching operators
   dispatch(
@@ -568,5 +572,72 @@ export const deployExperiment = (uuid) => ({
   type: actionTypes.DEPLOY_EXPERIMENT,
   experiment: {}, // { ...experimentMock, deployed: true },
 });
+
+// // // // // // // // // //
+
+// ** FETCH EXPERIMENT DEPLOY STATUS
+/**
+ * fetch experiment deploy status success action
+ * @param {Object} response
+ * @param {Object} experimentId
+ * @returns {Object} { type, status }
+ */
+const fetchExperimentDeployStatusSuccess = (response, experimentId) => (
+  dispatch
+) => {
+  // getting deploy list from response
+  const deployList = response.data;
+
+  // getting experiment deploy from list
+  const experimentDeploy = deployList.find(
+    (deploy) => deploy.experimentId === experimentId
+  );
+
+  // getting experiment status
+  const status = experimentDeploy ? experimentDeploy.status : '';
+
+  dispatch({
+    type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_SUCCESS,
+    status,
+  });
+};
+
+/**
+ * fetch experiment deploy status fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const fetchExperimentDeployStatusFail = (error) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching fetch experiment deploy status fail action response
+  dispatch({
+    type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_FAIL,
+    errorMessage,
+  });
+};
+
+/**
+ * fetch experiment deploy status request action
+ * @param {string} experimentId
+ * @returns {Function}
+ */
+export const fetchExperimentDeployStatusRequest = (experimentId) => (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_REQUEST,
+  });
+
+  // fetching all experiment deploy status
+  implantedExperimentsApi
+    .getDeployedExperiments()
+    .then((response) => {
+      dispatch(fetchExperimentDeployStatusSuccess(response, experimentId));
+    })
+    .catch((error) => dispatch(fetchExperimentDeployStatusFail(error)));
+};
 
 // // // // // // // // // //

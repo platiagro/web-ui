@@ -16,6 +16,7 @@ const initialState = {
   updatedAt: '',
   succeeded: false,
   uuid: '',
+  deployStatus: '',
 };
 
 /**
@@ -39,6 +40,8 @@ const experiment = (state = initialState, action) => {
       return { ...state, ...action.experiment };
     case actionTypes.SET_TARGET_COLUMN_SUCCESS:
       return { ...state, ...action.experiment };
+    case actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_SUCCESS:
+      return { ...state, deployStatus: action.status };
 
     // FAIL
     // experiment
@@ -54,6 +57,9 @@ const experiment = (state = initialState, action) => {
       return message.error(action.errorMessage);
     case actionTypes.SET_TARGET_COLUMN_FAIL:
       return message.error(action.errorMessage);
+    case actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_FAIL:
+      message.error(action.errorMessage);
+      return { ...state };
 
     // COMMON
     case actionTypes.TRAINING_EXPERIMENT_SUCCEEDED:

@@ -65,10 +65,19 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   const trainObject = { experimentId, dataset, target };
 
   // getting operators
-  trainObject.components = operators.map((operator) => ({
-    operatorId: operator.uuid,
-    notebookPath: operator.trainingNotebookPath,
-  }));
+  trainObject.components = operators.map((operator) => {
+    // configuring parameters
+    const configuredParameters = operator.parameters.map((parameter) => ({
+      name: parameter.name,
+      value: parameter.value,
+    }));
+
+    return {
+      operatorId: operator.uuid,
+      notebookPath: operator.trainingNotebookPath,
+      parameters: configuredParameters,
+    };
+  });
 
   // filtering dataset
   trainObject.components = trainObject.components.filter(
@@ -184,7 +193,9 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
  */
 const deployExperimentSuccess = (experimentId, routerProps) => () => {
   // go to deployed experiments
-  routerProps.history.push(`/experimentos-implantados?experiment=${experimentId}`);
+  routerProps.history.push(
+    `/experimentos-implantados?experiment=${experimentId}`
+  );
 
   // dispatching deploy experiment success
   return {

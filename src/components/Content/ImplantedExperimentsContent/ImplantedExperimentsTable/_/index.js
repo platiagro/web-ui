@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Typography, Tooltip, Button, Badge } from 'antd';
+import { Table, Typography, Tooltip, Button, Badge, Modal } from 'antd';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
@@ -25,8 +25,10 @@ const ImplantedExperimentsTable = ({
   handleOpenLog,
   loading,
   selectedExperiment,
+  experimentInference,
+  experimentInferenceModal,
+  closeModal,
 }) => {
-
   // convert status to badge icon
   const statusToBadge = {
     Failed: 'error',
@@ -107,9 +109,33 @@ const ImplantedExperimentsTable = ({
         columns={columnsConfig}
         pagination={{ pageSize: 9 }}
         loading={loading}
-        rowClassName={(record) => record.name === selectedExperiment ? 'ant-table-row-selected' : '' }
+        rowClassName={(record) =>
+          record.name === selectedExperiment ? 'ant-table-row-selected' : ''
+        }
       />
       <LogsDrawer />
+      <Modal
+        title='Predições'
+        visible={experimentInferenceModal}
+        onOk={closeModal}
+        onCancel={closeModal}
+      >
+        <Table
+          dataSource={experimentInference.ndarray.map((e, i) => {
+            const data = { key: i };
+            experimentInference.names.map((c, j) => {
+              data[c] = e[j];
+            });
+            return data;
+          })}
+          columns={experimentInference.names.map((name) => ({
+            title: name,
+            dataIndex: name,
+            key: name,
+          }))}
+        />
+        ;
+      </Modal>
     </>
   );
 };

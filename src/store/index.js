@@ -18,6 +18,7 @@ import ui from './ui/reducer';
 import dataset from './dataset/reducer';
 import pipelines from './pipelines/reducer';
 import logs from './logs/reducer';
+import testExperimentInference from './testExperimentInference/reducer';
 
 // REDUX DEV TOOLS CONFIG
 const composeEnhancers =
@@ -45,6 +46,7 @@ const reducers = combineReducers({
   dataset,
   pipelines,
   logs,
+  testExperimentInference,
 });
 
 // STORE

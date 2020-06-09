@@ -226,7 +226,7 @@ const DatasetDrawer = ({
     // div container
     <div>
       {/* dataset upload block */}
-      <p>Arquivo .csv ou .zip com os dados de entrada</p>
+      <p>Arquivo .csv com os dados de entrada</p>
       {renderDatasetUpload()}
       {/* line break */}
       <br />

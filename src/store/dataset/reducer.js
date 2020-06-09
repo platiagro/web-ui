@@ -36,16 +36,11 @@ const dataset = (state = initialState, action) => {
       return { ...action.dataset };
 
     // FAIL
-    // dataset
-    // fetch dataset columns fail
-    case actionTypes.FETCH_DATASET_COLUMNS_FAIL:
-      return message.error(action.errorMessage);
-    // update dataset column fail
-    case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
-      return message.error(action.errorMessage);
-    // create dataset fail
     case actionTypes.CREATE_DATASET_FAIL:
-      return message.error(action.errorMessage);
+    case actionTypes.FETCH_DATASET_COLUMNS_FAIL:
+    case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
+      message.error(action.errorMessage, 5);
+      return state;
 
     // DEFAULT
     default:
