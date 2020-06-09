@@ -97,6 +97,7 @@ const ImplantedExperimentsTableContainer = ({
       <ImplantedExperimentsTable
         implantedExperiments={implantedExperiments}
         handleTestInference={handleTestImplantedExperimentInference}
+        handleDeleteImplantedExperiment={handleDeleteImplantedExperiment}
         handleOpenLog={handleOpenLog}
         loading={loading}
         selectedExperiment={selectedExperiment}

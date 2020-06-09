@@ -36,6 +36,20 @@ const testDeployedExperiments = (id, body) =>
     // test deployed experiment
     seldonApi
       .post(`/deployments/${id}/api/v1.0/predictions`, body)
+      .then((response) => resolve(response))
+      // error
+      .catch((error) => reject(error));
+  });
+/**
+ * Get Deployed Experiments
+ * @param experimentId
+ * @returns {Promise}
+ */
+const deleteDeployedExperiments = (experimentId) =>
+  new Promise((resolve, reject) => {
+    // get deployed experiment
+    pipelinesApi
+      .delete(`${deploymentsPath}/${experimentId}`)
       // success
       .then((response) => resolve(response))
       // error
@@ -46,4 +60,5 @@ const testDeployedExperiments = (id, body) =>
 export default {
   getDeployedExperiments,
   testDeployedExperiments,
+  deleteDeployedExperiments,
 };

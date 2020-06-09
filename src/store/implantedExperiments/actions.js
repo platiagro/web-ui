@@ -1,18 +1,23 @@
+// UI LIB
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
-// MOCKS
-// implanted experiments mock
-import implantedExperimentsMock from '../../components/Content/ImplantedExperimentsContent/_/_implantedExperimentsMock';
-
 // SERVICE
 import implantedExperimentsApi from 'services/implantedExperimentsApi';
+
+// UTILS
+import utils from 'utils';
 
 // UI ACTIONS
 import {
   implantedExperimentsLoadingData,
   implantedExperimentsDataLoaded,
 } from '../ui/actions';
+
+// DESTRUCTURING UTILS
+const { getErrorMessage } = utils;
 
 // ACTIONS
 /**
@@ -72,10 +77,26 @@ export const fetchImplantedExperiments = () => (dispatch) => {
  * @param {string} implantedExperimentUuid
  * @returns {type, implantedExperiments}
  */
-export const deleteImplantedExperiment = (implantedExperimentUuid) => ({
-  type: actionTypes.DELETE_IMPLANTED_EXPERIMENT,
-  implantedExperiments: implantedExperimentsMock.filter(
-    (implantedExperiment) =>
-      implantedExperiment.uuid !== implantedExperimentUuid
-  ),
-});
+export const deleteImplantedExperiment = (implantedExperimentUuid) => (
+  dispatch
+) => {
+  console.log('[DELETING]', implantedExperimentUuid);
+
+  dispatch(implantedExperimentsLoadingData());
+  // fetching experiment
+  implantedExperimentsApi
+    .deleteDeployedExperiments(implantedExperimentUuid)
+    .then((response) => dispatch(deleteImplantedExperimentSuccess(response)))
+    .catch((error) => dispatch(deleteimplantedExperimentsFail(error)));
+};
+
+const deleteImplantedExperimentSuccess = (response) => (dispatch) => {
+  console.log(response.data);
+  dispatch(fetchImplantedExperiments());
+};
+
+const deleteimplantedExperimentsFail = (error) => (dispatch) => {
+  console.log(error);
+  message.error(getErrorMessage(error));
+  dispatch(implantedExperimentsDataLoaded());
+};

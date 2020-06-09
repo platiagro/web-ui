@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Upload, Button, Icon } from 'antd';
+import { Upload, Icon } from 'antd';
 
 /**
  * Upload Inference Test Button.
@@ -49,10 +49,10 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
       {...props}
     >
       {/* upload button link */}
-      <Button type='link'>
-        <Icon type='upload' style={{ marginRight: -5 }} />
+      <a>
+        <Icon type='upload' style={{ marginRight: 5 }} />
         Testar Inferência
-      </Button>
+      </a>
     </Upload>
   );
 };
