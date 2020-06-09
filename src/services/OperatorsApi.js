@@ -157,6 +157,22 @@ const getOperatorResults = (projectId, experimentId, operatorId) =>
       .catch((error) => reject(error));
   }); */
 
+export const getOperatorMetrics = async (
+  projectId,
+  experimentId,
+  operatorId
+) => {
+  try {
+    console.log('[getOperatorMetrics]', projectId, experimentId, operatorId);
+    const metrics = await operatorsApi.get(
+      `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/metrics`
+    );
+    return metrics.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 // EXPORT DEFAULT
 export default {
   listOperators,
@@ -165,6 +181,7 @@ export default {
   updateOperator,
   getOperatorResultsDataset,
   getOperatorResults,
+  getOperatorMetrics,
   /*   detailOperator,
    */
 };
