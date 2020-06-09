@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Upload, Button, Icon } from 'antd';
+import { Upload, Icon } from 'antd';
 
 /**
  * Upload Inference Test Button.
