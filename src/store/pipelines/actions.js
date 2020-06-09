@@ -74,7 +74,7 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
 
     return {
       operatorId: operator.uuid,
-      notebookPath: operator.trainingNotebookPath,
+      notebookPath: operator.experimentNotebookPath,
       parameters: configuredParameters,
     };
   });
@@ -242,7 +242,7 @@ export const deployExperimentRequest = (experiment, operators, routerProps) => (
   // getting operators
   deployObject.components = operators.map((operator) => ({
     operatorId: operator.uuid,
-    notebookPath: operator.inferenceNotebookPath,
+    notebookPath: operator.deploymentNotebookPath,
   }));
 
   // filtering dataset
