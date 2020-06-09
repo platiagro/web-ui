@@ -208,8 +208,7 @@ const DatasetDrawer = ({
       <div>
         {/* divider component */}
         <Divider />
-        <br />
-        <br />
+        Tipos dos atributos
         {/* dataset columns table */}
         <ColumnsTable
           targetColumnId={targetColumnId}
