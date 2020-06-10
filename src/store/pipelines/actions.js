@@ -59,10 +59,10 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   dispatch(experimentTrainingLoadingData());
 
   // getting experiment data
-  const { uuid: experimentId, dataset, target } = experiment;
+  const { uuid: experimentId, dataset } = experiment;
 
   // creating train object
-  const trainObject = { experimentId, dataset, target };
+  const trainObject = { experimentId, dataset };
 
   // getting operators
   trainObject.components = operators.map((operator) => {
@@ -234,10 +234,10 @@ export const deployExperimentRequest = (experiment, operators, routerProps) => (
   });
 
   // getting experiment data
-  const { uuid: experimentId, dataset, target } = experiment;
+  const { uuid: experimentId, dataset } = experiment;
 
   // creating deploy object
-  const deployObject = { experimentId, dataset, target };
+  const deployObject = { experimentId, dataset };
 
   // getting operators
   deployObject.components = operators.map((operator) => ({

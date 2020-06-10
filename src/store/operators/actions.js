@@ -69,14 +69,12 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} datasetName
- * @param {string} targetColumn
  * @returns {Function}
  */
 export const fetchOperatorsRequest = (
   projectId,
   experimentId,
-  datasetName,
-  targetColumn
+  datasetName
 ) => async (dispatch) => {
   // dispatching request action
   dispatch({
@@ -92,12 +90,9 @@ export const fetchOperatorsRequest = (
     name: 'Conjunto de Dados',
     position: -1,
     uuid: 'dataset',
-    parameters: [
-      { name: 'dataset', value: datasetName || '' },
-      { name: 'target', value: targetColumn || '' },
-    ],
+    parameters: [{ name: 'dataset', value: datasetName || '' }],
     selected: false,
-    settedUp: datasetName && targetColumn,
+    settedUp: datasetName,
   };
 
   try {
