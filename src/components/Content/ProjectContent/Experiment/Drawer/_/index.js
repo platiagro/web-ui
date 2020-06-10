@@ -21,7 +21,9 @@ const Drawer = ({
   isVisible,
   handleClose,
   results,
+  metrics,
   resultsLoading,
+  metricsLoading,
   isDataset,
 }) => {
   // HOOKS
@@ -51,7 +53,12 @@ const Drawer = ({
       {!isDataset && !showResults && <GenericDrawer />}
       {/* rendering results drawer */}
       {showResults && (
-        <ResultsDrawer loading={resultsLoading} results={results} />
+        <ResultsDrawer
+          loading={resultsLoading}
+          metricsLoading={metricsLoading}
+          metrics={metrics}
+          results={results}
+        />
       )}
 
       {/* rendering results button bar */}
@@ -77,8 +84,12 @@ Drawer.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   /** drawer is dataset */
   isDataset: PropTypes.bool.isRequired,
+  resultsLoading: PropTypes.bool.isRequired,
+  metricsLoading: PropTypes.bool.isRequired,
   /** drawer results list */
   results: PropTypes.arrayOf(PropTypes.object),
+  /** drawer metrics list */
+  metrics: PropTypes.arrayOf(PropTypes.object),
   /** select input change handler */
   handleClose: PropTypes.func.isRequired,
 };

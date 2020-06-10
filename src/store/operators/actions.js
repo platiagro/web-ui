@@ -227,7 +227,7 @@ export const clearOperatorsFeatureParametersRequest = (
       // getting operator feature parameters
       const operatorFeatureParameters = operator.parameters.filter(
         (parameter, index) => {
-          if (parameter.type === 'feature' && parameter.name !== 'target') {
+          if (parameter.type === 'feature') {
             // updating feature parameter options
             newOperator.parameters[index].options = featureOptions;
 

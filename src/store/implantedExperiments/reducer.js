@@ -17,8 +17,6 @@ const implantedExperiments = (state = initialState, action) => {
     case actionTypes.FETCH_IMPLANTED_EXPERIMENTS_FAIL:
       message.error(action.errorMessage);
       return [];
-    case actionTypes.DELETE_IMPLANTED_EXPERIMENT:
-      return action.implantedExperiments;
     default:
       return state;
   }

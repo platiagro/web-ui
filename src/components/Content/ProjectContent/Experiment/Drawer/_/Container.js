@@ -22,7 +22,9 @@ const mapStateToProps = (state) => {
   return {
     drawer: state.ui.drawer,
     results: state.operator.results,
+    metrics: state.operator.metrics,
     resultsLoading: state.ui.operatorResults.loading,
+    metricsLoading: state.ui.operatorMetrics.loading,
   };
 };
 
@@ -35,7 +37,9 @@ const DrawerContainer = ({
   drawer,
   handleHideDrawer,
   results,
+  metrics,
   resultsLoading,
+  metricsLoading,
 }) => {
   /*   // CONSTANTS
   // getting experiment uuid
@@ -59,7 +63,9 @@ const DrawerContainer = ({
       isDataset={drawer.isDataset}
       handleClose={handleHideDrawer}
       results={results}
+      metrics={metrics}
       resultsLoading={resultsLoading}
+      metricsLoading={metricsLoading}
       title={drawer.title}
     />
   );
