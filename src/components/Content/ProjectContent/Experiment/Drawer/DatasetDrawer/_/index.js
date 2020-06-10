@@ -119,7 +119,7 @@ const DatasetDrawer = ({
       <Upload
         {...props}
         disabled={loading || trainingSucceeded || trainingLoading}
-        accept='.csv,.zip'
+        accept='.csv'
       >
         {/* upload button component */}
         <Button disabled={loading || trainingSucceeded || trainingLoading}>
@@ -208,7 +208,31 @@ const DatasetDrawer = ({
       <div>
         {/* divider component */}
         <Divider />
-        Tipos dos atributos
+        {/* target select block */}
+        <p>Qual é o seu atributo alvo?</p>
+        {/* select component */}
+        <Select
+          onChange={handleChangeTarget}
+          style={{ width: 200 }}
+          placeholder='Selecione'
+          value={targetColumnId || undefined}
+          loading={targetLoading}
+          showSearch
+          disabled={trainingSucceeded || targetLoading || trainingLoading}
+        >
+          {/* mapping columns to select options */}
+          {columns.map((column) => (
+            // select option component
+            <Option key={column.name} value={column.name}>
+              {column.name}
+            </Option>
+          ))}
+        </Select>
+        {/* input tip */}
+        <InputTip tip='Seu modelo será treinado para prever os valores do alvo.' />
+        {/* line breaks */}
+        <br />
+        <br />
         {/* dataset columns table */}
         <ColumnsTable
           targetColumnId={targetColumnId}
@@ -219,14 +243,13 @@ const DatasetDrawer = ({
       </div>
     );
   };
-  const showColumns = columns !== undefined && columns.length > 0;
 
   // RENDER
   return (
     // div container
     <div>
       {/* dataset upload block */}
-      <p>Arquivo .csv ou .zip com os dados de entrada</p>
+      <p>Arquivo .csv com os dados de entrada</p>
       {renderDatasetUpload()}
       {/* line break */}
       <br />
@@ -263,7 +286,7 @@ const DatasetDrawer = ({
         Importar
       </Button>
       {/* columns table */}
-      {showColumns && renderColumnsTable()}
+      {renderColumnsTable()}
     </div>
   );
 };
