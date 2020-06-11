@@ -150,6 +150,7 @@ const ImplantedExperimentsTable = ({
             dataIndex: name,
             key: name,
           }))}
+          scroll={{ x: 800 }}
         />
         ;
       </Modal>
