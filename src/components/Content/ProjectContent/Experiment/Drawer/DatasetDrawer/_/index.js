@@ -111,7 +111,6 @@ const DatasetDrawer = ({
       <Upload
         {...props}
         disabled={loading || trainingSucceeded || trainingLoading}
-        accept='.csv,.zip'
       >
         {/* upload button component */}
         <Button disabled={loading || trainingSucceeded || trainingLoading}>
