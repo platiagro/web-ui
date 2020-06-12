@@ -113,10 +113,42 @@ export const showDrawer = (title, isDataset) => {
  * hide drawer
  * @returns {Object} { type, drawerVisible }
  */
-export const hideDrawer = () => {
-  return {
+export const hideDrawer = () => (dispatch) => {
+  //hidding drawer
+  dispatch({
     type: actionTypes.HIDE_DRAWER,
     drawerVisible: false,
+  });
+
+  // hidding drawer results
+  dispatch(hideDrawerResults());
+};
+
+// // // // // // // // // //
+
+// ** SHOW DRAWER RESULTS
+/**
+ * show drawer results
+ * @returns {Object} { type, showResults }
+ */
+export const showDrawerResults = () => {
+  return {
+    type: actionTypes.SHOW_DRAWER_RESULTS,
+    showResults: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** HIDE DRAWER RESULTS
+/**
+ * hide drawer results
+ * @returns {Object} { type, showResults }
+ */
+export const hideDrawerResults = () => {
+  return {
+    type: actionTypes.HIDE_DRAWER_RESULTS,
+    showResults: false,
   };
 };
 
