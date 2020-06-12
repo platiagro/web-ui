@@ -13,7 +13,7 @@ const contetInfo = () => {
     "data": { "ndarray": [ [5.1, 3.5, 1.4, 0.2], [6.3, 2.3, 4.4, 1.3] ] }
   }`;
 
-  const restricoes = `
+  const information = `
     curl -X POST \
        -H 'Content-Type: application/json' \
        -d '{"data": { "ndarray": [[5.1,3.5,1.4,0.2]], "names":["SepalLengthCm","SepalWidthCm","PetalLengthCm","PetalWidthCm"]}}' \
@@ -61,7 +61,7 @@ const contetInfo = () => {
 
       <p>Por exemplo, a seguinte requisição poderia ser realizada:</p>
 
-      <p>{restricoes}</p>
+      <p>{information}</p>
 
       <p>Essa requisição retorna uma resposta similar a seguinte:</p>
       <p>{retorno}</p>
