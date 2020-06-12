@@ -6,7 +6,12 @@ const initialState = {
   newProjectModal: { visible: false, title: 'Novo Projeto', record: undefined },
   newExperimentModal: { visible: false },
   newTemplateModal: { visible: false },
-  drawer: { visible: false, isDataset: false, title: 'Título Drawer' },
+  drawer: {
+    visible: false,
+    isDataset: false,
+    title: 'Título Drawer',
+    showResults: false,
+  },
   template: { loading: false },
   tasksTable: { loading: false },
   projectsTable: { loading: false },
@@ -116,6 +121,23 @@ const ui = (state = initialState, action) => {
         drawer: {
           ...state.drawer,
           visible: action.drawerVisible,
+        },
+      };
+
+    // DRAWER RESULTS
+    // show drawer results
+    case actionTypes.SHOW_DRAWER_RESULTS:
+      return {
+        ...state,
+        drawer: { ...state.drawer, showResults: action.showResults },
+      };
+    // hide drawer results
+    case actionTypes.HIDE_DRAWER_RESULTS:
+      return {
+        ...state,
+        drawer: {
+          ...state.drawer,
+          showResults: action.showResults,
         },
       };
 
