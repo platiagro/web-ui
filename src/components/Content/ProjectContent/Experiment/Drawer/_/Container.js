@@ -6,14 +6,21 @@ import { connect } from 'react-redux';
 import Drawer from './index';
 
 // ACTIONS
-import { hideDrawer } from '../../../../../../store/ui/actions';
-/* import { fetchOperatorRequest } from '../../../../../../store/operator/actions'; */
+import {
+  hideDrawer,
+  showDrawerResults,
+  hideDrawerResults,
+} from '../../../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // hide drawer action
     handleHideDrawer: () => dispatch(hideDrawer()),
+    // hide drawer results action
+    handleHideDrawerResults: () => dispatch(hideDrawerResults()),
+    // show drawer results action
+    handleShowDrawerResults: () => dispatch(showDrawerResults()),
   };
 };
 
@@ -40,33 +47,23 @@ const DrawerContainer = ({
   metrics,
   resultsLoading,
   metricsLoading,
+  handleHideDrawerResults,
+  handleShowDrawerResults,
 }) => {
-  /*   // CONSTANTS
-  // getting experiment uuid
-  const { operatorId } = useParams();
-
-  // HOOKS
-  // did mount hook
-  useEffect(() => {
-    // fetching menu tasks
-    handleFetchOperator();
-  }, []);
-
-  // HANDLERS
-  const addFlowTaskHandler = (taskUuid) =>
-    handleAddFlowTask(experimentUuid, taskUuid); */
-
   // RENDER
   return (
     <Drawer
       isVisible={drawer.visible}
       isDataset={drawer.isDataset}
+      showResults={drawer.showResults}
       handleClose={handleHideDrawer}
       results={results}
       metrics={metrics}
       resultsLoading={resultsLoading}
       metricsLoading={metricsLoading}
       title={drawer.title}
+      handleEditClick={handleHideDrawerResults}
+      handleResultsClick={handleShowDrawerResults}
     />
   );
 };
