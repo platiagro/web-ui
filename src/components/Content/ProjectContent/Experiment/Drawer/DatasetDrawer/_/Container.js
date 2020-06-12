@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -11,7 +11,6 @@ import {
   createDatasetRequest,
   updateDatasetColumnRequest,
 } from '../../../../../../../store/dataset/actions';
-import { setTargetColumnRequest } from '../../../../../../../store/experiment/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -24,9 +23,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         updateDatasetColumnRequest(datasetName, columnName, columnNewType)
       ),
-    // set experiment target
-    handleSetTarget: (formData, projectId, targetColumnName) =>
-      dispatch(setTargetColumnRequest(formData, projectId, targetColumnName)),
   };
 };
 
@@ -35,9 +31,7 @@ const mapStateToProps = (state) => {
   return {
     dataset: state.dataset,
     datasetName: state.experiment.dataset,
-    targetColumn: state.experiment.target,
     loading: state.ui.datasetOperator.loading,
-    targetLoading: state.ui.experimentTarget.loading,
     trainingSucceeded: state.experiment.succeeded,
     trainingLoading: state.ui.experimentTraining.loading,
   };
@@ -51,13 +45,10 @@ const mapStateToProps = (state) => {
 const DatasetDrawerContainer = ({
   dataset,
   datasetName,
-  targetColumn,
   loading,
   trainingLoading,
-  targetLoading,
   handleCreateDataset,
   handleUpdateDatasetColumn,
-  handleSetTarget,
   trainingSucceeded,
 }) => {
   // CONSTANTS
@@ -71,20 +62,14 @@ const DatasetDrawerContainer = ({
   // update dataset column
   const updateDatasetColumnHandler = (columnName, columnNewValue) =>
     handleUpdateDatasetColumn(datasetName, columnName, columnNewValue);
-  // set target
-  const setTargetHandler = (targetColumnName) =>
-    handleSetTarget(projectId, experimentId, targetColumnName);
 
   // RENDER
   return (
     <DatasetDrawer
       columns={dataset.columns}
-      targetColumnId={targetColumn}
       handleUploadFiles={createDatasetHandler}
-      handleSetTarget={setTargetHandler}
       handleSetColumnType={updateDatasetColumnHandler}
       loading={loading}
-      targetLoading={targetLoading}
       trainingLoading={trainingLoading}
       trainingSucceeded={trainingSucceeded}
     />

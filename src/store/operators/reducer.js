@@ -55,9 +55,8 @@ const operators = (state = initialState, action) => {
                     name: 'dataset',
                     value: action.experiment.dataset,
                   },
-                  { name: 'target', value: '' },
                 ],
-                settedUp: false,
+                settedUp: true,
               }
             : operator
         ),
