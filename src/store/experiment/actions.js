@@ -188,7 +188,15 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
  */
 const createExperimentFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('Name already exist')) {
+      errorMessage = 'Já existe experimento com esse nome!';
+    }
+  }
 
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
@@ -267,7 +275,15 @@ const editExperimentNameSuccess = (response) => (dispatch) => {
  */
 const editExperimentNameFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('Name already exist')) {
+      errorMessage = 'Já existe experimento com esse nome!';
+    }
+  }
 
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());

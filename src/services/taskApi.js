@@ -37,7 +37,16 @@ export const createTask = async (task) => {
     const response = await taskApi.post(`/components`, body);
     return response;
   } catch (error) {
-    message.error(error.message);
+    let errorMessage;
+    if (error.response.status == 500) {
+      errorMessage = error.message;
+    } else {
+      errorMessage = error.response.data.message;
+      if (errorMessage.includes('Name already exist')) {
+        errorMessage = 'Já existe tarefa com esse nome!';
+      }
+    }
+    message.error(errorMessage);
   }
 };
 
@@ -50,7 +59,16 @@ export const updateTask = async (uuid, task) => {
     const response = await taskApi.patch(`/components/${uuid}`, body);
     return response;
   } catch (error) {
-    message.error(error.message);
+    let errorMessage;
+    if (error.response.status == 500) {
+      errorMessage = error.message;
+    } else {
+      errorMessage = error.response.data.message;
+      if (errorMessage.includes('Name already exist')) {
+        errorMessage = 'Já existe tarefa com esse nome!';
+      }
+    }
+    message.error(errorMessage);
   }
 };
 

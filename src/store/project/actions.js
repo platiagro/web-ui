@@ -116,7 +116,15 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
  */
 const createProjectFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('Name already exist')) {
+      errorMessage = 'Já existe projeto com esse nome!';
+    }
+  }
 
   // dispatching projects table data loaded action
   dispatch(projectsTableDataLoaded());
@@ -183,7 +191,15 @@ const editProjectNameSuccess = (response) => (dispatch) => {
  */
 const editProjectNameFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('Name already exist')) {
+      errorMessage = 'Já existe projeto com esse nome!';
+    }
+  }
 
   // dispatching project name data loaded action
   dispatch(projectNameDataLoaded());
