@@ -55,7 +55,7 @@ const Drawer = ({
       )}
 
       {/* rendering results button bar */}
-      {results && results.length > 0 && (
+      {!isDataset && results && results.length > 0 && (
         <ResultsButtonBar
           handleEditClick={handleEditClick}
           handleResultsClick={handleResultsClick}
