@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { hideUsingDeploymentsModal } from '../../../store/ui/actions';
+import { hideUsingDeploymentsModal } from '../../../../store/ui/actions';
 
 import DeploymentsModal from './index';
 
@@ -102,9 +102,9 @@ const mapStateToProps = (state) => {
  */
 const NewDeploymentsModalContainer = ({ visible, handleCloseModal }) => (
   <DeploymentsModal
-    visible={true}
+    visible={visible}
     handleCloseModal={handleCloseModal}
-    title='Titulo Ex.'
+    title='Como usar um experimento implantado?'
   >
     <ContentInfo />
   </DeploymentsModal>

@@ -17,6 +17,8 @@ const deploymentsModal = ({ visible, handleCloseModal, title, children }) => {
       title={title}
       onOk={handleCancel}
       onCancel={handleCancel}
+      width='800px'
+      cancelButtonProps={{ style: { display: 'none' }, disabled: true }}
     >
       {/* Text details */}
       {children}

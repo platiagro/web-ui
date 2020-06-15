@@ -4,10 +4,9 @@ import React from 'react';
 // COMPONENTS
 import ContentHeader from '../../ContentHeader/Container';
 import ImplantedExperimentsTable from '../ImplantedExperimentsTable/_/Container';
-import { Modal, Button } from 'antd';
 
-import NewDeploymentsModalContainer from '../../UsingDeploymentsModal/Container';
-
+import NewDeploymentsModalContainer from '../UsingDeploymentsModal/Container';
+import ButtonUsingDeploymentsContainer from '../ButtonUsingDeployments/Container';
 /**
  * Implantend Experiments Content.
  * This component is responsible for displaying the implanted experiments content.
@@ -20,13 +19,7 @@ const ImplantedExperimentsContent = () => (
     {/* div content page container */}
     <div className='contentPage'>
       <NewDeploymentsModalContainer />
-      <Button
-        //   onClick={ola}
-        icon='question-circle'
-        className='ant-btn newProjectButton ant-btn-secondary'
-      >
-        Como usar um experimento implantado?
-      </Button>
+      <ButtonUsingDeploymentsContainer />
       <ImplantedExperimentsTable />
     </div>
   </>
