@@ -479,9 +479,15 @@ export const setOperatorParametersRequest = (
     : parameterValue;
 
   // filtering parameters with value
-  const parametersWithValue = operator.parameters.filter(
-    (parameter) => parameter.value
-  );
+  const parametersWithValue = operator.parameters.filter((parameter) => {
+    if (parameter.name === parameterName) {
+      return true;
+    } else if (parameter.value !== undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
   // creating parameter object to update
   const parameters = {};
