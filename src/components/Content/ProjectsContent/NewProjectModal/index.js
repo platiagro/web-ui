@@ -17,7 +17,6 @@ const NewProjectModal = ({
   title,
   record,
   handleUpdateProject,
-  handleKeyPress,
 }) => {
   // getting form utils
   const { getFieldDecorator, getFieldsError } = form;
@@ -34,7 +33,6 @@ const NewProjectModal = ({
     // closing modal
     handleCloseModal();
   };
-
 
   // Function to handle form submit
   const handleSubmit = (e) => {
@@ -67,12 +65,17 @@ const NewProjectModal = ({
       cancelText='Cancelar'
       onCancel={handleCancel}
       onOk={handleSubmit}
-      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+      okButtonProps={{
+        disabled: hasErrors(getFieldsError()),
+        form: 'newProjectForm',
+        key: 'submit',
+        htmlType: 'submit'
+      }}
       confirmLoading={loading}
       destroyOnClose
     >
       {/* form details */}
-      <Form layout='vertical'>
+      <Form id='newProjectForm' layout='vertical'>
         <Form.Item label='Qual o nome do seu projeto?'
           autoFocus
           onFocus={(e) => e.target.select()}
