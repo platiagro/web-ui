@@ -6,6 +6,7 @@ const initialState = {
   newProjectModal: { visible: false, title: 'Novo Projeto', record: undefined },
   newExperimentModal: { visible: false },
   newTemplateModal: { visible: false },
+  newDeploymentsModal: { visible: false },
   drawer: {
     visible: false,
     isDataset: false,
