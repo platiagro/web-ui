@@ -121,7 +121,7 @@ const createProjectFail = (error) => (dispatch) => {
     errorMessage = error.message;
   } else {
     errorMessage = error.response.data.message;
-    if (errorMessage.includes('Name already exist')) {
+    if (errorMessage.includes('name already exist')) {
       errorMessage = 'Já existe projeto com esse nome!';
     }
   }
@@ -196,7 +196,7 @@ const editProjectNameFail = (error) => (dispatch) => {
     errorMessage = error.message;
   } else {
     errorMessage = error.response.data.message;
-    if (errorMessage.includes('Name already exist')) {
+    if (errorMessage.includes('name already exist')) {
       errorMessage = 'Já existe projeto com esse nome!';
     }
   }
