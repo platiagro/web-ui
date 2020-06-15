@@ -6,7 +6,7 @@ const initialState = {
   newProjectModal: { visible: false, title: 'Novo Projeto', record: undefined },
   newExperimentModal: { visible: false },
   newTemplateModal: { visible: false },
-  newDeploymentsModal: { visible: true, title: 'New Modal' },
+  newDeploymentsModal: { visible: true },
   drawer: { visible: false, isDataset: false, title: 'Título Drawer' },
   template: { loading: false },
   tasksTable: { loading: false },
@@ -81,6 +81,26 @@ const ui = (state = initialState, action) => {
         newExperimentModal: {
           ...state.newExperimentModal,
           visible: action.newExperimentModalVisible,
+        },
+      };
+
+    // show DeploymentsModal
+    case actionTypes.SHOW_USING_DEPLOYMENTS_MODAL:
+      return {
+        ...state,
+        newDeploymentsModal: {
+          ...state.newDeploymentsModal,
+          visible: true,
+        },
+      };
+    // hide DeploymentsModal
+    case actionTypes.HIDE_USING_DEPLOYMENTS_MODAL:
+      console.log('hide');
+      return {
+        ...state,
+        newDeploymentsModal: {
+          ...state.newDeploymentsModal,
+          visible: false,
         },
       };
 

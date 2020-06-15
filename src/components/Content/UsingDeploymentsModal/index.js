@@ -12,7 +12,12 @@ const deploymentsModal = ({ visible, handleCloseModal, title, children }) => {
   // RENDER
   return (
     // modal component
-    <Modal visible={visible} title={title} onOk={handleCancel}>
+    <Modal
+      visible={visible}
+      title={title}
+      onOk={handleCancel}
+      onCancel={handleCancel}
+    >
       {/* Text details */}
       {children}
     </Modal>
