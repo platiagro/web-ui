@@ -5,6 +5,8 @@ import React from 'react';
 import ContentHeader from '../../ContentHeader/Container';
 import ImplantedExperimentsTable from '../ImplantedExperimentsTable/_/Container';
 
+import NewDeploymentsModalContainer from '../UsingDeploymentsModal/Container';
+import ButtonUsingDeploymentsContainer from '../ButtonUsingDeployments/Container';
 /**
  * Implantend Experiments Content.
  * This component is responsible for displaying the implanted experiments content.
@@ -16,6 +18,8 @@ const ImplantedExperimentsContent = () => (
     <ContentHeader title='Experimentos Implantados' editable={false} />
     {/* div content page container */}
     <div className='contentPage'>
+      <NewDeploymentsModalContainer />
+      <ButtonUsingDeploymentsContainer />
       <ImplantedExperimentsTable />
     </div>
   </>

@@ -87,6 +87,25 @@ const ui = (state = initialState, action) => {
         },
       };
 
+    // show DeploymentsModal
+    case actionTypes.SHOW_USING_DEPLOYMENTS_MODAL:
+      return {
+        ...state,
+        newDeploymentsModal: {
+          ...state.newDeploymentsModal,
+          visible: true,
+        },
+      };
+    // hide DeploymentsModal
+    case actionTypes.HIDE_USING_DEPLOYMENTS_MODAL:
+      return {
+        ...state,
+        newDeploymentsModal: {
+          ...state.newDeploymentsModal,
+          visible: false,
+        },
+      };
+
     // NEW TEMPLATE MODAL
     // show new template modal
     case actionTypes.SHOW_NEW_TEMPLATE_MODAL:
