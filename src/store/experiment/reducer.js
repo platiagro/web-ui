@@ -30,10 +30,10 @@ const experiment = (state = initialState, action) => {
     case actionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
       return { ...state, ...action.experiment };
     case actionTypes.CREATE_EXPERIMENT_SUCCESS:
-      message.info(`Experimento ${action.experiment.name} criado!`);
+      message.success(`Experimento ${action.experiment.name} criado!`);
       return { ...state, ...action.experiment };
     case actionTypes.DELETE_EXPERIMENT_SUCCESS:
-      message.info(`Experimento excluído!`);
+      message.success(`Experimento excluído!`);
       return initialState;
     case actionTypes.SET_DATASET_SUCCESS:
       return { ...state, ...action.experiment };
