@@ -482,7 +482,7 @@ export const setOperatorParametersRequest = (
   const parametersWithValue = operator.parameters.filter((parameter) => {
     if (parameter.name === parameterName) {
       return true;
-    } else if (parameter.value || parameter.value === 0) {
+    } else if (parameter.value != undefined) {
       return true;
     } else {
       return false;
