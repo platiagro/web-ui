@@ -60,11 +60,17 @@ const NewTaskModal = ({
       cancelText='Cancelar'
       onCancel={handleCancel}
       onOk={handleSubmit}
-      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+      okButtonProps={{
+        disabled: hasErrors(getFieldsError()),
+        form: 'newTaskForm',
+        key: 'submit',
+        htmlType: 'submit'
+      }}
       confirmLoading={loading}
+      destroyOnClose
     >
       {/* form details */}
-      <Form layout='vertical'>
+      <Form id='newTaskForm' layout='vertical'>
         {/* templates */}
         <Form.Item label='Escolha um exemplo ou template para começar:'>
           {/* configuring template radio input */}
@@ -97,7 +103,10 @@ const NewTaskModal = ({
           )}
         </Form.Item>
         {/* name */}
-        <Form.Item label='Qual o nome da sua tarefa?'>
+        <Form.Item label='Qual o nome da sua tarefa?'
+          autoFocus
+          onFocus={(e) => e.target.select()}
+        >
           {/* configuring name input */}
           {getFieldDecorator('name', {
             rules: [

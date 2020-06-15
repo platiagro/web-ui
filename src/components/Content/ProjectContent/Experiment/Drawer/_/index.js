@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -25,17 +25,10 @@ const Drawer = ({
   resultsLoading,
   metricsLoading,
   isDataset,
+  showResults,
+  handleEditClick,
+  handleResultsClick,
 }) => {
-  // HOOKS
-  // show results
-  const [showResults, setShowResults] = useState(false);
-
-  // HANDLERS
-  // edit click handle
-  const handleEditClick = () => setShowResults(false);
-  // results click handle
-  const handleResultsClick = () => setShowResults(true);
-
   // RENDER
   return (
     // ant design drawer container
@@ -62,7 +55,7 @@ const Drawer = ({
       )}
 
       {/* rendering results button bar */}
-      {results && results.length > 0 && (
+      {!isDataset && results && results.length > 0 && (
         <ResultsButtonBar
           handleEditClick={handleEditClick}
           handleResultsClick={handleResultsClick}
@@ -84,7 +77,9 @@ Drawer.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   /** drawer is dataset */
   isDataset: PropTypes.bool.isRequired,
+  /** drawer results is loadig */
   resultsLoading: PropTypes.bool.isRequired,
+  /** drawer metrics is loadig */
   metricsLoading: PropTypes.bool.isRequired,
   /** drawer results list */
   results: PropTypes.arrayOf(PropTypes.object),
@@ -92,6 +87,8 @@ Drawer.propTypes = {
   metrics: PropTypes.arrayOf(PropTypes.object),
   /** select input change handler */
   handleClose: PropTypes.func.isRequired,
+  /** drawer show results */
+  showResults: PropTypes.bool.isRequired,
 };
 
 // PROP DEFAULT VALUES
