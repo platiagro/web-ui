@@ -62,10 +62,14 @@ const NewExperimentModal = ({
         disabled: hasErrors(getFieldsError()),
         loading,
       }}
+      destroyOnClose
     >
       {/* form details */}
       <Form layout='vertical'>
-        <Form.Item label='Qual o nome do seu experimento?'>
+        <Form.Item label='Qual o nome do seu experimento?'
+          autoFocus
+          onFocus={(e) => e.target.select()}
+        >
           {getFieldDecorator('name', {
             rules: [
               {

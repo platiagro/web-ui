@@ -47,14 +47,7 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
   dispatch(fetchExperimentDeployStatusRequest(experimentId));
 
   // fetching operators
-  dispatch(
-    fetchOperatorsRequest(
-      projectId,
-      experimentId,
-      experiment.dataset,
-      experiment.target
-    )
-  );
+  dispatch(fetchOperatorsRequest(projectId, experimentId, experiment.dataset));
 
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_SUCCESS,

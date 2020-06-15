@@ -26,11 +26,12 @@ const project = (state = initialState, action) => {
       return { ...action.project };
     // create project success
     case actionTypes.CREATE_PROJECT_SUCCESS:
-      message.info(`Projeto ${action.project.name} criado!`);
+      message.success(`Projeto ${action.project.name} criado!`);
       return { ...action.project };
     // delete project success
     case actionTypes.DELETE_PROJECT_SUCCESS:
-      return message.info(`Projeto excluído!`);
+      message.success(`Projeto excluído!`);
+      return initialState;
     // edit project name success
     case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
       return { ...action.project };
