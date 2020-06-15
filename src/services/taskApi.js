@@ -43,7 +43,7 @@ export const createTask = async (task) => {
     } else {
       errorMessage = error.response.data.message;
       if (errorMessage.includes('name already exist')) {
-        errorMessage = 'Já existe tarefa com esse nome!';
+        errorMessage = 'Já existe uma tarefa com esse nome!';
       }
     }
     message.error(errorMessage);
@@ -65,7 +65,7 @@ export const updateTask = async (uuid, task) => {
     } else {
       errorMessage = error.response.data.message;
       if (errorMessage.includes('name already exist')) {
-        errorMessage = 'Já existe tarefa com esse nome!';
+        errorMessage = 'Já existe uma tarefa com esse nome!';
       }
     }
     message.error(errorMessage);
