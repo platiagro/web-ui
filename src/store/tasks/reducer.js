@@ -11,12 +11,22 @@ const initialState = {
 
 export default function postReducer(state = initialState, action) {
   switch (action.type) {
+    // ADD TASK
     case actionTypes.ADD_TASK:
+      // creating task aux list with new task and olders
+      const tasksListAux = [action.task, ...state.tasks];
+      // sorting aux task list
+      const sortedTasks = tasksListAux.sort((taskA, taskB) =>
+        taskA.name.localeCompare(taskB.name)
+      );
+
       return {
         ...state,
-        tasks: [action.task, ...state.tasks],
+        tasks: sortedTasks,
         modalIsVisible: false,
       };
+
+    // UPDATE TASK
     case actionTypes.UPDATE_TASK:
       const updatedTask = action.task;
       const tasksAux = [...state.tasks];
