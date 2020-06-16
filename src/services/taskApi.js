@@ -60,8 +60,8 @@ export const deleteTask = async (id) => {
     return response;
   } catch (error) {
     if (error.response.status == 403) {
-      message.warn(
-        'Não é possível excluir a tarefa. Necessário excluir ela dos experimentos antes.',
+      message.error(
+        'Não foi possível excluir essa tarefa, pois ela está associada a um experimento.',
         5
       );
     } else {
