@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import { ConfigProvider } from 'antd';
 
 // ACTIONS
-import { deleteTask, fetchTasks } from '../../../../store/tasks/actions';
+import {
+  deleteTask,
+  fetchTasks,
+  showTasksModal,
+} from '../../../../store/tasks/actions';
 
 // COMPONENTS
 import TasksEmpty from '../TasksEmpty';
@@ -21,6 +25,7 @@ const mapDispatchToProps = (dispatch) => {
     handleDeleteTask: (id) => {
       dispatch(deleteTask(id));
     },
+    handleShowTasksModal: (record) => dispatch(showTasksModal(record)),
   };
 };
 
@@ -41,7 +46,7 @@ const TasksTableContainer = (props) => {
   // states
   const { tasks, loading } = props;
   // dispatchs
-  const { handleClickEdit, handleFetchTasks, handleDeleteTask } = props;
+  const { handleFetchTasks, handleDeleteTask, handleShowTasksModal } = props;
 
   // Fetch tasks on component did mount
   useLayoutEffect(() => {
@@ -66,7 +71,7 @@ const TasksTableContainer = (props) => {
       <TasksTable
         tasks={tasks}
         handleClickTask={taskClickHandler}
-        handleClickEdit={handleClickEdit}
+        handleClickEdit={handleShowTasksModal}
         handleClickDelete={handleDeleteTask}
         loading={loading}
       />

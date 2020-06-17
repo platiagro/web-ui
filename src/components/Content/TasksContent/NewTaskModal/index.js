@@ -12,10 +12,12 @@ import { Modal, Form, Input, Radio, Icon } from 'antd';
 const NewTaskModal = ({
   visible,
   templates,
-  handleCloseModal,
-  handleNewTask,
   form,
   loading,
+  modalValidateStatus,
+  errorMessage,
+  handleCloseModal,
+  handleNewTask,
 }) => {
   // getting form utils
   const { getFieldDecorator, getFieldsError, setFieldsValue } = form;
@@ -41,7 +43,6 @@ const NewTaskModal = ({
         return;
       }
       handleNewTask(values);
-      form.resetFields();
     });
   };
   // function to change template and reflect in name
@@ -103,7 +104,10 @@ const NewTaskModal = ({
           )}
         </Form.Item>
         {/* name */}
-        <Form.Item label='Qual o nome da sua tarefa?'
+        <Form.Item
+          label='Qual o nome da sua tarefa?'
+          validateStatus={modalValidateStatus}
+          help={errorMessage}
           autoFocus
           onFocus={(e) => e.target.select()}
         >

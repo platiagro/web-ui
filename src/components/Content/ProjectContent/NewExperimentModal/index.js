@@ -10,11 +10,13 @@ import { Modal, Form, Input } from 'antd';
  * This component is responsible for displaying a new experiment modal.
  */
 const NewExperimentModal = ({
-  visible,
+  form,
   loading,
+  visible,
+  modalValidateStatus,
+  errorMessage,
   handleCloseModal,
   handleNewExperiment,
-  form,
 }) => {
   // getting form utils
   const { getFieldDecorator, getFieldsError } = form;
@@ -39,12 +41,8 @@ const NewExperimentModal = ({
       if (err) {
         return;
       }
-
       // handling create new experiment
       handleNewExperiment(values.name);
-
-      // resetting form fields
-      form.resetFields();
     });
   };
 
@@ -68,8 +66,11 @@ const NewExperimentModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form id='newExperimentForm' layout='vertical'>
-        <Form.Item label='Qual o nome do seu experimento?'
+      <Form layout='vertical'>
+        <Form.Item
+          label='Qual o nome do seu experimento?'
+          validateStatus={modalValidateStatus}
+          help={errorMessage}
           autoFocus
           onFocus={(e) => e.target.select()}
         >

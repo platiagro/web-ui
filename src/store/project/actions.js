@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -115,17 +118,28 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
  * @returns {Object} { type, errorMessage }
  */
 const createProjectFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
   // dispatching projects table data loaded action
   dispatch(projectsTableDataLoaded());
 
-  // dispatching create project fail
-  dispatch({
-    type: actionTypes.CREATE_PROJECT_FAIL,
-    errorMessage,
-  });
+  // getting error message
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+    message.error(errorMessage, 5);
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('name already exist')) {
+      errorMessage = 'Já existe um projeto com este nome!';
+
+      // dispatching edit project name fail
+      dispatch({
+        type: actionTypes.CREATE_PROJECT_FAIL,
+        errorMessage,
+      });
+    } else {
+      message.error(errorMessage, 5);
+    }
+  }
 };
 
 /**
@@ -181,18 +195,31 @@ const editProjectNameSuccess = (response) => (dispatch) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const editProjectNameFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
+const editProjectNameFail = (error, isModal) => (dispatch) => {
   // dispatching project name data loaded action
   dispatch(projectNameDataLoaded());
 
-  // dispatching edit project name fail
-  dispatch({
-    type: actionTypes.EDIT_PROJECT_NAME_FAIL,
-    errorMessage,
-  });
+  // getting error message
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+    message.error(errorMessage, 5);
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('name already exist')) {
+      errorMessage = 'Já existe um projeto com este nome!';
+      if (isModal) {
+        dispatch({
+          type: actionTypes.EDIT_PROJECT_NAME_FAIL,
+          errorMessage,
+        });
+      } else {
+        message.error(errorMessage, 5);
+      }
+    } else {
+      message.error(errorMessage, 5);
+    }
+  }
 };
 
 /**
@@ -205,7 +232,8 @@ const editProjectNameFail = (error) => (dispatch) => {
 export const editProjectNameRequest = (
   projectId,
   newProjectName,
-  newProjectDescription
+  newProjectDescription,
+  isModal
 ) => (dispatch) => {
   // dispatching request action
   dispatch({
@@ -219,7 +247,7 @@ export const editProjectNameRequest = (
   projectsApi
     .updateProject(projectId, newProjectName, newProjectDescription)
     .then((response) => dispatch(editProjectNameSuccess(response)))
-    .catch((error) => dispatch(editProjectNameFail(error)));
+    .catch((error) => dispatch(editProjectNameFail(error, isModal)));
 };
 
 // // // // // // // // // //

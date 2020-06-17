@@ -1,6 +1,5 @@
 /* eslint-disable consistent-return */
 import axios from 'axios';
-import { message } from 'antd';
 
 export const URL =
   process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
@@ -10,62 +9,26 @@ export const taskApi = axios.create({
 });
 
 export const getAllTasks = async () => {
-  try {
-    const response = await taskApi.get(`/components`);
-    return response;
-  } catch (error) {
-    message.error(error.message);
-  }
-};
-
-export const getTask = async (id) => {
-  try {
-    const response = await taskApi.get(`/components/${id}`);
-    return response;
-  } catch (error) {
-    message.error(error.message);
-  }
+  return taskApi.get(`/components`);
 };
 
 export const createTask = async (task) => {
-  try {
-    const body = {
-      copy_from: task.template === 'uuid' ? '' : task.template,
-      name: task.name,
-      description: task.description,
-    };
-    const response = await taskApi.post(`/components`, body);
-    return response;
-  } catch (error) {
-    message.error(error.message);
-  }
+  const body = {
+    copy_from: task.template === 'uuid' ? '' : task.template,
+    name: task.name,
+    description: task.description,
+  };
+  return taskApi.post(`/components`, body);
 };
 
 export const updateTask = async (uuid, task) => {
-  try {
-    const body = {
-      name: task.name,
-      description: task.description,
-    };
-    const response = await taskApi.patch(`/components/${uuid}`, body);
-    return response;
-  } catch (error) {
-    message.error(error.message);
-  }
+  const body = {
+    name: task.name,
+    description: task.description,
+  };
+  return taskApi.patch(`/components/${uuid}`, body);
 };
 
 export const deleteTask = async (id) => {
-  try {
-    const response = await taskApi.delete(`/components/${id}`);
-    return response;
-  } catch (error) {
-    if (error.response.status == 403) {
-      message.error(
-        'Não foi possível excluir essa tarefa, pois ela está associada a um experimento.',
-        5
-      );
-    } else {
-      message.error(error.message);
-    }
-  }
+  return taskApi.delete(`/components/${id}`);
 };

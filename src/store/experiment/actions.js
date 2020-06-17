@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -180,20 +183,29 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
  * @returns {Object} { type, errorMessage }
  */
 const createExperimentFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
   // dispatching experiment name data loaded action
   dispatch(experimentNameDataLoaded());
 
-  // dispatching create experiment fail action
-  dispatch({
-    type: actionTypes.CREATE_EXPERIMENT_FAIL,
-    errorMessage,
-  });
+  // getting error message
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+    message.error(errorMessage, 5);
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('name already exist')) {
+      errorMessage = 'Já existe um experimento com este nome!';
+      dispatch({
+        type: actionTypes.CREATE_EXPERIMENT_FAIL,
+        errorMessage,
+      });
+    } else {
+      message.error(errorMessage, 5);
+    }
+  }
 };
 
 /**
@@ -259,20 +271,23 @@ const editExperimentNameSuccess = (response) => (dispatch) => {
  * @returns {Object} { type, errorMessage }
  */
 const editExperimentNameFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
   // dispatching experiment name data loaded action
   dispatch(experimentNameDataLoaded());
 
-  // dispatching edit experiment name fail action
-  dispatch({
-    type: actionTypes.EDIT_EXPERIMENT_NAME_FAIL,
-    errorMessage,
-  });
+  // getting error message
+  let errorMessage;
+  if (error.response.status == 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+    if (errorMessage.includes('name already exist')) {
+      errorMessage = 'Já existe um experimento com este nome!';
+    }
+  }
+  message.error(errorMessage, 5);
 };
 
 /**

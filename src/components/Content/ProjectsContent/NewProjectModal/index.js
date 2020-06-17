@@ -11,11 +11,13 @@ import { Modal, Form, Input } from 'antd';
 const NewProjectModal = ({
   visible,
   loading,
-  handleCloseModal,
-  handleNewProject,
   form,
   title,
   record,
+  modalValidateStatus,
+  errorMessage,
+  handleCloseModal,
+  handleNewProject,
   handleUpdateProject,
 }) => {
   // getting form utils
@@ -45,13 +47,10 @@ const NewProjectModal = ({
 
       // handling create new project
       if (record !== undefined) {
-        handleUpdateProject(record.uuid, values.name, values.description);
+        handleUpdateProject(record.uuid, values.name, values.description, true);
       } else {
         handleNewProject(values.name, values.description);
       }
-
-      // resetting form fields
-      form.resetFields();
     });
   };
 
@@ -75,8 +74,11 @@ const NewProjectModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form id='newProjectForm' layout='vertical'>
-        <Form.Item label='Qual o nome do seu projeto?'
+      <Form layout='vertical'>
+        <Form.Item
+          label='Qual o nome do seu projeto?'
+          validateStatus={modalValidateStatus}
+          help={errorMessage}
           autoFocus
           onFocus={(e) => e.target.select()}
         >

@@ -1,18 +1,18 @@
-/* eslint-disable no-case-declarations */
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
 const initialState = {
   tasks: [],
-  loading: false,
-  error: null,
+  newTaskRecord: null,
+  modalIsVisible: false,
+  editModalIsVisible: false,
+  modalValidateStatus: null,
+  errorMessage: null,
 };
 
 export default function postReducer(state = initialState, action) {
   switch (action.type) {
-    // ADD TASK
-    case actionTypes.ADD_TASK:
+    case actionTypes.ADD_TASK_SUCCESS:
       // creating task aux list with new task and olders
       const tasksListAux = [action.task, ...state.tasks];
       // sorting aux task list
@@ -26,11 +26,24 @@ export default function postReducer(state = initialState, action) {
       return {
         ...state,
         tasks: sortedTasks,
-        modalIsVisible: false,
       };
-
-    // UPDATE TASK
-    case actionTypes.UPDATE_TASK:
+    case actionTypes.CLOSE_TASKS_MODAL:
+      return {
+        ...state,
+        newTaskRecord: null,
+        editModalIsVisible: false,
+        modalIsVisible: false,
+        modalValidateStatus: null,
+        errorMessage: null,
+      };
+    case actionTypes.DELETE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.filter((task) => task.uuid !== action.id),
+      };
+    case actionTypes.FETCH_TASK:
+      return { ...state, tasks: action.tasks };
+    case actionTypes.UPDATE_TASK_SUCCESS:
       const updatedTask = action.task;
       const tasksAux = [...state.tasks];
       const taskIndex = tasksAux.findIndex(
@@ -39,22 +52,26 @@ export default function postReducer(state = initialState, action) {
       tasksAux[taskIndex] = updatedTask;
       return {
         ...state,
-        loading: false,
         tasks: tasksAux,
       };
-    case actionTypes.DELETE_TASK:
+    case actionTypes.SHOW_EDIT_TASK_MODAL:
       return {
         ...state,
-        loading: false,
-        tasks: state.tasks.filter((task) => task.uuid !== action.id),
+        editModalIsVisible: true,
+        newTaskRecord: action.newTaskRecord,
       };
-    case actionTypes.FETCH_TASK_STARTED:
+    case actionTypes.SHOW_NEW_TASK_MODAL:
       return {
         ...state,
-        loading: true,
+        modalIsVisible: true,
       };
-    case actionTypes.FETCH_TASK:
-      return { ...state, tasks: action.tasks, loading: false };
+    case actionTypes.ADD_TASK_FAIL:
+    case actionTypes.UPDATE_TASK_FAIL:
+      return {
+        ...state,
+        modalValidateStatus: 'error',
+        errorMessage: action.errorMessage,
+      };
     default:
       return state;
   }

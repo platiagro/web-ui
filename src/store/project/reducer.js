@@ -12,6 +12,8 @@ const initialState = {
   description: null,
   updatedAt: null,
   uuid: null,
+  modalValidateStatus: null,
+  errorMessage: null,
 };
 
 /**
@@ -39,22 +41,11 @@ const project = (state = initialState, action) => {
 
     // FAIL
     // project
-    // fetch project fail
     case actionTypes.FETCH_PROJECT_FAIL:
-      return message.error(action.errorMessage);
-    // create project fail
-    case actionTypes.CREATE_PROJECT_FAIL:
-      return message.error(action.errorMessage);
-    // delete project fail
     case actionTypes.DELETE_PROJECT_FAIL:
-      return message.error(action.errorMessage);
-    // edit project name fail
-    case actionTypes.EDIT_PROJECT_NAME_FAIL:
-      return message.error(action.errorMessage);
-
-    // // // // // // //
     case actionTypes.EDIT_PROJECT_REQUEST:
-      return message.error(action.errorMessage);
+      message.error(action.errorMessage, 5);
+      return state;
 
     // DEFAULT
     default:
