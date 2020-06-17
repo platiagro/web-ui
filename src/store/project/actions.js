@@ -129,7 +129,7 @@ const createProjectFail = (error) => (dispatch) => {
   } else {
     errorMessage = error.response.data.message;
     if (errorMessage.includes('name already exist')) {
-      errorMessage = 'Já existe projeto com esse nome!';
+      errorMessage = 'Já existe um projeto com este nome!';
 
       // dispatching edit project name fail
       dispatch({
@@ -207,7 +207,7 @@ const editProjectNameFail = (error, isModal) => (dispatch) => {
   } else {
     errorMessage = error.response.data.message;
     if (errorMessage.includes('name already exist')) {
-      errorMessage = 'Já existe projeto com esse nome!';
+      errorMessage = 'Já existe um projeto com este nome!';
       if (isModal) {
         dispatch({
           type: actionTypes.EDIT_PROJECT_NAME_FAIL,

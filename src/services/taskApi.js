@@ -9,26 +9,16 @@ export const taskApi = axios.create({
 });
 
 export const getAllTasks = async () => {
-  return new Promise((resolve, reject) => {
-    taskApi
-      .get(`/components`)
-      .then((response) => resolve(response))
-      .catch((error) => reject(error));
-  });
+  return taskApi.get(`/components`);
 };
 
-export const createTask = (task) => {
+export const createTask = async (task) => {
   const body = {
     copy_from: task.template === 'uuid' ? '' : task.template,
     name: task.name,
     description: task.description,
   };
-  return new Promise((resolve, reject) => {
-    taskApi
-      .post(`/components`, body)
-      .then((response) => resolve(response))
-      .catch((error) => reject(error));
-  });
+  return taskApi.post(`/components`, body);
 };
 
 export const updateTask = async (uuid, task) => {
@@ -36,19 +26,9 @@ export const updateTask = async (uuid, task) => {
     name: task.name,
     description: task.description,
   };
-  return new Promise((resolve, reject) => {
-    taskApi
-      .patch(`/components/${uuid}`, body)
-      .then((response) => resolve(response))
-      .catch((error) => reject(error));
-  });
+  return taskApi.patch(`/components/${uuid}`, body);
 };
 
 export const deleteTask = async (id) => {
-  return new Promise((resolve, reject) => {
-    taskApi
-      .delete(`/components/${id}`)
-      .then((response) => resolve(response))
-      .catch((error) => reject(error));
-  });
+  return taskApi.delete(`/components/${id}`);
 };

@@ -197,7 +197,7 @@ const createExperimentFail = (error) => (dispatch) => {
   } else {
     errorMessage = error.response.data.message;
     if (errorMessage.includes('name already exist')) {
-      errorMessage = 'Já existe experimento com esse nome!';
+      errorMessage = 'Já existe um experimento com este nome!';
       dispatch({
         type: actionTypes.CREATE_EXPERIMENT_FAIL,
         errorMessage,
@@ -284,7 +284,7 @@ const editExperimentNameFail = (error) => (dispatch) => {
   } else {
     errorMessage = error.response.data.message;
     if (errorMessage.includes('name already exist')) {
-      errorMessage = 'Já existe um experimento com esse nome!';
+      errorMessage = 'Já existe um experimento com este nome!';
     }
   }
   message.error(errorMessage, 5);

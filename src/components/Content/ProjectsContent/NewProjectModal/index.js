@@ -52,9 +52,6 @@ const NewProjectModal = ({
       } else {
         handleNewProject(values.name, values.description);
       }
-
-      // resetting form fields
-      form.resetFields();
     });
   };
 

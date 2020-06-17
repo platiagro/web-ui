@@ -43,10 +43,6 @@ const NewTaskModalContainer = (props) => {
   // dispatchs
   const { handleAddTask, handleCloseTasksModal } = props;
 
-  const sleep = (milliseconds) => {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  };
-
   const templates = [...tasks];
   templates.sort((a, b) => a.name.localeCompare(b.name));
   templates.push({

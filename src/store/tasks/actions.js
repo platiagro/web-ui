@@ -52,7 +52,7 @@ export const addTask = (task) => {
           type: actionTypes.ADD_TASK_SUCCESS,
           task,
         });
-        closeTasksModal();
+        dispatch(closeTasksModal());
         message.success(`Tarefa adicionada com sucesso.`);
         await sleep(1000);
         const jupyterDomain =
@@ -72,7 +72,7 @@ export const addTask = (task) => {
         } else {
           errorMessage = error.response.data.message;
           if (errorMessage.includes('name already exist')) {
-            errorMessage = 'Já existe tarefa com esse nome!';
+            errorMessage = 'Já existe uma tarefa com este nome!';
             dispatch({
               type: actionTypes.ADD_TASK_FAIL,
               errorMessage,
@@ -107,7 +107,7 @@ export const deleteTask = (id) => {
         let errorMessage;
         if (error.response.status == 403) {
           errorMessage =
-            'Não é possível excluir a tarefa. Necessário excluir ela dos experimentos antes.';
+            'Não foi possível excluir esta tarefa, pois ela está associada a um experimento.';
         } else {
           errorMessage = error.message;
         }
@@ -173,7 +173,7 @@ export const updateTask = (uuid, task) => {
         } else {
           errorMessage = error.response.data.message;
           if (errorMessage.includes('name already exist')) {
-            errorMessage = 'Já existe tarefa com esse nome!';
+            errorMessage = 'Já existe uma tarefa com este nome!';
             dispatch({
               type: actionTypes.UPDATE_TASK_FAIL,
               errorMessage,

@@ -16,9 +16,6 @@ export default function postReducer(state = initialState, action) {
       return {
         ...state,
         tasks: [action.task, ...state.tasks],
-        modalIsVisible: false,
-        modalValidateStatus: null,
-        errorMessage: null,
       };
     case actionTypes.CLOSE_TASKS_MODAL:
       return {
