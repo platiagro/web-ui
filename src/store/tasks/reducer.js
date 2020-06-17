@@ -16,8 +16,11 @@ export default function postReducer(state = initialState, action) {
       // creating task aux list with new task and olders
       const tasksListAux = [action.task, ...state.tasks];
       // sorting aux task list
-      const sortedTasks = tasksListAux.sort((taskA, taskB) =>
-        taskA.name.localeCompare(taskB.name)
+      const sortedTasks = [...tasksListAux].sort((taskA, taskB) =>
+        taskA.name.localeCompare(taskB.name, undefined, {
+          numeric: true,
+          sensitivity: 'base',
+        })
       );
 
       return {
