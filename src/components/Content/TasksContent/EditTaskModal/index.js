@@ -56,12 +56,17 @@ const EditTaskModal = ({
       cancelText='Cancelar'
       onCancel={handleCancel}
       onOk={handleSubmit}
-      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+      okButtonProps={{
+        disabled: hasErrors(getFieldsError()),
+        form: 'newEditTaskForm',
+        key: 'submit',
+        htmlType: 'submit'
+      }}
       confirmLoading={loading}
       destroyOnClose
     >
       {/* form details */}
-      <Form layout='vertical'>
+      <Form id='newEditTaskForm' layout='vertical'>
         {/* name */}
         <Form.Item
           label='Nome da tarefa?'

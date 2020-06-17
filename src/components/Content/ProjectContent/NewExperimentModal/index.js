@@ -59,6 +59,9 @@ const NewExperimentModal = ({
       okButtonProps={{
         disabled: hasErrors(getFieldsError()),
         loading,
+        form: 'newExperimentForm',
+        key: 'submit',
+        htmlType: 'submit'
       }}
       destroyOnClose
     >

@@ -13,9 +13,19 @@ const initialState = {
 export default function postReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.ADD_TASK_SUCCESS:
+      // creating task aux list with new task and olders
+      const tasksListAux = [action.task, ...state.tasks];
+      // sorting aux task list
+      const sortedTasks = [...tasksListAux].sort((taskA, taskB) =>
+        taskA.name.localeCompare(taskB.name, undefined, {
+          numeric: true,
+          sensitivity: 'base',
+        })
+      );
+
       return {
         ...state,
-        tasks: [action.task, ...state.tasks],
+        tasks: sortedTasks,
       };
     case actionTypes.CLOSE_TASKS_MODAL:
       return {

@@ -61,11 +61,18 @@ const NewTemplateModal = ({
       okButtonProps={{
         disabled: hasErrors(getFieldsError()),
         loading,
+        form: 'newTemplateForm',
+        key: 'submit',
+        htmlType: 'submit'
       }}
+      destroyOnClose
     >
       {/* form details */}
-      <Form layout='vertical'>
-        <Form.Item label='Qual o nome do seu template?'>
+      <Form id='newTemplateForm' layout='vertical'>
+        <Form.Item label='Qual o nome do seu template?'
+          autoFocus
+          onFocus={(e) => e.target.select()}
+        >
           {getFieldDecorator('name', {
             rules: [
               {

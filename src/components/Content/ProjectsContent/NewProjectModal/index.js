@@ -19,7 +19,6 @@ const NewProjectModal = ({
   handleCloseModal,
   handleNewProject,
   handleUpdateProject,
-  handleKeyPress,
 }) => {
   // getting form utils
   const { getFieldDecorator, getFieldsError } = form;
@@ -65,7 +64,12 @@ const NewProjectModal = ({
       cancelText='Cancelar'
       onCancel={handleCancel}
       onOk={handleSubmit}
-      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
+      okButtonProps={{
+        disabled: hasErrors(getFieldsError()),
+        form: 'newProjectForm',
+        key: 'submit',
+        htmlType: 'submit'
+      }}
       confirmLoading={loading}
       destroyOnClose
     >

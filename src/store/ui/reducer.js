@@ -18,6 +18,7 @@ const initialState = {
     errorMessage: null,
   },
   newTemplateModal: { visible: false },
+  newDeploymentsModal: { visible: false },
   drawer: {
     visible: false,
     isDataset: false,
@@ -119,6 +120,25 @@ const ui = (state = initialState, action) => {
           visible: action.newExperimentModalVisible,
           modalValidateStatus: null,
           errorMessage: null,
+        },
+      };
+
+    // show DeploymentsModal
+    case actionTypes.SHOW_USING_DEPLOYMENTS_MODAL:
+      return {
+        ...state,
+        newDeploymentsModal: {
+          ...state.newDeploymentsModal,
+          visible: true,
+        },
+      };
+    // hide DeploymentsModal
+    case actionTypes.HIDE_USING_DEPLOYMENTS_MODAL:
+      return {
+        ...state,
+        newDeploymentsModal: {
+          ...state.newDeploymentsModal,
+          visible: false,
         },
       };
 

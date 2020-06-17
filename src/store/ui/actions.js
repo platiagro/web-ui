@@ -591,3 +591,23 @@ export const hideExperimentInferenceModal = () => {
     type: actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL,
   };
 };
+
+// USING_DEPLOYMENTS_MODAL
+export const showUsingDeploymentsModal = () => {
+  return {
+    type: actionTypes.SHOW_USING_DEPLOYMENTS_MODAL,
+  };
+};
+
+// // // // // // // // // //
+
+// ** HIDE_USING_DEPLOYMENTS_MODAL
+/**
+ *
+ * @returns {Object} { type, newTemplateModalVisible }
+ */
+export const hideUsingDeploymentsModal = () => {
+  return {
+    type: actionTypes.HIDE_USING_DEPLOYMENTS_MODAL,
+  };
+};
