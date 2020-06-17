@@ -64,6 +64,7 @@ const NewExperimentModal = ({
         disabled: hasErrors(getFieldsError()),
         loading,
       }}
+      destroyOnClose
     >
       {/* form details */}
       <Form layout='vertical'>
@@ -71,6 +72,8 @@ const NewExperimentModal = ({
           label='Qual o nome do seu experimento?'
           validateStatus={modalValidateStatus}
           help={errorMessage}
+          autoFocus
+          onFocus={(e) => e.target.select()}
         >
           {getFieldDecorator('name', {
             rules: [

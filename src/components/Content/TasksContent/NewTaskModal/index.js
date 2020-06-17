@@ -64,6 +64,7 @@ const NewTaskModal = ({
       onOk={handleSubmit}
       okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
       confirmLoading={loading}
+      destroyOnClose
     >
       {/* form details */}
       <Form layout='vertical'>
@@ -103,6 +104,8 @@ const NewTaskModal = ({
           label='Qual o nome da sua tarefa?'
           validateStatus={modalValidateStatus}
           help={errorMessage}
+          autoFocus
+          onFocus={(e) => e.target.select()}
         >
           {/* configuring name input */}
           {getFieldDecorator('name', {

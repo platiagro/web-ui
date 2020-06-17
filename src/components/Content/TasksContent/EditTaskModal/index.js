@@ -59,6 +59,7 @@ const EditTaskModal = ({
       onOk={handleSubmit}
       okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
       confirmLoading={loading}
+      destroyOnClose
     >
       {/* form details */}
       <Form layout='vertical'>
@@ -67,6 +68,8 @@ const EditTaskModal = ({
           label='Nome da tarefa?'
           validateStatus={modalValidateStatus}
           help={errorMessage}
+          autoFocus
+          onFocus={(e) => e.target.select()}
         >
           {/* configuring name input */}
           {getFieldDecorator('name', {

@@ -16,10 +16,12 @@ const pipelines = (state = initialState, action) => {
     // pipelines
     // train experiment success
     case actionTypes.TRAIN_EXPERIMENT_SUCCESS:
-      return message.info('Treinamento iniciado!');
+      message.success('Treinamento iniciado!');
+      return state;
     // deploy experiment success
     case actionTypes.DEPLOY_EXPERIMENT_SUCCESS:
-      return message.info('Experimento implantado!');
+      message.success('Experimento implantado!');
+      return state;
 
     // FAIL
     // pipelines

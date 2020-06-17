@@ -18,7 +18,12 @@ const initialState = {
     errorMessage: null,
   },
   newTemplateModal: { visible: false },
-  drawer: { visible: false, isDataset: false, title: 'Título Drawer' },
+  drawer: {
+    visible: false,
+    isDataset: false,
+    title: 'Título Drawer',
+    showResults: false,
+  },
   template: { loading: false },
   tasksTable: { loading: false },
   projectsTable: { loading: false },
@@ -27,7 +32,6 @@ const initialState = {
   experimentsTabs: { loading: false },
   experimentName: { loading: false },
   experimentOperators: { loading: false },
-  experimentTarget: { loading: false },
   experimentTraining: { loading: false },
   datasetOperator: { loading: false },
   operatorParameter: { loading: false },
@@ -155,6 +159,23 @@ const ui = (state = initialState, action) => {
         },
       };
 
+    // DRAWER RESULTS
+    // show drawer results
+    case actionTypes.SHOW_DRAWER_RESULTS:
+      return {
+        ...state,
+        drawer: { ...state.drawer, showResults: action.showResults },
+      };
+    // hide drawer results
+    case actionTypes.HIDE_DRAWER_RESULTS:
+      return {
+        ...state,
+        drawer: {
+          ...state.drawer,
+          showResults: action.showResults,
+        },
+      };
+
     // TASKS TABLE
     // loading data
     case actionTypes.TASKS_TABLE_LOADING_DATA:
@@ -246,26 +267,6 @@ const ui = (state = initialState, action) => {
         experimentsTabs: {
           ...state.experimentsTabs,
           loading: action.experimentsTabsLoading,
-        },
-      };
-
-    // EXPERIMENT TARGET
-    // loading data
-    case actionTypes.EXPERIMENT_TARGET_LOADING_DATA:
-      return {
-        ...state,
-        experimentTarget: {
-          ...state.experimentTarget,
-          loading: action.experimentTargetLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.EXPERIMENT_TARGET_DATA_LOADED:
-      return {
-        ...state,
-        experimentTarget: {
-          ...state.experimentTarget,
-          loading: action.experimentTargetLoading,
         },
       };
 

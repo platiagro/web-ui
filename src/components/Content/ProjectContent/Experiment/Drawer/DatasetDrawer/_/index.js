@@ -19,10 +19,7 @@ const { Option } = Select;
 const DatasetDrawer = ({
   loading,
   trainingLoading,
-  targetLoading,
   columns,
-  targetColumnId,
-  handleSetTarget,
   handleSetColumnType,
   handleUploadFiles,
   trainingSucceeded,
@@ -58,11 +55,6 @@ const DatasetDrawer = ({
     setDatasetHeaderFileList([]);
     // cleaning dataset file list
     setDatasetFileList([]);
-  };
-  // handler to set experiment target
-  const handleChangeTarget = (targetId) => {
-    // setting target
-    handleSetTarget(targetId);
   };
   // handler to set dataset column type
   const handleChangeColumnType = (e, row) => {
@@ -119,7 +111,6 @@ const DatasetDrawer = ({
       <Upload
         {...props}
         disabled={loading || trainingSucceeded || trainingLoading}
-        accept='.csv'
       >
         {/* upload button component */}
         <Button disabled={loading || trainingSucceeded || trainingLoading}>
@@ -188,6 +179,8 @@ const DatasetDrawer = ({
       </Upload>
     );
   };
+  const showColumns = columns !== undefined && columns.length > 0;
+
   // render dataset columns table
   const renderColumnsTable = () => {
     // rendering loading
@@ -206,36 +199,11 @@ const DatasetDrawer = ({
     return columns.length === 0 ? null : (
       // div container
       <div>
-        {/* divider component */}
-        <Divider />
-        {/* target select block */}
-        <p>Qual é o seu atributo alvo?</p>
-        {/* select component */}
-        <Select
-          onChange={handleChangeTarget}
-          style={{ width: 200 }}
-          placeholder='Selecione'
-          value={targetColumnId || undefined}
-          loading={targetLoading}
-          showSearch
-          disabled={trainingSucceeded || targetLoading || trainingLoading}
-        >
-          {/* mapping columns to select options */}
-          {columns.map((column) => (
-            // select option component
-            <Option key={column.name} value={column.name}>
-              {column.name}
-            </Option>
-          ))}
-        </Select>
-        {/* input tip */}
-        <InputTip tip='Seu modelo será treinado para prever os valores do alvo.' />
-        {/* line breaks */}
-        <br />
-        <br />
         {/* dataset columns table */}
+        <Divider />
+        Tipos de atributos
+        <br />
         <ColumnsTable
-          targetColumnId={targetColumnId}
           columns={columns}
           handleChangeType={handleChangeColumnType}
           disabled={trainingSucceeded || trainingLoading}
@@ -249,7 +217,7 @@ const DatasetDrawer = ({
     // div container
     <div>
       {/* dataset upload block */}
-      <p>Arquivo .csv com os dados de entrada</p>
+      <p>Arquivo .csv .zip com os dados de entrada</p>
       {renderDatasetUpload()}
       {/* line break */}
       <br />
@@ -286,7 +254,7 @@ const DatasetDrawer = ({
         Importar
       </Button>
       {/* columns table */}
-      {renderColumnsTable()}
+      {showColumns && renderColumnsTable()}
     </div>
   );
 };
@@ -301,12 +269,8 @@ DatasetDrawer.propTypes = {
   loading: PropTypes.bool.isRequired,
   /** dataset drawer dataset columns */
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** dataset drawer target column id string */
-  targetColumnId: PropTypes.string.isRequired,
   /** dataset drawer current experiment parameters */
   parameters: PropTypes.objectOf(PropTypes.object).isRequired,
-  /** dataset drawer set target handler */
-  handleSetTarget: PropTypes.func.isRequired,
   /** dataset drawer set column type handler */
   handleSetColumnType: PropTypes.func.isRequired,
   /** dataset drawer upload dataset and header handler */

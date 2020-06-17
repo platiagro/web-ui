@@ -50,14 +50,7 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
   dispatch(fetchExperimentDeployStatusRequest(experimentId));
 
   // fetching operators
-  dispatch(
-    fetchOperatorsRequest(
-      projectId,
-      experimentId,
-      experiment.dataset,
-      experiment.target
-    )
-  );
+  dispatch(fetchOperatorsRequest(projectId, experimentId, experiment.dataset));
 
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_SUCCESS,
@@ -291,7 +284,7 @@ const editExperimentNameFail = (error) => (dispatch) => {
   } else {
     errorMessage = error.response.data.message;
     if (errorMessage.includes('name already exist')) {
-      errorMessage = 'Já existe experimento com esse nome!';
+      errorMessage = 'Já existe um experimento com esse nome!';
     }
   }
   message.error(errorMessage, 5);
