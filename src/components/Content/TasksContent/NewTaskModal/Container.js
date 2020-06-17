@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { message } from 'antd';
 
 // ACTIONS
-import { addTask } from '../../../../store/tasks/actions';
+import { addTask, closeTasksModal } from '../../../../store/tasks/actions';
 
 // COMPONENTS
 import NewTaskModal from './index';
@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch) => {
     handleAddTask: (taskValues) => {
       return dispatch(addTask(taskValues));
     },
+    handleCloseTasksModal: () => {
+      return dispatch(closeTasksModal());
+    },
   };
 };
 
@@ -22,7 +25,10 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.tasks,
+    visible: state.tasks.modalIsVisible,
     loading: state.ui.tasksTable.loading,
+    modalValidateStatus: state.tasks.modalValidateStatus,
+    errorMessage: state.tasks.errorMessage,
   };
 };
 
@@ -33,9 +39,9 @@ const mapStateToProps = (state) => {
  */
 const NewTaskModalContainer = (props) => {
   // states
-  const { tasks, visible, loading } = props;
+  const { tasks, visible, loading, modalValidateStatus, errorMessage } = props;
   // dispatchs
-  const { handleAddTask, handleCloseModal } = props;
+  const { handleAddTask, handleCloseTasksModal } = props;
 
   const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -53,25 +59,11 @@ const NewTaskModalContainer = (props) => {
     <NewTaskModal
       visible={visible}
       templates={templates}
-      handleCloseModal={handleCloseModal}
-      handleNewTask={(taskValues) =>
-        handleAddTask(taskValues).then(async (response) => {
-          const jupyterDomain =
-            process.env.NODE_ENV === 'development'
-              ? process.env.REACT_APP_MAIN_DOMAIN
-              : '';
-
-          if (response) {
-            handleCloseModal();
-            message.success(`Tarefa adicionada com sucesso.`);
-            await sleep(1000);
-            window.open(
-              `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${response.data.uuid}/?reset&open=Experiment.ipynb,Deployment.ipynb`
-            );
-          }
-        })
-      }
+      handleCloseModal={handleCloseTasksModal}
+      handleNewTask={handleAddTask}
       loading={loading}
+      modalValidateStatus={modalValidateStatus}
+      errorMessage={errorMessage}
     />
   );
 };

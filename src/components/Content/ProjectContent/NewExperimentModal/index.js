@@ -10,11 +10,13 @@ import { Modal, Form, Input } from 'antd';
  * This component is responsible for displaying a new experiment modal.
  */
 const NewExperimentModal = ({
-  visible,
+  form,
   loading,
+  visible,
+  modalValidateStatus,
+  errorMessage,
   handleCloseModal,
   handleNewExperiment,
-  form,
 }) => {
   // getting form utils
   const { getFieldDecorator, getFieldsError } = form;
@@ -65,7 +67,11 @@ const NewExperimentModal = ({
     >
       {/* form details */}
       <Form layout='vertical'>
-        <Form.Item label='Qual o nome do seu experimento?'>
+        <Form.Item
+          label='Qual o nome do seu experimento?'
+          validateStatus={modalValidateStatus}
+          help={errorMessage}
+        >
           {getFieldDecorator('name', {
             rules: [
               {

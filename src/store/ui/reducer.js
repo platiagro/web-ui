@@ -1,10 +1,22 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
+import projectActionTypes from '../project/actionTypes';
+import experimentActionTypes from '../experiment/actionTypes';
 
 // INITIAL STATE
 const initialState = {
-  newProjectModal: { visible: false, title: 'Novo Projeto', record: undefined },
-  newExperimentModal: { visible: false },
+  newProjectModal: {
+    visible: false,
+    title: 'Novo Projeto',
+    record: undefined,
+    modalValidateStatus: null,
+    errorMessage: null,
+  },
+  newExperimentModal: {
+    visible: false,
+    modalValidateStatus: null,
+    errorMessage: null,
+  },
   newTemplateModal: { visible: false },
   drawer: { visible: false, isDataset: false, title: 'Título Drawer' },
   template: { loading: false },
@@ -31,6 +43,16 @@ const initialState = {
 const ui = (state = initialState, action) => {
   switch (action.type) {
     // NEW PROJECT MODAL
+    case projectActionTypes.CREATE_PROJECT_FAIL:
+    case projectActionTypes.EDIT_PROJECT_NAME_FAIL:
+      return {
+        ...state,
+        newProjectModal: {
+          ...state.newProjectModal,
+          modalValidateStatus: 'error',
+          errorMessage: action.errorMessage,
+        },
+      };
     // show new project modal
     case actionTypes.SHOW_NEW_PROJECT_MODAL:
       return {
@@ -60,10 +82,21 @@ const ui = (state = initialState, action) => {
           ...state.newProjectModal,
           visible: action.newProjectModalVisible,
           record: undefined,
+          modalValidateStatus: null,
+          errorMessage: null,
         },
       };
 
     // NEW EXPERIMENT MODAL
+    case experimentActionTypes.CREATE_EXPERIMENT_FAIL:
+      return {
+        ...state,
+        newExperimentModal: {
+          ...state.newExperimentModal,
+          modalValidateStatus: 'error',
+          errorMessage: action.errorMessage,
+        },
+      };
     // show new experiment modal
     case actionTypes.SHOW_NEW_EXPERIMENT_MODAL:
       return {
@@ -80,6 +113,8 @@ const ui = (state = initialState, action) => {
         newExperimentModal: {
           ...state.newExperimentModal,
           visible: action.newExperimentModalVisible,
+          modalValidateStatus: null,
+          errorMessage: null,
         },
       };
 

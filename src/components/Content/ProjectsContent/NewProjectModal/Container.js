@@ -23,9 +23,19 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       ),
     // close modal action
     handleCloseModal: () => dispatch(hideNewProjectModal()),
-    handleUpdateProject: (projectId, projectName, projectDescription) =>
+    handleUpdateProject: (
+      projectId,
+      projectName,
+      projectDescription,
+      isModal
+    ) =>
       dispatch(
-        editProjectNameRequest(projectId, projectName, projectDescription)
+        editProjectNameRequest(
+          projectId,
+          projectName,
+          projectDescription,
+          isModal
+        )
       ),
   };
 };
@@ -38,6 +48,8 @@ const mapStateToProps = (state) => {
     loading: state.ui.projectsTable.loading,
     title: state.ui.newProjectModal.title,
     record: state.ui.newProjectModal.record,
+    modalValidateStatus: state.ui.newProjectModal.modalValidateStatus,
+    errorMessage: state.ui.newProjectModal.errorMessage,
   };
 };
 
@@ -49,10 +61,12 @@ const mapStateToProps = (state) => {
 const NewProjectModalContainer = ({
   modalVisible,
   loading,
-  handleCloseModal,
-  handleCreateProject,
   title,
   record,
+  modalValidateStatus,
+  errorMessage,
+  handleCloseModal,
+  handleCreateProject,
   handleUpdateProject,
 }) => (
   <NewProjectModal
@@ -63,6 +77,8 @@ const NewProjectModalContainer = ({
     loading={loading}
     title={title}
     record={record}
+    modalValidateStatus={modalValidateStatus}
+    errorMessage={errorMessage}
   />
 );
 

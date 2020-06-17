@@ -46,8 +46,6 @@ const experiment = (state = initialState, action) => {
     // FAIL
     // experiment
     case actionTypes.FETCH_EXPERIMENT_FAIL:
-    case actionTypes.EDIT_EXPERIMENT_NAME_FAIL:
-    case actionTypes.CREATE_EXPERIMENT_FAIL:
     case actionTypes.DELETE_EXPERIMENT_FAIL:
     case actionTypes.SET_DATASET_FAIL:
     case actionTypes.SET_TARGET_COLUMN_FAIL:

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { message } from 'antd';
 
 // ACTIONS
-import { updateTask } from '../../../../store/tasks/actions';
+import { updateTask, closeTasksModal } from '../../../../store/tasks/actions';
 
 // COMPONENTS
 import EditTaskModal from './index';
@@ -15,13 +15,22 @@ const mapDispatchToProps = (dispatch) => {
     handleUpdateTask: (uuid, taskValues) => {
       return dispatch(updateTask(uuid, taskValues));
     },
+    handleCloseTasksModal: () => {
+      return dispatch(closeTasksModal());
+    },
   };
 };
 
 // STATES
-const mapStateToProps = (state) => ({
-  loading: state.ui.tasksTable.loading,
-});
+const mapStateToProps = (state) => {
+  return {
+    visible: state.tasks.editModalIsVisible,
+    loading: state.ui.tasksTable.loading,
+    newTaskRecord: state.tasks.newTaskRecord,
+    modalValidateStatus: state.tasks.modalValidateStatus,
+    errorMessage: state.tasks.errorMessage,
+  };
+};
 
 /**
  * Edit Task Modal Container.
@@ -30,23 +39,25 @@ const mapStateToProps = (state) => ({
  */
 const EditTaskModalContainer = (props) => {
   // states
-  const { visible, loading, initialValues } = props;
-  const { handleUpdateTask, handleCloseModal } = props;
+  const {
+    visible,
+    loading,
+    newTaskRecord,
+    modalValidateStatus,
+    errorMessage,
+  } = props;
+  const { handleUpdateTask, handleCloseTasksModal } = props;
 
   // RENDER
   return (
     <EditTaskModal
       visible={visible}
-      initialValues={initialValues}
-      handleCloseModal={handleCloseModal}
-      handleEditTask={(uuid, taskValues) =>
-        handleUpdateTask(uuid, taskValues).then(async (response) => {
-          if (response) {
-            handleCloseModal();
-            message.success(`Alteração realizada com sucesso.`);
-          }
-        })}
+      initialValues={newTaskRecord}
+      handleCloseModal={handleCloseTasksModal}
+      handleEditTask={handleUpdateTask}
       loading={loading}
+      modalValidateStatus={modalValidateStatus}
+      errorMessage={errorMessage}
     />
   );
 };

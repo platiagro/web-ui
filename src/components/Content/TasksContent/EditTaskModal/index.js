@@ -16,6 +16,8 @@ const EditTaskModal = ({
   handleEditTask,
   loading,
   form,
+  modalValidateStatus,
+  errorMessage,
 }) => {
   // getting form utils
   const { getFieldDecorator, getFieldsError } = form;
@@ -61,7 +63,11 @@ const EditTaskModal = ({
       {/* form details */}
       <Form layout='vertical'>
         {/* name */}
-        <Form.Item label='Nome da tarefa?'>
+        <Form.Item
+          label='Nome da tarefa?'
+          validateStatus={modalValidateStatus}
+          help={errorMessage}
+        >
           {/* configuring name input */}
           {getFieldDecorator('name', {
             rules: [
@@ -70,7 +76,7 @@ const EditTaskModal = ({
                 message: 'Por favor insira um nome para a tarefa!',
               },
             ],
-            initialValue: initialValues.name,
+            initialValue: initialValues?.name,
             // name input
           })(<Input allowClear autoFocus />)}
         </Form.Item>
@@ -78,7 +84,7 @@ const EditTaskModal = ({
         <Form.Item label='Descrição (opcional):'>
           {/* description text area */}
           {getFieldDecorator('description', {
-            initialValue: initialValues.description,
+            initialValue: initialValues?.description,
           })(<Input.TextArea />)}
         </Form.Item>
       </Form>

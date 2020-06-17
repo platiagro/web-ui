@@ -12,6 +12,8 @@ const initialState = {
   description: null,
   updatedAt: null,
   uuid: null,
+  modalValidateStatus: null,
+  errorMessage: null,
 };
 
 /**
@@ -39,9 +41,7 @@ const project = (state = initialState, action) => {
     // FAIL
     // project
     case actionTypes.FETCH_PROJECT_FAIL:
-    case actionTypes.CREATE_PROJECT_FAIL:
     case actionTypes.DELETE_PROJECT_FAIL:
-    case actionTypes.EDIT_PROJECT_NAME_FAIL:
     case actionTypes.EDIT_PROJECT_REQUEST:
       message.error(action.errorMessage, 5);
       return state;
