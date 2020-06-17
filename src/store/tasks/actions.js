@@ -46,11 +46,10 @@ export const addTask = (task) => {
     return taskServices
       .createTask(task)
       .then(async (response) => {
-        const task = response.data;
         dispatch(tasksTableDataLoaded());
         dispatch({
           type: actionTypes.ADD_TASK_SUCCESS,
-          task,
+          task: response.data,
         });
         dispatch(closeTasksModal());
         message.success(`Tarefa adicionada com sucesso.`);
@@ -128,11 +127,10 @@ export const fetchTasks = () => {
     return taskServices
       .getAllTasks()
       .then((response) => {
-        const tasks = response.data;
         dispatch(tasksTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_TASK,
-          tasks,
+          tasks: response.data,
         });
       })
       .catch((error) => {
@@ -155,11 +153,10 @@ export const updateTask = (uuid, task) => {
     return taskServices
       .updateTask(uuid, task)
       .then((response) => {
-        const task = response.data;
         dispatch(tasksTableDataLoaded());
         dispatch({
           type: actionTypes.UPDATE_TASK_SUCCESS,
-          task,
+          task: response.data,
         });
         dispatch(closeTasksModal());
         message.success(`Alteração realizada com sucesso.`);

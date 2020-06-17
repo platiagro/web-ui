@@ -1,7 +1,6 @@
 // CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
-import { message } from 'antd';
 
 // ACTIONS
 import { updateTask, closeTasksModal } from '../../../../store/tasks/actions';
