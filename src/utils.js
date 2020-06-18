@@ -207,6 +207,12 @@ const getTagConfig = (tag) => {
   const tagsConfig = {
     // user components
     DEFAULT: { title: 'Meus Componentes', key: 'DEFAULT', icon: 'solution' },
+    // descriptive statistics
+    DESCRIPTIVE_STATISTICS: {
+      title: 'Visualização de Dados',
+      key: 'DESCRIPTIVE_STATISTICS',
+      icon: 'area-chart',
+    },
     // feature engineering
     FEATURE_ENGINEERING: {
       title: 'Engenharia de Atributos',
