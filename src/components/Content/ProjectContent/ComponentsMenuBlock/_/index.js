@@ -19,6 +19,7 @@ const ComponentsMenuBlock = ({
   handleComponentClick,
   handleFilter,
   disabled,
+  handleDeleteTemplate,
 }) => {
   // RENDER
   return (
@@ -34,6 +35,7 @@ const ComponentsMenuBlock = ({
         <ComponentsMenu
           disabled={disabled}
           handleClick={handleComponentClick}
+          handleDeleteTemplate={handleDeleteTemplate}
           menu={menu}
         />
       )}
