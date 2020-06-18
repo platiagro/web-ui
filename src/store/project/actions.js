@@ -7,8 +7,6 @@ import actionTypes from './actionTypes';
 // SERVICES
 import projectsApi from '../../services/ProjectsApi';
 
-import { Router } from 'react-router-dom';
-
 // UI ACTIONS
 import {
   hideNewProjectModal,
