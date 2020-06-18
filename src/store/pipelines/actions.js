@@ -139,6 +139,7 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
   dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
     status,
+    experimentIsRunning: isRunning,
   });
 };
 
