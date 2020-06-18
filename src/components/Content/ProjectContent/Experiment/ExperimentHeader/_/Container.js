@@ -31,8 +31,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(editExperimentNameRequest(projectId, experimentId, newName)),
     handleTrainExperiment: (experiment, operators) =>
       dispatch(trainExperimentRequest(experiment, operators)),
-    handleDeployExperiment: (experiment, operators) =>
-      dispatch(deployExperimentRequest(experiment, operators, routerProps)),
+    handleDeployExperiment: (project, experiment, operators) =>
+      dispatch(
+        deployExperimentRequest(project, experiment, operators, routerProps)
+      ),
     handleFetchExperimentDeployStatus: (experimentId) =>
       dispatch(fetchExperimentDeployStatusRequest(experimentId)),
   };
@@ -41,6 +43,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
+    project: state.project,
     experiment: state.experiment,
     operators: state.operators,
     loading: state.ui.experimentName.loading,
@@ -54,6 +57,7 @@ const mapStateToProps = (state) => {
  * header with redux.
  */
 const ExperimentHeaderContainer = ({
+  project,
   experiment,
   operators,
   loading,
@@ -101,7 +105,7 @@ const ExperimentHeaderContainer = ({
     handleTrainExperiment(experiment, operators);
   // edit experiment name
   const deployExperimentHandler = () =>
-    handleDeployExperiment(experiment, operators);
+    handleDeployExperiment(project, experiment, operators);
 
   // RENDER
   return (
