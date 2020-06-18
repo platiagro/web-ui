@@ -7,6 +7,8 @@ import actionTypes from './actionTypes';
 // SERVICES
 import projectsApi from '../../services/ProjectsApi';
 
+import { Router } from 'react-router-dom';
+
 // UI ACTIONS
 import {
   hideNewProjectModal,
@@ -49,7 +51,7 @@ const fetchProjectSuccess = (response) => (dispatch) => {
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const fetchProjectFail = (error) => (dispatch) => {
+const fetchProjectFail = (error, routerProps) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -61,13 +63,19 @@ const fetchProjectFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_PROJECT_FAIL,
     errorMessage,
   });
+
+  // check if error is 404
+  if (error.response.status === 404) {
+    // redirect to error page
+    routerProps.history.replace('/erro-404');
+  }
 };
 
 /**
  * fetch project request action
  * @returns {Function}
  */
-export const fetchProjectRequest = (projectId) => (dispatch) => {
+export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_PROJECT_REQUEST,
@@ -80,7 +88,7 @@ export const fetchProjectRequest = (projectId) => (dispatch) => {
   projectsApi
     .detailProject(projectId)
     .then((response) => dispatch(fetchProjectSuccess(response)))
-    .catch((error) => dispatch(fetchProjectFail(error)));
+    .catch((error) => dispatch(fetchProjectFail(error, routerProps)));
 };
 
 // // // // // // // // // //
