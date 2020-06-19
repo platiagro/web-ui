@@ -27,6 +27,7 @@ const componentsMenu = (state = initialState, action) => {
       };
     // fetch templates success
     case templatesActionTypes.DELETE_TEMPLATE_SUCCESS:
+      message.success('Template excluído!');
       const filteredTemplates = [...state.filtered.TEMPLATES].filter(
         (template) => template.uuid !== action.templateId
       );
@@ -55,6 +56,12 @@ const componentsMenu = (state = initialState, action) => {
     case actionTypes.FETCH_COMPONENTS_MENU_FAIL:
       return message.error(action.errorMessage);
 
+    // FAIL
+    // components menu
+    // delete templates menu fail
+    case templatesActionTypes.DELETE_TEMPLATE_FAIL:
+      message.error(action.errorMessage);
+      return state;
     // COMMON
     // components menu
     // filter components menu
