@@ -63,7 +63,7 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
-const fetchExperimentFail = (error) => (dispatch) => {
+const fetchExperimentFail = (error, routerProps) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -75,6 +75,12 @@ const fetchExperimentFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_EXPERIMENT_FAIL,
     errorMessage,
   });
+
+  // check if error is 404
+  if (error.response.status === 404) {
+    // redirect to error page
+    routerProps.history.replace('/erro-404');
+  }
 };
 
 /**
@@ -83,9 +89,11 @@ const fetchExperimentFail = (error) => (dispatch) => {
  * @param {string} experimentId
  * @returns {Function}
  */
-export const fetchExperimentRequest = (projectId, experimentId) => (
-  dispatch
-) => {
+export const fetchExperimentRequest = (
+  projectId,
+  experimentId,
+  routerProps
+) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_REQUEST,
@@ -100,7 +108,7 @@ export const fetchExperimentRequest = (projectId, experimentId) => (
     .then((response) => {
       dispatch(fetchExperimentSuccess(response, projectId, experimentId));
     })
-    .catch((error) => dispatch(fetchExperimentFail(error)));
+    .catch((error) => dispatch(fetchExperimentFail(error, routerProps)));
 };
 
 /**
