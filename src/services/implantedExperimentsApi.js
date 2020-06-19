@@ -20,41 +20,27 @@ const deploymentsPath = '/deployments';
  * Get Deployed Experiments
  * @returns {Promise}
  */
-const getDeployedExperiments = () =>
-  new Promise((resolve, reject) => {
-    // get deployed experiment
-    pipelinesApi
-      .get(deploymentsPath)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const getDeployedExperiments = () => {
+  return pipelinesApi.get(deploymentsPath);
+};
 
-const testDeployedExperiments = (id, body) =>
-  new Promise((resolve, reject) => {
-    // test deployed experiment
-    seldonApi
-      .post(`/deployments/${id}/api/v1.0/predictions`, body)
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
 /**
- * Get Deployed Experiments
+ * Test Deployed Experiments
+ * @param {Object} deployObject
+ * @returns {Promise}
+ */
+const testDeployedExperiments = (id, body) => {
+  return seldonApi.post(`/deployments/${id}/api/v1.0/predictions`, body);
+};
+
+/**
+ * Delete Deployed Experiments
  * @param experimentId
  * @returns {Promise}
  */
-const deleteDeployedExperiments = (experimentId) =>
-  new Promise((resolve, reject) => {
-    // get deployed experiment
-    pipelinesApi
-      .delete(`${deploymentsPath}/${experimentId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const deleteDeployedExperiments = (experimentId) => {
+  return pipelinesApi.delete(`${deploymentsPath}/${experimentId}`);
+};
 
 // EXPORT DEFAULT
 export default {

@@ -18,48 +18,27 @@ const deployPath = '/deployments';
  * @param {Object} trainObject
  * @returns {Promise}
  */
-const trainExperiment = (trainObject) =>
-  new Promise((resolve, reject) => {
-    // training experiment
-    pipelinesApi
-      .post(`${trainPath}`, trainObject)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const trainExperiment = (trainObject) => {
+  return pipelinesApi.post(`${trainPath}`, trainObject);
+};
 
 /**
  * Get Training Experiment Status
  * @param {string} experimentId
  * @returns {Promise}
  */
-const getTrainExperimentStatus = (experimentId) =>
-  new Promise((resolve, reject) => {
-    // get training experiment status
-    pipelinesApi
-      .get(`${trainPath}/${experimentId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const getTrainExperimentStatus = (experimentId) => {
+  return pipelinesApi.get(`${trainPath}/${experimentId}`);
+};
 
 /**
  * Deploy Experiment
  * @param {Object} deployObject
  * @returns {Promise}
  */
-const deployExperiment = (deployObject) =>
-  new Promise((resolve, reject) => {
-    // deploying experiment
-    pipelinesApi
-      .post(`${deployPath}`, deployObject)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const deployExperiment = (experimentId, deployObject) => {
+  return pipelinesApi.put(`${deployPath}/${experimentId}`, deployObject);
+};
 
 // EXPORT DEFAULT
 export default {

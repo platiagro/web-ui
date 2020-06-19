@@ -226,19 +226,22 @@ const deployExperimentFail = (error) => {
  * @param {Object} routerProps
  * @returns {Function}
  */
-export const deployExperimentRequest = (experiment, operators, routerProps) => (
-  dispatch
-) => {
+export const deployExperimentRequest = (
+  project,
+  experiment,
+  operators,
+  routerProps
+) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DEPLOY_EXPERIMENT_REQUEST,
   });
 
-  // getting experiment data
-  const { uuid: experimentId, dataset } = experiment;
-
   // creating deploy object
-  const deployObject = { experimentId, dataset };
+  const deployObject = {
+    name: `${project.name}/${experiment.name}`,
+    dataset: experiment.dataset,
+  };
 
   // getting operators
   deployObject.components = operators.map((operator) => ({
@@ -253,7 +256,7 @@ export const deployExperimentRequest = (experiment, operators, routerProps) => (
 
   // deploying experiment
   pipelinesApi
-    .deployExperiment(deployObject)
+    .deployExperiment(experiment.uuid, deployObject)
     .then(() => dispatch(deployExperimentSuccess(experiment.uuid, routerProps)))
     .catch((error) => dispatch(deployExperimentFail(error)));
 };
