@@ -46,10 +46,11 @@ export const addTask = (task) => {
     return taskServices
       .createTask(task)
       .then(async (response) => {
+        const responseTask = response.data;
         dispatch(tasksTableDataLoaded());
         dispatch({
           type: actionTypes.ADD_TASK_SUCCESS,
-          task: response.data,
+          task: responseTask,
         });
         dispatch(closeTasksModal());
         message.success(`Tarefa adicionada com sucesso.`);
@@ -59,7 +60,7 @@ export const addTask = (task) => {
             ? process.env.REACT_APP_MAIN_DOMAIN
             : '';
         window.open(
-          `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${task.uuid}/?reset&open=Experiment.ipynb,Deployment.ipynb`
+          `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${responseTask.uuid}/?reset&open=Experiment.ipynb,Deployment.ipynb`
         );
       })
       .catch((error) => {
