@@ -1,7 +1,7 @@
 // CORE LIBS
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
 import ContentHeader from './index';
@@ -13,9 +13,10 @@ import {
 } from '../../../store/project/actions';
 
 // DISPATCHS
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleFetchProject: (projectId) => dispatch(fetchProjectRequest(projectId)),
+    handleFetchProject: (projectId) =>
+      dispatch(fetchProjectRequest(projectId, routerProps)),
     handleEditProjectName: (projectId, newName) =>
       dispatch(editProjectNameRequest(projectId, newName)),
   };
@@ -69,7 +70,6 @@ const ContentHeaderProjectContainer = ({
 };
 
 // EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ContentHeaderProjectContainer);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ContentHeaderProjectContainer)
+);
