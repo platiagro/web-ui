@@ -89,7 +89,9 @@ const operators = (state = initialState, action) => {
             ? 'Succeeded'
             : action.status[operator.uuid]
             ? action.status[operator.uuid]
-            : 'Pending',
+            : action.experimentIsRunning
+            ? 'Pending'
+            : '',
       }));
     // train experiment success
     case pipelinesActionTypes.TRAIN_EXPERIMENT_SUCCESS:
