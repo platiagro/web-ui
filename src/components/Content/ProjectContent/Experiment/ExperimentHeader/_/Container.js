@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleDeleteExperiment: (projectId, experimentId) =>
       dispatch(deleteExperimentRequest(projectId, experimentId, routerProps)),
     handleFetchExperiment: (projectId, experimentId) =>
-      dispatch(fetchExperimentRequest(projectId, experimentId)),
+      dispatch(fetchExperimentRequest(projectId, experimentId, routerProps)),
     handleEditExperimentName: (projectId, experimentId, newName) =>
       dispatch(editExperimentNameRequest(projectId, experimentId, newName)),
     handleTrainExperiment: (experiment, operators) =>
