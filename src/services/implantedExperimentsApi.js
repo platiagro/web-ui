@@ -24,8 +24,8 @@ const getDeployedExperiments = () => {
   return pipelinesApi.get(deploymentsPath);
 };
 
-<<<<<<< HEAD
-=======
+
+
 /**
 * Get Deployed Experiments
 * @returns {Promise}
@@ -50,15 +50,12 @@ const testDeployedExperiments = (id, body) =>
       // error
       .catch((error) => reject(error));
   });
->>>>>>> 73c26ea... Deployment status was been altered
+
 /**
  * Test Deployed Experiments
  * @param {Object} deployObject
  * @returns {Promise}
  */
-const testDeployedExperiments = (id, body) => {
-  return seldonApi.post(`/deployments/${id}/api/v1.0/predictions`, body);
-};
 
 /**
  * Delete Deployed Experiments
