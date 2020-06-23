@@ -15,16 +15,9 @@ const deploymentsPath = '/deployments';
  * Deploy Experiment Logs
  * @returns {Promise}
  */
-const getDeployExperimentLogs = (deployId) =>
-  new Promise((resolve, reject) => {
-    // deploying experiment logs
-    pipelinesApi
-      .get(`${deploymentsPath}/logs?name=${deployId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const getDeployExperimentLogs = (deployId) => {
+  return pipelinesApi.get(`${deploymentsPath}/logs?name=${deployId}`);
+};
 
 // EXPORT DEFAULT
 export default {

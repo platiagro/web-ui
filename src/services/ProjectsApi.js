@@ -16,32 +16,18 @@ const projectsPath = '/projects';
  * List Projects
  * @returns {Promise}
  */
-const listProjects = () =>
-  new Promise((resolve, reject) => {
-    // requesting projects
-    projectsApi
-      .get(projectsPath)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const listProjects = () => {
+  return projectsApi.get(projectsPath);
+};
 
 /**
  * Detail Project
  * @param {string} projectId
  * @returns {Promise}
  */
-const detailProject = (projectId) =>
-  new Promise((resolve, reject) => {
-    // requesting project
-    projectsApi
-      .get(`${projectsPath}/${projectId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const detailProject = (projectId) => {
+  return projectsApi.get(`${projectsPath}/${projectId}`);
+};
 
 /**
  * Create Project
@@ -49,22 +35,13 @@ const detailProject = (projectId) =>
  * @param {string} projectDescription
  * @returns {Promise}
  */
-const createProject = (projectName, projectDescription) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: projectName,
-      description: projectDescription,
-    };
-
-    // creating project
-    projectsApi
-      .post(projectsPath, body)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const createProject = (projectName, projectDescription) => {
+  const body = {
+    name: projectName,
+    description: projectDescription,
+  };
+  return projectsApi.post(projectsPath, body);
+};
 
 /**
  * Update Project
@@ -73,41 +50,27 @@ const createProject = (projectName, projectDescription) =>
  * @param {string} projectDescription
  * @returns {Promise}
  */
-const updateProject = (projectId, projectName, projectDescription) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: projectName,
-      description: projectDescription,
-    };
+const updateProject = (projectId, projectName, projectDescription) => {
+  const body = {
+    name: projectName,
+    description: projectDescription,
+  };
 
-    if (projectDescription === undefined) {
-      delete body.description;
-    }
-    // updating project
-    projectsApi
-      .patch(`${projectsPath}/${projectId}`, body)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+  if (projectDescription === undefined) {
+    delete body.description;
+  }
+
+  return projectsApi.patch(`${projectsPath}/${projectId}`, body);
+};
 
 /**
  * Delete Project
  * @param {string} projectId
  * @returns {Promise}
  */
-const deleteProject = (projectId) =>
-  new Promise((resolve, reject) => {
-    // deleting project
-    projectsApi
-      .delete(`${projectsPath}/${projectId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const deleteProject = (projectId) => {
+  return projectsApi.delete(`${projectsPath}/${projectId}`);
+};
 
 // EXPORT DEFAULT
 export default {
