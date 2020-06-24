@@ -3,20 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Upload, Icon } from 'antd';
+import { Upload, Icon, Button } from 'antd';
 
 /**
  * Upload Inference Test Button.
  * This component is responsible for displaying upload inference test button.
  */
 const UploadInferenceTestButton = ({ handleUpload }) => {
-  // FUNCTIONS
-  // handle upload action
-  // const handleAction = (file) =>
-  //   new Promise((resolve, reject) => {
-  //     resolve(handleUpload(file));
-  //   });
-
   // upload props
   const props = {
     name: 'file',
@@ -49,10 +42,10 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
       {...props}
     >
       {/* upload button link */}
-      <a>
+      <Button type='link'>
         <Icon type='upload' style={{ marginRight: 5 }} />
         Testar Inferência
-      </a>
+      </Button>
     </Upload>
   );
 };

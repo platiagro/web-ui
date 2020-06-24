@@ -66,7 +66,7 @@ export const addTask = (task) => {
       .catch((error) => {
         dispatch(tasksTableDataLoaded());
         let errorMessage;
-        if (error.response.status == 500) {
+        if (error.response.status === 500) {
           errorMessage = error.message;
           message.error(errorMessage, 5);
         } else {
@@ -105,7 +105,7 @@ export const deleteTask = (id) => {
       })
       .catch((error) => {
         let errorMessage;
-        if (error.response.status == 403) {
+        if (error.response.status === 403) {
           errorMessage =
             'Não foi possível excluir esta tarefa, pois ela está associada a um experimento.';
         } else {
@@ -165,7 +165,7 @@ export const updateTask = (uuid, task) => {
       .catch((error) => {
         dispatch(tasksTableDataLoaded());
         let errorMessage;
-        if (error.response.status == 500) {
+        if (error.response.status === 500) {
           errorMessage = error.message;
           message.error(errorMessage, 5);
         } else {

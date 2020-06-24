@@ -78,7 +78,7 @@ const ComponentsMenuBlockContainer = ({
   useEffect(() => {
     // fetching menu tasks
     handleFetchComponentsMenu();
-  }, []);
+  }, [handleFetchComponentsMenu]);
 
   // HANDLERS
   const createOperatorHandler = ({ key: componentId, keyPath }) => {

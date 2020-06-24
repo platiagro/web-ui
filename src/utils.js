@@ -440,9 +440,6 @@ const selectOperator = (operatorId, operators) => {
  * @returns {Object[]} new results list
  */
 const transformResults = (operatorId, results) => {
-  // getting url creator
-  const urlCreator = window.URL || window.webkitURL;
-
   // creating new operators list
   const newResults = results.map((plotResult, index) => ({
     type: 'plot',
