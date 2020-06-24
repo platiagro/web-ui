@@ -12,7 +12,10 @@ import {
   fetchComponentsMenuRequest,
   filterComponentsMenu,
 } from '../../../../../store/componentsMenu/actions';
-import { setTemplateRequest } from '../../../../../store/templates/actions';
+import {
+  setTemplateRequest,
+  deleteTemplateRequest,
+} from '../../../../../store/templates/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -38,6 +41,8 @@ const mapDispatchToProps = (dispatch) => {
       ),
     handleSetTemplate: (projectId, experimentId, templateId) =>
       dispatch(setTemplateRequest(projectId, experimentId, templateId)),
+    handleDeleteTemplate: (templateId) =>
+      dispatch(deleteTemplateRequest(templateId)),
   };
 };
 
@@ -68,6 +73,7 @@ const ComponentsMenuBlockContainer = ({
   handleCreateOperator,
   handleSetTemplate,
   disabled,
+  handleDeleteTemplate,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -105,6 +111,7 @@ const ComponentsMenuBlockContainer = ({
     <ComponentsMenuBlock
       handleComponentClick={createOperatorHandler}
       handleFilter={handleFilterComponentsMenu}
+      handleDeleteTemplate={handleDeleteTemplate}
       menu={componentsMenu}
       disabled={disabled || trainingLoading || trainingSucceeded}
       loading={loading}

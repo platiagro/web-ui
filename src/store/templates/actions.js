@@ -12,6 +12,8 @@ import {
   templateDataLoaded,
   templateLoadingData,
   hideNewTemplateModal,
+  componentsMenuDataLoaded,
+  componentsMenuLoadingData,
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
@@ -214,6 +216,64 @@ export const setTemplateRequest = (projectId, experimentId, templateId) => (
       dispatch(setTemplateSuccess(response, projectId, experimentId))
     )
     .catch((error) => dispatch(setTemplateFail(error)));
+};
+
+/**
+ * delete template request action
+ * @returns {Function}
+ */
+export const deleteTemplateRequest = (templateId) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.DELETE_TEMPLATE_REQUEST,
+  });
+
+  // dispatching template table loading data action
+  dispatch(componentsMenuLoadingData());
+
+  // deleting project
+  templatesApi
+    .deleteTemplate(templateId)
+    .then(() => dispatch(deleteTemplateSuccess(templateId)))
+    .catch((error) => dispatch(deleteTemplateFail(error)));
+};
+
+/**
+ * delete template fail action
+ * @param {Object} error
+ * @returns {Object} { type, errorMessage }
+ */
+const deleteTemplateFail = (error) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching projects table data loaded action
+  dispatch(componentsMenuDataLoaded());
+
+  // dispatching delete projects fail action
+  dispatch({
+    type: actionTypes.DELETE_TEMPLATE_FAIL,
+    errorMessage,
+  });
+};
+
+// // // // // // // // // //
+
+// ** DELETE TEMPLATE
+/**
+ * delete template success action
+ * @param {Object} templateId
+ * @returns {Object} { type }
+ */
+const deleteTemplateSuccess = (templateId) => (dispatch) => {
+  // dispatching template table data loaded action
+  dispatch(componentsMenuDataLoaded());
+
+  // dispatching delete template success action
+  dispatch({
+    type: actionTypes.DELETE_TEMPLATE_SUCCESS,
+    templateId,
+  });
 };
 
 // // // // // // // // // //
