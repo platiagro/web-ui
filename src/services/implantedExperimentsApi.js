@@ -53,4 +53,5 @@ export default {
   getDeployedExperiments,
   testDeployedExperiments,
   deleteDeployedExperiments,
+  getExperimentDeployStatus,
 };
