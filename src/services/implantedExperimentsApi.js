@@ -24,32 +24,22 @@ const getDeployedExperiments = () => {
   return pipelinesApi.get(deploymentsPath);
 };
 
-
+/**
+ * Get Deployed Experiments
+ * @returns {Promise}
+ */
+const getDeployedExperiments = () => {
+  return pipelinesApi.get(deploymentsPath);
+};
 
 /**
-* Get Deployed Experiments
-* @returns {Promise}
-*/
-const getExperimentDeployStatus = (experimentId) =>
-  new Promise((resolve, reject) => {
-    // get deployed experiment
-    pipelinesApi
-      .get(`${deploymentsPath}/${experimentId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
-
-const testDeployedExperiments = (id, body) =>
-  new Promise((resolve, reject) => {
-    // test deployed experiment
-    seldonApi
-      .post(`/deployments/${id}/api/v1.0/predictions`, body)
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+ * Test Deployed Experiments
+ * @param {Object} deployObject
+ * @returns {Promise}
+ */
+const testDeployedExperiments = (id, body) => {
+  return seldonApi.post(`/deployments/${id}/api/v1.0/predictions`, body);
+};
 
 /**
  * Test Deployed Experiments
