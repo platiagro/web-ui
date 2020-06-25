@@ -28,7 +28,6 @@ const testDeployedExperiments = (id, body) => {
   return seldonApi.post(`/deployments/${id}/api/v1.0/predictions`, body);
 }
 
-
 /**
  * Test Deployed Experiments
  * @param {Object} deployObject
