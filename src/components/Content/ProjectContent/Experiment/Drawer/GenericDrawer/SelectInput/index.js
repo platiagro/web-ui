@@ -9,7 +9,7 @@ import { Icon, Select } from 'antd';
 import InputTip from '../../InputTip';
 
 // SELECT COMPONENTS
-const { Option, blur } = Select;
+const { Option } = Select;
 
 /**
  * Select Input.

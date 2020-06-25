@@ -54,7 +54,7 @@ const ProjectsTableContainer = ({
   useLayoutEffect(() => {
     // fetching projects
     handleFetchProjects();
-  }, []);
+  }, [handleFetchProjects]);
 
   // HANDLERS
   // project click

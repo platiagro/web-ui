@@ -105,7 +105,7 @@ const createDatasetSuccess = (response, projectId, experimentId) => (
 const createDatasetFail = (error) => (dispatch) => {
   // getting error message
   let errorMessage;
-  if (error.response.status == 500) {
+  if (error.response.status === 500) {
     errorMessage = error.message;
   } else {
     errorMessage = error.response.data.message;
