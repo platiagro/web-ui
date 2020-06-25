@@ -3,7 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input, Radio, Icon } from 'antd';
+import { Modal, Form, Input, Select, Icon } from 'antd';
+
+// SELECT COMPONENTS
+const { Option } = Select;
 
 /**
  * New Task Modal.
@@ -20,7 +23,7 @@ const NewTaskModal = ({
   handleNewTask,
 }) => {
   // getting form utils
-  const { getFieldDecorator, getFieldsError, setFieldsValue } = form;
+  const { getFieldDecorator, getFieldsError } = form;
 
   // FUNCTIONS
   // Function used to check if form has errors
@@ -45,11 +48,6 @@ const NewTaskModal = ({
       handleNewTask(values);
     });
   };
-  // function to change template and reflect in name
-  const changeTemplate = (e, f) => {
-    setFieldsValue({ name: e.target.label });
-    return e.target.value;
-  };
 
   // RENDER
   return (
@@ -65,7 +63,7 @@ const NewTaskModal = ({
         disabled: hasErrors(getFieldsError()),
         form: 'newTaskForm',
         key: 'submit',
-        htmlType: 'submit'
+        htmlType: 'submit',
       }}
       confirmLoading={loading}
       destroyOnClose
@@ -83,24 +81,17 @@ const NewTaskModal = ({
                   'Por favor selecione um exemplo ou template para a tarefa!',
               },
             ],
-            initialValue: templates.length > 0 ? templates[0].uuid : '',
-            getValueFromEvent: changeTemplate,
+            initialValue: 'uuid', // this is "template em branco" uuid,
           })(
-            // template radio input group
-            <Radio.Group
-              style={{ display: 'grid', gridTemplateColumns: '50% 50%' }}
-            >
-              {/* template radio options */}
+            // template dropdown select
+            <Select>
+              {/* template options */}
               {templates.map((template) => (
-                <Radio
-                  key={template.uuid}
-                  value={template.uuid}
-                  label={template.name}
-                >
+                <Option key={template.uuid} value={template.uuid}>
                   {template.name}
-                </Radio>
+                </Option>
               ))}
-            </Radio.Group>
+            </Select>
           )}
         </Form.Item>
         {/* name */}
@@ -119,7 +110,7 @@ const NewTaskModal = ({
                 message: 'Por favor insira um nome para a tarefa!',
               },
             ],
-            initialValue: templates.length > 0 ? templates[0].name : '',
+            initialValue: 'Nova tarefa',
             // name input
           })(<Input allowClear autoFocus />)}
         </Form.Item>
