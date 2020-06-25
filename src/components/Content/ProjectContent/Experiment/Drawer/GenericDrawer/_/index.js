@@ -56,7 +56,7 @@ const inputTypes = {
         <Divider />
       </>
     ),
-  // number (float)
+  // number 
   number: (
     { uuid, name, multiple, description, options, ...props },
     loading,
@@ -97,6 +97,7 @@ const inputTypes = {
           <Divider />
         </>
       ),
+  // float
   float: (
     { uuid, name, multiple, description, options, ...props },
     loading,
