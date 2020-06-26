@@ -18,8 +18,7 @@ import {
 
 // COMPONENTS ACTION
 import { fetchComponentsRequest } from '../components/actions';
-//PROJECTS ACTIONS
-import fetchProjectsRequest from '../projects/actions';
+
 // ACTIONS
 // ** FETCH PROJECT
 /**
@@ -193,7 +192,6 @@ const editProjectNameSuccess = (response) => (dispatch) => {
     project,
   });
   dispatch(hideNewProjectModal());
-  dispatch(fetchProjectsRequest());
 };
 
 /**

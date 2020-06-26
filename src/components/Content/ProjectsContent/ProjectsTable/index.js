@@ -51,12 +51,9 @@ const ProjectsTable = ({
       width: 300,
       render: (value, record) => (
         <>
-          <Button
-            type='link'
-            onClick={() => handleShowNewProjectModal(record)}
-          >
+          <Button type='link' onClick={() => handleShowNewProjectModal(record)}>
             Alterar nome e descrição
-          </Button >
+          </Button>
 
           <Popconfirm
             title='Você tem certeza que deseja excluir esse projeto?'
@@ -73,14 +70,12 @@ const ProjectsTable = ({
 
   // RENDER
   return (
-    // table
-
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
       dataSource={projects}
       columns={columnsConfig}
-      pagination={{ pageSize: 9 }}
+      pagination={false}
       loading={loading}
     />
   );

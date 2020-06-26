@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -10,65 +13,53 @@ import {
   projectsTableDataLoaded,
 } from '../ui/actions';
 
-// ACTIONS
-// ** FETCH PROJECTS
 /**
- * fetch projects success action
- * @param {Object} response
- * @returns {Object} { type, projects }
+ * Function to fetch pagineted projects and dispatch to reducer
  */
-const fetchProjectsSuccess = (response) => (dispatch) => {
-  // getting projects from response
-  const projects = response.data;
+export const fetchPaginatedProjects = (page, pageSize) => {
+  return (dispatch) => {
+    // showing loading
+    dispatch(projectsTableLoadingData());
 
-  // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
-
-  // dispatching fetch projects success action
-  dispatch({
-    type: actionTypes.FETCH_PROJECTS_SUCCESS,
-    projects,
-  });
+    return projectsApi
+      .getPaginatedProjects(page, pageSize)
+      .then((response) => {
+        dispatch(projectsTableDataLoaded());
+        dispatch({
+          type: actionTypes.FETCH_PAGINATED_PROJECTS,
+          projects: response.data,
+          pageSize: pageSize,
+        });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(projectsTableDataLoaded());
+        message.error(errorMessage, 5);
+      });
+  };
 };
 
 /**
- * fetch projects fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ * Function to fetch all projects and dispatch to reducer
  */
-const fetchProjectsFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
-
-  // dispatching fetch projects fail action
-  dispatch({
-    type: actionTypes.FETCH_PROJECTS_FAIL,
-    errorMessage,
-  });
-};
-
-/**
- * fetch projects request action
- * @returns {Function}
- */
-const fetchProjectsRequest = () => (dispatch) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.FETCH_PROJECTS_REQUEST,
-  });
-
+export const fetchProjects = () => (dispatch) => {
   // dispatching projects table loading data action
   dispatch(projectsTableLoadingData());
 
   // fetching projects
   projectsApi
     .listProjects()
-    .then((response) => dispatch(fetchProjectsSuccess(response)))
-    .catch((error) => dispatch(fetchProjectsFail(error)));
+    .then((response) => {
+      const projects = response.data;
+      dispatch(projectsTableDataLoaded());
+      dispatch({
+        type: actionTypes.FETCH_PROJECTS,
+        projects,
+      });
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      dispatch(projectsTableDataLoaded());
+      message.error(errorMessage, 5);
+    });
 };
-
-// EXPORT DEFAULT
-export default fetchProjectsRequest;
