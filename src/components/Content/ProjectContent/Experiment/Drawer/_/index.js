@@ -28,6 +28,7 @@ const Drawer = ({
   showResults,
   handleEditClick,
   handleResultsClick,
+  experimentTrained,
 }) => {
   // RENDER
   return (
@@ -55,11 +56,12 @@ const Drawer = ({
       )}
 
       {/* rendering results button bar */}
-      {!isDataset && results && results.length > 0 && (
+      {!isDataset && (
         <ResultsButtonBar
           handleEditClick={handleEditClick}
           handleResultsClick={handleResultsClick}
           showingResults={showResults}
+          disabled={!experimentTrained}
         />
       )}
 
@@ -89,6 +91,8 @@ Drawer.propTypes = {
   handleClose: PropTypes.func.isRequired,
   /** drawer show results */
   showResults: PropTypes.bool.isRequired,
+  /** experiment is trained */
+  experimentTrained: PropTypes.bool.isRequired,
 };
 
 // PROP DEFAULT VALUES
