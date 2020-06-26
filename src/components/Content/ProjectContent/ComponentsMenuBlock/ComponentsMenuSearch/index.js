@@ -30,7 +30,6 @@ const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
       }}>
       {/* search input */}
       <Input
-        disabled={disabled}
         placeholder='Pesquisar'
         allowClear
         onChange={handleChange}
