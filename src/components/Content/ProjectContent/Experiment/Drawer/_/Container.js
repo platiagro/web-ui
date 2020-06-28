@@ -32,6 +32,7 @@ const mapStateToProps = (state) => {
     metrics: state.operator.metrics,
     resultsLoading: state.ui.operatorResults.loading,
     metricsLoading: state.ui.operatorMetrics.loading,
+    experimentTrained: state.experiment.succeeded,
   };
 };
 
@@ -49,6 +50,7 @@ const DrawerContainer = ({
   metricsLoading,
   handleHideDrawerResults,
   handleShowDrawerResults,
+  experimentTrained,
 }) => {
   // RENDER
   return (
@@ -64,6 +66,7 @@ const DrawerContainer = ({
       title={drawer.title}
       handleEditClick={handleHideDrawerResults}
       handleResultsClick={handleShowDrawerResults}
+      experimentTrained={experimentTrained}
     />
   );
 };
