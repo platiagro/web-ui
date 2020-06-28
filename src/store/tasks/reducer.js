@@ -3,7 +3,7 @@ import actionTypes from './actionTypes';
 
 const initialState = {
   tasks: [],
-  newTaskRecord: null,
+  newTaskRecord: {},
   modalIsVisible: false,
   editModalIsVisible: false,
   modalValidateStatus: null,
@@ -30,7 +30,7 @@ export default function postReducer(state = initialState, action) {
     case actionTypes.CLOSE_TASKS_MODAL:
       return {
         ...state,
-        newTaskRecord: null,
+        newTaskRecord: {},
         editModalIsVisible: false,
         modalIsVisible: false,
         modalValidateStatus: null,

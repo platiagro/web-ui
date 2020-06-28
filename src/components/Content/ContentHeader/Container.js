@@ -19,7 +19,9 @@ const ContentHeaderContainer = ({ title }) => {
   const goBackHandler = () => history.goBack();
 
   // RENDER
-  return <ContentHeader title={title} handleGoBack={goBackHandler} />;
+  return (
+    <ContentHeader title={title} loading={false} handleGoBack={goBackHandler} />
+  );
 };
 
 // PROP TYPES

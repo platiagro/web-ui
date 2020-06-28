@@ -60,7 +60,7 @@ const EditTaskModal = ({
         disabled: hasErrors(getFieldsError()),
         form: 'newEditTaskForm',
         key: 'submit',
-        htmlType: 'submit'
+        htmlType: 'submit',
       }}
       confirmLoading={loading}
       destroyOnClose
@@ -73,7 +73,7 @@ const EditTaskModal = ({
           validateStatus={modalValidateStatus}
           help={errorMessage}
           autoFocus
-          onFocus={(e) => e.target.select()}
+          onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
           {/* configuring name input */}
           {getFieldDecorator('name', {
