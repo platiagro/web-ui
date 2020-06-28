@@ -35,8 +35,13 @@ const Title = ({ title, level, loading, handleSubmit }) => {
         // loading
         <Spin indicator={<Icon type='loading' spin />} />
       ) : (
-          <EditTitle level={level} title={title} editable={editable} beforeSubmit={beforeSubmit} />
-        )}
+        <EditTitle
+          level={level}
+          title={title}
+          editable={editable}
+          beforeSubmit={beforeSubmit}
+        />
+      )}
     </>
   );
 };
@@ -50,7 +55,13 @@ Title.propTypes = {
   /** title is loading */
   loading: PropTypes.bool.isRequired,
   /** title submit function */
-  handleSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func,
+};
+
+// PROP DEFAULT VALUES
+Title.defaultProps = {
+  /** title edit submit function */
+  handleSubmit: undefined,
 };
 
 // EXPORT

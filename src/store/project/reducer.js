@@ -8,7 +8,7 @@ import actionTypes from './actionTypes';
 const initialState = {
   createdAt: null,
   experiments: null,
-  name: null,
+  name: '',
   description: null,
   updatedAt: null,
   uuid: null,
