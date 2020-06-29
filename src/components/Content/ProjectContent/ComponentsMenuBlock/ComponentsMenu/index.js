@@ -83,7 +83,6 @@ const ComponentsMenu = ({
     return (
       // sub menu component
       <SubMenu
-        disabled={disabled}
         key={key}
         title={
           // span container
