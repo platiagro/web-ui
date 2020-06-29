@@ -8,9 +8,6 @@ import { Layout } from 'antd';
 import MainHeader from '../MainHeader/_';
 import Content from '../Content/_';
 
-// LAYOUT COMPONENTS
-const { Footer } = Layout;
-
 /**
  * Main component of the application.
  *

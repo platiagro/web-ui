@@ -76,7 +76,7 @@ const ExperimentTabsContainer = ({
       // clear all experiments of redux when dismount
       handleClearAllExperiments();
     };
-  }, []);
+  }, [handleFetchExperiments, projectId, handleClearAllExperiments]);
 
   // listen experiments to redirect to active
   useEffect(() => {
@@ -89,7 +89,7 @@ const ExperimentTabsContainer = ({
         history.push(`/projetos/${projectId}/${activeTab.uuid}`);
       }
     }
-  }, [experiments]);
+  }, [experiments, history, projectId, experimentId]);
 
   // HANDLERS
   // change tab

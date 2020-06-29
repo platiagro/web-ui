@@ -2,7 +2,7 @@
 import React from 'react';
 
 // UI LIBS
-import { Spin, Row } from 'antd';
+import { Row } from 'antd';
 
 // COMPONENTS
 import ExperimentHeader from '../ExperimentHeader/_/Container';

@@ -34,8 +34,18 @@ const createTemplate = (templateName, experimentId) => {
   return templatesApi.post(templatesPath, body);
 };
 
+/**
+ * Delete Template
+ * @param {string} templateId
+ * @returns {Promise}
+ */
+const deleteTemplate = (templateId) => {
+    return templatesApi.delete(`${templatesPath}/${templateId}`);
+};
+
 // EXPORT DEFAULT
 export default {
   listTemplates,
   createTemplate,
+  deleteTemplate,
 };

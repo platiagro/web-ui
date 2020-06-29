@@ -199,7 +199,7 @@ const createExperimentFail = (error) => (dispatch) => {
 
   // getting error message
   let errorMessage;
-  if (error.response.status == 500) {
+  if (error.response.status === 500) {
     errorMessage = error.message;
     message.error(errorMessage, 5);
   } else {
@@ -287,7 +287,7 @@ const editExperimentNameFail = (error) => (dispatch) => {
 
   // getting error message
   let errorMessage;
-  if (error.response.status == 500) {
+  if (error.response.status === 500) {
     errorMessage = error.message;
   } else {
     errorMessage = error.response.data.message;
@@ -602,15 +602,8 @@ const fetchExperimentDeployStatusSuccess = (response, experimentId) => (
   dispatch
 ) => {
   // getting deploy list from response
-  const deployList = response.data;
-
-  // getting experiment deploy from list
-  const experimentDeploy = deployList.find(
-    (deploy) => deploy.experimentId === experimentId
-  );
-
-  // getting experiment status
-  const status = experimentDeploy ? experimentDeploy.status : '';
+  const experiment = response.data;
+  const { status } = experiment;
 
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_SUCCESS,
@@ -647,13 +640,12 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
     type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_REQUEST,
   });
 
-  // fetching all experiment deploy status
+  // fetching id experiment deploy status
   implantedExperimentsApi
-    .getDeployedExperiments()
+    .getExperimentDeployStatus(experimentId)
     .then((response) => {
-      dispatch(fetchExperimentDeployStatusSuccess(response, experimentId));
+      dispatch(fetchExperimentDeployStatusSuccess(response));
     })
-    .catch((error) => dispatch(fetchExperimentDeployStatusFail(error)));
 };
 
 // // // // // // // // // //

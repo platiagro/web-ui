@@ -11,6 +11,7 @@ import {
   Badge,
   Divider,
   Modal,
+  Button,
 } from 'antd';
 
 // COMPONENTS
@@ -101,10 +102,15 @@ const ImplantedExperimentsTable = ({
               handleDeleteImplantedExperiment(record.experimentId)
             }
           >
-            <a>Deletar</a>
+            <Button type='link'>Deletar</Button>
           </Popconfirm>
           <Divider type='vertical' />
-          <a onClick={() => handleOpenLog(record.experimentId)}>Logs</a>
+          <Button
+            type='link'
+            onClick={() => handleOpenLog(record.experimentId)}
+          >
+            Logs
+          </Button>
           <Divider type='vertical' />
           {/* upload inference test button */}
           <UploadInferenceTestButton
@@ -140,7 +146,7 @@ const ImplantedExperimentsTable = ({
         <Table
           dataSource={experimentInference.ndarray.map((e, i) => {
             const data = { key: i };
-            experimentInference.names.map((c, j) => {
+            experimentInference.names.forEach((c, j) => {
               data[c] = e[j];
             });
             return data;

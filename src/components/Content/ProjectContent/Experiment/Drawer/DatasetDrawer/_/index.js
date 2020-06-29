@@ -3,14 +3,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Upload, Button, Icon, Divider, Select } from 'antd';
+import { Upload, Button, Icon, Divider } from 'antd';
 
 // COMPONENTS
 import ColumnsTable from '../ColumnsTable';
 import InputTip from '../../InputTip';
-
-// SELECT COMPONENTS
-const { Option } = Select;
 
 /**
  * Dataset Drawer.
