@@ -85,7 +85,7 @@ const ImplantedExperimentsTableContainer = ({
     );
 
     return () => clearInterval(polling);
-  }, []);
+  }, [handleFetchImplantedExperiments]);
 
   const handleOpenLog = (deployId) => {
     handleGetDeployExperimentLogs(deployId);

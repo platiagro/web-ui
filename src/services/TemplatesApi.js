@@ -93,7 +93,7 @@ const createTemplate = (templateName, experimentId) =>
  * @param {string} templateId
  * @returns {Promise}
  */
-/* const deleteTemplate = (templateId) =>
+const deleteTemplate = (templateId) =>
   new Promise((resolve, reject) => {
     // deleting template
     templatesApi
@@ -102,13 +102,13 @@ const createTemplate = (templateName, experimentId) =>
       .then((response) => resolve(response))
       // error
       .catch((error) => reject(error));
-  }); */
+  });
 
 // EXPORT DEFAULT
 export default {
   listTemplates,
   createTemplate,
   /*   detailTemplate,
-  updateTemplate,
-  deleteTemplate, */
+  updateTemplate,*/
+  deleteTemplate,
 };

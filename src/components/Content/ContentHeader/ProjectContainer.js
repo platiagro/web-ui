@@ -49,7 +49,7 @@ const ContentHeaderProjectContainer = ({
   useEffect(() => {
     // fetching projects
     handleFetchProject(projectId);
-  }, []);
+  }, [handleFetchProject, projectId]);
 
   // HANDLERS
   // go back

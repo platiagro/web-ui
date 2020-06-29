@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useState } from 'react';
+import React from 'react';
 
 // COMPONENTS
 import ContentHeader from '../../ContentHeader/Container';

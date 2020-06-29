@@ -16,11 +16,6 @@ const ProjectsTable = ({
   handleClickDelete,
   handleShowNewProjectModal,
 }) => {
-  // table columns config
-  const handleModal = ({ uuid, name, description }) => {
-    console.log(uuid, name, description);
-    handleShowNewProjectModal({ uuid, name, description });
-  };
   const columnsConfig = [
     {
       title: 'Nome do Projeto',
@@ -51,12 +46,9 @@ const ProjectsTable = ({
       width: 300,
       render: (value, record) => (
         <>
-          <Button
-            type='link'
-            onClick={() => handleShowNewProjectModal(record)}
-          >
+          <Button type='link' onClick={() => handleShowNewProjectModal(record)}>
             Alterar nome e descrição
-          </Button >
+          </Button>
 
           <Popconfirm
             title='Você tem certeza que deseja excluir esse projeto?'

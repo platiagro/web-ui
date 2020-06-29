@@ -80,7 +80,7 @@ const ExperimentHeaderContainer = ({
   useEffect(() => {
     // fetching projects
     handleFetchExperiment(projectId, experimentId);
-  }, []);
+  }, [experimentId, projectId, handleFetchExperiment]);
 
   // HOOKS
   // did mount hook

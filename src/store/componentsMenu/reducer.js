@@ -4,6 +4,8 @@ import { message } from 'antd';
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
+import templatesActionTypes from '../templates/actionTypes';
+
 // UTILS
 import utils from '../../utils';
 
@@ -23,6 +25,30 @@ const componentsMenu = (state = initialState, action) => {
         unfiltered: { ...action.componentsMenu },
         filtered: { ...action.componentsMenu },
       };
+    // fetch templates success
+    case templatesActionTypes.DELETE_TEMPLATE_SUCCESS:
+      message.success('Template excluído!');
+      const filteredTemplates = [...state.filtered.TEMPLATES].filter(
+        (template) => template.uuid !== action.templateId
+      );
+
+      const unfilteredTemplates = [...state.unfiltered.TEMPLATES].filter(
+        (template) => template.uuid !== action.templateId
+      );
+
+      return {
+        ...state,
+        unfiltered: {
+          ...state.unfiltered,
+          TEMPLATES:
+            unfilteredTemplates.length === 0 ? undefined : unfilteredTemplates,
+        },
+        filtered: {
+          ...state.filtered,
+          TEMPLATES:
+            filteredTemplates.length === 0 ? undefined : filteredTemplates,
+        },
+      };
 
     // FAIL
     // components menu
@@ -30,6 +56,12 @@ const componentsMenu = (state = initialState, action) => {
     case actionTypes.FETCH_COMPONENTS_MENU_FAIL:
       return message.error(action.errorMessage);
 
+    // FAIL
+    // components menu
+    // delete templates menu fail
+    case templatesActionTypes.DELETE_TEMPLATE_FAIL:
+      message.error(action.errorMessage);
+      return state;
     // COMMON
     // components menu
     // filter components menu

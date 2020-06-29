@@ -24,10 +24,14 @@ const getDeployedExperiments = () => {
   return pipelinesApi.get(deploymentsPath);
 };
 
+const getExperimentDeployStatus = (experimentId) => {
+  return pipelinesApi.get(`${deploymentsPath}/${experimentId}`)
+}
+
+
 const testDeployedExperiments = (id, body) => {
   return seldonApi.post(`/deployments/${id}/api/v1.0/predictions`, body);
 }
-
 
 /**
  * Test Deployed Experiments
@@ -49,4 +53,5 @@ export default {
   getDeployedExperiments,
   testDeployedExperiments,
   deleteDeployedExperiments,
+  getExperimentDeployStatus,
 };
