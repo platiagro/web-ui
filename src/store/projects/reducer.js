@@ -6,7 +6,7 @@ import projectActionTypes from '../project/actionTypes';
 const initialState = {
   projects: [],
   pageSize: null,
-  totalTasks: null,
+  total: null,
 };
 
 /**
@@ -17,9 +17,9 @@ const projects = (state = initialState, action) => {
     case actionTypes.FETCH_PAGINATED_PROJECTS:
       return {
         ...state,
-        projects: action.projects,
-        totalTasks: 10,
         pageSize: action.pageSize,
+        projects: action.projects,
+        total: action.total,
       };
     case actionTypes.FETCH_PROJECTS:
       return {

@@ -21,7 +21,7 @@ import { showNewProjectModal } from '../../../../store/ui/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchProjects: () => dispatch(fetchPaginatedProjects(1, 1)),
+    handleFetchProjects: () => dispatch(fetchPaginatedProjects(1, 10)),
     handleDeleteProject: (projectUuid) =>
       dispatch(deleteProjectRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>

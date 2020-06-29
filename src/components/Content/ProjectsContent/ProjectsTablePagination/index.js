@@ -14,7 +14,8 @@ const TasksTablePagination = ({ loading, pageSize, total, onChange }) => {
     <Pagination
       disabled={loading}
       defaultCurrent={1}
-      defaultPageSize={pageSize}
+      defaultPageSize={10}
+      pageSize={pageSize}
       total={total}
       onChange={onChange}
       onShowSizeChange={onChange}

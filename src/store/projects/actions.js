@@ -27,8 +27,9 @@ export const fetchPaginatedProjects = (page, pageSize) => {
         dispatch(projectsTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_PAGINATED_PROJECTS,
-          projects: response.data,
           pageSize: pageSize,
+          projects: response.data.projects,
+          total: response.data.total,
         });
       })
       .catch((error) => {

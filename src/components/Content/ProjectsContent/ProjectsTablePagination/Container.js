@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
     loading: state.ui.projectsTable.loading,
     currentPage: state.projects.currentPage,
     pageSize: state.projects.pageSize,
-    totalTasks: state.projects.totalTasks,
+    total: state.projects.total,
   };
 };
 
@@ -34,17 +34,17 @@ const mapStateToProps = (state) => {
  */
 const ProjectsTablePaginationContainer = (props) => {
   // states
-  const { loading, pageSize, totalTasks } = props;
+  const { loading, pageSize, total } = props;
   // dispatchs
   const { handleFetchPaginatedProjects } = props;
 
   return (
     <>
-      {totalTasks > pageSize ? (
+      {total > 0 ? (
         <ProjectsTablePagination
           loading={loading}
           pageSize={pageSize}
-          total={totalTasks}
+          total={total}
           onChange={handleFetchPaginatedProjects}
         />
       ) : null}
