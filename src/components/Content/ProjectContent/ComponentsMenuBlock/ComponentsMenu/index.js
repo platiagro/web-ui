@@ -47,8 +47,8 @@ const ComponentsMenu = ({
                   {name}
                 </Tooltip>
               ) : (
-                  name
-                )}
+                name
+              )}
             </div>
           </Dropdown>
         </div>
@@ -61,8 +61,8 @@ const ComponentsMenu = ({
               {name}
             </Tooltip>
           ) : (
-              name
-            )}
+            name
+          )}
         </div>
       );
     }
