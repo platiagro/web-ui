@@ -2,6 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+//COMPONENTS
+import ImageLightbox from './ImageLightbox';
+
 /**
  * Plot Result.
  * This component is responsible for displaying plot result.
@@ -25,7 +28,7 @@ const PlotResult = ({ title, description, plotUrl }) => (
       </>
     )}
     {/* rendering plot */}
-    <img width='100%' alt='plot' src={plotUrl} />
+    <ImageLightbox plotUrl={plotUrl} />
   </div>
 );
 
