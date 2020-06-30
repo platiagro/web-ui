@@ -19,32 +19,18 @@ const experimentsPath = '/experiments';
  * @param {string} projectId
  * @returns {Promise}
  */
-const listExperiments = (projectId) =>
-  new Promise((resolve, reject) => {
-    // requesting experiments
-    experimentsApi
-      .get(`/${projectId}${experimentsPath}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const listExperiments = (projectId) => {
+  return experimentsApi.get(`/${projectId}${experimentsPath}`);
+};
 
 /**
  * Detail Experiment
  * @param {string} projectId
  * @returns {Promise}
  */
-const detailExperiment = (projectId, experimentId) =>
-  new Promise((resolve, reject) => {
-    // requesting experiment
-    experimentsApi
-      .get(`/${projectId}${experimentsPath}/${experimentId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const detailExperiment = (projectId, experimentId) => {
+  return experimentsApi.get(`/${projectId}${experimentsPath}/${experimentId}`);
+};
 
 /**
  * Create Experiment
@@ -52,21 +38,12 @@ const detailExperiment = (projectId, experimentId) =>
  * @param {string} experimentName
  * @returns {Promise}
  */
-const createExperiment = (projectId, experimentName) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: experimentName,
-    };
-
-    // creating experiment
-    experimentsApi
-      .post(`/${projectId}${experimentsPath}`, body)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const createExperiment = (projectId, experimentName) => {
+  const body = {
+    name: experimentName,
+  };
+  return experimentsApi.post(`/${projectId}${experimentsPath}`, body);
+};
 
 /**
  * Update Experiment
@@ -75,16 +52,12 @@ const createExperiment = (projectId, experimentName) =>
  * @param {Object} experiment
  * @returns {Promise}
  */
-const updateExperiment = (projectId, experimentId, experiment) =>
-  new Promise((resolve, reject) => {
-    // updating experiment
-    experimentsApi
-      .patch(`/${projectId}${experimentsPath}/${experimentId}`, experiment)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const updateExperiment = (projectId, experimentId, experiment) => {
+  return experimentsApi.patch(
+    `/${projectId}${experimentsPath}/${experimentId}`,
+    experiment
+  );
+};
 
 /**
  * Delete Experiment
@@ -92,16 +65,11 @@ const updateExperiment = (projectId, experimentId, experiment) =>
  * @param {string} experimentId
  * @returns {Promise}
  */
-const deleteExperiment = (projectId, experimentId) =>
-  new Promise((resolve, reject) => {
-    // deleting experiment
-    experimentsApi
-      .delete(`/${projectId}${experimentsPath}/${experimentId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const deleteExperiment = (projectId, experimentId) => {
+  return experimentsApi.delete(
+    `/${projectId}${experimentsPath}/${experimentId}`
+  );
+};
 
 // EXPORT DEFAULT
 export default {

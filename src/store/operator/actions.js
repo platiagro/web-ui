@@ -231,6 +231,9 @@ const createOperatorSuccess = (
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
 
+  // checking if operator is setted up
+  const settedUp = utils.checkOperatorSettedUp(operator);
+
   // dispatching create operator success action
   dispatch({
     type: actionTypes.CREATE_OPERATOR_SUCCESS,
@@ -242,7 +245,8 @@ const createOperatorSuccess = (
       deploymentNotebookPath,
       parameters,
       selected: false,
-      settedUp: utils.checkOperatorSettedUp(parameters),
+      settedUp: settedUp,
+      status: '',
     },
   });
 };
@@ -505,7 +509,7 @@ export const setOperatorParametersRequest = (
   // creating operator object
   const operatorWithParameters = { parameters };
 
-  // creating operator
+  // update operator
   operatorsApi
     .updateOperator(
       projectId,
@@ -513,7 +517,7 @@ export const setOperatorParametersRequest = (
       operator.uuid,
       operatorWithParameters
     )
-    .then(() => {
+    .then((response) => {
       // getting operator data
       const successOperator = { ...operator };
 
@@ -531,9 +535,7 @@ export const setOperatorParametersRequest = (
       );
 
       // checking if is setted up
-      successOperator.settedUp = utils.checkOperatorSettedUp(
-        successOperator.parameters
-      );
+      successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
 
       // dispatching success action
       dispatch(setOperatorParametersSuccess(successOperator));

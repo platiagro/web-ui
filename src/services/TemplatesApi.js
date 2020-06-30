@@ -16,16 +16,9 @@ const templatesPath = '/templates';
  * List Templates
  * @returns {Promise}
  */
-const listTemplates = () =>
-  new Promise((resolve, reject) => {
-    // requesting templates
-    templatesApi
-      .get(templatesPath)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const listTemplates = () => {
+  return templatesApi.get(templatesPath);
+};
 
 /**
  * Create Template
@@ -33,82 +26,26 @@ const listTemplates = () =>
  * @param {string} experimentId
  * @returns {Promise}
  */
-const createTemplate = (templateName, experimentId) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: templateName,
-      experimentId,
-    };
-
-    // creating template
-    templatesApi
-      .post(templatesPath, body)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
-
-/**
- * Detail Template
- * @param {string} templateId
- * @returns {Promise}
- */
-/* const detailTemplate = (templateId) =>
-  new Promise((resolve, reject) => {
-    // requesting template
-    templatesApi
-      .get(`${templatesPath}/${templateId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  }); */
-
-/**
- * Update Template
- * @param {string} templateId
- * @param {string} templateName
- * @returns {Promise}
- */
-/* const updateTemplate = (templateId, templateName) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      name: templateName,
-    };
-
-    // updating template
-    templatesApi
-      .patch(`${templatesPath}/${templateId}`, body)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  }); */
+const createTemplate = (templateName, experimentId) => {
+  const body = {
+    name: templateName,
+    experimentId,
+  };
+  return templatesApi.post(templatesPath, body);
+};
 
 /**
  * Delete Template
  * @param {string} templateId
  * @returns {Promise}
  */
-const deleteTemplate = (templateId) =>
-  new Promise((resolve, reject) => {
-    // deleting template
-    templatesApi
-      .delete(`${templatesPath}/${templateId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const deleteTemplate = (templateId) => {
+    return templatesApi.delete(`${templatesPath}/${templateId}`);
+};
 
 // EXPORT DEFAULT
 export default {
   listTemplates,
   createTemplate,
-  /*   detailTemplate,
-  updateTemplate,*/
   deleteTemplate,
 };

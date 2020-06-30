@@ -308,7 +308,9 @@ const configureOperatorParameters = (
       value:
         parameter.name in operatorParameters
           ? parameter.type === 'feature' || parameter.multiple
-            ? operatorParameters[parameter.name].split(',')
+            ? operatorParameters[parameter.name].split(',').filter((el) => {
+                return el != '';
+              })
             : operatorParameters[parameter.name]
           : parameter.type === 'feature'
           ? undefined
@@ -370,7 +372,7 @@ const configureOperators = (
     );
 
     // checking if operator is setted up
-    const settedUp = checkOperatorSettedUp(parameters);
+    const settedUp = checkOperatorSettedUp(operator);
 
     let status = '';
     if (pipelineStatus.status && pipelineStatus.status[operator]) {
@@ -393,24 +395,11 @@ const configureOperators = (
 /**
  * Check Operator Setted Up
  * Function to check if operator is setted up
- * @param {Object[]} parameters operator parameters list
+ * @param {Object[]} operator
  * @returns {boolean} operator is setted up?
  */
-const checkOperatorSettedUp = (parameters) => {
-  // configuring setted up
-  let settedUp = true;
-
-  // checking if all parameters is setted up
-  parameters.forEach((parameter) => {
-    if (
-      parameter.value === null ||
-      parameter.value === undefined ||
-      parameter.value === ''
-    )
-      settedUp = false;
-  });
-
-  return settedUp;
+const checkOperatorSettedUp = (operator) => {
+  return operator.status == 'Setted up' ? true : false;
 };
 
 /**

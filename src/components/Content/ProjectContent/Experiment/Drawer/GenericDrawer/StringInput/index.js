@@ -44,8 +44,8 @@ const StringInput = ({
   };
 
   const beforeSubmit = () => {
-    const trimmedValue = value.trim();
-    const trimmedCurrentValue = currentValue.trim();
+    const trimmedValue = value?.trim();
+    const trimmedCurrentValue = currentValue?.trim();
 
     // new value is different from old
     if (trimmedValue !== trimmedCurrentValue)

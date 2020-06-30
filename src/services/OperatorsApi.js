@@ -21,16 +21,11 @@ const operatorsPath = '/operators';
  * @param {string} projectId
  * @returns {Promise}
  */
-const listOperators = (projectId, experimentId) =>
-  new Promise((resolve, reject) => {
-    // requesting operators
-    operatorsApi
-      .get(`/${projectId}${experimentsPath}/${experimentId}${operatorsPath}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const listOperators = (projectId, experimentId) => {
+  return operatorsApi.get(
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}`
+  );
+};
 
 /**
  * Create Operator
@@ -39,24 +34,15 @@ const listOperators = (projectId, experimentId) =>
  * @param {string} componentId
  * @returns {Promise}
  */
-const createOperator = (projectId, experimentId, componentId) =>
-  new Promise((resolve, reject) => {
-    // creating body object
-    const body = {
-      componentId,
-    };
-
-    // creating operator
-    operatorsApi
-      .post(
-        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}`,
-        body
-      )
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const createOperator = (projectId, experimentId, componentId) => {
+  const body = {
+    componentId,
+  };
+  return operatorsApi.post(
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}`,
+    body
+  );
+};
 
 /**
  * Delete Operator
@@ -65,18 +51,11 @@ const createOperator = (projectId, experimentId, componentId) =>
  * @param {string} operatorId
  * @returns {Promise}
  */
-const deleteOperator = (projectId, experimentId, operatorId) =>
-  new Promise((resolve, reject) => {
-    // deleting operator
-    operatorsApi
-      .delete(
-        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}`
-      )
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const deleteOperator = (projectId, experimentId, operatorId) => {
+  return operatorsApi.delete(
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}`
+  );
+};
 
 /**
  * Update Operator
@@ -86,19 +65,12 @@ const deleteOperator = (projectId, experimentId, operatorId) =>
  * @param {Object} operator
  * @returns {Promise}
  */
-const updateOperator = (projectId, experimentId, operatorId, operator) =>
-  new Promise((resolve, reject) => {
-    // updating operator
-    operatorsApi
-      .patch(
-        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}`,
-        operator
-      )
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const updateOperator = (projectId, experimentId, operatorId, operator) => {
+  return operatorsApi.patch(
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}`,
+    operator
+  );
+};
 
 /**
  * Get Operator Results Dataset
@@ -108,17 +80,11 @@ const updateOperator = (projectId, experimentId, operatorId, operator) =>
  * @param {string} operatorId
  * @returns {Promise}
  */
-const getOperatorResultsDataset = (projectId, experimentId, operatorId) =>
-  new Promise((resolve, reject) => {
-    operatorsApi
-      .get(
-        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets`
-      )
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
+const getOperatorResultsDataset = (projectId, experimentId, operatorId) => {
+  return operatorsApi.get(
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets`
+  );
+};
 
 /**
  * Get Operator Results
@@ -128,34 +94,11 @@ const getOperatorResultsDataset = (projectId, experimentId, operatorId) =>
  * @param {string} operatorId
  * @returns {Promise}
  */
-const getOperatorResults = (projectId, experimentId, operatorId) =>
-  new Promise((resolve, reject) => {
-    // updating operator
-    operatorsApi
-      .get(
-        `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/figures`
-      )
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  });
-
-/**
- * Detail Operator
- * @param {string} projectId
- * @returns {Promise}
- */
-/* const detailOperator = (projectId, operatorId) =>
-  new Promise((resolve, reject) => {
-    // requesting operator
-    operatorsApi
-      .get(`/${projectId}${operatorsPath}/${operatorId}`)
-      // success
-      .then((response) => resolve(response))
-      // error
-      .catch((error) => reject(error));
-  }); */
+const getOperatorResults = (projectId, experimentId, operatorId) => {
+  return operatorsApi.get(
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/figures`
+  );
+};
 
 export const getOperatorMetrics = async (
   projectId,
@@ -182,6 +125,4 @@ export default {
   getOperatorResultsDataset,
   getOperatorResults,
   getOperatorMetrics,
-  /*   detailOperator,
-   */
 };
