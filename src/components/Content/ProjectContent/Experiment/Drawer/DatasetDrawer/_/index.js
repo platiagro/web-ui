@@ -258,16 +258,10 @@ const DatasetDrawer = ({
 
 // PROP TYPES
 DatasetDrawer.propTypes = {
-  /** dataset drawer current project id string */
-  projectId: PropTypes.string.isRequired,
-  /** dataset drawer current experiment id string */
-  experimentId: PropTypes.string.isRequired,
   /** dataset drawer is loading dataset */
   loading: PropTypes.bool.isRequired,
   /** dataset drawer dataset columns */
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** dataset drawer current experiment parameters */
-  parameters: PropTypes.objectOf(PropTypes.object).isRequired,
   /** dataset drawer set column type handler */
   handleSetColumnType: PropTypes.func.isRequired,
   /** dataset drawer upload dataset and header handler */

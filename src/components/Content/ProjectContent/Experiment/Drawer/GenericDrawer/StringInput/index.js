@@ -100,25 +100,19 @@ const StringInput = ({
 // PROP TYPES
 StringInput.propTypes = {
   /** string input title string */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /** string input label string */
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   /** string input description string */
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   /** string input warning message string */
   warning: PropTypes.string,
   /** string input tip message string */
   tip: PropTypes.string,
-  /** string input min value id string */
-  min: PropTypes.number.isRequired,
-  /** string input max value id string */
-  max: PropTypes.number.isRequired,
-  /** string input step value id string */
-  step: PropTypes.number,
   /** string input placeholder string */
   placeholder: PropTypes.number,
   /** string input value id string */
-  value: PropTypes.number,
+  value: PropTypes.string,
   /** string input change handler */
   handleChange: PropTypes.func.isRequired,
   /** string input is disabled */
@@ -137,6 +131,12 @@ StringInput.defaultProps = {
   step: undefined,
   /** string input placeholder string */
   placeholder: undefined,
+  /** string input title string */
+  title: undefined,
+  /** string input label string */
+  label: undefined,
+  /** string input description string */
+  description: undefined,
 };
 
 // EXPORT

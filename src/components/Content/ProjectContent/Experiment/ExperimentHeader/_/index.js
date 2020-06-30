@@ -94,8 +94,8 @@ ExperimentHeader.propTypes = {
   trainingLoading: PropTypes.bool.isRequired,
   /** is empty (there isn't any operators) */
   empty: PropTypes.bool.isRequired,
-  /** experiment deploy is failed */
-  deployIsFailed: PropTypes.bool.isRequired,
+  /** experiment deploy status */
+  deployStatus: PropTypes.string.isRequired,
 };
 
 // EXPORT

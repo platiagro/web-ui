@@ -73,6 +73,7 @@ const Drawer = ({ title, isVisible, logs, handleClose }) => {
                 columns={logsTableColumns}
                 dataSource={container.logs}
                 size='small'
+                rowKey={(record) => `${record.level}-${record.timestamp}`}
               />
             </ConfigProvider>
           </TabPane>
@@ -87,7 +88,7 @@ Drawer.propTypes = {
   /** drawer title string */
   title: PropTypes.string.isRequired,
   /** log string */
-  logs: PropTypes.string.isRequired,
+  logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** drawer is visible */
   isVisible: PropTypes.bool.isRequired,
   /** select input change handler */

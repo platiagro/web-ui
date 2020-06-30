@@ -14,16 +14,19 @@ const TableResult = ({ title, resultTable }) => {
   return (
     // div container
     <div>
-      {/* rendering title */}
-      <p>
-        <strong>{title}</strong>
-      </p>
+      {/* rendering title */
+      title && (
+        <p>
+          <strong>{title}</strong>
+        </p>
+      )}
       {/* rendering result table */}
       <Table
         dataSource={resultTable.rows}
         columns={resultTable.columns}
         size='middle'
         pagination={true}
+        rowKey={(record, index) => index}
       />
     </div>
   );
@@ -32,9 +35,14 @@ const TableResult = ({ title, resultTable }) => {
 // PROP TYPES
 TableResult.propTypes = {
   /** table result title string */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /** table result result table object */
   resultTable: PropTypes.objectOf(PropTypes.array).isRequired,
+};
+
+TableResult.defaultProps = {
+  /** table result title string */
+  title: undefined,
 };
 
 // EXPORT

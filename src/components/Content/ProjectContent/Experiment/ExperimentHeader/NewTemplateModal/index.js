@@ -63,15 +63,16 @@ const NewTemplateModal = ({
         loading,
         form: 'newTemplateForm',
         key: 'submit',
-        htmlType: 'submit'
+        htmlType: 'submit',
       }}
       destroyOnClose
     >
       {/* form details */}
       <Form id='newTemplateForm' layout='vertical'>
-        <Form.Item label='Qual o nome do seu template?'
+        <Form.Item
+          label='Qual o nome do seu template?'
           autoFocus
-          onFocus={(e) => e.target.select()}
+          onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
           {getFieldDecorator('name', {
             rules: [

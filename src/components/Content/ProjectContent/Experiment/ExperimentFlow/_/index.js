@@ -96,7 +96,7 @@ const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
       // building grid row
       gridRowAux.push(
         // column container
-        <Col key={`col-${component.key}`} span={columnSize}>
+        <Col key={`col-${index}`} span={columnSize}>
           {/* rendering flow grid column */}
           {renderFlowGridColumn(
             isLastRowComponent,

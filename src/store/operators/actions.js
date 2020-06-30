@@ -92,7 +92,8 @@ export const fetchOperatorsRequest = (
     uuid: 'dataset',
     parameters: [{ name: 'dataset', value: datasetName || '' }],
     selected: false,
-    settedUp: datasetName,
+    settedUp: datasetName ? true : false,
+    status: '',
   };
 
   try {
