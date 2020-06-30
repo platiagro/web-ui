@@ -61,7 +61,9 @@ const Drawer = ({
           handleEditClick={handleEditClick}
           handleResultsClick={handleResultsClick}
           showingResults={showResults}
-          disabled={!experimentTrained}
+          disabled={
+            !results || (!experimentTrained && results && results.lenght <= 0)
+          }
         />
       )}
 
