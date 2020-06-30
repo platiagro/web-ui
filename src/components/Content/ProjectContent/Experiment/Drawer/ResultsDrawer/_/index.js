@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Divider, Spin, Icon, Table, Tabs } from 'antd';
+import { Divider, Spin, Icon, Table, Tabs, Empty } from 'antd';
 
 // COMPONENTS
 import TagResult from '../TagResult';
@@ -62,7 +62,7 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
       {loading ? (
         // loading
         <Spin indicator={<Icon type='loading' spin />} />
-      ) : (
+      ) : results.length > 0 || metrics.length > 0 ? (
         /* rendering results and metrics */
         <>
           <Tabs defaultActiveKey='1'>
@@ -87,6 +87,11 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
           </Tabs>
           <Divider />
         </>
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description='Não existem resultados!'
+        />
       )}
     </div>
   );
