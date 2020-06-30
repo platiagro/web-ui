@@ -309,7 +309,7 @@ const configureOperatorParameters = (
         parameter.name in operatorParameters
           ? parameter.type === 'feature' || parameter.multiple
             ? operatorParameters[parameter.name].split(',').filter((el) => {
-                return el != '';
+                return el !== '';
               })
             : operatorParameters[parameter.name]
           : parameter.type === 'feature'
@@ -399,7 +399,7 @@ const configureOperators = (
  * @returns {boolean} operator is setted up?
  */
 const checkOperatorSettedUp = (operator) => {
-  return operator.status == 'Setted up' ? true : false;
+  return operator.status === 'Setted up' ? true : false;
 };
 
 /**
