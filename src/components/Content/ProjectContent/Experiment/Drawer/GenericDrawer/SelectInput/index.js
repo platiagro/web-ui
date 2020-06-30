@@ -86,17 +86,17 @@ const SelectInput = ({
 // PROP TYPES
 SelectInput.propTypes = {
   /** select input title string */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /** select input label string */
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   /** select input name string */
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   /** select input is loading */
   loading: PropTypes.bool.isRequired,
   /** select input is disabled */
   disabled: PropTypes.bool.isRequired,
   /** select input description string */
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   /** select input warning message string */
   warning: PropTypes.string,
   /** select input tip message string */
@@ -108,7 +108,9 @@ SelectInput.propTypes = {
   /** select input value id string */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   /** select input options list */
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+  ).isRequired,
   /** select input change handler */
   handleChange: PropTypes.func.isRequired,
 };
@@ -121,6 +123,14 @@ SelectInput.defaultProps = {
   tip: undefined,
   /** select input value id string */
   value: undefined,
+  /** select input title string */
+  title: undefined,
+  /** select input label string */
+  label: undefined,
+  /** select input name string */
+  name: undefined,
+  /** select input description string */
+  description: undefined,
 };
 
 // EXPORT

@@ -61,7 +61,7 @@ const NewExperimentModal = ({
         loading,
         form: 'newExperimentForm',
         key: 'submit',
-        htmlType: 'submit'
+        htmlType: 'submit',
       }}
       destroyOnClose
     >
@@ -72,7 +72,7 @@ const NewExperimentModal = ({
           validateStatus={modalValidateStatus}
           help={errorMessage}
           autoFocus
-          onFocus={(e) => e.target.select()}
+          onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
           {getFieldDecorator('name', {
             rules: [

@@ -28,8 +28,8 @@ const InputTip = ({ tip, width = 150 }) => (
 
 // PROP TYPES
 InputTip.propTypes = {
-  /** input tip string */
-  tip: PropTypes.string.isRequired,
+  /** input tip node */
+  tip: PropTypes.node.isRequired,
 };
 
 // EXPORT

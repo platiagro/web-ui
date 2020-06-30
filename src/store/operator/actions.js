@@ -243,6 +243,7 @@ const createOperatorSuccess = (
       parameters,
       selected: false,
       settedUp: utils.checkOperatorSettedUp(parameters),
+      status: '',
     },
   });
 };
@@ -301,8 +302,6 @@ export const createOperatorRequest = (
   const {
     experiment: { dataset: datasetName },
   } = getState();
-
-  console.log(datasetName);
 
   // getting dataset columns
   let datasetColumns = [];
