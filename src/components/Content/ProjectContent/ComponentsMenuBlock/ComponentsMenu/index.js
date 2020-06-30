@@ -25,7 +25,6 @@ const ComponentsMenu = ({
   // HANDLERS
   // box click
   const handleBoxClick = (uuid) => {
-    console.log('removendo' + uuid);
     handleDeleteTemplate(uuid);
   };
   const renderTooltip = (name, description, uuid) => {

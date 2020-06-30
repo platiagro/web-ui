@@ -63,9 +63,9 @@ const RadioInput = ({
 // PROP TYPES
 RadioInput.propTypes = {
   /** radio input title string */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /** radio input description string */
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   /** radio input warning message string */
   warning: PropTypes.string,
   /** radio input tip message string */
@@ -86,6 +86,10 @@ RadioInput.defaultProps = {
   tip: undefined,
   /** radio input value id string */
   value: undefined,
+  /** radio input title string */
+  title: undefined,
+  /** radio input description string */
+  description: undefined,
 };
 
 // EXPORT

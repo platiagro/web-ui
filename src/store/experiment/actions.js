@@ -595,12 +595,9 @@ export const deployExperiment = (uuid) => ({
 /**
  * fetch experiment deploy status success action
  * @param {Object} response
- * @param {Object} experimentId
  * @returns {Object} { type, status }
  */
-const fetchExperimentDeployStatusSuccess = (response, experimentId) => (
-  dispatch
-) => {
+const fetchExperimentDeployStatusSuccess = (response) => (dispatch) => {
   // getting deploy list from response
   const experiment = response.data;
   const { status } = experiment;
@@ -608,22 +605,6 @@ const fetchExperimentDeployStatusSuccess = (response, experimentId) => (
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_SUCCESS,
     status,
-  });
-};
-
-/**
- * fetch experiment deploy status fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
- */
-const fetchExperimentDeployStatusFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching fetch experiment deploy status fail action response
-  dispatch({
-    type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_FAIL,
-    errorMessage,
   });
 };
 
@@ -645,7 +626,7 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
     .getExperimentDeployStatus(experimentId)
     .then((response) => {
       dispatch(fetchExperimentDeployStatusSuccess(response));
-    })
+    });
 };
 
 // // // // // // // // // //

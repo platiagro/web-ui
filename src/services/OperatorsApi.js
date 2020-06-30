@@ -106,7 +106,6 @@ export const getOperatorMetrics = async (
   operatorId
 ) => {
   try {
-    console.log('[getOperatorMetrics]', projectId, experimentId, operatorId);
     const metrics = await operatorsApi.get(
       `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/metrics`
     );

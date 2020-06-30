@@ -163,7 +163,7 @@ ComponentBox.propTypes = {
   /** component icon string */
   icon: PropTypes.string.isRequired,
   /** component icon theme string */
-  iconTheme: PropTypes.string.isRequired,
+  iconTheme: PropTypes.string,
   /** component status string */
   status: PropTypes.string.isRequired,
   /** component is setted up */
@@ -174,6 +174,12 @@ ComponentBox.propTypes = {
   handleClick: PropTypes.func.isRequired,
   /** component remove handler */
   handleRemoveOperator: PropTypes.func.isRequired,
+};
+
+// PROP DEFAULT VALUES
+ComponentBox.defaultProps = {
+  /** component icon theme */
+  iconTheme: undefined,
 };
 
 // EXPORT

@@ -105,21 +105,21 @@ const NumberInput = ({
 // PROP TYPES
 NumberInput.propTypes = {
   /** number input title string */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /** number input label string */
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   /** number input name string */
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   /** number input description string */
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   /** number input warning message string */
   warning: PropTypes.string,
   /** number input tip message string */
   tip: PropTypes.string,
   /** number input min value id string */
-  min: PropTypes.number.isRequired,
+  min: PropTypes.number,
   /** number input max value id string */
-  max: PropTypes.number.isRequired,
+  max: PropTypes.number,
   /** number input step value id string */
   step: PropTypes.number,
   /** number input placeholder string */
@@ -144,6 +144,18 @@ NumberInput.defaultProps = {
   step: undefined,
   /** number input placeholder string */
   placeholder: undefined,
+  /** number input title string */
+  title: undefined,
+  /** number input label string */
+  label: undefined,
+  /** number input name string */
+  name: undefined,
+  /** number input description string */
+  description: undefined,
+  /** number input min value id string */
+  min: undefined,
+  /** number input max value id string */
+  max: undefined,
 };
 
 // EXPORT

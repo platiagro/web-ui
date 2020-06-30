@@ -132,6 +132,7 @@ const ImplantedExperimentsTable = ({
         columns={columnsConfig}
         pagination={{ pageSize: 9 }}
         loading={loading}
+        rowKey={(record) => record.runId}
         rowClassName={(record) =>
           record.name === selectedExperiment ? 'ant-table-row-selected' : ''
         }

@@ -13,17 +13,14 @@ const ResultsButtonBar = ({
   handleEditClick,
   handleResultsClick,
   showingResults,
+  disabled,
 }) => (
   // div container
   <div>
     {/* rendering edit or results button */}
     {showingResults ? (
       // edit button
-      <Button
-        onClick={handleEditClick}
-        className='ant-btn-oval'
-        type='primary'
-      >
+      <Button onClick={handleEditClick} className='ant-btn-oval' type='primary'>
         Visualizar parâmetros
       </Button>
     ) : (
@@ -33,8 +30,14 @@ const ResultsButtonBar = ({
           onClick={handleResultsClick}
           className='ant-btn-oval'
           type='primary'
+          disabled={disabled}
+          title={
+            disabled
+              ? 'Para visualizar os resultados, primeiro execute o treinamento.'
+              : ''
+          }
         >
-          Visualizar resultado
+          Visualizar resultados
         </Button>
 
         {/* divider */}
@@ -52,6 +55,8 @@ ResultsButtonBar.propTypes = {
   handleResultsClick: PropTypes.func.isRequired,
   /** showing results drawer */
   showingResults: PropTypes.bool.isRequired,
+  /** results button is disabled */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT

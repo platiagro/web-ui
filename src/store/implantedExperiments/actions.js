@@ -80,8 +80,6 @@ export const fetchImplantedExperiments = () => (dispatch) => {
 export const deleteImplantedExperiment = (implantedExperimentUuid) => (
   dispatch
 ) => {
-  console.log('[DELETING]', implantedExperimentUuid);
-
   dispatch(implantedExperimentsLoadingData());
   // fetching experiment
   implantedExperimentsApi
@@ -91,7 +89,6 @@ export const deleteImplantedExperiment = (implantedExperimentUuid) => (
 };
 
 const deleteImplantedExperimentSuccess = (response) => (dispatch) => {
-  console.log(response.data);
   dispatch(fetchImplantedExperiments());
 };
 

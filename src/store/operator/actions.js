@@ -306,8 +306,6 @@ export const createOperatorRequest = (
     experiment: { dataset: datasetName },
   } = getState();
 
-  console.log(datasetName);
-
   // getting dataset columns
   let datasetColumns = [];
   if (datasetName)

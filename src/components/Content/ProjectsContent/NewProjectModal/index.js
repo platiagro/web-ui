@@ -68,7 +68,7 @@ const NewProjectModal = ({
         disabled: hasErrors(getFieldsError()),
         form: 'newProjectForm',
         key: 'submit',
-        htmlType: 'submit'
+        htmlType: 'submit',
       }}
       confirmLoading={loading}
       destroyOnClose
@@ -80,7 +80,7 @@ const NewProjectModal = ({
           validateStatus={modalValidateStatus}
           help={errorMessage}
           autoFocus
-          onFocus={(e) => e.target.select()}
+          onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
           {getFieldDecorator('name', {
             rules: [
