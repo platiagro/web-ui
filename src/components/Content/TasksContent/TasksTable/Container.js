@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 // UI COMPONENTS
 import { ConfigProvider } from 'antd';
+// import TasksTablePagination from '../TasksTablePagination/Container';
 
 // ACTIONS
 import {
@@ -75,6 +76,8 @@ const TasksTableContainer = (props) => {
         handleClickDelete={handleDeleteTask}
         loading={loading}
       />
+      {/* <br />
+      <TasksTablePagination /> */}
     </ConfigProvider>
   );
 };

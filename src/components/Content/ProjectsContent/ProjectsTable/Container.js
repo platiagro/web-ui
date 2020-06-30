@@ -8,10 +8,11 @@ import { ConfigProvider } from 'antd';
 
 // COMPONENTS
 import ProjectsEmpty from '../ProjectsEmpty';
+import ProjectsTablePagination from '../ProjectsTablePagination/Container';
 import ProjectsTable from './index';
 
 // ACTIONS
-import fetchProjectsRequest from '../../../../store/projects/actions';
+import { fetchPaginatedProjects } from '../../../../store/projects/actions';
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
 // ACTIONS
@@ -20,7 +21,7 @@ import { showNewProjectModal } from '../../../../store/ui/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchProjects: () => dispatch(fetchProjectsRequest()),
+    handleFetchProjects: () => dispatch(fetchPaginatedProjects(1, 10)),
     handleDeleteProject: (projectUuid) =>
       dispatch(deleteProjectRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>
@@ -30,7 +31,10 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { projects: state.projects, loading: state.ui.projectsTable.loading };
+  return {
+    projects: state.projects.projects,
+    loading: state.ui.projectsTable.loading,
+  };
 };
 
 /**
@@ -71,6 +75,8 @@ const ProjectsTableContainer = ({
         loading={loading}
         handleShowNewProjectModal={handleShowNewProjectModal}
       />
+      <br />
+      <ProjectsTablePagination />
     </ConfigProvider>
   );
 };

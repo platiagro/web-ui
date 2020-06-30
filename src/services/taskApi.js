@@ -54,3 +54,13 @@ export const updateTask = (uuid, task) => {
   };
   return taskApi.patch(`${taskPath}/${uuid}`, body);
 };
+
+/**
+ * Get paginated tasks
+ * @param {Number} page
+ * @param {Number} pageSize
+ * @returns {Promise}
+ */
+export const getPaginatedTasks = (page, pageSize) => {
+  return taskApi.get(`${taskPath}/?page=${page}&page_size=${pageSize}`);
+};

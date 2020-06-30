@@ -118,6 +118,32 @@ export const deleteTask = (id) => {
 };
 
 /**
+ * Function to fetch pagineted tasks and dispatch to reducer
+ */
+export const fetchPaginatedTasks = (page, pageSize) => {
+  return (dispatch) => {
+    // showing loading
+    dispatch(tasksTableLoadingData());
+
+    return taskServices
+      .getPaginatedTasks(page, pageSize)
+      .then((response) => {
+        dispatch(tasksTableDataLoaded());
+        dispatch({
+          type: actionTypes.FETCH_PAGINATED_TASK,
+          tasks: response.data,
+          pageSize: pageSize,
+        });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(tasksTableDataLoaded());
+        message.error(errorMessage, 5);
+      });
+  };
+};
+
+/**
  * Function to fetch tasks and dispatch to reducer
  */
 export const fetchTasks = () => {

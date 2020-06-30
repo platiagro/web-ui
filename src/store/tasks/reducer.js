@@ -8,6 +8,8 @@ const initialState = {
   editModalIsVisible: false,
   modalValidateStatus: null,
   errorMessage: null,
+  pageSize: null,
+  totalTasks: null,
 };
 
 export default function postReducer(state = initialState, action) {
@@ -41,8 +43,18 @@ export default function postReducer(state = initialState, action) {
         ...state,
         tasks: state.tasks.filter((task) => task.uuid !== action.id),
       };
+    case actionTypes.FETCH_PAGINATED_TASK:
+      return {
+        ...state,
+        tasks: action.tasks,
+        totalTasks: action.tasks.length,
+        pageSize: action.pageSize,
+      };
     case actionTypes.FETCH_TASK:
-      return { ...state, tasks: action.tasks };
+      return {
+        ...state,
+        tasks: action.tasks,
+      };
     case actionTypes.UPDATE_TASK_SUCCESS:
       const updatedTask = action.task;
       const tasksAux = [...state.tasks];

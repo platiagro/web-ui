@@ -109,6 +109,16 @@ const deleteProject = (projectId) =>
       .catch((error) => reject(error));
   });
 
+/**
+ * Get paginated projects
+ * @param {Number} page
+ * @param {Number} pageSize
+ * @returns {Promise}
+ */
+export const getPaginatedProjects = (page, pageSize) => {
+  return projectsApi.get(`${projectsPath}/?page=${page}&page_size=${pageSize}`);
+};
+
 // EXPORT DEFAULT
 export default {
   listProjects,
@@ -116,4 +126,5 @@ export default {
   createProject,
   updateProject,
   deleteProject,
+  getPaginatedProjects,
 };

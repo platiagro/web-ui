@@ -1,41 +1,49 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import projectActionTypes from '../project/actionTypes';
 
 // INITIAL STATE
-const initialState = [];
+const initialState = {
+  projects: [],
+  pageSize: null,
+  total: null,
+};
 
 /**
  * projects reducer
  */
 const projects = (state = initialState, action) => {
   switch (action.type) {
-    // SUCCESS
-    // projects
-    // fetch projects success
-    case actionTypes.FETCH_PROJECTS_SUCCESS:
-      return [...action.projects];
-
-    // project
-    // delete project success
+    case actionTypes.FETCH_PAGINATED_PROJECTS:
+      return {
+        ...state,
+        pageSize: action.pageSize,
+        projects: action.projects,
+        total: action.total,
+      };
+    case actionTypes.FETCH_PROJECTS:
+      return {
+        ...state,
+        projects: action.projects,
+      };
     case projectActionTypes.DELETE_PROJECT_SUCCESS:
-      return [...state.filter((project) => project.uuid !== action.projectId)];
-
-    // // // // // // //
-
-    // FAIL
-    // projects
-    // fetch projects fail
-    case actionTypes.FETCH_PROJECTS_FAIL:
-      message.error(action.errorMessage);
-      return [];
-
-    // // // // // // //
-
-    // DEFAULT
+      return {
+        ...state,
+        projects: state.projects.filter(
+          (project) => project.uuid !== action.projectId
+        ),
+      };
+    case projectActionTypes.EDIT_PROJECT_NAME_SUCCESS:
+      const updatedProject = action.project;
+      const projectsAux = [...state.projects];
+      const projectIndex = projectsAux.findIndex(
+        (project) => project.uuid === updatedProject.uuid
+      );
+      projectsAux[projectIndex] = updatedProject;
+      return {
+        ...state,
+        projects: projectsAux,
+      };
     default:
       return state;
   }

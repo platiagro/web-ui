@@ -65,14 +65,12 @@ const ProjectsTable = ({
 
   // RENDER
   return (
-    // table
-
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
       dataSource={projects}
       columns={columnsConfig}
-      pagination={{ pageSize: 9 }}
+      pagination={false}
       loading={loading}
     />
   );
