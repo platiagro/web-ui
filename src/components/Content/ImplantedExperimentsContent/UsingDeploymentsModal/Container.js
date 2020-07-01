@@ -32,7 +32,7 @@ const ContentInfo = () => {
         routing: {},
         requestPath: {
           'e6065e85-a056-40b7-9e4b-4db49ee3b915':
-            'platiagro/platiagro-deployment-image:0.0.2',
+            'platiagro/platiagro-deployment-image:0.1.0',
         },
         metrics: [],
       },
