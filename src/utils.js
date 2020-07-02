@@ -207,6 +207,8 @@ const getTagConfig = (tag) => {
   const tagsConfig = {
     // user components
     DEFAULT: { title: 'Meus Componentes', key: 'DEFAULT', icon: 'solution' },
+    // datasets
+    DATASETS: { title: 'Conjunto de dados', key: 'DATASETS', icon: 'database' },
     // descriptive statistics
     DESCRIPTIVE_STATISTICS: {
       title: 'Visualização de Dados',

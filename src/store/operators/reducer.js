@@ -47,7 +47,7 @@ const operators = (state = initialState, action) => {
     case experimentActionTypes.SET_DATASET_SUCCESS:
       return [
         ...state.map((operator) =>
-          operator.uuid === 'dataset'
+          operator.componentId === 'dataset'
             ? {
                 ...operator,
                 parameters: [

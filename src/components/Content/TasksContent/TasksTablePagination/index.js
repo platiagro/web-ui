@@ -27,13 +27,13 @@ const ProjectsTablePagination = ({ pageSize, total, onChange }) => {
 // PROP TYPES
 ProjectsTablePagination.propTypes = {
   /** current page */
-  current: PropTypes.number.isRequired,
+  current: PropTypes.number,
   /** page size */
-  pageSize: PropTypes.number.isRequired,
+  pageSize: PropTypes.number,
   /** total pages  */
-  total: PropTypes.number.isRequired,
+  total: PropTypes.number,
   /** on change page handle */
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
 
 // EXPORT

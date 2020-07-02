@@ -4,6 +4,9 @@ import actionTypes from './actionTypes';
 // SERVICES
 import operatorsApi from '../../services/OperatorsApi';
 
+// UI LIB
+import { message } from 'antd';
+
 // UI ACTIONS
 import {
   showDrawer,
@@ -181,7 +184,7 @@ export const selectOperator = (projectId, experimentId, operator) => (
   });
 
   // is operator dataset?
-  const isDataset = operator.uuid === 'dataset';
+  const isDataset = operator.componentId === 'dataset';
 
   // fetching dataset columns
   if (isDataset) {
@@ -223,7 +226,8 @@ const createOperatorSuccess = (
   componentName,
   experimentNotebookPath,
   deploymentNotebookPath,
-  parameters
+  parameters,
+  datasetName
 ) => (dispatch) => {
   // getting operator from response
   const operator = response.data;
@@ -232,7 +236,13 @@ const createOperatorSuccess = (
   dispatch(experimentOperatorsDataLoaded());
 
   // checking if operator is setted up
-  const settedUp = utils.checkOperatorSettedUp(operator);
+  let settedUp;
+  if (operator.componentId === 'dataset') {
+    parameters = [{ name: 'dataset', value: datasetName || '' }];
+    settedUp = datasetName ? true : false;
+  } else {
+    settedUp = utils.checkOperatorSettedUp(operator);
+  }
 
   // dispatching create operator success action
   dispatch({
@@ -289,6 +299,26 @@ export const createOperatorRequest = (
     type: actionTypes.CREATE_OPERATOR_REQUEST,
   });
 
+  // getting dataset name and operators from store
+  const {
+    experiment: { dataset: datasetName },
+    operators: experimentOperators,
+  } = getState();
+
+  // verify if dataset operator already exist
+  if (componentId === 'dataset') {
+    const datasetOperatorIndex = experimentOperators.findIndex(
+      (operator) => operator.componentId === 'dataset'
+    );
+    if (datasetOperatorIndex > -1) {
+      message.error(
+        'Não é permitido mais de um "Conjunto de dados" no mesmo fluxo',
+        5
+      );
+      return;
+    }
+  }
+
   // dispatching experiment operators loading data action
   dispatch(experimentOperatorsLoadingData());
 
@@ -300,11 +330,6 @@ export const createOperatorRequest = (
     deploymentNotebookPath,
     parameters,
   } = utils.getComponentData(components, componentId);
-
-  // getting dataset name
-  const {
-    experiment: { dataset: datasetName },
-  } = getState();
 
   // getting dataset columns
   let datasetColumns = [];
@@ -340,7 +365,8 @@ export const createOperatorRequest = (
           componentName,
           experimentNotebookPath,
           deploymentNotebookPath,
-          configuredParameters
+          configuredParameters,
+          datasetName
         )
       )
     )
