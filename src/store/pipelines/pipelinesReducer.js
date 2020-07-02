@@ -10,7 +10,7 @@ const initialState = null;
 /**
  * pipelines reducer
  */
-const pipelines = (state = initialState, action) => {
+const pipelinesReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // pipelines
@@ -42,4 +42,4 @@ const pipelines = (state = initialState, action) => {
 };
 
 // EXPORT
-export default pipelines;
+export default pipelinesReducer;

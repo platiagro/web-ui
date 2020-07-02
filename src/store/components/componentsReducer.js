@@ -10,7 +10,7 @@ const initialState = [];
 /**
  * components reducer
  */
-const components = (state = initialState, action) => {
+const componentsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // components
@@ -31,4 +31,4 @@ const components = (state = initialState, action) => {
 };
 
 // EXPORT
-export default components;
+export default componentsReducer;

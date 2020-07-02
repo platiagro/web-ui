@@ -41,13 +41,13 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    operatorId: state.operator.uuid,
-    operator: state.operator,
-    parameters: state.operator.parameters,
-    loading: state.ui.experimentOperators.loading,
-    parameterLoading: state.ui.operatorParameter.loading,
-    trainingSucceeded: state.experiment.succeeded,
-    trainingLoading: state.ui.experimentTraining.loading,
+    operatorId: state.operatorReducer.uuid,
+    operator: state.operatorReducer,
+    parameters: state.operatorReducer.parameters,
+    loading: state.uiReducer.experimentOperators.loading,
+    parameterLoading: state.uiReducer.operatorParameter.loading,
+    trainingSucceeded: state.experimentReducer.succeeded,
+    trainingLoading: state.uiReducer.experimentTraining.loading,
   };
 };
 

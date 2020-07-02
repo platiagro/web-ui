@@ -12,7 +12,8 @@ const initialState = {
   totalTasks: null,
 };
 
-export default function postReducer(state = initialState, action) {
+// tasks reducer
+const tasksReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     case actionTypes.ADD_TASK_SUCCESS:
       // creating task aux list with new task and olders
@@ -87,4 +88,7 @@ export default function postReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+// EXPORT
+export default tasksReducer;

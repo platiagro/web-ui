@@ -19,10 +19,10 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    drawer: state.ui.drawer,
-    results: state.operator.results,
-    resultsLoading: state.ui.operatorResults.loading,
-    logs: state.logs.logs,
+    drawer: state.uiReducer.drawer,
+    results: state.operatorReducer.results,
+    resultsLoading: state.uiReducer.operatorResults.loading,
+    logs: state.deploymentLogsReducer.logs,
   };
 };
 

@@ -15,7 +15,7 @@ const initialState = { filtered: {}, unfiltered: {} };
 /**
  * components menu reducer
  */
-const componentsMenu = (state = initialState, action) => {
+const componentsMenuReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // components menu
@@ -80,4 +80,4 @@ const componentsMenu = (state = initialState, action) => {
 };
 
 // EXPORT
-export default componentsMenu;
+export default componentsMenuReducer;

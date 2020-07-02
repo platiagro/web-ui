@@ -10,19 +10,13 @@ const initialState = [];
 /**
  * templates reducer
  */
-const templates = (state = initialState, action) => {
+const templatesReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // templates
     // fetch templates success
     case actionTypes.FETCH_TEMPLATES_SUCCESS:
       return [...action.templates];
-    // create template success
-    /*     case actionTypes.CREATE_TEMPLATE_SUCCESS:
-      return [...action.templates]; */
-    // set template success
-    /*     case actionTypes.SET_TEMPLATE_SUCCESS:
-      return [...action.templates]; */
 
     // FAIL
     // templates
@@ -43,4 +37,4 @@ const templates = (state = initialState, action) => {
 };
 
 // EXPORT
-export default templates;
+export default templatesReducer;

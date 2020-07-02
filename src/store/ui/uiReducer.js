@@ -45,7 +45,7 @@ const initialState = {
 /**
  * ui reducer
  */
-const ui = (state = initialState, action) => {
+const uiReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // NEW PROJECT MODAL
     case projectActionTypes.CREATE_PROJECT_FAIL:
@@ -143,17 +143,8 @@ const ui = (state = initialState, action) => {
       };
 
     // NEW TEMPLATE MODAL
-    // show new template modal
-    case actionTypes.SHOW_NEW_TEMPLATE_MODAL:
-      return {
-        ...state,
-        newTemplateModal: {
-          ...state.newTemplateModal,
-          visible: action.newTemplateModalVisible,
-        },
-      };
-    // hide new template modal
-    case actionTypes.HIDE_NEW_TEMPLATE_MODAL:
+    case actionTypes.HIDE_NEW_TEMPLATE_MODAL: // hide new template modal
+    case actionTypes.SHOW_NEW_TEMPLATE_MODAL: // show new template modal
       return {
         ...state,
         newTemplateModal: {
@@ -180,48 +171,24 @@ const ui = (state = initialState, action) => {
       };
 
     // DRAWER RESULTS
-    // show drawer results
-    case actionTypes.SHOW_DRAWER_RESULTS:
+    case actionTypes.SHOW_DRAWER_RESULTS: // show drawer results
+    case actionTypes.HIDE_DRAWER_RESULTS: // hide drawer results
       return {
         ...state,
         drawer: { ...state.drawer, showResults: action.showResults },
       };
-    // hide drawer results
-    case actionTypes.HIDE_DRAWER_RESULTS:
-      return {
-        ...state,
-        drawer: {
-          ...state.drawer,
-          showResults: action.showResults,
-        },
-      };
 
     // TASKS TABLE
-    // loading data
-    case actionTypes.TASKS_TABLE_LOADING_DATA:
-      return {
-        ...state,
-        tasksTable: { ...state.tasksTable, loading: action.tasksTableLoading },
-      };
-    // data loaded
-    case actionTypes.TASKS_TABLE_DATA_LOADED:
+    case actionTypes.TASKS_TABLE_LOADING_DATA: // loading data
+    case actionTypes.TASKS_TABLE_DATA_LOADED: // data loaded
       return {
         ...state,
         tasksTable: { ...state.tasksTable, loading: action.tasksTableLoading },
       };
 
     // PROJECTS TABLE
-    // loading data
-    case actionTypes.PROJECTS_TABLE_LOADING_DATA:
-      return {
-        ...state,
-        projectsTable: {
-          ...state.projectsTable,
-          loading: action.projectsTableLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.PROJECTS_TABLE_DATA_LOADED:
+    case actionTypes.PROJECTS_TABLE_LOADING_DATA: // loading data
+    case actionTypes.PROJECTS_TABLE_DATA_LOADED: // data loaded
       return {
         ...state,
         projectsTable: {
@@ -231,17 +198,8 @@ const ui = (state = initialState, action) => {
       };
 
     // PROJECT NAME
-    // loading data
-    case actionTypes.PROJECT_NAME_LOADING_DATA:
-      return {
-        ...state,
-        projectName: {
-          ...state.projectName,
-          loading: action.projectNameLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.PROJECT_NAME_DATA_LOADED:
+    case actionTypes.PROJECT_NAME_LOADING_DATA: // loading data
+    case actionTypes.PROJECT_NAME_DATA_LOADED: // data loaded
       return {
         ...state,
         projectName: {
@@ -251,17 +209,8 @@ const ui = (state = initialState, action) => {
       };
 
     // COMPONENTS MENU
-    // loading data
-    case actionTypes.COMPONENTS_MENU_LOADING_DATA:
-      return {
-        ...state,
-        componentsMenu: {
-          ...state.componentsMenu,
-          loading: action.componentsMenuLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.COMPONENTS_MENU_DATA_LOADED:
+    case actionTypes.COMPONENTS_MENU_LOADING_DATA: // loading data
+    case actionTypes.COMPONENTS_MENU_DATA_LOADED: // data loaded
       return {
         ...state,
         componentsMenu: {
@@ -271,17 +220,8 @@ const ui = (state = initialState, action) => {
       };
 
     // EXPERIMENTS TABS
-    // loading data
-    case actionTypes.EXPERIMENTS_TABS_LOADING_DATA:
-      return {
-        ...state,
-        experimentsTabs: {
-          ...state.experimentsTabs,
-          loading: action.experimentsTabsLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.EXPERIMENTS_TABS_DATA_LOADED:
+    case actionTypes.EXPERIMENTS_TABS_LOADING_DATA: // loading data
+    case actionTypes.EXPERIMENTS_TABS_DATA_LOADED: // data loaded
       return {
         ...state,
         experimentsTabs: {
@@ -291,17 +231,8 @@ const ui = (state = initialState, action) => {
       };
 
     // EXPERIMENT TRAINING
-    // loading data
-    case actionTypes.EXPERIMENT_TRAINING_LOADING_DATA:
-      return {
-        ...state,
-        experimentTraining: {
-          ...state.experimentTraining,
-          loading: action.experimentTrainingLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.EXPERIMENT_TRAINING_DATA_LOADED:
+    case actionTypes.EXPERIMENT_TRAINING_LOADING_DATA: // loading data
+    case actionTypes.EXPERIMENT_TRAINING_DATA_LOADED: // data loaded
       return {
         ...state,
         experimentTraining: {
@@ -311,17 +242,8 @@ const ui = (state = initialState, action) => {
       };
 
     // EXPERIMENT NAME
-    // loading data
-    case actionTypes.EXPERIMENT_NAME_LOADING_DATA:
-      return {
-        ...state,
-        experimentName: {
-          ...state.experimentName,
-          loading: action.experimentNameLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.EXPERIMENT_NAME_DATA_LOADED:
+    case actionTypes.EXPERIMENT_NAME_LOADING_DATA: // loading data
+    case actionTypes.EXPERIMENT_NAME_DATA_LOADED: // data loaded
       return {
         ...state,
         experimentName: {
@@ -331,17 +253,8 @@ const ui = (state = initialState, action) => {
       };
 
     // EXPERIMENT OPERATORS
-    // loading data
-    case actionTypes.EXPERIMENT_OPERATORS_LOADING_DATA:
-      return {
-        ...state,
-        experimentOperators: {
-          ...state.experimentOperators,
-          loading: action.experimentOperatorsLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.EXPERIMENT_OPERATORS_DATA_LOADED:
+    case actionTypes.EXPERIMENT_OPERATORS_LOADING_DATA: // loading data
+    case actionTypes.EXPERIMENT_OPERATORS_DATA_LOADED: // data loaded
       return {
         ...state,
         experimentOperators: {
@@ -351,17 +264,8 @@ const ui = (state = initialState, action) => {
       };
 
     // DATASET OPERATOR
-    // loading data
-    case actionTypes.DATASET_OPERATOR_LOADING_DATA:
-      return {
-        ...state,
-        datasetOperator: {
-          ...state.datasetOperator,
-          loading: action.datasetOperatorLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.DATASET_OPERATOR_DATA_LOADED:
+    case actionTypes.DATASET_OPERATOR_LOADING_DATA: // loading data
+    case actionTypes.DATASET_OPERATOR_DATA_LOADED: // data loaded
       return {
         ...state,
         datasetOperator: {
@@ -371,17 +275,9 @@ const ui = (state = initialState, action) => {
       };
 
     // OPERATOR PARAMETER
-    // loading data
-    case actionTypes.OPERATOR_PARAMETER_LOADING_DATA:
-      return {
-        ...state,
-        operatorParameter: {
-          ...state.operatorParameter,
-          loading: action.operatorParameterLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.OPERATOR_PARAMETER_DATA_LOADED:
+
+    case actionTypes.OPERATOR_PARAMETER_LOADING_DATA: // loading data
+    case actionTypes.OPERATOR_PARAMETER_DATA_LOADED: // data loaded
       return {
         ...state,
         operatorParameter: {
@@ -391,17 +287,8 @@ const ui = (state = initialState, action) => {
       };
 
     // OPERATOR RESULTS
-    // loading data
-    case actionTypes.OPERATOR_RESULTS_LOADING_DATA:
-      return {
-        ...state,
-        operatorResults: {
-          ...state.operatorResults,
-          loading: action.operatorResultsLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.OPERATOR_RESULTS_DATA_LOADED:
+    case actionTypes.OPERATOR_RESULTS_LOADING_DATA: // loading data
+    case actionTypes.OPERATOR_RESULTS_DATA_LOADED: // data loaded
       return {
         ...state,
         operatorResults: {
@@ -431,17 +318,8 @@ const ui = (state = initialState, action) => {
       };
 
     // TEMPLATE
-    // loading data
-    case actionTypes.TEMPLATE_LOADING_DATA:
-      return {
-        ...state,
-        template: {
-          ...state.template,
-          loading: action.templateLoading,
-        },
-      };
-    // data loaded
-    case actionTypes.TEMPLATE_DATA_LOADED:
+    case actionTypes.TEMPLATE_LOADING_DATA: // loading data
+    case actionTypes.TEMPLATE_DATA_LOADED: // data loaded
       return {
         ...state,
         template: {
@@ -451,8 +329,8 @@ const ui = (state = initialState, action) => {
       };
 
     // IMPLANTED EXPERIMENT
-    // loading data
-    case actionTypes.IMPLANTED_EXPERIMENTS_LOADING_DATA:
+    case actionTypes.IMPLANTED_EXPERIMENTS_LOADING_DATA: // loading data
+    case actionTypes.IMPLANTED_EXPERIMENTS_DATA_LOADED: // data loaded
       return {
         ...state,
         implantedExperiments: {
@@ -460,15 +338,7 @@ const ui = (state = initialState, action) => {
           loading: action.implantedExperimentsLoading,
         },
       };
-    // data loaded
-    case actionTypes.IMPLANTED_EXPERIMENTS_DATA_LOADED:
-      return {
-        ...state,
-        implantedExperiments: {
-          ...state.implantedExperiments,
-          loading: action.implantedExperimentsLoading,
-        },
-      };
+
     case actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL:
       return {
         ...state,
@@ -493,4 +363,4 @@ const ui = (state = initialState, action) => {
 };
 
 // EXPORT
-export default ui;
+export default uiReducer;

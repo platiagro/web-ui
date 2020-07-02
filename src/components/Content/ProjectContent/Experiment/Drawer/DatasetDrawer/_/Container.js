@@ -29,11 +29,11 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    dataset: state.dataset,
-    datasetName: state.experiment.dataset,
-    loading: state.ui.datasetOperator.loading,
-    trainingSucceeded: state.experiment.succeeded,
-    trainingLoading: state.ui.experimentTraining.loading,
+    dataset: state.datasetReducer,
+    datasetName: state.experimentReducer.dataset,
+    loading: state.uiReducer.datasetOperator.loading,
+    trainingSucceeded: state.experimentReducer.succeeded,
+    trainingLoading: state.uiReducer.experimentTraining.loading,
   };
 };
 

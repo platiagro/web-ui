@@ -14,7 +14,7 @@ const initialState = {
 /**
  * dataset reducer
  */
-const dataset = (state = initialState, action) => {
+const datasetReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // dataset
@@ -49,4 +49,4 @@ const dataset = (state = initialState, action) => {
 };
 
 // EXPORT
-export default dataset;
+export default datasetReducer;

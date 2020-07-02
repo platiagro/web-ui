@@ -20,9 +20,9 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    currentPage: state.tasks.currentPage,
-    pageSize: state.tasks.pageSize,
-    totalTasks: state.tasks.totalTasks,
+    currentPage: state.tasksReducer.currentPage,
+    pageSize: state.tasksReducer.pageSize,
+    totalTasks: state.tasksReducer.totalTasks,
   };
 };
 

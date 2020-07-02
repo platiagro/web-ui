@@ -3,22 +3,22 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
 // REDUCERS
-import projects from './projects/reducer';
-import project from './project/reducer';
-import experiments from './experiments/reducer';
-import experiment from './experiment/reducer';
-import operators from './operators/reducer';
-import operator from './operator/reducer';
-import componentsMenu from './componentsMenu/reducer';
-import templates from './templates/reducer';
-import components from './components/reducer';
-import implantedExperiments from './implantedExperiments/reducer';
-import tasks from './tasks/reducer';
-import ui from './ui/reducer';
-import dataset from './dataset/reducer';
-import pipelines from './pipelines/reducer';
-import logs from './logs/reducer';
-import testExperimentInference from './testExperimentInference/reducer';
+import projectsReducer from './projects/projectsReducer';
+import projectReducer from './project/projectReducer';
+import experimentsReducer from './experiments/experimentsReducer';
+import experimentReducer from './experiment/experimentReducer';
+import operatorsReducer from './operators/operatorsReducer';
+import operatorReducer from './operator/operatorReducer';
+import componentsMenuReducer from './componentsMenu/componentsMenuReducer';
+import templatesReducer from './templates/templatesReducer';
+import componentsReducer from './components/componentsReducer';
+import implantedExperimentsReducer from './implantedExperiments/implantedExperimentsReducer';
+import tasksReducer from './tasks/tasksReducer';
+import uiReducer from './ui/uiReducer';
+import datasetReducer from './dataset/datasetReducer';
+import pipelinesReducer from './pipelines/pipelinesReducer';
+import deploymentLogsReducer from './deploymentLogs/deploymentLogsReducer';
+import testExperimentInferenceReducer from './testExperimentInference/testExperimentInferenceReducer';
 
 // REDUX DEV TOOLS CONFIG
 const composeEnhancers =
@@ -31,22 +31,22 @@ const composeEnhancers =
 
 // COMBINED REDUCERS
 const reducers = combineReducers({
-  projects,
-  project,
-  experiments,
-  experiment,
-  operators,
-  operator,
-  componentsMenu,
-  templates,
-  components,
-  implantedExperiments,
-  tasks,
-  ui,
-  dataset,
-  pipelines,
-  logs,
-  testExperimentInference,
+  projectsReducer,
+  projectReducer,
+  experimentsReducer,
+  experimentReducer,
+  operatorsReducer,
+  operatorReducer,
+  componentsMenuReducer,
+  templatesReducer,
+  componentsReducer,
+  implantedExperimentsReducer,
+  tasksReducer,
+  uiReducer,
+  datasetReducer,
+  pipelinesReducer,
+  deploymentLogsReducer,
+  testExperimentInferenceReducer,
 });
 
 // STORE

@@ -16,11 +16,6 @@ import Error404Content from '../Error404Content';
 // STYLES
 import './style.scss';
 
-// MOCKS
-import projectsMock from '../ProjectsContent/_/_projectsMock';
-import tasksMock from '../TasksContent/_/_tasksMock';
-import implantedExperimentsMock from '../ImplantedExperimentsContent/_/_implantedExperimentsMock';
-
 /**
  * Content.
  * This component is responsible for displaying the content.
@@ -37,11 +32,11 @@ const Content = () => {
         </Route>
         {/* task content */}
         <Route exact path='/tarefas'>
-          <TaskContent tasks={tasksMock} />
+          <TaskContent />
         </Route>
         {/* projects content */}
         <Route exact path='/projetos'>
-          <ProjectsContent projects={projectsMock} />
+          <ProjectsContent />
         </Route>
         {/* project content */}
         <Route exact path='/projetos/:projectId'>
@@ -53,9 +48,7 @@ const Content = () => {
         </Route>
         {/* implanted experiments content */}
         <Route exact path='/experimentos-implantados'>
-          <ImplantedExperimentsContent
-            implantedExperiments={implantedExperimentsMock}
-          />
+          <ImplantedExperimentsContent />
         </Route>
         {/* error 404 content */}
         <Route path='*'>

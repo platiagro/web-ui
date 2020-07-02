@@ -23,11 +23,11 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    visible: state.tasks.editModalIsVisible,
-    loading: state.ui.tasksTable.loading,
-    newTaskRecord: state.tasks.newTaskRecord,
-    modalValidateStatus: state.tasks.modalValidateStatus,
-    errorMessage: state.tasks.errorMessage,
+    visible: state.tasksReducer.editModalIsVisible,
+    loading: state.uiReducer.tasksTable.loading,
+    newTaskRecord: state.tasksReducer.newTaskRecord,
+    modalValidateStatus: state.tasksReducer.modalValidateStatus,
+    errorMessage: state.tasksReducer.errorMessage,
   };
 };
 

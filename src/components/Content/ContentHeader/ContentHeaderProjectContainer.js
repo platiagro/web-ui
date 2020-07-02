@@ -24,7 +24,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  return { project: state.project, loading: state.ui.projectName.loading };
+  return {
+    project: state.projectReducer,
+    loading: state.uiReducer.projectName.loading,
+  };
 };
 
 /**
