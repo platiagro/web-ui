@@ -16,7 +16,7 @@ const deploymentsPath = '/deployments';
  * @returns {Promise}
  */
 const getDeployExperimentLogs = (deployId) => {
-  return pipelinesApi.get(`${deploymentsPath}/logs?name=${deployId}`);
+  return pipelinesApi.get(`${deploymentsPath}/${deployId}/logs`);
 };
 
 // EXPORT DEFAULT
