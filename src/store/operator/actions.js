@@ -251,8 +251,8 @@ export const createOperatorRequest = (
 
   // getting dataset name and operators from store
   const {
-    experiment: { dataset: datasetName },
-    operators: experimentOperators,
+    experimentReducer: { dataset: datasetName },
+    operatorsReducer: experimentOperators,
   } = getState();
 
   // getting component data
