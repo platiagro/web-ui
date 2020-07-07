@@ -116,7 +116,7 @@ export const fetchOperatorsRequest = (
 
     // configuring dataset operator
     configuredOperators = configuredOperators.map((operator) => {
-      if (operator.componentId === 'dataset') {
+      if (operator.tags.includes('DATASETS')) {
         operator.parameters = [{ name: 'dataset', value: datasetName || '' }];
         operator.settedUp = datasetName ? true : false;
       }

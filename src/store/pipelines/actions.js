@@ -79,11 +79,6 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
     };
   });
 
-  // filtering dataset
-  trainObject.components = trainObject.components.filter(
-    (operator) => operator.operatorId !== 'dataset'
-  );
-
   // training experiment
   pipelinesApi
     .trainExperiment(trainObject)
@@ -248,11 +243,6 @@ export const deployExperimentRequest = (
     operatorId: operator.uuid,
     notebookPath: operator.deploymentNotebookPath,
   }));
-
-  // filtering dataset
-  deployObject.components = deployObject.components.filter(
-    (operator) => operator.operatorId !== 'dataset'
-  );
 
   // deploying experiment
   pipelinesApi

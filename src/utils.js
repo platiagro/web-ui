@@ -275,6 +275,7 @@ const getComponentData = (components, componentId) => {
     return {
       name,
       icon,
+      tags,
       experimentNotebookPath,
       deploymentNotebookPath,
       parameters: filteredParams,

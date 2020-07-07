@@ -184,7 +184,7 @@ export const selectOperator = (projectId, experimentId, operator) => (
   });
 
   // is operator dataset?
-  const isDataset = operator.componentId === 'dataset';
+  const isDataset = operator.tags.includes('DATASETS');
 
   // fetching dataset columns
   if (isDataset) {
@@ -211,56 +211,6 @@ export const selectOperator = (projectId, experimentId, operator) => (
 // // // // // // // // // //
 
 // ** CREATE OPERATOR
-/**
- * create operator success action
- * @param {Object} response
- * @param {string} componentIcon
- * @param {string} componentName
- * @param {string} experimentNotebookPath
- * @param {string} deploymentNotebookPath
- * @returns {Object} { type, operator }
- */
-const createOperatorSuccess = (
-  response,
-  componentIcon,
-  componentName,
-  experimentNotebookPath,
-  deploymentNotebookPath,
-  parameters,
-  datasetName
-) => (dispatch) => {
-  // getting operator from response
-  const operator = response.data;
-
-  // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
-
-  // checking if operator is setted up
-  let settedUp;
-  if (operator.componentId === 'dataset') {
-    parameters = [{ name: 'dataset', value: datasetName || '' }];
-    settedUp = datasetName ? true : false;
-  } else {
-    settedUp = utils.checkOperatorSettedUp(operator);
-  }
-
-  // dispatching create operator success action
-  dispatch({
-    type: actionTypes.CREATE_OPERATOR_SUCCESS,
-    operator: {
-      ...operator,
-      icon: componentIcon,
-      name: componentName,
-      experimentNotebookPath,
-      deploymentNotebookPath,
-      parameters,
-      selected: false,
-      settedUp: settedUp,
-      status: '',
-    },
-  });
-};
-
 /**
  * create operator fail action
  * @param {Object} error
@@ -305,13 +255,19 @@ export const createOperatorRequest = (
     operators: experimentOperators,
   } = getState();
 
+  // getting component data
+  const { parameters, ...restComponentData } = utils.getComponentData(
+    components,
+    componentId
+  );
+
   // verify if dataset operator already exist
-  if (componentId === 'dataset') {
-    const datasetOperatorIndex = experimentOperators.findIndex(
-      (operator) => operator.componentId === 'dataset'
+  if (restComponentData.tags.includes('DATASETS')) {
+    const datasetOperatorIndex = experimentOperators.findIndex((operator) =>
+      operator.tags.includes('DATASETS')
     );
     if (datasetOperatorIndex > -1) {
-      message.error(
+      message.warn(
         'Não é permitido mais de um "Conjunto de dados" no mesmo fluxo',
         5
       );
@@ -322,21 +278,11 @@ export const createOperatorRequest = (
   // dispatching experiment operators loading data action
   dispatch(experimentOperatorsLoadingData());
 
-  // getting component icon
-  const {
-    name: componentName,
-    icon: componentIcon,
-    experimentNotebookPath,
-    deploymentNotebookPath,
-    parameters,
-  } = utils.getComponentData(components, componentId);
-
   // getting dataset columns
   let datasetColumns = [];
   if (datasetName)
     try {
       const response = await DatasetsApi.listDatasetColumns(datasetName);
-
       datasetColumns = response.data;
     } catch (e) {
       dispatch(createOperatorFail(e));
@@ -348,7 +294,7 @@ export const createOperatorRequest = (
   );
 
   // configuring parameters
-  const configuredParameters = utils.configureOperatorParameters(
+  let configuredParameters = utils.configureOperatorParameters(
     parameters,
     parameters,
     featureOptions
@@ -357,19 +303,35 @@ export const createOperatorRequest = (
   // creating operator
   operatorsApi
     .createOperator(projectId, experimentId, componentId)
-    .then((response) =>
-      dispatch(
-        createOperatorSuccess(
-          response,
-          componentIcon,
-          componentName,
-          experimentNotebookPath,
-          deploymentNotebookPath,
-          configuredParameters,
-          datasetName
-        )
-      )
-    )
+    .then((response) => {
+      // getting operator from response
+      const operator = response.data;
+
+      // dispatching experiment operators data loaded action
+      dispatch(experimentOperatorsDataLoaded());
+
+      // checking if operator is setted up
+      let settedUp;
+      if (restComponentData.tags.includes('DATASETS')) {
+        configuredParameters = [{ name: 'dataset', value: datasetName || '' }];
+        settedUp = datasetName ? true : false;
+      } else {
+        settedUp = utils.checkOperatorSettedUp(operator);
+      }
+
+      // dispatching create operator success action
+      dispatch({
+        type: actionTypes.CREATE_OPERATOR_SUCCESS,
+        operator: {
+          ...operator,
+          ...restComponentData,
+          parameters: configuredParameters,
+          settedUp,
+          selected: false,
+          status: '',
+        },
+      });
+    })
     .catch((error) => dispatch(createOperatorFail(error)));
 };
 
