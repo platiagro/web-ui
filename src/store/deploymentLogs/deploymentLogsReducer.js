@@ -7,9 +7,9 @@ const initialState = {
 };
 
 /**
- * pipelines reducer
+ * deployment logs reducer
  */
-const deploymentLogs = (state = initialState, action) => {
+const deploymentLogsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     case actionTypes.GET_DEPLOYMENT_LOGS:
       return { ...state, logs: action.payload };
@@ -22,4 +22,4 @@ const deploymentLogs = (state = initialState, action) => {
 };
 
 // EXPORT
-export default deploymentLogs;
+export default deploymentLogsReducer;

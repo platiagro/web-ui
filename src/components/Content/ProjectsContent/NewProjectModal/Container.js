@@ -44,12 +44,12 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 const mapStateToProps = (state) => {
   // new project modal visible
   return {
-    modalVisible: state.ui.newProjectModal.visible,
-    loading: state.ui.projectsTable.loading,
-    title: state.ui.newProjectModal.title,
-    record: state.ui.newProjectModal.record,
-    modalValidateStatus: state.ui.newProjectModal.modalValidateStatus,
-    errorMessage: state.ui.newProjectModal.errorMessage,
+    modalVisible: state.uiReducer.newProjectModal.visible,
+    loading: state.uiReducer.projectsTable.loading,
+    title: state.uiReducer.newProjectModal.title,
+    record: state.uiReducer.newProjectModal.record,
+    modalValidateStatus: state.uiReducer.newProjectModal.modalValidateStatus,
+    errorMessage: state.uiReducer.newProjectModal.errorMessage,
   };
 };
 

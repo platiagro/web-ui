@@ -93,7 +93,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   // new project modal visible
   return {
-    visible: state.ui.newDeploymentsModal.visible,
+    visible: state.uiReducer.newDeploymentsModal.visible,
   };
 };
 

@@ -32,8 +32,8 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    projects: state.projects.projects,
-    loading: state.ui.projectsTable.loading,
+    projects: state.projectsReducer.projects,
+    loading: state.uiReducer.projectsTable.loading,
   };
 };
 

@@ -7,7 +7,10 @@ const initialState = { names: [], ndarray: [] };
 /**
  * test experiment inference reducer
  */
-const testExperimentInference = (state = initialState, action) => {
+const testExperimentInferenceReducer = (
+  state = initialState,
+  action = undefined
+) => {
   switch (action.type) {
     case actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE:
       return { ...state, ...action.inferenceResult };
@@ -19,4 +22,4 @@ const testExperimentInference = (state = initialState, action) => {
 };
 
 // EXPORT
-export default testExperimentInference;
+export default testExperimentInferenceReducer;

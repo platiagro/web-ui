@@ -27,12 +27,12 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    drawer: state.ui.drawer,
-    results: state.operator.results,
-    metrics: state.operator.metrics,
-    resultsLoading: state.ui.operatorResults.loading,
-    metricsLoading: state.ui.operatorMetrics.loading,
-    experimentTrained: state.experiment.succeeded,
+    drawer: state.uiReducer.drawer,
+    results: state.operatorReducer.results,
+    metrics: state.operatorReducer.metrics,
+    resultsLoading: state.uiReducer.operatorResults.loading,
+    metricsLoading: state.uiReducer.operatorMetrics.loading,
+    experimentTrained: state.experimentReducer.succeeded,
   };
 };
 

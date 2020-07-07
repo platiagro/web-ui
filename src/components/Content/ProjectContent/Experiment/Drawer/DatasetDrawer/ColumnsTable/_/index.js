@@ -3,13 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Select, Tooltip } from 'antd';
+import { Table, Tooltip } from 'antd';
+
+// COMPONENTS
+import TypeSelect from '../TypeSelect';
 
 // STYLES
 import './style.scss';
-
-// SELECT COMPONENTS
-const { Option } = Select;
 
 /**
  * Columns Table.
@@ -47,36 +47,6 @@ const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
   // FUNCTIONS
   // setting row key
   const setRowKey = (record) => record.name;
-
-  // COMPONENTS
-  // type select
-  const TypeSelect = ({ value, ...others }) => {
-    // getting value
-    let fixedVal = value;
-    // types regex
-    const numRegex = /num/i;
-    const dateRegex = /dat/i;
-    const factorRegex = /fact|cate/i;
-    // checking type
-    if (value.match(numRegex)) {
-      fixedVal = 'Numerical';
-    } else if (value.match(dateRegex)) {
-      fixedVal = 'DateTime';
-    } else if (value.match(factorRegex)) {
-      fixedVal = 'Categorical';
-    }
-
-    // rendering component
-    return (
-      // select component
-      <Select value={fixedVal} {...others}>
-        {/* options */}
-        <Option value='DateTime'>Data/Hora</Option>
-        <Option value='Numerical'>Numérico</Option>
-        <Option value='Categorical'>Categórico</Option>
-      </Select>
-    );
-  };
 
   // RENDER
   return (

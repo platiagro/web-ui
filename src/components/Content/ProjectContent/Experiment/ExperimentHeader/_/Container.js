@@ -43,11 +43,11 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    project: state.project,
-    experiment: state.experiment,
-    operators: state.operators,
-    loading: state.ui.experimentName.loading,
-    trainingLoading: state.ui.experimentTraining.loading,
+    project: state.projectReducer,
+    experiment: state.experimentReducer,
+    operators: state.operatorsReducer,
+    loading: state.uiReducer.experimentName.loading,
+    trainingLoading: state.uiReducer.experimentTraining.loading,
   };
 };
 

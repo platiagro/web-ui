@@ -10,7 +10,10 @@ const initialState = [];
 /**
  * implanted experiments reducer
  */
-const implantedExperiments = (state = initialState, action) => {
+const implantedExperimentsReducer = (
+  state = initialState,
+  action = undefined
+) => {
   switch (action.type) {
     case actionTypes.FETCH_IMPLANTED_EXPERIMENTS:
       return action.implantedExperiments;
@@ -23,4 +26,4 @@ const implantedExperiments = (state = initialState, action) => {
 };
 
 // EXPORT
-export default implantedExperiments;
+export default implantedExperimentsReducer;

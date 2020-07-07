@@ -21,7 +21,7 @@ const initialState = {
 /**
  * experiment reducer
  */
-const experiment = (state = initialState, action) => {
+const experimentReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // experiment
@@ -65,4 +65,4 @@ const experiment = (state = initialState, action) => {
 };
 
 // EXPORT
-export default experiment;
+export default experimentReducer;

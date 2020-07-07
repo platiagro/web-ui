@@ -25,9 +25,9 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    operators: state.operators,
-    datasetName: state.experiment.dataset,
-    loading: state.ui.experimentOperators.loading,
+    operators: state.operatorsReducer,
+    datasetName: state.experimentReducer.dataset,
+    loading: state.uiReducer.experimentOperators.loading,
   };
 };
 

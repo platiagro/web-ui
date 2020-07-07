@@ -24,10 +24,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    loading: state.ui.experimentsTabs.loading,
-    modalVisible: state.ui.newExperimentModal.visible,
-    modalValidateStatus: state.ui.newExperimentModal.modalValidateStatus,
-    errorMessage: state.ui.newExperimentModal.errorMessage,
+    loading: state.uiReducer.experimentsTabs.loading,
+    modalVisible: state.uiReducer.newExperimentModal.visible,
+    modalValidateStatus: state.uiReducer.newExperimentModal.modalValidateStatus,
+    errorMessage: state.uiReducer.newExperimentModal.errorMessage,
   };
 };
 

@@ -9,9 +9,9 @@ import NotebookOutputs from './index';
 // STATES
 const mapStateToProps = (state) => {
   return {
-    operatorId: state.operator.uuid,
-    componentId: state.operator.componentId,
-    status: state.operator.status,
+    operatorId: state.operatorReducer.uuid,
+    componentId: state.operatorReducer.componentId,
+    status: state.operatorReducer.status,
   };
 };
 

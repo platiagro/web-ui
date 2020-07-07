@@ -2,7 +2,7 @@
 import React from 'react';
 
 // COMPONENTS
-import ContentHeader from '../../ContentHeader/Container';
+import ContentHeaderContainer from '../../ContentHeader/ContentHeaderContainer';
 import NewProjectButton from '../NewProjectButton/Container';
 import ProjectsTable from '../ProjectsTable/Container';
 import NewProjectModal from '../NewProjectModal/Container';
@@ -17,7 +17,7 @@ const ProjectsContent = () => {
     // fragment
     <>
       {/* content header */}
-      <ContentHeader title='Projetos' editable={false} />
+      <ContentHeaderContainer title='Projetos' editable={false} />
       {/* div content page container */}
       <div className='contentPage'>
         {/* new project button */}

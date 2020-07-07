@@ -17,7 +17,7 @@ const initialState = [];
 /**
  * operators reducer
  */
-const operators = (state = initialState, action) => {
+const operatorsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // operators
@@ -125,4 +125,4 @@ const operators = (state = initialState, action) => {
 };
 
 // EXPORT
-export default operators;
+export default operatorsReducer;

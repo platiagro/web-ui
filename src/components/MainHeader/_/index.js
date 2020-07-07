@@ -6,7 +6,7 @@ import { Layout } from 'antd';
 
 // COMPONENTS
 import Logo from '../Logo';
-import MainMenu from '../MainMenu/Container';
+import MainMenuContainer from '../MainMenu/MainMenuContainer';
 
 // STYLES
 import './style.scss';
@@ -28,7 +28,7 @@ const MainHeader = () => (
     {/* logo platiagro */}
     <Logo logoSrc={logo} className='logoPlatiagro' altText='PlatIAgro logo' />
     {/* main menu */}
-    <MainMenu />
+    <MainMenuContainer />
   </Header>
 );
 

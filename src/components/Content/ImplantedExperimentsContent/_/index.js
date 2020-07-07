@@ -2,7 +2,7 @@
 import React from 'react';
 
 // COMPONENTS
-import ContentHeader from '../../ContentHeader/Container';
+import ContentHeader from '../../ContentHeader/ContentHeaderContainer';
 import ImplantedExperimentsTable from '../ImplantedExperimentsTable/_/Container';
 
 import NewDeploymentsModalContainer from '../UsingDeploymentsModal/Container';
