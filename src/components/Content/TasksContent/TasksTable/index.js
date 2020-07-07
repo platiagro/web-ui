@@ -62,7 +62,11 @@ const TasksTable = ({
       rowKey={(record) => record.uuid}
       dataSource={tasks}
       columns={columnsConfig}
-      pagination={{ pageSize: 9 }}
+      pagination={{
+        defaultPageSize: 10,
+        showSizeChanger: true,
+        pageSizeOptions: ['10', '20', '30', '40', '50'],
+      }}
       loading={loading}
     />
   );

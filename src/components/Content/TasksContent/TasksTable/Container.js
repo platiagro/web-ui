@@ -66,11 +66,16 @@ const TasksTableContainer = (props) => {
     );
   };
 
+  // Remove the dataset task
+  const filteredTasks = tasks.filter((task) => {
+    return task.tags.indexOf('DATASETS') <= -1;
+  });
+
   // RENDER
   return (
     <ConfigProvider renderEmpty={TasksEmpty}>
       <TasksTable
-        tasks={tasks}
+        tasks={filteredTasks}
         handleClickTask={taskClickHandler}
         handleClickEdit={handleShowTasksModal}
         handleClickDelete={handleDeleteTask}

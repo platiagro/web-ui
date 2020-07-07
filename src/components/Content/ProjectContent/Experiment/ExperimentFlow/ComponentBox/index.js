@@ -100,12 +100,7 @@ const ComponentBox = ({
     if (status !== 'Pending' && status !== 'Running' && e.key === 'edit')
       handleClick(operator);
 
-    if (
-      status !== 'Pending' &&
-      status !== 'Running' &&
-      operator.uuid !== 'dataset' &&
-      e.key === 'remove'
-    )
+    if (status !== 'Pending' && status !== 'Running' && e.key === 'remove')
       removeOperator();
   };
 
@@ -114,9 +109,7 @@ const ComponentBox = ({
   const menu = (
     <Menu onClick={handleRightButtonClick}>
       <Menu.Item key='edit'>Editar</Menu.Item>
-      {operator.uuid !== 'dataset' && (
-        <Menu.Item key='remove'>Remover</Menu.Item>
-      )}
+      <Menu.Item key='remove'>Remover</Menu.Item>
     </Menu>
   );
 

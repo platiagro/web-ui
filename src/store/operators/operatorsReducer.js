@@ -47,7 +47,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     case experimentActionTypes.SET_DATASET_SUCCESS:
       return [
         ...state.map((operator) =>
-          operator.uuid === 'dataset'
+          operator.tags.includes('DATASETS')
             ? {
                 ...operator,
                 parameters: [
@@ -65,7 +65,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     case experimentActionTypes.SET_TARGET_COLUMN_SUCCESS:
       return [
         ...state.map((operator) =>
-          operator.uuid === 'dataset'
+          operator.tags.includes('DATASETS')
             ? {
                 ...operator,
                 parameters: operator.parameters.map((parameter) =>

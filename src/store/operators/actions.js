@@ -84,18 +84,6 @@ export const fetchOperatorsRequest = (
   // dispatching experiment operators loading data action
   dispatch(experimentOperatorsLoadingData());
 
-  // dataset operator mock
-  const dataset = {
-    icon: 'database',
-    name: 'Conjunto de Dados',
-    position: -1,
-    uuid: 'dataset',
-    parameters: [{ name: 'dataset', value: datasetName || '' }],
-    selected: false,
-    settedUp: datasetName ? true : false,
-    status: '',
-  };
-
   try {
     // getting operators
     const operatorsResponse = await operatorsApi.listOperators(
@@ -106,12 +94,10 @@ export const fetchOperatorsRequest = (
     // getting components
     const componentsResponse = await componentsApi.listComponents();
 
-    let datasetColumns = [];
-
     // getting dataset columns
+    let datasetColumns = [];
     if (datasetName) {
       const response = await datasetsApi.listDatasetColumns(datasetName);
-
       datasetColumns = response.data;
     }
 
@@ -121,15 +107,21 @@ export const fetchOperatorsRequest = (
     );
 
     // configuring operators
-    const configuredOperators = [
-      dataset,
-      ...utils.configureOperators(
-        componentsResponse.data,
-        operatorsResponse.data,
-        datasetColumns,
-        pipelinesResponse.data
-      ),
-    ];
+    let configuredOperators = utils.configureOperators(
+      componentsResponse.data,
+      operatorsResponse.data,
+      datasetColumns,
+      pipelinesResponse.data
+    );
+
+    // configuring dataset operator
+    configuredOperators = configuredOperators.map((operator) => {
+      if (operator.tags.includes('DATASETS')) {
+        operator.parameters = [{ name: 'dataset', value: datasetName || '' }];
+        operator.settedUp = datasetName ? true : false;
+      }
+      return operator;
+    });
 
     // dispatching success action
     dispatch(fetchOperatorsSuccess(configuredOperators, experimentId));
