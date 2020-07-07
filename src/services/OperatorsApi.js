@@ -80,9 +80,14 @@ const updateOperator = (projectId, experimentId, operatorId, operator) => {
  * @param {string} operatorId
  * @returns {Promise}
  */
-const getOperatorResultsDataset = (projectId, experimentId, operatorId) => {
+const getOperatorResultsDataset = (
+  projectId,
+  experimentId,
+  operatorId,
+  page
+) => {
   return operatorsApi.get(
-    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets`
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets?page=${page}&page_size=5`
   );
 };
 

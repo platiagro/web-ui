@@ -75,9 +75,6 @@ const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
     );
   };
 
-  const pageChange = (page) => {
-    console.log(page);
-  };
   // RENDER
   return (
     // table component
@@ -88,7 +85,6 @@ const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
       rowKey={setRowKey}
       size='middle'
       scroll={{ y: 340 }}
-      pagination={{ total: 50, pageSize: 5, onChange: pageChange }}
     />
   );
 };

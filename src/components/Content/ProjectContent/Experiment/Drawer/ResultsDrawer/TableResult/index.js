@@ -9,8 +9,9 @@ import { Table } from 'antd';
  * Table Result.
  * This component is responsible for displaying table result.
  */
-const TableResult = ({ title, resultTable }) => {
+const TableResult = ({ title, resultTable, ...props }) => {
   // RENDER
+  console.log(props);
   return (
     // div container
     <div>
@@ -25,8 +26,8 @@ const TableResult = ({ title, resultTable }) => {
         dataSource={resultTable.rows}
         columns={resultTable.columns}
         size='middle'
-        pagination={true}
         rowKey={(record, index) => index}
+        pagination={{ total: 10, pageSize: 10 }}
       />
     </div>
   );

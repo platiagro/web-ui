@@ -107,7 +107,8 @@ const getOperatorResultsFail = (error) => (dispatch) => {
 export const getOperatorResultsRequest = (
   projectId,
   experimentId,
-  operatorId
+  operatorId,
+  page
 ) => (dispatch) => {
   // dispatching request action
   dispatch({
@@ -123,7 +124,7 @@ export const getOperatorResultsRequest = (
     .then((responseFigure) => {
       // get operator dataset result
       operatorsApi
-        .getOperatorResultsDataset(projectId, experimentId, operatorId)
+        .getOperatorResultsDataset(projectId, experimentId, operatorId, page)
         .then((responseTable) => {
           dispatch(
             getOperatorResultsSuccess(responseFigure, responseTable, operatorId)
@@ -174,7 +175,7 @@ export const getOperatorMetricsRequest = (
  * @param {string} operator
  * @returns {Function}
  */
-export const selectOperator = (projectId, experimentId, operator) => (
+export const selectOperator = (projectId, experimentId, operator, page) => (
   dispatch
 ) => {
   // dispatching action
@@ -201,7 +202,9 @@ export const selectOperator = (projectId, experimentId, operator) => (
   }
 
   // getting results
-  dispatch(getOperatorResultsRequest(projectId, experimentId, operator.uuid));
+  dispatch(
+    getOperatorResultsRequest(projectId, experimentId, operator.uuid, page)
+  );
   dispatch(getOperatorMetricsRequest(projectId, experimentId, operator.uuid));
 
   // dispatching action to show drawer
