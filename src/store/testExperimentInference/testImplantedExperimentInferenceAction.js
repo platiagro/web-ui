@@ -18,10 +18,10 @@ import utils from 'utils';
  * @param {Object} file
  * @returns {type, inferenceResult}
  */
-
-const testImplantedExperimentInference = (implantedExperimentUuid, file) => (
-  dispatch
-) => {
+const testImplantedExperimentInferenceAction = (
+  implantedExperimentUuid,
+  file
+) => (dispatch) => {
   dispatch(implantedExperimentsLoadingData());
   implantedExperimentsApi
     .testDeployedExperiments(implantedExperimentUuid, file)
@@ -43,4 +43,4 @@ const testImplantedExperimentInference = (implantedExperimentUuid, file) => (
 };
 
 // EXPORT DEFAULT
-export default testImplantedExperimentInference;
+export default testImplantedExperimentInferenceAction;

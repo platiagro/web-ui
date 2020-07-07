@@ -16,7 +16,6 @@ body,
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
     font-variant: tabular-nums;
     list-style: none;
     -webkit-font-feature-settings: 'tnum';
@@ -69,20 +68,18 @@ body,
   }
 }
 
-
-.ant-menu-inline .ant-menu-item, .ant-menu-inline .ant-menu-submenu-title {
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
   width: 100% !important;
 }
 
 .ant-tabs {
-
   .ant-tabs-bar {
     margin-bottom: 0;
     border-bottom: none !important;
   }
 
   .ant-tabs-nav {
-
     .ant-tabs-tab {
       background-color: #fafafa;
       border: 1px solid #e8e8e8;
@@ -101,12 +98,13 @@ body,
   }
 }
 
-
-h4.ant-typography, .ant-typography h4 {
+h4.ant-typography,
+.ant-typography h4 {
   font-weight: 700 !important;
 }
 
-.ant-btn.ant-btn-oval, .ant-btn-oval>.ant-btn {
+.ant-btn.ant-btn-oval,
+.ant-btn-oval > .ant-btn {
   border-radius: 20px;
 }
 
@@ -130,7 +128,8 @@ h4.ant-typography, .ant-typography h4 {
   border-color: $primary-color;
   color: $primary-color;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: $primary-color;
     border-color: $primary-color;
     color: $white;
@@ -148,7 +147,8 @@ h4.ant-typography, .ant-typography h4 {
   border-color: $secondary-color;
   color: $white;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: darken($secondary-color, 5%);
     border-color: lighten($primary-color, 5%);
     color: $white;
@@ -167,7 +167,8 @@ h4.ant-typography, .ant-typography h4 {
   border-radius: 0 !important;
   color: darken($gray-light, 30%);
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: darken($white, 5%);
     border-color: darken($gray-light, 5%);
     color: darken($gray-light, 30%);

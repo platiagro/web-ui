@@ -24,8 +24,8 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    modalVisible: state.ui.newTemplateModal.visible,
-    loading: state.ui.template.loading,
+    modalVisible: state.uiReducer.newTemplateModal.visible,
+    loading: state.uiReducer.template.loading,
   };
 };
 

@@ -19,7 +19,7 @@ const initialState = {
 /**
  * project reducer
  */
-const project = (state = initialState, action) => {
+const projectReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // project
@@ -54,4 +54,4 @@ const project = (state = initialState, action) => {
 };
 
 // EXPORT
-export default project;
+export default projectReducer;

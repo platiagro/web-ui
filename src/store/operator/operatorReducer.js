@@ -19,7 +19,7 @@ const initialState = {
 /**
  * operator reducer
  */
-const operator = (state = initialState, action) => {
+const operatorReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     //REQUEST INITIAL
     case actionTypes.GET_OPERATOR_METRICS_REQUEST:
@@ -68,4 +68,4 @@ const operator = (state = initialState, action) => {
 };
 
 // EXPORT
-export default operator;
+export default operatorReducer;

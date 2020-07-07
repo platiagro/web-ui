@@ -2,7 +2,7 @@
 import React from 'react';
 
 // COMPONENTS
-import ContentHeader from '../../ContentHeader/Container';
+import ContentHeaderContainer from '../../ContentHeader/ContentHeaderContainer';
 import NewTaskButton from '../NewTaskButton/Container';
 import NewTaskModal from '../NewTaskModal/Container';
 import EditTaskModal from '../EditTaskModal/Container';
@@ -18,7 +18,7 @@ const TaskContent = () => {
     // fragment container
     <>
       {/* content header */}
-      <ContentHeader title='Tarefas' editable={false} />
+      <ContentHeaderContainer title='Tarefas' editable={false} />
       {/* div content page container */}
       <div className='contentPage'>
         {/* new task button */}

@@ -576,7 +576,7 @@ export const setTargetColumnRequest = (
  */
 export const trainExperiment = (uuid) => ({
   type: actionTypes.TRAIN_EXPERIMENT,
-  experiment: {}, // { ...experimentMock, running: true },
+  experiment: {},
 });
 
 /**
@@ -586,7 +586,7 @@ export const trainExperiment = (uuid) => ({
  */
 export const deployExperiment = (uuid) => ({
   type: actionTypes.DEPLOY_EXPERIMENT,
-  experiment: {}, // { ...experimentMock, deployed: true },
+  experiment: {},
 });
 
 // // // // // // // // // //

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Upload, Button, Icon, Divider } from 'antd';
 
 // COMPONENTS
-import ColumnsTable from '../ColumnsTable';
+import ColumnsTable from '../ColumnsTable/_';
 import InputTip from '../../InputTip';
 
 /**
@@ -163,7 +163,7 @@ const DatasetDrawer = ({
         {/* upload button component */}
         <Button
           disabled={
-            !(datasetFileList.length > 0) ||
+            datasetFileList.length <= 0 ||
             loading ||
             trainingSucceeded ||
             trainingLoading

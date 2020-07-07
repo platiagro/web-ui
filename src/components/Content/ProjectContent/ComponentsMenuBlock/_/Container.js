@@ -49,11 +49,11 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    componentsMenu: state.componentsMenu.filtered,
-    components: state.components,
-    loading: state.ui.componentsMenu.loading,
-    trainingLoading: state.ui.experimentTraining.loading,
-    trainingSucceeded: state.experiment.succeeded,
+    componentsMenu: state.componentsMenuReducer.filtered,
+    components: state.componentsReducer,
+    loading: state.uiReducer.componentsMenu.loading,
+    trainingLoading: state.uiReducer.experimentTraining.loading,
+    trainingSucceeded: state.experimentReducer.succeeded,
   };
 };
 

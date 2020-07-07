@@ -12,7 +12,7 @@ const initialState = {
 /**
  * projects reducer
  */
-const projects = (state = initialState, action) => {
+const projectsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     case actionTypes.FETCH_PAGINATED_PROJECTS:
       return {
@@ -50,4 +50,4 @@ const projects = (state = initialState, action) => {
 };
 
 // EXPORT
-export default projects;
+export default projectsReducer;

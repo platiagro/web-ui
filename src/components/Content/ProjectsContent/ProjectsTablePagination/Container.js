@@ -20,10 +20,10 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    loading: state.ui.projectsTable.loading,
-    currentPage: state.projects.currentPage,
-    pageSize: state.projects.pageSize,
-    total: state.projects.total,
+    loading: state.uiReducer.projectsTable.loading,
+    currentPage: state.projectsReducer.currentPage,
+    pageSize: state.projectsReducer.pageSize,
+    total: state.projectsReducer.total,
   };
 };
 

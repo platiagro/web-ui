@@ -14,7 +14,7 @@ const initialState = [];
 /**
  * experiments reducer
  */
-const experiments = (state = initialState, action) => {
+const experimentsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     //reset initial fetch of experiments
     case actionTypes.CLEAR_ALL_EXPERIMENTS:
@@ -71,4 +71,4 @@ const experiments = (state = initialState, action) => {
 };
 
 // EXPORT
-export default experiments;
+export default experimentsReducer;
