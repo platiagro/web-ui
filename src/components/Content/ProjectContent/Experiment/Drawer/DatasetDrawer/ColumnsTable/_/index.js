@@ -8,6 +8,7 @@ import { Table, Select, Tooltip, Pagination } from 'antd';
 // STYLES
 import './style.scss';
 
+const { Option } = Select;
 /**
  * Columns Table.
  * This component is responsible for displaying dataset columns table

@@ -7,7 +7,8 @@ import { Divider, Spin, Icon, Table, Tabs, Empty } from 'antd';
 
 // COMPONENTS
 import TagResult from '../TagResult';
-import TableResult from '../TableResult';
+import TableResult from '../TableResult/Container';
+// import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
 

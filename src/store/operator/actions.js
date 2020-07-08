@@ -44,7 +44,7 @@ const getOperatorResultsSuccess = (
 ) => (dispatch) => {
   // getting figure results
   const results = utils.transformResults(operatorId, responseFigure.data);
-
+  console.log(responseTable);
   if (responseTable) {
     // create columns in antd format
     let tableColumns = [];
@@ -64,6 +64,8 @@ const getOperatorResultsSuccess = (
       resultTable: {
         columns: tableColumns,
         rows: responseTable.data.data,
+        total: responseTable.data.total,
+        currentPage: 1,
       },
     });
   }
@@ -136,6 +138,85 @@ export const getOperatorResultsRequest = (
         });
     })
     .catch((error) => dispatch(getOperatorResultsFail(error)));
+};
+
+/**
+ * get operator results success action
+ * @param {Object} responseFigure
+ * @param {Object} responseTable
+ * @param {string} operatorId
+ * @returns {Object} { type, results }
+ */
+const getDataSetResultSuccess = (responseTable, operatorId, page) => (
+  dispatch
+) => {
+  // getting figure results
+  const results = [];
+  console.log(responseTable);
+  if (responseTable) {
+    // create columns in antd format
+    let tableColumns = [];
+    let index = 0;
+    for (let column of responseTable.data.columns) {
+      let tableColumn = {
+        title: column,
+        dataIndex: index,
+      };
+      tableColumns.push(tableColumn);
+      index++;
+    }
+
+    results.push({
+      type: 'table',
+      uuid: `table-${operatorId}`,
+      resultTable: {
+        columns: tableColumns,
+        rows: responseTable.data.data,
+        total: responseTable.data.total,
+        currentPage: page,
+      },
+    });
+  }
+
+  // dispatching operator results data loaded action
+  dispatch(operatorResultsDataLoaded());
+
+  // dispatching get operator results success action
+  dispatch({
+    type: actionTypes.GET_OPERATOR_RESULTS_SUCCESS,
+    results,
+  });
+};
+
+/**
+ * set operator params request action
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} operatorId
+ * @returns {Function}
+ */
+export const getPageDataSetRequest = (
+  projectId,
+  experimentId,
+  operatorId,
+  page
+) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
+  });
+
+  // dispatching operator results loading data action
+  dispatch(operatorResultsLoadingData());
+
+  operatorsApi
+    .getOperatorResultsDataset(projectId, experimentId, operatorId, page)
+    .then((responseTable) => {
+      dispatch(getDataSetResultSuccess(responseTable, operatorId, page));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const getOperatorMetricsRequest = (
