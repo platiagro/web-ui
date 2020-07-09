@@ -5,8 +5,10 @@ import React from 'react';
 import { Layout } from 'antd';
 
 // COMPONENTS
-import MainHeader from '../MainHeader/_';
+import MainSider from '../MainSider/_';
 import Content from '../Content/_';
+
+import './style.scss';
 
 /**
  * Main component of the application.
@@ -19,9 +21,9 @@ import Content from '../Content/_';
  */
 const App = () => (
   // layout container
-  <Layout>
-    {/* main header */}
-    <MainHeader />
+  <Layout className='main-layout'>
+    {/* main sider */}
+    <MainSider />
     {/* content */}
     <Content />
   </Layout>

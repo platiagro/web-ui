@@ -1,7 +1,7 @@
 // CORE LIBS
 import React from 'react';
 
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 // UI LIBS
 import { Layout, Row, Col } from 'antd';
@@ -38,7 +38,7 @@ const HomeContent = () => {
         {/* row container */}
         <Row className='body'>
           {/* column container */}
-          <Col className='home-columns' span={12}>
+          <Col className='home-columns' span={13}>
             {/* title */}
             <p className='home-title'>
               Plataforma de Inteligência Artificial para o Agronegócio
@@ -56,7 +56,10 @@ const HomeContent = () => {
                       src={ic_projeto}
                       alt='Desenho de um frasco utilizado na preparação de experimentos'
                     />
-                    <span>Criar um projeto e experimentar diferentes fluxos de tarefas</span>
+                    <span>
+                      Criar um projeto e experimentar diferentes fluxos de
+                      tarefas
+                    </span>
                   </div>
                 </Link>
                 {/* rating card */}
@@ -66,7 +69,9 @@ const HomeContent = () => {
                       src={ic_tarefa}
                       alt='Desenho de uma tela de execução de um interpretador de comandos de computador'
                     />
-                    <span>Construir uma tarefa e conhecer as tarefas disponíveis</span>
+                    <span>
+                      Construir uma tarefa e conhecer as tarefas disponíveis
+                    </span>
                   </div>
                 </Link>
                 {/* documentation card */}
@@ -76,18 +81,17 @@ const HomeContent = () => {
                   href='https://platiagro.github.io/'
                 >
                   <div>
-                    <img
-                      src={ic_documentacao}
-                      alt='Ponto de interrogação'
-                    />
-                    <span>Tirar suas dúvidas com a documentação da PlatIAgro</span>
+                    <img src={ic_documentacao} alt='Ponto de interrogação' />
+                    <span>
+                      Tirar suas dúvidas com a documentação da PlatIAgro
+                    </span>
                   </div>
                 </a>
               </div>
             </div>
           </Col>
           {/* column container */}
-          <Col className='logo-content home-columns' span={12}>
+          <Col className='logo-content home-columns' span={11}>
             {/* platiagro logo */}
             <img
               className='logo-color'
@@ -98,12 +102,13 @@ const HomeContent = () => {
             />
             {/* platiagro description */}
             <p className='home-text'>
-              A Plataforma de Inteligência Artificial para o agronegócio – PlatIAgro –
-              é uma plataforma de IA voltada para os temas relacionados ao agronegócio.
+              A Plataforma de Inteligência Artificial para o agronegócio –
+              PlatIAgro – é uma plataforma de IA voltada para os temas
+              relacionados ao agronegócio.
               <br />
               Sua missão é oferecer um ambiente facilitador do desenvolvimento
-              de aplicações para diferentes atores da cadeia do agronegócio, como
-              produtores, indústria e órgãos fiscalizadores.
+              de aplicações para diferentes atores da cadeia do agronegócio,
+              como produtores, indústria e órgãos fiscalizadores.
             </p>
           </Col>
         </Row>

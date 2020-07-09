@@ -17,7 +17,6 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => (
   <Menu
     className={className}
     theme='dark'
-    mode='horizontal'
     selectedKeys={selectedItems}
     onClick={(e) => handleItemClick(e.key)}
   >
@@ -28,7 +27,7 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => (
         {/* menu item icon */}
         <Icon type={icon} />
         {/* menu item title */}
-        {title}
+        <span>{title}</span>
       </Item>
     ))}
   </Menu>
