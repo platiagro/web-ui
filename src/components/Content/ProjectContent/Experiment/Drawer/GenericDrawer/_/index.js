@@ -262,7 +262,7 @@ const GenericDrawer = ({
   // div container
   <div>
     {/* rendering remove operator button */}
-    <div>
+    <div style={{ textAlign: 'center' }}>
       {!trainingSucceeded && (
         <>
           <RemoveOperatorButton

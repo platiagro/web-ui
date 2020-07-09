@@ -7,7 +7,7 @@ import { Row } from 'antd';
 // COMPONENTS
 import ExperimentHeader from '../ExperimentHeader/_/Container';
 import ExperimentFlow from '../ExperimentFlow/_/Container';
-import Drawer from '../Drawer/_/Container';
+import ResizableSectionContainer from '../../../../../containers/ResizableSectionContainer';
 
 /**
  * Experiment.
@@ -17,8 +17,6 @@ const Experiment = () => {
   return (
     // frangment container
     <>
-      {/* drawer */}
-      <Drawer />
       {/* row container  */}
       <Row>
         {/* experiment header */}
@@ -26,6 +24,8 @@ const Experiment = () => {
       </Row>
       {/* row container */}
       <Row style={{ overflow: 'auto', height: '65vh', alignItems: 'stretch' }}>
+        {/* Resizable Section Container */}
+        <ResizableSectionContainer />
         {/* experiment flow */}
         <ExperimentFlow />
       </Row>
