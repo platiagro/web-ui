@@ -22,11 +22,7 @@ const ProjectsTable = ({
       dataIndex: 'name',
       key: 'name',
       render: (value, record) => (
-        <Button
-          type='link'
-          style={{ color: '#0050B3' }}
-          onClick={() => handleClickProject(record.uuid)}
-        >
+        <Button type='link' onClick={() => handleClickProject(record.uuid)}>
           {value}
         </Button>
       ),
@@ -50,11 +46,7 @@ const ProjectsTable = ({
       width: 300,
       render: (value, record) => (
         <>
-          <Button
-            type='link'
-            style={{ color: '#0050B3' }}
-            onClick={() => handleShowNewProjectModal(record)}
-          >
+          <Button type='link' onClick={() => handleShowNewProjectModal(record)}>
             Alterar nome e descrição
           </Button>
 
@@ -64,9 +56,7 @@ const ProjectsTable = ({
             okText='Sim'
             cancelText='Não'
           >
-            <Button type='link' style={{ color: '#0050B3' }}>
-              Excluir
-            </Button>
+            <Button type='link'>Excluir</Button>
           </Popconfirm>
         </>
       ),
