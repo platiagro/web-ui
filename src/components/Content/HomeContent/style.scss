@@ -5,17 +5,18 @@
 }
 
 .rootPageBody {
-  margin: 40px;
-  padding: 20px;
+  margin: 20px;
+  padding: 10px;
   background-color: #fff;
   .home-columns {
-    padding: 2rem;
+    padding: 2rem 1rem;
   }
   .home-title {
     font-size: 2vw;
   }
   .home-subtitle {
     font-size: 1.5vw;
+    margin: 0;
   }
 
   .home-text {
@@ -30,13 +31,15 @@
     }
   }
   .card-content {
-    margin-top: 10vh;
+    margin-top: 8vh;
   }
   .home-cards {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     div {
       margin-right: 16px;
+      margin-top: 16px;
       border: 1px solid transparent;
 
       color: #ad4e00;

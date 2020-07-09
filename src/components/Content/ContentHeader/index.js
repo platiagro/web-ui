@@ -26,7 +26,7 @@ const ContentHeader = ({ handleGoBack, handleSubmit, title, loading }) => {
         // title component
         <Title
           loading={loading}
-          level={2}
+          level={3}
           title={title}
           handleSubmit={handleSubmit}
         />

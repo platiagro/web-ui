@@ -8,6 +8,8 @@ import { Layout } from 'antd';
 import MainHeader from '../MainHeader/_';
 import Content from '../Content/_';
 
+import './style.scss';
+
 /**
  * Main component of the application.
  *
@@ -19,7 +21,7 @@ import Content from '../Content/_';
  */
 const App = () => (
   // layout container
-  <Layout>
+  <Layout className='main-layout'>
     {/* main header */}
     <MainHeader />
     {/* content */}
