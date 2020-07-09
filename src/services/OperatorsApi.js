@@ -87,7 +87,11 @@ const getOperatorResultsDataset = (
   page
 ) => {
   return operatorsApi.get(
+<<<<<<< HEAD
     `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets/?page=${page}&page_size=10`
+=======
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets?page=${page}&page_size=5`
+>>>>>>> d1a5c50... Send pages action change
   );
 };
 
