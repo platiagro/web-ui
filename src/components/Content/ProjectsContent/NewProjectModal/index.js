@@ -74,7 +74,7 @@ const NewProjectModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form layout='vertical'>
+      <Form layout='vertical' onSubmit={handleSubmit}>
         <Form.Item
           label='Qual o nome do seu projeto?'
           validateStatus={modalValidateStatus}
