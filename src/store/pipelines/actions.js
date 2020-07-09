@@ -75,6 +75,7 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
     return {
       operatorId: operator.uuid,
       notebookPath: operator.experimentNotebookPath,
+      commands: operator.commands,
       parameters: configuredParameters,
     };
   });
