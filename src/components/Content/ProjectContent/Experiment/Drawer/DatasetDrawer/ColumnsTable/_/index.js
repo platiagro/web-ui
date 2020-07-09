@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Select, Tooltip } from 'antd';
+import { Table, Select, Tooltip, Pagination } from 'antd';
 
 // STYLES
 import './style.scss';
@@ -76,6 +76,12 @@ const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
     );
   };
 
+<<<<<<< HEAD
+=======
+  const pageChange = (page) => {
+    console.log(page);
+  };
+>>>>>>> 7d1b725... Pagination and pipelines route
   // RENDER
   return (
     // table component
@@ -86,6 +92,7 @@ const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
       rowKey={setRowKey}
       size='middle'
       scroll={{ y: 340 }}
+      pagination={{ total: 50, pageSize: 5, onChange: pageChange }}
     />
   );
 };
