@@ -1,0 +1,87 @@
+.resizable-section {
+  pointer-events: all;
+  z-index: 2;
+  display: flex;
+
+  background: #eceff1;
+  box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.09);
+
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: left;
+  text-align: left;
+  flex-grow: 1;
+  display: inline-block;
+  overflow: auto;
+}
+
+.resizable-area {
+  pointer-events: none;
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  flex-grow: 3;
+  display: flex;
+  flex-flow: row-reverse nowrap;
+}
+
+.customHandle {
+  display: none;
+}
+
+.customResizeBorder {
+  pointer-events: all;
+  cursor: ew-resize;
+  width: 5px;
+  display: flex;
+  z-index: 99999;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.resizable-section-header {
+  color: #262626;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  height: 50px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.09);
+}
+
+.resizable-section-body {
+  color: #262626;
+  align-items: center;
+  display: inline-block;
+  width: 100%;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.resizable-section-title {
+  color: #262626;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  margin: 10px 0px 0px 15px;
+}
+
+.resizable-section-tip {
+  color: #262626;
+  align-items: center;
+  display: flex;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+  border-left: 2px solid rgba(0, 0, 0, 0.09);
+}
