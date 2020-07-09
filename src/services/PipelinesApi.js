@@ -19,7 +19,8 @@ const deployPath = '/deployments';
  * @returns {Promise}
  */
 const trainExperiment = (trainObject) => {
-  return pipelinesApi.post(`${trainPath}`, trainObject);
+  const { experimentId } = trainObject;
+  return pipelinesApi.put(`${trainPath}/${experimentId}`, trainObject);
 };
 
 /**
