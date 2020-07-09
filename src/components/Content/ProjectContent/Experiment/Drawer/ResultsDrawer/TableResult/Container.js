@@ -1,5 +1,9 @@
 // CORE LIBS
+<<<<<<< HEAD
 import React from 'react';
+=======
+import React, { useEffect } from 'react';
+>>>>>>> 198f554... Pagination fetch
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 

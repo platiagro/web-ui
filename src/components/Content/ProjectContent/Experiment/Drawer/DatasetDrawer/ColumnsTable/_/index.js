@@ -76,15 +76,10 @@ const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
     );
   };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   const pageChange = (page) => {
     console.log(page);
   };
->>>>>>> 7d1b725... Pagination and pipelines route
-=======
->>>>>>> d1a5c50... Send pages action change
+
   // RENDER
   return (
     // table component
