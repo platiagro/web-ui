@@ -5,7 +5,7 @@ import React from 'react';
 import { Layout } from 'antd';
 
 // COMPONENTS
-import MainHeader from '../MainHeader/_';
+import MainSider from '../MainSider/_';
 import Content from '../Content/_';
 
 import './style.scss';
@@ -22,8 +22,8 @@ import './style.scss';
 const App = () => (
   // layout container
   <Layout className='main-layout'>
-    {/* main header */}
-    <MainHeader />
+    {/* main sider */}
+    <MainSider />
     {/* content */}
     <Content />
   </Layout>

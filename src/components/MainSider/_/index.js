@@ -19,18 +19,18 @@ import icone from 'assets/icone-vazado.png';
 const { Sider } = Layout;
 
 /**
- * Main Header.
+ * Main Sider.
  * This component is responsible for displaying the PlatIA logo, main menu and
  * Foragri demo logo.
  */
-const MainHeader = () => {
+const MainSider = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Sider
       collapsible
       collapsed={collapsed}
       onCollapse={() => setCollapsed(!collapsed)}
-      className='mainHeader'
+      className='mainSider'
     >
       <Logo
         collapse={collapsed}
@@ -45,4 +45,4 @@ const MainHeader = () => {
 };
 
 // EXPORT
-export default MainHeader;
+export default MainSider;
