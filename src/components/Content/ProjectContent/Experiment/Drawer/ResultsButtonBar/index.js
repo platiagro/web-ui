@@ -16,7 +16,7 @@ const ResultsButtonBar = ({
   disabled,
 }) => (
   // div container
-  <div>
+  <div style={{ textAlign: 'center' }}>
     {/* rendering edit or results button */}
     {showingResults ? (
       // edit button
