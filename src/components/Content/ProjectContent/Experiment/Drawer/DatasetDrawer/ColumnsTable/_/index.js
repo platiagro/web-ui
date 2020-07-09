@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Select, Tooltip, Pagination } from 'antd';
+import { Table, Select, Tooltip } from 'antd';
 
 // STYLES
 import './style.scss';
