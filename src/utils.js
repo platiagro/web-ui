@@ -315,8 +315,8 @@ const configureOperatorParameters = (
                 return el !== '';
               })
             : operatorParameters[parameter.name]
-          : parameter.type === 'feature'
-          ? undefined
+          : parameter.type === 'feature' || parameter.multiple
+          ? []
           : parameter.default,
     };
   });
