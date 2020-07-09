@@ -18,35 +18,43 @@ const ProjectsTable = ({
 }) => {
   const columnsConfig = [
     {
-      title: 'Nome do Projeto',
+      title: <strong>Nome do Projeto</strong>,
       dataIndex: 'name',
       key: 'name',
       render: (value, record) => (
-        <Button type='link' onClick={() => handleClickProject(record.uuid)}>
+        <Button
+          type='link'
+          style={{ color: '#0050B3' }}
+          onClick={() => handleClickProject(record.uuid)}
+        >
           {value}
         </Button>
       ),
     },
     {
-      title: 'Descrição',
+      title: <strong>Descrição</strong>,
       dataIndex: 'description',
       key: 'description',
     },
     {
-      title: 'Data de Criação',
+      title: <strong>Data de Criação</strong>,
       dataIndex: 'createdAt',
       key: 'createdAt',
       width: 200,
       render: (value) => new Date(value).toLocaleString(),
     },
     {
-      title: 'Ação',
+      title: <strong>Ação</strong>,
       dataIndex: 'action',
       key: 'action',
       width: 300,
       render: (value, record) => (
         <>
-          <Button type='link' onClick={() => handleShowNewProjectModal(record)}>
+          <Button
+            type='link'
+            style={{ color: '#0050B3' }}
+            onClick={() => handleShowNewProjectModal(record)}
+          >
             Alterar nome e descrição
           </Button>
 
@@ -56,18 +64,30 @@ const ProjectsTable = ({
             okText='Sim'
             cancelText='Não'
           >
-            <Button type='link'>Excluir</Button>
+            <Button type='link' style={{ color: '#0050B3' }}>
+              Excluir
+            </Button>
           </Popconfirm>
         </>
       ),
     },
   ];
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        'selectedRows: ',
+        selectedRows
+      );
+    },
+  };
 
   // RENDER
   return (
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
+      rowSelection={rowSelection}
       dataSource={projects}
       columns={columnsConfig}
       pagination={false}

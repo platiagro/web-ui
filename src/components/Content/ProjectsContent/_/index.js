@@ -17,7 +17,7 @@ const ProjectsContent = () => {
     // fragment
     <>
       {/* content header */}
-      <ContentHeaderContainer title='Projetos' editable={false} />
+      <ContentHeaderContainer title='Meus projetos' editable={false} />
       {/* div content page container */}
       <div className='contentPage'>
         {/* new project button */}
