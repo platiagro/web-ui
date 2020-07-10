@@ -15,7 +15,7 @@ const NewProjectButton = ({ handleClick, disabled }) => (
     disabled={disabled}
     onClick={handleClick}
     className='newProjectButton'
-    type='secondary'
+    type='primary'
     icon='plus'
   >
     Novo Projeto
