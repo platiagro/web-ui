@@ -242,6 +242,7 @@ export const deployExperimentRequest = (
   // getting operators
   deployObject.components = operators.map((operator) => ({
     operatorId: operator.uuid,
+    commands: operator.commands,
     notebookPath: operator.deploymentNotebookPath,
   }));
 
