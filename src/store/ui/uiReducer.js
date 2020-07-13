@@ -191,6 +191,11 @@ const uiReducer = (state = initialState, action = undefined) => {
     case actionTypes.PROJECTS_TABLE_DATA_LOADED: // data loaded
       return {
         ...state,
+        newProjectModal: {
+          ...state.newProjectModal,
+          modalValidateStatus: null,
+          errorMessage: null,
+        },
         projectsTable: {
           ...state.projectsTable,
           loading: action.projectsTableLoading,
@@ -224,6 +229,11 @@ const uiReducer = (state = initialState, action = undefined) => {
     case actionTypes.EXPERIMENTS_TABS_DATA_LOADED: // data loaded
       return {
         ...state,
+        newExperimentModal: {
+          ...state.newExperimentModal,
+          modalValidateStatus: null,
+          errorMessage: null,
+        },
         experimentsTabs: {
           ...state.experimentsTabs,
           loading: action.experimentsTabsLoading,

@@ -1,5 +1,5 @@
 // CORE LIBS
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -19,8 +19,13 @@ const EditTaskModal = ({
   modalValidateStatus,
   errorMessage,
 }) => {
-  // getting form utils
+  const [status, setStatus] = useState(null);
   const { getFieldDecorator, getFieldsError } = form;
+
+  // did mount hook
+  useEffect(() => {
+    setStatus(modalValidateStatus);
+  }, [modalValidateStatus]);
 
   // FUNCTIONS
   // Function used to check if form has errors
@@ -70,8 +75,8 @@ const EditTaskModal = ({
         {/* name */}
         <Form.Item
           label='Nome da tarefa?'
-          validateStatus={modalValidateStatus}
-          help={errorMessage}
+          validateStatus={status ? modalValidateStatus : undefined}
+          help={status ? errorMessage : undefined}
           autoFocus
           onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
@@ -85,7 +90,16 @@ const EditTaskModal = ({
             ],
             initialValue: initialValues?.name,
             // name input
-          })(<Input allowClear autoFocus />)}
+          })(
+            <Input
+              allowClear
+              autoFocus
+              onChange={() => {
+                // remove current status
+                setStatus(null);
+              }}
+            />
+          )}
         </Form.Item>
         {/* description */}
         <Form.Item label='Descrição (opcional):'>
