@@ -342,9 +342,6 @@ export const editExperimentNameRequest = (projectId, experimentId, newName) => (
 const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
   dispatch
 ) => {
-  // go to project
-  routerProps.history.push(`/projetos/${projectId}`);
-
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
@@ -359,6 +356,9 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
     type: actionTypes.DELETE_EXPERIMENT_SUCCESS,
     experimentId,
   });
+
+  // go to project
+  routerProps.history.push(`/projetos/${projectId}`);
 };
 
 /**
