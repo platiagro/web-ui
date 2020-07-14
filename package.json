@@ -45,7 +45,7 @@
     ]
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "babel-eslint": "10.0.3",
     "better-docs": "^2.3.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
@@ -64,6 +64,7 @@
     "nock": "^11.7.0",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.0.5",
+    "react-axe": "^3.5.3",
     "redux-mock-store": "^1.5.3"
   },
   "jest": {
