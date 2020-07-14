@@ -1,5 +1,5 @@
 // CORE LIBS
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -18,8 +18,13 @@ const NewExperimentModal = ({
   handleCloseModal,
   handleNewExperiment,
 }) => {
-  // getting form utils
+  const [status, setStatus] = useState(null);
   const { getFieldDecorator, getFieldsError } = form;
+
+  // did mount hook
+  useEffect(() => {
+    setStatus(modalValidateStatus);
+  }, [modalValidateStatus]);
 
   // FUNCTIONS
   // Function used to check if form has errors
@@ -69,8 +74,8 @@ const NewExperimentModal = ({
       <Form layout='vertical' onSubmit={handleSubmit}>
         <Form.Item
           label='Qual o nome do seu experimento?'
-          validateStatus={modalValidateStatus}
-          help={errorMessage}
+          validateStatus={status ? modalValidateStatus : undefined}
+          help={status ? errorMessage : undefined}
           autoFocus
           onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
@@ -82,7 +87,16 @@ const NewExperimentModal = ({
               },
             ],
             initialValue: 'Novo Experimento',
-          })(<Input allowClear autoFocus />)}
+          })(
+            <Input
+              allowClear
+              autoFocus
+              onChange={() => {
+                // remove current status
+                setStatus(null);
+              }}
+            />
+          )}
         </Form.Item>
       </Form>
     </Modal>

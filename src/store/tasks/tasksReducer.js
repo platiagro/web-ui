@@ -1,5 +1,6 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
+import uiActionTypes from '../ui/actionTypes';
 
 const initialState = {
   tasks: [],
@@ -15,6 +16,12 @@ const initialState = {
 // tasks reducer
 const tasksReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
+    case uiActionTypes.TASKS_TABLE_LOADING_DATA:
+      return {
+        ...state,
+        modalValidateStatus: null,
+        errorMessage: null,
+      };
     case actionTypes.ADD_TASK_SUCCESS:
       // creating task aux list with new task and olders
       const tasksListAux = [action.task, ...state.tasks];
@@ -25,7 +32,6 @@ const tasksReducer = (state = initialState, action = undefined) => {
           sensitivity: 'base',
         })
       );
-
       return {
         ...state,
         tasks: sortedTasks,

@@ -12,8 +12,6 @@ const initialState = {
   description: null,
   updatedAt: null,
   uuid: null,
-  modalValidateStatus: null,
-  errorMessage: null,
 };
 
 /**
