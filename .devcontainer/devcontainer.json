@@ -1,0 +1,24 @@
+{
+  "dockerComposeFile": ["docker-compose.yml"],
+
+  "service": "node-lts",
+
+  "workspaceFolder": "/web-ui",
+
+  "settings": {
+    "terminal.integrated.shell.linux": null
+  },
+
+  "extensions": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "dracula-theme.theme-dracula",
+    "pkief.material-icon-theme",
+    "mikestead.dotenv",
+    "mgmcdermott.vscode-language-babel",
+    "bierner.jsdoc-markdown-highlighting",
+    "alefragnani.bookmarks",
+    "wayou.vscode-todo-highlight",
+    "yzhang.markdown-all-in-one"
+  ]
+}

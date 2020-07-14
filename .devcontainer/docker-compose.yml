@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  node-lts:
+    image: node:lts
+
+    volumes:
+      - ..:/web-ui:cached
+
+    ports:
+      - ${PORT:-80}:${PORT:-80}
+
+    environment:
+      - PORT=${PORT:-80}
+
+    command: /bin/sh -c "while sleep 1000; do :; done"
