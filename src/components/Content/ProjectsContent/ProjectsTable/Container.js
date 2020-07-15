@@ -12,7 +12,10 @@ import ProjectsTablePagination from '../ProjectsTablePagination/Container';
 import ProjectsTable from './index';
 
 // ACTIONS
-import { fetchPaginatedProjects } from '../../../../store/projects/actions';
+import {
+  fetchPaginatedProjects,
+  selectedProjects,
+} from '../../../../store/projects/actions';
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
 // ACTIONS
@@ -26,6 +29,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(deleteProjectRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>
       dispatch(showNewProjectModal(record)),
+    handleSelectedProjects: (record) => dispatch(selectedProjects(record)),
   };
 };
 
@@ -48,6 +52,7 @@ const ProjectsTableContainer = ({
   handleFetchProjects,
   handleDeleteProject,
   handleShowNewProjectModal,
+  handleSelectedProjects,
 }) => {
   // CONSTANTS
   // getting history
@@ -69,11 +74,12 @@ const ProjectsTableContainer = ({
   return (
     <ConfigProvider renderEmpty={ProjectsEmpty}>
       <ProjectsTable
+        loading={loading}
         projects={projects}
         handleClickProject={handleClickProject}
         handleClickDelete={handleDeleteProject}
-        loading={loading}
         handleShowNewProjectModal={handleShowNewProjectModal}
+        handleSelectedProjects={handleSelectedProjects}
       />
       <br />
       <ProjectsTablePagination />

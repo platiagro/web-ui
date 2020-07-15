@@ -5,6 +5,8 @@ import projectActionTypes from '../project/actionTypes';
 // INITIAL STATE
 const initialState = {
   projects: [],
+  selectedProjects: [],
+  currentPage: null,
   pageSize: null,
   total: null,
 };
@@ -17,8 +19,10 @@ const projectsReducer = (state = initialState, action = undefined) => {
     case actionTypes.FETCH_PAGINATED_PROJECTS:
       return {
         ...state,
-        pageSize: action.pageSize,
         projects: action.projects,
+        selectedProjects: [],
+        currentPage: action.currentPage,
+        pageSize: action.pageSize,
         total: action.total,
       };
     case actionTypes.FETCH_PROJECTS:
@@ -43,6 +47,11 @@ const projectsReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         projects: projectsAux,
+      };
+    case actionTypes.SELECTED_PROJECTS:
+      return {
+        ...state,
+        selectedProjects: action.selectedProjects,
       };
     default:
       return state;
