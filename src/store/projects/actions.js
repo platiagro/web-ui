@@ -69,11 +69,11 @@ export const fetchProjects = () => (dispatch) => {
 /**
  * Function to dispatch selected projects to reducer
  */
-export const selectedProjects = (selectedProjects) => {
+export const selectedProjects = (projects) => {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SELECTED_PROJECTS,
-      selectedProjects,
+      selectedProjects: projects,
     });
   };
 };
@@ -81,11 +81,11 @@ export const selectedProjects = (selectedProjects) => {
 /**
  * Function to delete selected projects and dispatch to reducer
  */
-export const deleteSelectedProjects = (selectedProjects) => {
+export const deleteSelectedProjects = (projects) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
 
-    const formatedProjects = selectedProjects.map((uuid) => {
+    const formatedProjects = projects.map((uuid) => {
       return { uuid };
     });
 
