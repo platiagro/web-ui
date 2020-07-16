@@ -73,6 +73,15 @@ const deleteProject = (projectId) => {
 };
 
 /**
+ * Delete Projects
+ * @param {Array} projects
+ * @returns {Promise}
+ */
+const deleteProjects = (projects) => {
+  return projectsApi.post(`${projectsPath}/deleteprojects`, projects);
+};
+
+/**
  * Get paginated projects
  * @param {Number} page
  * @param {Number} pageSize
@@ -89,5 +98,6 @@ export default {
   createProject,
   updateProject,
   deleteProject,
+  deleteProjects,
   getPaginatedProjects,
 };

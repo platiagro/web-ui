@@ -27,6 +27,7 @@ export const fetchPaginatedProjects = (page, pageSize) => {
         dispatch(projectsTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_PAGINATED_PROJECTS,
+          currentPage: page,
           pageSize: pageSize,
           projects: response.data.projects,
           total: response.data.total,
@@ -63,4 +64,42 @@ export const fetchProjects = () => (dispatch) => {
       dispatch(projectsTableDataLoaded());
       message.error(errorMessage, 5);
     });
+};
+
+/**
+ * Function to dispatch selected projects to reducer
+ */
+export const selectedProjects = (projects) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.SELECTED_PROJECTS,
+      selectedProjects: projects,
+    });
+  };
+};
+
+/**
+ * Function to delete selected projects and dispatch to reducer
+ */
+export const deleteSelectedProjects = (projects) => {
+  return (dispatch) => {
+    dispatch(projectsTableLoadingData());
+
+    const formatedProjects = projects.map((uuid) => {
+      return { uuid };
+    });
+
+    return projectsApi
+      .deleteProjects(formatedProjects)
+      .then(() => {
+        dispatch(projectsTableDataLoaded());
+        message.success('Projetos excluídos!');
+        dispatch(fetchPaginatedProjects(1, 10));
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(projectsTableDataLoaded());
+        message.error(errorMessage, 5);
+      });
+  };
 };

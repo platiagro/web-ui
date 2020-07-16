@@ -16,20 +16,30 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+// STATES
+const mapStateToProps = (state) => {
+  return {
+    loading: state.uiReducer.projectsTable.loading,
+  };
+};
+
 /**
  * New Project Button Container.
  * This component is responsible for create a logic container for new project
  * button with redux.
  */
-const NewProjectButtonContainer = ({ handleShowNewProjectModal }) => {
+const NewProjectButtonContainer = ({ loading, handleShowNewProjectModal }) => {
   // RENDER
   return (
     <NewProjectButton
-      disabled={false}
+      disabled={loading}
       handleClick={handleShowNewProjectModal}
     />
   );
 };
 
 // EXPORT
-export default connect(null, mapDispatchToProps)(NewProjectButtonContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewProjectButtonContainer);

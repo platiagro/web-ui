@@ -3,6 +3,7 @@ import React from 'react';
 
 // COMPONENTS
 import ContentHeaderContainer from '../../ContentHeader/ContentHeaderContainer';
+import DeleteProjectsButton from '../DeleteProjectsButton/Container';
 import NewProjectButton from '../NewProjectButton/Container';
 import ProjectsTable from '../ProjectsTable/Container';
 import NewProjectModal from '../NewProjectModal/Container';
@@ -22,6 +23,8 @@ const ProjectsContent = () => {
       <div className='contentPage'>
         {/* new project button */}
         <NewProjectButton />
+        {/* delete projects button */}
+        <DeleteProjectsButton />
         {/* new project modal */}
         <NewProjectModal />
         {/* projects table */}
