@@ -1,21 +1,59 @@
 {
-  "extends": ["airbnb", "prettier"],
-  "plugins": ["prettier", "react", "jest", "jsx-a11y", "import"],
-  "rules": {
-    "prettier/prettier": ["error"],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/jsx-wrap-multilines": ["error", { "prop": "ignore" }],
-    "react/prop-types": "off",
-    "no-console": "warn",
-    "camelcase": "off",
-    "no-unused-vars": "warn",
-    "react/jsx-props-no-spreading": "off"
-  },
   "env": {
     "browser": true,
+
     "es6": true,
-    "jest": true
+
+    "jest": true,
+
+    "node": true,
+
+    "commonjs": true
   },
+
+  "extends": [
+    "eslint:recommended",
+
+    "plugin:import/errors",
+    "plugin:import/warnings",
+
+    "plugin:jsdoc/recommended",
+
+    "plugin:react/recommended",
+
+    "plugin:react-hooks/recommended",
+
+    "plugin:jest/recommended",
+
+    "plugin:jsx-a11y/recommended"
+  ],
+
   "parser": "babel-eslint",
-  "import/resolver": "node"
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+
+    "ecmaVersion": 11,
+
+    "sourceType": "module"
+  },
+
+  "settings": {
+    "import/resolver": "node",
+
+    "react": {
+      "version": "detect"
+    }
+  },
+
+  "rules": {
+    "jsdoc/check-tag-names": [
+      "warn",
+      {
+        "definedTags": ["component"]
+      }
+    ]
+  }
 }

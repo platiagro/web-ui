@@ -18,6 +18,12 @@ import store from './store';
 // SERVICE WORKER
 import * as serviceWorker from './serviceWorker';
 
+// CONFIGURE REACT AXE
+if (process.env.NODE_ENV !== 'production') {
+  var axe = require('react-axe');
+  axe(React, ReactDOM, 1000);
+}
+
 // initializing react app
 ReactDOM.render(
   <Provider store={store}>
