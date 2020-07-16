@@ -21,7 +21,8 @@ import { showNewProjectModal } from '../../../../store/ui/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchProjects: () => dispatch(fetchPaginatedProjects(1, 10)),
+    handleFetchPaginatedProjects: (name) =>
+      dispatch(fetchPaginatedProjects(name, 1, 10)),
     handleDeleteProject: (projectUuid) =>
       dispatch(deleteProjectRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>
@@ -32,8 +33,8 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    projects: state.projectsReducer.projects,
     loading: state.uiReducer.projectsTable.loading,
+    projects: state.projectsReducer.projects,
   };
 };
 
@@ -43,9 +44,9 @@ const mapStateToProps = (state) => {
  * with redux.
  */
 const ProjectsTableContainer = ({
-  projects,
   loading,
-  handleFetchProjects,
+  projects,
+  handleFetchPaginatedProjects,
   handleDeleteProject,
   handleShowNewProjectModal,
 }) => {
@@ -56,9 +57,8 @@ const ProjectsTableContainer = ({
   // HOOKS
   // did mount hook
   useLayoutEffect(() => {
-    // fetching projects
-    handleFetchProjects();
-  }, [handleFetchProjects]);
+    handleFetchPaginatedProjects();
+  }, [handleFetchPaginatedProjects]);
 
   // HANDLERS
   // project click
@@ -69,10 +69,11 @@ const ProjectsTableContainer = ({
   return (
     <ConfigProvider renderEmpty={ProjectsEmpty}>
       <ProjectsTable
+        loading={loading}
         projects={projects}
         handleClickProject={handleClickProject}
         handleClickDelete={handleDeleteProject}
-        loading={loading}
+        handleFetchPaginatedProjects={handleFetchPaginatedProjects}
         handleShowNewProjectModal={handleShowNewProjectModal}
       />
       <br />

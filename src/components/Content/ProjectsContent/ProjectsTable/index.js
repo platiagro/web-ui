@@ -1,26 +1,86 @@
 // CORE LIBS
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Button, Popconfirm } from 'antd';
+import { Button, Icon, Input, Popconfirm, Table } from 'antd';
 
 /**
  * Projects Table.
  * This component is responsible for displaying projects table.
  */
 const ProjectsTable = ({
-  projects,
   loading,
+  projects,
   handleClickProject,
   handleClickDelete,
+  handleFetchPaginatedProjects,
   handleShowNewProjectModal,
 }) => {
+  const [searchText, setSearchText] = useState('');
+  const previousSearchText = useRef(null);
+  const intervalRef = useRef(null);
+  const confirmRef = useRef(null);
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    if (searchText) {
+      intervalRef.current = setTimeout(() => {
+        console.log(searchText);
+        previousSearchText.current = searchText;
+        confirmRef.current();
+        handleFetchPaginatedProjects(searchText);
+      }, 1000);
+    } else {
+      console.log(previousSearchText);
+      if (previousSearchText.current) {
+        intervalRef.current = setTimeout(() => {
+          confirmRef.current();
+          handleFetchPaginatedProjects();
+        }, 1000);
+      } else {
+        clearTimeout(intervalRef.current);
+      }
+    }
+    return () => clearTimeout(intervalRef.current);
+  }, [searchText, handleFetchPaginatedProjects]);
+
   const columnsConfig = [
     {
       title: <strong>Nome do Projeto</strong>,
       dataIndex: 'name',
       key: 'name',
+      filterDropdown: ({ confirm, setSelectedKeys }) => {
+        confirmRef.current = confirm;
+        return (
+          <div style={{ padding: 8 }}>
+            <Input
+              ref={searchInputRef}
+              placeholder={`Nome`}
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+                setSelectedKeys(e.target.value ? [e.target.value] : []);
+              }}
+              onPressEnter={() => {
+                confirm();
+              }}
+              style={{ width: 200, display: 'block' }}
+            />
+          </div>
+        );
+      },
+      filterIcon: (filtered) => (
+        <Icon
+          type='search'
+          style={{ color: filtered ? '#1890ff' : undefined }}
+        />
+      ),
+      onFilterDropdownVisibleChange: (visible) => {
+        if (visible) {
+          setTimeout(() => searchInputRef.current.select());
+        }
+      },
       render: (value, record) => (
         <Button type='link' onClick={() => handleClickProject(record.uuid)}>
           {value}

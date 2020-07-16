@@ -16,19 +16,21 @@ import {
 /**
  * Function to fetch pagineted projects and dispatch to reducer
  */
-export const fetchPaginatedProjects = (page, pageSize) => {
+export const fetchPaginatedProjects = (name, page, pageSize) => {
   return (dispatch) => {
-    // showing loading
     dispatch(projectsTableLoadingData());
-
+    if (name === undefined) {
+      name = '';
+    }
     return projectsApi
-      .getPaginatedProjects(page, pageSize)
+      .getPaginatedProjects(name, page, pageSize)
       .then((response) => {
         dispatch(projectsTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_PAGINATED_PROJECTS,
-          pageSize: pageSize,
           projects: response.data.projects,
+          searchText: name,
+          pageSize: pageSize,
           total: response.data.total,
         });
       })
