@@ -16,6 +16,7 @@ const ProjectsTable = ({
   handleClickDelete,
   handleFetchPaginatedProjects,
   handleShowNewProjectModal,
+  handleSelectedProjects,
 }) => {
   const [searchText, setSearchText] = useState('');
   const previousSearchText = useRef(null);
@@ -122,22 +123,16 @@ const ProjectsTable = ({
       ),
     },
   ];
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-    },
-  };
-
   // RENDER
   return (
     <Table
       className='projectsTable'
       rowKey={(record) => record.uuid}
-      rowSelection={rowSelection}
+      rowSelection={{
+        onChange: (selectedRowKeys, selectedRows) => {
+          handleSelectedProjects(selectedRowKeys);
+        },
+      }}
       dataSource={projects}
       columns={columnsConfig}
       pagination={false}
@@ -148,14 +143,16 @@ const ProjectsTable = ({
 
 // PROP TYPES
 ProjectsTable.propTypes = {
+  /** is loading */
+  loading: PropTypes.bool.isRequired,
   /** projects list */
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** projects table click project handle */
   handleClickProject: PropTypes.func.isRequired,
   /** projects table delete project handle */
   handleClickDelete: PropTypes.func.isRequired,
-  /** is loading */
-  loading: PropTypes.bool.isRequired,
+  /** projects table row selection project handle */
+  handleRowSelection: PropTypes.func.isRequired,
 };
 
 // EXPORT

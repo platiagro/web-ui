@@ -35,7 +35,8 @@ const mapStateToProps = (state) => {
  */
 const ProjectsTablePaginationContainer = (props) => {
   // states
-  const { loading, searchText, pageSize, total } = props;
+  const { loading, searchText, currentPage, pageSize, total } = props;
+
   // dispatchs
   const { handleFetchPaginatedProjects } = props;
 
@@ -47,7 +48,8 @@ const ProjectsTablePaginationContainer = (props) => {
     <>
       {total > 0 ? (
         <ProjectsTablePagination
-          loading={loading}
+          disabled={loading}
+          currentPage={currentPage}
           pageSize={pageSize}
           total={total}
           onChange={onChange}

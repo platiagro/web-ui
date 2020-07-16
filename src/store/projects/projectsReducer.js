@@ -5,7 +5,9 @@ import projectActionTypes from '../project/actionTypes';
 // INITIAL STATE
 const initialState = {
   projects: [],
+  selectedProjects: [],
   searchText: '',
+  currentPage: null,
   pageSize: null,
   total: null,
 };
@@ -19,7 +21,9 @@ const projectsReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         projects: action.projects,
+        selectedProjects: [],
         searchText: action.searchText,
+        currentPage: action.currentPage,
         pageSize: action.pageSize,
         total: action.total,
       };
@@ -45,6 +49,11 @@ const projectsReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         projects: projectsAux,
+      };
+    case actionTypes.SELECTED_PROJECTS:
+      return {
+        ...state,
+        selectedProjects: action.selectedProjects,
       };
     default:
       return state;

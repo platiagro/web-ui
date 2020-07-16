@@ -6,15 +6,22 @@ import PropTypes from 'prop-types';
 import { Pagination } from 'antd';
 
 /**
- * Tasks Table Pagination.
- * This component is responsible for displaying tasks table pagination.
+ * Projects Table Pagination.
+ * This component is responsible for displaying projects table pagination.
  */
-const TasksTablePagination = ({ loading, pageSize, total, onChange }) => {
+const ProjectsTablePagination = ({
+  disabled,
+  currentPage,
+  pageSize,
+  total,
+  onChange,
+}) => {
   return (
     <Pagination
-      disabled={loading}
+      disabled={disabled}
       defaultCurrent={1}
       defaultPageSize={10}
+      current={currentPage}
       pageSize={pageSize}
       total={total}
       onChange={onChange}
@@ -27,9 +34,11 @@ const TasksTablePagination = ({ loading, pageSize, total, onChange }) => {
 };
 
 // PROP TYPES
-TasksTablePagination.propTypes = {
+ProjectsTablePagination.propTypes = {
+  /** pagination is disabled */
+  disabled: PropTypes.bool.isRequired,
   /** current page */
-  current: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
   /** page size */
   pageSize: PropTypes.number.isRequired,
   /** total pages  */
@@ -39,4 +48,4 @@ TasksTablePagination.propTypes = {
 };
 
 // EXPORT
-export default TasksTablePagination;
+export default ProjectsTablePagination;
