@@ -83,7 +83,7 @@ export const selectedProjects = (projects) => {
 /**
  * Function to delete selected projects and dispatch to reducer
  */
-export const deleteSelectedProjects = (projects) => {
+export const deleteSelectedProjects = (searchText, projects) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
 
@@ -96,7 +96,7 @@ export const deleteSelectedProjects = (projects) => {
       .then(() => {
         dispatch(projectsTableDataLoaded());
         message.success('Projetos excluídos!');
-        dispatch(fetchPaginatedProjects(1, 10));
+        dispatch(fetchPaginatedProjects(searchText, 1, 10));
       })
       .catch((error) => {
         const errorMessage = error.message;

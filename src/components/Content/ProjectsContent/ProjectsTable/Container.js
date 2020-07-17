@@ -39,6 +39,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.uiReducer.projectsTable.loading,
     projects: state.projectsReducer.projects,
+    selectedProjects: state.projectsReducer.selectedProjects,
   };
 };
 
@@ -50,6 +51,7 @@ const mapStateToProps = (state) => {
 const ProjectsTableContainer = ({
   loading,
   projects,
+  selectedProjects,
   handleFetchPaginatedProjects,
   handleDeleteProject,
   handleShowNewProjectModal,
@@ -76,6 +78,7 @@ const ProjectsTableContainer = ({
       <ProjectsTable
         loading={loading}
         projects={projects}
+        selectedProjects={selectedProjects}
         handleClickProject={handleClickProject}
         handleClickDelete={handleDeleteProject}
         handleFetchPaginatedProjects={handleFetchPaginatedProjects}

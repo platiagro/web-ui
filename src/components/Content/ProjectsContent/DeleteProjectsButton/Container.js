@@ -11,8 +11,8 @@ import { deleteSelectedProjects } from '../../../../store/projects/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleDeleteSelectedProjects: (selectedProjects) =>
-      dispatch(deleteSelectedProjects(selectedProjects)),
+    handleDeleteSelectedProjects: (searchText, selectedProjects) =>
+      dispatch(deleteSelectedProjects(searchText, selectedProjects)),
   };
 };
 
@@ -21,6 +21,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.uiReducer.projectsTable.loading,
     selectedProjects: state.projectsReducer.selectedProjects,
+    searchText: state.projectsReducer.searchText,
   };
 };
 
@@ -32,8 +33,13 @@ const mapStateToProps = (state) => {
 const DeleteProjectsButtonContainer = ({
   loading,
   selectedProjects,
+  searchText,
   handleDeleteSelectedProjects,
 }) => {
+  const handleClick = (selectedProjects) => {
+    handleDeleteSelectedProjects(searchText, selectedProjects);
+  };
+
   // RENDER
   return (
     <>
@@ -41,7 +47,7 @@ const DeleteProjectsButtonContainer = ({
         <DeleteProjectsButton
           disabled={loading}
           selectedProjects={selectedProjects}
-          handleClick={handleDeleteSelectedProjects}
+          handleClick={handleClick}
         />
       ) : null}
     </>

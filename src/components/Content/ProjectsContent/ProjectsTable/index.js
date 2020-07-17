@@ -12,6 +12,7 @@ import { Button, Icon, Input, Popconfirm, Table } from 'antd';
 const ProjectsTable = ({
   loading,
   projects,
+  selectedProjects,
   handleClickProject,
   handleClickDelete,
   handleFetchPaginatedProjects,
@@ -19,21 +20,19 @@ const ProjectsTable = ({
   handleSelectedProjects,
 }) => {
   const [searchText, setSearchText] = useState('');
-  const previousSearchText = useRef(null);
-  const intervalRef = useRef(null);
   const confirmRef = useRef(null);
+  const intervalRef = useRef(null);
+  const previousSearchText = useRef(null);
   const searchInputRef = useRef(null);
 
   useEffect(() => {
     if (searchText) {
       intervalRef.current = setTimeout(() => {
-        console.log(searchText);
         previousSearchText.current = searchText;
         confirmRef.current();
         handleFetchPaginatedProjects(searchText);
       }, 1000);
     } else {
-      console.log(previousSearchText);
       if (previousSearchText.current) {
         intervalRef.current = setTimeout(() => {
           confirmRef.current();
@@ -129,6 +128,7 @@ const ProjectsTable = ({
       className='projectsTable'
       rowKey={(record) => record.uuid}
       rowSelection={{
+        selectedRowKeys: selectedProjects,
         onChange: (selectedRowKeys, selectedRows) => {
           handleSelectedProjects(selectedRowKeys);
         },
@@ -152,7 +152,7 @@ ProjectsTable.propTypes = {
   /** projects table delete project handle */
   handleClickDelete: PropTypes.func.isRequired,
   /** projects table row selection project handle */
-  handleRowSelection: PropTypes.func.isRequired,
+  handleSelectedProjects: PropTypes.func.isRequired,
 };
 
 // EXPORT
