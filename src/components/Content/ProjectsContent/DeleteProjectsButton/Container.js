@@ -36,8 +36,8 @@ const DeleteProjectsButtonContainer = ({
   searchText,
   handleDeleteSelectedProjects,
 }) => {
-  const handleClick = (selectedProjects) => {
-    handleDeleteSelectedProjects(searchText, selectedProjects);
+  const handleClick = (projects) => {
+    handleDeleteSelectedProjects(searchText, projects);
   };
 
   // RENDER

@@ -40,8 +40,8 @@ const ProjectsTablePaginationContainer = (props) => {
   // dispatchs
   const { handleFetchPaginatedProjects } = props;
 
-  const onChange = (page, pageSize) => {
-    handleFetchPaginatedProjects(searchText, page, pageSize);
+  const onChange = (page, size) => {
+    handleFetchPaginatedProjects(searchText, page, size);
   };
 
   return (
