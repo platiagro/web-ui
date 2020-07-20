@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Tabs, Spin, Icon } from 'antd';
+import { Tabs, Spin, Icon, Menu, Popconfirm, Dropdown } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';
@@ -21,17 +21,40 @@ const ExperimentsTabs = ({
   handleChange,
   handleMoveTab,
   activeExperiment,
+  deleteHandler,
 }) => {
   // COMPONENTS RENDERS
+  // CONTEXT MENU
+  const menu = (experimentId) => (
+    <Menu>
+      <Menu.Item key='1'>
+        <Icon type='edit' />
+        Renomear
+      </Menu.Item>
+      <Menu.Item key='2'>
+        <Popconfirm
+          title='Você tem certeza que deseja excluir esse projeto?'
+          onConfirm={() => deleteHandler(experimentId)}
+          okText='Sim'
+          cancelText='Não'
+        >
+          <Icon type='delete' />
+          Excluir
+        </Popconfirm>
+      </Menu.Item>
+    </Menu>
+  );
   // title
-  const renderTitle = (title, running) => (
+  const renderTitle = (title, running, experimentId) => (
     // react fragment
-    <>
-      {/* title */}
-      {title}
-      {/* running spinner */}
-      {running && <Icon type='loading' />}
-    </>
+    <Dropdown overlay={() => menu(experimentId)} trigger={['contextMenu']}>
+      <div>
+        {/* title */}
+        {title}
+        {/* running spinner */}
+        {running && <Icon type='loading' />}
+      </div>
+    </Dropdown>
   );
   // render tabs
   const renderTabs = () => {
@@ -51,7 +74,7 @@ const ExperimentsTabs = ({
     if (experiments.length > 0) {
       // rendering tabs
       return experiments.map(({ name, uuid, running }) => (
-        <TabPane tab={renderTitle(name, running)} key={uuid} />
+        <TabPane tab={renderTitle(name, running, uuid)} key={uuid} />
       ));
     }
 
