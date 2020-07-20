@@ -46,12 +46,19 @@ const Tip = (props) => {
   // rendering component
   return (
     <Popover
-      placement={isPopoverBelow ? 'bottom' : 'top'}
+      placement={isPopoverBelow ? 'bottomRight' : 'topRight'}
       content={<p>{popoverText}</p>}
       title={popoverTitle}
+      style={{ margin: '0', padding: '0' }}
     >
-      <Button type='link' style={{ color: '#595959' }}>
-        <Icon type={`${iconType}-circle`} />
+      <Button
+        type='link'
+        style={{ height: 'auto', color: '#595959', margin: '0', padding: '0' }}
+      >
+        <Icon
+          type={`${iconType}-circle`}
+          style={{ lineHeight: '0', margin: '0', padding: '0' }}
+        />
       </Button>
     </Popover>
   );
