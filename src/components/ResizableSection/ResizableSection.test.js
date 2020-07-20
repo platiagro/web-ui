@@ -1,12 +1,11 @@
-// REACT
+// REACT LIBS
 import React from 'react';
 
 // TEST LIBS
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from 'enzyme';
 
-// COMPONENT
-import ResizableSection from './ResizableSection';
+// COMPONENTS
+import ResizableSection from './ResizableSection.jsx';
 
 // CSS CLASS
 // title block
@@ -22,9 +21,9 @@ const htmlElement = <div id='htmlElement' />;
 // placeholder
 const placeholder = <div>This is Placeholder!</div>;
 // title
-const title = 'This is title';
+const title = 'This is a title!';
 // tip
-const tip = 'This is tip';
+const tip = 'This is tip!';
 
 // CHILDS TESTS
 describe('Childs', () => {
@@ -127,5 +126,4 @@ describe('Tip', () => {
   });
 });
 
-// SNAPSHOTS
-// describe('Snapshot', () => {});
+// TODO: SNAPSHOTS TESTS

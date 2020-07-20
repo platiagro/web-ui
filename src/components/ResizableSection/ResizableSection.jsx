@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import ResizePanel from 'react-resize-panel';
-import { Popover, Icon, Button } from 'antd';
+
+// COMPONENTS
+import { Tip } from 'components';
 
 // STYLES
 import './ResizableSection.scss';
@@ -19,6 +21,8 @@ import './ResizableSection.scss';
  *
  * It can receive a title and a tip.
  *
+ * @param {object} props Component props
+ * @returns {ResizableSection} Component
  * @component
  * @example
  * const htmlElement = <div id='htmlElement' />;
@@ -27,62 +31,68 @@ import './ResizableSection.scss';
  * const tip = 'This is tip';
  *
  * return (
- *   <ResizableSection
- *     title={title}
- *     placeholder={placeholder}
- *     tip={tip}
- *   >
- *     {htmlElement}
- *   </ResizableSection>
+ *  <div style={{ backgroundColor: "#333", display: "flex", width: '100%', height: '300px'}}>
+ *    <ResizableSection
+ *      title={title}
+ *      placeholder={placeholder}
+ *      tip={tip}
+ *    >
+ *      {htmlElement}
+ *    </ResizableSection>
+ *  </div>
  * );
  */
-const ResizableSection = ({ placeholder, title, tip, children }) => (
-  // resizable area
-  <div className='resizable-area'>
-    {/* resizable panel */}
-    <ResizePanel
-      direction='w'
-      style={{ width: '20%' }}
-      handleClass='customHandle'
-      borderClass='customResizeBorder'
-    >
-      {/* section */}
-      <div className='resizable-section'>
-        {/* section header */}
-        {(title || tip) && (
-          <div className='resizable-section-header'>
-            {/* title */}
-            {title && (
-              <div className='resizable-section-title'>
-                <h3>{title}</h3>
-              </div>
-            )}
+const ResizableSection = (props) => {
+  // destructuring props
+  const { placeholder, title, tip, children } = props;
 
-            {/* tip */}
-            {tip && (
-              <div className='resizable-section-tip'>
-                <Popover
-                  placement='bottomRight'
-                  content={<p>{tip}</p>}
-                  title={title}
-                >
-                  <Button type='link' style={{ color: '#262626' }}>
-                    <Icon type='info-circle' style={{ fontSize: '18px' }} />
-                  </Button>
-                </Popover>
-              </div>
-            )}
+  // rendering component
+  return (
+    // resizable area
+    <div className='resizable-area'>
+      {/* resizable panel */}
+      <ResizePanel
+        direction='w'
+        style={{ width: '20%' }}
+        handleClass='customHandle'
+        borderClass='customResizeBorder'
+      >
+        {/* section */}
+        <div className='resizable-section'>
+          {/* section header */}
+          {(title || tip) && (
+            <div className='resizable-section-header'>
+              {/* title */}
+              {title && (
+                <div className='resizable-section-title'>
+                  <h3>{title}</h3>
+                </div>
+              )}
+
+              {/* tip */}
+              {tip && (
+                // tip component
+                <div className='resizable-section-tip'>
+                  <Tip
+                    isPopoverBelow={true}
+                    popoverTitle={title}
+                    popoverText={tip}
+                    iconType={'info'}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+          {/* section body */}
+          <div className='resizable-section-body'>
+            {/* children (body) */}
+            {children ? children : placeholder}
           </div>
-        )}
-        {/* section body */}
-        <div className='resizable-section-body'>
-          {/* children (body) */}
-          {children ? children : placeholder}
         </div>
-      </div>
-    </ResizePanel>
-  </div>
-);
+      </ResizePanel>
+    </div>
+  );
+};
 
 // PROP TYPES
 ResizableSection.propTypes = {
