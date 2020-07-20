@@ -7,4 +7,7 @@ import OperatorResizableSection from './OperatorResizableSection';
 // TIP
 import Tip from './Tip';
 
-export { ResizableSection, OperatorResizableSection, Tip };
+// INPUT BLOCK
+import InputBlock from './InputBlock';
+
+export { ResizableSection, OperatorResizableSection, Tip, InputBlock };
