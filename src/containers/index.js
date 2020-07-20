@@ -1,3 +1,7 @@
+// OPERATOR RESIZABLE SECTION CONTAINER
 import OperatorResizableSectionContainer from './OperatorResizableSectionContainer';
 
-export { OperatorResizableSectionContainer };
+// DATASET UPLOAD INPUT BLOCK CONTAINER
+import DatasetUploadInputBlockContainer from './DatasetUploadInputBlockContainer';
+
+export { OperatorResizableSectionContainer, DatasetUploadInputBlockContainer };
