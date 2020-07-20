@@ -84,15 +84,15 @@ const UploadInputBlock = (props) => {
     },
     onChange(info) {
       console.log(info.file.status);
-      // getting file list
-      let fileList = [...info.fileList];
+      // getting info file list
+      let infoFileList = [...info.fileList];
 
       // limiting number of files
-      fileList = fileList.slice(-1);
+      infoFileList = infoFileList.slice(-1);
 
       if (info.file.status === 'done') {
         // getting dataset
-        const dataset = fileList[0].response;
+        const dataset = infoFileList[0].response;
 
         // upload success
         handleUploadSuccess(dataset);
@@ -105,7 +105,7 @@ const UploadInputBlock = (props) => {
       }
 
       // setting file list
-      setFileList(fileList);
+      setFileList(infoFileList);
     },
   };
 

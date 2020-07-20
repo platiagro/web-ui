@@ -2,9 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// UI LIB COMPONENTS
-import { Divider } from 'antd';
-
 // COMPONENTS
 import { Tip } from 'components';
 
