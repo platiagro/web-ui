@@ -1,9 +1,11 @@
+import './style.scss';
+
 // CORE LIBS
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button, Icon, Input, Popconfirm, Table } from 'antd';
+import { Button, Input, Popconfirm, Popover, Table } from 'antd';
 
 /**
  * Projects Table.
@@ -20,7 +22,7 @@ const ProjectsTable = ({
   handleSelectedProjects,
 }) => {
   const [searchText, setSearchText] = useState('');
-  const confirmRef = useRef(null);
+  const [searchVisible, setSearchVisible] = useState(false);
   const intervalRef = useRef(null);
   const previousSearchText = useRef(null);
   const searchInputRef = useRef(null);
@@ -29,13 +31,11 @@ const ProjectsTable = ({
     if (searchText) {
       intervalRef.current = setTimeout(() => {
         previousSearchText.current = searchText;
-        confirmRef.current();
         handleFetchPaginatedProjects(searchText);
       }, 1000);
     } else {
       if (previousSearchText.current) {
         intervalRef.current = setTimeout(() => {
-          confirmRef.current();
           handleFetchPaginatedProjects();
         }, 1000);
       } else {
@@ -47,40 +47,46 @@ const ProjectsTable = ({
 
   const columnsConfig = [
     {
-      title: <strong>Nome do Projeto</strong>,
+      title: (
+        <div>
+          <strong>Nome do Projeto</strong>
+          <Popover
+            placement='bottom'
+            visible={searchVisible}
+            content={
+              <Input
+                ref={searchInputRef}
+                placeholder={`Nome`}
+                value={searchText}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                }}
+                style={{ width: 200, display: 'fixed' }}
+              />
+            }
+          >
+            <Button
+              shape='circle'
+              icon='search'
+              size='small'
+              style={{
+                background: '#D3D3D3',
+                marginLeft: 40,
+              }}
+              onClick={() => {
+                if (searchVisible) {
+                  setSearchVisible(false);
+                } else {
+                  setSearchVisible(true);
+                  setTimeout(() => searchInputRef.current.select());
+                }
+              }}
+            />
+          </Popover>
+        </div>
+      ),
       dataIndex: 'name',
       key: 'name',
-      filterDropdown: ({ confirm, setSelectedKeys }) => {
-        confirmRef.current = confirm;
-        return (
-          <div style={{ padding: 8 }}>
-            <Input
-              ref={searchInputRef}
-              placeholder={`Nome`}
-              value={searchText}
-              onChange={(e) => {
-                setSearchText(e.target.value);
-                setSelectedKeys(e.target.value ? [e.target.value] : []);
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              style={{ width: 200, display: 'block' }}
-            />
-          </div>
-        );
-      },
-      filterIcon: (filtered) => (
-        <Icon
-          type='search'
-          style={{ color: filtered ? '#1890ff' : undefined }}
-        />
-      ),
-      onFilterDropdownVisibleChange: (visible) => {
-        if (visible) {
-          setTimeout(() => searchInputRef.current.select());
-        }
-      },
       render: (value, record) => (
         <Button type='link' onClick={() => handleClickProject(record.uuid)}>
           {value}
