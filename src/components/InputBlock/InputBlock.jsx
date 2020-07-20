@@ -39,20 +39,21 @@ const InputBlock = (props) => {
 
   // rendering component
   return (
-    <div>
-      <p>
-        <strong>{title}</strong>
-      </p>
-      <div>
-        <Tip
-          iconType='question'
-          isPopoverBelow={false}
-          popoverText={tip}
-          popoverTitle={title}
-        />
+    <div className='inputBlock'>
+      <div className='inputBlockHeader'>
+        <p className='inputBlockTitle'>
+          <strong>{title}</strong>
+        </p>
+        <div className='inputBlockTip'>
+          <Tip
+            iconType='question'
+            isPopoverBelow={false}
+            popoverText={tip}
+            popoverTitle={title}
+          />
+        </div>
       </div>
-      <div>{children}</div>
-      <Divider />
+      <div className='inputBlockInput'>{children}</div>
     </div>
   );
 };
