@@ -135,7 +135,7 @@ describe('Operator Content', () => {
     ).toBeTruthy();
     expect(
       operatorResizableSection.contains(<NotebookOutputsContainer />)
-    ).toBeTruthy();
+    ).not.toBeTruthy();
     expect(
       operatorResizableSection.contains(
         resultsButtonBarComponent(showExperimentResults)
