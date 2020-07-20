@@ -10,4 +10,13 @@ import Tip from './Tip';
 // INPUT BLOCK
 import InputBlock from './InputBlock';
 
-export { ResizableSection, OperatorResizableSection, Tip, InputBlock };
+// UPLOAD INPUT BLOCK
+import UploadInputBlock from './UploadInputBlock';
+
+export {
+  ResizableSection,
+  OperatorResizableSection,
+  Tip,
+  InputBlock,
+  UploadInputBlock,
+};
