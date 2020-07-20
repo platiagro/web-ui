@@ -10,6 +10,7 @@
     "bierner.jsdoc-markdown-highlighting",
     "alefragnani.bookmarks",
     "wayou.vscode-todo-highlight",
-    "yzhang.markdown-all-in-one"
+    "yzhang.markdown-all-in-one",
+    "ofhumanbondage.react-proptypes-intellisense"
   ]
 }
