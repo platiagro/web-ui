@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Icon, Popover, Button } from 'antd';
 
 /**
- * That displays an icon that when clicked displays information.
+ * That displays an icon that when hovered displays information (popover).
  *
  * The icon can be question type or info type.
  *
@@ -15,7 +15,7 @@ import { Icon, Popover, Button } from 'antd';
  * The popover information has a title and text.
  *
  * @param {object} props Component props
- * @returns {Tip} Component
+ * @returns {PopoverTip} Component
  * @component
  * @example
  * // popover title
@@ -29,7 +29,7 @@ import { Icon, Popover, Button } from 'antd';
  *
  * return (
  *  <div style={{ backgroundColor: "#333", display: "flex", width: '100%', height: '300px'}}>
- *    <Tip
+ *    <PopoverTip
  *      popoverTitle={popoverTitle}
  *      popoverText={popoverText}
  *      iconType={iconType}
@@ -39,7 +39,7 @@ import { Icon, Popover, Button } from 'antd';
  * );
  *
  */
-const Tip = (props) => {
+const PopoverTip = (props) => {
   // destructuring props
   const { isPopoverBelow, popoverTitle, popoverText, iconType } = props;
 
@@ -50,6 +50,7 @@ const Tip = (props) => {
       content={<p>{popoverText}</p>}
       title={popoverTitle}
       style={{ margin: '0', padding: '0' }}
+      trigger='hover'
     >
       <Button
         type='link'
@@ -65,7 +66,7 @@ const Tip = (props) => {
 };
 
 // PROP TYPES
-Tip.propTypes = {
+PopoverTip.propTypes = {
   /** Show popover below the icon */
   isPopoverBelow: PropTypes.bool.isRequired,
   /** Popover information title */
@@ -77,4 +78,4 @@ Tip.propTypes = {
 };
 
 // EXPORT DEFAULT
-export default Tip;
+export default PopoverTip;
