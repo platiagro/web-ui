@@ -13,6 +13,9 @@ const initialState = {
 
 /**
  * dataset reducer
+ *
+ * @param state
+ * @param action
  */
 const datasetReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
@@ -33,6 +36,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
       };
     // create dataset success
     case actionTypes.CREATE_DATASET_SUCCESS:
+      message.success(action.successMessage, 5);
       return { ...action.dataset };
 
     // FAIL
@@ -40,6 +44,12 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.FETCH_DATASET_COLUMNS_FAIL:
     case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
       message.error(action.errorMessage, 5);
+      return state;
+
+    // CANCEL
+    // create dataset cancel
+    case actionTypes.CREATE_DATASET_CANCEL:
+      message.success(action.successMessage, 5);
       return state;
 
     // DEFAULT

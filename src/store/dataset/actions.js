@@ -88,15 +88,15 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const cancelDatasetUpload = () => (dispatch) => {
-  const errorMessage = 'Envio cancelado!';
+  const successMessage = 'Dados de entrada removidos.';
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
   // dispatching create dataset fail
   dispatch({
-    type: actionTypes.CREATE_DATASET_FAIL,
-    errorMessage,
+    type: actionTypes.CREATE_DATASET_CANCEL,
+    successMessage,
   });
 };
 
@@ -111,11 +111,15 @@ export const cancelDatasetUpload = () => (dispatch) => {
 export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
   dispatch
 ) => {
+  // default success message
+  const successMessage = 'Dados de entrada importados.';
+
   dispatch(setDatasetRequest(projectId, experimentId, dataset.name));
 
   dispatch({
     type: actionTypes.CREATE_DATASET_SUCCESS,
     dataset,
+    successMessage,
   });
 };
 
@@ -125,7 +129,7 @@ export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
  * @returns {Function} Dispatch function
  */
 export const datasetUploadFail = () => (dispatch) => {
-  const errorMessage = 'Falha ao enviar arquivo.';
+  const errorMessage = 'Ocorreu um erro no processamento do arquivo.';
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());

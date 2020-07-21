@@ -74,6 +74,9 @@ const UploadInputBlock = (props) => {
   // button icon
   const buttonIcon = isLoading ? 'loading' : 'upload';
 
+  // default error message
+  const defaultErrorMessage = 'Ocorreu um erro no processamento do arquivo.';
+
   // upload props
   const uploadProps = {
     name: 'file',
@@ -83,7 +86,6 @@ const UploadInputBlock = (props) => {
       handleUploadStart();
     },
     onChange(info) {
-      console.log(info.file.status);
       // getting info file list
       let infoFileList = [...info.fileList];
 
@@ -97,6 +99,9 @@ const UploadInputBlock = (props) => {
         // upload success
         handleUploadSuccess(dataset);
       } else if (info.file.status === 'error') {
+        // set error message
+        infoFileList[0].response = defaultErrorMessage;
+
         // upload fail
         handleUploadFail();
       } else if (info.file.status === 'removed') {
