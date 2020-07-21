@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 
-# cacbe
+# jsdoc cache
 .cache/
 
 # testing
