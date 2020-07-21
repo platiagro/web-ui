@@ -69,9 +69,9 @@ export const fetchProjects = () => (dispatch) => {
 };
 
 /**
- * Function to dispatch selected projects to reducer
+ * Function to dispatch select projects to reducer
  */
-export const selectedProjects = (projects) => {
+export const selectProjects = (projects) => {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SELECTED_PROJECTS,

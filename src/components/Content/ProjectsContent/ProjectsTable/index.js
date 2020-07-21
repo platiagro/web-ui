@@ -19,7 +19,7 @@ const ProjectsTable = ({
   handleClickDelete,
   handleFetchPaginatedProjects,
   handleShowNewProjectModal,
-  handleSelectedProjects,
+  handleSelectProjects,
 }) => {
   const [searchText, setSearchText] = useState('');
   const [searchVisible, setSearchVisible] = useState(false);
@@ -136,7 +136,7 @@ const ProjectsTable = ({
       rowSelection={{
         selectedRowKeys: selectedProjects,
         onChange: (selectedRowKeys, selectedRows) => {
-          handleSelectedProjects(selectedRowKeys);
+          handleSelectProjects(selectedRowKeys);
         },
       }}
       dataSource={projects}
@@ -158,7 +158,7 @@ ProjectsTable.propTypes = {
   /** projects table delete project handle */
   handleClickDelete: PropTypes.func.isRequired,
   /** projects table row selection project handle */
-  handleSelectedProjects: PropTypes.func.isRequired,
+  handleSelectProjects: PropTypes.func.isRequired,
 };
 
 // EXPORT
