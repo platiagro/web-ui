@@ -6,6 +6,7 @@ import projectActionTypes from '../project/actionTypes';
 const initialState = {
   projects: [],
   selectedProjects: [],
+  searchText: '',
   currentPage: null,
   pageSize: null,
   total: null,
@@ -21,6 +22,7 @@ const projectsReducer = (state = initialState, action = undefined) => {
         ...state,
         projects: action.projects,
         selectedProjects: [],
+        searchText: action.searchText,
         currentPage: action.currentPage,
         pageSize: action.pageSize,
         total: action.total,

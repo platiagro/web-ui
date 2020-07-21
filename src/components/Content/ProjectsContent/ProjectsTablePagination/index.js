@@ -43,7 +43,7 @@ ProjectsTablePagination.propTypes = {
   pageSize: PropTypes.number.isRequired,
   /** total pages  */
   total: PropTypes.number.isRequired,
-  /** on change page handle */
+  /** on change page or page size handle */
   onChange: PropTypes.func.isRequired,
 };
 

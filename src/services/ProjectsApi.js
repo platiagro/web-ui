@@ -83,12 +83,15 @@ const deleteProjects = (projects) => {
 
 /**
  * Get paginated projects
+ * @param {String} name
  * @param {Number} page
  * @param {Number} pageSize
  * @returns {Promise}
  */
-export const getPaginatedProjects = (page, pageSize) => {
-  return projectsApi.get(`${projectsPath}/?page=${page}&page_size=${pageSize}`);
+export const getPaginatedProjects = (name, page, pageSize) => {
+  return projectsApi.get(
+    `${projectsPath}/?name=${name}&page=${page}&page_size=${pageSize}`
+  );
 };
 
 // EXPORT DEFAULT

@@ -1,9 +1,11 @@
+import './style.scss';
+
 // CORE LIBS
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Button, Popconfirm } from 'antd';
+import { Button, Input, Popconfirm, Popover, Table } from 'antd';
 
 /**
  * Projects Table.
@@ -12,14 +14,77 @@ import { Table, Button, Popconfirm } from 'antd';
 const ProjectsTable = ({
   loading,
   projects,
+  selectedProjects,
   handleClickProject,
   handleClickDelete,
+  handleFetchPaginatedProjects,
   handleShowNewProjectModal,
-  handleSelectedProjects,
+  handleSelectProjects,
 }) => {
+  const [searchText, setSearchText] = useState('');
+  const [searchVisible, setSearchVisible] = useState(false);
+  const intervalRef = useRef(null);
+  const previousSearchText = useRef(null);
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    if (searchText) {
+      intervalRef.current = setTimeout(() => {
+        previousSearchText.current = searchText;
+        handleFetchPaginatedProjects(searchText);
+      }, 1000);
+    } else {
+      if (previousSearchText.current) {
+        intervalRef.current = setTimeout(() => {
+          handleFetchPaginatedProjects();
+        }, 1000);
+      } else {
+        clearTimeout(intervalRef.current);
+      }
+    }
+    return () => clearTimeout(intervalRef.current);
+  }, [searchText, handleFetchPaginatedProjects]);
+
   const columnsConfig = [
     {
-      title: <strong>Nome do Projeto</strong>,
+      title: (
+        <div>
+          <strong>Nome do Projeto</strong>
+          <Popover
+            placement='bottom'
+            visible={searchVisible}
+            content={
+              <Input
+                ref={searchInputRef}
+                placeholder={`Nome`}
+                value={searchText}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                }}
+                style={{ width: 200, display: 'fixed' }}
+              />
+            }
+          >
+            <Button
+              shape='circle'
+              icon='search'
+              size='small'
+              style={{
+                background: '#D3D3D3',
+                marginLeft: 40,
+              }}
+              onClick={() => {
+                if (searchVisible) {
+                  setSearchVisible(false);
+                } else {
+                  setSearchVisible(true);
+                  setTimeout(() => searchInputRef.current.select());
+                }
+              }}
+            />
+          </Popover>
+        </div>
+      ),
       dataIndex: 'name',
       key: 'name',
       render: (value, record) => (
@@ -69,8 +134,9 @@ const ProjectsTable = ({
       className='projectsTable'
       rowKey={(record) => record.uuid}
       rowSelection={{
+        selectedRowKeys: selectedProjects,
         onChange: (selectedRowKeys, selectedRows) => {
-          handleSelectedProjects(selectedRowKeys);
+          handleSelectProjects(selectedRowKeys);
         },
       }}
       dataSource={projects}
@@ -92,7 +158,7 @@ ProjectsTable.propTypes = {
   /** projects table delete project handle */
   handleClickDelete: PropTypes.func.isRequired,
   /** projects table row selection project handle */
-  handleRowSelection: PropTypes.func.isRequired,
+  handleSelectProjects: PropTypes.func.isRequired,
 };
 
 // EXPORT

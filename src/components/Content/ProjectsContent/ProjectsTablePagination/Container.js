@@ -11,8 +11,8 @@ import ProjectsTablePagination from './index';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchPaginatedProjects: (page, pageSize) => {
-      dispatch(fetchPaginatedProjects(page, pageSize));
+    handleFetchPaginatedProjects: (searchText, page, pageSize) => {
+      dispatch(fetchPaginatedProjects(searchText, page, pageSize));
     },
   };
 };
@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.uiReducer.projectsTable.loading,
+    searchText: state.projectsReducer.searchText,
     currentPage: state.projectsReducer.currentPage,
     pageSize: state.projectsReducer.pageSize,
     total: state.projectsReducer.total,
@@ -34,9 +35,14 @@ const mapStateToProps = (state) => {
  */
 const ProjectsTablePaginationContainer = (props) => {
   // states
-  const { loading, currentPage, pageSize, total } = props;
+  const { loading, searchText, currentPage, pageSize, total } = props;
+
   // dispatchs
   const { handleFetchPaginatedProjects } = props;
+
+  const onChange = (page, size) => {
+    handleFetchPaginatedProjects(searchText, page, size);
+  };
 
   return (
     <>
@@ -46,7 +52,7 @@ const ProjectsTablePaginationContainer = (props) => {
           currentPage={currentPage}
           pageSize={pageSize}
           total={total}
-          onChange={handleFetchPaginatedProjects}
+          onChange={onChange}
         />
       ) : null}
     </>

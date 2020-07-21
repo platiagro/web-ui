@@ -14,7 +14,7 @@ import ProjectsTable from './index';
 // ACTIONS
 import {
   fetchPaginatedProjects,
-  selectedProjects,
+  selectProjects,
 } from '../../../../store/projects/actions';
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
@@ -24,20 +24,22 @@ import { showNewProjectModal } from '../../../../store/ui/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchProjects: () => dispatch(fetchPaginatedProjects(1, 10)),
+    handleFetchPaginatedProjects: (name) =>
+      dispatch(fetchPaginatedProjects(name, 1, 10)),
     handleDeleteProject: (projectUuid) =>
       dispatch(deleteProjectRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>
       dispatch(showNewProjectModal(record)),
-    handleSelectedProjects: (record) => dispatch(selectedProjects(record)),
+    handleSelectProjects: (record) => dispatch(selectProjects(record)),
   };
 };
 
 // STATES
 const mapStateToProps = (state) => {
   return {
-    projects: state.projectsReducer.projects,
     loading: state.uiReducer.projectsTable.loading,
+    projects: state.projectsReducer.projects,
+    selectedProjects: state.projectsReducer.selectedProjects,
   };
 };
 
@@ -47,12 +49,13 @@ const mapStateToProps = (state) => {
  * with redux.
  */
 const ProjectsTableContainer = ({
-  projects,
   loading,
-  handleFetchProjects,
+  projects,
+  selectedProjects,
+  handleFetchPaginatedProjects,
   handleDeleteProject,
   handleShowNewProjectModal,
-  handleSelectedProjects,
+  handleSelectProjects,
 }) => {
   // CONSTANTS
   // getting history
@@ -61,9 +64,8 @@ const ProjectsTableContainer = ({
   // HOOKS
   // did mount hook
   useLayoutEffect(() => {
-    // fetching projects
-    handleFetchProjects();
-  }, [handleFetchProjects]);
+    handleFetchPaginatedProjects();
+  }, [handleFetchPaginatedProjects]);
 
   // HANDLERS
   // project click
@@ -76,10 +78,12 @@ const ProjectsTableContainer = ({
       <ProjectsTable
         loading={loading}
         projects={projects}
+        selectedProjects={selectedProjects}
         handleClickProject={handleClickProject}
         handleClickDelete={handleDeleteProject}
+        handleFetchPaginatedProjects={handleFetchPaginatedProjects}
         handleShowNewProjectModal={handleShowNewProjectModal}
-        handleSelectedProjects={handleSelectedProjects}
+        handleSelectProjects={handleSelectProjects}
       />
       <br />
       <ProjectsTablePagination />

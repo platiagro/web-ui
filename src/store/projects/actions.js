@@ -16,20 +16,22 @@ import {
 /**
  * Function to fetch pagineted projects and dispatch to reducer
  */
-export const fetchPaginatedProjects = (page, pageSize) => {
+export const fetchPaginatedProjects = (name, page, pageSize) => {
   return (dispatch) => {
-    // showing loading
     dispatch(projectsTableLoadingData());
-
+    if (name === undefined) {
+      name = '';
+    }
     return projectsApi
-      .getPaginatedProjects(page, pageSize)
+      .getPaginatedProjects(name, page, pageSize)
       .then((response) => {
         dispatch(projectsTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_PAGINATED_PROJECTS,
+          projects: response.data.projects,
+          searchText: name,
           currentPage: page,
           pageSize: pageSize,
-          projects: response.data.projects,
           total: response.data.total,
         });
       })
@@ -67,9 +69,9 @@ export const fetchProjects = () => (dispatch) => {
 };
 
 /**
- * Function to dispatch selected projects to reducer
+ * Function to dispatch select projects to reducer
  */
-export const selectedProjects = (projects) => {
+export const selectProjects = (projects) => {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SELECTED_PROJECTS,
@@ -81,7 +83,7 @@ export const selectedProjects = (projects) => {
 /**
  * Function to delete selected projects and dispatch to reducer
  */
-export const deleteSelectedProjects = (projects) => {
+export const deleteSelectedProjects = (searchText, projects) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
 
@@ -94,7 +96,7 @@ export const deleteSelectedProjects = (projects) => {
       .then(() => {
         dispatch(projectsTableDataLoaded());
         message.success('Projetos excluídos!');
-        dispatch(fetchPaginatedProjects(1, 10));
+        dispatch(fetchPaginatedProjects(searchText, 1, 10));
       })
       .catch((error) => {
         const errorMessage = error.message;
