@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import ResizePanel from 'react-resize-panel';
 
 // COMPONENTS
-import { Tip } from 'components';
+import { PopoverTip } from 'components';
 
 // STYLES
 import './ResizableSection.scss';
@@ -73,7 +73,7 @@ const ResizableSection = (props) => {
               {tip && (
                 // tip component
                 <div className='resizable-section-tip'>
-                  <Tip
+                  <PopoverTip
                     isPopoverBelow={true}
                     popoverTitle={title}
                     popoverText={tip}

@@ -4,8 +4,11 @@ import ResizableSection from './ResizableSection';
 // OPERATOR RESIZABLE SECTION
 import OperatorResizableSection from './OperatorResizableSection';
 
-// TIP
-import Tip from './Tip';
+// POPOVER TIP
+import PopoverTip from './PopoverTip';
+
+// TOOLTIP TIP
+import TooltipTip from './TooltipTip';
 
 // INPUT BLOCK
 import InputBlock from './InputBlock';
@@ -16,7 +19,8 @@ import UploadInputBlock from './UploadInputBlock';
 export {
   ResizableSection,
   OperatorResizableSection,
-  Tip,
+  PopoverTip,
   InputBlock,
   UploadInputBlock,
+  TooltipTip,
 };

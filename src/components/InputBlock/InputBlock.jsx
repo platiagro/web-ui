@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import { Tip } from 'components';
+import { TooltipTip } from 'components';
 
 // STYLES
 import './InputBlock.scss';
@@ -42,11 +42,10 @@ const InputBlock = (props) => {
           <strong>{title}</strong>
         </p>
         <div className='inputBlockTip'>
-          <Tip
+          <TooltipTip
             iconType='question'
-            isPopoverBelow={false}
-            popoverText={tip}
-            popoverTitle={title}
+            isTooltipBelow={false}
+            tooltipText={tip}
           />
         </div>
       </div>
