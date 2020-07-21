@@ -121,8 +121,6 @@ OperatorResizableSectionContainer.propTypes = {
   handleShowParametersClick: PropTypes.func.isRequired,
   /** Show results button click handler */
   handleShowResultsClick: PropTypes.func.isRequired,
-  /** Empty section placeholder */
-  emptySectionPlaceholder: PropTypes.node.isRequired,
 };
 
 // EXPORT DEFAULT
