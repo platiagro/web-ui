@@ -62,7 +62,7 @@ const DatasetUploadInputBlockContainer = (props) => {
   const buttonText = 'Importar';
 
   // action url
-  const actionUrl = 'http://10.50.11.116/datasets/apis/datasets';
+  const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets`;
 
   // upload is disabled
   const isDisabled = trainingLoading || trainingSucceeded;
