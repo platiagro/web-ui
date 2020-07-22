@@ -1,23 +1,16 @@
 // CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import DatasetDrawer from './index';
 
 // ACTIONS
-import {
-  createDatasetRequest,
-  updateDatasetColumnRequest,
-} from '../../../../../../../store/dataset/actions';
+import { updateDatasetColumnRequest } from '../../../../../../../store/dataset/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // create dataset
-    handleCreateDataset: (formData, projectId, experimentId) =>
-      dispatch(createDatasetRequest(formData, projectId, experimentId)),
     // update dataset column
     handleUpdateDatasetColumn: (datasetName, columnName, columnNewType) =>
       dispatch(
@@ -41,24 +34,21 @@ const mapStateToProps = (state) => {
  * DatasetDrawer Container.
  * This component is responsible for create a logic container for drawer with
  * redux.
+ *
+ * @param props
  */
-const DatasetDrawerContainer = ({
-  dataset,
-  datasetName,
-  loading,
-  trainingLoading,
-  handleCreateDataset,
-  handleUpdateDatasetColumn,
-  trainingSucceeded,
-}) => {
-  // CONSTANTS
-  // getting experiment uuid
-  const { projectId, experimentId } = useParams();
+const DatasetDrawerContainer = (props) => {
+  // destructuring props
+  const {
+    dataset,
+    datasetName,
+    loading,
+    trainingLoading,
+    handleUpdateDatasetColumn,
+    trainingSucceeded,
+  } = props;
 
   // HANDLERS
-  // create dataset
-  const createDatasetHandler = (formData) =>
-    handleCreateDataset(formData, projectId, experimentId);
   // update dataset column
   const updateDatasetColumnHandler = (columnName, columnNewValue) =>
     handleUpdateDatasetColumn(datasetName, columnName, columnNewValue);
@@ -67,7 +57,6 @@ const DatasetDrawerContainer = ({
   return (
     <DatasetDrawer
       columns={dataset.columns}
-      handleUploadFiles={createDatasetHandler}
       handleSetColumnType={updateDatasetColumnHandler}
       loading={loading}
       trainingLoading={trainingLoading}

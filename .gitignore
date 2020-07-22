@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# jsdoc cache
+.cache/
+
 # testing
 /coverage
 

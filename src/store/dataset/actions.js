@@ -17,8 +17,9 @@ import {
 // ** FETCH DATASET COLUMNS
 /**
  * fetch dataset columns success action
- * @param {Object} response
- * @returns {Object} { type, columns }
+ *
+ * @param {object} response
+ * @returns {object} { type, columns }
  */
 const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
   // getting dataset columns from response
@@ -36,8 +37,9 @@ const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
 
 /**
  * fetch dataset columns fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const fetchDatasetColumnsFail = (error) => (dispatch) => {
   // getting error message
@@ -55,6 +57,8 @@ const fetchDatasetColumnsFail = (error) => (dispatch) => {
 
 /**
  * fetch dataset columns request action
+ *
+ * @param datasetName
  * @returns {Function}
  */
 export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
@@ -77,47 +81,55 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
 
 // // // // // // // // // //
 
-// ** CREATE DATASET
+// ** DATASET UPLOAD
 /**
- * create dataset success action
- * @param {Object} response
- * @returns {Object} { type, dataset }
+ * Cancel dataset upload action
+ *
+ * @returns {Function} Dispatch function
  */
-const createDatasetSuccess = (response, projectId, experimentId) => (
+export const cancelDatasetUpload = () => (dispatch) => {
+  const successMessage = 'Dados de entrada removidos';
+
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching create dataset fail
+  dispatch({
+    type: actionTypes.CREATE_DATASET_CANCEL,
+    successMessage,
+  });
+};
+
+/**
+ * Dataset upload success action
+ *
+ * @param {object} dataset Response dataset object
+ * @param {string} projectId Current Project id
+ * @param {string} experimentId Current Experiment id
+ * @returns {Function} Dispatch function
+ */
+export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
   dispatch
 ) => {
-  // getting dataset from response
-  const dataset = response.data;
+  // default success message
+  const successMessage = 'Dados de entrada importados';
 
   dispatch(setDatasetRequest(projectId, experimentId, dataset.name));
 
   dispatch({
     type: actionTypes.CREATE_DATASET_SUCCESS,
     dataset,
+    successMessage,
   });
 };
 
 /**
- * create dataset fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ * Dataset upload fail action
+ *
+ * @returns {Function} Dispatch function
  */
-const createDatasetFail = (error) => (dispatch) => {
-  // getting error message
-  let errorMessage;
-  if (error.response.status === 500) {
-    errorMessage = error.message;
-  } else {
-    errorMessage = error.response.data.message;
-    if (errorMessage.includes('featuretype must be one of')) {
-      errorMessage =
-        'Os tipos dos atributos devem ser DateTime, Numerical ou Categorical';
-    }
-    if (errorMessage.includes('featuretypes must be the same length')) {
-      errorMessage =
-        'Os tipos dos atributos devem ter o mesmo comprimento que as colunas dos dados de entrada';
-    }
-  }
+export const datasetUploadFail = () => (dispatch) => {
+  const errorMessage = 'Ocorreu um erro no processamento do arquivo';
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
@@ -130,13 +142,11 @@ const createDatasetFail = (error) => (dispatch) => {
 };
 
 /**
- * create dataset request action
- * @param {Object} formData form data object with files
- * @returns {Function}
+ * Start dataset upload action
+ *
+ * @returns {Function} Dispatch function
  */
-export const createDatasetRequest = (formData, projectId, experimentId) => (
-  dispatch
-) => {
+export const startDatasetUpload = () => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_DATASET_REQUEST,
@@ -144,14 +154,6 @@ export const createDatasetRequest = (formData, projectId, experimentId) => (
 
   // dispatching dataset operator loading data action
   dispatch(datasetOperatorLoadingData());
-
-  // createing dataset columns
-  datasetsApi
-    .createDataset(formData)
-    .then((response) =>
-      dispatch(createDatasetSuccess(response, projectId, experimentId))
-    )
-    .catch((error) => dispatch(createDatasetFail(error)));
 };
 
 // // // // // // // // // //
@@ -159,8 +161,9 @@ export const createDatasetRequest = (formData, projectId, experimentId) => (
 // ** UPDATE DATASET COLUMN
 /**
  * update dataset column success action
- * @param {Object} response
- * @returns {Object} { type, column }
+ *
+ * @param {object} response
+ * @returns {object} { type, column }
  */
 const updateDatasetColumnSuccess = (response) => (dispatch) => {
   // getting column from response
@@ -178,8 +181,9 @@ const updateDatasetColumnSuccess = (response) => (dispatch) => {
 
 /**
  * update dataset column fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const updateDatasetColumnFail = (error) => (dispatch) => {
   // getting error message
@@ -197,6 +201,7 @@ const updateDatasetColumnFail = (error) => (dispatch) => {
 
 /**
  * update dataset column request action
+ *
  * @param {string} datasetName
  * @param {string} columnName
  * @param {string} columnNewType

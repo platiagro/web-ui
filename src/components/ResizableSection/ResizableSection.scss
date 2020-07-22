@@ -48,15 +48,17 @@
   display: flex;
   width: 100%;
   height: 50px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.09);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
 }
 
 .resizable-section-body {
   color: #262626;
+  background-color: #fafafa;
   align-items: center;
   display: inline-block;
   width: 100%;
-  margin-top: 10px;
+  height: 100%;
+  margin-left: 1px;
 }
 
 .resizable-section-title {
@@ -72,10 +74,23 @@
 .resizable-section-tip {
   color: #262626;
   align-items: center;
+  justify-content: center;
   display: flex;
   width: 50px;
   height: 50px;
   padding: 0;
   margin: 0;
-  border-left: 2px solid rgba(0, 0, 0, 0.09);
+  border-left: 1px solid rgba(0, 0, 0, 0.09);
+
+  & button {
+    padding: 0;
+    margin: 0;
+  }
+
+  & i {
+    font-size: 25px;
+    line-height: 0;
+    padding: 0;
+    margin: 0;
+  }
 }
