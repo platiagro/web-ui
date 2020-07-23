@@ -1,7 +1,10 @@
+// CORE LIBS
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Icon } from 'antd';
 import Lightbox from 'react-image-lightbox';
+import PropTypes from 'prop-types';
+
+// UI LIBS
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 
 // STYLES
 import './styles.scss';
@@ -21,7 +24,7 @@ const ImageLightbox = ({ plotUrl }) => {
           mainSrc={plotUrl}
           toolbarButtons={[
             <a className='download-link' href={plotUrl} download={`resultado`}>
-              <Icon type='download' />
+              <LegacyIcon type='download' />
             </a>,
           ]}
           onCloseRequest={() => setZoom(false)}

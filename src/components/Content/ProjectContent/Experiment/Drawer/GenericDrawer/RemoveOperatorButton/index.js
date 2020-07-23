@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button, Popconfirm, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Button, Popconfirm } from 'antd';
 
 /**
  * Remove Operator Button.
@@ -25,7 +26,7 @@ const RemoveOperatorButton = ({ handleClick, disabled, loading }) => (
       type='danger'
       loading={loading}
     >
-      <Icon type='delete' theme='outlined' />
+      <LegacyIcon type='delete' theme='outlined' />
       Excluir tarefa
     </Button>
   </Popconfirm>

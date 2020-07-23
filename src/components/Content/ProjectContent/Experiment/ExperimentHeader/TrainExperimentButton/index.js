@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Button } from 'antd';
 
 /**
  * Train Experiment Button.
@@ -21,7 +22,11 @@ const TrainExperimentButton = ({
     className='ant-btn-oval'
     type='primary'
   >
-    {experimentRunning ? <Icon type='loading' /> : <Icon type='play-circle' theme='filled' />}
+    {experimentRunning ? (
+      <LegacyIcon type='loading' />
+    ) : (
+      <LegacyIcon type='play-circle' theme='filled' />
+    )}
     Executar
   </Button>
 );

@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input, Select, Icon } from 'antd';
+import { Icon as LegacyIcon, Form as LegacyForm } from '@ant-design/compatible';
+import { Modal, Input, Select } from 'antd';
+import '@ant-design/compatible/assets/index.css';
 
 // SELECT COMPONENTS
 const { Option } = Select;
@@ -74,9 +76,9 @@ const NewTaskModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form id='newTaskForm' layout='vertical'>
+      <LegacyForm id='newTaskForm' layout='vertical'>
         {/* templates */}
-        <Form.Item label='Escolha um exemplo ou template para começar:'>
+        <LegacyForm.Item label='Escolha um exemplo ou template para começar:'>
           {/* configuring template radio input */}
           {getFieldDecorator('template', {
             rules: [
@@ -98,9 +100,9 @@ const NewTaskModal = ({
               ))}
             </Select>
           )}
-        </Form.Item>
+        </LegacyForm.Item>
         {/* name */}
-        <Form.Item
+        <LegacyForm.Item
           label='Qual o nome da sua tarefa?'
           validateStatus={status ? modalValidateStatus : undefined}
           help={status ? errorMessage : undefined}
@@ -127,23 +129,23 @@ const NewTaskModal = ({
               }}
             />
           )}
-        </Form.Item>
+        </LegacyForm.Item>
         {/* description */}
-        <Form.Item label='Descrição (opcional):'>
+        <LegacyForm.Item label='Descrição (opcional):'>
           {/* description text area */}
           {getFieldDecorator('description')(<Input.TextArea />)}
-        </Form.Item>
+        </LegacyForm.Item>
         {/* warning */}
         <p style={{ marginTop: -5 }}>
           {/* warning icon */}
-          <Icon type='exclamation-circle' />
+          <LegacyIcon type='exclamation-circle' />
           {/* warning description */}
           <span style={{ marginLeft: 10 }}>
             Será aberta uma nova aba contendo dois notebooks para edição,
             experimentação e implantação.
           </span>
         </p>
-      </Form>
+      </LegacyForm>
     </Modal>
   );
 };
@@ -165,4 +167,4 @@ NewTaskModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({ name: 'newTaskForm' })(NewTaskModal);
+export default LegacyForm.create({ name: 'newTaskForm' })(NewTaskModal);

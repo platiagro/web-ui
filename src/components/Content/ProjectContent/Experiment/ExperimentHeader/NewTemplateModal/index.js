@@ -3,7 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input } from 'antd';
+import { Form as LegacyForm } from '@ant-design/compatible';
+import { Modal, Input } from 'antd';
+import '@ant-design/compatible/assets/index.css';
 
 /**
  * New Template Modal.
@@ -68,8 +70,8 @@ const NewTemplateModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form id='newTemplateForm' layout='vertical'>
-        <Form.Item
+      <LegacyForm id='newTemplateForm' layout='vertical'>
+        <LegacyForm.Item
           label='Qual o nome do seu template?'
           autoFocus
           onFocus={(e) => e.target.type === 'text' && e.target.select()}
@@ -83,8 +85,8 @@ const NewTemplateModal = ({
             ],
             initialValue: 'Novo Template',
           })(<Input allowClear autoFocus />)}
-        </Form.Item>
-      </Form>
+        </LegacyForm.Item>
+      </LegacyForm>
     </Modal>
   );
 };
@@ -102,4 +104,4 @@ NewTemplateModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({ name: 'newTemplateForm' })(NewTemplateModal);
+export default LegacyForm.create({ name: 'newTemplateForm' })(NewTemplateModal);

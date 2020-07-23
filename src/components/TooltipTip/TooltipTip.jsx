@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
-import { Icon, Tooltip } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Tooltip } from 'antd';
 
 /**
  * That displays an icon that when hovered displays information (tooltip).
@@ -48,7 +49,7 @@ const TooltipTip = (props) => {
       style={{ margin: '0', padding: '0' }}
       trigger='hover'
     >
-      <Icon
+      <LegacyIcon
         type={`${iconType}-circle`}
         style={{ lineHeight: '0', margin: '0', padding: '0' }}
       />

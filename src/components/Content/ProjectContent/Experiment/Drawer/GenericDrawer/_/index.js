@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, Divider, Empty } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Divider, Empty } from 'antd';
 
 // COMPONENTS
 import SelectInput from '../SelectInput';
@@ -298,7 +299,7 @@ const GenericDrawer = ({
       <div>
         {/* divider */}
         <Divider orientation='left'>
-          <Icon type='bulb' />
+          <LegacyIcon type='bulb' />
           Dica
         </Divider>
         {/* drawer tip node */}

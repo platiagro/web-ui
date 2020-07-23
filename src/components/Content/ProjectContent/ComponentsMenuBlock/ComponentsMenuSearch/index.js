@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, Input } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Input } from 'antd';
 
 /**
  * Component Menu Search.
@@ -26,14 +27,15 @@ const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
       style={{
         padding: '10px 16px',
         backgroundColor: '#fff',
-        border: '1px solid #e8e8e8'
-      }}>
+        border: '1px solid #e8e8e8',
+      }}
+    >
       {/* search input */}
       <Input
         placeholder='Pesquisar'
         allowClear
         onChange={handleChange}
-        prefix={<Icon type='search' />}
+        prefix={<LegacyIcon type='search' />}
       />
     </div>
   );

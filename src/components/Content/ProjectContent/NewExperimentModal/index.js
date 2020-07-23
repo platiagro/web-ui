@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input } from 'antd';
+import { Form as LegacyForm } from '@ant-design/compatible';
+import { Modal, Input } from 'antd';
+import '@ant-design/compatible/assets/index.css';
 
 /**
  * New Experiment Modal.
@@ -71,8 +73,8 @@ const NewExperimentModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form layout='vertical' onSubmit={handleSubmit}>
-        <Form.Item
+      <LegacyForm layout='vertical' onSubmit={handleSubmit}>
+        <LegacyForm.Item
           label='Qual o nome do seu experimento?'
           validateStatus={status ? modalValidateStatus : undefined}
           help={status ? errorMessage : undefined}
@@ -97,8 +99,8 @@ const NewExperimentModal = ({
               }}
             />
           )}
-        </Form.Item>
-      </Form>
+        </LegacyForm.Item>
+      </LegacyForm>
     </Modal>
   );
 };
@@ -116,4 +118,6 @@ NewExperimentModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({ name: 'newExperimentForm' })(NewExperimentModal);
+export default LegacyForm.create({ name: 'newExperimentForm' })(
+  NewExperimentModal
+);

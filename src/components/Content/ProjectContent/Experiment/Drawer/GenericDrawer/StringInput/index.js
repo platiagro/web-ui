@@ -3,7 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, Input, Spin } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Input, Spin } from 'antd';
 
 // COMPONENTS
 import InputTip from '../../InputTip';
@@ -80,7 +81,7 @@ const StringInput = ({
       {loading && (
         <Spin
           style={{ marginLeft: '1vw' }}
-          indicator={<Icon type='loading' spin />}
+          indicator={<LegacyIcon type='loading' spin />}
         />
       )}
       {/* warning */}
@@ -88,7 +89,7 @@ const StringInput = ({
         // warning paragraph container
         <p style={{ marginTop: 10 }}>
           {/* warning icon */}
-          <Icon type='exclamation-circle' />
+          <LegacyIcon type='exclamation-circle' />
           {/* warning message */}
           <span style={{ marginLeft: 10 }}>{warning}</span>
         </p>

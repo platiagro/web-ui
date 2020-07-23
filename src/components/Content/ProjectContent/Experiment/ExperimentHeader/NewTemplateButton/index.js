@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Button } from 'antd';
 
 /**
  * New Template Button.
@@ -17,7 +18,7 @@ const NewTemplateButton = ({ handleClick, disabled }) => (
     className='ant-btn-oval'
     type='primary-inverse'
   >
-    <Icon type='apartment' theme='outlined' />
+    <LegacyIcon type='apartment' theme='outlined' />
     Salvar como template
   </Button>
 );

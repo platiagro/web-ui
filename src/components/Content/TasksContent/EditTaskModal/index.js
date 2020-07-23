@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input } from 'antd';
+import { Form as LegacyForm } from '@ant-design/compatible';
+import { Modal, Input } from 'antd';
+import '@ant-design/compatible/assets/index.css';
 
 /**
  * Edit Task Modal.
@@ -71,9 +73,9 @@ const EditTaskModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form id='newEditTaskForm' layout='vertical'>
+      <LegacyForm id='newEditTaskForm' layout='vertical'>
         {/* name */}
-        <Form.Item
+        <LegacyForm.Item
           label='Nome da tarefa?'
           validateStatus={status ? modalValidateStatus : undefined}
           help={status ? errorMessage : undefined}
@@ -100,15 +102,15 @@ const EditTaskModal = ({
               }}
             />
           )}
-        </Form.Item>
+        </LegacyForm.Item>
         {/* description */}
-        <Form.Item label='Descrição (opcional):'>
+        <LegacyForm.Item label='Descrição (opcional):'>
           {/* description text area */}
           {getFieldDecorator('description', {
             initialValue: initialValues?.description,
           })(<Input.TextArea />)}
-        </Form.Item>
-      </Form>
+        </LegacyForm.Item>
+      </LegacyForm>
     </Modal>
   );
 };
@@ -130,4 +132,4 @@ EditTaskModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({ name: 'editTaskForm' })(EditTaskModal);
+export default LegacyForm.create({ name: 'editTaskForm' })(EditTaskModal);

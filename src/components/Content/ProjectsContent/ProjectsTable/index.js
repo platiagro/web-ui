@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
+import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Popconfirm, Popover, Table } from 'antd';
 
 /**
@@ -67,7 +68,7 @@ const ProjectsTable = ({
           >
             <Button
               shape='circle'
-              icon='search'
+              icon={<SearchOutlined />}
               size='small'
               style={{
                 background: '#D3D3D3',

@@ -97,7 +97,12 @@ const DraggableTabs = (props) => {
     // drag and drop provider
     <DndProvider backend={HTML5Backend}>
       {/* tabs rendering */}
-      <Tabs activeKey={activeExperiment} renderTabBar={renderTabBar} {...props}>
+      <Tabs
+        activeKey={activeExperiment}
+        type='card'
+        renderTabBar={renderTabBar}
+        {...props}
+      >
         {tabs}
       </Tabs>
     </DndProvider>

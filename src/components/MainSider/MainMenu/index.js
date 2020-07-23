@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Menu, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Menu } from 'antd';
 
 // MENU COMPONENTS
 const { Item } = Menu;
@@ -25,7 +26,7 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => (
       // menu item
       <Item key={path}>
         {/* menu item icon */}
-        <Icon type={icon} />
+        <LegacyIcon type={icon} />
         {/* menu item title */}
         <span>{title}</span>
       </Item>

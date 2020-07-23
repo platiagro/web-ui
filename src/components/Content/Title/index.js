@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon, Spin } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Spin } from 'antd';
 import EditTitle from './EditTitle';
 
 /**
@@ -33,7 +34,7 @@ const Title = ({ title, level, loading, handleSubmit }) => {
       {/* if loading */}
       {loading ? (
         // loading
-        <Spin indicator={<Icon type='loading' spin />} />
+        <Spin indicator={<LegacyIcon type='loading' spin />} />
       ) : (
         <EditTitle
           level={level}

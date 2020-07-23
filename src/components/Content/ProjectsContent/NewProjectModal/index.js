@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input } from 'antd';
+import { Form as LegacyForm } from '@ant-design/compatible';
+import { Modal, Input } from 'antd';
+import '@ant-design/compatible/assets/index.css';
 /**
  * New Project Modal.
  * This component is responsible for displaying a new project modal.
@@ -79,8 +81,8 @@ const NewProjectModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form layout='vertical' onSubmit={handleSubmit}>
-        <Form.Item
+      <LegacyForm layout='vertical' onSubmit={handleSubmit}>
+        <LegacyForm.Item
           label='Qual o nome do seu projeto?'
           validateStatus={status ? modalValidateStatus : undefined}
           help={status ? errorMessage : undefined}
@@ -105,8 +107,8 @@ const NewProjectModal = ({
               }}
             />
           )}
-        </Form.Item>
-        <Form.Item label='Descrição (Opcional):'>
+        </LegacyForm.Item>
+        <LegacyForm.Item label='Descrição (Opcional):'>
           {getFieldDecorator('description', {
             rules: [
               {
@@ -115,8 +117,8 @@ const NewProjectModal = ({
             ],
             initialValue: record?.description,
           })(<Input.TextArea rows={4} />)}
-        </Form.Item>
-      </Form>
+        </LegacyForm.Item>
+      </LegacyForm>
     </Modal>
   );
 };
@@ -136,7 +138,7 @@ NewProjectModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({
+export default LegacyForm.create({
   name: 'newProjectForm',
   description: 'newProjectForm',
 })(NewProjectModal);

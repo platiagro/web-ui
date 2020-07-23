@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
-import { Upload, Button, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Upload, Button } from 'antd';
 
 // COMPONENTS
 import { InputBlock } from 'components';
@@ -119,7 +120,7 @@ const UploadInputBlock = (props) => {
     <InputBlock tip={tip} title={title}>
       <Upload {...uploadProps} disabled={isDisabled}>
         <Button disabled={isDisabled}>
-          <Icon type={buttonIcon} /> {buttonText}
+          <LegacyIcon type={buttonIcon} /> {buttonText}
         </Button>
       </Upload>
     </InputBlock>

@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
-import { Icon, Popover, Button } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Popover, Button } from 'antd';
 
 /**
  * That displays an icon that when hovered displays information (popover).
@@ -56,7 +57,7 @@ const PopoverTip = (props) => {
         type='link'
         style={{ height: 'auto', color: '#595959', margin: '0', padding: '0' }}
       >
-        <Icon
+        <LegacyIcon
           type={`${iconType}-circle`}
           style={{ lineHeight: '0', margin: '0', padding: '0' }}
         />
