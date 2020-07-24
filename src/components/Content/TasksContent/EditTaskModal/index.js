@@ -1,11 +1,9 @@
 // CORE LIBS
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Form as LegacyForm } from '@ant-design/compatible';
-import { Modal, Input } from 'antd';
-import '@ant-design/compatible/assets/index.css';
+import { Form, Input, Modal } from 'antd';
 
 /**
  * Edit Task Modal.
@@ -17,38 +15,36 @@ const EditTaskModal = ({
   handleCloseModal,
   handleEditTask,
   loading,
-  form,
   modalValidateStatus,
   errorMessage,
 }) => {
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
-  const { getFieldDecorator, getFieldsError } = form;
+  const [form] = Form.useForm();
+  const inputNameRef = useRef();
 
   // did mount hook
   useEffect(() => {
+    if (visible) {
+      setTimeout(() => inputNameRef.current.select());
+    } else {
+      setButtonDisabled(false);
+    }
     setStatus(modalValidateStatus);
-  }, [modalValidateStatus]);
+  }, [form, modalValidateStatus, visible]);
 
   // FUNCTIONS
-  // Function used to check if form has errors
-  const hasErrors = (fieldsError) => {
-    return Object.keys(fieldsError).some((field) => fieldsError[field]);
-  };
-  // Function to handle modal cancel
-  const handleCancel = () => {
-    // resetting form fields
-    form.resetFields();
-    // closing modal
-    handleCloseModal();
+  // function to enable or disable submit button
+  const onValuesChangeForm = (changedValues, allValues) => {
+    if (allValues.name === '') {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
   };
   // Function to handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // validating form fields
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
+  const handleSubmit = () => {
+    form.validateFields().then((values) => {
       handleEditTask(initialValues.uuid, values);
     });
   };
@@ -61,56 +57,60 @@ const EditTaskModal = ({
       title='Alterar Nome e Descrição'
       okText='Confirmar'
       cancelText='Cancelar'
-      onCancel={handleCancel}
+      onCancel={handleCloseModal}
       onOk={handleSubmit}
       okButtonProps={{
-        disabled: hasErrors(getFieldsError()),
+        disabled: buttonDisabled,
+        loading,
         form: 'newEditTaskForm',
         key: 'submit',
         htmlType: 'submit',
       }}
-      confirmLoading={loading}
       destroyOnClose
     >
       {/* form details */}
-      <LegacyForm id='newEditTaskForm' layout='vertical'>
+      <Form
+        id='newEditTaskForm'
+        layout='vertical'
+        form={form}
+        preserve={false}
+        onValuesChange={onValuesChangeForm}
+      >
         {/* name */}
-        <LegacyForm.Item
-          label='Nome da tarefa?'
+        <Form.Item
+          label='Qual o nome da sua tarefa?'
+          name='name'
+          initialValue={initialValues?.name}
+          rules={[
+            {
+              required: true,
+              message: 'Por favor insira um nome para a tarefa!',
+            },
+          ]}
           validateStatus={status ? modalValidateStatus : undefined}
           help={status ? errorMessage : undefined}
           autoFocus
-          onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
-          {/* configuring name input */}
-          {getFieldDecorator('name', {
-            rules: [
-              {
-                required: true,
-                message: 'Por favor insira um nome para a tarefa!',
-              },
-            ],
-            initialValue: initialValues?.name,
-            // name input
-          })(
-            <Input
-              allowClear
-              autoFocus
-              onChange={() => {
-                // remove current status
-                setStatus(null);
-              }}
-            />
-          )}
-        </LegacyForm.Item>
+          <Input
+            allowClear
+            autoFocus
+            ref={inputNameRef}
+            onChange={() => {
+              // remove current status
+              setStatus(null);
+            }}
+          />
+        </Form.Item>
         {/* description */}
-        <LegacyForm.Item label='Descrição (opcional):'>
+        <Form.Item
+          label='Descrição (opcional):'
+          name='description'
+          initialValue={initialValues?.description}
+        >
           {/* description text area */}
-          {getFieldDecorator('description', {
-            initialValue: initialValues?.description,
-          })(<Input.TextArea />)}
-        </LegacyForm.Item>
-      </LegacyForm>
+          <Input.TextArea />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };
@@ -125,11 +125,9 @@ EditTaskModal.propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
   /** edit task modal edit task handler */
   handleEditTask: PropTypes.func.isRequired,
-  /** edit task modal form */
-  form: PropTypes.objectOf(PropTypes.any).isRequired,
   /** is loading */
   loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT
-export default LegacyForm.create({ name: 'editTaskForm' })(EditTaskModal);
+export default EditTaskModal;

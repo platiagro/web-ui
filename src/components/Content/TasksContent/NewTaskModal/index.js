@@ -1,11 +1,10 @@
 // CORE LIBS
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon, Form as LegacyForm } from '@ant-design/compatible';
-import { Modal, Input, Select } from 'antd';
-import '@ant-design/compatible/assets/index.css';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Form, Input, Modal, Select } from 'antd';
 
 // SELECT COMPONENTS
 const { Option } = Select;
@@ -17,41 +16,39 @@ const { Option } = Select;
 const NewTaskModal = ({
   visible,
   templates,
-  form,
   loading,
   modalValidateStatus,
   errorMessage,
   handleCloseModal,
   handleNewTask,
 }) => {
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
-  const { getFieldDecorator, getFieldsError } = form;
+  const [form] = Form.useForm();
+  const inputNameRef = useRef();
 
   // did mount hook
   useEffect(() => {
+    if (visible) {
+      setTimeout(() => inputNameRef.current.select());
+    } else {
+      setButtonDisabled(false);
+    }
     setStatus(modalValidateStatus);
-  }, [modalValidateStatus]);
+  }, [form, modalValidateStatus, visible]);
 
   // FUNCTIONS
-  // Function used to check if form has errors
-  const hasErrors = (fieldsError) => {
-    return Object.keys(fieldsError).some((field) => fieldsError[field]);
-  };
-  // Function to handle modal cancel
-  const handleCancel = () => {
-    // resetting form fields
-    form.resetFields();
-    // closing modal
-    handleCloseModal();
+  // function to enable or disable submit button
+  const onValuesChangeForm = (changedValues, allValues) => {
+    if (allValues.name === '') {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
   };
   // Function to handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // validating form fields
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
+  const handleSubmit = () => {
+    form.validateFields().then((values) => {
       handleNewTask(values);
     });
   };
@@ -64,77 +61,78 @@ const NewTaskModal = ({
       title='Nova Tarefa'
       okText='Criar Notebooks'
       cancelText='Cancelar'
-      onCancel={handleCancel}
+      onCancel={handleCloseModal}
       onOk={handleSubmit}
       okButtonProps={{
-        disabled: hasErrors(getFieldsError()),
+        disabled: buttonDisabled,
+        loading,
         form: 'newTaskForm',
         key: 'submit',
         htmlType: 'submit',
       }}
-      confirmLoading={loading}
       destroyOnClose
     >
       {/* form details */}
-      <LegacyForm id='newTaskForm' layout='vertical'>
+      <Form
+        id='newTaskForm'
+        layout='vertical'
+        form={form}
+        preserve={false}
+        onValuesChange={onValuesChangeForm}
+      >
         {/* templates */}
-        <LegacyForm.Item label='Escolha um exemplo ou template para começar:'>
-          {/* configuring template radio input */}
-          {getFieldDecorator('template', {
-            rules: [
-              {
-                required: true,
-                message:
-                  'Por favor selecione um exemplo ou template para a tarefa!',
-              },
-            ],
-            initialValue: 'uuid', // this is "template em branco" uuid,
-          })(
-            // template dropdown select
-            <Select>
-              {/* template options */}
-              {templates.map((template) => (
-                <Option key={template.uuid} value={template.uuid}>
-                  {template.name}
-                </Option>
-              ))}
-            </Select>
-          )}
-        </LegacyForm.Item>
+        <Form.Item
+          label='Escolha um exemplo ou template para começar:'
+          name='template'
+          initialValue='uuid'
+          rules={[
+            {
+              required: true,
+              message:
+                'Por favor selecione um exemplo ou template para a tarefa!',
+            },
+          ]}
+        >
+          {/*template dropdown select */}
+          <Select>
+            {/* template options */}
+            {templates.map((template) => (
+              <Option key={template.uuid} value={template.uuid}>
+                {template.name}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
         {/* name */}
-        <LegacyForm.Item
+        <Form.Item
           label='Qual o nome da sua tarefa?'
+          name='name'
+          initialValue='Nova tarefa'
+          rules={[
+            {
+              required: true,
+              message: 'Por favor insira um nome para a tarefa!',
+            },
+          ]}
           validateStatus={status ? modalValidateStatus : undefined}
           help={status ? errorMessage : undefined}
           autoFocus
-          onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
-          {/* configuring name input */}
-          {getFieldDecorator('name', {
-            rules: [
-              {
-                required: true,
-                message: 'Por favor insira um nome para a tarefa!',
-              },
-            ],
-            initialValue: 'Nova tarefa',
-            // name input
-          })(
-            <Input
-              allowClear
-              autoFocus
-              onChange={() => {
-                // remove current status
-                setStatus(null);
-              }}
-            />
-          )}
-        </LegacyForm.Item>
+          <Input
+            allowClear
+            autoFocus
+            ref={inputNameRef}
+            onChange={() => {
+              // remove current status
+              setStatus(null);
+            }}
+          />
+        </Form.Item>
         {/* description */}
-        <LegacyForm.Item label='Descrição (opcional):'>
+        <Form.Item label='Descrição (opcional):' name='description'>
           {/* description text area */}
-          {getFieldDecorator('description')(<Input.TextArea />)}
-        </LegacyForm.Item>
+          <Input.TextArea />
+        </Form.Item>
         {/* warning */}
         <p style={{ marginTop: -5 }}>
           {/* warning icon */}
@@ -145,7 +143,7 @@ const NewTaskModal = ({
             experimentação e implantação.
           </span>
         </p>
-      </LegacyForm>
+      </Form>
     </Modal>
   );
 };
@@ -160,11 +158,9 @@ NewTaskModal.propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
   /** new task modal new task handler */
   handleNewTask: PropTypes.func.isRequired,
-  /** new task modal form */
-  form: PropTypes.objectOf(PropTypes.any).isRequired,
   /** is loading */
   loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT
-export default LegacyForm.create({ name: 'newTaskForm' })(NewTaskModal);
+export default NewTaskModal;

@@ -1,18 +1,15 @@
 // CORE LIBS
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Form as LegacyForm } from '@ant-design/compatible';
-import { Modal, Input } from 'antd';
-import '@ant-design/compatible/assets/index.css';
+import { Form, Input, Modal } from 'antd';
 
 /**
  * New Experiment Modal.
  * This component is responsible for displaying a new experiment modal.
  */
 const NewExperimentModal = ({
-  form,
   loading,
   visible,
   modalValidateStatus,
@@ -20,35 +17,33 @@ const NewExperimentModal = ({
   handleCloseModal,
   handleNewExperiment,
 }) => {
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
-  const { getFieldDecorator, getFieldsError } = form;
+  const [form] = Form.useForm();
+  const inputNameRef = useRef();
 
   // did mount hook
   useEffect(() => {
+    if (visible) {
+      setTimeout(() => inputNameRef.current.select());
+    } else {
+      setButtonDisabled(false);
+    }
     setStatus(modalValidateStatus);
-  }, [modalValidateStatus]);
+  }, [modalValidateStatus, visible]);
 
   // FUNCTIONS
-  // Function used to check if form has errors
-  const hasErrors = (fieldsError) => {
-    return Object.keys(fieldsError).some((field) => fieldsError[field]);
-  };
-  // Function to handle modal cancel
-  const handleCancel = () => {
-    // resetting form fields
-    form.resetFields();
-    // closing modal
-    handleCloseModal();
+  // function to enable or disable submit button
+  const onValuesChangeForm = (changedValues, allValues) => {
+    if (allValues.name === '') {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
   };
   // Function to handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // validating form fields
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      // handling create new experiment
+  const handleSubmit = () => {
+    form.validateFields().then((values) => {
       handleNewExperiment(values.name);
     });
   };
@@ -61,10 +56,10 @@ const NewExperimentModal = ({
       title='Novo Experimento'
       okText='Criar'
       cancelText='Cancelar'
-      onCancel={handleCancel}
+      onCancel={handleCloseModal}
       onOk={handleSubmit}
       okButtonProps={{
-        disabled: hasErrors(getFieldsError()),
+        disabled: buttonDisabled,
         loading,
         form: 'newExperimentForm',
         key: 'submit',
@@ -73,34 +68,38 @@ const NewExperimentModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <LegacyForm layout='vertical' onSubmit={handleSubmit}>
-        <LegacyForm.Item
+      <Form
+        id='newExperimentForm'
+        layout='vertical'
+        form={form}
+        preserve={false}
+        onValuesChange={onValuesChangeForm}
+      >
+        <Form.Item
           label='Qual o nome do seu experimento?'
+          name='name'
+          initialValue='Novo Experimento'
+          rules={[
+            {
+              required: true,
+              message: 'Por favor insira um nome para o experimento!',
+            },
+          ]}
           validateStatus={status ? modalValidateStatus : undefined}
           help={status ? errorMessage : undefined}
           autoFocus
-          onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
-          {getFieldDecorator('name', {
-            rules: [
-              {
-                required: true,
-                message: 'Por favor insira um nome para o experimento!',
-              },
-            ],
-            initialValue: 'Novo Experimento',
-          })(
-            <Input
-              allowClear
-              autoFocus
-              onChange={() => {
-                // remove current status
-                setStatus(null);
-              }}
-            />
-          )}
-        </LegacyForm.Item>
-      </LegacyForm>
+          <Input
+            allowClear
+            autoFocus
+            ref={inputNameRef}
+            onChange={() => {
+              // remove current status
+              setStatus(null);
+            }}
+          />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };
@@ -113,11 +112,7 @@ NewExperimentModal.propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
   /** new experiment modal new experiment handler */
   handleNewExperiment: PropTypes.func.isRequired,
-  /** new experiment modal form */
-  form: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 // EXPORT
-export default LegacyForm.create({ name: 'newExperimentForm' })(
-  NewExperimentModal
-);
+export default NewExperimentModal;
