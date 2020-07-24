@@ -88,7 +88,7 @@ const ExperimentsTabs = ({
     if (experiments.length > 0) {
       // rendering tabs
       return experiments.map(({ name, uuid, running }) => (
-        <TabPane tab={renderTitle(name, running, uuid)} key={uuid} />
+        <TabPane tab={renderTitle(name, running)} key={uuid} />
       ));
     }
 
