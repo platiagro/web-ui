@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
 // UI LIBS
-import { Icon, Tooltip, Menu, Dropdown } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Tooltip, Menu, Dropdown } from 'antd';
 
 // STYLES
 import './style.scss';
@@ -76,8 +77,9 @@ const ComponentBox = ({
 }) => {
   // CONSTANTS
   // class name
-  const cssClass = `card ${settedUp && 'setted-up'} ${status} ${selected &&
-    'selected'}`;
+  const cssClass = `card ${settedUp && 'setted-up'} ${status} ${
+    selected && 'selected'
+  }`;
 
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
@@ -119,7 +121,7 @@ const ComponentBox = ({
 
     return (
       <Tooltip placement='right' title={toolTipConfigs[status].title}>
-        <Icon
+        <LegacyIcon
           style={{ fontSize: '18px', color: toolTipConfigs[status].iconColor }}
           type={toolTipConfigs[status].iconType}
           theme={toolTipConfigs[status].iconTheme}
@@ -138,7 +140,11 @@ const ComponentBox = ({
         {/* div title icon container */}
         <div className='title-icon'>
           {/* component icon */}
-          <Icon style={{ fontSize: '18px' }} theme={iconTheme} type={icon} />
+          <LegacyIcon
+            style={{ fontSize: '18px' }}
+            theme={iconTheme}
+            type={icon}
+          />
           {/* component title */}
           <span>{name}</span>
         </div>

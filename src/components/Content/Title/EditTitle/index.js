@@ -1,6 +1,11 @@
+// CORE LIBS
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Typography, Input, Tooltip } from 'antd';
+
+// UI LIBS
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Typography, Input, Tooltip } from 'antd';
+
 import './style.scss';
 
 const { Title } = Typography;
@@ -31,7 +36,7 @@ const EditTitle = ({ title, level, editable, beforeSubmit }) => {
       <Title level={level}>{title}</Title>
       {editable && (
         <Tooltip title='Editar'>
-          <Icon
+          <LegacyIcon
             className='custom-edit-input-icon'
             type='edit'
             onClick={() => setEditMode(true)}

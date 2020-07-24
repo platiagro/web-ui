@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button, Popconfirm, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Button, Popconfirm } from 'antd';
 
 /**
  * Delete Experiment Button.
@@ -26,7 +27,7 @@ const DeleteExperimentButton = ({ handleClick, disabled, loading }) => (
       style={{ float: 'right' }}
       loading={loading}
     >
-      <Icon type='delete' theme='outlined' />
+      <LegacyIcon type='delete' theme='outlined' />
       Excluir
     </Button>
   </Popconfirm>

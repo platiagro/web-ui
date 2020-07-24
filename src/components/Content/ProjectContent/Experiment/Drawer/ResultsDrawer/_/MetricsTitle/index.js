@@ -1,10 +1,13 @@
+// CORE LIBS
 import React from 'react';
-import { Icon } from 'antd';
+
+// UI LIBS
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 
 const MetricsTitle = ({ loading }) => {
   return loading ? (
     <span>
-      Métricas <Icon type='loading' />
+      Métricas <LegacyIcon type='loading' />
     </span>
   ) : (
     <span>Métricas</span>

@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
+import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
 /**
@@ -16,7 +17,7 @@ const NewProjectButton = ({ handleClick, disabled }) => (
     onClick={handleClick}
     className='newProjectButton'
     type='primary'
-    icon='plus'
+    icon={<PlusOutlined />}
   >
     Novo Projeto
   </Button>

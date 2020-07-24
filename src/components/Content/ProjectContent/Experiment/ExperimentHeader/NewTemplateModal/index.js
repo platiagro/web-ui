@@ -3,11 +3,49 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input } from 'antd';
+import { Form as LegacyForm } from '@ant-design/compatible';
+import { Modal, Input } from 'antd';
 
 /**
  * New Template Modal.
  * This component is responsible for displaying a new template modal.
+ *
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
  */
 const NewTemplateModal = ({
   visible,
@@ -68,8 +106,8 @@ const NewTemplateModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form id='newTemplateForm' layout='vertical'>
-        <Form.Item
+      <LegacyForm id='newTemplateForm' layout='vertical'>
+        <LegacyForm.Item
           label='Qual o nome do seu template?'
           autoFocus
           onFocus={(e) => e.target.type === 'text' && e.target.select()}
@@ -83,8 +121,8 @@ const NewTemplateModal = ({
             ],
             initialValue: 'Novo Template',
           })(<Input allowClear autoFocus />)}
-        </Form.Item>
-      </Form>
+        </LegacyForm.Item>
+      </LegacyForm>
     </Modal>
   );
 };
@@ -102,4 +140,4 @@ NewTemplateModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({ name: 'newTemplateForm' })(NewTemplateModal);
+export default LegacyForm.create({ name: 'newTemplateForm' })(NewTemplateModal);

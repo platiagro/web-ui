@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
+import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
 
 /**
@@ -18,7 +19,7 @@ const DeleteProjectsButton = ({ disabled, selectedProjects, handleClick }) => (
   >
     <Button
       disabled={disabled}
-      icon='delete'
+      icon={<DeleteOutlined />}
       style={{ color: '#0050B3', marginLeft: '20px' }}
     >
       Excluir selecionados

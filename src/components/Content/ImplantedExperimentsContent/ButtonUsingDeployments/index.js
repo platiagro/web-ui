@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
 /**
@@ -13,7 +14,7 @@ const ButtonUsingDeployments = ({ handleClick }) => (
   // button component
   <Button
     onClick={handleClick}
-    icon='question-circle'
+    icon={<QuestionCircleOutlined />}
     className='newProjectButton'
     type='secondary'
   >

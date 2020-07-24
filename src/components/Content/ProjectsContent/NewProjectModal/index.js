@@ -3,10 +3,134 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Modal, Form, Input } from 'antd';
+import { Form as LegacyForm } from '@ant-design/compatible';
+import { Modal, Input } from 'antd';
+
 /**
  * New Project Modal.
  * This component is responsible for displaying a new project modal.
+ *
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
  */
 const NewProjectModal = ({
   visible,
@@ -79,8 +203,8 @@ const NewProjectModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <Form layout='vertical' onSubmit={handleSubmit}>
-        <Form.Item
+      <LegacyForm layout='vertical' onSubmit={handleSubmit}>
+        <LegacyForm.Item
           label='Qual o nome do seu projeto?'
           validateStatus={status ? modalValidateStatus : undefined}
           help={status ? errorMessage : undefined}
@@ -105,8 +229,8 @@ const NewProjectModal = ({
               }}
             />
           )}
-        </Form.Item>
-        <Form.Item label='Descrição (Opcional):'>
+        </LegacyForm.Item>
+        <LegacyForm.Item label='Descrição (Opcional):'>
           {getFieldDecorator('description', {
             rules: [
               {
@@ -115,8 +239,8 @@ const NewProjectModal = ({
             ],
             initialValue: record?.description,
           })(<Input.TextArea rows={4} />)}
-        </Form.Item>
-      </Form>
+        </LegacyForm.Item>
+      </LegacyForm>
     </Modal>
   );
 };
@@ -136,7 +260,7 @@ NewProjectModal.propTypes = {
 };
 
 // EXPORT
-export default Form.create({
+export default LegacyForm.create({
   name: 'newProjectForm',
   description: 'newProjectForm',
 })(NewProjectModal);
