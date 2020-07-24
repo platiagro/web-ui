@@ -15,6 +15,43 @@ const { TabPane } = Tabs;
 /**
  * Experiments Tabs.
  * This component is responsible for displaying experiments tabs.
+ *
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
  */
 const ExperimentsTabs = ({
   experiments,

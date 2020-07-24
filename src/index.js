@@ -2,6 +2,7 @@
 // STYLES (in this file styles need to be loading before all code)
 import './style.scss';
 import 'antd/dist/antd.css';
+import '@ant-design/compatible/assets/index.css';
 
 // CORE LIBS
 import React from 'react';

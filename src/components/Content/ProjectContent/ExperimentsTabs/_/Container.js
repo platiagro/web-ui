@@ -1,7 +1,7 @@
 // CORE LIBS
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
 import ExperimentsTabs from './index';
@@ -12,7 +12,10 @@ import {
   organizeExperimentsRequest,
   clearAllExperiments,
 } from '../../../../../store/experiments/actions';
-import { fetchExperimentActiveRequest } from '../../../../../store/experiment/actions';
+import {
+  fetchExperimentActiveRequest,
+  deleteExperimentRequest,
+} from '../../../../../store/experiment/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -22,6 +25,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchExperimentsRequest(projectId, routerProps)),
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(fetchExperimentActiveRequest(projectId, experimentId)),
+    handleDeleteExperiment: (projectId, experimentId) =>
+      dispatch(deleteExperimentRequest(projectId, experimentId, routerProps)),
     handleOrganizeExperiments: (
       projectId,
       dragExperimentId,
@@ -59,6 +64,7 @@ const ExperimentTabsContainer = ({
   handleOrganizeExperiments,
   handleFetchExperiment,
   handleClearAllExperiments,
+  handleDeleteExperiment,
 }) => {
   // CONSTANTS
   // getting history
@@ -92,6 +98,9 @@ const ExperimentTabsContainer = ({
   }, [experiments, history, projectId, experimentId]);
 
   // HANDLERS
+  const deleteHandler = (experimentId) => {
+    handleDeleteExperiment(projectId, experimentId);
+  };
   // change tab
   const handleChangeTab = (targetId) => {
     // fetching experiment
@@ -126,12 +135,12 @@ const ExperimentTabsContainer = ({
       handleChange={handleChangeTab}
       handleMoveTab={handleOrganizeTabs}
       loading={loading}
+      deleteHandler={deleteHandler}
     />
   );
 };
 
 // EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExperimentTabsContainer);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ExperimentTabsContainer)
+);

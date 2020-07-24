@@ -34,6 +34,32 @@ const mapStateToProps = (state) => {
  * Content Header Project Container.
  * This component is responsible for create a logic container for project content
  * header with route control.
+ *
+ * @param root0
+ * @param root0.project
+ * @param root0.loading
+ * @param root0.handleFetchProject
+ * @param root0.handleEditProjectName
+ * @param root0
+ * @param root0.project
+ * @param root0.loading
+ * @param root0.handleFetchProject
+ * @param root0.handleEditProjectName
+ * @param root0
+ * @param root0.project
+ * @param root0.loading
+ * @param root0.handleFetchProject
+ * @param root0.handleEditProjectName
+ * @param root0
+ * @param root0.project
+ * @param root0.loading
+ * @param root0.handleFetchProject
+ * @param root0.handleEditProjectName
+ * @param root0
+ * @param root0.project
+ * @param root0.loading
+ * @param root0.handleFetchProject
+ * @param root0.handleEditProjectName
  */
 const ContentHeaderProjectContainer = ({
   project,
@@ -56,7 +82,7 @@ const ContentHeaderProjectContainer = ({
 
   // HANDLERS
   // go back
-  const goBackHandler = () => history.goBack();
+  const goBackHandler = () => history.push('/projetos');
   // edit project name
   const editProjectNameHandler = (newProjectName) =>
     handleEditProjectName(projectId, newProjectName);
