@@ -32,10 +32,11 @@ import {
 // ** FETCH EXPERIMENT
 /**
  * fetch experiment success action
- * @param {Object} response
- * @param {Object} projectId
- * @param {Object} experimentId
- * @returns {Object} { type, experiment }
+ *
+ * @param {object} response
+ * @param {object} projectId
+ * @param {object} experimentId
+ * @returns {object} { type, experiment }
  */
 const fetchExperimentSuccess = (response, projectId, experimentId) => (
   dispatch
@@ -60,8 +61,10 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
 
 /**
  * fetch experiment fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @param routerProps
+ * @returns {object} { type, errorMessage }
  */
 const fetchExperimentFail = (error, routerProps) => (dispatch) => {
   // getting error message
@@ -85,8 +88,10 @@ const fetchExperimentFail = (error, routerProps) => (dispatch) => {
 
 /**
  * fetch experiment request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
+ * @param routerProps
  * @returns {Function}
  */
 export const fetchExperimentRequest = (
@@ -113,6 +118,7 @@ export const fetchExperimentRequest = (
 
 /**
  * fetch experiment request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @returns {Function}
@@ -150,10 +156,11 @@ export const fetchExperimentActiveRequest = (projectId, experimentId) => (
 // ** CREATE EXPERIMENT
 /**
  * create experiment success action
- * @param {Object} response
+ *
+ * @param {object} response
  * @param {string} projectId
- * @param {Object} routerProps
- * @returns {Object} { type, experiment }
+ * @param {object} routerProps
+ * @returns {object} { type, experiment }
  */
 const createExperimentSuccess = (response, projectId, routerProps) => (
   dispatch
@@ -187,8 +194,9 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
 
 /**
  * create experiment fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const createExperimentFail = (error) => (dispatch) => {
   // dispatching experiments tabs data loaded action
@@ -218,9 +226,10 @@ const createExperimentFail = (error) => (dispatch) => {
 
 /**
  * create experiment request action
+ *
  * @param {string} projectId
  * @param {string} experimentName
- * @param {Object} routerProps
+ * @param {object} routerProps
  * @returns {Function}
  */
 export const createExperimentRequest = (
@@ -253,8 +262,9 @@ export const createExperimentRequest = (
 // ** EDIT EXPERIMENT NAME
 /**
  * edit experiment name success action
- * @param {Object} response
- * @returns {Object} { type, experiment }
+ *
+ * @param {object} response
+ * @returns {object} { type, experiment }
  */
 const editExperimentNameSuccess = (response) => (dispatch) => {
   // getting experiment from response
@@ -275,8 +285,9 @@ const editExperimentNameSuccess = (response) => (dispatch) => {
 
 /**
  * edit experiment name fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const editExperimentNameFail = (error) => (dispatch) => {
   // dispatching experiments tabs data loaded action
@@ -300,6 +311,7 @@ const editExperimentNameFail = (error) => (dispatch) => {
 
 /**
  * edit experiment name request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} newName
@@ -334,10 +346,11 @@ export const editExperimentNameRequest = (projectId, experimentId, newName) => (
 // ** DELETE EXPERIMENT
 /**
  * delete experiment success action
+ *
  * @param {string} projectId
  * @param {string} experimentId
- * @param {Object} routerProps
- * @returns {Object} { type }
+ * @param {object} routerProps
+ * @returns {object} { type }
  */
 const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
   dispatch
@@ -363,8 +376,9 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
 
 /**
  * delete experiment fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const deleteExperimentFail = (error) => (dispatch) => {
   // getting error message
@@ -388,9 +402,10 @@ const deleteExperimentFail = (error) => (dispatch) => {
 
 /**
  * delete experiment request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
- * @param {Object} routerProps
+ * @param {object} routerProps
  * @returns {Function}
  */
 export const deleteExperimentRequest = (
@@ -426,10 +441,11 @@ export const deleteExperimentRequest = (
 // ** SET DATASET
 /**
  * set dataset success action
- * @param {Object} response
+ *
+ * @param {object} response
  * @param {string} projectId
  * @param {string} experimentId
- * @returns {Object} { type, experiment }
+ * @returns {object} { type, experiment }
  */
 const setDatasetSuccess = (response, projectId, experimentId) => (dispatch) => {
   // getting experiment from response
@@ -455,8 +471,9 @@ const setDatasetSuccess = (response, projectId, experimentId) => (dispatch) => {
 
 /**
  * set dataset fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const setDatasetFail = (error) => (dispatch) => {
   // getting error message
@@ -473,6 +490,7 @@ const setDatasetFail = (error) => (dispatch) => {
 
 /**
  * set dataset request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} datasetName
@@ -503,8 +521,9 @@ export const setDatasetRequest = (projectId, experimentId, datasetName) => (
 // ** SET TARGET COLUMN
 /**
  * set target column success action
- * @param {Object} response
- * @returns {Object} { type, experiment }
+ *
+ * @param {object} response
+ * @returns {object} { type, experiment }
  */
 const setTargetColumnSuccess = (response) => (dispatch) => {
   // getting experiment from response
@@ -521,8 +540,9 @@ const setTargetColumnSuccess = (response) => (dispatch) => {
 
 /**
  * set target column fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const setTargetColumnFail = (error) => (dispatch) => {
   // getting error message
@@ -539,6 +559,7 @@ const setTargetColumnFail = (error) => (dispatch) => {
 
 /**
  * set target column request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} targetColumnName
@@ -571,6 +592,7 @@ export const setTargetColumnRequest = (
 
 /**
  * train experiment action
+ *
  * @param {string} uuid
  * @returns {type, experiment}
  */
@@ -581,6 +603,7 @@ export const trainExperiment = (uuid) => ({
 
 /**
  * deploy experiment name action
+ *
  * @param {string} uuid
  * @returns {type, experiment}
  */
@@ -594,8 +617,9 @@ export const deployExperiment = (uuid) => ({
 // ** FETCH EXPERIMENT DEPLOY STATUS
 /**
  * fetch experiment deploy status success action
- * @param {Object} response
- * @returns {Object} { type, status }
+ *
+ * @param {object} response
+ * @returns {object} { type, status }
  */
 const fetchExperimentDeployStatusSuccess = (response) => (dispatch) => {
   // getting deploy list from response
@@ -610,6 +634,7 @@ const fetchExperimentDeployStatusSuccess = (response) => (dispatch) => {
 
 /**
  * fetch experiment deploy status request action
+ *
  * @param {string} experimentId
  * @returns {Function}
  */
