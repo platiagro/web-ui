@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Tabs, Spin, Icon, Menu, Popconfirm, Dropdown } from 'antd';
+import { Tabs, Spin, Icon } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';
@@ -14,6 +14,43 @@ const { TabPane } = Tabs;
 /**
  * Experiments Tabs.
  * This component is responsible for displaying experiments tabs.
+ *
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleChange
+ * @param root0.handleMoveTab
+ * @param root0.activeExperiment
  */
 const ExperimentsTabs = ({
   experiments,
@@ -21,40 +58,17 @@ const ExperimentsTabs = ({
   handleChange,
   handleMoveTab,
   activeExperiment,
-  deleteHandler,
 }) => {
   // COMPONENTS RENDERS
-  // CONTEXT MENU
-  const menu = (experimentId) => (
-    <Menu>
-      <Menu.Item key='1'>
-        <Icon type='edit' />
-        Renomear
-      </Menu.Item>
-      <Menu.Item key='2'>
-        <Popconfirm
-          title='Você tem certeza que deseja excluir esse projeto?'
-          onConfirm={() => deleteHandler(experimentId)}
-          okText='Sim'
-          cancelText='Não'
-        >
-          <Icon type='delete' />
-          Excluir
-        </Popconfirm>
-      </Menu.Item>
-    </Menu>
-  );
   // title
-  const renderTitle = (title, running, experimentId) => (
+  const renderTitle = (title, running) => (
     // react fragment
-    <Dropdown overlay={() => menu(experimentId)} trigger={['contextMenu']}>
-      <div>
-        {/* title */}
-        {title}
-        {/* running spinner */}
-        {running && <Icon type='loading' />}
-      </div>
-    </Dropdown>
+    <>
+      {/* title */}
+      {title}
+      {/* running spinner */}
+      {running && <Icon type='loading' />}
+    </>
   );
   // render tabs
   const renderTabs = () => {
