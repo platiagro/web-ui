@@ -5,11 +5,47 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Form as LegacyForm } from '@ant-design/compatible';
 import { Modal, Input } from 'antd';
-import '@ant-design/compatible/assets/index.css';
 
 /**
  * New Template Modal.
  * This component is responsible for displaying a new template modal.
+ *
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.handleCloseModal
+ * @param root0.handleNewTemplate
+ * @param root0.form
  */
 const NewTemplateModal = ({
   visible,

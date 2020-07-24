@@ -5,11 +5,92 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Form as LegacyForm } from '@ant-design/compatible';
 import { Modal, Input } from 'antd';
-import '@ant-design/compatible/assets/index.css';
 
 /**
  * Edit Task Modal.
  * This component is responsible for displaying a edit task modal.
+ *
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0
+ * @param root0.visible
+ * @param root0.initialValues
+ * @param root0.handleCloseModal
+ * @param root0.handleEditTask
+ * @param root0.loading
+ * @param root0.form
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
  */
 const EditTaskModal = ({
   visible,
