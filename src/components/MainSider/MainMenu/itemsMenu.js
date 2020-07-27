@@ -1,24 +1,29 @@
 // MENU ITEMS LIST MOCK
 const itemsMenu = [
   {
-    icon: 'home',
-    title: 'Início',
+    icon: 'AppstoreOutlined',
+    title: 'Meus projetos',
     path: '/',
   },
   {
-    icon: 'code',
+    icon: 'DeploymentUnitOutlined',
+    title: 'Experimentos Implantados',
+    path: '/experimentos-implantados',
+  },
+  {
+    icon: 'BuildOutlined',
     title: 'Tarefas',
     path: '/tarefas',
   },
   {
-    icon: 'experiment',
-    title: 'Projetos',
-    path: '/projetos',
+    icon: 'ShoppingOutlined',
+    title: 'Marketplace',
+    path: '/marketplace',
   },
   {
-    icon: 'apartment',
-    title: 'Experimentos Implantados',
-    path: '/experimentos-implantados',
+    icon: 'SettingOutlined',
+    title: 'Configurações',
+    path: '/configuracoes',
   },
 ];
 

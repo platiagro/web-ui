@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import {
-  ApartmentOutlined,
-  CodeOutlined,
-  ExperimentOutlined,
-  HomeOutlined,
+  AppstoreOutlined,
+  BuildOutlined,
+  DeploymentUnitOutlined,
+  SettingOutlined,
+  ShoppingOutlined,
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 
@@ -19,8 +20,7 @@ const { Item } = Menu;
  * This component is responsible for displaying main menu with items.
  */
 const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
-  console.log(itemsList);
-
+  const style = { color: '#ffffff' };
   return (
     // menu component
     <Menu
@@ -34,10 +34,13 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
         // menu item
         <Item key={path}>
           {/* menu item icon */}
-          {icon === 'apartment' && <ApartmentOutlined />}
-          {icon === 'code' && <CodeOutlined />}
-          {icon === 'experiment' && <ExperimentOutlined />}
-          {icon === 'home' && <HomeOutlined />}
+          {icon === 'AppstoreOutlined' && <AppstoreOutlined style={style} />}
+          {icon === 'BuildOutlined' && <BuildOutlined style={style} />}
+          {icon === 'DeploymentUnitOutlined' && (
+            <DeploymentUnitOutlined style={style} />
+          )}
+          {icon === 'SettingOutlined' && <SettingOutlined style={style} />}
+          {icon === 'ShoppingOutlined' && <ShoppingOutlined style={style} />}
           {/* menu item title */}
           <span>{title}</span>
         </Item>
