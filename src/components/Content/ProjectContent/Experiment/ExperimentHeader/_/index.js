@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 
 // COMPONENTS
-import Title from '../../../../Title';
 import DeleteExperimentButton from '../DeleteExperimentButton';
 import TrainExperimentButton from '../TrainExperimentButton';
 import DeployExperimentButton from '../DeployExperimentButton';
@@ -19,13 +18,11 @@ import './styles.scss';
  * This component is responsible for displaying the experiment header.
  */
 const ExperimentHeader = ({
-  title,
   loading,
   trainingLoading,
   trainingSucceeded,
   deployStatus,
   handleDeleteExperiment,
-  handleEditExperimentName,
   handleTrainExperiment,
   handleDeployExperiment,
   empty,
@@ -35,15 +32,7 @@ const ExperimentHeader = ({
     {/* new template modal */}
     <NewTemplateModal />
     {/* column container */}
-    <Col span={8}>
-      {/* title */}
-      <Title
-        title={title}
-        loading={loading}
-        level={4}
-        handleSubmit={handleEditExperimentName}
-      />
-    </Col>
+    <Col span={8}></Col>
     <Col span={16}>
       {/* column container */}
       <div className='buttons-config'>
@@ -80,8 +69,6 @@ const ExperimentHeader = ({
 
 // PROP TYPES
 ExperimentHeader.propTypes = {
-  /** experiment header experiment name */
-  title: PropTypes.string.isRequired,
   /** experiment header delete experiment handler */
   handleDeleteExperiment: PropTypes.func.isRequired,
   /** experiment header edit experiment name handler */

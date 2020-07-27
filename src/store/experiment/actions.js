@@ -371,7 +371,6 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
   });
 
   // go to project
-  console.log(routerProps);
   routerProps.history.push(`/projetos/${projectId}`);
 };
 
