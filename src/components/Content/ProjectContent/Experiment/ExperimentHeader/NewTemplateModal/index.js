@@ -1,88 +1,46 @@
 // CORE LIBS
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Form as LegacyForm } from '@ant-design/compatible';
-import { Modal, Input } from 'antd';
+import { Form, Input, Modal } from 'antd';
 
 /**
  * New Template Modal.
  * This component is responsible for displaying a new template modal.
- *
- * @param root0
- * @param root0.visible
- * @param root0.loading
- * @param root0.handleCloseModal
- * @param root0.handleNewTemplate
- * @param root0.form
- * @param root0
- * @param root0.visible
- * @param root0.loading
- * @param root0.handleCloseModal
- * @param root0.handleNewTemplate
- * @param root0.form
- * @param root0
- * @param root0.visible
- * @param root0.loading
- * @param root0.handleCloseModal
- * @param root0.handleNewTemplate
- * @param root0.form
- * @param root0
- * @param root0.visible
- * @param root0.loading
- * @param root0.handleCloseModal
- * @param root0.handleNewTemplate
- * @param root0.form
- * @param root0
- * @param root0.visible
- * @param root0.loading
- * @param root0.handleCloseModal
- * @param root0.handleNewTemplate
- * @param root0.form
- * @param root0
- * @param root0.visible
- * @param root0.loading
- * @param root0.handleCloseModal
- * @param root0.handleNewTemplate
- * @param root0.form
  */
 const NewTemplateModal = ({
   visible,
   loading,
   handleCloseModal,
   handleNewTemplate,
-  form,
 }) => {
-  // getting form utils
-  const { getFieldDecorator, getFieldsError } = form;
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [form] = Form.useForm();
+  const inputNameRef = useRef();
+
+  // did mount hook
+  useEffect(() => {
+    if (visible) {
+      setTimeout(() => inputNameRef.current.select());
+    } else {
+      setButtonDisabled(false);
+    }
+  }, [visible]);
 
   // FUNCTIONS
-  // Function used to check if form has errors
-  const hasErrors = (fieldsError) => {
-    return Object.keys(fieldsError).some((field) => fieldsError[field]);
-  };
-  // Function to handle modal cancel
-  const handleCancel = () => {
-    // resetting form fields
-    form.resetFields();
-    // closing modal
-    handleCloseModal();
+  // function to enable or disable submit button
+  const onValuesChangeForm = (changedValues, allValues) => {
+    if (allValues.name === '') {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
   };
   // Function to handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // validating form fields
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-
-      // handling create new template
+  const handleSubmit = () => {
+    form.validateFields().then((values) => {
       handleNewTemplate(values.name);
-
-      // resetting form fields
-      form.resetFields();
     });
   };
 
@@ -94,10 +52,10 @@ const NewTemplateModal = ({
       title='Novo Template'
       okText='Salvar'
       cancelText='Cancelar'
-      onCancel={handleCancel}
+      onCancel={handleCloseModal}
       onOk={handleSubmit}
       okButtonProps={{
-        disabled: hasErrors(getFieldsError()),
+        disabled: buttonDisabled,
         loading,
         form: 'newTemplateForm',
         key: 'submit',
@@ -106,23 +64,28 @@ const NewTemplateModal = ({
       destroyOnClose
     >
       {/* form details */}
-      <LegacyForm id='newTemplateForm' layout='vertical'>
-        <LegacyForm.Item
+      <Form
+        id='newTemplateForm'
+        layout='vertical'
+        form={form}
+        preserve={false}
+        onValuesChange={onValuesChangeForm}
+      >
+        <Form.Item
           label='Qual o nome do seu template?'
+          name='name'
+          initialValue='Novo Template'
+          rules={[
+            {
+              required: true,
+              message: 'Por favor insira um nome para o template!',
+            },
+          ]}
           autoFocus
-          onFocus={(e) => e.target.type === 'text' && e.target.select()}
         >
-          {getFieldDecorator('name', {
-            rules: [
-              {
-                required: true,
-                message: 'Por favor insira um nome para o template!',
-              },
-            ],
-            initialValue: 'Novo Template',
-          })(<Input allowClear autoFocus />)}
-        </LegacyForm.Item>
-      </LegacyForm>
+          <Input allowClear autoFocus ref={inputNameRef} />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };
@@ -135,9 +98,7 @@ NewTemplateModal.propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
   /** new template modal new template handler */
   handleNewTemplate: PropTypes.func.isRequired,
-  /** new template modal form */
-  form: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 // EXPORT
-export default LegacyForm.create({ name: 'newTemplateForm' })(NewTemplateModal);
+export default NewTemplateModal;
