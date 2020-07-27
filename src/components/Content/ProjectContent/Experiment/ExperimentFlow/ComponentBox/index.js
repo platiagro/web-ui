@@ -6,16 +6,10 @@ import { useParams } from 'react-router-dom';
 
 // UI LIBS
 import {
-  AreaChartOutlined,
   CheckCircleFilled,
   ClockCircleFilled,
-  ControlOutlined,
-  DatabaseOutlined,
   ExclamationCircleFilled,
-  FileOutlined,
   SettingOutlined,
-  ShareAltOutlined,
-  SolutionOutlined,
 } from '@ant-design/icons';
 import { Tooltip, Menu, Dropdown } from 'antd';
 
@@ -39,30 +33,30 @@ const toolTipConfigs = {
   // running status
   Running: {
     title: 'Tarefa em execução',
-    iconColor: '#666666',
-    iconType: 'setting',
-    spin: true,
+    iconType: (
+      <SettingOutlined style={{ fontSize: '18px', color: '#666666' }} spin />
+    ),
   },
   // pending status
   Pending: {
     title: 'Tarefa pendente',
-    iconColor: '#666666',
-    iconType: 'clock-circle',
-    spin: false,
+    iconType: (
+      <ClockCircleFilled style={{ fontSize: '18px', color: '#666666' }} />
+    ),
   },
   // succeeded status
   Succeeded: {
     title: 'Tarefa executada com sucesso',
-    iconColor: '#389E0D',
-    iconType: 'check-circle',
-    spin: false,
+    iconType: (
+      <CheckCircleFilled style={{ fontSize: '18px', color: '#389E0D' }} />
+    ),
   },
   // failed status
   Failed: {
     title: 'Tarefa executada com falha',
-    iconColor: '#CF1322',
-    iconType: 'exclamation-circle',
-    spin: false,
+    iconType: (
+      <ExclamationCircleFilled style={{ fontSize: '18px', color: '#CF1322' }} />
+    ),
   },
 };
 
@@ -125,40 +119,12 @@ const ComponentBox = ({
   // tooltip
   const renderTooltip = () => {
     if (!status || status === 'Loading') return null;
-
-    const style = { fontSize: '18px', color: toolTipConfigs[status].iconColor };
-    const spin = toolTipConfigs[status].spin;
-
-    let toolTipIcon;
-    switch (toolTipConfigs[status].iconType) {
-      case 'check-circle': {
-        toolTipIcon = <CheckCircleFilled style={style} spin={spin} />;
-        break;
-      }
-      case 'clock-circle': {
-        toolTipIcon = <ClockCircleFilled style={style} spin={spin} />;
-        break;
-      }
-      case 'exclamation-circle': {
-        toolTipIcon = <ExclamationCircleFilled style={style} spin={spin} />;
-        break;
-      }
-      case 'setting': {
-        toolTipIcon = <SettingOutlined style={style} spin={spin} />;
-        break;
-      }
-      default: {
-        break;
-      }
-    }
     return (
       <Tooltip placement='right' title={toolTipConfigs[status].title}>
-        {toolTipIcon}
+        {toolTipConfigs[status].iconType}
       </Tooltip>
     );
   };
-
-  const compIconStyle = { fontSize: '18px' };
 
   // RENDER
   return (
@@ -169,12 +135,7 @@ const ComponentBox = ({
         {/* div title icon container */}
         <div className='title-icon'>
           {/* component icon */}
-          {icon === 'area-chart' && <AreaChartOutlined style={compIconStyle} />}
-          {icon === 'control' && <ControlOutlined style={compIconStyle} />}
-          {icon === 'database' && <DatabaseOutlined style={compIconStyle} />}
-          {icon === 'file' && <FileOutlined style={compIconStyle} />}
-          {icon === 'share-alt' && <ShareAltOutlined style={compIconStyle} />}
-          {icon === 'solution' && <SolutionOutlined style={compIconStyle} />}
+          <div style={{ fontSize: '18px' }}>{icon}</div>
           {/* component title */}
           <span>{name}</span>
         </div>

@@ -1,22 +1,29 @@
-// MENU ITEMS LIST MOCK
+import React from 'react';
+import {
+  ApartmentOutlined,
+  CodeOutlined,
+  ExperimentOutlined,
+  HomeOutlined,
+} from '@ant-design/icons';
+
 const itemsMenu = [
   {
-    icon: 'home',
+    icon: <HomeOutlined />,
     title: 'Início',
     path: '/',
   },
   {
-    icon: 'code',
+    icon: <CodeOutlined />,
     title: 'Tarefas',
     path: '/tarefas',
   },
   {
-    icon: 'experiment',
+    icon: <ExperimentOutlined />,
     title: 'Projetos',
     path: '/projetos',
   },
   {
-    icon: 'apartment',
+    icon: <ApartmentOutlined />,
     title: 'Experimentos Implantados',
     path: '/experimentos-implantados',
   },

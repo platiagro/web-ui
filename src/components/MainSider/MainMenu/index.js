@@ -3,12 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import {
-  ApartmentOutlined,
-  CodeOutlined,
-  ExperimentOutlined,
-  HomeOutlined,
-} from '@ant-design/icons';
 import { Menu } from 'antd';
 
 // MENU COMPONENTS
@@ -19,8 +13,6 @@ const { Item } = Menu;
  * This component is responsible for displaying main menu with items.
  */
 const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
-  console.log(itemsList);
-
   return (
     // menu component
     <Menu
@@ -34,10 +26,7 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
         // menu item
         <Item key={path}>
           {/* menu item icon */}
-          {icon === 'apartment' && <ApartmentOutlined />}
-          {icon === 'code' && <CodeOutlined />}
-          {icon === 'experiment' && <ExperimentOutlined />}
-          {icon === 'home' && <HomeOutlined />}
+          {icon}
           {/* menu item title */}
           <span>{title}</span>
         </Item>

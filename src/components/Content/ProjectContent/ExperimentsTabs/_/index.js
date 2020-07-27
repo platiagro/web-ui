@@ -123,6 +123,13 @@ const ExperimentsTabs = ({
     </>
   );
 
+  const ItemName = ({ name, icon }) => (
+    <div className='menu-item-name'>
+      {icon}
+      <span>{name}</span>
+    </div>
+  );
+
   //Content of rename popover, using Search for press enter and suffix ok button
   const content = (
     <Input.Search
@@ -216,10 +223,7 @@ const ExperimentsTabs = ({
             }
             preventClose={true}
           >
-            <div className='menu-item-name'>
-              <EditOutlined />
-              <span>Renomear</span>
-            </div>
+            <ItemName name='Renomear' icon={<EditOutlined />} />
           </MenuItem>
         </Popover>
         <Popconfirm
@@ -237,10 +241,7 @@ const ExperimentsTabs = ({
               handleMenuClick(data.action, data.experimentId)
             }
           >
-            <div className='menu-item-name'>
-              <DeleteOutlined />
-              <span>Excluir</span>
-            </div>
+            <ItemName name='Excluir' icon={<DeleteOutlined />} />
           </MenuItem>
         </Popconfirm>
       </ContextMenu>
