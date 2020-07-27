@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { InfoCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 
 /**
@@ -41,6 +41,14 @@ const TooltipTip = (props) => {
   // destructuring props
   const { isTooltipBelow, tooltipText, iconType } = props;
 
+  const toolTipIconStyle = { lineHeight: '0', margin: '0', padding: '0' };
+  let toolTipIcon;
+  if (iconType === 'info') {
+    toolTipIcon = <InfoCircleOutlined style={toolTipIconStyle} />;
+  } else {
+    toolTipIcon = <QuestionCircleOutlined style={toolTipIconStyle} />;
+  }
+
   // rendering component
   return (
     <Tooltip
@@ -49,10 +57,7 @@ const TooltipTip = (props) => {
       style={{ margin: '0', padding: '0' }}
       trigger='hover'
     >
-      <LegacyIcon
-        type={`${iconType}-circle`}
-        style={{ lineHeight: '0', margin: '0', padding: '0' }}
-      />
+      {toolTipIcon}
     </Tooltip>
   );
 };
@@ -64,7 +69,7 @@ TooltipTip.propTypes = {
   /** Tooltip information text */
   tooltipText: PropTypes.string.isRequired,
   /** Icon type */
-  iconType: PropTypes.oneOf(['question', 'info']).isRequired,
+  iconType: PropTypes.oneOf(['info', 'question']).isRequired,
 };
 
 // EXPORT DEFAULT

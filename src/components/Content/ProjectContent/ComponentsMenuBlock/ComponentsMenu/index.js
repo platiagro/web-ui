@@ -3,7 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import {
+  AreaChartOutlined,
+  ControlOutlined,
+  DatabaseOutlined,
+  FileOutlined,
+  ShareAltOutlined,
+  SolutionOutlined,
+} from '@ant-design/icons';
 import { Tooltip, Menu, Dropdown } from 'antd';
 
 // UTILS
@@ -88,7 +95,12 @@ const ComponentsMenu = ({
           // span container
           <span>
             {/* sub menu icon */}
-            <LegacyIcon type={icon} />
+            {icon === 'area-chart' && <AreaChartOutlined />}
+            {icon === 'control' && <ControlOutlined />}
+            {icon === 'database' && <DatabaseOutlined />}
+            {icon === 'file' && <FileOutlined />}
+            {icon === 'share-alt' && <ShareAltOutlined />}
+            {icon === 'solution' && <SolutionOutlined />}
             {/* sub menu title */}
             <span>{title}</span>
           </span>

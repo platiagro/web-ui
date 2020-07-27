@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { LoadingOutlined, ToolOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
 /**
@@ -18,7 +18,7 @@ const DeployExperimentButton = ({ handleClick, disabled, loading }) => (
     className='ant-btn-oval'
     type='primary'
   >
-    {loading ? <LegacyIcon type='loading' /> : <LegacyIcon type='tool' />}
+    {loading ? <LoadingOutlined /> : <ToolOutlined />}
     Implantar
   </Button>
 );

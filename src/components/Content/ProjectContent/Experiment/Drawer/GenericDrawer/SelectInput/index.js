@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 
 // COMPONENTS
@@ -75,7 +75,7 @@ const SelectInput = ({
         // warning paragraph container
         <p style={{ marginTop: 10 }}>
           {/* warning icon */}
-          <LegacyIcon type='exclamation-circle' />
+          <ExclamationCircleOutlined />
           {/* warning message */}
           <span style={{ marginLeft: 10 }}>{warning}</span>
         </p>

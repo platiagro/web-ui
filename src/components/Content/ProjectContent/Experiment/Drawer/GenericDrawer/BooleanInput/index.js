@@ -3,7 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import {
+  CheckOutlined,
+  CloseOutlined,
+  ExclamationCircleOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 import { Switch, Spin } from 'antd';
 
 // COMPONENTS
@@ -39,8 +44,8 @@ const BooleanInput = ({
     <div style={{ marginTop: '10px' }}>
       {/* string input */}
       <Switch
-        checkedChildren={<LegacyIcon type='check' />}
-        unCheckedChildren={<LegacyIcon type='close' />}
+        checkedChildren={<CheckOutlined />}
+        unCheckedChildren={<CloseOutlined />}
         defaultChecked={value}
         onChange={(valueReceived) => handleChange(name, valueReceived)}
         placeholder={placeholder}
@@ -50,17 +55,14 @@ const BooleanInput = ({
     </div>
     {/* loading */}
     {loading && (
-      <Spin
-        style={{ marginLeft: '1vw' }}
-        indicator={<LegacyIcon type='loading' spin />}
-      />
+      <Spin style={{ marginLeft: '1vw' }} indicator={<LoadingOutlined />} />
     )}
     {/* warning */}
     {warning && (
       // warning paragraph container
       <p style={{ marginTop: 10 }}>
         {/* warning icon */}
-        <LegacyIcon type='exclamation-circle' />
+        <ExclamationCircleOutlined />
         {/* warning message */}
         <span style={{ marginLeft: 10 }}>{warning}</span>
       </p>

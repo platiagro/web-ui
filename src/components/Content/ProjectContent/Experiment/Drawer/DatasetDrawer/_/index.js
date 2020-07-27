@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { LoadingOutlined } from '@ant-design/icons';
 
 // CONTAINERS
 import { DatasetUploadInputBlockContainer } from 'containers';
@@ -48,7 +48,7 @@ const DatasetDrawer = (props) => {
         <div style={{ padding: '10px' }}>
           {/* divider component */}
           {/* loading icon */}
-          <LegacyIcon type='loading' />
+          <LoadingOutlined />
         </div>
       );
 

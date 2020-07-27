@@ -5,7 +5,18 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import {
+  AreaChartOutlined,
+  CheckCircleFilled,
+  ClockCircleFilled,
+  ControlOutlined,
+  DatabaseOutlined,
+  ExclamationCircleFilled,
+  FileOutlined,
+  SettingOutlined,
+  ShareAltOutlined,
+  SolutionOutlined,
+} from '@ant-design/icons';
 import { Tooltip, Menu, Dropdown } from 'antd';
 
 // STYLES
@@ -30,7 +41,6 @@ const toolTipConfigs = {
     title: 'Tarefa em execução',
     iconColor: '#666666',
     iconType: 'setting',
-    iconTheme: null,
     spin: true,
   },
   // pending status
@@ -38,7 +48,6 @@ const toolTipConfigs = {
     title: 'Tarefa pendente',
     iconColor: '#666666',
     iconType: 'clock-circle',
-    iconTheme: 'filled',
     spin: false,
   },
   // succeeded status
@@ -46,7 +55,6 @@ const toolTipConfigs = {
     title: 'Tarefa executada com sucesso',
     iconColor: '#389E0D',
     iconType: 'check-circle',
-    iconTheme: 'filled',
     spin: false,
   },
   // failed status
@@ -54,7 +62,6 @@ const toolTipConfigs = {
     title: 'Tarefa executada com falha',
     iconColor: '#CF1322',
     iconType: 'exclamation-circle',
-    iconTheme: 'filled',
     spin: false,
   },
 };
@@ -119,17 +126,39 @@ const ComponentBox = ({
   const renderTooltip = () => {
     if (!status || status === 'Loading') return null;
 
+    const style = { fontSize: '18px', color: toolTipConfigs[status].iconColor };
+    const spin = toolTipConfigs[status].spin;
+
+    let toolTipIcon;
+    switch (toolTipConfigs[status].iconType) {
+      case 'check-circle': {
+        toolTipIcon = <CheckCircleFilled style={style} spin={spin} />;
+        break;
+      }
+      case 'clock-circle': {
+        toolTipIcon = <ClockCircleFilled style={style} spin={spin} />;
+        break;
+      }
+      case 'exclamation-circle': {
+        toolTipIcon = <ExclamationCircleFilled style={style} spin={spin} />;
+        break;
+      }
+      case 'setting': {
+        toolTipIcon = <SettingOutlined style={style} spin={spin} />;
+        break;
+      }
+      default: {
+        break;
+      }
+    }
     return (
       <Tooltip placement='right' title={toolTipConfigs[status].title}>
-        <LegacyIcon
-          style={{ fontSize: '18px', color: toolTipConfigs[status].iconColor }}
-          type={toolTipConfigs[status].iconType}
-          theme={toolTipConfigs[status].iconTheme}
-          spin={toolTipConfigs[status].spin}
-        />
+        {toolTipIcon}
       </Tooltip>
     );
   };
+
+  const compIconStyle = { fontSize: '18px' };
 
   // RENDER
   return (
@@ -140,11 +169,12 @@ const ComponentBox = ({
         {/* div title icon container */}
         <div className='title-icon'>
           {/* component icon */}
-          <LegacyIcon
-            style={{ fontSize: '18px' }}
-            theme={iconTheme}
-            type={icon}
-          />
+          {icon === 'area-chart' && <AreaChartOutlined style={compIconStyle} />}
+          {icon === 'control' && <ControlOutlined style={compIconStyle} />}
+          {icon === 'database' && <DatabaseOutlined style={compIconStyle} />}
+          {icon === 'file' && <FileOutlined style={compIconStyle} />}
+          {icon === 'share-alt' && <ShareAltOutlined style={compIconStyle} />}
+          {icon === 'solution' && <SolutionOutlined style={compIconStyle} />}
           {/* component title */}
           <span>{name}</span>
         </div>

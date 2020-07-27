@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { Upload, Button } from 'antd';
 
 // COMPONENTS
@@ -73,7 +73,7 @@ const UploadInputBlock = (props) => {
   const [fileList, setFileList] = useState([]);
 
   // button icon
-  const buttonIcon = isLoading ? 'loading' : 'upload';
+  const buttonIcon = isLoading ? <LoadingOutlined /> : <UploadOutlined />;
 
   // default error message
   const defaultErrorMessage = 'Ocorreu um erro no processamento do arquivo.';
@@ -120,7 +120,7 @@ const UploadInputBlock = (props) => {
     <InputBlock tip={tip} title={title}>
       <Upload {...uploadProps} disabled={isDisabled}>
         <Button disabled={isDisabled}>
-          <LegacyIcon type={buttonIcon} /> {buttonText}
+          {buttonIcon} {buttonText}
         </Button>
       </Upload>
     </InputBlock>

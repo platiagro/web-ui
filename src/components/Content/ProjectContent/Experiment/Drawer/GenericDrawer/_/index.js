@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { BulbOutlined } from '@ant-design/icons';
 import { Divider, Empty } from 'antd';
 
 // COMPONENTS
@@ -299,7 +299,7 @@ const GenericDrawer = ({
       <div>
         {/* divider */}
         <Divider orientation='left'>
-          <LegacyIcon type='bulb' />
+          <BulbOutlined />
           Dica
         </Divider>
         {/* drawer tip node */}

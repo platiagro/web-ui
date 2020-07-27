@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { SearchOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 
 /**
@@ -35,7 +35,7 @@ const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
         placeholder='Pesquisar'
         allowClear
         onChange={handleChange}
-        prefix={<LegacyIcon type='search' />}
+        prefix={<SearchOutlined />}
       />
     </div>
   );

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Input, Spin } from 'antd';
 
 // COMPONENTS
@@ -79,17 +79,14 @@ const StringInput = ({
       </div>
       {/* loading */}
       {loading && (
-        <Spin
-          style={{ marginLeft: '1vw' }}
-          indicator={<LegacyIcon type='loading' spin />}
-        />
+        <Spin style={{ marginLeft: '1vw' }} indicator={<LoadingOutlined />} />
       )}
       {/* warning */}
       {warning && (
         // warning paragraph container
         <p style={{ marginTop: 10 }}>
           {/* warning icon */}
-          <LegacyIcon type='exclamation-circle' />
+          <ExclamationCircleOutlined />
           {/* warning message */}
           <span style={{ marginLeft: 10 }}>{warning}</span>
         </p>

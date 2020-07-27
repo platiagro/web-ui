@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { LoadingOutlined } from '@ant-design/icons';
 import { Tabs, Spin } from 'antd';
 
 // COMPONENTS
@@ -68,7 +68,7 @@ const ExperimentsTabs = ({
       {/* title */}
       {title}
       {/* running spinner */}
-      {running && <LegacyIcon type='loading' />}
+      {running && <LoadingOutlined />}
     </>
   );
   // render tabs
@@ -78,9 +78,7 @@ const ExperimentsTabs = ({
       // rendering loading tab
       return (
         <TabPane
-          tab={
-            <Spin size='small' indicator={<LegacyIcon type='loading' spin />} />
-          }
+          tab={<Spin size='small' indicator={<LoadingOutlined />} />}
           disabled
           key='sem experimento'
         />

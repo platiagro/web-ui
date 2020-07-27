@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button } from 'antd';
 
 /**
@@ -44,7 +44,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
     >
       {/* upload button link */}
       <Button type='link'>
-        <LegacyIcon type='upload' style={{ marginRight: 5 }} />
+        <UploadOutlined style={{ marginRight: 5 }} />
         Testar Inferência
       </Button>
     </Upload>
