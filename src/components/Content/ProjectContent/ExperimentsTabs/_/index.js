@@ -90,7 +90,7 @@ const ExperimentsTabs = ({
         >
           <div className='tab-title-custom'>
             {title}
-            {(running || loading) && <Icon type='loading' />}
+            {(running || loading) && <LegacyIcon type='loading' />}
           </div>
           {experimentId && (
             <Popconfirm
@@ -107,7 +107,7 @@ const ExperimentsTabs = ({
               okText='Sim'
               cancelText='Não'
             >
-              <Icon
+              <LegacyIcon
                 type='close'
                 className='close-icon-tab'
                 onClick={(e) => e.stopPropagation()}
