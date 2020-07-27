@@ -104,12 +104,12 @@ const ExperimentTabsContainer = ({
   }, [experiments, history, projectId, experimentId]);
 
   // HANDLERS
-  const deleteHandler = (experimentId) => {
-    handleDeleteExperiment(projectId, experimentId);
+  const deleteHandler = (deleteExperimentId) => {
+    handleDeleteExperiment(projectId, deleteExperimentId);
   };
 
-  const renameHandler = (experimentId, newName) => {
-    handleRenameExperiment(projectId, experimentId, newName);
+  const renameHandler = (renameExperimentId, newName) => {
+    handleRenameExperiment(projectId, renameExperimentId, newName);
   };
   // change tab
   const handleChangeTab = (targetId) => {

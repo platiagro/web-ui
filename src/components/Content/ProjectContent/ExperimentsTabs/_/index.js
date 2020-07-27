@@ -72,7 +72,7 @@ const ExperimentsTabs = ({
   const [currentName, setCurrentName] = useState('');
   // COMPONENTS RENDERS
   // title
-  const renderTitle = (title, running, experimentId, loading) => (
+  const renderTitle = (title, running, experimentId, loadingTitle) => (
     <>
       <ContextMenuTrigger
         id={experimentId ? 'menu_id' : 'empty'}
@@ -90,7 +90,7 @@ const ExperimentsTabs = ({
         >
           <div className='tab-title-custom'>
             {title}
-            {(running || loading) && <LegacyIcon type='loading' />}
+            {(running || loadingTitle) && <LegacyIcon type='loading' />}
           </div>
           {experimentId && (
             <Popconfirm
