@@ -15,6 +15,7 @@ import {
 import {
   fetchExperimentActiveRequest,
   deleteExperimentRequest,
+  editExperimentNameRequest,
 } from '../../../../../store/experiment/actions';
 
 // DISPATCHS
@@ -27,6 +28,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchExperimentActiveRequest(projectId, experimentId)),
     handleDeleteExperiment: (projectId, experimentId) =>
       dispatch(deleteExperimentRequest(projectId, experimentId, routerProps)),
+    handleRenameExperiment: (projectId, experimentId, newName) =>
+      dispatch(
+        editExperimentNameRequest(projectId, experimentId, newName, routerProps)
+      ),
     handleOrganizeExperiments: (
       projectId,
       dragExperimentId,
@@ -65,6 +70,7 @@ const ExperimentTabsContainer = ({
   handleFetchExperiment,
   handleClearAllExperiments,
   handleDeleteExperiment,
+  handleRenameExperiment,
 }) => {
   // CONSTANTS
   // getting history
@@ -98,8 +104,12 @@ const ExperimentTabsContainer = ({
   }, [experiments, history, projectId, experimentId]);
 
   // HANDLERS
-  const deleteHandler = (experimentId) => {
-    handleDeleteExperiment(projectId, experimentId);
+  const deleteHandler = (deleteExperimentId) => {
+    handleDeleteExperiment(projectId, deleteExperimentId);
+  };
+
+  const renameHandler = (renameExperimentId, newName) => {
+    handleRenameExperiment(projectId, renameExperimentId, newName);
   };
   // change tab
   const handleChangeTab = (targetId) => {
@@ -136,6 +146,7 @@ const ExperimentTabsContainer = ({
       handleMoveTab={handleOrganizeTabs}
       loading={loading}
       deleteHandler={deleteHandler}
+      renameHandler={renameHandler}
     />
   );
 };
