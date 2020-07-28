@@ -21,6 +21,10 @@
     }
   }
 
+  .ant-menu-item:hover {
+    background-color: rgba(128, 128, 128, 0.3);
+  }
+
   .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
     background-color: #237804;
     border-radius: 2px;
