@@ -9,7 +9,6 @@ import { Divider } from 'antd';
 import { ResizableSection } from 'components';
 import DatasetDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/DatasetDrawer/_/Container';
 import GenericDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/GenericDrawer/_/Container';
-import ResultsDrawer from '../Content/ProjectContent/Experiment/Drawer/ResultsDrawer/_';
 import ResultsButtonBar from '../Content/ProjectContent/Experiment/Drawer/ResultsButtonBar';
 import NotebookOutputsContainer from '../Content/ProjectContent/Experiment/Drawer/NotebookOutputs/_/Container';
 
@@ -26,26 +25,11 @@ import NotebookOutputsContainer from '../Content/ProjectContent/Experiment/Drawe
  * // operator experiment results
  * const operatorResults = [];
  *
- * // operator experiment metrics
- * const operatorMetrics = [];
- *
- * // operator experiment results is loading
- * const operatorResultsLoading = false;
- *
- * // operator experiment metrics is loading
- * const operatorMetricsLoading = false;
- *
  * // operator is a dataset operator
  * const operatorIsDataset = false;
  *
- * // show operator experiment results
- * const showExperimentResults = false;
- *
  * // operator parent experiment is finished
  * const experimentIsFinished = false;
- *
- * // show parameter button click handler
- * const handleShowParametersClick = () => alert('ShowParametersClick!');
  *
  * // show results button click handler
  * const handleShowResultsClick = () => alert('ShowResultsClick');
@@ -63,13 +47,8 @@ import NotebookOutputsContainer from '../Content/ProjectContent/Experiment/Drawe
  *    <OperatorResizableSection
  *      operatorName={operatorName}
  *      operatorResults={operatorResults}
- *      operatorMetrics={operatorMetrics}
- *      operatorResultsLoading={operatorResultsLoading}
- *      operatorMetricsLoading={operatorMetricsLoading}
  *      operatorIsDataset={operatorIsDataset}
- *      showExperimentResults={showExperimentResults}
  *      experimentIsFinished={experimentIsFinished}
- *      handleShowParametersClick={handleShowParametersClick}
  *      handleShowResultsClick={handleShowResultsClick}
  *      emptySectionPlaceholder={emptySectionPlaceholder}
  *    />
@@ -83,20 +62,10 @@ const OperatorResizableSection = (props) => {
     operatorName,
     // operator experiment results
     operatorResults,
-    // operator experiment metrics
-    operatorMetrics,
-    // operator experiment results is loading
-    operatorResultsLoading,
-    // operator experiment metrics is loading
-    operatorMetricsLoading,
     // operator is a dataset operator
     operatorIsDataset,
-    // show operator experiment results
-    showExperimentResults,
     // operator parent experiment is finished
     experimentIsFinished,
-    // show parameter button click handler
-    handleShowParametersClick,
     // show results button click handler
     handleShowResultsClick,
     // empty section placeholder
@@ -112,27 +81,18 @@ const OperatorResizableSection = (props) => {
       {/* rendering data set drawer */}
       {operatorIsDataset && <DatasetDrawerContainer />}
       {/* rendering generic drawer */}
-      {!operatorIsDataset && !showExperimentResults && (
-        <GenericDrawerContainer />
-      )}
-      {/* rendering results drawer */}
-      {showExperimentResults && (
-        <ResultsDrawer
-          loading={operatorResultsLoading}
-          metricsLoading={operatorMetricsLoading}
-          metrics={operatorMetrics}
-          results={operatorResults}
-        />
-      )}
+      {!operatorIsDataset && <GenericDrawerContainer />}
+
       {/* divider */}
       <Divider />
 
       {/* rendering results button bar */}
       {!operatorIsDataset && (
         <ResultsButtonBar
-          handleEditClick={handleShowParametersClick}
+          handleEditClick={() => undefined}
           handleResultsClick={handleShowResultsClick}
-          showingResults={showExperimentResults}
+          // always show results button
+          showingResults={false}
           disabled={
             !operatorResults ||
             (!experimentIsFinished &&
@@ -143,9 +103,7 @@ const OperatorResizableSection = (props) => {
       )}
 
       {/* rendering link to Jupyter */}
-      {!operatorIsDataset && !showExperimentResults && (
-        <NotebookOutputsContainer />
-      )}
+      {!operatorIsDataset && <NotebookOutputsContainer />}
     </ResizableSection>
   );
 };
@@ -156,20 +114,10 @@ OperatorResizableSection.propTypes = {
   operatorName: PropTypes.string.isRequired,
   /** Operator experiment results */
   operatorResults: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator experiment metrics*/
-  operatorMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator experiment results is loading */
-  operatorResultsLoading: PropTypes.bool.isRequired,
-  /** Operator experiment metrics is loading */
-  operatorMetricsLoading: PropTypes.bool.isRequired,
   /** Operator is a dataset operator */
   operatorIsDataset: PropTypes.bool.isRequired,
-  /** Show operator experiment results */
-  showExperimentResults: PropTypes.bool.isRequired,
   /** Operator parent experiment is finished */
   experimentIsFinished: PropTypes.bool.isRequired,
-  /** Show parameter button click handler */
-  handleShowParametersClick: PropTypes.func.isRequired,
   /** Show results button click handler */
   handleShowResultsClick: PropTypes.func.isRequired,
   /** Empty section placeholder */

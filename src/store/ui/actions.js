@@ -5,7 +5,9 @@ import actionTypes from './actionTypes';
 // ** SHOW_NEW_PROJECT_MODAL
 /**
  * show new project modal
- * @returns {Object} { type, newProjectModalVisible }
+ *
+ * @param record
+ * @returns {object} { type, newProjectModalVisible }
  */
 export const showNewProjectModal = (record) => {
   if (record !== undefined && record !== null) {
@@ -27,7 +29,8 @@ export const showNewProjectModal = (record) => {
 // ** HIDE_NEW_PROJECT_MODAL
 /**
  * hide new project modal
- * @returns {Object} { type, newProjectModalVisible }
+ *
+ * @returns {object} { type, newProjectModalVisible }
  */
 export const hideNewProjectModal = () => {
   return {
@@ -41,7 +44,8 @@ export const hideNewProjectModal = () => {
 // ** SHOW_NEW_EXPERIMENT_MODAL
 /**
  * show new experiment modal
- * @returns {Object} { type, newExperimentModalVisible }
+ *
+ * @returns {object} { type, newExperimentModalVisible }
  */
 export const showNewExperimentModal = () => {
   return {
@@ -55,7 +59,8 @@ export const showNewExperimentModal = () => {
 // ** HIDE_NEW_EXPERIMENT_MODAL
 /**
  * hide new experiment modal
- * @returns {Object} { type, newExperimentModalVisible }
+ *
+ * @returns {object} { type, newExperimentModalVisible }
  */
 export const hideNewExperimentModal = () => {
   return {
@@ -69,7 +74,8 @@ export const hideNewExperimentModal = () => {
 // ** SHOW_NEW_TEMPLATE_MODAL
 /**
  * show new template modal
- * @returns {Object} { type, newTemplateModalVisible }
+ *
+ * @returns {object} { type, newTemplateModalVisible }
  */
 export const showNewTemplateModal = () => {
   return {
@@ -83,7 +89,8 @@ export const showNewTemplateModal = () => {
 // ** HIDE_NEW_TEMPLATE_MODAL
 /**
  * hide new template modal
- * @returns {Object} { type, newTemplateModalVisible }
+ *
+ * @returns {object} { type, newTemplateModalVisible }
  */
 export const hideNewTemplateModal = () => {
   return {
@@ -97,7 +104,12 @@ export const hideNewTemplateModal = () => {
 // ** SHOW_DRAWER
 /**
  * show drawer
- * @returns {Object} { type, drawerVisible }
+ *
+ * @param title
+ * @param isDataset
+ * @param title
+ * @param isDataset
+ * @returns {object} { type, drawerVisible }
  */
 export const showDrawer = (title, isDataset) => {
   return {
@@ -111,7 +123,8 @@ export const showDrawer = (title, isDataset) => {
 // ** HIDE_DRAWER
 /**
  * hide drawer
- * @returns {Object} { type, drawerVisible }
+ *
+ * @returns {object} { type, drawerVisible }
  */
 export const hideDrawer = () => (dispatch) => {
   //hidding drawer
@@ -121,34 +134,36 @@ export const hideDrawer = () => (dispatch) => {
   });
 
   // hidding drawer results
-  dispatch(hideDrawerResults());
+  dispatch(hideOperatorResults());
 };
 
 // // // // // // // // // //
 
-// ** SHOW DRAWER RESULTS
+// ** SHOW OPERATOR RESULTS
 /**
- * show drawer results
- * @returns {Object} { type, showResults }
+ * show operator results
+ *
+ * @returns {object} { type, showResults }
  */
-export const showDrawerResults = () => {
+export const showOperatorResults = () => {
   return {
-    type: actionTypes.SHOW_DRAWER_RESULTS,
-    showResults: true,
+    type: actionTypes.SHOW_OPERATOR_RESULTS,
+    showOperatorResults: true,
   };
 };
 
 // // // // // // // // // //
 
-// ** HIDE DRAWER RESULTS
+// ** HIDE OPERATOR RESULTS
 /**
  * hide drawer results
- * @returns {Object} { type, showResults }
+ *
+ * @returns {object} { type, showResults }
  */
-export const hideDrawerResults = () => {
+export const hideOperatorResults = () => {
   return {
-    type: actionTypes.HIDE_DRAWER_RESULTS,
-    showResults: false,
+    type: actionTypes.HIDE_OPERATOR_RESULTS,
+    showOperatorResults: false,
   };
 };
 
@@ -157,7 +172,8 @@ export const hideDrawerResults = () => {
 // ** TASKS TABLE LOADING DATA
 /**
  * tasks table loading data
- * @returns {Object} { type, tasksTableLoading }
+ *
+ * @returns {object} { type, tasksTableLoading }
  */
 export const tasksTableLoadingData = () => {
   return {
@@ -171,7 +187,8 @@ export const tasksTableLoadingData = () => {
 // ** TASKS TABLE DATA LOADED
 /**
  * tasks table loading data
- * @returns {Object} { type, tasksTableLoading }
+ *
+ * @returns {object} { type, tasksTableLoading }
  */
 export const tasksTableDataLoaded = () => {
   return {
@@ -185,7 +202,8 @@ export const tasksTableDataLoaded = () => {
 // ** PROJECTS TABLE LOADING DATA
 /**
  * projects table loading data
- * @returns {Object} { type, projectsTableLoading }
+ *
+ * @returns {object} { type, projectsTableLoading }
  */
 export const projectsTableLoadingData = () => {
   return {
@@ -199,7 +217,8 @@ export const projectsTableLoadingData = () => {
 // ** PROJECTS TABLE DATA LOADED
 /**
  * projects table loading data
- * @returns {Object} { type, projectsTableLoading }
+ *
+ * @returns {object} { type, projectsTableLoading }
  */
 export const projectsTableDataLoaded = () => {
   return {
@@ -213,7 +232,8 @@ export const projectsTableDataLoaded = () => {
 // ** PROJECT NAME LOADING DATA
 /**
  * project name loading data
- * @returns {Object} { type, projectNameLoading }
+ *
+ * @returns {object} { type, projectNameLoading }
  */
 export const projectNameLoadingData = () => {
   return {
@@ -227,7 +247,8 @@ export const projectNameLoadingData = () => {
 // ** PROJECT NAME DATA LOADED
 /**
  * project name loading data
- * @returns {Object} { type, projectNameLoading }
+ *
+ * @returns {object} { type, projectNameLoading }
  */
 export const projectNameDataLoaded = () => {
   return {
@@ -241,7 +262,8 @@ export const projectNameDataLoaded = () => {
 // ** COMPONENTS MENU LOADING DATA
 /**
  * components menu loading data
- * @returns {Object} { type, componentsMenuLoading }
+ *
+ * @returns {object} { type, componentsMenuLoading }
  */
 export const componentsMenuLoadingData = () => {
   return {
@@ -255,7 +277,8 @@ export const componentsMenuLoadingData = () => {
 // ** COMPONENTS MENU DATA LOADED
 /**
  * components menu loading data
- * @returns {Object} { type, componentsMenuLoading }
+ *
+ * @returns {object} { type, componentsMenuLoading }
  */
 export const componentsMenuDataLoaded = () => {
   return {
@@ -269,7 +292,8 @@ export const componentsMenuDataLoaded = () => {
 // ** EXPERIMENTS TABS LOADING DATA
 /**
  * experiments tabs loading data
- * @returns {Object} { type, experimentsTabsLoading }
+ *
+ * @returns {object} { type, experimentsTabsLoading }
  */
 export const experimentsTabsLoadingData = () => {
   return {
@@ -283,7 +307,8 @@ export const experimentsTabsLoadingData = () => {
 // ** EXPERIMENTS TABS DATA LOADED
 /**
  * experiments tabs loading data
- * @returns {Object} { type, experimentsTabsLoading }
+ *
+ * @returns {object} { type, experimentsTabsLoading }
  */
 export const experimentsTabsDataLoaded = () => {
   return {
@@ -297,7 +322,8 @@ export const experimentsTabsDataLoaded = () => {
 // ** EXPERIMENT TRAINING LOADING DATA
 /**
  * experiment training loading data
- * @returns {Object} { type, experimentTrainingLoading }
+ *
+ * @returns {object} { type, experimentTrainingLoading }
  */
 export const experimentTrainingLoadingData = () => {
   return {
@@ -311,7 +337,8 @@ export const experimentTrainingLoadingData = () => {
 // ** EXPERIMENT TRAINING DATA LOADED
 /**
  * experiment training loading data
- * @returns {Object} { type, experimentTrainingLoading }
+ *
+ * @returns {object} { type, experimentTrainingLoading }
  */
 export const experimentTrainingDataLoaded = () => {
   return {
@@ -325,7 +352,8 @@ export const experimentTrainingDataLoaded = () => {
 // ** EXPERIMENT NAME LOADING DATA
 /**
  * experiment name loading data
- * @returns {Object} { type, experimentNameLoading }
+ *
+ * @returns {object} { type, experimentNameLoading }
  */
 export const experimentNameLoadingData = () => {
   return {
@@ -339,7 +367,8 @@ export const experimentNameLoadingData = () => {
 // ** EXPERIMENT NAME DATA LOADED
 /**
  * experiment name loading data
- * @returns {Object} { type, experimentNameLoading }
+ *
+ * @returns {object} { type, experimentNameLoading }
  */
 export const experimentNameDataLoaded = () => {
   return {
@@ -353,7 +382,8 @@ export const experimentNameDataLoaded = () => {
 // ** EXPERIMENT OPERATORS LOADING DATA
 /**
  * experiment operators loading data
- * @returns {Object} { type, experimentOperatorsLoading }
+ *
+ * @returns {object} { type, experimentOperatorsLoading }
  */
 export const experimentOperatorsLoadingData = () => {
   return {
@@ -367,7 +397,8 @@ export const experimentOperatorsLoadingData = () => {
 // ** EXPERIMENT OPERATORS DATA LOADED
 /**
  * experiment operators loading data
- * @returns {Object} { type, experimentOperatorsLoading }
+ *
+ * @returns {object} { type, experimentOperatorsLoading }
  */
 export const experimentOperatorsDataLoaded = () => {
   return {
@@ -381,7 +412,8 @@ export const experimentOperatorsDataLoaded = () => {
 // ** DATASET OPERATOR LOADING DATA
 /**
  * dataset operator loading data
- * @returns {Object} { type, datasetOperatorLoading }
+ *
+ * @returns {object} { type, datasetOperatorLoading }
  */
 export const datasetOperatorLoadingData = () => {
   return {
@@ -395,7 +427,8 @@ export const datasetOperatorLoadingData = () => {
 // ** DATASET OPERATOR DATA LOADED
 /**
  * dataset operator loading data
- * @returns {Object} { type, datasetOperatorLoading }
+ *
+ * @returns {object} { type, datasetOperatorLoading }
  */
 export const datasetOperatorDataLoaded = () => {
   return {
@@ -409,7 +442,8 @@ export const datasetOperatorDataLoaded = () => {
 // ** OPERATOR PARAMETER LOADING DATA
 /**
  * operator parameter loading data
- * @returns {Object} { type, operatorParameterLoading }
+ *
+ * @returns {object} { type, operatorParameterLoading }
  */
 export const operatorParameterLoadingData = () => {
   return {
@@ -423,7 +457,8 @@ export const operatorParameterLoadingData = () => {
 // ** DATASET OPERATOR DATA LOADED
 /**
  * operator parameter data loaded
- * @returns {Object} { type, operatorParameterLoading }
+ *
+ * @returns {object} { type, operatorParameterLoading }
  */
 export const operatorParameterDataLoaded = () => {
   return {
@@ -437,7 +472,8 @@ export const operatorParameterDataLoaded = () => {
 // ** OPERATOR RESULTS LOADING DATA
 /**
  * operator parameter loading data
- * @returns {Object} { type, operatorResultsLoading }
+ *
+ * @returns {object} { type, operatorResultsLoading }
  */
 export const operatorResultsLoadingData = () => {
   return {
@@ -451,7 +487,8 @@ export const operatorResultsLoadingData = () => {
 // ** OPERATOR RESULTS DATA LOADED
 /**
  * operator parameter data loaded
- * @returns {Object} { type, operatorResultsLoading }
+ *
+ * @returns {object} { type, operatorResultsLoading }
  */
 export const operatorResultsDataLoaded = () => {
   return {
@@ -463,7 +500,8 @@ export const operatorResultsDataLoaded = () => {
 // ** OPERATOR RESULTS LOADING DATA
 /**
  * operator parameter loading data
- * @returns {Object} { type, operatorResultsLoading }
+ *
+ * @returns {object} { type, operatorResultsLoading }
  */
 export const operatorMetricsLoadingData = () => {
   return {
@@ -476,7 +514,8 @@ export const operatorMetricsLoadingData = () => {
 // ** OPERATOR RESULTS DATA LOADED
 /**
  * operator parameter data loaded
- * @returns {Object} { type, operatorResultsLoading }
+ *
+ * @returns {object} { type, operatorResultsLoading }
  */
 export const operatorMetricsDataLoaded = () => {
   return {
@@ -489,7 +528,8 @@ export const operatorMetricsDataLoaded = () => {
 // ** TEMPLATE LOADING DATA
 /**
  * template loading data
- * @returns {Object} { type, templateLoading }
+ *
+ * @returns {object} { type, templateLoading }
  */
 export const templateLoadingData = () => {
   return {
@@ -503,7 +543,8 @@ export const templateLoadingData = () => {
 // ** TEMPLATE DATA LOADED
 /**
  * template loading data
- * @returns {Object} { type, templateLoading }
+ *
+ * @returns {object} { type, templateLoading }
  */
 export const templateDataLoaded = () => {
   return {
@@ -517,7 +558,8 @@ export const templateDataLoaded = () => {
 // ** IMPLANTED EXPERIMENTS LOADING DATA
 /**
  *  implanted experiments loading data
- * @returns {Object} { type, implantedExperimentsLoading }
+ *
+ * @returns {object} { type, implantedExperimentsLoading }
  */
 export const implantedExperimentsLoadingData = () => {
   return {
@@ -531,7 +573,8 @@ export const implantedExperimentsLoadingData = () => {
 // ** IMPLANTED EXPERIMENTS DATA LOADED
 /**
  * implanted experiments loading data
- * @returns {Object} { type, implantedExperimentsLoading }
+ *
+ * @returns {object} { type, implantedExperimentsLoading }
  */
 export const implantedExperimentsDataLoaded = () => {
   return {
@@ -543,7 +586,8 @@ export const implantedExperimentsDataLoaded = () => {
 // ** SHOW_EXPERIMENT_INFERENCE_MODAL
 /**
  * show experiment inference modal
- * @returns {Object} { type, newTemplateModalVisible }
+ *
+ * @returns {object} { type, newTemplateModalVisible }
  */
 export const showExperimentInferenceModal = () => {
   return {
@@ -556,7 +600,8 @@ export const showExperimentInferenceModal = () => {
 // ** HIDE_EXPERIMENT_INFERENCE_MODAL
 /**
  * hideexperiment inference modal
- * @returns {Object} { type, newTemplateModalVisible }
+ *
+ * @returns {object} { type, newTemplateModalVisible }
  */
 export const hideExperimentInferenceModal = () => {
   return {
@@ -576,7 +621,7 @@ export const showUsingDeploymentsModal = () => {
 // ** HIDE_USING_DEPLOYMENTS_MODAL
 /**
  *
- * @returns {Object} { type, newTemplateModalVisible }
+ * @returns {object} { type, newTemplateModalVisible }
  */
 export const hideUsingDeploymentsModal = () => {
   return {
