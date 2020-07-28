@@ -46,7 +46,7 @@ const Content = () => {
           <ProjectContent />
         </Route>
         {/* implanted experiments content */}
-        <Route exact path='/experimentos-implantados'>
+        <Route exact path='/fluxos-implantados'>
           <ImplantedExperimentsContent />
         </Route>
         {/* error 404 content */}

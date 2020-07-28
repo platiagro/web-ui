@@ -21,6 +21,11 @@ const { Item } = Menu;
  */
 const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
   const style = { color: '#ffffff' };
+
+  if (selectedItems[0].includes('/projetos')) {
+    selectedItems[0] = '/';
+  }
+
   return (
     // menu component
     <Menu
@@ -32,7 +37,7 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
       {/* mapping menu items */}
       {itemsList.map(({ icon, title, path }) => (
         // menu item
-        <Item key={path}>
+        <Item key={path} style={style}>
           {/* menu item icon */}
           {icon === 'AppstoreOutlined' && <AppstoreOutlined style={style} />}
           {icon === 'BuildOutlined' && <BuildOutlined style={style} />}

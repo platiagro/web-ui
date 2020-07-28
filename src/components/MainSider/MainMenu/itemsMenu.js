@@ -7,8 +7,8 @@ const itemsMenu = [
   },
   {
     icon: 'DeploymentUnitOutlined',
-    title: 'Experimentos Implantados',
-    path: '/experimentos-implantados',
+    title: 'Fluxos implantados',
+    path: '/fluxos-implantados',
   },
   {
     icon: 'BuildOutlined',
