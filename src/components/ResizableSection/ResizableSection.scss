@@ -11,7 +11,6 @@
   display: inline-block;
   overflow: auto;
   overflow-x: hidden;
-  border-left: 1px solid rgba(0, 0, 0, 0.09);
 }
 
 .resizable-area {
@@ -34,15 +33,14 @@
 
 .customResizeBorder {
   pointer-events: all;
-  cursor: ew-resize;
-  width: 5px;
-  display: flex;
-  z-index: 99999;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  overflow: visible;
-  color: #262626;
+  cursor: col-resize;
+  width: 6px;
+  background-color: transparent;
+  transition: all ease 0.3s;
+  border-right: 2px solid rgba(0, 0, 0, 0.09);
+  &:hover {
+    border-right: 2px solid #40a9ff;
+  }
 }
 
 .resizable-section-header {
