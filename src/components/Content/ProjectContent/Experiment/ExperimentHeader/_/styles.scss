@@ -1,12 +1,10 @@
-.buttons-config{
+.buttons-config {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-right: 8px;
-.ant-btn
-{
-  margin-left: 8px;
+  padding: 12px;
+  .ant-btn {
+    margin-left: 8px;
+  }
 }
-}
-
-

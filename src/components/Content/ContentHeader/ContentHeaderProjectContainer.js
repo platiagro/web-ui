@@ -91,6 +91,7 @@ const ContentHeaderProjectContainer = ({
   return (
     <ContentHeader
       title={project.name}
+      subTitle='Meus projetos'
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
       loading={loading}

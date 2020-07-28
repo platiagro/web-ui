@@ -26,8 +26,7 @@ const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
     <div
       style={{
         padding: '10px 16px',
-        backgroundColor: '#fff',
-        border: '1px solid #e8e8e8',
+        border: '1px solid #ddd',
       }}
     >
       {/* search input */}

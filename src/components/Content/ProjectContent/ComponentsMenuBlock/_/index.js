@@ -9,6 +9,9 @@ import { Spin } from 'antd';
 import ComponentsMenuSearch from '../ComponentsMenuSearch';
 import ComponentsMenu from '../ComponentsMenu';
 
+//STYLE
+import './style.scss';
+
 /**
  * Components Menu Block.
  * This component is responsible for displaying components menu with search.
@@ -24,7 +27,8 @@ const ComponentsMenuBlock = ({
   // RENDER
   return (
     // div container
-    <div>
+    <div className='component-menu'>
+      <span className='component-menu-title'>Armazém de tarefas</span>
       {/* components menu search */}
       <ComponentsMenuSearch disabled={disabled} handleFilter={handleFilter} />
       {loading ? (

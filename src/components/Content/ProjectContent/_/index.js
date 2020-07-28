@@ -2,9 +2,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-// UI LIBS
-import { Row, Col } from 'antd';
-
 // COMPONENTS
 import ContentHeaderProjectContainer from '../../ContentHeader/ContentHeaderProjectContainer';
 import ComponentsMenuBlock from '../ComponentsMenuBlock/_/Container';
@@ -12,7 +9,9 @@ import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
 import ExperimentEmpty from '../Experiment/ExperimentEmpty';
-import Experiment from '../Experiment/_';
+import ExperimentHeader from '../Experiment/ExperimentHeader/_/Container';
+import ExperimentFlow from '../Experiment/ExperimentFlow/_/Container';
+import { OperatorResizableSectionContainer } from 'containers';
 
 import './style.scss';
 /**
@@ -25,49 +24,33 @@ const ProjectContent = () => {
 
   // RENDER
   return (
-    // fragment container
     <>
-      {/* content header */}
+      {/* Header from project (name and rename) */}
       <ContentHeaderProjectContainer />
-      {/* div content page container */}
-      <div className='contentPage' style={{ padding: '0' }}>
-        {/* project row container */}
-        <Row gutter={24}>
-          {/* menu column container */}
-          <Col span={5} style={{ backgroundColor: '#f2f0f5' }}>
-            <ComponentsMenuBlock disabled={!experimentId} />
-          </Col>
-          {/* experiment column container */}
-          <Col span={19} style={{ backgroundColor: '#f2f0f5' }}>
-            {/* experiment tabs row container */}
-            {/* <Row gutter={15}> */}
-            {/* experiment tabs column container */}
-            {/* <Col span={23}> */}
-            {/* </Row> */}
-            {/* experiment row container */}
-            <Row
-              style={{
-                backgroundColor: '#fff',
-                border: '1px solid #e8e8e8',
-                height: '74.1vh',
-                padding: '13px 16px',
-              }}
-            >
-              {experimentId ? <Experiment /> : <ExperimentEmpty />}
-            </Row>
+      {/* main area of project with menu, flow and configuration drawer, is flex column */}
+      <div className='experiment-area'>
+        {/*  Sibling to config drawer (flow and menu), is flex row*/}
+        <div className='experiment-content'>
+          <ComponentsMenuBlock disabled={!experimentId} />
+
+          {/* All content of flow (header, tabs and flow content), is flex column */}
+          <div className='experiment-content-flow'>
+            <ExperimentHeader />
+
+            {/* Flow content, display flow or empty */}
+            <div className='flow-content'>
+              {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
+            </div>
+
+            {/* Tabs row*/}
             <div className='row-tab-plus-button'>
               <ExperimentsTabs />
-              {/* </Col> */}
-              {/* new experiment column container */}
-              {/* <Col span={1}> */}
-              {/* new experiment button */}
               <NewExperimentButton />
-              {/* new experiment modal */}
               <NewExperimentModal />
-              {/* </Col> */}
             </div>
-          </Col>
-        </Row>
+          </div>
+          <OperatorResizableSectionContainer />
+        </div>
       </div>
     </>
   );

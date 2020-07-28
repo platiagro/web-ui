@@ -44,7 +44,6 @@ const getOperatorResultsSuccess = (
 ) => (dispatch) => {
   // getting figure results
   const results = utils.transformResults(operatorId, responseFigure.data);
-  console.log(responseTable);
   if (responseTable) {
     // create columns in antd format
     let tableColumns = [];
@@ -152,7 +151,6 @@ const getDataSetResultSuccess = (responseTable, operatorId, page) => (
 ) => {
   // getting figure results
   const results = [];
-  console.log(responseTable);
   if (responseTable) {
     // create columns in antd format
     let tableColumns = [];

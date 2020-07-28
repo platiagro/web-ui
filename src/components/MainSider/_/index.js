@@ -24,7 +24,7 @@ const { Sider } = Layout;
  * Foragri demo logo.
  */
 const MainSider = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   return (
     <Sider
       collapsible
