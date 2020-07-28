@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Tooltip, Menu, Dropdown } from 'antd';
 
 // UTILS
@@ -88,7 +87,7 @@ const ComponentsMenu = ({
           // span container
           <span>
             {/* sub menu icon */}
-            <LegacyIcon type={icon} />
+            {icon}
             {/* sub menu title */}
             <span>{title}</span>
           </span>

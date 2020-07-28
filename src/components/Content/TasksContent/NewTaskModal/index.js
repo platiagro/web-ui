@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Form, Input, Modal, Select } from 'antd';
 
 // SELECT COMPONENTS
@@ -136,7 +136,7 @@ const NewTaskModal = ({
         {/* warning */}
         <p style={{ marginTop: -5 }}>
           {/* warning icon */}
-          <LegacyIcon type='exclamation-circle' />
+          <ExclamationCircleOutlined />
           {/* warning description */}
           <span style={{ marginLeft: 10 }}>
             Será aberta uma nova aba contendo dois notebooks para edição,

@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { InfoCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Popover, Button } from 'antd';
 
 /**
@@ -44,6 +44,14 @@ const PopoverTip = (props) => {
   // destructuring props
   const { isPopoverBelow, popoverTitle, popoverText, iconType } = props;
 
+  const popOverIconStyle = { lineHeight: '0', margin: '0', padding: '0' };
+  let popOverIcon;
+  if (iconType === 'info') {
+    popOverIcon = <InfoCircleOutlined style={popOverIconStyle} />;
+  } else {
+    popOverIcon = <QuestionCircleOutlined style={popOverIconStyle} />;
+  }
+
   // rendering component
   return (
     <Popover
@@ -57,10 +65,7 @@ const PopoverTip = (props) => {
         type='link'
         style={{ height: 'auto', color: '#595959', margin: '0', padding: '0' }}
       >
-        <LegacyIcon
-          type={`${iconType}-circle`}
-          style={{ lineHeight: '0', margin: '0', padding: '0' }}
-        />
+        {popOverIcon}
       </Button>
     </Popover>
   );
@@ -75,7 +80,7 @@ PopoverTip.propTypes = {
   /** Popover information text */
   popoverText: PropTypes.string.isRequired,
   /** Icon type */
-  iconType: PropTypes.oneOf(['question', 'info']).isRequired,
+  iconType: PropTypes.oneOf(['info', 'question']).isRequired,
 };
 
 // EXPORT DEFAULT

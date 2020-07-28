@@ -4,7 +4,7 @@ import Lightbox from 'react-image-lightbox';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { DownloadOutlined } from '@ant-design/icons';
 
 // STYLES
 import './styles.scss';
@@ -24,7 +24,7 @@ const ImageLightbox = ({ plotUrl }) => {
           mainSrc={plotUrl}
           toolbarButtons={[
             <a className='download-link' href={plotUrl} download={`resultado`}>
-              <LegacyIcon type='download' />
+              <DownloadOutlined />
             </a>,
           ]}
           onCloseRequest={() => setZoom(false)}

@@ -2,12 +2,12 @@
 import React from 'react';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const MetricsTitle = ({ loading }) => {
   return loading ? (
     <span>
-      Métricas <LegacyIcon type='loading' />
+      Métricas <LoadingOutlined />
     </span>
   ) : (
     <span>Métricas</span>

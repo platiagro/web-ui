@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+
+import { EditOutlined } from '@ant-design/icons';
 import { Typography, Input, Tooltip } from 'antd';
 
 import './style.scss';
@@ -36,7 +37,7 @@ const EditTitle = ({ title, level, editable, beforeSubmit }) => {
       <Title level={level}>{title}</Title>
       {editable && (
         <Tooltip title='Editar'>
-          <LegacyIcon
+          <EditOutlined
             className='custom-edit-input-icon'
             type='edit'
             onClick={() => setEditMode(true)}

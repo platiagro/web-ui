@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Popover } from 'antd';
 
 /**
@@ -20,9 +20,8 @@ const InputTip = ({ tip, width = 150 }) => (
     trigger='click'
   >
     {/* icon component */}
-    <LegacyIcon
+    <QuestionCircleOutlined
       style={{ marginLeft: 10, float: 'right', marginTop: '5px' }}
-      type='question-circle'
     />
   </Popover>
 );

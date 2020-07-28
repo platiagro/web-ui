@@ -5,7 +5,12 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import {
+  CheckCircleFilled,
+  ClockCircleFilled,
+  ExclamationCircleFilled,
+  SettingOutlined,
+} from '@ant-design/icons';
 import { Tooltip, Menu, Dropdown } from 'antd';
 
 // STYLES
@@ -28,34 +33,30 @@ const toolTipConfigs = {
   // running status
   Running: {
     title: 'Tarefa em execução',
-    iconColor: '#666666',
-    iconType: 'setting',
-    iconTheme: null,
-    spin: true,
+    iconType: (
+      <SettingOutlined style={{ fontSize: '18px', color: '#666666' }} spin />
+    ),
   },
   // pending status
   Pending: {
     title: 'Tarefa pendente',
-    iconColor: '#666666',
-    iconType: 'clock-circle',
-    iconTheme: 'filled',
-    spin: false,
+    iconType: (
+      <ClockCircleFilled style={{ fontSize: '18px', color: '#666666' }} />
+    ),
   },
   // succeeded status
   Succeeded: {
     title: 'Tarefa executada com sucesso',
-    iconColor: '#389E0D',
-    iconType: 'check-circle',
-    iconTheme: 'filled',
-    spin: false,
+    iconType: (
+      <CheckCircleFilled style={{ fontSize: '18px', color: '#389E0D' }} />
+    ),
   },
   // failed status
   Failed: {
     title: 'Tarefa executada com falha',
-    iconColor: '#CF1322',
-    iconType: 'exclamation-circle',
-    iconTheme: 'filled',
-    spin: false,
+    iconType: (
+      <ExclamationCircleFilled style={{ fontSize: '18px', color: '#CF1322' }} />
+    ),
   },
 };
 
@@ -118,15 +119,9 @@ const ComponentBox = ({
   // tooltip
   const renderTooltip = () => {
     if (!status || status === 'Loading') return null;
-
     return (
       <Tooltip placement='right' title={toolTipConfigs[status].title}>
-        <LegacyIcon
-          style={{ fontSize: '18px', color: toolTipConfigs[status].iconColor }}
-          type={toolTipConfigs[status].iconType}
-          theme={toolTipConfigs[status].iconTheme}
-          spin={toolTipConfigs[status].spin}
-        />
+        {toolTipConfigs[status].iconType}
       </Tooltip>
     );
   };
@@ -140,11 +135,7 @@ const ComponentBox = ({
         {/* div title icon container */}
         <div className='title-icon'>
           {/* component icon */}
-          <LegacyIcon
-            style={{ fontSize: '18px' }}
-            theme={iconTheme}
-            type={icon}
-          />
+          <div style={{ fontSize: '18px' }}>{icon}</div>
           {/* component title */}
           <span>{name}</span>
         </div>

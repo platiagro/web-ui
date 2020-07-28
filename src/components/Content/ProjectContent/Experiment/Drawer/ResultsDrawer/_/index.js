@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { LoadingOutlined } from '@ant-design/icons';
 import { Divider, Spin, Table, Tabs, Empty } from 'antd';
 
 // COMPONENTS
@@ -63,7 +63,7 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
       {/* is loading */}
       {loading ? (
         // loading
-        <Spin indicator={<LegacyIcon type='loading' spin />} />
+        <Spin indicator={<LoadingOutlined />} />
       ) : results.length > 0 || metrics.length > 0 ? (
         /* rendering results and metrics */
         <>

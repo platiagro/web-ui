@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 
 // UI LIBS
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import {
+  CloseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 import { Tabs, Spin, Popconfirm, Popover, Input } from 'antd';
 
 // COMPONENTS
@@ -90,7 +95,7 @@ const ExperimentsTabs = ({
         >
           <div className='tab-title-custom'>
             {title}
-            {(running || loadingTitle) && <LegacyIcon type='loading' />}
+            {(running || loadingTitle) && <LoadingOutlined />}
           </div>
           {experimentId && (
             <Popconfirm
@@ -107,8 +112,7 @@ const ExperimentsTabs = ({
               okText='Sim'
               cancelText='Não'
             >
-              <LegacyIcon
-                type='close'
+              <CloseOutlined
                 className='close-icon-tab'
                 onClick={(e) => e.stopPropagation()}
               />
@@ -121,7 +125,7 @@ const ExperimentsTabs = ({
 
   const ItemName = ({ name, icon }) => (
     <div className='menu-item-name'>
-      <LegacyIcon type={icon} />
+      {icon}
       <span>{name}</span>
     </div>
   );
@@ -156,10 +160,7 @@ const ExperimentsTabs = ({
         <TabPane
           tab={
             <div className='tab-title-custom'>
-              <Spin
-                size='small'
-                indicator={<LegacyIcon type='loading' spin />}
-              />
+              <Spin size='small' indicator={<LoadingOutlined />} />
             </div>
           }
           disabled
@@ -222,7 +223,7 @@ const ExperimentsTabs = ({
             }
             preventClose={true}
           >
-            <ItemName name='Renomear' icon='edit' />
+            <ItemName name='Renomear' icon={<EditOutlined />} />
           </MenuItem>
         </Popover>
         <Popconfirm
@@ -240,7 +241,7 @@ const ExperimentsTabs = ({
               handleMenuClick(data.action, data.experimentId)
             }
           >
-            <ItemName name='Excluir' icon='delete' />
+            <ItemName name='Excluir' icon={<DeleteOutlined />} />
           </MenuItem>
         </Popconfirm>
       </ContextMenu>
