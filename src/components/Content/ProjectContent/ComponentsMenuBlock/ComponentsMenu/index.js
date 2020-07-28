@@ -3,14 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import {
-  AreaChartOutlined,
-  ControlOutlined,
-  DatabaseOutlined,
-  FileOutlined,
-  ShareAltOutlined,
-  SolutionOutlined,
-} from '@ant-design/icons';
 import { Tooltip, Menu, Dropdown } from 'antd';
 
 // UTILS
@@ -95,12 +87,7 @@ const ComponentsMenu = ({
           // span container
           <span>
             {/* sub menu icon */}
-            {icon === 'area-chart' && <AreaChartOutlined />}
-            {icon === 'control' && <ControlOutlined />}
-            {icon === 'database' && <DatabaseOutlined />}
-            {icon === 'file' && <FileOutlined />}
-            {icon === 'share-alt' && <ShareAltOutlined />}
-            {icon === 'solution' && <SolutionOutlined />}
+            {icon}
             {/* sub menu title */}
             <span>{title}</span>
           </span>

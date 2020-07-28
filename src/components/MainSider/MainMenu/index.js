@@ -3,13 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import {
-  AppstoreOutlined,
-  BuildOutlined,
-  DeploymentUnitOutlined,
-  SettingOutlined,
-  ShoppingOutlined,
-} from '@ant-design/icons';
 import { Menu } from 'antd';
 
 // MENU COMPONENTS
@@ -20,8 +13,6 @@ const { Item } = Menu;
  * This component is responsible for displaying main menu with items.
  */
 const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
-  const style = { color: '#ffffff' };
-
   if (selectedItems[0].includes('/projetos')) {
     selectedItems[0] = '/';
   }
@@ -37,15 +28,9 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
       {/* mapping menu items */}
       {itemsList.map(({ icon, title, path }) => (
         // menu item
-        <Item key={path} style={style}>
+        <Item key={path} style={{ color: '#ffffff' }}>
           {/* menu item icon */}
-          {icon === 'AppstoreOutlined' && <AppstoreOutlined style={style} />}
-          {icon === 'BuildOutlined' && <BuildOutlined style={style} />}
-          {icon === 'DeploymentUnitOutlined' && (
-            <DeploymentUnitOutlined style={style} />
-          )}
-          {icon === 'SettingOutlined' && <SettingOutlined style={style} />}
-          {icon === 'ShoppingOutlined' && <ShoppingOutlined style={style} />}
+          {icon}
           {/* menu item title */}
           <span>{title}</span>
         </Item>

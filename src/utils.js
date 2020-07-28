@@ -1,3 +1,13 @@
+import React from 'react';
+import {
+  AreaChartOutlined,
+  ControlOutlined,
+  DatabaseOutlined,
+  FileOutlined,
+  ShareAltOutlined,
+  SolutionOutlined,
+} from '@ant-design/icons';
+
 /**
  * Delete Experiment
  * Method to delete experiment and reorganize list
@@ -206,25 +216,37 @@ const getTagConfig = (tag) => {
   // TAGS CONFIG
   const tagsConfig = {
     // user components
-    DEFAULT: { title: 'Meus Componentes', key: 'DEFAULT', icon: 'solution' },
+    DEFAULT: {
+      title: 'Meus Componentes',
+      key: 'DEFAULT',
+      icon: <SolutionOutlined />,
+    },
     // datasets
-    DATASETS: { title: 'Conjunto de dados', key: 'DATASETS', icon: 'database' },
+    DATASETS: {
+      title: 'Conjunto de dados',
+      key: 'DATASETS',
+      icon: <DatabaseOutlined />,
+    },
     // descriptive statistics
     DESCRIPTIVE_STATISTICS: {
       title: 'Visualização de Dados',
       key: 'DESCRIPTIVE_STATISTICS',
-      icon: 'area-chart',
+      icon: <AreaChartOutlined />,
     },
     // feature engineering
     FEATURE_ENGINEERING: {
       title: 'Engenharia de Atributos',
       key: 'FEATURE_ENGINEERING',
-      icon: 'control',
+      icon: <ControlOutlined />,
     },
     // training
-    PREDICTOR: { title: 'Treinamento', key: 'PREDICTOR', icon: 'share-alt' },
+    PREDICTOR: {
+      title: 'Treinamento',
+      key: 'PREDICTOR',
+      icon: <ShareAltOutlined />,
+    },
     // templates
-    TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: 'file' },
+    TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: <FileOutlined /> },
   };
 
   return tagsConfig[tag];

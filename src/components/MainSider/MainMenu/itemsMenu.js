@@ -1,27 +1,35 @@
-// MENU ITEMS LIST MOCK
+import React from 'react';
+import {
+  AppstoreOutlined,
+  BuildOutlined,
+  DeploymentUnitOutlined,
+  SettingOutlined,
+  ShoppingOutlined,
+} from '@ant-design/icons';
+
 const itemsMenu = [
   {
-    icon: 'AppstoreOutlined',
+    icon: <AppstoreOutlined />,
     title: 'Meus projetos',
     path: '/',
   },
   {
-    icon: 'DeploymentUnitOutlined',
+    icon: <DeploymentUnitOutlined />,
     title: 'Fluxos implantados',
     path: '/fluxos-implantados',
   },
   {
-    icon: 'BuildOutlined',
+    icon: <BuildOutlined />,
     title: 'Tarefas',
     path: '/tarefas',
   },
   {
-    icon: 'ShoppingOutlined',
+    icon: <ShoppingOutlined />,
     title: 'Marketplace',
     path: '/marketplace',
   },
   {
-    icon: 'SettingOutlined',
+    icon: <SettingOutlined />,
     title: 'Configurações',
     path: '/configuracoes',
   },
