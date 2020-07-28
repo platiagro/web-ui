@@ -23,7 +23,6 @@ const initialState = {
     visible: false,
     isDataset: false,
     title: 'Título Drawer',
-    showResults: false,
   },
   template: { loading: false },
   tasksTable: { loading: false },
@@ -36,7 +35,7 @@ const initialState = {
   experimentTraining: { loading: false },
   datasetOperator: { loading: false },
   operatorParameter: { loading: false },
-  operatorResults: { loading: false },
+  operatorResults: { loading: false, showOperatorResults: false },
   operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
   experimentInferenceModal: { visible: false },
@@ -44,6 +43,11 @@ const initialState = {
 
 /**
  * ui reducer
+ *
+ * @param state
+ * @param action
+ * @param state
+ * @param action
  */
 const uiReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
@@ -170,12 +174,15 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
-    // DRAWER RESULTS
-    case actionTypes.SHOW_DRAWER_RESULTS: // show drawer results
-    case actionTypes.HIDE_DRAWER_RESULTS: // hide drawer results
+    // OPERATOR RESULTS
+    case actionTypes.SHOW_OPERATOR_RESULTS: // show operator results
+    case actionTypes.HIDE_OPERATOR_RESULTS: // hide operator results
       return {
         ...state,
-        drawer: { ...state.drawer, showResults: action.showResults },
+        operatorResults: {
+          ...state.operatorResults,
+          showOperatorResults: action.showOperatorResults,
+        },
       };
 
     // TASKS TABLE
