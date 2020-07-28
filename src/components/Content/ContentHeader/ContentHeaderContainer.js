@@ -11,7 +11,7 @@ import ContentHeader from './index';
  * This component is responsible for create a logic container for content header
  * with route control.
  */
-const ContentHeaderContainer = ({ title }) => {
+const ContentHeaderContainer = ({ title, subTitle }) => {
   // getting history
   const history = useHistory();
 
@@ -20,7 +20,12 @@ const ContentHeaderContainer = ({ title }) => {
 
   // RENDER
   return (
-    <ContentHeader title={title} loading={false} handleGoBack={goBackHandler} />
+    <ContentHeader
+      title={title}
+      subTitle={subTitle}
+      loading={false}
+      handleGoBack={goBackHandler}
+    />
   );
 };
 

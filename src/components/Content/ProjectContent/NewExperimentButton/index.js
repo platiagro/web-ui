@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
+//STYLE
+import './style.scss';
+
 /**
  * New Experiment Button.
  * This component is responsible for show new project button.
@@ -18,6 +21,7 @@ const NewExperimentButton = ({ handleClick, disabled }) => (
     size='small'
     type='add'
     icon={<PlusOutlined />}
+    className='new-tab-button'
   />
 );
 

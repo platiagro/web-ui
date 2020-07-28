@@ -2,9 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// UI LIBS
-import { Row, Col } from 'antd';
-
 // COMPONENTS
 import DeleteExperimentButton from '../DeleteExperimentButton';
 import TrainExperimentButton from '../TrainExperimentButton';
@@ -27,44 +24,35 @@ const ExperimentHeader = ({
   handleDeployExperiment,
   empty,
 }) => (
-  // row container
-  <Row>
-    {/* new template modal */}
+  <div className='buttons-config'>
     <NewTemplateModal />
-    {/* column container */}
-    <Col span={8}></Col>
-    <Col span={16}>
-      {/* column container */}
-      <div className='buttons-config'>
-        {/* new template button */}
-        <NewTemplateButton disabled={loading || trainingLoading || empty} />
-        {/* train button */}
-        <TrainExperimentButton
-          handleClick={handleTrainExperiment}
-          disabled={loading || trainingLoading || trainingSucceeded || empty}
-          experimentRunning={trainingLoading}
-        />
-        {/* deploy button */}
-        <DeployExperimentButton
-          handleClick={handleDeployExperiment}
-          disabled={
-            loading ||
-            trainingLoading ||
-            !trainingSucceeded ||
-            deployStatus === 'Succeeded' ||
-            deployStatus === 'Running'
-          }
-          loading={deployStatus === 'Running'}
-        />
-        {/* delete button */}
-        <DeleteExperimentButton
-          disabled={loading || trainingLoading}
-          handleClick={handleDeleteExperiment}
-          loading={loading}
-        />
-      </div>
-    </Col>
-  </Row>
+    {/* new template button */}
+    <NewTemplateButton disabled={loading || trainingLoading || empty} />
+    {/* train button */}
+    <TrainExperimentButton
+      handleClick={handleTrainExperiment}
+      disabled={loading || trainingLoading || trainingSucceeded || empty}
+      experimentRunning={trainingLoading}
+    />
+    {/* deploy button */}
+    <DeployExperimentButton
+      handleClick={handleDeployExperiment}
+      disabled={
+        loading ||
+        trainingLoading ||
+        !trainingSucceeded ||
+        deployStatus === 'Succeeded' ||
+        deployStatus === 'Running'
+      }
+      loading={deployStatus === 'Running'}
+    />
+    {/* delete button */}
+    <DeleteExperimentButton
+      disabled={loading || trainingLoading}
+      handleClick={handleDeleteExperiment}
+      loading={loading}
+    />
+  </div>
 );
 
 // PROP TYPES

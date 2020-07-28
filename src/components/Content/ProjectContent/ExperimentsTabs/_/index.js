@@ -132,23 +132,26 @@ const ExperimentsTabs = ({
 
   //Content of rename popover, using Search for press enter and suffix ok button
   const content = (
-    <Input.Search
-      enterButton='Ok'
-      onSearch={(name) => {
-        //Only send rename if has a name
-        if (name.length > 0) {
-          renameHandler(currentId, name);
-        }
-      }}
-      placeholder='Digite o novo nome'
-      value={currentName}
-      onChange={(e) => {
-        setCurrentName(e.target.value);
-      }}
-      loading={loading}
-      disabled={loading}
-      allowClear
-    />
+    <>
+      <p>Renomear</p>
+      <Input.Search
+        enterButton='Ok'
+        onSearch={(name) => {
+          //Only send rename if has a name
+          if (name.length > 0) {
+            renameHandler(currentId, name);
+          }
+        }}
+        placeholder='Digite o novo nome'
+        value={currentName}
+        onChange={(e) => {
+          setCurrentName(e.target.value);
+        }}
+        loading={loading}
+        disabled={loading}
+        allowClear
+      />
+    </>
   );
 
   // render tabs
@@ -210,7 +213,7 @@ const ExperimentsTabs = ({
         {renderTabs()}
       </DraggableTabs>
       <ContextMenu className='menu-tab' id='menu_id'>
-        <Popover content={content} title='Renomear' trigger='click'>
+        <Popover content={content} trigger='click'>
           <MenuItem
             className='menu-tab-item'
             data={{ action: 'rename' }}
