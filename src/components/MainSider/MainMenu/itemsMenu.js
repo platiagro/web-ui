@@ -11,7 +11,7 @@ const itemsMenu = [
   {
     icon: <AppstoreOutlined />,
     title: 'Meus projetos',
-    path: '/',
+    path: '/projetos',
   },
   {
     icon: <DeploymentUnitOutlined />,

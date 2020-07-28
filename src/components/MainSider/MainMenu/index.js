@@ -13,8 +13,9 @@ const { Item } = Menu;
  * This component is responsible for displaying main menu with items.
  */
 const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
-  if (selectedItems[0].includes('/projetos')) {
-    selectedItems[0] = '/';
+  const selectedItem = selectedItems[0];
+  if (selectedItem === '/' || selectedItem.includes('/projetos')) {
+    selectedItems[0] = '/projetos';
   }
 
   return (

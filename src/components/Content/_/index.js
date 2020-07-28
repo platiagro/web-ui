@@ -29,10 +29,6 @@ const Content = () => {
         <Route exact path='/'>
           <ProjectsContent />
         </Route>
-        {/* task content */}
-        <Route exact path='/tarefas'>
-          <TaskContent />
-        </Route>
         {/* projects content */}
         <Route exact path='/projetos'>
           <ProjectsContent />
@@ -48,6 +44,10 @@ const Content = () => {
         {/* implanted experiments content */}
         <Route exact path='/fluxos-implantados'>
           <ImplantedExperimentsContent />
+        </Route>
+        {/* task content */}
+        <Route exact path='/tarefas'>
+          <TaskContent />
         </Route>
         {/* error 404 content */}
         <Route path='*'>
