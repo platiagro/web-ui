@@ -190,9 +190,7 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
  */
 const deployExperimentSuccess = (experimentId, routerProps) => () => {
   // go to deployed experiments
-  routerProps.history.push(
-    `/experimentos-implantados?experiment=${experimentId}`
-  );
+  routerProps.history.push(`/fluxos-implantados?experiment=${experimentId}`);
 
   // dispatching deploy experiment success
   return {

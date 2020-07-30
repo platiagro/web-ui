@@ -13,6 +13,11 @@ const { Item } = Menu;
  * This component is responsible for displaying main menu with items.
  */
 const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
+  const selectedItem = selectedItems[0];
+  if (selectedItem === '/' || selectedItem.includes('/projetos')) {
+    selectedItems[0] = '/projetos';
+  }
+
   return (
     // menu component
     <Menu
@@ -24,7 +29,7 @@ const MainMenu = ({ itemsList, selectedItems, handleItemClick, className }) => {
       {/* mapping menu items */}
       {itemsList.map(({ icon, title, path }) => (
         // menu item
-        <Item key={path}>
+        <Item key={path} style={{ color: '#ffffff' }}>
           {/* menu item icon */}
           {icon}
           {/* menu item title */}
