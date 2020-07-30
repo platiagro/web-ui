@@ -7,7 +7,6 @@ import actionTypes from './actionTypes';
 // INITIAL STATE
 const initialState = {
   createdAt: '',
-  dataset: '',
   name: '',
   operators: [],
   position: 0,
@@ -35,8 +34,6 @@ const experimentReducer = (state = initialState, action = undefined) => {
     case actionTypes.DELETE_EXPERIMENT_SUCCESS:
       message.success(`Experimento excluído!`);
       return initialState;
-    case actionTypes.SET_DATASET_SUCCESS:
-      return { ...state, ...action.experiment };
     case actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_SUCCESS:
       return { ...state, deployStatus: action.status };
 
@@ -44,7 +41,6 @@ const experimentReducer = (state = initialState, action = undefined) => {
     // experiment
     case actionTypes.FETCH_EXPERIMENT_FAIL:
     case actionTypes.DELETE_EXPERIMENT_FAIL:
-    case actionTypes.SET_DATASET_FAIL:
     case actionTypes.SET_TARGET_COLUMN_FAIL:
       message.error(action.errorMessage, 5);
       return state;

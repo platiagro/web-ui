@@ -294,34 +294,6 @@ export const experimentsTabsDataLoaded = () => {
 
 // // // // // // // // // //
 
-// ** EXPERIMENT TARGET LOADING DATA
-/**
- * experiment target loading data
- * @returns {Object} { type, experimentTargetLoading }
- */
-export const experimentTargetLoadingData = () => {
-  return {
-    type: actionTypes.EXPERIMENT_TARGET_LOADING_DATA,
-    experimentTargetLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** EXPERIMENT TARGET DATA LOADED
-/**
- * experiment target loading data
- * @returns {Object} { type, experimentTargetLoading }
- */
-export const experimentTargetDataLoaded = () => {
-  return {
-    type: actionTypes.EXPERIMENT_TARGET_DATA_LOADED,
-    experimentTargetLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
 // ** EXPERIMENT TRAINING LOADING DATA
 /**
  * experiment training loading data

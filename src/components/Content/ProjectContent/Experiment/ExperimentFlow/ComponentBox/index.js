@@ -95,7 +95,7 @@ const ComponentBox = ({
 
   // remove on right click menu
   const removeOperator = () => {
-    handleRemoveOperator(projectId, experimentId, operator.uuid);
+    handleRemoveOperator(projectId, experimentId, operator);
   };
 
   // box right click

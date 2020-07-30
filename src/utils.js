@@ -261,12 +261,7 @@ const getTagConfig = (tag) => {
  */
 const getComponentData = (components, componentId) => {
   // params to filter constant
-  const parametersToFilter = [
-    'dataset',
-    //'target',
-    'experiment_id',
-    'operator_id',
-  ];
+  const parametersToFilter = ['dataset'];
 
   if (components.length > 0 && componentId) {
     // getting components data
@@ -282,10 +277,9 @@ const getComponentData = (components, componentId) => {
       parameters,
     } = componentData;
 
+    // filtering params
     let filteredParams;
-
     if (parameters) {
-      // filtering params
       filteredParams = parameters.filter(
         (parameter) => !parametersToFilter.includes(parameter.name)
       );
@@ -470,8 +464,69 @@ const getErrorMessage = (error) => {
   let msg = error.message;
   if (error.response && error.response.data && error.response.data.message)
     msg = error.response.data.message;
-
   return msg;
+};
+
+/**
+ * Sort operators by dependencies
+ *
+ * @param {Object[]} operators experiment operators
+ * @returns {Object[]} experiment operators sorted
+ */
+const sortOperatorsByDependencies = (operators) => {
+  const result = [];
+  if (operators.length > 0) {
+    // get the first operator of the flow
+    let firstOperatorIndex = operators.findIndex((i) => {
+      return i.dependencies.length === 0;
+    });
+    let firstOperator = operators[firstOperatorIndex];
+    result.push(firstOperator);
+    operators.splice(firstOperatorIndex, 1);
+
+    const findOpIndexByDependencie = (operators, uuid) => {
+      return operators.findIndex((i) => {
+        return i.dependencies.includes(uuid);
+      });
+    };
+
+    let uuid = firstOperator.uuid;
+    while (operators.length > 0) {
+      let operatorIndex = findOpIndexByDependencie(operators, uuid);
+      let operator = operators[operatorIndex];
+      result.push(operator);
+      operators.splice(operatorIndex, 1);
+      uuid = operator.uuid;
+    }
+  }
+  return result;
+};
+
+/**
+ * Get dataset name
+ *
+ * @param {Object[]} components components
+ * @param {Object[]} operators experiment operators
+ * @returns {string} dataset name
+ */
+const getDatasetName = (components, operators) => {
+  const datasetTask = components.find((i) => {
+    return i.tags.includes('DATASETS');
+  });
+  const datasetOperator = operators.find((i) => {
+    return i.componentId === datasetTask.uuid;
+  });
+
+  let datasetName = undefined;
+  if (datasetOperator) {
+    const parameters = datasetOperator.parameters;
+    if (parameters instanceof Array) {
+      datasetName = parameters[0]?.value;
+    } else {
+      datasetName = parameters.dataset;
+    }
+  }
+  return datasetName;
 };
 
 // EXPORT DEFAULT
@@ -489,4 +544,6 @@ export default {
   checkOperatorSettedUp,
   getErrorMessage,
   transformColumnsInParameterOptions,
+  sortOperatorsByDependencies,
+  getDatasetName,
 };

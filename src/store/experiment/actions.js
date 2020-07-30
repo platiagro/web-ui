@@ -17,16 +17,10 @@ import {
   experimentNameLoadingData,
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
-  experimentTargetDataLoaded,
-  experimentTargetLoadingData,
-  datasetOperatorDataLoaded,
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
-import {
-  fetchOperatorsRequest,
-  clearOperatorsFeatureParametersRequest,
-} from '../operators/actions';
+import { fetchOperatorsRequest } from '../operators/actions';
 
 // ACTIONS
 // ** FETCH EXPERIMENT
@@ -51,7 +45,7 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
   dispatch(fetchExperimentDeployStatusRequest(experimentId));
 
   // fetching operators
-  dispatch(fetchOperatorsRequest(projectId, experimentId, experiment.dataset));
+  dispatch(fetchOperatorsRequest(projectId, experimentId));
 
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_SUCCESS,
@@ -178,9 +172,7 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
   dispatch(experimentNameDataLoaded());
 
   // fetching operators
-  dispatch(
-    fetchOperatorsRequest(projectId, experiment.uuid, experiment.dataset)
-  );
+  dispatch(fetchOperatorsRequest(projectId, experiment.uuid));
 
   // dispatching experiment success
   dispatch({
@@ -434,158 +426,6 @@ export const deleteExperimentRequest = (
       dispatch(deleteExperimentSuccess(projectId, experimentId, routerProps))
     )
     .catch((error) => dispatch(deleteExperimentFail(error)));
-};
-
-// // // // // // // // // //
-
-// ** SET DATASET
-/**
- * set dataset success action
- *
- * @param {object} response
- * @param {string} projectId
- * @param {string} experimentId
- * @returns {object} { type, experiment }
- */
-const setDatasetSuccess = (response, projectId, experimentId) => (dispatch) => {
-  // getting experiment from response
-  const experiment = response.data;
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
-
-  // dispatching clear operator feature parameters
-  dispatch(
-    clearOperatorsFeatureParametersRequest(
-      projectId,
-      experimentId,
-      experiment.dataset
-    )
-  );
-
-  dispatch({
-    type: actionTypes.SET_DATASET_SUCCESS,
-    experiment,
-  });
-};
-
-/**
- * set dataset fail action
- *
- * @param {object} error
- * @returns {object} { type, errorMessage }
- */
-const setDatasetFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
-
-  dispatch({
-    type: actionTypes.SET_DATASET_FAIL,
-    errorMessage,
-  });
-};
-
-/**
- * set dataset request action
- *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {string} datasetName
- * @returns {Function}
- */
-export const setDatasetRequest = (projectId, experimentId, datasetName) => (
-  dispatch
-) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.SET_DATASET_REQUEST,
-  });
-
-  // creating experiment object
-  const experiment = { dataset: datasetName, target: null };
-
-  // creating experiment
-  experimentsApi
-    .updateExperiment(projectId, experimentId, experiment)
-    .then((response) =>
-      dispatch(setDatasetSuccess(response, projectId, experimentId))
-    )
-    .catch((error) => dispatch(setDatasetFail(error)));
-};
-
-// // // // // // // // // //
-
-// ** SET TARGET COLUMN
-/**
- * set target column success action
- *
- * @param {object} response
- * @returns {object} { type, experiment }
- */
-const setTargetColumnSuccess = (response) => (dispatch) => {
-  // getting experiment from response
-  const experiment = response.data;
-
-  // dispatching experiment target data loaded
-  dispatch(experimentTargetDataLoaded());
-
-  dispatch({
-    type: actionTypes.SET_TARGET_COLUMN_SUCCESS,
-    experiment,
-  });
-};
-
-/**
- * set target column fail action
- *
- * @param {object} error
- * @returns {object} { type, errorMessage }
- */
-const setTargetColumnFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching experiment target data loaded
-  dispatch(experimentTargetDataLoaded());
-
-  dispatch({
-    type: actionTypes.SET_TARGET_COLUMN_FAIL,
-    errorMessage,
-  });
-};
-
-/**
- * set target column request action
- *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {string} targetColumnName
- * @returns {Function}
- */
-export const setTargetColumnRequest = (
-  projectId,
-  experimentId,
-  targetColumnName
-) => (dispatch) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.SET_TARGET_COLUMN_REQUEST,
-  });
-
-  // dispatching experiment target loading data
-  dispatch(experimentTargetLoadingData());
-
-  // creating experiment object
-  const experiment = { target: targetColumnName };
-
-  // creating experiment
-  experimentsApi
-    .updateExperiment(projectId, experimentId, experiment)
-    .then((response) => dispatch(setTargetColumnSuccess(response)))
-    .catch((error) => dispatch(setTargetColumnFail(error)));
 };
 
 // // // // // // // // // //

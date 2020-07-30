@@ -4,8 +4,9 @@ import actionTypes from './actionTypes';
 // SERVICES
 import datasetsApi from '../../services/DatasetsApi';
 
-// EXPERIMENT ACTIONS
-import { setDatasetRequest } from '../experiment/actions';
+// OPERATOR ACTIONS
+import { setOperatorParametersRequest } from '../operator/actions';
+import { clearOperatorsFeatureParametersRequest } from '../operators/actions';
 
 // UI ACTIONS
 import {
@@ -109,17 +110,32 @@ export const cancelDatasetUpload = () => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
-  dispatch
+  dispatch,
+  getState
 ) => {
-  // default success message
-  const successMessage = 'Dados de entrada importados';
+  // get select operator from store
+  const { operatorReducer: operator } = getState();
 
-  dispatch(setDatasetRequest(projectId, experimentId, dataset.name));
+  // update dataset parameter
+  dispatch(
+    setOperatorParametersRequest(
+      projectId,
+      experimentId,
+      operator,
+      'dataset',
+      dataset.name
+    )
+  );
+
+  // dispatching clear operator feature parameters
+  dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
+
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
 
   dispatch({
     type: actionTypes.CREATE_DATASET_SUCCESS,
     dataset,
-    successMessage,
   });
 };
 
