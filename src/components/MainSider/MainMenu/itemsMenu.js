@@ -1,31 +1,37 @@
 import React from 'react';
 import {
-  ApartmentOutlined,
-  CodeOutlined,
-  ExperimentOutlined,
-  HomeOutlined,
+  AppstoreOutlined,
+  BuildOutlined,
+  DeploymentUnitOutlined,
+  SettingOutlined,
+  ShoppingOutlined,
 } from '@ant-design/icons';
 
 const itemsMenu = [
   {
-    icon: <HomeOutlined />,
-    title: 'Início',
-    path: '/',
+    icon: <AppstoreOutlined />,
+    title: 'Meus projetos',
+    path: '/projetos',
   },
   {
-    icon: <CodeOutlined />,
+    icon: <DeploymentUnitOutlined />,
+    title: 'Fluxos implantados',
+    path: '/fluxos-implantados',
+  },
+  {
+    icon: <BuildOutlined />,
     title: 'Tarefas',
     path: '/tarefas',
   },
   {
-    icon: <ExperimentOutlined />,
-    title: 'Projetos',
-    path: '/projetos',
+    icon: <ShoppingOutlined />,
+    title: 'Marketplace',
+    path: '/marketplace',
   },
   {
-    icon: <ApartmentOutlined />,
-    title: 'Experimentos Implantados',
-    path: '/experimentos-implantados',
+    icon: <SettingOutlined />,
+    title: 'Configurações',
+    path: '/configuracoes',
   },
 ];
 

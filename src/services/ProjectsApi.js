@@ -90,7 +90,7 @@ const deleteProjects = (projects) => {
  */
 export const getPaginatedProjects = (name, page, pageSize) => {
   return projectsApi.get(
-    `${projectsPath}/?name=${name}&page=${page}&page_size=${pageSize}`
+    `${projectsPath}?name=${name}&page=${page}&page_size=${pageSize}`
   );
 };
 

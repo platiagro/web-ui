@@ -10,7 +10,6 @@ import ProjectsContent from '../ProjectsContent/_';
 import ProjectContent from '../ProjectContent/_';
 import TaskContent from '../TasksContent/_';
 import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
-import HomeContent from '../HomeContent/Container';
 import Error404Content from '../Error404Content';
 
 // STYLES
@@ -26,13 +25,9 @@ const Content = () => {
     // layout component
     <Layout>
       <Switch>
-        {/* home content */}
+        {/* projects content */}
         <Route exact path='/'>
-          <HomeContent />
-        </Route>
-        {/* task content */}
-        <Route exact path='/tarefas'>
-          <TaskContent />
+          <ProjectsContent />
         </Route>
         {/* projects content */}
         <Route exact path='/projetos'>
@@ -47,8 +42,12 @@ const Content = () => {
           <ProjectContent />
         </Route>
         {/* implanted experiments content */}
-        <Route exact path='/experimentos-implantados'>
+        <Route exact path='/fluxos-implantados'>
           <ImplantedExperimentsContent />
+        </Route>
+        {/* task content */}
+        <Route exact path='/tarefas'>
+          <TaskContent />
         </Route>
         {/* error 404 content */}
         <Route path='*'>
