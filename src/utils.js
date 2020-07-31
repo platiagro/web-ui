@@ -484,15 +484,15 @@ const sortOperatorsByDependencies = (operators) => {
     result.push(firstOperator);
     operators.splice(firstOperatorIndex, 1);
 
-    const findOpIndexByDependencie = (operators, uuid) => {
+    const findOpIndexByDependencie = (dependencie) => {
       return operators.findIndex((i) => {
-        return i.dependencies.includes(uuid);
+        return i.dependencies.includes(dependencie);
       });
     };
 
     let uuid = firstOperator.uuid;
     while (operators.length > 0) {
-      let operatorIndex = findOpIndexByDependencie(operators, uuid);
+      let operatorIndex = findOpIndexByDependencie(uuid);
       let operator = operators[operatorIndex];
       result.push(operator);
       operators.splice(operatorIndex, 1);
