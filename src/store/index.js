@@ -11,7 +11,6 @@ import operatorsReducer from './operators/operatorsReducer';
 import operatorReducer from './operator/operatorReducer';
 import componentsMenuReducer from './componentsMenu/componentsMenuReducer';
 import templatesReducer from './templates/templatesReducer';
-import componentsReducer from './components/componentsReducer';
 import implantedExperimentsReducer from './implantedExperiments/implantedExperimentsReducer';
 import tasksReducer from './tasks/tasksReducer';
 import uiReducer from './ui/uiReducer';
@@ -39,7 +38,6 @@ const reducers = combineReducers({
   operatorReducer,
   componentsMenuReducer,
   templatesReducer,
-  componentsReducer,
   implantedExperimentsReducer,
   tasksReducer,
   uiReducer,

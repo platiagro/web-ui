@@ -4,8 +4,8 @@ import actionTypes from './actionTypes';
 // SERVICES
 import operatorsApi from '../../services/OperatorsApi';
 import datasetsApi from '../../services/DatasetsApi';
-import componentsApi from '../../services/ComponentsApi';
 import pipelinesApi from '../../services/PipelinesApi';
+import tasksApi from '../../services/TasksApi';
 
 // UI ACTIONS
 import {
@@ -81,8 +81,8 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
 
   try {
     // getting components
-    const componentsResponse = await componentsApi.listComponents();
-    const components = componentsResponse.data;
+    const componentsResponse = await tasksApi.getAllTasks();
+    const components = componentsResponse.data.components;
 
     // getting operators
     const operatorsResponse = await operatorsApi.listOperators(

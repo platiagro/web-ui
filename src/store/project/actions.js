@@ -16,8 +16,8 @@ import {
   projectNameDataLoaded,
 } from '../ui/actions';
 
-// COMPONENTS ACTION
-import { fetchComponentsRequest } from '../components/actions';
+// TASKS ACTIONS
+import { fetchTasks } from '../tasks/actions';
 
 // ACTIONS
 // ** FETCH PROJECT
@@ -30,8 +30,8 @@ const fetchProjectSuccess = (response) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
-  // dispatching fetch components request action
-  dispatch(fetchComponentsRequest());
+  // dispatching fetch tasks action
+  dispatch(fetchTasks());
 
   // dispatching project name data loaded action
   dispatch(projectNameDataLoaded());

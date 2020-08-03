@@ -65,7 +65,8 @@ export const trainExperimentRequest = (experiment, operators) => (
   dispatch(experimentTrainingLoadingData());
 
   // getting componenst from store
-  const { componentsReducer: components } = getState();
+  const { tasksReducer } = getState();
+  const components = tasksReducer.tasks;
 
   // get dataset name
   const datasetName = utils.getDatasetName(components, operators);

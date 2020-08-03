@@ -50,7 +50,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     componentsMenu: state.componentsMenuReducer.filtered,
-    components: state.componentsReducer,
+    components: state.tasksReducer.tasks,
     loading: state.uiReducer.componentsMenu.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
     trainingSucceeded: state.experimentReducer.succeeded,

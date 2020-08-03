@@ -15,7 +15,7 @@ const taskPath = '/components';
  * @param {Object} task
  * @returns {Promise}
  */
-export const createTask = (task) => {
+const createTask = (task) => {
   const body = {
     copy_from: task.template === 'uuid' ? '' : task.template,
     name: task.name,
@@ -29,7 +29,7 @@ export const createTask = (task) => {
  * @param {String} id
  * @returns {Promise}
  */
-export const deleteTask = (id) => {
+const deleteTask = (id) => {
   return taskApi.delete(`${taskPath}/${id}`);
 };
 
@@ -37,22 +37,8 @@ export const deleteTask = (id) => {
  * Get all tasks
  * @returns {Promise}
  */
-export const getAllTasks = () => {
+const getAllTasks = () => {
   return taskApi.get(taskPath);
-};
-
-/**
- * Update task
- * @param {String} uuid
- * @param {Object} task
- * @returns {Promise}
- */
-export const updateTask = (uuid, task) => {
-  const body = {
-    name: task.name,
-    description: task.description,
-  };
-  return taskApi.patch(`${taskPath}/${uuid}`, body);
 };
 
 /**
@@ -61,6 +47,29 @@ export const updateTask = (uuid, task) => {
  * @param {Number} pageSize
  * @returns {Promise}
  */
-export const getPaginatedTasks = (page, pageSize) => {
-  return taskApi.get(`${taskPath}/?page=${page}&page_size=${pageSize}`);
+const getPaginatedTasks = (page, pageSize) => {
+  return taskApi.get(`${taskPath}?page=${page}&page_size=${pageSize}`);
+};
+
+/**
+ * Update task
+ * @param {String} uuid
+ * @param {Object} task
+ * @returns {Promise}
+ */
+const updateTask = (uuid, task) => {
+  const body = {
+    name: task.name,
+    description: task.description,
+  };
+  return taskApi.patch(`${taskPath}/${uuid}`, body);
+};
+
+// EXPORT DEFAULT
+export default {
+  createTask,
+  deleteTask,
+  getAllTasks,
+  getPaginatedTasks,
+  updateTask,
 };
