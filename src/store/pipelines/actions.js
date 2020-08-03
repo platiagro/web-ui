@@ -13,6 +13,9 @@ import {
   experimentTrainingDataLoaded,
 } from '../ui/actions';
 
+// UTILS
+import utils from '../../utils';
+
 // ACTIONS
 // ** TRAIN EXPERIMENT
 /**
@@ -49,7 +52,10 @@ const trainExperimentFail = (error) => (dispatch) => {
  * @param {Object[]} operators
  * @returns {Function}
  */
-export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
+export const trainExperimentRequest = (experiment, operators) => (
+  dispatch,
+  getState
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.TRAIN_EXPERIMENT_REQUEST,
@@ -58,11 +64,17 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
   // dispatching experiment training loading data action
   dispatch(experimentTrainingLoadingData());
 
+  // getting componenst from store
+  const { componentsReducer: components } = getState();
+
+  // get dataset name
+  const datasetName = utils.getDatasetName(components, operators);
+
   // getting experiment data
-  const { uuid: experimentId, dataset } = experiment;
+  const { uuid: experimentId } = experiment;
 
   // creating train object
-  const trainObject = { experimentId, dataset };
+  const trainObject = { experimentId };
 
   // getting operators
   trainObject.components = operators.map((operator) => {
@@ -72,10 +84,16 @@ export const trainExperimentRequest = (experiment, operators) => (dispatch) => {
       value: parameter.value,
     }));
 
+    // add dataset parameter
+    if (datasetName && !operator.tags.includes('DATASETS')) {
+      configuredParameters.push({ name: 'dataset', value: datasetName });
+    }
+
     return {
       operatorId: operator.uuid,
       notebookPath: operator.experimentNotebookPath,
       commands: operator.commands,
+      dependencies: operator.dependencies,
       parameters: configuredParameters,
     };
   });
@@ -239,9 +257,10 @@ export const deployExperimentRequest = (
 
   // getting operators
   deployObject.components = operators.map((operator) => ({
-    operatorId: operator.uuid,
     commands: operator.commands,
+    dependencies: operator.dependencies,
     notebookPath: operator.deploymentNotebookPath,
+    operatorId: operator.uuid,
   }));
 
   // deploying experiment

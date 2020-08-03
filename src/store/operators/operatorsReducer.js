@@ -5,7 +5,6 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 import operatorActionTypes from '../operator/actionTypes';
 import uiActionTypes from '../ui/actionTypes';
-import experimentActionTypes from '../experiment/actionTypes';
 import pipelinesActionTypes from '../pipelines/actionTypes';
 
 // UTILS
@@ -29,11 +28,6 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     // create operator success
     case operatorActionTypes.CREATE_OPERATOR_SUCCESS:
       return [...state, action.operator];
-    // remove operator success
-    case operatorActionTypes.REMOVE_OPERATOR_SUCCESS:
-      return [
-        ...state.filter((operator) => operator.uuid !== action.operatorId),
-      ];
     // set operator parameter success
     case operatorActionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
       return state.map((operator) =>
@@ -41,43 +35,6 @@ const operatorsReducer = (state = initialState, action = undefined) => {
           ? { ...action.operator }
           : { ...operator }
       );
-
-    // experiment
-    // set dataset success
-    case experimentActionTypes.SET_DATASET_SUCCESS:
-      return [
-        ...state.map((operator) =>
-          operator.tags.includes('DATASETS')
-            ? {
-                ...operator,
-                parameters: [
-                  {
-                    name: 'dataset',
-                    value: action.experiment.dataset,
-                  },
-                ],
-                settedUp: true,
-              }
-            : operator
-        ),
-      ];
-    // set dataset success
-    case experimentActionTypes.SET_TARGET_COLUMN_SUCCESS:
-      return [
-        ...state.map((operator) =>
-          operator.tags.includes('DATASETS')
-            ? {
-                ...operator,
-                parameters: operator.parameters.map((parameter) =>
-                  parameter.name === 'target'
-                    ? { ...parameter, value: action.experiment.target }
-                    : parameter
-                ),
-                settedUp: true,
-              }
-            : operator
-        ),
-      ];
 
     // pipelines
     // get training experiment status

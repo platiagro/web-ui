@@ -36,7 +36,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
       };
     // create dataset success
     case actionTypes.CREATE_DATASET_SUCCESS:
-      message.success(action.successMessage, 5);
+      message.success('Dados de entrada importados', 5);
       return { ...action.dataset };
 
     // FAIL

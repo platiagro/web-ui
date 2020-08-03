@@ -16,8 +16,8 @@ import {
 const mapDispatchToProps = (dispatch) => {
   return {
     // remove operator
-    handleRemoveOperator: (projectId, experimentId, operatorId) =>
-      dispatch(removeOperatorRequest(projectId, experimentId, operatorId)),
+    handleRemoveOperator: (projectId, experimentId, operator) =>
+      dispatch(removeOperatorRequest(projectId, experimentId, operator)),
     // set operator parameter
     handleSetOperatorParameter: (
       projectId,
@@ -41,7 +41,6 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    operatorId: state.operatorReducer.uuid,
     operator: state.operatorReducer,
     parameters: state.operatorReducer.parameters,
     loading: state.uiReducer.experimentOperators.loading,
@@ -61,7 +60,6 @@ const DatasetDrawerContainer = ({
   loading,
   trainingLoading,
   operator,
-  operatorId,
   handleRemoveOperator,
   handleSetOperatorParameter,
   parameterLoading,
@@ -74,7 +72,7 @@ const DatasetDrawerContainer = ({
   // HANDLERS
   // remove operator
   const removeOperatorHandler = () =>
-    handleRemoveOperator(projectId, experimentId, operatorId);
+    handleRemoveOperator(projectId, experimentId, operator);
   // set operator parameter
   const setOperatorParameterHandler = (parameterName, parameterValue) =>
     handleSetOperatorParameter(

@@ -24,6 +24,12 @@ import {
 // DATASET ACTIONS
 import { fetchDatasetColumnsRequest } from '../dataset/actions';
 
+// OPERATORS ACTIONS
+import {
+  clearOperatorsFeatureParametersRequest,
+  fetchOperatorsRequest,
+} from '../operators/actions';
+
 // UTILS
 import utils from '../../utils';
 import DatasetsApi from 'services/DatasetsApi';
@@ -332,10 +338,7 @@ export const createOperatorRequest = (
   });
 
   // getting dataset name and operators from store
-  const {
-    experimentReducer: { dataset: datasetName },
-    operatorsReducer: experimentOperators,
-  } = getState();
+  const { operatorsReducer: experimentOperators } = getState();
 
   // getting component data
   const { parameters, ...restComponentData } = utils.getComponentData(
@@ -361,6 +364,7 @@ export const createOperatorRequest = (
   dispatch(experimentOperatorsLoadingData());
 
   // getting dataset columns
+  const datasetName = utils.getDatasetName(components, experimentOperators);
   let datasetColumns = [];
   if (datasetName)
     try {
@@ -376,15 +380,28 @@ export const createOperatorRequest = (
   );
 
   // configuring parameters
-  let configuredParameters = utils.configureOperatorParameters(
-    parameters,
-    parameters,
-    featureOptions
-  );
+  // necessary to check if dataset because dataset param is removed on getComponentData
+  let configuredParameters;
+  if (restComponentData.tags.includes('DATASETS')) {
+    configuredParameters = [{ name: 'dataset', value: '' }];
+  } else {
+    configuredParameters = utils.configureOperatorParameters(
+      parameters,
+      parameters,
+      featureOptions
+    );
+  }
+
+  // put the last operator as dependencie of the new one
+  const dependencies = [];
+  if (experimentOperators.length > 0) {
+    const lastOperator = experimentOperators[experimentOperators.length - 1];
+    dependencies.push(lastOperator.uuid);
+  }
 
   // creating operator
   operatorsApi
-    .createOperator(projectId, experimentId, componentId)
+    .createOperator(projectId, experimentId, componentId, dependencies)
     .then((response) => {
       // getting operator from response
       const operator = response.data;
@@ -393,13 +410,7 @@ export const createOperatorRequest = (
       dispatch(experimentOperatorsDataLoaded());
 
       // checking if operator is setted up
-      let settedUp;
-      if (restComponentData.tags.includes('DATASETS')) {
-        configuredParameters = [{ name: 'dataset', value: datasetName || '' }];
-        settedUp = datasetName ? true : false;
-      } else {
-        settedUp = utils.checkOperatorSettedUp(operator);
-      }
+      let settedUp = utils.checkOperatorSettedUp(operator);
 
       // dispatching create operator success action
       dispatch({
@@ -417,55 +428,14 @@ export const createOperatorRequest = (
     .catch((error) => dispatch(createOperatorFail(error)));
 };
 
-// // // // // // // // // //
-
-// ** REMOVE OPERATOR
 /**
- * remove operator success action
- * @param {Object} operatorId
- * @returns {Object} { type, operatorId }
- */
-const removeOperatorSuccess = (operatorId) => (dispatch) => {
-  // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
-
-  // dispatching hide drawer action
-  dispatch(hideDrawer());
-
-  // dispatching remove operator success action
-  dispatch({
-    type: actionTypes.REMOVE_OPERATOR_SUCCESS,
-    operatorId,
-  });
-};
-
-/**
- * remove operator fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
- */
-const removeOperatorFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
-
-  // dispatching remove operator fail
-  dispatch({
-    type: actionTypes.REMOVE_OPERATOR_FAIL,
-    errorMessage,
-  });
-};
-
-/**
- * remove operator request action
+ * Remove operator request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
- * @returns {Function}
  */
-export const removeOperatorRequest = (projectId, experimentId, operatorId) => (
+export const removeOperatorRequest = (projectId, experimentId, operator) => (
   dispatch
 ) => {
   // dispatching request action
@@ -478,12 +448,34 @@ export const removeOperatorRequest = (projectId, experimentId, operatorId) => (
 
   // creating operator
   operatorsApi
-    .deleteOperator(projectId, experimentId, operatorId)
-    .then(() => dispatch(removeOperatorSuccess(operatorId)))
-    .catch((error) => dispatch(removeOperatorFail(error)));
-};
+    .deleteOperator(projectId, experimentId, operator.uuid)
+    .then(() => {
+      // dispatching hide drawer action
+      dispatch(hideDrawer());
 
-// // // // // // // // // //
+      // dispatching to fetch operator
+      if (operator.tags.includes('DATASETS')) {
+        dispatch(
+          clearOperatorsFeatureParametersRequest(projectId, experimentId)
+        );
+      } else {
+        dispatch(fetchOperatorsRequest(projectId, experimentId));
+      }
+    })
+    .catch((error) => {
+      // getting error message
+      const errorMessage = error.message;
+
+      // dispatching experiment operators data loaded action
+      dispatch(experimentOperatorsDataLoaded());
+
+      // dispatching remove operator fail
+      dispatch({
+        type: actionTypes.REMOVE_OPERATOR_FAIL,
+        errorMessage,
+      });
+    });
+};
 
 // ** SET OPERATOR PARAMS
 /**
@@ -602,8 +594,12 @@ export const setOperatorParametersRequest = (
         })
       );
 
-      // checking if is setted up
-      successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
+      // checking if operator is setted up
+      if (successOperator.tags.includes('DATASETS')) {
+        successOperator.settedUp = true;
+      } else {
+        successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
+      }
 
       // dispatching success action
       dispatch(setOperatorParametersSuccess(successOperator));
