@@ -41,13 +41,15 @@ const InputBlock = (props) => {
         <p className='inputBlockTitle'>
           <strong>{title}</strong>
         </p>
-        <div className='inputBlockTip'>
-          <TooltipTip
-            iconType='question'
-            isTooltipBelow={false}
-            tooltipText={tip}
-          />
-        </div>
+        {tip && (
+          <div className='inputBlockTip'>
+            <TooltipTip
+              iconType='question'
+              isTooltipBelow={false}
+              tooltipText={tip}
+            />
+          </div>
+        )}
       </div>
       <div className='inputBlockInput'>{children}</div>
     </div>
@@ -59,9 +61,15 @@ InputBlock.propTypes = {
   /** Input */
   children: PropTypes.node.isRequired,
   /** Tip text */
-  tip: PropTypes.string.isRequired,
+  tip: PropTypes.string,
   /** Input title */
   title: PropTypes.string.isRequired,
+};
+
+// DEFAULT PROPS
+InputBlock.defaultProps = {
+  /** Tip text */
+  tip: undefined,
 };
 
 // EXPORT DEFAULT
