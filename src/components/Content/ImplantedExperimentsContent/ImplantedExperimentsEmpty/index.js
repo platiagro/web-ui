@@ -21,7 +21,7 @@ const ImplantedExperimentsEmpty = () => (
     description={
       <span>
         <span>
-          <strong>Nenhum experimento foi implantado</strong>
+          <strong>Nenhum fluxo foi implantado</strong>
         </span>
         <br />
         <span>Implante um experimento para começar</span>
