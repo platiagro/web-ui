@@ -53,7 +53,7 @@ const ResizableSection = (props) => {
       {/* resizable panel */}
       <ResizePanel
         direction='w'
-        style={{ width: '210px', maxWidth: '80%' }}
+        style={{ width: '210px', minWidth: '210px', maxWidth: '80%' }}
         handleClass='customHandle'
         borderClass='customResizeBorder'
       >
