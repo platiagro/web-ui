@@ -15,7 +15,7 @@ const ImplantedExperimentsContent = () => (
   // fragment container
   <>
     {/* content header */}
-    <ContentHeader title='Experimentos Implantados' editable={false} />
+    <ContentHeader title='Fluxos implantados' editable={false} />
     {/* div content page container */}
     <div className='contentPage'>
       <NewDeploymentsModalContainer />
