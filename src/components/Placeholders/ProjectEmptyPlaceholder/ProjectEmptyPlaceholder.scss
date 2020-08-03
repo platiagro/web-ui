@@ -1,0 +1,35 @@
+.projectEmptyPlaceholderContainer {
+  display: flex;
+  justify-content: center;
+
+  .projectEmptyPlaceholder {
+    width: 600px;
+    height: 355px;
+    background-color: #fff;
+    text-align: center;
+    padding: 30px 40px;
+    margin: 20px;
+
+    .infoBlock {
+      height: 100px;
+      text-align: left;
+      margin: 30px 0px;
+
+      .imgBlock {
+        height: 100%;
+        float: left;
+        margin-right: 20px;
+        margin-top: 12px;
+
+        &.experimentationIcon {
+          margin-top: 25px;
+        }
+
+        img {
+          align-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}

@@ -3,13 +3,10 @@ import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-// UI COMPONENTS
-import { ConfigProvider } from 'antd';
-
 // COMPONENTS
-import ProjectsEmpty from '../ProjectsEmpty';
 import ProjectsTablePagination from '../ProjectsTablePagination/Container';
 import ProjectsTable from './index';
+import { MyProjectsEmptyPlaceholder } from 'components/Placeholders';
 
 // ACTIONS
 import {
@@ -47,16 +44,20 @@ const mapStateToProps = (state) => {
  * Projects Table Container.
  * This component is responsible for create a logic container for projects table
  * with redux.
+ *
+ * @param props
  */
-const ProjectsTableContainer = ({
-  loading,
-  projects,
-  selectedProjects,
-  handleFetchPaginatedProjects,
-  handleDeleteProject,
-  handleShowNewProjectModal,
-  handleSelectProjects,
-}) => {
+const ProjectsTableContainer = (props) => {
+  // destructuring props
+  const {
+    loading,
+    projects,
+    selectedProjects,
+    handleFetchPaginatedProjects,
+    handleDeleteProject,
+    handleShowNewProjectModal,
+    handleSelectProjects,
+  } = props;
   // CONSTANTS
   // getting history
   const history = useHistory();
@@ -73,8 +74,8 @@ const ProjectsTableContainer = ({
     history.push(`/projetos/${projectUuid}`);
 
   // RENDER
-  return (
-    <ConfigProvider renderEmpty={ProjectsEmpty}>
+  return projects && projects.length > 0 ? (
+    <div className='myProjectsTableContainer'>
       <ProjectsTable
         loading={loading}
         projects={projects}
@@ -87,7 +88,9 @@ const ProjectsTableContainer = ({
       />
       <br />
       <ProjectsTablePagination />
-    </ConfigProvider>
+    </div>
+  ) : (
+    <MyProjectsEmptyPlaceholder />
   );
 };
 
