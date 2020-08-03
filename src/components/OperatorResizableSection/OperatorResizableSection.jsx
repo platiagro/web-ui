@@ -84,7 +84,7 @@ const OperatorResizableSection = (props) => {
       {!operatorIsDataset && <GenericDrawerContainer />}
 
       {/* divider */}
-      <Divider />
+      {!operatorIsDataset && <Divider />}
 
       {/* rendering results button bar */}
       {!operatorIsDataset && (
