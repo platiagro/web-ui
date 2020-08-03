@@ -78,7 +78,7 @@ export const trainExperimentRequest = (experiment, operators) => (
   const trainObject = { experimentId };
 
   // getting operators
-  trainObject.components = operators.map((operator) => {
+  trainObject.operators = operators.map((operator) => {
     // configuring parameters
     const configuredParameters = operator.parameters.map((parameter) => ({
       name: parameter.name,
@@ -257,7 +257,7 @@ export const deployExperimentRequest = (
   };
 
   // getting operators
-  deployObject.components = operators.map((operator) => ({
+  deployObject.operators = operators.map((operator) => ({
     commands: operator.commands,
     dependencies: operator.dependencies,
     notebookPath: operator.deploymentNotebookPath,
