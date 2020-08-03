@@ -6,6 +6,9 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 // COMPONENTS
 import ContentHeader from './index';
 
+// CONTAINERS
+import NewExperimentButtonContainer from '../ProjectContent/NewExperimentButton/Container';
+
 // ACTIONS
 import {
   fetchProjectRequest,
@@ -35,38 +38,12 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for project content
  * header with route control.
  *
- * @param root0
- * @param root0.project
- * @param root0.loading
- * @param root0.handleFetchProject
- * @param root0.handleEditProjectName
- * @param root0
- * @param root0.project
- * @param root0.loading
- * @param root0.handleFetchProject
- * @param root0.handleEditProjectName
- * @param root0
- * @param root0.project
- * @param root0.loading
- * @param root0.handleFetchProject
- * @param root0.handleEditProjectName
- * @param root0
- * @param root0.project
- * @param root0.loading
- * @param root0.handleFetchProject
- * @param root0.handleEditProjectName
- * @param root0
- * @param root0.project
- * @param root0.loading
- * @param root0.handleFetchProject
- * @param root0.handleEditProjectName
+ * @param props
  */
-const ContentHeaderProjectContainer = ({
-  project,
-  loading,
-  handleFetchProject,
-  handleEditProjectName,
-}) => {
+const ContentHeaderProjectContainer = (props) => {
+  // destructuring props
+  const { project, loading, handleFetchProject, handleEditProjectName } = props;
+
   // CONSTANTS
   // getting history
   const history = useHistory();
@@ -95,6 +72,11 @@ const ContentHeaderProjectContainer = ({
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
       loading={loading}
+      extra={
+        project.experiments && project.experiments.length === 0 ? (
+          <NewExperimentButtonContainer />
+        ) : undefined
+      }
     />
   );
 };
