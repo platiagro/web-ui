@@ -103,7 +103,6 @@ const ColumnsTable = ({
     );
   };
 
-  console.log(currentPage);
   // RENDER
   return (
     // table component
