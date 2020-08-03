@@ -2,7 +2,7 @@
 import actionTypes from './actionTypes';
 
 // SERVICES
-import componentsApi from '../../services/ComponentsApi';
+import tasksApi from '../../services/TasksApi';
 import templatesApi from '../../services/TemplatesApi';
 
 // UI ACTIONS
@@ -68,7 +68,7 @@ export const fetchComponentsMenuRequest = () => async (dispatch) => {
     // getting templates
     const templatesResponse = await templatesApi.listTemplates();
     // getting components
-    const componentsResponse = await componentsApi.listComponents();
+    const componentsResponse = await tasksApi.getAllTasks();
 
     // creating components menu
     let componentsMenu = {};
@@ -80,7 +80,7 @@ export const fetchComponentsMenuRequest = () => async (dispatch) => {
     // adding components to menu
     componentsMenu = {
       ...componentsMenu,
-      ...utils.createMenu(componentsResponse.data),
+      ...utils.createMenu(componentsResponse.data.components),
     };
 
     dispatch(fetchComponentsMenuSuccess(componentsMenu));

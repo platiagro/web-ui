@@ -5,7 +5,7 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import * as taskServices from '../../services/taskApi';
+import tasksApi from '../../services/TasksApi';
 
 // UI ACTIONS
 import { tasksTableLoadingData, tasksTableDataLoaded } from '../ui/actions';
@@ -43,7 +43,7 @@ export const addTask = (task) => {
     // showing loading
     dispatch(tasksTableLoadingData());
 
-    return taskServices
+    return tasksApi
       .createTask(task)
       .then(async (response) => {
         const responseTask = response.data;
@@ -94,7 +94,7 @@ export const deleteTask = (id) => {
     // showing loading
     dispatch(tasksTableLoadingData());
 
-    return taskServices
+    return tasksApi
       .deleteTask(id)
       .then(() => {
         dispatch(tasksTableDataLoaded());
@@ -125,7 +125,7 @@ export const fetchPaginatedTasks = (page, pageSize) => {
     // showing loading
     dispatch(tasksTableLoadingData());
 
-    return taskServices
+    return tasksApi
       .getPaginatedTasks(page, pageSize)
       .then((response) => {
         dispatch(tasksTableDataLoaded());
@@ -151,13 +151,13 @@ export const fetchTasks = () => {
     // showing loading
     dispatch(tasksTableLoadingData());
 
-    return taskServices
+    return tasksApi
       .getAllTasks()
       .then((response) => {
         dispatch(tasksTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_TASK,
-          tasks: response.data,
+          tasks: response.data.components,
         });
       })
       .catch((error) => {
@@ -177,7 +177,7 @@ export const updateTask = (uuid, task) => {
     // showing loading
     dispatch(tasksTableLoadingData());
 
-    return taskServices
+    return tasksApi
       .updateTask(uuid, task)
       .then((response) => {
         dispatch(tasksTableDataLoaded());
