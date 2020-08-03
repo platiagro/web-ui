@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
-import { LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button } from 'antd';
 
 // COMPONENTS
@@ -72,9 +72,6 @@ const UploadInputBlock = (props) => {
   // file list state hook
   const [fileList, setFileList] = useState([]);
 
-  // button icon
-  const buttonIcon = isLoading ? <LoadingOutlined /> : <UploadOutlined />;
-
   // default error message
   const defaultErrorMessage = 'Ocorreu um erro no processamento do arquivo.';
 
@@ -115,14 +112,21 @@ const UploadInputBlock = (props) => {
     },
   };
 
+  // file extensions
+  const fileExtensions = (
+    <div style={{ marginTop: '10px' }}>Arquivos aceitos: .csv</div>
+  );
+
   // rendering component
   return (
     <InputBlock tip={tip} title={title}>
       <Upload {...uploadProps} disabled={isDisabled}>
-        <Button disabled={isDisabled}>
-          {buttonIcon} {buttonText}
+        <Button disabled={isDisabled || isLoading}>
+          <UploadOutlined /> {buttonText}
         </Button>
       </Upload>
+      {/* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */}
+      {/*fileList.length === 0 && fileExtensions*/}
     </InputBlock>
   );
 };
