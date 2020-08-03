@@ -15,14 +15,13 @@ import './style.scss';
  * Content Header.
  * This component is responsible for displaying the content header with editable
  * title and go back arrow.
+ *
+ * @param props
  */
-const ContentHeader = ({
-  handleGoBack,
-  handleSubmit,
-  title,
-  loading,
-  subTitle,
-}) => {
+const ContentHeader = (props) => {
+  // destructuring props
+  const { handleGoBack, handleSubmit, title, loading, subTitle, extra } = props;
+
   // RENDER
   return (
     // page header component
@@ -41,6 +40,9 @@ const ContentHeader = ({
         </>
       }
       onBack={handleGoBack}
+      extra={
+        <div style={{ marginTop: '10px', marginRight: '20px' }}>{extra}</div>
+      }
     />
   );
 };
