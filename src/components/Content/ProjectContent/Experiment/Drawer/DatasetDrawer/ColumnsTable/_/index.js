@@ -12,8 +12,35 @@ const { Option } = Select;
 /**
  * Columns Table.
  * This component is responsible for displaying dataset columns table
+ *
+ * @param root0
+ * @param root0.columns
+ * @param root0.handleChangeType
+ * @param root0.disabled
+ * @param root0
+ * @param root0.columns
+ * @param root0.handleChangeType
+ * @param root0.disabled
+ * @param root0
+ * @param root0.columns
+ * @param root0.handleChangeType
+ * @param root0.disabled
+ * @param root0
+ * @param root0.columns
+ * @param root0.handleChangeType
+ * @param root0.disabled
+ * @param root0.currentPage
+ * @param root0.setCurrentPage
+ * @param root0.currentPage
+ * @param root0.setCurrentPage
  */
-const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
+const ColumnsTable = ({
+  columns,
+  handleChangeType,
+  disabled,
+  currentPage,
+  setCurrentPage,
+}) => {
   // columns configuration
   const columnsConfig = [
     {
@@ -76,6 +103,7 @@ const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
     );
   };
 
+  console.log(currentPage);
   // RENDER
   return (
     // table component
@@ -86,6 +114,10 @@ const ColumnsTable = ({ columns, handleChangeType, disabled }) => {
       rowKey={setRowKey}
       size='middle'
       scroll={{ y: 340 }}
+      pagination={{
+        current: currentPage,
+        onChange: (page) => setCurrentPage(page),
+      }}
     />
   );
 };
@@ -98,6 +130,10 @@ ColumnsTable.propTypes = {
   handleChangeType: PropTypes.func.isRequired,
   /** columns table type change is disabled  */
   disabled: PropTypes.bool.isRequired,
+  /** props currentPage show the current page */
+  currentPage: PropTypes.number.isRequired,
+  /** props setCurrentPage change the page  */
+  setCurrentPage: PropTypes.func.isRequired,
 };
 
 // EXPORT

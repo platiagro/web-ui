@@ -1,5 +1,5 @@
 // CORE LIBS
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -28,6 +28,8 @@ const DatasetDrawer = (props) => {
   // CONSTANTS
   // show dataset columns
   const showColumns = columns !== undefined && columns.length > 0;
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   // handler to set dataset column type
   const handleChangeColumnType = (e, row) => {
@@ -63,6 +65,8 @@ const DatasetDrawer = (props) => {
           columns={columns}
           handleChangeType={handleChangeColumnType}
           disabled={trainingSucceeded || trainingLoading}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
       </div>
     );
