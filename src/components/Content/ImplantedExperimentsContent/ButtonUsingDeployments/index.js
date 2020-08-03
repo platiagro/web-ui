@@ -18,7 +18,7 @@ const ButtonUsingDeployments = ({ handleClick }) => (
     className='newProjectButton'
     type='secondary'
   >
-    Como usar um experimento implantado?
+    Como usar um fluxo implantado?
   </Button>
 );
 

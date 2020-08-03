@@ -106,7 +106,7 @@ const NewDeploymentsModalContainer = ({ visible, handleCloseModal }) => (
   <DeploymentsModal
     visible={visible}
     handleCloseModal={handleCloseModal}
-    title='Como usar um experimento implantado?'
+    title='Como usar um fluxo implantado?'
   >
     <ContentInfo />
   </DeploymentsModal>
