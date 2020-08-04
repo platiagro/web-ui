@@ -2,15 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// UI LIBS
-import { Divider } from 'antd';
-
 // COMPONENTS
 import { ResizableSection } from 'components';
 import DatasetDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/DatasetDrawer/_/Container';
 import GenericDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/GenericDrawer/_/Container';
 import ResultsButtonBar from '../Content/ProjectContent/Experiment/Drawer/ResultsButtonBar';
 import NotebookOutputsContainer from '../Content/ProjectContent/Experiment/Drawer/NotebookOutputs/_/Container';
+import InputBlockContainer from 'components/InputBlockContainer';
 
 /**
  * Component to display experiment flow operator parameters, results and metrics.
@@ -85,27 +83,30 @@ const OperatorResizableSection = (props) => {
       {/* rendering generic drawer */}
       {!operatorIsDataset && <GenericDrawerContainer />}
 
-      {/* divider */}
-      {!operatorIsDataset && <Divider />}
-
       {/* rendering results button bar */}
       {!operatorIsDataset && (
-        <ResultsButtonBar
-          handleEditClick={() => undefined}
-          handleResultsClick={handleShowResultsClick}
-          // always show results button
-          showingResults={false}
-          disabled={
-            !operatorResults ||
-            (!experimentIsFinished &&
-              operatorResults &&
-              operatorResults.lenght <= 0)
-          }
-        />
+        <InputBlockContainer>
+          <ResultsButtonBar
+            handleEditClick={() => undefined}
+            handleResultsClick={handleShowResultsClick}
+            // always show results button
+            showingResults={false}
+            disabled={
+              !operatorResults ||
+              (!experimentIsFinished &&
+                operatorResults &&
+                operatorResults.lenght <= 0)
+            }
+          />
+        </InputBlockContainer>
       )}
 
       {/* rendering link to Jupyter */}
-      {!operatorIsDataset && <NotebookOutputsContainer />}
+      {!operatorIsDataset && (
+        <InputBlockContainer>
+          <NotebookOutputsContainer />
+        </InputBlockContainer>
+      )}
     </>
   ) : undefined;
 

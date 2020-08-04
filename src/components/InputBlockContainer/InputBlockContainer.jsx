@@ -37,20 +37,22 @@ const InputBlockContainer = (props) => {
   // rendering component
   return (
     <div className='inputBlock'>
-      <div className='inputBlockHeader'>
-        <p className='inputBlockTitle'>
-          <strong>{title}</strong>
-        </p>
-        {tip && (
-          <div className='inputBlockTip'>
-            <TooltipTip
-              iconType='question'
-              isTooltipBelow={false}
-              tooltipText={tip}
-            />
-          </div>
-        )}
-      </div>
+      {title && (
+        <div className='inputBlockHeader'>
+          <p className='inputBlockTitle'>
+            <strong>{title}</strong>
+          </p>
+          {tip && (
+            <div className='inputBlockTip'>
+              <TooltipTip
+                iconType='question'
+                isTooltipBelow={false}
+                tooltipText={tip}
+              />
+            </div>
+          )}
+        </div>
+      )}
       <div className='inputBlockInput'>{children}</div>
     </div>
   );
@@ -63,13 +65,15 @@ InputBlockContainer.propTypes = {
   /** Tip text */
   tip: PropTypes.string,
   /** Input title */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
 // DEFAULT PROPS
 InputBlockContainer.defaultProps = {
   /** Tip text */
   tip: undefined,
+  /** Input title */
+  title: undefined,
 };
 
 // EXPORT DEFAULT
