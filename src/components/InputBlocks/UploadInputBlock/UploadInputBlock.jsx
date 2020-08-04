@@ -7,7 +7,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button } from 'antd';
 
 // COMPONENTS
-import { InputBlock } from 'components';
+import { InputBlockContainer } from 'components';
 
 /**
  * A input block with upload input
@@ -112,14 +112,15 @@ const UploadInputBlock = (props) => {
     },
   };
 
+  /* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */
   // file extensions
-  const fileExtensions = (
+  /*const fileExtensions = (
     <div style={{ marginTop: '10px' }}>Arquivos aceitos: .csv</div>
-  );
+  );*/
 
   // rendering component
   return (
-    <InputBlock tip={tip} title={title}>
+    <InputBlockContainer tip={tip} title={title}>
       <Upload {...uploadProps} disabled={isDisabled}>
         <Button disabled={isDisabled || isLoading}>
           <UploadOutlined /> {buttonText}
@@ -127,7 +128,7 @@ const UploadInputBlock = (props) => {
       </Upload>
       {/* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */}
       {/*fileList.length === 0 && fileExtensions*/}
-    </InputBlock>
+    </InputBlockContainer>
   );
 };
 

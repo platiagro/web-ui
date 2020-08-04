@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 import { TooltipTip } from 'components';
 
 // STYLES
-import './InputBlock.scss';
+import './InputBlockContainer.scss';
 
 /**
  * This component render a input with a title and a tip.
  *
  * @param {object} props Component props
- * @returns {InputBlock} Component
+ * @returns {InputBlockContainer} Component
  * @component
  * @example
  * // Input
@@ -30,7 +30,7 @@ import './InputBlock.scss';
  *  </div>
  * );
  */
-const InputBlock = (props) => {
+const InputBlockContainer = (props) => {
   // destructuring props
   const { title, tip, children } = props;
 
@@ -57,7 +57,7 @@ const InputBlock = (props) => {
 };
 
 // PROP TYPES
-InputBlock.propTypes = {
+InputBlockContainer.propTypes = {
   /** Input */
   children: PropTypes.node.isRequired,
   /** Tip text */
@@ -67,10 +67,10 @@ InputBlock.propTypes = {
 };
 
 // DEFAULT PROPS
-InputBlock.defaultProps = {
+InputBlockContainer.defaultProps = {
   /** Tip text */
   tip: undefined,
 };
 
 // EXPORT DEFAULT
-export default InputBlock;
+export default InputBlockContainer;

@@ -20,55 +20,61 @@ const { Fragment } = React;
 // INPUT TYPES
 const inputTypes = {
   // select
-  select: ({ uuid, name, ...props }) => (
-    <SelectInput
-      key={uuid || name}
-      handleChange={(value) => alert(`(select) Valor selecionado: ${value}`)}
-      {...props}
-      name={name}
-    />
-  ),
+  select({ uuid, name, ...props }) {
+    return (
+      <SelectInput
+        key={uuid || name}
+        handleChange={(value) => alert(`(select) Valor selecionado: ${value}`)}
+        {...props}
+        name={name}
+      />
+    );
+  },
   // radio
-  radio: ({ uuid, name, ...props }) => (
-    <RadioInput
-      key={uuid || name}
-      handleChange={(value) => alert(`(radio) Valor selecionado: ${value}`)}
-      {...props}
-      name={name}
-    />
-  ),
+  radio({ uuid, name, ...props }) {
+    return (
+      <RadioInput
+        key={uuid || name}
+        handleChange={(value) => alert(`(radio) Valor selecionado: ${value}`)}
+        {...props}
+        name={name}
+      />
+    );
+  },
   // feature
-  feature: (
+  feature(
     { uuid, name, multiple, description, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) => (
-    <Fragment key={`fragment-${uuid || name}`}>
-      <SelectInput
-        key={uuid || name}
-        isMultiple={multiple ? true : false}
-        handleChange={(value) => handleChange(name, value)}
-        name={name}
-        loading={loading}
-        tip={description}
-        disabled={trainingSucceeded || trainingLoading}
-        placeholder='Selecionar colunas'
-        {...props}
-      />
-      <Divider />
-    </Fragment>
-  ),
+  ) {
+    return (
+      <Fragment key={`fragment-${uuid || name}`}>
+        <SelectInput
+          key={uuid || name}
+          isMultiple={multiple ? true : false}
+          handleChange={(value) => handleChange(name, value)}
+          name={name}
+          loading={loading}
+          tip={description}
+          disabled={trainingSucceeded || trainingLoading}
+          placeholder='Selecionar colunas'
+          {...props}
+        />
+        <Divider />
+      </Fragment>
+    );
+  },
   // number
-  number: (
+  number(
     { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) =>
-    options === undefined ? (
+  ) {
+    return options === undefined ? (
       // simple number input
       <Fragment key={`fragment-${uuid || name}`}>
         <NumberInput
@@ -100,16 +106,17 @@ const inputTypes = {
         />
         <Divider />
       </Fragment>
-    ),
+    );
+  },
   // float
-  float: (
+  float(
     { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) =>
-    options === undefined ? (
+  ) {
+    return options === undefined ? (
       // simple number input
       <Fragment key={`fragment-${uuid || name}`}>
         <NumberInput
@@ -141,16 +148,17 @@ const inputTypes = {
         />
         <Divider />
       </Fragment>
-    ),
+    );
+  },
   // integer
-  integer: (
+  integer(
     { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) =>
-    options === undefined ? (
+  ) {
+    return options === undefined ? (
       // simple integer input
       <Fragment key={`fragment-${uuid || name}`}>
         <NumberInput
@@ -181,16 +189,17 @@ const inputTypes = {
         />
         <Divider />
       </Fragment>
-    ),
+    );
+  },
   // string
-  string: (
+  string(
     { uuid, name, multiple, description, options, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) =>
-    options === undefined ? (
+  ) {
+    return options === undefined ? (
       <Fragment key={`fragment-${uuid || name}`}>
         <StringInput
           key={uuid || name}
@@ -220,94 +229,104 @@ const inputTypes = {
         />
         <Divider />
       </Fragment>
-    ),
+    );
+  },
   // boolean
-  boolean: (
+  boolean(
     { uuid, name, multiple, description, ...props },
     loading,
     handleChange,
     trainingSucceeded,
     trainingLoading
-  ) => (
-    <Fragment key={`fragment-${uuid || name}`}>
-      <BooleanInput
-        key={uuid || name}
-        isMultiple={multiple ? true : false}
-        handleChange={(inputName, value) => handleChange(inputName, value)}
-        name={name}
-        loading={loading}
-        tip={description}
-        disabled={trainingSucceeded || trainingLoading}
-        placeholder='Selecionar colunas'
-        {...props}
-      />
-      <Divider />
-    </Fragment>
-  ),
+  ) {
+    return (
+      <Fragment key={`fragment-${uuid || name}`}>
+        <BooleanInput
+          key={uuid || name}
+          isMultiple={multiple ? true : false}
+          handleChange={(inputName, value) => handleChange(inputName, value)}
+          name={name}
+          loading={loading}
+          tip={description}
+          disabled={trainingSucceeded || trainingLoading}
+          placeholder='Selecionar colunas'
+          {...props}
+        />
+        <Divider />
+      </Fragment>
+    );
+  },
 };
 
 /**
  * Generic Drawer.
  * This component is responsible for displaying generic drawer content.
+ *
+ * @param props
  */
-const GenericDrawer = ({
-  drawerInputs,
-  drawerTip,
-  loading,
-  trainingLoading,
-  parameterLoading,
-  handleChangeParameter,
-  handleRemoveOperatorClick,
-  trainingSucceeded,
-}) => (
-  // div container
-  <div>
-    {/* rendering remove operator button */}
-    <div style={{ textAlign: 'center' }}>
-      {!trainingSucceeded && (
-        <>
-          <RemoveOperatorButton
-            loading={loading}
-            handleClick={handleRemoveOperatorClick}
-            disabled={trainingLoading}
-          />
-          <Divider />
-        </>
+const GenericDrawer = (props) => {
+  // destructuring props
+  const {
+    drawerInputs,
+    drawerTip,
+    loading,
+    trainingLoading,
+    parameterLoading,
+    handleChangeParameter,
+    handleRemoveOperatorClick,
+    trainingSucceeded,
+  } = props;
+
+  return (
+    // div container
+    <div>
+      {/* rendering remove operator button */}
+      <div style={{ textAlign: 'center' }}>
+        {!trainingSucceeded && (
+          <>
+            <RemoveOperatorButton
+              loading={loading}
+              handleClick={handleRemoveOperatorClick}
+              disabled={trainingLoading}
+            />
+            <Divider />
+          </>
+        )}
+      </div>
+      {/* Render empty component when drawer is empty */}
+      {drawerInputs && drawerInputs.length === 0 && (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description='Não há parâmetros para configuração'
+        />
+      )}
+      {/* rendering drawer inputs */}
+      {drawerInputs &&
+        drawerInputs.length > 0 &&
+        drawerInputs.map((input) =>
+          inputTypes[input.type](
+            input,
+            parameterLoading,
+            handleChangeParameter,
+            trainingSucceeded,
+            trainingLoading
+          )
+        )}
+      {/* rendering drawer tip node */}
+      {drawerTip && (
+        <div>
+          {/* divider */}
+          <Divider orientation='left'>
+            <BulbOutlined />
+            Dica
+          </Divider>
+          {/* drawer tip node */}
+          {drawerTip}
+        </div>
       )}
     </div>
-    {/* Render empty component when drawer is empty */}
-    {drawerInputs && drawerInputs.length === 0 && (
-      <Empty
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description='Não há parâmetros para configuração'
-      />
-    )}
-    {/* rendering drawer inputs */}
-    {drawerInputs &&
-      drawerInputs.length > 0 &&
-      drawerInputs.map((input) =>
-        inputTypes[input.type](
-          input,
-          parameterLoading,
-          handleChangeParameter,
-          trainingSucceeded,
-          trainingLoading
-        )
-      )}
-    {/* rendering drawer tip node */}
-    {drawerTip && (
-      <div>
-        {/* divider */}
-        <Divider orientation='left'>
-          <BulbOutlined />
-          Dica
-        </Divider>
-        {/* drawer tip node */}
-        {drawerTip}
-      </div>
-    )}
-  </div>
-);
+  );
+};
 
 // PROP TYPES
 GenericDrawer.propTypes = {

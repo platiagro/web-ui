@@ -10,7 +10,7 @@ import { DatasetUploadInputBlockContainer } from 'containers';
 
 // COMPONENTS
 import ColumnsTable from '../ColumnsTable/_';
-import { InputBlock } from 'components';
+import { InputBlockContainer } from 'components';
 
 /**
  * Dataset Drawer.
@@ -57,7 +57,7 @@ const DatasetDrawer = (props) => {
     // rendering table
     return columns.length === 0 ? null : (
       // div container
-      <InputBlock title='Tipos de atributos'>
+      <InputBlockContainer title='Tipos de atributos'>
         {/* dataset columns table */}
         <ColumnsTable
           columns={columns}
@@ -66,7 +66,7 @@ const DatasetDrawer = (props) => {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-      </InputBlock>
+      </InputBlockContainer>
     );
   };
 

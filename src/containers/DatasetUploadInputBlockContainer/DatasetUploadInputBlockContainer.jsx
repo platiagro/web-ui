@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import { UploadInputBlock } from 'components';
+import { UploadInputBlock } from 'components/InputBlocks';
 
 // ACTIONS
 import {
