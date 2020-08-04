@@ -87,7 +87,7 @@ const getOperatorResultsDataset = (
   page
 ) => {
   return operatorsApi.get(
-    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets/?page=${page}&page_size=10`
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets?page=${page}&page_size=10`
   );
 };
 
