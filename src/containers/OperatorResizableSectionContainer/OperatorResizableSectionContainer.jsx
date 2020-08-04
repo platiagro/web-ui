@@ -24,6 +24,8 @@ const mapStateToProps = (state) => {
     operatorName: state.operatorReducer.name,
     // operator experiment results
     operatorResults: state.operatorReducer.results,
+    // operator description
+    operatorDescription: state.operatorReducer.description,
     // operator is a dataset operator
     operatorIsDataset: state.operatorReducer.name === 'Conjunto de dados',
     // show operator experiment results
@@ -32,14 +34,6 @@ const mapStateToProps = (state) => {
     experimentIsFinished: state.experimentReducer.succeeded,
   };
 };
-
-// MOCKS
-// empty section placeholder
-const emptySectionPlaceholder = (
-  <p style={{ textAlign: 'center' }}>
-    Selecione um operador para visualizar ou editar os parâmetros.
-  </p>
-);
 
 /**
  * Container to display experiment flow operator parameters, results and metrics.
@@ -61,6 +55,8 @@ const OperatorResizableSectionContainer = (props) => {
     experimentIsFinished,
     // show results button click handler
     handleShowResultsClick,
+    // operator description
+    operatorDescription,
   } = props;
 
   // rendering container
@@ -71,7 +67,7 @@ const OperatorResizableSectionContainer = (props) => {
       operatorIsDataset={operatorIsDataset}
       experimentIsFinished={experimentIsFinished}
       handleShowResultsClick={handleShowResultsClick}
-      emptySectionPlaceholder={emptySectionPlaceholder}
+      operatorDescription={operatorDescription}
     />
   );
 };
@@ -88,6 +84,14 @@ OperatorResizableSectionContainer.propTypes = {
   experimentIsFinished: PropTypes.bool.isRequired,
   /** Show results button click handler */
   handleShowResultsClick: PropTypes.func.isRequired,
+  /** Operator description */
+  operatorDescription: PropTypes.string,
+};
+
+// DEFAULT PROPS
+OperatorResizableSection.defaultProps = {
+  /** Operator description */
+  operatorDescription: undefined,
 };
 
 // EXPORT DEFAULT
