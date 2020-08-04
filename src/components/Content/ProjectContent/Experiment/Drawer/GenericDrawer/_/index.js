@@ -7,307 +7,338 @@ import { BulbOutlined } from '@ant-design/icons';
 import { Divider, Empty } from 'antd';
 
 // COMPONENTS
-import SelectInput from '../SelectInput';
 import RadioInput from '../RadioInput';
-import NumberInput from '../NumberInput';
-import StringInput from '../StringInput';
-import BooleanInput from '../BooleanInput';
+import {
+  ToggleInputBlock,
+  NumberInputBlock,
+  SelectInputBlock,
+  TextInputBlock,
+} from 'components/InputBlocks';
 import RemoveOperatorButton from '../RemoveOperatorButton';
-
-// REACT FRAGMENT
-const { Fragment } = React;
+import InputBlockContainer from 'components/InputBlockContainer';
 
 // INPUT TYPES
 const inputTypes = {
   // select
-  select: ({ uuid, name, ...props }) => (
-    <SelectInput
-      key={uuid || name}
-      handleChange={(value) => alert(`(select) Valor selecionado: ${value}`)}
-      {...props}
-      name={name}
-    />
-  ),
+  select({ uuid, name, ...props }) {
+    return (
+      <SelectInputBlock
+        key={uuid || name}
+        handleChange={(value) => alert(`(select) Valor selecionado: ${value}`)}
+        {...props}
+        name={name}
+      />
+    );
+  },
   // radio
-  radio: ({ uuid, name, ...props }) => (
-    <RadioInput
-      key={uuid || name}
-      handleChange={(value) => alert(`(radio) Valor selecionado: ${value}`)}
-      {...props}
-      name={name}
-    />
-  ),
+  radio({ uuid, name, ...props }) {
+    return (
+      <RadioInput
+        key={uuid || name}
+        handleChange={(value) => alert(`(radio) Valor selecionado: ${value}`)}
+        {...props}
+        name={name}
+      />
+    );
+  },
   // feature
-  feature: (
-    { uuid, name, multiple, description, ...props },
-    loading,
-    handleChange,
-    trainingSucceeded,
-    trainingLoading
-  ) => (
-    <Fragment key={`fragment-${uuid || name}`}>
-      <SelectInput
+  feature(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+    // destructuring props
+    const { uuid, name, label, value, options, multiple, description } = props;
+
+    // rendering component
+    return (
+      <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
         handleChange={(value) => handleChange(name, value)}
         name={name}
-        loading={loading}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar'
+        options={options}
         tip={description}
-        disabled={trainingSucceeded || trainingLoading}
-        placeholder='Selecionar colunas'
-        {...props}
+        value={value}
+        title={label}
       />
-      <Divider />
-    </Fragment>
-  ),
+    );
+  },
   // number
-  number: (
-    { uuid, name, multiple, description, options, ...props },
-    loading,
-    handleChange,
-    trainingSucceeded,
-    trainingLoading
-  ) =>
-    options === undefined ? (
-      // simple number input
-      <Fragment key={`fragment-${uuid || name}`}>
-        <NumberInput
-          key={uuid || name}
-          handleChange={handleChange}
-          {...props}
-          step={0.1}
-          name={name}
-          tip={description}
-          loading={loading}
-          disabled={trainingSucceeded || trainingLoading}
-        />
-        <Divider />
-      </Fragment>
+  number(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+    // destructuring props
+    const {
+      uuid,
+      name,
+      multiple,
+      description,
+      label,
+      options,
+      min,
+      max,
+      step,
+      value,
+      placeholder,
+    } = props;
+
+    // rendering component
+    return options === undefined ? (
+      <NumberInputBlock
+        key={uuid || name}
+        handleChange={handleChange}
+        title={label}
+        name={name}
+        tip={description}
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder={placeholder}
+      />
     ) : (
       // number select input
-      <Fragment key={`fragment-${uuid || name}`}>
-        <SelectInput
-          key={uuid || name}
-          isMultiple={multiple ? true : false}
-          handleChange={(value) => handleChange(name, parseFloat(value))}
-          name={name}
-          loading={loading}
-          disabled={trainingSucceeded || trainingLoading}
-          placeholder='Selecionar'
-          options={options}
-          tip={description}
-          {...props}
-        />
-        <Divider />
-      </Fragment>
-    ),
-  // float
-  float: (
-    { uuid, name, multiple, description, options, ...props },
-    loading,
-    handleChange,
-    trainingSucceeded,
-    trainingLoading
-  ) =>
-    options === undefined ? (
-      // simple number input
-      <Fragment key={`fragment-${uuid || name}`}>
-        <NumberInput
-          key={uuid || name}
-          handleChange={handleChange}
-          {...props}
-          step={0.1}
-          name={name}
-          tip={description}
-          loading={loading}
-          disabled={trainingSucceeded || trainingLoading}
-        />
-        <Divider />
-      </Fragment>
-    ) : (
-      // number select input
-      <Fragment key={`fragment-${uuid || name}`}>
-        <SelectInput
-          key={uuid || name}
-          isMultiple={multiple ? true : false}
-          handleChange={(value) => handleChange(name, parseFloat(value))}
-          name={name}
-          loading={loading}
-          disabled={trainingSucceeded || trainingLoading}
-          placeholder='Selecionar'
-          options={options}
-          tip={description}
-          {...props}
-        />
-        <Divider />
-      </Fragment>
-    ),
-  // integer
-  integer: (
-    { uuid, name, multiple, description, options, ...props },
-    loading,
-    handleChange,
-    trainingSucceeded,
-    trainingLoading
-  ) =>
-    options === undefined ? (
-      // simple integer input
-      <Fragment key={`fragment-${uuid || name}`}>
-        <NumberInput
-          key={uuid || name}
-          handleChange={handleChange}
-          {...props}
-          name={name}
-          tip={description}
-          loading={loading}
-          disabled={trainingSucceeded || trainingLoading}
-        />
-        <Divider />
-      </Fragment>
-    ) : (
-      // integer select input
-      <Fragment key={`fragment-${uuid || name}`}>
-        <SelectInput
-          key={uuid || name}
-          isMultiple={multiple ? true : false}
-          handleChange={(value) => handleChange(name, parseInt(value))}
-          name={name}
-          loading={loading}
-          disabled={trainingSucceeded || trainingLoading}
-          placeholder='Selecionar'
-          options={options}
-          tip={description}
-          {...props}
-        />
-        <Divider />
-      </Fragment>
-    ),
-  // string
-  string: (
-    { uuid, name, multiple, description, options, ...props },
-    loading,
-    handleChange,
-    trainingSucceeded,
-    trainingLoading
-  ) =>
-    options === undefined ? (
-      <Fragment key={`fragment-${uuid || name}`}>
-        <StringInput
-          key={uuid || name}
-          handleChange={handleChange}
-          tip={description}
-          {...props}
-          name={name}
-          loading={loading}
-          disabled={trainingSucceeded || trainingLoading}
-        />
-        <Divider />
-      </Fragment>
-    ) : (
-      // string select input
-      <Fragment key={`fragment-${uuid || name}`}>
-        <SelectInput
-          key={uuid || name}
-          isMultiple={multiple ? true : false}
-          handleChange={(value) => handleChange(name, value)}
-          name={name}
-          loading={loading}
-          disabled={trainingSucceeded || trainingLoading}
-          placeholder='Selecionar'
-          options={options}
-          tip={description}
-          {...props}
-        />
-        <Divider />
-      </Fragment>
-    ),
-  // boolean
-  boolean: (
-    { uuid, name, multiple, description, ...props },
-    loading,
-    handleChange,
-    trainingSucceeded,
-    trainingLoading
-  ) => (
-    <Fragment key={`fragment-${uuid || name}`}>
-      <BooleanInput
+      <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
+        handleChange={(value) => handleChange(name, value)}
+        name={name}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar'
+        options={options}
+        tip={description}
+        value={value}
+        title={label}
+      />
+    );
+  },
+  // float
+  float(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+    // destructuring props
+    const {
+      uuid,
+      name,
+      multiple,
+      description,
+      label,
+      options,
+      min,
+      max,
+      step,
+      value,
+      placeholder,
+    } = props;
+
+    // rendering component
+    return options === undefined ? (
+      <NumberInputBlock
+        key={uuid || name}
+        handleChange={handleChange}
+        title={label}
+        name={name}
+        tip={description}
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder={placeholder}
+      />
+    ) : (
+      // number select input
+      <SelectInputBlock
+        key={uuid || name}
+        isMultiple={multiple ? true : false}
+        handleChange={(value) => handleChange(name, value)}
+        name={name}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar'
+        options={options}
+        tip={description}
+        value={value}
+        title={label}
+      />
+    );
+  },
+  // integer
+  integer(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+    const {
+      uuid,
+      name,
+      multiple,
+      description,
+      label,
+      options,
+      min,
+      max,
+      step,
+      value,
+      placeholder,
+    } = props;
+    return options === undefined ? (
+      <NumberInputBlock
+        key={uuid || name}
+        handleChange={handleChange}
+        title={label}
+        name={name}
+        tip={description}
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder={placeholder}
+      />
+    ) : (
+      // integer select input
+      <SelectInputBlock
+        key={uuid || name}
+        isMultiple={multiple ? true : false}
+        handleChange={(value) => handleChange(name, value)}
+        name={name}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar'
+        options={options}
+        tip={description}
+        value={value}
+        title={label}
+      />
+    );
+  },
+  // string
+  string(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+    // destructuring props
+    const {
+      uuid,
+      name,
+      label,
+      value,
+      multiple,
+      description,
+      options,
+      placeholder,
+    } = props;
+
+    // rendering component
+    return options === undefined ? (
+      <TextInputBlock
+        key={uuid || name}
+        handleChange={handleChange}
+        tip={description}
+        name={name}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder={placeholder}
+        title={label}
+        value={value}
+      />
+    ) : (
+      // string select input
+      <SelectInputBlock
+        key={uuid || name}
+        isMultiple={multiple ? true : false}
+        handleChange={(value) => handleChange(name, value)}
+        name={name}
+        isLoading={loading}
+        isDisabled={trainingSucceeded || trainingLoading}
+        placeholder='Selecionar'
+        options={options}
+        tip={description}
+        value={value}
+        title={label}
+      />
+    );
+  },
+  // BOOLEAN / TOGGLE
+  boolean(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+    // destructuring props
+    const { uuid, name, description, label, value } = props;
+
+    // rendering component
+    return (
+      <ToggleInputBlock
+        key={uuid || name}
         handleChange={(inputName, value) => handleChange(inputName, value)}
         name={name}
-        loading={loading}
+        title={label}
+        isLoading={loading}
         tip={description}
-        disabled={trainingSucceeded || trainingLoading}
-        placeholder='Selecionar colunas'
-        {...props}
+        isChecked={value}
+        isDisabled={trainingSucceeded || trainingLoading}
       />
-      <Divider />
-    </Fragment>
-  ),
+    );
+  },
 };
 
 /**
  * Generic Drawer.
  * This component is responsible for displaying generic drawer content.
+ *
+ * @param props
  */
-const GenericDrawer = ({
-  drawerInputs,
-  drawerTip,
-  loading,
-  trainingLoading,
-  parameterLoading,
-  handleChangeParameter,
-  handleRemoveOperatorClick,
-  trainingSucceeded,
-}) => (
-  // div container
-  <div>
-    {/* rendering remove operator button */}
-    <div style={{ textAlign: 'center' }}>
-      {!trainingSucceeded && (
-        <>
-          <RemoveOperatorButton
-            loading={loading}
-            handleClick={handleRemoveOperatorClick}
-            disabled={trainingLoading}
-          />
-          <Divider />
-        </>
+const GenericDrawer = (props) => {
+  // destructuring props
+  const {
+    drawerInputs,
+    drawerTip,
+    loading,
+    trainingLoading,
+    parameterLoading,
+    handleChangeParameter,
+    handleRemoveOperatorClick,
+    trainingSucceeded,
+  } = props;
+
+  return (
+    // div container
+    <div>
+      {/* rendering remove operator button */}
+      <InputBlockContainer>
+        <RemoveOperatorButton
+          loading={loading}
+          handleClick={handleRemoveOperatorClick}
+          disabled={trainingLoading}
+        />
+      </InputBlockContainer>
+      {/* Render empty component when drawer is empty */}
+      {drawerInputs && drawerInputs.length === 0 && (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description='Não há parâmetros para configuração'
+        />
+      )}
+      {/* rendering drawer inputs */}
+      {drawerInputs &&
+        drawerInputs.length > 0 &&
+        drawerInputs.map((input) =>
+          inputTypes[input.type](
+            input,
+            parameterLoading,
+            handleChangeParameter,
+            trainingSucceeded,
+            trainingLoading
+          )
+        )}
+      {/* rendering drawer tip node */}
+      {drawerTip && (
+        <div>
+          {/* divider */}
+          <Divider orientation='left'>
+            <BulbOutlined />
+            Dica
+          </Divider>
+          {/* drawer tip node */}
+          {drawerTip}
+        </div>
       )}
     </div>
-    {/* Render empty component when drawer is empty */}
-    {drawerInputs && drawerInputs.length === 0 && (
-      <Empty
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description='Não há parâmetros para configuração'
-      />
-    )}
-    {/* rendering drawer inputs */}
-    {drawerInputs &&
-      drawerInputs.length > 0 &&
-      drawerInputs.map((input) =>
-        inputTypes[input.type](
-          input,
-          parameterLoading,
-          handleChangeParameter,
-          trainingSucceeded,
-          trainingLoading
-        )
-      )}
-    {/* rendering drawer tip node */}
-    {drawerTip && (
-      <div>
-        {/* divider */}
-        <Divider orientation='left'>
-          <BulbOutlined />
-          Dica
-        </Divider>
-        {/* drawer tip node */}
-        {drawerTip}
-      </div>
-    )}
-  </div>
-);
+  );
+};
 
 // PROP TYPES
 GenericDrawer.propTypes = {

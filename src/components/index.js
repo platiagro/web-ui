@@ -11,16 +11,12 @@ import PopoverTip from './PopoverTip';
 import TooltipTip from './TooltipTip';
 
 // INPUT BLOCK
-import InputBlock from './InputBlock';
-
-// UPLOAD INPUT BLOCK
-import UploadInputBlock from './UploadInputBlock';
+import InputBlockContainer from './InputBlockContainer';
 
 export {
   ResizableSection,
   OperatorResizableSection,
   PopoverTip,
-  InputBlock,
-  UploadInputBlock,
+  InputBlockContainer,
   TooltipTip,
 };

@@ -46,6 +46,15 @@ const ResizableSection = (props) => {
   // destructuring props
   const { placeholder, title, tip, children } = props;
 
+  // resizable content
+  const content = (
+    /* section body */
+    <div className='resizable-section-body'>
+      {/* children (body) */}
+      {children}
+    </div>
+  );
+
   // rendering component
   return (
     // resizable area
@@ -53,7 +62,7 @@ const ResizableSection = (props) => {
       {/* resizable panel */}
       <ResizePanel
         direction='w'
-        style={{ width: '210px', maxWidth: '80%' }}
+        style={{ width: '210px', minWidth: '210px', maxWidth: '80%' }}
         handleClass='customHandle'
         borderClass='customResizeBorder'
       >
@@ -83,11 +92,7 @@ const ResizableSection = (props) => {
               )}
             </div>
           )}
-          {/* section body */}
-          <div className='resizable-section-body'>
-            {/* children (body) */}
-            {children ? children : placeholder}
-          </div>
+          {children ? content : placeholder}
         </div>
       </ResizePanel>
     </div>

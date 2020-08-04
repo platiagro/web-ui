@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 import { TooltipTip } from 'components';
 
 // STYLES
-import './InputBlock.scss';
+import './InputBlockContainer.scss';
 
 /**
  * This component render a input with a title and a tip.
  *
  * @param {object} props Component props
- * @returns {InputBlock} Component
+ * @returns {InputBlockContainer} Component
  * @component
  * @example
  * // Input
@@ -30,39 +30,51 @@ import './InputBlock.scss';
  *  </div>
  * );
  */
-const InputBlock = (props) => {
+const InputBlockContainer = (props) => {
   // destructuring props
   const { title, tip, children } = props;
 
   // rendering component
   return (
     <div className='inputBlock'>
-      <div className='inputBlockHeader'>
-        <p className='inputBlockTitle'>
-          <strong>{title}</strong>
-        </p>
-        <div className='inputBlockTip'>
-          <TooltipTip
-            iconType='question'
-            isTooltipBelow={false}
-            tooltipText={tip}
-          />
+      {title && (
+        <div className='inputBlockHeader'>
+          <p className='inputBlockTitle'>
+            <strong>{title}</strong>
+          </p>
+          {tip && (
+            <div className='inputBlockTip'>
+              <TooltipTip
+                iconType='question'
+                isTooltipBelow={false}
+                tooltipText={tip}
+              />
+            </div>
+          )}
         </div>
-      </div>
+      )}
       <div className='inputBlockInput'>{children}</div>
     </div>
   );
 };
 
 // PROP TYPES
-InputBlock.propTypes = {
+InputBlockContainer.propTypes = {
   /** Input */
   children: PropTypes.node.isRequired,
   /** Tip text */
-  tip: PropTypes.string.isRequired,
+  tip: PropTypes.string,
   /** Input title */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
+};
+
+// DEFAULT PROPS
+InputBlockContainer.defaultProps = {
+  /** Tip text */
+  tip: undefined,
+  /** Input title */
+  title: undefined,
 };
 
 // EXPORT DEFAULT
-export default InputBlock;
+export default InputBlockContainer;

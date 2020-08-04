@@ -8,19 +8,22 @@ import { Button } from 'antd';
 /**
  * Notebook Outputs.
  * This component is responsible for displaying a button that opens Jupyter.
+ *
+ * @param props
  */
-const NotebookOutputs = ({ handleOpenNotebookClick }) => {
+const NotebookOutputs = (props) => {
+  // destructuring props
+  const { handleOpenNotebookClick } = props;
+
+  // rendering component
   return (
-    // div container
-    <div style={{ textAlign: 'center' }}>
-      <Button
-        onClick={handleOpenNotebookClick}
-        className='ant-btn-oval'
-        type='primary'
-      >
-        Abrir notebook no Jupyter
-      </Button>
-    </div>
+    <Button
+      onClick={handleOpenNotebookClick}
+      className='ant-btn-oval'
+      type='primary'
+    >
+      Abrir notebook no Jupyter
+    </Button>
   );
 };
 
