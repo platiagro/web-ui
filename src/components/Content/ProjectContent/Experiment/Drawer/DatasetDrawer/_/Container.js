@@ -23,7 +23,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     dataset: state.datasetReducer,
-    datasetName: state.experimentReducer.dataset,
     loading: state.uiReducer.datasetOperator.loading,
     trainingSucceeded: state.experimentReducer.succeeded,
     trainingLoading: state.uiReducer.experimentTraining.loading,
@@ -41,7 +40,6 @@ const DatasetDrawerContainer = (props) => {
   // destructuring props
   const {
     dataset,
-    datasetName,
     loading,
     trainingLoading,
     handleUpdateDatasetColumn,
@@ -51,7 +49,7 @@ const DatasetDrawerContainer = (props) => {
   // HANDLERS
   // update dataset column
   const updateDatasetColumnHandler = (columnName, columnNewValue) =>
-    handleUpdateDatasetColumn(datasetName, columnName, columnNewValue);
+    handleUpdateDatasetColumn(columnName, columnNewValue);
 
   // RENDER
   return (
