@@ -14,6 +14,9 @@ import {
   datasetOperatorLoadingData,
 } from '../ui/actions';
 
+// UTILS
+import utils from '../../utils';
+
 // ACTIONS
 // ** FETCH DATASET COLUMNS
 /**
@@ -223,11 +226,10 @@ const updateDatasetColumnFail = (error) => (dispatch) => {
  * @param {string} columnNewType
  * @returns {Function}
  */
-export const updateDatasetColumnRequest = (
-  datasetName,
-  columnName,
-  columnNewType
-) => (dispatch) => {
+export const updateDatasetColumnRequest = (columnName, columnNewType) => (
+  dispatch,
+  getState
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.UPDATE_DATASET_COLUMN_REQUEST,
@@ -235,6 +237,13 @@ export const updateDatasetColumnRequest = (
 
   // dispatching dataset operator loading data action
   dispatch(datasetOperatorLoadingData());
+
+  // getting operators and componenst from store
+  const { operatorsReducer, tasksReducer } = getState();
+  const components = tasksReducer.tasks;
+
+  // get dataset name
+  const datasetName = utils.getDatasetName(components, operatorsReducer);
 
   // updating dataset columns
   datasetsApi
