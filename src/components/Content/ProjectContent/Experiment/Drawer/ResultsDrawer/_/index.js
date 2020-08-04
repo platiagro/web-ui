@@ -29,6 +29,12 @@ const resultsTypes = {
 /**
  * Results Drawer.
  * This component is responsible for displaying drawer with results.
+ *
+ * @param root0
+ * @param root0.metrics
+ * @param root0.results
+ * @param root0.loading
+ * @param root0.metricsLoading
  */
 const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
   const dataSource = metrics.map((element, i) => {
@@ -87,7 +93,6 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
               <Table bordered dataSource={dataSource} columns={columns} />
             </TabPane>
           </Tabs>
-          <Divider />
         </>
       ) : (
         <Empty
