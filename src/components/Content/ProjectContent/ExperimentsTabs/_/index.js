@@ -61,6 +61,10 @@ const { TabPane } = Tabs;
  * @param root0.handleChange
  * @param root0.handleMoveTab
  * @param root0.activeExperiment
+ * @param root0.deleteHandler
+ * @param root0.renameHandler
+ * @param root0.deleteHandler
+ * @param root0.renameHandler
  */
 const ExperimentsTabs = ({
   experiments,
@@ -204,7 +208,7 @@ const ExperimentsTabs = ({
 
   return (
     /* draggable tabs component */
-    <>
+    <div className='experimentTabs'>
       <DraggableTabs
         handleMoveTab={handleMoveTab}
         onChange={handleChange}
@@ -248,7 +252,7 @@ const ExperimentsTabs = ({
           </MenuItem>
         </Popconfirm>
       </ContextMenu>
-    </>
+    </div>
   );
 };
 
