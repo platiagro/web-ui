@@ -205,8 +205,6 @@ export const setTemplateRequest = (projectId, experimentId, templateId) => (
   // experiment body
   const experiment = {
     templateId,
-    dataset: '',
-    target: '',
   };
 
   // fetching templates
