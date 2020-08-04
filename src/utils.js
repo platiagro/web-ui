@@ -11,9 +11,10 @@ import {
 /**
  * Delete Experiment
  * Method to delete experiment and reorganize list
- * @param {Object[]} experiments experiments list
+ *
+ * @param {object[]} experiments experiments list
  * @param {string} experimentId deleted experiment id
- * @returns {Object[]} new experiments list
+ * @returns {object[]} new experiments list
  */
 const deleteExperiment = (experiments, experimentId) => {
   // experiments aux
@@ -41,10 +42,11 @@ const deleteExperiment = (experiments, experimentId) => {
 /**
  * Organize Experiments
  * Method to organize experiments list
- * @param {Object[]} experiments experiments list
+ *
+ * @param {object[]} experiments experiments list
  * @param {string} dragExperimentId drag experiment id
  * @param {string} hoverExperimentId hover experiment id
- * @returns {Object[]} new experiments list
+ * @returns {object[]} new experiments list
  */
 const organizeExperiments = (
   experiments,
@@ -140,9 +142,10 @@ const organizeExperiments = (
 /**
  * Filter Menu
  * Method to filter components list
- * @param {Object} menu menu object
+ *
+ * @param {object} menu menu object
  * @param {string} filter filter
- * @returns {Object} filtered menu
+ * @returns {object} filtered menu
  */
 const filterMenu = (menu, filter) => {
   // filter is empty
@@ -175,8 +178,9 @@ const filterMenu = (menu, filter) => {
 /**
  * Create Menu
  * Method to create menu object
- * @param {Object[]} components components list
- * @returns {Object} menu object
+ *
+ * @param {object[]} components components list
+ * @returns {object} menu object
  */
 const createMenu = (components) => {
   // menu object constant
@@ -209,8 +213,9 @@ const createMenu = (components) => {
 /**
  * Get Tag Config
  * Method to get tag config object
+ *
  * @param {string} tag tag string
- * @returns {Object} tag config object
+ * @returns {object} tag config object
  */
 const getTagConfig = (tag) => {
   // TAGS CONFIG
@@ -255,9 +260,10 @@ const getTagConfig = (tag) => {
 /**
  * Get Component Data
  * Method to get component data
- * @param {Object[]} components components list
+ *
+ * @param {object[]} components components list
  * @param {string} componentId component id
- * @returns {Object} component data
+ * @returns {object} component data
  */
 const getComponentData = (components, componentId) => {
   // params to filter constant
@@ -275,6 +281,7 @@ const getComponentData = (components, componentId) => {
       experimentNotebookPath,
       deploymentNotebookPath,
       parameters,
+      description,
     } = componentData;
 
     // filtering params
@@ -294,6 +301,7 @@ const getComponentData = (components, componentId) => {
       icon,
       commands,
       tags,
+      description,
       experimentNotebookPath,
       deploymentNotebookPath,
       parameters: filteredParams,
@@ -308,10 +316,10 @@ const getComponentData = (components, componentId) => {
  *
  * Method to configure operator parameters
  *
- * @param {Object[]} componentParameters
- * @param {Object} operatorParameters
- * @param {Object[]} featureOptions
- * @returns {Object[]} configured operator parameters
+ * @param {object[]} componentParameters
+ * @param {object} operatorParameters
+ * @param {object[]} featureOptions
+ * @returns {object[]} configured operator parameters
  */
 const configureOperatorParameters = (
   componentParameters,
@@ -347,8 +355,8 @@ const configureOperatorParameters = (
  *
  * Method to transform dataset columns in feature type parameter options
  *
- * @param {Object[]} datasetColumns dataset columns list
- * @returns {Object[]} transformed columns
+ * @param {object[]} datasetColumns dataset columns list
+ * @returns {object[]} transformed columns
  */
 const transformColumnsInParameterOptions = (datasetColumns) => {
   const transformedColumns = datasetColumns.map((column) => ({
@@ -362,11 +370,12 @@ const transformColumnsInParameterOptions = (datasetColumns) => {
 /**
  * Configure Operators
  * Method to configure operators
- * @param {Object[]} components components list
- * @param {Object[]} operators operators list
- * @param {Object[]} datasetColumns dataset columns list
- * @param {Object} pipelineStatus pipeline status object
- * @returns {Object[]} configured operators
+ *
+ * @param {object[]} components components list
+ * @param {object[]} operators operators list
+ * @param {object[]} datasetColumns dataset columns list
+ * @param {object} pipelineStatus pipeline status object
+ * @returns {object[]} configured operators
  */
 const configureOperators = (
   components,
@@ -416,7 +425,8 @@ const configureOperators = (
 /**
  * Check Operator Setted Up
  * Function to check if operator is setted up
- * @param {Object[]} operator
+ *
+ * @param {object[]} operator
  * @returns {boolean} operator is setted up?
  */
 const checkOperatorSettedUp = (operator) => {
@@ -426,9 +436,10 @@ const checkOperatorSettedUp = (operator) => {
 /**
  * Select Operator
  * Method to select operator or deselect all operators
+ *
  * @param {string} operatorId operators list * omit/null this to deselect all *
- * @param {Object[]} operators operators list
- * @returns {Object[]} new operators list
+ * @param {object[]} operators operators list
+ * @returns {object[]} new operators list
  */
 const selectOperator = (operatorId, operators) => {
   // creating new operators list
@@ -445,9 +456,10 @@ const selectOperator = (operatorId, operators) => {
  * Transform Results
  *
  * Method to transform operator results
+ *
  * @param {string} operatorId operators list * omit/null this to deselect all *
  * @param {string[]} results operators plot result list
- * @returns {Object[]} new results list
+ * @returns {object[]} new results list
  */
 const transformResults = (operatorId, results) => {
   // creating new operators list
@@ -470,8 +482,8 @@ const getErrorMessage = (error) => {
 /**
  * Sort operators by dependencies
  *
- * @param {Object[]} operators experiment operators
- * @returns {Object[]} experiment operators sorted
+ * @param {object[]} operators experiment operators
+ * @returns {object[]} experiment operators sorted
  */
 const sortOperatorsByDependencies = (operators) => {
   const result = [];
@@ -505,8 +517,8 @@ const sortOperatorsByDependencies = (operators) => {
 /**
  * Get dataset name
  *
- * @param {Object[]} components components
- * @param {Object[]} operators experiment operators
+ * @param {object[]} components components
+ * @param {object[]} operators experiment operators
  * @returns {string} dataset name
  */
 const getDatasetName = (components, operators) => {

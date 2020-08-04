@@ -3,49 +3,49 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button, Divider } from 'antd';
+import { Button } from 'antd';
 
 /**
  * Results Button Bar.
  * This component is responsible for displaying drawer results button bar.
+ *
+ * @param props
  */
-const ResultsButtonBar = ({
-  handleEditClick,
-  handleResultsClick,
-  showingResults,
-  disabled,
-}) => (
-  // div container
-  <div style={{ textAlign: 'center' }}>
-    {/* rendering edit or results button */}
-    {showingResults ? (
-      // edit button
-      <Button onClick={handleEditClick} className='ant-btn-oval' type='primary'>
-        Visualizar parâmetros
-      </Button>
-    ) : (
-      <>
-        {/* results button */}
-        <Button
-          onClick={handleResultsClick}
-          className='ant-btn-oval'
-          type='primary'
-          disabled={disabled}
-          title={
-            disabled
-              ? 'Para visualizar os resultados, primeiro execute o treinamento.'
-              : ''
-          }
-        >
-          Visualizar resultados
-        </Button>
+const ResultsButtonBar = (props) => {
+  // destructuring props
+  const {
+    handleEditClick,
+    handleResultsClick,
+    showingResults,
+    disabled,
+  } = props;
 
-        {/* divider */}
-        <Divider />
-      </>
-    )}
-  </div>
-);
+  // rendering component
+  return showingResults ? (
+    /* rendering edit or results button */
+    // edit button
+    <Button onClick={handleEditClick} className='ant-btn-oval' type='primary'>
+      Visualizar parâmetros
+    </Button>
+  ) : (
+    <>
+      {/* results button */}
+      <Button
+        onClick={handleResultsClick}
+        className='ant-btn-oval'
+        type='primary'
+        disabled={disabled}
+        title={
+          disabled
+            ? 'Para visualizar os resultados, primeiro execute o treinamento.'
+            : ''
+        }
+      >
+        Visualizar resultados
+      </Button>
+    </>
+  );
+};
 
 // PROP TYPES
 ResultsButtonBar.propTypes = {

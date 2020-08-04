@@ -20,7 +20,17 @@
 
     "**/coverage/**": true,
 
-    "**/node_modules/**": true
+    "**/node_modules/**": true,
+
+    /*
+      TODO: Tudo indica que não existem erros no arquivo.
+      Houve mudanças em uma biblioteca e aparentemente
+      está causando um falso positivo.
+
+      Por esse motivo estou excluindo esse arquivo temporariamente
+      das validações.
+    */
+    "jsconfig.json": true
   },
 
   "emmet.includeLanguages": {

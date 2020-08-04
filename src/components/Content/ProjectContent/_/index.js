@@ -12,7 +12,10 @@ import NewExperimentModal from '../NewExperimentModal/Container';
 import ExperimentEmpty from '../Experiment/ExperimentEmpty';
 import ExperimentHeader from '../Experiment/ExperimentHeader/_/Container';
 import ExperimentFlow from '../Experiment/ExperimentFlow/_/Container';
-import { OperatorResizableSectionContainer } from 'containers';
+import {
+  OperatorResizableSectionContainer,
+  OperatorResultsModalContainer,
+} from 'containers';
 
 import { ProjectEmptyPlaceholder } from 'components/Placeholders';
 
@@ -68,6 +71,8 @@ const ProjectContent = (props) => {
   // RENDER
   return (
     <>
+      {/* operator results modal */}
+      <OperatorResultsModalContainer />
       {/* Header from project (name and rename) */}
       <ContentHeaderProjectContainer />
       {experiments && experiments.length > 0 ? (
