@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { LoadingOutlined } from '@ant-design/icons';
-import { Divider, Spin, Table, Tabs, Empty } from 'antd';
+import { Spin, Table, Tabs, Empty } from 'antd';
 
 // COMPONENTS
 import TagResult from '../TagResult';
@@ -12,6 +12,9 @@ import TableResult from '../TableResult/Container';
 // import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
+
+// STYLES
+import './ResultsDrawer.scss';
 
 // DESTRUCTURING TABS
 const { TabPane } = Tabs;
@@ -65,7 +68,7 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
 
   return (
     // div container
-    <div>
+    <div className='resultsDrawer'>
       {/* is loading */}
       {loading ? (
         // loading

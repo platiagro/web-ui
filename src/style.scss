@@ -74,31 +74,6 @@ body,
   width: 100% !important;
 }
 
-.ant-tabs {
-  .ant-tabs-bar {
-    margin-bottom: 0;
-    border-bottom: none !important;
-  }
-
-  .ant-tabs-nav {
-    .ant-tabs-tab {
-      background-color: #fafafa;
-      border: 1px solid #e8e8e8;
-      border-bottom: none;
-      margin: 0 3px 0 0 !important;
-
-      &.ant-tabs-tab-active {
-        background-color: #fff;
-        color: $primary-color;
-      }
-    }
-
-    .ant-tabs-ink-bar-animated {
-      background-color: transparent;
-    }
-  }
-}
-
 h4.ant-typography,
 .ant-typography h4 {
   font-weight: 700 !important;
