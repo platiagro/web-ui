@@ -276,8 +276,9 @@ const getComponentData = (components, componentId) => {
     );
     const {
       name,
-      commands,
       tags,
+      commands,
+      image,
       experimentNotebookPath,
       deploymentNotebookPath,
       parameters,
@@ -299,12 +300,13 @@ const getComponentData = (components, componentId) => {
     return {
       name,
       icon,
-      commands,
       tags,
-      description,
+      commands,
+      image,
       experimentNotebookPath,
       deploymentNotebookPath,
       parameters: filteredParams,
+      description,
     };
   }
 
