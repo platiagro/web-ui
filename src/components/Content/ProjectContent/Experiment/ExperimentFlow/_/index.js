@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Spin, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import { ArcherContainer, ArcherElement } from 'react-archer';
 
 // COMPONENTS
@@ -21,8 +21,25 @@ const columnSize = 24 / columnsNumber;
 /**
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
+ *
+ * @param root0
+ * @param root0.components
+ * @param root0.loading
+ * @param root0.handleTaskBoxClick
+ * @param root0
+ * @param root0.components
+ * @param root0.loading
+ * @param root0.handleTaskBoxClick
+ * @param root0
+ * @param root0.components
+ * @param root0.loading
+ * @param root0.handleTaskBoxClick
+ * @param root0
+ * @param root0.components
+ * @param root0.loading
+ * @param root0.handleTaskBoxClick
  */
-const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
+const ExperimentFlow = ({ components, handleTaskBoxClick }) => {
   // COMPONENTS RENDERS
   // flow grid column
   const renderFlowGridColumn = (
@@ -132,14 +149,10 @@ const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
 
   // RENDER
   return (
-    // loading spinner
-    <Spin spinning={loading}>
-      {/* arrow connection container */}
-      <ArcherContainer strokeColor='gray' noCurves>
-        {/* flow grid */}
-        <div className='experiment-wraper'>{renderFlowGrid()}</div>
-      </ArcherContainer>
-    </Spin>
+    <ArcherContainer strokeColor='gray' noCurves>
+      {/* flow grid */}
+      <div className='experiment-wraper'>{renderFlowGrid()}</div>
+    </ArcherContainer>
   );
 };
 

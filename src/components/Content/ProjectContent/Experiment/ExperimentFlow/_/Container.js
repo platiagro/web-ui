@@ -39,6 +39,32 @@ const pollingTime = 5000;
  * Experiment Flow Container.
  * This component is responsible for create a logic container for experiment flow
  * with redux.
+ *
+ * @param root0
+ * @param root0.operators
+ * @param root0.loading
+ * @param root0.handleShowOperatorDetails
+ * @param root0.handleGetTrainExperimentStatus
+ * @param root0
+ * @param root0.operators
+ * @param root0.loading
+ * @param root0.handleShowOperatorDetails
+ * @param root0.handleGetTrainExperimentStatus
+ * @param root0
+ * @param root0.operators
+ * @param root0.loading
+ * @param root0.handleShowOperatorDetails
+ * @param root0.handleGetTrainExperimentStatus
+ * @param root0
+ * @param root0.operators
+ * @param root0.loading
+ * @param root0.handleShowOperatorDetails
+ * @param root0.handleGetTrainExperimentStatus
+ * @param root0
+ * @param root0.operators
+ * @param root0.loading
+ * @param root0.handleShowOperatorDetails
+ * @param root0.handleGetTrainExperimentStatus
  */
 const ExperimentFlowContainer = ({
   operators,

@@ -15,6 +15,56 @@ import './style.scss';
 /**
  * Components Menu Block.
  * This component is responsible for displaying components menu with search.
+ *
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleComponentClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleComponentClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleComponentClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleComponentClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleComponentClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleComponentClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleComponentClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
  */
 const ComponentsMenuBlock = ({
   menu,
