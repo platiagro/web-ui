@@ -38,8 +38,16 @@ const resultsTypes = {
  * @param root0.results
  * @param root0.loading
  * @param root0.metricsLoading
+ * @param root0.parameters
  */
-const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
+const ResultsDrawer = ({
+  metrics,
+  results,
+  parameters,
+  loading,
+  metricsLoading,
+}) => {
+  // metrics data source
   const dataSource = metrics.map((element, i) => {
     const objectKey = Object.keys(element)[0];
     const objectValor = element[objectKey];
@@ -51,6 +59,7 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
     return obj;
   });
 
+  // metrics columns
   const columns = [
     {
       title: 'Métrica',
@@ -66,6 +75,22 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
     },
   ];
 
+  // parameters columns
+  const parametersColumns = [
+    {
+      title: 'Parâmetro',
+      dataIndex: 'name',
+      key: 'parameter',
+      render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
+    },
+    {
+      title: 'Valor',
+      dataIndex: 'value',
+      key: 'value',
+      render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
+    },
+  ];
+
   return (
     // div container
     <div className='resultsDrawer'>
@@ -76,7 +101,9 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
       ) : results.length > 0 || metrics.length > 0 ? (
         /* rendering results and metrics */
         <>
+          {/* tabs */}
           <Tabs defaultActiveKey='1'>
+            {/* results */}
             <TabPane tab='Resultados' key='1'>
               {results.map((
                 result // div result container
@@ -88,12 +115,27 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
                 </div>
               ))}
             </TabPane>
+
+            {/* metrics */}
             <TabPane
               tab={<MetricsTitle loading={metricsLoading} />}
               key='2'
               disabled={metrics.length <= 0}
             >
               <Table bordered dataSource={dataSource} columns={columns} />
+            </TabPane>
+
+            {/* parameters */}
+            <TabPane
+              tab={<span>Parâmetros</span>}
+              key='3'
+              disabled={parameters.length <= 0}
+            >
+              <Table
+                bordered
+                dataSource={parameters}
+                columns={parametersColumns}
+              />
             </TabPane>
           </Tabs>
         </>

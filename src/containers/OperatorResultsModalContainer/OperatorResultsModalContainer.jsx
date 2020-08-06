@@ -27,6 +27,8 @@ const mapStateToProps = (state) => {
     operatorResults: state.operatorReducer.results,
     // operator experiment metrics
     operatorMetrics: state.operatorReducer.metrics,
+    // operator parameters
+    operatorParameters: state.operatorReducer.parameters,
     // operator experiment results is loading
     operatorResultsLoading: state.uiReducer.operatorResults.loading,
     // operator experiment metrics is loading
@@ -52,9 +54,11 @@ const OperatorResultsModalContainer = (props) => {
     operatorMetrics,
     // operator experiment results is loading
     operatorResultsLoading,
+    // operator parameters
+    operatorParameters,
     // operator experiment metrics is loading
     operatorMetricsLoading,
-    //
+    // close results modal handler
     handleClose,
     // show operator results modal
     isVisible,
@@ -84,6 +88,7 @@ const OperatorResultsModalContainer = (props) => {
         metricsLoading={operatorMetricsLoading}
         metrics={operatorMetrics}
         results={operatorResults}
+        parameters={operatorParameters}
       />
     </Modal>
   );
@@ -96,6 +101,8 @@ OperatorResultsModalContainer.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   /** Operator experiment metrics*/
   operatorMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Operator parameters */
+  operatorParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator experiment metrics is loading */
   operatorMetricsLoading: PropTypes.bool.isRequired,
   /** Operator experiment results */
