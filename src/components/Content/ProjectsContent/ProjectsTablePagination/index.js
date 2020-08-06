@@ -3,8 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Pagination, ConfigProvider } from 'antd';
-import ptBR from 'antd/es/locale/pt_BR';
+import { Pagination } from 'antd';
 
 /**
  * Projects Table Pagination.
@@ -55,21 +54,19 @@ const ProjectsTablePagination = ({
   onChange,
 }) => {
   return (
-    <ConfigProvider locale={ptBR}>
-      <Pagination
-        disabled={disabled}
-        defaultCurrent={1}
-        defaultPageSize={10}
-        current={currentPage}
-        pageSize={pageSize}
-        total={total}
-        onChange={onChange}
-        onShowSizeChange={onChange}
-        style={{ textAlign: 'right' }}
-        showSizeChanger
-        pageSizeOptions={['10', '20', '30', '40', '50']}
-      />
-    </ConfigProvider>
+    <Pagination
+      disabled={disabled}
+      defaultCurrent={1}
+      defaultPageSize={10}
+      current={currentPage}
+      pageSize={pageSize}
+      total={total}
+      onChange={onChange}
+      onShowSizeChange={onChange}
+      style={{ textAlign: 'right' }}
+      showSizeChanger
+      pageSizeOptions={['10', '20', '30', '40', '50']}
+    />
   );
 };
 
