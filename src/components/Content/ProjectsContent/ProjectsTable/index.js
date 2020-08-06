@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Popconfirm, Popover, Table } from 'antd';
+import { Button, Input, Popconfirm, Space, Table, Tag } from 'antd';
 
 /**
  * Projects Table.
@@ -19,11 +19,9 @@ const ProjectsTable = ({
   handleClickProject,
   handleClickDelete,
   handleFetchPaginatedProjects,
-  handleShowNewProjectModal,
   handleSelectProjects,
 }) => {
   const [searchText, setSearchText] = useState('');
-  const [searchVisible, setSearchVisible] = useState(false);
   const intervalRef = useRef(null);
   const previousSearchText = useRef(null);
   const searchInputRef = useRef(null);
@@ -46,48 +44,67 @@ const ProjectsTable = ({
     return () => clearTimeout(intervalRef.current);
   }, [searchText, handleFetchPaginatedProjects]);
 
+  const handleSearch = (selectedKeys, confirm) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
+
   const columnsConfig = [
     {
-      title: (
-        <div>
-          <strong>Nome do Projeto</strong>
-          <Popover
-            placement='bottom'
-            visible={searchVisible}
-            content={
-              <Input
-                ref={searchInputRef}
-                placeholder={`Nome`}
-                value={searchText}
-                onChange={(e) => {
-                  setSearchText(e.target.value);
-                }}
-                style={{ width: 200, display: 'fixed' }}
-              />
-            }
-          >
-            <Button
-              shape='circle'
-              icon={<SearchOutlined />}
-              size='small'
-              style={{
-                background: '#D3D3D3',
-                marginLeft: 40,
-              }}
-              onClick={() => {
-                if (searchVisible) {
-                  setSearchVisible(false);
-                } else {
-                  setSearchVisible(true);
-                  setTimeout(() => searchInputRef.current.select());
-                }
-              }}
-            />
-          </Popover>
-        </div>
-      ),
+      title: <strong>Nome do Projeto</strong>,
       dataIndex: 'name',
       key: 'name',
+      width: '20%',
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={searchInputRef}
+            placeholder={`Nome`}
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => handleSearch(selectedKeys, confirm)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Space>
+            <Button
+              type='primary'
+              onClick={() => handleSearch(selectedKeys, confirm)}
+              icon={<SearchOutlined />}
+              size='small'
+              style={{ width: 90 }}
+            >
+              Search
+            </Button>
+            <Button
+              onClick={() => handleReset(clearFilters)}
+              size='small'
+              style={{ width: 90 }}
+            >
+              Reset
+            </Button>
+          </Space>
+        </div>
+      ),
+      onFilterDropdownVisibleChange: (visible) => {
+        if (visible) {
+          setTimeout(() => searchInputRef.current.select());
+        }
+      },
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
       render: (value, record) => (
         <Button type='link' onClick={() => handleClickProject(record.uuid)}>
           {value}
@@ -98,34 +115,88 @@ const ProjectsTable = ({
       title: <strong>Descrição</strong>,
       dataIndex: 'description',
       key: 'description',
+      width: '30%',
+      ellipsis: true,
     },
     {
-      title: <strong>Data de Criação</strong>,
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      width: 200,
+      title: <strong>Tags</strong>,
+      dataIndex: 'tags',
+      key: 'tags',
+      width: '25%',
+      filters: [
+        {
+          text: 'Experimentação',
+          value: 'Experimentação',
+        },
+        {
+          text: 'Pré-implantação',
+          value: 'Pré-implantação',
+        },
+        {
+          text: 'Implantado',
+          value: 'Implantado',
+        },
+      ],
+      onFilter: (value, record) => {
+        return record.tags ? record.tags.indexOf(value) === 0 : false;
+      },
+      render: (tags) => {
+        //TODO Remover mock depois que as tags forem implementadas
+        tags = ['Experimentação', 'Pré-implantação', 'Implantado'];
+        return (
+          <>
+            {tags.map((tag) => {
+              if (tag === 'Experimentação') {
+                return (
+                  <Tag color='purple' key='purpleTag'>
+                    {tag}
+                  </Tag>
+                );
+              } else if (tag === 'Pré-implantação') {
+                return (
+                  <Tag color='volcano' key='volcanoTag'>
+                    {tag}
+                  </Tag>
+                );
+              } else {
+                return (
+                  <Tag color='green' key='greenTag'>
+                    {tag}
+                  </Tag>
+                );
+              }
+            })}
+          </>
+        );
+      },
+    },
+    {
+      title: <strong>Última modificação</strong>,
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      width: '15%',
+      sorter: (a, b) => {
+        const dateA = new Date(a.updatedAt);
+        const dateB = new Date(b.updatedAt);
+        return dateA.getTime() - dateB.getTime();
+      },
+      sortDirections: ['descend', 'ascend'],
       render: (value) => new Date(value).toLocaleString(),
     },
     {
       title: <strong>Ação</strong>,
       dataIndex: 'action',
       key: 'action',
-      width: 300,
+      width: '10%',
       render: (value, record) => (
-        <>
-          <Button type='link' onClick={() => handleShowNewProjectModal(record)}>
-            Alterar nome e descrição
-          </Button>
-
-          <Popconfirm
-            title='Você tem certeza que deseja excluir esse projeto?'
-            onConfirm={() => handleClickDelete(record.uuid)}
-            okText='Sim'
-            cancelText='Não'
-          >
-            <Button type='link'>Excluir</Button>
-          </Popconfirm>
-        </>
+        <Popconfirm
+          title='Você tem certeza que deseja excluir esse projeto?'
+          onConfirm={() => handleClickDelete(record.uuid)}
+          okText='Sim'
+          cancelText='Não'
+        >
+          <Button type='link'>Excluir</Button>
+        </Popconfirm>
       ),
     },
   ];
@@ -154,10 +225,14 @@ ProjectsTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   /** projects list */
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** selected projects list */
+  selectedProjects: PropTypes.arrayOf(PropTypes.string).isRequired,
   /** projects table click project handle */
   handleClickProject: PropTypes.func.isRequired,
   /** projects table delete project handle */
   handleClickDelete: PropTypes.func.isRequired,
+  /** fetch paginated projects handle */
+  handleFetchPaginatedProjects: PropTypes.func.isRequired,
   /** projects table row selection project handle */
   handleSelectProjects: PropTypes.func.isRequired,
 };
