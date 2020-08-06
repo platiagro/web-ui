@@ -8,43 +8,6 @@ import { Pagination } from 'antd';
 /**
  * Projects Table Pagination.
  * This component is responsible for displaying projects table pagination.
- *
- * @param root0
- * @param root0.disabled
- * @param root0.currentPage
- * @param root0.pageSize
- * @param root0.total
- * @param root0.onChange
- * @param root0
- * @param root0.disabled
- * @param root0.currentPage
- * @param root0.pageSize
- * @param root0.total
- * @param root0.onChange
- * @param root0
- * @param root0.disabled
- * @param root0.currentPage
- * @param root0.pageSize
- * @param root0.total
- * @param root0.onChange
- * @param root0
- * @param root0.disabled
- * @param root0.currentPage
- * @param root0.pageSize
- * @param root0.total
- * @param root0.onChange
- * @param root0
- * @param root0.disabled
- * @param root0.currentPage
- * @param root0.pageSize
- * @param root0.total
- * @param root0.onChange
- * @param root0
- * @param root0.disabled
- * @param root0.currentPage
- * @param root0.pageSize
- * @param root0.total
- * @param root0.onChange
  */
 const ProjectsTablePagination = ({
   disabled,
