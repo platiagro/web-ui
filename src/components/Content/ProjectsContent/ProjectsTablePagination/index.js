@@ -3,11 +3,49 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Pagination } from 'antd';
+import { Pagination, ConfigProvider } from 'antd';
+import ptBR from 'antd/es/locale/pt_BR';
 
 /**
  * Projects Table Pagination.
  * This component is responsible for displaying projects table pagination.
+ *
+ * @param root0
+ * @param root0.disabled
+ * @param root0.currentPage
+ * @param root0.pageSize
+ * @param root0.total
+ * @param root0.onChange
+ * @param root0
+ * @param root0.disabled
+ * @param root0.currentPage
+ * @param root0.pageSize
+ * @param root0.total
+ * @param root0.onChange
+ * @param root0
+ * @param root0.disabled
+ * @param root0.currentPage
+ * @param root0.pageSize
+ * @param root0.total
+ * @param root0.onChange
+ * @param root0
+ * @param root0.disabled
+ * @param root0.currentPage
+ * @param root0.pageSize
+ * @param root0.total
+ * @param root0.onChange
+ * @param root0
+ * @param root0.disabled
+ * @param root0.currentPage
+ * @param root0.pageSize
+ * @param root0.total
+ * @param root0.onChange
+ * @param root0
+ * @param root0.disabled
+ * @param root0.currentPage
+ * @param root0.pageSize
+ * @param root0.total
+ * @param root0.onChange
  */
 const ProjectsTablePagination = ({
   disabled,
@@ -17,19 +55,21 @@ const ProjectsTablePagination = ({
   onChange,
 }) => {
   return (
-    <Pagination
-      disabled={disabled}
-      defaultCurrent={1}
-      defaultPageSize={10}
-      current={currentPage}
-      pageSize={pageSize}
-      total={total}
-      onChange={onChange}
-      onShowSizeChange={onChange}
-      style={{ textAlign: 'right' }}
-      showSizeChanger
-      pageSizeOptions={['10', '20', '30', '40', '50']}
-    />
+    <ConfigProvider locale={ptBR}>
+      <Pagination
+        disabled={disabled}
+        defaultCurrent={1}
+        defaultPageSize={10}
+        current={currentPage}
+        pageSize={pageSize}
+        total={total}
+        onChange={onChange}
+        onShowSizeChange={onChange}
+        style={{ textAlign: 'right' }}
+        showSizeChanger
+        pageSizeOptions={['10', '20', '30', '40', '50']}
+      />
+    </ConfigProvider>
   );
 };
 
