@@ -10,6 +10,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+// ANTD LIBS
+import { ConfigProvider } from 'antd';
+import ptBR from 'antd/es/locale/pt_BR';
+
 // COMPONENTS
 import App from './components/App';
 
@@ -29,7 +33,9 @@ if (process.env.NODE_ENV !== 'production') {
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <ConfigProvider locale={ptBR}>
+        <App />
+      </ConfigProvider>
     </Router>
   </Provider>,
   document.getElementById('root')
