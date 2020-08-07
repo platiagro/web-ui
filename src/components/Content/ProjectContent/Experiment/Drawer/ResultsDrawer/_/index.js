@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { LoadingOutlined } from '@ant-design/icons';
-import { Divider, Spin, Table, Tabs, Empty } from 'antd';
+import { Spin, Table, Tabs, Empty } from 'antd';
 
 // COMPONENTS
 import TagResult from '../TagResult';
@@ -12,6 +12,9 @@ import TableResult from '../TableResult/Container';
 // import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
+
+// STYLES
+import './ResultsDrawer.scss';
 
 // DESTRUCTURING TABS
 const { TabPane } = Tabs;
@@ -29,8 +32,22 @@ const resultsTypes = {
 /**
  * Results Drawer.
  * This component is responsible for displaying drawer with results.
+ *
+ * @param root0
+ * @param root0.metrics
+ * @param root0.results
+ * @param root0.loading
+ * @param root0.metricsLoading
+ * @param root0.parameters
  */
-const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
+const ResultsDrawer = ({
+  metrics,
+  results,
+  parameters,
+  loading,
+  metricsLoading,
+}) => {
+  // metrics data source
   const dataSource = metrics.map((element, i) => {
     const objectKey = Object.keys(element)[0];
     const objectValor = element[objectKey];
@@ -42,6 +59,7 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
     return obj;
   });
 
+  // metrics columns
   const columns = [
     {
       title: 'Métrica',
@@ -57,9 +75,25 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
     },
   ];
 
+  // parameters columns
+  const parametersColumns = [
+    {
+      title: 'Parâmetro',
+      dataIndex: 'name',
+      key: 'parameter',
+      render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
+    },
+    {
+      title: 'Valor',
+      dataIndex: 'value',
+      key: 'value',
+      render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
+    },
+  ];
+
   return (
     // div container
-    <div>
+    <div className='resultsDrawer'>
       {/* is loading */}
       {loading ? (
         // loading
@@ -67,7 +101,9 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
       ) : results.length > 0 || metrics.length > 0 ? (
         /* rendering results and metrics */
         <>
+          {/* tabs */}
           <Tabs defaultActiveKey='1'>
+            {/* results */}
             <TabPane tab='Resultados' key='1'>
               {results.map((
                 result // div result container
@@ -79,6 +115,8 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
                 </div>
               ))}
             </TabPane>
+
+            {/* metrics */}
             <TabPane
               tab={<MetricsTitle loading={metricsLoading} />}
               key='2'
@@ -86,8 +124,20 @@ const ResultsDrawer = ({ metrics, results, loading, metricsLoading }) => {
             >
               <Table bordered dataSource={dataSource} columns={columns} />
             </TabPane>
+
+            {/* parameters */}
+            <TabPane
+              tab={<span>Parâmetros</span>}
+              key='3'
+              disabled={parameters.length <= 0}
+            >
+              <Table
+                bordered
+                dataSource={parameters}
+                columns={parametersColumns}
+              />
+            </TabPane>
           </Tabs>
-          <Divider />
         </>
       ) : (
         <Empty

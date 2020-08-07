@@ -13,6 +13,9 @@ import 'react-image-lightbox/style.css';
 /**
  * Image Lightbox.
  * This component is responsible for displaying plot result into a lightbox.
+ *
+ * @param root0
+ * @param root0.plotUrl
  */
 const ImageLightbox = ({ plotUrl }) => {
   const [zoom, setZoom] = useState(false);
@@ -21,6 +24,7 @@ const ImageLightbox = ({ plotUrl }) => {
     <>
       {zoom && (
         <Lightbox
+          wrapperClassName='imageLightbox'
           mainSrc={plotUrl}
           toolbarButtons={[
             <a className='download-link' href={plotUrl} download={`resultado`}>
@@ -33,7 +37,6 @@ const ImageLightbox = ({ plotUrl }) => {
       <img
         style={{ cursor: 'pointer' }}
         onClick={() => setZoom(true)}
-        width='100%'
         alt='plot'
         src={plotUrl}
       />
