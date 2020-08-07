@@ -1,5 +1,3 @@
-import './style.scss';
-
 // CORE LIBS
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -122,7 +120,7 @@ const ProjectsTable = ({
       title: <strong>Tags</strong>,
       dataIndex: 'tags',
       key: 'tags',
-      width: '25%',
+      width: '28%',
       filters: [
         {
           text: 'Experimentação',
@@ -174,7 +172,7 @@ const ProjectsTable = ({
       title: <strong>Última modificação</strong>,
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      width: '15%',
+      width: '12%',
       sorter: (a, b) => {
         const dateA = new Date(a.updatedAt);
         const dateB = new Date(b.updatedAt);
