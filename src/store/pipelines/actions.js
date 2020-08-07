@@ -91,11 +91,12 @@ export const trainExperimentRequest = (experiment, operators) => (
     }
 
     return {
-      operatorId: operator.uuid,
-      notebookPath: operator.experimentNotebookPath,
       commands: operator.commands,
       dependencies: operator.dependencies,
+      image: operator.image,
+      notebookPath: operator.experimentNotebookPath,
       parameters: configuredParameters,
+      operatorId: operator.uuid,
     };
   });
 
@@ -260,6 +261,7 @@ export const deployExperimentRequest = (
   deployObject.operators = operators.map((operator) => ({
     commands: operator.commands,
     dependencies: operator.dependencies,
+    image: operator.image,
     notebookPath: operator.deploymentNotebookPath,
     operatorId: operator.uuid,
   }));
