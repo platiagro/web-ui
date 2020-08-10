@@ -46,7 +46,7 @@ const TasksTable = ({
       title: <strong>Nome da Tarefa</strong>,
       dataIndex: 'name',
       key: 'name',
-      width: '30%',
+      width: '25%',
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,
@@ -133,7 +133,7 @@ const TasksTable = ({
       title: <strong>Descrição</strong>,
       dataIndex: 'description',
       key: 'description',
-      width: '40%',
+      width: '35%',
       ellipsis: {
         showTitle: false,
       },
