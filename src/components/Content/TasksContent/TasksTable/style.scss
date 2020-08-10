@@ -1,21 +1,45 @@
-
-.projectsTable {
-  table {
-    table-layout: fixed;
+.more-actions-popover {
+  .ant-popover-inner-content {
+    padding: 0;
   }
+}
 
-  td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    // cursor: pointer;
-    //Remover seleção de texto
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                                supported by Chrome and Opera */
+.btnTaskLockTeam {
+  background-color: #fafafa;
+  border: 1px solid #bfbfbf;
+  border-radius: 2px;
+  &:hover {
+    background-color: #fafafa;
+    border: 1px solid #bfbfbf;
+    color: #595959;
+  }
+}
+
+.btnTaskOrigin {
+  padding: 0;
+  &:focus {
+    color: #0050b3;
+  }
+  &:hover {
+    color: #0050b3;
+  }
+}
+
+.btnTaskActions {
+  padding: 0;
+  &:focus {
+    color: #0050b3;
+  }
+  &:hover {
+    color: #0050b3;
+  }
+}
+
+.btnTaskMoreActions {
+  height: 45px;
+  width: 140px;
+  text-align: left;
+  &:hover {
+    background-color: #e8e8e8;
   }
 }
