@@ -109,14 +109,20 @@ const TasksTable = ({
             </Button>
             <Space style={{ width: '25%' }}>
               {random === 0 ? (
-                <Button icon={<TeamOutlined />}></Button>
+                <Button
+                  className='btnTaskLockTeam'
+                  icon={<TeamOutlined />}
+                ></Button>
               ) : (
-                <Button icon={<LockOutlined />}></Button>
+                <Button
+                  className='btnTaskLockTeam'
+                  icon={<LockOutlined />}
+                ></Button>
               )}
               <Button
                 icon={<ShoppingOutlined style={{ color: 'white' }} />}
                 shape='circle'
-                style={{ backgroundColor: '#722ED1' }}
+                style={{ border: 0, backgroundColor: '#722ED1' }}
               />
             </Space>
           </div>
@@ -144,12 +150,6 @@ const TasksTable = ({
       width: '17%',
       render: (value, record) => (
         <Space size={8}>
-          <Button
-            shape='circle'
-            style={{ color: 'white', backgroundColor: '#389E0D' }}
-          >
-            P
-          </Button>
           <Popover
             placement='bottomLeft'
             content={
@@ -169,9 +169,21 @@ const TasksTable = ({
               </>
             }
           >
-            <Button type='link' style={{ padding: 0 }}>
-              platiagro
-            </Button>
+            <Space size={8}>
+              <Button
+                shape='circle'
+                style={{
+                  color: 'white',
+                  backgroundColor: '#389E0D',
+                  border: 0,
+                }}
+              >
+                P
+              </Button>
+              <Button className='btnTaskOrigin' type='link'>
+                platiagro
+              </Button>
+            </Space>
           </Popover>
           <Tag>Modificada</Tag>
         </Space>
@@ -185,9 +197,9 @@ const TasksTable = ({
       render: (value, record) => (
         <Space size={8}>
           <Button
+            className='btnTaskActions'
             type='link'
             onClick={() => handleClickTask(record.uuid)}
-            style={{ padding: 0 }}
           >
             Ver código-fonte
           </Button>
@@ -202,7 +214,7 @@ const TasksTable = ({
             }}
             content={
               <div style={{ width: '140px' }}>
-                <Button type='text' style={{ height: '45px', width: '140px' }}>
+                <Button className='btnTaskMoreActions' type='text'>
                   Fazer uma cópia
                 </Button>
                 <Popconfirm
@@ -213,17 +225,14 @@ const TasksTable = ({
                   cancelText='Não'
                   placement='bottomRight'
                 >
-                  <Button
-                    type='text'
-                    style={{ height: '45px', width: '140px' }}
-                  >
+                  <Button className='btnTaskMoreActions' type='text'>
                     Excluir
                   </Button>
                 </Popconfirm>
               </div>
             }
           >
-            <Button type='link' style={{ padding: 0 }}>
+            <Button className='btnTaskActions' type='link'>
               Mais <DownOutlined />
             </Button>
           </Popover>

@@ -3,3 +3,37 @@
     padding: 0;
   }
 }
+
+.btnTaskLockTeam {
+  background-color: #fafafa;
+  border: 1px solid #bfbfbf;
+  border-radius: 2px;
+  &:hover {
+    background-color: #fafafa;
+    border: 1px solid #bfbfbf;
+    color: #595959;
+  }
+}
+
+.btnTaskOrigin {
+  padding: 0;
+  &:hover {
+    color: #0050b3;
+  }
+}
+
+.btnTaskActions {
+  padding: 0;
+  &:hover {
+    color: #0050b3;
+  }
+}
+
+.btnTaskMoreActions {
+  height: 45px;
+  width: 140px;
+  text-align: left;
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
