@@ -185,7 +185,7 @@ const TasksTable = ({
               </Button>
             </Space>
           </Popover>
-          <Tag>Modificada</Tag>
+          {record.createdAt !== record.updatedAt ? <Tag>Modificada</Tag> : null}
         </Space>
       ),
     },
