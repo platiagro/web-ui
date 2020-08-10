@@ -15,19 +15,28 @@ import 'react-image-lightbox/style.css';
  * This component is responsible for displaying plot result into a lightbox.
  *
  * @param root0
- * @param root0.plotUrl
+ * @param root0.plotSvg
  */
-const ImageLightbox = ({ plotUrl }) => {
+const ImageLightbox = ({ plotSvg }) => {
   const [zoom, setZoom] = useState(false);
+
+  // transform svg string in blob
+  const plotSvgBlob = new Blob([plotSvg], { type: 'image/svg+xml' });
+  // creating plot url
+  const plotSvgUrl = URL.createObjectURL(plotSvgBlob);
 
   return (
     <>
       {zoom && (
         <Lightbox
           wrapperClassName='imageLightbox'
-          mainSrc={plotUrl}
+          mainSrc={plotSvgUrl}
           toolbarButtons={[
-            <a className='download-link' href={plotUrl} download={`resultado`}>
+            <a
+              className='download-link'
+              href={plotSvgUrl}
+              download={`resultado`}
+            >
               <DownloadOutlined />
             </a>,
           ]}
@@ -38,7 +47,7 @@ const ImageLightbox = ({ plotUrl }) => {
         style={{ cursor: 'pointer' }}
         onClick={() => setZoom(true)}
         alt='plot'
-        src={plotUrl}
+        src={plotSvgUrl}
       />
     </>
   );
@@ -46,8 +55,8 @@ const ImageLightbox = ({ plotUrl }) => {
 
 // PROP TYPES
 ImageLightbox.propTypes = {
-  /** plot result plot url string */
-  plotUrl: PropTypes.string.isRequired,
+  /** Results plot inline svg */
+  plotSvg: PropTypes.string.isRequired,
 };
 
 export default ImageLightbox;
