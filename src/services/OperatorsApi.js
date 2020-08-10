@@ -31,13 +31,13 @@ const listOperators = (projectId, experimentId) => {
  * Create Operator
  * @param {string} projectId
  * @param {string} experimentId
- * @param {string} componentId
+ * @param {string} taskId
  * @param {string[]} dependencies
  * @returns {Promise}
  */
-const createOperator = (projectId, experimentId, componentId, dependencies) => {
+const createOperator = (projectId, experimentId, taskId, dependencies) => {
   const body = {
-    componentId: componentId,
+    taskId: taskId,
     dependencies: dependencies,
   };
   return operatorsApi.post(

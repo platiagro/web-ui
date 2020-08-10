@@ -80,7 +80,7 @@ export const fetchComponentsMenuRequest = () => async (dispatch) => {
     // adding components to menu
     componentsMenu = {
       ...componentsMenu,
-      ...utils.createMenu(componentsResponse.data.components),
+      ...utils.createMenu(componentsResponse.data.tasks),
     };
 
     dispatch(fetchComponentsMenuSuccess(componentsMenu));
