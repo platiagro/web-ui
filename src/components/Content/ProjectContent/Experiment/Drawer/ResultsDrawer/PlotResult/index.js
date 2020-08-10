@@ -8,29 +8,36 @@ import ImageLightbox from './ImageLightbox';
 /**
  * Plot Result.
  * This component is responsible for displaying plot result.
+ *
+ * @param props
  */
-const PlotResult = ({ title, description, plotUrl }) => (
-  // div container
-  <div>
-    {title && (
-      /* rendering title */
-      <p>
-        <strong>{title}</strong>
-      </p>
-    )}
-    {description && (
-      <>
-        {/* rendering description */}
-        <p>{description}</p>
-        {/* breaking line */}
-        <br />
-        <br />
-      </>
-    )}
-    {/* rendering plot */}
-    <ImageLightbox plotUrl={plotUrl} />
-  </div>
-);
+const PlotResult = (props) => {
+  // destructuring props
+  const { title, description, plotUrl } = props;
+
+  return (
+    // div container
+    <div>
+      {title && (
+        /* rendering title */
+        <p>
+          <strong>{title}</strong>
+        </p>
+      )}
+      {description && (
+        <>
+          {/* rendering description */}
+          <p>{description}</p>
+          {/* breaking line */}
+          <br />
+          <br />
+        </>
+      )}
+      {/* rendering plot */}
+      <ImageLightbox plotSvg={plotUrl} />
+    </div>
+  );
+};
 
 // PROP TYPES
 PlotResult.propTypes = {
