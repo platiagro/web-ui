@@ -17,6 +17,9 @@
 
 .btnTaskOrigin {
   padding: 0;
+  &:focus {
+    color: #0050b3;
+  }
   &:hover {
     color: #0050b3;
   }
@@ -24,6 +27,9 @@
 
 .btnTaskActions {
   padding: 0;
+  &:focus {
+    color: #0050b3;
+  }
   &:hover {
     color: #0050b3;
   }
@@ -34,6 +40,6 @@
   width: 140px;
   text-align: left;
   &:hover {
-    background-color: #f5f5f5;
+    background-color: #e8e8e8;
   }
 }
