@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // COMPONENTS
 import ContentHeaderProjectContainer from '../../ContentHeader/ContentHeaderProjectContainer';
-import ComponentsMenuBlock from '../ComponentsMenuBlock/_/Container';
+import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
@@ -45,7 +45,7 @@ const ProjectContent = (props) => {
     <div className='experiment-area'>
       {/*  Sibling to config drawer (flow and menu), is flex row*/}
       <div className='experiment-content'>
-        <ComponentsMenuBlock disabled={!experimentId} />
+        <TasksMenuBlock disabled={!experimentId} />
 
         {/* All content of flow (header, tabs and flow content), is flex column */}
         <div className='experiment-content-flow'>

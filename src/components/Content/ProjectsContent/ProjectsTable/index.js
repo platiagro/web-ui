@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Popconfirm, Space, Table, Tag } from 'antd';
+import { Button, Input, Popconfirm, Space, Table, Tag, Typography } from 'antd';
+
+const { Paragraph } = Typography;
 
 /**
  * Projects Table.
@@ -104,8 +106,14 @@ const ProjectsTable = ({
         <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
       ),
       render: (value, record) => (
-        <Button type='link' onClick={() => handleClickProject(record.uuid)}>
-          {value}
+        <Button
+          type='link'
+          onClick={() => handleClickProject(record.uuid)}
+          style={{ textAlign: 'left', width: '100%' }}
+        >
+          <Paragraph ellipsis style={{ color: '#0050B3' }}>
+            {value}
+          </Paragraph>
         </Button>
       ),
     },

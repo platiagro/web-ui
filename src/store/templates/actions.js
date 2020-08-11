@@ -12,15 +12,15 @@ import {
   templateDataLoaded,
   templateLoadingData,
   hideNewTemplateModal,
-  componentsMenuDataLoaded,
-  componentsMenuLoadingData,
+  tasksMenuLoadingData,
+  tasksMenuDataLoaded,
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
 import { fetchOperatorsRequest } from '../operators/actions';
 
 // COMPONENTS MENU ACTIONS
-import { fetchComponentsMenuRequest } from '../componentsMenu/actions';
+import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 
 // ACTIONS
 // ** FETCH TEMPLATES
@@ -90,7 +90,7 @@ const createTemplateSuccess = (response) => (dispatch) => {
   dispatch(hideNewTemplateModal());
 
   // dispatching fetch components menu request
-  dispatch(fetchComponentsMenuRequest());
+  dispatch(fetchTasksMenuRequest());
 
   // dispatching create success
   dispatch({
@@ -227,7 +227,7 @@ export const deleteTemplateRequest = (templateId) => (dispatch) => {
   });
 
   // dispatching template table loading data action
-  dispatch(componentsMenuLoadingData());
+  dispatch(tasksMenuLoadingData());
 
   // deleting project
   templatesApi
@@ -246,7 +246,7 @@ const deleteTemplateFail = (error) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching projects table data loaded action
-  dispatch(componentsMenuDataLoaded());
+  dispatch(tasksMenuDataLoaded());
 
   // dispatching delete projects fail action
   dispatch({
@@ -265,7 +265,7 @@ const deleteTemplateFail = (error) => (dispatch) => {
  */
 const deleteTemplateSuccess = (templateId) => (dispatch) => {
   // dispatching template table data loaded action
-  dispatch(componentsMenuDataLoaded());
+  dispatch(tasksMenuDataLoaded());
 
   // dispatching delete template success action
   dispatch({

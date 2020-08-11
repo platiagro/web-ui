@@ -61,10 +61,10 @@ const toolTipConfigs = {
 };
 
 /**
- * Component Box.
+ * Task Box.
  * This component is responsible for displaying experiment flow.
  */
-const ComponentBox = ({
+const TaskBox = ({
   name,
   icon,
   iconTheme,
@@ -134,9 +134,9 @@ const ComponentBox = ({
       <div className={cssClass} onClick={handleBoxClick} role='presentation'>
         {/* div title icon container */}
         <div className='title-icon'>
-          {/* component icon */}
+          {/* task icon */}
           <div style={{ fontSize: '18px' }}>{icon}</div>
-          {/* component title */}
+          {/* task title */}
           <span>{name}</span>
         </div>
         {/* rendering tooltip */}
@@ -147,30 +147,30 @@ const ComponentBox = ({
 };
 
 // PROP TYPES
-ComponentBox.propTypes = {
-  /** component title string */
+TaskBox.propTypes = {
+  /** task title string */
   name: PropTypes.string.isRequired,
-  /** component icon string */
+  /** task icon string */
   icon: PropTypes.string.isRequired,
-  /** component icon theme string */
+  /** task icon theme string */
   iconTheme: PropTypes.string,
-  /** component status string */
+  /** task status string */
   status: PropTypes.string.isRequired,
-  /** component is setted up */
+  /** task is setted up */
   settedUp: PropTypes.bool.isRequired,
-  /** component is selected */
+  /** task is selected */
   selected: PropTypes.bool.isRequired,
-  /** component click handler */
+  /** task click handler */
   handleClick: PropTypes.func.isRequired,
-  /** component remove handler */
+  /** task remove handler */
   handleRemoveOperator: PropTypes.func.isRequired,
 };
 
 // PROP DEFAULT VALUES
-ComponentBox.defaultProps = {
-  /** component icon theme */
+TaskBox.defaultProps = {
+  /** task icon theme */
   iconTheme: undefined,
 };
 
 // EXPORT
-export default connect(null, mapDispatchToProps)(ComponentBox);
+export default connect(null, mapDispatchToProps)(TaskBox);

@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import ComponentsMenuBlock from './index';
+import TasksMenuBlock from './index';
 
 // ACTIONS
 import { createOperatorRequest } from '../../../../../store/operator/actions';
 import {
-  fetchComponentsMenuRequest,
-  filterComponentsMenu,
-} from '../../../../../store/componentsMenu/actions';
+  fetchTasksMenuRequest,
+  filterTasksMenu,
+} from '../../../../../store/tasksMenu/actions';
 import {
   setTemplateRequest,
   deleteTemplateRequest,
@@ -20,22 +20,21 @@ import {
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchComponentsMenu: () => dispatch(fetchComponentsMenuRequest()),
-    handleFilterComponentsMenu: (filter) =>
-      dispatch(filterComponentsMenu(filter)),
+    handleFetchTasksMenu: () => dispatch(fetchTasksMenuRequest()),
+    handleFilterTasksMenu: (filter) => dispatch(filterTasksMenu(filter)),
     handleCreateOperator: (
       projectId,
       experimentId,
-      componentId,
-      components,
+      taskId,
+      tasks,
       isTemplate
     ) =>
       dispatch(
         createOperatorRequest(
           projectId,
           experimentId,
-          componentId,
-          components,
+          taskId,
+          tasks,
           isTemplate
         )
       ),
@@ -49,27 +48,27 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    componentsMenu: state.componentsMenuReducer.filtered,
-    components: state.tasksReducer.tasks,
-    loading: state.uiReducer.componentsMenu.loading,
+    loading: state.uiReducer.tasksMenu.loading,
+    tasks: state.tasksReducer.tasks,
+    tasksMenu: state.tasksMenuReducer.filtered,
     trainingLoading: state.uiReducer.experimentTraining.loading,
     trainingSucceeded: state.experimentReducer.succeeded,
   };
 };
 
 /**
- * Components Menu Block Container.
- * This component is responsible for create a logic container for components
- * menu block with redux.
+ * Tasks Menu Block Container.
+ * This component is responsible for create a logic container for
+ * tasks menu block with redux.
  */
-const ComponentsMenuBlockContainer = ({
-  components,
+const TasksMenuBlockContainer = ({
+  tasks,
   loading,
   trainingLoading,
   trainingSucceeded,
-  componentsMenu,
-  handleFetchComponentsMenu,
-  handleFilterComponentsMenu,
+  tasksMenu,
+  handleFetchTasksMenu,
+  handleFilterTasksMenu,
   handleCreateOperator,
   handleSetTemplate,
   disabled,
@@ -83,36 +82,30 @@ const ComponentsMenuBlockContainer = ({
   // did mount hook
   useEffect(() => {
     // fetching menu tasks
-    handleFetchComponentsMenu();
-  }, [handleFetchComponentsMenu]);
+    handleFetchTasksMenu();
+  }, [handleFetchTasksMenu]);
 
   // HANDLERS
-  const createOperatorHandler = ({ key: componentId, keyPath }) => {
-    // getting component type
-    const componentType = keyPath[1];
+  const createOperatorHandler = ({ key: taskId, keyPath }) => {
+    // getting task type
+    const taskType = keyPath[1];
     // is template
-    const isTemplate = componentType === 'TEMPLATES';
+    const isTemplate = taskType === 'TEMPLATES';
 
     // is template
-    if (isTemplate) handleSetTemplate(projectId, experimentId, componentId);
+    if (isTemplate) handleSetTemplate(projectId, experimentId, taskId);
     // not is template
     else
-      handleCreateOperator(
-        projectId,
-        experimentId,
-        componentId,
-        components,
-        isTemplate
-      );
+      handleCreateOperator(projectId, experimentId, taskId, tasks, isTemplate);
   };
 
   // RENDER
   return (
-    <ComponentsMenuBlock
-      handleComponentClick={createOperatorHandler}
-      handleFilter={handleFilterComponentsMenu}
+    <TasksMenuBlock
+      handleTaskClick={createOperatorHandler}
+      handleFilter={handleFilterTasksMenu}
       handleDeleteTemplate={handleDeleteTemplate}
-      menu={componentsMenu}
+      menu={tasksMenu}
       disabled={disabled || trainingLoading || trainingSucceeded}
       loading={loading}
     />
@@ -123,4 +116,4 @@ const ComponentsMenuBlockContainer = ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ComponentsMenuBlockContainer);
+)(TasksMenuBlockContainer);
