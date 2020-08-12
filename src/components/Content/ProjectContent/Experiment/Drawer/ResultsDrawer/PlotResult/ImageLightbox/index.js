@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { DownloadOutlined } from '@ant-design/icons';
 
 // STYLES
-import './styles.scss';
+import './styles.less';
 import 'react-image-lightbox/style.css';
 
 /**

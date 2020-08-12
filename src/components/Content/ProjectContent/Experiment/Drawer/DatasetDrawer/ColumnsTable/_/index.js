@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Table, Select, Tooltip } from 'antd';
 
 // STYLES
-import './style.scss';
+import './style.less';
 
 const { Option } = Select;
 /**

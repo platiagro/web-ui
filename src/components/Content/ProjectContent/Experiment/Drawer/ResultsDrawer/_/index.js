@@ -14,7 +14,7 @@ import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
 
 // STYLES
-import './ResultsDrawer.scss';
+import './ResultsDrawer.less';
 
 // DESTRUCTURING TABS
 const { TabPane } = Tabs;
