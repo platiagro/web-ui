@@ -7,11 +7,21 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
 //STYLE
-import './style.scss';
+import './style.less';
 
 /**
  * New Experiment Button.
  * This component is responsible for show new project button.
+ *
+ * @param root0
+ * @param root0.handleClick
+ * @param root0.disabled
+ * @param root0
+ * @param root0.handleClick
+ * @param root0.disabled
+ * @param root0
+ * @param root0.handleClick
+ * @param root0.disabled
  */
 const NewExperimentButton = ({ handleClick, disabled }) => (
   // button component
