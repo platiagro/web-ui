@@ -42,7 +42,7 @@ const inputTypes = {
     );
   },
   // feature
-  feature(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  feature(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const { uuid, name, label, value, options, multiple, description } = props;
 
@@ -54,7 +54,7 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
@@ -64,7 +64,7 @@ const inputTypes = {
     );
   },
   // number
-  number(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  number(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const {
       uuid,
@@ -93,7 +93,7 @@ const inputTypes = {
         step={step}
         value={value}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder={placeholder}
       />
     ) : (
@@ -104,7 +104,7 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
@@ -114,7 +114,7 @@ const inputTypes = {
     );
   },
   // float
-  float(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  float(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const {
       uuid,
@@ -143,7 +143,7 @@ const inputTypes = {
         step={step}
         value={value}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder={placeholder}
       />
     ) : (
@@ -154,7 +154,7 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
@@ -164,7 +164,7 @@ const inputTypes = {
     );
   },
   // integer
-  integer(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  integer(props, loading, handleChange, trainingLoading) {
     const {
       uuid,
       name,
@@ -190,7 +190,7 @@ const inputTypes = {
         step={step}
         value={value}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder={placeholder}
       />
     ) : (
@@ -201,7 +201,7 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
@@ -211,7 +211,7 @@ const inputTypes = {
     );
   },
   // string
-  string(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  string(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const {
       uuid,
@@ -232,7 +232,7 @@ const inputTypes = {
         tip={description}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder={placeholder}
         title={label}
         value={value}
@@ -245,7 +245,7 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
@@ -255,7 +255,7 @@ const inputTypes = {
     );
   },
   // BOOLEAN / TOGGLE
-  boolean(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  boolean(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const { uuid, name, description, label, value } = props;
 
@@ -269,7 +269,7 @@ const inputTypes = {
         isLoading={loading}
         tip={description}
         isChecked={value}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
       />
     );
   },
@@ -291,7 +291,6 @@ const GenericDrawer = (props) => {
     parameterLoading,
     handleChangeParameter,
     handleRemoveOperatorClick,
-    trainingSucceeded,
   } = props;
 
   return (
@@ -320,7 +319,6 @@ const GenericDrawer = (props) => {
             input,
             parameterLoading,
             handleChangeParameter,
-            trainingSucceeded,
             trainingLoading
           )
         )}

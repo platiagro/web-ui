@@ -45,17 +45,16 @@ const mapStateToProps = (state) => {
     parameters: state.operatorReducer.parameters,
     loading: state.uiReducer.experimentOperators.loading,
     parameterLoading: state.uiReducer.operatorParameter.loading,
-    trainingSucceeded: state.experimentReducer.succeeded,
     trainingLoading: state.uiReducer.experimentTraining.loading,
   };
 };
 
 /**
- * DatasetDrawer Container.
+ * Generic Drawer Container.
  * This component is responsible for create a logic container for drawer with
  * redux.
  */
-const DatasetDrawerContainer = ({
+const GenericDrawerContainer = ({
   parameters,
   loading,
   trainingLoading,
@@ -63,7 +62,6 @@ const DatasetDrawerContainer = ({
   handleRemoveOperator,
   handleSetOperatorParameter,
   parameterLoading,
-  trainingSucceeded,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -89,7 +87,6 @@ const DatasetDrawerContainer = ({
       handleRemoveOperatorClick={removeOperatorHandler}
       drawerInputs={parameters}
       loading={loading}
-      trainingSucceeded={trainingSucceeded}
       trainingLoading={trainingLoading}
       parameterLoading={parameterLoading}
       handleChangeParameter={setOperatorParameterHandler}
@@ -101,4 +98,4 @@ const DatasetDrawerContainer = ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(DatasetDrawerContainer);
+)(GenericDrawerContainer);
