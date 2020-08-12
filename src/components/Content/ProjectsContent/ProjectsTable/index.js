@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Popconfirm, Space, Table, Tag, Typography } from 'antd';
 
-const { Paragraph } = Typography;
+const { Text } = Typography;
 
 /**
  * Projects Table.
@@ -111,9 +111,9 @@ const ProjectsTable = ({
           onClick={() => handleClickProject(record.uuid)}
           style={{ textAlign: 'left', width: '100%' }}
         >
-          <Paragraph ellipsis style={{ color: '#0050B3' }}>
+          <Text ellipsis style={{ color: '#0050B3', width: '100%' }}>
             {value}
-          </Paragraph>
+          </Text>
         </Button>
       ),
     },
