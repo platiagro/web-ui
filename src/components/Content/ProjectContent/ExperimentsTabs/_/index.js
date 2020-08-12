@@ -16,7 +16,7 @@ import { Tabs, Spin, Popconfirm, Popover, Input } from 'antd';
 import DraggableTabs from '../DraggableTabs';
 
 //STYLE
-import './style.scss';
+import './style.less';
 
 // TABS COMPONENTS
 const { TabPane } = Tabs;
