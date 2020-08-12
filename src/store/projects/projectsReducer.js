@@ -46,6 +46,7 @@ const projectsReducer = (state = initialState, action = undefined) => {
         (project) => project.uuid === updatedProject.uuid
       );
       projectsAux[projectIndex] = updatedProject;
+      projectsAux.sort((a, b) => a.name.localeCompare(b.name));
       return {
         ...state,
         projects: projectsAux,
