@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { TooltipTip } from 'components';
 
 // STYLES
-import './InputBlockContainer.scss';
+import './InputBlockContainer.less';
 
 /**
  * This component render a input with a title and a tip.
