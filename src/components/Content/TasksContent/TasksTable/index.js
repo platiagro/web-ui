@@ -1,4 +1,4 @@
-import './style.scss';
+import './style.less';
 
 // CORE LIBS
 import React, { useRef } from 'react';
@@ -29,6 +29,43 @@ const { Paragraph, Text } = Typography;
 /**
  * Tasks Table.
  * This component is responsible for displaying tasks table.
+ *
+ * @param root0
+ * @param root0.tasks
+ * @param root0.handleClickTask
+ * @param root0.handleClickEdit
+ * @param root0.handleClickDelete
+ * @param root0.loading
+ * @param root0
+ * @param root0.tasks
+ * @param root0.handleClickTask
+ * @param root0.handleClickEdit
+ * @param root0.handleClickDelete
+ * @param root0.loading
+ * @param root0
+ * @param root0.tasks
+ * @param root0.handleClickTask
+ * @param root0.handleClickEdit
+ * @param root0.handleClickDelete
+ * @param root0.loading
+ * @param root0
+ * @param root0.tasks
+ * @param root0.handleClickTask
+ * @param root0.handleClickEdit
+ * @param root0.handleClickDelete
+ * @param root0.loading
+ * @param root0
+ * @param root0.tasks
+ * @param root0.handleClickTask
+ * @param root0.handleClickEdit
+ * @param root0.handleClickDelete
+ * @param root0.loading
+ * @param root0
+ * @param root0.tasks
+ * @param root0.handleClickTask
+ * @param root0.handleClickEdit
+ * @param root0.handleClickDelete
+ * @param root0.loading
  */
 const TasksTable = ({
   tasks,
