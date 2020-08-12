@@ -1,0 +1,100 @@
+.left-side-menu {
+  background: #fff;
+  height: 100%;
+  overflow-y: auto;
+
+  .collapse-menu {
+    border-radius: 4px;
+    margin: 8px;
+    border: 0;
+    overflow: hidden;
+
+    .collapse-menu-items {
+      color: rgba(0, 0, 0, 0.85);
+      background-color: #f7f7f7;
+      border-radius: 4px;
+      padding: 8px;
+      margin-top: 8px;
+      cursor: pointer;
+      user-select: none;
+      border: 1px solid transparent;
+
+      &:hover {
+        background-color: #f9f9f9;
+        border-color: #e2e2e2;
+      }
+      &:active {
+        background-color: #f1f1f1;
+      }
+      &.disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+        text-decoration: none;
+        background-color: #f1f1f1a4;
+        color: rgba(0, 0, 0, 0.397);
+
+        &:hover {
+          background-color: #f1f1f1a4;
+          border-color: transparent;
+          cursor: not-allowed;
+        }
+        &:active {
+          background-color: #f1f1f1a4;
+          border-color: transparent;
+        }
+      }
+    }
+    .ant-collapse-content-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ant-collapse-header {
+      background-color: #f7f7f7;
+      border: 0;
+    }
+    .icon-collapse-header {
+      margin-right: 8px;
+    }
+    .collapse-item {
+      color: rgba(0, 0, 0, 0.85);
+      background-color: #f7f7f7;
+      border-radius: 4px;
+      width: 100%;
+      text-align: left;
+    }
+  }
+  .ant-collapse-borderless > .ant-collapse-item {
+    border: 0;
+  }
+
+  .collapse-menu-search-bar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #fff;
+    padding: 12px 8px;
+    transition: all ease 0.3s;
+    &:hover {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+.component-menu {
+  background-color: #eceff1;
+  display: flex;
+  flex-direction: column;
+
+  .component-menu-title {
+    padding: 12px;
+    font-style: normal;
+    font-weight: bold;
+    color: #262626;
+  }
+  .component-menu-items {
+    overflow: auto;
+    height: 100%;
+    background-color: #eceff1;
+  }
+}
