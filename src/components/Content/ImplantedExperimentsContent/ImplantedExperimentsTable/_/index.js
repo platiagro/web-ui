@@ -19,7 +19,7 @@ import UploadInferenceTestButton from '../UploadInferenceTestButton';
 import LogsDrawer from '../../LogsDrawer/Container';
 
 // STYLES
-import './style.scss';
+import './style.less';
 
 // TYPOGRAPHY COMPONENTS
 const { Paragraph } = Typography;
@@ -27,6 +27,107 @@ const { Paragraph } = Typography;
 /**
  * Implanted Experiments Table.
  * This component is responsible for displaying implanted experiments table.
+ *
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
+ * @param root0
+ * @param root0.implantedExperiments
+ * @param root0.handleTestInference
+ * @param root0.handleOpenLog
+ * @param root0.handleDeleteImplantedExperiment
+ * @param root0.loading
+ * @param root0.selectedExperiment
+ * @param root0.experimentInference
+ * @param root0.experimentInferenceModal
+ * @param root0.closeModal
  */
 const ImplantedExperimentsTable = ({
   implantedExperiments,
