@@ -10,7 +10,7 @@ import { ArcherContainer, ArcherElement } from 'react-archer';
 import ComponentBox from '../ComponentBox';
 
 // STYLES
-import './styles.scss';
+import './styles.less';
 
 // GRID CONFIGURATION
 // numbers of columns in grid
@@ -21,6 +21,23 @@ const columnSize = 24 / columnsNumber;
 /**
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
+ *
+ * @param root0
+ * @param root0.components
+ * @param root0.loading
+ * @param root0.handleTaskBoxClick
+ * @param root0
+ * @param root0.components
+ * @param root0.loading
+ * @param root0.handleTaskBoxClick
+ * @param root0
+ * @param root0.components
+ * @param root0.loading
+ * @param root0.handleTaskBoxClick
+ * @param root0
+ * @param root0.components
+ * @param root0.loading
+ * @param root0.handleTaskBoxClick
  */
 const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
   // COMPONENTS RENDERS

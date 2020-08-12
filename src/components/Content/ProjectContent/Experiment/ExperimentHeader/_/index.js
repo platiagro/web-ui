@@ -9,10 +9,92 @@ import DeployExperimentButton from '../DeployExperimentButton';
 import NewTemplateButton from '../NewTemplateButton/Container';
 import NewTemplateModal from '../NewTemplateModal/Container';
 
-import './styles.scss';
+import './styles.less';
 /**
  * Experiment Header.
  * This component is responsible for displaying the experiment header.
+ *
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
+ * @param root0
+ * @param root0.loading
+ * @param root0.trainingLoading
+ * @param root0.trainingSucceeded
+ * @param root0.deployStatus
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleTrainExperiment
+ * @param root0.handleDeployExperiment
+ * @param root0.empty
  */
 const ExperimentHeader = ({
   loading,

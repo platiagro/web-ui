@@ -14,7 +14,7 @@ import {
 import { Tooltip, Menu, Dropdown } from 'antd';
 
 // STYLES
-import './style.scss';
+import './style.less';
 
 // ACTIONS
 import { removeOperatorRequest } from 'store/operator/actions';
@@ -63,6 +63,128 @@ const toolTipConfigs = {
 /**
  * Component Box.
  * This component is responsible for displaying experiment flow.
+ *
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
+ * @param root0
+ * @param root0.name
+ * @param root0.icon
+ * @param root0.iconTheme
+ * @param root0.status
+ * @param root0.settedUp
+ * @param root0.selected
+ * @param root0.uuid
+ * @param root0.handleClick
+ * @param root0.operator
+ * @param root0.handleRemoveOperator
  */
 const ComponentBox = ({
   name,
