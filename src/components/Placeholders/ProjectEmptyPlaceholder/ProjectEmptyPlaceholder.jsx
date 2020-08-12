@@ -8,7 +8,7 @@ import experimentationIcon from 'assets/experimentationIcon.svg';
 import preImplantationIcon from 'assets/preImplantationIcon.svg';
 
 // STYLES
-import './ProjectEmptyPlaceholder.scss';
+import './ProjectEmptyPlaceholder.less';
 
 /**
  * Project empty placeholder.
