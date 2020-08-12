@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { EditOutlined } from '@ant-design/icons';
 import { Typography, Input, Tooltip } from 'antd';
 
-import './style.scss';
+import './style.less';
 
 const { Title } = Typography;
 

@@ -1,8 +1,7 @@
 /* istanbul ignore file */
 // STYLES (in this file styles need to be loading before all code)
-import './style.scss';
-import 'antd/dist/antd.css';
-import '@ant-design/compatible/assets/index.css';
+import '@ant-design/compatible/assets/index.less';
+import './style.less';
 
 // CORE LIBS
 import React from 'react';
