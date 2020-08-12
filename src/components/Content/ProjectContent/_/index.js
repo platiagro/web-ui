@@ -19,7 +19,7 @@ import {
 
 import { ProjectEmptyPlaceholder } from 'components/Placeholders';
 
-import './style.scss';
+import './style.less';
 
 // STATES
 const mapStateToProps = (state) => {

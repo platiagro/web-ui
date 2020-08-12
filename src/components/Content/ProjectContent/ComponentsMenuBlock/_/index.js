@@ -10,11 +10,19 @@ import ComponentsMenuSearch from '../ComponentsMenuSearch';
 import ComponentsMenu from '../ComponentsMenu';
 
 //STYLE
-import './style.scss';
+import './style.less';
 
 /**
  * Components Menu Block.
  * This component is responsible for displaying components menu with search.
+ *
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleComponentClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
  */
 const ComponentsMenuBlock = ({
   menu,
