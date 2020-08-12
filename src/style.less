@@ -1,19 +1,105 @@
 @import '~antd/dist/antd.less';
 @import 'variables.less';
 
-// tables selection style
+body,
+#root,
+.ant-layout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  font-family: 'Roboto', sans-serif;
+}
+
+.autosize-input-custom {
+  input {
+    cursor: text;
+    font-weight: bold;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    font-variant: tabular-nums;
+    list-style: none;
+    -webkit-font-feature-settings: 'tnum';
+    font-feature-settings: 'tnum', 'tnum';
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 32px;
+    padding: 4px 11px;
+    line-height: 1.5;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-top-color: rgb(217, 217, 217);
+    border-right-color: rgb(217, 217, 217);
+    border-right-width: 1px;
+    border-bottom-color: rgb(217, 217, 217);
+    border-left-color: rgb(217, 217, 217);
+    border-radius: 4px;
+    -webkit-transition-property: border, opacity, box-shadow;
+    -webkit-transition-duration: 0.3s;
+    transition-property: border, opacity, box-shadow;
+    transition-duration: 0.3s;
+    &:hover {
+      border-color: #40a9ff;
+    }
+    &:focus,
+    &:active {
+      border-color: #40a9ff;
+      border-right-width: 1px !important;
+      outline: 0;
+      -webkit-box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    }
+  }
+}
+
 .ant-table-tbody > tr:hover.ant-table-row-selected > td,
 .ant-table-tbody > tr.ant-table-row-selected td {
   background-color: #e6f7ff !important;
 }
 
-// h4 header style
+.ant-menu {
+  &.ant-menu-light {
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .ant-menu-submenu {
+    border-bottom: 1px solid #e8e8e8;
+  }
+}
+
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
+  width: 100% !important;
+}
+
 h4.ant-typography,
 .ant-typography h4 {
   font-weight: 700 !important;
 }
 
-// btn primary inverse style
+.ant-btn.ant-btn-oval,
+.ant-btn-oval > .ant-btn {
+  border-radius: 20px;
+}
+
+.ant-btn.ant-btn-primary {
+  background-color: @primary-color;
+  border-color: @primary-color;
+
+  &:hover {
+    background-color: lighten(@primary-color, 20%);
+  }
+
+  &:disabled {
+    background-color: #f5f5f5;
+    border-color: #d9d9d9;
+    color: #d9d9d9;
+  }
+}
+
 .ant-btn.ant-btn-primary-inverse {
   background-color: @white;
   border-color: @primary-color;
@@ -33,7 +119,6 @@ h4.ant-typography,
   }
 }
 
-// btn secondary style
 .ant-btn.ant-btn-secondary {
   background-color: @secondary-color;
   border-color: @secondary-color;
@@ -42,7 +127,7 @@ h4.ant-typography,
   &:hover,
   &:focus {
     background-color: darken(@secondary-color, 5%);
-    border-color: lighten(@secondary-color, 5%);
+    border-color: lighten(@primary-color, 5%);
     color: @white;
   }
 
@@ -51,4 +136,31 @@ h4.ant-typography,
     border-color: #d9d9d9;
     color: #d9d9d9;
   }
+}
+
+.ant-btn.ant-btn-add {
+  background-color: @white;
+  border-color: @gray-light;
+  border-radius: 0 !important;
+  color: darken(@gray-light, 30%);
+
+  &:hover,
+  &:focus {
+    background-color: darken(@white, 5%);
+    border-color: darken(@gray-light, 5%);
+    color: darken(@gray-light, 30%);
+  }
+}
+
+.ant-checkbox.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: @primary-color;
+  border-color: @primary-color;
+}
+
+.ant-checkbox.ant-checkbox-indeterminate .ant-checkbox-inner::after {
+  background-color: @primary-color;
+}
+
+.ant-btn.ant-btn-link {
+  color: @primary-color;
 }
