@@ -19,7 +19,17 @@ import {
 
 import { ProjectEmptyPlaceholder } from 'components/Placeholders';
 
+// ACTIONS
+import { deselectOperator } from '../../../../store/operator/actions';
+
 import './style.scss';
+
+// DISPATCHS
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleDeselectOperator: () => dispatch(deselectOperator()),
+  };
+};
 
 // STATES
 const mapStateToProps = (state) => {
@@ -36,7 +46,7 @@ const mapStateToProps = (state) => {
  */
 const ProjectContent = (props) => {
   // destructuring props
-  const { experiments } = props;
+  const { experiments, handleDeselectOperator } = props;
   // CONSTANTS
   const { experimentId } = useParams();
 
@@ -52,7 +62,10 @@ const ProjectContent = (props) => {
           <ExperimentHeader />
 
           {/* Flow content, display flow or empty */}
-          <div className='flow-content'>
+          <div
+            className='flow-content'
+            onClick={() => handleDeselectOperator()}
+          >
             {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
           </div>
 
@@ -85,4 +98,4 @@ const ProjectContent = (props) => {
 };
 
 // EXPORT
-export default connect(mapStateToProps, null)(ProjectContent);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectContent);

@@ -69,6 +69,9 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     // select operator
     case operatorActionTypes.SELECT_OPERATOR:
       return [...utils.selectOperator(action.operator.uuid, state)];
+    // deselect operator
+    case operatorActionTypes.DESELECT_OPERATOR:
+      return [...utils.selectOperator(null, state)];
 
     // ui
     // hide drawer
