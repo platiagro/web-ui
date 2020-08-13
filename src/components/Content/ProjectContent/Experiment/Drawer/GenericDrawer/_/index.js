@@ -59,7 +59,7 @@ const inputTypes = {
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
@@ -85,7 +85,7 @@ const inputTypes = {
       <NumberInputBlock
         key={uuid || name}
         handleChange={handleChange}
-        title={label}
+        title={label || name}
         name={name}
         tip={description}
         min={min}
@@ -109,7 +109,7 @@ const inputTypes = {
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
@@ -135,7 +135,7 @@ const inputTypes = {
       <NumberInputBlock
         key={uuid || name}
         handleChange={handleChange}
-        title={label}
+        title={label || name}
         name={name}
         tip={description}
         min={min}
@@ -159,7 +159,7 @@ const inputTypes = {
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
@@ -182,7 +182,7 @@ const inputTypes = {
       <NumberInputBlock
         key={uuid || name}
         handleChange={handleChange}
-        title={label}
+        title={label || name}
         name={name}
         tip={description}
         min={min}
@@ -206,7 +206,7 @@ const inputTypes = {
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
@@ -234,7 +234,7 @@ const inputTypes = {
         isLoading={loading}
         isDisabled={trainingLoading}
         placeholder={placeholder}
-        title={label}
+        title={label || name}
         value={value}
       />
     ) : (
@@ -250,7 +250,7 @@ const inputTypes = {
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
@@ -265,7 +265,7 @@ const inputTypes = {
         key={uuid || name}
         handleChange={(inputName, value) => handleChange(inputName, value)}
         name={name}
-        title={label}
+        title={label || name}
         isLoading={loading}
         tip={description}
         isChecked={value}
