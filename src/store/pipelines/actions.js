@@ -7,10 +7,15 @@ import experimentActionTypes from '../experiment/actionTypes';
 // SERVICES
 import pipelinesApi from '../../services/PipelinesApi';
 
+// UI LIBS
+import { message } from 'antd';
+
 // UI ACTIONS
 import {
   experimentTrainingLoadingData,
   experimentTrainingDataLoaded,
+  experimentDeleteTrainingLoadingData,
+  experimentDeleteTrainingDataLoaded,
 } from '../ui/actions';
 
 // UTILS
@@ -149,8 +154,12 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
     dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_SUCCEEDED });
 
   // experiment training not is running
-  if (!isRunning) dispatch(experimentTrainingDataLoaded());
-  else dispatch(experimentTrainingLoadingData());
+  if (!isRunning) {
+    dispatch(experimentTrainingDataLoaded());
+    dispatch(experimentDeleteTrainingDataLoaded());
+  } else {
+    dispatch(experimentTrainingLoadingData());
+  }
 
   dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
@@ -274,3 +283,22 @@ export const deployExperimentRequest = (
 };
 
 // // // // // // // // // //
+
+/**
+ * Delete train experiment
+ *
+ * @param {String} experimentId
+ * @returns {Function}
+ */
+export const deleteTrainExperiment = (experimentId) => (dispatch) => {
+  dispatch(experimentDeleteTrainingLoadingData());
+  pipelinesApi
+    .deleteTrainExperiment(experimentId)
+    .then(() => {
+      message.success('Treinamento interrompido!');
+    })
+    .catch((error) => {
+      dispatch(experimentDeleteTrainingDataLoaded());
+      message.error(error.message);
+    });
+};

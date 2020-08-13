@@ -349,6 +349,36 @@ export const experimentTrainingDataLoaded = () => {
 
 // // // // // // // // // //
 
+// ** EXPERIMENT DELETE TRAINING LOADING DATA
+/**
+ * experiment delete training loading data
+ *
+ * @returns {object} { type, experimentDeleteTrainingLoading }
+ */
+export const experimentDeleteTrainingLoadingData = () => {
+  return {
+    type: actionTypes.EXPERIMENT_DELETE_TRAINING_LOADING_DATA,
+    experimentDeleteTrainingLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** EXPERIMENT DELETE TRAINING LOADED DATA
+/**
+ * experiment delete training loaded data
+ *
+ * @returns {object} { type, experimentDeleteTrainingLoading }
+ */
+export const experimentDeleteTrainingDataLoaded = () => {
+  return {
+    type: actionTypes.EXPERIMENT_DELETE_TRAINING_DATA_LOADED,
+    experimentDeleteTrainingLoading: false,
+  };
+};
+
+// // // // // // // // // //
+
 // ** EXPERIMENT NAME LOADING DATA
 /**
  * experiment name loading data

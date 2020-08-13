@@ -3,26 +3,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { LoadingOutlined, PlayCircleFilled } from '@ant-design/icons';
+import { PlayCircleFilled } from '@ant-design/icons';
 import { Button } from 'antd';
 
 /**
  * Train Experiment Button.
  * This component is responsible for show train experiment button.
  */
-const TrainExperimentButton = ({
-  handleClick,
-  disabled,
-  experimentRunning,
-}) => (
-  // button component
+const TrainExperimentButton = ({ handleClick, disabled }) => (
   <Button
     disabled={disabled}
     onClick={handleClick}
     className='ant-btn-oval'
     type='primary'
   >
-    {experimentRunning ? <LoadingOutlined /> : <PlayCircleFilled />}
+    <PlayCircleFilled />
     Executar
   </Button>
 );
@@ -33,8 +28,6 @@ TrainExperimentButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
   /** train experiment button is disabled */
   disabled: PropTypes.bool.isRequired,
-  /** train experiment is running */
-  experimentRunning: PropTypes.bool.isRequired,
 };
 
 // EXPORT
