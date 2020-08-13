@@ -69,6 +69,7 @@ const tasksReducer = (state = initialState, action = undefined) => {
         (task) => task.uuid === updatedTask.uuid
       );
       tasksAux[taskIndex] = updatedTask;
+      tasksAux.sort((a, b) => a.name.localeCompare(b.name));
       return {
         ...state,
         tasks: tasksAux,
