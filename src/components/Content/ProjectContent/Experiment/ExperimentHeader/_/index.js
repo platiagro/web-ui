@@ -113,7 +113,7 @@ const ExperimentHeader = ({
     {/* train button */}
     <TrainExperimentButton
       handleClick={handleTrainExperiment}
-      disabled={loading || trainingLoading || trainingSucceeded || empty}
+      disabled={loading || trainingLoading || empty}
       experimentRunning={trainingLoading}
     />
     {/* deploy button */}

@@ -24,7 +24,6 @@ const mapStateToProps = (state) => {
   return {
     dataset: state.datasetReducer,
     loading: state.uiReducer.datasetOperator.loading,
-    trainingSucceeded: state.experimentReducer.succeeded,
     trainingLoading: state.uiReducer.experimentTraining.loading,
   };
 };
@@ -43,7 +42,6 @@ const DatasetDrawerContainer = (props) => {
     loading,
     trainingLoading,
     handleUpdateDatasetColumn,
-    trainingSucceeded,
   } = props;
 
   // HANDLERS
@@ -58,7 +56,6 @@ const DatasetDrawerContainer = (props) => {
       handleSetColumnType={updateDatasetColumnHandler}
       loading={loading}
       trainingLoading={trainingLoading}
-      trainingSucceeded={trainingSucceeded}
     />
   );
 };
