@@ -5,11 +5,37 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import EditTitle from './EditTitle';
+import EditTitle from './EditTitle/Container';
 
 /**
  * Title.
  * This component is responsible for displaying a normal or editable title.
+ *
+ * @param root0
+ * @param root0.title
+ * @param root0.level
+ * @param root0.loading
+ * @param root0.handleSubmit
+ * @param root0
+ * @param root0.title
+ * @param root0.level
+ * @param root0.loading
+ * @param root0.handleSubmit
+ * @param root0
+ * @param root0.title
+ * @param root0.level
+ * @param root0.loading
+ * @param root0.handleSubmit
+ * @param root0
+ * @param root0.title
+ * @param root0.level
+ * @param root0.loading
+ * @param root0.handleSubmit
+ * @param root0
+ * @param root0.title
+ * @param root0.level
+ * @param root0.loading
+ * @param root0.handleSubmit
  */
 const Title = ({ title, level, loading, handleSubmit }) => {
   // FUNCTIONS
