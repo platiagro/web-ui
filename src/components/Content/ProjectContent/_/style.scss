@@ -1,57 +1,22 @@
-.experiment-area {
-  width: 100%;
-  height: calc(100vh - 84px);
+.custom-flow {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  flex-grow: 1;
+
+  background-color: #fff;
+  background-size: 25px 25px;
+  background-image: radial-gradient(
+    circle,
+    #58585850 1px,
+    rgba(0, 0, 0, 0) 1px
+  );
+  border: 1px solid #dddddd;
+  border-bottom: none;
 }
 
-.experiment-content {
-  display: flex;
-  height: 100%;
-  position: relative;
-  flex-direction: row;
-  background-color: #fafafa;
-  border-top: 1px solid rgba(0, 0, 0, 0.09);
-
-  .experiment-content-flow {
-    background-color: #fff;
-    background-size: 25px 25px;
-    background-image: radial-gradient(
-      circle,
-      #58585896 1px,
-      rgba(0, 0, 0, 0) 1px
-    );
-
-    width: calc(100% - 450px);
-    display: flex;
-    flex-direction: column;
-
-    .flow-content {
-      flex-grow: 1;
-      overflow: auto;
-    }
-  }
-}
-
-.edit-mode {
-  input {
-    cursor: text;
-    border-color: transparent;
-    &:hover {
-      border-color: #d9d9d9;
-    }
-    &:focus,
-    &:active {
-      border-color: transparent;
-      box-shadow: none;
-    }
-  }
-}
-
-.row-tab-plus-button {
+.custom-experiment-tabs {
   background-color: #e5e5e5;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  padding-left: 5px;
 }
