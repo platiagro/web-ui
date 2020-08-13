@@ -259,6 +259,36 @@ export const projectNameDataLoaded = () => {
 
 // // // // // // // // // //
 
+// ** PROJECT EDIT NAME LOADING DATA
+/**
+ * project edit name loading data
+ *
+ * @returns {object} { type, projectEditNameLoading }
+ */
+export const projectEditNameLoadingData = () => {
+  return {
+    type: actionTypes.PROJECT_EDIT_NAME_LOADING_DATA,
+    projectEditNameLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** PROJECT EDIT NAME DATA LOADED
+/**
+ * project edit name loading data
+ *
+ * @returns {object} { type, projectEditNameLoading }
+ */
+export const projectEditNameDataLoaded = () => {
+  return {
+    type: actionTypes.PROJECT_EDIT_NAME_DATA_LOADED,
+    projectEditNameLoading: false,
+  };
+};
+
+// // // // // // // // // //
+
 // ** COMPONENTS MENU LOADING DATA
 /**
  * components menu loading data

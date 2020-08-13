@@ -14,6 +14,8 @@ import {
   projectsTableDataLoaded,
   projectNameLoadingData,
   projectNameDataLoaded,
+  projectEditNameLoadingData,
+  projectEditNameDataLoaded,
 } from '../ui/actions';
 
 // TASKS ACTIONS
@@ -23,8 +25,9 @@ import { fetchTasks } from '../tasks/actions';
 // ** FETCH PROJECT
 /**
  * fetch project success action
- * @param {Object} response
- * @returns {Object} { type, project }
+ *
+ * @param {object} response
+ * @returns {object} { type, project }
  */
 const fetchProjectSuccess = (response) => (dispatch) => {
   // getting project from response
@@ -45,8 +48,10 @@ const fetchProjectSuccess = (response) => (dispatch) => {
 
 /**
  * fetch project fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @param routerProps
+ * @returns {object} { type, errorMessage }
  */
 const fetchProjectFail = (error, routerProps) => (dispatch) => {
   // getting error message
@@ -70,6 +75,11 @@ const fetchProjectFail = (error, routerProps) => (dispatch) => {
 
 /**
  * fetch project request action
+ *
+ * @param projectId
+ * @param routerProps
+ * @param projectId
+ * @param routerProps
  * @returns {Function}
  */
 export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
@@ -79,7 +89,7 @@ export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
   });
 
   // dispatching project name loading data action
-  dispatch(projectNameLoadingData());
+  dispatch(projectNameLoadingData({}));
 
   // fetching project
   projectsApi
@@ -93,9 +103,10 @@ export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
 // ** CREATE PROJECT
 /**
  * create project success action
- * @param {Object} response
- * @param {Object} routerProps
- * @returns {Object} { type, project }
+ *
+ * @param {object} response
+ * @param {object} routerProps
+ * @returns {object} { type, project }
  */
 const createProjectSuccess = (response, routerProps) => (dispatch) => {
   // getting project from response
@@ -119,8 +130,9 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
 
 /**
  * create project fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const createProjectFail = (error) => (dispatch) => {
   // dispatching projects table data loaded action
@@ -149,6 +161,16 @@ const createProjectFail = (error) => (dispatch) => {
 
 /**
  * create project request action
+ *
+ * @param projectName
+ * @param projectDescription
+ * @param routerProps
+ * @param projectName
+ * @param projectDescription
+ * @param routerProps
+ * @param projectName
+ * @param projectDescription
+ * @param routerProps
  * @returns {Function}
  */
 export const createProjectRequest = (
@@ -176,15 +198,16 @@ export const createProjectRequest = (
 // ** EDIT PROJECT NAME
 /**
  * edit project name success action
- * @param {Object} response
- * @returns {Object} { type, project }
+ *
+ * @param {object} response
+ * @returns {object} { type, project }
  */
 const editProjectNameSuccess = (response) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
   // dispatching project name data loaded action
-  dispatch(projectNameDataLoaded());
+  dispatch(projectEditNameDataLoaded());
 
   // dispatching edit project name success
   dispatch({
@@ -196,12 +219,14 @@ const editProjectNameSuccess = (response) => (dispatch) => {
 
 /**
  * edit project name fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @param isModal
+ * @returns {object} { type, errorMessage }
  */
 const editProjectNameFail = (error, isModal) => (dispatch) => {
   // dispatching project name data loaded action
-  dispatch(projectNameDataLoaded());
+  dispatch(projectEditNameDataLoaded());
 
   // getting error message
   let errorMessage;
@@ -228,9 +253,11 @@ const editProjectNameFail = (error, isModal) => (dispatch) => {
 
 /**
  * edit project name request action
+ *
  * @param {string} projectId
  * @param {string} newProjectName
  * @param {string} newProjectDescription
+ * @param isModal
  * @returns {Function}
  */
 export const editProjectNameRequest = (
@@ -245,7 +272,7 @@ export const editProjectNameRequest = (
   });
 
   // dispatching project name loading data action
-  dispatch(projectNameLoadingData());
+  dispatch(projectEditNameLoadingData());
 
   // creating project
   projectsApi
@@ -259,8 +286,9 @@ export const editProjectNameRequest = (
 // ** DELETE PROJECT
 /**
  * delete project success action
- * @param {Object} projectId
- * @returns {Object} { type }
+ *
+ * @param {object} projectId
+ * @returns {object} { type }
  */
 const deleteProjectSuccess = (projectId) => (dispatch) => {
   // dispatching projects table data loaded action
@@ -275,8 +303,9 @@ const deleteProjectSuccess = (projectId) => (dispatch) => {
 
 /**
  * delete project fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const deleteProjectFail = (error) => (dispatch) => {
   // getting error message
@@ -294,6 +323,8 @@ const deleteProjectFail = (error) => (dispatch) => {
 
 /**
  * delete project request action
+ *
+ * @param projectId
  * @returns {Function}
  */
 export const deleteProjectRequest = (projectId) => (dispatch) => {
