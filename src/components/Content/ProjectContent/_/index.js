@@ -25,6 +25,9 @@ import { Layout } from 'antd';
 // ACTIONS
 import { deselectOperator } from '../../../../store/operator/actions';
 
+// ACTIONS
+import { deselectOperator } from '../../../../store/operator/actions';
+
 const { Footer, Sider, Content } = Layout;
 
 // DISPATCHS
