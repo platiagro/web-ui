@@ -35,7 +35,7 @@ const ExperimentHeader = ({
     {trainingLoading ? (
       <InterruptTrainExperimentButton
         handleClick={handleDeleteTrainExperiment}
-        disabled={loading}
+        disabled={loading || deleteTrainingLoading}
         deleteExperimentRunning={deleteTrainingLoading}
       />
     ) : (
