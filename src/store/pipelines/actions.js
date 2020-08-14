@@ -120,7 +120,7 @@ export const trainExperimentRequest = (experiment, operators) => (
  * @param {Object} response
  * @returns {Object} { type }
  */
-const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
+const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
   // getting status from response
   const { status } = response.data;
 
@@ -156,7 +156,12 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
   // experiment training not is running
   if (!isRunning) {
     dispatch(experimentTrainingDataLoaded());
-    dispatch(experimentDeleteTrainingDataLoaded());
+    // check if is interrupting flow
+    const { uiReducer } = getState();
+    if (uiReducer.experimentTraining.deleteLoading) {
+      dispatch(experimentDeleteTrainingDataLoaded());
+      message.success('Treinamento interrompido!');
+    }
   } else {
     dispatch(experimentTrainingLoadingData());
   }
@@ -295,7 +300,7 @@ export const deleteTrainExperiment = (experimentId) => (dispatch) => {
   pipelinesApi
     .deleteTrainExperiment(experimentId)
     .then(() => {
-      message.success('Treinamento interrompido!');
+      message.info('Interrompendo treinamento!');
     })
     .catch((error) => {
       dispatch(experimentDeleteTrainingDataLoaded());
