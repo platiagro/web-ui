@@ -211,7 +211,7 @@ const ComponentBox = ({
   // box click
   const handleBoxClick = (e) => {
     e.preventDefault();
-
+    e.stopPropagation();
     if (status !== 'Pending' && status !== 'Running') handleClick(operator);
   };
 

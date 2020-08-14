@@ -38,6 +38,8 @@ const GET_OPERATOR_METRICS_FAIL = 'GET_OPERATOR_METRICS_FAIL';
 // COMMON
 // select operator
 const SELECT_OPERATOR = 'SELECT_OPERATOR';
+// deselect operator
+const DESELECT_OPERATOR = 'DESELECT_OPERATOR';
 
 // EXPORT
 export default {
@@ -64,4 +66,5 @@ export default {
 
   // COMMON
   SELECT_OPERATOR,
+  DESELECT_OPERATOR,
 };

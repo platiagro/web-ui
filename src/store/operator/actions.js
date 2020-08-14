@@ -297,7 +297,16 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
 };
 
 // // // // // // // // // //
+/**
+ * Deselect operator action
+ */
+export const deselectOperator = () => (dispatch) => {
+  dispatch({
+    type: actionTypes.DESELECT_OPERATOR,
+  });
+};
 
+// // // // // // // // // //
 // ** CREATE OPERATOR
 /**
  * create operator fail action
