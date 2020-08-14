@@ -182,7 +182,7 @@ const NewProjectModal = ({
   // FUNCTION KEYS
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.currentTarget.blur();
+      handleSubmit();
     } else if (e.key === 'Escape') {
       handleCloseModal();
     }
@@ -233,7 +233,6 @@ const NewProjectModal = ({
             allowClear
             autoFocus
             ref={inputNameRef}
-            onBlur={handleSubmit}
             onKeyUp={handleKeyPress}
             onChange={() => {
               // remove current status
