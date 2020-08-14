@@ -58,44 +58,41 @@ const ResizableSection = (props) => {
   // rendering component
   return (
     // resizable area
-    <div className='resizable-area'>
-      {/* resizable panel */}
-      <ResizePanel
-        direction='w'
-        style={{ width: '210px', minWidth: '210px', maxWidth: '80%' }}
-        handleClass='customHandle'
-        borderClass='customResizeBorder'
-      >
-        {/* section */}
-        <div className='resizable-section'>
-          {/* section header */}
-          {(title || tip) && (
-            <div className='resizable-section-header'>
-              {/* title */}
-              {title && (
-                <div className='resizable-section-title'>
-                  <h3>{title}</h3>
-                </div>
-              )}
+    <ResizePanel
+      direction='w'
+      style={{ minWidth: '210px' }}
+      handleClass='customHandle'
+      borderClass='customResizeBorder'
+    >
+      {/* section */}
+      <div className='resizable-section'>
+        {/* section header */}
+        {(title || tip) && (
+          <div className='resizable-section-header'>
+            {/* title */}
+            {title && (
+              <div className='resizable-section-title'>
+                <h3>{title}</h3>
+              </div>
+            )}
 
-              {/* tip */}
-              {tip && (
-                // tip component
-                <div className='resizable-section-tip'>
-                  <PopoverTip
-                    isPopoverBelow={true}
-                    popoverTitle={title}
-                    popoverText={tip}
-                    iconType={'info'}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-          {children ? content : placeholder}
-        </div>
-      </ResizePanel>
-    </div>
+            {/* tip */}
+            {tip && (
+              // tip component
+              <div className='resizable-section-tip'>
+                <PopoverTip
+                  isPopoverBelow={true}
+                  popoverTitle={title}
+                  popoverText={tip}
+                  iconType='info'
+                />
+              </div>
+            )}
+          </div>
+        )}
+        {children ? content : placeholder}
+      </div>
+    </ResizePanel>
   );
 };
 

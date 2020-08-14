@@ -208,7 +208,7 @@ const ExperimentsTabs = ({
 
   return (
     /* draggable tabs component */
-    <div className='experimentTabs'>
+    <>
       <DraggableTabs
         handleMoveTab={handleMoveTab}
         onChange={handleChange}
@@ -252,7 +252,7 @@ const ExperimentsTabs = ({
           </MenuItem>
         </Popconfirm>
       </ContextMenu>
-    </div>
+    </>
   );
 };
 
