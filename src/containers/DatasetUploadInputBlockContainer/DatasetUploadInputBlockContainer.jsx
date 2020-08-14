@@ -31,7 +31,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.uiReducer.datasetOperator.loading,
-    trainingSucceeded: state.experimentReducer.succeeded,
     trainingLoading: state.uiReducer.experimentTraining.loading,
   };
 };
@@ -44,7 +43,6 @@ const DatasetUploadInputBlockContainer = (props) => {
     handleUploadStart,
     handleUploadSuccess,
     loading,
-    trainingSucceeded,
     trainingLoading,
   } = props;
 
@@ -65,7 +63,7 @@ const DatasetUploadInputBlockContainer = (props) => {
   const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets`;
 
   // upload is disabled
-  const isDisabled = trainingLoading || trainingSucceeded;
+  const isDisabled = trainingLoading;
 
   // upload is loading
   const isLoading = loading;
@@ -109,9 +107,6 @@ DatasetUploadInputBlockContainer.propTypes = {
 
   /** Experiment is running */
   trainingLoading: PropTypes.bool.isRequired,
-
-  /** Experiment is succeeded */
-  trainingSucceeded: PropTypes.bool.isRequired,
 };
 
 // EXPORT DEFAULT

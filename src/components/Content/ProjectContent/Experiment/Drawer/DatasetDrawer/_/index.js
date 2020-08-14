@@ -19,13 +19,7 @@ import { InputBlockContainer } from 'components';
  * @param props
  */
 const DatasetDrawer = (props) => {
-  const {
-    loading,
-    trainingLoading,
-    columns,
-    handleSetColumnType,
-    trainingSucceeded,
-  } = props;
+  const { loading, trainingLoading, columns, handleSetColumnType } = props;
   // CONSTANTS
   // show dataset columns
   const showColumns = columns !== undefined && columns.length > 0;
@@ -62,7 +56,7 @@ const DatasetDrawer = (props) => {
         <ColumnsTable
           columns={columns}
           handleChangeType={handleChangeColumnType}
-          disabled={trainingSucceeded || trainingLoading}
+          disabled={trainingLoading}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
@@ -91,8 +85,6 @@ DatasetDrawer.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** dataset drawer set column type handler */
   handleSetColumnType: PropTypes.func.isRequired,
-  /** experiment training is succeeded */
-  trainingSucceeded: PropTypes.bool.isRequired,
   /** experiment is training */
   trainingLoading: PropTypes.bool.isRequired,
 };
