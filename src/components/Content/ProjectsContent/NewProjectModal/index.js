@@ -8,6 +8,128 @@ import { Form, Input, Modal } from 'antd';
 /**
  * New Project Modal.
  * This component is responsible for displaying a new project modal.
+ *
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
+ * @param root0
+ * @param root0.visible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleNewProject
+ * @param root0.handleUpdateProject
+ * @param root0.beforeSubmit
  */
 const NewProjectModal = ({
   visible,
@@ -19,6 +141,7 @@ const NewProjectModal = ({
   handleCloseModal,
   handleNewProject,
   handleUpdateProject,
+  beforeSubmit,
 }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
@@ -54,6 +177,15 @@ const NewProjectModal = ({
         handleNewProject(values.name, values.description);
       }
     });
+  };
+
+  // FUNCTION KEYS
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    } else if (e.key === 'Escape') {
+      handleCloseModal();
+    }
   };
 
   // RENDER
@@ -101,6 +233,7 @@ const NewProjectModal = ({
             allowClear
             autoFocus
             ref={inputNameRef}
+            onKeyUp={handleKeyPress}
             onChange={() => {
               // remove current status
               setStatus(null);
