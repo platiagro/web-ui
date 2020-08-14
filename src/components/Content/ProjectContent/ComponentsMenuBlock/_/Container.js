@@ -53,7 +53,6 @@ const mapStateToProps = (state) => {
     components: state.tasksReducer.tasks,
     loading: state.uiReducer.componentsMenu.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
-    trainingSucceeded: state.experimentReducer.succeeded,
   };
 };
 
@@ -66,7 +65,6 @@ const ComponentsMenuBlockContainer = ({
   components,
   loading,
   trainingLoading,
-  trainingSucceeded,
   componentsMenu,
   handleFetchComponentsMenu,
   handleFilterComponentsMenu,
@@ -113,7 +111,7 @@ const ComponentsMenuBlockContainer = ({
       handleFilter={handleFilterComponentsMenu}
       handleDeleteTemplate={handleDeleteTemplate}
       menu={componentsMenu}
-      disabled={disabled || trainingLoading || trainingSucceeded}
+      disabled={disabled || trainingLoading}
       loading={loading}
     />
   );

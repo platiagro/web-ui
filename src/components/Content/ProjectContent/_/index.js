@@ -18,11 +18,13 @@ import {
 } from 'containers';
 
 import { ProjectEmptyPlaceholder } from 'components/Placeholders';
+import { Layout } from 'antd';
+import './style.scss';
 
 // ACTIONS
 import { deselectOperator } from '../../../../store/operator/actions';
 
-import './style.scss';
+const { Footer, Sider, Content } = Layout;
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -51,34 +53,32 @@ const ProjectContent = (props) => {
   const { experimentId } = useParams();
 
   const FlowContent = (
-    /* main area of project with menu, flow and configuration drawer, is flex column */
-    <div className='experiment-area'>
-      {/*  Sibling to config drawer (flow and menu), is flex row*/}
-      <div className='experiment-content'>
+    <Layout style={{ overflow: 'hidden' }}>
+      <Sider width={250}>
         <ComponentsMenuBlock disabled={!experimentId} />
-
-        {/* All content of flow (header, tabs and flow content), is flex column */}
-        <div className='experiment-content-flow'>
-          <ExperimentHeader />
-
-          {/* Flow content, display flow or empty */}
-          <div
-            className='flow-content'
-            onClick={() => handleDeselectOperator()}
-          >
-            {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
-          </div>
-
-          {/* Tabs row*/}
-          <div className='row-tab-plus-button'>
-            <ExperimentsTabs />
-            <NewExperimentButton />
-            <NewExperimentModal />
-          </div>
-        </div>
-        <OperatorResizableSectionContainer />
-      </div>
-    </div>
+      </Sider>
+      <Content>
+        <Layout style={{ height: '100%' }}>
+          <Content style={{ display: 'flex' }}>
+            <div
+              className='custom-flow'
+              onClick={() => handleDeselectOperator()}
+            >
+              <ExperimentHeader />
+              {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
+            </div>
+            <OperatorResizableSectionContainer />
+          </Content>
+          <Footer style={{ padding: 0 }}>
+            <div className='custom-experiment-tabs'>
+              <ExperimentsTabs />
+              <NewExperimentButton />
+              <NewExperimentModal />
+            </div>
+          </Footer>
+        </Layout>
+      </Content>
+    </Layout>
   );
 
   // RENDER
