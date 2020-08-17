@@ -61,6 +61,88 @@ const mapStateToProps = (state) => {
  * Experiment Tabs Container.
  * This component is responsible for create a logic container for experiment tabs
  * with redux.
+ *
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
+ * @param root0
+ * @param root0.experiments
+ * @param root0.loading
+ * @param root0.handleFetchExperiments
+ * @param root0.handleOrganizeExperiments
+ * @param root0.handleFetchExperiment
+ * @param root0.handleClearAllExperiments
+ * @param root0.handleDeleteExperiment
+ * @param root0.handleRenameExperiment
  */
 const ExperimentTabsContainer = ({
   experiments,
@@ -97,7 +179,7 @@ const ExperimentTabsContainer = ({
       // active tab is finded into experiments
       const activeTab = experiments.find((element) => element.isActive);
       // if active tab exists, then url will change
-      if (!!activeTab) {
+      if (activeTab) {
         history.push(`/projetos/${projectId}/${activeTab.uuid}`);
       }
     }
@@ -114,10 +196,11 @@ const ExperimentTabsContainer = ({
   // change tab
   const handleChangeTab = (targetId) => {
     // fetching experiment
-    handleFetchExperiment(projectId, targetId);
-
-    // routing
-    history.push(`/projetos/${projectId}/${targetId}`);
+    if (targetId !== experimentId) {
+      handleFetchExperiment(projectId, targetId);
+      // routing
+      history.push(`/projetos/${projectId}/${targetId}`);
+    }
   };
   // organizing tabs
   const handleOrganizeTabs = (dragExperimentId, hoverExperimentId) => {
