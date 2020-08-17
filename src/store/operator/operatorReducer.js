@@ -60,6 +60,8 @@ const operatorReducer = (state = initialState, action = undefined) => {
     // operator
     case actionTypes.SELECT_OPERATOR:
       return { ...state, ...action.operator };
+    case actionTypes.DESELECT_OPERATOR:
+      return initialState;
 
     // DEFAULT
     default:

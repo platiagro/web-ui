@@ -39,6 +39,7 @@ const initialState = {
   operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
   experimentInferenceModal: { visible: false },
+  projectEditName: { loading: false },
 };
 
 /**
@@ -217,6 +218,17 @@ const uiReducer = (state = initialState, action = undefined) => {
         projectName: {
           ...state.projectName,
           loading: action.projectNameLoading,
+        },
+      };
+
+    // PROJECT EDIT NAME
+    case actionTypes.PROJECT_EDIT_NAME_LOADING_DATA: // loading data
+    case actionTypes.PROJECT_EDIT_NAME_DATA_LOADED: // data loaded
+      return {
+        ...state,
+        projectEditName: {
+          ...state.projectEditName,
+          loading: action.projectEditNameLoading,
         },
       };
 

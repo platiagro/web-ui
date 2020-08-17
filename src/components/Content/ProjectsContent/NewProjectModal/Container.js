@@ -45,7 +45,7 @@ const mapStateToProps = (state) => {
   // new project modal visible
   return {
     modalVisible: state.uiReducer.newProjectModal.visible,
-    loading: state.uiReducer.projectsTable.loading,
+    loading: state.uiReducer.projectEditName.loading,
     title: state.uiReducer.newProjectModal.title,
     record: state.uiReducer.newProjectModal.record,
     modalValidateStatus: state.uiReducer.newProjectModal.modalValidateStatus,
@@ -57,6 +57,107 @@ const mapStateToProps = (state) => {
  * New Project Modal Container.
  * This component is responsible for create a logic container for new project
  * modal with redux.
+ *
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
+ * @param root0
+ * @param root0.modalVisible
+ * @param root0.loading
+ * @param root0.title
+ * @param root0.record
+ * @param root0.modalValidateStatus
+ * @param root0.errorMessage
+ * @param root0.handleCloseModal
+ * @param root0.handleCreateProject
+ * @param root0.handleUpdateProject
  */
 const NewProjectModalContainer = ({
   modalVisible,
