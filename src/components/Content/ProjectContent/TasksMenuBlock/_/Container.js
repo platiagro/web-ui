@@ -52,7 +52,6 @@ const mapStateToProps = (state) => {
     tasks: state.tasksReducer.tasks,
     tasksMenu: state.tasksMenuReducer.filtered,
     trainingLoading: state.uiReducer.experimentTraining.loading,
-    trainingSucceeded: state.experimentReducer.succeeded,
   };
 };
 
@@ -106,7 +105,7 @@ const TasksMenuBlockContainer = ({
       handleFilter={handleFilterTasksMenu}
       handleDeleteTemplate={handleDeleteTemplate}
       menu={tasksMenu}
-      disabled={disabled || trainingLoading || trainingSucceeded}
+      disabled={disabled || trainingLoading}
       loading={loading}
     />
   );

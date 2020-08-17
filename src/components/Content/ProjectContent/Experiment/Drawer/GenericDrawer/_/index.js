@@ -42,7 +42,7 @@ const inputTypes = {
     );
   },
   // feature
-  feature(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  feature(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const { uuid, name, label, value, options, multiple, description } = props;
 
@@ -54,17 +54,17 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
   // number
-  number(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  number(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const {
       uuid,
@@ -85,7 +85,7 @@ const inputTypes = {
       <NumberInputBlock
         key={uuid || name}
         handleChange={handleChange}
-        title={label}
+        title={label || name}
         name={name}
         tip={description}
         min={min}
@@ -93,7 +93,7 @@ const inputTypes = {
         step={step}
         value={value}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder={placeholder}
       />
     ) : (
@@ -104,17 +104,17 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
   // float
-  float(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  float(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const {
       uuid,
@@ -135,7 +135,7 @@ const inputTypes = {
       <NumberInputBlock
         key={uuid || name}
         handleChange={handleChange}
-        title={label}
+        title={label || name}
         name={name}
         tip={description}
         min={min}
@@ -143,7 +143,7 @@ const inputTypes = {
         step={step}
         value={value}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder={placeholder}
       />
     ) : (
@@ -154,17 +154,17 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
   // integer
-  integer(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  integer(props, loading, handleChange, trainingLoading) {
     const {
       uuid,
       name,
@@ -182,7 +182,7 @@ const inputTypes = {
       <NumberInputBlock
         key={uuid || name}
         handleChange={handleChange}
-        title={label}
+        title={label || name}
         name={name}
         tip={description}
         min={min}
@@ -190,7 +190,7 @@ const inputTypes = {
         step={step}
         value={value}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder={placeholder}
       />
     ) : (
@@ -201,17 +201,17 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
   // string
-  string(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  string(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const {
       uuid,
@@ -232,9 +232,9 @@ const inputTypes = {
         tip={description}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder={placeholder}
-        title={label}
+        title={label || name}
         value={value}
       />
     ) : (
@@ -245,17 +245,17 @@ const inputTypes = {
         handleChange={(value) => handleChange(name, value)}
         name={name}
         isLoading={loading}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
         placeholder='Selecionar'
         options={options}
         tip={description}
         value={value}
-        title={label}
+        title={label || name}
       />
     );
   },
   // BOOLEAN / TOGGLE
-  boolean(props, loading, handleChange, trainingSucceeded, trainingLoading) {
+  boolean(props, loading, handleChange, trainingLoading) {
     // destructuring props
     const { uuid, name, description, label, value } = props;
 
@@ -265,11 +265,11 @@ const inputTypes = {
         key={uuid || name}
         handleChange={(inputName, value) => handleChange(inputName, value)}
         name={name}
-        title={label}
+        title={label || name}
         isLoading={loading}
         tip={description}
         isChecked={value}
-        isDisabled={trainingSucceeded || trainingLoading}
+        isDisabled={trainingLoading}
       />
     );
   },
@@ -291,7 +291,6 @@ const GenericDrawer = (props) => {
     parameterLoading,
     handleChangeParameter,
     handleRemoveOperatorClick,
-    trainingSucceeded,
   } = props;
 
   return (
@@ -320,7 +319,6 @@ const GenericDrawer = (props) => {
             input,
             parameterLoading,
             handleChangeParameter,
-            trainingSucceeded,
             trainingLoading
           )
         )}

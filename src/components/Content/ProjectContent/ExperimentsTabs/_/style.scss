@@ -1,4 +1,4 @@
-.experimentTabs {
+.custom-experiment-tabs {
   .ant-tabs-bar {
     background: #eceff1;
     margin: 0;
@@ -51,6 +51,7 @@
     color: #aaa;
     transition: all ease 0.3s;
     padding: 1px;
+    margin-left: 5px;
     &:hover {
       color: #777;
       background-color: #dedede;
