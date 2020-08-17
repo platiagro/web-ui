@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // COMPONENTS
 import ContentHeaderProjectContainer from '../../ContentHeader/ContentHeaderProjectContainer';
-import ComponentsMenuBlock from '../ComponentsMenuBlock/_/Container';
+import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
@@ -56,7 +56,7 @@ const ProjectContent = (props) => {
   const FlowContent = (
     <Layout style={{ overflow: 'hidden' }}>
       <Sider width={250}>
-        <ComponentsMenuBlock disabled={!experimentId} />
+        <TasksMenuBlock disabled={!experimentId} />
       </Sider>
       <Content>
         <Layout style={{ height: '100%' }}>

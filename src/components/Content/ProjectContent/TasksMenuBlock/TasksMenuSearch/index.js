@@ -7,16 +7,16 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 
 /**
- * Component Menu Search.
- * This component is responsible for displaying a component menu search.
+ * Tasks Menu Search.
+ * This component is responsible for displaying a task menu search.
  */
-const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
+const TasksMenuSearch = ({ handleFilter, disabled }) => {
   // HANDLERS
   // handle change
   const handleChange = (e) => {
     e.preventDefault();
     const filter = e.currentTarget.value;
-    // filtering components
+    // filtering tasks
     handleFilter(filter);
   };
 
@@ -41,12 +41,12 @@ const ComponentsMenuSearch = ({ handleFilter, disabled }) => {
 };
 
 // PROP TYPES
-ComponentsMenuSearch.propTypes = {
-  /** component menu search on change handler */
+TasksMenuSearch.propTypes = {
+  /** tasks menu search on change handler */
   handleFilter: PropTypes.func.isRequired,
-  /** component menu search is disabled */
+  /** tasks menu search is disabled */
   disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT
-export default ComponentsMenuSearch;
+export default TasksMenuSearch;

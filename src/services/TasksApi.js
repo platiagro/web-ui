@@ -8,7 +8,7 @@ export const taskApi = axios.create({
   baseURL: URL,
 });
 
-const taskPath = '/components';
+const taskPath = '/tasks';
 
 /**
  * Create task

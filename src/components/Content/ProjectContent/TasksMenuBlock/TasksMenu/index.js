@@ -13,15 +13,10 @@ const { Item, SubMenu } = Menu;
 let templateValue;
 
 /**
- * Components Menu.
- * This component is responsible for displaying components menu.
+ * Tasks Menu.
+ * This component is responsible for displaying tasks menu.
  */
-const ComponentsMenu = ({
-  menu,
-  handleClick,
-  disabled,
-  handleDeleteTemplate,
-}) => {
+const TasksMenu = ({ menu, handleClick, disabled, handleDeleteTemplate }) => {
   // HANDLERS
   // box click
   const handleBoxClick = (uuid) => {
@@ -105,7 +100,7 @@ const ComponentsMenu = ({
     <Menu
       onClick={handleClick}
       mode='inline'
-      className='component-menu-items'
+      className='task-menu-items'
       selectedKeys={[]}
     >
       {/* rendering sub menus */}
@@ -117,14 +112,14 @@ const ComponentsMenu = ({
 };
 
 // PROP TYPES
-ComponentsMenu.propTypes = {
-  /** components menu click handler */
+TasksMenu.propTypes = {
+  /** tasks menu click handler */
   handleClick: PropTypes.func.isRequired,
   /** menu object */
   menu: PropTypes.objectOf(PropTypes.any).isRequired,
-  /** components menu is disabled */
+  /** tasks menu is disabled */
   disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT
-export default ComponentsMenu;
+export default TasksMenu;

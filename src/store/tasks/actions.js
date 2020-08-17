@@ -60,7 +60,7 @@ export const addTask = (task) => {
             ? process.env.REACT_APP_MAIN_DOMAIN
             : '';
         window.open(
-          `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${responseTask.uuid}/?reset&open=Experiment.ipynb,Deployment.ipynb`
+          `${jupyterDomain}/notebook/anonymous/server/lab/tree/tasks/${responseTask.uuid}/?reset&open=Experiment.ipynb,Deployment.ipynb`
         );
       })
       .catch((error) => {
@@ -157,7 +157,7 @@ export const fetchTasks = () => {
         dispatch(tasksTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_TASK,
-          tasks: response.data.components,
+          tasks: response.data.tasks,
         });
       })
       .catch((error) => {
