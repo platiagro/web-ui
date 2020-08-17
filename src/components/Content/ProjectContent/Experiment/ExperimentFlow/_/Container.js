@@ -68,7 +68,7 @@ const ExperimentFlowContainer = ({
   // RENDER
   return (
     <ExperimentFlow
-      components={operators}
+      tasks={operators}
       loading={loading}
       handleTaskBoxClick={selectOperatorHandler}
     />

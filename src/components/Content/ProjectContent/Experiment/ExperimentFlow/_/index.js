@@ -7,7 +7,7 @@ import { Spin, Row, Col } from 'antd';
 import { ArcherContainer, ArcherElement } from 'react-archer';
 
 // COMPONENTS
-import ComponentBox from '../ComponentBox';
+import TaskBox from '../TaskBox';
 
 // STYLES
 import './styles.scss';
@@ -22,51 +22,45 @@ const columnSize = 24 / columnsNumber;
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
  */
-const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
+const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
   // COMPONENTS RENDERS
   // flow grid column
   const renderFlowGridColumn = (
-    isLastRowComponent,
-    isLastFlowComponent,
-    componentIndex,
-    component
+    isLastRowTask,
+    isLastFlowTask,
+    taskIndex,
+    task
   ) => {
-    // component box
-    const componentBox = (
-      <ComponentBox
-        handleClick={handleTaskBoxClick}
-        {...component}
-        operator={component}
-      />
+    // task box
+    const taskBox = (
+      <TaskBox handleClick={handleTaskBoxClick} {...task} operator={task} />
     );
 
-    // render component box with arrow connection
-    if (!isLastFlowComponent)
+    // render task box with arrow connection
+    if (!isLastFlowTask)
       return (
         // arrow
         <ArcherElement
-          id={`component${componentIndex}`}
+          id={`task${taskIndex}`}
           relations={[
             {
-              targetId: `component${componentIndex + 1}`,
-              targetAnchor:
-                componentIndex > 0 && isLastRowComponent ? 'top' : 'left',
-              sourceAnchor:
-                componentIndex > 0 && isLastRowComponent ? 'bottom' : 'right',
+              targetId: `task${taskIndex + 1}`,
+              targetAnchor: taskIndex > 0 && isLastRowTask ? 'top' : 'left',
+              sourceAnchor: taskIndex > 0 && isLastRowTask ? 'bottom' : 'right',
             },
           ]}
         >
-          {/* component box */}
-          {componentBox}
+          {/* task box */}
+          {taskBox}
         </ArcherElement>
       );
 
-    // render component box without arrow connection
+    // render task box without arrow connection
     return (
       // arrow
-      <ArcherElement id={`component${componentIndex}`}>
-        {/* component box */}
-        {componentBox}
+      <ArcherElement id={`task${taskIndex}`}>
+        {/* task box */}
+        {taskBox}
       </ArcherElement>
     );
   };
@@ -80,16 +74,16 @@ const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
     let gridRowAux = [];
 
     // building flow grid rows
-    components.forEach((component, index) => {
-      // first component in row
-      const isFirstRowComponent = index % columnsNumber === 0;
-      // last component in row
-      const isLastRowComponent = (index + 1) % columnsNumber === 0;
-      // last component in flow
-      const isLastFlowComponent = index === components.length - 1;
+    tasks.forEach((task, index) => {
+      // first task in row
+      const isFirstRowTask = index % columnsNumber === 0;
+      // last task in row
+      const isLastRowTask = (index + 1) % columnsNumber === 0;
+      // last task in flow
+      const isLastFlowTask = index === tasks.length - 1;
 
       // cleaning row aux
-      if (isFirstRowComponent) {
+      if (isFirstRowTask) {
         gridRowAux = [];
       }
 
@@ -98,17 +92,12 @@ const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
         // column container
         <Col key={`col-${index}`} span={columnSize}>
           {/* rendering flow grid column */}
-          {renderFlowGridColumn(
-            isLastRowComponent,
-            isLastFlowComponent,
-            index,
-            component
-          )}
+          {renderFlowGridColumn(isLastRowTask, isLastFlowTask, index, task)}
         </Col>
       );
 
       // addding row to grid
-      if (isLastRowComponent || isLastFlowComponent) {
+      if (isLastRowTask || isLastFlowTask) {
         flowGridAux.push(gridRowAux);
       }
     });
@@ -145,8 +134,8 @@ const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
 
 // PROP TYPES
 ExperimentFlow.propTypes = {
-  /** experiment flow components list */
-  components: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** experiment flow tasks list */
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** experiment flow task box click handler */
   handleTaskBoxClick: PropTypes.func.isRequired,
   /** is loading */

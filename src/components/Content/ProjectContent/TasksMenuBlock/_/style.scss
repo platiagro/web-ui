@@ -81,19 +81,19 @@
   }
 }
 
-.component-menu {
+.task-menu {
   background-color: #eceff1;
   display: flex;
   flex-direction: column;
   height: 100%;
 
-  .component-menu-title {
+  .task-menu-title {
     padding: 12px;
     font-style: normal;
     font-weight: bold;
     color: #262626;
   }
-  .component-menu-items {
+  .task-menu-items {
     overflow: auto;
     background-color: #eceff1;
   }

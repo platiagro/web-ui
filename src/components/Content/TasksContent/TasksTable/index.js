@@ -24,7 +24,7 @@ import {
   Typography,
 } from 'antd';
 
-const { Paragraph, Text } = Typography;
+const { Text } = Typography;
 
 /**
  * Tasks Table.
@@ -103,9 +103,9 @@ const TasksTable = ({
               onClick={() => handleClickEdit(record)}
               style={{ textAlign: 'left', width: '75%' }}
             >
-              <Paragraph ellipsis style={{ color: '#0050B3' }}>
+              <Text ellipsis style={{ color: '#0050B3', width: '100%' }}>
                 {value}
-              </Paragraph>
+              </Text>
             </Button>
             <Space style={{ width: '25%' }}>
               {random === 0 ? (

@@ -80,9 +80,9 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
   dispatch(experimentOperatorsLoadingData());
 
   try {
-    // getting components
-    const componentsResponse = await tasksApi.getAllTasks();
-    const components = componentsResponse.data.components;
+    // getting tasks
+    const tasksResponse = await tasksApi.getAllTasks();
+    const tasks = tasksResponse.data.tasks;
 
     // getting operators
     const operatorsResponse = await operatorsApi.listOperators(
@@ -92,7 +92,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     const operators = operatorsResponse.data;
 
     // get dataset name
-    const datasetName = utils.getDatasetName(components, operators);
+    const datasetName = utils.getDatasetName(tasks, operators);
 
     // getting dataset columns
     let datasetColumns = [];
@@ -108,7 +108,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
 
     // configuring operators
     let configuredOperators = utils.configureOperators(
-      components,
+      tasks,
       utils.sortOperatorsByDependencies(operators),
       datasetColumns,
       pipelinesResponse.data
@@ -116,7 +116,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
 
     // configuring dataset operator
     configuredOperators = configuredOperators.map((operator) => {
-      // necessary to check if dataset because dataset param is removed on getComponentData
+      // necessary to check if dataset because dataset param is removed on getTaskData
       if (operator.tags.includes('DATASETS')) {
         operator.parameters = [{ name: 'dataset', value: datasetName || '' }];
         operator.settedUp = datasetName ? true : false;

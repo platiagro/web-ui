@@ -13,17 +13,17 @@ import utils from '../../utils';
 const initialState = { filtered: {}, unfiltered: {} };
 
 /**
- * components menu reducer
+ * tasks menu reducer
  */
-const componentsMenuReducer = (state = initialState, action = undefined) => {
+const tasksMenuReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
-    // components menu
-    // fetch components menu success
-    case actionTypes.FETCH_COMPONENTS_MENU_SUCCESS:
+    // tasks menu
+    // fetch tasks menu success
+    case actionTypes.FETCH_TASKS_MENU_SUCCESS:
       return {
-        unfiltered: { ...action.componentsMenu },
-        filtered: { ...action.componentsMenu },
+        unfiltered: { ...action.tasksMenu },
+        filtered: { ...action.tasksMenu },
       };
     // fetch templates success
     case templatesActionTypes.DELETE_TEMPLATE_SUCCESS:
@@ -51,21 +51,21 @@ const componentsMenuReducer = (state = initialState, action = undefined) => {
       };
 
     // FAIL
-    // components menu
-    // fetch components menu fail
-    case actionTypes.FETCH_COMPONENTS_MENU_FAIL:
+    // tasks menu
+    // fetch tasks menu fail
+    case actionTypes.FETCH_TASKS_MENU_FAIL:
       return message.error(action.errorMessage);
 
     // FAIL
-    // components menu
+    // tasks menu
     // delete templates menu fail
     case templatesActionTypes.DELETE_TEMPLATE_FAIL:
       message.error(action.errorMessage);
       return state;
     // COMMON
-    // components menu
-    // filter components menu
-    case actionTypes.FILTER_COMPONENTS_MENU:
+    // tasks menu
+    // filter tasks menu
+    case actionTypes.FILTER_TASKS_MENU:
       return {
         ...state,
         filtered: {
@@ -80,4 +80,4 @@ const componentsMenuReducer = (state = initialState, action = undefined) => {
 };
 
 // EXPORT
-export default componentsMenuReducer;
+export default tasksMenuReducer;

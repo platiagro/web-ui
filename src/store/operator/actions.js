@@ -331,15 +331,15 @@ const createOperatorFail = (error) => (dispatch) => {
  * create operator request action
  * @param {string} projectId
  * @param {string} experimentId
- * @param {Object} componentId
- * @param {Object[]} components,
+ * @param {Object} taskId
+ * @param {Object[]} tasks,
  * @returns {Function}
  */
 export const createOperatorRequest = (
   projectId,
   experimentId,
-  componentId,
-  components
+  taskId,
+  tasks
 ) => async (dispatch, getState) => {
   // dispatching request action
   dispatch({
@@ -349,14 +349,11 @@ export const createOperatorRequest = (
   // getting dataset name and operators from store
   const { operatorsReducer: experimentOperators } = getState();
 
-  // getting component data
-  const { parameters, ...restComponentData } = utils.getComponentData(
-    components,
-    componentId
-  );
+  // getting task data
+  const { parameters, ...restTaskData } = utils.getTaskData(tasks, taskId);
 
   // verify if dataset operator already exist
-  if (restComponentData.tags.includes('DATASETS')) {
+  if (restTaskData.tags.includes('DATASETS')) {
     const datasetOperatorIndex = experimentOperators.findIndex((operator) =>
       operator.tags.includes('DATASETS')
     );
@@ -373,7 +370,7 @@ export const createOperatorRequest = (
   dispatch(experimentOperatorsLoadingData());
 
   // getting dataset columns
-  const datasetName = utils.getDatasetName(components, experimentOperators);
+  const datasetName = utils.getDatasetName(tasks, experimentOperators);
   let datasetColumns = [];
   if (datasetName)
     try {
@@ -389,9 +386,9 @@ export const createOperatorRequest = (
   );
 
   // configuring parameters
-  // necessary to check if dataset because dataset param is removed on getComponentData
+  // necessary to check if dataset because dataset param is removed on getTaskData
   let configuredParameters;
-  if (restComponentData.tags.includes('DATASETS')) {
+  if (restTaskData.tags.includes('DATASETS')) {
     configuredParameters = [{ name: 'dataset', value: '' }];
   } else {
     configuredParameters = utils.configureOperatorParameters(
@@ -410,7 +407,7 @@ export const createOperatorRequest = (
 
   // creating operator
   operatorsApi
-    .createOperator(projectId, experimentId, componentId, dependencies)
+    .createOperator(projectId, experimentId, taskId, dependencies)
     .then((response) => {
       // getting operator from response
       const operator = response.data;
@@ -426,7 +423,7 @@ export const createOperatorRequest = (
         type: actionTypes.CREATE_OPERATOR_SUCCESS,
         operator: {
           ...operator,
-          ...restComponentData,
+          ...restTaskData,
           parameters: configuredParameters,
           settedUp,
           selected: false,
