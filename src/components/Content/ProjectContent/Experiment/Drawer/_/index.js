@@ -35,7 +35,7 @@ const Drawer = ({
     // ant design drawer container
     <AntDrawer
       width={showResults ? '30vw' : 350}
-      title={title}
+      title={<strong>{title}</strong>}
       visible={isVisible}
       closable
       onClose={handleClose}
