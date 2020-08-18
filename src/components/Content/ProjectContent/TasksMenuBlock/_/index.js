@@ -10,11 +10,61 @@ import TasksMenuSearch from '../TasksMenuSearch';
 import TasksMenu from '../TasksMenu';
 
 //STYLE
-import './style.scss';
+import './style.less';
 
 /**
  * Tasks Menu Block.
  * This component is responsible for displaying tasks menu with search.
+ *
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleTaskClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleTaskClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleTaskClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleTaskClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleTaskClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleTaskClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
+ * @param root0
+ * @param root0.menu
+ * @param root0.loading
+ * @param root0.handleTaskClick
+ * @param root0.handleFilter
+ * @param root0.disabled
+ * @param root0.handleDeleteTemplate
  */
 const TasksMenuBlock = ({
   menu,
