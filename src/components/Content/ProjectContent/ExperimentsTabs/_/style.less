@@ -94,4 +94,18 @@
       color: @primary-color;
     }
   }
+
+  .ant-btn.ant-btn-add {
+    background-color: @white;
+    border-color: @gray-light;
+    border-radius: 0 !important;
+    color: darken(@gray-light, 30%);
+
+    &:hover,
+    &:focus {
+      background-color: darken(@white, 5%);
+      border-color: darken(@gray-light, 5%);
+      color: darken(@gray-light, 30%);
+    }
+  }
 }

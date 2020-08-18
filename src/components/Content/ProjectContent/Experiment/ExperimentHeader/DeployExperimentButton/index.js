@@ -15,7 +15,7 @@ const DeployExperimentButton = ({ handleClick, disabled, loading }) => (
   <Button
     disabled={disabled}
     onClick={handleClick}
-    className='ant-btn-oval'
+    shape='round'
     type='primary'
   >
     {loading ? <LoadingOutlined /> : <ToolOutlined />}

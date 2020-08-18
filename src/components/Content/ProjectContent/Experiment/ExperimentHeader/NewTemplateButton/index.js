@@ -15,7 +15,7 @@ const NewTemplateButton = ({ handleClick, disabled }) => (
   <Button
     disabled={disabled}
     onClick={handleClick}
-    className='ant-btn-oval'
+    shape='round'
     type='primary-inverse'
   >
     <ApartmentOutlined />

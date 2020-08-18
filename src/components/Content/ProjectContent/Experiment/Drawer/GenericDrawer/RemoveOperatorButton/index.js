@@ -20,12 +20,7 @@ const RemoveOperatorButton = ({ handleClick, disabled, loading }) => (
     disabled={disabled}
   >
     {/* button component */}
-    <Button
-      disabled={disabled}
-      className='ant-btn-oval'
-      type='danger'
-      loading={loading}
-    >
+    <Button disabled={disabled} shape='round' type='danger' loading={loading}>
       <DeleteOutlined />
       Excluir tarefa
     </Button>

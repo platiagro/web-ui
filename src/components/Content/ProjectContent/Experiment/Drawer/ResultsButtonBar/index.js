@@ -24,7 +24,7 @@ const ResultsButtonBar = (props) => {
   return showingResults ? (
     /* rendering edit or results button */
     // edit button
-    <Button onClick={handleEditClick} className='ant-btn-oval' type='primary'>
+    <Button onClick={handleEditClick} shape='round' type='primary'>
       Visualizar parâmetros
     </Button>
   ) : (
@@ -32,7 +32,7 @@ const ResultsButtonBar = (props) => {
       {/* results button */}
       <Button
         onClick={handleResultsClick}
-        className='ant-btn-oval'
+        shape='round'
         type='primary'
         disabled={disabled}
         title={
