@@ -28,7 +28,7 @@ const initialState = {
   tasksTable: { loading: false },
   projectsTable: { loading: false },
   projectName: { loading: false },
-  componentsMenu: { loading: false },
+  tasksMenu: { loading: false },
   experimentsTabs: { loading: false },
   experimentName: { loading: false },
   experimentOperators: { loading: false },
@@ -232,14 +232,14 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
-    // COMPONENTS MENU
-    case actionTypes.COMPONENTS_MENU_LOADING_DATA: // loading data
-    case actionTypes.COMPONENTS_MENU_DATA_LOADED: // data loaded
+    // TASKS MENU
+    case actionTypes.TASKS_MENU_LOADING_DATA: // loading data
+    case actionTypes.TASKS_MENU_DATA_LOADED: // data loaded
       return {
         ...state,
-        componentsMenu: {
-          ...state.componentsMenu,
-          loading: action.componentsMenuLoading,
+        tasksMenu: {
+          ...state.tasksMenu,
+          loading: action.tasksMenuLoading,
         },
       };
 

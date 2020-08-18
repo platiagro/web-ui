@@ -289,31 +289,31 @@ export const projectEditNameDataLoaded = () => {
 
 // // // // // // // // // //
 
-// ** COMPONENTS MENU LOADING DATA
+// ** TASKS MENU LOADING DATA
 /**
- * components menu loading data
+ * tasks menu loading data
  *
- * @returns {object} { type, componentsMenuLoading }
+ * @returns {object} { type, tasksMenuLoading }
  */
-export const componentsMenuLoadingData = () => {
+export const tasksMenuLoadingData = () => {
   return {
-    type: actionTypes.COMPONENTS_MENU_LOADING_DATA,
-    componentsMenuLoading: true,
+    type: actionTypes.TASKS_MENU_LOADING_DATA,
+    tasksMenuLoading: true,
   };
 };
 
 // // // // // // // // // //
 
-// ** COMPONENTS MENU DATA LOADED
+// ** TASKS MENU DATA LOADED
 /**
- * components menu loading data
+ * tasks menu loading data
  *
- * @returns {object} { type, componentsMenuLoading }
+ * @returns {object} { type, tasksMenuLoading }
  */
-export const componentsMenuDataLoaded = () => {
+export const tasksMenuDataLoaded = () => {
   return {
-    type: actionTypes.COMPONENTS_MENU_DATA_LOADED,
-    componentsMenuLoading: false,
+    type: actionTypes.TASKS_MENU_DATA_LOADED,
+    tasksMenuLoading: false,
   };
 };
 

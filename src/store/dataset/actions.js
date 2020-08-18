@@ -238,12 +238,12 @@ export const updateDatasetColumnRequest = (columnName, columnNewType) => (
   // dispatching dataset operator loading data action
   dispatch(datasetOperatorLoadingData());
 
-  // getting operators and componenst from store
+  // getting operators and tasks from store
   const { operatorsReducer, tasksReducer } = getState();
-  const components = tasksReducer.tasks;
+  const tasks = tasksReducer.tasks;
 
   // get dataset name
-  const datasetName = utils.getDatasetName(components, operatorsReducer);
+  const datasetName = utils.getDatasetName(tasks, operatorsReducer);
 
   // updating dataset columns
   datasetsApi

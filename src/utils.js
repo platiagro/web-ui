@@ -141,7 +141,7 @@ const organizeExperiments = (
 
 /**
  * Filter Menu
- * Method to filter components list
+ * Method to filter tasks list
  *
  * @param {object} menu menu object
  * @param {string} filter filter
@@ -179,21 +179,21 @@ const filterMenu = (menu, filter) => {
  * Create Menu
  * Method to create menu object
  *
- * @param {object[]} components components list
+ * @param {object[]} tasks tasks list
  * @returns {object} menu object
  */
-const createMenu = (components) => {
+const createMenu = (tasks) => {
   // menu object constant
   const menu = {};
   // sorted menu
   const sortedMenu = {};
 
   // creating menu object
-  components.forEach((component) => {
-    // getting component data
-    const { uuid, description, name } = component;
+  tasks.forEach((task) => {
+    // getting task data
+    const { uuid, description, name } = task;
     // mapping submenus
-    component.tags.forEach((tag) => {
+    task.tags.forEach((tag) => {
       // creating submenu
       if (!menu[tag]) menu[tag] = [{ uuid, description, name }];
       else menu[tag].push({ uuid, description, name });
@@ -220,9 +220,9 @@ const createMenu = (components) => {
 const getTagConfig = (tag) => {
   // TAGS CONFIG
   const tagsConfig = {
-    // user components
+    // user tasks
     DEFAULT: {
-      title: 'Meus Componentes',
+      title: 'Minhas Tarefas',
       key: 'DEFAULT',
       icon: <SolutionOutlined />,
     },
@@ -258,22 +258,20 @@ const getTagConfig = (tag) => {
 };
 
 /**
- * Get Component Data
- * Method to get component data
+ * Get task Data
+ * Method to get task data
  *
- * @param {object[]} components components list
- * @param {string} componentId component id
- * @returns {object} component data
+ * @param {object[]} tasks tasks list
+ * @param {string} taskId task id
+ * @returns {object} task data
  */
-const getComponentData = (components, componentId) => {
+const getTaskData = (tasks, taskId) => {
   // params to filter constant
   const parametersToFilter = ['dataset'];
 
-  if (components.length > 0 && componentId) {
-    // getting components data
-    const componentData = components.find(
-      (component) => component.uuid === componentId
-    );
+  if (tasks.length > 0 && taskId) {
+    // getting tasks data
+    const taskData = tasks.find((task) => task.uuid === taskId);
     const {
       name,
       tags,
@@ -283,7 +281,7 @@ const getComponentData = (components, componentId) => {
       deploymentNotebookPath,
       parameters,
       description,
-    } = componentData;
+    } = taskData;
 
     // filtering params
     let filteredParams;
@@ -296,7 +294,7 @@ const getComponentData = (components, componentId) => {
     // getting icon
     const { icon } = getTagConfig(tags[0]);
 
-    // returning component data
+    // returning task data
     return {
       name,
       icon,
@@ -318,17 +316,17 @@ const getComponentData = (components, componentId) => {
  *
  * Method to configure operator parameters
  *
- * @param {object[]} componentParameters
+ * @param {object[]} taskParameters
  * @param {object} operatorParameters
  * @param {object[]} featureOptions
  * @returns {object[]} configured operator parameters
  */
 const configureOperatorParameters = (
-  componentParameters,
+  taskParameters,
   operatorParameters,
   featureOptions
 ) => {
-  const configuredOperatorParameters = componentParameters.map((parameter) => {
+  const configuredOperatorParameters = taskParameters.map((parameter) => {
     return {
       ...parameter,
       options: parameter.options
@@ -373,14 +371,14 @@ const transformColumnsInParameterOptions = (datasetColumns) => {
  * Configure Operators
  * Method to configure operators
  *
- * @param {object[]} components components list
+ * @param {object[]} tasks tasks list
  * @param {object[]} operators operators list
  * @param {object[]} datasetColumns dataset columns list
  * @param {object} pipelineStatus pipeline status object
  * @returns {object[]} configured operators
  */
 const configureOperators = (
-  components,
+  tasks,
   operators,
   datasetColumns,
   pipelineStatus
@@ -390,15 +388,15 @@ const configureOperators = (
 
   // creating configured operators
   const configuredOperators = operators.map((operator) => {
-    // getting component data
-    const {
-      parameters: componentParameters,
-      ...restComponentData
-    } = getComponentData(components, operator.componentId);
+    // getting task data
+    const { parameters: taskParameters, ...restTaskData } = getTaskData(
+      tasks,
+      operator.taskId
+    );
 
     // configuring operator parameters
     const parameters = configureOperatorParameters(
-      componentParameters,
+      taskParameters,
       operator.parameters,
       featureOptions
     );
@@ -413,7 +411,7 @@ const configureOperators = (
 
     return {
       ...operator,
-      ...restComponentData,
+      ...restTaskData,
       parameters,
       settedUp,
       selected: false,
@@ -519,16 +517,16 @@ const sortOperatorsByDependencies = (operators) => {
 /**
  * Get dataset name
  *
- * @param {object[]} components components
+ * @param {object[]} tasks tasks
  * @param {object[]} operators experiment operators
  * @returns {string} dataset name
  */
-const getDatasetName = (components, operators) => {
-  const datasetTask = components.find((i) => {
+const getDatasetName = (tasks, operators) => {
+  const datasetTask = tasks.find((i) => {
     return i.tags.includes('DATASETS');
   });
   const datasetOperator = operators.find((i) => {
-    return i.componentId === datasetTask.uuid;
+    return i.taskId === datasetTask.uuid;
   });
 
   let datasetName = undefined;
@@ -550,7 +548,7 @@ export default {
   filterMenu,
   createMenu,
   getTagConfig,
-  getComponentData,
+  getTaskData,
   configureOperators,
   configureOperatorParameters,
   selectOperator,
