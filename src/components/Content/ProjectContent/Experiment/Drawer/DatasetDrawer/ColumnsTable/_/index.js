@@ -9,38 +9,25 @@ import { Table, Select, Tooltip } from 'antd';
 import './style.less';
 
 const { Option } = Select;
+
 /**
  * Columns Table.
  * This component is responsible for displaying dataset columns table
  *
- * @param root0
- * @param root0.columns
- * @param root0.handleChangeType
- * @param root0.disabled
- * @param root0
- * @param root0.columns
- * @param root0.handleChangeType
- * @param root0.disabled
- * @param root0
- * @param root0.columns
- * @param root0.handleChangeType
- * @param root0.disabled
- * @param root0
- * @param root0.columns
- * @param root0.handleChangeType
- * @param root0.disabled
- * @param root0.currentPage
- * @param root0.setCurrentPage
- * @param root0.currentPage
- * @param root0.setCurrentPage
+ * @component
+ * @param {object} props Component props
+ * @returns {ColumnsTable} React component
  */
-const ColumnsTable = ({
-  columns,
-  handleChangeType,
-  disabled,
-  currentPage,
-  setCurrentPage,
-}) => {
+const ColumnsTable = (props) => {
+  // destructuring props
+  const {
+    columns,
+    handleChangeType,
+    disabled,
+    currentPage,
+    setCurrentPage,
+  } = props;
+
   // columns configuration
   const columnsConfig = [
     {

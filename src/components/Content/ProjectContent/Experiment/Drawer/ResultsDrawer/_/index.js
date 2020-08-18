@@ -33,20 +33,13 @@ const resultsTypes = {
  * Results Drawer.
  * This component is responsible for displaying drawer with results.
  *
- * @param root0
- * @param root0.metrics
- * @param root0.results
- * @param root0.loading
- * @param root0.metricsLoading
- * @param root0.parameters
+ * @component
+ * @param {object} props Component props
+ * @returns {ResultsDrawer} React component
  */
-const ResultsDrawer = ({
-  metrics,
-  results,
-  parameters,
-  loading,
-  metricsLoading,
-}) => {
+const ResultsDrawer = (props) => {
+  // destructuring props
+  const { metrics, results, parameters, loading, metricsLoading } = props;
   // metrics data source
   const dataSource = metrics.map((element, i) => {
     const objectKey = Object.keys(element)[0];

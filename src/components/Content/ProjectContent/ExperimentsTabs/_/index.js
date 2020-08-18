@@ -25,56 +25,22 @@ const { TabPane } = Tabs;
  * Experiments Tabs.
  * This component is responsible for displaying experiments tabs.
  *
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleChange
- * @param root0.handleMoveTab
- * @param root0.activeExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleChange
- * @param root0.handleMoveTab
- * @param root0.activeExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleChange
- * @param root0.handleMoveTab
- * @param root0.activeExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleChange
- * @param root0.handleMoveTab
- * @param root0.activeExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleChange
- * @param root0.handleMoveTab
- * @param root0.activeExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleChange
- * @param root0.handleMoveTab
- * @param root0.activeExperiment
- * @param root0.deleteHandler
- * @param root0.renameHandler
- * @param root0.deleteHandler
- * @param root0.renameHandler
+ * @component
+ * @param {object} props Component props
+ * @returns {ExperimentsTabs} React component
  */
-const ExperimentsTabs = ({
-  experiments,
-  loading,
-  handleChange,
-  handleMoveTab,
-  activeExperiment,
-  deleteHandler,
-  renameHandler,
-}) => {
+const ExperimentsTabs = (props) => {
+  // destructuring props
+  const {
+    experiments,
+    loading,
+    handleChange,
+    handleMoveTab,
+    activeExperiment,
+    deleteHandler,
+    renameHandler,
+  } = props;
+
   //Id for make delete and rename requisitions
   const [currentId, setCurrentId] = useState(null);
   //Name for use into rename popover

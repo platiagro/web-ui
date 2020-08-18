@@ -64,140 +64,25 @@ const toolTipConfigs = {
  * Task Box.
  * This component is responsible for displaying experiment flow.
  *
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
- * @param root0
- * @param root0.name
- * @param root0.icon
- * @param root0.iconTheme
- * @param root0.status
- * @param root0.settedUp
- * @param root0.selected
- * @param root0.uuid
- * @param root0.handleClick
- * @param root0.operator
- * @param root0.handleRemoveOperator
+ * @component
+ * @param {object} props Component props
+ * @returns {TaskBox} React component
  */
-const TaskBox = ({
-  name,
-  icon,
-  iconTheme,
-  status,
-  settedUp,
-  selected,
-  uuid: taskUuid,
-  handleClick,
-  operator,
-  handleRemoveOperator,
-}) => {
+const TaskBox = (props) => {
+  // destructuring props
+  const {
+    name,
+    icon,
+    iconTheme,
+    status,
+    settedUp,
+    selected,
+    uuid: taskUuid,
+    handleClick,
+    operator,
+    handleRemoveOperator,
+  } = props;
+
   // CONSTANTS
   // class name
   const cssClass = `card ${settedUp && 'setted-up'} ${status} ${

@@ -30,50 +30,20 @@ const { Text } = Typography;
  * Tasks Table.
  * This component is responsible for displaying tasks table.
  *
- * @param root0
- * @param root0.tasks
- * @param root0.handleClickTask
- * @param root0.handleClickEdit
- * @param root0.handleClickDelete
- * @param root0.loading
- * @param root0
- * @param root0.tasks
- * @param root0.handleClickTask
- * @param root0.handleClickEdit
- * @param root0.handleClickDelete
- * @param root0.loading
- * @param root0
- * @param root0.tasks
- * @param root0.handleClickTask
- * @param root0.handleClickEdit
- * @param root0.handleClickDelete
- * @param root0.loading
- * @param root0
- * @param root0.tasks
- * @param root0.handleClickTask
- * @param root0.handleClickEdit
- * @param root0.handleClickDelete
- * @param root0.loading
- * @param root0
- * @param root0.tasks
- * @param root0.handleClickTask
- * @param root0.handleClickEdit
- * @param root0.handleClickDelete
- * @param root0.loading
- * @param root0
- * @param root0.tasks
- * @param root0.handleClickTask
- * @param root0.handleClickEdit
- * @param root0.handleClickDelete
- * @param root0.loading
+ * @component
+ * @param {object} props Component props
+ * @returns {TasksTable} React component
  */
-const TasksTable = ({
-  tasks,
-  handleClickTask,
-  handleClickEdit,
-  handleClickDelete,
-  loading,
-}) => {
+const TasksTable = (props) => {
+  // destructuring props
+  const {
+    tasks,
+    handleClickTask,
+    handleClickEdit,
+    handleClickDelete,
+    loading,
+  } = props;
+
   const searchInputRef = useRef(null);
   const confirmPopupRef = useRef(null);
 

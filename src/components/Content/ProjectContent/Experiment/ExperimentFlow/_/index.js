@@ -22,24 +22,14 @@ const columnSize = 24 / columnsNumber;
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
  *
- * @param root0
- * @param root0.components
- * @param root0.loading
- * @param root0.handleTaskBoxClick
- * @param root0
- * @param root0.components
- * @param root0.loading
- * @param root0.handleTaskBoxClick
- * @param root0
- * @param root0.components
- * @param root0.loading
- * @param root0.handleTaskBoxClick
- * @param root0
- * @param root0.components
- * @param root0.loading
- * @param root0.handleTaskBoxClick
+ * @component
+ * @param {object} props Component props
+ * @returns {ExperimentFlow} React component
  */
-const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
+const ExperimentFlow = (props) => {
+  // destructuring props
+  const { tasks, loading, handleTaskBoxClick } = props;
+
   // COMPONENTS RENDERS
   // flow grid column
   const renderFlowGridColumn = (

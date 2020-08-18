@@ -28,118 +28,24 @@ const { Paragraph } = Typography;
  * Implanted Experiments Table.
  * This component is responsible for displaying implanted experiments table.
  *
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
- * @param root0
- * @param root0.implantedExperiments
- * @param root0.handleTestInference
- * @param root0.handleOpenLog
- * @param root0.handleDeleteImplantedExperiment
- * @param root0.loading
- * @param root0.selectedExperiment
- * @param root0.experimentInference
- * @param root0.experimentInferenceModal
- * @param root0.closeModal
+ * @param {object} props Component props
+ * @returns {ImplantedExperimentsTable} React Component
+ * @component
  */
-const ImplantedExperimentsTable = ({
-  implantedExperiments,
-  handleTestInference,
-  handleOpenLog,
-  handleDeleteImplantedExperiment,
-  loading,
-  selectedExperiment,
-  experimentInference,
-  experimentInferenceModal,
-  closeModal,
-}) => {
+const ImplantedExperimentsTable = (props) => {
+  // destructuring props
+  const {
+    implantedExperiments,
+    handleTestInference,
+    handleOpenLog,
+    handleDeleteImplantedExperiment,
+    loading,
+    selectedExperiment,
+    experimentInference,
+    experimentInferenceModal,
+    closeModal,
+  } = props;
+
   // convert status to badge icon
   const statusToBadge = {
     Failed: 'error',

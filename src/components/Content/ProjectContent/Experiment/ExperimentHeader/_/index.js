@@ -14,128 +14,56 @@ import './styles.less';
  * Experiment Header.
  * This component is responsible for displaying the experiment header.
  *
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
- * @param root0
- * @param root0.loading
- * @param root0.trainingLoading
- * @param root0.trainingSucceeded
- * @param root0.deployStatus
- * @param root0.handleDeleteExperiment
- * @param root0.handleTrainExperiment
- * @param root0.handleDeployExperiment
- * @param root0.empty
+ * @component
+ * @param {object} props Component props
+ * @returns {ExperimentHeader} React component
  */
-const ExperimentHeader = ({
-  loading,
-  trainingLoading,
-  trainingSucceeded,
-  deployStatus,
-  handleDeleteExperiment,
-  handleTrainExperiment,
-  handleDeployExperiment,
-  empty,
-}) => (
-  <div className='buttons-config'>
-    <NewTemplateModal />
-    {/* new template button */}
-    <NewTemplateButton disabled={loading || trainingLoading || empty} />
-    {/* train button */}
-    <TrainExperimentButton
-      handleClick={handleTrainExperiment}
-      disabled={loading || trainingLoading || empty}
-      experimentRunning={trainingLoading}
-    />
-    {/* deploy button */}
-    <DeployExperimentButton
-      handleClick={handleDeployExperiment}
-      disabled={
-        loading ||
-        trainingLoading ||
-        !trainingSucceeded ||
-        deployStatus === 'Succeeded' ||
-        deployStatus === 'Running'
-      }
-      loading={deployStatus === 'Running'}
-    />
-    {/* delete button */}
-    <DeleteExperimentButton
-      disabled={loading || trainingLoading}
-      handleClick={handleDeleteExperiment}
-      loading={loading}
-    />
-  </div>
-);
+const ExperimentHeader = (props) => {
+  // destructuring props
+  const {
+    loading,
+    trainingLoading,
+    trainingSucceeded,
+    deployStatus,
+    handleDeleteExperiment,
+    handleTrainExperiment,
+    handleDeployExperiment,
+    empty,
+  } = props;
+
+  // rendering component
+  return (
+    <div className='buttons-config'>
+      <NewTemplateModal />
+      {/* new template button */}
+      <NewTemplateButton disabled={loading || trainingLoading || empty} />
+      {/* train button */}
+      <TrainExperimentButton
+        handleClick={handleTrainExperiment}
+        disabled={loading || trainingLoading || empty}
+        experimentRunning={trainingLoading}
+      />
+      {/* deploy button */}
+      <DeployExperimentButton
+        handleClick={handleDeployExperiment}
+        disabled={
+          loading ||
+          trainingLoading ||
+          !trainingSucceeded ||
+          deployStatus === 'Succeeded' ||
+          deployStatus === 'Running'
+        }
+        loading={deployStatus === 'Running'}
+      />
+      {/* delete button */}
+      <DeleteExperimentButton
+        disabled={loading || trainingLoading}
+        handleClick={handleDeleteExperiment}
+        loading={loading}
+      />
+    </div>
+  );
+};
 
 // PROP TYPES
 ExperimentHeader.propTypes = {
