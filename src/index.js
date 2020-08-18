@@ -1,6 +1,5 @@
 /* istanbul ignore file */
 // STYLES (in this file styles need to be loading before all code)
-import '@ant-design/compatible/assets/index.less';
 import './style.less';
 
 // CORE LIBS
