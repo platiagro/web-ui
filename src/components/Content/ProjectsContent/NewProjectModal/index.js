@@ -25,7 +25,6 @@ const NewProjectModal = (props) => {
     handleCloseModal,
     handleNewProject,
     handleUpdateProject,
-    beforeSubmit,
   } = props;
 
   const [buttonDisabled, setButtonDisabled] = useState(false);

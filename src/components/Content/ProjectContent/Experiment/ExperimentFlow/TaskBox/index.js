@@ -73,11 +73,9 @@ const TaskBox = (props) => {
   const {
     name,
     icon,
-    iconTheme,
     status,
     settedUp,
     selected,
-    uuid: taskUuid,
     handleClick,
     operator,
     handleRemoveOperator,
@@ -159,8 +157,6 @@ TaskBox.propTypes = {
   name: PropTypes.string.isRequired,
   /** task icon string */
   icon: PropTypes.string.isRequired,
-  /** task icon theme string */
-  iconTheme: PropTypes.string,
   /** task status string */
   status: PropTypes.string.isRequired,
   /** task is setted up */
@@ -171,12 +167,6 @@ TaskBox.propTypes = {
   handleClick: PropTypes.func.isRequired,
   /** task remove handler */
   handleRemoveOperator: PropTypes.func.isRequired,
-};
-
-// PROP DEFAULT VALUES
-TaskBox.defaultProps = {
-  /** task icon theme */
-  iconTheme: undefined,
 };
 
 // EXPORT

@@ -53,7 +53,7 @@ const ExperimentsTabs = (props) => {
         id={experimentId ? 'menu_id' : 'empty'}
         experimentId={experimentId}
         experimentTitle={title}
-        collect={(props) => props}
+        collect={(propsAux) => propsAux}
         holdToDisplay={-1}
       >
         <div
