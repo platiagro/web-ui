@@ -206,7 +206,7 @@ const TasksTable = (props) => {
           <Button
             className='btnTaskActions'
             type='link'
-            onClick={() => handleClickTask(record.uuid)}
+            onClick={() => handleClickTask(record.name)}
           >
             Ver código-fonte
           </Button>

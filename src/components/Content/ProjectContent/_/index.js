@@ -18,12 +18,8 @@ import {
 } from 'containers';
 
 import { ProjectEmptyPlaceholder } from 'components/Placeholders';
-
-import './style.less';
 import { Layout } from 'antd';
-
-// ACTIONS
-import { deselectOperator } from '../../../../store/operator/actions';
+import './style.less';
 
 // ACTIONS
 import { deselectOperator } from '../../../../store/operator/actions';
