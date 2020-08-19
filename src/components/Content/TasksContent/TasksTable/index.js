@@ -1,4 +1,4 @@
-import './style.scss';
+import './style.less';
 
 // CORE LIBS
 import React, { useRef } from 'react';
@@ -29,14 +29,21 @@ const { Text } = Typography;
 /**
  * Tasks Table.
  * This component is responsible for displaying tasks table.
+ *
+ * @component
+ * @param {object} props Component props
+ * @returns {TasksTable} React component
  */
-const TasksTable = ({
-  tasks,
-  handleClickTask,
-  handleClickEdit,
-  handleClickDelete,
-  loading,
-}) => {
+const TasksTable = (props) => {
+  // destructuring props
+  const {
+    tasks,
+    handleClickTask,
+    handleClickEdit,
+    handleClickDelete,
+    loading,
+  } = props;
+
   const searchInputRef = useRef(null);
   const confirmPopupRef = useRef(null);
 

@@ -19,7 +19,7 @@ import {
 
 import { ProjectEmptyPlaceholder } from 'components/Placeholders';
 import { Layout } from 'antd';
-import './style.scss';
+import './style.less';
 
 // ACTIONS
 import { deselectOperator } from '../../../../store/operator/actions';

@@ -36,7 +36,8 @@ const sleep = (milliseconds) => {
 
 /**
  * Function to add task and dispatch to reducer
- * @param {Object} task
+ *
+ * @param {object} task
  */
 export const addTask = (task) => {
   return (dispatch) => {
@@ -87,7 +88,8 @@ export const addTask = (task) => {
 
 /**
  * Function to delete task and dispatch to reducer
- * @param {String} id
+ *
+ * @param {string} id
  */
 export const deleteTask = (id) => {
   return (dispatch) => {
@@ -119,6 +121,11 @@ export const deleteTask = (id) => {
 
 /**
  * Function to fetch pagineted tasks and dispatch to reducer
+ *
+ * @param page
+ * @param pageSize
+ * @param page
+ * @param pageSize
  */
 export const fetchPaginatedTasks = (page, pageSize) => {
   return (dispatch) => {
@@ -170,7 +177,9 @@ export const fetchTasks = () => {
 
 /**
  * Function to update task and dispatch to reducer
- * @param {Object} task
+ *
+ * @param uuid
+ * @param {object} task
  */
 export const updateTask = (uuid, task) => {
   return (dispatch) => {

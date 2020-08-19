@@ -11,33 +11,14 @@ import EditTitle from './EditTitle/Container';
  * Title.
  * This component is responsible for displaying a normal or editable title.
  *
- * @param root0
- * @param root0.title
- * @param root0.level
- * @param root0.loading
- * @param root0.handleSubmit
- * @param root0
- * @param root0.title
- * @param root0.level
- * @param root0.loading
- * @param root0.handleSubmit
- * @param root0
- * @param root0.title
- * @param root0.level
- * @param root0.loading
- * @param root0.handleSubmit
- * @param root0
- * @param root0.title
- * @param root0.level
- * @param root0.loading
- * @param root0.handleSubmit
- * @param root0
- * @param root0.title
- * @param root0.level
- * @param root0.loading
- * @param root0.handleSubmit
+ * @component
+ * @param {object} props Component props
+ * @returns {Title} React component
  */
-const Title = ({ title, level, loading, handleSubmit }) => {
+const Title = (props) => {
+  // destructuring props
+  const { title, level, loading, handleSubmit } = props;
+
   // FUNCTIONS
   // before submit
   const beforeSubmit = (newTitle) => {

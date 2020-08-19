@@ -7,17 +7,21 @@ import PropTypes from 'prop-types';
 import { DownloadOutlined } from '@ant-design/icons';
 
 // STYLES
-import './styles.scss';
+import './styles.less';
 import 'react-image-lightbox/style.css';
 
 /**
  * Image Lightbox.
  * This component is responsible for displaying plot result into a lightbox.
  *
- * @param root0
- * @param root0.plotSvg
+ * @component
+ * @param {object} props Component props
+ * @returns {ColumnsTable} React component
  */
-const ImageLightbox = ({ plotSvg }) => {
+const ImageLightbox = (props) => {
+  // destructuring props
+  const { plotSvg } = props;
+
   const [zoom, setZoom] = useState(false);
 
   // transform svg string in blob

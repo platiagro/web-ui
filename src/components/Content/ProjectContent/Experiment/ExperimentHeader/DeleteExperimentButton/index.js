@@ -22,7 +22,7 @@ const DeleteExperimentButton = ({ handleClick, disabled, loading }) => (
     {/* button component */}
     <Button
       disabled={disabled}
-      className='ant-btn-oval'
+      shape='round'
       type='danger'
       style={{ float: 'right' }}
       loading={loading}

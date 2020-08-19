@@ -9,7 +9,7 @@ import ResizePanel from 'react-resize-panel';
 import { PopoverTip } from 'components';
 
 // STYLES
-import './ResizableSection.scss';
+import './ResizableSection.less';
 
 /**
  * Resizable section component that can be attached at right edge of the father.

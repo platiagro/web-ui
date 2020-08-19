@@ -59,6 +59,7 @@
       {
         "definedTags": ["component"]
       }
-    ]
+    ],
+    "jsdoc/require-param": [1, { "enableRootFixer": false }]
   }
 }

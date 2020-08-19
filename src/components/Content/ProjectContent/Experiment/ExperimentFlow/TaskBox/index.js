@@ -14,7 +14,7 @@ import {
 import { Tooltip, Menu, Dropdown } from 'antd';
 
 // STYLES
-import './style.scss';
+import './style.less';
 
 // ACTIONS
 import { removeOperatorRequest } from 'store/operator/actions';
@@ -63,19 +63,24 @@ const toolTipConfigs = {
 /**
  * Task Box.
  * This component is responsible for displaying experiment flow.
+ *
+ * @component
+ * @param {object} props Component props
+ * @returns {TaskBox} React component
  */
-const TaskBox = ({
-  name,
-  icon,
-  iconTheme,
-  status,
-  settedUp,
-  selected,
-  uuid: taskUuid,
-  handleClick,
-  operator,
-  handleRemoveOperator,
-}) => {
+const TaskBox = (props) => {
+  // destructuring props
+  const {
+    name,
+    icon,
+    status,
+    settedUp,
+    selected,
+    handleClick,
+    operator,
+    handleRemoveOperator,
+  } = props;
+
   // CONSTANTS
   // class name
   const cssClass = `card ${settedUp && 'setted-up'} ${status} ${
@@ -152,8 +157,6 @@ TaskBox.propTypes = {
   name: PropTypes.string.isRequired,
   /** task icon string */
   icon: PropTypes.string.isRequired,
-  /** task icon theme string */
-  iconTheme: PropTypes.string,
   /** task status string */
   status: PropTypes.string.isRequired,
   /** task is setted up */
@@ -164,12 +167,6 @@ TaskBox.propTypes = {
   handleClick: PropTypes.func.isRequired,
   /** task remove handler */
   handleRemoveOperator: PropTypes.func.isRequired,
-};
-
-// PROP DEFAULT VALUES
-TaskBox.defaultProps = {
-  /** task icon theme */
-  iconTheme: undefined,
 };
 
 // EXPORT

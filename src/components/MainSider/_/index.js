@@ -9,7 +9,7 @@ import Logo from '../Logo';
 import MainMenuContainer from '../MainMenu/MainMenuContainer';
 
 // STYLES
-import './style.scss';
+import './style.less';
 
 // IMAGES
 import logo from 'assets/logo-vazado.png';

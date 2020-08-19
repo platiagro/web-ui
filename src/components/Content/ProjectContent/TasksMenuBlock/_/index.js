@@ -10,20 +10,27 @@ import TasksMenuSearch from '../TasksMenuSearch';
 import TasksMenu from '../TasksMenu';
 
 //STYLE
-import './style.scss';
+import './style.less';
 
 /**
  * Tasks Menu Block.
  * This component is responsible for displaying tasks menu with search.
+ *
+ * @component
+ * @param {object} props Component props
+ * @returns {TasksMenuBlock} React component
  */
-const TasksMenuBlock = ({
-  menu,
-  loading,
-  handleTaskClick,
-  handleFilter,
-  disabled,
-  handleDeleteTemplate,
-}) => {
+const TasksMenuBlock = (props) => {
+  // destructuring props
+  const {
+    menu,
+    loading,
+    handleTaskClick,
+    handleFilter,
+    disabled,
+    handleDeleteTemplate,
+  } = props;
+
   // RENDER
   return (
     // div container

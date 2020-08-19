@@ -19,7 +19,7 @@ const TrainExperimentButton = ({
   <Button
     disabled={disabled}
     onClick={handleClick}
-    className='ant-btn-oval'
+    shape='round'
     type='primary'
   >
     {experimentRunning ? <LoadingOutlined /> : <PlayCircleFilled />}

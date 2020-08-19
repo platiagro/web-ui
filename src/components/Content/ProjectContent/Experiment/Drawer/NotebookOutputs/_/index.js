@@ -17,11 +17,7 @@ const NotebookOutputs = (props) => {
 
   // rendering component
   return (
-    <Button
-      onClick={handleOpenNotebookClick}
-      className='ant-btn-oval'
-      type='primary'
-    >
+    <Button onClick={handleOpenNotebookClick} shape='round' type='primary'>
       Abrir notebook no Jupyter
     </Button>
   );
