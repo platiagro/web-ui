@@ -1,4 +1,7 @@
 // Modal
 import Modal from './Modal';
 
-export { Modal };
+// Button
+import Button from './Button';
+
+export { Modal, Button };
