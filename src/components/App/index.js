@@ -8,7 +8,7 @@ import { Layout } from 'antd';
 import MainSider from '../MainSider/_';
 import Content from '../Content/_';
 
-import './style.scss';
+import './style.less';
 
 /**
  * Main component of the application.

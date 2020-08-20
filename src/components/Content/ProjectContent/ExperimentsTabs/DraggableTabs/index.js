@@ -63,6 +63,8 @@ const WrappedTabNode = DropTarget(TAB_TYPE, tabTargetConfig, (connect) => ({
 /**
  * Draggable Tabs.
  * This component is responsible for displaying and configuring draggable tabs.
+ *
+ * @param props
  */
 const DraggableTabs = (props) => {
   // destructuring props
@@ -101,6 +103,7 @@ const DraggableTabs = (props) => {
         activeKey={activeExperiment}
         type='card'
         renderTabBar={renderTabBar}
+        className='experimentTabs'
         {...props}
       >
         {tabs}

@@ -2,7 +2,7 @@
 import React from 'react';
 
 // STYLES
-import './MyProjectsEmptyPlaceholder.scss';
+import './MyProjectsEmptyPlaceholder.less';
 
 /**
  * My projects empty placeholder.

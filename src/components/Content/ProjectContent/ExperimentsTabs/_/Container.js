@@ -62,98 +62,23 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for experiment tabs
  * with redux.
  *
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
- * @param root0
- * @param root0.experiments
- * @param root0.loading
- * @param root0.handleFetchExperiments
- * @param root0.handleOrganizeExperiments
- * @param root0.handleFetchExperiment
- * @param root0.handleClearAllExperiments
- * @param root0.handleDeleteExperiment
- * @param root0.handleRenameExperiment
+ * @component
+ * @param {object} props Component props
+ * @returns {ExperimentTabsContainer} React component
  */
-const ExperimentTabsContainer = ({
-  experiments,
-  loading,
-  handleFetchExperiments,
-  handleOrganizeExperiments,
-  handleFetchExperiment,
-  handleClearAllExperiments,
-  handleDeleteExperiment,
-  handleRenameExperiment,
-}) => {
+const ExperimentTabsContainer = (props) => {
+  // destructuring props
+  const {
+    experiments,
+    loading,
+    handleFetchExperiments,
+    handleOrganizeExperiments,
+    handleFetchExperiment,
+    handleClearAllExperiments,
+    handleDeleteExperiment,
+    handleRenameExperiment,
+  } = props;
+
   // CONSTANTS
   // getting history
   const history = useHistory();

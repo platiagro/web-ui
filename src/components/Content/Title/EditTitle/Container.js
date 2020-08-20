@@ -30,23 +30,15 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for new project
  * button with redux.
  *
- * @param root0
- * @param root0.handleShowNewProjectModal
- * @param root0.project
- * @param root0
- * @param root0.handleShowNewProjectModal
- * @param root0.project
- * @param root0
- * @param root0.handleShowNewProjectModal
- * @param root0.project
+ * @component
+ * @param {object} props Component props
+ * @returns {EditTitleContainer} React component
  */
-const EditTitleContainer = ({
-  handleShowNewProjectModal,
-  project,
-  ...props
-}) => {
-  // RENDER
+const EditTitleContainer = (props) => {
+  // destructuring props
+  const { handleShowNewProjectModal, project, ...restProps } = props;
 
+  // RENDER
   const handleEditModal = () => {
     const record = {
       name: project.name,
@@ -59,7 +51,7 @@ const EditTitleContainer = ({
   return (
     <>
       <NewProjectModal />
-      <EditTitle handleClick={handleEditModal} {...props} />
+      <EditTitle handleClick={handleEditModal} {...restProps} />
     </>
   );
 };

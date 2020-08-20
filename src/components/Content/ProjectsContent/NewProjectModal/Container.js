@@ -58,130 +58,39 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for new project
  * modal with redux.
  *
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
- * @param root0
- * @param root0.modalVisible
- * @param root0.loading
- * @param root0.title
- * @param root0.record
- * @param root0.modalValidateStatus
- * @param root0.errorMessage
- * @param root0.handleCloseModal
- * @param root0.handleCreateProject
- * @param root0.handleUpdateProject
+ * @component
+ * @param {object} props Component props
+ * @returns {NewProjectModalContainer} React component
  */
-const NewProjectModalContainer = ({
-  modalVisible,
-  loading,
-  title,
-  record,
-  modalValidateStatus,
-  errorMessage,
-  handleCloseModal,
-  handleCreateProject,
-  handleUpdateProject,
-}) => (
-  <NewProjectModal
-    visible={modalVisible}
-    handleCloseModal={handleCloseModal}
-    handleNewProject={handleCreateProject}
-    handleUpdateProject={handleUpdateProject}
-    loading={loading}
-    title={title}
-    record={record}
-    modalValidateStatus={modalValidateStatus}
-    errorMessage={errorMessage}
-  />
-);
+const NewProjectModalContainer = (props) => {
+  // destructuring props
+  const {
+    modalVisible,
+    loading,
+    title,
+    record,
+    modalValidateStatus,
+    errorMessage,
+    handleCloseModal,
+    handleCreateProject,
+    handleUpdateProject,
+  } = props;
+
+  // rendering component
+  return (
+    <NewProjectModal
+      visible={modalVisible}
+      handleCloseModal={handleCloseModal}
+      handleNewProject={handleCreateProject}
+      handleUpdateProject={handleUpdateProject}
+      loading={loading}
+      title={title}
+      record={record}
+      modalValidateStatus={modalValidateStatus}
+      errorMessage={errorMessage}
+    />
+  );
+};
 
 // EXPORT
 export default withRouter(

@@ -19,7 +19,7 @@ import UploadInferenceTestButton from '../UploadInferenceTestButton';
 import LogsDrawer from '../../LogsDrawer/Container';
 
 // STYLES
-import './style.scss';
+import './style.less';
 
 // TYPOGRAPHY COMPONENTS
 const { Paragraph } = Typography;
@@ -27,18 +27,25 @@ const { Paragraph } = Typography;
 /**
  * Implanted Experiments Table.
  * This component is responsible for displaying implanted experiments table.
+ *
+ * @param {object} props Component props
+ * @returns {ImplantedExperimentsTable} React Component
+ * @component
  */
-const ImplantedExperimentsTable = ({
-  implantedExperiments,
-  handleTestInference,
-  handleOpenLog,
-  handleDeleteImplantedExperiment,
-  loading,
-  selectedExperiment,
-  experimentInference,
-  experimentInferenceModal,
-  closeModal,
-}) => {
+const ImplantedExperimentsTable = (props) => {
+  // destructuring props
+  const {
+    implantedExperiments,
+    handleTestInference,
+    handleOpenLog,
+    handleDeleteImplantedExperiment,
+    loading,
+    selectedExperiment,
+    experimentInference,
+    experimentInferenceModal,
+    closeModal,
+  } = props;
+
   // convert status to badge icon
   const statusToBadge = {
     Failed: 'error',

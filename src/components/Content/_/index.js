@@ -13,7 +13,7 @@ import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
 import Error404Content from '../Error404Content';
 
 // STYLES
-import './style.scss';
+import './style.less';
 
 /**
  * Content.
