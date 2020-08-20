@@ -60,7 +60,7 @@ const ResizableSection = (props) => {
     // resizable area
     <ResizePanel
       direction='w'
-      style={{ minWidth: '210px' }}
+      style={{ minWidth: '18%' }}
       handleClass='customHandle'
       borderClass='customResizeBorder'
     >
@@ -72,7 +72,7 @@ const ResizableSection = (props) => {
             {/* title */}
             {title && (
               <div className='resizable-section-title'>
-                <h3>{title}</h3>
+                <h3><strong>{title}</strong></h3>
               </div>
             )}
 
