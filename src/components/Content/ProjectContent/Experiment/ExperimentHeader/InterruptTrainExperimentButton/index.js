@@ -18,7 +18,7 @@ const InterruptTrainExperimentButton = ({
   <Button
     disabled={disabled}
     onClick={handleClick}
-    className='ant-btn-oval'
+    shape='round'
     type='primary-inverse'
   >
     {deleteExperimentRunning ? <LoadingOutlined /> : <StopOutlined />}

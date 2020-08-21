@@ -10,6 +10,7 @@ import {
   ClockCircleFilled,
   ExclamationCircleFilled,
   SettingOutlined,
+  StopOutlined,
 } from '@ant-design/icons';
 import { Tooltip, Menu, Dropdown } from 'antd';
 
@@ -29,42 +30,55 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // tooltip configs
-const toolTipConfigs = {
-  // running status
-  Running: {
-    title: 'Tarefa em execução',
-    iconType: (
-      <SettingOutlined style={{ fontSize: '18px', color: '#666666' }} spin />
-    ),
-  },
-  // pending status
-  Pending: {
-    title: 'Tarefa pendente',
-    iconType: (
-      <ClockCircleFilled style={{ fontSize: '18px', color: '#666666' }} />
-    ),
-  },
-  // succeeded status
-  Succeeded: {
-    title: 'Tarefa executada com sucesso',
-    iconType: (
-      <CheckCircleFilled style={{ fontSize: '18px', color: '#389E0D' }} />
-    ),
-  },
-  // failed status
-  Failed: {
-    title: 'Tarefa executada com falha',
-    iconType: (
-      <ExclamationCircleFilled style={{ fontSize: '18px', color: '#CF1322' }} />
-    ),
-  },
+const toolTipConfigs = (status, interruptIsRunning) => {
+  let style = { fontSize: '18px' };
+  const config = { title: '', iconType: '' };
+  switch (status) {
+    case 'Running':
+      if (!interruptIsRunning) {
+        style.color = '#666666';
+      }
+      config.title = 'Tarefa em execução';
+      config.iconType = <SettingOutlined style={style} spin />;
+
+      break;
+    case 'Pending':
+      if (!interruptIsRunning) {
+        style.color = '#666666';
+      }
+      config.title = 'Tarefa pendente';
+      config.iconType = <ClockCircleFilled style={style} />;
+      break;
+    case 'Succeeded':
+      if (!interruptIsRunning) {
+        style.color = '#389E0D';
+      }
+      config.title = 'Tarefa executada com sucesso';
+      config.iconType = <CheckCircleFilled style={style} />;
+      break;
+    case 'Failed':
+      if (!interruptIsRunning) {
+        style.color = '#CF1322';
+      }
+      config.title = 'Tarefa executada com falha';
+      config.iconType = <ExclamationCircleFilled style={style} />;
+      break;
+    default:
+      if (!interruptIsRunning) {
+        style.color = '#666666';
+      }
+      config.title = 'Tarefa interrompida';
+      config.iconType = <StopOutlined style={style} />;
+
+      break;
+  }
+  return config;
 };
 
 /**
  * Task Box.
  * This component is responsible for displaying experiment flow.
  *
- * @component
  * @param {object} props Component props
  * @returns {TaskBox} React component
  */
@@ -78,14 +92,16 @@ const TaskBox = (props) => {
     selected,
     handleClick,
     operator,
+    experimentIsRunning,
+    interruptIsRunning,
     handleRemoveOperator,
   } = props;
 
   // CONSTANTS
   // class name
-  const cssClass = `card ${settedUp && 'setted-up'} ${status} ${
-    selected && 'selected'
-  }`;
+  const cssClass = `card ${settedUp && 'setted-up'} ${
+    interruptIsRunning ? 'Interrupting' : status
+  } ${selected && 'selected'}`;
 
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
@@ -105,6 +121,10 @@ const TaskBox = (props) => {
 
   // box right click
   const handleRightButtonClick = (e) => {
+    if (experimentIsRunning || interruptIsRunning) {
+      return;
+    }
+
     if (status !== 'Pending' && status !== 'Running' && e.key === 'edit')
       handleClick(operator);
 
@@ -124,9 +144,14 @@ const TaskBox = (props) => {
   // tooltip
   const renderTooltip = () => {
     if (!status || status === 'Loading') return null;
+    const toolTipConfig = toolTipConfigs(status, interruptIsRunning);
     return (
-      <Tooltip placement='right' title={toolTipConfigs[status].title}>
-        {toolTipConfigs[status].iconType}
+      <Tooltip
+        placement='right'
+        title={toolTipConfig.title}
+        className={interruptIsRunning ? 'Interrupt' : ''}
+      >
+        {toolTipConfig.iconType}
       </Tooltip>
     );
   };

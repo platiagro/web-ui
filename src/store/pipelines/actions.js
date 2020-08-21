@@ -141,10 +141,11 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
   // checking status operators to verify if traning is succeeded
   Object.values(status).forEach((statusValue) => {
     if (
+      statusValue === '' ||
+      statusValue === 'Pending' ||
       statusValue === 'Running' ||
       statusValue === 'Failed' ||
-      statusValue === '' ||
-      statusValue === 'Pending'
+      statusValue === 'Terminated'
     )
       isSucceeded = false;
   });
@@ -153,14 +154,18 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
   if (isSucceeded)
     dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_SUCCEEDED });
 
+  // get deleteLoading state
+  const { uiReducer } = getState();
+  let deleteLoading = uiReducer.experimentTraining.deleteLoading;
+
   // experiment training not is running
   if (!isRunning) {
     dispatch(experimentTrainingDataLoaded());
     // check if is interrupting flow
-    const { uiReducer } = getState();
-    if (uiReducer.experimentTraining.deleteLoading) {
+    if (deleteLoading) {
       dispatch(experimentDeleteTrainingDataLoaded());
       message.success('Treinamento interrompido!');
+      deleteLoading = false;
     }
   } else {
     dispatch(experimentTrainingLoadingData());
@@ -170,6 +175,7 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
     status,
     experimentIsRunning: isRunning,
+    interruptIsRunning: deleteLoading,
   });
 };
 
@@ -300,7 +306,8 @@ export const deleteTrainExperiment = (experimentId) => (dispatch) => {
   pipelinesApi
     .deleteTrainExperiment(experimentId)
     .then(() => {
-      message.info('Interrompendo treinamento!');
+      message.loading('Interrompendo execução...', 5);
+      dispatch(getTrainExperimentStatusRequest(experimentId));
     })
     .catch((error) => {
       dispatch(experimentDeleteTrainingDataLoaded());
