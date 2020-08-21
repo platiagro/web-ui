@@ -10,10 +10,14 @@ import NewTemplateButton from '../NewTemplateButton/Container';
 import NewTemplateModal from '../NewTemplateModal/Container';
 import TrainExperimentButton from '../TrainExperimentButton';
 
-import './styles.scss';
+import './styles.less';
 /**
  * Experiment Header.
  * This component is responsible for displaying the experiment header.
+ *
+ * @component
+ * @param {object} props Component props
+ * @returns {ExperimentHeader} React component
  */
 const ExperimentHeader = ({
   loading,

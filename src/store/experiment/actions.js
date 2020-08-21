@@ -491,7 +491,8 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
     .getExperimentDeployStatus(experimentId)
     .then((response) => {
       dispatch(fetchExperimentDeployStatusSuccess(response));
-    });
+    })
+    .catch((err) => { });
 };
 
 // // // // // // // // // //

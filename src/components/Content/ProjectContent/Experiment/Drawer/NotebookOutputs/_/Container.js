@@ -10,7 +10,7 @@ import NotebookOutputs from './index';
 const mapStateToProps = (state) => {
   return {
     operatorId: state.operatorReducer.uuid,
-    componentId: state.operatorReducer.componentId,
+    taskName: state.operatorReducer.name,
     status: state.operatorReducer.status,
   };
 };
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for notebook button
  * with redux.
  */
-const NotebookOutputsContainer = ({ operatorId, componentId, status }) => {
+const NotebookOutputsContainer = ({ operatorId, taskName, status }) => {
   // CONSTANTS
   // getting experiment uuid
   const { experimentId } = useParams();
@@ -38,7 +38,7 @@ const NotebookOutputsContainer = ({ operatorId, componentId, status }) => {
       );
     } else {
       window.open(
-        `${jupyterDomain}/notebook/anonymous/server/lab/tree/components/${componentId}/?reset&open=Experiment.ipynb`
+        `${jupyterDomain}/notebook/anonymous/server/lab/tree/tasks/${taskName}/?reset&open=Experiment.ipynb`
       );
     }
   };

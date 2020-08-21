@@ -1,0 +1,50 @@
+@import '~antd/dist/antd.less';
+@import 'variables.less';
+
+.ant-table-tbody > tr:hover.ant-table-row-selected > td,
+.ant-table-tbody > tr.ant-table-row-selected td {
+  background-color: #e6f7ff !important;
+}
+
+h4.ant-typography,
+.ant-typography h4 {
+  font-weight: 700 !important;
+}
+
+.ant-btn.ant-btn-primary-inverse {
+  background-color: @white;
+  border-color: @primary-color;
+  color: @primary-color;
+
+  &:hover,
+  &:focus {
+    background-color: @primary-color;
+    border-color: @primary-color;
+    color: @white;
+  }
+
+  &:disabled {
+    background-color: #f5f5f5;
+    border-color: #d9d9d9;
+    color: #d9d9d9;
+  }
+}
+
+.ant-btn.ant-btn-secondary {
+  background-color: @secondary-color;
+  border-color: @secondary-color;
+  color: @white;
+
+  &:hover,
+  &:focus {
+    background-color: darken(@secondary-color, 5%);
+    border-color: lighten(@secondary-color, 5%);
+    color: @white;
+  }
+
+  &:disabled {
+    background-color: #f5f5f5;
+    border-color: #d9d9d9;
+    color: #d9d9d9;
+  }
+}

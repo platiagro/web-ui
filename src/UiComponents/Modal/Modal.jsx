@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Modal as AntModal } from 'antd';
 
 // STYLES
-import './Modal.scss';
+import './Modal.less';
 
 /**
  * Simple closeable modal based in Ant Design modal.

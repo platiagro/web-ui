@@ -9,7 +9,7 @@ import { PageHeader } from 'antd';
 import Title from '../Title';
 
 // STYLES
-import './style.scss';
+import './style.less';
 
 /**
  * Content Header.

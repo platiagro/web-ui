@@ -8,18 +8,25 @@ import { Form, Input, Modal } from 'antd';
 /**
  * New Project Modal.
  * This component is responsible for displaying a new project modal.
+ *
+ * @component
+ * @param {object} props Component props
+ * @returns {NewProjectModal} React component
  */
-const NewProjectModal = ({
-  visible,
-  loading,
-  title,
-  record,
-  modalValidateStatus,
-  errorMessage,
-  handleCloseModal,
-  handleNewProject,
-  handleUpdateProject,
-}) => {
+const NewProjectModal = (props) => {
+  // destructuring props
+  const {
+    visible,
+    loading,
+    title,
+    record,
+    modalValidateStatus,
+    errorMessage,
+    handleCloseModal,
+    handleNewProject,
+    handleUpdateProject,
+  } = props;
+
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
   const [form] = Form.useForm();
@@ -54,6 +61,15 @@ const NewProjectModal = ({
         handleNewProject(values.name, values.description);
       }
     });
+  };
+
+  // FUNCTION KEYS
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    } else if (e.key === 'Escape') {
+      handleCloseModal();
+    }
   };
 
   // RENDER
@@ -101,6 +117,7 @@ const NewProjectModal = ({
             allowClear
             autoFocus
             ref={inputNameRef}
+            onKeyUp={handleKeyPress}
             onChange={() => {
               // remove current status
               setStatus(null);

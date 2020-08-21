@@ -259,31 +259,61 @@ export const projectNameDataLoaded = () => {
 
 // // // // // // // // // //
 
-// ** COMPONENTS MENU LOADING DATA
+// ** PROJECT EDIT NAME LOADING DATA
 /**
- * components menu loading data
+ * project edit name loading data
  *
- * @returns {object} { type, componentsMenuLoading }
+ * @returns {object} { type, projectEditNameLoading }
  */
-export const componentsMenuLoadingData = () => {
+export const projectEditNameLoadingData = () => {
   return {
-    type: actionTypes.COMPONENTS_MENU_LOADING_DATA,
-    componentsMenuLoading: true,
+    type: actionTypes.PROJECT_EDIT_NAME_LOADING_DATA,
+    projectEditNameLoading: true,
   };
 };
 
 // // // // // // // // // //
 
-// ** COMPONENTS MENU DATA LOADED
+// ** PROJECT EDIT NAME DATA LOADED
 /**
- * components menu loading data
+ * project edit name loading data
  *
- * @returns {object} { type, componentsMenuLoading }
+ * @returns {object} { type, projectEditNameLoading }
  */
-export const componentsMenuDataLoaded = () => {
+export const projectEditNameDataLoaded = () => {
   return {
-    type: actionTypes.COMPONENTS_MENU_DATA_LOADED,
-    componentsMenuLoading: false,
+    type: actionTypes.PROJECT_EDIT_NAME_DATA_LOADED,
+    projectEditNameLoading: false,
+  };
+};
+
+// // // // // // // // // //
+
+// ** TASKS MENU LOADING DATA
+/**
+ * tasks menu loading data
+ *
+ * @returns {object} { type, tasksMenuLoading }
+ */
+export const tasksMenuLoadingData = () => {
+  return {
+    type: actionTypes.TASKS_MENU_LOADING_DATA,
+    tasksMenuLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** TASKS MENU DATA LOADED
+/**
+ * tasks menu loading data
+ *
+ * @returns {object} { type, tasksMenuLoading }
+ */
+export const tasksMenuDataLoaded = () => {
+  return {
+    type: actionTypes.TASKS_MENU_DATA_LOADED,
+    tasksMenuLoading: false,
   };
 };
 

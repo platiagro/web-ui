@@ -9,7 +9,7 @@ import experimentsReducer from './experiments/experimentsReducer';
 import experimentReducer from './experiment/experimentReducer';
 import operatorsReducer from './operators/operatorsReducer';
 import operatorReducer from './operator/operatorReducer';
-import componentsMenuReducer from './componentsMenu/componentsMenuReducer';
+import tasksMenuReducer from './tasksMenu/tasksMenuReducer';
 import templatesReducer from './templates/templatesReducer';
 import implantedExperimentsReducer from './implantedExperiments/implantedExperimentsReducer';
 import tasksReducer from './tasks/tasksReducer';
@@ -36,7 +36,7 @@ const reducers = combineReducers({
   experimentReducer,
   operatorsReducer,
   operatorReducer,
-  componentsMenuReducer,
+  tasksMenuReducer,
   templatesReducer,
   implantedExperimentsReducer,
   tasksReducer,

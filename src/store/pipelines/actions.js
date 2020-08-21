@@ -69,12 +69,12 @@ export const trainExperimentRequest = (experiment, operators) => (
   // dispatching experiment training loading data action
   dispatch(experimentTrainingLoadingData());
 
-  // getting componenst from store
+  // getting tasks from store
   const { tasksReducer } = getState();
-  const components = tasksReducer.tasks;
+  const tasks = tasksReducer.tasks;
 
   // get dataset name
-  const datasetName = utils.getDatasetName(components, operators);
+  const datasetName = utils.getDatasetName(tasks, operators);
 
   // getting experiment data
   const { uuid: experimentId } = experiment;

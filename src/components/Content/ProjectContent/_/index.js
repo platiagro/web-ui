@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // COMPONENTS
 import ContentHeaderProjectContainer from '../../ContentHeader/ContentHeaderProjectContainer';
-import ComponentsMenuBlock from '../ComponentsMenuBlock/_/Container';
+import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
@@ -19,9 +19,20 @@ import {
 
 import { ProjectEmptyPlaceholder } from 'components/Placeholders';
 import { Layout } from 'antd';
-import './style.scss';
+import './style.less';
+
+// ACTIONS
+import { deselectOperator } from '../../../../store/operator/actions';
 
 const { Footer, Sider, Content } = Layout;
+
+// DISPATCHS
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleDeselectOperator: () => dispatch(deselectOperator()),
+  };
+};
+
 // STATES
 const mapStateToProps = (state) => {
   return {
@@ -37,19 +48,22 @@ const mapStateToProps = (state) => {
  */
 const ProjectContent = (props) => {
   // destructuring props
-  const { experiments } = props;
+  const { experiments, handleDeselectOperator } = props;
   // CONSTANTS
   const { experimentId } = useParams();
 
   const FlowContent = (
     <Layout style={{ overflow: 'hidden' }}>
       <Sider width={250}>
-        <ComponentsMenuBlock disabled={!experimentId} />
+        <TasksMenuBlock disabled={!experimentId} />
       </Sider>
       <Content>
         <Layout style={{ height: '100%' }}>
           <Content style={{ display: 'flex' }}>
-            <div className='custom-flow'>
+            <div
+              className='custom-flow'
+              onClick={() => handleDeselectOperator()}
+            >
               <ExperimentHeader />
               {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
             </div>
@@ -84,4 +98,4 @@ const ProjectContent = (props) => {
 };
 
 // EXPORT
-export default connect(mapStateToProps, null)(ProjectContent);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectContent);

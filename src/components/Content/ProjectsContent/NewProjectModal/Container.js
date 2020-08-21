@@ -45,7 +45,7 @@ const mapStateToProps = (state) => {
   // new project modal visible
   return {
     modalVisible: state.uiReducer.newProjectModal.visible,
-    loading: state.uiReducer.projectsTable.loading,
+    loading: state.uiReducer.projectEditName.loading,
     title: state.uiReducer.newProjectModal.title,
     record: state.uiReducer.newProjectModal.record,
     modalValidateStatus: state.uiReducer.newProjectModal.modalValidateStatus,
@@ -57,30 +57,40 @@ const mapStateToProps = (state) => {
  * New Project Modal Container.
  * This component is responsible for create a logic container for new project
  * modal with redux.
+ *
+ * @component
+ * @param {object} props Component props
+ * @returns {NewProjectModalContainer} React component
  */
-const NewProjectModalContainer = ({
-  modalVisible,
-  loading,
-  title,
-  record,
-  modalValidateStatus,
-  errorMessage,
-  handleCloseModal,
-  handleCreateProject,
-  handleUpdateProject,
-}) => (
-  <NewProjectModal
-    visible={modalVisible}
-    handleCloseModal={handleCloseModal}
-    handleNewProject={handleCreateProject}
-    handleUpdateProject={handleUpdateProject}
-    loading={loading}
-    title={title}
-    record={record}
-    modalValidateStatus={modalValidateStatus}
-    errorMessage={errorMessage}
-  />
-);
+const NewProjectModalContainer = (props) => {
+  // destructuring props
+  const {
+    modalVisible,
+    loading,
+    title,
+    record,
+    modalValidateStatus,
+    errorMessage,
+    handleCloseModal,
+    handleCreateProject,
+    handleUpdateProject,
+  } = props;
+
+  // rendering component
+  return (
+    <NewProjectModal
+      visible={modalVisible}
+      handleCloseModal={handleCloseModal}
+      handleNewProject={handleCreateProject}
+      handleUpdateProject={handleUpdateProject}
+      loading={loading}
+      title={title}
+      record={record}
+      modalValidateStatus={modalValidateStatus}
+      errorMessage={errorMessage}
+    />
+  );
+};
 
 // EXPORT
 export default withRouter(

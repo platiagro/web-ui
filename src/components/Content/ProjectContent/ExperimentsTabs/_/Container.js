@@ -61,17 +61,24 @@ const mapStateToProps = (state) => {
  * Experiment Tabs Container.
  * This component is responsible for create a logic container for experiment tabs
  * with redux.
+ *
+ * @component
+ * @param {object} props Component props
+ * @returns {ExperimentTabsContainer} React component
  */
-const ExperimentTabsContainer = ({
-  experiments,
-  loading,
-  handleFetchExperiments,
-  handleOrganizeExperiments,
-  handleFetchExperiment,
-  handleClearAllExperiments,
-  handleDeleteExperiment,
-  handleRenameExperiment,
-}) => {
+const ExperimentTabsContainer = (props) => {
+  // destructuring props
+  const {
+    experiments,
+    loading,
+    handleFetchExperiments,
+    handleOrganizeExperiments,
+    handleFetchExperiment,
+    handleClearAllExperiments,
+    handleDeleteExperiment,
+    handleRenameExperiment,
+  } = props;
+
   // CONSTANTS
   // getting history
   const history = useHistory();
@@ -97,7 +104,7 @@ const ExperimentTabsContainer = ({
       // active tab is finded into experiments
       const activeTab = experiments.find((element) => element.isActive);
       // if active tab exists, then url will change
-      if (!!activeTab) {
+      if (activeTab) {
         history.push(`/projetos/${projectId}/${activeTab.uuid}`);
       }
     }
@@ -114,10 +121,11 @@ const ExperimentTabsContainer = ({
   // change tab
   const handleChangeTab = (targetId) => {
     // fetching experiment
-    handleFetchExperiment(projectId, targetId);
-
-    // routing
-    history.push(`/projetos/${projectId}/${targetId}`);
+    if (targetId !== experimentId) {
+      handleFetchExperiment(projectId, targetId);
+      // routing
+      history.push(`/projetos/${projectId}/${targetId}`);
+    }
   };
   // organizing tabs
   const handleOrganizeTabs = (dragExperimentId, hoverExperimentId) => {

@@ -5,13 +5,20 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import EditTitle from './EditTitle';
+import EditTitle from './EditTitle/Container';
 
 /**
  * Title.
  * This component is responsible for displaying a normal or editable title.
+ *
+ * @component
+ * @param {object} props Component props
+ * @returns {Title} React component
  */
-const Title = ({ title, level, loading, handleSubmit }) => {
+const Title = (props) => {
+  // destructuring props
+  const { title, level, loading, handleSubmit } = props;
+
   // FUNCTIONS
   // before submit
   const beforeSubmit = (newTitle) => {

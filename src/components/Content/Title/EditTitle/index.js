@@ -1,38 +1,18 @@
 // CORE LIBS
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
 
 import { EditOutlined } from '@ant-design/icons';
-import { Typography, Input, Tooltip } from 'antd';
+import { Typography, Tooltip } from 'antd';
 
-import './style.scss';
+import './style.less';
 
 const { Title } = Typography;
 
-const EditTitle = ({ title, level, editable, beforeSubmit }) => {
-  const [currentTitle, setCurrentTitle] = useState(title);
-  const [editMode, setEditMode] = useState(false);
-
-  useEffect(() => {
-    setCurrentTitle(title);
-  }, [title]);
-
-  const handleSubmit = () => {
-    beforeSubmit(currentTitle);
-    setEditMode(false);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      e.currentTarget.blur();
-    } else if (e.key === 'Escape') {
-      setCurrentTitle(title);
-      setEditMode(false);
-    }
-  };
-  return !editMode ? (
+const EditTitle = ({ title, level, editable, handleClick }) => {
+  return (
     <div className='custom-edit-title'>
       <Title level={level}>{title}</Title>
       {editable && (
@@ -40,20 +20,11 @@ const EditTitle = ({ title, level, editable, beforeSubmit }) => {
           <EditOutlined
             className='custom-edit-input-icon'
             type='edit'
-            onClick={() => setEditMode(true)}
+            onClick={handleClick}
           />
         </Tooltip>
       )}
     </div>
-  ) : (
-    <Input
-      value={currentTitle}
-      onChange={(e) => setCurrentTitle(e.target.value)}
-      autoFocus
-      onFocus={(e) => e.target.select()}
-      onBlur={handleSubmit}
-      onKeyUp={handleKeyPress}
-    />
   );
 };
 
@@ -61,7 +32,6 @@ EditTitle.propTypes = {
   title: PropTypes.string.isRequired,
   level: PropTypes.number.isRequired,
   editable: PropTypes.bool.isRequired,
-  beforeSubmit: PropTypes.func.isRequired,
 };
 
 export default EditTitle;
