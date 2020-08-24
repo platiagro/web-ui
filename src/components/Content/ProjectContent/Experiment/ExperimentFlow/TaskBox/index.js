@@ -35,41 +35,30 @@ const toolTipConfigs = (status, interruptIsRunning) => {
   const config = { title: '', iconType: '' };
   switch (status) {
     case 'Running':
-      if (!interruptIsRunning) {
-        style.color = '#666666';
-      }
+      style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa em execução';
       config.iconType = <SettingOutlined style={style} spin />;
 
       break;
     case 'Pending':
-      if (!interruptIsRunning) {
-        style.color = '#666666';
-      }
+      style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa pendente';
       config.iconType = <ClockCircleFilled style={style} />;
       break;
     case 'Succeeded':
-      if (!interruptIsRunning) {
-        style.color = '#389E0D';
-      }
+      style.color = interruptIsRunning ? '' : '#389E0D';
       config.title = 'Tarefa executada com sucesso';
       config.iconType = <CheckCircleFilled style={style} />;
       break;
     case 'Failed':
-      if (!interruptIsRunning) {
-        style.color = '#CF1322';
-      }
+      style.color = interruptIsRunning ? '' : '#CF1322';
       config.title = 'Tarefa executada com falha';
       config.iconType = <ExclamationCircleFilled style={style} />;
       break;
     default:
-      if (!interruptIsRunning) {
-        style.color = '#666666';
-      }
+      style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa interrompida';
       config.iconType = <StopOutlined style={style} />;
-
       break;
   }
   return config;
