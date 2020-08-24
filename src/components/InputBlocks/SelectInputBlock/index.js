@@ -3,8 +3,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Select, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Select, Skeleton } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -40,7 +39,11 @@ const SelectInputBlock = (props) => {
     <InputBlockContainer tip={tip} title={title}>
       {isLoading ? (
         /* loading */
-        <Spin style={{ marginLeft: '1vw' }} indicator={<LoadingOutlined />} />
+        <Skeleton
+          paragraph={{ rows: 1, width: 110 }}
+          size='large'
+          title={false}
+        />
       ) : (
         /* select input */
         <Select
