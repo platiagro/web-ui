@@ -87,7 +87,7 @@
     "store": "./src/store",
     "services": "./src/services",
     "assets": "./src/components",
-    "UiComponents": "./src/UiComponents",
+    "uiComponents": "./src/uiComponents",
     "containers": "./src/containers"
   }
 }

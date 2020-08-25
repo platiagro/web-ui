@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { TableOutlined } from '@ant-design/icons';
 
 // UI COMPONENTS
-import { Button } from 'UiComponents';
+import { Button } from 'uiComponents';
 
 /**
  * Data view primary rounded button.
