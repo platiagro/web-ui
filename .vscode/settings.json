@@ -30,7 +30,7 @@
       Por esse motivo estou excluindo esse arquivo temporariamente
       das validações.
     */
-    "jsconfig.json": true
+    "./jsconfig.json": true
   },
 
   "emmet.includeLanguages": {
