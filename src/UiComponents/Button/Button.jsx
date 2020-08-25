@@ -30,16 +30,16 @@ import { Button as AntButton } from 'antd';
  *
  * // rendering component
  * return (
- *   <AntButton
+ *   <Button
  *     disabled={isDisabled}
  *     icon={icon}
  *     loading={isLoading}
  *     shape={shape}
  *     type={type}
- *     onClick={handleClick}
+ *     handleClick={handleClick}
  *   >
  *     {children}
- *   </AntButton>
+ *   </Button>
  * );
  */
 const Button = (props) => {
