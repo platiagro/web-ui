@@ -20,27 +20,18 @@ import 'react-image-lightbox/style.css';
  */
 const ImageLightbox = (props) => {
   // destructuring props
-  const { plotSvg } = props;
+  const { plotUrl } = props;
 
   const [zoom, setZoom] = useState(false);
-
-  // transform svg string in blob
-  const plotSvgBlob = new Blob([plotSvg], { type: 'image/svg+xml' });
-  // creating plot url
-  const plotSvgUrl = URL.createObjectURL(plotSvgBlob);
 
   return (
     <>
       {zoom && (
         <Lightbox
           wrapperClassName='imageLightbox'
-          mainSrc={plotSvgUrl}
+          mainSrc={plotUrl}
           toolbarButtons={[
-            <a
-              className='download-link'
-              href={plotSvgUrl}
-              download={`resultado`}
-            >
+            <a className='download-link' href={plotUrl} download={`resultado`}>
               <DownloadOutlined />
             </a>,
           ]}
@@ -51,7 +42,7 @@ const ImageLightbox = (props) => {
         style={{ cursor: 'pointer' }}
         onClick={() => setZoom(true)}
         alt='plot'
-        src={plotSvgUrl}
+        src={plotUrl}
       />
     </>
   );
@@ -59,8 +50,8 @@ const ImageLightbox = (props) => {
 
 // PROP TYPES
 ImageLightbox.propTypes = {
-  /** Results plot inline svg */
-  plotSvg: PropTypes.string.isRequired,
+  /** Result plot url */
+  plotUrl: PropTypes.string.isRequired,
 };
 
 export default ImageLightbox;
