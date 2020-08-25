@@ -17,7 +17,7 @@ import {
   OperatorResultsModalContainer,
 } from 'containers';
 
-import { ProjectEmptyPlaceholder } from 'components/Placeholders';
+import { ProjectEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { Layout } from 'antd';
 import './style.less';
 
