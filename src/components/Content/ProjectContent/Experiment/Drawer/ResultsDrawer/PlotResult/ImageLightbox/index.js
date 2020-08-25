@@ -16,7 +16,7 @@ import 'react-image-lightbox/style.css';
  *
  * @component
  * @param {object} props Component props
- * @returns {ColumnsTable} React component
+ * @returns {ImageLightbox} React component
  */
 const ImageLightbox = (props) => {
   // destructuring props
