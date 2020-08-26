@@ -3,12 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import {
-  CheckOutlined,
-  CloseOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons';
-import { Switch, Spin } from 'antd';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Switch, Skeleton } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -37,7 +33,11 @@ const ToggleInputBlock = (props) => {
     <InputBlockContainer tip={tip} title={title}>
       {isLoading ? (
         /* loading */
-        <Spin style={{ marginLeft: '1vw' }} indicator={<LoadingOutlined />} />
+        <Skeleton
+          paragraph={{ rows: 1, width: 110 }}
+          size='large'
+          title={false}
+        />
       ) : (
         /* toggle input */
         <Switch

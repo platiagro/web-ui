@@ -2,9 +2,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-// UI LIBS
-import { LoadingOutlined } from '@ant-design/icons';
-
 // CONTAINERS
 import { DatasetUploadInputBlockContainer } from 'containers';
 
@@ -38,16 +35,6 @@ const DatasetDrawer = (props) => {
 
   // render dataset columns table
   const renderColumnsTable = () => {
-    // rendering loading
-    if (loading)
-      return (
-        // div container
-        <div style={{ padding: '20px' }}>
-          {/* loading icon */}
-          <LoadingOutlined />
-        </div>
-      );
-
     // rendering table
     return columns.length === 0 ? null : (
       // div container
@@ -59,6 +46,7 @@ const DatasetDrawer = (props) => {
           disabled={trainingLoading}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          loading={loading}
         />
       </InputBlockContainer>
     );

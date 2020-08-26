@@ -3,8 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { LoadingOutlined } from '@ant-design/icons';
-import { Input, Spin } from 'antd';
+import { Input, Skeleton } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -64,7 +63,11 @@ const TextInputBlock = (props) => {
     <InputBlockContainer tip={tip} title={title}>
       {isLoading ? (
         /* loading */
-        <Spin style={{ marginLeft: '1vw' }} indicator={<LoadingOutlined />} />
+        <Skeleton
+          paragraph={{ rows: 1, width: 110 }}
+          size='large'
+          title={false}
+        />
       ) : (
         /* string input */
         <Input

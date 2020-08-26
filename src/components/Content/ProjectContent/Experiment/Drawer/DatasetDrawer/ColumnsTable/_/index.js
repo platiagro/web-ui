@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Table, Select, Tooltip } from 'antd';
+import { Table, Select, Skeleton, Tooltip } from 'antd';
 
 // STYLES
 import './style.less';
@@ -26,6 +26,7 @@ const ColumnsTable = (props) => {
     disabled,
     currentPage,
     setCurrentPage,
+    loading,
   } = props;
 
   // columns configuration
@@ -34,25 +35,39 @@ const ColumnsTable = (props) => {
       title: 'Atributo',
       dataIndex: 'name',
       key: 'name',
-      render: (value, row, index) => (
-        <Tooltip title={value}>
-          <span>{value}</span>
-        </Tooltip>
-      ),
+      render: (value, row, index) =>
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 110 }}
+            size='large'
+            title={false}
+          />
+        ) : (
+          <Tooltip title={value}>
+            <span>{value}</span>
+          </Tooltip>
+        ),
     },
     {
       title: 'Tipo de dado',
       dataIndex: 'featuretype',
       key: 'featuretype',
-      render: (value, row, index) => (
-        <TypeSelect
-          disabled={disabled}
-          value={value}
-          onChange={(e) => {
-            handleChangeType(e, row);
-          }}
-        />
-      ),
+      render: (value, row, index) =>
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 110 }}
+            size='large'
+            title={false}
+          />
+        ) : (
+          <TypeSelect
+            disabled={disabled}
+            value={value}
+            onChange={(e) => {
+              handleChangeType(e, row);
+            }}
+          />
+        ),
     },
   ];
 
