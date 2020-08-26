@@ -13,10 +13,14 @@ import TooltipTip from './TooltipTip';
 // INPUT BLOCK
 import InputBlockContainer from './InputBlockContainer';
 
+// DATASET COLUMNS TABLE
+import DatasetColumnsTable from './DatasetColumnsTable';
+
 export {
   ResizableSection,
   OperatorResizableSection,
   PopoverTip,
   InputBlockContainer,
   TooltipTip,
+  DatasetColumnsTable,
 };
