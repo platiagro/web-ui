@@ -40,6 +40,7 @@ const initialState = {
   implantedExperiments: { loading: false },
   experimentInferenceModal: { visible: false },
   projectEditName: { loading: false },
+  dataViewModal: { isVisible: false },
 };
 
 /**
@@ -393,6 +394,17 @@ const uiReducer = (state = initialState, action = undefined) => {
         experimentInferenceModal: {
           ...state.experimentInferenceModal,
           visible: false,
+        },
+      };
+
+    // DATA VIEW MODAL
+    case actionTypes.SHOW_DATA_VIEW_MODAL: // show data view modal
+    case actionTypes.HIDE_DATA_VIEW_MODAL: // hide data view modal
+      return {
+        ...state,
+        dataViewModal: {
+          ...state.dataViewModal,
+          isVisible: action.isVisible,
         },
       };
 
