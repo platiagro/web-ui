@@ -270,6 +270,17 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
+    // EXPERIMENT DELETE TRAINING
+    case actionTypes.EXPERIMENT_DELETE_TRAINING_LOADING_DATA: // loading data
+    case actionTypes.EXPERIMENT_DELETE_TRAINING_DATA_LOADED: // data loaded
+      return {
+        ...state,
+        experimentTraining: {
+          ...state.experimentTraining,
+          deleteLoading: action.experimentDeleteTrainingLoading,
+        },
+      };
+
     // EXPERIMENT NAME
     case actionTypes.EXPERIMENT_NAME_LOADING_DATA: // loading data
     case actionTypes.EXPERIMENT_NAME_DATA_LOADED: // data loaded

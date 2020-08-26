@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 
 // COMPONENTS
 import DeleteExperimentButton from '../DeleteExperimentButton';
-import TrainExperimentButton from '../TrainExperimentButton';
 import DeployExperimentButton from '../DeployExperimentButton';
+import InterruptTrainExperimentButton from '../InterruptTrainExperimentButton';
 import NewTemplateButton from '../NewTemplateButton/Container';
 import NewTemplateModal from '../NewTemplateModal/Container';
+import TrainExperimentButton from '../TrainExperimentButton';
 
 import './styles.less';
 /**
@@ -18,52 +19,55 @@ import './styles.less';
  * @param {object} props Component props
  * @returns {ExperimentHeader} React component
  */
-const ExperimentHeader = (props) => {
-  // destructuring props
-  const {
-    loading,
-    trainingLoading,
-    trainingSucceeded,
-    deployStatus,
-    handleDeleteExperiment,
-    handleTrainExperiment,
-    handleDeployExperiment,
-    empty,
-  } = props;
-
-  // rendering component
-  return (
-    <div className='buttons-config'>
-      <NewTemplateModal />
-      {/* new template button */}
-      <NewTemplateButton disabled={loading || trainingLoading || empty} />
-      {/* train button */}
+const ExperimentHeader = ({
+  loading,
+  deleteTrainingLoading,
+  trainingLoading,
+  trainingSucceeded,
+  deployStatus,
+  handleDeleteExperiment,
+  handleTrainExperiment,
+  handleDeployExperiment,
+  handleDeleteTrainExperiment,
+  empty,
+}) => (
+  <div className='buttons-config'>
+    <NewTemplateModal />
+    {/* new template button */}
+    <NewTemplateButton disabled={loading || trainingLoading || empty} />
+    {/* train button or interrupt train button */}
+    {trainingLoading ? (
+      <InterruptTrainExperimentButton
+        handleClick={handleDeleteTrainExperiment}
+        disabled={loading || deleteTrainingLoading}
+        deleteExperimentRunning={deleteTrainingLoading}
+      />
+    ) : (
       <TrainExperimentButton
         handleClick={handleTrainExperiment}
-        disabled={loading || trainingLoading || empty}
-        experimentRunning={trainingLoading}
+        disabled={loading || empty}
       />
-      {/* deploy button */}
-      <DeployExperimentButton
-        handleClick={handleDeployExperiment}
-        disabled={
-          loading ||
-          trainingLoading ||
-          !trainingSucceeded ||
-          deployStatus === 'Succeeded' ||
-          deployStatus === 'Running'
-        }
-        loading={deployStatus === 'Running'}
-      />
-      {/* delete button */}
-      <DeleteExperimentButton
-        disabled={loading || trainingLoading}
-        handleClick={handleDeleteExperiment}
-        loading={loading}
-      />
-    </div>
-  );
-};
+    )}
+    {/* deploy button */}
+    <DeployExperimentButton
+      handleClick={handleDeployExperiment}
+      disabled={
+        loading ||
+        trainingLoading ||
+        !trainingSucceeded ||
+        deployStatus === 'Succeeded' ||
+        deployStatus === 'Running'
+      }
+      loading={deployStatus === 'Running'}
+    />
+    {/* delete button */}
+    <DeleteExperimentButton
+      disabled={loading || trainingLoading}
+      handleClick={handleDeleteExperiment}
+      loading={loading}
+    />
+  </div>
+);
 
 // PROP TYPES
 ExperimentHeader.propTypes = {
@@ -75,6 +79,8 @@ ExperimentHeader.propTypes = {
   handleTrainExperiment: PropTypes.func.isRequired,
   /** experiment header deploy experiment handler */
   handleDeployExperiment: PropTypes.func.isRequired,
+  /** experiment header delete train experiment handler */
+  handleDeleteTrainExperiment: PropTypes.func.isRequired,
   /** is loading */
   loading: PropTypes.bool.isRequired,
   /** training is loading */

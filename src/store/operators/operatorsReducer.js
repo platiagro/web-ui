@@ -39,17 +39,31 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     // pipelines
     // get training experiment status
     case pipelinesActionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS:
-      return state.map((operator) => ({
-        ...operator,
-        status:
-          operator.uuid === 'dataset'
-            ? 'Succeeded'
-            : action.status[operator.uuid]
-            ? action.status[operator.uuid]
-            : action.experimentIsRunning
-            ? 'Pending'
-            : '',
-      }));
+      let isTerminated = false;
+      return state.map((operator) => {
+        // get the operator status
+        let status = '';
+        if (isTerminated) {
+          status = 'Terminated';
+        } else if (action.status[operator.uuid]) {
+          status = action.status[operator.uuid];
+        } else if (action.experimentIsRunning) {
+          status = 'Pending';
+        }
+
+        // necessary this flag to set all operator the status Terminated
+        // because the backend not send all operator status when pipeline is interrupted
+        if (!isTerminated && status === 'Terminated') {
+          isTerminated = true;
+        }
+
+        return {
+          ...operator,
+          status,
+          experimentIsRunning: action.experimentIsRunning,
+          interruptIsRunning: action.interruptIsRunning,
+        };
+      });
     // train experiment success
     case pipelinesActionTypes.TRAIN_EXPERIMENT_SUCCESS:
       return state.map((operator) => ({

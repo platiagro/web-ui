@@ -7,10 +7,15 @@ import experimentActionTypes from '../experiment/actionTypes';
 // SERVICES
 import pipelinesApi from '../../services/PipelinesApi';
 
+// UI LIBS
+import { message } from 'antd';
+
 // UI ACTIONS
 import {
   experimentTrainingLoadingData,
   experimentTrainingDataLoaded,
+  experimentDeleteTrainingLoadingData,
+  experimentDeleteTrainingDataLoaded,
 } from '../ui/actions';
 
 // UTILS
@@ -115,7 +120,7 @@ export const trainExperimentRequest = (experiment, operators) => (
  * @param {Object} response
  * @returns {Object} { type }
  */
-const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
+const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
   // getting status from response
   const { status } = response.data;
 
@@ -136,10 +141,11 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
   // checking status operators to verify if traning is succeeded
   Object.values(status).forEach((statusValue) => {
     if (
+      statusValue === '' ||
+      statusValue === 'Pending' ||
       statusValue === 'Running' ||
       statusValue === 'Failed' ||
-      statusValue === '' ||
-      statusValue === 'Pending'
+      statusValue === 'Terminated'
     )
       isSucceeded = false;
   });
@@ -148,14 +154,28 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch) => {
   if (isSucceeded)
     dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_SUCCEEDED });
 
+  // get deleteLoading state
+  const { uiReducer } = getState();
+  let deleteLoading = uiReducer.experimentTraining.deleteLoading;
+
   // experiment training not is running
-  if (!isRunning) dispatch(experimentTrainingDataLoaded());
-  else dispatch(experimentTrainingLoadingData());
+  if (!isRunning) {
+    dispatch(experimentTrainingDataLoaded());
+    // check if is interrupting flow
+    if (deleteLoading) {
+      dispatch(experimentDeleteTrainingDataLoaded());
+      message.success('Treinamento interrompido!');
+      deleteLoading = false;
+    }
+  } else {
+    dispatch(experimentTrainingLoadingData());
+  }
 
   dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
     status,
     experimentIsRunning: isRunning,
+    interruptIsRunning: deleteLoading,
   });
 };
 
@@ -274,3 +294,23 @@ export const deployExperimentRequest = (
 };
 
 // // // // // // // // // //
+
+/**
+ * Delete train experiment
+ *
+ * @param {String} experimentId
+ * @returns {Function}
+ */
+export const deleteTrainExperiment = (experimentId) => (dispatch) => {
+  dispatch(experimentDeleteTrainingLoadingData());
+  pipelinesApi
+    .deleteTrainExperiment(experimentId)
+    .then(() => {
+      message.loading('Interrompendo execução...', 5);
+      dispatch(getTrainExperimentStatusRequest(experimentId));
+    })
+    .catch((error) => {
+      dispatch(experimentDeleteTrainingDataLoaded());
+      message.error(error.message);
+    });
+};

@@ -541,6 +541,16 @@ const getDatasetName = (tasks, operators) => {
   return datasetName;
 };
 
+/**
+ * Sleep method
+ *
+ * @param {int} milliseconds
+ * @returns {Promise}
+ */
+const sleep = (milliseconds) => {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -558,4 +568,5 @@ export default {
   transformColumnsInParameterOptions,
   sortOperatorsByDependencies,
   getDatasetName,
+  sleep,
 };

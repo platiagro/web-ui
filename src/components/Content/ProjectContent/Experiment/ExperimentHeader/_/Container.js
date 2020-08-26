@@ -18,6 +18,7 @@ import {
 import {
   trainExperimentRequest,
   deployExperimentRequest,
+  deleteTrainExperiment,
 } from '../../../../../../store/pipelines/actions';
 
 // DISPATCHS
@@ -37,6 +38,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       ),
     handleFetchExperimentDeployStatus: (experimentId) =>
       dispatch(fetchExperimentDeployStatusRequest(experimentId)),
+    handleDeleteTrainExperiment: (experimentId) =>
+      dispatch(deleteTrainExperiment(experimentId)),
   };
 };
 
@@ -48,6 +51,7 @@ const mapStateToProps = (state) => {
     operators: state.operatorsReducer,
     loading: state.uiReducer.experimentName.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
+    deleteTrainingLoading: state.uiReducer.experimentTraining.deleteLoading,
   };
 };
 
@@ -62,12 +66,14 @@ const ExperimentHeaderContainer = ({
   operators,
   loading,
   trainingLoading,
+  deleteTrainingLoading,
   handleDeleteExperiment,
   handleFetchExperiment,
   handleEditExperimentName,
   handleTrainExperiment,
   handleDeployExperiment,
   handleFetchExperimentDeployStatus,
+  handleDeleteTrainExperiment,
 }) => {
   // CONSTANTS
   // getting project uuid
@@ -102,26 +108,31 @@ const ExperimentHeaderContainer = ({
   // edit experiment name
   const editExperimentNameHandler = (newName) =>
     handleEditExperimentName(projectId, experimentId, newName);
-  // edit experiment name
+  // train experiment
   const trainExperimentHandler = () =>
     handleTrainExperiment(experiment, operators);
-  // edit experiment name
+  // deploy experiment
   const deployExperimentHandler = () =>
     handleDeployExperiment(project, experiment, operators);
+  // delete train experiment
+  const deleteTrainExperimentHandler = () =>
+    handleDeleteTrainExperiment(experiment.uuid);
 
   // RENDER
   return (
     <ExperimentHeader
       title={experiment.name}
+      empty={operators.length < 2}
+      loading={loading}
       trainingLoading={trainingLoading}
       trainingSucceeded={experiment.succeeded}
       deployStatus={experiment.deployStatus}
+      deleteTrainingLoading={deleteTrainingLoading}
       handleEditExperimentName={editExperimentNameHandler}
       handleDeleteExperiment={deleteHandler}
       handleTrainExperiment={trainExperimentHandler}
       handleDeployExperiment={deployExperimentHandler}
-      loading={loading}
-      empty={operators.length < 2}
+      handleDeleteTrainExperiment={deleteTrainExperimentHandler}
     />
   );
 };

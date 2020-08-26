@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // CONSTANTS
 // api base url
-const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:3000';
+const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
 // api object
 const pipelinesApi = axios.create({
   baseURL: `${URL}`,
@@ -41,9 +41,19 @@ const deployExperiment = (experimentId, deployObject) => {
   return pipelinesApi.put(`${deployPath}/${experimentId}`, deployObject);
 };
 
+/**
+ * Delete Train Experiment
+ * @param {String} experimentId
+ * @returns {Promise}
+ */
+const deleteTrainExperiment = (experimentId) => {
+  return pipelinesApi.delete(`${trainPath}/${experimentId}`);
+};
+
 // EXPORT DEFAULT
 export default {
   getTrainExperimentStatus,
   trainExperiment,
   deployExperiment,
+  deleteTrainExperiment,
 };
