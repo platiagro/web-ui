@@ -34,7 +34,7 @@ const PlotResult = (props) => {
         </>
       )}
       {/* rendering plot */}
-      <ImageLightbox plotSvg={plotUrl} />
+      <ImageLightbox plotUrl={plotUrl} />
     </div>
   );
 };
