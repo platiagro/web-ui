@@ -295,7 +295,7 @@ const GenericDrawer = (props) => {
 
   return (
     // div container
-    <div>
+    <>
       {/* rendering remove operator button */}
       <InputBlockContainer>
         <RemoveOperatorButton
@@ -306,10 +306,12 @@ const GenericDrawer = (props) => {
       </InputBlockContainer>
       {/* Render empty component when drawer is empty */}
       {drawerInputs && drawerInputs.length === 0 && (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description='Não há parâmetros para configuração'
-        />
+        <InputBlockContainer>
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description='Não há parâmetros para configuração'
+          />
+        </InputBlockContainer>
       )}
       {/* rendering drawer inputs */}
       {drawerInputs &&
@@ -334,7 +336,7 @@ const GenericDrawer = (props) => {
           {drawerTip}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
