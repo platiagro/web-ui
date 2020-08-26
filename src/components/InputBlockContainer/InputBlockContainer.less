@@ -2,7 +2,11 @@
 .inputBlock {
   width: 100%;
   padding: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+
+  // when input block not is last child, render a bottom border
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  }
 }
 
 // input block title
