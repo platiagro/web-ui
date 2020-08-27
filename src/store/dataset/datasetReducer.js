@@ -9,6 +9,7 @@ const initialState = {
   filename: '',
   name: '',
   columns: [],
+  observationsCount: 5000, // TODO: conectar a api
 };
 
 /**
@@ -37,7 +38,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
     // create dataset success
     case actionTypes.CREATE_DATASET_SUCCESS:
       message.success('Dados de entrada importados', 5);
-      return { ...action.dataset };
+      return { ...state, ...action.dataset };
 
     // FAIL
     case actionTypes.CREATE_DATASET_FAIL:
