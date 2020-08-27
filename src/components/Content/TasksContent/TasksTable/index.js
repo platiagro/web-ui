@@ -22,6 +22,7 @@ import {
   Tag,
   Tooltip,
   Typography,
+  Skeleton,
 } from 'antd';
 
 const { Text } = Typography;
@@ -103,7 +104,13 @@ const TasksTable = (props) => {
       },
       render: (value, record) => {
         const random = Math.round(Math.random());
-        return (
+        return loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 200 }}
+            size='large'
+            title={false}
+          />
+        ) : (
           <div>
             <Button
               type='link'
@@ -144,107 +151,130 @@ const TasksTable = (props) => {
       ellipsis: {
         showTitle: false,
       },
-      render: (value, record) => (
-        <Tooltip placement='topLeft' title={value}>
-          {value}
-        </Tooltip>
-      ),
+      render: (value, record) =>
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 250 }}
+            size='large'
+            title={false}
+          />
+        ) : (
+          <Tooltip placement='topLeft' title={value}>
+            {value}
+          </Tooltip>
+        ),
     },
     {
       title: <strong>Origem</strong>,
       dataIndex: 'source',
       key: 'source',
       width: '17%',
-      render: (value, record) => (
-        <Space size={8}>
-          <Popover
-            placement='bottomLeft'
-            content={
-              <>
-                <Space>
-                  <ShoppingOutlined style={{ fontSize: '20px' }} />
-                  <strong>{record.name}</strong>
-                </Space>
-                <div style={{ marginLeft: '28px' }}>
-                  <Text strong>Autor: PlatIAgro</Text>
-                  <br />
-                  <Text strong>Atualizada em 15/06/2020</Text>
-                  <br />
-                  <br />
-                  <Text strong>A sua cópia foi feita em 10/06/2020</Text>
-                </div>
-              </>
-            }
-          >
-            <Space size={8}>
-              <Button
-                shape='circle'
-                style={{
-                  color: 'white',
-                  backgroundColor: '#389E0D',
-                  border: 0,
-                }}
-              >
-                P
-              </Button>
-              <Button className='btnTaskOrigin' type='link'>
-                platiagro
-              </Button>
-            </Space>
-          </Popover>
-          {record.createdAt !== record.updatedAt ? <Tag>Modificada</Tag> : null}
-        </Space>
-      ),
+      render: (value, record) =>
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 110 }}
+            size='large'
+            title={false}
+          />
+        ) : (
+          <Space size={8}>
+            <Popover
+              placement='bottomLeft'
+              content={
+                <>
+                  <Space>
+                    <ShoppingOutlined style={{ fontSize: '20px' }} />
+                    <strong>{record.name}</strong>
+                  </Space>
+                  <div style={{ marginLeft: '28px' }}>
+                    <Text strong>Autor: PlatIAgro</Text>
+                    <br />
+                    <Text strong>Atualizada em 15/06/2020</Text>
+                    <br />
+                    <br />
+                    <Text strong>A sua cópia foi feita em 10/06/2020</Text>
+                  </div>
+                </>
+              }
+            >
+              <Space size={8}>
+                <Button
+                  shape='circle'
+                  style={{
+                    color: 'white',
+                    backgroundColor: '#389E0D',
+                    border: 0,
+                  }}
+                >
+                  P
+                </Button>
+                <Button className='btnTaskOrigin' type='link'>
+                  platiagro
+                </Button>
+              </Space>
+            </Popover>
+            {record.createdAt !== record.updatedAt ? (
+              <Tag>Modificada</Tag>
+            ) : null}
+          </Space>
+        ),
     },
     {
       title: <strong>Ação</strong>,
       dataIndex: 'action',
       key: 'action',
       width: '18%',
-      render: (value, record) => (
-        <Space size={8}>
-          <Button
-            className='btnTaskActions'
-            type='link'
-            onClick={() => handleClickTask(record.name)}
-          >
-            Ver código-fonte
-          </Button>
-          |
-          <Popover
-            overlayClassName='more-actions-popover'
-            placement='bottom'
-            onVisibleChange={(visible) => {
-              if (!visible && confirmPopupRef.current.props.visible) {
-                confirmPopupRef.current.onClick();
-              }
-            }}
-            content={
-              <div style={{ width: '140px' }}>
-                <Button className='btnTaskMoreActions' type='text'>
-                  Fazer uma cópia
-                </Button>
-                <Popconfirm
-                  ref={confirmPopupRef}
-                  title='Você tem certeza que deseja excluir essa tarefa?'
-                  onConfirm={() => handleClickDelete(record.uuid)}
-                  okText='Sim'
-                  cancelText='Não'
-                  placement='bottomRight'
-                >
-                  <Button className='btnTaskMoreActions' type='text'>
-                    Excluir
-                  </Button>
-                </Popconfirm>
-              </div>
-            }
-          >
-            <Button className='btnTaskActions' type='link'>
-              Mais <DownOutlined />
+      render: (value, record) =>
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 110 }}
+            size='large'
+            title={false}
+          />
+        ) : (
+          <Space size={8}>
+            <Button
+              className='btnTaskActions'
+              type='link'
+              onClick={() => handleClickTask(record.name)}
+            >
+              Ver código-fonte
             </Button>
-          </Popover>
-        </Space>
-      ),
+            |
+            <Popover
+              overlayClassName='more-actions-popover'
+              placement='bottom'
+              onVisibleChange={(visible) => {
+                if (!visible && confirmPopupRef.current.props.visible) {
+                  confirmPopupRef.current.onClick();
+                }
+              }}
+              content={
+                <div style={{ width: '140px' }}>
+                  <Button className='btnTaskMoreActions' type='text'>
+                    Fazer uma cópia
+                  </Button>
+                  <Popconfirm
+                    ref={confirmPopupRef}
+                    title='Você tem certeza que deseja excluir essa tarefa?'
+                    onConfirm={() => handleClickDelete(record.uuid)}
+                    okText='Sim'
+                    cancelText='Não'
+                    placement='bottomRight'
+                  >
+                    <Button className='btnTaskMoreActions' type='text'>
+                      Excluir
+                    </Button>
+                  </Popconfirm>
+                </div>
+              }
+            >
+              <Button className='btnTaskActions' type='link'>
+                Mais <DownOutlined />
+              </Button>
+            </Popover>
+          </Space>
+        ),
     },
   ];
 
@@ -260,7 +290,7 @@ const TasksTable = (props) => {
         showSizeChanger: true,
         pageSizeOptions: ['10', '20', '30', '40', '50'],
       }}
-      loading={loading}
+      loading={Boolean(loading && tasks.length === 0)}
     />
   );
 };
