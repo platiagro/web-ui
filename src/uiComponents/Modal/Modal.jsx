@@ -52,7 +52,13 @@ const Modal = (props) => {
     isFullScreen,
     isVisible,
     title,
+    className,
   } = props;
+
+  // modal class name
+  const modalClassName = `${className} ${
+    isFullScreen ? 'modalFullScreen' : ''
+  }`;
 
   // rendering component
   return (
@@ -63,7 +69,7 @@ const Modal = (props) => {
       onCancel={handleClose}
       okText={closeButtonText}
       cancelButtonProps={{ style: { display: 'none' } }}
-      className={isFullScreen ? 'modalFullScreen' : undefined}
+      className={modalClassName}
       centered
     >
       {children}
@@ -85,6 +91,13 @@ Modal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   /** Modal header title */
   title: PropTypes.string.isRequired,
+  /** Modal css class */
+  className: PropTypes.string,
+};
+
+Modal.defaultProps = {
+  /** Modal css class */
+  className: '',
 };
 
 // EXPORT DEFAULT
