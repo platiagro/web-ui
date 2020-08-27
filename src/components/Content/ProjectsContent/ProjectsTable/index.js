@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Popconfirm, Space, Table, Tag, Typography } from 'antd';
+import { Button, Input, Popconfirm, Skeleton, Space, Table, Tag, Typography, Descriptions } from 'antd';
 
 const { Text } = Typography;
 
@@ -66,37 +66,37 @@ const ProjectsTable = ({
         confirm,
         clearFilters,
       }) => (
-        <div style={{ padding: 8 }}>
-          <Input
-            ref={searchInputRef}
-            placeholder={`Nome`}
-            value={selectedKeys[0]}
-            onChange={(e) =>
-              setSelectedKeys(e.target.value ? [e.target.value] : [])
-            }
-            onPressEnter={() => handleSearch(selectedKeys, confirm)}
-            style={{ width: 188, marginBottom: 8, display: 'block' }}
-          />
-          <Space>
-            <Button
-              type='primary'
-              onClick={() => handleSearch(selectedKeys, confirm)}
-              icon={<SearchOutlined />}
-              size='small'
-              style={{ width: 90 }}
-            >
-              Search
+          <div style={{ padding: 8 }}>
+            <Input
+              ref={searchInputRef}
+              placeholder={`Nome`}
+              value={selectedKeys[0]}
+              onChange={(e) =>
+                setSelectedKeys(e.target.value ? [e.target.value] : [])
+              }
+              onPressEnter={() => handleSearch(selectedKeys, confirm)}
+              style={{ width: 188, marginBottom: 8, display: 'block' }}
+            />
+            <Space>
+              <Button
+                type='primary'
+                onClick={() => handleSearch(selectedKeys, confirm)}
+                icon={<SearchOutlined />}
+                size='small'
+                style={{ width: 90 }}
+              >
+                Search
             </Button>
-            <Button
-              onClick={() => handleReset(clearFilters)}
-              size='small'
-              style={{ width: 90 }}
-            >
-              Reset
+              <Button
+                onClick={() => handleReset(clearFilters)}
+                size='small'
+                style={{ width: 90 }}
+              >
+                Reset
             </Button>
-          </Space>
-        </div>
-      ),
+            </Space>
+          </div>
+        ),
       onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
           setTimeout(() => searchInputRef.current.select());
@@ -105,17 +105,23 @@ const ProjectsTable = ({
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
       ),
-      render: (value, record) => (
-        <Button
-          type='link'
-          onClick={() => handleClickProject(record.uuid)}
-          style={{ textAlign: 'left', width: '100%' }}
-        >
-          <Text ellipsis style={{ color: '#0050B3', width: '100%' }}>
-            {value}
-          </Text>
-        </Button>
-      ),
+      render: (value, record) => loading ? (
+        <Skeleton
+          paragraph={{ rows: 1, width: 150 }}
+          size='large'
+          title={false}
+        />
+      ) : (
+          <Button
+            type='link'
+            onClick={() => handleClickProject(record.uuid)}
+            style={{ textAlign: 'left', width: '100%' }}
+          >
+            <Text ellipsis style={{ color: '#0050B3', width: '100%' }}>
+              {value}
+            </Text>
+          </Button>
+        ),
     },
     {
       title: <strong>Descrição</strong>,
@@ -123,6 +129,16 @@ const ProjectsTable = ({
       key: 'description',
       width: '30%',
       ellipsis: true,
+      render: (description) => (
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 250 }}
+            size='large'
+            title={false}
+          />
+        ) :
+          <></>
+      )
     },
     {
       title: <strong>Tags</strong>,
@@ -147,33 +163,44 @@ const ProjectsTable = ({
         return record.tags ? record.tags.indexOf(value) === 0 : false;
       },
       render: (tags) => {
-        //TODO Remover mock depois que as tags forem implementadas
-        tags = ['Experimentação', 'Pré-implantação', 'Implantado'];
-        return (
-          <>
-            {tags.map((tag) => {
-              if (tag === 'Experimentação') {
-                return (
-                  <Tag color='purple' key='purpleTag'>
-                    {tag}
-                  </Tag>
-                );
-              } else if (tag === 'Pré-implantação') {
-                return (
-                  <Tag color='volcano' key='volcanoTag'>
-                    {tag}
-                  </Tag>
-                );
-              } else {
-                return (
-                  <Tag color='green' key='greenTag'>
-                    {tag}
-                  </Tag>
-                );
-              }
-            })}
-          </>
-        );
+        if (loading) {
+          return (
+            <Skeleton
+              paragraph={{ rows: 1, width: 200 }}
+              size='large'
+              title={false}
+            />
+          )
+        } else {
+          //TODO Remover mock depois que as tags forem implementadas
+          tags = ['Experimentação', 'Pré-implantação', 'Implantado'];
+          return (
+            <>
+              {tags.map((tag) => {
+                if (tag === 'Experimentação') {
+                  return (
+                    <Tag color='purple' key='purpleTag'>
+                      {tag}
+                    </Tag>
+                  );
+                } else if (tag === 'Pré-implantação') {
+                  return (
+                    <Tag color='volcano' key='volcanoTag'>
+                      {tag}
+                    </Tag>
+                  );
+                } else {
+                  return (
+                    <Tag color='green' key='greenTag'>
+                      {tag}
+                    </Tag>
+                  );
+                }
+              })}
+            </>
+          );
+        }
+
       },
     },
     {
@@ -187,23 +214,37 @@ const ProjectsTable = ({
         return dateA.getTime() - dateB.getTime();
       },
       sortDirections: ['descend', 'ascend'],
-      render: (value) => new Date(value).toLocaleString(),
+      render: (value) =>
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 70 }}
+            size='large'
+            title={false}
+          />
+        ) : new Date(value).toLocaleString(),
     },
     {
       title: <strong>Ação</strong>,
       dataIndex: 'action',
       key: 'action',
       width: '10%',
-      render: (value, record) => (
-        <Popconfirm
-          title='Você tem certeza que deseja excluir esse projeto?'
-          onConfirm={() => handleClickDelete(record.uuid)}
-          okText='Sim'
-          cancelText='Não'
-        >
-          <Button type='link'>Excluir</Button>
-        </Popconfirm>
-      ),
+      render: (value, record) =>
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 70 }}
+            size='large'
+            title={false}
+          />
+        ) : (
+            <Popconfirm
+              title='Você tem certeza que deseja excluir esse projeto?'
+              onConfirm={() => handleClickDelete(record.uuid)}
+              okText='Sim'
+              cancelText='Não'
+            >
+              <Button type='link'>Excluir</Button>
+            </Popconfirm>
+          ),
     },
   ];
   // RENDER
@@ -220,7 +261,8 @@ const ProjectsTable = ({
       dataSource={projects}
       columns={columnsConfig}
       pagination={false}
-      loading={loading}
+      //loading={loading}
+      loading={Boolean(loading && projects.length === 0)}
     />
   );
 };
