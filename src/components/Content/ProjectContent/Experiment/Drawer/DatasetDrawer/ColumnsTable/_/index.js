@@ -114,7 +114,6 @@ const ColumnsTable = (props) => {
       columns={columnsConfig}
       rowKey={setRowKey}
       size='small'
-      scroll={{ y: 340 }}
       pagination={{
         current: currentPage,
         onChange: (page) => setCurrentPage(page),
