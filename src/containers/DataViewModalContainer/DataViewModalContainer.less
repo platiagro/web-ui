@@ -1,0 +1,90 @@
+@import '/src/variables.less';
+
+.dataViewModal {
+  height: 95%;
+
+  .dataViewAttributtesDownload {
+    float: left;
+    width: 30%;
+    padding: 20px;
+    border-bottom: 1px solid #e8e8e8;
+
+    button:not(:disabled) {
+      color: @primary-color;
+    }
+  }
+
+  .dataViewAttributtesUpload {
+    float: left;
+    width: 30%;
+    padding: 20px;
+
+    button:not(:disabled) {
+      color: @primary-color;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding-left: 0.7em;
+    }
+    li:before {
+      content: '-'; /* FontAwesome Unicode */
+      display: inline-block;
+      margin-left: -0.7em; /* same as padding-left set on li */
+      width: 0.7em; /* same as padding-left set on li */
+    }
+  }
+
+  .datasetTable {
+    margin: 15px 10px 10px 0px;
+  }
+
+  .ant-tabs-nav {
+    margin: 0;
+  }
+
+  .ant-tabs {
+    height: 100%;
+  }
+
+  .ant-tabs-tab {
+    padding: 12px 15px;
+    margin: 0px;
+  }
+
+  .ant-tabs-content {
+    height: 100%;
+  }
+
+  .ant-table-body {
+    max-height: none;
+    overflow-y: hidden;
+  }
+
+  .attributtesTable {
+    float: left;
+    width: 70%;
+    height: 100%;
+
+    border-right: 1px solid #e8e8e8;
+  }
+
+  .dataViewModalDataHeader {
+    margin: 1px 0;
+    padding: 10px 0;
+    height: 5%;
+  }
+
+  .dataViewObservations {
+    margin: 15px 0px;
+  }
+}
+
+.dataViewModalParent {
+  .ant-modal-body {
+    padding: 0 25px;
+  }
+}

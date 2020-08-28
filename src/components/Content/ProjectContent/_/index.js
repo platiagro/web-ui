@@ -15,6 +15,7 @@ import ExperimentFlow from '../Experiment/ExperimentFlow/_/Container';
 import {
   OperatorResizableSectionContainer,
   OperatorResultsModalContainer,
+  DataViewModalContainer,
 } from 'containers';
 
 import { ProjectEmptyPlaceholder } from 'components/EmptyPlaceholders';
@@ -84,6 +85,8 @@ const ProjectContent = (props) => {
   // RENDER
   return (
     <>
+      {/* data view modal container */}
+      <DataViewModalContainer />
       {/* operator results modal */}
       <OperatorResultsModalContainer />
       {/* Header from project (name and rename) */}

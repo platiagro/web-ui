@@ -10,9 +10,13 @@ import OperatorResultsModalContainer from './OperatorResultsModalContainer';
 // DATA VIEW BUTTON CONTAINER
 import DataViewButtonContainer from './DataViewButtonContainer';
 
+// DATA VIEW MODAL CONTAINER
+import DataViewModalContainer from './DataViewModalContainer';
+
 export {
   OperatorResizableSectionContainer,
   DatasetUploadInputBlockContainer,
   OperatorResultsModalContainer,
   DataViewButtonContainer,
+  DataViewModalContainer,
 };

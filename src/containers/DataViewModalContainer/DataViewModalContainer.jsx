@@ -3,64 +3,65 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// TODO: criar ui component para as tabs
+// TODO: criar ui component para table
+// ANTD COMPONENTS
+import { Tabs, Table } from 'antd';
+import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
+
 // UI COMPONENTS
-import { Modal } from 'uiComponents';
+import { Modal, Button } from 'uiComponents';
 
 // COMPONENTS
-import ResultsDrawer from 'components/Content/ProjectContent/Experiment/Drawer/ResultsDrawer/_';
+import { DatasetColumnsTable } from 'components';
 
 // ACTIONS
-import { hideOperatorResults } from '../../store/ui/actions';
+import { hideDataViewModal } from '../../store/ui/actions';
+
+// STYLES
+import './DataViewModalContainer.less';
+
+// TABS COMPONENTS
+const { TabPane } = Tabs;
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // close results modal
-    handleClose: () => dispatch(hideOperatorResults()),
+    handleClose: () => dispatch(hideDataViewModal()),
   };
 };
 
 // STATES
 const mapStateToProps = (state) => {
   return {
-    // operator experiment results
-    operatorResults: state.operatorReducer.results,
-    // operator experiment metrics
-    operatorMetrics: state.operatorReducer.metrics,
-    // operator parameters
-    operatorParameters: state.operatorReducer.parameters,
-    // operator experiment results is loading
-    operatorResultsLoading: state.uiReducer.operatorResults.loading,
-    // operator experiment metrics is loading
-    operatorMetricsLoading: state.uiReducer.operatorMetrics.loading,
-    // show operator results modal
-    isVisible: state.uiReducer.operatorResults.showOperatorResults,
+    // dataset columns
+    datasetColumns: state.datasetReducer.columns,
+    // dataset observation count
+    datasetObservationsCount: state.datasetReducer.observationsCount,
+    // Data view modal is visible
+    isVisible: state.uiReducer.dataViewModal.isVisible,
   };
 };
 
+// TODO: Separar em componentes
 /**
- * Container to display operator experiment results modal.
+ * Container to display dataset data view modal.
  *
  * @param {object} props Container props
- * @returns {OperatorResultsModalContainer} Container
+ * @returns {DataViewModalContainer} Container
  * @component
  */
-const OperatorResultsModalContainer = (props) => {
-  // destructuring container props
+const DataViewModalContainer = (props) => {
+  // destructuring props
   const {
-    // operator experiment results
-    operatorResults,
-    // operator experiment metrics
-    operatorMetrics,
-    // operator experiment results is loading
-    operatorResultsLoading,
-    // operator parameters
-    operatorParameters,
-    // operator experiment metrics is loading
-    operatorMetricsLoading,
-    // close results modal handler
+    // dataset observations count
+    datasetObservationsCount,
+    // dataset columns
+    datasetColumns,
+    // close modal handler
     handleClose,
-    // show operator results modal
+    // data view modal is visible
     isVisible,
   } = props;
 
@@ -69,11 +70,29 @@ const OperatorResultsModalContainer = (props) => {
   const closeButtonText = 'Fechar';
 
   // modal title
-  const title = 'Visualizar Resultados';
+  const title = 'Visualizar dados';
 
   // modal is full screen
   const isFullScreen = true;
 
+  // atributtes count
+  const attributesCount = new Intl.NumberFormat('pt-BR').format(
+    datasetColumns.length
+  );
+
+  // observations count
+  const observationsCount = new Intl.NumberFormat('pt-BR').format(
+    datasetObservationsCount
+  );
+
+  // observations table columns
+  const columns = datasetColumns.map((column) => ({
+    title: column.name,
+    dataIndex: column.name,
+    key: column.name,
+  }));
+
+  // RENDERs
   // rendering component
   return (
     <Modal
@@ -82,37 +101,95 @@ const OperatorResultsModalContainer = (props) => {
       isFullScreen={isFullScreen}
       isVisible={isVisible}
       title={title}
+      className='dataViewModalParent'
     >
-      <ResultsDrawer
-        loading={operatorResultsLoading}
-        metricsLoading={operatorMetricsLoading}
-        metrics={operatorMetrics}
-        results={operatorResults}
-        parameters={operatorParameters}
-      />
+      <div className='dataViewModal'>
+        {/* data header */}
+        <div className='dataViewModalDataHeader'>
+          <span style={{ fontSize: '12px' }}>ATRIBUTOS: </span>
+          <span style={{ color: '#262626', fontSize: '14px' }}>
+            {attributesCount}
+          </span>
+          <span style={{ marginLeft: '25px', fontSize: '12px' }}>
+            OBSERVAÇÕES:{' '}
+          </span>
+          <span style={{ color: '#262626', fontSize: '14px' }}>
+            {observationsCount}
+          </span>
+        </div>
+        {/* modal tabs */}
+        <Tabs defaultActiveKey='1'>
+          {/* attributtes tab */}
+          <TabPane tab='Atributos' key='1'>
+            <div className='attributtesTable'>
+              {/* dataset columns table */}
+              <DatasetColumnsTable
+                columns={datasetColumns}
+                handleSetColumnType={(e) => alert(e)}
+              />
+            </div>
+            <div className='dataViewAttributtesDownload'>
+              <h2>Tipos dos atributos</h2>
+              <Button
+                isDisabled={true}
+                isLoading={false}
+                handleClick={() => console.log('Em desenvolvimento!')}
+                type={'ghost'}
+                icon={<DownloadOutlined />}
+              >
+                Fazer download
+              </Button>
+            </div>
+            <div className='dataViewAttributtesUpload'>
+              <h2>Altere todos os tipos de uma só vez</h2>
+              <p>
+                Faça download dos tipos dos atributos, altere os tipos
+                necessários e importe novamente o arquivo.
+              </p>
+              <h3>Dicas</h3>
+              <ul>
+                <li>Os tipos podem ser: Categórico, Data/Hora ou Numérico.</li>
+                <li>
+                  Cada linha do arquivo contém um tipo de atributo, na mesma
+                  ordem das colunas dos dados de entrada;
+                </li>
+              </ul>
+              <Button
+                isDisabled={true}
+                isLoading={false}
+                handleClick={() => console.log('Em desenvolvimento!')}
+                type={'ghost'}
+                icon={<UploadOutlined />}
+              >
+                Importar arquivo
+              </Button>
+            </div>
+          </TabPane>
+          {/* observations tab */}
+          <TabPane tab='Observações' key='2'>
+            <div className='dataViewObservations'>
+              <Table dataSource={[]} columns={columns} />
+            </div>
+          </TabPane>
+        </Tabs>
+      </div>
     </Modal>
   );
 };
 
-OperatorResultsModalContainer.propTypes = {
-  /** Operator results modal close handler */
+DataViewModalContainer.propTypes = {
+  /** Data view modal close handler */
   handleClose: PropTypes.func.isRequired,
-  /** Operator results modal is visible */
+  /** Data view modal is visible */
   isVisible: PropTypes.bool.isRequired,
-  /** Operator experiment metrics*/
-  operatorMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator parameters */
-  operatorParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator experiment metrics is loading */
-  operatorMetricsLoading: PropTypes.bool.isRequired,
-  /** Operator experiment results */
-  operatorResults: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator experiment results is loading */
-  operatorResultsLoading: PropTypes.bool.isRequired,
+  /** Dataset columns */
+  datasetColumns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Dataset observations count */
+  datasetObservationsCount: PropTypes.number.isRequired,
 };
 
 // EXPORT DEFAULT
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OperatorResultsModalContainer);
+)(DataViewModalContainer);
