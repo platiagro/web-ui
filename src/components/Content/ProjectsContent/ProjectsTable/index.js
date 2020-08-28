@@ -4,7 +4,16 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Popconfirm, Skeleton, Space, Table, Tag, Typography, Descriptions } from 'antd';
+import {
+  Button,
+  Input,
+  Popconfirm,
+  Skeleton,
+  Space,
+  Table,
+  Tag,
+  Typography,
+} from 'antd';
 
 const { Text } = Typography;
 
@@ -66,37 +75,37 @@ const ProjectsTable = ({
         confirm,
         clearFilters,
       }) => (
-          <div style={{ padding: 8 }}>
-            <Input
-              ref={searchInputRef}
-              placeholder={`Nome`}
-              value={selectedKeys[0]}
-              onChange={(e) =>
-                setSelectedKeys(e.target.value ? [e.target.value] : [])
-              }
-              onPressEnter={() => handleSearch(selectedKeys, confirm)}
-              style={{ width: 188, marginBottom: 8, display: 'block' }}
-            />
-            <Space>
-              <Button
-                type='primary'
-                onClick={() => handleSearch(selectedKeys, confirm)}
-                icon={<SearchOutlined />}
-                size='small'
-                style={{ width: 90 }}
-              >
-                Search
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={searchInputRef}
+            placeholder={`Nome`}
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => handleSearch(selectedKeys, confirm)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Space>
+            <Button
+              type='primary'
+              onClick={() => handleSearch(selectedKeys, confirm)}
+              icon={<SearchOutlined />}
+              size='small'
+              style={{ width: 90 }}
+            >
+              Search
             </Button>
-              <Button
-                onClick={() => handleReset(clearFilters)}
-                size='small'
-                style={{ width: 90 }}
-              >
-                Reset
+            <Button
+              onClick={() => handleReset(clearFilters)}
+              size='small'
+              style={{ width: 90 }}
+            >
+              Reset
             </Button>
-            </Space>
-          </div>
-        ),
+          </Space>
+        </div>
+      ),
       onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
           setTimeout(() => searchInputRef.current.select());
@@ -105,13 +114,14 @@ const ProjectsTable = ({
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
       ),
-      render: (value, record) => loading ? (
-        <Skeleton
-          paragraph={{ rows: 1, width: 150 }}
-          size='large'
-          title={false}
-        />
-      ) : (
+      render: (value, record) =>
+        loading ? (
+          <Skeleton
+            paragraph={{ rows: 1, width: 150 }}
+            size='large'
+            title={false}
+          />
+        ) : (
           <Button
             type='link'
             onClick={() => handleClickProject(record.uuid)}
@@ -129,16 +139,16 @@ const ProjectsTable = ({
       key: 'description',
       width: '30%',
       ellipsis: true,
-      render: (description) => (
+      render: (description) =>
         loading ? (
           <Skeleton
             paragraph={{ rows: 1, width: 250 }}
             size='large'
             title={false}
           />
-        ) :
+        ) : (
           <></>
-      )
+        ),
     },
     {
       title: <strong>Tags</strong>,
@@ -170,7 +180,7 @@ const ProjectsTable = ({
               size='large'
               title={false}
             />
-          )
+          );
         } else {
           //TODO Remover mock depois que as tags forem implementadas
           tags = ['Experimentação', 'Pré-implantação', 'Implantado'];
@@ -200,7 +210,6 @@ const ProjectsTable = ({
             </>
           );
         }
-
       },
     },
     {
@@ -221,7 +230,9 @@ const ProjectsTable = ({
             size='large'
             title={false}
           />
-        ) : new Date(value).toLocaleString(),
+        ) : (
+          new Date(value).toLocaleString()
+        ),
     },
     {
       title: <strong>Ação</strong>,
@@ -236,15 +247,15 @@ const ProjectsTable = ({
             title={false}
           />
         ) : (
-            <Popconfirm
-              title='Você tem certeza que deseja excluir esse projeto?'
-              onConfirm={() => handleClickDelete(record.uuid)}
-              okText='Sim'
-              cancelText='Não'
-            >
-              <Button type='link'>Excluir</Button>
-            </Popconfirm>
-          ),
+          <Popconfirm
+            title='Você tem certeza que deseja excluir esse projeto?'
+            onConfirm={() => handleClickDelete(record.uuid)}
+            okText='Sim'
+            cancelText='Não'
+          >
+            <Button type='link'>Excluir</Button>
+          </Popconfirm>
+        ),
     },
   ];
   // RENDER
