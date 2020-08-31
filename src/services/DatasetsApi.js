@@ -13,7 +13,18 @@ const datasetsPath = '/datasets';
 
 // API METHODS
 /**
+ * Get Dataset
+ *
+ * @param {string} datasetName
+ * @returns {Promise}
+ */
+const getDataset = (datasetName) => {
+  return datasetsApi.get(`${datasetsPath}/${datasetName}`);
+};
+
+/**
  * List Dataset Columns
+ *
  * @param {string} datasetName
  * @returns {Promise}
  */
@@ -23,7 +34,8 @@ const listDatasetColumns = (datasetName) => {
 
 /**
  * Create Dataset
- * @param {Object} formData form with dataset and feature types (header) files
+ *
+ * @param {object} formData form with dataset and feature types (header) files
  * @returns {Promise}
  */
 const createDataset = (formData) => {
@@ -32,6 +44,7 @@ const createDataset = (formData) => {
 
 /**
  * Update Dataset Column
+ *
  * @param {string} datasetName
  * @param {string} columnName
  * @param {string} columnNewType
@@ -55,4 +68,5 @@ export default {
   listDatasetColumns,
   createDataset,
   updateDatasetColumn,
+  getDataset,
 };
