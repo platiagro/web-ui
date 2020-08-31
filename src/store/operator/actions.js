@@ -22,7 +22,7 @@ import {
 } from '../ui/actions';
 
 // DATASET ACTIONS
-import { fetchDatasetColumnsRequest } from '../dataset/actions';
+import { getDatasetRequest } from '../dataset/actions';
 
 // OPERATORS ACTIONS
 import {
@@ -38,10 +38,11 @@ import DatasetsApi from 'services/DatasetsApi';
 // ** GET OPERATOR RESULTS
 /**
  * get operator results success action
- * @param {Object} responseFigure
- * @param {Object} responseTable
+ *
+ * @param {object} responseFigure
+ * @param {object} responseTable
  * @param {string} operatorId
- * @returns {Object} { type, results }
+ * @returns {object} { type, results }
  */
 const getOperatorResultsSuccess = (
   responseFigure,
@@ -87,8 +88,9 @@ const getOperatorResultsSuccess = (
 
 /**
  * get operator results fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const getOperatorResultsFail = (error) => (dispatch) => {
   // getting error message
@@ -106,9 +108,11 @@ const getOperatorResultsFail = (error) => (dispatch) => {
 
 /**
  * set operator params request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
+ * @param page
  * @returns {Function}
  */
 export const getOperatorResultsRequest = (
@@ -147,10 +151,12 @@ export const getOperatorResultsRequest = (
 
 /**
  * get operator results success action
- * @param {Object} responseFigure
- * @param {Object} responseTable
+ *
+ * @param {object} responseFigure
+ * @param {object} responseTable
  * @param {string} operatorId
- * @returns {Object} { type, results }
+ * @param page
+ * @returns {object} { type, results }
  */
 const getDataSetResultSuccess = (responseTable, operatorId, page) => (
   dispatch
@@ -194,9 +200,11 @@ const getDataSetResultSuccess = (responseTable, operatorId, page) => (
 
 /**
  * set operator params request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
+ * @param page
  * @returns {Function}
  */
 export const getPageDataSetRequest = (
@@ -255,9 +263,11 @@ export const getOperatorMetricsRequest = (
 // ** SELECT OPERATOR
 /**
  * select operator action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operator
+ * @param {number} page
  * @returns {Function}
  */
 export const selectOperator = (projectId, experimentId, operator, page) => (
@@ -283,13 +293,14 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
     });
 
     // fetching dataset columns
-    dispatch(fetchDatasetColumnsRequest(datasetValue));
+    dispatch(getDatasetRequest(datasetValue));
   }
 
   // getting results
   dispatch(
     getOperatorResultsRequest(projectId, experimentId, operator.uuid, page)
   );
+
   dispatch(getOperatorMetricsRequest(projectId, experimentId, operator.uuid));
 
   // dispatching action to show drawer
@@ -310,8 +321,9 @@ export const deselectOperator = () => (dispatch) => {
 // ** CREATE OPERATOR
 /**
  * create operator fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const createOperatorFail = (error) => (dispatch) => {
   // getting error message
@@ -329,10 +341,12 @@ const createOperatorFail = (error) => (dispatch) => {
 
 /**
  * create operator request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
- * @param {Object} taskId
- * @param {Object[]} tasks,
+ * @param {object} taskId
+ * @param {object[]} tasks,
+ * @param tasks
  * @returns {Function}
  */
 export const createOperatorRequest = (
@@ -440,6 +454,7 @@ export const createOperatorRequest = (
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
+ * @param operator
  */
 export const removeOperatorRequest = (projectId, experimentId, operator) => (
   dispatch
@@ -486,8 +501,9 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
 // ** SET OPERATOR PARAMS
 /**
  * set operator params success action
- * @param {Object} operator
- * @returns {Object} { type, operator }
+ *
+ * @param {object} operator
+ * @returns {object} { type, operator }
  */
 const setOperatorParametersSuccess = (operator) => (dispatch) => {
   // dispatching operator parameter data loaded action
@@ -502,8 +518,9 @@ const setOperatorParametersSuccess = (operator) => (dispatch) => {
 
 /**
  * set operator params fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const setOperatorParametersFail = (error) => (dispatch) => {
   // getting error message
@@ -521,9 +538,10 @@ const setOperatorParametersFail = (error) => (dispatch) => {
 
 /**
  * set operator params request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
- * @param {Object} operator
+ * @param {object} operator
  * @param {string} parameterName
  * @param {any} parameterValue
  * @returns {Function}

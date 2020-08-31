@@ -13,6 +13,7 @@ import {
   cancelDatasetUpload,
   datasetUploadFail,
   datasetUploadSuccess,
+  deleteDatasetRequest,
 } from 'store/dataset/actions';
 
 // DISPATCHS
@@ -20,6 +21,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // start dataset upload
     handleUploadStart: () => dispatch(startDatasetUpload()),
+    handleDeleteDataset: (projectId, experimentId) =>
+      dispatch(deleteDatasetRequest(projectId, experimentId)),
     handleUploadCancel: () => dispatch(cancelDatasetUpload()),
     handleUploadFail: () => dispatch(datasetUploadFail()),
     handleUploadSuccess: (dataset, projectId, experimentId) =>
@@ -32,6 +35,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.uiReducer.datasetOperator.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
+    datasetFileName: state.datasetReducer.filename,
   };
 };
 
@@ -39,11 +43,13 @@ const DatasetUploadInputBlockContainer = (props) => {
   // destructuring props
   const {
     handleUploadCancel,
+    handleDeleteDataset,
     handleUploadFail,
     handleUploadStart,
     handleUploadSuccess,
     loading,
     trainingLoading,
+    datasetFileName,
   } = props;
 
   // CONSTANTS
@@ -68,16 +74,32 @@ const DatasetUploadInputBlockContainer = (props) => {
   // upload is loading
   const isLoading = loading;
 
+  // default file list
+  const defaultFileList = datasetFileName
+    ? [
+        {
+          uid: datasetFileName,
+          name: datasetFileName,
+          status: 'done',
+        },
+      ]
+    : undefined;
+
   // handlers
   const containerHandleUploadSuccess = (dataset) =>
     handleUploadSuccess(dataset, projectId, experimentId);
+
+  const containerHandleUploadCancel = () =>
+    datasetFileName
+      ? handleDeleteDataset(projectId, experimentId)
+      : handleUploadCancel();
 
   // rendering component
   return (
     <UploadInputBlock
       actionUrl={actionUrl}
       buttonText={buttonText}
-      handleUploadCancel={handleUploadCancel}
+      handleUploadCancel={containerHandleUploadCancel}
       handleUploadFail={handleUploadFail}
       handleUploadStart={handleUploadStart}
       handleUploadSuccess={containerHandleUploadSuccess}
@@ -85,6 +107,7 @@ const DatasetUploadInputBlockContainer = (props) => {
       isLoading={isLoading}
       tip={tip}
       title={title}
+      defaultFileList={defaultFileList}
     />
   );
 };
@@ -92,6 +115,9 @@ const DatasetUploadInputBlockContainer = (props) => {
 DatasetUploadInputBlockContainer.propTypes = {
   /** Upload cancel handler */
   handleUploadCancel: PropTypes.func.isRequired,
+
+  /** Delete dataset handler */
+  handleDeleteDataset: PropTypes.func.isRequired,
 
   /** Upload fail handler */
   handleUploadFail: PropTypes.func.isRequired,
@@ -107,6 +133,14 @@ DatasetUploadInputBlockContainer.propTypes = {
 
   /** Experiment is running */
   trainingLoading: PropTypes.bool.isRequired,
+
+  /** Dataset file name */
+  datasetFileName: PropTypes.string,
+};
+
+DatasetUploadInputBlockContainer.defaultProps = {
+  /** Dataset file name */
+  datasetFileName: undefined,
 };
 
 // EXPORT DEFAULT

@@ -44,6 +44,8 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.CREATE_DATASET_FAIL:
     case actionTypes.FETCH_DATASET_COLUMNS_FAIL:
     case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
+    case actionTypes.DELETE_DATASET_FAIL:
+    case actionTypes.GET_DATASET_FAIL:
       message.error(action.errorMessage, 5);
       return state;
 
@@ -52,6 +54,14 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.CREATE_DATASET_CANCEL:
       message.success(action.successMessage, 5);
       return state;
+
+    // get dataset filename
+    case actionTypes.GET_DATASET_SUCCESS:
+    case actionTypes.DELETE_DATASET_SUCCESS:
+      return {
+        ...state,
+        ...action.dataset,
+      };
 
     // DEFAULT
     default:
