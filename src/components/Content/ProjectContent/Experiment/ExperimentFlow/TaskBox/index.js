@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
+import Draggable from 'react-draggable';
+
 // UI LIBS
 import {
   CheckCircleFilled,

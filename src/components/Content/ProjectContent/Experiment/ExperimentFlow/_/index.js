@@ -1,10 +1,12 @@
 // CORE LIBS
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
 import { Spin, Row, Col } from 'antd';
 import { ArcherContainer, ArcherElement } from 'react-archer';
+
+import Draggable from 'react-draggable';
 
 // COMPONENTS
 import TaskBox from '../TaskBox';
@@ -127,15 +129,84 @@ const ExperimentFlow = (props) => {
   };
 
   // RENDER
+  // return (
+  //   // loading spinner
+  //   <div
+  //     style={{
+  //       position: 'relative',
+  //       backgroundColor: 'beige',
+  //       height: '100%',
+  //     }}
+  //   >
+  //     <Spin spinning={loading}>
+  //       {/* arrow connection container */}
+  //       <ArcherContainer strokeColor='gray' noCurves>
+  //         {/* flow grid */}
+  //         <div className='experiment-wraper'>{renderFlowGrid()}</div>
+  //       </ArcherContainer>
+  //     </Spin>
+  //   </div>
+  // );
+
+  // console.log(positions);
   return (
-    // loading spinner
-    <Spin spinning={loading}>
-      {/* arrow connection container */}
-      <ArcherContainer strokeColor='gray' noCurves>
-        {/* flow grid */}
-        <div className='experiment-wraper'>{renderFlowGrid()}</div>
-      </ArcherContainer>
-    </Spin>
+    // <div
+    //   style={{
+    //     position: 'relative',
+    //     backgroundColor: 'beige',
+    //     height: '100%',
+    //   }}
+    // >
+    <ArcherContainer
+      ref={archerContainerRef}
+      strokeColor='#FA541C'
+      // noCurves
+      arrowLength={0}
+      style={{
+        position: 'relative',
+        backgroundColor: 'beige',
+        height: '100%',
+      }}
+    >
+      {loading ? (
+        <Spin />
+      ) : (
+          components.map((component, index) => (
+            <Draggable
+              bounds='parent'
+              defaultPosition={{ x: index, y: index }}
+              onDrag={() => archerContainerRef.current.refreshScreen()}
+            // onStop={() => console.log('stop', archerContainerRef)}
+            >
+              <div style={{ width: 200 }}>
+                {index}
+                {console.log(component)}
+                <ArcherElement
+                  id={`component${index}`}
+                  relations={
+                    index + 1 < components.length
+                      ? [
+                        {
+                          targetId: `component${index + 1}`,
+                          targetAnchor: 'left',
+                          sourceAnchor: 'middle',
+                        },
+                      ]
+                      : []
+                  }
+                >
+                  <ComponentBox
+                    handleClick={handleTaskBoxClick}
+                    {...component}
+                    operator={component}
+                  />
+                </ArcherElement>
+              </div>
+            </Draggable>
+          ))
+        )}
+    </ArcherContainer>
+    // </div>
   );
 };
 
