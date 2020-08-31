@@ -27,7 +27,9 @@ const mapStateToProps = (state) => {
     // operator description
     operatorDescription: state.operatorReducer.description,
     // operator is a dataset operator
-    operatorIsDataset: state.operatorReducer.name === 'Conjunto de dados',
+    operatorIsDataset: state.operatorReducer.tags
+      ? state.operatorReducer.tags.includes('DATASETS')
+      : false,
     // show operator experiment results
     showExperimentResults: state.uiReducer.operatorResults.showOperatorResults,
     // operator parent experiment is finished
