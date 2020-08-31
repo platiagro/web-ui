@@ -16,7 +16,8 @@ import { Modal, Button } from 'uiComponents';
 import { DatasetColumnsTable } from 'components';
 
 // ACTIONS
-import { hideDataViewModal } from '../../store/ui/actions';
+import { hideDataViewModal } from 'store/ui/actions';
+import { updateDatasetColumnRequest } from 'store/dataset/actions';
 
 // STYLES
 import './DataViewModalContainer.less';
@@ -29,6 +30,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // close results modal
     handleClose: () => dispatch(hideDataViewModal()),
+    // update dataset column
+    handleUpdateDatasetColumn: (columnName, columnNewType) =>
+      dispatch(updateDatasetColumnRequest(columnName, columnNewType)),
   };
 };
 
@@ -61,6 +65,8 @@ const DataViewModalContainer = (props) => {
     datasetColumns,
     // close modal handler
     handleClose,
+    // dataset column change handler
+    handleUpdateDatasetColumn,
     // data view modal is visible
     isVisible,
   } = props;
@@ -125,7 +131,7 @@ const DataViewModalContainer = (props) => {
               {/* dataset columns table */}
               <DatasetColumnsTable
                 columns={datasetColumns}
-                handleSetColumnType={(e) => alert(e)}
+                handleSetColumnType={handleUpdateDatasetColumn}
               />
             </div>
             <div className='dataViewAttributtesDownload'>
@@ -186,6 +192,8 @@ DataViewModalContainer.propTypes = {
   datasetColumns: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Dataset observations count */
   datasetObservationsCount: PropTypes.number.isRequired,
+  /** dataset column change handler */
+  handleUpdateDatasetColumn: PropTypes.func.isRequired,
 };
 
 // EXPORT DEFAULT
