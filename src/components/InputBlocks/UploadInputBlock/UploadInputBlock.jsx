@@ -65,12 +65,24 @@ const UploadInputBlock = (props) => {
     handleUploadSuccess,
     isDisabled,
     isLoading,
+    file,
     tip,
     title,
   } = props;
 
+  // default file list
+  const defaultFileList = file
+    ? [
+        {
+          uid: file,
+          name: file,
+          status: 'done',
+        },
+      ]
+    : [];
+
   // file list state hook
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState(defaultFileList);
 
   // default error message
   const defaultErrorMessage = 'Ocorreu um erro no processamento do arquivo.';
@@ -86,6 +98,8 @@ const UploadInputBlock = (props) => {
     onChange(info) {
       // getting info file list
       let infoFileList = [...info.fileList];
+
+      console.log(infoFileList);
 
       // limiting number of files
       infoFileList = infoFileList.slice(-1);
@@ -163,6 +177,15 @@ UploadInputBlock.propTypes = {
 
   /** Upload title */
   title: PropTypes.string.isRequired,
+
+  /** Uploaded file name */
+  file: PropTypes.string,
+};
+
+// DEFAULT PROPS
+UploadInputBlock.defaultProps = {
+  /** Uploaded file name */
+  file: undefined,
 };
 
 // EXPORT DEFAULT
