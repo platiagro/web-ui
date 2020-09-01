@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS

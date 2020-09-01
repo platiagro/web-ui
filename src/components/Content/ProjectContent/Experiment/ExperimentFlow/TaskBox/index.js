@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
-import Draggable from 'react-draggable';
-
 // UI LIBS
 import {
   CheckCircleFilled,
@@ -92,7 +90,7 @@ const TaskBox = (props) => {
   // class name
   const cssClass = `card ${settedUp && 'setted-up'} ${
     interruptIsRunning ? 'Interrupting' : status
-  } ${selected && 'selected'}`;
+    } ${selected && 'selected'}`;
 
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
