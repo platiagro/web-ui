@@ -28,105 +28,122 @@ const columnSize = 24 / columnsNumber;
  * @param {object} props Component props
  * @returns {ExperimentFlow} React component
  */
-const ExperimentFlow = (props) => {
-  // destructuring props
-  const { tasks, loading, handleTaskBoxClick } = props;
-
+const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
+  const archerContainerRef = useRef(null);
+  const [positions, setPositions] = useState(
+    components.map(() => ({ x: 0, y: 0 }))
+  );
+  // archerContainerRef.current.refreshScreen();
   // COMPONENTS RENDERS
   // flow grid column
-  const renderFlowGridColumn = (
-    isLastRowTask,
-    isLastFlowTask,
-    taskIndex,
-    task
-  ) => {
-    // task box
-    const taskBox = (
-      <TaskBox handleClick={handleTaskBoxClick} {...task} operator={task} />
-    );
+  // const renderFlowGridColumn = (
+  //   isLastRowComponent,
+  //   isLastFlowComponent,
+  //   componentIndex,
+  //   component
+  // ) => {
+  //   // component box
+  //   const componentBox = (
+  //     <Draggable bounds='parent'>
+  //       <div>
+  //         <ComponentBox
+  //           handleClick={handleTaskBoxClick}
+  //           {...component}
+  //           operator={component}
+  //         />
+  //       </div>
+  //     </Draggable>
+  //   );
 
-    // render task box with arrow connection
-    if (!isLastFlowTask)
-      return (
-        // arrow
-        <ArcherElement
-          id={`task${taskIndex}`}
-          relations={[
-            {
-              targetId: `task${taskIndex + 1}`,
-              targetAnchor: taskIndex > 0 && isLastRowTask ? 'top' : 'left',
-              sourceAnchor: taskIndex > 0 && isLastRowTask ? 'bottom' : 'right',
-            },
-          ]}
-        >
-          {/* task box */}
-          {taskBox}
-        </ArcherElement>
-      );
+  //   // render component box with arrow connection
+  //   if (!isLastFlowComponent)
+  //     return (
+  //       // arrow
+  //       <ArcherElement
+  //         id={`component${componentIndex}`}
+  //         relations={[
+  //           {
+  //             targetId: `component${componentIndex + 1}`,
+  //             targetAnchor:
+  //               componentIndex > 0 && isLastRowComponent ? 'top' : 'left',
+  //             sourceAnchor:
+  //               componentIndex > 0 && isLastRowComponent ? 'bottom' : 'right',
+  //           },
+  //         ]}
+  //       >
+  //         {/* component box */}
+  //         {componentBox}
+  //       </ArcherElement>
+  //     );
 
-    // render task box without arrow connection
-    return (
-      // arrow
-      <ArcherElement id={`task${taskIndex}`}>
-        {/* task box */}
-        {taskBox}
-      </ArcherElement>
-    );
-  };
-  // flow grid
-  const renderFlowGrid = () => {
-    // flow grid array
-    let flowGrid = [];
-    // flow grid aux array
-    const flowGridAux = [];
-    // grid row aux array
-    let gridRowAux = [];
+  //   // render component box without arrow connection
+  //   return (
+  //     // arrow
+  //     <ArcherElement id={`component${componentIndex}`}>
+  //       {/* component box */}
+  //       {componentBox}
+  //     </ArcherElement>
+  //   );
+  // };
+  // // flow grid
+  // const renderFlowGrid = () => {
+  //   // flow grid array
+  //   let flowGrid = [];
+  //   // flow grid aux array
+  //   const flowGridAux = [];
+  //   // grid row aux array
+  //   let gridRowAux = [];
 
-    // building flow grid rows
-    tasks.forEach((task, index) => {
-      // first task in row
-      const isFirstRowTask = index % columnsNumber === 0;
-      // last task in row
-      const isLastRowTask = (index + 1) % columnsNumber === 0;
-      // last task in flow
-      const isLastFlowTask = index === tasks.length - 1;
+  //   // building flow grid rows
+  //   components.forEach((component, index) => {
+  //     // first component in row
+  //     const isFirstRowComponent = index % columnsNumber === 0;
+  //     // last component in row
+  //     const isLastRowComponent = (index + 1) % columnsNumber === 0;
+  //     // last component in flow
+  //     const isLastFlowComponent = index === components.length - 1;
 
-      // cleaning row aux
-      if (isFirstRowTask) {
-        gridRowAux = [];
-      }
+  //     // cleaning row aux
+  //     if (isFirstRowComponent) {
+  //       gridRowAux = [];
+  //     }
 
-      // building grid row
-      gridRowAux.push(
-        // column container
-        <Col key={`col-${index}`} span={columnSize}>
-          {/* rendering flow grid column */}
-          {renderFlowGridColumn(isLastRowTask, isLastFlowTask, index, task)}
-        </Col>
-      );
+  //     // building grid row
+  //     gridRowAux.push(
+  //       // column container
+  //       <Col key={`col-${index}`} span={columnSize}>
+  //         {/* rendering flow grid column */}
+  //         {renderFlowGridColumn(
+  //           isLastRowComponent,
+  //           isLastFlowComponent,
+  //           index,
+  //           component
+  //         )}
+  //       </Col>
+  //     );
 
-      // addding row to grid
-      if (isLastRowTask || isLastFlowTask) {
-        flowGridAux.push(gridRowAux);
-      }
-    });
+  //     // addding row to grid
+  //     if (isLastRowComponent || isLastFlowComponent) {
+  //       flowGridAux.push(gridRowAux);
+  //     }
+  //   });
 
-    // building flow grid
-    flowGrid = flowGridAux.map((flowGridRow, index) => {
-      // row key
-      const key = `row${index}`;
+  //   // building flow grid
+  //   flowGrid = flowGridAux.map((flowGridRow, index) => {
+  //     // row key
+  //     const key = `row${index}`;
 
-      return (
-        // row container
-        <Row key={key} gutter={[48, 96]} type='flex'>
-          {/* flow grid row */}
-          {flowGridRow}
-        </Row>
-      );
-    });
+  //     return (
+  //       // row container
+  //       <Row key={key} gutter={[48, 96]} type='flex'>
+  //         {/* flow grid row */}
+  //         {flowGridRow}
+  //       </Row>
+  //     );
+  //   });
 
-    return flowGrid;
-  };
+  //   return flowGrid;
+  // };
 
   // RENDER
   // return (
