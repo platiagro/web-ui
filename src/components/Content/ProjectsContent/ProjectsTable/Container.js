@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 // COMPONENTS
 import ProjectsTablePagination from '../ProjectsTablePagination/Container';
 import ProjectsTable from './index';
-import { MyProjectsEmptyPlaceholder } from 'components/Placeholders';
+import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
 import {

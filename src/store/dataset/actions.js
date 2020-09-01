@@ -253,3 +253,158 @@ export const updateDatasetColumnRequest = (columnName, columnNewType) => (
 };
 
 // // // // // // // // // //
+
+// ** GET DATASET
+/**
+ * get dataset success action
+ *
+ * @param {object} response
+ * @returns {object} { type, columns }
+ */
+const getDatasetSuccess = (response) => (dispatch) => {
+  // getting dataset from response
+  const dataset = response.data;
+
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching get dataset success
+  dispatch({
+    type: actionTypes.GET_DATASET_SUCCESS,
+    dataset,
+  });
+};
+
+/**
+ * get dataset fail action
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
+ */
+const getDatasetFail = (error) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching get dataset fail
+  dispatch({
+    type: actionTypes.GET_DATASET_FAIL,
+    errorMessage,
+  });
+};
+
+/**
+ * get dataset request action
+ *
+ * @param datasetName
+ * @returns {Function}
+ */
+export const getDatasetRequest = (datasetName) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.GET_DATASET_REQUEST,
+  });
+
+  // dispatching dataset operator loading data action
+  dispatch(datasetOperatorLoadingData());
+
+  if (datasetName)
+    // fetching dataset
+    datasetsApi
+      .getDataset(datasetName)
+      .then((response) => dispatch(getDatasetSuccess(response)))
+      .catch((error) => dispatch(getDatasetFail(error)));
+  else
+    dispatch(
+      getDatasetSuccess({
+        data: {
+          filename: '',
+          name: '',
+          columns: [],
+        },
+      })
+    );
+};
+
+// // // // // // // // // //
+
+// ** DELETE DATASET
+
+/**
+ * delete dataset success action
+ *
+ * @returns {Function} Dispatch function
+ */
+export const deleteDatasetSuccess = () => (dispatch) => {
+  const dataset = { filename: '', name: '', columns: [] };
+
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  dispatch({
+    type: actionTypes.DELETE_DATASET_SUCCESS,
+    dataset,
+  });
+};
+
+/**
+ * Dataset upload fail action
+ *
+ * @returns {Function} Dispatch function
+ */
+export const deleteDatasetFail = () => (dispatch) => {
+  const errorMessage = 'Ocorreu um erro ao excluir arquivo';
+
+  // dispatching dataset operator data loaded action
+  dispatch(datasetOperatorDataLoaded());
+
+  // dispatching create dataset fail
+  dispatch({
+    type: actionTypes.DELETE_DATASET_FAIL,
+    errorMessage,
+  });
+};
+
+/**
+ * Delete dataset request action
+ *
+ * @param projectId
+ * @param experimentId
+ * @param projectId
+ * @param experimentId
+ * @returns {Function} Dispatch function
+ */
+export const deleteDatasetRequest = (projectId, experimentId) => (
+  dispatch,
+  getState
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.DELETE_DATASET_REQUEST,
+  });
+
+  // get select operator from store
+  const { operatorReducer: operator } = getState();
+
+  // dispatching dataset operator loading data action
+  dispatch(datasetOperatorLoadingData());
+
+  try {
+    // update dataset parameter
+    dispatch(
+      setOperatorParametersRequest(
+        projectId,
+        experimentId,
+        operator,
+        'dataset',
+        ''
+      )
+    );
+
+    dispatch(deleteDatasetSuccess());
+  } catch (e) {
+    dispatch(deleteDatasetFail());
+  }
+};

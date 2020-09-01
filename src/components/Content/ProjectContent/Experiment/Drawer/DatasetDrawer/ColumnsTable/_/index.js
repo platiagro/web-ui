@@ -113,8 +113,7 @@ const ColumnsTable = (props) => {
       dataSource={columns}
       columns={columnsConfig}
       rowKey={setRowKey}
-      size='middle'
-      scroll={{ y: 340 }}
+      size='small'
       pagination={{
         current: currentPage,
         onChange: (page) => setCurrentPage(page),

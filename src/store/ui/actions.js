@@ -688,3 +688,33 @@ export const hideUsingDeploymentsModal = () => {
     type: actionTypes.HIDE_USING_DEPLOYMENTS_MODAL,
   };
 };
+
+// // // // // // // // // //
+
+// DATA VIEW MODAL
+
+/**
+ * Show data view modal
+ *
+ * @returns {object} Action
+ */
+export const showDataViewModal = () => {
+  return {
+    type: actionTypes.SHOW_DATA_VIEW_MODAL,
+    isVisible: true,
+  };
+};
+
+/**
+ * Hide data view modal
+ *
+ * @returns {object} Action
+ */
+export const hideDataViewModal = () => {
+  return {
+    type: actionTypes.HIDE_DATA_VIEW_MODAL,
+    isVisible: false,
+  };
+};
+
+// // // // // // // // // //

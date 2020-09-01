@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // UI COMPONENTS
-import { Modal } from 'UiComponents';
+import { Modal } from 'uiComponents';
 
 // COMPONENTS
 import ResultsDrawer from 'components/Content/ProjectContent/Experiment/Drawer/ResultsDrawer/_';

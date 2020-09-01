@@ -1,5 +1,5 @@
 // REACT LIBS
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
@@ -65,12 +65,19 @@ const UploadInputBlock = (props) => {
     handleUploadSuccess,
     isDisabled,
     isLoading,
+    defaultFileList,
     tip,
     title,
   } = props;
 
-  // file list state hook
+  //
   const [fileList, setFileList] = useState([]);
+
+  // file list state hook
+  // Similar ao componentDidMount e componentDidUpdate:
+  useEffect(() => {
+    defaultFileList && setFileList(defaultFileList);
+  }, [defaultFileList]);
 
   // default error message
   const defaultErrorMessage = 'Ocorreu um erro no processamento do arquivo.';
@@ -163,6 +170,15 @@ UploadInputBlock.propTypes = {
 
   /** Upload title */
   title: PropTypes.string.isRequired,
+
+  /** Uploaded file name */
+  defaultFileList: PropTypes.string,
+};
+
+// DEFAULT PROPS
+UploadInputBlock.defaultProps = {
+  /** Uploaded file name */
+  defaultFileList: undefined,
 };
 
 // EXPORT DEFAULT
