@@ -1,10 +1,11 @@
 // CORE LIBS
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Spin, Row, Col } from 'antd';
+import { Spin, BackTop } from 'antd';
 import { ArcherContainer, ArcherElement } from 'react-archer';
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 import Draggable from 'react-draggable';
 
@@ -15,10 +16,7 @@ import TaskBox from '../TaskBox';
 import './styles.less';
 
 // GRID CONFIGURATION
-// numbers of columns in grid
 const columnsNumber = 3;
-// column size
-const columnSize = 24 / columnsNumber;
 
 /**
  * Experiment Flow.
@@ -28,202 +26,92 @@ const columnSize = 24 / columnsNumber;
  * @param {object} props Component props
  * @returns {ExperimentFlow} React component
  */
-const ExperimentFlow = ({ components, loading, handleTaskBoxClick }) => {
+const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
   const archerContainerRef = useRef(null);
-  const [positions, setPositions] = useState(
-    components.map(() => ({ x: 0, y: 0 }))
-  );
-  // archerContainerRef.current.refreshScreen();
-  // COMPONENTS RENDERS
-  // flow grid column
-  // const renderFlowGridColumn = (
-  //   isLastRowComponent,
-  //   isLastFlowComponent,
-  //   componentIndex,
-  //   component
-  // ) => {
-  //   // component box
-  //   const componentBox = (
-  //     <Draggable bounds='parent'>
-  //       <div>
-  //         <ComponentBox
-  //           handleClick={handleTaskBoxClick}
-  //           {...component}
-  //           operator={component}
-  //         />
-  //       </div>
-  //     </Draggable>
-  //   );
+  const ScrollContainerRef = useRef(null);
 
-  //   // render component box with arrow connection
-  //   if (!isLastFlowComponent)
-  //     return (
-  //       // arrow
-  //       <ArcherElement
-  //         id={`component${componentIndex}`}
-  //         relations={[
-  //           {
-  //             targetId: `component${componentIndex + 1}`,
-  //             targetAnchor:
-  //               componentIndex > 0 && isLastRowComponent ? 'top' : 'left',
-  //             sourceAnchor:
-  //               componentIndex > 0 && isLastRowComponent ? 'bottom' : 'right',
-  //           },
-  //         ]}
-  //       >
-  //         {/* component box */}
-  //         {componentBox}
-  //       </ArcherElement>
-  //     );
+  useEffect(() => {
+    const element = ScrollContainerRef.current ? ScrollContainerRef.current.getElement() : null;
+    element.scrollTop = 300;
+    element.scrollLeft = 300;
+  }, [loading])
 
-  //   // render component box without arrow connection
-  //   return (
-  //     // arrow
-  //     <ArcherElement id={`component${componentIndex}`}>
-  //       {/* component box */}
-  //       {componentBox}
-  //     </ArcherElement>
-  //   );
-  // };
-  // // flow grid
-  // const renderFlowGrid = () => {
-  //   // flow grid array
-  //   let flowGrid = [];
-  //   // flow grid aux array
-  //   const flowGridAux = [];
-  //   // grid row aux array
-  //   let gridRowAux = [];
+  const calcDefaultPosition = (i) => {
+    // const isFirstRowComponent = i % columnsNumber === 0;
 
-  //   // building flow grid rows
-  //   components.forEach((component, index) => {
-  //     // first component in row
-  //     const isFirstRowComponent = index % columnsNumber === 0;
-  //     // last component in row
-  //     const isLastRowComponent = (index + 1) % columnsNumber === 0;
-  //     // last component in flow
-  //     const isLastFlowComponent = index === components.length - 1;
+    // const isLastRowComponent = (i + 1) % columnsNumber === 0;
 
-  //     // cleaning row aux
-  //     if (isFirstRowComponent) {
-  //       gridRowAux = [];
-  //     }
+    // const isLastFlowComponent = i === tasks.length - 1;
 
-  //     // building grid row
-  //     gridRowAux.push(
-  //       // column container
-  //       <Col key={`col-${index}`} span={columnSize}>
-  //         {/* rendering flow grid column */}
-  //         {renderFlowGridColumn(
-  //           isLastRowComponent,
-  //           isLastFlowComponent,
-  //           index,
-  //           component
-  //         )}
-  //       </Col>
-  //     );
+    return { x: (250 * (i % columnsNumber)) + 350, y: (150 * Math.floor(i / columnsNumber)) + 350 };
+  }
 
-  //     // addding row to grid
-  //     if (isLastRowComponent || isLastFlowComponent) {
-  //       flowGridAux.push(gridRowAux);
-  //     }
-  //   });
+  const isLastTarget = (i) => {
+    const isLastRowComponent = (i + 1) % columnsNumber === 0;
+    return isLastRowComponent ? 'top' : 'left'
+  }
 
-  //   // building flow grid
-  //   flowGrid = flowGridAux.map((flowGridRow, index) => {
-  //     // row key
-  //     const key = `row${index}`;
+  const isLastSource = (i) => {
+    const isLastRowComponent = (i + 1) % columnsNumber === 0;
+    return isLastRowComponent ? 'bottom' : 'right'
+  }
 
-  //     return (
-  //       // row container
-  //       <Row key={key} gutter={[48, 96]} type='flex'>
-  //         {/* flow grid row */}
-  //         {flowGridRow}
-  //       </Row>
-  //     );
-  //   });
 
-  //   return flowGrid;
-  // };
-
-  // RENDER
-  // return (
-  //   // loading spinner
-  //   <div
-  //     style={{
-  //       position: 'relative',
-  //       backgroundColor: 'beige',
-  //       height: '100%',
-  //     }}
-  //   >
-  //     <Spin spinning={loading}>
-  //       {/* arrow connection container */}
-  //       <ArcherContainer strokeColor='gray' noCurves>
-  //         {/* flow grid */}
-  //         <div className='experiment-wraper'>{renderFlowGrid()}</div>
-  //       </ArcherContainer>
-  //     </Spin>
-  //   </div>
-  // );
-
-  // console.log(positions);
   return (
-    // <div
-    //   style={{
-    //     position: 'relative',
-    //     backgroundColor: 'beige',
-    //     height: '100%',
-    //   }}
-    // >
-    <ArcherContainer
-      ref={archerContainerRef}
-      strokeColor='#FA541C'
-      // noCurves
-      arrowLength={0}
-      style={{
-        position: 'relative',
-        backgroundColor: 'beige',
-        height: '100%',
-      }}
-    >
-      {loading ? (
-        <Spin />
-      ) : (
-          components.map((component, index) => (
-            <Draggable
-              bounds='parent'
-              defaultPosition={{ x: index, y: index }}
-              onDrag={() => archerContainerRef.current.refreshScreen()}
-            // onStop={() => console.log('stop', archerContainerRef)}
-            >
-              <div style={{ width: 200 }}>
-                {index}
-                {console.log(component)}
-                <ArcherElement
-                  id={`component${index}`}
-                  relations={
-                    index + 1 < components.length
-                      ? [
-                        {
-                          targetId: `component${index + 1}`,
-                          targetAnchor: 'left',
-                          sourceAnchor: 'middle',
-                        },
-                      ]
-                      : []
-                  }
+    <>
+      <ScrollContainer
+        className='drag-scrolling-container'
+        ignoreElements='.task-elements'
+        ref={ScrollContainerRef}
+      >
+        <ArcherContainer
+          ref={archerContainerRef}
+          strokeColor='#FA541C'
+          noCurves
+          className='archer-container-drag'
+
+        >
+          {loading ? (
+            <Spin className='spin-drag-container' />
+          ) : (
+              tasks.map((component, index) => (
+                <Draggable
+                  bounds='parent'
+                  defaultPosition={calcDefaultPosition(index)}
+                  onDrag={() => archerContainerRef.current.refreshScreen()}
                 >
-                  <ComponentBox
-                    handleClick={handleTaskBoxClick}
-                    {...component}
-                    operator={component}
-                  />
-                </ArcherElement>
-              </div>
-            </Draggable>
-          ))
-        )}
-    </ArcherContainer>
-    // </div>
+                  <div style={{ width: 200, position: 'absolute' }} className='task-elements'>
+                    <ArcherElement
+                      id={`component${index}`}
+                      relations={
+                        index + 1 < tasks.length
+                          ? [
+                            {
+                              targetId: `component${index + 1}`,
+                              targetAnchor: isLastTarget(index),
+                              sourceAnchor: isLastSource(index),
+
+                            },
+                          ]
+                          : []
+                      }
+                    >
+                      <TaskBox
+                        handleClick={handleTaskBoxClick}
+                        {...component}
+                        operator={component}
+                      />
+                    </ArcherElement>
+                  </div>
+                </Draggable>
+              ))
+            )}
+
+        </ArcherContainer>
+
+      </ScrollContainer>
+      <BackTop />
+    </>
   );
 };
 
