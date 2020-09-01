@@ -80,12 +80,20 @@ const OperatorResizableSection = (props) => {
     <>
       {/* rendering data set drawer */}
       {operatorIsDataset && <DatasetDrawerContainer />}
-      {/* rendering generic drawer */}
-      {!operatorIsDataset && <GenericDrawerContainer />}
 
-      {/* rendering results button bar */}
-      {!operatorIsDataset && (
-        <InputBlockContainer>
+      <div
+        style={{
+          overflowY: 'auto',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.09)',
+        }}
+      >
+        {/* rendering generic drawer */}
+        {!operatorIsDataset && <GenericDrawerContainer />}
+      </div>
+
+      <InputBlockContainer>
+        {/* rendering results button bar */}
+        {!operatorIsDataset && (
           <ResultsButtonBar
             handleEditClick={() => undefined}
             handleResultsClick={handleShowResultsClick}
@@ -98,15 +106,11 @@ const OperatorResizableSection = (props) => {
                 operatorResults.lenght <= 0)
             }
           />
-        </InputBlockContainer>
-      )}
+        )}
 
-      {/* rendering link to Jupyter */}
-      {!operatorIsDataset && (
-        <InputBlockContainer>
-          <NotebookOutputsContainer />
-        </InputBlockContainer>
-      )}
+        {/* rendering link to Jupyter */}
+        {!operatorIsDataset && <NotebookOutputsContainer />}
+      </InputBlockContainer>
     </>
   ) : undefined;
 

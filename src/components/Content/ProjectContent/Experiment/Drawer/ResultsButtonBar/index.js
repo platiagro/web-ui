@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Button } from 'antd';
 
+// ANTD ICON
+import { TableOutlined } from '@ant-design/icons';
+
+// button shape
+const icon = <TableOutlined />;
+
 /**
  * Results Button Bar.
  * This component is responsible for displaying drawer results button bar.
@@ -35,11 +41,13 @@ const ResultsButtonBar = (props) => {
         shape='round'
         type='primary'
         disabled={disabled}
+        icon={icon}
         title={
           disabled
             ? 'Para visualizar os resultados, primeiro execute o treinamento.'
             : ''
         }
+        style={{ marginBottom: '14px' }}
       >
         Visualizar resultados
       </Button>

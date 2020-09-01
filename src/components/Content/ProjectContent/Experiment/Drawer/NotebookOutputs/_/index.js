@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Button } from 'antd';
 
+// ANTD ICON
+import { CodeOutlined } from '@ant-design/icons';
+
+// button shape
+const icon = <CodeOutlined />;
+
 /**
  * Notebook Outputs.
  * This component is responsible for displaying a button that opens Jupyter.
@@ -17,8 +23,13 @@ const NotebookOutputs = (props) => {
 
   // rendering component
   return (
-    <Button onClick={handleOpenNotebookClick} shape='round' type='primary'>
-      Abrir notebook no Jupyter
+    <Button
+      onClick={handleOpenNotebookClick}
+      icon={icon}
+      shape='round'
+      type='primary-inverse'
+    >
+      Ver código no Jupyter
     </Button>
   );
 };
