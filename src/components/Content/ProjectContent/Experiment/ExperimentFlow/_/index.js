@@ -31,9 +31,12 @@ const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
   const ScrollContainerRef = useRef(null);
 
   useEffect(() => {
+    //Re-center flow area into tasks on screen
     const element = ScrollContainerRef.current ? ScrollContainerRef.current.getElement() : null;
-    element.scrollTop = 300;
-    element.scrollLeft = 300;
+    if (element) {
+      element.scrollTop = 300;
+      element.scrollLeft = 300;
+    }
   }, [loading])
 
   const calcDefaultPosition = (i) => {
