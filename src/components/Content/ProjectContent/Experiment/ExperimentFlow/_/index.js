@@ -1,10 +1,14 @@
 // CORE LIBS
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
 import { ArcherContainer, ArcherElement } from 'react-archer';
 import ScrollContainer from 'react-indiana-drag-scroll';
+// import { Spin } from 'antd';
+// import { ArcherContainer, ArcherElement } from 'react-archer';
+// import ScrollContainer from 'react-indiana-drag-scroll'
+import ReactFlow, { addEdge, Background } from 'react-flow-renderer';
 
 import Draggable from 'react-draggable';
 
@@ -54,6 +58,17 @@ const ExperimentFlow = ({
       element.scrollLeft = 300;
     }
   }, [loading]);
+  // const archerContainerRef = useRef(null);
+  // const ScrollContainerRef = useRef(null);
+
+  // useEffect(() => {
+  //Re-center flow area into tasks on screen
+  //   const element = ScrollContainerRef.current ? ScrollContainerRef.current.getElement() : null;
+  //   if (element) {
+  //     element.scrollTop = 300;
+  //     element.scrollLeft = 300;
+  //   }
+  // }, [loading])
 
   const calcDefaultPosition = (i) => {
     //Booleans to help arrow positioning in the future
@@ -76,6 +91,55 @@ const ExperimentFlow = ({
     const isLastRowComponent = (i + 1) % columnsNumber === 0;
     return isLastRowComponent ? 'bottom' : 'right';
   };
+
+  const initialElements = [
+    {
+      id: '1',
+      sourcePosition: 'right',
+      type: 'input',
+      data: { label: 'Node 1' },
+      position: { x: 50, y: 50 },
+    },
+    // you can also pass a React component as a label
+    {
+      id: '2',
+      sourcePosition: 'right',
+      targetPosition: 'left',
+      data: { label: 'Node 2' },
+      position: { x: 250, y: 50 },
+    },
+    {
+      id: '3',
+      sourcePosition: 'right',
+      targetPosition: 'left',
+      data: { label: 'Node 3' },
+      position: { x: 450, y: 50 },
+    },
+    {
+      id: '1-2',
+      type: 'smoothstep',
+      arrowHeadType: 'arrow',
+      source: '1',
+      target: '2',
+    },
+    {
+      id: '2-3',
+      type: 'smoothstep',
+      arrowHeadType: 'arrow',
+      source: '2',
+      target: '3',
+    },
+  ];
+
+  const [elements, setElements] = useState(initialElements);
+  // const onConnect = (params) => setElements((els) => addEdge({ type: 'smoothstep', animated: true, arrowHeadType: 'arrowclosed', ...params }, els));
+
+  console.log(tasks);
+  return (
+    <ReactFlow elements={elements} onElementClick={(e, el) => console.log(el)}>
+      <Background variant='dots' gap={24} size={1} color='#58585850' />
+    </ReactFlow>
+  );
 
   return (
     <ScrollContainer
