@@ -2,9 +2,13 @@
 import React from 'react';
 
 // COMPONENTS
-import ContentHeaderContainer from '../../ContentHeader/ContentHeaderContainer';
+import ContentHeaderContainer from '../../ContentHeader/_/ContentHeaderContainer';
 import ProjectsTable from '../ProjectsTable/Container';
 import NewProjectModal from '../NewProjectModal/Container';
+
+// CONTAINERS
+import NewProjectButtonContainer from '../NewProjectButton/Container';
+import DeleteProjectsButtonContainer from '../DeleteProjectsButton/Container';
 
 /**
  * Projects Content.
@@ -16,9 +20,17 @@ const ProjectsContent = () => {
     // fragment
     <>
       {/* content header */}
-      <ContentHeaderContainer title='Meus projetos' editable={false} />
+      <ContentHeaderContainer
+        title='Meus projetos'
+        editable={false}
+        backIcon={false}
+      />
       {/* div content page container */}
       <div className='contentPage'>
+        {/* new project button */}
+        <NewProjectButtonContainer />
+        {/* delete projects button */}
+        <DeleteProjectsButtonContainer />
         {/* new project modal */}
         <NewProjectModal />
         {/* projects table */}

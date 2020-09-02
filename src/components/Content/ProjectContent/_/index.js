@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // COMPONENTS
-import ContentHeaderProjectContainer from '../../ContentHeader/ContentHeaderProjectContainer';
+import ContentHeaderProjectContainer from '../../ContentHeader/_/ContentHeaderProjectContainer';
 import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
