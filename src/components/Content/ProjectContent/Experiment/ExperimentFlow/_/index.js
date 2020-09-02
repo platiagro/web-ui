@@ -13,7 +13,7 @@ import Draggable from 'react-draggable';
 import TaskBox from '../TaskBox';
 
 // STYLES
-import './styles.less';
+import './style.less';
 
 // GRID CONFIGURATION
 const columnsNumber = 3;
@@ -40,10 +40,9 @@ const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
   }, [loading])
 
   const calcDefaultPosition = (i) => {
+    //Booleans to help arrow positioning in the future
     // const isFirstRowComponent = i % columnsNumber === 0;
-
     // const isLastRowComponent = (i + 1) % columnsNumber === 0;
-
     // const isLastFlowComponent = i === tasks.length - 1;
 
     return { x: (250 * (i % columnsNumber)) + 350, y: (150 * Math.floor(i / columnsNumber)) + 350 };
