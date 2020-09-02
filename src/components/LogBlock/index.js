@@ -1,3 +1,3 @@
-import OperatorLogBlock from './LogBlock';
+import OperatorLogBlock from './OperatorLogBlock';
 
 export default OperatorLogBlock;
