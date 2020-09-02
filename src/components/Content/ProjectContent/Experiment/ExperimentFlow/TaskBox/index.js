@@ -90,7 +90,7 @@ const TaskBox = (props) => {
   // class name
   const cssClass = `card ${settedUp && 'setted-up'} ${
     interruptIsRunning ? 'Interrupting' : status
-  } ${selected && 'selected'}`;
+    } ${selected && 'selected'}`;
 
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
