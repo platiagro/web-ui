@@ -34,7 +34,16 @@ const PlotResult = (props) => {
         </>
       )}
       {/* rendering plot */}
-      <ImageLightbox plotUrl={plotUrl} />
+      {plotUrl.includes('text/html') ? (
+        <iframe
+          title='iframe-plot'
+          width='100%'
+          height='600px'
+          src={plotUrl}
+        ></iframe>
+      ) : (
+        <ImageLightbox plotUrl={plotUrl} />
+      )}
     </div>
   );
 };

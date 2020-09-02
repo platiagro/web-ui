@@ -5,15 +5,13 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
 import ContentHeader from './index';
-
-// CONTAINERS
-import NewExperimentButtonContainer from '../ProjectContent/NewExperimentButton/Container';
+import AccountInfo from '../AccountInfo';
 
 // ACTIONS
 import {
   fetchProjectRequest,
   editProjectNameRequest,
-} from '../../../store/project/actions';
+} from '../../../../store/project/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -72,11 +70,7 @@ const ContentHeaderProjectContainer = (props) => {
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
       loading={loading}
-      extra={
-        project.experiments && project.experiments.length === 0 ? (
-          <NewExperimentButtonContainer />
-        ) : undefined
-      }
+      extra={<AccountInfo />}
     />
   );
 };

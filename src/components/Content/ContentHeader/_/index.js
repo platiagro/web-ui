@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { PageHeader } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 // COMPONENTS
-import Title from '../Title';
+import Title from '../../Title';
 
 // STYLES
 import './style.less';
@@ -20,7 +21,15 @@ import './style.less';
  */
 const ContentHeader = (props) => {
   // destructuring props
-  const { handleGoBack, handleSubmit, title, loading, subTitle, extra } = props;
+  const {
+    handleGoBack,
+    handleSubmit,
+    title,
+    loading,
+    subTitle,
+    extra,
+    backIcon,
+  } = props;
 
   // RENDER
   return (
@@ -40,9 +49,8 @@ const ContentHeader = (props) => {
         </>
       }
       onBack={handleGoBack}
-      extra={
-        <div style={{ marginTop: '10px', marginRight: '20px' }}>{extra}</div>
-      }
+      extra={extra}
+      backIcon={backIcon}
     />
   );
 };
@@ -57,12 +65,16 @@ ContentHeader.propTypes = {
   title: PropTypes.string.isRequired,
   /** content header is loading */
   loading: PropTypes.bool.isRequired,
+  /** if false the back icon will not be displayed */
+  backIcon: PropTypes.bool.isRequired,
 };
 
 // PROP DEFAULT VALUES
 ContentHeader.defaultProps = {
   /** content header edit submit function */
   handleSubmit: undefined,
+  /* show back icon */
+  backIcon: <ArrowLeftOutlined />,
 };
 
 // EXPORT

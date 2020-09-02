@@ -5,10 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 // COMPONENTS
 import ContentHeader from './index';
-
-// CONTAINERS
-import NewProjectButtonContainer from '../ProjectsContent/NewProjectButton/Container';
-import DeleteProjectsButtonContainer from '../ProjectsContent/DeleteProjectsButton/Container';
+import AccountInfo from '../AccountInfo';
 
 /**
  * Content Header Container.
@@ -19,7 +16,7 @@ import DeleteProjectsButtonContainer from '../ProjectsContent/DeleteProjectsButt
  */
 const ContentHeaderContainer = (props) => {
   // destructuring props
-  const { title, subTitle } = props;
+  const { title, subTitle, backIcon } = props;
 
   // getting history
   const history = useHistory();
@@ -34,16 +31,8 @@ const ContentHeaderContainer = (props) => {
       subTitle={subTitle}
       loading={false}
       handleGoBack={goBackHandler}
-      extra={
-        title === 'Meus projetos' && (
-          <>
-            {/* new project button */}
-            <NewProjectButtonContainer />
-            {/* delete projects button */}
-            <DeleteProjectsButtonContainer />
-          </>
-        )
-      }
+      extra={<AccountInfo />}
+      backIcon={backIcon}
     />
   );
 };

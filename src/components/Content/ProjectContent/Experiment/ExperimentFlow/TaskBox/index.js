@@ -9,8 +9,8 @@ import {
   CheckCircleFilled,
   ClockCircleFilled,
   ExclamationCircleFilled,
-  SettingOutlined,
   StopOutlined,
+  LoadingOutlined,
 } from '@ant-design/icons';
 import { Tooltip, Menu, Dropdown } from 'antd';
 
@@ -37,7 +37,7 @@ const toolTipConfigs = (status, interruptIsRunning) => {
     case 'Running':
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa em execução';
-      config.iconType = <SettingOutlined style={style} spin />;
+      config.iconType = <LoadingOutlined style={style} spin />;
 
       break;
     case 'Pending':
@@ -90,7 +90,7 @@ const TaskBox = (props) => {
   // class name
   const cssClass = `card ${settedUp && 'setted-up'} ${
     interruptIsRunning ? 'Interrupting' : status
-  } ${selected && 'selected'}`;
+    } ${selected && 'selected'}`;
 
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
@@ -151,15 +151,11 @@ const TaskBox = (props) => {
     <Dropdown overlay={menu} trigger={['contextMenu']}>
       {/* div container */}
       <div className={cssClass} onClick={handleBoxClick} role='presentation'>
-        {/* div title icon container */}
-        <div className='title-icon'>
-          {/* task icon */}
+        <div className='siders'>
           <div style={{ fontSize: '18px' }}>{icon}</div>
-          {/* task title */}
-          <span>{name}</span>
         </div>
-        {/* rendering tooltip */}
-        {renderTooltip()}
+        <div className='middle'>{name}</div>
+        <div className='siders'>{renderTooltip()}</div>
       </div>
     </Dropdown>
   );
