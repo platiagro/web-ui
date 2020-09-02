@@ -160,6 +160,10 @@ OperatorResizableSection.propTypes = {
   handleShowResultsClick: PropTypes.func.isRequired,
   /** Operator description */
   operatorDescription: PropTypes.string,
+  /** Operator status */
+  operatorStatus: PropTypes.string,
+  /** Operator logs */
+  operatorLogs: PropTypes.string,
 };
 
 // DEFAULT PROPS
