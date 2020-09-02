@@ -5,7 +5,7 @@ import React from 'react';
 import { Result } from 'antd';
 
 // COMPONENTS
-import ContentHeaderContainer from '../ContentHeader/ContentHeaderContainer';
+import ContentHeaderContainer from '../ContentHeader/_/ContentHeaderContainer';
 
 /**
  * Error 404 Content.
@@ -15,7 +15,11 @@ const Error404Content = () => (
   // fragment container
   <>
     {/* content header */}
-    <ContentHeaderContainer title='Página não encontrada!' editable={false} />
+    <ContentHeaderContainer
+      title='Página não encontrada!'
+      editable={false}
+      backIcon={false}
+    />
     {/* div content page container */}
     <div className='contentPage'>
       {/* result component */}

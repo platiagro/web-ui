@@ -2,7 +2,7 @@
 import React from 'react';
 
 // COMPONENTS
-import ContentHeader from '../../ContentHeader/ContentHeaderContainer';
+import ContentHeader from '../../ContentHeader/_/ContentHeaderContainer';
 import ImplantedExperimentsTable from '../ImplantedExperimentsTable/_/Container';
 
 import NewDeploymentsModalContainer from '../UsingDeploymentsModal/Container';
@@ -15,7 +15,11 @@ const ImplantedExperimentsContent = () => (
   // fragment container
   <>
     {/* content header */}
-    <ContentHeader title='Fluxos implantados' editable={false} />
+    <ContentHeader
+      title='Fluxos implantados'
+      editable={false}
+      backIcon={false}
+    />
     {/* div content page container */}
     <div className='contentPage'>
       <NewDeploymentsModalContainer />

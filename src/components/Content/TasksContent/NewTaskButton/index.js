@@ -16,7 +16,7 @@ const NewTaskButton = ({ handleClick, disabled }) => (
     disabled={disabled}
     onClick={handleClick}
     className='newTaskButton'
-    type='secondary'
+    type='primary'
     icon={<PlusOutlined />}
   >
     Nova Tarefa
