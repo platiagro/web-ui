@@ -14,6 +14,7 @@ const initialState = {
   parameters: [],
   results: [],
   metrics: [],
+  logs: [],
 };
 
 /**
@@ -37,6 +38,8 @@ const operatorReducer = (state = initialState, action = undefined) => {
       return { ...state, results: [...action.results] };
     case actionTypes.GET_OPERATOR_METRICS_SUCCESS:
       return { ...state, metrics: [...action.metrics] };
+    case actionTypes.GET_OPERATOR_LOGS_SUCCESS:
+      return { ...state, logs: [...action.logs] };
 
     // FAIL
     // operator
@@ -55,6 +58,9 @@ const operatorReducer = (state = initialState, action = undefined) => {
       return { ...state, results: [] };
     case actionTypes.GET_OPERATOR_METRICS_FAIL:
       return { ...state, metrics: [] };
+    case actionTypes.GET_OPERATOR_LOGS_FAIL:
+      message.error(action.errorMessage);
+      return { ...state, logs: [] };
 
     // COMMON
     // operator

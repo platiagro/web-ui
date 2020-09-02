@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // COMPONENTS
 import { TooltipTip } from 'components';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 
 // STYLES
 import './InputBlockContainer.less';
@@ -32,13 +33,18 @@ import './InputBlockContainer.less';
  */
 const InputBlockContainer = (props) => {
   // destructuring props
-  const { title, tip, children } = props;
+  const { title, tip, children, status } = props;
+  const ExclamationCircleStyle = { fontSize: '14px', color: '#CF1322', float: 'left', padding:'3px 6px' };
 
   // rendering component
   return (
     <div className='inputBlock'>
       {title && (
         <div className='inputBlockHeader'>
+        {status === "Failed" && (
+          <ExclamationCircleFilled
+          style={ExclamationCircleStyle}/>
+        )}
           <p className='inputBlockTitle'>
             <strong>{title}</strong>
           </p>
@@ -66,6 +72,8 @@ InputBlockContainer.propTypes = {
   tip: PropTypes.string,
   /** Input title */
   title: PropTypes.string,
+  /** Operator status */
+  status: PropTypes.string
 };
 
 // DEFAULT PROPS
@@ -74,6 +82,8 @@ InputBlockContainer.defaultProps = {
   tip: undefined,
   /** Input title */
   title: undefined,
+  /** Operator status */
+  status: undefined,
 };
 
 // EXPORT DEFAULT

@@ -107,6 +107,49 @@ const getOperatorResultsFail = (error) => (dispatch) => {
 };
 
 /**
+ *  get operator logs success action
+ * 
+ * @param {object} response 
+ * @returns {Function}
+ */
+const getLogsSuccess = (response) => (dispatch) => {
+  const logs = response.data;
+
+  dispatch({
+    type: actionTypes.GET_OPERATOR_LOGS_SUCCESS,
+    logs: logs.output.traceback,
+  });
+};
+
+const getLogsFail = (error) => (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_OPERATOR_LOGS_FAIL,
+  });
+  message.error(utils.getErrorMessage(error));
+};
+
+/**
+ * get operator log
+ * 
+ * @param {string} projectId 
+ * @param {string} experimentId 
+ * @param {string} operatorId 
+ * @returns {Function}
+ */
+export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
+  dispatch
+) => {
+  operatorsApi
+    .getNotebookLog(projectId, experimentId, operatorId)
+    .then((res) => {
+      dispatch(getLogsSuccess(res));
+    })
+    .catch((error) => {
+      dispatch(getLogsFail(error));
+    });
+};
+
+/**
  * set operator params request action
  *
  * @param {string} projectId
@@ -280,7 +323,7 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
   });
 
   // is operator dataset?
-  const isDataset = operator.tags.includes('DATASETS');
+  const isDataset = operator.tags.includes('DATASETS'); 
 
   // fetching dataset columns
   if (isDataset) {
@@ -300,6 +343,10 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
   dispatch(
     getOperatorResultsRequest(projectId, experimentId, operator.uuid, page)
   );
+
+  if (!isDataset && operator.status === "Failed") {
+    dispatch(getOperatorLogs(projectId, experimentId, operator.uuid));
+  }
 
   dispatch(getOperatorMetricsRequest(projectId, experimentId, operator.uuid));
 

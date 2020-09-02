@@ -34,6 +34,11 @@ const mapStateToProps = (state) => {
     showExperimentResults: state.uiReducer.operatorResults.showOperatorResults,
     // operator parent experiment is finished
     experimentIsFinished: state.experimentReducer.succeeded,
+    // operator status
+    operatorStatus: state.operatorReducer.status,
+    // operator logs
+    operatorLogs: state.operatorReducer.logs,
+    test: state.operatorReducer
   };
 };
 
@@ -59,6 +64,10 @@ const OperatorResizableSectionContainer = (props) => {
     handleShowResultsClick,
     // operator description
     operatorDescription,
+    // operator status
+    operatorStatus,
+    // operator logs
+    operatorLogs,
   } = props;
 
   // rendering container
@@ -70,6 +79,8 @@ const OperatorResizableSectionContainer = (props) => {
       experimentIsFinished={experimentIsFinished}
       handleShowResultsClick={handleShowResultsClick}
       operatorDescription={operatorDescription}
+      operatorStatus={operatorStatus}
+      operatorLogs={operatorLogs}
     />
   );
 };
@@ -88,6 +99,10 @@ OperatorResizableSectionContainer.propTypes = {
   handleShowResultsClick: PropTypes.func.isRequired,
   /** Operator description */
   operatorDescription: PropTypes.string,
+  /** Operator status */
+  operatorStatus: PropTypes.string,
+  /** Operator logs */
+  operatorLogs: PropTypes.string,
 };
 
 // DEFAULT PROPS

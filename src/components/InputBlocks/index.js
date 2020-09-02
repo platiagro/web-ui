@@ -13,10 +13,13 @@ import SelectInputBlock from './SelectInputBlock';
 // TEXT INPUT BLOCK
 import TextInputBlock from './TextInputBlock';
 
+import OperatorLogBlock from '../LogBlock';
+
 export {
   SelectInputBlock,
   UploadInputBlock,
   ToggleInputBlock,
   NumberInputBlock,
   TextInputBlock,
+  OperatorLogBlock,
 };
