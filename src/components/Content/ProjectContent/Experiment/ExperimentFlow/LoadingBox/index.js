@@ -3,27 +3,29 @@ import PropTypes from 'prop-types';
 
 //UI Libs
 import { Skeleton } from 'antd';
-import {
-  LoadingOutlined,
-} from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 
 // STYLES
 import './style.less';
 
-const LoadingBox = () =>
+const LoadingBox = () => (
   <div className='card skeleton-task-box'>
     <div className='siders'>
-      <div style={{ fontSize: '18px' }}><LoadingOutlined spin /></div>
+      <div style={{ fontSize: '18px' }}>
+        <LoadingOutlined spin />
+      </div>
     </div>
-    <div className='middle' style={{ padding: 12 }}>
+    <div className='middle' style={{ padding: '16px 12px 0' }}>
       <Skeleton
-        paragraph={{ rows: 2 }}
+        paragraph={{ rows: 1, width: '100%' }}
         size='large'
         title={false}
+        active
       />
     </div>
     <div className='siders'></div>
   </div>
+);
 
 // PROP TYPES
 LoadingBox.propTypes = {
