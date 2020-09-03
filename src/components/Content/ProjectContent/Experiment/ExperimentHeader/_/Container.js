@@ -11,7 +11,6 @@ import ExperimentHeader from './index';
 import {
   fetchExperimentRequest,
   editExperimentNameRequest,
-  deleteExperimentRequest,
   fetchExperimentDeployStatusRequest,
 } from '../../../../../../store/experiment/actions';
 // pipelines
@@ -24,8 +23,6 @@ import {
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleDeleteExperiment: (projectId, experimentId) =>
-      dispatch(deleteExperimentRequest(projectId, experimentId, routerProps)),
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(fetchExperimentRequest(projectId, experimentId, routerProps)),
     handleEditExperimentName: (projectId, experimentId, newName) =>
@@ -67,7 +64,6 @@ const ExperimentHeaderContainer = ({
   loading,
   trainingLoading,
   deleteTrainingLoading,
-  handleDeleteExperiment,
   handleFetchExperiment,
   handleEditExperimentName,
   handleTrainExperiment,
@@ -103,8 +99,6 @@ const ExperimentHeaderContainer = ({
   });
 
   // HANDLERS
-  // delete experiment
-  const deleteHandler = () => handleDeleteExperiment(projectId, experimentId);
   // edit experiment name
   const editExperimentNameHandler = (newName) =>
     handleEditExperimentName(projectId, experimentId, newName);
@@ -129,7 +123,6 @@ const ExperimentHeaderContainer = ({
       deployStatus={experiment.deployStatus}
       deleteTrainingLoading={deleteTrainingLoading}
       handleEditExperimentName={editExperimentNameHandler}
-      handleDeleteExperiment={deleteHandler}
       handleTrainExperiment={trainExperimentHandler}
       handleDeployExperiment={deployExperimentHandler}
       handleDeleteTrainExperiment={deleteTrainExperimentHandler}
