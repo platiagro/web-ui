@@ -26,7 +26,8 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
         const reader = new FileReader();
 
         reader.onload = (e) => {
-          const result = e.target.result.trim().split('\n');
+          // need to remove the windows end of line
+          const result = e.target.result.trim().replace(/\r/g, '').split('\n');
           const [names, ...ndarray] = result;
           const obj = {
             data: {
@@ -34,7 +35,6 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
               ndarray: ndarray.map((el) => el.split(',')),
             },
           };
-
           handleUpload(obj);
         };
         reader.readAsText(file);
