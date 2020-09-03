@@ -3,7 +3,6 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Spin, BackTop } from 'antd';
 import { ArcherContainer, ArcherElement } from 'react-archer';
 import ScrollContainer from 'react-indiana-drag-scroll';
 
@@ -11,6 +10,7 @@ import Draggable from 'react-draggable';
 
 // COMPONENTS
 import TaskBox from '../TaskBox';
+import LoadingBox from '../LoadingBox';
 
 // STYLES
 import './style.less';
@@ -73,59 +73,63 @@ const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
   };
 
   return (
-    <>
-      <ScrollContainer
-        className='drag-scrolling-container'
-        ignoreElements='.task-elements'
-        ref={ScrollContainerRef}
+    <ScrollContainer
+      className='drag-scrolling-container'
+      ignoreElements='.task-elements'
+      ref={ScrollContainerRef}
+      //Remove click and drag when loading container
+      style={loading ? { pointerEvents: 'none' } : {}}
+    >
+      <ArcherContainer
+        ref={archerContainerRef}
+        strokeColor={loading ? 'rgba(0,0,0,0.3)' : '#000'}
+        noCurves
+        className='archer-container-drag'
       >
-        <ArcherContainer
-          ref={archerContainerRef}
-          strokeColor='#000000'
-          noCurves
-          className='archer-container-drag'
-        >
-          {loading ? (
-            <Spin className='spin-drag-container' />
-          ) : (
-            tasks.map((component, index) => (
-              <Draggable
-                bounds='parent'
-                defaultPosition={calcDefaultPosition(index)}
-                onDrag={() => archerContainerRef.current.refreshScreen()}
-              >
-                <div
-                  style={{ width: 200, position: 'absolute' }}
-                  className='task-elements'
+        {
+          //If tasks is empty load one box at least
+          (loading) ? (
+            <LoadingBox />
+          )
+            :
+            (
+              tasks.map((component, index) => (
+                <Draggable
+                  bounds='parent'
+                  defaultPosition={calcDefaultPosition(index)}
+                  onDrag={() => archerContainerRef.current.refreshScreen()}
                 >
-                  <ArcherElement
-                    id={`component${index}`}
-                    relations={
-                      index + 1 < tasks.length
-                        ? [
+                  <div
+                    style={{ width: 200, position: 'absolute' }}
+                    className='task-elements'
+                  >
+                    <ArcherElement
+                      id={`component${index}`}
+                      relations={
+                        index + 1 < tasks.length
+                          ? [
                             {
                               targetId: `component${index + 1}`,
                               targetAnchor: isLastTarget(index),
                               sourceAnchor: isLastSource(index),
                             },
                           ]
-                        : []
-                    }
-                  >
-                    <TaskBox
-                      handleClick={handleTaskBoxClick}
-                      {...component}
-                      operator={component}
-                    />
-                  </ArcherElement>
-                </div>
-              </Draggable>
-            ))
-          )}
-        </ArcherContainer>
-      </ScrollContainer>
-      <BackTop />
-    </>
+                          : []
+                      }
+                    >
+                      <TaskBox
+                        handleClick={handleTaskBoxClick}
+                        {...component}
+                        operator={component}
+                      />
+
+                    </ArcherElement>
+                  </div>
+                </Draggable>
+              ))
+            )}
+      </ArcherContainer>
+    </ScrollContainer>
   );
 };
 
