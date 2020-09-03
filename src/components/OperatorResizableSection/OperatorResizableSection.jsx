@@ -9,6 +9,7 @@ import GenericDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/
 import ResultsButtonBar from '../Content/ProjectContent/Experiment/Drawer/ResultsButtonBar';
 import NotebookOutputsContainer from '../Content/ProjectContent/Experiment/Drawer/NotebookOutputs/_/Container';
 import InputBlockContainer from 'components/InputBlockContainer';
+import OperatorLogBlock from 'components/LogBlock';
 
 /**
  * Component to display experiment flow operator parameters, results and metrics.
@@ -45,6 +46,7 @@ import InputBlockContainer from 'components/InputBlockContainer';
  *      experimentIsFinished={experimentIsFinished}
  *      handleShowResultsClick={handleShowResultsClick}
  *      operatorDescription={operatorDescription}
+ *      operatorStatus={operatorStatus}
  *    />
  *  </div>
  * )
@@ -64,6 +66,10 @@ const OperatorResizableSection = (props) => {
     handleShowResultsClick,
     // operator description
     operatorDescription,
+    // operator status
+    operatorStatus,
+    // operator log
+    operatorLogs,
   } = props;
 
   // placeholder text
@@ -111,6 +117,17 @@ const OperatorResizableSection = (props) => {
         {/* rendering link to Jupyter */}
         {!operatorIsDataset && <NotebookOutputsContainer />}
       </InputBlockContainer>
+
+      {!operatorIsDataset && operatorStatus === 'Failed' && (
+        <InputBlockContainer
+          title='Erro na Execução'
+          tip='Veja o código no Jupyter para mais detalhes sobre a execução'
+          error='true'
+          status={operatorStatus}
+        >
+          <OperatorLogBlock logContent={operatorLogs} />
+        </InputBlockContainer>
+      )}
     </>
   ) : undefined;
 
@@ -143,6 +160,10 @@ OperatorResizableSection.propTypes = {
   handleShowResultsClick: PropTypes.func.isRequired,
   /** Operator description */
   operatorDescription: PropTypes.string,
+  /** Operator status */
+  operatorStatus: PropTypes.string,
+  /** Operator logs */
+  operatorLogs: PropTypes.string,
 };
 
 // DEFAULT PROPS

@@ -64,7 +64,7 @@ const deleteOperator = (projectId, experimentId, operatorId) => {
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
- * @param {Object} operator
+ * @param {object} operator
  * @returns {Promise}
  */
 const updateOperator = (projectId, experimentId, operatorId, operator) => {
@@ -122,6 +122,20 @@ export const getOperatorMetrics = async (
   }
 };
 
+/**
+ * Get Notebook Log from Jupyter API
+ *
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} operatorId
+ * @returns {Promise}
+ */
+const getNotebookLog = (projectId, experimentId, operatorId) => {
+  return operatorsApi.get(
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/logs`
+  );
+};
+
 // EXPORT DEFAULT
 export default {
   listOperators,
@@ -131,4 +145,5 @@ export default {
   getOperatorResultsDataset,
   getOperatorResults,
   getOperatorMetrics,
+  getNotebookLog,
 };
