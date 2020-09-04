@@ -6,6 +6,7 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 // COMPONENTS
 import ContentHeader from './index';
 import AccountInfo from '../AccountInfo';
+import ExperimentButtonsContainer from '../ExperimentButtons/Container';
 
 // ACTIONS
 import {
@@ -70,7 +71,12 @@ const ContentHeaderProjectContainer = (props) => {
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
       loading={loading}
-      extra={<AccountInfo />}
+      extra={
+        <>
+          <ExperimentButtonsContainer />
+          <AccountInfo />
+        </>
+      }
     />
   );
 };
