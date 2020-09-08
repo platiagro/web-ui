@@ -2,9 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// UI LIBS
-import { Spin } from 'antd';
-
 // COMPONENTS
 import TasksMenuSearch from '../TasksMenuSearch';
 import TasksMenu from '../TasksMenu';
@@ -35,18 +32,16 @@ const TasksMenuBlock = (props) => {
   return (
     // div container
     <div className='task-menu'>
-      <span className='task-menu-title'>Armazém de tarefas</span>
+      <span className='task-menu-title'> Armazém de tarefas</span>
       <TasksMenuSearch disabled={disabled} handleFilter={handleFilter} />
-      {loading ? (
-        <Spin style={{ marginTop: '20px' }} />
-      ) : (
-        <TasksMenu
-          disabled={disabled}
-          handleClick={handleTaskClick}
-          handleDeleteTemplate={handleDeleteTemplate}
-          menu={menu}
-        />
-      )}
+      <TasksMenu
+        disabled={disabled}
+        handleClick={handleTaskClick}
+        handleDeleteTemplate={handleDeleteTemplate}
+        menu={menu}
+        loading={loading}
+      />
+      {/* )} */}
     </div>
   );
 };

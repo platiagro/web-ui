@@ -117,6 +117,7 @@ const ProjectsTable = ({
       render: (value, record) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 150 }}
             size='large'
             title={false}
@@ -142,6 +143,7 @@ const ProjectsTable = ({
       render: (description) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 250 }}
             size='large'
             title={false}
@@ -176,6 +178,7 @@ const ProjectsTable = ({
         if (loading) {
           return (
             <Skeleton
+              active
               paragraph={{ rows: 1, width: 200 }}
               size='large'
               title={false}
@@ -226,6 +229,7 @@ const ProjectsTable = ({
       render: (value) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 70 }}
             size='large'
             title={false}
@@ -242,6 +246,7 @@ const ProjectsTable = ({
       render: (value, record) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 70 }}
             size='large'
             title={false}

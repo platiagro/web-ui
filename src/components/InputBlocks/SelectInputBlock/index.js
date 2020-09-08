@@ -40,6 +40,7 @@ const SelectInputBlock = (props) => {
       {isLoading ? (
         /* loading */
         <Skeleton
+          active
           paragraph={{ rows: 1, width: 110 }}
           size='large'
           title={false}
