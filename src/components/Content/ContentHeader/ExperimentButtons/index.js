@@ -28,7 +28,7 @@ const ExperimentButtons = ({ handleClick, disabled, loading }) => (
         disabled={disabled}
         onClick={handleClick}
         shape='round'
-        type='primary'
+        type='primary-inverse'
       >
         {loading ? <LoadingOutlined /> : <ToolOutlined />}
         Preparar para a implantação

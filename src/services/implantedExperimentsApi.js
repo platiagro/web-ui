@@ -16,34 +16,18 @@ const seldonApi = axios.create({
 
 const deploymentsPath = '/deployments';
 
-/**
- * Get Deployed Experiments
- * @returns {Promise}
- */
 const getDeployedExperiments = () => {
   return pipelinesApi.get(deploymentsPath);
 };
 
 const getExperimentDeployStatus = (experimentId) => {
-  return pipelinesApi.get(`${deploymentsPath}/${experimentId}`)
-}
-
+  return pipelinesApi.get(`${deploymentsPath}/${experimentId}`);
+};
 
 const testDeployedExperiments = (id, body) => {
   return seldonApi.post(`/deployments/${id}/api/v1.0/predictions`, body);
-}
+};
 
-/**
- * Test Deployed Experiments
- * @param {Object} deployObject
- * @returns {Promise}
- */
-
-/**
- * Delete Deployed Experiments
- * @param experimentId
- * @returns {Promise}
- */
 const deleteDeployedExperiments = (experimentId) => {
   return pipelinesApi.delete(`${deploymentsPath}/${experimentId}`);
 };
