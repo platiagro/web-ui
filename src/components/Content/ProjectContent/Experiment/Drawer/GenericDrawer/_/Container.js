@@ -43,6 +43,7 @@ const mapStateToProps = (state) => {
   return {
     operator: state.operatorReducer,
     parameters: state.operatorReducer.parameters,
+    pipelineParameters: state.operatorReducer.pipelineParameters,
     loading: state.uiReducer.experimentOperators.loading,
     parameterLoading: state.uiReducer.operatorParameter.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
@@ -54,17 +55,11 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for drawer with
  * redux.
  */
-const GenericDrawerContainer = ({
-  parameters,
-  loading,
-  trainingLoading,
-  operator,
-  handleRemoveOperator,
-  handleSetOperatorParameter,
-  parameterLoading,
-}) => {
+const GenericDrawerContainer = (props) => {
   // CONSTANTS
-  // getting experiment uuid
+  const { operator, parameters, pipelineParameters } = props;
+  const { loading, parameterLoading, trainingLoading } = props;
+  const { handleRemoveOperator, handleSetOperatorParameter } = props;
   const { projectId, experimentId } = useParams();
 
   // HANDLERS
@@ -84,12 +79,13 @@ const GenericDrawerContainer = ({
   // RENDER
   return (
     <GenericDrawer
-      handleRemoveOperatorClick={removeOperatorHandler}
       drawerInputs={parameters}
       loading={loading}
       trainingLoading={trainingLoading}
       parameterLoading={parameterLoading}
+      pipelineParameters={pipelineParameters}
       handleChangeParameter={setOperatorParameterHandler}
+      handleRemoveOperatorClick={removeOperatorHandler}
     />
   );
 };

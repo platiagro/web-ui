@@ -3,7 +3,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { InputNumber, Skeleton } from 'antd';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { InputNumber, Tooltip, Skeleton } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -13,10 +14,8 @@ import { InputBlockContainer } from 'components';
  *
  * @param {object} props Component props
  * @returns {NumberInputBlock} Component
- * @component
  */
 const NumberInputBlock = (props) => {
-  // destructuring props
   const {
     title,
     name,
@@ -24,12 +23,15 @@ const NumberInputBlock = (props) => {
     min,
     max,
     step,
+    pipelineValue,
     placeholder,
     value,
     isLoading,
     isDisabled,
     handleChange,
   } = props;
+
+  const modifiedSinceLastExecution = value !== pipelineValue;
 
   // HOOKS
   // use ref
@@ -67,23 +69,38 @@ const NumberInputBlock = (props) => {
           title={false}
         />
       ) : (
-        /* number input */
-        <InputNumber
-          ref={inputRef}
-          value={currentValue}
-          onChange={(valueReceived) => {
-            setCurrentValue(valueReceived);
-          }}
-          placeholder={placeholder}
-          min={min}
-          max={max}
-          step={step}
-          decimalSeparator=','
-          disabled={isLoading || isDisabled}
-          onKeyUp={handleKeyPress}
-          onBlur={beforeSubmit}
-          style={{ width: '100%' }}
-        />
+        <>
+          {/* number input */}
+          <InputNumber
+            ref={inputRef}
+            value={currentValue}
+            onChange={(valueReceived) => {
+              setCurrentValue(valueReceived);
+            }}
+            placeholder={placeholder}
+            min={min}
+            max={max}
+            step={step}
+            decimalSeparator=','
+            disabled={isLoading || isDisabled}
+            onKeyUp={handleKeyPress}
+            onBlur={beforeSubmit}
+            style={
+              modifiedSinceLastExecution ? { width: '80%' } : { width: '100%' }
+            }
+          />
+          {/* rendering tooltip */}
+          {modifiedSinceLastExecution ? (
+            <Tooltip
+              placement='bottomRight'
+              title='Valor modificado desde a última execução.'
+            >
+              <ExclamationCircleFilled
+                style={{ color: '#FAAD14', marginLeft: 5 }}
+              />
+            </Tooltip>
+          ) : null}
+        </>
       )}
     </InputBlockContainer>
   );
@@ -103,6 +120,8 @@ NumberInputBlock.propTypes = {
   max: PropTypes.number,
   /** Input value step  */
   step: PropTypes.number,
+  /** Pipeline execution value */
+  pipelineValue: PropTypes.number,
   /** Input placeholder */
   placeholder: PropTypes.number,
   /** Input value */

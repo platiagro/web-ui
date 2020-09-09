@@ -42,11 +42,9 @@ const inputTypes = {
     );
   },
   // feature
-  feature(props, loading, handleChange, trainingLoading) {
-    // destructuring props
+  feature(props, loading, handleChange, trainingLoading, pipelineValue) {
     const { uuid, name, label, value, options, multiple, description } = props;
 
-    // rendering component
     return (
       <SelectInputBlock
         key={uuid || name}
@@ -60,27 +58,15 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
+        pipelineValue={pipelineValue}
       />
     );
   },
   // number
-  number(props, loading, handleChange, trainingLoading) {
-    // destructuring props
-    const {
-      uuid,
-      name,
-      multiple,
-      description,
-      label,
-      options,
-      min,
-      max,
-      step,
-      value,
-      placeholder,
-    } = props;
+  number(props, loading, handleChange, trainingLoading, pipelineValue) {
+    const { description, label, max, multiple, min, name } = props;
+    const { options, placeholder, step, uuid, value } = props;
 
-    // rendering component
     return options === undefined ? (
       <NumberInputBlock
         key={uuid || name}
@@ -95,6 +81,7 @@ const inputTypes = {
         isLoading={loading}
         isDisabled={trainingLoading}
         placeholder={placeholder}
+        pipelineValue={pipelineValue}
       />
     ) : (
       // number select input
@@ -110,27 +97,15 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
+        pipelineValue={pipelineValue}
       />
     );
   },
   // float
-  float(props, loading, handleChange, trainingLoading) {
-    // destructuring props
-    const {
-      uuid,
-      name,
-      multiple,
-      description,
-      label,
-      options,
-      min,
-      max,
-      step,
-      value,
-      placeholder,
-    } = props;
+  float(props, loading, handleChange, trainingLoading, pipelineValue) {
+    const { description, label, max, multiple, min, name } = props;
+    const { options, placeholder, step, uuid, value } = props;
 
-    // rendering component
     return options === undefined ? (
       <NumberInputBlock
         key={uuid || name}
@@ -145,6 +120,7 @@ const inputTypes = {
         isLoading={loading}
         isDisabled={trainingLoading}
         placeholder={placeholder}
+        pipelineValue={pipelineValue}
       />
     ) : (
       // number select input
@@ -160,24 +136,15 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
+        pipelineValue={pipelineValue}
       />
     );
   },
   // integer
-  integer(props, loading, handleChange, trainingLoading) {
-    const {
-      uuid,
-      name,
-      multiple,
-      description,
-      label,
-      options,
-      min,
-      max,
-      step,
-      value,
-      placeholder,
-    } = props;
+  integer(props, loading, handleChange, trainingLoading, pipelineValue) {
+    const { description, label, max, multiple, min, name } = props;
+    const { options, placeholder, step, uuid, value } = props;
+
     return options === undefined ? (
       <NumberInputBlock
         key={uuid || name}
@@ -192,6 +159,7 @@ const inputTypes = {
         isLoading={loading}
         isDisabled={trainingLoading}
         placeholder={placeholder}
+        pipelineValue={pipelineValue}
       />
     ) : (
       // integer select input
@@ -207,24 +175,15 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
+        pipelineValue={pipelineValue}
       />
     );
   },
   // string
-  string(props, loading, handleChange, trainingLoading) {
-    // destructuring props
-    const {
-      uuid,
-      name,
-      label,
-      value,
-      multiple,
-      description,
-      options,
-      placeholder,
-    } = props;
+  string(props, loading, handleChange, trainingLoading, pipelineValue) {
+    const { description, label, multiple, name } = props;
+    const { options, placeholder, value, uuid } = props;
 
-    // rendering component
     return options === undefined ? (
       <TextInputBlock
         key={uuid || name}
@@ -236,6 +195,7 @@ const inputTypes = {
         placeholder={placeholder}
         title={label || name}
         value={value}
+        pipelineValue={pipelineValue}
       />
     ) : (
       // string select input
@@ -251,15 +211,14 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
+        pipelineValue={pipelineValue}
       />
     );
   },
   // BOOLEAN / TOGGLE
-  boolean(props, loading, handleChange, trainingLoading) {
-    // destructuring props
+  boolean(props, loading, handleChange, trainingLoading, pipelineValue) {
     const { uuid, name, description, label, value } = props;
 
-    // rendering component
     return (
       <ToggleInputBlock
         key={uuid || name}
@@ -270,6 +229,7 @@ const inputTypes = {
         tip={description}
         isChecked={value}
         isDisabled={trainingLoading}
+        pipelineValue={pipelineValue}
       />
     );
   },
@@ -282,16 +242,9 @@ const inputTypes = {
  * @param props
  */
 const GenericDrawer = (props) => {
-  // destructuring props
-  const {
-    drawerInputs,
-    drawerTip,
-    loading,
-    trainingLoading,
-    parameterLoading,
-    handleChangeParameter,
-    handleRemoveOperatorClick,
-  } = props;
+  const { drawerInputs, drawerTip, pipelineParameters } = props;
+  const { loading, parameterLoading, trainingLoading } = props;
+  const { handleChangeParameter, handleRemoveOperatorClick } = props;
 
   return (
     // div container
@@ -316,14 +269,22 @@ const GenericDrawer = (props) => {
       {/* rendering drawer inputs */}
       {drawerInputs &&
         drawerInputs.length > 0 &&
-        drawerInputs.map((input) =>
-          inputTypes[input.type](
+        drawerInputs.map((input) => {
+          let pipelineValue = pipelineParameters
+            ? pipelineParameters[input.name]
+            : null;
+          if (pipelineValue === undefined || pipelineValue === null) {
+            pipelineValue = input.value;
+          }
+
+          return inputTypes[input.type](
             input,
             parameterLoading,
             handleChangeParameter,
-            trainingLoading
-          )
-        )}
+            trainingLoading,
+            pipelineValue
+          );
+        })}
       {/* rendering drawer tip node */}
       {drawerTip && (
         <div>
@@ -346,10 +307,18 @@ GenericDrawer.propTypes = {
   drawerInputs: PropTypes.arrayOf(PropTypes.object),
   /** generic drawer tip node */
   drawerTip: PropTypes.node,
-  /** training is succeded */
-  trainingSucceeded: PropTypes.bool.isRequired,
+  /** pipeline parameters list */
+  pipelineParameters: PropTypes.arrayOf(PropTypes.object),
+  /** experiment is loading */
+  loading: PropTypes.bool,
+  /** parameter is loading */
+  parameterLoading: PropTypes.bool,
   /** training is running */
-  trainingLoading: PropTypes.bool.isRequired,
+  trainingLoading: PropTypes.bool,
+  /** function to handle change parameter */
+  handleChangeParameter: PropTypes.func,
+  /** function to handle remove operator */
+  handleRemoveOperatorClick: PropTypes.func,
 };
 
 // PROP DEFAULT VALUES
