@@ -19,23 +19,14 @@ const { Option } = Select;
  * @returns {SelectInputBlock} Component
  */
 const SelectInputBlock = (props) => {
-  const {
-    title,
-    isLoading,
-    isDisabled,
-    tip,
-    isMultiple,
-    placeholder,
-    value,
-    options,
-    handleChange,
-    pipelineValue,
-  } = props;
-
+  const { handleChange, isDisabled, isLoading, isMultiple, options } = props;
+  const { placeholder, tip, title, value, valueLatestTraining } = props;
   const selectRef = useRef(null);
   const inputValue = typeof value === 'string' ? [value] : value;
   const executionValue =
-    typeof pipelineValue === 'string' ? [pipelineValue] : pipelineValue;
+    typeof valueLatestTraining === 'string'
+      ? [valueLatestTraining]
+      : valueLatestTraining;
   const modifiedSinceLastExecution =
     JSON.stringify(inputValue) !== JSON.stringify(executionValue);
 
@@ -119,8 +110,8 @@ SelectInputBlock.propTypes = {
   ).isRequired,
   /** Input change handler */
   handleChange: PropTypes.func.isRequired,
-  /** Pipeline execution value */
-  pipelineValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  /** Lastest Training value */
+  valueLatestTraining: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };
 
 // PROP DEFAULT VALUES

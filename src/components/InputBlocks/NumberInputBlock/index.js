@@ -16,22 +16,9 @@ import { InputBlockContainer } from 'components';
  * @returns {NumberInputBlock} Component
  */
 const NumberInputBlock = (props) => {
-  const {
-    title,
-    name,
-    tip,
-    min,
-    max,
-    step,
-    pipelineValue,
-    placeholder,
-    value,
-    isLoading,
-    isDisabled,
-    handleChange,
-  } = props;
-
-  const modifiedSinceLastExecution = value !== pipelineValue;
+  const { handleChange, isDisabled, isLoading, max, min, name } = props;
+  const { placeholder, tip, title, value, step, valueLatestTraining } = props;
+  const modifiedSinceLastExecution = value !== valueLatestTraining;
 
   // HOOKS
   // use ref
@@ -120,8 +107,8 @@ NumberInputBlock.propTypes = {
   max: PropTypes.number,
   /** Input value step  */
   step: PropTypes.number,
-  /** Pipeline execution value */
-  pipelineValue: PropTypes.number,
+  /** Lastest Training value */
+  valueLatestTraining: PropTypes.number,
   /** Input placeholder */
   placeholder: PropTypes.number,
   /** Input value */

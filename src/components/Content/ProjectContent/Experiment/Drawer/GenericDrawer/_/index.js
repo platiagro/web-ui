@@ -42,7 +42,7 @@ const inputTypes = {
     );
   },
   // feature
-  feature(props, loading, handleChange, trainingLoading, pipelineValue) {
+  feature(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { uuid, name, label, value, options, multiple, description } = props;
 
     return (
@@ -58,12 +58,12 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     );
   },
   // number
-  number(props, loading, handleChange, trainingLoading, pipelineValue) {
+  number(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, max, multiple, min, name } = props;
     const { options, placeholder, step, uuid, value } = props;
 
@@ -81,7 +81,7 @@ const inputTypes = {
         isLoading={loading}
         isDisabled={trainingLoading}
         placeholder={placeholder}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     ) : (
       // number select input
@@ -97,12 +97,12 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     );
   },
   // float
-  float(props, loading, handleChange, trainingLoading, pipelineValue) {
+  float(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, max, multiple, min, name } = props;
     const { options, placeholder, step, uuid, value } = props;
 
@@ -120,7 +120,7 @@ const inputTypes = {
         isLoading={loading}
         isDisabled={trainingLoading}
         placeholder={placeholder}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     ) : (
       // number select input
@@ -136,12 +136,12 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     );
   },
   // integer
-  integer(props, loading, handleChange, trainingLoading, pipelineValue) {
+  integer(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, max, multiple, min, name } = props;
     const { options, placeholder, step, uuid, value } = props;
 
@@ -159,7 +159,7 @@ const inputTypes = {
         isLoading={loading}
         isDisabled={trainingLoading}
         placeholder={placeholder}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     ) : (
       // integer select input
@@ -175,12 +175,12 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     );
   },
   // string
-  string(props, loading, handleChange, trainingLoading, pipelineValue) {
+  string(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, multiple, name } = props;
     const { options, placeholder, value, uuid } = props;
 
@@ -195,7 +195,7 @@ const inputTypes = {
         placeholder={placeholder}
         title={label || name}
         value={value}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     ) : (
       // string select input
@@ -211,12 +211,12 @@ const inputTypes = {
         tip={description}
         value={value}
         title={label || name}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     );
   },
   // BOOLEAN / TOGGLE
-  boolean(props, loading, handleChange, trainingLoading, pipelineValue) {
+  boolean(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { uuid, name, description, label, value } = props;
 
     return (
@@ -229,7 +229,7 @@ const inputTypes = {
         tip={description}
         isChecked={value}
         isDisabled={trainingLoading}
-        pipelineValue={pipelineValue}
+        valueLatestTraining={valueLatestTraining}
       />
     );
   },
@@ -242,7 +242,7 @@ const inputTypes = {
  * @param props
  */
 const GenericDrawer = (props) => {
-  const { drawerInputs, drawerTip, pipelineParameters } = props;
+  const { drawerInputs, drawerTip, parametersLatestTraining } = props;
   const { loading, parameterLoading, trainingLoading } = props;
   const { handleChangeParameter, handleRemoveOperatorClick } = props;
 
@@ -270,11 +270,14 @@ const GenericDrawer = (props) => {
       {drawerInputs &&
         drawerInputs.length > 0 &&
         drawerInputs.map((input) => {
-          let pipelineValue = pipelineParameters
-            ? pipelineParameters[input.name]
+          let valueLatestTraining = parametersLatestTraining
+            ? parametersLatestTraining[input.name]
             : null;
-          if (pipelineValue === undefined || pipelineValue === null) {
-            pipelineValue = input.value;
+          if (
+            valueLatestTraining === undefined ||
+            valueLatestTraining === null
+          ) {
+            valueLatestTraining = input.value;
           }
 
           return inputTypes[input.type](
@@ -282,7 +285,7 @@ const GenericDrawer = (props) => {
             parameterLoading,
             handleChangeParameter,
             trainingLoading,
-            pipelineValue
+            valueLatestTraining
           );
         })}
       {/* rendering drawer tip node */}
@@ -308,7 +311,7 @@ GenericDrawer.propTypes = {
   /** generic drawer tip node */
   drawerTip: PropTypes.node,
   /** pipeline parameters list */
-  pipelineParameters: PropTypes.arrayOf(PropTypes.object),
+  parametersLatestTraining: PropTypes.arrayOf(PropTypes.object),
   /** experiment is loading */
   loading: PropTypes.bool,
   /** parameter is loading */

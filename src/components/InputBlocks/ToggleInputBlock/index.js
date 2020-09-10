@@ -20,18 +20,9 @@ import { InputBlockContainer } from 'components';
  * @returns {ToggleInputBlock} Component
  */
 const ToggleInputBlock = (props) => {
-  const {
-    title,
-    name,
-    tip,
-    isChecked,
-    handleChange,
-    isLoading,
-    isDisabled,
-    pipelineValue,
-  } = props;
-
-  const modifiedSinceLastExecution = isChecked !== pipelineValue;
+  const { handleChange, name, isChecked, isLoading, isDisabled } = props;
+  const { tip, title, valueLatestTraining } = props;
+  const modifiedSinceLastExecution = isChecked !== valueLatestTraining;
 
   // rendering component
   return (
@@ -87,8 +78,8 @@ ToggleInputBlock.propTypes = {
   name: PropTypes.string.isRequired,
   /** Input is loading */
   isLoading: PropTypes.bool.isRequired,
-  /** Pipeline execution value */
-  pipelineValue: PropTypes.bool,
+  /** Lastest Training value */
+  valueLatestTraining: PropTypes.bool,
 };
 
 // PROP DEFAULT VALUES

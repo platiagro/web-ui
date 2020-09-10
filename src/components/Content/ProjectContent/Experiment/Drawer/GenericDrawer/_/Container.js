@@ -43,7 +43,7 @@ const mapStateToProps = (state) => {
   return {
     operator: state.operatorReducer,
     parameters: state.operatorReducer.parameters,
-    pipelineParameters: state.operatorReducer.pipelineParameters,
+    parametersLatestTraining: state.operatorReducer.parametersLatestTraining,
     loading: state.uiReducer.experimentOperators.loading,
     parameterLoading: state.uiReducer.operatorParameter.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => {
  */
 const GenericDrawerContainer = (props) => {
   // CONSTANTS
-  const { operator, parameters, pipelineParameters } = props;
+  const { operator, parameters, parametersLatestTraining } = props;
   const { loading, parameterLoading, trainingLoading } = props;
   const { handleRemoveOperator, handleSetOperatorParameter } = props;
   const { projectId, experimentId } = useParams();
@@ -83,7 +83,7 @@ const GenericDrawerContainer = (props) => {
       loading={loading}
       trainingLoading={trainingLoading}
       parameterLoading={parameterLoading}
-      pipelineParameters={pipelineParameters}
+      parametersLatestTraining={parametersLatestTraining}
       handleChangeParameter={setOperatorParameterHandler}
       handleRemoveOperatorClick={removeOperatorHandler}
     />

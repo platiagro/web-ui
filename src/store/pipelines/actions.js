@@ -168,7 +168,7 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
 
   dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
-    pipelineOperators: operators,
+    operatorsLatestTraining: operators,
     experimentIsRunning: isRunning,
     interruptIsRunning: deleteLoading,
   });

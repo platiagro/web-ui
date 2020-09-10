@@ -16,19 +16,9 @@ import { InputBlockContainer } from 'components';
  * @returns {TextInputBlock} Component
  */
 const TextInputBlock = (props) => {
-  const {
-    title,
-    name,
-    tip,
-    placeholder,
-    value,
-    handleChange,
-    isLoading,
-    isDisabled,
-    pipelineValue,
-  } = props;
-
-  const modifiedSinceLastExecution = value !== pipelineValue;
+  const { handleChange, name, isLoading, isDisabled } = props;
+  const { placeholder, tip, title, value, valueLatestTraining } = props;
+  const modifiedSinceLastExecution = value !== valueLatestTraining;
 
   // HOOKS
   // use ref
@@ -120,8 +110,8 @@ TextInputBlock.propTypes = {
   isDisabled: PropTypes.bool.isRequired,
   /** Input is loading */
   isLoading: PropTypes.bool.isRequired,
-  /** Pipeline execution value */
-  pipelineValue: PropTypes.string,
+  /** Lastest Training value */
+  valueLatestTraining: PropTypes.bool,
 };
 
 // PROP DEFAULT VALUESstring
