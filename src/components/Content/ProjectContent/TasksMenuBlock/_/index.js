@@ -41,7 +41,6 @@ const TasksMenuBlock = (props) => {
         menu={menu}
         loading={loading}
       />
-      {/* )} */}
     </div>
   );
 };
