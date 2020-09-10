@@ -38,6 +38,7 @@ const ColumnsTable = (props) => {
       render: (value, row, index) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 110 }}
             size='large'
             title={false}
@@ -55,6 +56,7 @@ const ColumnsTable = (props) => {
       render: (value, row, index) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 110 }}
             size='large'
             title={false}
