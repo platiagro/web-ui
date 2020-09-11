@@ -101,7 +101,7 @@ const ResultsDrawer = (props) => {
               {results.map((
                 result // div result container
               ) => (
-                <div key={result.uuid}>
+                <div className='tab-content' key={result.uuid}>
                   {/* rendering result */}
                   {resultsTypes[result.type](result)}
                   {/* rendering divider */}
@@ -148,6 +148,7 @@ ResultsDrawer.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** metrics drawer results list */
   metrics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  parameters: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool.isRequired,
   metricsLoading: PropTypes.bool.isRequired,
 };
