@@ -3,7 +3,8 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Select, Skeleton } from 'antd';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Tooltip, Select, Skeleton } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -16,23 +17,18 @@ const { Option } = Select;
  *
  * @param {object} props Component props
  * @returns {SelectInputBlock} Component
- * @component
  */
 const SelectInputBlock = (props) => {
-  // destructuring props
-  const {
-    title,
-    isLoading,
-    isDisabled,
-    tip,
-    isMultiple,
-    placeholder,
-    value,
-    options,
-    handleChange,
-  } = props;
-  // ref hook
+  const { handleChange, isDisabled, isLoading, isMultiple, options } = props;
+  const { placeholder, tip, title, value, valueLatestTraining } = props;
   const selectRef = useRef(null);
+  const inputValue = typeof value === 'string' ? [value] : value;
+  const executionValue =
+    typeof valueLatestTraining === 'string'
+      ? [valueLatestTraining]
+      : valueLatestTraining;
+  const modifiedSinceLastExecution =
+    JSON.stringify(inputValue) !== JSON.stringify(executionValue);
 
   // rendering component
   return (
@@ -46,31 +42,46 @@ const SelectInputBlock = (props) => {
           title={false}
         />
       ) : (
-        /* select input */
-        <Select
-          ref={selectRef}
-          onChange={(values) => {
-            selectRef.current.blur();
-            handleChange(values);
-          }}
-          mode={isMultiple ? 'multiple' : null}
-          style={{ width: '100%' }}
-          placeholder={placeholder}
-          value={value}
-          loading={isLoading}
-          disabled={isLoading || isDisabled}
-        >
-          {/* rendering select options */}
-          {options &&
-            options.map((option) => {
-              const { uuid, name: optionName } = option;
-              return (
-                <Option key={uuid || option} value={uuid || option}>
-                  {optionName || option}
-                </Option>
-              );
-            })}
-        </Select>
+        <>
+          {/* select input */}
+          <Select
+            ref={selectRef}
+            onChange={(values) => {
+              selectRef.current.blur();
+              handleChange(values);
+            }}
+            mode={isMultiple ? 'multiple' : null}
+            placeholder={placeholder}
+            value={value}
+            loading={isLoading}
+            disabled={isLoading || isDisabled}
+            style={
+              modifiedSinceLastExecution ? { width: '90%' } : { width: '100%' }
+            }
+          >
+            {/* rendering select options */}
+            {options &&
+              options.map((option) => {
+                const { uuid, name: optionName } = option;
+                return (
+                  <Option key={uuid || option} value={uuid || option}>
+                    {optionName || option}
+                  </Option>
+                );
+              })}
+          </Select>
+          {/* rendering tooltip */}
+          {modifiedSinceLastExecution ? (
+            <Tooltip
+              placement='bottomRight'
+              title='Valor modificado desde a última execução.'
+            >
+              <ExclamationCircleFilled
+                style={{ color: '#FAAD14', marginLeft: 5 }}
+              />
+            </Tooltip>
+          ) : null}
+        </>
       )}
     </InputBlockContainer>
   );
@@ -100,6 +111,8 @@ SelectInputBlock.propTypes = {
   ).isRequired,
   /** Input change handler */
   handleChange: PropTypes.func.isRequired,
+  /** Lastest Training value */
+  valueLatestTraining: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };
 
 // PROP DEFAULT VALUES

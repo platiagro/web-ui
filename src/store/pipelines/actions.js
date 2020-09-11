@@ -121,8 +121,8 @@ export const trainExperimentRequest = (experiment, operators) => (
  * @returns {Object} { type }
  */
 const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
-  // getting status from response
-  const { status } = response.data;
+  // getting operators from response
+  const { operators } = response.data;
 
   // training experiment is running?
   let isRunning = false;
@@ -130,24 +130,19 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
   // training experiment is succeeded
   let isSucceeded = true;
 
-  // checking status operators to verify if training is running or pending
-  if (
-    Object.values(status).includes('Running') ||
-    Object.values(status).includes('Pending')
-  ) {
-    isRunning = true;
-  }
-
-  // checking status operators to verify if traning is succeeded
-  Object.values(status).forEach((statusValue) => {
-    if (
-      statusValue === '' ||
-      statusValue === 'Pending' ||
-      statusValue === 'Running' ||
-      statusValue === 'Failed' ||
-      statusValue === 'Terminated'
-    )
+  // checking status operators to verify if training is running, pending or succeeded
+  Object.values(operators).forEach((operator) => {
+    const status = operator.status;
+    if (status === 'Pending' || status === 'Running') {
+      isRunning = true;
       isSucceeded = false;
+    } else if (
+      status === '' ||
+      status === 'Failed' ||
+      status === 'Terminated'
+    ) {
+      isSucceeded = false;
+    }
   });
 
   // experiment training is succeeded
@@ -173,7 +168,7 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
 
   dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
-    status,
+    operatorsLatestTraining: operators,
     experimentIsRunning: isRunning,
     interruptIsRunning: deleteLoading,
   });
