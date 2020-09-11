@@ -197,9 +197,8 @@ const ImplantedExperimentsTable = (props) => {
               dataIndex: name,
               key: name,
               width: 100,
-              // colSpan: 50,
             }))}
-            // scroll={{ x: 800 }}
+            scroll={{ x: 800 }}
           />
         )}
       </Modal>
