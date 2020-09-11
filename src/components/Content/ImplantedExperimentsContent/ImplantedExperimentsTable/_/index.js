@@ -53,6 +53,27 @@ const ImplantedExperimentsTable = (props) => {
     Succeeded: 'success',
   };
 
+  // check if a ndarray is base64 and image/jpg
+  const isBase64Encoded = (ndarray) => {
+    const pattern = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+    const baseValue = ndarray.find((value) => typeof value === 'string');
+
+    if (baseValue) {
+      const [base, content] = baseValue.split(',');
+
+      if (base.includes('image/jpeg') && pattern.test(content)) return true;
+      else return false;
+    } else {
+      return false;
+    }
+  };
+
+  console.log(
+    experimentInference.names.map((name) => {
+      return { title: name, dataIndex: name, key: name };
+    })
+  );
+
   // table columns config
   const columnsConfig = [
     // status column
@@ -150,23 +171,37 @@ const ImplantedExperimentsTable = (props) => {
         visible={experimentInferenceModal}
         onOk={closeModal}
         onCancel={closeModal}
+        width='70vw'
       >
-        <Table
-          dataSource={experimentInference.ndarray.map((e, i) => {
-            const data = { key: i };
-            experimentInference.names.forEach((c, j) => {
-              data[c] = e[j];
-            });
-            return data;
-          })}
-          columns={experimentInference.names.map((name) => ({
-            title: name,
-            dataIndex: name,
-            key: name,
-          }))}
-          scroll={{ x: 800 }}
-        />
-        ;
+        {isBase64Encoded(experimentInference.ndarray) ? (
+          <div className='container-difference'>
+            <img
+              src={experimentInference.ndarray.map((element) => {
+                return element;
+              })}
+              alt='predict-response'
+              className='image-difference'
+            />
+          </div>
+        ) : (
+          <Table
+            dataSource={experimentInference.ndarray.map((e, i) => {
+              const data = { key: i };
+              experimentInference.names.forEach((c, j) => {
+                data[c] = e[j];
+              });
+              return data;
+            })}
+            columns={experimentInference.names.map((name) => ({
+              title: name,
+              dataIndex: name,
+              key: name,
+              width: 100,
+              // colSpan: 50,
+            }))}
+            // scroll={{ x: 800 }}
+          />
+        )}
       </Modal>
     </>
   );
