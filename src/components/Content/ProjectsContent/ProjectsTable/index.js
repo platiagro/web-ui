@@ -12,6 +12,7 @@ import {
   Space,
   Table,
   Tag,
+  Tooltip,
   Typography,
 } from 'antd';
 
@@ -139,8 +140,10 @@ const ProjectsTable = ({
       dataIndex: 'description',
       key: 'description',
       width: '30%',
-      ellipsis: true,
-      render: (description) =>
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (value, record) =>
         loading ? (
           <Skeleton
             active
@@ -149,7 +152,9 @@ const ProjectsTable = ({
             title={false}
           />
         ) : (
-          <></>
+          <Tooltip placement='topLeft' title={value}>
+            {value}
+          </Tooltip>
         ),
     },
     {
