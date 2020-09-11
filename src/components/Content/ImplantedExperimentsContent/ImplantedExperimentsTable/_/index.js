@@ -62,7 +62,6 @@ const ImplantedExperimentsTable = (props) => {
       const [base, content] = baseValue.split(',');
 
       if (base.includes('image/jpeg') && pattern.test(content)) return true;
-      else return false;
     } else {
       return false;
     }
