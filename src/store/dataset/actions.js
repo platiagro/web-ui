@@ -321,7 +321,7 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
       .getDatasetFeaturetypes(datasetName)
       .then((response) => dispatch(getDatasetFeaturetypesSuccess(response)))
       .catch((error) => getDatasetFeaturetypesFail(error));
-  } else
+  } else {
     dispatch(
       getDatasetSuccess({
         data: {
@@ -331,6 +331,7 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
         },
       })
     );
+  }
 };
 
 // // // // // // // // // //
