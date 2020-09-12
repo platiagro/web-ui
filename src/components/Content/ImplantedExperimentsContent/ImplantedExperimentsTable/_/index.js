@@ -53,25 +53,41 @@ const ImplantedExperimentsTable = (props) => {
     Succeeded: 'success',
   };
 
-  // check if a ndarray is base64 and image/jpg
+  /**
+   * Check whenever a response is a encoded base64 string
+   *
+   * @param {Array} ndarray response from Seldon
+   * @returns {boolean} is a response includes a encoded base64 string or not
+   */
   const isBase64Encoded = (ndarray) => {
-    const pattern = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
-    const baseValue = ndarray.find((value) => typeof value === 'string');
+    const array = ndarray.flat();
+    const baseString = array.find((element) => typeof element === 'string');
 
-    if (baseValue) {
-      const [base, content] = baseValue.split(',');
+    if (baseString) {
+      const pattern = /[A-Za-z0-9+/=]/;
+      const [base, content] = baseString.split(',');
 
-      if (base.includes('image/jpeg') && pattern.test(content)) return true;
+      if (base.includes('image/') && pattern.test(content)) return true;
     } else {
       return false;
     }
   };
 
-  console.log(
-    experimentInference.names.map((name) => {
-      return { title: name, dataIndex: name, key: name };
-    })
-  );
+  /**
+   * Check if a array has a encoded base64 image
+   *
+   * @param {*} ndarray response from Seldon
+   * @returns {boolean} is a response includes a encoded base64 image or not
+   */
+  const isImage = (ndarray) => {
+    const encodedString = [...ndarray].shift();
+
+    if (encodedString) {
+      const [base] = encodedString.split(',');
+      if (base.includes('image/')) return true;
+    }
+    return false;
+  };
 
   // table columns config
   const columnsConfig = [
@@ -174,13 +190,30 @@ const ImplantedExperimentsTable = (props) => {
       >
         {isBase64Encoded(experimentInference.ndarray) ? (
           <div className='container-difference'>
-            <img
-              src={experimentInference.ndarray.map((element) => {
-                return element;
-              })}
-              alt='predict-response'
-              className='image-difference'
-            />
+            {isImage(experimentInference.ndarray.flat()) ? (
+              <img
+                src={experimentInference.ndarray.flat()}
+                alt='predict-response'
+                className='image-difference'
+              />
+            ) : (
+              <div className='iterative-prediction'>
+                <Tooltip title='O formato gerado pelo modelo não é do tipo imagem. Veja mais sobre essa saída logo abaixo!'>
+                  <span>Arquivo gerado pelo modelo</span>
+                </Tooltip>
+                <div className='show-code'>
+                  {experimentInference.ndarray.flat()}
+                </div>
+                <a
+                  href={experimentInference.ndarray.flat()}
+                  download='predict-file'
+                >
+                  <Button type='primary' style={{ margin: '6px 6px 0px 0px' }}>
+                    Baixar
+                  </Button>
+                </a>
+              </div>
+            )}
           </div>
         ) : (
           <Table
