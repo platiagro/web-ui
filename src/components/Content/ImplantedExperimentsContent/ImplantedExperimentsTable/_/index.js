@@ -198,7 +198,7 @@ const ImplantedExperimentsTable = (props) => {
               />
             ) : (
               <div className='iterative-prediction'>
-                <Tooltip title='O formato gerado pelo modelo não é do tipo imagem. Veja mais sobre essa saída logo abaixo!'>
+                <Tooltip title='O formato do arquivo gerado pelo modelo não é do tipo imagem. Veja mais sobre essa saída logo abaixo!'>
                   <span>Arquivo gerado pelo modelo</span>
                 </Tooltip>
                 <div className='show-code'>
