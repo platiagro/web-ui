@@ -310,13 +310,18 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
   // dispatching dataset operator loading data action
   dispatch(datasetOperatorLoadingData());
 
-  if (datasetName)
+  if (datasetName) {
     // fetching dataset
     datasetsApi
       .getDataset(datasetName)
       .then((response) => dispatch(getDatasetSuccess(response)))
       .catch((error) => dispatch(getDatasetFail(error)));
-  else
+
+    datasetsApi
+      .getDatasetFeaturetypes(datasetName)
+      .then((response) => dispatch(getDatasetFeaturetypesSuccess(response)))
+      .catch((error) => getDatasetFeaturetypesFail(error));
+  } else
     dispatch(
       getDatasetSuccess({
         data: {
@@ -407,4 +412,20 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
   } catch (e) {
     dispatch(deleteDatasetFail());
   }
+};
+
+export const getDatasetFeaturetypesSuccess = (response) => (dispatch) => {
+  const featuretypes = response.data;
+
+  dispatch({
+    type: actionTypes.GET_DATASET_FEATURETYPES_SUCCESS,
+    featuretypes,
+  });
+};
+
+export const getDatasetFeaturetypesFail = (error) => (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_DATASET_FEATURETYPES_FAIL,
+    error,
+  });
 };
