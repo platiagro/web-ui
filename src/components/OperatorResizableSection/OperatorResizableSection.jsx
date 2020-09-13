@@ -97,37 +97,45 @@ const OperatorResizableSection = (props) => {
         {!operatorIsDataset && <GenericDrawerContainer />}
       </div>
 
-      <InputBlockContainer>
-        {/* rendering results button bar */}
-        {!operatorIsDataset && (
-          <ResultsButtonBar
-            handleEditClick={() => undefined}
-            handleResultsClick={handleShowResultsClick}
-            // always show results button
-            showingResults={false}
-            disabled={
-              !operatorResults ||
-              (!experimentIsFinished &&
-                operatorResults &&
-                operatorResults.lenght <= 0)
-            }
-          />
+      <div
+        style={{
+          position: 'static',
+          borderTop: '1px solid rgba(0, 0, 0, 0.09)',
+        }}
+      >
+        {/* rendering operator's notebook logger */}
+        {!operatorIsDataset && operatorStatus === 'Failed' && (
+          <InputBlockContainer
+            title='Erro na Execução'
+            tip='Veja o código no Jupyter para mais detalhes sobre a execução'
+            error='true'
+            status={operatorStatus}
+          >
+            <OperatorLogBlock logContent={operatorLogs} />
+          </InputBlockContainer>
         )}
 
-        {/* rendering link to Jupyter */}
-        {!operatorIsDataset && <NotebookOutputsContainer />}
-      </InputBlockContainer>
+        <InputBlockContainer>
+          {/* rendering results button bar */}
+          {!operatorIsDataset && (
+            <ResultsButtonBar
+              handleEditClick={() => undefined}
+              handleResultsClick={handleShowResultsClick}
+              // always show results button
+              showingResults={false}
+              disabled={
+                !operatorResults ||
+                (!experimentIsFinished &&
+                  operatorResults &&
+                  operatorResults.lenght <= 0)
+              }
+            />
+          )}
 
-      {!operatorIsDataset && operatorStatus === 'Failed' && (
-        <InputBlockContainer
-          title='Erro na Execução'
-          tip='Veja o código no Jupyter para mais detalhes sobre a execução'
-          error='true'
-          status={operatorStatus}
-        >
-          <OperatorLogBlock logContent={operatorLogs} />
+          {/* rendering link to Jupyter */}
+          {!operatorIsDataset && <NotebookOutputsContainer />}
         </InputBlockContainer>
-      )}
+      </div>
     </>
   ) : undefined;
 
