@@ -33,13 +33,13 @@ const listDatasetColumns = (datasetName) => {
 };
 
 /**
- * Create Dataset
+ * Create Google Dataset
  *
- * @param {object} formData form with dataset and feature types (header) files
+ * @param {object} gfile
  * @returns {Promise}
  */
-const createDataset = (formData) => {
-  return datasetsApi.post(datasetsPath, formData);
+const createGoogleDataset = (gfile) => {
+  return datasetsApi.post(datasetsPath, { gfile });
 };
 
 /**
@@ -66,7 +66,7 @@ const updateDatasetColumn = (datasetName, columnName, columnNewType) => {
 // EXPORT DEFAULT
 export default {
   listDatasetColumns,
-  createDataset,
+  createGoogleDataset,
   updateDatasetColumn,
   getDataset,
 };

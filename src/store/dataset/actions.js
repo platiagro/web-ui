@@ -408,3 +408,29 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
     dispatch(deleteDatasetFail());
   }
 };
+
+// // // // // // // // // //
+
+// ** CREATE GOOGLE DATASET
+
+/**
+ * Create google dataset
+ *
+ * @param projectId
+ * @param experimentId
+ * @param gfile
+ */
+export const createGoogleDataset = (projectId, experimentId, gfile) => (
+  dispatch
+) => {
+  dispatch(startDatasetUpload());
+  datasetsApi
+    .createGoogleDataset(gfile)
+    .then((response) => {
+      const dataset = response.data;
+      dispatch(datasetUploadSuccess(dataset, projectId, experimentId));
+    })
+    .catch(() => {
+      dispatch(datasetUploadFail());
+    });
+};

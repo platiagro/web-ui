@@ -5,12 +5,16 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import { UploadInputBlock } from 'components/InputBlocks';
+import {
+  GoogleUploadInputBlock,
+  UploadInputBlock,
+} from 'components/InputBlocks';
 
 // ACTIONS
 import {
   startDatasetUpload,
   cancelDatasetUpload,
+  createGoogleDataset,
   datasetUploadFail,
   datasetUploadSuccess,
   deleteDatasetRequest,
@@ -19,7 +23,8 @@ import {
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // start dataset upload
+    handleCreateGoogleDataset: (projectId, experimentId, file) =>
+      dispatch(createGoogleDataset(projectId, experimentId, file)),
     handleUploadStart: () => dispatch(startDatasetUpload()),
     handleDeleteDataset: (projectId, experimentId) =>
       dispatch(deleteDatasetRequest(projectId, experimentId)),
@@ -33,23 +38,22 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    loading: state.uiReducer.datasetOperator.loading,
-    trainingLoading: state.uiReducer.experimentTraining.loading,
     datasetFileName: state.datasetReducer.filename,
+    loading: state.uiReducer.datasetOperator.loading,
+    operatorName: state.operatorReducer.name,
+    trainingLoading: state.uiReducer.experimentTraining.loading,
   };
 };
 
 const DatasetUploadInputBlockContainer = (props) => {
-  // destructuring props
+  const { datasetFileName, loading, operatorName, trainingLoading } = props;
   const {
+    handleCreateGoogleDataset,
     handleUploadCancel,
     handleDeleteDataset,
     handleUploadFail,
     handleUploadStart,
     handleUploadSuccess,
-    loading,
-    trainingLoading,
-    datasetFileName,
   } = props;
 
   // CONSTANTS
@@ -85,7 +89,13 @@ const DatasetUploadInputBlockContainer = (props) => {
       ]
     : undefined;
 
+  // check if is google drive dataset
+  const isGoogleDrive = operatorName === 'Google Drive';
+
   // handlers
+  const containerHandleCreateGoogleDataset = (file) =>
+    handleCreateGoogleDataset(projectId, experimentId, file);
+
   const containerHandleUploadSuccess = (dataset) =>
     handleUploadSuccess(dataset, projectId, experimentId);
 
@@ -95,7 +105,17 @@ const DatasetUploadInputBlockContainer = (props) => {
       : handleUploadCancel();
 
   // rendering component
-  return (
+  return isGoogleDrive ? (
+    <GoogleUploadInputBlock
+      defaultFileList={defaultFileList}
+      handleCreateGoogleDataset={containerHandleCreateGoogleDataset}
+      handleUploadCancel={containerHandleUploadCancel}
+      isDisabled={isDisabled}
+      isLoading={isLoading}
+      tip={tip}
+      title={title}
+    />
+  ) : (
     <UploadInputBlock
       actionUrl={actionUrl}
       buttonText={buttonText}
