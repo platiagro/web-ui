@@ -16,10 +16,16 @@ const datasetsPath = '/datasets';
  * Get Dataset
  *
  * @param {string} datasetName
+ * @param {int} page
+ * @param {int} pageSize
  * @returns {Promise}
  */
-const getDataset = (datasetName) => {
-  return datasetsApi.get(`${datasetsPath}/${datasetName}`);
+const getDataset = (datasetName, page, pageSize) => {
+  if (page && pageSize)
+    return datasetsApi.get(
+      `${datasetsPath}/${datasetName}?page=${page}&page_size=${pageSize}`
+    );
+  else return datasetsApi.get(`${datasetsPath}/${datasetName}`);
 };
 
 /**
@@ -63,10 +69,21 @@ const updateDatasetColumn = (datasetName, columnName, columnNewType) => {
   );
 };
 
+/**
+ * Get featuretypes of a Dataset
+ *
+ * @param {string} datasetName
+ * @returns {Promise}
+ */
+const getDatasetFeaturetypes = (datasetName) => {
+  return datasetsApi.get(`${datasetsPath}/${datasetName}/featuretypes`);
+};
+
 // EXPORT DEFAULT
 export default {
   listDatasetColumns,
   createGoogleDataset,
   updateDatasetColumn,
   getDataset,
+  getDatasetFeaturetypes,
 };
