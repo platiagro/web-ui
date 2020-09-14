@@ -99,14 +99,13 @@ const OperatorResizableSection = (props) => {
 
       <div
         style={{
-          position: 'static',
           borderTop: '1px solid rgba(0, 0, 0, 0.09)',
         }}
       >
         {/* rendering operator's notebook logger */}
         {!operatorIsDataset && operatorStatus === 'Failed' && (
           <InputBlockContainer
-            title='Erro na Execução'
+            title='Erro na execução'
             tip='Veja o código no Jupyter para mais detalhes sobre a execução'
             error='true'
             status={operatorStatus}
