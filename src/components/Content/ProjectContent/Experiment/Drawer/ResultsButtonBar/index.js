@@ -47,7 +47,7 @@ const ResultsButtonBar = (props) => {
             ? 'Para visualizar os resultados, primeiro execute o treinamento.'
             : ''
         }
-        style={{ marginBottom: '14px' }}
+        style={{ marginBottom: '14px', marginRight: '8px' }}
       >
         Visualizar resultados
       </Button>
