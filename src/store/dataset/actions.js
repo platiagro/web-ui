@@ -133,8 +133,8 @@ export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
   // dispatching clear operator feature parameters
   dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
 
-  // dispatching get dataset featuretypes
-  dispatch(getDatasetFeaturetypesRequest(dataset.name));
+  if (utils.hasFeaturetypes(dataset))
+    dispatch(getDatasetFeaturetypesRequest(dataset.name));
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
@@ -268,6 +268,10 @@ const getDatasetSuccess = (response) => (dispatch) => {
   // getting dataset from response
   const dataset = response.data;
 
+  // dispatching get dataset featuretypes
+  if (utils.hasFeaturetypes(dataset))
+    dispatch(getDatasetFeaturetypesRequest(dataset.name));
+
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
@@ -319,9 +323,6 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
       .getDataset(datasetName, 1, 10)
       .then((response) => dispatch(getDatasetSuccess(response)))
       .catch((error) => dispatch(getDatasetFail(error)));
-
-    // dispatching get dataset featuretypes
-    dispatch(getDatasetFeaturetypesRequest(datasetName));
   } else {
     dispatch(
       getDatasetSuccess({
@@ -447,12 +448,14 @@ export const getDatasetFeaturetypesSuccess = (response) => (dispatch) => {
 /**
  * Fetch dataset featuretypes fail action
  *
- * @param {object} error
+ * @param {Function} dispatch
  * @returns {Function}
  */
-export const getDatasetFeaturetypesFail = (error) => (dispatch) => {
+export const getDatasetFeaturetypesFail = () => (dispatch) => {
+  const errorMessage = 'Ocorreu um erro ao tentar recuperar os tipos de atributo';
+
   dispatch({
     type: actionTypes.GET_DATASET_FEATURETYPES_FAIL,
-    error,
+    errorMessage,
   });
 };
