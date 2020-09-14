@@ -124,8 +124,8 @@ const ExperimentTabsContainer = (props) => {
   const renameHandler = (renameExperimentId, newName) => {
     handleRenameExperiment(projectId, renameExperimentId, newName);
   };
-  const duplicateHandler = (experimentId, newName) => {
-    handleDuplicateExperiment(projectId, experimentId, newName);
+  const duplicateHandler = (copyExperimentId, newName) => {
+    handleDuplicateExperiment(projectId, copyExperimentId, newName);
   };
   // change tab
   const handleChangeTab = (targetId) => {
