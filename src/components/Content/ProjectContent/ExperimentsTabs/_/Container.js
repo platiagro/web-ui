@@ -18,6 +18,8 @@ import {
   editExperimentNameRequest,
 } from '../../../../../store/experiment/actions';
 
+import { deselectOperator } from '../../../../../store/operator/actions';
+
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
@@ -46,6 +48,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
           newPosition
         )
       ),
+    handleDeselectOperator: () => dispatch(deselectOperator()),
   };
 };
 
@@ -77,6 +80,7 @@ const ExperimentTabsContainer = (props) => {
     handleClearAllExperiments,
     handleDeleteExperiment,
     handleRenameExperiment,
+    handleDeselectOperator,
   } = props;
 
   // CONSTANTS
@@ -126,6 +130,7 @@ const ExperimentTabsContainer = (props) => {
       // routing
       history.push(`/projetos/${projectId}/${targetId}`);
     }
+    handleDeselectOperator();
   };
   // organizing tabs
   const handleOrganizeTabs = (dragExperimentId, hoverExperimentId) => {
