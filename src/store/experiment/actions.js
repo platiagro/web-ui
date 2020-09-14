@@ -221,12 +221,14 @@ const createExperimentFail = (error) => (dispatch) => {
  *
  * @param {string} projectId
  * @param {string} experimentName
+ * @param {string} copyFrom
  * @param {object} routerProps
  * @returns {Function}
  */
 export const createExperimentRequest = (
   projectId,
   experimentName,
+  copyFrom,
   routerProps
 ) => (dispatch) => {
   // dispatching request action
@@ -242,7 +244,7 @@ export const createExperimentRequest = (
 
   // creating experiment
   experimentsApi
-    .createExperiment(projectId, experimentName)
+    .createExperiment(projectId, experimentName, copyFrom)
     .then((response) =>
       dispatch(createExperimentSuccess(response, projectId, routerProps))
     )
@@ -492,7 +494,7 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
     .then((response) => {
       dispatch(fetchExperimentDeployStatusSuccess(response));
     })
-    .catch((err) => { });
+    .catch((err) => {});
 };
 
 // // // // // // // // // //

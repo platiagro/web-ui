@@ -36,11 +36,13 @@ const detailExperiment = (projectId, experimentId) => {
  * Create Experiment
  * @param {string} projectId
  * @param {string} experimentName
+ * @param {string} copyFrom
  * @returns {Promise}
  */
-const createExperiment = (projectId, experimentName) => {
+const createExperiment = (projectId, experimentName, copyFrom) => {
   const body = {
     name: experimentName,
+    copyFrom: copyFrom,
   };
   return experimentsApi.post(`/${projectId}${experimentsPath}`, body);
 };
