@@ -41,6 +41,8 @@ const mapStateToProps = (state) => {
   return {
     // dataset columns
     datasetColumns: state.datasetReducer.columns,
+    // dataset featuretypes
+    datasetFeaturetypes: state.datasetReducer.featuretypes,
     // dataset observation count
     datasetObservationsCount: state.datasetReducer.observationsCount,
     // Data view modal is visible
@@ -69,6 +71,7 @@ const DataViewModalContainer = (props) => {
     handleUpdateDatasetColumn,
     // data view modal is visible
     isVisible,
+    datasetFeaturetypes,
   } = props;
 
   // CONSTANTS
@@ -136,15 +139,18 @@ const DataViewModalContainer = (props) => {
             </div>
             <div className='dataViewAttributtesDownload'>
               <h2>Tipos dos atributos</h2>
-              <Button
-                isDisabled={true}
-                isLoading={false}
-                handleClick={() => console.log('Em desenvolvimento!')}
-                type={'ghost'}
-                icon={<DownloadOutlined />}
+              <a
+                href={`data:text/plain;base64,${btoa(datasetFeaturetypes)}`}
+                download='featuretypes.txt'
               >
-                Fazer download
-              </Button>
+                <Button
+                  isLoading={false}
+                  type={'default'}
+                  icon={<DownloadOutlined />}
+                >
+                  Fazer download
+                </Button>
+              </a>
             </div>
             <div className='dataViewAttributtesUpload'>
               <h2>Altere todos os tipos de uma só vez</h2>
@@ -194,6 +200,8 @@ DataViewModalContainer.propTypes = {
   datasetObservationsCount: PropTypes.number.isRequired,
   /** dataset column change handler */
   handleUpdateDatasetColumn: PropTypes.func.isRequired,
+  /** dataset featuretypes */
+  datasetFeaturetypes: PropTypes.string.isRequired,
 };
 
 // EXPORT DEFAULT

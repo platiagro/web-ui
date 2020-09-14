@@ -10,6 +10,7 @@ const initialState = {
   name: '',
   columns: [],
   observationsCount: 5000, // TODO: conectar a api
+  featuretypes: '',
 };
 
 /**
@@ -39,6 +40,8 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.CREATE_DATASET_SUCCESS:
       message.success('Dados de entrada importados', 5);
       return { ...state, ...action.dataset };
+    case actionTypes.GET_DATASET_FEATURETYPES_SUCCESS:
+      return { ...state, featuretypes: action.featuretypes };
 
     // FAIL
     case actionTypes.CREATE_DATASET_FAIL:
@@ -46,6 +49,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
     case actionTypes.DELETE_DATASET_FAIL:
     case actionTypes.GET_DATASET_FAIL:
+    case actionTypes.GET_DATASET_FEATURETYPES_FAIL:
       message.error(action.errorMessage, 5);
       return state;
 

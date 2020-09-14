@@ -63,10 +63,21 @@ const updateDatasetColumn = (datasetName, columnName, columnNewType) => {
   );
 };
 
+/**
+ * Get featuretypes of a Dataset
+ *
+ * @param {string} datasetName
+ * @returns {Promise}
+ */
+const getDatasetFeaturetypes = (datasetName) => {
+  return datasetsApi.get(`${datasetsPath}/${datasetName}/featuretypes`);
+};
+
 // EXPORT DEFAULT
 export default {
   listDatasetColumns,
   createDataset,
   updateDatasetColumn,
   getDataset,
+  getDatasetFeaturetypes,
 };
