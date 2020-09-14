@@ -119,9 +119,6 @@ const TaskBox = (props) => {
 
     if (status !== 'Pending' && status !== 'Running' && e.key === 'remove')
       removeOperator();
-
-    if (status !== 'Pending' && status !== 'Running' && e.key === 'copyFrom')
-      removeOperator();
   };
 
   // RENDERS
@@ -129,7 +126,6 @@ const TaskBox = (props) => {
   const menu = (
     <Menu onClick={handleRightButtonClick}>
       <Menu.Item key='edit'>Editar</Menu.Item>
-      <Menu.Item key='copyFrom'>Copiar</Menu.Item>
       <Menu.Item key='remove'>Remover</Menu.Item>
     </Menu>
   );
