@@ -133,6 +133,9 @@ export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
   // dispatching clear operator feature parameters
   dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
 
+  // dispatching get dataset featuretypes
+  dispatch(getDatasetFeaturetypesRequest(dataset.name));
+
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
@@ -317,10 +320,8 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
       .then((response) => dispatch(getDatasetSuccess(response)))
       .catch((error) => dispatch(getDatasetFail(error)));
 
-    datasetsApi
-      .getDatasetFeaturetypes(datasetName)
-      .then((response) => dispatch(getDatasetFeaturetypesSuccess(response)))
-      .catch((error) => getDatasetFeaturetypesFail(error));
+    // dispatching get dataset featuretypes
+    dispatch(getDatasetFeaturetypesRequest(datasetName));
   } else {
     dispatch(
       getDatasetSuccess({
@@ -415,6 +416,25 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
   }
 };
 
+/**
+ * Fetch dataset featuretypes request action
+ *
+ * @param {string} datasetName
+ * @returns {Function}
+ */
+export const getDatasetFeaturetypesRequest = (datasetName) => (dispatch) => {
+  datasetsApi
+    .getDatasetFeaturetypes(datasetName)
+    .then((response) => dispatch(getDatasetFeaturetypesSuccess(response)))
+    .catch((error) => dispatch(getDatasetFeaturetypesFail(error)));
+};
+
+/**
+ * Fetch dataset featuretypes success action
+ *
+ * @param {object} response
+ * @returns {Function}
+ */
 export const getDatasetFeaturetypesSuccess = (response) => (dispatch) => {
   const featuretypes = response.data;
 
@@ -424,6 +444,12 @@ export const getDatasetFeaturetypesSuccess = (response) => (dispatch) => {
   });
 };
 
+/**
+ * Fetch dataset featuretypes fail action
+ *
+ * @param {object} error
+ * @returns {Function}
+ */
 export const getDatasetFeaturetypesFail = (error) => (dispatch) => {
   dispatch({
     type: actionTypes.GET_DATASET_FEATURETYPES_FAIL,
