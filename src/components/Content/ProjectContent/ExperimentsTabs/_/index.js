@@ -10,7 +10,7 @@ import {
   EditOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
-import { Tabs, Spin, Popconfirm, Popover, Input } from 'antd';
+import { Tabs, Popconfirm, Popover, Input } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';
@@ -131,12 +131,8 @@ const ExperimentsTabs = (props) => {
       // rendering loading tab
       return (
         <TabPane
-          tab={
-            <div className='tab-title-custom'>
-              <Spin size='small' indicator={<LoadingOutlined />} />
-            </div>
-          }
-          disabled
+          tab={<div className='tab-title-custom' />}
+          disabled={loading}
           key='sem experimento'
         />
       );
