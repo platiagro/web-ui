@@ -5,7 +5,8 @@ import GoogleButton from 'react-google-button';
 import GooglePicker from 'react-google-picker';
 
 // UI LIB COMPONENTS
-import { Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Upload, Button } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -26,10 +27,13 @@ const GoogleUploadInputBlock = (props) => {
   const { defaultFileList, isDisabled, isLoading, tip, title } = props;
   const { handleCreateGoogleDataset, handleUploadCancel } = props;
   const [fileList, setFileList] = useState([]);
+  const [googleToken, setGoogleToken] = useState(null);
 
-  // file list state hook
-  // Similar ao componentDidMount e componentDidUpdate:
   useEffect(() => {
+    // set the google token if user already logged
+    if (window.gapi && window.gapi.auth) {
+      setGoogleToken(window.gapi.auth.getToken());
+    }
     defaultFileList && setFileList(defaultFileList);
   }, [defaultFileList]);
 
@@ -54,42 +58,50 @@ const GoogleUploadInputBlock = (props) => {
     },
   };
 
+  const handleGooglePickerOnChange = (data) => {
+    if (data.action === 'loaded') {
+      const token = window.gapi.auth.getToken();
+      setGoogleToken(token);
+    }
+
+    if (data.action === 'picked') {
+      const file = data.docs[0];
+      const token = window.gapi.auth.getToken();
+      const gfile = {
+        clientId: CLIENT_ID,
+        clientSecret: DEVELOPER_KEY,
+        id: file.id,
+        mimeType: file.mimeType,
+        name: file.name,
+        token: token.access_token,
+      };
+      handleCreateGoogleDataset(gfile);
+    }
+  };
+
   // rendering component
   return (
     <>
       <InputBlockContainer tip={tip} title={title}>
-        <Upload {...uploadProps} disabled={isDisabled} />
-        <br />
         <GooglePicker
           disabled={isDisabled || isLoading}
           clientId={CLIENT_ID}
           developerKey={DEVELOPER_KEY}
           scope={SCOPE}
-          onChange={(data) => {
-            if (data.action === 'picked') {
-              const file = data.docs[0];
-              const token = window.gapi.auth.getToken();
-              const gfile = {
-                clientId: CLIENT_ID,
-                clientSecret: DEVELOPER_KEY,
-                id: file.id,
-                mimeType: file.mimeType,
-                name: file.name,
-                token: token.access_token,
-              };
-              handleCreateGoogleDataset(gfile);
-            }
-          }}
+          onChange={handleGooglePickerOnChange}
           navHidden={true}
           authImmediate={false}
           viewId={'DOCS'}
         >
-          <GoogleButton
-            style={{ width: 210 }}
-            type='dark'
-            disabled={isDisabled || isLoading}
-          />
+          {googleToken ? (
+            <Button disabled={isDisabled || isLoading}>
+              <UploadOutlined /> Importar
+            </Button>
+          ) : (
+            <GoogleButton style={{ width: 210 }} type='dark' />
+          )}
         </GooglePicker>
+        <Upload {...uploadProps} disabled={isDisabled} />
       </InputBlockContainer>
     </>
   );

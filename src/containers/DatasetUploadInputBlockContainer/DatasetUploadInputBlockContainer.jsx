@@ -39,6 +39,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     datasetFileName: state.datasetReducer.filename,
+    datasetStatus: state.datasetReducer.status,
     loading: state.uiReducer.datasetOperator.loading,
     operatorName: state.operatorReducer.name,
     trainingLoading: state.uiReducer.experimentTraining.loading,
@@ -46,7 +47,13 @@ const mapStateToProps = (state) => {
 };
 
 const DatasetUploadInputBlockContainer = (props) => {
-  const { datasetFileName, loading, operatorName, trainingLoading } = props;
+  const {
+    datasetFileName,
+    datasetStatus,
+    loading,
+    operatorName,
+    trainingLoading,
+  } = props;
   const {
     handleCreateGoogleDataset,
     handleUploadCancel,
@@ -84,7 +91,7 @@ const DatasetUploadInputBlockContainer = (props) => {
         {
           uid: datasetFileName,
           name: datasetFileName,
-          status: 'done',
+          status: datasetStatus ? datasetStatus : 'done',
         },
       ]
     : undefined;

@@ -522,13 +522,14 @@ const sortOperatorsByDependencies = (operators) => {
  * @returns {string} dataset name
  */
 const getDatasetName = (tasks, operators) => {
-  const datasetTask = tasks.find((i) => {
-    return i.tags.includes('DATASETS');
-  });
+  const datasetTasks = tasks
+    .filter((i) => {
+      return i.tags.includes('DATASETS');
+    })
+    .map((task) => task.uuid);
   const datasetOperator = operators.find((i) => {
-    return i.taskId === datasetTask.uuid;
+    return datasetTasks.includes(i.taskId);
   });
-
   let datasetName = undefined;
   if (datasetOperator) {
     const parameters = datasetOperator.parameters;

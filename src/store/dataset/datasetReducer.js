@@ -65,6 +65,14 @@ const datasetReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         ...action.dataset,
+        status: null,
+      };
+
+    case actionTypes.SET_GOOGLE_DATASET_STATUS:
+      return {
+        ...state,
+        filename: action.fileName,
+        status: action.status,
       };
 
     // DEFAULT
