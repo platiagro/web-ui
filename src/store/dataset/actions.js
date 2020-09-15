@@ -458,6 +458,19 @@ export const getDatasetFeaturetypesFail = (error) => (dispatch) => {
 };
 
 /**
+ * Set google dataset status
+ * @param fileName
+ * @param status
+ */
+const setGoogleDatasetStatus = (fileName, status) => (dispatch) => {
+  dispatch({
+    type: actionTypes.SET_GOOGLE_DATASET_STATUS,
+    fileName,
+    status,
+  });
+};
+
+/**
  * Create google dataset
  *
  * @param projectId
@@ -467,14 +480,17 @@ export const getDatasetFeaturetypesFail = (error) => (dispatch) => {
 export const createGoogleDataset = (projectId, experimentId, gfile) => (
   dispatch
 ) => {
-  dispatch(startDatasetUpload());
+  dispatch(datasetOperatorLoadingData());
+  dispatch(setGoogleDatasetStatus(gfile.name, 'uploading'));
   datasetsApi
     .createGoogleDataset(gfile)
     .then((response) => {
       const dataset = response.data;
       dispatch(datasetUploadSuccess(dataset, projectId, experimentId));
+      dispatch(setGoogleDatasetStatus(gfile.name, 'done'));
     })
     .catch(() => {
       dispatch(datasetUploadFail());
+      dispatch(setGoogleDatasetStatus(gfile.name, 'error'));
     });
 };
