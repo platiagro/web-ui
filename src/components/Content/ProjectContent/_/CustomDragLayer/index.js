@@ -28,20 +28,17 @@ const CustomDragLayer = DragLayer((monitor) => ({
 }))((props) => {
   const { item, itemType, isDragging } = props;
 
-  function renderItem() {
-    switch (itemType) {
-      case 'TASK':
-        return <GenericBox name={item.name} icon={item.icon} />;
-      default:
-        return null;
-    }
-  }
   if (!isDragging) {
     return null;
   }
+
   return (
     <div className='drag-layer'>
-      <div style={getItemStyles(props)}>{renderItem()}</div>
+      <div style={getItemStyles(props)}>
+        {itemType === 'TASK' ? (
+          <GenericBox name={item.name} icon={item.icon} />
+        ) : null}
+      </div>
     </div>
   );
 });
