@@ -133,8 +133,8 @@ export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
   // dispatching clear operator feature parameters
   dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
 
-  if (utils.hasFeaturetypes(dataset))
-    dispatch(getDatasetFeaturetypesRequest(dataset.name));
+  // dispatching get dataset featuretypes
+  dispatch(getDatasetFeaturetypes(dataset));
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
@@ -269,8 +269,7 @@ const getDatasetSuccess = (response) => (dispatch) => {
   const dataset = response.data;
 
   // dispatching get dataset featuretypes
-  if (utils.hasFeaturetypes(dataset))
-    dispatch(getDatasetFeaturetypesRequest(dataset.name));
+  dispatch(getDatasetFeaturetypes(dataset));
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
@@ -417,46 +416,18 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
   }
 };
 
-/**
- * Fetch dataset featuretypes request action
- *
- * @param {string} datasetName
- * @returns {Function}
- */
-export const getDatasetFeaturetypesRequest = (datasetName) => (dispatch) => {
-  datasetsApi
-    .getDatasetFeaturetypes(datasetName)
-    .then((response) => dispatch(getDatasetFeaturetypesSuccess(response)))
-    .catch((error) => dispatch(getDatasetFeaturetypesFail(error)));
-};
+export const getDatasetFeaturetypes = (dataset) => (dispatch) => {
+  if (utils.hasFeaturetypes(dataset)) {
+    const featuretypes = utils.getFeaturetypes(dataset);
 
-/**
- * Fetch dataset featuretypes success action
- *
- * @param {object} response
- * @returns {Function}
- */
-export const getDatasetFeaturetypesSuccess = (response) => (dispatch) => {
-  const featuretypes = response.data;
-
-  dispatch({
-    type: actionTypes.GET_DATASET_FEATURETYPES_SUCCESS,
-    featuretypes,
-  });
-};
-
-/**
- * Fetch dataset featuretypes fail action
- *
- * @param {Function} dispatch
- * @param {object} error
- * @returns {Function}
- */
-export const getDatasetFeaturetypesFail = (error) => (dispatch) => {
-  const errorMessage = error.message;
-
-  dispatch({
-    type: actionTypes.GET_DATASET_FEATURETYPES_FAIL,
-    errorMessage,
-  });
+    dispatch({
+      type: actionTypes.GET_DATASET_FEATURETYPES,
+      featuretypes,
+    });
+  } else {
+    dispatch({
+      type: actionTypes.GET_DATASET_FEATURETYPES,
+      payload: '',
+    });
+  }
 };

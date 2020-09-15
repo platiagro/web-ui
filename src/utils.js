@@ -569,6 +569,14 @@ const hasFeaturetypes = (dataset) => {
   return false;
 };
 
+const getFeaturetypes = (dataset) => {
+  const featuretypes = [...dataset.columns].map((column) => {
+    return column.featuretype;
+  });
+
+  return featuretypes.toString().replaceAll(',', '\n');
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -588,4 +596,5 @@ export default {
   getDatasetName,
   sleep,
   hasFeaturetypes,
+  getFeaturetypes,
 };
