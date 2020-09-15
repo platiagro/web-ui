@@ -1,0 +1,27 @@
+.draggable-item {
+  cursor: default;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  &:active {
+    background-color: transparent;
+  }
+  &:hover {
+    .drag-icon {
+      svg > path {
+        transition: fill 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        fill: #0050b3;
+      }
+    }
+  }
+  padding-left: 24px !important;
+}
+
+.drag-icon {
+  svg > path {
+    fill: rgba(0, 0, 0, 0.65);
+  }
+}
