@@ -1,25 +1,17 @@
-// UPLOAD INPUT BLOCK
+import GoogleUploadInputBlock from './GoogleUploadInputBlock';
+import NumberInputBlock from './NumberInputBlock';
+import OperatorLogBlock from '../LogBlock';
+import SelectInputBlock from './SelectInputBlock';
+import TextInputBlock from './TextInputBlock';
+import ToggleInputBlock from './ToggleInputBlock';
 import UploadInputBlock from './UploadInputBlock';
 
-// TOGGLE INPUT BLOCK
-import ToggleInputBlock from './ToggleInputBlock';
-
-// NUMBER INPUT BLOCK
-import NumberInputBlock from './NumberInputBlock';
-
-// SELECT INPUT BLOCK
-import SelectInputBlock from './SelectInputBlock';
-
-// TEXT INPUT BLOCK
-import TextInputBlock from './TextInputBlock';
-
-import OperatorLogBlock from '../LogBlock';
-
 export {
-  SelectInputBlock,
-  UploadInputBlock,
-  ToggleInputBlock,
+  GoogleUploadInputBlock,
   NumberInputBlock,
-  TextInputBlock,
   OperatorLogBlock,
+  SelectInputBlock,
+  TextInputBlock,
+  ToggleInputBlock,
+  UploadInputBlock,
 };
