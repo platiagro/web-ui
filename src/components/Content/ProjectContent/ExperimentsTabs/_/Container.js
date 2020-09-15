@@ -53,7 +53,6 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 const mapStateToProps = (state) => {
   return {
     experiments: state.experimentsReducer,
-    loading: state.uiReducer.experimentsTabs.loading,
   };
 };
 
