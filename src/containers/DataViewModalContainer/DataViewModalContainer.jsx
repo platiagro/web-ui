@@ -144,6 +144,7 @@ const DataViewModalContainer = (props) => {
                 download='featuretypes.txt'
               >
                 <Button
+                  isDisabled={!datasetFeaturetypes}
                   isLoading={false}
                   type={'default'}
                   icon={<DownloadOutlined />}

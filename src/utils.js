@@ -560,7 +560,7 @@ const sleep = (milliseconds) => {
 const hasFeaturetypes = (dataset) => {
   if (hasOwnProperty.call(dataset, 'columns')) {
     const columns = [...dataset.columns];
-    const hasFeatureTypes = columns.every((column) =>
+    const hasFeatureTypes = columns.some((column) =>
       hasOwnProperty.call(column, 'featuretype')
     );
 
