@@ -90,12 +90,15 @@ const ExperimentTabsContainer = (props) => {
   useEffect(() => {
     // fetching projects
     handleFetchExperiments(projectId);
+  }, [handleFetchExperiments, projectId, handleClearAllExperiments]);
 
+  useEffect(() => {
     return () => {
       // clear all experiments of redux when dismount
       handleClearAllExperiments();
     };
-  }, [handleFetchExperiments, projectId, handleClearAllExperiments]);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // listen experiments to redirect to active
   useEffect(() => {
