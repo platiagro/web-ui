@@ -565,8 +565,8 @@ const hasFeaturetypes = (dataset) => {
     );
 
     if (hasFeatureTypes) return true;
-    else return false;
   }
+  return false;
 };
 
 // EXPORT DEFAULT

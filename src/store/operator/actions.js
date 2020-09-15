@@ -335,8 +335,9 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
       if (parameter.name === 'dataset') datasetValue = parameter.value;
     });
 
-    // fetching dataset columns
-    dispatch(getDatasetRequest(datasetValue));
+    if (datasetValue)
+      // fetching dataset columns
+      dispatch(getDatasetRequest(datasetValue));
   }
 
   // getting results
