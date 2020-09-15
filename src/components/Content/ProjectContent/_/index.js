@@ -2,6 +2,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // COMPONENTS
 import ContentHeaderProjectContainer from '../../ContentHeader/_/ContentHeaderProjectContainer';
@@ -9,14 +11,14 @@ import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
-import ExperimentEmpty from '../Experiment/ExperimentEmpty';
-import ExperimentHeader from '../Experiment/ExperimentHeader/_/Container';
-import ExperimentFlow from '../Experiment/ExperimentFlow/_/Container';
+
 import {
   OperatorResizableSectionContainer,
   OperatorResultsModalContainer,
   DataViewModalContainer,
 } from 'containers';
+
+import FlowDrop from './FlowDrop';
 
 import { ProjectEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { Layout } from 'antd';
@@ -61,13 +63,7 @@ const ProjectContent = (props) => {
       <Content>
         <Layout style={{ height: '100%' }}>
           <Content style={{ display: 'flex' }}>
-            <div
-              className='custom-flow'
-              onClick={() => handleDeselectOperator()}
-            >
-              <ExperimentHeader />
-              {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
-            </div>
+            <FlowDrop handleDeselectOperator={handleDeselectOperator} />
             <OperatorResizableSectionContainer />
           </Content>
           <Footer style={{ padding: 0 }}>
@@ -85,17 +81,19 @@ const ProjectContent = (props) => {
   // RENDER
   return (
     <>
-      {/* data view modal container */}
-      <DataViewModalContainer />
-      {/* operator results modal */}
-      <OperatorResultsModalContainer />
-      {/* Header from project (name and rename) */}
-      <ContentHeaderProjectContainer />
-      {experiments && experiments.length > 0 ? (
-        FlowContent
-      ) : (
-        <ProjectEmptyPlaceholder />
-      )}
+      <DndProvider backend={HTML5Backend}>
+        {/* data view modal container */}
+        <DataViewModalContainer />
+        {/* operator results modal */}
+        <OperatorResultsModalContainer />
+        {/* Header from project (name and rename) */}
+        <ContentHeaderProjectContainer />
+        {experiments && experiments.length > 0 ? (
+          FlowContent
+        ) : (
+          <ProjectEmptyPlaceholder />
+        )}
+      </DndProvider>
     </>
   );
 };
