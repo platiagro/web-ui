@@ -1,5 +1,6 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
+import { deselectOperator } from '../operator/actions';
 
 // ACTIONS
 // ** SHOW_NEW_PROJECT_MODAL
@@ -47,11 +48,13 @@ export const hideNewProjectModal = () => {
  *
  * @returns {object} { type, newExperimentModalVisible }
  */
-export const showNewExperimentModal = () => {
-  return {
+export const showNewExperimentModal = () => (dispatch) => {
+  dispatch(deselectOperator());
+
+  dispatch({
     type: actionTypes.SHOW_NEW_EXPERIMENT_MODAL,
     newExperimentModalVisible: true,
-  };
+  });
 };
 
 // // // // // // // // // //
