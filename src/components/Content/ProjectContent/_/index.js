@@ -22,17 +22,7 @@ import { ProjectEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { Layout } from 'antd';
 import './style.less';
 
-// ACTIONS
-import { deselectOperator } from '../../../../store/operator/actions';
-
 const { Footer, Sider, Content } = Layout;
-
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleDeselectOperator: () => dispatch(deselectOperator()),
-  };
-};
 
 // STATES
 const mapStateToProps = (state) => {
@@ -49,7 +39,7 @@ const mapStateToProps = (state) => {
  */
 const ProjectContent = (props) => {
   // destructuring props
-  const { experiments, handleDeselectOperator } = props;
+  const { experiments } = props;
   // CONSTANTS
   const { experimentId } = useParams();
 
@@ -63,7 +53,6 @@ const ProjectContent = (props) => {
           <Content style={{ display: 'flex' }}>
             <div
               className='custom-flow'
-              onClick={() => handleDeselectOperator()}
             >
               <ExperimentHeader />
               {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
@@ -101,4 +90,4 @@ const ProjectContent = (props) => {
 };
 
 // EXPORT
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectContent);
+export default connect(mapStateToProps)(ProjectContent);
