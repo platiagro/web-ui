@@ -449,10 +449,11 @@ export const getDatasetFeaturetypesSuccess = (response) => (dispatch) => {
  * Fetch dataset featuretypes fail action
  *
  * @param {Function} dispatch
+ * @param {object} error
  * @returns {Function}
  */
-export const getDatasetFeaturetypesFail = () => (dispatch) => {
-  const errorMessage = 'Ocorreu um erro ao tentar recuperar os tipos de atributo';
+export const getDatasetFeaturetypesFail = (error) => (dispatch) => {
+  const errorMessage = error.message;
 
   dispatch({
     type: actionTypes.GET_DATASET_FEATURETYPES_FAIL,
