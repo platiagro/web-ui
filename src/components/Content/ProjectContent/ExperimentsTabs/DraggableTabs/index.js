@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { Tabs } from 'antd';
-import { DndProvider, DragSource, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { DragSource, DropTarget } from 'react-dnd';
 
 // DRAG AND DROP PROPERTIES
 // tab type
@@ -97,18 +96,15 @@ const DraggableTabs = (props) => {
   // RENDER
   return (
     // drag and drop provider
-    <DndProvider backend={HTML5Backend}>
-      {/* tabs rendering */}
-      <Tabs
-        activeKey={activeExperiment}
-        type='card'
-        renderTabBar={renderTabBar}
-        className='experimentTabs'
-        {...props}
-      >
-        {tabs}
-      </Tabs>
-    </DndProvider>
+    <Tabs
+      activeKey={activeExperiment}
+      type='card'
+      renderTabBar={renderTabBar}
+      className='experimentTabs'
+      {...props}
+    >
+      {tabs}
+    </Tabs>
   );
 };
 
