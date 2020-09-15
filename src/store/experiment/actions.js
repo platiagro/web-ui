@@ -188,9 +188,10 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
  * create experiment fail action
  *
  * @param {object} error
+ * @param duplilcate
  * @returns {object} { type, errorMessage }
  */
-const createExperimentFail = (error) => (dispatch) => {
+const createExperimentFail = (error, duplilcate) => (dispatch) => {
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
@@ -213,6 +214,9 @@ const createExperimentFail = (error) => (dispatch) => {
     } else {
       message.error(errorMessage, 5);
     }
+    if (duplilcate === true) {
+      message.error(errorMessage, 5);
+    }
   }
 };
 
@@ -222,6 +226,8 @@ const createExperimentFail = (error) => (dispatch) => {
  * @param {string} projectId
  * @param {string} experimentName
  * @param {string} copyFrom
+ * @param {string} duplicate
+ * @param duplcate
  * @param {object} routerProps
  * @returns {Function}
  */
@@ -229,6 +235,7 @@ export const createExperimentRequest = (
   projectId,
   experimentName,
   copyFrom,
+  duplcate,
   routerProps
 ) => (dispatch) => {
   // dispatching request action
@@ -248,7 +255,7 @@ export const createExperimentRequest = (
     .then((response) =>
       dispatch(createExperimentSuccess(response, projectId, routerProps))
     )
-    .catch((error) => dispatch(createExperimentFail(error)));
+    .catch((error) => dispatch(createExperimentFail(error, duplcate)));
 };
 
 // // // // // // // // // //

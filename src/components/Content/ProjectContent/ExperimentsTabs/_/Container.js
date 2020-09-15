@@ -35,7 +35,13 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       ),
     handleDuplicateExperiment: (projectId, experimentId, newName) =>
       dispatch(
-        createExperimentRequest(projectId, newName, experimentId, routerProps)
+        createExperimentRequest(
+          projectId,
+          newName,
+          experimentId,
+          true,
+          routerProps
+        )
       ),
     handleOrganizeExperiments: (
       projectId,
