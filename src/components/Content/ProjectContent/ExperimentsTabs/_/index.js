@@ -49,7 +49,7 @@ const ExperimentsTabs = (props) => {
   const [renameVisible, setRenameVisible] = useState(false);
 
   useEffect(() => {
-    // change rename popover on experiments change
+    // change rename popover visibility on experiments change
     setRenameVisible(false);
   }, [experiments]);
 
