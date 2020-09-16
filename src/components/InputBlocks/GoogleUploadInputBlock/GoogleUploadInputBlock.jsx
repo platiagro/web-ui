@@ -13,8 +13,8 @@ import { InputBlockContainer } from 'components';
 
 // GOOGLE CREDENTIALS
 const CLIENT_ID =
-  '438861478238-uq13v0ho59r44dh9j5a05agg4ap3ujs7.apps.googleusercontent.com';
-const DEVELOPER_KEY = 'AIzaSyDAoTfHvUJO-Gent8_FmW1oDnvRg-8dXlI';
+  '160790132410-cbp6okdeqhg6rkoj5pb5r40ouit5pki3.apps.googleusercontent.com';
+const DEVELOPER_KEY = 'AIzaSyC1x3NtULJzGPFWvIZ7k3QwMlHdIKeC1LA';
 const SCOPE = ['https://www.googleapis.com/auth/drive.readonly'];
 
 /**
