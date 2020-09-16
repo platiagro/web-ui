@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 
@@ -41,10 +41,18 @@ const ExperimentsTabs = (props) => {
     renameHandler,
   } = props;
 
-  //Id for make delete and rename requisitions
+  // Id for make delete and rename requisitions
   const [currentId, setCurrentId] = useState(null);
-  //Name for use into rename popover
+  // Name for use into rename popover
   const [currentName, setCurrentName] = useState('');
+  // Visible for rename popover
+  const [renameVisible, setRenameVisible] = useState(false);
+
+  useEffect(() => {
+    // change rename popover on experiments change
+    setRenameVisible(false);
+  }, [experiments]);
+
   // COMPONENTS RENDERS
   // title
   const renderTitle = (title, running, experimentId, loadingTitle) => (
@@ -165,6 +173,7 @@ const ExperimentsTabs = (props) => {
     setCurrentId(uuid);
     if (action === 'rename') {
       setCurrentName(title);
+      setRenameVisible(true);
     }
   };
 
@@ -179,7 +188,14 @@ const ExperimentsTabs = (props) => {
         {renderTabs()}
       </DraggableTabs>
       <ContextMenu className='menu-tab' id='menu_id'>
-        <Popover content={content} trigger='click'>
+        <Popover
+          trigger='click'
+          content={content}
+          visible={renameVisible}
+          onVisibleChange={(visible) => {
+            setRenameVisible(visible);
+          }}
+        >
           <MenuItem
             className='menu-tab-item'
             data={{ action: 'rename' }}
