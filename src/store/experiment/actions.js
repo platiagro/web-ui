@@ -22,6 +22,8 @@ import {
 // OPERATORS ACTIONS
 import { fetchOperatorsRequest } from '../operators/actions';
 
+const exist = 'Já existe um experimento com este nome!';
+
 // ACTIONS
 // ** FETCH EXPERIMENT
 /**
@@ -205,16 +207,17 @@ const createExperimentFail = (error, duplilcate) => (dispatch) => {
     message.error(errorMessage, 5);
   } else {
     errorMessage = error.response.data.message;
-    if (errorMessage.includes('name already exist')) {
-      errorMessage = 'Já existe um experimento com este nome!';
+    if (errorMessage.includes('name already exist') && !duplilcate) {
+      errorMessage = exist;
       dispatch({
         type: actionTypes.CREATE_EXPERIMENT_FAIL,
         errorMessage,
       });
-    } else {
+    } else if (errorMessage.includes('name already exist') && duplilcate) {
+      errorMessage = exist;
+      dispatch({ type: actionTypes.DUPLICATE_EXPERIMENT_FAIL, errorMessage });
       message.error(errorMessage, 5);
-    }
-    if (duplilcate === true) {
+    } else {
       message.error(errorMessage, 5);
     }
   }
