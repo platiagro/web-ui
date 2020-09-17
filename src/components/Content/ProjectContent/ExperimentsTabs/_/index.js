@@ -157,15 +157,6 @@ const ExperimentsTabs = (props) => {
         />
       ));
     }
-
-    // rendering empty tab
-    return (
-      <TabPane
-        tab={renderTitle('Sem experimentos')}
-        disabled
-        key='sem experimento'
-      />
-    );
   };
 
   //Handlers
