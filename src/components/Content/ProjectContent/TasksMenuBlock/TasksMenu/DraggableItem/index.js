@@ -23,6 +23,7 @@ const MenuItem = ({
   connectDragSource,
   connectDragPreview,
   children,
+  disabled,
 }) => {
   useEffect(() => {
     if (connectDragPreview) {
@@ -40,8 +41,13 @@ const MenuItem = ({
         display: 'flex',
       }}
     >
-      <div style={{ cursor: 'move' }} ref={connectDragSource}>
-        <Icon component={DragIndicator} className='drag-icon' />
+      <div
+        className={disabled ? 'drag-disabled' : 'drag-icon'}
+        ref={connectDragSource}
+        draggable={!disabled}
+        disabled={disabled}
+      >
+        <Icon component={DragIndicator} />
       </div>
       <div style={{ cursor: 'default' }}>{children}</div>
     </div>
