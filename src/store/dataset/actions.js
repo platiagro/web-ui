@@ -353,14 +353,12 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const deleteDatasetSuccess = () => (dispatch) => {
-  const dataset = { filename: '', name: '', columns: [] };
-
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
   dispatch({
     type: actionTypes.DELETE_DATASET_SUCCESS,
-    dataset,
+    payload: { columns: [], featuretypes: '', filename: '', name: '' },
   });
 };
 
