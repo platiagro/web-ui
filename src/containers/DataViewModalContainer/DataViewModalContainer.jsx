@@ -63,6 +63,8 @@ const DataViewModalContainer = (props) => {
   const {
     // dataset observations count
     datasetObservationsCount,
+    // dataset featuretypes
+    datasetFeaturetypes,
     // dataset columns
     datasetColumns,
     // close modal handler
@@ -71,7 +73,6 @@ const DataViewModalContainer = (props) => {
     handleUpdateDatasetColumn,
     // data view modal is visible
     isVisible,
-    datasetFeaturetypes,
   } = props;
 
   // CONSTANTS
@@ -144,6 +145,7 @@ const DataViewModalContainer = (props) => {
                 download='featuretypes.txt'
               >
                 <Button
+                  isDisabled={!datasetFeaturetypes}
                   isLoading={false}
                   type={'default'}
                   icon={<DownloadOutlined />}

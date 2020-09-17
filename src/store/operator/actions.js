@@ -476,9 +476,6 @@ export const createOperatorRequest = (
       // dispatching experiment operators data loaded action
       dispatch(experimentOperatorsDataLoaded());
 
-      // checking if operator is setted up
-      let settedUp = utils.checkOperatorSettedUp(operator);
-
       // dispatching create operator success action
       dispatch({
         type: actionTypes.CREATE_OPERATOR_SUCCESS,
@@ -486,7 +483,9 @@ export const createOperatorRequest = (
           ...operator,
           ...restTaskData,
           parameters: configuredParameters,
-          settedUp,
+          settedUp: restTaskData.tags.includes('DATASETS')
+            ? false
+            : utils.checkOperatorSettedUp(operator),
           selected: false,
           status: '',
         },
