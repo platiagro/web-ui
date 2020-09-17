@@ -483,9 +483,7 @@ export const createOperatorRequest = (
           ...operator,
           ...restTaskData,
           parameters: configuredParameters,
-          settedUp: restTaskData.tags.includes('DATASETS')
-            ? false
-            : utils.checkOperatorSettedUp(operator),
+          settedUp: utils.checkOperatorSettedUp(operator),
           selected: false,
           status: '',
         },
@@ -665,11 +663,7 @@ export const setOperatorParametersRequest = (
       );
 
       // checking if operator is setted up
-      if (successOperator.tags.includes('DATASETS')) {
-        successOperator.settedUp = true;
-      } else {
-        successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
-      }
+      successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
 
       // dispatching success action
       dispatch(setOperatorParametersSuccess(successOperator));

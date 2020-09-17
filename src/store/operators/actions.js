@@ -119,7 +119,6 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
       // necessary to check if dataset because dataset param is removed on getTaskData
       if (operator.tags.includes('DATASETS')) {
         operator.parameters = [{ name: 'dataset', value: datasetName || '' }];
-        operator.settedUp = datasetName ? true : false;
       }
       return operator;
     });
