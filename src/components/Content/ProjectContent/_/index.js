@@ -20,7 +20,6 @@ import {
 
 import FlowDrop from './FlowDrop';
 
-import { ProjectEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { Layout } from 'antd';
 import './style.less';
 
@@ -36,13 +35,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    experiments: state.projectReducer.experiments,
-  };
-};
-
 /**
  * Project Content.
  * This component is responsible for displaying the project content.
@@ -51,11 +43,11 @@ const mapStateToProps = (state) => {
  */
 const ProjectContent = (props) => {
   // destructuring props
-  const { experiments, handleDeselectOperator } = props;
+  const { handleDeselectOperator } = props;
   // CONSTANTS
   const { experimentId } = useParams();
 
-  const FlowContent = (
+  const renderFlowContent = () => (
     <Layout style={{ overflow: 'hidden' }}>
       <Sider width={250}>
         <TasksMenuBlock disabled={!experimentId} />
@@ -88,15 +80,11 @@ const ProjectContent = (props) => {
         <OperatorResultsModalContainer />
         {/* Header from project (name and rename) */}
         <ContentHeaderProjectContainer />
-        {experiments && experiments.length > 0 ? (
-          FlowContent
-        ) : (
-          <ProjectEmptyPlaceholder />
-        )}
+        {renderFlowContent()}
       </DndProvider>
     </>
   );
 };
 
 // EXPORT
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectContent);
+export default connect(null, mapDispatchToProps)(ProjectContent);

@@ -18,7 +18,9 @@ const FlowDrop = ({
   connectDropTarget,
 }) => {
   const { experimentId } = useParams();
-  const isActive = canDrop && isOver;
+
+  const isActive = canDrop && isOver && Boolean(experimentId);
+
   let backgroundColor = '#fff';
   if (isActive) {
     backgroundColor = 'rgba(20,250,20,0.1)';
