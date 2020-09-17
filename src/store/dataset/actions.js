@@ -418,6 +418,9 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
       )
     );
 
+    // dispatching clear operator feature parameters
+    dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
+
     dispatch(deleteDatasetSuccess());
   } catch (e) {
     dispatch(deleteDatasetFail());
