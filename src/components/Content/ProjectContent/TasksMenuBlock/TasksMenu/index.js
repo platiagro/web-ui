@@ -87,6 +87,7 @@ const TasksMenu = ({
         name={name}
         icon={icon}
         handleSelect={handleSelect}
+        disabled={disabled}
       >
         {renderTooltip(name, description, uuid)}
       </DraggableItem>
