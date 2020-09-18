@@ -138,19 +138,15 @@ const UploadInputBlock = (props) => {
       }}
     >
       {
-        datasets.length === 0 &&
-        <Empty
+        datasets.length > 0
+        ? datasets.map((dataset) => (
+          <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
+        ))
+        : <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description='Não há conjuntos de dados.'
           style={{ paddingLeft: '10px', paddingRight: '10px' }} 
         />
-      }
-
-      {
-        datasets.length > 0 &&
-        datasets.map((dataset) => (
-          <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
-        ))
       }
     </Menu>
   );
