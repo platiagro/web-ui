@@ -22,39 +22,6 @@ import './styles.less';
  * @param props.handleTrainExperiment
  * @param props.handleDeleteTrainExperiment
  * @param props.empty
- * @param props.loading
- * @param props.deleteTrainingLoading
- * @param props.trainingLoading
- * @param props.handleTrainExperiment
- * @param props.handleDeleteTrainExperiment
- * @param props.empty
- * @param props.loading
- * @param props.deleteTrainingLoading
- * @param props.trainingLoading
- * @param props.handleTrainExperiment
- * @param props.handleDeleteTrainExperiment
- * @param props.empty
- * @param props.loading
- * @param props.deleteTrainingLoading
- * @param props.trainingLoading
- * @param props.handleTrainExperiment
- * @param props.handleDeleteTrainExperiment
- * @param props.empty
- * @param props.loading
- * @param props.deleteTrainingLoading
- * @param props.trainingLoading
- * @param props.handleTrainExperiment
- * @param props.handleDeleteTrainExperiment
- * @param props.empty
- * @param props.loading
- * @param props.deleteTrainingLoading
- * @param props.trainingLoading
- * @param props.handleTrainExperiment
- * @param props.handleDeleteTrainExperiment
- * @param props.empty
- * @param props.handleRemoveOperatorClick
- * @param props.handleRemoveOperator
- * @param props.operator
  * @param {object} props Component props
  * @returns {ExperimentHeader} React component
  */
