@@ -16,7 +16,7 @@ const ButtonUsingDeployments = ({ handleClick }) => (
     onClick={handleClick}
     icon={<QuestionCircleOutlined />}
     className='newProjectButton'
-    type='secondary'
+    type='primary'
   >
     Como usar um fluxo implantado?
   </Button>

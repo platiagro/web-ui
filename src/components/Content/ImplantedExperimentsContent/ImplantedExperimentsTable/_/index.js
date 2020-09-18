@@ -93,7 +93,7 @@ const ImplantedExperimentsTable = (props) => {
   const columnsConfig = [
     // status column
     {
-      title: 'Status',
+      title: <strong>Status</strong>,
       dataIndex: 'status',
       key: 'status',
       render: (value) => (
@@ -103,13 +103,13 @@ const ImplantedExperimentsTable = (props) => {
     },
     // name
     {
-      title: 'Nome',
+      title: <strong>Nome</strong>,
       dataIndex: 'name',
       key: 'name',
     },
     // url column
     {
-      title: 'URL',
+      title: <strong>URL</strong>,
       dataIndex: 'url',
       key: 'url',
       render: (value) => (
@@ -122,14 +122,14 @@ const ImplantedExperimentsTable = (props) => {
     },
     // createdAt column
     {
-      title: 'Data de Criação',
+      title: <strong>Data de Criação</strong>,
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (value) => new Date(value).toLocaleString(),
     },
     // action column
     {
-      title: 'Ação',
+      title: <strong>Ação</strong>,
       dataIndex: 'action',
       key: 'action',
       render: (value, record) => (
@@ -182,7 +182,7 @@ const ImplantedExperimentsTable = (props) => {
       />
       <LogsDrawer />
       <Modal
-        title='Predições'
+        title={<strong>Visualizar resultados</strong>}
         visible={experimentInferenceModal}
         onOk={closeModal}
         onCancel={closeModal}

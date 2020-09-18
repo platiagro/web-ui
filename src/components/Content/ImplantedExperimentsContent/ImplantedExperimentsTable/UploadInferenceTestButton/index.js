@@ -61,7 +61,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
       {/* upload button link */}
       <Button type='link'>
         <UploadOutlined style={{ marginRight: 5 }} />
-        Testar Inferência
+        Testar o fluxo
       </Button>
     </Upload>
   );
