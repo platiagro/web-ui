@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
 import { UploadOutlined } from '@ant-design/icons';
-import { Upload, Dropdown, Menu } from 'antd';
+import { Dropdown, Empty, Menu, Upload } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -137,9 +137,15 @@ const UploadInputBlock = (props) => {
         overflow: 'auto',
       }}
     >
-      {datasets.map((dataset) => (
-        <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
-      ))}
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description='Não há conjuntos de dados.'
+        style={{ paddingLeft: '10px', paddingRight: '10px' }}
+      >
+        {datasets.map((dataset) => (
+          <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
+        ))}
+      </Empty>
     </Menu>
   );
 
