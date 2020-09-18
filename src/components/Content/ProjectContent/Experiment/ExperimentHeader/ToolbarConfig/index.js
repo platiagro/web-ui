@@ -13,7 +13,7 @@ import {
 
 import { Button, Popconfirm } from 'antd';
 
-const ToolbarConfig = ({ handleDeleteClick, disabled, loading, operator }) => {
+const ToolbarConfig = ({ handleDeleteClick, operator }) => {
   return (
     <>
       <Button icon={<UndoOutlined />} type='text' disabled />
@@ -30,7 +30,6 @@ const ToolbarConfig = ({ handleDeleteClick, disabled, loading, operator }) => {
         <Button
           icon={<DeleteOutlined />}
           type='text'
-          onClick={(e) => e.stopPropagation()}
           disabled={!operator?.uuid}
         />
       </Popconfirm>

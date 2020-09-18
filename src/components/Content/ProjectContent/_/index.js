@@ -55,7 +55,7 @@ const ProjectContent = (props) => {
       <Content>
         <Layout style={{ height: '100%' }}>
           <Content style={{ display: 'flex' }}>
-            <FlowDrop handleDeselectOperator={handleDeselectOperator} />
+            <FlowDrop />
             <OperatorResizableSectionContainer />
           </Content>
           <Footer style={{ padding: 0 }}>

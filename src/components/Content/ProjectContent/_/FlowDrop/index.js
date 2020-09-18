@@ -11,12 +11,7 @@ import CustomDragLayer from '../CustomDragLayer';
 
 import './style.less';
 
-const FlowDrop = ({
-  handleDeselectOperator,
-  canDrop,
-  isOver,
-  connectDropTarget,
-}) => {
+const FlowDrop = ({ canDrop, isOver, connectDropTarget }) => {
   const { experimentId } = useParams();
 
   const isActive = canDrop && isOver && Boolean(experimentId);
@@ -32,7 +27,6 @@ const FlowDrop = ({
       ref={connectDropTarget}
       className='custom-flow'
       style={{ backgroundColor }}
-      onClick={() => handleDeselectOperator()}
     >
       <ExperimentHeader />
       {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
