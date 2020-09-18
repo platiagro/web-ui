@@ -1,0 +1,3 @@
+import ImplantedExperimentsEmptyPlaceholder from './ImplantedExperimentsEmptyPlaceholder';
+
+export default ImplantedExperimentsEmptyPlaceholder;
