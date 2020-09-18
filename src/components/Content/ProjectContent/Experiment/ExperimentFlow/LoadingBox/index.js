@@ -17,10 +17,10 @@ const LoadingBox = () => (
     </div>
     <div className='middle' style={{ padding: '16px 12px 0' }}>
       <Skeleton
+        active
         paragraph={{ rows: 1, width: '100%' }}
         size='large'
         title={false}
-        active
       />
     </div>
     <div className='siders'></div>

@@ -106,6 +106,7 @@ const TasksTable = (props) => {
         const random = Math.round(Math.random());
         return loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 200 }}
             size='large'
             title={false}
@@ -154,6 +155,7 @@ const TasksTable = (props) => {
       render: (value, record) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 250 }}
             size='large'
             title={false}
@@ -172,6 +174,7 @@ const TasksTable = (props) => {
       render: (value, record) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 110 }}
             size='large'
             title={false}
@@ -227,6 +230,7 @@ const TasksTable = (props) => {
       render: (value, record) =>
         loading ? (
           <Skeleton
+            active
             paragraph={{ rows: 1, width: 110 }}
             size='large'
             title={false}

@@ -41,12 +41,15 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     case pipelinesActionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS:
       let isTerminated = false;
       return state.map((operator) => {
+        const operatorLatestTraining =
+          action.operatorsLatestTraining[operator.uuid];
+
         // get the operator status
         let status = '';
         if (isTerminated) {
           status = 'Terminated';
-        } else if (action.status[operator.uuid]) {
-          status = action.status[operator.uuid];
+        } else if (operatorLatestTraining) {
+          status = operatorLatestTraining.status;
         } else if (action.experimentIsRunning) {
           status = 'Pending';
         }
@@ -60,6 +63,9 @@ const operatorsReducer = (state = initialState, action = undefined) => {
         return {
           ...operator,
           status,
+          parametersLatestTraining: operatorLatestTraining
+            ? operatorLatestTraining.parameters
+            : null,
           experimentIsRunning: action.experimentIsRunning,
           interruptIsRunning: action.interruptIsRunning,
         };

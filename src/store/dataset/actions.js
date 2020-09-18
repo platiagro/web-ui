@@ -118,6 +118,7 @@ export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
 ) => {
   // get select operator from store
   const { operatorReducer: operator } = getState();
+  const featuretypes = utils.getFeaturetypes(dataset);
 
   // update dataset parameter
   dispatch(
@@ -138,7 +139,12 @@ export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
 
   dispatch({
     type: actionTypes.CREATE_DATASET_SUCCESS,
-    dataset,
+    payload: {
+      filename: dataset.filename || '',
+      name: dataset.name || '',
+      columns: dataset.columns || [],
+      featuretypes: featuretypes || '',
+    },
   });
 };
 
@@ -264,6 +270,7 @@ export const updateDatasetColumnRequest = (columnName, columnNewType) => (
 const getDatasetSuccess = (response) => (dispatch) => {
   // getting dataset from response
   const dataset = response.data;
+  const featuretypes = utils.getFeaturetypes(dataset);
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
@@ -271,7 +278,12 @@ const getDatasetSuccess = (response) => (dispatch) => {
   // dispatching get dataset success
   dispatch({
     type: actionTypes.GET_DATASET_SUCCESS,
-    dataset,
+    payload: {
+      filename: dataset.filename || '',
+      name: dataset.name || '',
+      columns: dataset.columns || [],
+      featuretypes: featuretypes || '',
+    },
   });
 };
 
@@ -310,13 +322,15 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
   // dispatching dataset operator loading data action
   dispatch(datasetOperatorLoadingData());
 
-  if (datasetName)
+  if (datasetName) {
     // fetching dataset
     datasetsApi
-      .getDataset(datasetName)
+      .getDataset(datasetName, 1, 10)
       .then((response) => dispatch(getDatasetSuccess(response)))
       .catch((error) => dispatch(getDatasetFail(error)));
-  else
+
+    // dispatching get dataset featuretypes
+  } else {
     dispatch(
       getDatasetSuccess({
         data: {
@@ -326,6 +340,7 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
         },
       })
     );
+  }
 };
 
 // // // // // // // // // //
@@ -338,14 +353,12 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const deleteDatasetSuccess = () => (dispatch) => {
-  const dataset = { filename: '', name: '', columns: [] };
-
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
   dispatch({
     type: actionTypes.DELETE_DATASET_SUCCESS,
-    dataset,
+    payload: { columns: [], featuretypes: '', filename: '', name: '' },
   });
 };
 
@@ -403,8 +416,50 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
       )
     );
 
+    // dispatching clear operator feature parameters
+    dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
+
     dispatch(deleteDatasetSuccess());
   } catch (e) {
     dispatch(deleteDatasetFail());
   }
+};
+
+/**
+ * Set google dataset status
+ *
+ * @param fileName
+ * @param status
+ */
+const setGoogleDatasetStatus = (fileName, status) => (dispatch) => {
+  dispatch({
+    type: actionTypes.SET_GOOGLE_DATASET_STATUS,
+    fileName,
+    status,
+  });
+};
+
+/**
+ * Create google dataset
+ *
+ * @param projectId
+ * @param experimentId
+ * @param gfile
+ */
+export const createGoogleDataset = (projectId, experimentId, gfile) => (
+  dispatch
+) => {
+  dispatch(datasetOperatorLoadingData());
+  dispatch(setGoogleDatasetStatus(gfile.name, 'uploading'));
+  datasetsApi
+    .createGoogleDataset(gfile)
+    .then((response) => {
+      const dataset = response.data;
+      dispatch(datasetUploadSuccess(dataset, projectId, experimentId));
+      dispatch(setGoogleDatasetStatus(gfile.name, 'done'));
+    })
+    .catch(() => {
+      dispatch(datasetUploadFail());
+      dispatch(setGoogleDatasetStatus(gfile.name, 'error'));
+    });
 };

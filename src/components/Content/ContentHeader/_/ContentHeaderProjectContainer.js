@@ -6,6 +6,7 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 // COMPONENTS
 import ContentHeader from './index';
 import AccountInfo from '../AccountInfo';
+import ExperimentButtonsContainer from '../ExperimentButtons/Container';
 
 // ACTIONS
 import {
@@ -40,7 +41,7 @@ const mapStateToProps = (state) => {
  */
 const ContentHeaderProjectContainer = (props) => {
   // destructuring props
-  const { project, loading, handleFetchProject, handleEditProjectName } = props;
+  const { project, handleFetchProject, handleEditProjectName } = props;
 
   // CONSTANTS
   // getting history
@@ -69,8 +70,12 @@ const ContentHeaderProjectContainer = (props) => {
       subTitle='Meus projetos'
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
-      loading={loading}
-      extra={<AccountInfo />}
+      extra={
+        <>
+          <ExperimentButtonsContainer />
+          <AccountInfo />
+        </>
+      }
     />
   );
 };

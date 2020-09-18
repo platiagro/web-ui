@@ -3,8 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Switch, Skeleton } from 'antd';
+import {
+  CheckOutlined,
+  CloseOutlined,
+  ExclamationCircleFilled,
+} from '@ant-design/icons';
+import { Tooltip, Switch, Skeleton } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -14,19 +18,11 @@ import { InputBlockContainer } from 'components';
  *
  * @param {object} props Component props
  * @returns {ToggleInputBlock} Component
- * @component
  */
 const ToggleInputBlock = (props) => {
-  // destructuring props
-  const {
-    title,
-    name,
-    tip,
-    isChecked,
-    handleChange,
-    isLoading,
-    isDisabled,
-  } = props;
+  const { handleChange, name, isChecked, isLoading, isDisabled } = props;
+  const { tip, title, valueLatestTraining } = props;
+  const modifiedSinceLastExecution = isChecked !== valueLatestTraining;
 
   // rendering component
   return (
@@ -34,20 +30,34 @@ const ToggleInputBlock = (props) => {
       {isLoading ? (
         /* loading */
         <Skeleton
+          active
           paragraph={{ rows: 1, width: 110 }}
           size='large'
           title={false}
         />
       ) : (
-        /* toggle input */
-        <Switch
-          checkedChildren={<CheckOutlined />}
-          unCheckedChildren={<CloseOutlined />}
-          checked={isChecked}
-          onChange={(valueReceived) => handleChange(name, valueReceived)}
-          disabled={isLoading || isDisabled}
-          loading={isLoading}
-        />
+        <>
+          {/* toggle input */}
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            checked={isChecked}
+            onChange={(valueReceived) => handleChange(name, valueReceived)}
+            disabled={isLoading || isDisabled}
+            loading={isLoading}
+          />
+          {/* rendering tooltip */}
+          {modifiedSinceLastExecution ? (
+            <Tooltip
+              placement='bottomRight'
+              title='Valor modificado desde a última execução.'
+            >
+              <ExclamationCircleFilled
+                style={{ color: '#FAAD14', marginLeft: 5 }}
+              />
+            </Tooltip>
+          ) : null}
+        </>
       )}
     </InputBlockContainer>
   );
@@ -69,6 +79,8 @@ ToggleInputBlock.propTypes = {
   name: PropTypes.string.isRequired,
   /** Input is loading */
   isLoading: PropTypes.bool.isRequired,
+  /** Lastest Training value */
+  valueLatestTraining: PropTypes.bool,
 };
 
 // PROP DEFAULT VALUES
