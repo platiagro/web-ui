@@ -23,15 +23,12 @@ import FlowDrop from './FlowDrop';
 import { Layout } from 'antd';
 import './style.less';
 
-// ACTIONS
-import { deselectOperator } from '../../../../store/operator/actions';
-
 const { Footer, Sider, Content } = Layout;
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
+// STATES
+const mapStateToProps = (state) => {
   return {
-    handleDeselectOperator: () => dispatch(deselectOperator()),
+    experiments: state.projectReducer.experiments,
   };
 };
 
@@ -43,7 +40,7 @@ const mapDispatchToProps = (dispatch) => {
  */
 const ProjectContent = (props) => {
   // destructuring props
-  const { handleDeselectOperator } = props;
+  const { experiments } = props;
   // CONSTANTS
   const { experimentId } = useParams();
 
@@ -87,4 +84,4 @@ const ProjectContent = (props) => {
 };
 
 // EXPORT
-export default connect(null, mapDispatchToProps)(ProjectContent);
+export default connect(mapStateToProps, null)(ProjectContent);
