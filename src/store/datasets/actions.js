@@ -4,6 +4,9 @@ import actionTypes from './actionTypes';
 // SERVICES
 import datasetsApi from '../../services/DatasetsApi';
 
+// UI ACTIONS
+import { datasetsListLoadingData, datasetsListDataLoaded } from '../ui/actions';
+
 // ACTIONS
 // ** FETCH DATASETS
 /**
@@ -15,6 +18,8 @@ import datasetsApi from '../../services/DatasetsApi';
 const fetchDatasetsSuccess = (response) => (dispatch) => {
   // getting datasets from response
   const datasets = response.data;
+
+  dispatch(datasetsListDataLoaded());
 
   // dispatching fetch experiments success action
   dispatch({
@@ -32,6 +37,8 @@ const fetchDatasetsSuccess = (response) => (dispatch) => {
 const fetchDatasetsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
+
+  dispatch(datasetsListDataLoaded());
 
   // dispatching fetch experiments fail action
   dispatch({
@@ -51,6 +58,9 @@ export const fetchDatasetsRequest = () => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_DATASETS_REQUEST,
   });
+
+  // dispatching datasets list loading data action
+  dispatch(datasetsListLoadingData());
 
   // fetching datasets
   datasetsApi

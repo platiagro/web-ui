@@ -44,6 +44,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     datasets: state.datasetsReducer,
+    datasetsLoading: state.uiReducer.datasetsList.loading,
     datasetFileName: state.datasetReducer.filename,
     datasetStatus: state.datasetReducer.status,
     loading: state.uiReducer.datasetOperator.loading,
@@ -55,6 +56,7 @@ const mapStateToProps = (state) => {
 const DatasetUploadInputBlockContainer = (props) => {
   const {
     datasets,
+    datasetsLoading,
     datasetFileName,
     datasetStatus,
     handleCreateGoogleDataset,
@@ -141,6 +143,7 @@ const DatasetUploadInputBlockContainer = (props) => {
       actionUrl={actionUrl}
       buttonText={buttonText}
       datasets={datasets}
+      datasetsLoading={datasetsLoading}
       handleFetchDataset={handleFetchDataset}
       handleUploadCancel={containerHandleUploadCancel}
       handleUploadFail={handleUploadFail}
@@ -158,6 +161,9 @@ const DatasetUploadInputBlockContainer = (props) => {
 DatasetUploadInputBlockContainer.propTypes = {
   /** List of all datasets */
   datasets: PropTypes.array.isRequired,
+
+  /** Datasets list is loading */
+  datasetsLoading: PropTypes.bool.isRequired,
 
   /** Fetch dataset by name handler */
   handleFetchDataset: PropTypes.func.isRequired,

@@ -60,6 +60,7 @@ const UploadInputBlock = (props) => {
     actionUrl,
     buttonText,
     datasets,
+    datasetsLoading,
     handleFetchDataset,
     handleUploadCancel,
     handleUploadFail,
@@ -168,6 +169,7 @@ const UploadInputBlock = (props) => {
             <>{leftButton}</>,
             React.cloneElement(rightButton, {
               onClick: (e) => e.stopPropagation(),
+              loading: datasetsLoading,
             }),
           ]}
         >
@@ -191,6 +193,9 @@ UploadInputBlock.propTypes = {
 
   /** List of all datasets */
   datasets: PropTypes.array.isRequired,
+
+  /** Datasets list is loading */
+  datasetsLoading: PropTypes.bool.isRequired,
 
   /** Fetch dataset by name handler */
   handleFetchDataset: PropTypes.func.isRequired,
