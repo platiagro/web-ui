@@ -71,7 +71,7 @@ const TasksTableContainer = (props) => {
   });
 
   // RENDER
-  return tasks && (loading || tasks.length > 0) ? (
+  return loading || (tasks && tasks.length > 0) ? (
     <div className='tasksContainer'>
       <TasksTable
         tasks={filteredTasks}
