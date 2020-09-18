@@ -5,7 +5,7 @@ import React from 'react';
 import './TasksEmptyPlaceholder.less';
 
 /**
- * Tasls empty placeholder.
+ * Tasks empty placeholder.
  *
  * @returns {TasksEmptyPlaceholder} Component
  * @component
