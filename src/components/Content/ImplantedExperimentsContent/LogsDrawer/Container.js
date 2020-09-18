@@ -46,7 +46,7 @@ const DrawerContainer = ({
       handleClose={handleHideDrawer}
       results={results}
       resultsLoading={resultsLoading}
-      title={drawer.title}
+      title={<strong>{drawer.title}</strong>}
       logs={logs}
     />
   );
