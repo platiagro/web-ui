@@ -1,7 +1,6 @@
 // CORE LIBS
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -23,27 +22,9 @@ import FlowDrop from './FlowDrop';
 import { Layout } from 'antd';
 import './style.less';
 
-// ACTIONS
-import { deselectOperator } from '../../../../store/operator/actions';
-
 const { Footer, Sider, Content } = Layout;
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleDeselectOperator: () => dispatch(deselectOperator()),
-  };
-};
-
-/**
- * Project Content.
- * This component is responsible for displaying the project content.
- *
- * @param props
- */
-const ProjectContent = (props) => {
-  // destructuring props
-  const { handleDeselectOperator } = props;
+const ProjectContent = () => {
   // CONSTANTS
   const { experimentId } = useParams();
 
@@ -55,7 +36,7 @@ const ProjectContent = (props) => {
       <Content>
         <Layout style={{ height: '100%' }}>
           <Content style={{ display: 'flex' }}>
-            <FlowDrop handleDeselectOperator={handleDeselectOperator} />
+            <FlowDrop />
             <OperatorResizableSectionContainer />
           </Content>
           <Footer style={{ padding: 0 }}>
@@ -87,4 +68,4 @@ const ProjectContent = (props) => {
 };
 
 // EXPORT
-export default connect(null, mapDispatchToProps)(ProjectContent);
+export default ProjectContent;

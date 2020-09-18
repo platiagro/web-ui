@@ -35,7 +35,12 @@ const columnsNumber = 3;
  * @param {object} props Component props
  * @returns {ExperimentFlow} React component
  */
-const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
+const ExperimentFlow = ({
+  tasks,
+  loading,
+  handleTaskBoxClick,
+  handleDeselectOperator,
+}) => {
   const archerContainerRef = useRef(null);
   const ScrollContainerRef = useRef(null);
 
@@ -79,6 +84,7 @@ const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
       ref={ScrollContainerRef}
       //Remove click and drag when loading container
       style={loading ? { pointerEvents: 'none' } : {}}
+      onClick={handleDeselectOperator}
     >
       <ArcherContainer
         ref={archerContainerRef}

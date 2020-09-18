@@ -518,6 +518,9 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
       // dispatching hide drawer action
       dispatch(hideDrawer());
 
+      //deselect operator after success remotion
+      dispatch(deselectOperator());
+
       // dispatching to fetch operator
       if (operator.tags.includes('DATASETS')) {
         dispatch(

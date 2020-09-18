@@ -9,6 +9,7 @@ import ExperimentFlow from './index';
 // ACTIONS
 import { selectOperator } from '../../../../../../store/operator/actions';
 import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
+import { deselectOperator } from '../../../../../../store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -19,6 +20,7 @@ const mapDispatchToProps = (dispatch) => {
     // getting training experiment status
     handleGetTrainExperimentStatus: (experimentId) =>
       dispatch(getTrainExperimentStatusRequest(experimentId)),
+    handleDeselectOperator: () => dispatch(deselectOperator()),
   };
 };
 
@@ -45,6 +47,7 @@ const ExperimentFlowContainer = ({
   loading,
   handleShowOperatorDetails,
   handleGetTrainExperimentStatus,
+  handleDeselectOperator,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -71,6 +74,7 @@ const ExperimentFlowContainer = ({
       tasks={operators}
       loading={loading}
       handleTaskBoxClick={selectOperatorHandler}
+      handleDeselectOperator={handleDeselectOperator}
     />
   );
 };
