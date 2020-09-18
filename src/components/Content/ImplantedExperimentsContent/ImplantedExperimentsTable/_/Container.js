@@ -91,8 +91,8 @@ const ImplantedExperimentsTableContainer = ({
   };
 
   // RENDER
-  return implantedExperiments &&
-    (loading || implantedExperiments.length > 0) ? (
+  return loading ||
+    (implantedExperiments && implantedExperiments.length > 0) ? (
     <div className='implantedExperimentsContainer'>
       <ImplantedExperimentsTable
         implantedExperiments={implantedExperiments}
