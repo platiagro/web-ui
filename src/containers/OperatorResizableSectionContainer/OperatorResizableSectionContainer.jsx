@@ -38,7 +38,7 @@ const mapStateToProps = (state) => {
     operatorStatus: state.operatorReducer.status,
     // operator logs
     operatorLogs: state.operatorReducer.logs,
-    test: state.operatorReducer
+    test: state.operatorReducer,
   };
 };
 
@@ -106,7 +106,7 @@ OperatorResizableSectionContainer.propTypes = {
 };
 
 // DEFAULT PROPS
-OperatorResizableSection.defaultProps = {
+OperatorResizableSectionContainer.defaultProps = {
   /** Operator description */
   operatorDescription: undefined,
 };

@@ -2,10 +2,6 @@
 import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 
-// UI COMPONENTS
-import { ConfigProvider } from 'antd';
-// import TasksTablePagination from '../TasksTablePagination/Container';
-
 // ACTIONS
 import {
   deleteTask,
@@ -14,8 +10,9 @@ import {
 } from '../../../../store/tasks/actions';
 
 // COMPONENTS
-import TasksEmpty from '../TasksEmpty';
 import TasksTable from './index';
+
+import { TasksEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -42,6 +39,8 @@ const mapStateToProps = (state) => {
  * Tasks Table Container.
  * This component is responsible for create a logic container for tasks table
  * with redux.
+ *
+ * @param props
  */
 const TasksTableContainer = (props) => {
   // states
@@ -72,8 +71,8 @@ const TasksTableContainer = (props) => {
   });
 
   // RENDER
-  return (
-    <ConfigProvider renderEmpty={TasksEmpty}>
+  return loading || (tasks && tasks.length > 0) ? (
+    <div className='tasksContainer'>
       <TasksTable
         tasks={filteredTasks}
         handleClickTask={taskClickHandler}
@@ -81,9 +80,9 @@ const TasksTableContainer = (props) => {
         handleClickDelete={handleDeleteTask}
         loading={loading}
       />
-      {/* <br />
-      <TasksTablePagination /> */}
-    </ConfigProvider>
+    </div>
+  ) : (
+    <TasksEmptyPlaceholder />
   );
 };
 

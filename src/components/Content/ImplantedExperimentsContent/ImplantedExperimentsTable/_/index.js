@@ -1,6 +1,9 @@
+/* eslint-disable react/display-name */
 // CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { CommonTable } from 'components';
 
 // UI LIBS
 import {
@@ -170,12 +173,12 @@ const ImplantedExperimentsTable = (props) => {
   return (
     // rendering implanted experiments table
     <>
-      <Table
+      <CommonTable
         dataSource={implantedExperiments}
         columns={columnsConfig}
-        pagination={{ pageSize: 9 }}
-        loading={loading}
-        rowKey={(record) => record.runId}
+        pagination={{ pageSize: 10 }}
+        isLoading={loading}
+        rowKey={'runId'}
         rowClassName={(record) =>
           record.name === selectedExperiment ? 'ant-table-row-selected' : ''
         }

@@ -16,6 +16,9 @@ import InputBlockContainer from './InputBlockContainer';
 // DATASET COLUMNS TABLE
 import DatasetColumnsTable from './DatasetColumnsTable';
 
+// COMMON TABLE
+import CommonTable from './CommonTable';
+
 export {
   ResizableSection,
   OperatorResizableSection,
@@ -23,4 +26,5 @@ export {
   InputBlockContainer,
   TooltipTip,
   DatasetColumnsTable,
+  CommonTable,
 };

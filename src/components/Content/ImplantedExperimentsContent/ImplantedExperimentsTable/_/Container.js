@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 
-// UI LIBS
-import { ConfigProvider } from 'antd';
-
 // COMPONENTS
 import ImplantedExperimentsTable from './index';
-import ImplantedExperimentsEmpty from '../../ImplantedExperimentsEmpty';
+import { ImplantedExperimentsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
 import {
@@ -93,9 +90,10 @@ const ImplantedExperimentsTableContainer = ({
     handleGetDeployExperimentLogs(deployId);
   };
 
-  // RENDER handleOpenLog
-  return (
-    <ConfigProvider renderEmpty={ImplantedExperimentsEmpty}>
+  // RENDER
+  return loading ||
+    (implantedExperiments && implantedExperiments.length > 0) ? (
+    <div className='implantedExperimentsContainer'>
       <ImplantedExperimentsTable
         implantedExperiments={implantedExperiments}
         handleTestInference={handleTestImplantedExperimentInference}
@@ -107,7 +105,9 @@ const ImplantedExperimentsTableContainer = ({
         experimentInferenceModal={experimentInferenceModal}
         closeModal={closeModal}
       />
-    </ConfigProvider>
+    </div>
+  ) : (
+    <ImplantedExperimentsEmptyPlaceholder />
   );
 };
 
