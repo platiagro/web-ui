@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 
@@ -10,7 +10,7 @@ import {
   EditOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
-import { Tabs, Spin, Popconfirm, Popover, Input } from 'antd';
+import { Tabs, Popconfirm, Popover, Input } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';
@@ -41,10 +41,18 @@ const ExperimentsTabs = (props) => {
     renameHandler,
   } = props;
 
-  //Id for make delete and rename requisitions
+  // Id for make delete and rename requisitions
   const [currentId, setCurrentId] = useState(null);
-  //Name for use into rename popover
+  // Name for use into rename popover
   const [currentName, setCurrentName] = useState('');
+  // Visible for rename popover
+  const [renameVisible, setRenameVisible] = useState(false);
+
+  useEffect(() => {
+    // change rename popover visibility on experiments change
+    setRenameVisible(false);
+  }, [experiments]);
+
   // COMPONENTS RENDERS
   // title
   const renderTitle = (title, running, experimentId, loadingTitle) => (
@@ -131,12 +139,8 @@ const ExperimentsTabs = (props) => {
       // rendering loading tab
       return (
         <TabPane
-          tab={
-            <div className='tab-title-custom'>
-              <Spin size='small' indicator={<LoadingOutlined />} />
-            </div>
-          }
-          disabled
+          tab={<div className='tab-title-custom' />}
+          disabled={loading}
           key='sem experimento'
         />
       );
@@ -153,15 +157,6 @@ const ExperimentsTabs = (props) => {
         />
       ));
     }
-
-    // rendering empty tab
-    return (
-      <TabPane
-        tab={renderTitle('Sem experimentos')}
-        disabled
-        key='sem experimento'
-      />
-    );
   };
 
   //Handlers
@@ -169,6 +164,7 @@ const ExperimentsTabs = (props) => {
     setCurrentId(uuid);
     if (action === 'rename') {
       setCurrentName(title);
+      setRenameVisible(true);
     }
   };
 
@@ -183,7 +179,14 @@ const ExperimentsTabs = (props) => {
         {renderTabs()}
       </DraggableTabs>
       <ContextMenu className='menu-tab' id='menu_id'>
-        <Popover content={content} trigger='click'>
+        <Popover
+          trigger='click'
+          content={content}
+          visible={renameVisible}
+          onVisibleChange={(visible) => {
+            setRenameVisible(visible);
+          }}
+        >
           <MenuItem
             className='menu-tab-item'
             data={{ action: 'rename' }}

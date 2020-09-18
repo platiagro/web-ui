@@ -3,7 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Input, Skeleton } from 'antd';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Input, Tooltip, Skeleton } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -13,20 +14,11 @@ import { InputBlockContainer } from 'components';
  *
  * @param {object} props Component props
  * @returns {TextInputBlock} Component
- * @component
  */
 const TextInputBlock = (props) => {
-  // destructuring props
-  const {
-    title,
-    name,
-    tip,
-    placeholder,
-    value,
-    handleChange,
-    isLoading,
-    isDisabled,
-  } = props;
+  const { handleChange, name, isLoading, isDisabled } = props;
+  const { placeholder, tip, title, value, valueLatestTraining } = props;
+  const modifiedSinceLastExecution = value !== valueLatestTraining;
 
   // HOOKS
   // use ref
@@ -64,22 +56,38 @@ const TextInputBlock = (props) => {
       {isLoading ? (
         /* loading */
         <Skeleton
+          active
           paragraph={{ rows: 1, width: 110 }}
           size='large'
           title={false}
         />
       ) : (
-        /* string input */
-        <Input
-          ref={inputRef}
-          value={currentValue}
-          onChange={(e) => setCurrentValue(e.target.value)}
-          onBlur={beforeSubmit}
-          onKeyUp={handleKeyPress}
-          placeholder={placeholder}
-          disabled={isLoading || isDisabled}
-          style={{ width: '100%' }}
-        />
+        <>
+          {/* string input */}
+          <Input
+            ref={inputRef}
+            value={currentValue}
+            onChange={(e) => setCurrentValue(e.target.value)}
+            onBlur={beforeSubmit}
+            onKeyUp={handleKeyPress}
+            placeholder={placeholder}
+            disabled={isLoading || isDisabled}
+            style={
+              modifiedSinceLastExecution ? { width: '80%' } : { width: '100%' }
+            }
+          />
+          {/* rendering tooltip */}
+          {modifiedSinceLastExecution ? (
+            <Tooltip
+              placement='bottomRight'
+              title='Valor modificado desde a última execução.'
+            >
+              <ExclamationCircleFilled
+                style={{ color: '#FAAD14', marginLeft: 5 }}
+              />
+            </Tooltip>
+          ) : null}
+        </>
       )}
     </InputBlockContainer>
   );
@@ -103,6 +111,8 @@ TextInputBlock.propTypes = {
   isDisabled: PropTypes.bool.isRequired,
   /** Input is loading */
   isLoading: PropTypes.bool.isRequired,
+  /** Lastest Training value */
+  valueLatestTraining: PropTypes.bool,
 };
 
 // PROP DEFAULT VALUESstring

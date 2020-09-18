@@ -85,9 +85,7 @@ const TasksMenuBlockContainer = ({
   }, [handleFetchTasksMenu]);
 
   // HANDLERS
-  const createOperatorHandler = ({ key: taskId, keyPath }) => {
-    // getting task type
-    const taskType = keyPath[1];
+  const createOperatorHandler = (taskId, taskType) => {
     // is template
     const isTemplate = taskType === 'TEMPLATES';
 

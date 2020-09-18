@@ -108,8 +108,8 @@ const getOperatorResultsFail = (error) => (dispatch) => {
 
 /**
  *  get operator logs success action
- * 
- * @param {object} response 
+ *
+ * @param {object} response
  * @returns {Function}
  */
 const getLogsSuccess = (response) => (dispatch) => {
@@ -130,10 +130,10 @@ const getLogsFail = (error) => (dispatch) => {
 
 /**
  * get operator log
- * 
- * @param {string} projectId 
- * @param {string} experimentId 
- * @param {string} operatorId 
+ *
+ * @param {string} projectId
+ * @param {string} experimentId
+ * @param {string} operatorId
  * @returns {Function}
  */
 export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
@@ -323,7 +323,7 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
   });
 
   // is operator dataset?
-  const isDataset = operator.tags.includes('DATASETS'); 
+  const isDataset = operator.tags.includes('DATASETS');
 
   // fetching dataset columns
   if (isDataset) {
@@ -344,7 +344,7 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
     getOperatorResultsRequest(projectId, experimentId, operator.uuid, page)
   );
 
-  if (!isDataset && operator.status === "Failed") {
+  if (!isDataset && operator.status === 'Failed') {
     dispatch(getOperatorLogs(projectId, experimentId, operator.uuid));
   }
 
@@ -476,9 +476,6 @@ export const createOperatorRequest = (
       // dispatching experiment operators data loaded action
       dispatch(experimentOperatorsDataLoaded());
 
-      // checking if operator is setted up
-      let settedUp = utils.checkOperatorSettedUp(operator);
-
       // dispatching create operator success action
       dispatch({
         type: actionTypes.CREATE_OPERATOR_SUCCESS,
@@ -486,7 +483,7 @@ export const createOperatorRequest = (
           ...operator,
           ...restTaskData,
           parameters: configuredParameters,
-          settedUp,
+          settedUp: utils.checkOperatorSettedUp(operator),
           selected: false,
           status: '',
         },
@@ -666,11 +663,7 @@ export const setOperatorParametersRequest = (
       );
 
       // checking if operator is setted up
-      if (successOperator.tags.includes('DATASETS')) {
-        successOperator.settedUp = true;
-      } else {
-        successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
-      }
+      successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
 
       // dispatching success action
       dispatch(setOperatorParametersSuccess(successOperator));

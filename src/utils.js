@@ -522,13 +522,14 @@ const sortOperatorsByDependencies = (operators) => {
  * @returns {string} dataset name
  */
 const getDatasetName = (tasks, operators) => {
-  const datasetTask = tasks.find((i) => {
-    return i.tags.includes('DATASETS');
-  });
+  const datasetTasks = tasks
+    .filter((i) => {
+      return i.tags.includes('DATASETS');
+    })
+    .map((task) => task.uuid);
   const datasetOperator = operators.find((i) => {
-    return i.taskId === datasetTask.uuid;
+    return datasetTasks.includes(i.taskId);
   });
-
   let datasetName = undefined;
   if (datasetOperator) {
     const parameters = datasetOperator.parameters;
@@ -551,6 +552,41 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
+/**
+ * Check whenever a dataset has featuretypes
+ *
+ * @param {object} dataset
+ * @returns {boolean}
+ */
+const hasFeaturetypes = (dataset) => {
+  if (hasOwnProperty.call(dataset, 'columns')) {
+    const columns = [...dataset.columns];
+    const hasFeatureTypes = columns.some((column) =>
+      hasOwnProperty.call(column, 'featuretype')
+    );
+
+    if (hasFeatureTypes) return true;
+  }
+  return false;
+};
+
+/**
+ * Get featuretypes from a dataset
+ *
+ * @param {object} dataset
+ * @returns {string}
+ */
+const getFeaturetypes = (dataset) => {
+  if (hasFeaturetypes(dataset)) {
+    const featuretypes = [...dataset.columns].map((column) => {
+      return column.featuretype;
+    });
+
+    return featuretypes.toString().replaceAll(',', '\n');
+  }
+  return false;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -569,4 +605,6 @@ export default {
   sortOperatorsByDependencies,
   getDatasetName,
   sleep,
+  hasFeaturetypes,
+  getFeaturetypes,
 };
