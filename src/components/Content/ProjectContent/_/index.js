@@ -1,7 +1,6 @@
 // CORE LIBS
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -25,22 +24,7 @@ import './style.less';
 
 const { Footer, Sider, Content } = Layout;
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    experiments: state.projectReducer.experiments,
-  };
-};
-
-/**
- * Project Content.
- * This component is responsible for displaying the project content.
- *
- * @param props
- */
-const ProjectContent = (props) => {
-  // destructuring props
-  const { experiments } = props;
+const ProjectContent = () => {
   // CONSTANTS
   const { experimentId } = useParams();
 
@@ -84,4 +68,4 @@ const ProjectContent = (props) => {
 };
 
 // EXPORT
-export default connect(mapStateToProps, null)(ProjectContent);
+export default ProjectContent;
