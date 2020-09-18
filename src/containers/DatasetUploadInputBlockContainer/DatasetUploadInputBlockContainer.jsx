@@ -1,5 +1,5 @@
 // REACT LIBS
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -9,17 +9,21 @@ import { UploadInputBlock } from 'components/InputBlocks';
 
 // ACTIONS
 import {
+  getDatasetRequest,
   startDatasetUpload,
   cancelDatasetUpload,
   datasetUploadFail,
   datasetUploadSuccess,
   deleteDatasetRequest,
 } from 'store/dataset/actions';
+import { fetchDatasetsRequest } from 'store/datasets/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // start dataset upload
+    handleFetchDataset: (e) => dispatch(getDatasetRequest(e)),
+    handleFetchDatasets: () => dispatch(fetchDatasetsRequest()),
     handleUploadStart: () => dispatch(startDatasetUpload()),
     handleDeleteDataset: (projectId, experimentId) =>
       dispatch(deleteDatasetRequest(projectId, experimentId)),
@@ -33,6 +37,7 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
+    datasets: state.datasetsReducer,
     loading: state.uiReducer.datasetOperator.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
     datasetFileName: state.datasetReducer.filename,
@@ -42,6 +47,9 @@ const mapStateToProps = (state) => {
 const DatasetUploadInputBlockContainer = (props) => {
   // destructuring props
   const {
+    datasets,
+    handleFetchDataset,
+    handleFetchDatasets,
     handleUploadCancel,
     handleDeleteDataset,
     handleUploadFail,
@@ -85,6 +93,13 @@ const DatasetUploadInputBlockContainer = (props) => {
       ]
     : undefined;
 
+  // hooks
+  // did mount hook
+  useEffect(() => {
+    // fetching datasets
+    handleFetchDatasets();
+  }, [handleFetchDatasets]);
+
   // handlers
   const containerHandleUploadSuccess = (dataset) =>
     handleUploadSuccess(dataset, projectId, experimentId);
@@ -99,6 +114,8 @@ const DatasetUploadInputBlockContainer = (props) => {
     <UploadInputBlock
       actionUrl={actionUrl}
       buttonText={buttonText}
+      datasets={datasets}
+      handleFetchDataset={handleFetchDataset}
       handleUploadCancel={containerHandleUploadCancel}
       handleUploadFail={handleUploadFail}
       handleUploadStart={handleUploadStart}
@@ -113,6 +130,15 @@ const DatasetUploadInputBlockContainer = (props) => {
 };
 
 DatasetUploadInputBlockContainer.propTypes = {
+  /** List of all datasets */
+  datasets: PropTypes.array.isRequired,
+
+  /** Fetch dataset by name handler */
+  handleFetchDataset: PropTypes.func.isRequired,
+
+  /** Fetch all datasets handler */
+  handleFetchDatasets: PropTypes.func.isRequired,
+
   /** Upload cancel handler */
   handleUploadCancel: PropTypes.func.isRequired,
 
