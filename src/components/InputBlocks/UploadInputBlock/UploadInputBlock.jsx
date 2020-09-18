@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
 import { UploadOutlined } from '@ant-design/icons';
-import { Upload, Button } from 'antd';
+import { Dropdown, Empty, Menu, Upload } from 'antd';
 
 // COMPONENTS
 import { InputBlockContainer } from 'components';
@@ -59,6 +59,9 @@ const UploadInputBlock = (props) => {
   const {
     actionUrl,
     buttonText,
+    datasets,
+    datasetsLoading,
+    handleFetchDataset,
     handleUploadCancel,
     handleUploadFail,
     handleUploadStart,
@@ -119,6 +122,36 @@ const UploadInputBlock = (props) => {
     },
   };
 
+  const setDataset = (e) => {
+    // stop opening the upload modal
+    e.domEvent.stopPropagation();
+
+    handleFetchDataset(e.key);
+  };
+
+  const datasetsMenu = (
+    <Menu
+      onClick={setDataset}
+      classname='datasets-menu'
+      style={{
+        maxHeight: '400px',
+        overflow: 'auto',
+      }}
+    >
+      {
+        datasets.length > 0
+        ? datasets.map((dataset) => (
+          <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
+        ))
+        : <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description='Não há conjuntos de dados.'
+          style={{ paddingLeft: '10px', paddingRight: '10px' }} 
+        />
+      }
+    </Menu>
+  );
+
   /* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */
   // file extensions
   /*const fileExtensions = (
@@ -128,10 +161,21 @@ const UploadInputBlock = (props) => {
   // rendering component
   return (
     <InputBlockContainer tip={tip} title={title}>
-      <Upload {...uploadProps} disabled={isDisabled}>
-        <Button disabled={isDisabled || isLoading}>
-          <UploadOutlined /> {buttonText}
-        </Button>
+      <Upload {...uploadProps} disabled={isDisabled || isLoading}>
+        <Dropdown.Button
+          overlay={datasetsMenu}
+          trigger={['click']}
+          buttonsRender={([leftButton, rightButton]) => [
+            <>{leftButton}</>,
+            React.cloneElement(rightButton, {
+              onClick: (e) => e.stopPropagation(),
+              loading: datasetsLoading,
+            }),
+          ]}
+        >
+          <UploadOutlined />
+          {buttonText}
+        </Dropdown.Button>
       </Upload>
       {/* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */}
       {/*fileList.length === 0 && fileExtensions*/}
@@ -146,6 +190,15 @@ UploadInputBlock.propTypes = {
 
   /** Upload button text */
   buttonText: PropTypes.string.isRequired,
+
+  /** List of all datasets */
+  datasets: PropTypes.array.isRequired,
+
+  /** Datasets list is loading */
+  datasetsLoading: PropTypes.bool.isRequired,
+
+  /** Fetch dataset by name handler */
+  handleFetchDataset: PropTypes.func.isRequired,
 
   /** Upload cancel handler */
   handleUploadCancel: PropTypes.func.isRequired,

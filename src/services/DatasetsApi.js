@@ -12,6 +12,16 @@ const datasetsApi = axios.create({
 const datasetsPath = '/datasets';
 
 // API METHODS
+
+/**
+ * List all datasets
+ *
+ * @returns {Promise}
+ */
+const listDatasets = () => {
+  return datasetsApi.get(datasetsPath);
+};
+
 /**
  * Get Dataset
  *
@@ -81,6 +91,7 @@ const getDatasetFeaturetypes = (datasetName) => {
 
 // EXPORT DEFAULT
 export default {
+  listDatasets,
   listDatasetColumns,
   createGoogleDataset,
   updateDatasetColumn,
