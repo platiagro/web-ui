@@ -26,7 +26,7 @@ const datasetsReducer = (state = initialState, action = undefined) => {
     // dataset
     // create dataset success
     case datasetActionTypes.CREATE_DATASET_SUCCESS:
-      return [...state, action.dataset];
+      return [...state, { name: action.payload.name }];
 
     // // // // // // //
 
