@@ -12,7 +12,7 @@ import {
 
 // ACTIONS
 import {
-  getDatasetRequest,
+  selectDataset,
   startDatasetUpload,
   cancelDatasetUpload,
   createGoogleDataset,
@@ -26,7 +26,8 @@ import { fetchDatasetsRequest } from 'store/datasets/actions';
 const mapDispatchToProps = (dispatch) => {
   return {
     // start dataset upload
-    handleFetchDataset: (e) => dispatch(getDatasetRequest(e)),
+    handleSelectDataset: (dataset, projectId, experimentId) =>
+      dispatch(selectDataset(dataset, projectId, experimentId)),
     handleFetchDatasets: () => dispatch(fetchDatasetsRequest()),
     handleCreateGoogleDataset: (projectId, experimentId, file) =>
       dispatch(createGoogleDataset(projectId, experimentId, file)),
@@ -60,7 +61,7 @@ const DatasetUploadInputBlockContainer = (props) => {
     datasetFileName,
     datasetStatus,
     handleCreateGoogleDataset,
-    handleFetchDataset,
+    handleSelectDataset,
     handleFetchDatasets,
     handleUploadCancel,
     handleDeleteDataset,
@@ -127,6 +128,9 @@ const DatasetUploadInputBlockContainer = (props) => {
       ? handleDeleteDataset(projectId, experimentId)
       : handleUploadCancel();
 
+  const containerHandleSelectDataset = (dataset) =>
+    handleSelectDataset(dataset, projectId, experimentId);
+
   // rendering component
   return isGoogleDrive ? (
     <GoogleUploadInputBlock
@@ -144,7 +148,7 @@ const DatasetUploadInputBlockContainer = (props) => {
       buttonText={buttonText}
       datasets={datasets}
       datasetsLoading={datasetsLoading}
-      handleFetchDataset={handleFetchDataset}
+      handleSelectDataset={containerHandleSelectDataset}
       handleUploadCancel={containerHandleUploadCancel}
       handleUploadFail={handleUploadFail}
       handleUploadStart={handleUploadStart}
@@ -165,8 +169,8 @@ DatasetUploadInputBlockContainer.propTypes = {
   /** Datasets list is loading */
   datasetsLoading: PropTypes.bool.isRequired,
 
-  /** Fetch dataset by name handler */
-  handleFetchDataset: PropTypes.func.isRequired,
+  /** Select dataset handler */
+  handleSelectDataset: PropTypes.func.isRequired,
 
   /** Fetch all datasets handler */
   handleFetchDatasets: PropTypes.func.isRequired,

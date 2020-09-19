@@ -61,7 +61,7 @@ const UploadInputBlock = (props) => {
     buttonText,
     datasets,
     datasetsLoading,
-    handleFetchDataset,
+    handleSelectDataset,
     handleUploadCancel,
     handleUploadFail,
     handleUploadStart,
@@ -126,7 +126,7 @@ const UploadInputBlock = (props) => {
     // stop opening the upload modal
     e.domEvent.stopPropagation();
 
-    handleFetchDataset(e.key);
+    handleSelectDataset(e.key);
   };
 
   const datasetsMenu = (
@@ -138,17 +138,17 @@ const UploadInputBlock = (props) => {
         overflow: 'auto',
       }}
     >
-      {
-        datasets.length > 0
-        ? datasets.map((dataset) => (
+      {datasets.length > 0 ? (
+        datasets.map((dataset) => (
           <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
         ))
-        : <Empty
+      ) : (
+        <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description='Não há conjuntos de dados.'
-          style={{ paddingLeft: '10px', paddingRight: '10px' }} 
+          style={{ paddingLeft: '10px', paddingRight: '10px' }}
         />
-      }
+      )}
     </Menu>
   );
 
@@ -197,8 +197,8 @@ UploadInputBlock.propTypes = {
   /** Datasets list is loading */
   datasetsLoading: PropTypes.bool.isRequired,
 
-  /** Fetch dataset by name handler */
-  handleFetchDataset: PropTypes.func.isRequired,
+  /** Dataset selected handler */
+  handleSelectDataset: PropTypes.func.isRequired,
 
   /** Upload cancel handler */
   handleUploadCancel: PropTypes.func.isRequired,
