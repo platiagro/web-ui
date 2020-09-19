@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^5.6.4",
-    "antd": "4.4.3",
-    "axios": "^0.19.0",
+    "antd": "4.6.4",
+    "axios": "^0.20.0",
     "craco-less": "^1.17.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -27,7 +27,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "universal-cookie": "^4.0.2",
-    "uuid": "^3.3.3"
+    "uuid": "^8.3.0"
   },
   "scripts": {
     "start": "craco start",
@@ -51,10 +51,10 @@
   },
   "devDependencies": {
     "babel-eslint": "10.1.0",
-    "better-docs": "^2.3.0",
+    "better-docs": "^2.3.2",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "enzyme-to-json": "^3.4.0",
+    "enzyme-adapter-react-16": "^1.15.4",
+    "enzyme-to-json": "^3.5.0",
     "eslint": "6.6.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-import-resolver-node": "^0.3.4",
@@ -62,13 +62,13 @@
     "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-jsdoc": "^29.2.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.3",
-    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "jest-sonar-reporter": "^2.0.0",
-    "jsdoc": "^3.6.4",
+    "jsdoc": "^3.6.5",
     "nock": "^11.7.0",
     "parcel-bundler": "^1.12.4",
-    "prettier": "^2.0.5",
+    "prettier": "^2.1.2",
     "react-axe": "^3.5.3",
     "redux-mock-store": "^1.5.3"
   },
