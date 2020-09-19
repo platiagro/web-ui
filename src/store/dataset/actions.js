@@ -345,6 +345,28 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
 
 // // // // // // // // // //
 
+// ** SELECT DATASET
+/**
+ * select dataset action
+ *
+ * @param datasetName
+ * @returns {Function}
+ */
+export const selectDataset = (datasetName, projectId, experimentId) => (
+  dispatch
+) => {
+  // fetching dataset
+  datasetsApi
+    .getDataset(datasetName, 1, 10)
+    .then((response) => {
+      const dataset = response.data;
+      dispatch(datasetUploadSuccess(dataset, projectId, experimentId));
+    })
+    .catch((error) => dispatch(getDatasetFail(error)));
+};
+
+// // // // // // // // // //
+
 // ** DELETE DATASET
 
 /**
