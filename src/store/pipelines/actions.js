@@ -4,6 +4,8 @@ import actionTypes from './actionTypes';
 // EXPERIMENT ACTION TYPES
 import experimentActionTypes from '../experiment/actionTypes';
 
+import uiActionTypes from '../ui/actionTypes'
+
 // SERVICES
 import pipelinesApi from '../../services/PipelinesApi';
 
@@ -221,7 +223,7 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
  * deploy experiment success action
  * @param {string} experimentId
  * @param {Object} routerProps
- * @returns {Object} { type }
+ * @returns {Function}
  */
 const deployExperimentSuccess = (experimentId, routerProps) => () => {
   // go to deployed experiments
@@ -264,6 +266,11 @@ export const deployExperimentRequest = (
   // dispatching request action
   dispatch({
     type: actionTypes.DEPLOY_EXPERIMENT_REQUEST,
+  });
+
+  // dispatching hide drawer action
+  dispatch({
+    type: uiActionTypes.HIDE_DRAWER
   });
 
   // creating deploy object
