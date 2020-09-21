@@ -582,7 +582,7 @@ const getFeaturetypes = (dataset) => {
       return column.featuretype;
     });
 
-    return featuretypes.toString().replaceAll(',', '\n');
+    return featuretypes.toString().replace(/,/g, '\n');
   }
   return false;
 };
