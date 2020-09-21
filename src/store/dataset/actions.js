@@ -12,6 +12,8 @@ import { clearOperatorsFeatureParametersRequest } from '../operators/actions';
 import {
   datasetOperatorDataLoaded,
   datasetOperatorLoadingData,
+  loadingOffDataViewModal,
+  loadingOnDataViewModal,
 } from '../ui/actions';
 
 // UTILS
@@ -484,4 +486,29 @@ export const createGoogleDataset = (projectId, experimentId, gfile) => (
       dispatch(datasetUploadFail());
       dispatch(setGoogleDatasetStatus(gfile.name, 'error'));
     });
+};
+
+export const updateAllDatasetColumnStart = () => (dispatch) => {
+  // dispatching update dataset column success
+  dispatch(loadingOnDataViewModal());
+};
+
+export const updateAllDatasetColumnSuccess = (columns) => (dispatch) => {
+  dispatch(loadingOffDataViewModal());
+
+  // dispatching update dataset column success
+  dispatch({
+    type: actionTypes.UPDATE_ALL_DATASET_COLUMNS_SUCCESS,
+    payload: columns,
+  });
+};
+
+export const updateAllDatasetColumnFail = (errorMessage) => (dispatch) => {
+  dispatch(loadingOffDataViewModal());
+
+  // dispatching update dataset column fail
+  dispatch({
+    type: actionTypes.UPDATE_ALL_DATASET_COLUMNS_FAIL,
+    errorMessage,
+  });
 };
