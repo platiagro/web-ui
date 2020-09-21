@@ -223,7 +223,7 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
  * deploy experiment success action
  * @param {string} experimentId
  * @param {Object} routerProps
- * @returns {Function}
+ * @returns {Object} { type }
  */
 const deployExperimentSuccess = (experimentId, routerProps) => () => {
   // go to deployed experiments
