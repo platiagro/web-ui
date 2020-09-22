@@ -49,7 +49,17 @@ const ExperimentButtonsContainer = ({
 }) => {
   // CONSTANTS
   const { experimentId } = useParams();
-  const { deployStatus, succeeded: trainingSucceeded } = experiment;
+  const { deployStatus } = experiment;
+
+  // Checks if the experiment has, at least, one non DATASET operator
+  const hasExecutorOperator = operators.some((operator) => {
+    return !operator.tags.includes('DATASETS') && operator.tags.length > 0;
+  });
+
+  // Check if any operator has failed
+  const hasFailed = operators.some((operator) => {
+    return operator.status === 'Failed';
+  });
 
   // HOOKS
   // did mount hook
@@ -70,9 +80,10 @@ const ExperimentButtonsContainer = ({
     <ExperimentButtons
       handleClick={deployExperimentHandler}
       disabled={
+        !hasExecutorOperator ||
         loading ||
         trainingLoading ||
-        !trainingSucceeded ||
+        hasFailed ||
         deployStatus === 'Succeeded' ||
         deployStatus === 'Running'
       }
