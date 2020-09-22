@@ -23,6 +23,12 @@ const datasetReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // dataset
+    //update all columns
+    case actionTypes.UPDATE_ALL_DATASET_COLUMNS_SUCCESS:
+      return {
+        ...state,
+        columns: action.payload,
+      };
     // fetch dataset columns success
     case actionTypes.FETCH_DATASET_COLUMNS_SUCCESS:
       return { ...state, columns: [...action.columns] };
@@ -47,6 +53,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
     case actionTypes.DELETE_DATASET_FAIL:
     case actionTypes.GET_DATASET_FAIL:
+    case actionTypes.UPDATE_ALL_DATASET_COLUMNS_FAIL:
       message.error(action.errorMessage, 5);
       return state;
 

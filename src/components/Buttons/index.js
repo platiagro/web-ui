@@ -4,4 +4,6 @@ import DataViewButton from './DataViewButton';
 // DELETE BUTTON
 import DeleteButton from './DeleteButton';
 
-export { DataViewButton, DeleteButton };
+import UploadButton from './UploadButton';
+
+export { DataViewButton, DeleteButton, UploadButton };
