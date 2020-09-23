@@ -190,10 +190,10 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
  * create experiment fail action
  *
  * @param {object} error
- * @param duplilcate
+ * @param {string} duplicate
  * @returns {object} { type, errorMessage }
  */
-const createExperimentFail = (error, duplilcate) => (dispatch) => {
+const createExperimentFail = (error, duplicate) => (dispatch) => {
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
@@ -207,13 +207,13 @@ const createExperimentFail = (error, duplilcate) => (dispatch) => {
     message.error(errorMessage, 5);
   } else {
     errorMessage = error.response.data.message;
-    if (errorMessage.includes('name already exist') && !duplilcate) {
+    if (errorMessage.includes('name already exist') && !duplicate) {
       errorMessage = exist;
       dispatch({
         type: actionTypes.CREATE_EXPERIMENT_FAIL,
         errorMessage,
       });
-    } else if (errorMessage.includes('name already exist') && duplilcate) {
+    } else if (errorMessage.includes('name already exist') && duplicate) {
       errorMessage = exist;
       dispatch({ type: actionTypes.DUPLICATE_EXPERIMENT_FAIL, errorMessage });
       message.error(errorMessage, 5);
@@ -230,7 +230,6 @@ const createExperimentFail = (error, duplilcate) => (dispatch) => {
  * @param {string} experimentName
  * @param {string} copyFrom
  * @param {string} duplicate
- * @param duplcate
  * @param {object} routerProps
  * @returns {Function}
  */
@@ -238,7 +237,7 @@ export const createExperimentRequest = (
   projectId,
   experimentName,
   copyFrom,
-  duplcate,
+  duplicate,
   routerProps
 ) => (dispatch) => {
   // dispatching request action
@@ -258,7 +257,7 @@ export const createExperimentRequest = (
     .then((response) =>
       dispatch(createExperimentSuccess(response, projectId, routerProps))
     )
-    .catch((error) => dispatch(createExperimentFail(error, duplcate)));
+    .catch((error) => dispatch(createExperimentFail(error, duplicate)));
 };
 
 // // // // // // // // // //
