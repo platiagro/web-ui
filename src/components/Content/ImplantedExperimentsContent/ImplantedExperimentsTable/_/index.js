@@ -1,6 +1,9 @@
+/* eslint-disable react/display-name */
 // CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { CommonTable } from 'components';
 
 // UI LIBS
 import {
@@ -53,11 +56,47 @@ const ImplantedExperimentsTable = (props) => {
     Succeeded: 'success',
   };
 
+  /**
+   * Check whenever a response is a encoded base64 string
+   *
+   * @param {Array} ndarray response from Seldon
+   * @returns {boolean} is a response includes a encoded base64 string or not
+   */
+  const isBase64Encoded = (ndarray) => {
+    const array = ndarray.flat();
+    const baseString = array.find((element) => typeof element === 'string');
+
+    if (baseString) {
+      const pattern = /[A-Za-z0-9+/=]/;
+      const [base, content] = baseString.split(',');
+
+      if (base.includes('image/') && pattern.test(content)) return true;
+    } else {
+      return false;
+    }
+  };
+
+  /**
+   * Check if a array has a encoded base64 image
+   *
+   * @param {*} ndarray response from Seldon
+   * @returns {boolean} is a response includes a encoded base64 image or not
+   */
+  const isImage = (ndarray) => {
+    const encodedString = [...ndarray].shift();
+
+    if (encodedString) {
+      const [base] = encodedString.split(',');
+      if (base.includes('image/')) return true;
+    }
+    return false;
+  };
+
   // table columns config
   const columnsConfig = [
     // status column
     {
-      title: 'Status',
+      title: <strong>Status</strong>,
       dataIndex: 'status',
       key: 'status',
       render: (value) => (
@@ -67,13 +106,13 @@ const ImplantedExperimentsTable = (props) => {
     },
     // name
     {
-      title: 'Nome',
+      title: <strong>Nome</strong>,
       dataIndex: 'name',
       key: 'name',
     },
     // url column
     {
-      title: 'URL',
+      title: <strong>URL</strong>,
       dataIndex: 'url',
       key: 'url',
       render: (value) => (
@@ -86,14 +125,14 @@ const ImplantedExperimentsTable = (props) => {
     },
     // createdAt column
     {
-      title: 'Data de Criação',
+      title: <strong>Data de Criação</strong>,
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (value) => new Date(value).toLocaleString(),
     },
     // action column
     {
-      title: 'Ação',
+      title: <strong>Ação</strong>,
       dataIndex: 'action',
       key: 'action',
       render: (value, record) => (
@@ -134,39 +173,69 @@ const ImplantedExperimentsTable = (props) => {
   return (
     // rendering implanted experiments table
     <>
-      <Table
+      <CommonTable
         dataSource={implantedExperiments}
         columns={columnsConfig}
-        pagination={{ pageSize: 9 }}
-        loading={loading}
-        rowKey={(record) => record.runId}
+        pagination={{ pageSize: 10 }}
+        isLoading={loading}
+        rowKey={'runId'}
         rowClassName={(record) =>
           record.name === selectedExperiment ? 'ant-table-row-selected' : ''
         }
       />
       <LogsDrawer />
       <Modal
-        title='Predições'
+        title={<strong>Visualizar resultados</strong>}
         visible={experimentInferenceModal}
         onOk={closeModal}
         onCancel={closeModal}
+        width='70vw'
       >
-        <Table
-          dataSource={experimentInference.ndarray.map((e, i) => {
-            const data = { key: i };
-            experimentInference.names.forEach((c, j) => {
-              data[c] = e[j];
-            });
-            return data;
-          })}
-          columns={experimentInference.names.map((name) => ({
-            title: name,
-            dataIndex: name,
-            key: name,
-          }))}
-          scroll={{ x: 800 }}
-        />
-        ;
+        {isBase64Encoded(experimentInference.ndarray) ? (
+          <div className='container-difference'>
+            {isImage(experimentInference.ndarray.flat()) ? (
+              <img
+                src={experimentInference.ndarray.flat()}
+                alt='predict-response'
+                className='image-difference'
+              />
+            ) : (
+              <div className='iterative-prediction'>
+                <Tooltip title='O formato do arquivo gerado pelo modelo não é do tipo imagem. Veja mais sobre essa saída logo abaixo!'>
+                  <span>Arquivo gerado pelo modelo</span>
+                </Tooltip>
+                <div className='show-code'>
+                  {experimentInference.ndarray.flat()}
+                </div>
+                <a
+                  href={experimentInference.ndarray.flat()}
+                  download='predict-file'
+                >
+                  <Button type='primary' style={{ margin: '6px 6px 0px 0px' }}>
+                    Baixar
+                  </Button>
+                </a>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Table
+            dataSource={experimentInference.ndarray.map((e, i) => {
+              const data = { key: i };
+              experimentInference.names.forEach((c, j) => {
+                data[c] = e[j];
+              });
+              return data;
+            })}
+            columns={experimentInference.names.map((name) => ({
+              title: name,
+              dataIndex: name,
+              key: name,
+              width: 100,
+            }))}
+            scroll={{ x: 800 }}
+          />
+        )}
       </Modal>
     </>
   );

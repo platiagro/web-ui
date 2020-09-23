@@ -15,7 +15,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
   const props = {
     name: 'file',
     showUploadList: false,
-    accept: '.csv',
+    accept: ['.csv', '.jpg', '.jpeg', '.png'],
   };
 
   // RENDER
@@ -24,20 +24,36 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
     <Upload
       beforeUpload={(file) => {
         const reader = new FileReader();
+        const acceptedImagesTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+        const isImage = acceptedImagesTypes.includes(file.type);
 
         reader.onload = (e) => {
-          // need to remove the windows end of line
-          const result = e.target.result.trim().replace(/\r/g, '').split('\n');
-          const [names, ...ndarray] = result;
-          const obj = {
-            data: {
-              names: names.split(','),
-              ndarray: ndarray.map((el) => el.split(',')),
-            },
-          };
+          let obj;
+
+          if (isImage) {
+            obj = {
+              data: {
+                ndarray: [[e.target.result]],
+              },
+            };
+          } else {
+            // need to remove the windows end of line
+            const result = e.target.result
+              .trim()
+              .replace(/\r/g, '')
+              .split('\n');
+            const [names, ...ndarray] = result;
+            obj = {
+              data: {
+                names: names.split(','),
+                ndarray: ndarray.map((el) => el.split(',')),
+              },
+            };
+          }
           handleUpload(obj);
         };
-        reader.readAsText(file);
+
+        isImage ? reader.readAsDataURL(file) : reader.readAsText(file);
         return false;
       }}
       {...props}
@@ -45,7 +61,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
       {/* upload button link */}
       <Button type='link'>
         <UploadOutlined style={{ marginRight: 5 }} />
-        Testar Inferência
+        Testar o fluxo
       </Button>
     </Upload>
   );

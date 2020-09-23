@@ -35,7 +35,12 @@ const columnsNumber = 3;
  * @param {object} props Component props
  * @returns {ExperimentFlow} React component
  */
-const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
+const ExperimentFlow = ({
+  tasks,
+  loading,
+  handleTaskBoxClick,
+  handleDeselectOperator,
+}) => {
   const archerContainerRef = useRef(null);
   const ScrollContainerRef = useRef(null);
 
@@ -79,6 +84,7 @@ const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
       ref={ScrollContainerRef}
       //Remove click and drag when loading container
       style={loading ? { pointerEvents: 'none' } : {}}
+      onClick={handleDeselectOperator}
     >
       <ArcherContainer
         ref={archerContainerRef}
@@ -88,46 +94,44 @@ const ExperimentFlow = ({ tasks, loading, handleTaskBoxClick }) => {
       >
         {
           //If tasks is empty load one box at least
-          (loading) ? (
+          loading ? (
             <LoadingBox />
-          )
-            :
-            (
-              tasks.map((component, index) => (
-                <Draggable
-                  bounds='parent'
-                  defaultPosition={calcDefaultPosition(index)}
-                  onDrag={() => archerContainerRef.current.refreshScreen()}
+          ) : (
+            tasks.map((component, index) => (
+              <Draggable
+                bounds='parent'
+                defaultPosition={calcDefaultPosition(index)}
+                onDrag={() => archerContainerRef.current.refreshScreen()}
+              >
+                <div
+                  style={{ width: 200, position: 'absolute' }}
+                  className='task-elements'
                 >
-                  <div
-                    style={{ width: 200, position: 'absolute' }}
-                    className='task-elements'
-                  >
-                    <ArcherElement
-                      id={`component${index}`}
-                      relations={
-                        index + 1 < tasks.length
-                          ? [
+                  <ArcherElement
+                    id={`component${index}`}
+                    relations={
+                      index + 1 < tasks.length
+                        ? [
                             {
                               targetId: `component${index + 1}`,
                               targetAnchor: isLastTarget(index),
                               sourceAnchor: isLastSource(index),
                             },
                           ]
-                          : []
-                      }
-                    >
-                      <TaskBox
-                        handleClick={handleTaskBoxClick}
-                        {...component}
-                        operator={component}
-                      />
-
-                    </ArcherElement>
-                  </div>
-                </Draggable>
-              ))
-            )}
+                        : []
+                    }
+                  >
+                    <TaskBox
+                      handleClick={handleTaskBoxClick}
+                      {...component}
+                      operator={component}
+                    />
+                  </ArcherElement>
+                </div>
+              </Draggable>
+            ))
+          )
+        }
       </ArcherContainer>
     </ScrollContainer>
   );

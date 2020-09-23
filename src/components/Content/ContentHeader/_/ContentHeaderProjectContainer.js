@@ -41,7 +41,7 @@ const mapStateToProps = (state) => {
  */
 const ContentHeaderProjectContainer = (props) => {
   // destructuring props
-  const { project, loading, handleFetchProject, handleEditProjectName } = props;
+  const { project, handleFetchProject, handleEditProjectName } = props;
 
   // CONSTANTS
   // getting history
@@ -70,7 +70,6 @@ const ContentHeaderProjectContainer = (props) => {
       subTitle='Meus projetos'
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
-      loading={loading}
       extra={
         <>
           <ExperimentButtonsContainer />

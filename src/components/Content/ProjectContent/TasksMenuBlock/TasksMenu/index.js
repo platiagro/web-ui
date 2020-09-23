@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 // UI LIBS
 import { Tooltip, Menu, Dropdown, Skeleton } from 'antd';
 
+//COMPONENTS
+import DraggableItem from './DraggableItem';
+
+//STYLE
+import './style.less';
+
 // UTILS
 import utils from '../../../../../utils';
 
@@ -23,6 +29,10 @@ const TasksMenu = ({
   handleDeleteTemplate,
   loading,
 }) => {
+  //DRAG
+  const handleSelect = (taskId, taskType) => {
+    handleClick(taskId, taskType);
+  };
   // HANDLERS
   // box click
   const handleBoxClick = (uuid) => {
@@ -69,9 +79,18 @@ const TasksMenu = ({
   };
   // COMPONENTS RENDERS
   // menu item
-  const renderMenuItem = ({ name, uuid, description }) => (
-    <Item disabled={disabled} key={uuid}>
-      {renderTooltip(name, description, uuid)}
+  const renderMenuItem = ({ name, uuid, description }, taskType, icon) => (
+    <Item disabled={disabled} key={uuid} className='draggable-item'>
+      <DraggableItem
+        taskId={uuid}
+        taskType={taskType}
+        name={name}
+        icon={icon}
+        handleSelect={handleSelect}
+        disabled={disabled}
+      >
+        {renderTooltip(name, description, uuid)}
+      </DraggableItem>
     </Item>
   );
 
@@ -95,7 +114,7 @@ const TasksMenu = ({
         }
       >
         {/* rendering items */}
-        {items.map((item) => renderMenuItem(item))}
+        {items.map((item) => renderMenuItem(item, submenu, icon))}
       </SubMenu>
     );
   };
@@ -103,12 +122,7 @@ const TasksMenu = ({
   // RENDER
   return (
     // menu component
-    <Menu
-      onClick={handleClick}
-      mode='inline'
-      className='task-menu-items'
-      selectedKeys={[]}
-    >
+    <Menu mode='inline' className='task-menu-items' selectedKeys={[]}>
       {/* rendering sub menus */}
       {loading ? (
         <SubMenu

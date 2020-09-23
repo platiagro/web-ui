@@ -4,6 +4,8 @@ import actionTypes from './actionTypes';
 // EXPERIMENT ACTION TYPES
 import experimentActionTypes from '../experiment/actionTypes';
 
+import uiActionTypes from '../ui/actionTypes';
+
 // SERVICES
 import pipelinesApi from '../../services/PipelinesApi';
 
@@ -96,9 +98,10 @@ export const trainExperimentRequest = (experiment, operators) => (
     }
 
     return {
-      commands: operator.commands,
-      dependencies: operator.dependencies,
       image: operator.image,
+      commands: operator.commands,
+      arguments: operator.args,
+      dependencies: operator.dependencies,
       notebookPath: operator.experimentNotebookPath,
       parameters: configuredParameters,
       operatorId: operator.uuid,
@@ -266,6 +269,11 @@ export const deployExperimentRequest = (
     type: actionTypes.DEPLOY_EXPERIMENT_REQUEST,
   });
 
+  // dispatching hide drawer action
+  dispatch({
+    type: uiActionTypes.HIDE_DRAWER,
+  });
+
   // creating deploy object
   const deployObject = {
     name: `${project.name}/${experiment.name}`,
@@ -274,9 +282,10 @@ export const deployExperimentRequest = (
 
   // getting operators
   deployObject.operators = operators.map((operator) => ({
-    commands: operator.commands,
-    dependencies: operator.dependencies,
     image: operator.image,
+    commands: operator.commands,
+    arguments: operator.args,
+    dependencies: operator.dependencies,
     notebookPath: operator.deploymentNotebookPath,
     operatorId: operator.uuid,
   }));

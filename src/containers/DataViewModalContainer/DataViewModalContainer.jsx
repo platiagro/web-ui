@@ -7,17 +7,23 @@ import { connect } from 'react-redux';
 // TODO: criar ui component para table
 // ANTD COMPONENTS
 import { Tabs, Table } from 'antd';
-import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
+import { DownloadOutlined } from '@ant-design/icons';
 
 // UI COMPONENTS
 import { Modal, Button } from 'uiComponents';
 
 // COMPONENTS
 import { DatasetColumnsTable } from 'components';
+import { UploadButton } from 'components/Buttons';
 
 // ACTIONS
 import { hideDataViewModal } from 'store/ui/actions';
-import { updateDatasetColumnRequest } from 'store/dataset/actions';
+import {
+  updateDatasetColumnRequest,
+  updateAllDatasetColumnSuccess,
+  updateAllDatasetColumnFail,
+  updateAllDatasetColumnStart,
+} from 'store/dataset/actions';
 
 // STYLES
 import './DataViewModalContainer.less';
@@ -33,6 +39,13 @@ const mapDispatchToProps = (dispatch) => {
     // update dataset column
     handleUpdateDatasetColumn: (columnName, columnNewType) =>
       dispatch(updateDatasetColumnRequest(columnName, columnNewType)),
+    // update all columns
+    handleUpdateAllDatasetColumnSuccess: (allColumns) =>
+      dispatch(updateAllDatasetColumnSuccess(allColumns)),
+    handleUpdateAllDatasetColumnFail: (message) =>
+      dispatch(updateAllDatasetColumnFail(message)),
+    handleUpdateAllDatasetColumnStart: () =>
+      dispatch(updateAllDatasetColumnStart()),
   };
 };
 
@@ -41,10 +54,16 @@ const mapStateToProps = (state) => {
   return {
     // dataset columns
     datasetColumns: state.datasetReducer.columns,
+    // dataset featuretypes
+    datasetFeaturetypes: state.datasetReducer.featuretypes,
     // dataset observation count
     datasetObservationsCount: state.datasetReducer.observationsCount,
     // Data view modal is visible
     isVisible: state.uiReducer.dataViewModal.isVisible,
+    //Modal loading
+    loading: state.uiReducer.dataViewModal.loading,
+    // Name of dataset
+    datasetName: state.datasetReducer.name,
   };
 };
 
@@ -61,6 +80,8 @@ const DataViewModalContainer = (props) => {
   const {
     // dataset observations count
     datasetObservationsCount,
+    // dataset featuretypes
+    datasetFeaturetypes,
     // dataset columns
     datasetColumns,
     // close modal handler
@@ -69,6 +90,14 @@ const DataViewModalContainer = (props) => {
     handleUpdateDatasetColumn,
     // data view modal is visible
     isVisible,
+    // name of dataset for action url
+    datasetName,
+    // upload handlers
+    handleUpdateAllDatasetColumnStart,
+    handleUpdateAllDatasetColumnSuccess,
+    handleUpdateAllDatasetColumnFail,
+    //loadings on modal
+    loading,
   } = props;
 
   // CONSTANTS
@@ -77,6 +106,9 @@ const DataViewModalContainer = (props) => {
 
   // modal title
   const title = 'Visualizar dados';
+
+  // action url
+  const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets/${datasetName}`;
 
   // modal is full screen
   const isFullScreen = true;
@@ -136,15 +168,19 @@ const DataViewModalContainer = (props) => {
             </div>
             <div className='dataViewAttributtesDownload'>
               <h2>Tipos dos atributos</h2>
-              <Button
-                isDisabled={true}
-                isLoading={false}
-                handleClick={() => console.log('Em desenvolvimento!')}
-                type={'ghost'}
-                icon={<DownloadOutlined />}
+              <a
+                href={`data:text/plain;base64,${btoa(datasetFeaturetypes)}`}
+                download='featuretypes.txt'
               >
-                Fazer download
-              </Button>
+                <Button
+                  isDisabled={!datasetFeaturetypes}
+                  isLoading={false}
+                  type={'default'}
+                  icon={<DownloadOutlined />}
+                >
+                  Fazer download
+                </Button>
+              </a>
             </div>
             <div className='dataViewAttributtesUpload'>
               <h2>Altere todos os tipos de uma só vez</h2>
@@ -160,15 +196,17 @@ const DataViewModalContainer = (props) => {
                   ordem das colunas dos dados de entrada;
                 </li>
               </ul>
-              <Button
-                isDisabled={true}
-                isLoading={false}
-                handleClick={() => console.log('Em desenvolvimento!')}
-                type={'ghost'}
-                icon={<UploadOutlined />}
-              >
-                Importar arquivo
-              </Button>
+              <UploadButton
+                actionUrl={actionUrl}
+                parameterName='featuretypes'
+                method='PATCH'
+                buttonText='Importar arquivo'
+                handleUploadFail={handleUpdateAllDatasetColumnFail}
+                handleUploadSuccess={handleUpdateAllDatasetColumnSuccess}
+                handleUploadStart={handleUpdateAllDatasetColumnStart}
+                isDisabled={false}
+                isLoading={loading}
+              />
             </div>
           </TabPane>
           {/* observations tab */}
@@ -194,6 +232,8 @@ DataViewModalContainer.propTypes = {
   datasetObservationsCount: PropTypes.number.isRequired,
   /** dataset column change handler */
   handleUpdateDatasetColumn: PropTypes.func.isRequired,
+  /** dataset featuretypes */
+  datasetFeaturetypes: PropTypes.string.isRequired,
 };
 
 // EXPORT DEFAULT

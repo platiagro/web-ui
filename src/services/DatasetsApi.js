@@ -12,14 +12,30 @@ const datasetsApi = axios.create({
 const datasetsPath = '/datasets';
 
 // API METHODS
+
+/**
+ * List all datasets
+ *
+ * @returns {Promise}
+ */
+const listDatasets = () => {
+  return datasetsApi.get(datasetsPath);
+};
+
 /**
  * Get Dataset
  *
  * @param {string} datasetName
+ * @param {int} page
+ * @param {int} pageSize
  * @returns {Promise}
  */
-const getDataset = (datasetName) => {
-  return datasetsApi.get(`${datasetsPath}/${datasetName}`);
+const getDataset = (datasetName, page, pageSize) => {
+  if (page && pageSize)
+    return datasetsApi.get(
+      `${datasetsPath}/${datasetName}?page=${page}&page_size=${pageSize}`
+    );
+  else return datasetsApi.get(`${datasetsPath}/${datasetName}`);
 };
 
 /**
@@ -33,13 +49,13 @@ const listDatasetColumns = (datasetName) => {
 };
 
 /**
- * Create Dataset
+ * Create Google Dataset
  *
- * @param {object} formData form with dataset and feature types (header) files
+ * @param {object} gfile
  * @returns {Promise}
  */
-const createDataset = (formData) => {
-  return datasetsApi.post(datasetsPath, formData);
+const createGoogleDataset = (gfile) => {
+  return datasetsApi.post(datasetsPath, { gfile });
 };
 
 /**
@@ -63,10 +79,22 @@ const updateDatasetColumn = (datasetName, columnName, columnNewType) => {
   );
 };
 
+/**
+ * Get featuretypes of a Dataset
+ *
+ * @param {string} datasetName
+ * @returns {Promise}
+ */
+const getDatasetFeaturetypes = (datasetName) => {
+  return datasetsApi.get(`${datasetsPath}/${datasetName}/featuretypes`);
+};
+
 // EXPORT DEFAULT
 export default {
+  listDatasets,
   listDatasetColumns,
-  createDataset,
+  createGoogleDataset,
   updateDatasetColumn,
   getDataset,
+  getDatasetFeaturetypes,
 };

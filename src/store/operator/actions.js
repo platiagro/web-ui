@@ -476,9 +476,6 @@ export const createOperatorRequest = (
       // dispatching experiment operators data loaded action
       dispatch(experimentOperatorsDataLoaded());
 
-      // checking if operator is setted up
-      let settedUp = utils.checkOperatorSettedUp(operator);
-
       // dispatching create operator success action
       dispatch({
         type: actionTypes.CREATE_OPERATOR_SUCCESS,
@@ -486,7 +483,7 @@ export const createOperatorRequest = (
           ...operator,
           ...restTaskData,
           parameters: configuredParameters,
-          settedUp,
+          settedUp: utils.checkOperatorSettedUp(operator),
           selected: false,
           status: '',
         },
@@ -520,6 +517,9 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
     .then(() => {
       // dispatching hide drawer action
       dispatch(hideDrawer());
+
+      //deselect operator after success remotion
+      dispatch(deselectOperator());
 
       // dispatching to fetch operator
       if (operator.tags.includes('DATASETS')) {
@@ -666,11 +666,7 @@ export const setOperatorParametersRequest = (
       );
 
       // checking if operator is setted up
-      if (successOperator.tags.includes('DATASETS')) {
-        successOperator.settedUp = true;
-      } else {
-        successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
-      }
+      successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
 
       // dispatching success action
       dispatch(setOperatorParametersSuccess(successOperator));

@@ -1,25 +1,36 @@
 // REACT LIBS
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import { UploadInputBlock } from 'components/InputBlocks';
+import {
+  GoogleUploadInputBlock,
+  UploadInputBlock,
+} from 'components/InputBlocks';
 
 // ACTIONS
 import {
+  selectDataset,
   startDatasetUpload,
   cancelDatasetUpload,
+  createGoogleDataset,
   datasetUploadFail,
   datasetUploadSuccess,
   deleteDatasetRequest,
 } from 'store/dataset/actions';
+import { fetchDatasetsRequest } from 'store/datasets/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // start dataset upload
+    handleSelectDataset: (dataset, projectId, experimentId) =>
+      dispatch(selectDataset(dataset, projectId, experimentId)),
+    handleFetchDatasets: () => dispatch(fetchDatasetsRequest()),
+    handleCreateGoogleDataset: (projectId, experimentId, file) =>
+      dispatch(createGoogleDataset(projectId, experimentId, file)),
     handleUploadStart: () => dispatch(startDatasetUpload()),
     handleDeleteDataset: (projectId, experimentId) =>
       dispatch(deleteDatasetRequest(projectId, experimentId)),
@@ -33,23 +44,33 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    loading: state.uiReducer.datasetOperator.loading,
-    trainingLoading: state.uiReducer.experimentTraining.loading,
+    datasets: state.datasetsReducer,
+    datasetsLoading: state.uiReducer.datasetsList.loading,
     datasetFileName: state.datasetReducer.filename,
+    datasetStatus: state.datasetReducer.status,
+    loading: state.uiReducer.datasetOperator.loading,
+    operatorName: state.operatorReducer.name,
+    trainingLoading: state.uiReducer.experimentTraining.loading,
   };
 };
 
 const DatasetUploadInputBlockContainer = (props) => {
-  // destructuring props
   const {
+    datasets,
+    datasetsLoading,
+    datasetFileName,
+    datasetStatus,
+    handleCreateGoogleDataset,
+    handleSelectDataset,
+    handleFetchDatasets,
     handleUploadCancel,
     handleDeleteDataset,
     handleUploadFail,
     handleUploadStart,
     handleUploadSuccess,
     loading,
+    operatorName,
     trainingLoading,
-    datasetFileName,
   } = props;
 
   // CONSTANTS
@@ -80,12 +101,25 @@ const DatasetUploadInputBlockContainer = (props) => {
         {
           uid: datasetFileName,
           name: datasetFileName,
-          status: 'done',
+          status: datasetStatus ? datasetStatus : 'done',
         },
       ]
     : undefined;
 
+  // check if is google drive dataset
+  const isGoogleDrive = operatorName === 'Google Drive';
+
+  // hooks
+  // did mount hook
+  useEffect(() => {
+    // fetching datasets
+    handleFetchDatasets();
+  }, [handleFetchDatasets]);
+
   // handlers
+  const containerHandleCreateGoogleDataset = (file) =>
+    handleCreateGoogleDataset(projectId, experimentId, file);
+
   const containerHandleUploadSuccess = (dataset) =>
     handleUploadSuccess(dataset, projectId, experimentId);
 
@@ -94,11 +128,27 @@ const DatasetUploadInputBlockContainer = (props) => {
       ? handleDeleteDataset(projectId, experimentId)
       : handleUploadCancel();
 
+  const containerHandleSelectDataset = (dataset) =>
+    handleSelectDataset(dataset, projectId, experimentId);
+
   // rendering component
-  return (
+  return isGoogleDrive ? (
+    <GoogleUploadInputBlock
+      defaultFileList={defaultFileList}
+      handleCreateGoogleDataset={containerHandleCreateGoogleDataset}
+      handleUploadCancel={containerHandleUploadCancel}
+      isDisabled={isDisabled}
+      isLoading={isLoading}
+      tip={tip}
+      title={title}
+    />
+  ) : (
     <UploadInputBlock
       actionUrl={actionUrl}
       buttonText={buttonText}
+      datasets={datasets}
+      datasetsLoading={datasetsLoading}
+      handleSelectDataset={containerHandleSelectDataset}
       handleUploadCancel={containerHandleUploadCancel}
       handleUploadFail={handleUploadFail}
       handleUploadStart={handleUploadStart}
@@ -113,6 +163,18 @@ const DatasetUploadInputBlockContainer = (props) => {
 };
 
 DatasetUploadInputBlockContainer.propTypes = {
+  /** List of all datasets */
+  datasets: PropTypes.array.isRequired,
+
+  /** Datasets list is loading */
+  datasetsLoading: PropTypes.bool.isRequired,
+
+  /** Select dataset handler */
+  handleSelectDataset: PropTypes.func.isRequired,
+
+  /** Fetch all datasets handler */
+  handleFetchDatasets: PropTypes.func.isRequired,
+
   /** Upload cancel handler */
   handleUploadCancel: PropTypes.func.isRequired,
 

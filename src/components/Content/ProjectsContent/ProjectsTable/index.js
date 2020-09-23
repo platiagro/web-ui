@@ -1,6 +1,9 @@
+/* eslint-disable react/display-name */
 // CORE LIBS
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+
+import { CommonTable } from 'components';
 
 // UI LIBS
 import { SearchOutlined } from '@ant-design/icons';
@@ -8,10 +11,9 @@ import {
   Button,
   Input,
   Popconfirm,
-  Skeleton,
   Space,
-  Table,
   Tag,
+  Tooltip,
   Typography,
 } from 'antd';
 
@@ -114,43 +116,31 @@ const ProjectsTable = ({
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
       ),
-      render: (value, record) =>
-        loading ? (
-          <Skeleton
-            active
-            paragraph={{ rows: 1, width: 150 }}
-            size='large'
-            title={false}
-          />
-        ) : (
-          <Button
-            type='link'
-            onClick={() => handleClickProject(record.uuid)}
-            style={{ textAlign: 'left', width: '100%' }}
-          >
-            <Text ellipsis style={{ color: '#0050B3', width: '100%' }}>
-              {value}
-            </Text>
-          </Button>
-        ),
+      render: (value, record) => (
+        <Button
+          type='link'
+          onClick={() => handleClickProject(record.uuid)}
+          style={{ textAlign: 'left', width: '100%' }}
+        >
+          <Text ellipsis style={{ color: '#0050B3', width: '100%' }}>
+            {value}
+          </Text>
+        </Button>
+      ),
     },
     {
       title: <strong>Descrição</strong>,
       dataIndex: 'description',
       key: 'description',
       width: '30%',
-      ellipsis: true,
-      render: (description) =>
-        loading ? (
-          <Skeleton
-            active
-            paragraph={{ rows: 1, width: 250 }}
-            size='large'
-            title={false}
-          />
-        ) : (
-          <></>
-        ),
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (value, record) => (
+        <Tooltip placement='topLeft' title={value}>
+          {value}
+        </Tooltip>
+      ),
     },
     {
       title: <strong>Tags</strong>,
@@ -175,44 +165,33 @@ const ProjectsTable = ({
         return record.tags ? record.tags.indexOf(value) === 0 : false;
       },
       render: (tags) => {
-        if (loading) {
-          return (
-            <Skeleton
-              active
-              paragraph={{ rows: 1, width: 200 }}
-              size='large'
-              title={false}
-            />
-          );
-        } else {
-          //TODO Remover mock depois que as tags forem implementadas
-          tags = ['Experimentação', 'Pré-implantação', 'Implantado'];
-          return (
-            <>
-              {tags.map((tag) => {
-                if (tag === 'Experimentação') {
-                  return (
-                    <Tag color='purple' key='purpleTag'>
-                      {tag}
-                    </Tag>
-                  );
-                } else if (tag === 'Pré-implantação') {
-                  return (
-                    <Tag color='volcano' key='volcanoTag'>
-                      {tag}
-                    </Tag>
-                  );
-                } else {
-                  return (
-                    <Tag color='green' key='greenTag'>
-                      {tag}
-                    </Tag>
-                  );
-                }
-              })}
-            </>
-          );
-        }
+        //TODO Remover mock depois que as tags forem implementadas
+        tags = ['Experimentação', 'Pré-implantação', 'Implantado'];
+        return (
+          <>
+            {tags.map((tag) => {
+              if (tag === 'Experimentação') {
+                return (
+                  <Tag color='purple' key='purpleTag'>
+                    {tag}
+                  </Tag>
+                );
+              } else if (tag === 'Pré-implantação') {
+                return (
+                  <Tag color='volcano' key='volcanoTag'>
+                    {tag}
+                  </Tag>
+                );
+              } else {
+                return (
+                  <Tag color='green' key='greenTag'>
+                    {tag}
+                  </Tag>
+                );
+              }
+            })}
+          </>
+        );
       },
     },
     {
@@ -226,46 +205,28 @@ const ProjectsTable = ({
         return dateA.getTime() - dateB.getTime();
       },
       sortDirections: ['descend', 'ascend'],
-      render: (value) =>
-        loading ? (
-          <Skeleton
-            active
-            paragraph={{ rows: 1, width: 70 }}
-            size='large'
-            title={false}
-          />
-        ) : (
-          new Date(value).toLocaleString()
-        ),
+      render: (value) => new Date(value).toLocaleString(),
     },
     {
       title: <strong>Ação</strong>,
       dataIndex: 'action',
       key: 'action',
       width: '10%',
-      render: (value, record) =>
-        loading ? (
-          <Skeleton
-            active
-            paragraph={{ rows: 1, width: 70 }}
-            size='large'
-            title={false}
-          />
-        ) : (
-          <Popconfirm
-            title='Você tem certeza que deseja excluir esse projeto?'
-            onConfirm={() => handleClickDelete(record.uuid)}
-            okText='Sim'
-            cancelText='Não'
-          >
-            <Button type='link'>Excluir</Button>
-          </Popconfirm>
-        ),
+      render: (value, record) => (
+        <Popconfirm
+          title='Você tem certeza que deseja excluir esse projeto?'
+          onConfirm={() => handleClickDelete(record.uuid)}
+          okText='Sim'
+          cancelText='Não'
+        >
+          <Button type='link'>Excluir</Button>
+        </Popconfirm>
+      ),
     },
   ];
   // RENDER
   return (
-    <Table
+    <CommonTable
       className='projectsTable'
       rowKey={(record) => record.uuid}
       rowSelection={{
@@ -277,8 +238,7 @@ const ProjectsTable = ({
       dataSource={projects}
       columns={columnsConfig}
       pagination={false}
-      //loading={loading}
-      loading={Boolean(loading && projects.length === 0)}
+      isLoading={loading}
     />
   );
 };

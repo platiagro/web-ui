@@ -1,5 +1,6 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
+import { deselectOperator } from '../operator/actions';
 
 // ACTIONS
 // ** SHOW_NEW_PROJECT_MODAL
@@ -47,11 +48,13 @@ export const hideNewProjectModal = () => {
  *
  * @returns {object} { type, newExperimentModalVisible }
  */
-export const showNewExperimentModal = () => {
-  return {
+export const showNewExperimentModal = () => (dispatch) => {
+  dispatch(deselectOperator());
+
+  dispatch({
     type: actionTypes.SHOW_NEW_EXPERIMENT_MODAL,
     newExperimentModalVisible: true,
-  };
+  });
 };
 
 // // // // // // // // // //
@@ -469,6 +472,36 @@ export const experimentOperatorsDataLoaded = () => {
 
 // // // // // // // // // //
 
+// ** DATASETS LIST LOADING DATA
+/**
+ * datasets list loading data
+ *
+ * @returns {object} { type, datasetsListLoading }
+ */
+export const datasetsListLoadingData = () => {
+  return {
+    type: actionTypes.DATASETS_LIST_LOADING_DATA,
+    datasetsListLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** DATASETS LIST DATA LOADED
+/**
+ * datasets list data loaded
+ *
+ * @returns {object} { type, datasetsListLoading }
+ */
+export const datasetsListDataLoaded = () => {
+  return {
+    type: actionTypes.DATASETS_LIST_DATA_LOADED,
+    datasetsListLoading: false,
+  };
+};
+
+// // // // // // // // // //
+
 // ** DATASET OPERATOR LOADING DATA
 /**
  * dataset operator loading data
@@ -686,6 +719,20 @@ export const showUsingDeploymentsModal = () => {
 export const hideUsingDeploymentsModal = () => {
   return {
     type: actionTypes.HIDE_USING_DEPLOYMENTS_MODAL,
+  };
+};
+
+export const loadingOnDataViewModal = () => {
+  return {
+    type: actionTypes.LOADING_DATA_VIEW_MODAL,
+    loading: true,
+  };
+};
+
+export const loadingOffDataViewModal = () => {
+  return {
+    type: actionTypes.LOADING_DATA_VIEW_MODAL,
+    loading: false,
   };
 };
 

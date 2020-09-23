@@ -7,6 +7,8 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentHeader from './index';
 
 // ACTIONS
+// operator
+import { removeOperatorRequest } from '../../../../../../store/operator/actions';
 // experiment
 import {
   fetchExperimentRequest,
@@ -29,6 +31,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(trainExperimentRequest(experiment, operators)),
     handleDeleteTrainExperiment: (experimentId) =>
       dispatch(deleteTrainExperiment(experimentId)),
+    handleRemoveOperator: (projectId, experimentId, operator) =>
+      dispatch(removeOperatorRequest(projectId, experimentId, operator)),
   };
 };
 
@@ -37,6 +41,7 @@ const mapStateToProps = (state) => {
   return {
     experiment: state.experimentReducer,
     operators: state.operatorsReducer,
+    operator: state.operatorReducer,
     loading: state.uiReducer.experimentName.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
     deleteTrainingLoading: state.uiReducer.experimentTraining.deleteLoading,
@@ -51,9 +56,11 @@ const mapStateToProps = (state) => {
 const ExperimentHeaderContainer = ({
   experiment,
   operators,
+  operator,
   loading,
   trainingLoading,
   deleteTrainingLoading,
+  handleRemoveOperator,
   handleFetchExperiment,
   handleEditExperimentName,
   handleTrainExperiment,
@@ -82,18 +89,23 @@ const ExperimentHeaderContainer = ({
   // delete train experiment
   const deleteTrainExperimentHandler = () =>
     handleDeleteTrainExperiment(experiment.uuid);
+  // delete operator
+  const removeOperatorHandler = () =>
+    handleRemoveOperator(projectId, experimentId, operator);
 
   // RENDER
   return (
     <ExperimentHeader
       title={experiment.name}
-      empty={operators.length < 2}
+      empty={operators.length <= 0}
       loading={loading}
+      operator={operator}
       trainingLoading={trainingLoading}
       deleteTrainingLoading={deleteTrainingLoading}
       handleEditExperimentName={editExperimentNameHandler}
       handleTrainExperiment={trainExperimentHandler}
       handleDeleteTrainExperiment={deleteTrainExperimentHandler}
+      handleRemoveOperator={removeOperatorHandler}
     />
   );
 };

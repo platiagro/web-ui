@@ -14,7 +14,6 @@ import {
   SelectInputBlock,
   TextInputBlock,
 } from 'components/InputBlocks';
-import RemoveOperatorButton from '../RemoveOperatorButton';
 import InputBlockContainer from 'components/InputBlockContainer';
 
 // INPUT TYPES
@@ -243,20 +242,12 @@ const inputTypes = {
  */
 const GenericDrawer = (props) => {
   const { drawerInputs, drawerTip, parametersLatestTraining } = props;
-  const { loading, parameterLoading, trainingLoading } = props;
-  const { handleChangeParameter, handleRemoveOperatorClick } = props;
+  const { parameterLoading, trainingLoading } = props;
+  const { handleChangeParameter } = props;
 
   return (
     // div container
     <>
-      {/* rendering remove operator button */}
-      <InputBlockContainer>
-        <RemoveOperatorButton
-          loading={loading}
-          handleClick={handleRemoveOperatorClick}
-          disabled={trainingLoading}
-        />
-      </InputBlockContainer>
       {/* Render empty component when drawer is empty */}
       {drawerInputs && drawerInputs.length === 0 && (
         <InputBlockContainer>

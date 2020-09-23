@@ -16,6 +16,8 @@ const Drawer = ({ title, isVisible, logs, handleClose }) => {
   // EMPTY COMPONENT
   const renderEmpty = () => <span>Não há dados.</span>;
 
+  const containersCount = logs.length;
+
   // COLUMNS OF LOG TABLE
   const logsTableColumns = [
     {
@@ -63,7 +65,13 @@ const Drawer = ({ title, isVisible, logs, handleClose }) => {
       onClose={handleClose}
       destroyOnClose
     >
-      <span>Container</span>
+      {/* data header */}
+      <div>
+        <span style={{ fontSize: '12px' }}>CONTAINERS EM EXECUÇÃO: </span>
+        <span style={{ color: '#262626', fontSize: '14px' }}>
+          {containersCount}
+        </span>
+      </div>
       <Tabs>
         {logs.map((container, i) => (
           <TabPane tab={container.containerName} key={i}>

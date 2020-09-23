@@ -10,6 +10,7 @@ const initialState = {
   name: '',
   columns: [],
   observationsCount: 5000, // TODO: conectar a api
+  featuretypes: '',
 };
 
 /**
@@ -22,6 +23,12 @@ const datasetReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // dataset
+    //update all columns
+    case actionTypes.UPDATE_ALL_DATASET_COLUMNS_SUCCESS:
+      return {
+        ...state,
+        columns: action.payload,
+      };
     // fetch dataset columns success
     case actionTypes.FETCH_DATASET_COLUMNS_SUCCESS:
       return { ...state, columns: [...action.columns] };
@@ -38,7 +45,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
     // create dataset success
     case actionTypes.CREATE_DATASET_SUCCESS:
       message.success('Dados de entrada importados', 5);
-      return { ...state, ...action.dataset };
+      return { ...state, ...action.payload };
 
     // FAIL
     case actionTypes.CREATE_DATASET_FAIL:
@@ -46,6 +53,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
     case actionTypes.DELETE_DATASET_FAIL:
     case actionTypes.GET_DATASET_FAIL:
+    case actionTypes.UPDATE_ALL_DATASET_COLUMNS_FAIL:
       message.error(action.errorMessage, 5);
       return state;
 
@@ -60,7 +68,15 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.DELETE_DATASET_SUCCESS:
       return {
         ...state,
-        ...action.dataset,
+        ...action.payload,
+        status: null,
+      };
+
+    case actionTypes.SET_GOOGLE_DATASET_STATUS:
+      return {
+        ...state,
+        filename: action.fileName,
+        status: action.status,
       };
 
     // DEFAULT

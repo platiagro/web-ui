@@ -74,7 +74,7 @@ const ProjectsTableContainer = (props) => {
     history.push(`/projetos/${projectUuid}`);
 
   // RENDER
-  return projects && projects.length > 0 ? (
+  return loading || (projects && projects.length > 0) ? (
     <div className='myProjectsTableContainer'>
       <ProjectsTable
         loading={loading}

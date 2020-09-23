@@ -33,6 +33,7 @@ const initialState = {
   experimentName: { loading: false },
   experimentOperators: { loading: false },
   experimentTraining: { loading: false },
+  datasetsList: { loading: false },
   datasetOperator: { loading: false },
   operatorParameter: { loading: false },
   operatorResults: { loading: false, showOperatorResults: false },
@@ -40,7 +41,7 @@ const initialState = {
   implantedExperiments: { loading: false },
   experimentInferenceModal: { visible: false },
   projectEditName: { loading: false },
-  dataViewModal: { isVisible: false },
+  dataViewModal: { isVisible: false, loading: false },
 };
 
 /**
@@ -304,6 +305,17 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
+    // DATASETS LIST
+    case actionTypes.DATASETS_LIST_LOADING_DATA: // loading data
+    case actionTypes.DATASETS_LIST_DATA_LOADED: // data loaded
+      return {
+        ...state,
+        datasetsList: {
+          ...state.datasetsList,
+          loading: action.datasetsListLoading,
+        },
+      };
+
     // DATASET OPERATOR
     case actionTypes.DATASET_OPERATOR_LOADING_DATA: // loading data
     case actionTypes.DATASET_OPERATOR_DATA_LOADED: // data loaded
@@ -405,6 +417,15 @@ const uiReducer = (state = initialState, action = undefined) => {
         dataViewModal: {
           ...state.dataViewModal,
           isVisible: action.isVisible,
+        },
+      };
+    // DATA VIEW MODAL LOADING
+    case actionTypes.LOADING_DATA_VIEW_MODAL: // show data view modal
+      return {
+        ...state,
+        dataViewModal: {
+          ...state.dataViewModal,
+          loading: action.loading,
         },
       };
 
