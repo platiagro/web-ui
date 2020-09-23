@@ -589,6 +589,42 @@ const getFeaturetypes = (dataset) => {
   return false;
 };
 
+  /**
+   * Checks if a response is one of the supported binary file types (video and image)
+   *
+   * @param {object} response response from Seldon
+   * @returns {boolean} is a response includes a encoded base64 string or not
+   */
+  const isSupportedBinaryData = (response) => {
+    if ('binData' in response) {
+      const pattern = /[A-Za-z0-9+/=]/;
+      const [base, content] = response.binData.split(',');
+
+      const mimeType = base
+        .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
+        .split('/')
+        .shift();
+
+      if (['video', 'image'].includes(mimeType) && pattern.test(content))
+        return true;
+    } else {
+      return false;
+    }
+  };
+
+  /**
+   * Check if a array has a encoded base64 image
+   *
+   * @param {object} response response from Seldon
+   * @returns {boolean} is a response includes a encoded base64 image or not
+   */
+  const isImage = (response) => {
+    const [base] = response.binData.split(',');
+
+    if (base.includes('image/')) return true;
+    return false;
+  };
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -609,4 +645,6 @@ export default {
   sleep,
   hasFeaturetypes,
   getFeaturetypes,
+  isSupportedBinaryData,
+  isImage,
 };

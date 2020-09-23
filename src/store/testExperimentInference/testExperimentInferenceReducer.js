@@ -2,7 +2,7 @@
 import actionTypes from './actionTypes';
 
 // INITIAL STATE
-const initialState = { names: [], ndarray: [] };
+const initialState = {};
 
 /**
  * test experiment inference reducer

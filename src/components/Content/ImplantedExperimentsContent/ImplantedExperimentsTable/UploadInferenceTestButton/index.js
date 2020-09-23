@@ -15,7 +15,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
   const props = {
     name: 'file',
     showUploadList: false,
-    accept: ['.csv', '.jpg', '.jpeg', '.png'],
+    accept: ['.csv', '.jpg', '.jpeg', '.png', '.webm', '.mp4'],
   };
 
   // RENDER
@@ -24,17 +24,19 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
     <Upload
       beforeUpload={(file) => {
         const reader = new FileReader();
-        const acceptedImagesTypes = ['image/jpg', 'image/jpeg', 'image/png'];
-        const isImage = acceptedImagesTypes.includes(file.type);
+        const [type, subtype] = file.type.split('/');
+        const isImageOrVideo = ['image', 'video'].includes(type);
 
         reader.onload = (e) => {
           let obj;
 
-          if (isImage) {
+          if (isImageOrVideo) {
             obj = {
-              data: {
-                ndarray: [[e.target.result]],
-              },
+              binData: e.target.result,
+            };
+          } else if (type === 'text' && subtype !== 'csv') {
+            obj = {
+              strData: e.target.result,
             };
           } else {
             // need to remove the windows end of line
@@ -53,7 +55,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
           handleUpload(obj);
         };
 
-        isImage ? reader.readAsDataURL(file) : reader.readAsText(file);
+        isImageOrVideo ? reader.readAsDataURL(file) : reader.readAsText(file);
         return false;
       }}
       {...props}

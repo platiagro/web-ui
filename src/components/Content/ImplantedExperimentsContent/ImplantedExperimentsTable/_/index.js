@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 
 import { CommonTable } from 'components';
 
+// UTILS
+import utils from '../../../../../utils';
+
 // UI LIBS
 import {
   Table,
@@ -15,7 +18,11 @@ import {
   Divider,
   Modal,
   Button,
+  Input,
+  notification,
 } from 'antd';
+
+import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
@@ -26,6 +33,7 @@ import './style.less';
 
 // TYPOGRAPHY COMPONENTS
 const { Paragraph } = Typography;
+const { TextArea } = Input;
 
 /**
  * Implanted Experiments Table.
@@ -54,42 +62,6 @@ const ImplantedExperimentsTable = (props) => {
     Failed: 'error',
     Running: 'processing',
     Succeeded: 'success',
-  };
-
-  /**
-   * Check whenever a response is a encoded base64 string
-   *
-   * @param {Array} ndarray response from Seldon
-   * @returns {boolean} is a response includes a encoded base64 string or not
-   */
-  const isBase64Encoded = (ndarray) => {
-    const array = ndarray.flat();
-    const baseString = array.find((element) => typeof element === 'string');
-
-    if (baseString) {
-      const pattern = /[A-Za-z0-9+/=]/;
-      const [base, content] = baseString.split(',');
-
-      if (base.includes('image/') && pattern.test(content)) return true;
-    } else {
-      return false;
-    }
-  };
-
-  /**
-   * Check if a array has a encoded base64 image
-   *
-   * @param {*} ndarray response from Seldon
-   * @returns {boolean} is a response includes a encoded base64 image or not
-   */
-  const isImage = (ndarray) => {
-    const encodedString = [...ndarray].shift();
-
-    if (encodedString) {
-      const [base] = encodedString.split(',');
-      if (base.includes('image/')) return true;
-    }
-    return false;
   };
 
   // table columns config
@@ -191,34 +163,7 @@ const ImplantedExperimentsTable = (props) => {
         onCancel={closeModal}
         width='70vw'
       >
-        {isBase64Encoded(experimentInference.ndarray) ? (
-          <div className='container-difference'>
-            {isImage(experimentInference.ndarray.flat()) ? (
-              <img
-                src={experimentInference.ndarray.flat()}
-                alt='predict-response'
-                className='image-difference'
-              />
-            ) : (
-              <div className='iterative-prediction'>
-                <Tooltip title='O formato do arquivo gerado pelo modelo não é do tipo imagem. Veja mais sobre essa saída logo abaixo!'>
-                  <span>Arquivo gerado pelo modelo</span>
-                </Tooltip>
-                <div className='show-code'>
-                  {experimentInference.ndarray.flat()}
-                </div>
-                <a
-                  href={experimentInference.ndarray.flat()}
-                  download='predict-file'
-                >
-                  <Button type='primary' style={{ margin: '6px 6px 0px 0px' }}>
-                    Baixar
-                  </Button>
-                </a>
-              </div>
-            )}
-          </div>
-        ) : (
+        {'ndarray' in experimentInference ? (
           <Table
             dataSource={experimentInference.ndarray.map((e, i) => {
               const data = { key: i };
@@ -235,6 +180,63 @@ const ImplantedExperimentsTable = (props) => {
             }))}
             scroll={{ x: 800 }}
           />
+        ) : (
+          <div className='container-difference'>
+            {utils.isSupportedBinaryData(experimentInference) ? (
+              utils.isImage(experimentInference) ? (
+                <img
+                  src={Object.values(experimentInference).shift()}
+                  alt='predict-response'
+                  className='image-difference'
+                />
+              ) : (
+                <video
+                  src={Object.values(experimentInference).shift()}
+                  controls
+                >
+                  <track default kind='captions' />
+                </video>
+              )
+            ) : (
+              <div className='iterative-prediction'>
+                <h3>Resposta do Modelo</h3>
+                <TextArea
+                  disabled={true}
+                  defaultValue={Object.values(experimentInference).shift()}
+                />
+                <Button
+                  icon={<CopyOutlined />}
+                  type='primary'
+                  style={{ margin: '6px 6px 0px 0px' }}
+                  onClick={() => {
+                    navigator.clipboard
+                      .writeText(Object.values(experimentInference).shift())
+                      .then(() =>
+                        notification['success']({
+                          message: 'Texto Copiado',
+                          description:
+                            'O resultado do modelo foi copiado para sua área de transferência!',
+                        })
+                      );
+                  }}
+                >
+                  Copiar
+                </Button>
+                <a
+                  href={Object.values(experimentInference).shift()}
+                  download='predict-file'
+                >
+                  <Button
+                    icon={<DownloadOutlined />}
+                    type='primary'
+                    style={{ margin: '6px 6px 0px 0px' }}
+                  >
+                    Fazer download
+                  </Button>
+                </a>
+              </div>
+            )}
+          </div>
         )}
       </Modal>
     </>
