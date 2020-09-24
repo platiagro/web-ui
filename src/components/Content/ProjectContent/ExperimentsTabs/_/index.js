@@ -9,6 +9,7 @@ import {
   DeleteOutlined,
   EditOutlined,
   LoadingOutlined,
+  CopyOutlined,
 } from '@ant-design/icons';
 import { Tabs, Popconfirm, Popover, Input } from 'antd';
 
@@ -39,6 +40,7 @@ const ExperimentsTabs = (props) => {
     activeExperiment,
     deleteHandler,
     renameHandler,
+    duplicateHandler,
   } = props;
 
   // Id for make delete and rename requisitions
@@ -132,6 +134,27 @@ const ExperimentsTabs = (props) => {
     </>
   );
 
+  const contentRename = (
+    <>
+      <p>Duplicar</p>
+      <Input.Search
+        enterButton='Ok'
+        onSearch={(name) => {
+          if (name.length > 0) {
+            duplicateHandler(currentId, name);
+          }
+        }}
+        placeholder='Digite o novo nome'
+        onChange={(e) => {
+          setCurrentName(e.target.value);
+        }}
+        loading={loading}
+        disabled={loading}
+        allowClear
+      />
+    </>
+  );
+
   // render tabs
   const renderTabs = () => {
     // if is loading
@@ -202,6 +225,24 @@ const ExperimentsTabs = (props) => {
             <ItemName name='Renomear' icon={<EditOutlined />} />
           </MenuItem>
         </Popover>
+
+        <Popover content={contentRename} trigger='click'>
+          <MenuItem
+            className='menu-tab-item'
+            data={{ action: 'duplicar' }}
+            onClick={(e, data) =>
+              handleMenuClick(
+                data.action,
+                data.experimentId,
+                data.experimentTitle
+              )
+            }
+            preventClose={true}
+          >
+            <ItemName name='Duplicar' icon={<CopyOutlined />} />
+          </MenuItem>
+        </Popover>
+
         <Popconfirm
           title='Excluir o experimento?'
           onConfirm={() => deleteHandler(currentId)}
@@ -241,6 +282,8 @@ ExperimentsTabs.propTypes = {
   handleMoveTab: PropTypes.func.isRequired,
   /** is loading */
   loading: PropTypes.bool.isRequired,
+  /** Create new experiment and copy the operators */
+  duplicateHandler: PropTypes.func.isRequired,
 };
 
 // PROP DEFAULT VALUES

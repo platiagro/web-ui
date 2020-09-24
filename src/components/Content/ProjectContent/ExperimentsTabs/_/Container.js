@@ -16,6 +16,7 @@ import {
   fetchExperimentActiveRequest,
   deleteExperimentRequest,
   editExperimentNameRequest,
+  createExperimentRequest,
 } from '../../../../../store/experiment/actions';
 
 import { deselectOperator } from '../../../../../store/operator/actions';
@@ -33,6 +34,16 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleRenameExperiment: (projectId, experimentId, newName) =>
       dispatch(
         editExperimentNameRequest(projectId, experimentId, newName, routerProps)
+      ),
+    handleDuplicateExperiment: (projectId, experimentId, newName) =>
+      dispatch(
+        createExperimentRequest(
+          projectId,
+          newName,
+          experimentId,
+          true,
+          routerProps
+        )
       ),
     handleOrganizeExperiments: (
       projectId,
@@ -79,6 +90,7 @@ const ExperimentTabsContainer = (props) => {
     handleClearAllExperiments,
     handleDeleteExperiment,
     handleRenameExperiment,
+    handleDuplicateExperiment,
     handleDeselectOperator,
   } = props;
 
@@ -124,6 +136,9 @@ const ExperimentTabsContainer = (props) => {
   const renameHandler = (renameExperimentId, newName) => {
     handleRenameExperiment(projectId, renameExperimentId, newName);
   };
+  const duplicateHandler = (copyExperimentId, newName) => {
+    handleDuplicateExperiment(projectId, copyExperimentId, newName);
+  };
   // change tab
   const handleChangeTab = (targetId) => {
     // fetching experiment
@@ -162,6 +177,7 @@ const ExperimentTabsContainer = (props) => {
       loading={loading}
       deleteHandler={deleteHandler}
       renameHandler={renameHandler}
+      duplicateHandler={duplicateHandler}
     />
   );
 };

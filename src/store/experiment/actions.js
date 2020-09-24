@@ -22,6 +22,8 @@ import {
 // OPERATORS ACTIONS
 import { fetchOperatorsRequest } from '../operators/actions';
 
+const exist = 'Já existe um experimento com este nome!';
+
 // ACTIONS
 // ** FETCH EXPERIMENT
 /**
@@ -188,9 +190,10 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
  * create experiment fail action
  *
  * @param {object} error
+ * @param {string} duplicate
  * @returns {object} { type, errorMessage }
  */
-const createExperimentFail = (error) => (dispatch) => {
+const createExperimentFail = (error, duplicate) => (dispatch) => {
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
@@ -204,12 +207,16 @@ const createExperimentFail = (error) => (dispatch) => {
     message.error(errorMessage, 5);
   } else {
     errorMessage = error.response.data.message;
-    if (errorMessage.includes('name already exist')) {
-      errorMessage = 'Já existe um experimento com este nome!';
+    if (errorMessage.includes('name already exist') && !duplicate) {
+      errorMessage = exist;
       dispatch({
         type: actionTypes.CREATE_EXPERIMENT_FAIL,
         errorMessage,
       });
+    } else if (errorMessage.includes('name already exist') && duplicate) {
+      errorMessage = exist;
+      dispatch({ type: actionTypes.DUPLICATE_EXPERIMENT_FAIL, errorMessage });
+      message.error(errorMessage, 5);
     } else {
       message.error(errorMessage, 5);
     }
@@ -221,12 +228,16 @@ const createExperimentFail = (error) => (dispatch) => {
  *
  * @param {string} projectId
  * @param {string} experimentName
+ * @param {string} copyFrom
+ * @param {string} duplicate
  * @param {object} routerProps
  * @returns {Function}
  */
 export const createExperimentRequest = (
   projectId,
   experimentName,
+  copyFrom,
+  duplicate,
   routerProps
 ) => (dispatch) => {
   // dispatching request action
@@ -242,11 +253,11 @@ export const createExperimentRequest = (
 
   // creating experiment
   experimentsApi
-    .createExperiment(projectId, experimentName)
+    .createExperiment(projectId, experimentName, copyFrom)
     .then((response) =>
       dispatch(createExperimentSuccess(response, projectId, routerProps))
     )
-    .catch((error) => dispatch(createExperimentFail(error)));
+    .catch((error) => dispatch(createExperimentFail(error, duplicate)));
 };
 
 // // // // // // // // // //
@@ -492,7 +503,7 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
     .then((response) => {
       dispatch(fetchExperimentDeployStatusSuccess(response));
     })
-    .catch((err) => { });
+    .catch((err) => {});
 };
 
 // // // // // // // // // //

@@ -14,8 +14,16 @@ import NewExperimentModal from './index';
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     // create experiment action
-    handleCreateExperiment: (projectId, experimentName) =>
-      dispatch(createExperimentRequest(projectId, experimentName, routerProps)),
+    handleCreateExperiment: (projectId, experimentName, copyFrom, duplicate) =>
+      dispatch(
+        createExperimentRequest(
+          projectId,
+          experimentName,
+          copyFrom,
+          duplicate,
+          routerProps
+        )
+      ),
     // hide modal action
     handleHideExperimentModal: () => dispatch(hideNewExperimentModal()),
   };
@@ -48,8 +56,8 @@ const NewExperimentModalContainer = ({
   const { projectId } = useParams();
 
   // HANDLERS
-  const newExperimentHandler = (experimentName) => {
-    handleCreateExperiment(projectId, experimentName);
+  const newExperimentHandler = (experimentName, copyFrom) => {
+    handleCreateExperiment(projectId, experimentName, copyFrom, false);
   };
 
   // RENDER
