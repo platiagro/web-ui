@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { Handle } from 'react-flow-renderer';
 
 // UI LIBS
 import {
@@ -152,10 +153,22 @@ const TaskBox = (props) => {
       {/* div container */}
       <div className={cssClass} onClick={handleBoxClick} role='presentation'>
         <div className='siders'>
+          <Handle
+            type='target'
+            position='left'
+            className='arrow-handler left'
+          />
           <div style={{ fontSize: '18px' }}>{icon}</div>
         </div>
         <div className='middle'>{name}</div>
-        <div className='siders'>{renderTooltip()}</div>
+        <div className='siders'>
+          {renderTooltip()}
+          <Handle
+            type='source'
+            position='right'
+            className='arrow-handler right'
+          />
+        </div>
       </div>
     </Dropdown>
   );

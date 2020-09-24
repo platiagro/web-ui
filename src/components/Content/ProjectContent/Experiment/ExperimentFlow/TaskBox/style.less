@@ -55,6 +55,15 @@
     border-left: 2px dashed #979797;
     border-right: 2px dashed #979797;
   }
+  .arrow-handler {
+    background-color: #f9f0ff;
+    border: 2px solid #979797;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    opacity: 0;
+    transition: all 0.2s ease;
+  }
   .siders {
     background-color: #f9f0ff;
     width: 32px;
@@ -62,6 +71,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:hover {
+      .arrow-handler {
+        opacity: 1;
+        &.left {
+          left: -7px;
+        }
+
+        &.right {
+          right: -7px;
+        }
+      }
+    }
   }
 
   &.setted-up {
@@ -73,6 +95,9 @@
     .middle {
       border-left-style: solid;
       border-right-style: solid;
+      border-color: #595959;
+    }
+    .arrow-handler {
       border-color: #595959;
     }
   }
@@ -91,6 +116,9 @@
       border-right-style: solid;
       border-color: #52c41a;
     }
+    .arrow-handler {
+      border-color: #52c41a;
+    }
   }
   &.Failed {
     border-style: solid;
@@ -103,6 +131,9 @@
       border-right-style: solid;
       border-color: #f5222d;
     }
+    .arrow-handler {
+      border-color: #f5222d;
+    }
   }
   &.Interrupting {
     color: rgba(0, 0, 0, 0.25);
@@ -113,6 +144,9 @@
     .middle {
       border-left-style: solid;
       border-right-style: solid;
+      border-color: #d9d9d9;
+    }
+    .arrow-handler {
       border-color: #d9d9d9;
     }
   }
@@ -128,6 +162,9 @@
       border-right-style: solid;
       border-color: #1890ff;
     }
+    .arrow-handler {
+      border-color: #1890ff;
+    }
   }
   &.Loading {
     pointer-events: none;
@@ -140,6 +177,9 @@
     .middle {
       border-left-style: solid;
       border-right-style: solid;
+      border-color: #979797;
+    }
+    .arrow-handler {
       border-color: #979797;
     }
   }
