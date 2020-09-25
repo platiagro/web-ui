@@ -67,14 +67,14 @@ const ImplantedExperimentsTable = (props) => {
   /**
    * Transform a tabular data to a plain text.
    *
-   * @param {object} response Seldon object response
+   * @param {object} strEncoded Seldon object response
    * @returns {string} a string with Seldon response
    */
-  const toRawText = (response) => {
-    if (!utils.isEmptyObject(response)) {
-      const { names, ndarray } = response;
-      const columns = names.join(',');
+  const toRawText = (strEncoded) => {
+    const { names, ndarray } = strEncoded;
 
+    if (names && ndarray) {
+      const columns = names.join(',');
       return columns + '\n' + ndarray.join('\n');
     }
   };

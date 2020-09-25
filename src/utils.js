@@ -590,26 +590,17 @@ const getFeaturetypes = (dataset) => {
 };
 
 /**
- * Check whenever a object is empty.
- *
- * @param {object} object object content
- * @returns {boolean} is empty or not
- */
-const isEmptyObject = (object) => {
-  return JSON.stringify(object) === JSON.stringify({});
-};
-
-/**
  * Checks if a response is one of the supported binary file types (video and image)
  *
  * @param {object} response response from Seldon
- * @returns {boolean} is a response includes a encoded base64 string or not
+ * @returns {boolean} if a response includes a encoded base64 string or not
  */
 const isSupportedBinaryData = (response) => {
-  if (!isEmptyObject(response) && 'binData' in response) {
-    const { binData } = response;
+  const data = Object.values(response).shift();
+
+  try {
+    const [base, content] = data.split(',');
     const pattern = /[A-Za-z0-9+/=]/;
-    const [base, content] = binData.split(',');
 
     const mimeType = base
       .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
@@ -618,7 +609,7 @@ const isSupportedBinaryData = (response) => {
 
     if (['video', 'image'].includes(mimeType) && pattern.test(content))
       return true;
-  } else {
+  } catch (error) {
     return false;
   }
 };
@@ -630,7 +621,7 @@ const isSupportedBinaryData = (response) => {
  * @returns {boolean} is a response includes a encoded base64 image or not
  */
 const isImage = (response) => {
-  const [base] = response.binData.split(',');
+  const [base] = response.strData.split(',');
 
   if (base.includes('image/')) return true;
   return false;
@@ -656,7 +647,6 @@ export default {
   sleep,
   hasFeaturetypes,
   getFeaturetypes,
-  isEmptyObject,
   isSupportedBinaryData,
   isImage,
 };

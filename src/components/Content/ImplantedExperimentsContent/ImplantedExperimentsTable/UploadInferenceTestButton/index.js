@@ -15,7 +15,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
   const props = {
     name: 'file',
     showUploadList: false,
-    accept: ['.csv', '.jpg', '.jpeg', '.png', '.webm', '.mp4'],
+    accept: ['text/*', 'image/*', 'video/*'],
   };
 
   // RENDER
@@ -30,15 +30,11 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
         reader.onload = (e) => {
           let obj;
 
-          if (isImageOrVideo) {
-            obj = {
-              binData: e.target.result,
-            };
-          } else if (type === 'text' && subtype !== 'csv') {
+          if (isImageOrVideo || (type === 'text' && subtype !== 'csv')) {
             obj = {
               strData: e.target.result,
             };
-          } else {
+          } else if (subtype === 'csv') {
             // need to remove the windows end of line
             const result = e.target.result
               .trim()
@@ -50,6 +46,10 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
                 names: names.split(','),
                 ndarray: ndarray.map((el) => el.split(',')),
               },
+            };
+          } else {
+            obj = {
+              binData: btoa(unescape(encodeURIComponent(e.target.result))),
             };
           }
           handleUpload(obj);
