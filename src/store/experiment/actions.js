@@ -483,6 +483,12 @@ const fetchExperimentDeployStatusSuccess = (response) => (dispatch) => {
   });
 };
 
+const fetchExperimentDeployStatusFail = () => (dispatch) => {
+  dispatch({
+    type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_FAIL,
+  });
+};
+
 /**
  * fetch experiment deploy status request action
  *
@@ -503,7 +509,9 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
     .then((response) => {
       dispatch(fetchExperimentDeployStatusSuccess(response));
     })
-    .catch((err) => {});
+    .catch((err) => {
+      dispatch(fetchExperimentDeployStatusFail());
+    });
 };
 
 // // // // // // // // // //

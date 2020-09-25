@@ -84,8 +84,7 @@ const ExperimentButtonsContainer = ({
         loading ||
         trainingLoading ||
         hasFailed ||
-        deployStatus === 'Succeeded' ||
-        deployStatus === 'Running'
+        deployStatus
       }
       loading={deployStatus === 'Running'}
     />

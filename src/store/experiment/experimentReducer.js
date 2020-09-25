@@ -45,8 +45,7 @@ const experimentReducer = (state = initialState, action = undefined) => {
       message.error(action.errorMessage, 5);
       return state;
     case actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_FAIL:
-      message.error(action.errorMessage);
-      return { ...state };
+      return { ...state, deployStatus: '' };
 
     // COMMON
     case actionTypes.TRAINING_EXPERIMENT_SUCCEEDED:
