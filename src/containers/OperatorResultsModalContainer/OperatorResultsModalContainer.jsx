@@ -93,7 +93,9 @@ const OperatorResultsModalContainer = (props) => {
         valueLatestTraining = valueLatestTraining.toString();
       }
       resultsParameters.push({
-        name: operatorParameter.label,
+        name: operatorParameter.label
+          ? operatorParameter.label
+          : operatorParameter.name,
         value: valueLatestTraining,
       });
     }
