@@ -154,7 +154,11 @@ const TaskBox = (props) => {
         <div className='siders'>
           <div style={{ fontSize: '18px' }}>{icon}</div>
         </div>
-        <div className='middle'>{name}</div>
+        <div className='middle'>
+          <div className='flex-child long-and-truncated-with-child-corrected'>
+            <div className='reticence'>{name}</div>
+          </div>
+        </div>
         <div className='siders'>{renderTooltip()}</div>
       </div>
     </Dropdown>
