@@ -64,6 +64,58 @@ const ImplantedExperimentsTable = (props) => {
     Succeeded: 'success',
   };
 
+  /**
+   * Transform a tabular data to a plain text.
+   *
+   * @param {object} response Seldon object response
+   * @returns {string} a string with Seldon response
+   */
+  const toRawText = (response) => {
+    if (!utils.isEmptyObject(response)) {
+      const { names, ndarray } = response;
+      const columns = names.join(',');
+
+      return columns + '\n' + ndarray.join('\n');
+    }
+  };
+
+  /**
+   * Copy Seldon response to clipboard.
+   */
+  const copyToClipboard = () => {
+    const text = utils.isSupportedBinaryData(experimentInference)
+      ? Object.values(experimentInference).shift()
+      : toRawText(experimentInference);
+
+    if (text)
+      navigator.clipboard
+        .writeText(text)
+        .then(() =>
+          notification['success']({
+            message: 'Texto Copiado',
+            description:
+              'O resultado do modelo foi copiado para sua área de transferência!',
+          })
+        )
+        .catch(() =>
+          notification['error']({
+            message: 'Erro ao Copiar Texto',
+            description: 'Pode ser que o retorno do modelo esteja corrompido.',
+          })
+        );
+  };
+
+  /**
+   * Download a response content as file
+   *
+   * @returns {string} content as base64
+   */
+  const downloadFile = () => {
+    return utils.isSupportedBinaryData(experimentInference)
+      ? Object.values(experimentInference).shift()
+      : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
+  };
+
   // table columns config
   const columnsConfig = [
     // status column
@@ -204,40 +256,29 @@ const ImplantedExperimentsTable = (props) => {
                   disabled={true}
                   defaultValue={Object.values(experimentInference).shift()}
                 />
-                <Button
-                  icon={<CopyOutlined />}
-                  type='primary'
-                  style={{ margin: '6px 6px 0px 0px' }}
-                  onClick={() => {
-                    navigator.clipboard
-                      .writeText(Object.values(experimentInference).shift())
-                      .then(() =>
-                        notification['success']({
-                          message: 'Texto Copiado',
-                          description:
-                            'O resultado do modelo foi copiado para sua área de transferência!',
-                        })
-                      );
-                  }}
-                >
-                  Copiar
-                </Button>
-                <a
-                  href={Object.values(experimentInference).shift()}
-                  download='predict-file'
-                >
-                  <Button
-                    icon={<DownloadOutlined />}
-                    type='primary'
-                    style={{ margin: '6px 6px 0px 0px' }}
-                  >
-                    Fazer download
-                  </Button>
-                </a>
               </div>
             )}
           </div>
         )}
+        <div className='predict-options-buttons'>
+          <Button
+            icon={<CopyOutlined />}
+            type='primary'
+            style={{ margin: '6px 6px 0px 0px' }}
+            onClick={() => copyToClipboard()}
+          >
+            Copiar
+          </Button>
+          <a href={downloadFile()} download='predict-file'>
+            <Button
+              icon={<DownloadOutlined />}
+              type='primary'
+              style={{ margin: '6px 6px 0px 0px' }}
+            >
+              Fazer download
+            </Button>
+          </a>
+        </div>
       </Modal>
     </>
   );

@@ -589,41 +589,52 @@ const getFeaturetypes = (dataset) => {
   return false;
 };
 
-  /**
-   * Checks if a response is one of the supported binary file types (video and image)
-   *
-   * @param {object} response response from Seldon
-   * @returns {boolean} is a response includes a encoded base64 string or not
-   */
-  const isSupportedBinaryData = (response) => {
-    if ('binData' in response) {
-      const pattern = /[A-Za-z0-9+/=]/;
-      const [base, content] = response.binData.split(',');
+/**
+ * Check whenever a object is empty.
+ *
+ * @param {object} object object content
+ * @returns {boolean} is empty or not
+ */
+const isEmptyObject = (object) => {
+  return JSON.stringify(object) === JSON.stringify({});
+};
 
-      const mimeType = base
-        .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
-        .split('/')
-        .shift();
+/**
+ * Checks if a response is one of the supported binary file types (video and image)
+ *
+ * @param {object} response response from Seldon
+ * @returns {boolean} is a response includes a encoded base64 string or not
+ */
+const isSupportedBinaryData = (response) => {
+  if (!isEmptyObject(response) && 'binData' in response) {
+    const { binData } = response;
+    const pattern = /[A-Za-z0-9+/=]/;
+    const [base, content] = binData.split(',');
 
-      if (['video', 'image'].includes(mimeType) && pattern.test(content))
-        return true;
-    } else {
-      return false;
-    }
-  };
+    const mimeType = base
+      .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
+      .split('/')
+      .shift();
 
-  /**
-   * Check if a array has a encoded base64 image
-   *
-   * @param {object} response response from Seldon
-   * @returns {boolean} is a response includes a encoded base64 image or not
-   */
-  const isImage = (response) => {
-    const [base] = response.binData.split(',');
-
-    if (base.includes('image/')) return true;
+    if (['video', 'image'].includes(mimeType) && pattern.test(content))
+      return true;
+  } else {
     return false;
-  };
+  }
+};
+
+/**
+ * Check if a array has a encoded base64 image
+ *
+ * @param {object} response response from Seldon
+ * @returns {boolean} is a response includes a encoded base64 image or not
+ */
+const isImage = (response) => {
+  const [base] = response.binData.split(',');
+
+  if (base.includes('image/')) return true;
+  return false;
+};
 
 // EXPORT DEFAULT
 export default {
@@ -645,6 +656,7 @@ export default {
   sleep,
   hasFeaturetypes,
   getFeaturetypes,
+  isEmptyObject,
   isSupportedBinaryData,
   isImage,
 };
