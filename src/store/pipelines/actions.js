@@ -4,8 +4,6 @@ import actionTypes from './actionTypes';
 // EXPERIMENT ACTION TYPES
 import experimentActionTypes from '../experiment/actionTypes';
 
-import uiActionTypes from '../ui/actionTypes';
-
 // SERVICES
 import pipelinesApi from '../../services/PipelinesApi';
 
@@ -267,11 +265,6 @@ export const deployExperimentRequest = (
   // dispatching request action
   dispatch({
     type: actionTypes.DEPLOY_EXPERIMENT_REQUEST,
-  });
-
-  // dispatching hide drawer action
-  dispatch({
-    type: uiActionTypes.HIDE_DRAWER,
   });
 
   // creating deploy object
