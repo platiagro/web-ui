@@ -15,7 +15,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
   const props = {
     name: 'file',
     showUploadList: false,
-    accept: ['text/*', 'image/*', 'video/*'],
+    accept: '*',
   };
 
   // RENDER
@@ -24,17 +24,17 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
     <Upload
       beforeUpload={(file) => {
         const reader = new FileReader();
-        const [type, subtype] = file.type.split('/');
+        const [type] = file.type.split('/');
         const isImageOrVideo = ['image', 'video'].includes(type);
 
         reader.onload = (e) => {
           let obj;
 
-          if (isImageOrVideo || (type === 'text' && subtype !== 'csv')) {
+          if (isImageOrVideo || file.type === 'text/plain') {
             obj = {
               strData: e.target.result,
             };
-          } else if (subtype === 'csv') {
+          } else if (file.type === 'text/csv') {
             // need to remove the windows end of line
             const result = e.target.result
               .trim()

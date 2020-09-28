@@ -596,10 +596,14 @@ const getFeaturetypes = (dataset) => {
  * @returns {boolean} if a response includes a encoded base64 string or not
  */
 const isSupportedBinaryData = (response) => {
-  const data = Object.values(response).shift();
+  const isExpectedResponse = ['binData', 'strData'].includes(
+    Object.keys(response).shift()
+  )
+    ? true
+    : false;
 
-  try {
-    const [base, content] = data.split(',');
+  if (isExpectedResponse) {
+    const [base, content] = response.split(',');
     const pattern = /[A-Za-z0-9+/=]/;
 
     const mimeType = base
@@ -609,7 +613,7 @@ const isSupportedBinaryData = (response) => {
 
     if (['video', 'image'].includes(mimeType) && pattern.test(content))
       return true;
-  } catch (error) {
+  } else {
     return false;
   }
 };
