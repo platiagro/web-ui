@@ -29,6 +29,9 @@ const mapStateToProps = (state) => {
     operatorMetrics: state.operatorReducer.metrics,
     // operator parameters
     operatorParameters: state.operatorReducer.parameters,
+    // operator parameters latestTraining
+    operatorParametersLatestTraining:
+      state.operatorReducer.parametersLatestTraining,
     // operator experiment results is loading
     operatorResultsLoading: state.uiReducer.operatorResults.loading,
     // operator experiment metrics is loading
@@ -56,6 +59,8 @@ const OperatorResultsModalContainer = (props) => {
     operatorResultsLoading,
     // operator parameters
     operatorParameters,
+    // operator parameters latestTraining
+    operatorParametersLatestTraining,
     // operator experiment metrics is loading
     operatorMetricsLoading,
     // close results modal handler
@@ -74,6 +79,28 @@ const OperatorResultsModalContainer = (props) => {
   // modal is full screen
   const isFullScreen = true;
 
+  // format results parameters to use label from parameter and value from latest training
+  const resultsParameters = [];
+  if (operatorParameters) {
+    for (const operatorParameter of operatorParameters) {
+      let valueLatestTraining = operatorParametersLatestTraining
+        ? operatorParametersLatestTraining[operatorParameter.name]
+        : null;
+      if (Array.isArray(valueLatestTraining)) {
+        valueLatestTraining = valueLatestTraining.join();
+      }
+      if (typeof valueLatestTraining === 'boolean') {
+        valueLatestTraining = valueLatestTraining.toString();
+      }
+      resultsParameters.push({
+        name: operatorParameter.label
+          ? operatorParameter.label
+          : operatorParameter.name,
+        value: valueLatestTraining,
+      });
+    }
+  }
+
   // rendering component
   return (
     <Modal
@@ -88,7 +115,7 @@ const OperatorResultsModalContainer = (props) => {
         metricsLoading={operatorMetricsLoading}
         metrics={operatorMetrics}
         results={operatorResults}
-        parameters={operatorParameters}
+        parameters={resultsParameters}
       />
     </Modal>
   );
@@ -103,6 +130,8 @@ OperatorResultsModalContainer.propTypes = {
   operatorMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator parameters */
   operatorParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Operator parameters latest training*/
+  operatorParametersLatestTraining: PropTypes.object.isRequired,
   /** Operator experiment metrics is loading */
   operatorMetricsLoading: PropTypes.bool.isRequired,
   /** Operator experiment results */
