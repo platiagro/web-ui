@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -511,4 +514,35 @@ export const updateAllDatasetColumnFail = (errorMessage) => (dispatch) => {
     type: actionTypes.UPDATE_ALL_DATASET_COLUMNS_FAIL,
     errorMessage,
   });
+};
+
+/**
+ * Function to fetch pagineted dataset and dispatch to reducer
+ *
+ * @param datasetName
+ * @param page
+ * @param pageSize
+ */
+export const fetchPaginatedDataset = (datasetName, page, pageSize) => {
+  return (dispatch) => {
+    dispatch(datasetOperatorLoadingData());
+    return datasetsApi
+      .getDataset(datasetName, page, pageSize)
+      .then((response) => {
+        dispatch(datasetOperatorDataLoaded());
+        const dataset = response.data;
+        dispatch({
+          type: actionTypes.FETCH_PAGINATED_DATASET,
+          currentPage: page,
+          data: dataset.data,
+          pageSize: pageSize,
+          total: dataset.total,
+        });
+      })
+      .catch((error) => {
+        dispatch(datasetOperatorDataLoaded());
+        const errorMessage = error.message;
+        message.error(errorMessage, 5);
+      });
+  };
 };

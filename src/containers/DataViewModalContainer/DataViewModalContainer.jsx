@@ -1,24 +1,26 @@
 // REACT LIBS
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 // TODO: criar ui component para as tabs
 // TODO: criar ui component para table
 // ANTD COMPONENTS
-import { Tabs, Table } from 'antd';
+import { Pagination, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
 // UI COMPONENTS
 import { Modal, Button } from 'uiComponents';
 
 // COMPONENTS
-import { DatasetColumnsTable } from 'components';
+import { CommonTable, DatasetColumnsTable } from 'components';
 import { UploadButton } from 'components/Buttons';
 
 // ACTIONS
 import { hideDataViewModal } from 'store/ui/actions';
 import {
+  fetchPaginatedDataset,
   updateDatasetColumnRequest,
   updateAllDatasetColumnSuccess,
   updateAllDatasetColumnFail,
@@ -36,6 +38,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // close results modal
     handleClose: () => dispatch(hideDataViewModal()),
+    // fetch paginated dataset
+    handleFetchPaginatedDataset: (datasetName, page, pageSize) =>
+      dispatch(fetchPaginatedDataset(datasetName, page, pageSize)),
     // update dataset column
     handleUpdateDatasetColumn: (columnName, columnNewType) =>
       dispatch(updateDatasetColumnRequest(columnName, columnNewType)),
@@ -54,16 +59,24 @@ const mapStateToProps = (state) => {
   return {
     // dataset columns
     datasetColumns: state.datasetReducer.columns,
+    // dataset current page
+    datasetCurrentPage: state.datasetReducer.currentPage,
+    // dataset data
+    datasetData: state.datasetReducer.data,
     // dataset featuretypes
     datasetFeaturetypes: state.datasetReducer.featuretypes,
-    // dataset observation count
-    datasetObservationsCount: state.datasetReducer.observationsCount,
-    // Data view modal is visible
-    isVisible: state.uiReducer.dataViewModal.isVisible,
-    //Modal loading
-    loading: state.uiReducer.dataViewModal.loading,
-    // Name of dataset
+    // dataset loading
+    datasetLoading: state.uiReducer.datasetOperator.loading,
+    // dataset name
     datasetName: state.datasetReducer.name,
+    // dataset page size
+    datasetPageSize: state.datasetReducer.pageSize,
+    // dataset total data
+    datasetTotal: state.datasetReducer.total,
+    // data view modal is visible
+    isVisible: state.uiReducer.dataViewModal.isVisible,
+    // modal loading
+    loading: state.uiReducer.dataViewModal.loading,
   };
 };
 
@@ -73,32 +86,32 @@ const mapStateToProps = (state) => {
  *
  * @param {object} props Container props
  * @returns {DataViewModalContainer} Container
- * @component
  */
 const DataViewModalContainer = (props) => {
-  // destructuring props
   const {
-    // dataset observations count
-    datasetObservationsCount,
-    // dataset featuretypes
-    datasetFeaturetypes,
-    // dataset columns
     datasetColumns,
-    // close modal handler
-    handleClose,
-    // dataset column change handler
-    handleUpdateDatasetColumn,
-    // data view modal is visible
-    isVisible,
-    // name of dataset for action url
+    datasetCurrentPage,
+    datasetData,
+    datasetFeaturetypes,
+    datasetLoading,
     datasetName,
-    // upload handlers
+    datasetPageSize,
+    datasetTotal,
+    handleClose,
+    handleFetchPaginatedDataset,
+    handleUpdateDatasetColumn,
     handleUpdateAllDatasetColumnStart,
     handleUpdateAllDatasetColumnSuccess,
     handleUpdateAllDatasetColumnFail,
-    //loadings on modal
+    isVisible,
     loading,
   } = props;
+
+  useLayoutEffect(() => {
+    if (isVisible) {
+      handleFetchPaginatedDataset(datasetName, 1, 10);
+    }
+  }, [datasetName, isVisible, handleFetchPaginatedDataset]);
 
   // CONSTANTS
   // button text
@@ -119,16 +132,19 @@ const DataViewModalContainer = (props) => {
   );
 
   // observations count
-  const observationsCount = new Intl.NumberFormat('pt-BR').format(
-    datasetObservationsCount
-  );
+  const observationsCount = new Intl.NumberFormat('pt-BR').format(datasetTotal);
 
   // observations table columns
-  const columns = datasetColumns.map((column) => ({
-    title: column.name,
-    dataIndex: column.name,
-    key: column.name,
-  }));
+  const columns = datasetColumns.map((column, index) => {
+    return {
+      title: column.name,
+      dataIndex: index,
+    };
+  });
+
+  const paginationOnChange = (page, size) => {
+    handleFetchPaginatedDataset(datasetName, page, size);
+  };
 
   // RENDERs
   // rendering component
@@ -212,7 +228,32 @@ const DataViewModalContainer = (props) => {
           {/* observations tab */}
           <TabPane tab='Observações' key='2'>
             <div className='dataViewObservations'>
-              <Table dataSource={[]} columns={columns} />
+              <CommonTable
+                columns={columns}
+                dataSource={datasetData}
+                isLoading={datasetLoading}
+                rowKey={() => {
+                  return uuidv4();
+                }}
+                scroll={{
+                  x: columns.length > 10 ? 2000 : 1000,
+                  y: window.innerHeight / 2,
+                }}
+                size={'small'}
+              />
+              <br />
+              <Pagination
+                defaultCurrent={1}
+                defaultPageSize={10}
+                current={datasetCurrentPage}
+                pageSize={datasetPageSize}
+                total={datasetTotal}
+                onChange={paginationOnChange}
+                onShowSizeChange={paginationOnChange}
+                style={{ textAlign: 'right' }}
+                showSizeChanger
+                pageSizeOptions={['10', '20', '30', '40', '50']}
+              />
             </div>
           </TabPane>
         </Tabs>
@@ -222,18 +263,35 @@ const DataViewModalContainer = (props) => {
 };
 
 DataViewModalContainer.propTypes = {
-  /** Data view modal close handler */
-  handleClose: PropTypes.func.isRequired,
-  /** Data view modal is visible */
-  isVisible: PropTypes.bool.isRequired,
   /** Dataset columns */
   datasetColumns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Dataset observations count */
-  datasetObservationsCount: PropTypes.number.isRequired,
-  /** dataset column change handler */
-  handleUpdateDatasetColumn: PropTypes.func.isRequired,
-  /** dataset featuretypes */
+  /** Dataset current page */
+  datasetCurrentPage: PropTypes.number,
+  /** Dataset data */
+  datasetData: PropTypes.array,
+  /** Dataset featuretypes */
   datasetFeaturetypes: PropTypes.string.isRequired,
+  /** Dataset is loading */
+  datasetLoading: PropTypes.bool.isRequired,
+  /** Dataset name */
+  datasetName: PropTypes.string.isRequired,
+  /** Dataset page size */
+  datasetPageSize: PropTypes.number,
+  /** Dataset total data */
+  datasetTotal: PropTypes.number,
+  /** Data view modal close handler */
+  handleClose: PropTypes.func.isRequired,
+  /** Fetch Paginated Dataset handler */
+  handleFetchPaginatedDataset: PropTypes.func.isRequired,
+  /** Dataset column change handler */
+  handleUpdateDatasetColumn: PropTypes.func.isRequired,
+  handleUpdateAllDatasetColumnStart: PropTypes.func.isRequired,
+  handleUpdateAllDatasetColumnSuccess: PropTypes.func.isRequired,
+  handleUpdateAllDatasetColumnFail: PropTypes.func.isRequired,
+  /** Data view modal is visible */
+  isVisible: PropTypes.bool.isRequired,
+  /** Data view modal is loading */
+  loading: PropTypes.bool.isRequired,
 };
 
 // EXPORT DEFAULT

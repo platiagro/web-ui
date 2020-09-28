@@ -17,12 +17,15 @@ import { Table, Skeleton } from 'uiComponents';
 const CommonTable = (props) => {
   // destructuring props
   const {
-    isLoading,
-    dataSource,
-    columns,
     className,
-    rowSelection,
+    columns,
+    dataSource,
+    isLoading,
     pagination,
+    rowKey,
+    rowSelection,
+    scroll,
+    size,
   } = props;
 
   // skeleton columns
@@ -70,24 +73,33 @@ const CommonTable = (props) => {
       dataSource={isLoading ? skeletonDataSource : dataSource}
       columns={isLoading ? skeletonColumns : columns}
       pagination={pagination}
+      rowKey={rowKey}
+      scroll={scroll}
+      size={size}
     />
   );
 };
 
 // PROP TYPES
 CommonTable.propTypes = {
-  /** Table data source (rows) */
-  dataSource: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Table columns */
-  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Table css class */
   className: PropTypes.string,
-  /** Table row selection config */
-  rowSelection: PropTypes.object,
+  /** Table columns */
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Table data source (rows) */
+  dataSource: PropTypes.array.isRequired,
   /** Table is loading */
   isLoading: PropTypes.bool,
   /** Table pagination config */
   pagination: PropTypes.any,
+  /** Table row key attribute */
+  rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  /** Table row selection config */
+  rowSelection: PropTypes.object,
+  /** Table scroll config */
+  scroll: PropTypes.object,
+  /** Table column size config */
+  size: PropTypes.string,
 };
 
 // DEFAULT PROPS
@@ -100,6 +112,10 @@ CommonTable.defaultProps = {
   isLoading: true,
   /** Table pagination config */
   pagination: false,
+  /** Table scroll config */
+  scroll: undefined,
+  /** Table column size config */
+  size: undefined,
 };
 
 // EXPORT DEFAULT
