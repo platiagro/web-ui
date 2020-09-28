@@ -78,6 +78,7 @@ const TaskBox = (props) => {
     name,
     icon,
     status,
+    onConnectingClass,
     settedUp,
     selected,
     handleClick,
@@ -91,7 +92,7 @@ const TaskBox = (props) => {
   // class name
   const cssClass = `card ${settedUp && 'setted-up'} ${
     interruptIsRunning ? 'Interrupting' : status
-  } ${selected && 'selected'}`;
+  } ${selected && 'selected'} ${onConnectingClass}`;
 
   // getting experiment uuid
   const { projectId, experimentId } = useParams();

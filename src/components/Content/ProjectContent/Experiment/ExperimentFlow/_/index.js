@@ -1,33 +1,21 @@
 // CORE LIBS
-import React, { memo, useRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 // UI LIBS
-import { ArcherContainer, ArcherElement } from 'react-archer';
-import ScrollContainer from 'react-indiana-drag-scroll';
-// import { Spin } from 'antd';
-// import { ArcherContainer, ArcherElement } from 'react-archer';
-// import ScrollContainer from 'react-indiana-drag-scroll'
-import ReactFlow, { addEdge, Background, Handle } from 'react-flow-renderer';
-import Xarrow from 'react-xarrows';
-
-import Draggable from 'react-draggable';
+import ReactFlow, { Background } from 'react-flow-renderer';
 
 // COMPONENTS
 import TaskBox from '../TaskBox';
 import LoadingBox from '../LoadingBox';
+import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
 
 // STYLES
 import './style.less';
 
 // GRID CONFIGURATION
 const columnsNumber = 3;
-
-const nodeTypes = {
-  cardNode: memo(({ data }) => {
-    return data.label;
-  }),
-};
 
 /**
  * Experiment Flow.
@@ -52,10 +40,7 @@ const ExperimentFlow = ({
   handleTaskBoxClick,
   handleDeselectOperator,
 }) => {
-  // const archerContainerRef = useRef(null);
-  // const ScrollContainerRef = useRef(null);
-
-  // const [elements, setElements] = useState([]);
+  const [connectClass, setConnectClass] = useState('');
 
   const calcDefaultPosition = (i) => {
     //Booleans to help arrow positioning in the future
@@ -69,23 +54,17 @@ const ExperimentFlow = ({
     };
   };
 
-  // useEffect(() => {
-  //   console.log('loading', tasks);
-
-  //   //Re-center flow area into tasks on screen
-  //   const element = ScrollContainerRef.current
-  //     ? ScrollContainerRef.current.getElement()
-  //     : null;
-  //   if (element) {
-  //     element.scrollTop = 300;
-  //     element.scrollLeft = 300;
-  //   }
-  // }, [loading]);
-
   const cardsElements = tasks.map((component, index) => {
-    console.log(component.uuid, component.name, index);
+    const arrows = component.dependencies.map((arrow) => {
+      return {
+        id: `${component.uuid}-${arrow}`,
+        type: 'customEdge',
+        target: component.uuid,
+        source: arrow,
+      };
+    });
 
-    return {
+    const card = {
       id: component.uuid,
       sourcePosition: 'right',
       targetPosition: 'left',
@@ -99,133 +78,45 @@ const ExperimentFlow = ({
           >
             <TaskBox
               handleClick={handleTaskBoxClick}
-              {...component}
               operator={component}
+              onConnectingClass={connectClass}
+              {...component}
             />
           </div>
         ),
       },
       position: calcDefaultPosition(index),
     };
+
+    return [card, ...arrows];
   });
 
-  // useEffect(() => {
-  //   // const arrows = [];
+  const handleLoad = (reactFlowInstance) =>
+    reactFlowInstance.setTransform({ x: 0, y: 0, zoom: 1 });
 
-  //   // tasks.map((operator) =>
-  //   //   operator.dependencies.map((arrow) => {
-  //   //     arrows.push({
-  //   //       id: `${operator.uuid}-${arrow}`,
-  //   //       type: 'smoothstep',
-  //   //       arrowHeadType: 'arrow',
-  //   //       target: operator.uuid,
-  //   //       source: arrow,
-  //   //     });
-  //   //   })
-  //   // );
-  //   // console.log('arw', [...cardsElements, ...arrows]);
+  const handleConnect = (params) =>
+    console.log(`Connect ${params.source} to ${params.target}`);
 
-  //   setElements(cardsElements);
-  // }, [tasks]);
-  // const archerContainerRef = useRef(null);
-  // const ScrollContainerRef = useRef(null);
+  const handleDragStop = (_, task) =>
+    console.log(`${task.id} dragged to`, task.position);
 
-  // useEffect(() => {
-  //Re-center flow area into tasks on screen
-  //   const element = ScrollContainerRef.current ? ScrollContainerRef.current.getElement() : null;
-  //   if (element) {
-  //     element.scrollTop = 300;
-  //     element.scrollLeft = 300;
-  //   }
-  // }, [loading])
-
-  // const isLastTarget = (i) => {
-  //   const isLastRowComponent = (i + 1) % columnsNumber === 0;
-  //   return isLastRowComponent ? 'top' : 'left';
-  // };
-
-  // const isLastSource = (i) => {
-  //   const isLastRowComponent = (i + 1) % columnsNumber === 0;
-  //   return isLastRowComponent ? 'bottom' : 'right';
-  // };
-
-  // const initialElements = [
-  //   {
-  //     id: '1',
-  //     sourcePosition: 'right',
-  //     type: 'input',
-  //     data: { label: 'Node 1' },
-  //     position: { x: 50, y: 50 },
-  //   },
-  //   // you can also pass a React component as a label
-  //   {
-  //     id: '2',
-  //     sourcePosition: 'right',
-  //     targetPosition: 'left',
-  //     data: { label: <div className='card'>Node 2</div> },
-  //     position: { x: 250, y: 50 },
-  //   },
-  //   {
-  //     id: '3',
-  //     sourcePosition: 'right',
-  //     targetPosition: 'left',
-  //     type: SelectorCard,
-  //     data: { label: <div className='card'>Node 2</div> },
-  //     position: { x: 450, y: 50 },
-  //   },
-  //   {
-  //     id: '1-2',
-  //     type: 'smoothstep',
-  //     arrowHeadType: 'arrow',
-  //     source: '1',
-  //     target: '2',
-  //   },
-  //   {
-  //     id: '2-3',
-  //     type: 'smoothstep',
-  //     arrowHeadType: 'arrow',
-  //     source: '2',
-  //     target: '3',
-  //   },
-  // ];
-
-  // <TaskBox
-  //                     handleClick={handleTaskBoxClick}
-  //                     {...component}
-  //                     operator={component}
-  //                   />
-
-  const onConnect = (params) => console.log(params);
-  // setElements((els) =>
-  //   addEdge(
-  //     {
-  //       type: 'smoothstep',
-  //       animated: false,
-  //       arrowHeadType: 'arrowclosed',
-  //       ...params,
-  //     },
-  //     els
-  //   )
-
-  return (
-    <>
-      <ReactFlow
-        elements={cardsElements}
-        nodeTypes={nodeTypes}
-        onConnect={onConnect}
-      >
-        <Background variant='dots' gap={24} size={1} color='#58585850' />
-      </ReactFlow>
-      {/* {!loading &&
-        cardsElements.map((operator) => {
-          return operator.dependencies.map((arrow) => (
-            <Xarrow
-              end={operator.uuid} //can be react ref
-              start={arrow} //or an id
-            />
-          ));
-        })} */}
-    </>
+  return loading ? (
+    <LoadingBox />
+  ) : (
+    <ReactFlow
+      nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
+      elements={_.flattenDeep(cardsElements)}
+      onPaneClick={handleDeselectOperator}
+      onLoad={handleLoad}
+      onConnect={handleConnect}
+      onNodeDragStop={handleDragStop}
+      onConnectEnd={() => setConnectClass('')}
+      onConnectStart={() => setConnectClass('Connecting')}
+    >
+      <Background variant='dots' gap={25} size={1} color='#58585850' />
+      <Vectors />
+    </ReactFlow>
   );
 };
 

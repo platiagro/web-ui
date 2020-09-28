@@ -1,38 +1,27 @@
-.drag-scrolling-container {
-  height: 100%;
-  width: 100%;
-  cursor: move;
+.react-flow__edge {
+  .react-flow__edge-path {
+    stroke-width: 2.5;
+
+    &:hover {
+      stroke: #595959;
+      marker-end: url('#react-flow__arrowend-hovered');
+      marker-start: url('#react-flow__circle-hovered');
+      cursor: pointer;
+    }
+  }
+  &.selected {
+    .react-flow__edge-path {
+      stroke: #1890ff;
+      marker-end: url('#react-flow__arrowend-selected');
+      marker-start: url('#react-flow__circle-selected');
+    }
+  }
 }
 
-.archer-container-drag {
-  position: relative;
-  height: 100%;
-  max-width: 450px;
-}
-
-.archer-container-drag > div {
-  height: 2200px !important;
-  width: 2200px !important;
-  border: 3px solid #979797;
-}
-
-.archer-container-drag > svg {
-  height: 2200px !important;
-  width: 2200px !important;
-}
-
-.spin-drag-container {
-  position: absolute;
-  top: 350px;
-  left: 750px;
-}
-
-.react-flow__arrowhead > polyline {
-  stroke: #979797;
-  // fill: #FA541C;
-}
-
-.react-flow__edge > path {
-  stroke: #979797;
-  stroke-width: 2.5;
+//Style for vector created when is connecting
+.react-flow__connection {
+  .react-flow__connection-path {
+    stroke: #1890ff;
+    stroke-width: 2.5;
+  }
 }

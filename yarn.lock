@@ -5487,11 +5487,6 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-easy-bem@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/easy-bem/-/easy-bem-1.0.2.tgz#3f759158c045465744900aa26ba8bd7d88d7a969"
-  integrity sha512-tHtLDhcEHZIMKdiiZElQoR8TcZ/6rvcNp7//93Vx/mqNLah9BOFGhhzTUfWLJs7uxZiKMdP/KzGOtzq14DrrqQ==
-
 easy-peasy@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/easy-peasy/-/easy-peasy-3.3.1.tgz#46525c31d75e7b4bac2c48e4a09f340df5ff524f"
@@ -11952,14 +11947,6 @@ react-app-polyfill@^1.0.6:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
-react-archer@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/react-archer/-/react-archer-2.0.2.tgz#aa7f36769d12d1610707b52e287ed57aa93f2436"
-  integrity sha512-olKb+sdqsES0KO2MQ17ziMnk+KoYUXKzpLhtyMcEjbSiLxDzDZpNYPlkFGmogEyRxvxWdvwVxlrQyWf/XDs/Aw==
-  dependencies:
-    react-fast-compare "^2.0.4"
-    resize-observer-polyfill "1.5.0"
-
 react-axe@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/react-axe/-/react-axe-3.5.3.tgz#38dac84e20cdf3e09e5752eb405b30c5ac845fa8"
@@ -12076,11 +12063,6 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
 
-react-fast-compare@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
-  integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
-
 react-flow-renderer@^5.6.0:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/react-flow-renderer/-/react-flow-renderer-5.6.0.tgz#ad93c23990605bdb35cdf7fcfa33c08aa7bba42d"
@@ -12121,15 +12103,6 @@ react-image-lightbox@^5.1.1:
   dependencies:
     prop-types "^15.6.2"
     react-modal "^3.8.1"
-
-react-indiana-drag-scroll@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/react-indiana-drag-scroll/-/react-indiana-drag-scroll-1.6.1.tgz#9b1838b03ae5eea38cf35fc1da22030cc1c061a1"
-  integrity sha512-wdeKLI42VJtcp+HEV9O9dxg2C6h9Yn8ot0DbxU8NiXvK3LMAXbqcTi+e5IBrBteI5Jt85jFUsvYcJqgkbNpDCA==
-  dependencies:
-    classnames "^2.2.6"
-    debounce "^1.2.0"
-    easy-bem "^1.0.0"
 
 react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6, react-is@^16.9.0:
   version "16.12.0"
@@ -12275,13 +12248,6 @@ react-test-renderer@^16.0.0-0:
     prop-types "^15.6.2"
     react-is "^16.8.6"
     scheduler "^0.18.0"
-
-react-xarrows@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/react-xarrows/-/react-xarrows-1.4.4.tgz#a3e903022f9c6eb65ebabc5a19b3aada28a6e02b"
-  integrity sha512-kyVzAAbYf9HgqqMHmik4zwBNdaLfbeKFZ1zUXT8F/2gcauc5wUXwp/4R89+qggo63fBT/7+rK9XZNmvFxwPbEw==
-  dependencies:
-    lodash "^4.17.15"
 
 react@^16.13.1:
   version "16.13.1"
@@ -12657,11 +12623,6 @@ requizzle@^0.2.3:
   integrity sha512-YanoyJjykPxGHii0fZP0uUPEXpvqfBDxWV7s6GKAiiOsiqhX6vHNyW3Qzdmqp/iq/ExbhaGbVrjB4ruEVSM4GQ==
   dependencies:
     lodash "^4.17.14"
-
-resize-observer-polyfill@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.0.tgz#660ff1d9712a2382baa2cad450a4716209f9ca69"
-  integrity sha512-M2AelyJDVR/oLnToJLtuDJRBBWUGUvvGigj1411hXhAdyFWqMaqHp7TixW3FpiLuVaikIcR1QL+zqoJoZlOgpg==
 
 resize-observer-polyfill@^1.5.0, resize-observer-polyfill@^1.5.1:
   version "1.5.1"
