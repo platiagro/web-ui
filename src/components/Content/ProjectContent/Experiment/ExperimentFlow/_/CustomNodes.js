@@ -1,101 +1,73 @@
 import React, { memo } from 'react';
 import { getSmoothStepPath } from 'react-flow-renderer';
 
+const ARROWS = [
+  {
+    id: 'react-flow__arrowend',
+    color: '#979797',
+  },
+  {
+    id: 'react-flow__arrowend-selected',
+    color: '#1890ff',
+  },
+  {
+    id: 'react-flow__arrowend-hovered',
+    color: '#595959',
+  },
+];
+
+const CIRCLES = [
+  {
+    id: 'react-flow__circle',
+    color: '#979797',
+  },
+  {
+    id: 'react-flow__circle-selected',
+    color: '#1890ff',
+  },
+  {
+    id: 'react-flow__circle-hovered',
+    color: '#595959',
+  },
+];
+
 const Vectors = () => (
   <svg>
     <defs>
-      <marker
-        class='react-flow__arrowhead'
-        id='react-flow__arrowend'
-        markerWidth='12.5'
-        markerHeight='12.5'
-        viewBox='-10 -10 20 20'
-        refX='-5'
-        refY='0'
-      >
-        <polyline
-          stroke='#979797'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1'
-          fill='#979797'
-          points='-5,-4 0,0 -5,4 -5,-4'
-        ></polyline>
-      </marker>
+      {ARROWS.map((arrow) => (
+        <marker
+          class='react-flow__arrowhead'
+          id={arrow.id}
+          markerWidth='12.5'
+          markerHeight='12.5'
+          viewBox='-10 -10 20 20'
+          refX='-5'
+          refY='0'
+        >
+          <polyline
+            stroke={arrow.color}
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            stroke-width='1'
+            fill={arrow.color}
+            points='-5,-4 0,0 -5,4 -5,-4'
+          ></polyline>
+        </marker>
+      ))}
 
-      <marker
-        class='react-flow__arrowhead'
-        id='react-flow__arrowend-selected'
-        markerWidth='12.5'
-        markerHeight='12.5'
-        viewBox='-10 -10 20 20'
-        refX='-5'
-        refY='0'
-      >
-        <polyline
-          stroke='#1890ff'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1'
-          fill='#1890ff'
-          points='-5,-4 0,0 -5,4 -5,-4'
-        ></polyline>
-      </marker>
-
-      <marker
-        class='react-flow__arrowhead'
-        id='react-flow__arrowend-hovered'
-        markerWidth='12.5'
-        markerHeight='12.5'
-        viewBox='-10 -10 20 20'
-        refX='-5'
-        refY='0'
-      >
-        <polyline
-          stroke='#595959'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1'
-          fill='#595959'
-          points='-5,-4 0,0 -5,4 -5,-4'
-        ></polyline>
-      </marker>
-
-      <marker
-        class='react-flow__edge'
-        id='react-flow__circle'
-        markerWidth='12.5'
-        markerHeight='12.5'
-        viewBox='-10 -10 20 20'
-        refX='3'
-        refY='0'
-      >
-        <circle r='3' fill='#979797' />
-      </marker>
-
-      <marker
-        class='react-flow__edge'
-        id='react-flow__circle-hovered'
-        markerWidth='12.5'
-        markerHeight='12.5'
-        viewBox='-10 -10 20 20'
-        refX='3'
-        refY='0'
-      >
-        <circle r='3' fill='#595959' />
-      </marker>
-
-      <marker
-        class='react-flow__edge'
-        id='react-flow__circle-selected'
-        markerWidth='12.5'
-        markerHeight='12.5'
-        viewBox='-10 -10 20 20'
-        refX='3'
-        refY='0'
-      >
-        <circle r='3' fill='#1890ff' />
-      </marker>
+      {CIRCLES.map((circle) => (
+        <marker
+          class='react-flow__edge'
+          id={circle.id}
+          markerWidth='12.5'
+          markerHeight='12.5'
+          viewBox='-10 -10 20 20'
+          refX='3'
+          refY='0'
+        >
+          <circle r='3' fill={circle.color} />
+        </marker>
+      ))}
     </defs>
   </svg>
 );
