@@ -12,7 +12,7 @@ import logsApi from 'services/LogsApi';
 
 //ACTIONS
 import {
-  showDrawer,
+  showInferenceLogsDrawer,
   implantedExperimentsLoadingData,
   implantedExperimentsDataLoaded,
 } from '../ui/actions';
@@ -32,7 +32,7 @@ const getLogsSuccess = (response) => (dispatch) => {
     payload: logs,
   });
 
-  dispatch(showDrawer('Logs', false));
+  dispatch(showInferenceLogsDrawer('Logs'));
   dispatch(implantedExperimentsDataLoaded());
 };
 

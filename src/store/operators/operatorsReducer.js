@@ -95,7 +95,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
 
     // ui
     // hide drawer
-    case uiActionTypes.HIDE_DRAWER:
+    case uiActionTypes.HIDE_OPERATOR_DRAWER:
       return [...utils.selectOperator(undefined, state)];
 
     // DEFAULT

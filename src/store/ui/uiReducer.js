@@ -19,7 +19,12 @@ const initialState = {
   },
   newTemplateModal: { visible: false },
   newDeploymentsModal: { visible: false },
-  drawer: {
+  operatorDrawer: {
+    visible: false,
+    isDataset: false,
+    title: 'Título Drawer',
+  },
+  inferenceLogsDrawer: {
     visible: false,
     isDataset: false,
     title: 'Título Drawer',
@@ -162,17 +167,33 @@ const uiReducer = (state = initialState, action = undefined) => {
 
     // DRAWER
     // show drawer
-    case actionTypes.SHOW_DRAWER:
+    case actionTypes.SHOW_OPERATOR_DRAWER:
       return {
         ...state,
-        drawer: { ...state.drawer, ...action.drawer },
+        operatorDrawer: { ...state.operatorDrawer, ...action.operatorDrawer },
+      };
+    case actionTypes.SHOW_INFERENCE_LOGS_DRAWER:
+      return {
+        ...state,
+        inferenceLogsDrawer: {
+          ...state.inferenceLogsDrawer,
+          ...action.inferenceLogsDrawer,
+        },
       };
     // hide drawer
-    case actionTypes.HIDE_DRAWER:
+    case actionTypes.HIDE_OPERATOR_DRAWER:
       return {
         ...state,
-        drawer: {
-          ...state.drawer,
+        operatorDrawer: {
+          ...state.operatorDrawer,
+          visible: action.drawerVisible,
+        },
+      };
+    case actionTypes.HIDE_INFERENCE_LOGS_DRAWER:
+      return {
+        ...state,
+        inferenceLogsDrawer: {
+          ...state.inferenceLogsDrawer,
           visible: action.drawerVisible,
         },
       };

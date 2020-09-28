@@ -104,40 +104,60 @@ export const hideNewTemplateModal = () => {
 
 // // // // // // // // // //
 
-// ** SHOW_DRAWER
 /**
- * show drawer
+ * Show operator information drawer
  *
- * @param title
- * @param isDataset
- * @param title
- * @param isDataset
+ * @param {string} title operator drawer 
+ * @param {boolean} isDataset is a operator is DATASET type
  * @returns {object} { type, drawerVisible }
  */
-export const showDrawer = (title, isDataset) => {
+export const showOperatorDrawer = (title, isDataset) => {
   return {
-    type: actionTypes.SHOW_DRAWER,
-    drawer: { visible: true, title, isDataset },
+    type: actionTypes.SHOW_OPERATOR_DRAWER,
+    operatorDrawer: { visible: true, title, isDataset },
   };
 };
 
 // // // // // // // // // //
 
-// ** HIDE_DRAWER
 /**
- * hide drawer
+ * Hide operator drawer
  *
  * @returns {object} { type, drawerVisible }
  */
-export const hideDrawer = () => (dispatch) => {
+export const hideOperatorDrawer = () => (dispatch) => {
   //hidding drawer
   dispatch({
-    type: actionTypes.HIDE_DRAWER,
-    drawerVisible: false,
+    type: actionTypes.HIDE_OPERATOR_DRAWER,
+    operatorDrawer: false,
   });
 
   // hidding drawer results
   dispatch(hideOperatorResults());
+};
+
+// // // // // // // // // //
+
+/**
+ * Show inference logs drawer
+ * 
+ * @param {string} title drawer title
+ * @returns {object} { type, title }
+ */
+export const showInferenceLogsDrawer = (title) => {
+  return {
+    type: actionTypes.SHOW_INFERENCE_LOGS_DRAWER,
+    inferenceLogsDrawer: { visible: true, title },
+  };
+};
+
+// // // // // // // // // //
+
+export const hideInferenceLogsDrawer = () => {
+  return {
+    type: actionTypes.HIDE_INFERENCE_LOGS_DRAWER,
+    drawerVisible: false,
+  };
 };
 
 // // // // // // // // // //

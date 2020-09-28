@@ -6,20 +6,20 @@ import { connect } from 'react-redux';
 import Drawer from './index';
 
 // ACTIONS
-import { hideDrawer } from 'store/ui/actions';
+import { hideInferenceLogsDrawer } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // hide drawer action
-    handleHideDrawer: () => dispatch(hideDrawer()),
+    handleHideDrawer: () => dispatch(hideInferenceLogsDrawer()),
   };
 };
 
 // STATES
 const mapStateToProps = (state) => {
   return {
-    drawer: state.uiReducer.drawer,
+    drawer: state.uiReducer.inferenceLogsDrawer,
     results: state.operatorReducer.results,
     resultsLoading: state.uiReducer.operatorResults.loading,
     logs: state.deploymentLogsReducer.logs,

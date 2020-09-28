@@ -7,7 +7,7 @@ import Drawer from './index';
 
 // ACTIONS
 import {
-  hideDrawer,
+  hideOperatorDrawer,
   showDrawerResults,
   hideDrawerResults,
 } from '../../../../../../store/ui/actions';
@@ -16,7 +16,7 @@ import {
 const mapDispatchToProps = (dispatch) => {
   return {
     // hide drawer action
-    handleHideDrawer: () => dispatch(hideDrawer()),
+    handleHideDrawer: () => dispatch(hideOperatorDrawer()),
     // hide drawer results action
     handleHideDrawerResults: () => dispatch(hideDrawerResults()),
     // show drawer results action
@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    drawer: state.uiReducer.drawer,
+    drawer: state.uiReducer.operatorDrawer,
     results: state.operatorReducer.results,
     metrics: state.operatorReducer.metrics,
     resultsLoading: state.uiReducer.operatorResults.loading,

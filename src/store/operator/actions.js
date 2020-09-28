@@ -9,8 +9,8 @@ import { message } from 'antd';
 
 // UI ACTIONS
 import {
-  showDrawer,
-  hideDrawer,
+  showOperatorDrawer,
+  hideOperatorDrawer,
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
   operatorParameterLoadingData,
@@ -351,7 +351,7 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
   dispatch(getOperatorMetricsRequest(projectId, experimentId, operator.uuid));
 
   // dispatching action to show drawer
-  dispatch(showDrawer(operator.name, isDataset));
+  dispatch(showOperatorDrawer(operator.name, isDataset));
 };
 
 // // // // // // // // // //
@@ -516,7 +516,7 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
     .deleteOperator(projectId, experimentId, operator.uuid)
     .then(() => {
       // dispatching hide drawer action
-      dispatch(hideDrawer());
+      dispatch(hideOperatorDrawer());
 
       //deselect operator after success remotion
       dispatch(deselectOperator());
