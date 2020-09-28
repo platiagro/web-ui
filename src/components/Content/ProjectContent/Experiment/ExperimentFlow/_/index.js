@@ -94,6 +94,7 @@ const ExperimentFlow = ({
   const handleLoad = (reactFlowInstance) =>
     reactFlowInstance.setTransform({ x: 0, y: 0, zoom: 1 });
 
+  //TODO: Will be used later.
   const handleConnect = (params) =>
     console.log(`Connect ${params.source} to ${params.target}`);
 
