@@ -97,7 +97,7 @@ const ExperimentFlow = ({
   const handleConnect = (params) =>
     console.log(`Connect ${params.source} to ${params.target}`);
 
-  const handleDragStop = (_, task) =>
+  const handleDragStop = (event, task) =>
     console.log(`${task.id} dragged to`, task.position);
 
   return loading ? (
