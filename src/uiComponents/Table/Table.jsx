@@ -19,12 +19,14 @@ import { Table as AntTable } from 'antd';
 const Table = (props) => {
   // destructuring props
   const {
-    dataSource,
-    columns,
     className,
+    columns,
+    dataSource,
+    pagination,
     rowKey,
     rowSelection,
-    pagination,
+    scroll,
+    size,
   } = props;
 
   // loading
@@ -34,30 +36,36 @@ const Table = (props) => {
   return (
     <AntTable
       className={className}
+      columns={columns}
+      dataSource={dataSource}
+      loading={isLoading}
+      pagination={pagination}
       rowKey={rowKey}
       rowSelection={rowSelection}
-      dataSource={dataSource}
-      columns={columns}
-      pagination={pagination}
-      loading={isLoading}
+      scroll={scroll}
+      size={size}
     />
   );
 };
 
 // PROP TYPES
 Table.propTypes = {
-  /** Table data source (rows) */
-  dataSource: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Table columns */
-  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Table css class */
   className: PropTypes.string,
+  /** Table columns */
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Table data source (rows) */
+  dataSource: PropTypes.array.isRequired,
+  /** Table pagination config */
+  pagination: PropTypes.any,
   /** Table row key attribute */
   rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   /** Table row selection config */
   rowSelection: PropTypes.object,
-  /** Table pagination config */
-  pagination: PropTypes.any,
+  /** Table scroll config */
+  scroll: PropTypes.object,
+  /** Table column size config */
+  size: PropTypes.string,
 };
 
 // DEFAULT PROPS

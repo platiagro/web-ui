@@ -2,18 +2,19 @@
 import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 // TODO: criar ui component para as tabs
 // TODO: criar ui component para table
 // ANTD COMPONENTS
-import { Pagination, Tabs, Table } from 'antd';
+import { Pagination, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
 // UI COMPONENTS
 import { Modal, Button } from 'uiComponents';
 
 // COMPONENTS
-import { DatasetColumnsTable } from 'components';
+import { CommonTable, DatasetColumnsTable } from 'components';
 import { UploadButton } from 'components/Buttons';
 
 // ACTIONS
@@ -64,6 +65,8 @@ const mapStateToProps = (state) => {
     datasetData: state.datasetReducer.data,
     // dataset featuretypes
     datasetFeaturetypes: state.datasetReducer.featuretypes,
+    // dataset loading
+    datasetLoading: state.uiReducer.datasetOperator.loading,
     // dataset name
     datasetName: state.datasetReducer.name,
     // dataset page size
@@ -90,6 +93,7 @@ const DataViewModalContainer = (props) => {
     datasetCurrentPage,
     datasetData,
     datasetFeaturetypes,
+    datasetLoading,
     datasetName,
     datasetPageSize,
     datasetTotal,
@@ -224,15 +228,18 @@ const DataViewModalContainer = (props) => {
           {/* observations tab */}
           <TabPane tab='Observações' key='2'>
             <div className='dataViewObservations'>
-              <Table
-                dataSource={datasetData}
+              <CommonTable
                 columns={columns}
-                pagination={false}
-                size={'small'}
+                dataSource={datasetData}
+                isLoading={datasetLoading}
+                rowKey={() => {
+                  return uuidv4();
+                }}
                 scroll={{
                   x: columns.length > 10 ? 2000 : 1000,
                   y: window.innerHeight / 2,
                 }}
+                size={'small'}
               />
               <br />
               <Pagination
@@ -259,17 +266,19 @@ DataViewModalContainer.propTypes = {
   /** Dataset columns */
   datasetColumns: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Dataset current page */
-  datasetCurrentPage: PropTypes.number.isRequired,
+  datasetCurrentPage: PropTypes.number,
   /** Dataset data */
-  datasetData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  datasetData: PropTypes.array,
   /** Dataset featuretypes */
   datasetFeaturetypes: PropTypes.string.isRequired,
+  /** Dataset is loading */
+  datasetLoading: PropTypes.bool.isRequired,
   /** Dataset name */
   datasetName: PropTypes.string.isRequired,
   /** Dataset page size */
-  datasetPageSize: PropTypes.number.isRequired,
+  datasetPageSize: PropTypes.number,
   /** Dataset total data */
-  datasetTotal: PropTypes.number.isRequired,
+  datasetTotal: PropTypes.number,
   /** Data view modal close handler */
   handleClose: PropTypes.func.isRequired,
   /** Fetch Paginated Dataset handler */

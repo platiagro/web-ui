@@ -50,12 +50,12 @@ const DataViewButton = (props) => {
   // rendering component
   return (
     <Button
-      disabled={isDisabled}
       icon={icon}
-      loading={isLoading}
+      isDisabled={isDisabled}
+      isLoading={isLoading}
+      handleClick={handleClick}
       shape={shape}
       type={type}
-      handleClick={handleClick}
     >
       Visualizar dados
     </Button>
