@@ -603,16 +603,16 @@ const isSupportedBinaryData = (response) => {
     : false;
 
   if (isExpectedResponse) {
-    const [base, content] = response.split(',');
-    const pattern = /[A-Za-z0-9+/=]/;
+    const [base, content] = Object.values(response).shift().split(',');
+    const mimeType = base.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/);
 
-    const mimeType = base
-      .match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[0]
-      .split('/')
-      .shift();
+    if (mimeType != null) {
+      const pattern = /[A-Za-z0-9+/=]/;
+      const [type] = mimeType.shift().split('/');
 
-    if (['video', 'image'].includes(mimeType) && pattern.test(content))
-      return true;
+      if (['video', 'image'].includes(type) && pattern.test(content))
+        return true;
+    }
   } else {
     return false;
   }
