@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 
 import { CommonTable } from 'components';
 
+// UTILS
+import utils from '../../../../../utils';
+
 // UI LIBS
 import {
   Table,
@@ -15,7 +18,11 @@ import {
   Divider,
   Modal,
   Button,
+  Input,
+  notification,
 } from 'antd';
+
+import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 
 // COMPONENTS
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
@@ -26,6 +33,7 @@ import './style.less';
 
 // TYPOGRAPHY COMPONENTS
 const { Paragraph } = Typography;
+const { TextArea } = Input;
 
 /**
  * Implanted Experiments Table.
@@ -57,39 +65,55 @@ const ImplantedExperimentsTable = (props) => {
   };
 
   /**
-   * Check whenever a response is a encoded base64 string
+   * Transform a tabular data to a plain text.
    *
-   * @param {Array} ndarray response from Seldon
-   * @returns {boolean} is a response includes a encoded base64 string or not
+   * @param {object} strEncoded Seldon object response
+   * @returns {string} a string with Seldon response
    */
-  const isBase64Encoded = (ndarray) => {
-    const array = ndarray.flat();
-    const baseString = array.find((element) => typeof element === 'string');
+  const toRawText = (strEncoded) => {
+    const { names, ndarray } = strEncoded;
 
-    if (baseString) {
-      const pattern = /[A-Za-z0-9+/=]/;
-      const [base, content] = baseString.split(',');
-
-      if (base.includes('image/') && pattern.test(content)) return true;
-    } else {
-      return false;
+    if (names && ndarray) {
+      const columns = names.join(',');
+      return columns + '\n' + ndarray.join('\n');
     }
   };
 
   /**
-   * Check if a array has a encoded base64 image
-   *
-   * @param {*} ndarray response from Seldon
-   * @returns {boolean} is a response includes a encoded base64 image or not
+   * Copy Seldon response to clipboard.
    */
-  const isImage = (ndarray) => {
-    const encodedString = [...ndarray].shift();
+  const copyToClipboard = () => {
+    const text = utils.isSupportedBinaryData(experimentInference)
+      ? Object.values(experimentInference).shift()
+      : toRawText(experimentInference);
 
-    if (encodedString) {
-      const [base] = encodedString.split(',');
-      if (base.includes('image/')) return true;
-    }
-    return false;
+    if (text)
+      navigator.clipboard
+        .writeText(text)
+        .then(() =>
+          notification['success']({
+            message: 'Texto Copiado',
+            description:
+              'O resultado do modelo foi copiado para sua área de transferência!',
+          })
+        )
+        .catch(() =>
+          notification['error']({
+            message: 'Erro ao Copiar Texto',
+            description: 'Pode ser que o retorno do modelo esteja corrompido.',
+          })
+        );
+  };
+
+  /**
+   * Download a response content as file
+   *
+   * @returns {string} content as base64
+   */
+  const downloadFile = () => {
+    return utils.isSupportedBinaryData(experimentInference)
+      ? Object.values(experimentInference).shift()
+      : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
   };
 
   // table columns config
@@ -191,34 +215,7 @@ const ImplantedExperimentsTable = (props) => {
         onCancel={closeModal}
         width='70vw'
       >
-        {isBase64Encoded(experimentInference.ndarray) ? (
-          <div className='container-difference'>
-            {isImage(experimentInference.ndarray.flat()) ? (
-              <img
-                src={experimentInference.ndarray.flat()}
-                alt='predict-response'
-                className='image-difference'
-              />
-            ) : (
-              <div className='iterative-prediction'>
-                <Tooltip title='O formato do arquivo gerado pelo modelo não é do tipo imagem. Veja mais sobre essa saída logo abaixo!'>
-                  <span>Arquivo gerado pelo modelo</span>
-                </Tooltip>
-                <div className='show-code'>
-                  {experimentInference.ndarray.flat()}
-                </div>
-                <a
-                  href={experimentInference.ndarray.flat()}
-                  download='predict-file'
-                >
-                  <Button type='primary' style={{ margin: '6px 6px 0px 0px' }}>
-                    Baixar
-                  </Button>
-                </a>
-              </div>
-            )}
-          </div>
-        ) : (
+        {'ndarray' in experimentInference ? (
           <Table
             dataSource={experimentInference.ndarray.map((e, i) => {
               const data = { key: i };
@@ -235,7 +232,53 @@ const ImplantedExperimentsTable = (props) => {
             }))}
             scroll={{ x: 800 }}
           />
+        ) : (
+          <div className='container-difference'>
+            {utils.isSupportedBinaryData(experimentInference) ? (
+              utils.isImage(experimentInference) ? (
+                <img
+                  src={Object.values(experimentInference).shift()}
+                  alt='predict-response'
+                  className='image-difference'
+                />
+              ) : (
+                <video
+                  src={Object.values(experimentInference).shift()}
+                  controls
+                >
+                  <track default kind='captions' />
+                </video>
+              )
+            ) : (
+              <div className='iterative-prediction'>
+                <h3>Resposta do Modelo</h3>
+                <TextArea
+                  disabled={true}
+                  defaultValue={Object.values(experimentInference).shift()}
+                />
+              </div>
+            )}
+          </div>
         )}
+        <div className='predict-options-buttons'>
+          <Button
+            icon={<CopyOutlined />}
+            type='primary'
+            style={{ margin: '6px 6px 0px 0px' }}
+            onClick={() => copyToClipboard()}
+          >
+            Copiar
+          </Button>
+          <a href={downloadFile()} download='predict-file'>
+            <Button
+              icon={<DownloadOutlined />}
+              type='primary'
+              style={{ margin: '6px 6px 0px 0px' }}
+            >
+              Fazer download
+            </Button>
+          </a>
+        </div>
       </Modal>
     </>
   );

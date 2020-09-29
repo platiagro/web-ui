@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button } from 'antd';
 
+// EXTENSION LIBS
+import { getEncoding } from 'istextorbinary';
+
 /**
  * Upload Inference Test Button.
  * This component is responsible for displaying upload inference test button.
@@ -15,7 +18,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
   const props = {
     name: 'file',
     showUploadList: false,
-    accept: ['.csv', '.jpg', '.jpeg', '.png'],
+    accept: '*',
   };
 
   // RENDER
@@ -24,19 +27,36 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
     <Upload
       beforeUpload={(file) => {
         const reader = new FileReader();
-        const acceptedImagesTypes = ['image/jpg', 'image/jpeg', 'image/png'];
-        const isImage = acceptedImagesTypes.includes(file.type);
+        let [type, subtype] = file.type.split('/');
+        const isImageOrVideo = ['image', 'video'].includes(type);
+
+        if (type === '' && subtype === '') {
+          // Some browsers draws the MIME types from the operating system,
+          // so if you OS knows the correct MIME type for .csv or .txt, the browser
+          // would show it as well. Please, check the settings of your OS.
+          const extensionPattern = /(?:\.([^.]+))?$/;
+          const ext = extensionPattern.exec(file.name);
+
+          if (ext) {
+            type = 'text';
+            subtype = ext.shift();
+          }
+        }
 
         reader.onload = (e) => {
           let obj;
 
-          if (isImage) {
+          if (subtype === undefined) {
+            // there's no explicit extension, therefore, the encoding is validated
+            subtype = getEncoding(file) === 'utf8' ? 'plain' : undefined;
+            type = subtype === 'plain' ? 'text' : undefined;
+          }
+
+          if (isImageOrVideo || (type === 'text' && subtype !== 'csv')) {
             obj = {
-              data: {
-                ndarray: [[e.target.result]],
-              },
+              strData: e.target.result,
             };
-          } else {
+          } else if (subtype === 'csv') {
             // need to remove the windows end of line
             const result = e.target.result
               .trim()
@@ -49,11 +69,17 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
                 ndarray: ndarray.map((el) => el.split(',')),
               },
             };
+          } else {
+            obj = {
+              binData: btoa(unescape(encodeURIComponent(e.target.result))),
+            };
           }
+
+          console.log(obj);
           handleUpload(obj);
         };
 
-        isImage ? reader.readAsDataURL(file) : reader.readAsText(file);
+        isImageOrVideo ? reader.readAsDataURL(file) : reader.readAsText(file);
         return false;
       }}
       {...props}
