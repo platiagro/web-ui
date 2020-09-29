@@ -1,16 +1,15 @@
 // CORE LIBS
-import React, { useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 // UI LIBS
-import { ArcherContainer, ArcherElement } from 'react-archer';
-import ScrollContainer from 'react-indiana-drag-scroll';
-
-import Draggable from 'react-draggable';
+import ReactFlow, { Background } from 'react-flow-renderer';
 
 // COMPONENTS
 import TaskBox from '../TaskBox';
 import LoadingBox from '../LoadingBox';
+import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
 
 // STYLES
 import './style.less';
@@ -41,19 +40,7 @@ const ExperimentFlow = ({
   handleTaskBoxClick,
   handleDeselectOperator,
 }) => {
-  const archerContainerRef = useRef(null);
-  const ScrollContainerRef = useRef(null);
-
-  useEffect(() => {
-    //Re-center flow area into tasks on screen
-    const element = ScrollContainerRef.current
-      ? ScrollContainerRef.current.getElement()
-      : null;
-    if (element) {
-      element.scrollTop = 300;
-      element.scrollLeft = 300;
-    }
-  }, [loading]);
+  const [connectClass, setConnectClass] = useState('');
 
   const calcDefaultPosition = (i) => {
     //Booleans to help arrow positioning in the future
@@ -62,78 +49,75 @@ const ExperimentFlow = ({
     // const isLastFlowComponent = i === tasks.length - 1;
 
     return {
-      x: 250 * (i % columnsNumber) + 350,
-      y: 150 * Math.floor(i / columnsNumber) + 350,
+      x: 250 * (i % columnsNumber) + 50,
+      y: 150 * Math.floor(i / columnsNumber) + 50,
     };
   };
 
-  const isLastTarget = (i) => {
-    const isLastRowComponent = (i + 1) % columnsNumber === 0;
-    return isLastRowComponent ? 'top' : 'left';
-  };
+  const cardsElements = tasks.map((component, index) => {
+    const arrows = component.dependencies.map((arrow) => {
+      return {
+        id: `${component.uuid}-${arrow}`,
+        type: 'customEdge',
+        target: component.uuid,
+        source: arrow,
+      };
+    });
 
-  const isLastSource = (i) => {
-    const isLastRowComponent = (i + 1) % columnsNumber === 0;
-    return isLastRowComponent ? 'bottom' : 'right';
-  };
+    const card = {
+      id: component.uuid,
+      sourcePosition: 'right',
+      targetPosition: 'left',
+      type: 'cardNode',
+      data: {
+        label: (
+          <div
+            id={component.uuid}
+            style={{ width: 200 }}
+            className='task-elements'
+          >
+            <TaskBox
+              handleClick={handleTaskBoxClick}
+              operator={component}
+              onConnectingClass={connectClass}
+              {...component}
+            />
+          </div>
+        ),
+      },
+      position: calcDefaultPosition(index),
+    };
 
-  return (
-    <ScrollContainer
-      className='drag-scrolling-container'
-      ignoreElements='.task-elements'
-      ref={ScrollContainerRef}
-      //Remove click and drag when loading container
-      style={loading ? { pointerEvents: 'none' } : {}}
-      onClick={handleDeselectOperator}
+    return [card, ...arrows];
+  });
+
+  const handleLoad = (reactFlowInstance) =>
+    reactFlowInstance.setTransform({ x: 0, y: 0, zoom: 1 });
+
+  //TODO: Will be used later.
+  const handleConnect = (params) =>
+    console.log(`Connect ${params.source} to ${params.target}`);
+
+  const handleDragStop = (event, task) =>
+    console.log(`${task.id} dragged to`, task.position);
+
+  return loading ? (
+    <LoadingBox />
+  ) : (
+    <ReactFlow
+      nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
+      elements={_.flattenDeep(cardsElements)}
+      onPaneClick={handleDeselectOperator}
+      onLoad={handleLoad}
+      onConnect={handleConnect}
+      onNodeDragStop={handleDragStop}
+      onConnectEnd={() => setConnectClass('')}
+      onConnectStart={() => setConnectClass('Connecting')}
     >
-      <ArcherContainer
-        ref={archerContainerRef}
-        strokeColor={loading ? 'rgba(0,0,0,0.3)' : '#000'}
-        noCurves
-        className='archer-container-drag'
-      >
-        {
-          //If tasks is empty load one box at least
-          loading ? (
-            <LoadingBox />
-          ) : (
-            tasks.map((component, index) => (
-              <Draggable
-                bounds='parent'
-                defaultPosition={calcDefaultPosition(index)}
-                onDrag={() => archerContainerRef.current.refreshScreen()}
-              >
-                <div
-                  style={{ width: 200, position: 'absolute' }}
-                  className='task-elements'
-                >
-                  <ArcherElement
-                    id={`component${index}`}
-                    relations={
-                      index + 1 < tasks.length
-                        ? [
-                            {
-                              targetId: `component${index + 1}`,
-                              targetAnchor: isLastTarget(index),
-                              sourceAnchor: isLastSource(index),
-                            },
-                          ]
-                        : []
-                    }
-                  >
-                    <TaskBox
-                      handleClick={handleTaskBoxClick}
-                      {...component}
-                      operator={component}
-                    />
-                  </ArcherElement>
-                </div>
-              </Draggable>
-            ))
-          )
-        }
-      </ArcherContainer>
-    </ScrollContainer>
+      <Background variant='dots' gap={25} size={1} color='#58585850' />
+      <Vectors />
+    </ReactFlow>
   );
 };
 

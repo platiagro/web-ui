@@ -43,7 +43,11 @@
   font-size: 1em;
   height: 8vh;
   user-select: none;
-  cursor: pointer;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 
   .middle {
     flex-grow: 1;
@@ -55,6 +59,22 @@
     border-left: 2px dashed #979797;
     border-right: 2px dashed #979797;
   }
+  .arrow-handler {
+    background-color: #f9f0ff;
+    border: 2px solid #979797;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    opacity: 0;
+    transition: all 0.2s ease;
+    &.left {
+      left: -7px;
+    }
+
+    &.right {
+      right: -7px;
+    }
+  }
   .siders {
     background-color: #f9f0ff;
     width: 32px;
@@ -62,6 +82,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      .arrow-handler {
+        opacity: 1;
+      }
+    }
   }
 
   &.setted-up {
@@ -73,6 +100,9 @@
     .middle {
       border-left-style: solid;
       border-right-style: solid;
+      border-color: #595959;
+    }
+    .arrow-handler {
       border-color: #595959;
     }
   }
@@ -91,6 +121,9 @@
       border-right-style: solid;
       border-color: #52c41a;
     }
+    .arrow-handler {
+      border-color: #52c41a;
+    }
   }
   &.Failed {
     border-style: solid;
@@ -101,6 +134,9 @@
     .middle {
       border-left-style: solid;
       border-right-style: solid;
+      border-color: #f5222d;
+    }
+    .arrow-handler {
       border-color: #f5222d;
     }
   }
@@ -115,6 +151,9 @@
       border-right-style: solid;
       border-color: #d9d9d9;
     }
+    .arrow-handler {
+      border-color: #d9d9d9;
+    }
   }
   &.selected {
     background: #e6f7ff;
@@ -126,6 +165,9 @@
     .middle {
       border-left-style: solid;
       border-right-style: solid;
+      border-color: #1890ff;
+    }
+    .arrow-handler {
       border-color: #1890ff;
     }
   }
@@ -142,6 +184,21 @@
       border-right-style: solid;
       border-color: #979797;
     }
+    .arrow-handler {
+      border-color: #979797;
+    }
+  }
+  &.Connecting {
+    .arrow-handler {
+      &.left {
+        opacity: 1;
+        // left: -7px;
+      }
+    }
+  }
+  .arrow-handler:hover {
+    border-color: #1890ff;
+    background-color: #1890ff;
   }
 }
 
