@@ -14,9 +14,6 @@ import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
 // STYLES
 import './style.less';
 
-// GRID CONFIGURATION
-const columnsNumber = 3;
-
 /**
  * Experiment Flow.
  * This component is responsible for displaying experiment flow grid.
@@ -31,6 +28,8 @@ const columnsNumber = 3;
  * @param props.tasks
  * @param props.loading
  * @param props.handleTaskBoxClick
+ * @param props.handleDeselectOperator
+ * @param props.handleSavePosition
  * @param {object} props Component props
  * @returns {ExperimentFlow} React component
  */
@@ -39,22 +38,24 @@ const ExperimentFlow = ({
   loading,
   handleTaskBoxClick,
   handleDeselectOperator,
+  handleSavePosition,
 }) => {
   const [connectClass, setConnectClass] = useState('');
 
-  const calcDefaultPosition = (i) => {
-    //Booleans to help arrow positioning in the future
-    // const isFirstRowComponent = i % columnsNumber === 0;
-    // const isLastRowComponent = (i + 1) % columnsNumber === 0;
-    // const isLastFlowComponent = i === tasks.length - 1;
+  // Will be used on initial state
+  // const calcDefaultPosition = (i) => {
+  //   //Booleans to help arrow positioning in the future
+  //   // const isFirstRowComponent = i % columnsNumber === 0;
+  //   // const isLastRowComponent = (i + 1) % columnsNumber === 0;
+  //   // const isLastFlowComponent = i === tasks.length - 1;
 
-    return {
-      x: 250 * (i % columnsNumber) + 50,
-      y: 150 * Math.floor(i / columnsNumber) + 50,
-    };
-  };
+  //   return {
+  //     x: 250 * (i % columnsNumber) + 50,
+  //     y: 150 * Math.floor(i / columnsNumber) + 50,
+  //   };
+  // };
 
-  const cardsElements = tasks.map((component, index) => {
+  const cardsElements = tasks.map((component) => {
     const arrows = component.dependencies.map((arrow) => {
       return {
         id: `${component.uuid}-${arrow}`,
@@ -85,7 +86,7 @@ const ExperimentFlow = ({
           </div>
         ),
       },
-      position: calcDefaultPosition(index),
+      position: {x: component.positionX, y: component.positionY},
     };
 
     return [card, ...arrows];
@@ -99,7 +100,7 @@ const ExperimentFlow = ({
     console.log(`Connect ${params.source} to ${params.target}`);
 
   const handleDragStop = (event, task) =>
-    console.log(`${task.id} dragged to`, task.position);
+    handleSavePosition(task.id, task.position);
 
   return loading ? (
     <LoadingBox />

@@ -9,7 +9,7 @@ import ExperimentFlow from './index';
 // ACTIONS
 import { selectOperator } from '../../../../../../store/operator/actions';
 import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
-import { deselectOperator } from '../../../../../../store/operator/actions';
+import { deselectOperator, saveOperatorPosition } from '../../../../../../store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -21,6 +21,9 @@ const mapDispatchToProps = (dispatch) => {
     handleGetTrainExperimentStatus: (experimentId) =>
       dispatch(getTrainExperimentStatusRequest(experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),
+    // saving operator position
+    handleSaveOperatorPosition:(projectId, experimentId, operatorId, position) =>
+      dispatch(saveOperatorPosition(projectId, experimentId, operatorId, position))
   };
 };
 
@@ -48,6 +51,7 @@ const ExperimentFlowContainer = ({
   handleShowOperatorDetails,
   handleGetTrainExperimentStatus,
   handleDeselectOperator,
+  handleSaveOperatorPosition,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -68,6 +72,10 @@ const ExperimentFlowContainer = ({
   const selectOperatorHandler = (operator) =>
     handleShowOperatorDetails(projectId, experimentId, operator, 1);
 
+  const handleSavePosition = (operatorId, position) => {
+    handleSaveOperatorPosition(projectId, experimentId, operatorId, position);
+  }
+
   // RENDER
   return (
     <ExperimentFlow
@@ -75,6 +83,7 @@ const ExperimentFlowContainer = ({
       loading={loading}
       handleTaskBoxClick={selectOperatorHandler}
       handleDeselectOperator={handleDeselectOperator}
+      handleSavePosition={handleSavePosition}
     />
   );
 };

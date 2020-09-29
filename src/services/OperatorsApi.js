@@ -18,7 +18,9 @@ const operatorsPath = '/operators';
 // API METHODS
 /**
  * List Operators
+ *
  * @param {string} projectId
+ * @param experimentId
  * @returns {Promise}
  */
 const listOperators = (projectId, experimentId) => {
@@ -29,6 +31,7 @@ const listOperators = (projectId, experimentId) => {
 
 /**
  * Create Operator
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} taskId
@@ -39,6 +42,8 @@ const createOperator = (projectId, experimentId, taskId, dependencies) => {
   const body = {
     taskId: taskId,
     dependencies: dependencies,
+    positionX: 0,
+    positionY: 0
   };
   return operatorsApi.post(
     `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}`,
@@ -48,6 +53,7 @@ const createOperator = (projectId, experimentId, taskId, dependencies) => {
 
 /**
  * Delete Operator
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
@@ -61,6 +67,7 @@ const deleteOperator = (projectId, experimentId, operatorId) => {
 
 /**
  * Update Operator
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
@@ -80,6 +87,7 @@ const updateOperator = (projectId, experimentId, operatorId, operator) => {
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
+ * @param page
  * @returns {Promise}
  */
 const getOperatorResultsDataset = (
