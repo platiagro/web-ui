@@ -44,16 +44,18 @@
   height: 8vh;
   user-select: none;
   cursor: pointer;
+  position: relative;
 
   .middle {
     flex-grow: 1;
     height: 100%;
-    display: flex;
     justify-content: center;
     align-items: center;
+    display: flex;
     text-align: center;
     border-left: 2px dashed #979797;
     border-right: 2px dashed #979797;
+    overflow: hidden;
   }
   .siders {
     background-color: #f9f0ff;
@@ -142,6 +144,19 @@
       border-right-style: solid;
       border-color: #979797;
     }
+  }
+  .reticence {
+    width: 10em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .ellipsis {
+    --max-lines: 3;
+    position: relative;
+    max-height: calc(var(--lh) * var(--max-lines));
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
 
