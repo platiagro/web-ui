@@ -24,7 +24,7 @@ import utils from 'utils';
  * @param {string} implantedExperimentUuid
  * @param {object} file
  */
-const testImplantedExperimentInferenceAction = (
+export const testImplantedExperimentInferenceAction = (
   implantedExperimentUuid,
   file
 ) => (dispatch) => {
@@ -50,6 +50,3 @@ const testImplantedExperimentInferenceAction = (
       message.error(utils.getErrorMessage(error));
     });
 };
-
-// EXPORT DEFAULT
-export default testImplantedExperimentInferenceAction;
