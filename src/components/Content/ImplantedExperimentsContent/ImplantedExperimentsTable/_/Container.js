@@ -13,9 +13,8 @@ import {
   fetchImplantedExperiments,
   deleteImplantedExperiment,
 } from '../../../../../store/implantedExperiments/actions';
-import testImplantedExperimentInferenceAction from '../../../../../store/testExperimentInference/testImplantedExperimentInferenceAction';
+import testImplantedExperimentInferenceAction from '../../../../../store/testExperimentInference/actions';
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
-import { hideExperimentInferenceModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -30,7 +29,6 @@ const mapDispatchToProps = (dispatch) => {
       ),
     handleGetDeployExperimentLogs: (deployId) =>
       dispatch(getDeployExperimentLogs(deployId)),
-    closeModal: () => dispatch(hideExperimentInferenceModal()),
   };
 };
 
@@ -39,14 +37,8 @@ const mapStateToProps = (state) => {
   return {
     implantedExperiments: state.implantedExperimentsReducer,
     loading: state.uiReducer.implantedExperiments.loading,
-    experimentInference: state.testExperimentInferenceReducer,
-    experimentInferenceModal: state.uiReducer.experimentInferenceModal.visible,
   };
 };
-
-// CONSTANTS
-// polling time in miliseconds;
-const pollingTime = 30000;
 
 /**
  * Implanted Experiments Table Container.
@@ -54,18 +46,13 @@ const pollingTime = 30000;
  * experiments table with redux.
  */
 const ImplantedExperimentsTableContainer = ({
-  implantedExperiments,
   handleFetchImplantedExperiments,
   handleDeleteImplantedExperiment,
-  handleTestImplantedExperimentInference,
-  handleShowDrawer,
-  loading,
   handleGetDeployExperimentLogs,
+  handleTestImplantedExperimentInference,
+  implantedExperiments,
+  loading,
   location,
-  experimentInference,
-  experimentInferenceModal,
-  closeModal,
-  handleHideExperimentInferenceModal,
 }) => {
   // CONSTANTS
   const params = queryString.parse(location.search);
@@ -78,10 +65,7 @@ const ImplantedExperimentsTableContainer = ({
     handleFetchImplantedExperiments();
 
     // polling deployed experiments
-    const polling = setInterval(
-      () => handleFetchImplantedExperiments(),
-      pollingTime
-    );
+    const polling = setInterval(() => handleFetchImplantedExperiments(), 30000);
 
     return () => clearInterval(polling);
   }, [handleFetchImplantedExperiments]);
@@ -95,15 +79,12 @@ const ImplantedExperimentsTableContainer = ({
     (implantedExperiments && implantedExperiments.length > 0) ? (
     <div className='implantedExperimentsContainer'>
       <ImplantedExperimentsTable
-        implantedExperiments={implantedExperiments}
-        handleTestInference={handleTestImplantedExperimentInference}
         handleDeleteImplantedExperiment={handleDeleteImplantedExperiment}
         handleOpenLog={handleOpenLog}
+        handleTestInference={handleTestImplantedExperimentInference}
+        implantedExperiments={implantedExperiments}
         loading={loading}
         selectedExperiment={selectedExperiment}
-        experimentInference={experimentInference}
-        experimentInferenceModal={experimentInferenceModal}
-        closeModal={closeModal}
       />
     </div>
   ) : (

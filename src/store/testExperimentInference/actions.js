@@ -3,46 +3,50 @@ import { message } from 'antd';
 
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import implantedExperimentsApi from 'services/implantedExperimentsApi';
-import {
-  showExperimentInferenceModal,
-  implantedExperimentsLoadingData,
-  implantedExperimentsDataLoaded,
-} from 'store/ui/actions';
-import utils from 'utils';
 
 // ACTIONS
+import {
+  inferenceTestResultModalLoadingData,
+  inferenceTestResultModalDataLoaded,
+  showInferenceTestResultModal,
+  hideInferenceTestResultModal,
+} from 'store/ui/actions';
+
+// SERVICES
+import implantedExperimentsApi from 'services/implantedExperimentsApi';
+
+// UTILS
+import utils from 'utils';
+
 /**
- * test implanted experiment inference action
+ * Test implanted experiment inference action
  *
  * @param {string} implantedExperimentUuid
  * @param {object} file
- * @returns {type, inferenceResult}
  */
 const testImplantedExperimentInferenceAction = (
   implantedExperimentUuid,
   file
 ) => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
+  dispatch(inferenceTestResultModalLoadingData());
+  dispatch(showInferenceTestResultModal());
   implantedExperimentsApi
     .testDeployedExperiments(implantedExperimentUuid, file)
     .then((response) => {
-      const seldonResponse = 'data' in response.data
-        ? response.data.data
-        : response.data;
-
+      const seldonResponse =
+        'data' in response.data ? response.data.data : response.data;
       dispatch({
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE,
         inferenceResult: seldonResponse,
       });
-      dispatch(showExperimentInferenceModal());
-      dispatch(implantedExperimentsDataLoaded());
+      dispatch(inferenceTestResultModalDataLoaded());
     })
     .catch((error) => {
       dispatch({
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE_FAILS,
       });
-      dispatch(implantedExperimentsDataLoaded());
+      dispatch(inferenceTestResultModalDataLoaded());
+      dispatch(hideInferenceTestResultModal());
       message.error(utils.getErrorMessage(error));
     });
 };

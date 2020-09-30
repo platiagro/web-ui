@@ -107,7 +107,7 @@ export const hideNewTemplateModal = () => {
 /**
  * Show operator information drawer
  *
- * @param {string} title operator drawer 
+ * @param {string} title operator drawer
  * @param {boolean} isDataset is a operator is DATASET type
  * @returns {object} { type, drawerVisible }
  */
@@ -136,11 +136,13 @@ export const hideOperatorDrawer = () => (dispatch) => {
   dispatch(hideOperatorResults());
 };
 
-// // // // // // // // // //
+// // // // // // // // // // // // // //
+//
+//  INFERENCE LOGS DRAWER
 
 /**
  * Show inference logs drawer
- * 
+ *
  * @param {string} title drawer title
  * @returns {object} { type, title }
  */
@@ -151,12 +153,39 @@ export const showInferenceLogsDrawer = (title) => {
   };
 };
 
-// // // // // // // // // //
-
+/**
+ * Hide inference logs drawer
+ *
+ * @returns {object} { type, drawerVisible }
+ */
 export const hideInferenceLogsDrawer = () => {
   return {
     type: actionTypes.HIDE_INFERENCE_LOGS_DRAWER,
     drawerVisible: false,
+  };
+};
+
+/**
+ *  Inference logs drawer loading data
+ *
+ * @returns {object} { type, inferenceLogsDrawerLoading }
+ */
+export const inferenceLogsDrawerLoadingData = () => {
+  return {
+    type: actionTypes.INFERENCE_LOGS_DRAWER_LOADING_DATA,
+    inferenceLogsDrawerLoading: true,
+  };
+};
+
+/**
+ * Inference logs drawer data loaded
+ *
+ * @returns {object} { type, inferenceLogsDrawerLoading }
+ */
+export const inferenceLogsDrawerDataLoaded = () => {
+  return {
+    type: actionTypes.INFERENCE_LOGS_DRAWER_DATA_LOADED,
+    inferenceLogsDrawerLoading: false,
   };
 };
 
@@ -696,32 +725,6 @@ export const implantedExperimentsDataLoaded = () => {
   };
 };
 
-// ** SHOW_EXPERIMENT_INFERENCE_MODAL
-/**
- * show experiment inference modal
- *
- * @returns {object} { type, newTemplateModalVisible }
- */
-export const showExperimentInferenceModal = () => {
-  return {
-    type: actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL,
-  };
-};
-
-// // // // // // // // // //
-
-// ** HIDE_EXPERIMENT_INFERENCE_MODAL
-/**
- * hideexperiment inference modal
- *
- * @returns {object} { type, newTemplateModalVisible }
- */
-export const hideExperimentInferenceModal = () => {
-  return {
-    type: actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL,
-  };
-};
-
 // USING_DEPLOYMENTS_MODAL
 export const showUsingDeploymentsModal = () => {
   return {
@@ -784,4 +787,53 @@ export const hideDataViewModal = () => {
   };
 };
 
-// // // // // // // // // //
+// // // // // // // // // // // // // //
+//
+//  INFERENCE TEST RESULT MODAL
+/**
+ * Show inference test result modal
+ *
+ * @returns {object} { type, newTemplateModalVisible }
+ */
+export const showInferenceTestResultModal = () => {
+  return {
+    type: actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL,
+  };
+};
+
+/**
+ * Hide inference test result modal
+ *
+ * @returns {object} { type, newTemplateModalVisible }
+ */
+export const hideInferenceTestResultModal = () => {
+  return {
+    type: actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL,
+  };
+};
+
+/**
+ * Inference test result modal loading data
+ *
+ * @returns {object} { type, inferenceLogsDrawerLoading }
+ */
+export const inferenceTestResultModalLoadingData = () => {
+  return {
+    type: actionTypes.EXPERIMENT_INFERENCE_MODAL_LOADING_DATA,
+    inferenceTestResultModalLoading: true,
+  };
+};
+
+/**
+ * Inference test result modal data loaded
+ *
+ * @returns {object} { type, inferenceLogsDrawerLoading }
+ */
+export const inferenceTestResultModalDataLoaded = () => {
+  return {
+    type: actionTypes.EXPERIMENT_INFERENCE_MODAL_DATA_LOADED,
+    inferenceTestResultModalLoading: false,
+  };
+};
+
+// // // // // // // // // // // // // //

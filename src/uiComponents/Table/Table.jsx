@@ -19,10 +19,12 @@ import { Table as AntTable } from 'antd';
 const Table = (props) => {
   // destructuring props
   const {
+    bordered,
     className,
     columns,
     dataSource,
     pagination,
+    rowClassName,
     rowKey,
     rowSelection,
     scroll,
@@ -35,11 +37,13 @@ const Table = (props) => {
   // rendering component
   return (
     <AntTable
+      bordered={bordered}
       className={className}
       columns={columns}
       dataSource={dataSource}
       loading={isLoading}
       pagination={pagination}
+      rowClassName={rowClassName}
       rowKey={rowKey}
       rowSelection={rowSelection}
       scroll={scroll}
@@ -50,6 +54,8 @@ const Table = (props) => {
 
 // PROP TYPES
 Table.propTypes = {
+  /** Table bordered */
+  bordered: PropTypes.bool,
   /** Table css class */
   className: PropTypes.string,
   /** Table columns */
@@ -58,6 +64,8 @@ Table.propTypes = {
   dataSource: PropTypes.array.isRequired,
   /** Table pagination config */
   pagination: PropTypes.any,
+  /** Table row class name */
+  rowClassName: PropTypes.func,
   /** Table row key attribute */
   rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   /** Table row selection config */
@@ -70,6 +78,8 @@ Table.propTypes = {
 
 // DEFAULT PROPS
 Table.defaultProps = {
+  /** Table bordered */
+  bordered: false,
   /** Table css class */
   className: undefined,
   /** Table row key attribute */

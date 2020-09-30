@@ -25,9 +25,10 @@ const initialState = {
     title: 'Título Drawer',
   },
   inferenceLogsDrawer: {
-    visible: false,
+    loading: false,
     isDataset: false,
     title: 'Título Drawer',
+    visible: false,
   },
   template: { loading: false },
   tasksTable: { loading: false },
@@ -44,7 +45,7 @@ const initialState = {
   operatorResults: { loading: false, showOperatorResults: false },
   operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
-  experimentInferenceModal: { visible: false },
+  inferenceTestResultModal: { loading: false, visible: false },
   projectEditName: { loading: false },
   dataViewModal: { isVisible: false, loading: false },
 };
@@ -172,28 +173,12 @@ const uiReducer = (state = initialState, action = undefined) => {
         ...state,
         operatorDrawer: { ...state.operatorDrawer, ...action.operatorDrawer },
       };
-    case actionTypes.SHOW_INFERENCE_LOGS_DRAWER:
-      return {
-        ...state,
-        inferenceLogsDrawer: {
-          ...state.inferenceLogsDrawer,
-          ...action.inferenceLogsDrawer,
-        },
-      };
     // hide drawer
     case actionTypes.HIDE_OPERATOR_DRAWER:
       return {
         ...state,
         operatorDrawer: {
           ...state.operatorDrawer,
-          visible: action.drawerVisible,
-        },
-      };
-    case actionTypes.HIDE_INFERENCE_LOGS_DRAWER:
-      return {
-        ...state,
-        inferenceLogsDrawer: {
-          ...state.inferenceLogsDrawer,
           visible: action.drawerVisible,
         },
       };
@@ -413,23 +398,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
-    case actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL:
-      return {
-        ...state,
-        experimentInferenceModal: {
-          ...state.experimentInferenceModal,
-          visible: true,
-        },
-      };
-    case actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL:
-      return {
-        ...state,
-        experimentInferenceModal: {
-          ...state.experimentInferenceModal,
-          visible: false,
-        },
-      };
-
     // DATA VIEW MODAL
     case actionTypes.SHOW_DATA_VIEW_MODAL: // show data view modal
     case actionTypes.HIDE_DATA_VIEW_MODAL: // hide data view modal
@@ -447,6 +415,60 @@ const uiReducer = (state = initialState, action = undefined) => {
         dataViewModal: {
           ...state.dataViewModal,
           loading: action.loading,
+        },
+      };
+
+    // EXPERIMENT INFERENCE MODAL
+    case actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL:
+      return {
+        ...state,
+        inferenceTestResultModal: {
+          ...state.inferenceTestResultModal,
+          visible: true,
+        },
+      };
+    case actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL:
+      return {
+        ...state,
+        inferenceTestResultModal: {
+          ...state.inferenceTestResultModal,
+          visible: false,
+        },
+      };
+    case actionTypes.EXPERIMENT_INFERENCE_MODAL_LOADING_DATA:
+    case actionTypes.EXPERIMENT_INFERENCE_MODAL_DATA_LOADED:
+      return {
+        ...state,
+        inferenceTestResultModal: {
+          ...state.inferenceTestResultModal,
+          loading: action.inferenceTestResultModalLoading,
+        },
+      };
+
+    // INFERENCE LOGS DRAWER
+    case actionTypes.SHOW_INFERENCE_LOGS_DRAWER:
+      return {
+        ...state,
+        inferenceLogsDrawer: {
+          ...state.inferenceLogsDrawer,
+          ...action.inferenceLogsDrawer,
+        },
+      };
+    case actionTypes.HIDE_INFERENCE_LOGS_DRAWER:
+      return {
+        ...state,
+        inferenceLogsDrawer: {
+          ...state.inferenceLogsDrawer,
+          visible: action.drawerVisible,
+        },
+      };
+    case actionTypes.INFERENCE_LOGS_DRAWER_LOADING_DATA:
+    case actionTypes.INFERENCE_LOGS_DRAWER_DATA_LOADED:
+      return {
+        ...state,
+        inferenceLogsDrawer: {
+          ...state.inferenceLogsDrawer,
+          loading: action.inferenceLogsDrawerLoading,
         },
       };
 

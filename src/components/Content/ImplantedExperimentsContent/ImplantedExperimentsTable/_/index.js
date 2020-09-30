@@ -1,39 +1,20 @@
-/* eslint-disable react/display-name */
 // CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { CommonTable } from 'components';
-
-// UTILS
-import utils from '../../../../../utils';
+import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
-import {
-  Table,
-  Typography,
-  Tooltip,
-  Popconfirm,
-  Badge,
-  Divider,
-  Modal,
-  Button,
-  Input,
-  notification,
-} from 'antd';
-
-import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Badge, Button, Divider, Popconfirm, Tooltip, Typography } from 'antd';
 
 // COMPONENTS
+import { CommonTable } from 'components';
 import UploadInferenceTestButton from '../UploadInferenceTestButton';
-import LogsDrawer from '../../LogsDrawer/Container';
 
 // STYLES
 import './style.less';
 
 // TYPOGRAPHY COMPONENTS
 const { Paragraph } = Typography;
-const { TextArea } = Input;
 
 /**
  * Implanted Experiments Table.
@@ -41,20 +22,15 @@ const { TextArea } = Input;
  *
  * @param {object} props Component props
  * @returns {ImplantedExperimentsTable} React Component
- * @component
  */
 const ImplantedExperimentsTable = (props) => {
-  // destructuring props
   const {
-    implantedExperiments,
-    handleTestInference,
-    handleOpenLog,
     handleDeleteImplantedExperiment,
+    handleOpenLog,
+    handleTestInference,
+    implantedExperiments,
     loading,
     selectedExperiment,
-    experimentInference,
-    experimentInferenceModal,
-    closeModal,
   } = props;
 
   // convert status to badge icon
@@ -62,58 +38,6 @@ const ImplantedExperimentsTable = (props) => {
     Failed: 'error',
     Running: 'processing',
     Succeeded: 'success',
-  };
-
-  /**
-   * Transform a tabular data to a plain text.
-   *
-   * @param {object} strEncoded Seldon object response
-   * @returns {string} a string with Seldon response
-   */
-  const toRawText = (strEncoded) => {
-    const { names, ndarray } = strEncoded;
-
-    if (names && ndarray) {
-      const columns = names.join(',');
-      return columns + '\n' + ndarray.join('\n');
-    }
-  };
-
-  /**
-   * Copy Seldon response to clipboard.
-   */
-  const copyToClipboard = () => {
-    const text = utils.isSupportedBinaryData(experimentInference)
-      ? Object.values(experimentInference).shift()
-      : toRawText(experimentInference);
-
-    if (text)
-      navigator.clipboard
-        .writeText(text)
-        .then(() =>
-          notification['success']({
-            message: 'Texto Copiado',
-            description:
-              'O resultado do modelo foi copiado para sua área de transferência!',
-          })
-        )
-        .catch(() =>
-          notification['error']({
-            message: 'Erro ao Copiar Texto',
-            description: 'Pode ser que o retorno do modelo esteja corrompido.',
-          })
-        );
-  };
-
-  /**
-   * Download a response content as file
-   *
-   * @returns {string} content as base64
-   */
-  const downloadFile = () => {
-    return utils.isSupportedBinaryData(experimentInference)
-      ? Object.values(experimentInference).shift()
-      : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
   };
 
   // table columns config
@@ -195,101 +119,37 @@ const ImplantedExperimentsTable = (props) => {
 
   // RENDER
   return (
-    // rendering implanted experiments table
-    <>
-      <CommonTable
-        dataSource={implantedExperiments}
-        columns={columnsConfig}
-        pagination={{ pageSize: 10 }}
-        isLoading={loading}
-        rowKey={'runId'}
-        rowClassName={(record) =>
-          record.name === selectedExperiment ? 'ant-table-row-selected' : ''
-        }
-      />
-      <LogsDrawer />
-      <Modal
-        title={<strong>Visualizar resultados</strong>}
-        visible={experimentInferenceModal}
-        onOk={closeModal}
-        onCancel={closeModal}
-        width='70vw'
-      >
-        {'ndarray' in experimentInference ? (
-          <Table
-            dataSource={experimentInference.ndarray.map((e, i) => {
-              const data = { key: i };
-              experimentInference.names.forEach((c, j) => {
-                data[c] = e[j];
-              });
-              return data;
-            })}
-            columns={experimentInference.names.map((name) => ({
-              title: name,
-              dataIndex: name,
-              key: name,
-              width: 100,
-            }))}
-            scroll={{ x: 800 }}
-          />
-        ) : (
-          <div className='container-difference'>
-            {utils.isSupportedBinaryData(experimentInference) ? (
-              utils.isImage(experimentInference) ? (
-                <img
-                  src={Object.values(experimentInference).shift()}
-                  alt='predict-response'
-                  className='image-difference'
-                />
-              ) : (
-                <video
-                  src={Object.values(experimentInference).shift()}
-                  controls
-                >
-                  <track default kind='captions' />
-                </video>
-              )
-            ) : (
-              <div className='iterative-prediction'>
-                <h3>Resposta do Modelo</h3>
-                <TextArea
-                  disabled={true}
-                  defaultValue={Object.values(experimentInference).shift()}
-                />
-              </div>
-            )}
-          </div>
-        )}
-        <div className='predict-options-buttons'>
-          <Button
-            icon={<CopyOutlined />}
-            type='primary'
-            style={{ margin: '6px 6px 0px 0px' }}
-            onClick={() => copyToClipboard()}
-          >
-            Copiar
-          </Button>
-          <a href={downloadFile()} download='predict-file'>
-            <Button
-              icon={<DownloadOutlined />}
-              type='primary'
-              style={{ margin: '6px 6px 0px 0px' }}
-            >
-              Fazer download
-            </Button>
-          </a>
-        </div>
-      </Modal>
-    </>
+    <CommonTable
+      dataSource={implantedExperiments}
+      columns={columnsConfig}
+      pagination={{ pageSize: 10 }}
+      isLoading={loading}
+      rowClassName={(record) => {
+        return record.experimentId === selectedExperiment
+          ? 'ant-table-row-selected'
+          : '';
+      }}
+      rowKey={() => {
+        return uuidv4();
+      }}
+    />
   );
 };
 
 // PROP TYPES
 ImplantedExperimentsTable.propTypes = {
-  /** implanted experiments table implanted experiments list */
-  implantedExperiments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** implanted experiments table test inference handle */
+  /** delete implanted experiment handle */
+  handleDeleteImplantedExperiment: PropTypes.func.isRequired,
+  /** open log handle */
+  handleOpenLog: PropTypes.func.isRequired,
+  /** test inference handle */
   handleTestInference: PropTypes.func.isRequired,
+  /** implanted experiments list */
+  implantedExperiments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** table is loading */
+  loading: PropTypes.bool.isRequired,
+  /** selected experiment */
+  selectedExperiment: PropTypes.string.isRequired,
 };
 
 // EXPORT
