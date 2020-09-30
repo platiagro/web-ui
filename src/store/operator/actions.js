@@ -675,3 +675,21 @@ export const setOperatorParametersRequest = (
 };
 
 // // // // // // // // // //
+
+export const saveOperatorPosition = (
+  projectId,
+  experimentId,
+  operatorId,
+  position
+) => async (dispatch) => {
+  const body ={
+    positionX: position.x,
+    positionY: position.y
+  }
+  console.log(body)
+  await operatorsApi
+  .updateOperator(projectId, experimentId, operatorId, body)
+  .catch((error) => {
+    console.log(error);
+  });
+}

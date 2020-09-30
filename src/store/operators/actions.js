@@ -25,8 +25,13 @@ import utils from '../../utils';
 // ** FETCH OPERATORS
 /**
  * fetch operators success action
- * @param {Object} response
- * @returns {Object} { type, operators }
+ *
+ * @param {object} response
+ * @param operators
+ * @param experimentId
+ * @param operators
+ * @param experimentId
+ * @returns {object} { type, operators }
  */
 const fetchOperatorsSuccess = (operators, experimentId) => (dispatch) => {
   // dispatching experiment operators data loaded action
@@ -44,8 +49,9 @@ const fetchOperatorsSuccess = (operators, experimentId) => (dispatch) => {
 
 /**
  * fetch operators fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const fetchOperatorsFail = (error) => (dispatch) => {
   // getting error message
@@ -63,6 +69,7 @@ const fetchOperatorsFail = (error) => (dispatch) => {
 
 /**
  * fetch operators request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} datasetName
@@ -193,5 +200,6 @@ export const clearOperatorsFeatureParametersRequest = (
     console.log(e);
   }
 };
+
 
 // // // // // // // // // //
