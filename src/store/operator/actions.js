@@ -687,10 +687,7 @@ export const saveOperatorPosition = (
     positionX: position.x,
     positionY: position.y,
   };
-  console.log(body);
   await operatorsApi
     .updateOperator(projectId, experimentId, operatorId, body)
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch((error) => {});
 };
