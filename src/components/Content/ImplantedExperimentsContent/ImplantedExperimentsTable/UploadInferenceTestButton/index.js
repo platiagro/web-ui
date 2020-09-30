@@ -30,16 +30,16 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
         let [type, subtype] = file.type.split('/');
         const isImageOrVideo = ['image', 'video'].includes(type);
 
-        if (type === '' && subtype === '') {
+        if (type === '') {
           // Some browsers draws the MIME types from the operating system,
           // so if you OS knows the correct MIME type for .csv or .txt, the browser
           // would show it as well. Please, check the settings of your OS.
           const extensionPattern = /(?:\.([^.]+))?$/;
-          const ext = extensionPattern.exec(file.name);
+          const extension = extensionPattern.exec(file.name);
 
-          if (ext) {
+          if (extension) {
             type = 'text';
-            subtype = ext.shift();
+            subtype = extension.shift();
           }
         }
 
@@ -74,8 +74,6 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
               binData: btoa(unescape(encodeURIComponent(e.target.result))),
             };
           }
-
-          console.log(obj);
           handleUpload(obj);
         };
 

@@ -596,8 +596,8 @@ const getFeaturetypes = (dataset) => {
  * @returns {boolean} if a response includes a encoded base64 string or not
  */
 const isSupportedBinaryData = (response) => {
-  const isExpectedResponse = ['binData', 'strData'].includes(
-    Object.keys(response).shift()
+  const isExpectedResponse = Object.keys(response).some((key) =>
+    ['binData', 'strData'].includes(key)
   )
     ? true
     : false;
