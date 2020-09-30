@@ -48,7 +48,19 @@
   &:active {
     cursor: grabbing;
   }
-
+  .reticence {
+    width: 10em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .ellipsis {
+    --max-lines: 3;
+    position: relative;
+    max-height: calc(var(--lh) * var(--max-lines));
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
   .middle {
     flex-grow: 1;
     height: 100%;
