@@ -2,7 +2,9 @@
 import actionTypes from './actionTypes';
 
 // SERVICES
+import DatasetsApi from 'services/DatasetsApi';
 import operatorsApi from '../../services/OperatorsApi';
+import pipelinesApi from '../../services/PipelinesApi';
 
 // UI LIB
 import { message } from 'antd';
@@ -32,7 +34,6 @@ import {
 
 // UTILS
 import utils from '../../utils';
-import DatasetsApi from 'services/DatasetsApi';
 
 // ACTIONS
 // ** GET OPERATOR RESULTS
@@ -117,7 +118,7 @@ const getLogsSuccess = (response) => (dispatch) => {
 
   dispatch({
     type: actionTypes.GET_OPERATOR_LOGS_SUCCESS,
-    logs: logs.output.traceback,
+    logs: logs.traceback,
   });
 };
 
@@ -136,11 +137,11 @@ const getLogsFail = (error) => (dispatch) => {
  * @param {string} operatorId
  * @returns {Function}
  */
-export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
+export const getOperatorLogs = (experimentId, operatorId) => async (
   dispatch
 ) => {
-  operatorsApi
-    .getNotebookLog(projectId, experimentId, operatorId)
+  pipelinesApi
+    .getNotebookLog(experimentId, operatorId)
     .then((res) => {
       dispatch(getLogsSuccess(res));
     })
@@ -345,7 +346,7 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
   );
 
   if (!isDataset && operator.status === 'Failed') {
-    dispatch(getOperatorLogs(projectId, experimentId, operator.uuid));
+    dispatch(getOperatorLogs(experimentId, operator.uuid));
   }
 
   dispatch(getOperatorMetricsRequest(projectId, experimentId, operator.uuid));
@@ -682,14 +683,11 @@ export const saveOperatorPosition = (
   operatorId,
   position
 ) => async (dispatch) => {
-  const body ={
+  const body = {
     positionX: position.x,
-    positionY: position.y
-  }
-  console.log(body)
+    positionY: position.y,
+  };
   await operatorsApi
-  .updateOperator(projectId, experimentId, operatorId, body)
-  .catch((error) => {
-    console.log(error);
-  });
-}
+    .updateOperator(projectId, experimentId, operatorId, body)
+    .catch((error) => {});
+};

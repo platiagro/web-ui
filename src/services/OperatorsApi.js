@@ -43,7 +43,7 @@ const createOperator = (projectId, experimentId, taskId, dependencies) => {
     taskId: taskId,
     dependencies: dependencies,
     positionX: 0,
-    positionY: 0
+    positionY: 0,
   };
   return operatorsApi.post(
     `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}`,
@@ -130,20 +130,6 @@ export const getOperatorMetrics = async (
   }
 };
 
-/**
- * Get Notebook Log from Jupyter API
- *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {string} operatorId
- * @returns {Promise}
- */
-const getNotebookLog = (projectId, experimentId, operatorId) => {
-  return operatorsApi.get(
-    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/logs`
-  );
-};
-
 // EXPORT DEFAULT
 export default {
   listOperators,
@@ -153,5 +139,4 @@ export default {
   getOperatorResultsDataset,
   getOperatorResults,
   getOperatorMetrics,
-  getNotebookLog,
 };

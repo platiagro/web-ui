@@ -50,10 +50,24 @@ const deleteTrainExperiment = (experimentId) => {
   return pipelinesApi.delete(`${trainPath}/${experimentId}`);
 };
 
+/**
+ * Get operator log
+ *
+ * @param {string} experimentId
+ * @param {string} operatorId
+ * @returns {Promise}
+ */
+const getNotebookLog = (experimentId, operatorId) => {
+  return pipelinesApi.get(
+    `/${trainPath}/${experimentId}/operators/${operatorId}/logs`
+  );
+};
+
 // EXPORT DEFAULT
 export default {
   getTrainExperimentStatus,
   trainExperiment,
   deployExperiment,
   deleteTrainExperiment,
+  getNotebookLog,
 };
