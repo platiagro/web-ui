@@ -59,7 +59,7 @@ const deleteTrainExperiment = (experimentId) => {
  */
 const getNotebookLog = (experimentId, operatorId) => {
   return pipelinesApi.get(
-    `/${trainPath}/${experimentId}/operators/${operatorId}/logs`
+    `${trainPath}/${experimentId}/operators/${operatorId}/logs`
   );
 };
 
