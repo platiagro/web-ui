@@ -30,8 +30,8 @@ const TasksMenu = ({
   loading,
 }) => {
   //DRAG
-  const handleSelect = (taskId, taskType) => {
-    handleClick(taskId, taskType);
+  const handleSelect = (taskId, taskType, position) => {
+    handleClick(taskId, taskType, position);
   };
   // HANDLERS
   // box click

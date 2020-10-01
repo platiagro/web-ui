@@ -38,12 +38,18 @@ const listOperators = (projectId, experimentId) => {
  * @param {string[]} dependencies
  * @returns {Promise}
  */
-const createOperator = (projectId, experimentId, taskId, dependencies) => {
+const createOperator = (
+  projectId,
+  experimentId,
+  taskId,
+  dependencies,
+  position
+) => {
   const body = {
     taskId: taskId,
     dependencies: dependencies,
-    positionX: 0,
-    positionY: 0,
+    positionX: position.x,
+    positionY: position.y,
   };
   return operatorsApi.post(
     `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}`,

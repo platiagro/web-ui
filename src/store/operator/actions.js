@@ -401,7 +401,9 @@ export const createOperatorRequest = (
   projectId,
   experimentId,
   taskId,
-  tasks
+  tasks,
+  isTemplate,
+  position
 ) => async (dispatch, getState) => {
   // dispatching request action
   dispatch({
@@ -469,7 +471,7 @@ export const createOperatorRequest = (
 
   // creating operator
   operatorsApi
-    .createOperator(projectId, experimentId, taskId, dependencies)
+    .createOperator(projectId, experimentId, taskId, dependencies, position)
     .then((response) => {
       // getting operator from response
       const operator = response.data;
@@ -687,7 +689,10 @@ export const saveOperatorPosition = (
     positionX: position.x,
     positionY: position.y,
   };
+
   await operatorsApi
     .updateOperator(projectId, experimentId, operatorId, body)
-    .catch((error) => {});
+    .catch((error) => {
+      console.log(error);
+    });
 };

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { DropTarget } from 'react-dnd';
 
 // UI LIBS
 import ReactFlow, { Background } from 'react-flow-renderer';
@@ -39,21 +40,12 @@ const ExperimentFlow = ({
   handleTaskBoxClick,
   handleDeselectOperator,
   handleSavePosition,
+  handleSaveFlowTransform,
+  canDrop,
+  isOver,
+  connectDropTarget,
 }) => {
   const [connectClass, setConnectClass] = useState('');
-
-  // Will be used on initial state
-  // const calcDefaultPosition = (i) => {
-  //   //Booleans to help arrow positioning in the future
-  //   // const isFirstRowComponent = i % columnsNumber === 0;
-  //   // const isLastRowComponent = (i + 1) % columnsNumber === 0;
-  //   // const isLastFlowComponent = i === tasks.length - 1;
-
-  //   return {
-  //     x: 250 * (i % columnsNumber) + 50,
-  //     y: 150 * Math.floor(i / columnsNumber) + 50,
-  //   };
-  // };
 
   const cardsElements = tasks.map((component) => {
     const arrows = component.dependencies.map((arrow) => {
@@ -86,39 +78,61 @@ const ExperimentFlow = ({
           </div>
         ),
       },
-      position: {x: component.positionX, y: component.positionY},
+      position: { x: component.positionX, y: component.positionY },
     };
 
     return [card, ...arrows];
   });
 
-  const handleLoad = (reactFlowInstance) =>
+  const handleLoad = (reactFlowInstance) => {
+    handleSaveFlowTransform({ x: 0, y: 0, zoom: 1 });
     reactFlowInstance.setTransform({ x: 0, y: 0, zoom: 1 });
+  };
 
   //TODO: Will be used later.
   const handleConnect = (params) =>
-    console.log(`Connect ${params.source} to ${params.target}`);
+    console.log(`${params.target} has new dependency: ${params.source}`);
 
   const handleDragStop = (event, task) =>
     handleSavePosition(task.id, task.position);
 
+  const isActive = canDrop && isOver;
+
+  let backgroundColor = '#fff';
+  if (isActive) {
+    backgroundColor = 'rgba(20,250,20,0.1)';
+  } else if (canDrop) {
+    backgroundColor = 'rgba(250,20,20,0.1)';
+  }
+
   return loading ? (
     <LoadingBox />
   ) : (
-    <ReactFlow
-      nodeTypes={nodeTypes}
-      edgeTypes={edgeTypes}
-      elements={_.flattenDeep(cardsElements)}
-      onPaneClick={handleDeselectOperator}
-      onLoad={handleLoad}
-      onConnect={handleConnect}
-      onNodeDragStop={handleDragStop}
-      onConnectEnd={() => setConnectClass('')}
-      onConnectStart={() => setConnectClass('Connecting')}
-    >
-      <Background variant='dots' gap={25} size={1} color='#58585850' />
-      <Vectors />
-    </ReactFlow>
+    <div style={{ height: '100%' }} ref={connectDropTarget}>
+      <ReactFlow
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        nodesConnectable={false}
+        elements={_.flattenDeep(cardsElements)}
+        onPaneClick={handleDeselectOperator}
+        onSelectionChange={handleDeselectOperator}
+        onLoad={handleLoad}
+        onConnect={handleConnect}
+        onNodeDragStop={handleDragStop}
+        onConnectEnd={() => setConnectClass('')}
+        onConnectStart={() => setConnectClass('Connecting')}
+        onMoveEnd={handleSaveFlowTransform}
+      >
+        <Background
+          variant='dots'
+          gap={25}
+          size={1}
+          color={'#58585850'}
+          style={{ backgroundColor }}
+        />
+        <Vectors />
+      </ReactFlow>
+    </div>
   );
 };
 
@@ -130,7 +144,46 @@ ExperimentFlow.propTypes = {
   handleTaskBoxClick: PropTypes.func.isRequired,
   /** is loading */
   loading: PropTypes.bool.isRequired,
+  /** flag for enable drop */
+  canDrop: PropTypes.bool.isRequired,
+  /** flag for show item over drop area */
+  isOver: PropTypes.bool.isRequired,
+  /** function to save offset of Flow Area */
+  handleSaveFlowTransform: PropTypes.func.isRequired,
 };
 
+//HOC for transform ExperimentFlow into DropTarget
+const ExperimentFlowDrop = DropTarget(
+  'TASK',
+  {
+    canDrop(props) {
+      const canDrop = !props.loading;
+      return canDrop;
+    },
+    drop: (props, monitor) => {
+      const delta = monitor.getClientOffset();
+
+      const offset = props.flowTransform;
+
+      const positions = { x: delta.x - 435, y: delta.y - 189 };
+
+      const zoomRealPosition = {
+        x: (positions.x - offset.x) / offset.zoom,
+        y: (positions.y - offset.y) / offset.zoom,
+      };
+
+      return {
+        name: 'Flow',
+        pos: zoomRealPosition,
+      };
+    },
+  },
+  (connect, monitor) => ({
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop(),
+  })
+)(ExperimentFlow);
+
 // EXPORT
-export default ExperimentFlow;
+export default ExperimentFlowDrop;
