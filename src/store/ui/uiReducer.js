@@ -48,6 +48,7 @@ const initialState = {
   inferenceTestResultModal: { loading: false, visible: false },
   projectEditName: { loading: false },
   dataViewModal: { isVisible: false, loading: false },
+  flowTransform: { x: 0, y: 0, zoom: 1 },
 };
 
 /**
@@ -471,7 +472,12 @@ const uiReducer = (state = initialState, action = undefined) => {
           loading: action.inferenceLogsDrawerLoading,
         },
       };
-
+    //SAVE OFFSET OF FLOW AREA
+    case actionTypes.SAVE_FLOW_TRANSFORM:
+      return {
+        ...state,
+        flowTransform: action.transform,
+      };
     // DEFAULT
     default:
       return state;

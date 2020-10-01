@@ -837,3 +837,11 @@ export const inferenceTestResultModalDataLoaded = () => {
 };
 
 // // // // // // // // // // // // // //
+// // // // // // // // // //
+
+export const saveFlowTransform = (transform) => {
+  return {
+    type: actionTypes.SAVE_FLOW_TRANSFORM,
+    transform: transform,
+  };
+};

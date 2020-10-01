@@ -9,7 +9,11 @@ import ExperimentFlow from './index';
 // ACTIONS
 import { selectOperator } from '../../../../../../store/operator/actions';
 import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
-import { deselectOperator, saveOperatorPosition } from '../../../../../../store/operator/actions';
+import {
+  deselectOperator,
+  saveOperatorPosition,
+} from '../../../../../../store/operator/actions';
+import { saveFlowTransform } from '../../../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -22,8 +26,16 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getTrainExperimentStatusRequest(experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),
     // saving operator position
-    handleSaveOperatorPosition:(projectId, experimentId, operatorId, position) =>
-      dispatch(saveOperatorPosition(projectId, experimentId, operatorId, position))
+    handleSaveOperatorPosition: (
+      projectId,
+      experimentId,
+      operatorId,
+      position
+    ) =>
+      dispatch(
+        saveOperatorPosition(projectId, experimentId, operatorId, position)
+      ),
+    saveFlowTransform: (transform) => dispatch(saveFlowTransform(transform)),
   };
 };
 
@@ -33,6 +45,7 @@ const mapStateToProps = (state) => {
     operators: state.operatorsReducer,
     datasetName: state.experimentReducer.dataset,
     loading: state.uiReducer.experimentOperators.loading,
+    flowTransform: state.uiReducer.flowTransform,
   };
 };
 
@@ -48,6 +61,8 @@ const pollingTime = 5000;
 const ExperimentFlowContainer = ({
   operators,
   loading,
+  flowTransform,
+  saveFlowTransform,
   handleShowOperatorDetails,
   handleGetTrainExperimentStatus,
   handleDeselectOperator,
@@ -74,13 +89,15 @@ const ExperimentFlowContainer = ({
 
   const handleSavePosition = (operatorId, position) => {
     handleSaveOperatorPosition(projectId, experimentId, operatorId, position);
-  }
+  };
 
   // RENDER
   return (
     <ExperimentFlow
       tasks={operators}
       loading={loading}
+      flowTransform={flowTransform}
+      saveFlowTransform={saveFlowTransform}
       handleTaskBoxClick={selectOperatorHandler}
       handleDeselectOperator={handleDeselectOperator}
       handleSavePosition={handleSavePosition}

@@ -27,7 +27,8 @@ const mapDispatchToProps = (dispatch) => {
       experimentId,
       taskId,
       tasks,
-      isTemplate
+      isTemplate,
+      position
     ) =>
       dispatch(
         createOperatorRequest(
@@ -35,7 +36,8 @@ const mapDispatchToProps = (dispatch) => {
           experimentId,
           taskId,
           tasks,
-          isTemplate
+          isTemplate,
+          position
         )
       ),
     handleSetTemplate: (projectId, experimentId, templateId) =>
@@ -85,15 +87,21 @@ const TasksMenuBlockContainer = ({
   }, [handleFetchTasksMenu]);
 
   // HANDLERS
-  const createOperatorHandler = (taskId, taskType) => {
+  const createOperatorHandler = (taskId, taskType, position) => {
     // is template
     const isTemplate = taskType === 'TEMPLATES';
-
     // is template
     if (isTemplate) handleSetTemplate(projectId, experimentId, taskId);
     // not is template
     else
-      handleCreateOperator(projectId, experimentId, taskId, tasks, isTemplate);
+      handleCreateOperator(
+        projectId,
+        experimentId,
+        taskId,
+        tasks,
+        isTemplate,
+        position
+      );
   };
 
   // RENDER

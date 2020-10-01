@@ -63,20 +63,27 @@ MenuItem.propTypes = {
   handleSelect: PropTypes.func.isRequired,
 };
 
-export default DragSource(
+//HOC for transform MenuItem into Drag Source
+const MenuItemDraggable = DragSource(
   'TASK',
   {
+    canDrag(props) {
+      return !props.disabled;
+    },
     beginDrag: (props) => ({
       name: props.name,
       icon: props.icon,
       taskId: props.taskId,
       taskType: props.taskType,
+      disabled: props.disabled,
     }),
     endDrag(props, monitor) {
-      const item = monitor.getItem();
-      const dropResult = monitor.getDropResult();
-      if (dropResult) {
-        props.handleSelect(item.taskId, item.taskType);
+      if (monitor.didDrop()) {
+        const item = monitor.getItem();
+        const dropResult = monitor.getDropResult();
+        if (dropResult) {
+          props.handleSelect(item.taskId, item.taskType, dropResult?.pos);
+        }
       }
     },
   },
@@ -86,3 +93,5 @@ export default DragSource(
     isDragging: monitor.isDragging(),
   })
 )(MenuItem);
+
+export default MenuItemDraggable;
