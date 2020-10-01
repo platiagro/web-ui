@@ -40,7 +40,7 @@ const ExperimentFlow = ({
   handleTaskBoxClick,
   handleDeselectOperator,
   handleSavePosition,
-  saveFlowTransform,
+  handleSaveFlowTransform,
   canDrop,
   isOver,
   connectDropTarget,
@@ -85,7 +85,7 @@ const ExperimentFlow = ({
   });
 
   const handleLoad = (reactFlowInstance) => {
-    saveFlowTransform({ x: 0, y: 0, zoom: 1 });
+    handleSaveFlowTransform({ x: 0, y: 0, zoom: 1 });
     reactFlowInstance.setTransform({ x: 0, y: 0, zoom: 1 });
   };
 
@@ -121,7 +121,7 @@ const ExperimentFlow = ({
         onNodeDragStop={handleDragStop}
         onConnectEnd={() => setConnectClass('')}
         onConnectStart={() => setConnectClass('Connecting')}
-        onMoveEnd={saveFlowTransform}
+        onMoveEnd={handleSaveFlowTransform}
       >
         <Background
           variant='dots'
@@ -149,7 +149,7 @@ ExperimentFlow.propTypes = {
   /** flag for show item over drop area */
   isOver: PropTypes.bool.isRequired,
   /** function to save offset of Flow Area */
-  saveFlowTransform: PropTypes.func.isRequired,
+  handleSaveFlowTransform: PropTypes.func.isRequired,
 };
 
 //HOC for transform ExperimentFlow into DropTarget

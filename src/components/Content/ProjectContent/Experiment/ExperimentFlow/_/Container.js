@@ -35,7 +35,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         saveOperatorPosition(projectId, experimentId, operatorId, position)
       ),
-    saveFlowTransform: (transform) => dispatch(saveFlowTransform(transform)),
+    handleSaveFlowTransform: (transform) =>
+      dispatch(saveFlowTransform(transform)),
   };
 };
 
@@ -62,7 +63,7 @@ const ExperimentFlowContainer = ({
   operators,
   loading,
   flowTransform,
-  saveFlowTransform,
+  handleSaveFlowTransform,
   handleShowOperatorDetails,
   handleGetTrainExperimentStatus,
   handleDeselectOperator,
@@ -97,7 +98,7 @@ const ExperimentFlowContainer = ({
       tasks={operators}
       loading={loading}
       flowTransform={flowTransform}
-      saveFlowTransform={saveFlowTransform}
+      handleSaveFlowTransform={handleSaveFlowTransform}
       handleTaskBoxClick={selectOperatorHandler}
       handleDeselectOperator={handleDeselectOperator}
       handleSavePosition={handleSavePosition}
