@@ -597,13 +597,13 @@ const getFeaturetypes = (dataset) => {
  */
 const isSupportedBinaryData = (response) => {
   const isExpectedResponse = Object.keys(response).some((key) =>
-    ['binData', 'strData'].includes(key)
+    ['strData'].includes(key)
   )
     ? true
     : false;
 
   if (isExpectedResponse) {
-    const [base, content] = Object.values(response).shift().split(',');
+    const [base, content] = response.strData.split(',');
     const mimeType = base.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/);
 
     if (mimeType != null) {
