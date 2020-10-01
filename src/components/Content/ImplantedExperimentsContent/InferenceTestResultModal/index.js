@@ -9,6 +9,7 @@ import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 
 // COMPONENTS
 import { CommonTable } from 'components';
+import { InferenceTestResultModalEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { Skeleton } from 'uiComponents';
 
 // UTILS
@@ -80,85 +81,94 @@ const inferenceTestResultModal = ({
       visible={visible}
       onOk={closeModal}
       onCancel={closeModal}
+      cancelButtonProps={{ style: { display: 'none' }, disabled: true }}
       width='70vw'
     >
       {isLoading ? (
         <Skeleton />
       ) : (
         <>
-          {'ndarray' in experimentInference ? (
-            <CommonTable
-              columns={experimentInference.names.map((name) => ({
-                title: name,
-                dataIndex: name,
-                key: name,
-                width: 100,
-              }))}
-              dataSource={experimentInference.ndarray.map((e, i) => {
-                const data = { key: i };
-                experimentInference.names.forEach((c, j) => {
-                  data[c] = e[j];
-                });
-                return data;
-              })}
-              isLoading={false}
-              pagination={{
-                defaultPageSize: 10,
-                showSizeChanger: true,
-                pageSizeOptions: ['10', '20', '30', '40', '50'],
-              }}
-              rowKey={() => {
-                return uuidv4();
-              }}
-              scroll={{ x: 800, y: 250 }}
-            />
+          {!Object.keys(experimentInference).length ? (
+            <InferenceTestResultModalEmptyPlaceholder />
           ) : (
-            <div className='container-difference'>
-              {utils.isSupportedBinaryData(experimentInference) ? (
-                utils.isImage(experimentInference) ? (
-                  <img
-                    src={Object.values(experimentInference).shift()}
-                    alt='predict-response'
-                    className='image-difference'
-                  />
-                ) : (
-                  <video
-                    src={Object.values(experimentInference).shift()}
-                    controls
-                  >
-                    <track default kind='captions' />
-                  </video>
-                )
+            <>
+              {'ndarray' in experimentInference ? (
+                <CommonTable
+                  columns={experimentInference.names.map((name) => ({
+                    title: name,
+                    dataIndex: name,
+                    key: name,
+                    width: 100,
+                  }))}
+                  dataSource={experimentInference.ndarray.map((e, i) => {
+                    const data = { key: i };
+                    experimentInference.names.forEach((c, j) => {
+                      data[c] = e[j];
+                    });
+                    return data;
+                  })}
+                  isLoading={false}
+                  pagination={{
+                    defaultPageSize: 10,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '30', '40', '50'],
+                  }}
+                  rowKey={() => {
+                    return uuidv4();
+                  }}
+                  scroll={{ x: 800, y: 250 }}
+                />
               ) : (
-                <div className='iterative-prediction'>
-                  <h3>Resposta do Modelo</h3>
-                  <TextArea
-                    disabled={true}
-                    defaultValue={Object.values(experimentInference).shift()}
-                  />
+                <div className='container-difference'>
+                  {utils.isSupportedBinaryData(experimentInference) ? (
+                    utils.isImage(experimentInference) ? (
+                      <img
+                        src={Object.values(experimentInference).shift()}
+                        alt='predict-response'
+                        className='image-difference'
+                      />
+                    ) : (
+                      <video
+                        src={Object.values(experimentInference).shift()}
+                        controls
+                      >
+                        <track default kind='captions' />
+                      </video>
+                    )
+                  ) : (
+                    <div className='iterative-prediction'>
+                      <h3>Resposta do Modelo</h3>
+                      <TextArea
+                        disabled={true}
+                        defaultValue={Object.values(
+                          experimentInference
+                        ).shift()}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
+              <div className='predict-options-buttons'>
+                <Button
+                  icon={<CopyOutlined />}
+                  type='primary'
+                  style={{ margin: '6px 6px 0px 0px' }}
+                  onClick={() => copyToClipboard()}
+                >
+                  Copiar
+                </Button>
+                <a href={downloadFile()} download='predict-file'>
+                  <Button
+                    icon={<DownloadOutlined />}
+                    type='primary'
+                    style={{ margin: '6px 6px 0px 0px' }}
+                  >
+                    Fazer download
+                  </Button>
+                </a>
+              </div>
+            </>
           )}
-          <div className='predict-options-buttons'>
-            <Button
-              icon={<CopyOutlined />}
-              type='primary'
-              style={{ margin: '6px 6px 0px 0px' }}
-              onClick={() => copyToClipboard()}
-            >
-              Copiar
-            </Button>
-            <a href={downloadFile()} download='predict-file'>
-              <Button
-                icon={<DownloadOutlined />}
-                type='primary'
-                style={{ margin: '6px 6px 0px 0px' }}
-              >
-                Fazer download
-              </Button>
-            </a>
-          </div>
         </>
       )}
     </Modal>

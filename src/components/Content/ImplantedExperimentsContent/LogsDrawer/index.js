@@ -66,7 +66,16 @@ const Drawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
       destroyOnClose
     >
       {isLoading ? (
-        <Skeleton />
+        <>
+          <Skeleton paragraphConfig={{ rows: 1, width: '30%' }} />
+          <Skeleton paragraphConfig={{ rows: 1, width: '30%' }} />
+          <CommonTable
+            bordered={true}
+            columns={logsTableColumns}
+            isLoading={true}
+            size={'small'}
+          />
+        </>
       ) : (
         <>
           <div>

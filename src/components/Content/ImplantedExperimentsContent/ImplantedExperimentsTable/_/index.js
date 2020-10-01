@@ -125,9 +125,13 @@ const ImplantedExperimentsTable = (props) => {
       pagination={{ pageSize: 10 }}
       isLoading={loading}
       rowClassName={(record) => {
-        return record.experimentId === selectedExperiment
-          ? 'ant-table-row-selected'
-          : '';
+        if (selectedExperiment) {
+          return record.experimentId === selectedExperiment
+            ? 'ant-table-row-selected'
+            : '';
+        } else {
+          return '';
+        }
       }}
       rowKey={() => {
         return uuidv4();
@@ -149,7 +153,7 @@ ImplantedExperimentsTable.propTypes = {
   /** table is loading */
   loading: PropTypes.bool.isRequired,
   /** selected experiment */
-  selectedExperiment: PropTypes.string.isRequired,
+  selectedExperiment: PropTypes.string,
 };
 
 // EXPORT

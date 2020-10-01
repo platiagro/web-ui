@@ -9,7 +9,6 @@ import {
   inferenceTestResultModalLoadingData,
   inferenceTestResultModalDataLoaded,
   showInferenceTestResultModal,
-  hideInferenceTestResultModal,
 } from 'store/ui/actions';
 
 // SERVICES
@@ -46,7 +45,6 @@ export const testImplantedExperimentInferenceAction = (
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE_FAILS,
       });
       dispatch(inferenceTestResultModalDataLoaded());
-      dispatch(hideInferenceTestResultModal());
       message.error(utils.getErrorMessage(error));
     });
 };
