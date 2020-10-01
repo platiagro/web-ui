@@ -73,18 +73,21 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} datasetName
+ * @param withLoading
  * @returns {Function}
  */
-export const fetchOperatorsRequest = (projectId, experimentId) => async (
-  dispatch
-) => {
+export const fetchOperatorsRequest = (
+  projectId,
+  experimentId,
+  withLoading = true
+) => async (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_OPERATORS_REQUEST,
   });
 
   // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
+  if (withLoading) dispatch(experimentOperatorsLoadingData());
 
   try {
     // getting tasks
@@ -141,10 +144,12 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
  *
  * @param {string} projectId
  * @param {string} experimentId
+ * @param withLoading
  */
 export const clearOperatorsFeatureParametersRequest = (
   projectId,
-  experimentId
+  experimentId,
+  withLoading = true
 ) => async (dispatch, getState) => {
   // getting operators from store
   const { operatorsReducer: operators } = getState();
@@ -153,7 +158,7 @@ export const clearOperatorsFeatureParametersRequest = (
     type: actionTypes.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
   });
 
-  dispatch(operatorParameterLoadingData());
+  if (withLoading) dispatch(operatorParameterLoadingData());
 
   try {
     // getting all operators with feature parameter
@@ -200,6 +205,5 @@ export const clearOperatorsFeatureParametersRequest = (
     console.log(e);
   }
 };
-
 
 // // // // // // // // // //

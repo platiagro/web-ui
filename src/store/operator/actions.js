@@ -14,7 +14,6 @@ import {
   showOperatorDrawer,
   hideOperatorDrawer,
   experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
   operatorParameterLoadingData,
   operatorParameterDataLoaded,
   operatorResultsDataLoaded,
@@ -428,9 +427,6 @@ export const createOperatorRequest = (
     }
   }
 
-  // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
-
   // getting dataset columns
   const datasetName = utils.getDatasetName(tasks, experimentOperators);
   let datasetColumns = [];
@@ -509,9 +505,6 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
     type: actionTypes.REMOVE_OPERATOR_REQUEST,
   });
 
-  // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
-
   // creating operator
   operatorsApi
     .deleteOperator(projectId, experimentId, operator.uuid)
@@ -525,10 +518,10 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
       // dispatching to fetch operator
       if (operator.tags.includes('DATASETS')) {
         dispatch(
-          clearOperatorsFeatureParametersRequest(projectId, experimentId)
+          clearOperatorsFeatureParametersRequest(projectId, experimentId, false)
         );
       } else {
-        dispatch(fetchOperatorsRequest(projectId, experimentId));
+        dispatch(fetchOperatorsRequest(projectId, experimentId, false));
       }
     })
     .catch((error) => {
