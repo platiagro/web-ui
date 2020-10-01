@@ -67,6 +67,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 const mapStateToProps = (state) => {
   return {
     experiments: state.experimentsReducer,
+    experimentDetailsLoading: state.uiReducer.experimentsTabs.loading,
+    experimentOperatorsLoading: state.uiReducer.experimentOperators.loading,
   };
 };
 
@@ -83,7 +85,8 @@ const ExperimentTabsContainer = (props) => {
   // destructuring props
   const {
     experiments,
-    loading,
+    experimentDetailsLoading,
+    experimentOperatorsLoading,
     handleFetchExperiments,
     handleOrganizeExperiments,
     handleFetchExperiment,
@@ -174,7 +177,7 @@ const ExperimentTabsContainer = (props) => {
       experiments={experiments}
       handleChange={handleChangeTab}
       handleMoveTab={handleOrganizeTabs}
-      loading={loading}
+      loading={experimentDetailsLoading || experimentOperatorsLoading}
       deleteHandler={deleteHandler}
       renameHandler={renameHandler}
       duplicateHandler={duplicateHandler}
