@@ -25,7 +25,7 @@ const inferenceTestResultModal = ({
   visible,
 }) => {
   /**
-   * Transform a tabular data to a plain text.
+   * Transform a tabular data or a binary data to a plain text.
    *
    * @param {object} strEncoded Seldon object response
    * @returns {string} a string with Seldon response
@@ -36,6 +36,8 @@ const inferenceTestResultModal = ({
     if (names && ndarray) {
       const columns = names.join(',');
       return columns + '\n' + ndarray.join('\n');
+    } else {
+      return strEncoded.binData;
     }
   };
 
@@ -44,25 +46,24 @@ const inferenceTestResultModal = ({
    */
   const copyToClipboard = () => {
     const text = utils.isSupportedBinaryData(experimentInference)
-      ? Object.values(experimentInference).shift()
+      ? experimentInference.strData
       : toRawText(experimentInference);
 
-    if (text)
-      navigator.clipboard
-        .writeText(text)
-        .then(() =>
-          notification['success']({
-            message: 'Texto Copiado',
-            description:
-              'O resultado do modelo foi copiado para sua área de transferência!',
-          })
-        )
-        .catch(() =>
-          notification['error']({
-            message: 'Erro ao Copiar Texto',
-            description: 'Pode ser que o retorno do modelo esteja corrompido.',
-          })
-        );
+    navigator.clipboard
+      .writeText(text)
+      .then(() =>
+        notification['success']({
+          message: 'Texto Copiado',
+          description:
+            'O resultado do modelo foi copiado para sua área de transferência!',
+        })
+      )
+      .catch(() =>
+        notification['error']({
+          message: 'Erro ao Copiar Texto',
+          description: 'Pode ser que o retorno do modelo esteja corrompido.',
+        })
+      );
   };
 
   /**
@@ -72,7 +73,7 @@ const inferenceTestResultModal = ({
    */
   const downloadFile = () => {
     return utils.isSupportedBinaryData(experimentInference)
-      ? Object.values(experimentInference).shift()
+      ? experimentInference.strData
       : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
   };
 
@@ -140,15 +141,13 @@ const inferenceTestResultModal = ({
                   {utils.isSupportedBinaryData(experimentInference) ? (
                     utils.isImage(experimentInference) ? (
                       <img
-                        src={Object.values(experimentInference).shift()}
+                        src={experimentInference.strData}
                         alt='predict-response'
                         className='image-difference'
+                        style={{ maxWidth: '100%' }}
                       />
                     ) : (
-                      <video
-                        src={Object.values(experimentInference).shift()}
-                        controls
-                      >
+                      <video src={experimentInference.strData} controls>
                         <track default kind='captions' />
                       </video>
                     )
@@ -157,9 +156,7 @@ const inferenceTestResultModal = ({
                       <h3>Resposta do Modelo</h3>
                       <TextArea
                         disabled={true}
-                        defaultValue={Object.values(
-                          experimentInference
-                        ).shift()}
+                        defaultValue={experimentInference.binData}
                       />
                     </div>
                   )}
