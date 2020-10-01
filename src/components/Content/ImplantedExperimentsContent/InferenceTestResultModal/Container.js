@@ -6,19 +6,27 @@ import { connect } from 'react-redux';
 import InferenceTestResultModal from './index';
 
 // ACTIONS
-import { hideInferenceTestResultModal } from '../../../../store/ui/actions';
+import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
+import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
+import { hideInferenceTestResultModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     handleCloseModal: () => dispatch(hideInferenceTestResultModal()),
+    handleGetDeployExperimentLogs: (deployId) =>
+      dispatch(getDeployExperimentLogs(deployId)),
+    handleTestImplantedExperimentInference: (deployId, file) =>
+      dispatch(testImplantedExperimentInferenceAction(deployId, file)),
   };
 };
 
 // STATES
 const mapStateToProps = (state) => {
   return {
-    experimentInference: state.testExperimentInferenceReducer,
+    deployId: state.testExperimentInferenceReducer.deployId,
+    file: state.testExperimentInferenceReducer.file,
+    inferenceResult: state.testExperimentInferenceReducer.inferenceResult,
     loading: state.uiReducer.inferenceTestResultModal.loading,
     visible: state.uiReducer.inferenceTestResultModal.visible,
   };
@@ -30,18 +38,34 @@ const mapStateToProps = (state) => {
  * modal with redux.
  */
 const InferenceTestResultModalContainer = ({
-  experimentInference,
+  deployId,
+  file,
+  inferenceResult,
   handleCloseModal,
+  handleGetDeployExperimentLogs,
+  handleTestImplantedExperimentInference,
   loading,
   visible,
-}) => (
-  <InferenceTestResultModal
-    closeModal={handleCloseModal}
-    experimentInference={experimentInference}
-    isLoading={loading}
-    visible={visible}
-  />
-);
+}) => {
+  const handleOpenLog = () => {
+    handleGetDeployExperimentLogs(deployId);
+  };
+
+  const handleRetryTest = () => {
+    handleTestImplantedExperimentInference(deployId, file);
+  };
+
+  return (
+    <InferenceTestResultModal
+      closeModal={handleCloseModal}
+      experimentInference={inferenceResult}
+      getDeployExperimentLogs={handleOpenLog}
+      isLoading={loading}
+      retryTest={handleRetryTest}
+      visible={visible}
+    />
+  );
+};
 
 export default connect(
   mapStateToProps,

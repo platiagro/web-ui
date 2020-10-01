@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
-import { Button, Input, Modal, notification } from 'antd';
+import { Button, Input, Modal, notification, Result } from 'antd';
 import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 
 // COMPONENTS
 import { CommonTable } from 'components';
-import { InferenceTestResultModalEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { Skeleton } from 'uiComponents';
 
 // UTILS
@@ -20,7 +19,9 @@ const { TextArea } = Input;
 const inferenceTestResultModal = ({
   closeModal,
   experimentInference,
+  getDeployExperimentLogs,
   isLoading,
+  retryTest,
   visible,
 }) => {
   /**
@@ -85,11 +86,27 @@ const inferenceTestResultModal = ({
       width='70vw'
     >
       {isLoading ? (
-        <Skeleton />
+        <Skeleton paragraphConfig={{ rows: 10, width: '100%' }} />
       ) : (
         <>
-          {!Object.keys(experimentInference).length ? (
-            <InferenceTestResultModalEmptyPlaceholder />
+          {!experimentInference ? (
+            <Result
+              status='error'
+              title='Ocorreu um erro'
+              subTitle='O fluxo implantado retornou um erro durante os testes. Acesse os logs para ver mais detalhes sobre o erro e tomar uma ação.'
+              extra={[
+                <Button
+                  type='primary'
+                  key='logs'
+                  onClick={getDeployExperimentLogs}
+                >
+                  Acessar Logs
+                </Button>,
+                <Button key='retry' onClick={retryTest}>
+                  Testar novamente
+                </Button>,
+              ]}
+            ></Result>
           ) : (
             <>
               {'ndarray' in experimentInference ? (
@@ -179,8 +196,14 @@ const inferenceTestResultModal = ({
 inferenceTestResultModal.propTypes = {
   /** close modal handler */
   closeModal: PropTypes.func.isRequired,
-  /** new project modal close handler */
-  experimentInference: PropTypes.object.isRequired,
+  /** experiment inference results*/
+  experimentInference: PropTypes.object,
+  /** get deploy experiment logs handler */
+  getDeployExperimentLogs: PropTypes.func.isRequired,
+  /** results is loading */
+  isLoading: PropTypes.bool.isRequired,
+  /** retry test handler */
+  retryTest: PropTypes.func.isRequired,
   /** modal is visible */
   visible: PropTypes.bool.isRequired,
 };

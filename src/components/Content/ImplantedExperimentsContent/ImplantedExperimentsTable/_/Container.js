@@ -12,8 +12,8 @@ import { ImplantedExperimentsEmptyPlaceholder } from 'components/EmptyPlaceholde
 import {
   fetchImplantedExperiments,
   deleteImplantedExperiment,
-} from '../../../../../store/implantedExperiments/actions';
-import { testImplantedExperimentInferenceAction } from '../../../../../store/testExperimentInference/actions';
+} from 'store/implantedExperiments/actions';
+import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 
 // DISPATCHS

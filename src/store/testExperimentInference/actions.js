@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -14,23 +11,19 @@ import {
 // SERVICES
 import implantedExperimentsApi from 'services/implantedExperimentsApi';
 
-// UTILS
-import utils from 'utils';
-
 /**
  * Test implanted experiment inference action
  *
- * @param {string} implantedExperimentUuid
+ * @param {string} deployId
  * @param {object} file
  */
-export const testImplantedExperimentInferenceAction = (
-  implantedExperimentUuid,
-  file
-) => (dispatch) => {
+export const testImplantedExperimentInferenceAction = (deployId, file) => (
+  dispatch
+) => {
   dispatch(inferenceTestResultModalLoadingData());
   dispatch(showInferenceTestResultModal());
   implantedExperimentsApi
-    .testDeployedExperiments(implantedExperimentUuid, file)
+    .testDeployedExperiments(deployId, file)
     .then((response) => {
       const seldonResponse =
         'data' in response.data ? response.data.data : response.data;
@@ -43,8 +36,9 @@ export const testImplantedExperimentInferenceAction = (
     .catch((error) => {
       dispatch({
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE_FAILS,
+        deployId: deployId,
+        file: file,
       });
       dispatch(inferenceTestResultModalDataLoaded());
-      message.error(utils.getErrorMessage(error));
     });
 };

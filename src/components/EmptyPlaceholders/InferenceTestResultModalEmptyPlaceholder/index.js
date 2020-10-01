@@ -1,3 +1,0 @@
-import InferenceTestResultModalEmptyPlaceholder from './InferenceTestResultModalEmptyPlaceholder';
-
-export default InferenceTestResultModalEmptyPlaceholder;
