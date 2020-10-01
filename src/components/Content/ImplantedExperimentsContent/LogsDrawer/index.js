@@ -3,7 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Drawer as AntDrawer, Tabs, Table, ConfigProvider } from 'antd';
+import { ConfigProvider, Drawer as AntDrawer, Tabs } from 'antd';
+
+// COMPONENTS
+import { CommonTable } from 'components';
+import { Skeleton } from 'uiComponents';
 
 const { TabPane } = Tabs;
 
@@ -11,12 +15,9 @@ const { TabPane } = Tabs;
  * Drawer.
  * This component is responsible for displaying drawer.
  */
-const Drawer = ({ title, isVisible, logs, handleClose }) => {
-  // HOOKS
+const Drawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
   // EMPTY COMPONENT
   const renderEmpty = () => <span>Não há dados.</span>;
-
-  const containersCount = logs.length;
 
   // COLUMNS OF LOG TABLE
   const logsTableColumns = [
@@ -56,57 +57,72 @@ const Drawer = ({ title, isVisible, logs, handleClose }) => {
 
   // RENDER
   return (
-    // ant design drawer container
     <AntDrawer
       width={'65vw'}
-      title={title}
+      title={<strong>{title}</strong>}
       visible={isVisible}
       closable
       onClose={handleClose}
       destroyOnClose
     >
-      {/* data header */}
-      <div>
-        <span style={{ fontSize: '12px' }}>CONTAINERS EM EXECUÇÃO: </span>
-        <span style={{ color: '#262626', fontSize: '14px' }}>
-          {containersCount}
-        </span>
-      </div>
-      <Tabs>
-        {logs.map((container, i) => (
-          <TabPane tab={container.containerName} key={i}>
-            <ConfigProvider renderEmpty={renderEmpty}>
-              <Table
-                bordered={true}
-                columns={logsTableColumns}
-                dataSource={container.logs}
-                size='small'
-                rowKey={(record) => `${record.level}-${record.timestamp}`}
-              />
-            </ConfigProvider>
-          </TabPane>
-        ))}
-      </Tabs>
+      {isLoading ? (
+        <>
+          <Skeleton paragraphConfig={{ rows: 1, width: '30%' }} />
+          <Skeleton paragraphConfig={{ rows: 1, width: '30%' }} />
+          <CommonTable
+            bordered={true}
+            columns={logsTableColumns}
+            isLoading={true}
+            size={'small'}
+          />
+        </>
+      ) : (
+        <>
+          <div>
+            <span style={{ fontSize: '12px' }}>CONTAINERS EM EXECUÇÃO: </span>
+            <span style={{ color: '#262626', fontSize: '14px' }}>
+              {logs.length}
+            </span>
+          </div>
+          <Tabs>
+            {logs.map((container, i) => (
+              <TabPane tab={container.containerName} key={i}>
+                <ConfigProvider renderEmpty={renderEmpty}>
+                  <CommonTable
+                    bordered={true}
+                    columns={logsTableColumns}
+                    dataSource={container.logs}
+                    isLoading={false}
+                    pagination={{
+                      defaultPageSize: 10,
+                      showSizeChanger: true,
+                      pageSizeOptions: ['10', '20', '30', '40', '50'],
+                    }}
+                    rowKey={(record) => `${record.level}-${record.timestamp}`}
+                    size={'small'}
+                  />
+                </ConfigProvider>
+              </TabPane>
+            ))}
+          </Tabs>
+        </>
+      )}
     </AntDrawer>
   );
 };
 
 // PROP TYPES
 Drawer.propTypes = {
-  /** drawer title string */
-  title: PropTypes.string.isRequired,
-  /** log string */
-  logs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** drawer is visible */
-  isVisible: PropTypes.bool.isRequired,
   /** select input change handler */
   handleClose: PropTypes.func.isRequired,
-};
-
-// PROP DEFAULT VALUES
-Drawer.defaultProps = {
-  /** drawer results list */
-  results: undefined,
+  /** drawer is loading */
+  isLoading: PropTypes.bool.isRequired,
+  /** drawer is visible */
+  isVisible: PropTypes.bool.isRequired,
+  /** log string */
+  logs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** drawer title string */
+  title: PropTypes.string.isRequired,
 };
 
 // EXPORT

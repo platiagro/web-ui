@@ -17,11 +17,13 @@ import { Table, Skeleton } from 'uiComponents';
 const CommonTable = (props) => {
   // destructuring props
   const {
+    bordered,
     className,
     columns,
     dataSource,
     isLoading,
     pagination,
+    rowClassName,
     rowKey,
     rowSelection,
     scroll,
@@ -68,12 +70,14 @@ const CommonTable = (props) => {
   // rendering component
   return (
     <Table
+      bordered={bordered}
       className={className}
-      rowSelection={rowSelection}
       dataSource={isLoading ? skeletonDataSource : dataSource}
       columns={isLoading ? skeletonColumns : columns}
       pagination={pagination}
+      rowClassName={rowClassName}
       rowKey={rowKey}
+      rowSelection={rowSelection}
       scroll={scroll}
       size={size}
     />
@@ -82,6 +86,8 @@ const CommonTable = (props) => {
 
 // PROP TYPES
 CommonTable.propTypes = {
+  /** Table bordered */
+  bordered: PropTypes.bool,
   /** Table css class */
   className: PropTypes.string,
   /** Table columns */
@@ -92,6 +98,8 @@ CommonTable.propTypes = {
   isLoading: PropTypes.bool,
   /** Table pagination config */
   pagination: PropTypes.any,
+  /** Table row class name */
+  rowClassName: PropTypes.func,
   /** Table row key attribute */
   rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   /** Table row selection config */
@@ -104,6 +112,8 @@ CommonTable.propTypes = {
 
 // DEFAULT PROPS
 CommonTable.defaultProps = {
+  /** Table bordered */
+  bordered: false,
   /** Table css class */
   className: undefined,
   /** Table row selection config */

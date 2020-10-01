@@ -11,7 +11,6 @@ import { hideInferenceLogsDrawer } from 'store/ui/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // hide drawer action
     handleHideDrawer: () => dispatch(hideInferenceLogsDrawer()),
   };
 };
@@ -20,8 +19,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     drawer: state.uiReducer.inferenceLogsDrawer,
-    results: state.operatorReducer.results,
-    resultsLoading: state.uiReducer.operatorResults.loading,
     logs: state.deploymentLogsReducer.logs,
   };
 };
@@ -31,23 +28,14 @@ const mapStateToProps = (state) => {
  * This component is responsible for create a logic container for drawer log with
  * redux.
  */
-const DrawerContainer = ({
-  drawer,
-  handleHideDrawer,
-  results,
-  resultsLoading,
-  logs,
-}) => {
-  // RENDER
+const DrawerContainer = ({ drawer, handleHideDrawer, logs }) => {
   return (
     <Drawer
-      isVisible={drawer.visible}
-      isDataset={drawer.isDataset}
       handleClose={handleHideDrawer}
-      results={results}
-      resultsLoading={resultsLoading}
-      title={<strong>{drawer.title}</strong>}
+      isLoading={drawer.loading}
+      isVisible={drawer.visible}
       logs={logs}
+      title={drawer.title}
     />
   );
 };

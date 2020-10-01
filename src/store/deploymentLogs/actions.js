@@ -1,66 +1,47 @@
 // UI LIB
 import { message } from 'antd';
 
-// UTILS
-import utils from 'utils';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
+
+// ACTIONS
+import {
+  showInferenceLogsDrawer,
+  inferenceLogsDrawerLoadingData,
+  inferenceLogsDrawerDataLoaded,
+} from '../ui/actions';
 
 // SERVICES
 import logsApi from 'services/LogsApi';
 
-//ACTIONS
-import {
-  showInferenceLogsDrawer,
-  implantedExperimentsLoadingData,
-  implantedExperimentsDataLoaded,
-} from '../ui/actions';
+// UTILS
+import utils from 'utils';
 
-// DESTRUCTURING UTILS
 const { getErrorMessage } = utils;
 
-// ACTIONS
 /**
- * @param {Object} response
+ * Get logs of implanted experiments
+ *
+ * @param {String} deployId
  */
-const getLogsSuccess = (response) => (dispatch) => {
-  const logs = response.data;
-
-  dispatch({
-    type: actionTypes.GET_DEPLOYMENT_LOGS,
-    payload: logs,
-  });
-
+export const getDeployExperimentLogs = (deployId) => (dispatch) => {
   dispatch(showInferenceLogsDrawer('Logs'));
-  dispatch(implantedExperimentsDataLoaded());
-};
-
-/**
- * @param {Object} error
- */
-const getLogsFail = (error) => (dispatch) => {
-  dispatch({
-    type: actionTypes.GET_DEPLOYMENT_LOGS_FAIL,
-  });
-  message.error(getErrorMessage(error));
-  dispatch(implantedExperimentsDataLoaded());
-};
-
-/**
- * get error logs of implanted experiments
- * @param {Object} deployId
- * @returns {Function}
- */
-export const getDeployExperimentLogs = (deployId) => async (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
-
+  dispatch(inferenceLogsDrawerLoadingData());
   logsApi
     .getDeployExperimentLogs(deployId)
-    .then((res) => {
-      dispatch(getLogsSuccess(res));
+    .then((response) => {
+      const logs = response.data;
+      dispatch({
+        type: actionTypes.GET_DEPLOYMENT_LOGS,
+        payload: logs,
+      });
+      dispatch(inferenceLogsDrawerDataLoaded());
     })
     .catch((error) => {
-      dispatch(getLogsFail(error));
+      dispatch({
+        type: actionTypes.GET_DEPLOYMENT_LOGS_FAIL,
+      });
+      message.error(getErrorMessage(error));
+      dispatch(inferenceLogsDrawerDataLoaded());
     });
 };
