@@ -67,7 +67,6 @@ const UploadInputBlock = (props) => {
     handleUploadStart,
     handleUploadSuccess,
     isDisabled,
-    isLoading,
     defaultFileList,
     tip,
     title,
@@ -161,7 +160,7 @@ const UploadInputBlock = (props) => {
   // rendering component
   return (
     <InputBlockContainer tip={tip} title={title}>
-      <Upload {...uploadProps} disabled={isDisabled || isLoading}>
+      <Upload {...uploadProps} disabled={isDisabled || datasetsLoading}>
         <Dropdown.Button
           overlay={datasetsMenu}
           trigger={['click']}
