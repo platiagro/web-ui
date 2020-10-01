@@ -41,29 +41,28 @@
   box-sizing: border-box;
   border-radius: 4px;
   font-size: 1em;
-  height: 8vh;
+  height: 10vh;
   user-select: none;
   cursor: grab;
 
   &:active {
     cursor: grabbing;
   }
-  .reticence {
-    width: 10em;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  .ellipsis {
-    --max-lines: 3;
-    position: relative;
-    max-height: calc(var(--lh) * var(--max-lines));
+  p {
+    width: 136px;
+    word-wrap: break-word;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    direction: ltr;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
     overflow: hidden;
   }
   .middle {
     flex-grow: 1;
     height: 100%;
+    width: 136px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -268,4 +267,32 @@
   to {
     stroke-dashoffset: 0;
   }
+}
+
+.long-and-truncated {
+  flex: 1;
+  &,
+  & > * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+
+    word-wrap: break-word;
+
+    direction: ltr;
+  }
+}
+
+.ellipsis {
+  width: 136px;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  direction: ltr;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }

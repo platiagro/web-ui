@@ -161,7 +161,9 @@ const TaskBox = (props) => {
           />
           <div style={{ fontSize: '18px' }}>{icon}</div>
         </div>
-        <div className='reticence ellipsis'>{name}</div>
+        <div className='middle'>
+          <div className='ellipsis'>{name}</div>
+        </div>
         <div className='siders'>
           {renderTooltip()}
           <Handle
