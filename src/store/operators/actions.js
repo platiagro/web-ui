@@ -161,11 +161,10 @@ export const clearOperatorsFeatureParametersRequest = (
     operators.forEach((operator) => {
       const newOperator = { ...operator };
 
-      // getting operator feature parameters and set value to empty
+      // getting operator feature parameters
       const operatorFeatureParameters = operator.parameters.filter(
-        (parameter, index) => {
+        (parameter) => {
           if (parameter.type === 'feature') {
-            newOperator.parameters[index].value = '';
             return true;
           }
           return false;
@@ -180,10 +179,12 @@ export const clearOperatorsFeatureParametersRequest = (
 
     // clear operators feature parameters
     for (const operator of operatorsWithFeatureParameter) {
-      // creating parameter object to update
+      // creating parameter object to update without the feature parameter
       const parameters = {};
-      operator.parameters.forEach(({ name, value }) => {
-        parameters[name] = value;
+      operator.parameters.forEach(({ name, type, value }) => {
+        if (type !== 'feature') {
+          parameters[name] = value;
+        }
       });
       const body = { parameters };
       await operatorsApi
@@ -200,6 +201,5 @@ export const clearOperatorsFeatureParametersRequest = (
     console.log(e);
   }
 };
-
 
 // // // // // // // // // //
