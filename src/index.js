@@ -5,7 +5,6 @@ import './style.less';
 // CORE LIBS
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 // ANTD LIBS
@@ -14,6 +13,9 @@ import ptBR from 'antd/es/locale/pt_BR';
 
 // COMPONENTS
 import App from './components/App';
+
+// CONTAINERS
+import { CustomConfirmRouterContainer as Router } from './containers';
 
 // STORE
 import store from './store';
