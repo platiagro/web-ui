@@ -15,6 +15,7 @@ import {
   OperatorResizableSectionContainer,
   OperatorResultsModalContainer,
   DataViewModalContainer,
+  ChangeRoutePromptContainer,
 } from 'containers';
 
 import FlowDrop from './FlowDrop';
@@ -61,7 +62,10 @@ const ProjectContent = () => {
         <OperatorResultsModalContainer />
         {/* Header from project (name and rename) */}
         <ContentHeaderProjectContainer />
+        {/* render flow */}
         {renderFlowContent()}
+        {/* change route prompt */}
+        <ChangeRoutePromptContainer />
       </DndProvider>
     </>
   );
