@@ -5,6 +5,11 @@ import actionTypes from './actionTypes';
 const initialState = {
   filename: '',
   name: '',
+  progress: 0,
+  file: null,
+  status: null,
+  isUploading: false,
+  cancelToken: null,
   columns: [],
   featuretypes: '',
 };
@@ -54,7 +59,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
     // CANCEL
     // create dataset cancel
     case actionTypes.CREATE_DATASET_CANCEL:
-      return { ...state };
+      return { ...state, ...action.payload };
 
     // get dataset filename
     case actionTypes.GET_DATASET_SUCCESS:
@@ -79,6 +84,22 @@ const datasetReducer = (state = initialState, action = undefined) => {
         filename: action.fileName,
         status: action.status,
       };
+
+    // create dataset success
+    case actionTypes.CREATE_DATASET_REQUEST:
+      return {
+        ...state,
+        file: action.file,
+        filename: action.file.name,
+        isUploading: true,
+        status: 'uploading',
+        progress: 0,
+        cancelToken: action.cancelToken,
+      };
+
+    // create dataset success
+    case actionTypes.UPDATE_DATASET_UPLOAD:
+      return { ...state, progress: action.progress };
 
     // DEFAULT
     default:

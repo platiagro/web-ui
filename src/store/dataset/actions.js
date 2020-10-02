@@ -21,6 +21,7 @@ import {
 
 // UTILS
 import utils from '../../utils';
+import { CancelToken, isCancel } from 'axios';
 
 // ACTIONS
 // ** FETCH DATASET COLUMNS
@@ -91,25 +92,37 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
 };
 
 // // // // // // // // // //
-
-// ** DATASET UPLOAD
 /**
  * Cancel dataset upload action
  *
  * @returns {Function} Dispatch function
  */
-export const cancelDatasetUpload = () => (dispatch) => {
+export const cancelDatasetUpload = () => (dispatch, getState) => {
   const successMessage = 'Dados de entrada removidos';
+
+  // get dataset reducer from store
+  const { datasetReducer } = getState();
+
+  // invoke cancel upload
+  datasetReducer.cancelToken.cancel();
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
-  // dispatching create dataset fail
+  // dispatching create dataset cancel
   dispatch({
     type: actionTypes.CREATE_DATASET_CANCEL,
-    successMessage,
+    payload: {
+      filename: '',
+      progress: 0,
+      file: null,
+      status: null,
+      isUploading: false,
+      cancelToken: null,
+    },
   });
 
+  // display success message
   message.success(successMessage, 5);
 };
 
@@ -119,22 +132,38 @@ export const cancelDatasetUpload = () => (dispatch) => {
  * @param {object} dataset Response dataset object
  * @param {string} projectId Current Project id
  * @param {string} experimentId Current Experiment id
+ * @param {object} datasetOperator Dataset operator
  * @returns {Function} Dispatch function
  */
-export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
-  dispatch,
-  getState
-) => {
-  // get select operator from store
-  const { operatorReducer: operator } = getState();
+export const datasetUploadSuccess = (
+  dataset,
+  projectId,
+  experimentId,
+  datasetOperator
+) => (dispatch) => {
   const featuretypes = utils.getFeaturetypes(dataset);
+
+  // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
+  /*   const { operatorsReducer } = getState();
+
+  const operators = operatorsReducer.map((operatorItem) =>
+    operatorItem.uuid === operator.uuid
+      ? { ...operatorItem, status: 'Running' }
+      : operatorItem
+  );
+
+  // dispatching fetch operators success action
+  dispatch({
+    type: operatorActionTypes.FETCH_OPERATORS_SUCCESS,
+    operators,
+  }); */
 
   // update dataset parameter
   dispatch(
     setOperatorParametersRequest(
       projectId,
       experimentId,
-      operator,
+      datasetOperator,
       'dataset',
       dataset.name
     )
@@ -146,13 +175,17 @@ export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
+  // dispatch action
   dispatch({
     type: actionTypes.CREATE_DATASET_SUCCESS,
     payload: {
       filename: dataset.filename || '',
       name: dataset.name || '',
       columns: dataset.columns || [],
+      status: dataset && dataset.name ? 'done' : null,
       featuretypes: featuretypes || '',
+      isUploading: false,
+      cancelToken: null,
     },
   });
 
@@ -180,18 +213,98 @@ export const datasetUploadFail = () => (dispatch) => {
 };
 
 /**
- * Start dataset upload action
+ * Dataset upload fail action
  *
+ * @param {object} uploadProgress Upload progress
  * @returns {Function} Dispatch function
  */
-export const startDatasetUpload = () => (dispatch) => {
+export const updateDatasetUpload = (uploadProgress) => (dispatch) => {
+  // get uploaded and total progress
+  const { loaded, total } = uploadProgress;
+
+  // calculate percentage
+  const progress = Math.floor((loaded / total) * 100);
+
+  // dispatching create dataset fail
+  dispatch({
+    type: actionTypes.UPDATE_DATASET_UPLOAD,
+    progress,
+  });
+};
+
+/**
+ * Start dataset upload action
+ *
+ * @param {object} file Dataset file
+ * @returns {Function} Dispatch function
+ */
+export const startDatasetUpload = (file) => async (dispatch, getState) => {
+  // get reducers from store
+  const { projectReducer, experimentReducer, operatorReducer } = getState();
+
+  // get project id
+  const { uuid: projectId } = projectReducer;
+
+  // get experiment id
+  const { uuid: experimentId } = experimentReducer;
+
+  // save dataset operator
+  const datasetOperator = { ...operatorReducer };
+
+  // create cancel token
+  const cancelToken = CancelToken.source();
+
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_DATASET_REQUEST,
+    file: file,
+    cancelToken: cancelToken,
   });
 
   // dispatching dataset operator loading data action
   dispatch(datasetOperatorLoadingData());
+
+  // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
+  /* 
+  const {
+    operatorsReducer,
+  } = getState();
+  const operators = operatorsReducer.map((operatorItem) =>
+    operatorItem.uuid === datasetOperator.uuid
+      ? { ...operatorItem, status: 'Running' }
+      : operatorItem
+  );
+
+  // dispatching fetch operators success action
+  dispatch({
+    type: operatorActionTypes.FETCH_OPERATORS_SUCCESS,
+    operators,
+  }); */
+
+  // upload file block
+  try {
+    // call api
+    const response = await datasetsApi.createDataset(
+      file,
+      cancelToken,
+      (progress) => dispatch(updateDatasetUpload(progress))
+    );
+
+    // get dataset from response
+    const dataset = response.data;
+
+    // dispatch success action
+    dispatch(
+      datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+    );
+    // on error
+  } catch (error) {
+    // error not is cancel action
+    if (!isCancel(error)) {
+      // dispatch fail action
+      dispatch(datasetUploadFail());
+    }
+  }
 };
 
 // // // // // // // // // //
@@ -366,18 +479,37 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
 /**
  * select dataset action
  *
- * @param datasetName
- * @returns {Function}
+ * @param {string} datasetName Dataset name
+ * @param {string} projectId Project id
+ * @param {string} experimentId Experiment id
+ * @returns {Function} Action
  */
 export const selectDataset = (datasetName, projectId, experimentId) => (
-  dispatch
+  dispatch,
+  getState
 ) => {
+  // dispatch action
+  dispatch({
+    type: actionTypes.SELECT_DATASET,
+  });
+
+  // get operator reducer from store
+  const { operatorReducer } = getState();
+
+  // save dataset operator
+  const datasetOperator = { ...operatorReducer };
+
   // fetching dataset
   datasetsApi
     .getDataset(datasetName, 1, 10)
     .then((response) => {
+      // get dataset from response
       const dataset = response.data;
-      dispatch(datasetUploadSuccess(dataset, projectId, experimentId));
+
+      // dispatch action to save dataset
+      dispatch(
+        datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+      );
     })
     .catch((error) => dispatch(getDatasetFail(error)));
 };
@@ -395,9 +527,19 @@ export const deleteDatasetSuccess = () => (dispatch) => {
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
+  // dispatch action
   dispatch({
     type: actionTypes.DELETE_DATASET_SUCCESS,
-    payload: { columns: [], featuretypes: '', filename: '', name: '' },
+    payload: {
+      columns: [],
+      featuretypes: '',
+      filename: '',
+      name: '',
+      progress: 0,
+      file: null,
+      status: null,
+      isUploading: false,
+    },
   });
 };
 
