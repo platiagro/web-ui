@@ -39,7 +39,7 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
 
           if (extension) {
             type = 'text';
-            subtype = extension.shift();
+            subtype = extension.shift().replace('.', '');
           }
         }
 
