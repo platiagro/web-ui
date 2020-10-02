@@ -49,10 +49,13 @@ const ExperimentsTabs = (props) => {
   const [currentName, setCurrentName] = useState('');
   // Visible for rename popover
   const [renameVisible, setRenameVisible] = useState(false);
+  // Visible for duplicate popover
+  const [duplicateVisible, setDuplicateVisible] = useState(false);
 
   useEffect(() => {
     // change rename popover visibility on experiments change
     setRenameVisible(false);
+    setDuplicateVisible(false);
   }, [experiments]);
 
   // COMPONENTS RENDERS
@@ -111,7 +114,7 @@ const ExperimentsTabs = (props) => {
   );
 
   //Content of rename popover, using Search for press enter and suffix ok button
-  const content = (
+  const contentRename = (
     <>
       <p>Renomear</p>
       <Input.Search
@@ -134,7 +137,7 @@ const ExperimentsTabs = (props) => {
     </>
   );
 
-  const contentRename = (
+  const contentDuplicate = (
     <>
       <p>Duplicar</p>
       <Input.Search
@@ -185,9 +188,19 @@ const ExperimentsTabs = (props) => {
   //Handlers
   const handleMenuClick = (action, uuid, title) => {
     setCurrentId(uuid);
-    if (action === 'rename') {
-      setCurrentName(title);
-      setRenameVisible(true);
+    switch (action) {
+      case 'rename':
+        setCurrentName(title);
+        setRenameVisible(true);
+        break;
+    
+      case 'duplicate':
+        setCurrentName(title);
+        setDuplicateVisible(true);
+        break;
+      
+      default:
+        break;
     }
   };
 
@@ -204,7 +217,7 @@ const ExperimentsTabs = (props) => {
       <ContextMenu className='menu-tab' id='menu_id'>
         <Popover
           trigger='click'
-          content={content}
+          content={contentRename}
           visible={renameVisible}
           onVisibleChange={(visible) => {
             setRenameVisible(visible);
@@ -226,7 +239,14 @@ const ExperimentsTabs = (props) => {
           </MenuItem>
         </Popover>
 
-        <Popover content={contentRename} trigger='click'>
+        <Popover
+          trigger='click'
+          content={contentDuplicate}
+          visible={duplicateVisible}
+          onVisibleChange={(visible) => {
+            setDuplicateVisible(visible);
+          }}
+        >
           <MenuItem
             className='menu-tab-item'
             data={{ action: 'duplicar' }}
