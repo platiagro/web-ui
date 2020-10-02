@@ -13,10 +13,18 @@ import DataViewButtonContainer from './DataViewButtonContainer';
 // DATA VIEW MODAL CONTAINER
 import DataViewModalContainer from './DataViewModalContainer';
 
+// CHANGE ROUTE PROMPT CONTAINER
+import ChangeRoutePromptContainer from './ChangeRoutePromptContainer';
+
+// CUSTOM CONFIRM ROUTER CONTAINER
+import CustomConfirmRouterContainer from './CustomConfirmRouterContainer';
+
 export {
   OperatorResizableSectionContainer,
   DatasetUploadInputBlockContainer,
   OperatorResultsModalContainer,
   DataViewButtonContainer,
   DataViewModalContainer,
+  ChangeRoutePromptContainer,
+  CustomConfirmRouterContainer,
 };
