@@ -16,6 +16,14 @@ FROM nginx:1.15-alpine
 
 COPY default.conf /etc/nginx/conf.d
 
+ARG auth
+
+# Configures HTTP Basic Authentication, when ARG auth is not empty
+RUN if [ "$auth" != "" ] ; then \
+  sed -i "/^.*location \/ {.*/a \ \ \ \ \ \ \ \ auth_basic \"Administrator’s Area\"" /etc/nginx/conf.d/default.conf; \
+  sed -i "/^.*location \/ {.*/a \ \ \ \ \ \ \ \ auth_basic_user_file \/etc\/apache2\/.htpasswd;" /etc/nginx/conf.d/default.conf; \
+  fi
+
 COPY --from=build-stage /app/build/ /usr/share/nginx/html/
 
 EXPOSE 80
