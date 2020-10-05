@@ -20,7 +20,7 @@ ARG auth
 
 # Configures HTTP Basic Authentication, when ARG auth is not empty
 RUN if [ "$auth" != "" ] ; then \
-  sed -i "/^.*location \/ {.*/a \ \ \ \ \ \ \ \ auth_basic \"Administrator’s Area\"" /etc/nginx/conf.d/default.conf; \
+  sed -i "/^.*location \/ {.*/a \ \ \ \ \ \ \ \ auth_basic \"Administrator’s Area\";" /etc/nginx/conf.d/default.conf; \
   sed -i "/^.*location \/ {.*/a \ \ \ \ \ \ \ \ auth_basic_user_file \/etc\/apache2\/.htpasswd;" /etc/nginx/conf.d/default.conf; \
   fi
 
