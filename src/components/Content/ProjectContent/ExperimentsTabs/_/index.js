@@ -75,7 +75,9 @@ const ExperimentsTabs = (props) => {
         >
           <div className='tab-title-custom'>
             {title}
-            {(running || loadingTitle) && <LoadingOutlined />}
+            {(running || loadingTitle) && activeExperiment === experimentId && (
+              <LoadingOutlined />
+            )}
           </div>
           {experimentId && (
             <Popconfirm

@@ -13,6 +13,8 @@ import {
   experimentOperatorsLoadingData,
   operatorParameterLoadingData,
   operatorParameterDataLoaded,
+  experimentsTabsLoadingData,
+  experimentsTabsDataLoaded,
 } from '../ui/actions';
 
 // PIPELINES ACTIONS
@@ -37,6 +39,9 @@ const fetchOperatorsSuccess = (operators, experimentId) => (dispatch) => {
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
 
+  // dispatching experiment tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
+
   // dispatching get training experiment status request action
   dispatch(getTrainExperimentStatusRequest(experimentId));
 
@@ -59,6 +64,9 @@ const fetchOperatorsFail = (error) => (dispatch) => {
 
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
+
+    // dispatching experiment tabs data loaded action
+    dispatch(experimentsTabsDataLoaded());
 
   // dispatching fetch operators fail
   dispatch({
@@ -85,6 +93,9 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
 
   // dispatching experiment operators loading data action
   dispatch(experimentOperatorsLoadingData());
+
+  // dispatching experiment tabs loading data action
+  dispatch(experimentsTabsLoadingData());
 
   try {
     // getting tasks
