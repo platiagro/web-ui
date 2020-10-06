@@ -85,9 +85,15 @@ const ExperimentFlow = ({
   });
 
   const handleLoad = (reactFlowInstance) => {
-    handleSaveFlowTransform({ x: 0, y: 0, zoom: 1 });
-    reactFlowInstance.setTransform({ x: 0, y: 0, zoom: 1 });
+    setTimeout(() => {
+      reactFlowInstance.fitView();
+    }, 400);
   };
+
+  // const handleOnMove = (trans) => {
+  //   console.log('moveu', trans);
+  //   handleSaveFlowTransform(trans);
+  // };
 
   //TODO: Will be used later.
   const handleConnect = (params) =>
@@ -121,7 +127,7 @@ const ExperimentFlow = ({
         onNodeDragStop={handleDragStop}
         onConnectEnd={() => setConnectClass('')}
         onConnectStart={() => setConnectClass('Connecting')}
-        onMoveEnd={handleSaveFlowTransform}
+        // onMoveEnd={handleOnMove}
       >
         <Background
           variant='dots'
@@ -163,7 +169,13 @@ const ExperimentFlowDrop = DropTarget(
     drop: (props, monitor) => {
       const delta = monitor.getClientOffset();
 
-      const offset = props.flowTransform;
+      // const offset = props.flowTransform;
+
+      const offset = {
+        x: props.transformations[0],
+        y: props.transformations[1],
+        zoom: props.transformations[2],
+      };
 
       const positions = { x: delta.x - 435, y: delta.y - 189 };
 

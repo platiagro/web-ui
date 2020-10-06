@@ -14,6 +14,7 @@ import {
   saveOperatorPosition,
 } from '../../../../../../store/operator/actions';
 import { saveFlowTransform } from '../../../../../../store/ui/actions';
+import { useStoreState } from 'react-flow-renderer';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -72,6 +73,8 @@ const ExperimentFlowContainer = ({
   // CONSTANTS
   // getting experiment uuid
   const { projectId, experimentId } = useParams();
+  const transformations = useStoreState((store) => store.transform);
+  console.log(transformations);
 
   // HOOKS
   // did mount hook
@@ -102,6 +105,7 @@ const ExperimentFlowContainer = ({
       handleTaskBoxClick={selectOperatorHandler}
       handleDeselectOperator={handleDeselectOperator}
       handleSavePosition={handleSavePosition}
+      transformations={transformations}
     />
   );
 };
