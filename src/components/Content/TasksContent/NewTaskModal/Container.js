@@ -35,6 +35,8 @@ const mapStateToProps = (state) => {
  * New Task Modal Container.
  * This component is responsible for create a logic container for new Task modal
  * with redux.
+ *
+ * @param props
  */
 const NewTaskModalContainer = (props) => {
   // states
@@ -42,7 +44,11 @@ const NewTaskModalContainer = (props) => {
   // dispatchs
   const { handleAddTask, handleCloseTasksModal } = props;
 
-  const templates = [...tasks];
+  // filter tasks not is datasets
+  const templates = tasks.filter(
+    (itemTask) => !itemTask.tags.includes('DATASETS')
+  );
+
   templates.sort((a, b) => a.name.localeCompare(b.name));
   templates.push({
     uuid: 'uuid',
