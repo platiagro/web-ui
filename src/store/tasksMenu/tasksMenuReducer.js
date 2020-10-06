@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -27,7 +24,6 @@ const tasksMenuReducer = (state = initialState, action = undefined) => {
       };
     // fetch templates success
     case templatesActionTypes.DELETE_TEMPLATE_SUCCESS:
-      message.success('Template excluído!');
       const filteredTemplates = [...state.filtered.TEMPLATES].filter(
         (template) => template.uuid !== action.templateId
       );
@@ -54,14 +50,13 @@ const tasksMenuReducer = (state = initialState, action = undefined) => {
     // tasks menu
     // fetch tasks menu fail
     case actionTypes.FETCH_TASKS_MENU_FAIL:
-      return message.error(action.errorMessage);
+      return { ...state };
 
     // FAIL
     // tasks menu
     // delete templates menu fail
     case templatesActionTypes.DELETE_TEMPLATE_FAIL:
-      message.error(action.errorMessage);
-      return state;
+      return { ...state };
     // COMMON
     // tasks menu
     // filter tasks menu

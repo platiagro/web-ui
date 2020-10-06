@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -29,11 +26,9 @@ const experimentReducer = (state = initialState, action = undefined) => {
     case actionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
       return { ...state, ...action.experiment };
     case actionTypes.CREATE_EXPERIMENT_SUCCESS:
-      message.success(`Experimento ${action.experiment.name} criado!`);
       return { ...state, ...action.experiment };
     case actionTypes.DELETE_EXPERIMENT_SUCCESS:
-      message.success(`Experimento excluído!`);
-      return initialState;
+      return { ...state };
     case actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_SUCCESS:
       return { ...state, deployStatus: action.status };
 
@@ -41,9 +36,7 @@ const experimentReducer = (state = initialState, action = undefined) => {
     // experiment
     case actionTypes.FETCH_EXPERIMENT_FAIL:
     case actionTypes.DELETE_EXPERIMENT_FAIL:
-    case actionTypes.SET_TARGET_COLUMN_FAIL:
-      message.error(action.errorMessage, 5);
-      return state;
+      return { ...state };
     case actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_FAIL:
       return { ...state, deployStatus: '' };
 

@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import operatorActionTypes from '../operator/actionTypes';
@@ -18,6 +15,9 @@ const initialState = [];
  */
 const operatorsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
+    //INIT FETCH
+    case actionTypes.FETCH_OPERATORS_REQUEST:
+      return initialState;
     // SUCCESS
     // operators
     // fetch operators success
@@ -81,8 +81,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     // operators
     // fetch operators fail
     case actionTypes.FETCH_OPERATORS_FAIL:
-      message.error(action.errorMessage);
-      return [];
+      return [...state];
 
     // COMMON
     // operator

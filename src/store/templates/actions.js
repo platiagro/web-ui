@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -47,6 +50,8 @@ const fetchTemplatesSuccess = (response) => {
 const fetchTemplatesFail = (error) => {
   // getting error message
   const errorMessage = error.message;
+
+  message.error(errorMessage);
 
   return {
     type: actionTypes.FETCH_TEMPLATES_FAIL,
@@ -116,6 +121,8 @@ const createTemplateFail = (error) => (dispatch) => {
     type: actionTypes.CREATE_TEMPLATE_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**
@@ -182,6 +189,8 @@ const setTemplateFail = (error) => (dispatch) => {
     type: actionTypes.SET_TEMPLATE_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**
@@ -253,6 +262,8 @@ const deleteTemplateFail = (error) => (dispatch) => {
     type: actionTypes.DELETE_TEMPLATE_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 // // // // // // // // // //
@@ -272,6 +283,8 @@ const deleteTemplateSuccess = (templateId) => (dispatch) => {
     type: actionTypes.DELETE_TEMPLATE_SUCCESS,
     templateId,
   });
+
+  message.success('Template excluído!');
 };
 
 // // // // // // // // // //

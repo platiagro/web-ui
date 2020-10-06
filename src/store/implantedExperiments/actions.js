@@ -61,6 +61,8 @@ const implantedExperimentsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 export const fetchImplantedExperiments = () => (dispatch) => {

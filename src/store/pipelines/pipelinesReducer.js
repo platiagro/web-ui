@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -16,24 +13,22 @@ const pipelinesReducer = (state = initialState, action = undefined) => {
     // pipelines
     // train experiment success
     case actionTypes.TRAIN_EXPERIMENT_SUCCESS:
-      message.success('Treinamento iniciado!');
       return state;
     // deploy experiment success
     case actionTypes.DEPLOY_EXPERIMENT_SUCCESS:
-      message.success('Experimento implantado!');
       return state;
 
     // FAIL
     // pipelines
     // train experiment fail
     case actionTypes.TRAIN_EXPERIMENT_FAIL:
-      return message.error(action.errorMessage);
+      return state;
     // get train experiment status fail
-    case actionTypes.GET_TRAIN_EXPERIMENT_FAIL:
-      return message.error(action.errorMessage);
+    case actionTypes.GET_TRAIN_EXPERIMENT_STATUS_FAIL:
+      return state;
     // deploy experiment fail
     case actionTypes.DEPLOY_EXPERIMENT_FAIL:
-      return message.error(action.errorMessage);
+      return state;
 
     // DEFAULT
     default:

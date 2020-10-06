@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -29,7 +26,7 @@ const operatorReducer = (state = initialState, action = undefined) => {
     // operator
     // remove operator success
     case actionTypes.REMOVE_OPERATOR_SUCCESS:
-      return message.success('Operador removido com sucesso!');
+      return { ...state };
     // set operator params success
     case actionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
       return { ...state, ...action.operator };
@@ -45,21 +42,19 @@ const operatorReducer = (state = initialState, action = undefined) => {
     // operator
     // create operator fail
     case actionTypes.CREATE_OPERATOR_FAIL:
-      return message.error(action.errorMessage);
+      return { ...state };
     // remove operator fail
     case actionTypes.REMOVE_OPERATOR_FAIL:
-      return message.error(action.errorMessage);
+      return { ...state };
     // set operator params fail
     case actionTypes.SET_OPERATOR_PARAMETERS_FAIL:
-      return message.error(action.errorMessage);
+      return { ...state };
     // get operator results fail
     case actionTypes.GET_OPERATOR_RESULTS_FAIL:
-      message.error(action.errorMessage);
       return { ...state, results: [] };
     case actionTypes.GET_OPERATOR_METRICS_FAIL:
       return { ...state, metrics: [] };
     case actionTypes.GET_OPERATOR_LOGS_FAIL:
-      message.error(action.errorMessage);
       return { ...state, logs: [] };
 
     // COMMON

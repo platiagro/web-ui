@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -45,6 +48,8 @@ const fetchDatasetsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_DATASETS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**

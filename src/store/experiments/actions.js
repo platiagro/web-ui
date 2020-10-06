@@ -1,3 +1,6 @@
+// UI LIBS
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -48,6 +51,8 @@ const fetchExperimentsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_EXPERIMENTS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**
@@ -120,6 +125,8 @@ const organizeExperimentsFail = (error) => (dispatch) => {
     type: actionTypes.ORGANIZE_EXPERIMENTS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**

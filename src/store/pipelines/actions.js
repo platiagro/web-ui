@@ -28,6 +28,8 @@ import utils from '../../utils';
  * @returns {Object} { type }
  */
 const trainExperimentSuccess = () => {
+  message.success('Treinamento iniciado!');
+
   return {
     type: actionTypes.TRAIN_EXPERIMENT_SUCCESS,
   };
@@ -49,6 +51,8 @@ const trainExperimentFail = (error) => (dispatch) => {
     type: actionTypes.TRAIN_EXPERIMENT_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**
@@ -228,6 +232,7 @@ const deployExperimentSuccess = (experimentId, routerProps) => () => {
   // go to deployed experiments
   routerProps.history.push(`/fluxos-implantados?experiment=${experimentId}`);
 
+  message.success('Experimento implantado!');
   // dispatching deploy experiment success
   return {
     type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
@@ -242,6 +247,8 @@ const deployExperimentSuccess = (experimentId, routerProps) => () => {
 const deployExperimentFail = (error) => {
   // getting error message
   const errorMessage = error.message;
+
+  message.error(errorMessage);
 
   return {
     type: actionTypes.DEPLOY_EXPERIMENT_FAIL,
