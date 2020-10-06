@@ -29,10 +29,6 @@ import utils from '../../utils';
  */
 const trainExperimentSuccess = () => {
   message.success('Treinamento iniciado!');
-
-  return {
-    type: actionTypes.TRAIN_EXPERIMENT_SUCCESS,
-  };
 };
 
 /**
@@ -46,11 +42,6 @@ const trainExperimentFail = (error) => (dispatch) => {
 
   // dispatching experiment training data loaded
   dispatch(experimentTrainingDataLoaded());
-
-  dispatch({
-    type: actionTypes.TRAIN_EXPERIMENT_FAIL,
-    errorMessage,
-  });
 
   message.error(errorMessage);
 };
@@ -113,7 +104,7 @@ export const trainExperimentRequest = (experiment, operators) => (
   // training experiment
   pipelinesApi
     .trainExperiment(trainObject)
-    .then(() => dispatch(trainExperimentSuccess()))
+    .then(() => trainExperimentSuccess())
     .catch((error) => dispatch(trainExperimentFail(error)));
 };
 
@@ -193,11 +184,6 @@ const getTrainExperimentStatusFail = (error) => (dispatch) => {
     dispatch(experimentTrainingDataLoaded());
     dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_NOT_SUCCEEDED });
   }
-
-  dispatch({
-    type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_FAIL,
-    errorMessage,
-  });
 };
 
 /**
@@ -233,10 +219,6 @@ const deployExperimentSuccess = (experimentId, routerProps) => () => {
   routerProps.history.push(`/fluxos-implantados?experiment=${experimentId}`);
 
   message.success('Experimento implantado!');
-  // dispatching deploy experiment success
-  return {
-    type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
-  };
 };
 
 /**
@@ -249,11 +231,6 @@ const deployExperimentFail = (error) => {
   const errorMessage = error.message;
 
   message.error(errorMessage);
-
-  return {
-    type: actionTypes.DEPLOY_EXPERIMENT_FAIL,
-    errorMessage,
-  };
 };
 
 /**
@@ -293,8 +270,8 @@ export const deployExperimentRequest = (
   // deploying experiment
   pipelinesApi
     .deployExperiment(experiment.uuid, deployObject)
-    .then(() => dispatch(deployExperimentSuccess(experiment.uuid, routerProps)))
-    .catch((error) => dispatch(deployExperimentFail(error)));
+    .then(() => deployExperimentSuccess(experiment.uuid, routerProps))
+    .catch((error) => deployExperimentFail(error));
 };
 
 // // // // // // // // // //
