@@ -86,7 +86,6 @@ const ExperimentFlow = ({
   const handleLoad = (reactFlowInstance) => {
     setTimeout(() => {
       reactFlowInstance.fitView();
-      reactFlowInstance.zoomTo(1);
     }, 0);
   };
 

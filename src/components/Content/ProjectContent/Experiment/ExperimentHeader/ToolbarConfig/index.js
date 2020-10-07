@@ -19,7 +19,6 @@ import { useStoreActions } from 'react-flow-renderer';
 const ToolbarConfig = ({ handleDeleteClick, operator }) => {
   //ACTIONS FROM REACT FLOW RENDERER
   const fitView = useStoreActions((flowStore) => flowStore.fitView);
-  const zoomTo = useStoreActions((flowStore) => flowStore.zoomTo);
 
   //HANDLERS
   const handleZoomIn = useStoreActions((flowStore) => flowStore.zoomIn);
@@ -28,7 +27,6 @@ const ToolbarConfig = ({ handleDeleteClick, operator }) => {
 
   const handleFitView = () => {
     fitView();
-    zoomTo(1);
   };
 
   return (
