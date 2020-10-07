@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { ReactFlowProvider } from 'react-flow-renderer';
 
 //COMPONENTS
 import ExperimentEmpty from '../../Experiment/ExperimentEmpty';
@@ -15,9 +16,11 @@ const FlowDrop = () => {
 
   return (
     <div className='custom-flow'>
-      <ExperimentHeader />
-      {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
-      <CustomDragLayer />
+      <ReactFlowProvider>
+        <ExperimentHeader />
+        {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
+        <CustomDragLayer />
+      </ReactFlowProvider>
     </div>
   );
 };

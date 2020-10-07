@@ -9,17 +9,33 @@ import {
   DeleteOutlined,
   ZoomInOutlined,
   ZoomOutOutlined,
+  ExpandOutlined,
 } from '@ant-design/icons';
 
 import { Button, Popconfirm } from 'antd';
 
+import { useStoreActions } from 'react-flow-renderer';
+
 const ToolbarConfig = ({ handleDeleteClick, operator }) => {
+  //ACTIONS FROM REACT FLOW RENDERER
+  const fitView = useStoreActions((flowStore) => flowStore.fitView);
+
+  //HANDLERS
+  const handleZoomIn = useStoreActions((flowStore) => flowStore.zoomIn);
+
+  const handleZoomOut = useStoreActions((flowStore) => flowStore.zoomOut);
+
+  const handleFitView = () => {
+    fitView();
+  };
+
   return (
     <>
       <Button icon={<UndoOutlined />} type='text' disabled />
       <Button icon={<RedoOutlined />} type='text' disabled />
-      <Button icon={<ZoomInOutlined />} type='text' disabled />
-      <Button icon={<ZoomOutOutlined />} type='text' disabled />
+      <Button icon={<ZoomInOutlined />} type='text' onClick={handleZoomIn} />
+      <Button icon={<ZoomOutOutlined />} type='text' onClick={handleZoomOut} />
+      <Button icon={<ExpandOutlined />} type='text' onClick={handleFitView} />
       <Popconfirm
         title='Você tem certeza que deseja excluir esta tarefa?'
         onConfirm={handleDeleteClick}
