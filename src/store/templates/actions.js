@@ -229,7 +229,7 @@ export const setTemplateRequest = (projectId, experimentId, templateId) => (
  * delete template request action
  * @returns {Function}
  */
-export const deleteTemplateRequest = (templateId) => (dispatch) => {
+export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DELETE_TEMPLATE_REQUEST,
@@ -241,7 +241,7 @@ export const deleteTemplateRequest = (templateId) => (dispatch) => {
   // deleting project
   templatesApi
     .deleteTemplate(templateId)
-    .then(() => dispatch(deleteTemplateSuccess(templateId)))
+    .then(() => dispatch(deleteTemplateSuccess(templateId, allTasks)))
     .catch((error) => dispatch(deleteTemplateFail(error)));
 };
 
@@ -274,14 +274,40 @@ const deleteTemplateFail = (error) => (dispatch) => {
  * @param {Object} templateId
  * @returns {Object} { type }
  */
-const deleteTemplateSuccess = (templateId) => (dispatch) => {
-  // dispatching template table data loaded action
+const deleteTemplateSuccess = (templateId, allTasks) => (dispatch) => {
+  const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
+    (template) => template.uuid !== templateId
+  );
+
+  const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
+    (template) => template.uuid !== templateId
+  );
+
+  const tasks = {
+    unfiltered: {
+      ...allTasks.unfiltered,
+      TEMPLATES: unfilteredTemplates,
+    },
+    filtered: {
+      ...allTasks.filtered,
+      TEMPLATES: filteredTemplates,
+    },
+  };
+
+  if (tasks.unfiltered.TEMPLATES.length === 0) {
+    delete tasks.unfiltered.TEMPLATES;
+  }
+
+  if (tasks.filtered.TEMPLATES.length === 0) {
+    delete tasks.filtered.TEMPLATES;
+  }
+
   dispatch(tasksMenuDataLoaded());
 
   // dispatching delete template success action
   dispatch({
     type: actionTypes.DELETE_TEMPLATE_SUCCESS,
-    templateId,
+    payload: tasks,
   });
 
   message.success('Template excluído!');
