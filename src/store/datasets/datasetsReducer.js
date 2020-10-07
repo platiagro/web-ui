@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import datasetActionTypes from '../dataset/actionTypes';
@@ -34,7 +31,7 @@ const datasetsReducer = (state = initialState, action = undefined) => {
     // datasets
     // fetch datasets fail
     case actionTypes.FETCH_DATASETS_FAIL:
-      return message.error(action.errorMesssage);
+      return [...state];
 
     // // // // // // //
 

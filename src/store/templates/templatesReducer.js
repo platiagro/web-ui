@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -22,13 +19,13 @@ const templatesReducer = (state = initialState, action = undefined) => {
     // templates
     // fetch templates fail
     case actionTypes.FETCH_TEMPLATES_FAIL:
-      return message.error(action.errorMessage);
+      return [...state];
     // create template fail
     case actionTypes.CREATE_TEMPLATE_FAIL:
-      return message.error(action.errorMessage);
+      return [...state];
     // set template fail
     case actionTypes.SET_TEMPLATE_FAIL:
-      return message.error(action.errorMessage);
+      return [...state];
 
     // DEFAULT
     default:

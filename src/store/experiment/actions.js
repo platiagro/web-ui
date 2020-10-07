@@ -75,8 +75,10 @@ const fetchExperimentFail = (error, routerProps) => (dispatch) => {
     errorMessage,
   });
 
+  message.error(errorMessage, 5);
+
   // check if error is 404
-  if (error.response.status === 404) {
+  if (error.response?.status === 404) {
     // redirect to error page
     routerProps.history.replace('/erro-404');
   }
@@ -181,6 +183,8 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
     type: actionTypes.CREATE_EXPERIMENT_SUCCESS,
     experiment,
   });
+
+  message.success(`Experimento ${experiment.name} criado!`);
 
   // go to new experiment
   routerProps.history.push(`/projetos/${projectId}/${experiment.uuid}`);
@@ -373,6 +377,8 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
     experimentId,
   });
 
+  message.success(`Experimento excluído!`);
+
   // go to project
   routerProps.history.push(`/projetos/${projectId}`);
 };
@@ -401,6 +407,8 @@ const deleteExperimentFail = (error) => (dispatch) => {
     type: actionTypes.DELETE_EXPERIMENT_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**

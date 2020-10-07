@@ -105,6 +105,8 @@ const getOperatorResultsFail = (error) => (dispatch) => {
     type: actionTypes.GET_OPERATOR_RESULTS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**
@@ -385,6 +387,8 @@ const createOperatorFail = (error) => (dispatch) => {
     type: actionTypes.CREATE_OPERATOR_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**
@@ -532,6 +536,8 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
       } else {
         dispatch(fetchOperatorsRequest(projectId, experimentId));
       }
+
+      message.success('Operador removido com sucesso!');
     })
     .catch((error) => {
       // getting error message
@@ -545,6 +551,8 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
         type: actionTypes.REMOVE_OPERATOR_FAIL,
         errorMessage,
       });
+
+      message.error(errorMessage);
     });
 };
 
@@ -584,6 +592,8 @@ const setOperatorParametersFail = (error) => (dispatch) => {
     type: actionTypes.SET_OPERATOR_PARAMETERS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**

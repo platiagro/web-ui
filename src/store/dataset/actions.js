@@ -62,6 +62,8 @@ const fetchDatasetColumnsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_DATASET_COLUMNS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -107,6 +109,8 @@ export const cancelDatasetUpload = () => (dispatch) => {
     type: actionTypes.CREATE_DATASET_CANCEL,
     successMessage,
   });
+
+  message.success(successMessage, 5);
 };
 
 /**
@@ -151,6 +155,8 @@ export const datasetUploadSuccess = (dataset, projectId, experimentId) => (
       featuretypes: featuretypes || '',
     },
   });
+
+  message.success('Dados de entrada importados', 5);
 };
 
 /**
@@ -169,6 +175,8 @@ export const datasetUploadFail = () => (dispatch) => {
     type: actionTypes.CREATE_DATASET_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -227,6 +235,8 @@ const updateDatasetColumnFail = (error) => (dispatch) => {
     type: actionTypes.UPDATE_DATASET_COLUMN_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -310,6 +320,8 @@ const getDatasetFail = (error) => (dispatch) => {
     type: actionTypes.GET_DATASET_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -405,6 +417,8 @@ export const deleteDatasetFail = () => (dispatch) => {
     type: actionTypes.DELETE_DATASET_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -514,6 +528,8 @@ export const updateAllDatasetColumnFail = (errorMessage) => (dispatch) => {
     type: actionTypes.UPDATE_ALL_DATASET_COLUMNS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**

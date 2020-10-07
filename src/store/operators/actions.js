@@ -1,3 +1,6 @@
+// UI LIB
+import { message } from 'antd';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -73,6 +76,8 @@ const fetchOperatorsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_OPERATORS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**

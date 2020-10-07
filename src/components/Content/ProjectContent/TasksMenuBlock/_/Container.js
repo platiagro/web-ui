@@ -42,8 +42,8 @@ const mapDispatchToProps = (dispatch) => {
       ),
     handleSetTemplate: (projectId, experimentId, templateId) =>
       dispatch(setTemplateRequest(projectId, experimentId, templateId)),
-    handleDeleteTemplate: (templateId) =>
-      dispatch(deleteTemplateRequest(templateId)),
+    handleDeleteTemplate: (templateId, allTasks) =>
+      dispatch(deleteTemplateRequest(templateId, allTasks)),
   };
 };
 
@@ -54,6 +54,7 @@ const mapStateToProps = (state) => {
     tasks: state.tasksReducer.tasks,
     tasksMenu: state.tasksMenuReducer.filtered,
     trainingLoading: state.uiReducer.experimentTraining.loading,
+    allTasks: state.tasksMenuReducer,
   };
 };
 
@@ -74,6 +75,7 @@ const TasksMenuBlockContainer = ({
   handleSetTemplate,
   disabled,
   handleDeleteTemplate,
+  allTasks,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -104,12 +106,16 @@ const TasksMenuBlockContainer = ({
       );
   };
 
+  const deleteTemplateHandler = (templateId) => {
+    handleDeleteTemplate(templateId, allTasks);
+  };
+
   // RENDER
   return (
     <TasksMenuBlock
       handleTaskClick={createOperatorHandler}
       handleFilter={handleFilterTasksMenu}
-      handleDeleteTemplate={handleDeleteTemplate}
+      handleDeleteTemplate={deleteTemplateHandler}
       menu={tasksMenu}
       disabled={disabled || trainingLoading}
       loading={loading}

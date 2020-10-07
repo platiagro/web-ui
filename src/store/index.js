@@ -16,7 +16,6 @@ import tasksReducer from './tasks/tasksReducer';
 import uiReducer from './ui/uiReducer';
 import datasetReducer from './dataset/datasetReducer';
 import datasetsReducer from './datasets/datasetsReducer';
-import pipelinesReducer from './pipelines/pipelinesReducer';
 import deploymentLogsReducer from './deploymentLogs/deploymentLogsReducer';
 import testExperimentInferenceReducer from './testExperimentInference/testExperimentInferenceReducer';
 
@@ -44,7 +43,6 @@ const reducers = combineReducers({
   uiReducer,
   datasetReducer,
   datasetsReducer,
-  pipelinesReducer,
   deploymentLogsReducer,
   testExperimentInferenceReducer,
 });

@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import experimentActionTypes from '../experiment/actionTypes';
@@ -57,11 +54,10 @@ const experimentsReducer = (state = initialState, action = undefined) => {
     // experiments
     // fetch experiments fail
     case actionTypes.FETCH_EXPERIMENTS_FAIL:
-      return message.error(action.errorMessage);
+      return [...state];
     // organize experiments fail
     case actionTypes.ORGANIZE_EXPERIMENTS_FAIL:
-      return message.error(action.errorMessage);
-
+      return [...state];
     // // // // // // //
 
     // DEFAULT

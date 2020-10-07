@@ -1,6 +1,3 @@
-// UI LIBS
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -26,11 +23,9 @@ const projectReducer = (state = initialState, action = undefined) => {
       return { ...action.project };
     // create project success
     case actionTypes.CREATE_PROJECT_SUCCESS:
-      message.success(`Projeto ${action.project.name} criado!`);
       return { ...action.project };
     // delete project success
     case actionTypes.DELETE_PROJECT_SUCCESS:
-      message.success(`Projeto excluído!`);
       return initialState;
     // edit project name success
     case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
@@ -41,9 +36,8 @@ const projectReducer = (state = initialState, action = undefined) => {
     // project
     case actionTypes.FETCH_PROJECT_FAIL:
     case actionTypes.DELETE_PROJECT_FAIL:
-    case actionTypes.EDIT_PROJECT_REQUEST:
-      message.error(action.errorMessage, 5);
-      return state;
+    case actionTypes.EDIT_PROJECT_NAME_FAIL:
+      return { ...state };
 
     // DEFAULT
     default:

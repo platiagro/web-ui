@@ -66,8 +66,10 @@ const fetchProjectFail = (error, routerProps) => (dispatch) => {
     errorMessage,
   });
 
+  message.error(errorMessage, 5);
+
   // check if error is 404
-  if (error.response.status === 404) {
+  if (error.response?.status === 404) {
     // redirect to error page
     routerProps.history.replace('/erro-404');
   }
@@ -123,6 +125,8 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
     type: actionTypes.CREATE_PROJECT_SUCCESS,
     project,
   });
+
+  message.success(`Projeto ${project.name} criado!`);
 
   // go to new project
   routerProps.history.push(`/projetos/${project.uuid}`);
@@ -299,6 +303,8 @@ const deleteProjectSuccess = (projectId) => (dispatch) => {
     type: actionTypes.DELETE_PROJECT_SUCCESS,
     projectId,
   });
+
+  message.success(`Projeto excluído!`);
 };
 
 /**
@@ -319,6 +325,8 @@ const deleteProjectFail = (error) => (dispatch) => {
     type: actionTypes.DELETE_PROJECT_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**
