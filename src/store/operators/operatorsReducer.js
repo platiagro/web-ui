@@ -17,7 +17,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     //INIT FETCH
     case actionTypes.FETCH_OPERATORS_REQUEST:
-      return initialState;
+      return [...initialState];
     // SUCCESS
     // operators
     // fetch operators success

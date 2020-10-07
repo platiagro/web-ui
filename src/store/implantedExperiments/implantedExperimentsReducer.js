@@ -13,7 +13,7 @@ const implantedExperimentsReducer = (
 ) => {
   switch (action.type) {
     case actionTypes.FETCH_IMPLANTED_EXPERIMENTS:
-      return action.implantedExperiments;
+      return [...action.implantedExperiments];
     case actionTypes.FETCH_IMPLANTED_EXPERIMENTS_FAIL:
       return [...state];
     default:
