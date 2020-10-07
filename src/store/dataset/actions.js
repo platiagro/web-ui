@@ -630,15 +630,24 @@ const setGoogleDatasetStatus = (fileName, status) => (dispatch) => {
  * @param gfile
  */
 export const createGoogleDataset = (projectId, experimentId, gfile) => (
-  dispatch
+  dispatch,
+  getState
 ) => {
+  // get operator reducer (operator selected, in this case dataset)
+  const { operatorReducer } = getState();
+
+  // create dataset operator
+  const datasetOperator = { ...operatorReducer };
+
   dispatch(datasetOperatorLoadingData());
   dispatch(setGoogleDatasetStatus(gfile.name, 'uploading'));
   datasetsApi
     .createGoogleDataset(gfile)
     .then((response) => {
       const dataset = response.data;
-      dispatch(datasetUploadSuccess(dataset, projectId, experimentId));
+      dispatch(
+        datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+      );
       dispatch(setGoogleDatasetStatus(gfile.name, 'done'));
     })
     .catch(() => {
