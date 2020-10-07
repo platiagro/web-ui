@@ -40,7 +40,6 @@ const ExperimentFlow = ({
   handleTaskBoxClick,
   handleDeselectOperator,
   handleSavePosition,
-  handleSaveFlowTransform,
   canDrop,
   isOver,
   connectDropTarget,
@@ -87,13 +86,9 @@ const ExperimentFlow = ({
   const handleLoad = (reactFlowInstance) => {
     setTimeout(() => {
       reactFlowInstance.fitView();
-    }, 400);
+      reactFlowInstance.zoomTo(1);
+    }, 0);
   };
-
-  // const handleOnMove = (trans) => {
-  //   console.log('moveu', trans);
-  //   handleSaveFlowTransform(trans);
-  // };
 
   //TODO: Will be used later.
   const handleConnect = (params) =>
@@ -127,7 +122,6 @@ const ExperimentFlow = ({
         onNodeDragStop={handleDragStop}
         onConnectEnd={() => setConnectClass('')}
         onConnectStart={() => setConnectClass('Connecting')}
-        // onMoveEnd={handleOnMove}
       >
         <Background
           variant='dots'
