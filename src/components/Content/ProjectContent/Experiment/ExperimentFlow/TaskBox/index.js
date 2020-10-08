@@ -206,6 +206,10 @@ const TaskBox = (props) => {
             position='right'
             className='arrow-handler right'
             isValidConnection={(connection) => {
+              const hasNot = !dependenciesGraph[connection.target].includes(
+                operator.uuid
+              );
+
               const cloneGraph = { ...dependenciesGraph };
               const futureGraph = {
                 ...cloneGraph,
@@ -214,7 +218,8 @@ const TaskBox = (props) => {
                   connection.source,
                 ],
               };
-              return detectCycle(futureGraph);
+
+              return detectCycle(futureGraph) && hasNot;
             }}
           />
         </div>
