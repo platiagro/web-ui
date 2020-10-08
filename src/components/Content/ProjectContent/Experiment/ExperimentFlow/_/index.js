@@ -72,6 +72,15 @@ const ExperimentFlow = ({
               handleClick={handleTaskBoxClick}
               operator={component}
               onConnectingClass={connectClass}
+              dependenciesGraph={tasks
+                .map((el) => ({
+                  id: el.uuid,
+                  dep: el.dependencies,
+                }))
+                .reduce(
+                  (obj, item) => Object.assign(obj, { [item.id]: item.dep }),
+                  {}
+                )}
               {...component}
             />
           </div>
@@ -112,7 +121,7 @@ const ExperimentFlow = ({
       <ReactFlow
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        nodesConnectable={false}
+        nodesConnectable={true}
         elements={_.flattenDeep(cardsElements)}
         onPaneClick={handleDeselectOperator}
         onSelectionChange={handleDeselectOperator}

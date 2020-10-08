@@ -86,6 +86,7 @@ const TaskBox = (props) => {
     experimentIsRunning,
     interruptIsRunning,
     handleRemoveOperator,
+    dependenciesGraph,
   } = props;
 
   // CONSTANTS
@@ -147,6 +148,39 @@ const TaskBox = (props) => {
     );
   };
 
+  const detectCycle = function (adjList) {
+    const graphNodes = Object.keys(adjList);
+    const visited = {};
+    const recStack = {};
+
+    const _detectCycleUtil = function (vertex, visited, recStack) {
+      if (!visited[vertex]) {
+        visited[vertex] = true;
+        recStack[vertex] = true;
+        const nodeNeighbors = adjList[vertex];
+        for (let i = 0; i < nodeNeighbors.length; i++) {
+          const currentNode = nodeNeighbors[i];
+          if (
+            !visited[currentNode] &&
+            _detectCycleUtil(currentNode, visited, recStack)
+          ) {
+            return true;
+          } else if (recStack[currentNode]) {
+            return true;
+          }
+        }
+      }
+      recStack[vertex] = false;
+      return false;
+    };
+
+    for (let i = 0; i < graphNodes.length; i++) {
+      const node = graphNodes[i];
+      if (_detectCycleUtil(node, visited, recStack)) return false;
+    }
+    return true;
+  };
+
   // RENDER
   return (
     // Right click menu
@@ -158,6 +192,7 @@ const TaskBox = (props) => {
             type='target'
             position='left'
             className='arrow-handler left'
+            isValidConnection={() => false}
           />
           <div style={{ fontSize: '18px' }}>{icon}</div>
         </div>
@@ -170,6 +205,17 @@ const TaskBox = (props) => {
             type='source'
             position='right'
             className='arrow-handler right'
+            isValidConnection={(connection) => {
+              const cloneGraph = { ...dependenciesGraph };
+              const futureGraph = {
+                ...cloneGraph,
+                [connection.target]: [
+                  ...cloneGraph[connection.target],
+                  connection.source,
+                ],
+              };
+              return detectCycle(futureGraph);
+            }}
           />
         </div>
       </div>
