@@ -58,16 +58,14 @@ const UploadInputBlock = (props) => {
   // destructuring props
   const {
     actionUrl,
+    customRequest,
     buttonText,
     datasets,
     datasetsLoading,
     handleSelectDataset,
-    handleUploadCancel,
-    handleUploadFail,
-    handleUploadStart,
-    handleUploadSuccess,
     isDisabled,
     defaultFileList,
+    handleUploadCancel,
     tip,
     title,
   } = props;
@@ -81,46 +79,23 @@ const UploadInputBlock = (props) => {
     defaultFileList && setFileList(defaultFileList);
   }, [defaultFileList]);
 
-  // default error message
-  const defaultErrorMessage = 'Ocorreu um erro no processamento do arquivo.';
-
   // upload props
   const uploadProps = {
     name: 'file',
     fileList: fileList,
     action: actionUrl,
-    beforeUpload() {
-      handleUploadStart();
-    },
+    customRequest: customRequest,
     onChange(info) {
-      // getting info file list
-      let infoFileList = [...info.fileList];
-
-      // limiting number of files
-      infoFileList = infoFileList.slice(-1);
-
-      if (info.file.status === 'done') {
-        // getting dataset
-        const dataset = infoFileList[0].response;
-
-        // upload success
-        handleUploadSuccess(dataset);
-      } else if (info.file.status === 'error') {
-        // set error message
-        infoFileList[0].response = defaultErrorMessage;
-
-        // upload fail
-        handleUploadFail();
-      } else if (info.file.status === 'removed') {
-        // upload cancel
+      if (info.file.status === 'removed') {
+        // call upload cancel
         handleUploadCancel();
+        // clear file list
+        setFileList([]);
       }
-
-      // setting file list
-      setFileList(infoFileList);
     },
   };
 
+  // set dataset handler
   const setDataset = (e) => {
     // stop opening the upload modal
     e.domEvent.stopPropagation();
@@ -225,12 +200,17 @@ UploadInputBlock.propTypes = {
 
   /** Uploaded file name */
   defaultFileList: PropTypes.string,
+
+  /** Custom request function */
+  customRequest: PropTypes.func,
 };
 
 // DEFAULT PROPS
 UploadInputBlock.defaultProps = {
   /** Uploaded file name */
   defaultFileList: undefined,
+  /** Custom request function */
+  customRequest: undefined,
 };
 
 // EXPORT DEFAULT

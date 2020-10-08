@@ -317,7 +317,8 @@ export const getOperatorMetricsRequest = (
  * @returns {Function}
  */
 export const selectOperator = (projectId, experimentId, operator, page) => (
-  dispatch
+  dispatch,
+  getState
 ) => {
   // dispatching action
   dispatch({
@@ -328,8 +329,14 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
   // is operator dataset?
   const isDataset = operator.tags.includes('DATASETS');
 
+  // get dataset reducer from store
+  const { datasetReducer } = getState();
+
+  // get is uploading status from dataset reducer
+  const { isUploading } = datasetReducer;
+
   // fetching dataset columns
-  if (isDataset) {
+  if (isDataset && !isUploading) {
     // dataset value
     let datasetValue;
 

@@ -35,20 +35,31 @@ const exist = 'Já existe um experimento com este nome!';
  * @returns {object} { type, experiment }
  */
 const fetchExperimentSuccess = (response, projectId, experimentId) => (
-  dispatch
+  dispatch,
+  getState
 ) => {
   // getting experiment from response
   const experiment = response.data;
 
+  // get dataset reducer from store
+  const { datasetReducer } = getState();
+
+  // get is uploading status from dataset reducer
+  const { isUploading } = datasetReducer;
+
   // dispatching experiment name data loaded action
   dispatch(experimentNameDataLoaded());
 
-  // dispatching fetch experiment deploy status
-  dispatch(fetchExperimentDeployStatusRequest(experimentId));
+  // if dataset is not uploading
+  if (!isUploading) {
+    // dispatching fetch experiment deploy status
+    dispatch(fetchExperimentDeployStatusRequest(experimentId));
 
-  // fetching operators
-  dispatch(fetchOperatorsRequest(projectId, experimentId));
+    // fetching operators
+    dispatch(fetchOperatorsRequest(projectId, experimentId));
+  }
 
+  // dispatch acion
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_SUCCESS,
     experiment,
