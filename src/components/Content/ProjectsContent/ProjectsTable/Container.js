@@ -36,6 +36,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.uiReducer.projectsTable.loading,
     projects: state.projectsReducer.projects,
+    searchText: state.projectsReducer.searchText,
     selectedProjects: state.projectsReducer.selectedProjects,
   };
 };
@@ -52,12 +53,14 @@ const ProjectsTableContainer = (props) => {
   const {
     loading,
     projects,
+    searchText,
     selectedProjects,
     handleFetchPaginatedProjects,
     handleDeleteProject,
     handleShowNewProjectModal,
     handleSelectProjects,
   } = props;
+
   // CONSTANTS
   // getting history
   const history = useHistory();
@@ -74,7 +77,7 @@ const ProjectsTableContainer = (props) => {
     history.push(`/projetos/${projectUuid}`);
 
   // RENDER
-  return loading || (projects && projects.length > 0) ? (
+  return loading || searchText || (projects && projects.length > 0) ? (
     <div className='myProjectsTableContainer'>
       <ProjectsTable
         loading={loading}
