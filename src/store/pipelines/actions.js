@@ -5,7 +5,8 @@ import actionTypes from './actionTypes';
 import experimentActionTypes from '../experiment/actionTypes';
 
 // SERVICES
-import pipelinesApi from '../../services/PipelinesApi';
+import experimentsApi from 'services/ExperimentsApi';
+import pipelinesApi from 'services/PipelinesApi';
 
 // UI LIBS
 import { message } from 'antd';
@@ -23,29 +24,6 @@ import utils from '../../utils';
 
 // ACTIONS
 // ** TRAIN EXPERIMENT
-/**
- * train experiment success action
- * @returns {Object} { type }
- */
-const trainExperimentSuccess = () => {
-  message.success('Treinamento iniciado!');
-};
-
-/**
- * train experiment fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
- */
-const trainExperimentFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching experiment training data loaded
-  dispatch(experimentTrainingDataLoaded());
-
-  message.error(errorMessage);
-};
-
 /**
  * train experiment request action
  * @param {Object} experiment
@@ -72,24 +50,15 @@ export const trainExperimentRequest = (experiment, operators) => (
   const datasetName = utils.getDatasetName(tasks, operators);
 
   // getting experiment data
-  const { uuid: experimentId } = experiment;
+  const { uuid: experimentId, projectId } = experiment;
 
   // creating train object
   const trainObject = { experimentId };
-
-  // getting operators
   trainObject.operators = operators.map((operator) => {
-    // configuring parameters
-    const configuredParameters = operator.parameters.map((parameter) => ({
-      name: parameter.name,
-      value: parameter.value,
-    }));
-
-    // add dataset parameter
-    if (datasetName && !operator.tags.includes('DATASETS')) {
-      configuredParameters.push({ name: 'dataset', value: datasetName });
-    }
-
+    const configuredParameters = configureTrainParamenters(
+      datasetName,
+      operator
+    );
     return {
       image: operator.image,
       commands: operator.commands,
@@ -104,8 +73,52 @@ export const trainExperimentRequest = (experiment, operators) => (
   // training experiment
   pipelinesApi
     .trainExperiment(trainObject)
-    .then(() => trainExperimentSuccess())
-    .catch((error) => dispatch(trainExperimentFail(error)));
+    .then(async (response) => {
+      const runId = response.data.runId;
+      const trainHistoryObject = { runId };
+      trainHistoryObject.operators = operators.map((operator) => {
+        const configuredParameters = configureTrainParamenters(
+          datasetName,
+          operator
+        );
+        return {
+          parameters: configuredParameters,
+          operatorId: operator.uuid,
+          taskId: operator.taskId,
+        };
+      });
+
+      await experimentsApi
+        .createExperimentTrainingHistory(
+          projectId,
+          experimentId,
+          trainHistoryObject
+        )
+        .catch((error) => {
+          message.error('Erro ao salvar o histórico de treinamento!');
+        });
+      message.success('Treinamento iniciado!');
+    })
+    .catch((error) => {
+      dispatch(experimentTrainingDataLoaded());
+      const errorMessage = error.message;
+      message.error(errorMessage);
+    });
+};
+
+const configureTrainParamenters = (datasetName, operator) => {
+  // configuring parameters
+  const configuredParameters = operator.parameters.map((parameter) => ({
+    name: parameter.name,
+    value: parameter.value,
+  }));
+
+  // add dataset parameter
+  if (datasetName && !operator.tags.includes('DATASETS')) {
+    configuredParameters.push({ name: 'dataset', value: datasetName });
+  }
+
+  return configuredParameters;
 };
 
 // // // // // // // // // //

@@ -73,6 +73,16 @@ const deleteExperiment = (projectId, experimentId) => {
   );
 };
 
+/**
+ * Create Experiment Training History
+ */
+const createExperimentTrainingHistory = (projectId, experimentId, body) => {
+  return experimentsApi.post(
+    `/${projectId}${experimentsPath}/${experimentId}/trainingHistory`,
+    body
+  );
+};
+
 // EXPORT DEFAULT
 export default {
   listExperiments,
@@ -80,4 +90,5 @@ export default {
   createExperiment,
   updateExperiment,
   deleteExperiment,
+  createExperimentTrainingHistory,
 };
