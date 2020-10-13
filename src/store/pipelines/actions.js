@@ -234,7 +234,7 @@ const deployExperimentSuccess = (experimentId, routerProps) => () => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const deployExperimentFail = (error) => {
+const deployExperimentFail = (error) => () => {
   // getting error message
   const errorMessage = error.message;
 
