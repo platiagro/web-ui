@@ -24,6 +24,13 @@ export const showTasksModal = (record) => {
   }
 };
 
+export const showCopyTaksModal = (record) => {
+  return {
+    type: actionTypes.COPY_TASK_REQUEST,
+    newTaskRecord: record,
+  };
+};
+
 export const closeTasksModal = () => (dispatch) => {
   dispatch({
     type: actionTypes.CLOSE_TASKS_MODAL,
