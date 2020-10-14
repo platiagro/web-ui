@@ -7,8 +7,9 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentButtons from './index';
 
 // ACTIONS
-import { fetchExperimentDeployStatusRequest } from '../../../../store/experiment/actions';
-import { deployExperimentRequest } from '../../../../store/pipelines/actions';
+import { fetchExperimentDeployStatusRequest } from 'store/experiment/actions';
+import { deployExperimentRequest } from 'store/pipelines/actions';
+import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -19,6 +20,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       ),
     handleFetchExperimentDeployStatus: (experimentId) =>
       dispatch(fetchExperimentDeployStatusRequest(experimentId)),
+    handleChangeVisibilityCompareResultsModal: () => {
+      dispatch(changeVisibilityCompareResultsModal(true));
+    },
   };
 };
 
@@ -46,6 +50,7 @@ const ExperimentButtonsContainer = ({
   trainingLoading,
   handleDeployExperiment,
   handleFetchExperimentDeployStatus,
+  handleChangeVisibilityCompareResultsModal,
 }) => {
   // CONSTANTS
   const { experimentId } = useParams();
@@ -79,6 +84,7 @@ const ExperimentButtonsContainer = ({
   return (
     <ExperimentButtons
       handleClick={deployExperimentHandler}
+      handleCompareResultsClick={handleChangeVisibilityCompareResultsModal}
       disabled={
         !hasExecutorOperator ||
         loading ||

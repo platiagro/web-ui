@@ -5,6 +5,7 @@ import experimentActionTypes from '../experiment/actionTypes';
 
 // INITIAL STATE
 const initialState = {
+  compareResultsModal: { isVisible: false, loading: false },
   newProjectModal: {
     visible: false,
     title: 'Novo Projeto',
@@ -61,6 +62,24 @@ const initialState = {
  */
 const uiReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
+    // COMPARE RESULTS MODAL
+    case actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL:
+      return {
+        ...state,
+        compareResultsModal: {
+          ...state.compareResultsModal,
+          isVisible: action.isVisible,
+        },
+      };
+    case actionTypes.LOADING_COMPARE_RESULTS_MODAL:
+      return {
+        ...state,
+        compareResultsModal: {
+          ...state.compareResultsModal,
+          loading: action.loading,
+        },
+      };
+
     // NEW PROJECT MODAL
     case projectActionTypes.CREATE_PROJECT_FAIL:
     case projectActionTypes.EDIT_PROJECT_NAME_FAIL:

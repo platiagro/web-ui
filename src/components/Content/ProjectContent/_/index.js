@@ -12,6 +12,7 @@ import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
 
 import {
+  CompareResultsModalContainer,
   OperatorResizableSectionContainer,
   OperatorResultsModalContainer,
   DataViewModalContainer,
@@ -56,6 +57,8 @@ const ProjectContent = () => {
   return (
     <>
       <DndProvider backend={HTML5Backend}>
+        {/* compare results modal container */}
+        <CompareResultsModalContainer />
         {/* data view modal container */}
         <DataViewModalContainer />
         {/* operator results modal */}

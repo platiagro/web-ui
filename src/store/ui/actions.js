@@ -3,6 +3,22 @@ import actionTypes from './actionTypes';
 import { deselectOperator } from '../operator/actions';
 
 // ACTIONS
+
+// // // // // // // // // //
+// COMPARE RESULTS MODAL
+export const changeVisibilityCompareResultsModal = (visible) => {
+  return {
+    type: actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL,
+    isVisible: visible,
+  };
+};
+export const changeLoadingCompareResultsModal = (loading) => {
+  return {
+    type: actionTypes.LOADING_COMPARE_RESULTS_MODAL,
+    loading: loading,
+  };
+};
+
 // ** SHOW_NEW_PROJECT_MODAL
 /**
  * show new project modal

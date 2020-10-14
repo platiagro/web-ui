@@ -44,15 +44,17 @@ import './Modal.less';
  * );
  */
 const Modal = (props) => {
-  // destructuring props
   const {
+    bodyStyle,
     children,
+    className,
     closeButtonText,
+    footer,
     handleClose,
     isFullScreen,
     isVisible,
     title,
-    className,
+    width,
   } = props;
 
   // modal class name
@@ -63,14 +65,17 @@ const Modal = (props) => {
   // rendering component
   return (
     <AntModal
+      bodyStyle={bodyStyle}
+      cancelButtonProps={{ style: { display: 'none' } }}
+      centered
+      className={modalClassName}
+      footer={footer}
+      onCancel={handleClose}
+      onOk={handleClose}
+      okText={closeButtonText}
       title={title}
       visible={isVisible}
-      onOk={handleClose}
-      onCancel={handleClose}
-      okText={closeButtonText}
-      cancelButtonProps={{ style: { display: 'none' } }}
-      className={modalClassName}
-      centered
+      width={width}
     >
       {children}
     </AntModal>
@@ -79,10 +84,16 @@ const Modal = (props) => {
 
 // PROP TYPES
 Modal.propTypes = {
+  /** Modal body style props */
+  bodyStyle: PropTypes.object,
   /** Modal child node content */
   children: PropTypes.node.isRequired,
+  /** Modal css class */
+  className: PropTypes.string,
   /** Modal close button text */
   closeButtonText: PropTypes.string.isRequired,
+  /** Modal footer node content */
+  footer: PropTypes.node,
   /** Modal close handler */
   handleClose: PropTypes.func.isRequired,
   /** Modal is full screen */
@@ -91,8 +102,8 @@ Modal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   /** Modal header title */
   title: PropTypes.string.isRequired,
-  /** Modal css class */
-  className: PropTypes.string,
+  /** Modal width */
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 Modal.defaultProps = {
