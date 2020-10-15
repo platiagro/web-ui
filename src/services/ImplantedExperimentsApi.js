@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // CONSTANTS
 // api base url
-const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:3000';
+const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
 const URL_SELDON = process.env.REACT_APP_SELDON_API;
 // api object
 const pipelinesApi = axios.create({
@@ -18,6 +18,10 @@ const deploymentsPath = '/deployments';
 
 const getDeployedExperiments = () => {
   return pipelinesApi.get(deploymentsPath);
+};
+
+const getDeployedExperimentLogs = (deployId) => {
+  return pipelinesApi.get(`${deploymentsPath}/${deployId}/logs`);
 };
 
 const getExperimentDeployStatus = (experimentId) => {
@@ -35,7 +39,8 @@ const deleteDeployedExperiments = (experimentId) => {
 // EXPORT DEFAULT
 export default {
   getDeployedExperiments,
+  getDeployedExperimentLogs,
+  getExperimentDeployStatus,
   testDeployedExperiments,
   deleteDeployedExperiments,
-  getExperimentDeployStatus,
 };

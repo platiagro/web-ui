@@ -50,17 +50,33 @@ const deleteTrainExperiment = (experimentId) => {
   return pipelinesApi.delete(`${trainPath}/${experimentId}`);
 };
 
-/**
- * Get operator log
- *
- * @param {string} experimentId
- * @param {string} operatorId
- * @returns {Promise}
- */
-const getNotebookLog = (experimentId, operatorId) => {
+const getOperatorDataset = (trainingId, runId, operatorId, page) => {
   return pipelinesApi.get(
-    `${trainPath}/${experimentId}/operators/${operatorId}/logs`
+    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=10`
   );
+};
+
+const getOperatorFigures = (trainingId, runId, operatorId) => {
+  return pipelinesApi.get(
+    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/figures`
+  );
+};
+
+const getOperatorLog = (trainingId, runId, operatorId) => {
+  return pipelinesApi.get(
+    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/logs`
+  );
+};
+
+export const getOperatorMetrics = async (trainingId, runId, operatorId) => {
+  try {
+    const metrics = await pipelinesApi.get(
+      `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/metrics`
+    );
+    return metrics.data;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 // EXPORT DEFAULT
@@ -69,5 +85,8 @@ export default {
   trainExperiment,
   deployExperiment,
   deleteTrainExperiment,
-  getNotebookLog,
+  getOperatorDataset,
+  getOperatorFigures,
+  getOperatorLog,
+  getOperatorMetrics,
 };

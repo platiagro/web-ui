@@ -87,62 +87,10 @@ const updateOperator = (projectId, experimentId, operatorId, operator) => {
   );
 };
 
-/**
- * Get Operator Results Dataset
- *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {string} operatorId
- * @param page
- * @returns {Promise}
- */
-const getOperatorResultsDataset = (
-  projectId,
-  experimentId,
-  operatorId,
-  page
-) => {
-  return operatorsApi.get(
-    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/datasets?page=${page}&page_size=10`
-  );
-};
-
-/**
- * Get Operator Results
- *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {string} operatorId
- * @returns {Promise}
- */
-const getOperatorResults = (projectId, experimentId, operatorId) => {
-  return operatorsApi.get(
-    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/figures`
-  );
-};
-
-export const getOperatorMetrics = async (
-  projectId,
-  experimentId,
-  operatorId
-) => {
-  try {
-    const metrics = await operatorsApi.get(
-      `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}/metrics`
-    );
-    return metrics.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 // EXPORT DEFAULT
 export default {
   listOperators,
   createOperator,
   deleteOperator,
   updateOperator,
-  getOperatorResultsDataset,
-  getOperatorResults,
-  getOperatorMetrics,
 };
