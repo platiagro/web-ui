@@ -6,7 +6,7 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import experimentsApi from '../../services/ExperimentsApi';
-import implantedExperimentsApi from '../../services/implantedExperimentsApi';
+import implantedExperimentsApi from '../../services/ImplantedExperimentsApi';
 
 // UI ACTIONS
 import {

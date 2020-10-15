@@ -132,18 +132,16 @@ const getLogsFail = (error) => (dispatch) => {
 };
 
 /**
- * get operator log
+ * Get operator logs
  *
- * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
- * @returns {Function}
  */
 export const getOperatorLogs = (experimentId, operatorId) => async (
   dispatch
 ) => {
   pipelinesApi
-    .getNotebookLog(experimentId, operatorId)
+    .getOperatorLog(experimentId, 'latest', operatorId)
     .then((res) => {
       dispatch(getLogsSuccess(res));
     })
@@ -153,35 +151,29 @@ export const getOperatorLogs = (experimentId, operatorId) => async (
 };
 
 /**
- * set operator params request action
+ * Get operator results request
  *
- * @param {string} projectId
  * @param {string} experimentId
+ * @param {string} runId
  * @param {string} operatorId
  * @param page
- * @returns {Function}
  */
 export const getOperatorResultsRequest = (
-  projectId,
   experimentId,
+  runId,
   operatorId,
   page
 ) => (dispatch) => {
-  // dispatching request action
   dispatch({
     type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
   });
-
-  // dispatching operator results loading data action
   dispatch(operatorResultsLoadingData());
 
-  // get operator figure result
-  operatorsApi
-    .getOperatorResults(projectId, experimentId, operatorId)
+  pipelinesApi
+    .getOperatorFigures(experimentId, runId, operatorId)
     .then((responseFigure) => {
-      // get operator dataset result
-      operatorsApi
-        .getOperatorResultsDataset(projectId, experimentId, operatorId, page)
+      pipelinesApi
+        .getOperatorDataset(experimentId, runId, operatorId, page)
         .then((responseTable) => {
           dispatch(
             getOperatorResultsSuccess(responseFigure, responseTable, operatorId)
@@ -247,28 +239,20 @@ const getDataSetResultSuccess = (responseTable, operatorId, page) => (
 /**
  * set operator params request action
  *
- * @param {string} projectId
  * @param {string} experimentId
  * @param {string} operatorId
  * @param page
- * @returns {Function}
  */
-export const getPageDataSetRequest = (
-  projectId,
-  experimentId,
-  operatorId,
-  page
-) => (dispatch) => {
-  // dispatching request action
+export const getPageDataSetRequest = (experimentId, operatorId, page) => (
+  dispatch
+) => {
   dispatch({
     type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
   });
-
-  // dispatching operator results loading data action
   dispatch(operatorResultsLoadingData());
 
   operatorsApi
-    .getOperatorResultsDataset(projectId, experimentId, operatorId, page)
+    .getOperatorDataset(experimentId, 'latest', operatorId, page)
     .then((responseTable) => {
       dispatch(getDataSetResultSuccess(responseTable, operatorId, page));
     })
@@ -277,19 +261,16 @@ export const getPageDataSetRequest = (
     });
 };
 
-export const getOperatorMetricsRequest = (
-  projectId,
-  experimentId,
-  operatorId
-) => (dispatch) => {
-  // get operator figure metrics
+export const getOperatorMetricsRequest = (experimentId, runId, operatorId) => (
+  dispatch
+) => {
   dispatch({
     type: actionTypes.GET_OPERATOR_METRICS_REQUEST,
   });
   dispatch(operatorMetricsLoadingData());
 
-  operatorsApi
-    .getOperatorMetrics(projectId, experimentId, operatorId)
+  pipelinesApi
+    .getOperatorMetrics(experimentId, runId, operatorId)
     .then((metrics) => {
       dispatch({
         type: actionTypes.GET_OPERATOR_METRICS_SUCCESS,
@@ -351,14 +332,14 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
 
   // getting results
   dispatch(
-    getOperatorResultsRequest(projectId, experimentId, operator.uuid, page)
+    getOperatorResultsRequest(experimentId, 'latest', operator.uuid, page)
   );
 
   if (!isDataset && operator.status === 'Failed') {
     dispatch(getOperatorLogs(experimentId, operator.uuid));
   }
 
-  dispatch(getOperatorMetricsRequest(projectId, experimentId, operator.uuid));
+  dispatch(getOperatorMetricsRequest(experimentId, 'latest', operator.uuid));
 
   // dispatching action to show drawer
   dispatch(showOperatorDrawer(operator.name, isDataset));

@@ -12,7 +12,7 @@ import {
 } from '../ui/actions';
 
 // SERVICES
-import logsApi from 'services/LogsApi';
+import implantedExperimentsApi from 'services/ImplantedExperimentsApi';
 
 // UTILS
 import utils from 'utils';
@@ -27,8 +27,8 @@ const { getErrorMessage } = utils;
 export const getDeployExperimentLogs = (deployId) => (dispatch) => {
   dispatch(showInferenceLogsDrawer('Logs'));
   dispatch(inferenceLogsDrawerLoadingData());
-  logsApi
-    .getDeployExperimentLogs(deployId)
+  implantedExperimentsApi
+    .getDeployedExperimentLogs(deployId)
     .then((response) => {
       const logs = response.data;
       dispatch({
