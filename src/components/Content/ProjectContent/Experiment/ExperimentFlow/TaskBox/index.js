@@ -148,29 +148,29 @@ const TaskBox = (props) => {
     );
   };
 
-  const detectCycle = function (adjList) {
+  const detectCycle = (adjList) => {
     const graphNodes = Object.keys(adjList);
     const visited = {};
     const recStack = {};
 
-    const _detectCycleUtil = function (vertex, visited, recStack) {
-      if (!visited[vertex]) {
-        visited[vertex] = true;
-        recStack[vertex] = true;
+    const _detectCycleUtil = (vertex, _visited, _recStack) => {
+      if (!_visited[vertex]) {
+        _visited[vertex] = true;
+        _recStack[vertex] = true;
         const nodeNeighbors = adjList[vertex];
         for (let i = 0; i < nodeNeighbors.length; i++) {
           const currentNode = nodeNeighbors[i];
           if (
-            !visited[currentNode] &&
-            _detectCycleUtil(currentNode, visited, recStack)
+            !_visited[currentNode] &&
+            _detectCycleUtil(currentNode, _visited, _recStack)
           ) {
             return true;
-          } else if (recStack[currentNode]) {
+          } else if (_recStack[currentNode]) {
             return true;
           }
         }
       }
-      recStack[vertex] = false;
+      _recStack[vertex] = false;
       return false;
     };
 
