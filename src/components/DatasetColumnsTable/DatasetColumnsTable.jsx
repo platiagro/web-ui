@@ -17,7 +17,13 @@ import ColumnsTable from 'components/Content/ProjectContent/Experiment/Drawer/Da
 const DatasetColumnsTable = (props) => {
   // PROPS / CONSTANTS
   // destructuring component props
-  const { columns, handleSetColumnType, handleRowSelection } = props;
+  const {
+    columns,
+    selectedRows,
+    handleSetColumnType,
+    handleRowSelection,
+    setParameterLoading,
+  } = props;
 
   // table is disabled
   const disabled = false;
@@ -52,6 +58,8 @@ const DatasetColumnsTable = (props) => {
       disabled={disabled}
       currentPage={currentPage}
       setCurrentPage={setCurrentPage}
+      selectedRows={selectedRows}
+      loading={setParameterLoading}
     />
   );
 };

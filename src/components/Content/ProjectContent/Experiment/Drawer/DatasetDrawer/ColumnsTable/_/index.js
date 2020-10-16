@@ -29,8 +29,11 @@ const ColumnsTable = (props) => {
     currentPage,
     setCurrentPage,
     loading,
+    selectedRows,
   } = props;
   const { projectId, experimentId } = useParams();
+
+  console.log(selectedRows);
 
   const rowSelection = {
     type: 'radio',
@@ -38,6 +41,7 @@ const ColumnsTable = (props) => {
     columnTitle: 'Atributo alvo',
     columnWidth: 110,
     rowKey: 'name',
+    selectedRowKeys: selectedRows,
     onChange: (selectedRowKeys) => {
       handleRowSelection(selectedRowKeys, projectId, experimentId);
     },
@@ -46,10 +50,8 @@ const ColumnsTable = (props) => {
       //Recuperar os atributos alvos e checar o campo
       //record -> carrega os dados do dataset
       return {
-        disabled: record.name === 'Data', // funciona
         name: record.name,
         value: record.name,
-        checked: true, //Não funciona
       };
     },
   };
