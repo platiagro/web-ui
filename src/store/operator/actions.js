@@ -705,22 +705,16 @@ export const saveTargetAttribute = (
   projectId,
   experimentId,
   parameters
-) => async (dispatch) => {
-  const filterOperator = await operatorsApi
-    .listOperators(projectId, experimentId)
-    .catch((error) => {
-      console.log(error);
-    });
-  for (let index of filterOperator['data']) {
-    let param = JSON.stringify(index['parameters']);
-    let constructParam = param.replace('}', `,"featuretype": "${parameters}"}`);
-    let parameters2 = {
-      parameters: JSON.parse(constructParam),
-    };
-    await operatorsApi
-      .updateOperator(projectId, experimentId, index.uuid, parameters2)
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+) => async (dispatch, getState) => {
+  const { operatorReducer: datasetOperator } = getState();
+
+  dispatch(
+    setOperatorParametersRequest(
+      projectId,
+      experimentId,
+      datasetOperator,
+      'featuretype',
+      parameters[0]
+    )
+  );
 };
