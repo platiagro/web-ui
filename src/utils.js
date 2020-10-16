@@ -321,35 +321,48 @@ const getTaskData = (tasks, taskId) => {
  * @param {object[]} taskParameters
  * @param {object} operatorParameters
  * @param {object[]} featureOptions
+ * @param isDataset
  * @returns {object[]} configured operator parameters
  */
 const configureOperatorParameters = (
   taskParameters,
   operatorParameters,
-  featureOptions
+  featureOptions,
+  isDataset
 ) => {
-  const configuredOperatorParameters = taskParameters.map((parameter) => {
-    return {
-      ...parameter,
-      options: parameter.options
-        ? parameter.options
-        : parameter.type === 'feature'
-        ? featureOptions
-        : undefined,
-      value:
-        parameter.name in operatorParameters
-          ? parameter.type === 'feature' || parameter.multiple
-            ? operatorParameters[parameter.name].split(',').filter((el) => {
-                return el !== '';
-              })
-            : operatorParameters[parameter.name]
-          : parameter.type === 'feature' || parameter.multiple
-          ? []
-          : parameter.default,
-    };
-  });
+  const datasetParameters =
+    isDataset && operatorParameters
+      ? Object.keys(operatorParameters).map((key) => ({
+          name: key,
+          value: operatorParameters[key],
+        }))
+      : undefined;
 
-  return configuredOperatorParameters;
+  let configuredOperatorParameters;
+
+  if (!isDataset)
+    configuredOperatorParameters = taskParameters.map((parameter) => {
+      return {
+        ...parameter,
+        options: parameter.options
+          ? parameter.options
+          : parameter.type === 'feature'
+          ? featureOptions
+          : undefined,
+        value:
+          parameter.name in operatorParameters
+            ? parameter.type === 'feature' || parameter.multiple
+              ? operatorParameters[parameter.name].split(',').filter((el) => {
+                  return el !== '';
+                })
+              : operatorParameters[parameter.name]
+            : parameter.type === 'feature' || parameter.multiple
+            ? []
+            : parameter.default,
+      };
+    });
+
+  return datasetParameters || configuredOperatorParameters;
 };
 
 /**
@@ -391,16 +404,20 @@ const configureOperators = (
   // creating configured operators
   const configuredOperators = operators.map((operator) => {
     // getting task data
-    const { parameters: taskParameters, ...restTaskData } = getTaskData(
+    const { parameters: taskParameters, tags, ...restTaskData } = getTaskData(
       tasks,
       operator.taskId
     );
+
+    // check if operator is dataset
+    const isDataset = tags.includes('DATASETS');
 
     // configuring operator parameters
     const parameters = configureOperatorParameters(
       taskParameters,
       operator.parameters,
-      featureOptions
+      featureOptions,
+      isDataset
     );
 
     // checking if operator is setted up
@@ -414,6 +431,7 @@ const configureOperators = (
     return {
       ...operator,
       ...restTaskData,
+      tags,
       parameters,
       settedUp,
       selected: false,
