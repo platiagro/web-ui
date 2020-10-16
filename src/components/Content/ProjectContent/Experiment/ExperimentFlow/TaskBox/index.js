@@ -161,11 +161,10 @@ const TaskBox = (props) => {
         for (let i = 0; i < nodeNeighbors.length; i++) {
           const currentNode = nodeNeighbors[i];
           if (
-            !_visited[currentNode] &&
-            _detectCycleUtil(currentNode, _visited, _recStack)
+            (!_visited[currentNode] &&
+              _detectCycleUtil(currentNode, _visited, _recStack)) ||
+            _recStack[currentNode]
           ) {
-            return true;
-          } else if (_recStack[currentNode]) {
             return true;
           }
         }
