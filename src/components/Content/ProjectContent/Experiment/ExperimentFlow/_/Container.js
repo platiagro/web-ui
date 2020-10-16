@@ -61,6 +61,7 @@ const mapStateToProps = (state) => {
     operators: state.operatorsReducer,
     datasetName: state.experimentReducer.dataset,
     loading: state.uiReducer.experimentOperators.loading,
+    arrowConfigs: state.uiReducer.operatorsDependencies,
   };
 };
 
@@ -76,6 +77,7 @@ const pollingTime = 5000;
 const ExperimentFlowContainer = ({
   operators,
   loading,
+  arrowConfigs,
   handleShowOperatorDetails,
   handleGetTrainExperimentStatus,
   handleDeselectOperator,
@@ -127,6 +129,7 @@ const ExperimentFlowContainer = ({
       handleSavePosition={handleSavePosition}
       handleSaveDependencies={handleSaveDependencies}
       transformations={transformations}
+      arrowConfigs={arrowConfigs}
     />
   );
 };

@@ -23,6 +23,8 @@ import {
   operatorResultsLoadingData,
   operatorMetricsLoadingData,
   operatorMetricsDataLoaded,
+  dependenciesOperatorLoading,
+  dependenciesOperatorLoaded,
 } from '../ui/actions';
 
 // DATASET ACTIONS
@@ -705,6 +707,12 @@ export const saveOperatorDependencies = (
     dependencies: dependencies,
   };
 
+  dispatch(
+    dependenciesOperatorLoading(
+      `${operatorId}-${dependencies[dependencies.length - 1]}`
+    )
+  );
+
   const modifiedOperators = _.cloneDeep(operators);
 
   const operatorWithNewDependencies = _.map(modifiedOperators, (el) => {
@@ -718,7 +726,11 @@ export const saveOperatorDependencies = (
 
   await operatorsApi
     .updateOperator(projectId, experimentId, operatorId, body)
+    .then(() => {
+      dispatch(dependenciesOperatorLoaded());
+    })
     .catch((error) => {
+      dispatch(dependenciesOperatorLoaded());
       const errorMessage = error.message;
       message.error(errorMessage);
       dispatch(upadteOperatorDependencies(operators));

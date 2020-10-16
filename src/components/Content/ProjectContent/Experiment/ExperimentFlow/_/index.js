@@ -37,6 +37,7 @@ import './style.less';
 const ExperimentFlow = ({
   tasks,
   loading,
+  arrowConfigs,
   handleTaskBoxClick,
   handleDeselectOperator,
   handleSavePosition,
@@ -49,11 +50,13 @@ const ExperimentFlow = ({
 
   const cardsElements = tasks.map((component) => {
     const arrows = component.dependencies.map((arrow) => {
+      const arrowId = `${component.uuid}-${arrow}`;
       return {
-        id: `${component.uuid}-${arrow}`,
+        id: arrowId,
         type: 'customEdge',
         target: component.uuid,
         source: arrow,
+        animated: arrowId === arrowConfigs.uuid ? arrowConfigs.loading : false,
       };
     });
 

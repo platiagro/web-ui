@@ -845,3 +845,19 @@ export const saveFlowTransform = (transform) => {
     transform: transform,
   };
 };
+
+export const dependenciesOperatorLoading = (dependencyId) => {
+  return {
+    type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
+    loading: true,
+    uuid: dependencyId,
+  };
+};
+
+export const dependenciesOperatorLoaded = (dependencyId) => {
+  return {
+    type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
+    loading: false,
+    uuid: dependencyId,
+  };
+};
