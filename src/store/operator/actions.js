@@ -395,6 +395,10 @@ const createOperatorFail = (error) => (dispatch) => {
  * @param {object} taskId
  * @param {object[]} tasks,
  * @param tasks
+ * @param isTemplate
+ * @param position
+ * @param isTemplate
+ * @param position
  * @returns {Function}
  */
 export const createOperatorRequest = (
@@ -695,4 +699,28 @@ export const saveOperatorPosition = (
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const saveTargetAttribute = (
+  projectId,
+  experimentId,
+  parameters
+) => async (dispatch) => {
+  const filterOperator = await operatorsApi
+    .listOperators(projectId, experimentId)
+    .catch((error) => {
+      console.log(error);
+    });
+  for (let index of filterOperator['data']) {
+    let param = JSON.stringify(index['parameters']);
+    let constructParam = param.replace('}', `,"featuretype": "${parameters}"}`);
+    let parameters2 = {
+      parameters: JSON.parse(constructParam),
+    };
+    await operatorsApi
+      .updateOperator(projectId, experimentId, index.uuid, parameters2)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 };

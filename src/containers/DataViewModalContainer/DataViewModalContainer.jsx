@@ -26,6 +26,7 @@ import {
   updateAllDatasetColumnFail,
   updateAllDatasetColumnStart,
 } from 'store/dataset/actions';
+import { saveTargetAttribute } from 'store/operator/actions';
 
 // STYLES
 import './DataViewModalContainer.less';
@@ -51,6 +52,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateAllDatasetColumnFail(message)),
     handleUpdateAllDatasetColumnStart: () =>
       dispatch(updateAllDatasetColumnStart()),
+    handleTargetAttribute: (parameters, projectId, experimentId) =>
+      dispatch(saveTargetAttribute(projectId, experimentId, parameters)),
   };
 };
 
@@ -103,6 +106,7 @@ const DataViewModalContainer = (props) => {
     handleUpdateAllDatasetColumnStart,
     handleUpdateAllDatasetColumnSuccess,
     handleUpdateAllDatasetColumnFail,
+    handleTargetAttribute,
     isVisible,
     loading,
   } = props;
@@ -180,6 +184,7 @@ const DataViewModalContainer = (props) => {
               <DatasetColumnsTable
                 columns={datasetColumns}
                 handleSetColumnType={handleUpdateDatasetColumn}
+                handleRowSelection={handleTargetAttribute}
               />
             </div>
             <div className='dataViewAttributtesDownload'>
@@ -288,6 +293,8 @@ DataViewModalContainer.propTypes = {
   handleUpdateAllDatasetColumnStart: PropTypes.func.isRequired,
   handleUpdateAllDatasetColumnSuccess: PropTypes.func.isRequired,
   handleUpdateAllDatasetColumnFail: PropTypes.func.isRequired,
+  /** get target attribute  */
+  handleTargetAttribute: PropTypes.func.isRequired,
   /** Data view modal is visible */
   isVisible: PropTypes.bool.isRequired,
   /** Data view modal is loading */

@@ -36,6 +36,7 @@ const listOperators = (projectId, experimentId) => {
  * @param {string} experimentId
  * @param {string} taskId
  * @param {string[]} dependencies
+ * @param {float} position
  * @returns {Promise}
  */
 const createOperator = (

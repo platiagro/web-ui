@@ -1,6 +1,7 @@
 // CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
 // UI LIBS
 import { Table, Select, Skeleton, Tooltip } from 'antd';
@@ -23,11 +24,35 @@ const ColumnsTable = (props) => {
   const {
     columns,
     handleChangeType,
+    handleRowSelection,
     disabled,
     currentPage,
     setCurrentPage,
     loading,
   } = props;
+  const { projectId, experimentId } = useParams();
+
+  const rowSelection = {
+    type: 'radio',
+    fixed: true,
+    columnTitle: 'Atributo alvo',
+    columnWidth: 110,
+    rowKey: 'name',
+    onChange: (selectedRowKeys) => {
+      handleRowSelection(selectedRowKeys, projectId, experimentId);
+    },
+
+    getCheckboxProps: (record) => {
+      //Recuperar os atributos alvos e checar o campo
+      //record -> carrega os dados do dataset
+      return {
+        disabled: record.name === 'Data', // funciona
+        name: record.name,
+        value: record.name,
+        checked: true, //Não funciona
+      };
+    },
+  };
 
   // columns configuration
   const columnsConfig = [
@@ -115,6 +140,7 @@ const ColumnsTable = (props) => {
       dataSource={columns}
       columns={columnsConfig}
       rowKey={setRowKey}
+      rowSelection={rowSelection}
       size='small'
       pagination={{
         current: currentPage,
@@ -130,6 +156,7 @@ ColumnsTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** columns table change row type handler */
   handleChangeType: PropTypes.func.isRequired,
+  handleRowSelection: PropTypes.string.isRequired,
   /** columns table type change is disabled  */
   disabled: PropTypes.bool.isRequired,
   /** props currentPage show the current page */
