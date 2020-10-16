@@ -40,6 +40,7 @@ const ExperimentFlow = ({
   handleTaskBoxClick,
   handleDeselectOperator,
   handleSavePosition,
+  handleSaveDependencies,
   canDrop,
   isOver,
   connectDropTarget,
@@ -95,12 +96,20 @@ const ExperimentFlow = ({
   const handleLoad = (reactFlowInstance) => {
     setTimeout(() => {
       reactFlowInstance.fitView();
+      reactFlowInstance.zoomTo(1);
     }, 0);
   };
 
-  //TODO: Will be used later.
-  const handleConnect = (params) =>
-    console.log(`${params.target} has new dependency: ${params.source}`);
+  const handleConnect = (params) => {
+    const targetDependencies = tasks.filter(
+      (operator) => operator.uuid === params.target
+    )[0].dependencies;
+
+    handleSaveDependencies(params.target, [
+      ...targetDependencies,
+      params.source,
+    ]);
+  };
 
   const handleDragStop = (event, task) =>
     handleSavePosition(task.id, task.position);

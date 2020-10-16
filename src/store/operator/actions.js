@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -30,6 +32,7 @@ import { getDatasetRequest } from '../dataset/actions';
 import {
   clearOperatorsFeatureParametersRequest,
   fetchOperatorsRequest,
+  upadteOperatorDependencies,
 } from '../operators/actions';
 
 // UTILS
@@ -454,12 +457,8 @@ export const createOperatorRequest = (
     );
   }
 
-  // put the last operator as dependencie of the new one
+  // creating empty dependencies
   const dependencies = [];
-  if (experimentOperators.length > 0) {
-    const lastOperator = experimentOperators[experimentOperators.length - 1];
-    dependencies.push(lastOperator.uuid);
-  }
 
   // creating operator
   operatorsApi
@@ -692,5 +691,36 @@ export const saveOperatorPosition = (
     .updateOperator(projectId, experimentId, operatorId, body)
     .catch((error) => {
       console.log(error);
+    });
+};
+
+export const saveOperatorDependencies = (
+  projectId,
+  experimentId,
+  operatorId,
+  dependencies,
+  operators
+) => async (dispatch) => {
+  const body = {
+    dependencies: dependencies,
+  };
+
+  const modifiedOperators = _.cloneDeep(operators);
+
+  const operatorWithNewDependencies = _.map(modifiedOperators, (el) => {
+    if (el.uuid === operatorId) {
+      el.dependencies = dependencies;
+    }
+    return el;
+  });
+
+  dispatch(upadteOperatorDependencies(operatorWithNewDependencies));
+
+  await operatorsApi
+    .updateOperator(projectId, experimentId, operatorId, body)
+    .catch((error) => {
+      const errorMessage = error.message;
+      message.error(errorMessage);
+      dispatch(upadteOperatorDependencies(operators));
     });
 };

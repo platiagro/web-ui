@@ -12,6 +12,7 @@ import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelin
 import {
   deselectOperator,
   saveOperatorPosition,
+  saveOperatorDependencies,
 } from '../../../../../../store/operator/actions';
 import { useStoreState } from 'react-flow-renderer';
 
@@ -34,6 +35,22 @@ const mapDispatchToProps = (dispatch) => {
     ) =>
       dispatch(
         saveOperatorPosition(projectId, experimentId, operatorId, position)
+      ),
+    handleSaveOperatorDependencies: (
+      projectId,
+      experimentId,
+      operatorId,
+      dependencies,
+      operators
+    ) =>
+      dispatch(
+        saveOperatorDependencies(
+          projectId,
+          experimentId,
+          operatorId,
+          dependencies,
+          operators
+        )
       ),
   };
 };
@@ -63,6 +80,7 @@ const ExperimentFlowContainer = ({
   handleGetTrainExperimentStatus,
   handleDeselectOperator,
   handleSaveOperatorPosition,
+  handleSaveOperatorDependencies,
 }) => {
   // CONSTANTS
   // getting experiment uuid
@@ -89,6 +107,16 @@ const ExperimentFlowContainer = ({
     handleSaveOperatorPosition(projectId, experimentId, operatorId, position);
   };
 
+  const handleSaveDependencies = (operatorId, dependencies) => {
+    handleSaveOperatorDependencies(
+      projectId,
+      experimentId,
+      operatorId,
+      dependencies,
+      operators
+    );
+  };
+
   // RENDER
   return (
     <ExperimentFlow
@@ -97,6 +125,7 @@ const ExperimentFlowContainer = ({
       handleTaskBoxClick={selectOperatorHandler}
       handleDeselectOperator={handleDeselectOperator}
       handleSavePosition={handleSavePosition}
+      handleSaveDependencies={handleSaveDependencies}
       transformations={transformations}
     />
   );
