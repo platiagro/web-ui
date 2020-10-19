@@ -415,7 +415,7 @@ const configureOperators = (
     // getting task data
     const { parameters: taskParameters, ...restTaskData } = getTaskData(
       tasks,
-      operator?.taskId
+      operator.taskId
     );
 
     // configuring operator parameters
