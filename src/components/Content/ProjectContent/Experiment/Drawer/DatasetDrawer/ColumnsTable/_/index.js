@@ -33,8 +33,6 @@ const ColumnsTable = (props) => {
   } = props;
   const { projectId, experimentId } = useParams();
 
-  console.log(selectedRows);
-
   const rowSelection = {
     type: 'radio',
     fixed: true,
@@ -44,15 +42,6 @@ const ColumnsTable = (props) => {
     selectedRowKeys: selectedRows,
     onChange: (selectedRowKeys) => {
       handleRowSelection(selectedRowKeys, projectId, experimentId);
-    },
-
-    getCheckboxProps: (record) => {
-      //Recuperar os atributos alvos e checar o campo
-      //record -> carrega os dados do dataset
-      return {
-        name: record.name,
-        value: record.name,
-      };
     },
   };
 
