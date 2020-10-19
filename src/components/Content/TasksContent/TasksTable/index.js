@@ -45,6 +45,7 @@ const TasksTable = (props) => {
     handleClickEdit,
     handleClickDelete,
     loading,
+    handleCopyTaskRequest,
   } = props;
 
   const searchInputRef = useRef(null);
@@ -232,7 +233,11 @@ const TasksTable = (props) => {
             }}
             content={
               <div style={{ width: '140px' }}>
-                <Button className='btnTaskMoreActions' type='text'>
+                <Button
+                  className='btnTaskMoreActions'
+                  type='text'
+                  onClick={() => handleCopyTaskRequest(record)}
+                >
                   Fazer uma cópia
                 </Button>
                 <Popconfirm

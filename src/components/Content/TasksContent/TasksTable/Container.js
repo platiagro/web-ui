@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 // ACTIONS
 import {
+  showCopyTaksModal,
   deleteTask,
   fetchTasks,
   showTasksModal,
@@ -24,6 +25,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(deleteTask(id));
     },
     handleShowTasksModal: (record) => dispatch(showTasksModal(record)),
+    handleCopyTaskRequest: (record) => dispatch(showCopyTaksModal(record)),
   };
 };
 
@@ -46,7 +48,12 @@ const TasksTableContainer = (props) => {
   // states
   const { tasks, loading } = props;
   // dispatchs
-  const { handleFetchTasks, handleDeleteTask, handleShowTasksModal } = props;
+  const {
+    handleFetchTasks,
+    handleDeleteTask,
+    handleShowTasksModal,
+    handleCopyTaskRequest,
+  } = props;
 
   // Fetch tasks on component did mount
   useLayoutEffect(() => {
@@ -78,6 +85,7 @@ const TasksTableContainer = (props) => {
         handleClickTask={taskClickHandler}
         handleClickEdit={handleShowTasksModal}
         handleClickDelete={handleDeleteTask}
+        handleCopyTaskRequest={handleCopyTaskRequest}
         loading={loading}
       />
     </div>

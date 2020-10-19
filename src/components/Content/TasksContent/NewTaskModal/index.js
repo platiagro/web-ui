@@ -21,6 +21,7 @@ const NewTaskModal = ({
   errorMessage,
   handleCloseModal,
   handleNewTask,
+  copyTaskRecord,
 }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
@@ -84,7 +85,7 @@ const NewTaskModal = ({
         <Form.Item
           label='Escolha um exemplo ou template para começar:'
           name='template'
-          initialValue='uuid'
+          initialValue={copyTaskRecord.uuid}
           rules={[
             {
               required: true,
@@ -107,7 +108,11 @@ const NewTaskModal = ({
         <Form.Item
           label='Qual o nome da sua tarefa?'
           name='name'
-          initialValue='Nova tarefa'
+          initialValue={
+            copyTaskRecord.name === undefined
+              ? copyTaskRecord.name
+              : `${copyTaskRecord.name} cópia`
+          }
           rules={[
             {
               required: true,
@@ -129,7 +134,11 @@ const NewTaskModal = ({
           />
         </Form.Item>
         {/* description */}
-        <Form.Item label='Descrição (opcional):' name='description'>
+        <Form.Item
+          label='Descrição (opcional):'
+          name='description'
+          initialValue={copyTaskRecord.description}
+        >
           {/* description text area */}
           <Input.TextArea />
         </Form.Item>
