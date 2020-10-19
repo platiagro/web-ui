@@ -108,7 +108,11 @@ const NewTaskModal = ({
         <Form.Item
           label='Qual o nome da sua tarefa?'
           name='name'
-          initialValue={`${copyTaskRecord.name} cópia`}
+          initialValue={
+            copyTaskRecord.name === undefined
+              ? copyTaskRecord.name
+              : `${copyTaskRecord.name} cópia`
+          }
           rules={[
             {
               required: true,
