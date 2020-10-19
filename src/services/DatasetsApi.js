@@ -52,32 +52,17 @@ const listDatasetColumns = (datasetName) => {
  * Create Dataset
  *
  * @param {File} datasetFile Dataset file
+ * @param file
  * @param {object} cancelToken Cancel token
- * @param {Function} progressHandler Progress handler
+ * @param {Function} progressHandler Upload progress handler
  * @returns {Promise} Request Promise
  */
-const createDataset = (datasetFile, cancelToken, progressHandler) => {
-  // create new form data
-  const formData = new FormData();
-
-  // append dataset file
-  formData.append('file', datasetFile);
-
+const createDataset = (file, cancelToken, progressHandler) => {
   // return promise
-  return datasetsApi.post(datasetsPath, formData, {
+  return datasetsApi.post(datasetsPath, file, {
     cancelToken: cancelToken.token,
     onUploadProgress: (progress) => progressHandler(progress),
   });
-};
-
-/**
- * Create Google Dataset
- *
- * @param {object} gfile
- * @returns {Promise}
- */
-const createGoogleDataset = (gfile) => {
-  return datasetsApi.post(datasetsPath, { gfile });
 };
 
 /**
@@ -115,7 +100,6 @@ const getDatasetFeaturetypes = (datasetName) => {
 export default {
   listDatasets,
   listDatasetColumns,
-  createGoogleDataset,
   updateDatasetColumn,
   getDataset,
   getDatasetFeaturetypes,
