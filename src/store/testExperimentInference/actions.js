@@ -9,7 +9,7 @@ import {
 } from 'store/ui/actions';
 
 // SERVICES
-import implantedExperimentsApi from 'services/implantedExperimentsApi';
+import implantedExperimentsApi from 'services/ImplantedExperimentsApi';
 
 /**
  * Test implanted experiment inference action

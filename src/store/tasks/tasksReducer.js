@@ -23,6 +23,7 @@ const tasksReducer = (state = initialState, action = undefined) => {
         errorMessage: null,
       };
     case actionTypes.ADD_TASK_SUCCESS:
+    case actionTypes.COPY_TASK_SUCCESS:
       // creating task aux list with new task and olders
       const tasksListAux = [action.task, ...state.tasks];
       // sorting aux task list
@@ -74,6 +75,12 @@ const tasksReducer = (state = initialState, action = undefined) => {
         ...state,
         tasks: tasksAux,
       };
+    case actionTypes.COPY_TASK_REQUEST:
+      return {
+        ...state,
+        modalIsVisible: true,
+        newTaskRecord: action.newTaskRecord,
+      };
     case actionTypes.SHOW_EDIT_TASK_MODAL:
       return {
         ...state,
@@ -87,6 +94,7 @@ const tasksReducer = (state = initialState, action = undefined) => {
       };
     case actionTypes.ADD_TASK_FAIL:
     case actionTypes.UPDATE_TASK_FAIL:
+    case actionTypes.COPY_TASK_FAIL:
       return {
         ...state,
         modalValidateStatus: 'error',

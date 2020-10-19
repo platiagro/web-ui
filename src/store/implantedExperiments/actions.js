@@ -5,7 +5,7 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICE
-import implantedExperimentsApi from 'services/implantedExperimentsApi';
+import implantedExperimentsApi from 'services/ImplantedExperimentsApi';
 
 // UTILS
 import utils from 'utils';

@@ -28,6 +28,7 @@ const mapStateToProps = (state) => {
     loading: state.uiReducer.tasksTable.loading,
     modalValidateStatus: state.tasksReducer.modalValidateStatus,
     errorMessage: state.tasksReducer.errorMessage,
+    copyTaskRecord: state.tasksReducer.newTaskRecord,
   };
 };
 
@@ -40,7 +41,14 @@ const mapStateToProps = (state) => {
  */
 const NewTaskModalContainer = (props) => {
   // states
-  const { tasks, visible, loading, modalValidateStatus, errorMessage } = props;
+  const {
+    tasks,
+    visible,
+    loading,
+    modalValidateStatus,
+    errorMessage,
+    copyTaskRecord,
+  } = props;
   // dispatchs
   const { handleAddTask, handleCloseTasksModal } = props;
 
@@ -65,6 +73,7 @@ const NewTaskModalContainer = (props) => {
       loading={loading}
       modalValidateStatus={modalValidateStatus}
       errorMessage={errorMessage}
+      copyTaskRecord={copyTaskRecord}
     />
   );
 };

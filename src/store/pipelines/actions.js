@@ -25,7 +25,8 @@ import utils from '../../utils';
 // ** TRAIN EXPERIMENT
 /**
  * train experiment success action
- * @returns {Object} { type }
+ *
+ * @returns {object} { type }
  */
 const trainExperimentSuccess = () => {
   message.success('Treinamento iniciado!');
@@ -33,8 +34,9 @@ const trainExperimentSuccess = () => {
 
 /**
  * train experiment fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const trainExperimentFail = (error) => (dispatch) => {
   // getting error message
@@ -48,8 +50,9 @@ const trainExperimentFail = (error) => (dispatch) => {
 
 /**
  * train experiment request action
- * @param {Object} experiment
- * @param {Object[]} operators
+ *
+ * @param {object} experiment
+ * @param {object[]} operators
  * @returns {Function}
  */
 export const trainExperimentRequest = (experiment, operators) => (
@@ -113,8 +116,9 @@ export const trainExperimentRequest = (experiment, operators) => (
 // ** GET TRAIN EXPERIMENT STATUS
 /**
  * get train experiment status success action
- * @param {Object} response
- * @returns {Object} { type }
+ *
+ * @param {object} response
+ * @returns {object} { type }
  */
 const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
   // getting operators from response
@@ -172,8 +176,9 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
 
 /**
  * get train experiment status fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const getTrainExperimentStatusFail = (error) => (dispatch) => {
   // getting error message
@@ -188,8 +193,9 @@ const getTrainExperimentStatusFail = (error) => (dispatch) => {
 
 /**
  * get train experiment status request action
+ *
  * @param {string} experimentId
- * @param {Object[]} operators
+ * @param {object[]} operators
  * @returns {Function}
  */
 export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
@@ -210,9 +216,10 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
 // ** DEPLOY EXPERIMENT
 /**
  * deploy experiment success action
+ *
  * @param {string} experimentId
- * @param {Object} routerProps
- * @returns {Object} { type }
+ * @param {object} routerProps
+ * @returns {object} { type }
  */
 const deployExperimentSuccess = (experimentId, routerProps) => () => {
   // go to deployed experiments
@@ -223,10 +230,11 @@ const deployExperimentSuccess = (experimentId, routerProps) => () => {
 
 /**
  * deploy experiment fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
-const deployExperimentFail = (error) => {
+const deployExperimentFail = (error) => () => {
   // getting error message
   const errorMessage = error.message;
 
@@ -235,9 +243,11 @@ const deployExperimentFail = (error) => {
 
 /**
  * deploy experiment request action
- * @param {Object} experiment
- * @param {Object[]} operators
- * @param {Object} routerProps
+ *
+ * @param project
+ * @param {object} experiment
+ * @param {object[]} operators
+ * @param {object} routerProps
  * @returns {Function}
  */
 export const deployExperimentRequest = (
@@ -270,8 +280,8 @@ export const deployExperimentRequest = (
   // deploying experiment
   pipelinesApi
     .deployExperiment(experiment.uuid, deployObject)
-    .then(() => deployExperimentSuccess(experiment.uuid, routerProps))
-    .catch((error) => deployExperimentFail(error));
+    .then(() => dispatch(deployExperimentSuccess(experiment.uuid, routerProps)))
+    .catch((error) => dispatch(deployExperimentFail(error)));
 };
 
 // // // // // // // // // //
@@ -279,7 +289,7 @@ export const deployExperimentRequest = (
 /**
  * Delete train experiment
  *
- * @param {String} experimentId
+ * @param {string} experimentId
  * @returns {Function}
  */
 export const deleteTrainExperiment = (experimentId) => (dispatch) => {
