@@ -49,6 +49,9 @@ const initialState = {
   projectEditName: { loading: false },
   dataViewModal: { isVisible: false, loading: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
+  operatorsDependencies: {
+    loading: false,
+  },
 };
 
 /**
@@ -477,6 +480,16 @@ const uiReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         flowTransform: action.transform,
+      };
+    //OPERATORS LOADING
+    case actionTypes.LOADING_OPERATOR_DEPENDENCIES:
+      return {
+        ...state,
+        operatorsDependencies: {
+          ...state.operatorsDependencies,
+          loading: action.loading,
+          uuid: action.uuid,
+        },
       };
     // DEFAULT
     default:

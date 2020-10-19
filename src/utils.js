@@ -504,41 +504,6 @@ const getErrorMessage = (error) => {
 };
 
 /**
- * Sort operators by dependencies
- *
- * @param {object[]} operators experiment operators
- * @returns {object[]} experiment operators sorted
- */
-const sortOperatorsByDependencies = (operators) => {
-  const result = [];
-  if (operators.length > 0) {
-    // get the first operator of the flow
-    let firstOperatorIndex = operators.findIndex((i) => {
-      return i.dependencies.length === 0;
-    });
-    let firstOperator = operators[firstOperatorIndex];
-    result.push(firstOperator);
-    operators.splice(firstOperatorIndex, 1);
-
-    const findOpIndexByDependencie = (dependencie) => {
-      return operators.findIndex((i) => {
-        return i.dependencies.includes(dependencie);
-      });
-    };
-
-    let uuid = firstOperator.uuid;
-    while (operators.length > 0) {
-      let operatorIndex = findOpIndexByDependencie(uuid);
-      let operator = operators[operatorIndex];
-      result.push(operator);
-      operators.splice(operatorIndex, 1);
-      uuid = operator.uuid;
-    }
-  }
-  return result;
-};
-
-/**
  * Get dataset name
  *
  * @param {object[]} tasks tasks
@@ -668,7 +633,6 @@ export default {
   checkOperatorSettedUp,
   getErrorMessage,
   transformColumnsInParameterOptions,
-  sortOperatorsByDependencies,
   getDatasetName,
   sleep,
   hasFeaturetypes,

@@ -37,9 +37,11 @@ import './style.less';
 const ExperimentFlow = ({
   tasks,
   loading,
+  arrowConfigs,
   handleTaskBoxClick,
   handleDeselectOperator,
   handleSavePosition,
+  handleSaveDependencies,
   canDrop,
   isOver,
   connectDropTarget,
@@ -48,11 +50,13 @@ const ExperimentFlow = ({
 
   const cardsElements = tasks.map((component) => {
     const arrows = component.dependencies.map((arrow) => {
+      const arrowId = `${component.uuid}-${arrow}`;
       return {
-        id: `${component.uuid}-${arrow}`,
+        id: arrowId,
         type: 'customEdge',
         target: component.uuid,
         source: arrow,
+        animated: arrowId === arrowConfigs.uuid ? arrowConfigs.loading : false,
       };
     });
 
@@ -72,6 +76,15 @@ const ExperimentFlow = ({
               handleClick={handleTaskBoxClick}
               operator={component}
               onConnectingClass={connectClass}
+              dependenciesGraph={tasks
+                .map((el) => ({
+                  id: el.uuid,
+                  dep: el.dependencies,
+                }))
+                .reduce(
+                  (obj, item) => Object.assign(obj, { [item.id]: item.dep }),
+                  {}
+                )}
               {...component}
             />
           </div>
@@ -86,12 +99,20 @@ const ExperimentFlow = ({
   const handleLoad = (reactFlowInstance) => {
     setTimeout(() => {
       reactFlowInstance.fitView();
+      reactFlowInstance.zoomTo(1);
     }, 0);
   };
 
-  //TODO: Will be used later.
-  const handleConnect = (params) =>
-    console.log(`${params.target} has new dependency: ${params.source}`);
+  const handleConnect = (params) => {
+    const targetDependencies = tasks.filter(
+      (operator) => operator.uuid === params.target
+    )[0].dependencies;
+
+    handleSaveDependencies(params.target, [
+      ...targetDependencies,
+      params.source,
+    ]);
+  };
 
   const handleDragStop = (event, task) =>
     handleSavePosition(task.id, task.position);
@@ -112,7 +133,7 @@ const ExperimentFlow = ({
       <ReactFlow
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        nodesConnectable={false}
+        nodesConnectable={true}
         elements={_.flattenDeep(cardsElements)}
         onPaneClick={handleDeselectOperator}
         onSelectionChange={handleDeselectOperator}
