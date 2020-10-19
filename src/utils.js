@@ -321,57 +321,48 @@ const getTaskData = (tasks, taskId) => {
  * @param {object[]} taskParameters
  * @param {object} operatorParameters
  * @param {object[]} featureOptions
+ * @param isDataset
  * @returns {object[]} configured operator parameters
  */
 const configureOperatorParameters = (
   taskParameters,
   operatorParameters,
-  featureOptions
+  featureOptions,
+  isDataset
 ) => {
-  const configuredOperatorParameters = taskParameters.map((parameter) => {
-    let options;
-    if (parameter.options) {
-      // use parameter options if exist
-      options = parameter.options;
-    } else if (parameter.type === 'feature') {
-      // use feature options if parameter is type feature
-      options = featureOptions;
-    } else {
-      options = undefined;
-    }
+  const datasetParameters =
+    isDataset && operatorParameters
+      ? Object.keys(operatorParameters).map((key) => ({
+          name: key,
+          value: operatorParameters[key],
+        }))
+      : undefined;
 
-    let value;
-    if (parameter.name in operatorParameters) {
-      /**
-       *  get the value from operatorParameters if parameter exist in operatorParameters
-       *  to parameter multiple we need to split string by ','
-       *  because the multiple values are in this format 'value1,value2,value3'
-       */
-      if (parameter.multiple) {
-        value = operatorParameters[parameter.name].split(',').filter((el) => {
-          return el !== '';
-        });
-      } else {
-        value = operatorParameters[parameter.name];
-      }
-    } else if (parameter.multiple) {
-      // for parameter multiple use a empty array to default value
-      value = [];
-    } else if (parameter.type === 'feature') {
-      // for feature parameter use null to default value
-      value = null;
-    } else {
-      value = parameter.default;
-    }
+  let configuredOperatorParameters;
 
-    return {
-      ...parameter,
-      options: options,
-      value: value,
-    };
-  });
+  if (!isDataset)
+    configuredOperatorParameters = taskParameters.map((parameter) => {
+      return {
+        ...parameter,
+        options: parameter.options
+          ? parameter.options
+          : parameter.type === 'feature'
+          ? featureOptions
+          : undefined,
+        value:
+          parameter.name in operatorParameters
+            ? parameter.type === 'feature' || parameter.multiple
+              ? operatorParameters[parameter.name].split(',').filter((el) => {
+                  return el !== '';
+                })
+              : operatorParameters[parameter.name]
+            : parameter.type === 'feature' || parameter.multiple
+            ? []
+            : parameter.default,
+      };
+    });
 
-  return configuredOperatorParameters;
+  return datasetParameters || configuredOperatorParameters;
 };
 
 /**
@@ -400,6 +391,7 @@ const transformColumnsInParameterOptions = (datasetColumns) => {
  * @param {object[]} datasetColumns dataset columns list
  * @param {object} pipelineStatus pipeline status object
  * @returns {object[]} configured operators
+ * @param {boolean} isDataset
  */
 const configureOperators = (
   tasks,
@@ -413,16 +405,20 @@ const configureOperators = (
   // creating configured operators
   const configuredOperators = operators.map((operator) => {
     // getting task data
-    const { parameters: taskParameters, ...restTaskData } = getTaskData(
+    const { parameters: taskParameters, tags, ...restTaskData } = getTaskData(
       tasks,
       operator.taskId
     );
+
+    // check if operator is dataset
+    const isDataset = tags.includes('DATASETS');
 
     // configuring operator parameters
     const parameters = configureOperatorParameters(
       taskParameters,
       operator.parameters,
-      featureOptions
+      featureOptions,
+      isDataset
     );
 
     // checking if operator is setted up
@@ -440,6 +436,7 @@ const configureOperators = (
       settedUp,
       selected: false,
       status,
+      tags,
     };
   });
 

@@ -26,6 +26,7 @@ import {
   updateAllDatasetColumnFail,
   updateAllDatasetColumnStart,
 } from 'store/dataset/actions';
+import { saveTargetAttribute } from 'store/operator/actions';
 
 // STYLES
 import './DataViewModalContainer.less';
@@ -51,6 +52,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateAllDatasetColumnFail(message)),
     handleUpdateAllDatasetColumnStart: () =>
       dispatch(updateAllDatasetColumnStart()),
+    handleTargetAttribute: (parameters, projectId, experimentId) =>
+      dispatch(saveTargetAttribute(projectId, experimentId, parameters)),
   };
 };
 
@@ -77,6 +80,8 @@ const mapStateToProps = (state) => {
     isVisible: state.uiReducer.dataViewModal.isVisible,
     // modal loading
     loading: state.uiReducer.dataViewModal.loading,
+    setParameterLoading: state.uiReducer.operatorParameter.loading,
+    datasetOperator: state.operatorReducer,
   };
 };
 
@@ -103,8 +108,11 @@ const DataViewModalContainer = (props) => {
     handleUpdateAllDatasetColumnStart,
     handleUpdateAllDatasetColumnSuccess,
     handleUpdateAllDatasetColumnFail,
+    handleTargetAttribute,
     isVisible,
     loading,
+    datasetOperator,
+    setParameterLoading,
   } = props;
 
   useLayoutEffect(() => {
@@ -146,6 +154,14 @@ const DataViewModalContainer = (props) => {
     handleFetchPaginatedDataset(datasetName, page, size);
   };
 
+  // FIXME: deixar mais dinamico, hj o nome do parametro está hardcoded
+  const featureParameter = datasetOperator?.parameters.find(
+    (parameter) => parameter.name === 'featuretype'
+  );
+
+  // get selected row (feature type)
+  const selectedRows = featureParameter ? [featureParameter.value] : [];
+
   // RENDERs
   // rendering component
   return (
@@ -180,6 +196,9 @@ const DataViewModalContainer = (props) => {
               <DatasetColumnsTable
                 columns={datasetColumns}
                 handleSetColumnType={handleUpdateDatasetColumn}
+                handleRowSelection={handleTargetAttribute}
+                selectedRows={selectedRows}
+                setParameterLoading={setParameterLoading}
               />
             </div>
             <div className='dataViewAttributtesDownload'>

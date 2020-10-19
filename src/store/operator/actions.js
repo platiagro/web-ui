@@ -392,6 +392,10 @@ const createOperatorFail = (error) => (dispatch) => {
  * @param {object} taskId
  * @param {object[]} tasks,
  * @param tasks
+ * @param isTemplate
+ * @param position
+ * @param isTemplate
+ * @param position
  * @returns {Function}
  */
 export const createOperatorRequest = (
@@ -735,4 +739,22 @@ export const saveOperatorDependencies = (
       message.error(errorMessage);
       dispatch(upadteOperatorDependencies(operators));
     });
+};
+
+export const saveTargetAttribute = (
+  projectId,
+  experimentId,
+  parameters
+) => async (dispatch, getState) => {
+  const { operatorReducer: datasetOperator } = getState();
+
+  dispatch(
+    setOperatorParametersRequest(
+      projectId,
+      experimentId,
+      datasetOperator,
+      'featuretype',
+      parameters[0]
+    )
+  );
 };
