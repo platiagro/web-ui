@@ -156,7 +156,7 @@ const DataViewModalContainer = (props) => {
 
   // FIXME: deixar mais dinamico, hj o nome do parametro está hardcoded
   const featureParameter = datasetOperator?.parameters.find(
-    (parameter) => parameter.name === 'featuretype'
+    (parameter) => parameter.name === 'target'
   );
 
   // get selected row (feature type)

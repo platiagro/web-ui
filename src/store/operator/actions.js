@@ -454,7 +454,7 @@ export const createOperatorRequest = (
   // necessary to check if dataset because dataset param is removed on getTaskData
   let configuredParameters;
   if (restTaskData.tags.includes('DATASETS')) {
-    configuredParameters = [{ name: 'dataset', value: '' }];
+    configuredParameters = [{ name: 'dataset', value: '' }, {name:'target', value:''}];
   } else {
     configuredParameters = utils.configureOperatorParameters(
       parameters,
@@ -753,7 +753,7 @@ export const saveTargetAttribute = (
       projectId,
       experimentId,
       datasetOperator,
-      'featuretype',
+      'target',
       parameters[0]
     )
   );

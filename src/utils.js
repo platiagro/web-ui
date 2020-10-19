@@ -330,6 +330,7 @@ const configureOperatorParameters = (
   featureOptions,
   isDataset
 ) => {
+  // Returns the operator key and value
   const datasetParameters =
     isDataset && operatorParameters
       ? Object.keys(operatorParameters).map((key) => ({
@@ -338,29 +339,48 @@ const configureOperatorParameters = (
         }))
       : undefined;
 
-  let configuredOperatorParameters;
+  const configuredOperatorParameters = taskParameters.map((parameter) => {
+    let options;
+    if (parameter.options) {
+      // use parameter options if exist
+      options = parameter.options;
+    } else if (parameter.type === 'feature') {
+      // use feature options if parameter is type feature
+      options = featureOptions;
+    } else {
+      options = undefined;
+    }
 
-  if (!isDataset)
-    configuredOperatorParameters = taskParameters.map((parameter) => {
-      return {
-        ...parameter,
-        options: parameter.options
-          ? parameter.options
-          : parameter.type === 'feature'
-          ? featureOptions
-          : undefined,
-        value:
-          parameter.name in operatorParameters
-            ? parameter.type === 'feature' || parameter.multiple
-              ? operatorParameters[parameter.name].split(',').filter((el) => {
-                  return el !== '';
-                })
-              : operatorParameters[parameter.name]
-            : parameter.type === 'feature' || parameter.multiple
-            ? []
-            : parameter.default,
-      };
-    });
+    let value;
+    if (parameter.name in operatorParameters) {
+      /**
+       *  get the value from operatorParameters if parameter exist in operatorParameters
+       *  to parameter multiple we need to split string by ','
+       *  because the multiple values are in this format 'value1,value2,value3'
+       */
+      if (parameter.multiple) {
+        value = operatorParameters[parameter.name].split(',').filter((el) => {
+          return el !== '';
+        });
+      } else {
+        value = operatorParameters[parameter.name];
+      }
+    } else if (parameter.multiple) {
+      // for parameter multiple use a empty array to default value
+      value = [];
+    } else if (parameter.type === 'feature') {
+      // for feature parameter use null to default value
+      value = null;
+    } else {
+      value = parameter.default;
+    }
+
+    return {
+      ...parameter,
+      options: options,
+      value: value,
+    };
+  });
 
   return datasetParameters || configuredOperatorParameters;
 };

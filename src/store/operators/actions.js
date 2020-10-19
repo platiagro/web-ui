@@ -136,7 +136,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
       datasetColumns,
       pipelinesResponse.data
     );
-
+    
     dispatch(fetchOperatorsSuccess(configuredOperators, experimentId));
   } catch (e) {
     dispatch(fetchOperatorsFail(e));
