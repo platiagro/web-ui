@@ -191,7 +191,7 @@ const CompareResultItem = (props) => {
     }
 
     const operator = trainingDetail.operators.find(
-      (operator) => operator.operatorId === compareResult.operatorId
+      (op) => op.operatorId === compareResult.operatorId
     );
     const task = tasks.find((x) => x.uuid === operator.taskId);
     let resultsParameters;
