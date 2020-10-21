@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 // UI LIBS
 import { message } from 'antd';
 
@@ -7,7 +5,8 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import tasksApi from 'services/TasksApi';
+import compareResultsApi from 'services/CompareResultsApi';
+import pipelinesApi from 'services/PipelinesApi';
 
 // UI ACTIONS
 import { changeLoadingCompareResultsModal } from 'store/ui/actions';
@@ -15,6 +14,10 @@ import { changeLoadingCompareResultsModal } from 'store/ui/actions';
 // UTILS
 import utils from 'utils';
 
+/**
+ * Function to change addIsLoading data
+ * @param {Boolean} addIsLoading
+ */
 const changeAddLoader = (addIsLoading) => {
   return {
     type: actionTypes.ADD_COMPARE_RESULT_LOADER,
@@ -23,30 +26,9 @@ const changeAddLoader = (addIsLoading) => {
 };
 
 /**
- * Function to add compare result and dispatch to reducer
+ * Function to change deleteIsLoading data
+ * @param {Boolean} deleteIsLoading
  */
-export const addCompareResult = () => {
-  return async (dispatch) => {
-    dispatch(changeAddLoader(true));
-
-    await utils.sleep(2000);
-
-    dispatch(changeAddLoader(false));
-
-    dispatch({
-      type: actionTypes.ADD_COMPARE_RESULT,
-      compareResult: {
-        uuid: uuidv4(),
-        projectId: '',
-        experimentId: '',
-        operatorId: '',
-        runId: '',
-        createdAt: '2020-10-07T12:13:44',
-      },
-    });
-  };
-};
-
 const changeDeleteLoader = (deleteIsLoading) => {
   return {
     type: actionTypes.DELETE_COMPARE_RESULT_LOADER,
@@ -55,134 +37,230 @@ const changeDeleteLoader = (deleteIsLoading) => {
 };
 
 /**
+ * Function to update experiments options data
+ * @param {String} experimentId
+ * @param {Object[]} children
+ * @param {Boolean} isLoading
+ */
+const updateExperimentsOptions = (experimentId, children, isLoading) => {
+  return {
+    type: actionTypes.UPDATE_EXPERIMENTS_OPTIONS,
+    experimentId: experimentId,
+    children: children,
+    isLoading: isLoading,
+  };
+};
+
+/**
+ * Function to add compare result and dispatch to reducer
+ * @param {string} projectId
+ */
+export const addCompareResult = (projectId) => {
+  return (dispatch) => {
+    dispatch(changeAddLoader(true));
+    compareResultsApi
+      .createCompareResult(projectId)
+      .then((response) => {
+        dispatch(changeAddLoader(false));
+        dispatch({
+          type: actionTypes.ADD_COMPARE_RESULT,
+          compareResult: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(changeAddLoader(false));
+        let errorMessage = error.message;
+        message.error(errorMessage, 5);
+      });
+  };
+};
+
+/**
  * Function to delete compare result and dispatch to reducer
- *
+ * @param {string} projectId
  * @param {string} id
  */
-export const deleteCompareResult = (id) => {
-  return async (dispatch) => {
+export const deleteCompareResult = (projectId, id) => {
+  return (dispatch) => {
     dispatch(changeDeleteLoader(true));
-
-    await utils.sleep(2000);
-
-    dispatch(changeDeleteLoader(false));
-
-    dispatch({
-      type: actionTypes.DELETE_COMPARE_RESULT,
-      id,
-    });
+    compareResultsApi
+      .deleteCompareResult(projectId, id)
+      .then((response) => {
+        dispatch(changeDeleteLoader(false));
+        dispatch({
+          type: actionTypes.DELETE_COMPARE_RESULT,
+          id,
+        });
+      })
+      .catch((error) => {
+        dispatch(changeDeleteLoader(false));
+        let errorMessage = error.message;
+        message.error(errorMessage, 5);
+      });
   };
 };
 
 /**
  * Function to fetch compare results and dispatch to reducer
+ * @param {string} projectId
+ * @param {Object[]} experiments
  */
-export const fetchCompareResults = () => {
-  return async (dispatch) => {
+export const fetchCompareResults = (projectId, experiments) => {
+  return (dispatch) => {
     dispatch(changeLoadingCompareResultsModal(true));
+    compareResultsApi
+      .listCompareResult(projectId)
+      .then(async (response) => {
+        const compareResults = response.data;
+        dispatch(changeLoadingCompareResultsModal(false));
+        dispatch({
+          type: actionTypes.FETCH_COMPARE_RESULTS,
+          compareResults: compareResults,
+          experimentsOptions: experiments.map((experiment) => {
+            return {
+              isLeaf: false,
+              label: experiment.name,
+              value: experiment.uuid,
+            };
+          }),
+        });
 
-    await utils.sleep(1000);
+        for (const compareResult of compareResults) {
+          if (compareResult.experimentId) {
+            await dispatch(fetchTrainingHistory(compareResult.experimentId));
+          }
+        }
+      })
+      .catch((error) => {
+        dispatch(changeLoadingCompareResultsModal(false));
+        let errorMessage = error.message;
+        message.error(errorMessage, 5);
+      });
+  };
+};
 
-    dispatch(changeLoadingCompareResultsModal(false));
-    dispatch({
-      type: actionTypes.FETCH_EXPERIMENTS_TRAINING_HISTORY,
-      experimentsTrainingHistory: {
-        'baff2d2f-09c6-406e-9132-3a1adc134fa4': [
-          {
-            uuid: 'ec2f9165-d8c5-4d3c-97f1-34cd4e227f5e',
-            projectId: 'c0051e40-ee17-4c8b-9f8a-79125071616c',
-            runId: 'e26f2a69-1896-4234-9976-dc6bb3c4b66e',
-            createdAt: '2020-10-09T13:35:06',
-            details: [
-              {
-                operatorId: 'operator1',
-                taskId: 'aeceee55-fc47-4a1f-ac2c-36aea4c395b7',
-                parameters: [
-                  {
-                    name: 'target',
-                    value: 'Species',
-                  },
-                ],
-              },
-              {
-                operatorId: 'operator2',
-                taskId: 'ca7fa5c8-a3ed-437a-bf74-1cd89d0ae164',
-                parameters: [
-                  {
-                    name: 'target',
-                    value: 'Species',
-                  },
-                ],
-              },
-              ,
-              {
-                operatorId: 'operator3',
-                taskId: 'a4ddf832-a55c-4da6-9ed9-b154505c3f3a',
-                parameters: [
-                  {
-                    name: 'target',
-                    value: 'Species',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        'c10fb5e1-563c-4588-8634-8f81523b3c77': [
-          {
-            uuid: 'ec2f9165-d8c5-4d3c-97f1-34cd4e227f5e',
-            projectId: 'c0051e40-ee17-4c8b-9f8a-79125071616c',
-            runId: 'e26f2a69-1896-4234-9976-dc6bb3c4b66e',
-            createdAt: '2020-10-09T13:35:06',
-            details: [
-              {
-                operatorId: 'a03bf11e-7c71-498e-b485-d3d3eb6b7d80',
-                taskId: 'aeceee55-fc47-4a1f-ac2c-36aea4c395b7',
-                parameters: [
-                  {
-                    name: 'target',
-                    value: 'Species',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+/**
+ * Function to fetch the compare results results and dispatch to reducer
+ * @param {Object} compareResult
+ */
+export const fetchCompareResultsResults = (compareResult) => async (
+  dispatch
+) => {
+  const { experimentId, operatorId, runId } = compareResult;
+  const figures = await pipelinesApi
+    .getOperatorFigures(experimentId, runId, operatorId)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {});
+
+  const dataset = await pipelinesApi
+    .getOperatorDataset(experimentId, runId, operatorId, 1)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {});
+
+  const metrics = await pipelinesApi
+    .getOperatorMetrics(experimentId, runId, operatorId)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {});
+
+  const results = utils.transformResults(operatorId, figures);
+  if (dataset) {
+    let tableColumns = [];
+    let index = 0;
+    for (let column of dataset.data.columns) {
+      let tableColumn = {
+        title: column,
+        dataIndex: index,
+      };
+      tableColumns.push(tableColumn);
+      index++;
+    }
+
+    results.push({
+      type: 'table',
+      uuid: `table-${operatorId}`,
+      resultTable: {
+        columns: tableColumns,
+        rows: dataset.data.data,
+        total: dataset.data.total,
+        currentPage: 1,
       },
     });
-    dispatch({
-      type: actionTypes.FETCH_COMPARE_RESULTS,
-      compareResults: [
-        {
-          uuid: 'a',
-          projectId: '',
-          experimentId: '',
-          operatorId: '',
-          runId: '',
-          createdAt: '2020-10-07T12:13:44',
-        },
-        {
-          uuid: 'b',
-          projectId: '',
-          experimentId: '',
-          operatorId: '',
-          runId: '',
-          createdAt: '2020-10-07T12:13:44',
-        },
-      ],
-    });
+  }
+
+  const compareResultsAux = { ...compareResult };
+  compareResultsAux.metrics = metrics ? metrics : [];
+  compareResultsAux.results = results;
+  dispatch({
+    type: actionTypes.UPDATE_COMPARE_RESULT,
+    compareResult: compareResultsAux,
+  });
+};
+
+/**
+ * Function to fetch the training history and dispatch to reducer
+ * @param {String} experimentId
+ */
+export const fetchTrainingHistory = (experimentId) => {
+  return (dispatch, getState) => {
+    const { compareResultsReducer } = getState();
+    const trainingHistory = compareResultsReducer.experimentsTrainingHistory;
+    if (!trainingHistory.hasOwnProperty(experimentId)) {
+      dispatch(updateExperimentsOptions(experimentId, null, true));
+      return pipelinesApi
+        .getTrainingHistory(experimentId)
+        .then((response) => {
+          trainingHistory[experimentId] = response.data;
+          dispatch({
+            type: actionTypes.FETCH_EXPERIMENTS_TRAINING_HISTORY,
+            experimentsTrainingHistory: trainingHistory,
+          });
+          const children = response.data.map((history) => {
+            return {
+              label: utils.formatCompareResultDate(history.createdAt),
+              value: history.runId,
+            };
+          });
+          dispatch(updateExperimentsOptions(experimentId, children, false));
+        })
+        .catch((error) => {
+          dispatch(updateExperimentsOptions(experimentId, null, false));
+          let errorMessage = error.message;
+          message.error(errorMessage, 5);
+        });
+    }
   };
 };
 
 /**
  * Function to update compare result and dispatch to reducer
+ * @param {Object} compareResult
  */
 export const updateCompareResult = (compareResult) => {
-  return async (dispatch) => {
-    await utils.sleep(1000);
-    dispatch({
-      type: actionTypes.UPDATE_COMPARE_RESULT,
-      compareResult: compareResult,
-    });
+  return (dispatch) => {
+    const body = {
+      experimentId: compareResult.experimentId,
+      operatorId: compareResult.operatorId,
+      runId: compareResult.runId,
+    };
+    compareResultsApi
+      .updateCompareResult(compareResult.projectId, compareResult.uuid, body)
+      .then((response) => {
+        dispatch(changeLoadingCompareResultsModal(false));
+        dispatch({
+          type: actionTypes.UPDATE_COMPARE_RESULT,
+          compareResult: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(changeLoadingCompareResultsModal(false));
+        let errorMessage = error.message;
+        message.error(errorMessage, 5);
+      });
   };
 };

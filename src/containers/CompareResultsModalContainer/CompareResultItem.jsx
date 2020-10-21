@@ -1,7 +1,6 @@
 // REACT LIBS
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
 import {
@@ -9,121 +8,105 @@ import {
   DeleteOutlined,
   MoreOutlined,
 } from '@ant-design/icons';
-import { Button, Card, Popover, Select, Space } from 'antd';
+import { Button, Card, Cascader, Image, Popover, Select, Space } from 'antd';
 
 // COMPONENTS
-import { CommonTable } from 'components';
 import { Skeleton } from 'uiComponents';
 import ResultsDrawer from 'components/Content/ProjectContent/Experiment/Drawer/ResultsDrawer/_';
 
-const { Option, OptGroup } = Select;
+// IMAGES
+import graphLoaderImage from 'assets/resultGraphLoader.svg';
+import tableLoaderImage from 'assets/resultTableLoader.svg';
+
+// UTILS
+import utils from 'utils';
+
+// STYLES
+import './CompareResultItem.less';
+
+const { Option } = Select;
 
 const CompareResultItem = (props) => {
   const {
     compareResult,
-    experiments,
+    experimentsOptions,
     experimentsTrainingHistory,
     onDelete,
+    onFetchResults,
+    onLoadTrainingHistory,
     onUpdate,
     tasks,
   } = props;
 
-  // TODO get the results
-  useEffect(() => {}, []);
-
-  const formatDate = (date) => {
-    var options = {
-      day: 'numeric',
-      month: 'long',
-      hour: '2-digit',
-      minute: '2-digit',
-    };
-    const formatDate = new Date(date).toLocaleDateString(undefined, options);
-    var rest = formatDate.substring(0, formatDate.lastIndexOf(' ') + 1);
-    var last = formatDate.substring(
-      formatDate.lastIndexOf(' ') + 1,
-      formatDate.length
-    );
-    return rest + ', ' + last;
-  };
-
-  const getTraining = () => {
-    const experimentTrainingHistory =
-      experimentsTrainingHistory[compareResult.experimentId];
-    const train = experimentTrainingHistory.find(
-      (x) => x.runId === compareResult.runId
-    );
-    return train;
-  };
-
-  const renderExperimentSelect = () => {
-    return experiments.map((experiment) => {
-      const experimentTrainingHistory = experimentsTrainingHistory
-        ? experimentsTrainingHistory[experiment.uuid]
-        : null;
-
-      if (!experimentTrainingHistory) {
-        return;
-      }
-
-      return (
-        <OptGroup label={experiment.name}>
-          {experimentTrainingHistory.map((train) => {
-            return (
-              <Option
-                value={`${experiment.uuid}/${train.runId}`}
-                label={experiment.name}
-              >
-                {formatDate(train.createdAt)}
-              </Option>
-            );
-          })}
-        </OptGroup>
+  const experimentId = compareResult.experimentId;
+  let trainingDetail = null;
+  if (experimentId && experimentsTrainingHistory.hasOwnProperty(experimentId)) {
+    const trainingHistory = experimentsTrainingHistory[experimentId];
+    if (trainingHistory) {
+      trainingDetail = trainingHistory.find(
+        (x) => x.runId === compareResult.runId
       );
-    });
-  };
-
-  const renderTrainingDate = () => {
-    if (!compareResult.runId) {
-      return;
     }
-    const train = getTraining();
-    return (
-      <Space>
-        <ClockCircleTwoTone />
-        {formatDate(train.createdAt)}
-      </Space>
-    );
-  };
+  }
 
-  const title = () => {
-    const defaultValue =
-      compareResult.experimentId && compareResult.runId
-        ? `${compareResult.experimentId}/${compareResult.runId}`
-        : null;
+  /**
+   * Get the results if the experiment and task were selected
+   * and the metrics and results were undefined
+   */
+  useEffect(() => {
+    if (
+      compareResult.experimentId &&
+      compareResult.operatorId &&
+      compareResult.runId &&
+      !compareResult.metrics &&
+      !compareResult.results
+    ) {
+      onFetchResults(compareResult);
+    }
+  }, [compareResult, onFetchResults]);
+
+  const renderCardTitle = () => {
     return (
       <>
         <Space>
-          <Select
-            defaultValue={defaultValue}
-            onChange={(value) => {
-              var splitted = value.split('/');
+          <Cascader
+            defaultValue={
+              compareResult.experimentId && compareResult.runId
+                ? [compareResult.experimentId, compareResult.runId]
+                : null
+            }
+            displayRender={(label, selectedOptions) => {
+              return label[0];
+            }}
+            loadData={(selectedOptions) => {
+              const targetOption = selectedOptions[selectedOptions.length - 1];
+              onLoadTrainingHistory(targetOption.value);
+            }}
+            onChange={(value, selectedOptions) => {
               const updatedCompareResult = {
                 ...compareResult,
-                experimentId: splitted[0],
-                runId: splitted[1],
               };
+              if (value.length === 0) {
+                updatedCompareResult.experimentId = null;
+                updatedCompareResult.operatorId = null;
+                updatedCompareResult.runId = null;
+              } else {
+                updatedCompareResult.experimentId = value[0];
+                updatedCompareResult.operatorId = null;
+                updatedCompareResult.runId = value[1];
+              }
               onUpdate(updatedCompareResult);
             }}
-            optionLabelProp='label'
-            placeholder={
-              <span style={{ color: '#262626' }}>Selecione o experimento</span>
-            }
+            options={experimentsOptions}
+            placeholder={'Selecione o experimento'}
             style={{ width: 250 }}
-          >
-            {renderExperimentSelect()}
-          </Select>
-          {renderTrainingDate()}
+          />
+          {trainingDetail ? (
+            <Space>
+              <ClockCircleTwoTone />
+              {utils.formatCompareResultDate(trainingDetail.createdAt)}
+            </Space>
+          ) : null}
         </Space>
         <Popover
           placement='bottom'
@@ -150,18 +133,13 @@ const CompareResultItem = (props) => {
   };
 
   const renderTaskSelect = () => {
-    if (!compareResult.runId) {
-      return <Skeleton paragraphConfig={{ rows: 1, width: '100%' }} />;
+    if (!compareResult.runId || !trainingDetail) {
+      return <Skeleton />;
     }
-
-    const train = getTraining();
-    const trainTasks = train.details.map((details) => {
-      const task = tasks.find((x) => x.uuid === details.taskId);
-      return { operatorId: details.operatorId, taskName: task.name };
-    });
     return (
       <>
         <Select
+          key={compareResult.operatorId}
           defaultValue={compareResult.operatorId}
           onChange={(value) => {
             const updatedCompareResult = {
@@ -171,15 +149,18 @@ const CompareResultItem = (props) => {
             onUpdate(updatedCompareResult);
           }}
           optionLabelProp='label'
-          placeholder={
-            <span style={{ color: '#262626' }}>Selecione a tarefa</span>
-          }
+          placeholder={'Selecione a tarefa'}
           style={{ width: '100%' }}
         >
-          {trainTasks.map((trainTask) => {
+          {trainingDetail.operators.map((operator) => {
+            const task = tasks.find((x) => x.uuid === operator.taskId);
             return (
-              <Option value={trainTask.operatorId} label={trainTask.taskName}>
-                {trainTask.taskName}
+              <Option
+                key={operator.taskId}
+                label={task ? task.name : operator.taskId}
+                value={operator.operatorId}
+              >
+                {task ? task.name : operator.taskId}
               </Option>
             );
           })}
@@ -191,38 +172,61 @@ const CompareResultItem = (props) => {
   };
 
   const renderResults = () => {
-    if (!compareResult.runId || !compareResult.operatorId) {
+    if (
+      !compareResult.operatorId ||
+      !compareResult.metrics ||
+      !compareResult.results ||
+      !trainingDetail
+    ) {
+      const randNumber = Math.floor(Math.random() * 2) + 1;
       return (
         <>
-          <CommonTable
-            columns={['', '', '', '']}
-            isLoading={true}
-            rowKey={() => {
-              return uuidv4();
-            }}
-            size={'small'}
-            skeletonRowsAmount={5}
-          />
+          {randNumber === 1 ? (
+            <Image src={graphLoaderImage} height={'100%'} width={'100%'} />
+          ) : (
+            <Image src={tableLoaderImage} width={'100%'} />
+          )}
         </>
       );
     }
 
+    const operator = trainingDetail.operators.find(
+      (operator) => operator.operatorId === compareResult.operatorId
+    );
+    const task = tasks.find((x) => x.uuid === operator.taskId);
+    let resultsParameters;
+    if (task) {
+      resultsParameters = utils.formatResultsParameters(
+        task.parameters,
+        operator.parameters
+      );
+    } else {
+      resultsParameters = [];
+      for (const [key, value] of Object.entries(operator.parameters)) {
+        resultsParameters.push({
+          name: key,
+          value: value,
+        });
+      }
+    }
     return (
-      <>
-        <ResultsDrawer
-          metrics={[
-            { r2_score: 1.0 },
-            { accuracy: 1.0, scores: [1.0, 0.5, 0.1] },
-          ]}
-          results={[]}
-          parameters={[]}
-        />
-      </>
+      <ResultsDrawer
+        loading={false}
+        metrics={compareResult.metrics}
+        metricsLoading={false}
+        parameters={resultsParameters}
+        results={compareResult.results}
+        resultsTabStyle={{
+          maxHeight: '200px',
+          overflow: 'auto',
+        }}
+        scroll={{ y: 150 }}
+      />
     );
   };
 
   return (
-    <Card title={title()} style={{ height: 450 }}>
+    <Card title={renderCardTitle()} style={{ height: 450 }}>
       {renderTaskSelect()}
       {renderResults()}
     </Card>
@@ -231,12 +235,22 @@ const CompareResultItem = (props) => {
 
 // PROP TYPES
 CompareResultItem.propTypes = {
-  /** Show tooltip below the icon */
-  isTooltipBelow: PropTypes.bool.isRequired,
-  /** Tooltip information text */
-  tooltipText: PropTypes.string.isRequired,
-  /** Icon type */
-  iconType: PropTypes.oneOf(['info', 'question']).isRequired,
+  /** The compare result */
+  compareResult: PropTypes.object.isRequired,
+  /** The expriment options to use on Cascader */
+  experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** The expriments training history */
+  experimentsTrainingHistory: PropTypes.object.isRequired,
+  /** Function to handle delete compare result */
+  onDelete: PropTypes.func.isRequired,
+  /** Function to handle fetch results */
+  onFetchResults: PropTypes.func.isRequired,
+  /** SFunction to handle load training history */
+  onLoadTrainingHistory: PropTypes.func.isRequired,
+  /** Function to handle update compare result */
+  onUpdate: PropTypes.func.isRequired,
+  /** Tasks list */
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // EXPORT DEFAULT

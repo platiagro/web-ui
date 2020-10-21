@@ -4,7 +4,7 @@ const initialState = {
   addIsLoading: false,
   compareResults: [],
   deleteIsLoading: false,
-  experimentsTrainingHistory: undefined,
+  experimentsTrainingHistory: {},
 };
 
 const compareResultsReducer = (state = initialState, action = undefined) => {
@@ -35,6 +35,8 @@ const compareResultsReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         compareResults: action.compareResults,
+        experimentsOptions: action.experimentsOptions,
+        experimentsTrainingHistory: {},
       };
     case actionTypes.FETCH_EXPERIMENTS_TRAINING_HISTORY:
       return {
@@ -52,23 +54,20 @@ const compareResultsReducer = (state = initialState, action = undefined) => {
         ...state,
         compareResults: compareResultsAux,
       };
-    case actionTypes.SHOW_EDIT_TASK_MODAL:
-      return {
-        ...state,
-        editModalIsVisible: true,
-        newTaskRecord: action.newTaskRecord,
+    case actionTypes.UPDATE_EXPERIMENTS_OPTIONS:
+      const experimentsOptionsAux = [...state.experimentsOptions];
+      const experimentsOptionIndex = experimentsOptionsAux.findIndex(
+        (experimentsOption) => experimentsOption.value === action.experimentId
+      );
+      experimentsOptionsAux[experimentsOptionIndex] = {
+        ...experimentsOptionsAux[experimentsOptionIndex],
+        children: action.children,
+        loading: action.isLoading,
+        disabled: action.children ? action.children.length === 0 : false,
       };
-    case actionTypes.SHOW_NEW_TASK_MODAL:
       return {
         ...state,
-        modalIsVisible: true,
-      };
-    case actionTypes.ADD_TASK_FAIL:
-    case actionTypes.UPDATE_TASK_FAIL:
-      return {
-        ...state,
-        modalValidateStatus: 'error',
-        errorMessage: action.errorMessage,
+        experimentsOptions: experimentsOptionsAux,
       };
     default:
       return state;

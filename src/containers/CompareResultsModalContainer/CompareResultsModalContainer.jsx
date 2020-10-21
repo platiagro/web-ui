@@ -1,7 +1,8 @@
 // REACT LIBS
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
@@ -23,23 +24,31 @@ import {
   addCompareResult,
   deleteCompareResult,
   fetchCompareResults,
+  fetchCompareResultsResults,
+  fetchTrainingHistory,
   updateCompareResult,
 } from 'store/compareResults/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddCompareResult: () => {
-      dispatch(addCompareResult());
+    handleAddCompareResult: (projectId) => {
+      dispatch(addCompareResult(projectId));
     },
     handleChangeVisibilityCompareResultsModal: () => {
       dispatch(changeVisibilityCompareResultsModal(false));
     },
-    handleDeleteCompareResult: (id) => {
-      dispatch(deleteCompareResult(id));
+    handleDeleteCompareResult: (projectId, id) => {
+      dispatch(deleteCompareResult(projectId, id));
     },
-    handleFetchCompareResults: () => {
-      dispatch(fetchCompareResults());
+    handleFetchCompareResults: (projectId, experiments) => {
+      dispatch(fetchCompareResults(projectId, experiments));
+    },
+    handleFetchCompareResultsResults: (compareResult) => {
+      dispatch(fetchCompareResultsResults(compareResult));
+    },
+    handleFetchTrainingHistory: (experimentId) => {
+      dispatch(fetchTrainingHistory(experimentId));
     },
     handleUpdateCompareResult: (compareResult) => {
       dispatch(updateCompareResult(compareResult));
@@ -54,6 +63,7 @@ const mapStateToProps = (state) => {
     compareResults: state.compareResultsReducer.compareResults,
     deleteIsLoading: state.compareResultsReducer.deleteIsLoading,
     experiments: state.experimentsReducer,
+    experimentsOptions: state.compareResultsReducer.experimentsOptions,
     experimentsTrainingHistory:
       state.compareResultsReducer.experimentsTrainingHistory,
     isLoading: state.uiReducer.compareResultsModal.loading,
@@ -71,6 +81,7 @@ const CompareResultsModalContainer = (props) => {
     compareResults,
     deleteIsLoading,
     experiments,
+    experimentsOptions,
     experimentsTrainingHistory,
     isLoading,
     isVisible,
@@ -81,14 +92,18 @@ const CompareResultsModalContainer = (props) => {
     handleChangeVisibilityCompareResultsModal,
     handleDeleteCompareResult,
     handleFetchCompareResults,
+    handleFetchCompareResultsResults,
+    handleFetchTrainingHistory,
     handleUpdateCompareResult,
   } = props;
 
+  const { projectId } = useParams();
+
   useEffect(() => {
     if (isVisible) {
-      handleFetchCompareResults();
+      handleFetchCompareResults(projectId, experiments);
     }
-  }, [isVisible]);
+  }, [experiments, handleFetchCompareResults, isVisible, projectId]);
 
   const title = (
     <>
@@ -105,16 +120,21 @@ const CompareResultsModalContainer = (props) => {
     </>
   );
 
-  const loadingCard = () => {
+  const renderLoadingCard = () => {
     return (
-      <Col span={12}>
+      <Col key={uuidv4()} span={12}>
         <Card
           title={<Skeleton paragraphConfig={{ rows: 1, width: '100%' }} />}
           style={{ height: 450, overflowX: 'scroll' }}
         >
           <Skeleton paragraphConfig={{ rows: 1, width: '100%' }} />
           <CommonTable
-            columns={['', '', '', '']}
+            columns={[
+              { title: '' },
+              { title: '' },
+              { title: '' },
+              { title: '' },
+            ]}
             isLoading={true}
             rowKey={() => {
               return uuidv4();
@@ -134,12 +154,17 @@ const CompareResultsModalContainer = (props) => {
 
     return compareResults.map((compareResult) => {
       return (
-        <Col span={12}>
+        <Col key={compareResult.uuid} span={12}>
           <CompareResultItem
             compareResult={compareResult}
             experiments={experiments}
+            experimentsOptions={experimentsOptions}
             experimentsTrainingHistory={experimentsTrainingHistory}
-            onDelete={handleDeleteCompareResult}
+            onDelete={(id) => {
+              handleDeleteCompareResult(projectId, id);
+            }}
+            onFetchResults={handleFetchCompareResultsResults}
+            onLoadTrainingHistory={handleFetchTrainingHistory}
             onUpdate={handleUpdateCompareResult}
             tasks={tasks}
           />
@@ -164,7 +189,7 @@ const CompareResultsModalContainer = (props) => {
     >
       <Row gutter={[8, 8]}>
         {isLoading || deleteIsLoading ? (
-          loadingCard()
+          renderLoadingCard()
         ) : (
           <>
             {renderCompareResultItem()}
@@ -179,7 +204,9 @@ const CompareResultsModalContainer = (props) => {
                   shape='round'
                   type='default'
                   disabled={addIsLoading}
-                  onClick={handleAddCompareResult}
+                  onClick={() => {
+                    handleAddCompareResult(projectId);
+                  }}
                 >
                   <Space style={{ color: '#0050B3' }}>
                     {addIsLoading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -196,22 +223,36 @@ const CompareResultsModalContainer = (props) => {
 };
 
 CompareResultsModalContainer.propTypes = {
-  /** Operator results modal close handler */
-  handleClose: PropTypes.func.isRequired,
-  /** Operator results modal is visible */
+  /** Compare result add is loading */
+  addIsLoading: PropTypes.bool.isRequired,
+  /** The compare results */
+  compareResults: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Compare result delete is loading */
+  deleteIsLoading: PropTypes.bool.isRequired,
+  /** The expriment options to use on Cascader */
+  experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** The expriments training history */
+  experimentsTrainingHistory: PropTypes.object.isRequired,
+  /** Function to handle add compare result */
+  handleAddCompareResult: PropTypes.func.isRequired,
+  /** Function to handle change visibility compare result modal */
+  handleChangeVisibilityCompareResultsModal: PropTypes.func.isRequired,
+  /** Function to handle delete compare result */
+  handleDeleteCompareResult: PropTypes.func.isRequired,
+  /** Function to handle fetch compare results */
+  handleFetchCompareResults: PropTypes.func.isRequired,
+  /** Function to handle fetch compare results results */
+  handleFetchCompareResultsResults: PropTypes.func.isRequired,
+  /** Function to handle fetch training history */
+  handleFetchTrainingHistory: PropTypes.func.isRequired,
+  /** Function to handle update compare result */
+  handleUpdateCompareResult: PropTypes.func.isRequired,
+  /** Modal is loading */
+  isLoading: PropTypes.bool.isRequired,
+  /** Modal is visible */
   isVisible: PropTypes.bool.isRequired,
-  /** Operator experiment metrics*/
-  operatorMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator parameters */
-  operatorParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator parameters latest training*/
-  operatorParametersLatestTraining: PropTypes.object.isRequired,
-  /** Operator experiment metrics is loading */
-  operatorMetricsLoading: PropTypes.bool.isRequired,
-  /** Operator experiment results */
-  operatorResults: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator experiment results is loading */
-  operatorResultsLoading: PropTypes.bool.isRequired,
+  /** Tasks list */
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // EXPORT DEFAULT
