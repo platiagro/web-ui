@@ -136,16 +136,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
       datasetColumns,
       pipelinesResponse.data
     );
-
-    // configuring dataset operator
-    configuredOperators = configuredOperators.map((operator) => {
-      // necessary to check if dataset because dataset param is removed on getTaskData
-      if (operator.tags.includes('DATASETS')) {
-        operator.parameters = [{ name: 'dataset', value: datasetName || '' }];
-      }
-      return operator;
-    });
-
+    
     dispatch(fetchOperatorsSuccess(configuredOperators, experimentId));
   } catch (e) {
     dispatch(fetchOperatorsFail(e));

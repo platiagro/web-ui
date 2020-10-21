@@ -1,6 +1,7 @@
 // CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
 // UI LIBS
 import { Table, Select, Skeleton, Tooltip } from 'antd';
@@ -27,7 +28,22 @@ const ColumnsTable = (props) => {
     currentPage,
     setCurrentPage,
     loading,
+    handleRowSelection,
+    selectedRows,
   } = props;
+
+  const { projectId, experimentId } = useParams();
+  const rowSelection = {
+    type: 'radio',
+    fixed: true,
+    columnTitle: 'Atributo alvo',
+    columnWidth: 110,
+    rowKey: 'name',
+    selectedRowKeys: selectedRows,
+    onChange: (selectedRowKeys) => {
+      handleRowSelection(selectedRowKeys, projectId, experimentId);
+    },
+  };
 
   // columns configuration
   const columnsConfig = [
@@ -115,6 +131,7 @@ const ColumnsTable = (props) => {
       dataSource={columns}
       columns={columnsConfig}
       rowKey={setRowKey}
+      rowSelection={rowSelection}
       size='small'
       pagination={{
         current: currentPage,
@@ -136,6 +153,8 @@ ColumnsTable.propTypes = {
   currentPage: PropTypes.number.isRequired,
   /** props setCurrentPage change the page  */
   setCurrentPage: PropTypes.func.isRequired,
+  /** Selected row */
+  handleRowSelection: PropTypes.string.isRequired,
 };
 
 // EXPORT

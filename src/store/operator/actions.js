@@ -392,6 +392,10 @@ const createOperatorFail = (error) => (dispatch) => {
  * @param {object} taskId
  * @param {object[]} tasks,
  * @param tasks
+ * @param isTemplate
+ * @param position
+ * @param isTemplate
+ * @param position
  * @returns {Function}
  */
 export const createOperatorRequest = (
@@ -450,7 +454,7 @@ export const createOperatorRequest = (
   // necessary to check if dataset because dataset param is removed on getTaskData
   let configuredParameters;
   if (restTaskData.tags.includes('DATASETS')) {
-    configuredParameters = [{ name: 'dataset', value: '' }];
+    configuredParameters = [{ name: 'dataset', value: '' }, {name:'target', value:''}];
   } else {
     configuredParameters = utils.configureOperatorParameters(
       parameters,
@@ -735,4 +739,22 @@ export const saveOperatorDependencies = (
       message.error(errorMessage);
       dispatch(upadteOperatorDependencies(operators));
     });
+};
+
+export const saveTargetAttribute = (
+  projectId,
+  experimentId,
+  parameters
+) => async (dispatch, getState) => {
+  const { operatorReducer: datasetOperator } = getState();
+
+  dispatch(
+    setOperatorParametersRequest(
+      projectId,
+      experimentId,
+      datasetOperator,
+      'target',
+      parameters[0]
+    )
+  );
 };
