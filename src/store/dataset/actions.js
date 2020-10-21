@@ -233,12 +233,66 @@ export const updateDatasetUpload = (uploadProgress) => (dispatch) => {
 };
 
 /**
+ * Start a file upload
+ *
+ * @param {object} file Dataset file
+ *
+ * @returns {Function} Dispatch function
+ */
+export const startFileDatasetUpload = (file) => (dispatch) => {
+  // create cancel token
+  const cancelToken = CancelToken.source();
+
+  // dispatching request action
+  dispatch({
+    type: actionTypes.CREATE_DATASET_REQUEST,
+    file: file,
+    cancelToken: cancelToken,
+  });
+
+  // create new form data
+  const fileFormData = new FormData();
+
+  // append dataset file
+  fileFormData.append('file', file);
+
+  dispatch(startDatasetUpload(fileFormData, cancelToken));
+};
+
+/**
+ * Start a Google upload
+ *
+ * @param {object} gfile Google file
+ *
+ * @returns {Function} Dispatch function
+ */
+export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
+  // create cancel token
+  const cancelToken = CancelToken.source();
+
+  // dispatching request action
+  dispatch({
+    type: actionTypes.CREATE_DATASET_REQUEST,
+    file: gfile,
+    cancelToken: cancelToken,
+  });
+
+  const file = { gfile };
+
+  dispatch(startDatasetUpload(file, cancelToken));
+};
+
+/**
  * Start dataset upload action
  *
  * @param {object} file Dataset file
+ * @param {object} cancelToken Cancel request token
  * @returns {Function} Dispatch function
  */
-export const startDatasetUpload = (file) => async (dispatch, getState) => {
+export const startDatasetUpload = (file, cancelToken) => async (
+  dispatch,
+  getState
+) => {
   // get reducers from store
   const { projectReducer, experimentReducer, operatorReducer } = getState();
 
@@ -250,16 +304,6 @@ export const startDatasetUpload = (file) => async (dispatch, getState) => {
 
   // save dataset operator
   const datasetOperator = { ...operatorReducer };
-
-  // create cancel token
-  const cancelToken = CancelToken.source();
-
-  // dispatching request action
-  dispatch({
-    type: actionTypes.CREATE_DATASET_REQUEST,
-    file: file,
-    cancelToken: cancelToken,
-  });
 
   // dispatching dataset operator loading data action
   dispatch(datasetOperatorLoadingData());
@@ -606,54 +650,6 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
   } catch (e) {
     dispatch(deleteDatasetFail());
   }
-};
-
-/**
- * Set google dataset status
- *
- * @param fileName
- * @param status
- */
-const setGoogleDatasetStatus = (fileName, status) => (dispatch) => {
-  dispatch({
-    type: actionTypes.SET_GOOGLE_DATASET_STATUS,
-    fileName,
-    status,
-  });
-};
-
-/**
- * Create google dataset
- *
- * @param projectId
- * @param experimentId
- * @param gfile
- */
-export const createGoogleDataset = (projectId, experimentId, gfile) => (
-  dispatch,
-  getState
-) => {
-  // get operator reducer (operator selected, in this case dataset)
-  const { operatorReducer } = getState();
-
-  // create dataset operator
-  const datasetOperator = { ...operatorReducer };
-
-  dispatch(datasetOperatorLoadingData());
-  dispatch(setGoogleDatasetStatus(gfile.name, 'uploading'));
-  datasetsApi
-    .createGoogleDataset(gfile)
-    .then((response) => {
-      const dataset = response.data;
-      dispatch(
-        datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
-      );
-      dispatch(setGoogleDatasetStatus(gfile.name, 'done'));
-    })
-    .catch(() => {
-      dispatch(datasetUploadFail());
-      dispatch(setGoogleDatasetStatus(gfile.name, 'error'));
-    });
 };
 
 export const updateAllDatasetColumnStart = () => (dispatch) => {
