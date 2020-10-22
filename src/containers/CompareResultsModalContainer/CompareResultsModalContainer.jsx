@@ -1,9 +1,10 @@
 // REACT LIBS
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import update from 'immutability-helper';
 
 // UI LIBS
 import {
@@ -98,12 +99,19 @@ const CompareResultsModalContainer = (props) => {
   } = props;
 
   const { projectId } = useParams();
+  const [compareResultCards, setCompareResultCards] = useState([]);
 
   useEffect(() => {
     if (isVisible) {
       handleFetchCompareResults(projectId, experiments);
     }
   }, [experiments, handleFetchCompareResults, isVisible, projectId]);
+
+  useEffect(() => {
+    if (compareResults) {
+      setCompareResultCards(compareResults);
+    }
+  }, [compareResults]);
 
   const title = (
     <>
@@ -147,12 +155,27 @@ const CompareResultsModalContainer = (props) => {
     );
   };
 
+  const moveCard = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragCard = compareResultCards[dragIndex];
+      setCompareResultCards(
+        update(compareResultCards, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragCard],
+          ],
+        })
+      );
+    },
+    [compareResultCards]
+  );
+
   const renderCompareResultItem = () => {
-    if (compareResults.length === 0) {
+    if (compareResultCards.length === 0) {
       return;
     }
 
-    return compareResults.map((compareResult) => {
+    return compareResultCards.map((compareResult, index) => {
       return (
         <Col key={compareResult.uuid} span={12}>
           <CompareResultItem
@@ -167,6 +190,8 @@ const CompareResultsModalContainer = (props) => {
             onLoadTrainingHistory={handleFetchTrainingHistory}
             onUpdate={handleUpdateCompareResult}
             tasks={tasks}
+            index={index}
+            moveCard={moveCard}
           />
         </Col>
       );
