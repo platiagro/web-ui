@@ -1,28 +1,16 @@
 import actionTypes from './actionTypes';
 
 const initialState = {
-  addIsLoading: false,
   compareResults: [],
-  deleteIsLoading: false,
   experimentsTrainingHistory: {},
 };
 
 const compareResultsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    case actionTypes.ADD_COMPARE_RESULT_LOADER:
-      return {
-        ...state,
-        addIsLoading: action.addIsLoading,
-      };
     case actionTypes.ADD_COMPARE_RESULT:
       return {
         ...state,
         compareResults: [...state.compareResults, action.compareResult],
-      };
-    case actionTypes.DELETE_COMPARE_RESULT_LOADER:
-      return {
-        ...state,
-        deleteIsLoading: action.deleteIsLoading,
       };
     case actionTypes.DELETE_COMPARE_RESULT:
       return {

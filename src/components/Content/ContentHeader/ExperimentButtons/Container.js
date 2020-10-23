@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       ),
     handleFetchExperimentDeployStatus: (experimentId) =>
       dispatch(fetchExperimentDeployStatusRequest(experimentId)),
-    handleChangeVisibilityCompareResultsModal: () => {
+    handleCompareResultsClick: () => {
       dispatch(changeVisibilityCompareResultsModal(true));
     },
   };
@@ -44,13 +44,13 @@ const mapStateToProps = (state) => {
  */
 const ExperimentButtonsContainer = ({
   experiment,
+  loading,
   operators,
   project,
-  loading,
   trainingLoading,
+  handleCompareResultsClick,
   handleDeployExperiment,
   handleFetchExperimentDeployStatus,
-  handleChangeVisibilityCompareResultsModal,
 }) => {
   // CONSTANTS
   const { experimentId } = useParams();
@@ -77,14 +77,12 @@ const ExperimentButtonsContainer = ({
   });
 
   // HANDLERS
-  const deployExperimentHandler = () =>
+  const handleDeploymentClick = () =>
     handleDeployExperiment(project, experiment, operators);
 
   // RENDER
   return (
     <ExperimentButtons
-      handleClick={deployExperimentHandler}
-      handleCompareResultsClick={handleChangeVisibilityCompareResultsModal}
       disabled={
         !hasExecutorOperator ||
         loading ||
@@ -93,6 +91,8 @@ const ExperimentButtonsContainer = ({
         deployStatus
       }
       loading={deployStatus === 'Running'}
+      onCompareResultsClick={handleCompareResultsClick}
+      onDeploymentClick={handleDeploymentClick}
     />
   );
 };

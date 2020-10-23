@@ -18,6 +18,18 @@ export const changeLoadingCompareResultsModal = (loading) => {
     loading: loading,
   };
 };
+export const setAddLoaderCompareResultsModal = (addIsLoading) => {
+  return {
+    type: actionTypes.ADD_COMPARE_RESULT_LOADER,
+    addIsLoading: addIsLoading,
+  };
+};
+export const setDeleteLoaderCompareResultsModal = (deleteIsLoading) => {
+  return {
+    type: actionTypes.DELETE_COMPARE_RESULT_LOADER,
+    deleteIsLoading: deleteIsLoading,
+  };
+};
 
 // ** SHOW_NEW_PROJECT_MODAL
 /**

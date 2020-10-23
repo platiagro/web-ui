@@ -9,32 +9,14 @@ import compareResultsApi from 'services/CompareResultsApi';
 import pipelinesApi from 'services/PipelinesApi';
 
 // UI ACTIONS
-import { changeLoadingCompareResultsModal } from 'store/ui/actions';
+import {
+  changeLoadingCompareResultsModal,
+  setAddLoaderCompareResultsModal,
+  setDeleteLoaderCompareResultsModal,
+} from 'store/ui/actions';
 
 // UTILS
 import utils from 'utils';
-
-/**
- * Function to change addIsLoading data
- * @param {Boolean} addIsLoading
- */
-const changeAddLoader = (addIsLoading) => {
-  return {
-    type: actionTypes.ADD_COMPARE_RESULT_LOADER,
-    addIsLoading: addIsLoading,
-  };
-};
-
-/**
- * Function to change deleteIsLoading data
- * @param {Boolean} deleteIsLoading
- */
-const changeDeleteLoader = (deleteIsLoading) => {
-  return {
-    type: actionTypes.DELETE_COMPARE_RESULT_LOADER,
-    deleteIsLoading: deleteIsLoading,
-  };
-};
 
 /**
  * Function to update experiments options data
@@ -57,18 +39,18 @@ const updateExperimentsOptions = (experimentId, children, isLoading) => {
  */
 export const addCompareResult = (projectId) => {
   return (dispatch) => {
-    dispatch(changeAddLoader(true));
+    dispatch(setAddLoaderCompareResultsModal(true));
     compareResultsApi
       .createCompareResult(projectId)
       .then((response) => {
-        dispatch(changeAddLoader(false));
+        dispatch(setAddLoaderCompareResultsModal(false));
         dispatch({
           type: actionTypes.ADD_COMPARE_RESULT,
           compareResult: response.data,
         });
       })
       .catch((error) => {
-        dispatch(changeAddLoader(false));
+        dispatch(setAddLoaderCompareResultsModal(false));
         let errorMessage = error.message;
         message.error(errorMessage, 5);
       });
@@ -82,18 +64,18 @@ export const addCompareResult = (projectId) => {
  */
 export const deleteCompareResult = (projectId, id) => {
   return (dispatch) => {
-    dispatch(changeDeleteLoader(true));
+    dispatch(setDeleteLoaderCompareResultsModal(true));
     compareResultsApi
       .deleteCompareResult(projectId, id)
       .then((response) => {
-        dispatch(changeDeleteLoader(false));
+        dispatch(setDeleteLoaderCompareResultsModal(false));
         dispatch({
           type: actionTypes.DELETE_COMPARE_RESULT,
           id,
         });
       })
       .catch((error) => {
-        dispatch(changeDeleteLoader(false));
+        dispatch(setDeleteLoaderCompareResultsModal(false));
         let errorMessage = error.message;
         message.error(errorMessage, 5);
       });

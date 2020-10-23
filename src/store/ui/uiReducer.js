@@ -5,7 +5,12 @@ import experimentActionTypes from '../experiment/actionTypes';
 
 // INITIAL STATE
 const initialState = {
-  compareResultsModal: { isVisible: false, loading: false },
+  compareResultsModal: {
+    addIsLoading: false,
+    deleteIsLoading: false,
+    isVisible: false,
+    loading: false,
+  },
   newProjectModal: {
     visible: false,
     title: 'Novo Projeto',
@@ -52,17 +57,25 @@ const initialState = {
   flowTransform: { x: 0, y: 0, zoom: 1 },
 };
 
-/**
- * ui reducer
- *
- * @param state
- * @param action
- * @param state
- * @param action
- */
 const uiReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // COMPARE RESULTS MODAL
+    case actionTypes.ADD_COMPARE_RESULT_LOADER:
+      return {
+        ...state,
+        compareResultsModal: {
+          ...state.compareResultsModal,
+          addIsLoading: action.addIsLoading,
+        },
+      };
+    case actionTypes.DELETE_COMPARE_RESULT_LOADER:
+      return {
+        ...state,
+        compareResultsModal: {
+          ...state.compareResultsModal,
+          deleteIsLoading: action.deleteIsLoading,
+        },
+      };
     case actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL:
       return {
         ...state,

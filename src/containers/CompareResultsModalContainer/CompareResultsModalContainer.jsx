@@ -14,9 +14,8 @@ import {
 import { Button, Card, Col, Divider, Row, Space } from 'antd';
 
 // COMPONENTS
-import { CommonTable } from 'components';
+import { CommonTable, CompareResultItem } from 'components';
 import { Modal, Skeleton } from 'uiComponents';
-import CompareResultItem from './CompareResultItem';
 
 // ACTIONS
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
@@ -59,9 +58,9 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    addIsLoading: state.compareResultsReducer.addIsLoading,
+    addIsLoading: state.uiReducer.compareResultsModal.addIsLoading,
     compareResults: state.compareResultsReducer.compareResults,
-    deleteIsLoading: state.compareResultsReducer.deleteIsLoading,
+    deleteIsLoading: state.uiReducer.compareResultsModal.deleteIsLoading,
     experiments: state.experimentsReducer,
     experimentsOptions: state.compareResultsReducer.experimentsOptions,
     experimentsTrainingHistory:
