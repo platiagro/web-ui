@@ -23,6 +23,9 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     // fetch operators success
     case actionTypes.FETCH_OPERATORS_SUCCESS:
       return [...action.operators];
+    //dependencies
+    case actionTypes.UPDATE_OPERATOR_DEPENDENCIES:
+      return [...action.operators];
 
     // operator
     // create operator success

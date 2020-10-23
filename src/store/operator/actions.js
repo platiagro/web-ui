@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -21,6 +23,8 @@ import {
   operatorResultsLoadingData,
   operatorMetricsLoadingData,
   operatorMetricsDataLoaded,
+  dependenciesOperatorLoading,
+  dependenciesOperatorLoaded,
 } from '../ui/actions';
 
 // DATASET ACTIONS
@@ -30,6 +34,7 @@ import { getDatasetRequest } from '../dataset/actions';
 import {
   clearOperatorsFeatureParametersRequest,
   fetchOperatorsRequest,
+  upadteOperatorDependencies,
 } from '../operators/actions';
 
 // UTILS
@@ -387,6 +392,10 @@ const createOperatorFail = (error) => (dispatch) => {
  * @param {object} taskId
  * @param {object[]} tasks,
  * @param tasks
+ * @param isTemplate
+ * @param position
+ * @param isTemplate
+ * @param position
  * @returns {Function}
  */
 export const createOperatorRequest = (
@@ -445,7 +454,7 @@ export const createOperatorRequest = (
   // necessary to check if dataset because dataset param is removed on getTaskData
   let configuredParameters;
   if (restTaskData.tags.includes('DATASETS')) {
-    configuredParameters = [{ name: 'dataset', value: '' }];
+    configuredParameters = [{ name: 'dataset', value: '' }, {name:'target', value:''}];
   } else {
     configuredParameters = utils.configureOperatorParameters(
       parameters,
@@ -454,12 +463,8 @@ export const createOperatorRequest = (
     );
   }
 
-  // put the last operator as dependencie of the new one
+  // creating empty dependencies
   const dependencies = [];
-  if (experimentOperators.length > 0) {
-    const lastOperator = experimentOperators[experimentOperators.length - 1];
-    dependencies.push(lastOperator.uuid);
-  }
 
   // creating operator
   operatorsApi
@@ -693,4 +698,63 @@ export const saveOperatorPosition = (
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const saveOperatorDependencies = (
+  projectId,
+  experimentId,
+  operatorId,
+  dependencies,
+  operators
+) => async (dispatch) => {
+  const body = {
+    dependencies: dependencies,
+  };
+
+  dispatch(
+    dependenciesOperatorLoading(
+      `${operatorId}-${dependencies[dependencies.length - 1]}`
+    )
+  );
+
+  const modifiedOperators = _.cloneDeep(operators);
+
+  const operatorWithNewDependencies = _.map(modifiedOperators, (el) => {
+    if (el.uuid === operatorId) {
+      el.dependencies = dependencies;
+    }
+    return el;
+  });
+
+  dispatch(upadteOperatorDependencies(operatorWithNewDependencies));
+
+  await operatorsApi
+    .updateOperator(projectId, experimentId, operatorId, body)
+    .then(() => {
+      dispatch(dependenciesOperatorLoaded());
+    })
+    .catch((error) => {
+      dispatch(dependenciesOperatorLoaded());
+      const errorMessage = error.message;
+      message.error(errorMessage);
+      dispatch(upadteOperatorDependencies(operators));
+    });
+};
+
+export const saveTargetAttribute = (
+  projectId,
+  experimentId,
+  parameters
+) => async (dispatch, getState) => {
+  const { operatorReducer: datasetOperator } = getState();
+
+  dispatch(
+    setOperatorParametersRequest(
+      projectId,
+      experimentId,
+      datasetOperator,
+      'target',
+      parameters[0]
+    )
+  );
 };

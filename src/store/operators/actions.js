@@ -68,8 +68,8 @@ const fetchOperatorsFail = (error) => (dispatch) => {
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
 
-    // dispatching experiment tabs data loaded action
-    dispatch(experimentsTabsDataLoaded());
+  // dispatching experiment tabs data loaded action
+  dispatch(experimentsTabsDataLoaded());
 
   // dispatching fetch operators fail
   dispatch({
@@ -132,20 +132,11 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     // configuring operators
     let configuredOperators = utils.configureOperators(
       tasks,
-      utils.sortOperatorsByDependencies(operators),
+      operators,
       datasetColumns,
       pipelinesResponse.data
     );
-
-    // configuring dataset operator
-    configuredOperators = configuredOperators.map((operator) => {
-      // necessary to check if dataset because dataset param is removed on getTaskData
-      if (operator.tags.includes('DATASETS')) {
-        operator.parameters = [{ name: 'dataset', value: datasetName || '' }];
-      }
-      return operator;
-    });
-
+    
     dispatch(fetchOperatorsSuccess(configuredOperators, experimentId));
   } catch (e) {
     dispatch(fetchOperatorsFail(e));
@@ -219,3 +210,10 @@ export const clearOperatorsFeatureParametersRequest = (
 };
 
 // // // // // // // // // //
+
+export const upadteOperatorDependencies = (operators) => (dispatch) => {
+  dispatch({
+    type: actionTypes.UPDATE_OPERATOR_DEPENDENCIES,
+    operators,
+  });
+};

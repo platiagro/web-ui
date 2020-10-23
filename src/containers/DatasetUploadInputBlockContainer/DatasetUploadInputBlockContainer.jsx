@@ -13,9 +13,9 @@ import {
 // ACTIONS
 import {
   selectDataset,
-  startDatasetUpload,
+  startFileDatasetUpload,
   cancelDatasetUpload,
-  createGoogleDataset,
+  startGoogleDatasetUpload,
   deleteDatasetRequest,
 } from 'store/dataset/actions';
 import { fetchDatasetsRequest } from 'store/datasets/actions';
@@ -27,9 +27,9 @@ const mapDispatchToProps = (dispatch) => {
     handleSelectDataset: (dataset, projectId, experimentId) =>
       dispatch(selectDataset(dataset, projectId, experimentId)),
     handleFetchDatasets: () => dispatch(fetchDatasetsRequest()),
-    handleCreateGoogleDataset: (projectId, experimentId, file) =>
-      dispatch(createGoogleDataset(projectId, experimentId, file)),
-    handleUploadStart: (file) => dispatch(startDatasetUpload(file)),
+    handleCreateGoogleDataset: (file) =>
+      dispatch(startGoogleDatasetUpload(file)),
+    handleUploadStart: (file) => dispatch(startFileDatasetUpload(file)),
     handleDeleteDataset: (projectId, experimentId) =>
       dispatch(deleteDatasetRequest(projectId, experimentId)),
     handleUploadCancel: () => dispatch(cancelDatasetUpload()),
@@ -120,10 +120,6 @@ const DatasetUploadInputBlockContainer = (props) => {
     handleFetchDatasets();
   }, [handleFetchDatasets]);
 
-  // handlers
-  const containerHandleCreateGoogleDataset = (file) =>
-    handleCreateGoogleDataset(projectId, experimentId, file);
-
   const containerHandleUploadCancel = () =>
     isUploading
       ? handleUploadCancel()
@@ -138,7 +134,7 @@ const DatasetUploadInputBlockContainer = (props) => {
   return isGoogleDrive ? (
     <GoogleUploadInputBlock
       defaultFileList={defaultFileList}
-      handleCreateGoogleDataset={containerHandleCreateGoogleDataset}
+      handleCreateGoogleDataset={handleCreateGoogleDataset}
       handleUploadCancel={containerHandleUploadCancel}
       isDisabled={isDisabled}
       isLoading={isLoading}

@@ -18,6 +18,18 @@ export const changeLoadingCompareResultsModal = (loading) => {
     loading: loading,
   };
 };
+export const setAddLoaderCompareResultsModal = (addIsLoading) => {
+  return {
+    type: actionTypes.ADD_COMPARE_RESULT_LOADER,
+    addIsLoading: addIsLoading,
+  };
+};
+export const setDeleteLoaderCompareResultsModal = (deleteIsLoading) => {
+  return {
+    type: actionTypes.DELETE_COMPARE_RESULT_LOADER,
+    deleteIsLoading: deleteIsLoading,
+  };
+};
 
 // ** SHOW_NEW_PROJECT_MODAL
 /**
@@ -859,5 +871,21 @@ export const saveFlowTransform = (transform) => {
   return {
     type: actionTypes.SAVE_FLOW_TRANSFORM,
     transform: transform,
+  };
+};
+
+export const dependenciesOperatorLoading = (dependencyId) => {
+  return {
+    type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
+    loading: true,
+    uuid: dependencyId,
+  };
+};
+
+export const dependenciesOperatorLoaded = (dependencyId) => {
+  return {
+    type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
+    loading: false,
+    uuid: dependencyId,
   };
 };

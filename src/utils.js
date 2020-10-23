@@ -321,13 +321,24 @@ const getTaskData = (tasks, taskId) => {
  * @param {object[]} taskParameters
  * @param {object} operatorParameters
  * @param {object[]} featureOptions
+ * @param isDataset
  * @returns {object[]} configured operator parameters
  */
 const configureOperatorParameters = (
   taskParameters,
   operatorParameters,
-  featureOptions
+  featureOptions,
+  isDataset
 ) => {
+  // Returns the operator key and value
+  const datasetParameters =
+    isDataset && operatorParameters
+      ? Object.keys(operatorParameters).map((key) => ({
+          name: key,
+          value: operatorParameters[key],
+        }))
+      : undefined;
+
   const configuredOperatorParameters = taskParameters.map((parameter) => {
     let options;
     if (parameter.options) {
@@ -371,7 +382,7 @@ const configureOperatorParameters = (
     };
   });
 
-  return configuredOperatorParameters;
+  return datasetParameters || configuredOperatorParameters;
 };
 
 /**
@@ -400,6 +411,7 @@ const transformColumnsInParameterOptions = (datasetColumns) => {
  * @param {object[]} datasetColumns dataset columns list
  * @param {object} pipelineStatus pipeline status object
  * @returns {object[]} configured operators
+ * @param {boolean} isDataset
  */
 const configureOperators = (
   tasks,
@@ -413,16 +425,20 @@ const configureOperators = (
   // creating configured operators
   const configuredOperators = operators.map((operator) => {
     // getting task data
-    const { parameters: taskParameters, ...restTaskData } = getTaskData(
+    const { parameters: taskParameters, tags, ...restTaskData } = getTaskData(
       tasks,
       operator.taskId
     );
+
+    // check if operator is dataset
+    const isDataset = tags.includes('DATASETS');
 
     // configuring operator parameters
     const parameters = configureOperatorParameters(
       taskParameters,
       operator.parameters,
-      featureOptions
+      featureOptions,
+      isDataset
     );
 
     // checking if operator is setted up
@@ -440,6 +456,7 @@ const configureOperators = (
       settedUp,
       selected: false,
       status,
+      tags,
     };
   });
 
@@ -501,41 +518,6 @@ const getErrorMessage = (error) => {
   if (error.response && error.response.data && error.response.data.message)
     msg = error.response.data.message;
   return msg;
-};
-
-/**
- * Sort operators by dependencies
- *
- * @param {object[]} operators experiment operators
- * @returns {object[]} experiment operators sorted
- */
-const sortOperatorsByDependencies = (operators) => {
-  const result = [];
-  if (operators.length > 0) {
-    // get the first operator of the flow
-    let firstOperatorIndex = operators.findIndex((i) => {
-      return i.dependencies.length === 0;
-    });
-    let firstOperator = operators[firstOperatorIndex];
-    result.push(firstOperator);
-    operators.splice(firstOperatorIndex, 1);
-
-    const findOpIndexByDependencie = (dependencie) => {
-      return operators.findIndex((i) => {
-        return i.dependencies.includes(dependencie);
-      });
-    };
-
-    let uuid = firstOperator.uuid;
-    while (operators.length > 0) {
-      let operatorIndex = findOpIndexByDependencie(uuid);
-      let operator = operators[operatorIndex];
-      result.push(operator);
-      operators.splice(operatorIndex, 1);
-      uuid = operator.uuid;
-    }
-  }
-  return result;
 };
 
 /**
@@ -711,7 +693,6 @@ export default {
   checkOperatorSettedUp,
   getErrorMessage,
   transformColumnsInParameterOptions,
-  sortOperatorsByDependencies,
   getDatasetName,
   sleep,
   hasFeaturetypes,

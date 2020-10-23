@@ -17,7 +17,13 @@ import ColumnsTable from 'components/Content/ProjectContent/Experiment/Drawer/Da
 const DatasetColumnsTable = (props) => {
   // PROPS / CONSTANTS
   // destructuring component props
-  const { columns, handleSetColumnType } = props;
+  const {
+    columns,
+    selectedRows,
+    handleSetColumnType,
+    handleRowSelection,
+    setParameterLoading,
+  } = props;
 
   // table is disabled
   const disabled = false;
@@ -39,6 +45,11 @@ const DatasetColumnsTable = (props) => {
     handleSetColumnType(columnId, columnType);
   };
 
+  const handleRow = (e, projectId, experimentId) => {
+    const featuretype = e;
+    handleRowSelection(featuretype, projectId, experimentId);
+  };
+
   // RENDER
   return (
     /* dataset columns table */
@@ -48,6 +59,9 @@ const DatasetColumnsTable = (props) => {
       disabled={disabled}
       currentPage={currentPage}
       setCurrentPage={setCurrentPage}
+      handleRowSelection={handleRow}
+      selectedRows={selectedRows}
+      loading={setParameterLoading}
     />
   );
 };
@@ -59,6 +73,9 @@ DatasetColumnsTable.propTypes = {
 
   /** Change column data type handler */
   handleSetColumnType: PropTypes.func.isRequired,
+
+  /** featuretype*/
+  handleRowSelection: PropTypes.func.isRequired,
 };
 
 // EXPORT DEFAULT

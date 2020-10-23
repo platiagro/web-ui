@@ -60,9 +60,9 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    addIsLoading: state.compareResultsReducer.addIsLoading,
+    addIsLoading: state.uiReducer.compareResultsModal.addIsLoading,
     compareResults: state.compareResultsReducer.compareResults,
-    deleteIsLoading: state.compareResultsReducer.deleteIsLoading,
+    deleteIsLoading: state.uiReducer.compareResultsModal.deleteIsLoading,
     experiments: state.experimentsReducer,
     experimentsOptions: state.compareResultsReducer.experimentsOptions,
     experimentsTrainingHistory:
