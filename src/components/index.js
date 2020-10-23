@@ -1,3 +1,5 @@
+import CompareResultItem from './CompareResultItem';
+
 // RESIZABLE SECTION
 import ResizableSection from './ResizableSection';
 
@@ -20,6 +22,7 @@ import DatasetColumnsTable from './DatasetColumnsTable';
 import CommonTable from './CommonTable';
 
 export {
+  CompareResultItem,
   ResizableSection,
   OperatorResizableSection,
   PopoverTip,

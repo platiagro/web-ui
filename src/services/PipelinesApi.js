@@ -68,15 +68,14 @@ const getOperatorLog = (trainingId, runId, operatorId) => {
   );
 };
 
-export const getOperatorMetrics = async (trainingId, runId, operatorId) => {
-  try {
-    const metrics = await pipelinesApi.get(
-      `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/metrics`
-    );
-    return metrics.data;
-  } catch (error) {
-    console.log(error.message);
-  }
+const getOperatorMetrics = (trainingId, runId, operatorId) => {
+  return pipelinesApi.get(
+    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/metrics`
+  );
+};
+
+const getTrainingHistory = (experimentId) => {
+  return pipelinesApi.get(`${trainPath}/${experimentId}/runs`);
 };
 
 // EXPORT DEFAULT
@@ -89,4 +88,5 @@ export default {
   getOperatorFigures,
   getOperatorLog,
   getOperatorMetrics,
+  getTrainingHistory,
 };

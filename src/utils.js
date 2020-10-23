@@ -635,6 +635,49 @@ const isImage = (response) => {
   return false;
 };
 
+const formatCompareResultDate = (date) => {
+  var options = {
+    day: 'numeric',
+    month: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+  const formatDate = new Date(date).toLocaleDateString(undefined, options);
+  var rest = formatDate.substring(0, formatDate.lastIndexOf(' ') + 1);
+  var last = formatDate.substring(
+    formatDate.lastIndexOf(' ') + 1,
+    formatDate.length
+  );
+  return rest + ', ' + last;
+};
+
+/**
+ * Format results parameters to use label from parameter and value from training
+ */
+const formatResultsParameters = (parameters, parametersTraining) => {
+  const resultsParameters = [];
+  if (parameters) {
+    for (const operatorParameter of parameters) {
+      let valueTraining = parametersTraining
+        ? parametersTraining[operatorParameter.name]
+        : null;
+      if (Array.isArray(valueTraining)) {
+        valueTraining = valueTraining.join();
+      }
+      if (typeof valueTraining === 'boolean') {
+        valueTraining = valueTraining.toString();
+      }
+      resultsParameters.push({
+        name: operatorParameter.label
+          ? operatorParameter.label
+          : operatorParameter.name,
+        value: valueTraining,
+      });
+    }
+  }
+  return resultsParameters;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -656,4 +699,6 @@ export default {
   getFeaturetypes,
   isSupportedBinaryData,
   isImage,
+  formatCompareResultDate,
+  formatResultsParameters,
 };

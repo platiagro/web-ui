@@ -1,3 +1,5 @@
+import CompareResultsModalContainer from './CompareResultsModalContainer';
+
 // OPERATOR RESIZABLE SECTION CONTAINER
 import OperatorResizableSectionContainer from './OperatorResizableSectionContainer';
 
@@ -20,6 +22,7 @@ import ChangeRoutePromptContainer from './ChangeRoutePromptContainer';
 import CustomConfirmRouterContainer from './CustomConfirmRouterContainer';
 
 export {
+  CompareResultsModalContainer,
   OperatorResizableSectionContainer,
   DatasetUploadInputBlockContainer,
   OperatorResultsModalContainer,

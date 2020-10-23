@@ -1,15 +1,16 @@
 // CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
 import { LoadingOutlined } from '@ant-design/icons';
-import { Spin, Table, Tabs, Empty } from 'antd';
+import { Spin, Tabs, Empty } from 'antd';
 
 // COMPONENTS
+import { CommonTable } from 'components';
 import TagResult from '../TagResult';
 import TableResult from '../TableResult/Container';
-// import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
 
@@ -33,13 +34,19 @@ const resultsTypes = {
  * Results Drawer.
  * This component is responsible for displaying drawer with results.
  *
- * @component
  * @param {object} props Component props
  * @returns {ResultsDrawer} React component
  */
 const ResultsDrawer = (props) => {
-  // destructuring props
-  const { metrics, results, parameters, loading, metricsLoading } = props;
+  const {
+    loading,
+    metrics,
+    metricsLoading,
+    parameters,
+    results,
+    resultsTabStyle,
+    scroll,
+  } = props;
   // metrics data source
   const dataSource = metrics.map((element, i) => {
     const objectKey = Object.keys(element)[0];
@@ -85,28 +92,25 @@ const ResultsDrawer = (props) => {
   ];
 
   return (
-    // div container
     <div className='resultsDrawer'>
-      {/* is loading */}
       {loading ? (
-        // loading
         <Spin indicator={<LoadingOutlined />} />
-      ) : results.length > 0 || metrics.length > 0 ? (
-        /* rendering results and metrics */
+      ) : results.length > 0 || metrics.length > 0 || parameters.length > 0 ? (
         <>
-          {/* tabs */}
           <Tabs defaultActiveKey='1'>
             {/* results */}
             <TabPane tab='Resultados' key='1'>
-              {results.map((
-                result // div result container
-              ) => (
-                <div className='tab-content' key={result.uuid}>
-                  {/* rendering result */}
-                  {resultsTypes[result.type](result)}
-                  {/* rendering divider */}
-                </div>
-              ))}
+              <div style={resultsTabStyle}>
+                {results.map((
+                  result // div result container
+                ) => (
+                  <div className='tab-content' key={result.uuid}>
+                    {/* rendering result */}
+                    {resultsTypes[result.type](result)}
+                    {/* rendering divider */}
+                  </div>
+                ))}
+              </div>
             </TabPane>
 
             {/* metrics */}
@@ -115,7 +119,16 @@ const ResultsDrawer = (props) => {
               key='2'
               disabled={metrics.length <= 0}
             >
-              <Table bordered dataSource={dataSource} columns={columns} />
+              <CommonTable
+                bordered
+                columns={columns}
+                dataSource={dataSource}
+                isLoading={false}
+                rowKey={() => {
+                  return uuidv4();
+                }}
+                scroll={scroll}
+              />
             </TabPane>
 
             {/* parameters */}
@@ -124,10 +137,15 @@ const ResultsDrawer = (props) => {
               key='3'
               disabled={parameters.length <= 0}
             >
-              <Table
+              <CommonTable
                 bordered
-                dataSource={parameters}
                 columns={parametersColumns}
+                dataSource={parameters}
+                isLoading={false}
+                rowKey={() => {
+                  return uuidv4();
+                }}
+                scroll={scroll}
               />
             </TabPane>
           </Tabs>
@@ -144,13 +162,25 @@ const ResultsDrawer = (props) => {
 
 // PROP TYPES
 ResultsDrawer.propTypes = {
-  /** results drawer results list */
-  results: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** metrics drawer results list */
-  metrics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  parameters: PropTypes.arrayOf(PropTypes.object),
+  /** Results drawer is loading */
   loading: PropTypes.bool.isRequired,
+  /** Metrics list */
+  metrics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Metrics is loading */
   metricsLoading: PropTypes.bool.isRequired,
+  /** Training parameters */
+  parameters: PropTypes.arrayOf(PropTypes.object),
+  /** Results list */
+  results: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** CSS style for results tab */
+  resultsTabStyle: PropTypes.object,
+  /** Table scroll config */
+  scroll: PropTypes.object,
+};
+
+ResultsDrawer.defaultProps = {
+  /** Table scroll config */
+  scroll: undefined,
 };
 
 // EXPORT

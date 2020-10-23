@@ -28,6 +28,7 @@ const CommonTable = (props) => {
     rowSelection,
     scroll,
     size,
+    skeletonRowsAmount,
   } = props;
 
   // skeleton columns
@@ -51,7 +52,7 @@ const CommonTable = (props) => {
   });
 
   // creating skeleton rows
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < skeletonRowsAmount; i++) {
     // copying example with columns
     const newRow = { ...skeletonDataExample };
 
@@ -108,6 +109,8 @@ CommonTable.propTypes = {
   scroll: PropTypes.object,
   /** Table column size config */
   size: PropTypes.string,
+  /** Table skeleton rows amount */
+  skeletonRowsAmount: PropTypes.number,
 };
 
 // DEFAULT PROPS
@@ -126,6 +129,8 @@ CommonTable.defaultProps = {
   scroll: undefined,
   /** Table column size config */
   size: undefined,
+  /** Table skeleton rows amount config */
+  skeletonRowsAmount: 10,
 };
 
 // EXPORT DEFAULT

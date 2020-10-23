@@ -3,6 +3,34 @@ import actionTypes from './actionTypes';
 import { deselectOperator } from '../operator/actions';
 
 // ACTIONS
+
+// // // // // // // // // //
+// COMPARE RESULTS MODAL
+export const changeVisibilityCompareResultsModal = (visible) => {
+  return {
+    type: actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL,
+    isVisible: visible,
+  };
+};
+export const changeLoadingCompareResultsModal = (loading) => {
+  return {
+    type: actionTypes.LOADING_COMPARE_RESULTS_MODAL,
+    loading: loading,
+  };
+};
+export const setAddLoaderCompareResultsModal = (addIsLoading) => {
+  return {
+    type: actionTypes.ADD_COMPARE_RESULT_LOADER,
+    addIsLoading: addIsLoading,
+  };
+};
+export const setDeleteLoaderCompareResultsModal = (deleteIsLoading) => {
+  return {
+    type: actionTypes.DELETE_COMPARE_RESULT_LOADER,
+    deleteIsLoading: deleteIsLoading,
+  };
+};
+
 // ** SHOW_NEW_PROJECT_MODAL
 /**
  * show new project modal

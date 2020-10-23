@@ -3,6 +3,7 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
 // REDUCERS
+import compareResultsReducer from './compareResults/compareResultsReducer';
 import projectsReducer from './projects/projectsReducer';
 import projectReducer from './project/projectReducer';
 import experimentsReducer from './experiments/experimentsReducer';
@@ -30,6 +31,7 @@ const composeEnhancers =
 
 // COMBINED REDUCERS
 const reducers = combineReducers({
+  compareResultsReducer,
   projectsReducer,
   projectReducer,
   experimentsReducer,

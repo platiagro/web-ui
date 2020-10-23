@@ -5,6 +5,12 @@ import experimentActionTypes from '../experiment/actionTypes';
 
 // INITIAL STATE
 const initialState = {
+  compareResultsModal: {
+    addIsLoading: false,
+    deleteIsLoading: false,
+    isVisible: false,
+    loading: false,
+  },
   newProjectModal: {
     visible: false,
     title: 'Novo Projeto',
@@ -54,16 +60,42 @@ const initialState = {
   },
 };
 
-/**
- * ui reducer
- *
- * @param state
- * @param action
- * @param state
- * @param action
- */
 const uiReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
+    // COMPARE RESULTS MODAL
+    case actionTypes.ADD_COMPARE_RESULT_LOADER:
+      return {
+        ...state,
+        compareResultsModal: {
+          ...state.compareResultsModal,
+          addIsLoading: action.addIsLoading,
+        },
+      };
+    case actionTypes.DELETE_COMPARE_RESULT_LOADER:
+      return {
+        ...state,
+        compareResultsModal: {
+          ...state.compareResultsModal,
+          deleteIsLoading: action.deleteIsLoading,
+        },
+      };
+    case actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL:
+      return {
+        ...state,
+        compareResultsModal: {
+          ...state.compareResultsModal,
+          isVisible: action.isVisible,
+        },
+      };
+    case actionTypes.LOADING_COMPARE_RESULTS_MODAL:
+      return {
+        ...state,
+        compareResultsModal: {
+          ...state.compareResultsModal,
+          loading: action.loading,
+        },
+      };
+
     // NEW PROJECT MODAL
     case projectActionTypes.CREATE_PROJECT_FAIL:
     case projectActionTypes.EDIT_PROJECT_NAME_FAIL:

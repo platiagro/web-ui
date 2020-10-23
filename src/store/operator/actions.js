@@ -276,10 +276,10 @@ export const getOperatorMetricsRequest = (experimentId, runId, operatorId) => (
 
   pipelinesApi
     .getOperatorMetrics(experimentId, runId, operatorId)
-    .then((metrics) => {
+    .then((response) => {
       dispatch({
         type: actionTypes.GET_OPERATOR_METRICS_SUCCESS,
-        metrics,
+        metrics: response.data,
       });
       dispatch(operatorMetricsDataLoaded());
     })

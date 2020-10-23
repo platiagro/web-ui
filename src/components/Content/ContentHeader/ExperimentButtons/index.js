@@ -17,16 +17,25 @@ import './style.less';
  * Experiment Buttons.
  * This component is responsible for show experiment buttons on content header.
  */
-const ExperimentButtons = ({ handleClick, disabled, loading }) => (
+const ExperimentButtons = ({
+  disabled,
+  loading,
+  onCompareResultsClick,
+  onDeploymentClick,
+}) => (
   <div className='experimentButtons'>
     <Space>
-      <Button disabled={true} shape='round' type='primary'>
+      <Button
+        onClick={onCompareResultsClick}
+        shape='round'
+        type='primary-inverse'
+      >
         <BarChartOutlined />
         Comparar resultados
       </Button>
       <Button
         disabled={disabled}
-        onClick={handleClick}
+        onClick={onDeploymentClick}
         shape='round'
         type='primary-inverse'
       >
@@ -41,10 +50,12 @@ const ExperimentButtons = ({ handleClick, disabled, loading }) => (
 ExperimentButtons.propTypes = {
   /** deploy experiment button is disabled */
   disabled: PropTypes.bool.isRequired,
-  /** deploy experiment button click function */
-  handleClick: PropTypes.func.isRequired,
   /** deployment is running / loading */
   loading: PropTypes.bool.isRequired,
+  /** compare results button click function */
+  onCompareResultsClick: PropTypes.func.isRequired,
+  /** deploy experiment button click function */
+  onDeploymentClick: PropTypes.func.isRequired,
 };
 
 // EXPORT

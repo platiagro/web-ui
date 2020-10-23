@@ -7,8 +7,9 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentButtons from './index';
 
 // ACTIONS
-import { fetchExperimentDeployStatusRequest } from '../../../../store/experiment/actions';
-import { deployExperimentRequest } from '../../../../store/pipelines/actions';
+import { fetchExperimentDeployStatusRequest } from 'store/experiment/actions';
+import { deployExperimentRequest } from 'store/pipelines/actions';
+import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -19,6 +20,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       ),
     handleFetchExperimentDeployStatus: (experimentId) =>
       dispatch(fetchExperimentDeployStatusRequest(experimentId)),
+    handleCompareResultsClick: () => {
+      dispatch(changeVisibilityCompareResultsModal(true));
+    },
   };
 };
 
@@ -40,10 +44,11 @@ const mapStateToProps = (state) => {
  */
 const ExperimentButtonsContainer = ({
   experiment,
+  loading,
   operators,
   project,
-  loading,
   trainingLoading,
+  handleCompareResultsClick,
   handleDeployExperiment,
   handleFetchExperimentDeployStatus,
 }) => {
@@ -72,13 +77,12 @@ const ExperimentButtonsContainer = ({
   });
 
   // HANDLERS
-  const deployExperimentHandler = () =>
+  const handleDeploymentClick = () =>
     handleDeployExperiment(project, experiment, operators);
 
   // RENDER
   return (
     <ExperimentButtons
-      handleClick={deployExperimentHandler}
       disabled={
         !hasExecutorOperator ||
         loading ||
@@ -87,6 +91,8 @@ const ExperimentButtonsContainer = ({
         deployStatus
       }
       loading={deployStatus === 'Running'}
+      onCompareResultsClick={handleCompareResultsClick}
+      onDeploymentClick={handleDeploymentClick}
     />
   );
 };
