@@ -7,6 +7,11 @@ import actionTypes from './actionTypes';
 // SERVICES
 import projectsApi from '../../services/ProjectsApi';
 
+//API
+import implantedExperimentsApi from 'services/ImplantedExperimentsApi';
+
+import _ from 'lodash';
+
 // UI ACTIONS
 import {
   projectsTableLoadingData,
@@ -15,6 +20,10 @@ import {
 
 /**
  * Function to fetch pagineted projects and dispatch to reducer
+ *
+ * @param name
+ * @param page
+ * @param pageSize
  */
 export const fetchPaginatedProjects = (name, page, pageSize) => {
   return (dispatch) => {
@@ -24,11 +33,28 @@ export const fetchPaginatedProjects = (name, page, pageSize) => {
     }
     return projectsApi
       .getPaginatedProjects(name, page, pageSize)
-      .then((response) => {
+      .then(async (response) => {
+        const implantedProjects = await implantedExperimentsApi.getDeployedExperiments();
+        const implantedProjectsIds = implantedProjects.data.map(
+          (experimento) => experimento.experimentId
+        );
+        const projectsTagged = response.data.projects.map((project) => {
+          const experiments = project.experiments.map(
+            (experimento) => experimento.uuid
+          );
+          const flagImplanted = Boolean(
+            _.intersection(experiments, implantedProjectsIds).length
+          );
+          return {
+            ...project,
+            implanted: flagImplanted,
+          };
+        });
+
         dispatch(projectsTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_PAGINATED_PROJECTS,
-          projects: response.data.projects,
+          projects: projectsTagged,
           searchText: name,
           currentPage: page,
           pageSize: pageSize,
@@ -70,6 +96,8 @@ export const fetchProjects = () => (dispatch) => {
 
 /**
  * Function to dispatch select projects to reducer
+ *
+ * @param projects
  */
 export const selectProjects = (projects) => {
   return (dispatch) => {
@@ -82,6 +110,9 @@ export const selectProjects = (projects) => {
 
 /**
  * Function to delete selected projects and dispatch to reducer
+ *
+ * @param searchText
+ * @param projects
  */
 export const deleteSelectedProjects = (searchText, projects) => {
   return (dispatch) => {
