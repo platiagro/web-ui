@@ -53,8 +53,8 @@ jobs:
             - Usar Node 12 ou 14.
             - Remover `console.log`.
             - Não deixar código-fonte comentado.
-      - name: Set Docker TAG
-        id: var
+      - name: Set output variables
+        id: vars
         run: |
           echo ${{ github.ref }}
           if [ ${{ github.ref }} = "refs/heads/master" ]; then
@@ -62,6 +62,8 @@ jobs:
           else
             echo ::set-output name=TAG::0.1.0-SNAPSHOT
           fi
+          echo ::set-output name=BRANCH::${{ github.ref }}
+          echo ::set-output name=COMMIT::${{ github.sha }}
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -90,7 +92,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: registry.hub.docker.com
           repository: platiagro/web-ui
-          tags: ${{ steps.var.outputs.TAG }}
+          tags: ${{ steps.vars.outputs.TAG }}
+          build_args: COMMIT=${{ steps.vars.outputs.COMMIT }},BRANCH=${{ steps.vars.outputs.BRANCH }}
       - name: Build and push image (AUTH) 📦
         if: ${{ always() }}
         uses: docker/build-push-action@v1
@@ -99,5 +102,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: registry.hub.docker.com
           repository: platiagro/web-ui
-          tags: ${{ steps.var.outputs.TAG }}-AUTH
-          build_args: auth=true
+          tags: ${{ steps.vars.outputs.TAG }}-AUTH
+          build_args: auth=true,COMMIT=${{ steps.vars.outputs.COMMIT }},BRANCH=${{ steps.vars.outputs.BRANCH }}
