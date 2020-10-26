@@ -15,9 +15,8 @@ import {
 import { Button, Card, Col, Divider, Row, Space } from 'antd';
 
 // COMPONENTS
-import { CommonTable } from 'components';
+import { CommonTable, CompareResultItem } from 'components';
 import { Modal, Skeleton } from 'uiComponents';
-import CompareResultItem from './CompareResultItem';
 
 // ACTIONS
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
@@ -51,8 +50,8 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchTrainingHistory: (experimentId) => {
       dispatch(fetchTrainingHistory(experimentId));
     },
-    handleUpdateCompareResult: (compareResult) => {
-      dispatch(updateCompareResult(compareResult));
+    handleUpdateCompareResult: (compareResult, changedPosition) => {
+      dispatch(updateCompareResult(compareResult, changedPosition));
     },
   };
 };
@@ -155,7 +154,7 @@ const CompareResultsModalContainer = (props) => {
     );
   };
 
-  const moveCard = useCallback(
+  const handleMoveCard = useCallback(
     (dragIndex, hoverIndex) => {
       const dragCard = compareResultCards[dragIndex];
       setCompareResultCards(
@@ -179,6 +178,7 @@ const CompareResultsModalContainer = (props) => {
       return (
         <Col key={compareResult.uuid} span={12}>
           <CompareResultItem
+            cardIndex={index}
             compareResult={compareResult}
             experiments={experiments}
             experimentsOptions={experimentsOptions}
@@ -188,10 +188,9 @@ const CompareResultsModalContainer = (props) => {
             }}
             onFetchResults={handleFetchCompareResultsResults}
             onLoadTrainingHistory={handleFetchTrainingHistory}
+            onMoveCard={handleMoveCard}
             onUpdate={handleUpdateCompareResult}
             tasks={tasks}
-            index={index}
-            moveCard={moveCard}
           />
         </Col>
       );

@@ -222,25 +222,26 @@ export const fetchTrainingHistory = (experimentId) => {
 /**
  * Function to update compare result and dispatch to reducer
  * @param {Object} compareResult
+ * @param {Boolean} changedPosition
  */
-export const updateCompareResult = (compareResult) => {
+export const updateCompareResult = (compareResult, changedPosition) => {
   return (dispatch) => {
     const body = {
       experimentId: compareResult.experimentId,
       operatorId: compareResult.operatorId,
       runId: compareResult.runId,
+      position: compareResult.position,
     };
     compareResultsApi
       .updateCompareResult(compareResult.projectId, compareResult.uuid, body)
       .then((response) => {
-        dispatch(changeLoadingCompareResultsModal(false));
         dispatch({
           type: actionTypes.UPDATE_COMPARE_RESULT,
-          compareResult: response.data,
+          changedPosition: changedPosition,
+          compareResult: changedPosition ? compareResult : response.data,
         });
       })
       .catch((error) => {
-        dispatch(changeLoadingCompareResultsModal(false));
         let errorMessage = error.message;
         message.error(errorMessage, 5);
       });
