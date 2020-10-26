@@ -4,6 +4,8 @@ import {
   ControlOutlined,
   DatabaseOutlined,
   FileOutlined,
+  PictureOutlined,
+  ReadOutlined,
   ShareAltOutlined,
   SolutionOutlined,
 } from '@ant-design/icons';
@@ -249,6 +251,18 @@ const getTagConfig = (tag) => {
       title: 'Treinamento',
       key: 'PREDICTOR',
       icon: <ShareAltOutlined />,
+    },
+    // computer vision
+    COMPUTER_VISION: {
+      title: 'Visão Computacional',
+      key: 'COMPUTER_VISION',
+      icon: <PictureOutlined />,
+    },
+    // natural language
+    NLP: {
+      title: 'Texto e Linguagem',
+      key: 'NLP',
+      icon: <ReadOutlined />,
     },
     // templates
     TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: <FileOutlined /> },
