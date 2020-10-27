@@ -1,9 +1,10 @@
 // REACT LIBS
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import update from 'immutability-helper';
 
 // UI LIBS
 import {
@@ -49,8 +50,8 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchTrainingHistory: (experimentId) => {
       dispatch(fetchTrainingHistory(experimentId));
     },
-    handleUpdateCompareResult: (compareResult) => {
-      dispatch(updateCompareResult(compareResult));
+    handleUpdateCompareResult: (compareResult, changedPosition) => {
+      dispatch(updateCompareResult(compareResult, changedPosition));
     },
   };
 };
@@ -97,12 +98,19 @@ const CompareResultsModalContainer = (props) => {
   } = props;
 
   const { projectId } = useParams();
+  const [compareResultCards, setCompareResultCards] = useState([]);
 
   useEffect(() => {
     if (isVisible) {
       handleFetchCompareResults(projectId, experiments);
     }
   }, [experiments, handleFetchCompareResults, isVisible, projectId]);
+
+  useEffect(() => {
+    if (compareResults) {
+      setCompareResultCards(compareResults);
+    }
+  }, [compareResults]);
 
   const title = (
     <>
@@ -146,15 +154,31 @@ const CompareResultsModalContainer = (props) => {
     );
   };
 
+  const handleMoveCard = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragCard = compareResultCards[dragIndex];
+      setCompareResultCards(
+        update(compareResultCards, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragCard],
+          ],
+        })
+      );
+    },
+    [compareResultCards]
+  );
+
   const renderCompareResultItem = () => {
-    if (compareResults.length === 0) {
+    if (compareResultCards.length === 0) {
       return;
     }
 
-    return compareResults.map((compareResult) => {
+    return compareResultCards.map((compareResult, index) => {
       return (
         <Col key={compareResult.uuid} span={12}>
           <CompareResultItem
+            cardIndex={index}
             compareResult={compareResult}
             experiments={experiments}
             experimentsOptions={experimentsOptions}
@@ -164,6 +188,7 @@ const CompareResultsModalContainer = (props) => {
             }}
             onFetchResults={handleFetchCompareResultsResults}
             onLoadTrainingHistory={handleFetchTrainingHistory}
+            onMoveCard={handleMoveCard}
             onUpdate={handleUpdateCompareResult}
             tasks={tasks}
           />
