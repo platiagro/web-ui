@@ -34,20 +34,20 @@ export const fetchPaginatedProjects = (name, page, pageSize) => {
     return projectsApi
       .getPaginatedProjects(name, page, pageSize)
       .then(async (response) => {
-        const implantedProjects = await implantedExperimentsApi.getDeployedExperiments();
-        const implantedProjectsIds = implantedProjects.data.map(
+        const deployedProjects = await implantedExperimentsApi.getDeployedExperiments();
+        const deployedProjectsIds = deployedProjects.data.map(
           (experimento) => experimento.experimentId
         );
         const projectsTagged = response.data.projects.map((project) => {
           const experiments = project.experiments.map(
             (experimento) => experimento.uuid
           );
-          const flagImplanted = Boolean(
-            _.intersection(experiments, implantedProjectsIds).length
+          const flagDeployed = Boolean(
+            _.intersection(experiments, deployedProjectsIds).length
           );
           return {
             ...project,
-            implanted: flagImplanted,
+            deployed: flagDeployed,
           };
         });
 

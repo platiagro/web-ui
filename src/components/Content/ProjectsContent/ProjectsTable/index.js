@@ -168,7 +168,7 @@ const ProjectsTable = ({
         return (
           <>
             <Tag color='purple'>Experimentação</Tag>
-            {record.implanted && <Tag color='green'>Implantado</Tag>}
+            {record.deployed && <Tag color='green'>Implantado</Tag>}
           </>
         );
       },
