@@ -260,10 +260,16 @@ const CompareResultItem = (props) => {
     ) {
       return (
         <>
-          {randResultImage === 1 ? (
-            <Image src={graphLoaderImage} height={'100%'} width={'100%'} />
+          {randResultImage === 2 ? (
+            <Image
+              src={graphLoaderImage}
+              className={'centerResultImagePlaceholder'}
+            />
           ) : (
-            <Image src={tableLoaderImage} width={'100%'} />
+            <Image
+              src={tableLoaderImage}
+              className={'centerResultImagePlaceholder'}
+            />
           )}
         </>
       );
@@ -296,17 +302,17 @@ const CompareResultItem = (props) => {
         parameters={resultsParameters}
         results={compareResult.results}
         resultsTabStyle={{
-          maxHeight: '200px',
+          maxHeight: '250px',
           overflow: 'auto',
         }}
-        scroll={{ y: 150 }}
+        scroll={{ y: 200 }}
       />
     );
   };
 
   return (
     <div ref={cardRef} style={{ opacity }}>
-      <Card title={renderCardTitle()} style={{ height: 450 }}>
+      <Card title={renderCardTitle()} style={{ height: 500 }}>
         {renderTaskSelect()}
         {renderResults()}
       </Card>
