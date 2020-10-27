@@ -164,32 +164,11 @@ const ProjectsTable = ({
       onFilter: (value, record) => {
         return record.tags ? record.tags.indexOf(value) === 0 : false;
       },
-      render: (tags) => {
-        //TODO Remover mock depois que as tags forem implementadas
-        tags = ['Experimentação', 'Pré-implantação', 'Implantado'];
+      render: (tags, record) => {
         return (
           <>
-            {tags.map((tag) => {
-              if (tag === 'Experimentação') {
-                return (
-                  <Tag color='purple' key='purpleTag'>
-                    {tag}
-                  </Tag>
-                );
-              } else if (tag === 'Pré-implantação') {
-                return (
-                  <Tag color='volcano' key='volcanoTag'>
-                    {tag}
-                  </Tag>
-                );
-              } else {
-                return (
-                  <Tag color='green' key='greenTag'>
-                    {tag}
-                  </Tag>
-                );
-              }
-            })}
+            <Tag color='purple'>Experimentação</Tag>
+            {record.deployed && <Tag color='green'>Implantado</Tag>}
           </>
         );
       },
