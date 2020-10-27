@@ -1,7 +1,8 @@
 // REACT LIBS
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import GoogleButton from 'react-google-button';
+// Fix Jest errors by importing from react-google-button/dist/react-google-button
+import GoogleButton from 'react-google-button/dist/react-google-button';
 import GooglePicker from 'react-google-picker';
 
 // UI LIB COMPONENTS
