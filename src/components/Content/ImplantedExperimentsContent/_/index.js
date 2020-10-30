@@ -2,12 +2,16 @@
 import React from 'react';
 
 // COMPONENTS
-import ButtonUsingDeploymentsContainer from '../ButtonUsingDeployments/Container';
-import ContentHeader from '../../ContentHeader/_/ContentHeaderContainer';
-import ImplantedExperimentsTableContainer from '../ImplantedExperimentsTable/_/Container';
-import InferenceTestResultModalContainer from '../InferenceTestResultModal/Container';
-import LogsDrawerContainer from '../LogsDrawer/Container';
-import NewDeploymentsModalContainer from '../UsingDeploymentsModal/Container';
+import ContentHeader from 'components/Content/ContentHeader/_/ContentHeaderContainer';
+
+// CONTAINERS
+import {
+  ImplantedExperimentsTableContainer,
+  InferenceTestResultModalContainer,
+  LogsDrawerContainer,
+  UsingDeploymentsButtonContainer,
+  UsingDeploymentsModalContainer,
+} from 'containers';
 
 /**
  * Implantend Experiments Content.
@@ -24,8 +28,8 @@ const ImplantedExperimentsContent = () => (
     />
     {/* div content page container */}
     <div className='contentPage'>
-      <ButtonUsingDeploymentsContainer />
-      <NewDeploymentsModalContainer />
+      <UsingDeploymentsButtonContainer />
+      <UsingDeploymentsModalContainer />
       <ImplantedExperimentsTableContainer />
       <LogsDrawerContainer />
       <InferenceTestResultModalContainer />

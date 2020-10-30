@@ -12,10 +12,9 @@ import { Skeleton } from 'uiComponents';
 const { TabPane } = Tabs;
 
 /**
- * Drawer.
  * This component is responsible for displaying drawer.
  */
-const Drawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
+const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
   // EMPTY COMPONENT
   const renderEmpty = () => <span>Não há dados.</span>;
 
@@ -112,7 +111,7 @@ const Drawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
 };
 
 // PROP TYPES
-Drawer.propTypes = {
+LogsDrawer.propTypes = {
   /** select input change handler */
   handleClose: PropTypes.func.isRequired,
   /** drawer is loading */
@@ -126,4 +125,4 @@ Drawer.propTypes = {
 };
 
 // EXPORT
-export default Drawer;
+export default LogsDrawer;

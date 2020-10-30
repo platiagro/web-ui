@@ -5,30 +5,30 @@ import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 
 // COMPONENTS
-import ImplantedExperimentsTable from './index';
+import { ImplantedExperimentsTable } from 'components';
 import { ImplantedExperimentsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
+import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
   fetchImplantedExperiments,
   deleteImplantedExperiment,
 } from 'store/implantedExperiments/actions';
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
-import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchImplantedExperiments: () =>
-      dispatch(fetchImplantedExperiments()),
     handleDeleteImplantedExperiment: (implantedExperimentUuid) =>
       dispatch(deleteImplantedExperiment(implantedExperimentUuid)),
+    handleFetchImplantedExperiments: (isToShowLoader) =>
+      dispatch(fetchImplantedExperiments(isToShowLoader)),
+    handleGetDeployExperimentLogs: (deployId) =>
+      dispatch(getDeployExperimentLogs(deployId)),
     handleTestImplantedExperimentInference: (implantedExperimentUuid, file) =>
       dispatch(
         testImplantedExperimentInferenceAction(implantedExperimentUuid, file)
       ),
-    handleGetDeployExperimentLogs: (deployId) =>
-      dispatch(getDeployExperimentLogs(deployId)),
   };
 };
 
@@ -41,32 +41,33 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * Implanted Experiments Table Container.
- * This component is responsible for create a logic container for implanted
- * experiments table with redux.
+ * Container to display implanted experiments table.
+ * @param {object} props Container props
+ * @returns {ImplantedExperimentsTableContainer} Container
  */
-const ImplantedExperimentsTableContainer = ({
-  handleFetchImplantedExperiments,
-  handleDeleteImplantedExperiment,
-  handleGetDeployExperimentLogs,
-  handleTestImplantedExperimentInference,
-  implantedExperiments,
-  loading,
-  location,
-}) => {
-  // CONSTANTS
+const ImplantedExperimentsTableContainer = (props) => {
+  const {
+    handleDeleteImplantedExperiment,
+    handleFetchImplantedExperiments,
+    handleGetDeployExperimentLogs,
+    handleTestImplantedExperimentInference,
+    implantedExperiments,
+    loading,
+    location,
+  } = props;
   const params = queryString.parse(location.search);
   const selectedExperiment = params['experiment'];
 
   // HOOKS
-  // did mount hook
   useEffect(() => {
     // fetching deployed experiments
-    handleFetchImplantedExperiments();
+    handleFetchImplantedExperiments(true);
 
     // polling deployed experiments
-    const polling = setInterval(() => handleFetchImplantedExperiments(), 30000);
-
+    const polling = setInterval(
+      () => handleFetchImplantedExperiments(false),
+      30000
+    );
     return () => clearInterval(polling);
   }, [handleFetchImplantedExperiments]);
 
@@ -74,7 +75,6 @@ const ImplantedExperimentsTableContainer = ({
     handleGetDeployExperimentLogs(deployId);
   };
 
-  // RENDER
   return loading ||
     (implantedExperiments && implantedExperiments.length > 0) ? (
     <div className='implantedExperimentsContainer'>
@@ -92,7 +92,6 @@ const ImplantedExperimentsTableContainer = ({
   );
 };
 
-// EXPORT
 export default withRouter(
   connect(
     mapStateToProps,

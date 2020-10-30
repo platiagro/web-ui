@@ -1,17 +1,17 @@
-import React from 'react';
-import { Modal } from 'antd';
+// CORE LIBS
 import PropTypes from 'prop-types';
+import React from 'react';
 
-const deploymentsModal = ({ visible, handleCloseModal, title, children }) => {
-  // Function to handle modal cancel
+// UI LIBS
+import { Modal } from 'antd';
+
+const UsingDeploymentsModal = (props) => {
+  const { visible, handleCloseModal, title, children } = props;
   const handleCancel = () => {
-    // closing modal
     handleCloseModal();
   };
 
-  // RENDER
   return (
-    // modal component
     <Modal
       visible={visible}
       title={title}
@@ -27,12 +27,12 @@ const deploymentsModal = ({ visible, handleCloseModal, title, children }) => {
 };
 
 // PROP TYPES
-deploymentsModal.propTypes = {
-  /** new project modal visible */
-  visible: PropTypes.bool.isRequired,
+UsingDeploymentsModal.propTypes = {
   /** new project modal close handler */
   handleCloseModal: PropTypes.func.isRequired,
+  /** new project modal visible */
+  visible: PropTypes.bool.isRequired,
 };
 
 // EXPORT
-export default deploymentsModal;
+export default UsingDeploymentsModal;

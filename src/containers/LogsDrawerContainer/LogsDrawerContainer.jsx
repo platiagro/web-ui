@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // COMPONENTS
-import Drawer from './index';
+import { LogsDrawer } from 'components';
 
 // ACTIONS
 import { hideInferenceLogsDrawer } from 'store/ui/actions';
@@ -24,13 +24,14 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * Drawer Logs Container.
- * This component is responsible for create a logic container for drawer log with
- * redux.
+ * Container to display logs drawer.
+ * @param {object} props Container props
+ * @returns {LogsDrawerContainer} Container
  */
-const DrawerContainer = ({ drawer, handleHideDrawer, logs }) => {
+const LogsDrawerContainer = (props) => {
+  const { drawer, handleHideDrawer, logs } = props;
   return (
-    <Drawer
+    <LogsDrawer
       handleClose={handleHideDrawer}
       isLoading={drawer.loading}
       isVisible={drawer.visible}
@@ -41,4 +42,7 @@ const DrawerContainer = ({ drawer, handleHideDrawer, logs }) => {
 };
 
 // EXPORT
-export default connect(mapStateToProps, mapDispatchToProps)(DrawerContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LogsDrawerContainer);

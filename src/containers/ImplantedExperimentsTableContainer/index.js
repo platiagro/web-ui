@@ -1,0 +1,3 @@
+import ImplantedExperimentsTableContainer from './ImplantedExperimentsTableContainer';
+
+export default ImplantedExperimentsTableContainer;

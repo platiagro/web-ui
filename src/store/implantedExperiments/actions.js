@@ -14,88 +14,63 @@ import utils from 'utils';
 import {
   implantedExperimentsLoadingData,
   implantedExperimentsDataLoaded,
-} from '../ui/actions';
+} from 'store/ui/actions';
 
-// DESTRUCTURING UTILS
 const { getErrorMessage } = utils;
 
-// ACTIONS
 /**
- * fetch implanted experiments action
- * @returns {type, implantedExperiments}
+ * Fetch implanted experiments
+ * @param {Boolean} isToShowLoader
  */
-
-/**
- * fetch implanted experiments success action
- * @param {Object} response
- * @returns {Object} { type, implanted }
- */
-const implantedExperimentsSuccess = (response) => (dispatch) => {
-  // getting implanted experiments from response
-  const implanted = response.data;
-
-  // dispatching implanted experiments table data loaded action
-  dispatch(implantedExperimentsDataLoaded());
-
-  // dispatching fetch implanted experiments success action
+export const fetchImplantedExperiments = (isToShowLoader) => (dispatch) => {
+  if (isToShowLoader) {
+    dispatch(implantedExperimentsLoadingData());
+  }
   dispatch({
-    type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS,
-    implantedExperiments: implanted,
+    type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS_REQUEST,
   });
-};
-
-/**
- * fetch implanted experiments fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
- */
-const implantedExperimentsFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching implanted experiments table data loaded action
-  dispatch(implantedExperimentsDataLoaded());
-
-  // dispatching fetch implanted experiments fail action
-  dispatch({
-    type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS_FAIL,
-    errorMessage,
-  });
-
-  message.error(errorMessage);
-};
-
-export const fetchImplantedExperiments = () => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
-  // fetching experiment
   implantedExperimentsApi
     .getDeployedExperiments()
-    .then((response) => dispatch(implantedExperimentsSuccess(response)))
-    .catch((error) => dispatch(implantedExperimentsFail(error)));
+    .then((response) => {
+      dispatch(implantedExperimentsDataLoaded());
+      const implanted = response.data;
+      dispatch({
+        type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS,
+        implantedExperiments: implanted,
+      });
+    })
+    .catch((error) => {
+      dispatch(implantedExperimentsDataLoaded());
+      dispatch({
+        type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS_FAIL,
+      });
+      message.error(getErrorMessage(error));
+    });
 };
 
 /**
- * delete implanted experiment action
- * @param {string} implantedExperimentUuid
- * @returns {type, implantedExperiments}
+ * Delete implanted experiment
+ * @param {String} implantedExperimentUuid
  */
-export const deleteImplantedExperiment = (implantedExperimentUuid) => (
-  dispatch
-) => {
+export const deleteImplantedExperiment = (experimentId) => (dispatch) => {
   dispatch(implantedExperimentsLoadingData());
-  // fetching experiment
+  dispatch({
+    type: actionTypes.DELETE_IMPLANTED_EXPERIMENT_REQUEST,
+  });
   implantedExperimentsApi
-    .deleteDeployedExperiments(implantedExperimentUuid)
-    .then((response) => dispatch(deleteImplantedExperimentSuccess(response)))
-    .catch((error) => dispatch(deleteimplantedExperimentsFail(error)));
-};
-
-const deleteImplantedExperimentSuccess = (response) => (dispatch) => {
-  dispatch(fetchImplantedExperiments());
-};
-
-const deleteimplantedExperimentsFail = (error) => (dispatch) => {
-  console.log(error);
-  message.error(getErrorMessage(error));
-  dispatch(implantedExperimentsDataLoaded());
+    .deleteDeployedExperiments(experimentId)
+    .then((response) => {
+      dispatch(implantedExperimentsDataLoaded());
+      dispatch({
+        type: actionTypes.DELETE_IMPLANTED_EXPERIMENT,
+        experimentId,
+      });
+    })
+    .catch((error) => {
+      dispatch(implantedExperimentsDataLoaded());
+      dispatch({
+        type: actionTypes.DELETE_IMPLANTED_EXPERIMENT_FAIL,
+      });
+      message.error(getErrorMessage(error));
+    });
 };

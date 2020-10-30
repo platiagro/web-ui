@@ -12,11 +12,11 @@ import { CommonTable } from 'components';
 import { Skeleton } from 'uiComponents';
 
 // UTILS
-import utils from '../../../../utils';
+import utils from 'utils';
 
 const { TextArea } = Input;
 
-const inferenceTestResultModal = ({
+const InferenceTestResultModal = ({
   closeModal,
   experimentInference,
   getDeployExperimentLogs,
@@ -190,7 +190,7 @@ const inferenceTestResultModal = ({
 };
 
 // PROP TYPES
-inferenceTestResultModal.propTypes = {
+InferenceTestResultModal.propTypes = {
   /** close modal handler */
   closeModal: PropTypes.func.isRequired,
   /** experiment inference results*/
@@ -206,4 +206,4 @@ inferenceTestResultModal.propTypes = {
 };
 
 // EXPORT
-export default inferenceTestResultModal;
+export default InferenceTestResultModal;

@@ -1,9 +1,12 @@
+// CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { hideUsingDeploymentsModal } from '../../../../store/ui/actions';
+// COMPONENTS
+import { UsingDeploymentsModal } from 'components/Modals';
 
-import DeploymentsModal from './index';
+// ACTIONS
+import { hideUsingDeploymentsModal } from 'store/ui/actions';
 
 const ContentInfo = () => {
   const styles = {
@@ -90,29 +93,32 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+// STATES
 const mapStateToProps = (state) => {
-  // new project modal visible
   return {
     visible: state.uiReducer.newDeploymentsModal.visible,
   };
 };
 
 /**
- * New Project Modal Container.
- * This component is responsible for create a logic container for new project
- * modal with redux.
+ * Container to display using deployments modal.
+ * @param {object} props Container props
+ * @returns {UsingDeploymentsModalContainer} Container
  */
-const NewDeploymentsModalContainer = ({ visible, handleCloseModal }) => (
-  <DeploymentsModal
-    visible={visible}
-    handleCloseModal={handleCloseModal}
-    title={<strong>Como usar um fluxo implantado?</strong>}
-  >
-    <ContentInfo />
-  </DeploymentsModal>
-);
+const UsingDeploymentsModalContainer = (props) => {
+  const { handleCloseModal, visible } = props;
+  return (
+    <UsingDeploymentsModal
+      visible={visible}
+      handleCloseModal={handleCloseModal}
+      title={<strong>Como usar um fluxo implantado?</strong>}
+    >
+      <ContentInfo />
+    </UsingDeploymentsModal>
+  );
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewDeploymentsModalContainer);
+)(UsingDeploymentsModalContainer);

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // COMPONENTS
-import InferenceTestResultModal from './index';
+import { InferenceTestResultModal } from 'components/Modals';
 
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
@@ -33,20 +33,22 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * New Project Modal Container.
- * This component is responsible for create a logic container for new project
- * modal with redux.
+ * Container to display inference test result modal.
+ * @param {object} props Container props
+ * @returns {InferenceTestResultModalContainer} Container
  */
-const InferenceTestResultModalContainer = ({
-  deployId,
-  file,
-  inferenceResult,
-  handleCloseModal,
-  handleGetDeployExperimentLogs,
-  handleTestImplantedExperimentInference,
-  loading,
-  visible,
-}) => {
+const InferenceTestResultModalContainer = (props) => {
+  const {
+    deployId,
+    file,
+    handleCloseModal,
+    handleGetDeployExperimentLogs,
+    handleTestImplantedExperimentInference,
+    inferenceResult,
+    loading,
+    visible,
+  } = props;
+
   const handleOpenLog = () => {
     handleGetDeployExperimentLogs(deployId);
   };
