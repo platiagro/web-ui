@@ -53,6 +53,19 @@ jobs:
             - Usar Node 12 ou 14.
             - Remover `console.log`.
             - Não deixar código-fonte comentado.
+
+            ### Redux
+            As instruções a seguir foram retiradas do [Redux Style Guide](https://redux.js.org/style-guide/style-guide).
+            - [Sempre retorne o `newState` no reducer. Outros valores irão causar problemas inesperados.](https://redux.js.org/basics/reducers)
+              ex: `return message.error(error);` **(ERRADO)**
+            - [**NÃO faça atribuições de valores no `state`.** Crie e retorne um `newState`.](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns#updating-nested-objects)
+              ex: `state.data = action.data; return state;` **(ERRADO)**
+            - [No reducer use apenas o state e o action. Não dispare ações ou funções assíncronas.](https://redux.js.org/style-guide/style-guide#reducers-must-not-have-side-effects)
+            - [No `state`, armazene tipos simples (`int`, `String`, ...), `Array` e plain `Object`. **NÃO armazene `function`, `Promise`, `class instances`.**](https://redux.js.org/style-guide/style-guide#do-not-put-non-serializable-values-in-state-or-actions)
+            - [Evite `arrays` aninhados no estado. Prefira armazená-los numa "forma normalizada".](https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape)
+            - [Nomeie as `actions` como "eventos", não como "setters".](https://redux.js.org/style-guide/style-guide#model-actions-as-events-not-setters)
+              ex: `SET_TASK_NAME` `SET_TASK_DESCRIPTION` **(ERRADO)**. `TASK_DETAILS_EDITED` **(CORRETO)**.
+            - [Utilize nomes auto-explicativos para as actions. Evite nomes como `SET_DATA` e `UPDATE_DATA`.](https://redux.js.org/style-guide/style-guide#write-meaningful-action-names)
       - name: Set output variables
         id: vars
         run: |
