@@ -85,7 +85,7 @@ const NewTaskModal = ({
         <Form.Item
           label='Escolha um exemplo ou template para começar:'
           name='template'
-          initialValue={copyTaskRecord.uuid}
+          initialValue={copyTaskRecord.uuid || 'uuid'}
           rules={[
             {
               required: true,
