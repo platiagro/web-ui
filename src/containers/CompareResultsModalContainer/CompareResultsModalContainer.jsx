@@ -213,7 +213,7 @@ const CompareResultsModalContainer = (props) => {
       for (const layoutItem of layout) {
         if (layoutItem.i !== ADD_COMPARE_RESULT_GRID_KEY) {
           let compareResult = compareResults.find(
-            (compareResult) => compareResult.uuid === layoutItem.i
+            (e) => e.uuid === layoutItem.i
           );
           compareResult.layout = {
             x: layoutItem.x,
