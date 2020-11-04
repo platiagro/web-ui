@@ -1,7 +1,7 @@
 // REACT LIBS
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import React, { useEffect, useState } from 'react';
+import { withResizeDetector } from 'react-resize-detector';
 
 // UI LIBS
 import Icon from '@ant-design/icons';
@@ -45,14 +45,13 @@ const { Option } = Select;
 
 const CompareResultItem = (props) => {
   const {
-    cardIndex,
     compareResult,
     experimentsOptions,
     experimentsTrainingHistory,
+    height,
     onDelete,
     onFetchResults,
     onLoadTrainingHistory,
-    onMoveCard,
     onUpdate,
     tasks,
   } = props;
@@ -73,8 +72,6 @@ const CompareResultItem = (props) => {
     }
   }, [compareResult, onFetchResults]);
 
-  const cardRef = useRef(null);
-  const [canDrag, setCanDrag] = useState(false);
   const [randResultImage] = useState(Math.floor(Math.random() * 2) + 1);
 
   const experimentId = compareResult.experimentId;
@@ -88,64 +85,11 @@ const CompareResultItem = (props) => {
     }
   }
 
-  const [{ isDragging }, drag] = useDrag({
-    item: {
-      type: 'compareResultCard',
-      compareResult: compareResult,
-      index: cardIndex,
-    },
-    canDrag(monitor) {
-      return canDrag;
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-    end: (item, monitor) => {
-      if (monitor.didDrop()) {
-        const dropResult = monitor.getDropResult();
-        if (dropResult) {
-          const updatedCompareResult = {
-            ...compareResult,
-          };
-          updatedCompareResult.position = item.index;
-          onUpdate(updatedCompareResult, true);
-        }
-      }
-    },
-  });
-  const [, drop] = useDrop({
-    accept: 'compareResultCard',
-    hover(item, monitor) {
-      if (!cardRef.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = cardIndex;
-      // Don't replace items with themselves
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-      onMoveCard(dragIndex, hoverIndex);
-      item.index = hoverIndex;
-    },
-  });
-  const opacity = isDragging ? 0.6 : 1;
-  drag(drop(cardRef));
-
   const renderCardTitle = () => {
     return (
       <>
         <Space>
-          <div
-            draggable='true'
-            onDragStart={() => {
-              setCanDrag(true);
-            }}
-            onDragEnd={() => {
-              setCanDrag(false);
-            }}
-            style={{ cursor: 'grab', paddingRight: 10 }}
-          >
+          <div draggable='true' style={{ cursor: 'grab', paddingRight: 10 }}>
             <Icon component={DragIcon} />
           </div>
           <Cascader
@@ -302,21 +246,19 @@ const CompareResultItem = (props) => {
         parameters={resultsParameters}
         results={compareResult.results}
         resultsTabStyle={{
-          maxHeight: '250px',
+          maxHeight: height ? height - 220 : 300,
           overflow: 'auto',
         }}
-        scroll={{ y: 200 }}
+        scroll={{ y: height ? height - 300 : 200 }}
       />
     );
   };
 
   return (
-    <div ref={cardRef} style={{ opacity }}>
-      <Card title={renderCardTitle()} style={{ height: 500 }}>
-        {renderTaskSelect()}
-        {renderResults()}
-      </Card>
-    </div>
+    <Card title={renderCardTitle()} style={{ height: '100%' }}>
+      {renderTaskSelect()}
+      {renderResults()}
+    </Card>
   );
 };
 
@@ -336,8 +278,6 @@ CompareResultItem.propTypes = {
   onFetchResults: PropTypes.func.isRequired,
   /** Function to handle load training history */
   onLoadTrainingHistory: PropTypes.func.isRequired,
-  /** Function to handle move card on drag */
-  onMoveCard: PropTypes.func.isRequired,
   /** Function to handle update compare result */
   onUpdate: PropTypes.func.isRequired,
   /** Tasks list */
@@ -345,4 +285,4 @@ CompareResultItem.propTypes = {
 };
 
 // EXPORT DEFAULT
-export default CompareResultItem;
+export default withResizeDetector(CompareResultItem);
