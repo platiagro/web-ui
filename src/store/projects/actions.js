@@ -15,6 +15,10 @@ import {
 
 /**
  * Function to fetch pagineted projects and dispatch to reducer
+ *
+ * @param name
+ * @param page
+ * @param pageSize
  */
 export const fetchPaginatedProjects = (name, page, pageSize) => {
   return (dispatch) => {
@@ -70,6 +74,8 @@ export const fetchProjects = () => (dispatch) => {
 
 /**
  * Function to dispatch select projects to reducer
+ *
+ * @param projects
  */
 export const selectProjects = (projects) => {
   return (dispatch) => {
@@ -82,6 +88,9 @@ export const selectProjects = (projects) => {
 
 /**
  * Function to delete selected projects and dispatch to reducer
+ *
+ * @param searchText
+ * @param projects
  */
 export const deleteSelectedProjects = (searchText, projects) => {
   return (dispatch) => {
@@ -93,6 +102,31 @@ export const deleteSelectedProjects = (searchText, projects) => {
 
     return projectsApi
       .deleteProjects(formatedProjects)
+      .then(() => {
+        dispatch(projectsTableDataLoaded());
+        message.success('Projeto excluídos!');
+        dispatch(fetchPaginatedProjects(searchText, 1, 10));
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(projectsTableDataLoaded());
+        message.error(errorMessage, 5);
+      });
+  };
+};
+
+/**
+ * Function to delete selected projects and dispatch to reducer
+ *
+ * @param searchText
+ * @param uuid
+ */
+export const deleteProject = (searchText, uuid) => {
+  return (dispatch) => {
+    dispatch(projectsTableLoadingData());
+   
+    return projectsApi
+      .deleteProject(uuid)
       .then(() => {
         dispatch(projectsTableDataLoaded());
         message.success('Projetos excluídos!');

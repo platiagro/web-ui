@@ -27,8 +27,8 @@ import './style.less';
 const mapDispatchToProps = (dispatch) => {
   return {
     handleShowModal: () => dispatch(showUsingDeploymentsModal()),
-     // show new project modal
-     handleNewExperimentModal: () => dispatch(showNewExperimentModal()),
+    // show new project modal
+    handleNewExperimentModal: () => dispatch(showNewExperimentModal()),
   };
 };
 
@@ -93,7 +93,7 @@ const ProjectDetailContainer = (props) => {
             </Button>
           </Col>
           <Col span={4}>
-            <div className={'testeTexto'}>
+            <div className={'texto'}>
               Pré-implantação <QuestionCircleOutlined />
             </div>
           </Col>
@@ -113,16 +113,16 @@ const ProjectDetailContainer = (props) => {
 
       <div className={'flex'}>
         <Col span={12} onClick={redirectExperimet}>
-            <Card className='cards' hoverable>
-              <div className={'back-bround-expermentacao'}>
-                <div className={'expermentacao-image'}>
-                  <Image width={50} src={experimentacao} />
-                </div>
+          <Card className='cards' hoverable>
+            <div className={'back-bround-expermentacao'}>
+              <div className={'expermentacao-image'}>
+                <Image width={50} src={experimentacao} />
               </div>
-              <div style={{ marginLeft: 170 }}>
-                {experimentsLength} experimento(s)
-              </div>
-            </Card>
+            </div>
+            <div style={{ marginLeft: 170 }}>
+              {experimentsLength} experimento(s)
+            </div>
+          </Card>
         </Col>
 
         <Col span={12}>
@@ -138,19 +138,25 @@ const ProjectDetailContainer = (props) => {
         </Col>
       </div>
 
-      <div className={'container'}>
-        <div className={'flex flex-direction'}>
-          <Button
-            icon={<QuestionCircleOutlined />}
-            disabled={false}
-            shape='round'
-            type='primary-inverse'
-            handleClick={handleShowModal}
-          >
-            Como usar um fluxo implantado?
-          </Button>
-        </div>
-
+      <div className={'container '}>
+        <Row>
+          <Col span={12} className='start'>
+            <div className={'texto'}>Fluxos implantados</div>
+          </Col>
+          <Col span={12} className={'flex flex-direction'} >
+           
+              <Button
+                icon={<QuestionCircleOutlined />}
+                disabled={false}
+                shape='round'
+                type='primary-inverse'
+                handleClick={handleShowModal}
+              >
+                Como usar um fluxo implantado?
+              </Button>
+            
+          </Col>
+        </Row>
         {/**Close container */}
       </div>
 

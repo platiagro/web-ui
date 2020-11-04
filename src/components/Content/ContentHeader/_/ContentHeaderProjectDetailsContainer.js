@@ -13,11 +13,12 @@ import {
   editProjectNameRequest,
 } from '../../../../store/project/actions';
 
-import { deleteSelectedProjects } from '../../../../store/projects/actions';
+import { deleteProject } from '../../../../store/projects/actions';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
 
 import { DeleteOutlined } from '@ant-design/icons';
+
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -26,8 +27,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchProjectRequest(projectId, routerProps)),
     handleEditProjectName: (projectId, newName) =>
       dispatch(editProjectNameRequest(projectId, newName)),
-    handleDeleteSelectedProjects: (searchText, selectedProjects) =>
-      dispatch(deleteSelectedProjects(searchText, selectedProjects)),
+    handleDeleteProject: (searchText, selectedProjects) =>
+      dispatch(deleteProject(searchText, selectedProjects)),
   };
 };
 
@@ -52,7 +53,7 @@ const ContentHeaderProjectDetailsContainer = (props) => {
     project,
     handleFetchProject,
     handleEditProjectName,
-    handleDeleteSelectedProjects,
+    handleDeleteProject,
   } = props;
 
   // CONSTANTS
@@ -76,8 +77,9 @@ const ContentHeaderProjectDetailsContainer = (props) => {
     handleEditProjectName(projectId, newProjectName);
 
   const handleClick = () => {
-    handleDeleteSelectedProjects(project.name, project);
-    history.push('/projetos');
+    handleDeleteProject(project.name, projectId);
+    goBackHandler();
+    window.location.reload();
   };
 
   // RENDER
@@ -92,14 +94,14 @@ const ContentHeaderProjectDetailsContainer = (props) => {
           <Tooltip placement='bottom' title={'Excluir projeto'}>
             <Popconfirm
               title='Você tem certeza que deseja excluir esse projeto?'
-              onConfirm={() => {console.log('Im i')}}
+              onConfirm={handleClick}
               okText='Sim'
               cancelText='Não'
             >
               <Button
                 icon={<DeleteOutlined />}
                 className={'bottonDelete'}
-               type={'link'}
+               
               />
             </Popconfirm>
           </Tooltip>
