@@ -70,15 +70,10 @@ jobs:
         id: vars
         run: |
           echo ${{ github.ref }}
-<<<<<<< HEAD
           if [ ${{ github.ref }} = "refs/heads/v0.1.0-branch" ]; then
             echo ::set-output name=TAG::0.1.0
-=======
-          if [ ${{ github.ref }} = "refs/heads/master" ]; then
-            echo ::set-output name=TAG::0.2.0
->>>>>>> Bumps to v0.2.0 (#266)
           else
-            echo ::set-output name=TAG::0.2.0-SNAPSHOT
+            echo ::set-output name=TAG::0.1.0-SNAPSHOT
           fi
           echo ::set-output name=BRANCH::${{ github.ref }}
           echo ::set-output name=COMMIT::${{ github.sha }}
