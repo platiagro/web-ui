@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 // CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Card, Row, Col, Image } from 'antd';
+import { Image } from 'antd';
 
 // CONTAINER
 import ImplantedExperimentsTableContainer from '../ImplantedExperimentsContent/ImplantedExperimentsTable/_/Container';
@@ -17,7 +18,7 @@ import Button from '../../../uiComponents/Button/index';
 import { showUsingDeploymentsModal } from '../../../store/ui/actions';
 import { showNewExperimentModal } from '../../../store/ui/actions';
 
-//IMAGES CSV
+//IMAGES SVG
 import experimentacao from '../../../assets/experimentacao.svg';
 import fluxo from '../../../assets/fluxo.svg';
 
@@ -63,7 +64,7 @@ const ProjectDetailContainer = (props) => {
     fluxoLength = sumFluxo(project);
   }
 
-  const redirectExperimet = () => {
+  const redirectExperiment = () => {
     if (project.uuid != null) {
       history.push(
         '/projetos/' + project.uuid + '/' + project.experiments[0].uuid
@@ -75,13 +76,12 @@ const ProjectDetailContainer = (props) => {
 
   return (
     <>
-      {/** button and description */}
-      <div className={'container'}>
-        <Row justify='space-between'>
-          <Col span={4} className='start'>
-            Experimentação <QuestionCircleOutlined />
-          </Col>
-          <Col span={4}>
+      <div className='container'>
+        <div className='projectDetails'>
+          <div className='projectDetailsHeader'>
+            <span>
+              Experimentação <QuestionCircleOutlined />
+            </span>
             <Button
               disabled={false}
               shape='round'
@@ -91,14 +91,23 @@ const ProjectDetailContainer = (props) => {
             >
               Novo Experimento
             </Button>
-          </Col>
-          <Col span={4}>
-            <div className={'texto'}>
-              Pré-implantação <QuestionCircleOutlined />
+          </div>
+          <div className='cards' onClick={redirectExperiment}>
+            <div className='experimentacaoImage'>
+              <Image width={50} src={experimentacao} />
             </div>
-          </Col>
 
-          <Col className={'flex flex-direction'} span={4}>
+            <div className='cardsText'>
+              <span>{experimentsLength}</span> experimento(s)
+            </div>
+          </div>
+        </div>
+
+        <div className='projectDetails'>
+          <div className='projectDetailsHeader'>
+            <span>
+              Pré-implantação <QuestionCircleOutlined />
+            </span>
             <Button
               disabled={false}
               icon={<PlusOutlined />}
@@ -107,57 +116,35 @@ const ProjectDetailContainer = (props) => {
             >
               Escolher fluxo
             </Button>
-          </Col>
-        </Row>
+          </div>
+          <div className='cards'>
+            <div className='fluxoImage'>
+              <Image width={50} src={fluxo} />
+            </div>
+
+            <div className='cardsText'>
+              {' '}
+              <span>{fluxoLength}</span>fluxo(s)
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className={'flex'}>
-        <Col span={12} onClick={redirectExperimet}>
-          <Card className='cards' hoverable>
-            <div className={'back-bround-expermentacao'}>
-              <div className={'expermentacao-image'}>
-                <Image width={50} src={experimentacao} />
-              </div>
-            </div>
-            <div style={{ marginLeft: 170 }}>
-              {experimentsLength} experimento(s)
-            </div>
-          </Card>
-        </Col>
+      <div className='tableTitle'>
 
-        <Col span={12}>
-          <Card className='cards' hoverable>
-            <div className={'back-bround-fluxo'}>
-              <div className={'fluxo-image'}>
-                <Image width={50} src={fluxo} />
-              </div>
-            </div>
+            <span>
+              Fluxos implantados <QuestionCircleOutlined />
+            </span>
 
-            <div style={{ marginLeft: 170 }}>{fluxoLength} fluxo(s)</div>
-          </Card>
-        </Col>
-      </div>
-
-      <div className={'container '}>
-        <Row>
-          <Col span={12} className='start'>
-            <div className={'texto'}>Fluxos implantados</div>
-          </Col>
-          <Col span={12} className={'flex flex-direction'} >
-           
-              <Button
-                icon={<QuestionCircleOutlined />}
-                disabled={false}
-                shape='round'
-                type='primary-inverse'
-                handleClick={handleShowModal}
-              >
-                Como usar um fluxo implantado?
-              </Button>
-            
-          </Col>
-        </Row>
-        {/**Close container */}
+        <Button
+          icon={<QuestionCircleOutlined />}
+          disabled={false}
+          shape='round'
+          type='primary-inverse'
+          handleClick={handleShowModal}
+        >
+          Como usar um fluxo implantado?
+        </Button>
       </div>
 
       <ImplantedExperimentsTableContainer />
