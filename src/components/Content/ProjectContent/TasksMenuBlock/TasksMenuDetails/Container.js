@@ -21,7 +21,7 @@ const TasksMenuDetails = (props) =>{
     <div className="projetDetailsMenu">
 
      <p className='description'>Descrição</p>
-     <p className='valueDescription'> {project.description==null? 'Adiciona descrio': project.description}</p>
+     <p className='valueDescription'> {project.description==null? 'Adiciona descrição': project.description}</p>
      <p className='modificationDate'>Última modificação</p>
      <p className='modificationValue'> {project.updatedAt}</p>
      <p className='creator'>Criado por</p>   
