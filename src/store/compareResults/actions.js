@@ -230,16 +230,17 @@ export const updateCompareResult = (compareResult, changedPosition) => {
       experimentId: compareResult.experimentId,
       operatorId: compareResult.operatorId,
       runId: compareResult.runId,
-      position: compareResult.position,
+      layout: compareResult.layout,
     };
     compareResultsApi
       .updateCompareResult(compareResult.projectId, compareResult.uuid, body)
       .then((response) => {
-        dispatch({
-          type: actionTypes.UPDATE_COMPARE_RESULT,
-          changedPosition: changedPosition,
-          compareResult: changedPosition ? compareResult : response.data,
-        });
+        if (!changedPosition) {
+          dispatch({
+            type: actionTypes.UPDATE_COMPARE_RESULT,
+            compareResult: response.data,
+          });
+        }
       })
       .catch((error) => {
         let errorMessage = error.message;

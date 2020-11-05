@@ -37,17 +37,7 @@ const compareResultsReducer = (state = initialState, action = undefined) => {
       const compareResultIndex = compareResultsAux.findIndex(
         (compareResult) => compareResult.uuid === updatedCompareResult.uuid
       );
-      if (action.changedPosition) {
-        // remove the old compare result from aux and add the new one on the correct position
-        compareResultsAux.splice(compareResultIndex, 1);
-        compareResultsAux.splice(
-          updatedCompareResult.position,
-          0,
-          updatedCompareResult
-        );
-      } else {
-        compareResultsAux[compareResultIndex] = updatedCompareResult;
-      }
+      compareResultsAux[compareResultIndex] = updatedCompareResult;
       return {
         ...state,
         compareResults: compareResultsAux,
