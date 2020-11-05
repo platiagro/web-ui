@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { getSmoothStepPath } from 'react-flow-renderer';
+import { Menu, Dropdown } from 'antd';
 
 const ARROWS = [
   {
@@ -81,6 +82,8 @@ export const nodeTypes = {
 export const edgeTypes = {
   customEdge: ({
     id,
+    target,
+    source,
     sourceX,
     sourceY,
     targetX,
@@ -88,6 +91,7 @@ export const edgeTypes = {
     sourcePosition,
     targetPosition,
     style = {},
+    data: { onDelete },
   }) => {
     const edgePath = getSmoothStepPath({
       sourceX,
@@ -99,15 +103,23 @@ export const edgeTypes = {
       borderRadius: 20,
     });
 
+    const menu = (
+      <Menu onClick={() => onDelete(target, source)}>
+        <Menu.Item key='remove'>Remover</Menu.Item>
+      </Menu>
+    );
+
     return (
-      <path
-        id={id}
-        style={style}
-        className='react-flow__edge-path'
-        d={edgePath}
-        markerEnd='url(#react-flow__arrowend)'
-        markerStart='url(#react-flow__circle)'
-      />
+      <Dropdown overlay={menu} trigger={['contextMenu']}>
+        <path
+          id={id}
+          style={style}
+          className='react-flow__edge-path'
+          d={edgePath}
+          markerEnd='url(#react-flow__arrowend)'
+          markerStart='url(#react-flow__circle)'
+        />
+      </Dropdown>
     );
   },
 };
