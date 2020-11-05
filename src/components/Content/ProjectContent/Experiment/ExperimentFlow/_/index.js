@@ -48,15 +48,58 @@ const ExperimentFlow = ({
 }) => {
   const [connectClass, setConnectClass] = useState('');
 
+  const handleLoad = (reactFlowInstance) => {
+    setTimeout(() => {
+      reactFlowInstance.fitView();
+      reactFlowInstance.zoomTo(1);
+    }, 0);
+  };
+
+  const handleConnect = (params) => {
+    const targetDependencies = tasks.filter(
+      (operator) => operator.uuid === params.target
+    )[0].dependencies;
+
+    handleSaveDependencies(params.target, [
+      ...targetDependencies,
+      params.source,
+    ]);
+  };
+
+  const handleDeleteConnection = (target, source) => {
+    const targetDependencies = [...tasks].filter((el) => el.uuid === target)[0]
+      .dependencies;
+    const removeDependencies = targetDependencies.filter(
+      (dep) => dep !== source
+    );
+
+    handleSaveDependencies(target, removeDependencies);
+  };
+
+  const handleDragStop = (event, task) =>
+    handleSavePosition(task.id, task.position);
+
+  const isActive = canDrop && isOver;
+
+  let backgroundColor = '#fff';
+  if (isActive) {
+    backgroundColor = 'rgba(20,250,20,0.1)';
+  } else if (canDrop) {
+    backgroundColor = 'rgba(250,20,20,0.1)';
+  }
+
   const cardsElements = tasks.map((component) => {
     const arrows = component.dependencies.map((arrow) => {
-      const arrowId = `${component.uuid}-${arrow}`;
+      const arrowId = `${component.uuid}/${arrow}`;
       return {
         id: arrowId,
         type: 'customEdge',
         target: component.uuid,
         source: arrow,
         animated: arrowId === arrowConfigs.uuid ? arrowConfigs.loading : false,
+        data: {
+          onDelete: handleDeleteConnection,
+        },
       };
     });
 
@@ -96,36 +139,6 @@ const ExperimentFlow = ({
     return [card, ...arrows];
   });
 
-  const handleLoad = (reactFlowInstance) => {
-    setTimeout(() => {
-      reactFlowInstance.fitView();
-      reactFlowInstance.zoomTo(1);
-    }, 0);
-  };
-
-  const handleConnect = (params) => {
-    const targetDependencies = tasks.filter(
-      (operator) => operator.uuid === params.target
-    )[0].dependencies;
-
-    handleSaveDependencies(params.target, [
-      ...targetDependencies,
-      params.source,
-    ]);
-  };
-
-  const handleDragStop = (event, task) =>
-    handleSavePosition(task.id, task.position);
-
-  const isActive = canDrop && isOver;
-
-  let backgroundColor = '#fff';
-  if (isActive) {
-    backgroundColor = 'rgba(20,250,20,0.1)';
-  } else if (canDrop) {
-    backgroundColor = 'rgba(250,20,20,0.1)';
-  }
-
   return loading ? (
     <LoadingBox />
   ) : (
@@ -142,6 +155,14 @@ const ExperimentFlow = ({
         onNodeDragStop={handleDragStop}
         onConnectEnd={() => setConnectClass('')}
         onConnectStart={() => setConnectClass('Connecting')}
+        deleteKeyCode={46}
+        onElementsRemove={(e) => {
+          const line = e[0];
+          if (line.type !== 'cardNode') {
+            handleDeleteConnection(line.target, line.source);
+          }
+        }}
+        onPaneContextMenu={(e) => e.preventDefault()}
       >
         <Background
           variant='dots'
