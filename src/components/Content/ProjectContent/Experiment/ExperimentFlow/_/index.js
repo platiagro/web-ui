@@ -162,6 +162,7 @@ const ExperimentFlow = ({
             handleDeleteConnection(line.target, line.source);
           }
         }}
+        onPaneContextMenu={(e) => e.preventDefault()}
       >
         <Background
           variant='dots'
