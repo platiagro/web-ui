@@ -100,8 +100,7 @@ const ContentHeaderProjectDetailsContainer = (props) => {
             >
               <Button
                 icon={<DeleteOutlined />}
-                className={'bottonDelete'}
-               
+                className='buttonDelete'
               />
             </Popconfirm>
           </Tooltip>
