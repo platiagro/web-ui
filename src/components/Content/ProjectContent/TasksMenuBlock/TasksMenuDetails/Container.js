@@ -18,12 +18,15 @@ const TasksMenuDetails = (props) =>{
   //RENDER
   return(
     <>
-    
-     <p className={'description'}>Descrição</p>
-     <p className={'valueDescription'}> {project.description==null? 'Adiciona descrio': project.description}</p>
-     <p className={'modification_date'}>Última modificação</p>
-     <p className={'modification_value'}> {project.updatedAt}</p>
-     <p className={'create_Ate'}>Criado por</p>   
+    <div className="projetDetailsMenu">
+
+     <p className='description'>Descrição</p>
+     <p className='valueDescription'> {project.description==null? 'Adiciona descrio': project.description}</p>
+     <p className='modificationDate'>Última modificação</p>
+     <p className='modificationValue'> {project.updatedAt}</p>
+     <p className='creator'>Criado por</p>   
+
+    </div>
     </>
   )
 
