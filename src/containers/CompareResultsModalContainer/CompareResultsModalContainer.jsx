@@ -155,11 +155,10 @@ const CompareResultsModalContainer = (props) => {
   };
 
   const renderCompareResultItem = () => {
-    return compareResults.map((compareResult, index) => {
+    return compareResults.map((compareResult) => {
       return (
         <div key={compareResult.uuid}>
           <CompareResultItem
-            cardIndex={index}
             compareResult={compareResult}
             experiments={experiments}
             experimentsOptions={experimentsOptions}
