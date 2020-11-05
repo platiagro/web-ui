@@ -104,7 +104,7 @@ export const deleteSelectedProjects = (searchText, projects) => {
       .deleteProjects(formatedProjects)
       .then(() => {
         dispatch(projectsTableDataLoaded());
-        message.success('Projeto excluídos!');
+        message.success('Projetos excluídos!');
         dispatch(fetchPaginatedProjects(searchText, 1, 10));
       })
       .catch((error) => {
@@ -129,7 +129,7 @@ export const deleteProject = (searchText, uuid) => {
       .deleteProject(uuid)
       .then(() => {
         dispatch(projectsTableDataLoaded());
-        message.success('Projetos excluídos!');
+        message.success('Projeto excluído com sucesso.');
         dispatch(fetchPaginatedProjects(searchText, 1, 10));
       })
       .catch((error) => {
