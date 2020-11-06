@@ -12,19 +12,20 @@ const mapStateToProps = (state) => {
   };
 };
 
-const TasksMenuDetails = (props) =>{
+const TasksMenuDetailsContainer = (props) =>{
   const { project } = props; 
 
   //RENDER
   return(
     <>
-    <div className="projetDetailsMenu">
+    <div className="projectDetailsMenu">
 
-     <p className='description'>Descrição</p>
+     <p className='descriptionTitle'>Descrição</p>
      <p className='valueDescription'> {project.description==null? 'Adiciona descrição': project.description}</p>
-     <p className='modificationDate'>Última modificação</p>
-     <p className='modificationValue'> {project.updatedAt}</p>
-     <p className='creator'>Criado por</p>   
+     <p className='descriptionTitle'>Última modificação</p>
+     <p className='valueDescription'> {project.updatedAt}</p>
+     <p className='descriptionTitle'>Criado por</p>
+     <p className='valueDescription'>Usuario anônimo</p>   
 
     </div>
     </>
@@ -36,4 +37,4 @@ const TasksMenuDetails = (props) =>{
 
 export default connect(
   mapStateToProps,
-)(TasksMenuDetails);
+)(TasksMenuDetailsContainer);

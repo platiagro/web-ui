@@ -8,19 +8,19 @@ import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
 
 // CONTAINER
-import ImplantedExperimentsTableContainer from '../ImplantedExperimentsContent/ImplantedExperimentsTable/_/Container';
-import NewDeploymentsModalContainer from '../ImplantedExperimentsContent/UsingDeploymentsModal/Container';
-import NewExperimentModalContainer from '../ProjectContent/NewExperimentModal/Container';
+import ImplantedExperimentsTableContainer from 'components/Content/ImplantedExperimentsContent/ImplantedExperimentsTable/_/Container';
+import NewDeploymentsModalContainer from 'components/Content/ImplantedExperimentsContent/UsingDeploymentsModal/Container';
+import NewExperimentModalContainer from 'components/Content/ProjectContent/NewExperimentModal/Container';
 
-import Button from '../../../uiComponents/Button/index';
+import Button from 'uiComponents/Button/index';
 
 // ACTIONS
-import { showUsingDeploymentsModal } from '../../../store/ui/actions';
-import { showNewExperimentModal } from '../../../store/ui/actions';
+import { showUsingDeploymentsModal } from 'store/ui/actions';
+import { showNewExperimentModal } from 'store/ui/actions';
 
 //IMAGES SVG
-import experimentacao from '../../../assets/experimentacao.svg';
-import fluxo from '../../../assets/fluxo.svg';
+import experimentacao from 'assets/experimentacao.svg';
+import fluxo from 'assets/fluxo.svg';
 
 import './style.less';
 
@@ -45,27 +45,21 @@ const mapStateToProps = (state) => {
   };
 };
 
-const sumFluxo = (project) => {
-  let countFluxo = 0;
-  project.experiments.forEach((elements) => {
-    countFluxo += elements.operators.length;
-  });
-  return countFluxo;
-};
-
 const ProjectDetailContainer = (props) => {
   const { project, handleShowModal, handleNewExperimentModal } = props;
 
-  let experimentsLength;
-  let fluxoLength;
+  let experimentsLength = 0;
+  let fluxoLength = 0;
 
   if (project.uuid != null) {
     experimentsLength = project.experiments.length;
-    fluxoLength = sumFluxo(project);
+    project.experiments.forEach((elements) => {
+      fluxoLength += elements.operators.length;
+    });
   }
 
   const redirectExperiment = () => {
-    if (project.uuid != null) {
+    if (project.uuid != null && project.experiments[0].uuid != null) {
       history.push(
         '/projetos/' + project.uuid + '/' + project.experiments[0].uuid
       );
@@ -123,7 +117,6 @@ const ProjectDetailContainer = (props) => {
             </div>
 
             <div className='cardsText'>
-              {' '}
               <span>{fluxoLength}</span>fluxo(s)
             </div>
           </div>
@@ -131,10 +124,9 @@ const ProjectDetailContainer = (props) => {
       </div>
 
       <div className='tableTitle'>
-
-            <span>
-              Fluxos implantados <QuestionCircleOutlined />
-            </span>
+        <span>
+          Fluxos implantados <QuestionCircleOutlined />
+        </span>
 
         <Button
           icon={<QuestionCircleOutlined />}

@@ -7,12 +7,9 @@ import { DndProvider } from 'react-dnd';
 import './style.less';
 
 // COMPONENTS
-import ContentHeaderProjectDetailsContainer from '../../ContentHeader/_/ContentHeaderProjectDetailsContainer';
-import TasksMenuDetails from '../../ProjectContent/TasksMenuBlock/TasksMenuDetails/Container';
-import ProjectDetailContainer from '../../ProjectDetailsContent/Container';
-
-// IMAGES
-//import experiment from '../src/assets/experiment.svg';
+import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer/HeaderProjectDetailsContainer';
+import TasksMenuDetailsContainer from 'containers/TasksMenuDetailsContainer/TasksMenuDetailsContainer';
+import ProjectDetailContainer from 'containers/ProjectDetailsContainer/ProjectDetailsContainer';
 
 const { Sider, Content } = Layout;
 
@@ -25,7 +22,7 @@ const ProjectsDetailsContent = () => {
       <Sider width={250}    
        className={'detailsMenu'} id="menudetails"
       >
-      <TasksMenuDetails/>
+      <TasksMenuDetailsContainer/>
       </Sider>
       <Content>
         <Layout style={{ height: '100%' }} className={'content'}>
@@ -39,9 +36,8 @@ const ProjectsDetailsContent = () => {
   return(
    // fragment
    <>
-    {/**<ContentHeaderProjectDetailsContainer />*/}
     <DndProvider backend={HTML5Backend}>
-    <ContentHeaderProjectDetailsContainer />
+    <HeaderProjectDetailsContainer />
     {renderFlowContent()}
     </DndProvider>
    

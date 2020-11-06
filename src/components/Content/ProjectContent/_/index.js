@@ -5,7 +5,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // COMPONENTS
-import ContentHeaderProjectContainer from '../../ContentHeader/_/ContentHeaderProjectContainer';
+import ContentHeaderProjectContainer from 'containers/HeaderProjectDetailsContainer/HeaderProjectDetailsContainer';
 import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';

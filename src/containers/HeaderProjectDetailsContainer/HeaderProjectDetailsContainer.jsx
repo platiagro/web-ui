@@ -4,20 +4,22 @@ import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import ContentHeader from './index';
-import AccountInfo from '../AccountInfo';
+import ContentHeader from 'components/Content/ContentHeader/_';
+import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
 
 // ACTIONS
 import {
   fetchProjectRequest,
   editProjectNameRequest,
-} from '../../../../store/project/actions';
+} from 'store/project/actions';
 
-import { deleteProject } from '../../../../store/projects/actions';
+import { deleteProject } from 'store/projects/actions';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
 
 import { DeleteOutlined } from '@ant-design/icons';
+
+import './style.less';
 
 
 // DISPATCHS
