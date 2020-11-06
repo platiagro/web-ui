@@ -59,7 +59,7 @@ const ProjectDetailContainer = (props) => {
   }
 
   const redirectExperiment = () => {
-    if (project.uuid != null && project.experiments[0].uuid != null) {
+    if (project.uuid != null && Object.keys(project.experiments).length !== 0) {
       history.push(
         '/projetos/' + project.uuid + '/' + project.experiments[0].uuid
       );

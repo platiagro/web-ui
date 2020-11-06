@@ -6,10 +6,10 @@ import { DndProvider } from 'react-dnd';
 
 import './style.less';
 
-// COMPONENTS
-import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer/HeaderProjectDetailsContainer';
-import TasksMenuDetailsContainer from 'containers/TasksMenuDetailsContainer/TasksMenuDetailsContainer';
-import ProjectDetailContainer from 'containers/ProjectDetailsContainer/ProjectDetailsContainer';
+// CONTAINERS
+import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer/index';
+import TasksMenuDetailsContainer from 'containers/TasksMenuDetailsContainer/index';
+import ProjectDetailContainer from 'containers/ProjectDetailsContainer/index';
 
 const { Sider, Content } = Layout;
 
