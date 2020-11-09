@@ -13,20 +13,22 @@ const mapStateToProps = (state) => {
 
 const TasksMenuDetailsContainer = (props) => {
   const { project } = props;
-
-  //RENDER
+  const formatedDate = new Date(project.updatedAt).toLocaleString();
   return (
-    <div className='projectDetailsMenu'>
-      <p className='descriptionTitle'>Descrição</p>
-      <p className='valueDescription'>
+    <div className='project-description'>
+      <strong> Descrição </strong>
+      <p>
         {project.description == null
-          ? 'Adiciona descrição'
+          ? 'Não há descrição disponível'
           : project.description}
       </p>
-      <p className='descriptionTitle'>Última modificação</p>
-      <p className='valueDescription'>{project.updatedAt}</p>
-      <p className='descriptionTitle'>Criado por</p>
-      <p className='valueDescription'>Usuario anônimo</p>
+      <strong> Última modificação </strong>
+      <p>{formatedDate}</p>
+      <strong> Criado por </strong>
+      <p className='user-description'>
+        <span className='user-avatar'>A</span>
+        <span>Usuário anônimo</span>
+      </p>
     </div>
   );
 };
