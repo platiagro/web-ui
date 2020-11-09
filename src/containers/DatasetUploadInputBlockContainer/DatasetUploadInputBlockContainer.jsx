@@ -12,11 +12,11 @@ import {
 
 // ACTIONS
 import {
-  selectDataset,
-  startFileDatasetUpload,
-  cancelDatasetUpload,
-  startGoogleDatasetUpload,
-  deleteDatasetRequest,
+  fetchSelectDataset,
+  fetchStartFileDatasetUpload,
+  fetchCancelDatasetUpload,
+  fetchStartGoogleDatasetUpload,
+  fetchDeleteDatasetRequest,
 } from 'store/dataset/actions';
 import { fetchDatasetsRequest } from 'store/datasets/actions';
 
@@ -25,14 +25,14 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // start dataset upload
     handleSelectDataset: (dataset, projectId, experimentId) =>
-      dispatch(selectDataset(dataset, projectId, experimentId)),
+      dispatch(fetchSelectDataset(dataset, projectId, experimentId)),
     handleFetchDatasets: () => dispatch(fetchDatasetsRequest()),
     handleCreateGoogleDataset: (file) =>
-      dispatch(startGoogleDatasetUpload(file)),
-    handleUploadStart: (file) => dispatch(startFileDatasetUpload(file)),
+      dispatch(fetchStartGoogleDatasetUpload(file)),
+    handleUploadStart: (file) => dispatch(fetchStartFileDatasetUpload(file)),
     handleDeleteDataset: (projectId, experimentId) =>
-      dispatch(deleteDatasetRequest(projectId, experimentId)),
-    handleUploadCancel: () => dispatch(cancelDatasetUpload()),
+      dispatch(fetchDeleteDatasetRequest(projectId, experimentId)),
+    handleUploadCancel: () => dispatch(fetchCancelDatasetUpload()),
   };
 };
 

@@ -97,7 +97,7 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
  *
  * @returns {Function} Dispatch function
  */
-export const cancelDatasetUpload = () => (dispatch, getState) => {
+export const fetchCancelDatasetUpload = () => (dispatch, getState) => {
   const successMessage = 'Dados de entrada removidos';
 
   // get dataset reducer from store
@@ -135,7 +135,7 @@ export const cancelDatasetUpload = () => (dispatch, getState) => {
  * @param {object} datasetOperator Dataset operator
  * @returns {Function} Dispatch function
  */
-export const datasetUploadSuccess = (
+export const fetchDatasetUploadSuccess = (
   dataset,
   projectId,
   experimentId,
@@ -197,7 +197,7 @@ export const datasetUploadSuccess = (
  *
  * @returns {Function} Dispatch function
  */
-export const datasetUploadFail = () => (dispatch) => {
+export const fetchDatasetUploadFail = () => (dispatch) => {
   const errorMessage = 'Ocorreu um erro no processamento do arquivo';
 
   // dispatching dataset operator data loaded action
@@ -218,7 +218,7 @@ export const datasetUploadFail = () => (dispatch) => {
  * @param {object} uploadProgress Upload progress
  * @returns {Function} Dispatch function
  */
-export const updateDatasetUpload = (uploadProgress) => (dispatch) => {
+export const fetchUpdateDatasetUpload = (uploadProgress) => (dispatch) => {
   // get uploaded and total progress
   const { loaded, total } = uploadProgress;
 
@@ -239,7 +239,7 @@ export const updateDatasetUpload = (uploadProgress) => (dispatch) => {
  *
  * @returns {Function} Dispatch function
  */
-export const startFileDatasetUpload = (file) => (dispatch) => {
+export const fetchStartFileDatasetUpload = (file) => (dispatch) => {
   // create cancel token
   const cancelToken = CancelToken.source();
 
@@ -256,7 +256,7 @@ export const startFileDatasetUpload = (file) => (dispatch) => {
   // append dataset file
   fileFormData.append('file', file);
 
-  dispatch(startDatasetUpload(fileFormData, cancelToken));
+  dispatch(fetchStartDatasetUpload(fileFormData, cancelToken));
 };
 
 /**
@@ -266,7 +266,7 @@ export const startFileDatasetUpload = (file) => (dispatch) => {
  *
  * @returns {Function} Dispatch function
  */
-export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
+export const fetchStartGoogleDatasetUpload = (gfile) => (dispatch) => {
   // create cancel token
   const cancelToken = CancelToken.source();
 
@@ -279,7 +279,7 @@ export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
 
   const file = { gfile };
 
-  dispatch(startDatasetUpload(file, cancelToken));
+  dispatch(fetchStartDatasetUpload(file, cancelToken));
 };
 
 /**
@@ -289,7 +289,7 @@ export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
  * @param {object} cancelToken Cancel request token
  * @returns {Function} Dispatch function
  */
-export const startDatasetUpload = (file, cancelToken) => async (
+export const fetchStartDatasetUpload = (file, cancelToken) => async (
   dispatch,
   getState
 ) => {
@@ -331,7 +331,7 @@ export const startDatasetUpload = (file, cancelToken) => async (
     const response = await datasetsApi.createDataset(
       file,
       cancelToken,
-      (progress) => dispatch(updateDatasetUpload(progress))
+      (progress) => dispatch(fetchUpdateDatasetUpload(progress))
     );
 
     // get dataset from response
@@ -339,14 +339,14 @@ export const startDatasetUpload = (file, cancelToken) => async (
 
     // dispatch success action
     dispatch(
-      datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+      fetchDatasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
     );
     // on error
   } catch (error) {
     // error not is cancel action
     if (!isCancel(error)) {
       // dispatch fail action
-      dispatch(datasetUploadFail());
+      dispatch(fetchDatasetUploadFail());
     }
   }
 };
@@ -360,7 +360,7 @@ export const startDatasetUpload = (file, cancelToken) => async (
  * @param {object} response
  * @returns {object} { type, column }
  */
-const updateDatasetColumnSuccess = (response) => (dispatch) => {
+const fetchUpdateDatasetColumnSuccess = (response) => (dispatch) => {
   // getting column from response
   const column = response.data;
 
@@ -404,7 +404,7 @@ const updateDatasetColumnFail = (error) => (dispatch) => {
  * @param {string} columnNewType
  * @returns {Function}
  */
-export const updateDatasetColumnRequest = (columnName, columnNewType) => (
+export const fetchUpdateDatasetColumnRequest = (columnName, columnNewType) => (
   dispatch,
   getState
 ) => {
@@ -426,7 +426,7 @@ export const updateDatasetColumnRequest = (columnName, columnNewType) => (
   // updating dataset columns
   datasetsApi
     .updateDatasetColumn(datasetName, columnName, columnNewType)
-    .then((response) => dispatch(updateDatasetColumnSuccess(response)))
+    .then((response) => dispatch(fetchUpdateDatasetColumnSuccess(response)))
     .catch((error) => dispatch(updateDatasetColumnFail(error)));
 };
 
@@ -439,7 +439,7 @@ export const updateDatasetColumnRequest = (columnName, columnNewType) => (
  * @param {object} response
  * @returns {object} { type, columns }
  */
-const getDatasetSuccess = (response) => (dispatch) => {
+const fetchDatasetSuccess = (response) => (dispatch) => {
   // getting dataset from response
   const dataset = response.data;
   const featuretypes = utils.getFeaturetypes(dataset);
@@ -465,7 +465,7 @@ const getDatasetSuccess = (response) => (dispatch) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const getDatasetFail = (error) => (dispatch) => {
+const fetchDatasetFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -487,7 +487,7 @@ const getDatasetFail = (error) => (dispatch) => {
  * @param datasetName
  * @returns {Function}
  */
-export const getDatasetRequest = (datasetName) => (dispatch) => {
+export const fetchDatasetRequest = (datasetName) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.GET_DATASET_REQUEST,
@@ -500,13 +500,13 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
     // fetching dataset
     datasetsApi
       .getDataset(datasetName, 1, 10)
-      .then((response) => dispatch(getDatasetSuccess(response)))
-      .catch((error) => dispatch(getDatasetFail(error)));
+      .then((response) => dispatch(fetchDatasetSuccess(response)))
+      .catch((error) => dispatch(fetchDatasetFail(error)));
 
     // dispatching get dataset featuretypes
   } else {
     dispatch(
-      getDatasetSuccess({
+      fetchDatasetSuccess({
         data: {
           filename: '',
           name: '',
@@ -528,7 +528,7 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
  * @param {string} experimentId Experiment id
  * @returns {Function} Action
  */
-export const selectDataset = (datasetName, projectId, experimentId) => (
+export const fetchSelectDataset = (datasetName, projectId, experimentId) => (
   dispatch,
   getState
 ) => {
@@ -552,10 +552,10 @@ export const selectDataset = (datasetName, projectId, experimentId) => (
 
       // dispatch action to save dataset
       dispatch(
-        datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+        fetchDatasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
       );
     })
-    .catch((error) => dispatch(getDatasetFail(error)));
+    .catch((error) => dispatch(fetchDatasetFail(error)));
 };
 
 // // // // // // // // // //
@@ -567,7 +567,7 @@ export const selectDataset = (datasetName, projectId, experimentId) => (
  *
  * @returns {Function} Dispatch function
  */
-export const deleteDatasetSuccess = () => (dispatch) => {
+export const fetchDeleteDatasetSuccess = () => (dispatch) => {
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
@@ -592,7 +592,7 @@ export const deleteDatasetSuccess = () => (dispatch) => {
  *
  * @returns {Function} Dispatch function
  */
-export const deleteDatasetFail = () => (dispatch) => {
+export const fetchDeleteDatasetFail = () => (dispatch) => {
   const errorMessage = 'Ocorreu um erro ao excluir arquivo';
 
   // dispatching dataset operator data loaded action
@@ -616,7 +616,7 @@ export const deleteDatasetFail = () => (dispatch) => {
  * @param experimentId
  * @returns {Function} Dispatch function
  */
-export const deleteDatasetRequest = (projectId, experimentId) => (
+export const fetchDeleteDatasetRequest = (projectId, experimentId) => (
   dispatch,
   getState
 ) => {
@@ -646,18 +646,18 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
     // dispatching clear operator feature parameters
     dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
 
-    dispatch(deleteDatasetSuccess());
+    dispatch(fetchDeleteDatasetSuccess());
   } catch (e) {
-    dispatch(deleteDatasetFail());
+    dispatch(fetchDeleteDatasetFail());
   }
 };
 
-export const updateAllDatasetColumnStart = () => (dispatch) => {
+export const fetchUpdateAllDatasetColumnStart = () => (dispatch) => {
   // dispatching update dataset column success
   dispatch(loadingOnDataViewModal());
 };
 
-export const updateAllDatasetColumnSuccess = (columns) => (dispatch) => {
+export const fetchUpdateAllDatasetColumnSuccess = (columns) => (dispatch) => {
   dispatch(loadingOffDataViewModal());
 
   // dispatching update dataset column success
@@ -667,7 +667,7 @@ export const updateAllDatasetColumnSuccess = (columns) => (dispatch) => {
   });
 };
 
-export const updateAllDatasetColumnFail = (errorMessage) => (dispatch) => {
+export const fetchUpdateAllDatasetColumnFail = (errorMessage) => (dispatch) => {
   dispatch(loadingOffDataViewModal());
 
   // dispatching update dataset column fail

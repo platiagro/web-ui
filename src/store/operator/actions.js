@@ -28,7 +28,7 @@ import {
 } from '../ui/actions';
 
 // DATASET ACTIONS
-import { getDatasetRequest } from '../dataset/actions';
+import { fetchDatasetRequest } from '../dataset/actions';
 
 // OPERATORS ACTIONS
 import {
@@ -332,7 +332,7 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
     });
 
     // fetching dataset columns
-    dispatch(getDatasetRequest(datasetValue));
+    dispatch(fetchDatasetRequest(datasetValue));
   }
 
   // getting results
