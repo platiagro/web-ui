@@ -136,3 +136,28 @@ export const deleteSelectedProjects = (searchText, projects) => {
       });
   };
 };
+
+/**
+ * Function to delete selected projects and dispatch to reducer
+ *
+ * @param searchText
+ * @param uuid
+ */
+export const deleteProject = (searchText, uuid) => {
+  return (dispatch) => {
+    dispatch(projectsTableLoadingData());
+   
+    return projectsApi
+      .deleteProject(uuid)
+      .then(() => {
+        dispatch(projectsTableDataLoaded());
+        message.success('Projeto excluído com sucesso.');
+        dispatch(fetchPaginatedProjects(searchText, 1, 10));
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(projectsTableDataLoaded());
+        message.error(errorMessage, 5);
+      });
+  };
+};

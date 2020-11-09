@@ -4,15 +4,23 @@ import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import ContentHeader from './index';
-import AccountInfo from '../AccountInfo';
-import ExperimentButtonsContainer from '../ExperimentButtons/Container';
+import ContentHeader from 'components/Content/ContentHeader/_';
+import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
 
 // ACTIONS
 import {
   fetchProjectRequest,
   editProjectNameRequest,
-} from '../../../../store/project/actions';
+} from 'store/project/actions';
+
+import { deleteProject } from 'store/projects/actions';
+
+import { Button, Tooltip, Popconfirm } from 'antd';
+
+import { DeleteOutlined } from '@ant-design/icons';
+
+import './style.less';
+
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -21,6 +29,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchProjectRequest(projectId, routerProps)),
     handleEditProjectName: (projectId, newName) =>
       dispatch(editProjectNameRequest(projectId, newName)),
+    handleDeleteProject: (searchText, selectedProjects) =>
+      dispatch(deleteProject(searchText, selectedProjects)),
   };
 };
 
@@ -39,9 +49,14 @@ const mapStateToProps = (state) => {
  *
  * @param props
  */
-const ContentHeaderProjectContainer = (props) => {
+const ContentHeaderProjectDetailsContainer = (props) => {
   // destructuring props
-  const { project, handleFetchProject, handleEditProjectName } = props;
+  const {
+    project,
+    handleFetchProject,
+    handleEditProjectName,
+    handleDeleteProject,
+  } = props;
 
   // CONSTANTS
   // getting history
@@ -63,6 +78,12 @@ const ContentHeaderProjectContainer = (props) => {
   const editProjectNameHandler = (newProjectName) =>
     handleEditProjectName(projectId, newProjectName);
 
+  const handleClick = () => {
+    handleDeleteProject(project.name, projectId);
+    goBackHandler();
+    window.location.reload();
+  };
+
   // RENDER
   return (
     <ContentHeader
@@ -72,7 +93,19 @@ const ContentHeaderProjectContainer = (props) => {
       handleSubmit={editProjectNameHandler}
       extra={
         <>
-          <ExperimentButtonsContainer />
+          <Tooltip placement='bottom' title={'Excluir projeto'}>
+            <Popconfirm
+              title='Você tem certeza que deseja excluir esse projeto?'
+              onConfirm={handleClick}
+              okText='Sim'
+              cancelText='Não'
+            >
+              <Button
+                icon={<DeleteOutlined />}
+                className='buttonDelete'
+              />
+            </Popconfirm>
+          </Tooltip>
           <AccountInfo />
         </>
       }
@@ -82,5 +115,8 @@ const ContentHeaderProjectContainer = (props) => {
 
 // EXPORT
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ContentHeaderProjectContainer)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ContentHeaderProjectDetailsContainer)
 );

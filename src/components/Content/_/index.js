@@ -8,6 +8,7 @@ import { Layout } from 'antd';
 // CONTENTS
 import ProjectsContent from '../ProjectsContent/_';
 import ProjectContent from '../ProjectContent/_';
+import ProjectsDetailsContent from '../ProjectDetailsContent/_';
 import TaskContent from '../TasksContent/_';
 import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
 import Error404Content from '../Error404Content';
@@ -35,7 +36,7 @@ const Content = () => {
         </Route>
         {/* project content */}
         <Route exact path='/projetos/:projectId'>
-          <ProjectContent />
+          <ProjectsDetailsContent />
         </Route>
         {/* experiment content */}
         <Route exact path='/projetos/:projectId/:experimentId'>
