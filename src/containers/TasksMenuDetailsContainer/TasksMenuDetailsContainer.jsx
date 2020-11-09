@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
 const TasksMenuDetailsContainer = (props) => {
   const { project } = props;
   const formatedDate = new Date(project.updatedAt).toLocaleString();
-  console.log(formatedDate);
   return (
     <div className='project-description'>
       <strong> Descrição </strong>
