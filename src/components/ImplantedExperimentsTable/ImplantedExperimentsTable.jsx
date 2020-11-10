@@ -107,10 +107,13 @@ const ImplantedExperimentsTable = (props) => {
   // RENDER
   return (
     <CommonTable
-      dataSource={implantedExperiments}
       columns={columnsConfig}
-      pagination={{ pageSize: 10 }}
+      dataSource={implantedExperiments}
       isLoading={loading}
+      locale={{
+        emptyText: 'Nenhum fluxo implantado',
+      }}
+      pagination={{ pageSize: 10 }}
       rowClassName={(record) => {
         if (selectedExperiment) {
           return record.experimentId === selectedExperiment

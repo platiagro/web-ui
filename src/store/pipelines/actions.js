@@ -213,36 +213,8 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
 
 // // // // // // // // // //
 
-// ** DEPLOY EXPERIMENT
 /**
- * deploy experiment success action
- *
- * @param {string} experimentId
- * @param {object} routerProps
- * @returns {object} { type }
- */
-const deployExperimentSuccess = (experimentId, routerProps) => () => {
-  // go to deployed experiments
-  routerProps.history.push(`/fluxos-implantados?experiment=${experimentId}`);
-
-  message.success('Experimento implantado!');
-};
-
-/**
- * deploy experiment fail action
- *
- * @param {object} error
- * @returns {object} { type, errorMessage }
- */
-const deployExperimentFail = (error) => () => {
-  // getting error message
-  const errorMessage = error.message;
-
-  message.error(errorMessage);
-};
-
-/**
- * deploy experiment request action
+ * Deploy experiment
  *
  * @param project
  * @param {object} experiment
@@ -250,7 +222,7 @@ const deployExperimentFail = (error) => () => {
  * @param {object} routerProps
  * @returns {Function}
  */
-export const deployExperimentRequest = (
+export const deployExperiment = (
   project,
   experiment,
   operators,
@@ -280,8 +252,15 @@ export const deployExperimentRequest = (
   // deploying experiment
   pipelinesApi
     .deployExperiment(experiment.uuid, deployObject)
-    .then(() => dispatch(deployExperimentSuccess(experiment.uuid, routerProps)))
-    .catch((error) => dispatch(deployExperimentFail(error)));
+    .then(() => {
+      // go to project details
+      routerProps.history.push(`/projetos/${project.uuid}`);
+      message.success('Experimento implantado!');
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      message.error(errorMessage);
+    });
 };
 
 // // // // // // // // // //

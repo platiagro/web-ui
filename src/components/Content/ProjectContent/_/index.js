@@ -5,7 +5,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // COMPONENTS
-import ContentHeaderProjectContainer from 'containers/HeaderProjectDetailsContainer/HeaderProjectDetailsContainer';
+import ContentHeaderProjectContentContainer from '../../ContentHeader/_/ContentHeaderProjectContentContainer';
 import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
@@ -27,7 +27,6 @@ import './style.less';
 const { Footer, Sider, Content } = Layout;
 
 const ProjectContent = () => {
-  // CONSTANTS
   const { experimentId } = useParams();
 
   const renderFlowContent = () => (
@@ -63,8 +62,8 @@ const ProjectContent = () => {
         <DataViewModalContainer />
         {/* operator results modal */}
         <OperatorResultsModalContainer />
-        {/* Header from project (name and rename) */}
-        <ContentHeaderProjectContainer />
+        {/* Header from project content(name and rename) */}
+        <ContentHeaderProjectContentContainer />
         {/* render flow */}
         {renderFlowContent()}
         {/* change route prompt */}

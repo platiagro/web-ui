@@ -1,12 +1,10 @@
 // CORE LIBS
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import queryString from 'query-string';
+import { useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
 import { ImplantedExperimentsTable } from 'components';
-import { ImplantedExperimentsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
@@ -21,8 +19,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleDeleteImplantedExperiment: (implantedExperimentUuid) =>
       dispatch(deleteImplantedExperiment(implantedExperimentUuid)),
-    handleFetchImplantedExperiments: (isToShowLoader) =>
-      dispatch(fetchImplantedExperiments(isToShowLoader)),
+    handleFetchImplantedExperiments: (experiments, isToShowLoader) =>
+      dispatch(fetchImplantedExperiments(experiments, isToShowLoader)),
     handleGetDeployExperimentLogs: (deployId) =>
       dispatch(getDeployExperimentLogs(deployId)),
     handleTestImplantedExperimentInference: (implantedExperimentUuid, file) =>
@@ -37,6 +35,7 @@ const mapStateToProps = (state) => {
   return {
     implantedExperiments: state.implantedExperimentsReducer,
     loading: state.uiReducer.implantedExperiments.loading,
+    project: state.projectReducer,
   };
 };
 
@@ -53,30 +52,33 @@ const ImplantedExperimentsTableContainer = (props) => {
     handleTestImplantedExperimentInference,
     implantedExperiments,
     loading,
-    location,
+    project,
   } = props;
-  const params = queryString.parse(location.search);
-  const selectedExperiment = params['experiment'];
+  const { projectId } = useParams();
+
+  let experiments = [];
+  if (projectId === project.uuid) {
+    experiments = project.experiments;
+  }
 
   // HOOKS
   useEffect(() => {
     // fetching deployed experiments
-    handleFetchImplantedExperiments(true);
+    handleFetchImplantedExperiments(experiments, true);
 
     // polling deployed experiments
     const polling = setInterval(
-      () => handleFetchImplantedExperiments(false),
+      () => handleFetchImplantedExperiments(experiments, false),
       30000
     );
     return () => clearInterval(polling);
-  }, [handleFetchImplantedExperiments]);
+  }, [handleFetchImplantedExperiments, experiments]);
 
   const handleOpenLog = (deployId) => {
     handleGetDeployExperimentLogs(deployId);
   };
 
-  return loading ||
-    (implantedExperiments && implantedExperiments.length > 0) ? (
+  return (
     <div className='implantedExperimentsContainer'>
       <ImplantedExperimentsTable
         handleDeleteImplantedExperiment={handleDeleteImplantedExperiment}
@@ -84,11 +86,8 @@ const ImplantedExperimentsTableContainer = (props) => {
         handleTestInference={handleTestImplantedExperimentInference}
         implantedExperiments={implantedExperiments}
         loading={loading}
-        selectedExperiment={selectedExperiment}
       />
     </div>
-  ) : (
-    <ImplantedExperimentsEmptyPlaceholder />
   );
 };
 

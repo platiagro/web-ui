@@ -20,32 +20,36 @@ const { getErrorMessage } = utils;
 
 /**
  * Fetch implanted experiments
+ * @param {object[]} experiments
  * @param {Boolean} isToShowLoader
  */
-export const fetchImplantedExperiments = (isToShowLoader) => (dispatch) => {
+export const fetchImplantedExperiments = (
+  experiments,
+  isToShowLoader
+) => async (dispatch) => {
   if (isToShowLoader) {
     dispatch(implantedExperimentsLoadingData());
   }
-  dispatch({
-    type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS_REQUEST,
-  });
-  implantedExperimentsApi
-    .getDeployedExperiments()
-    .then((response) => {
-      dispatch(implantedExperimentsDataLoaded());
-      const implanted = response.data;
-      dispatch({
-        type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS,
-        implantedExperiments: implanted,
-      });
-    })
-    .catch((error) => {
-      dispatch(implantedExperimentsDataLoaded());
-      dispatch({
-        type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS_FAIL,
-      });
-      message.error(getErrorMessage(error));
+
+  const implantedExperiments = [];
+  if (experiments && experiments.length > 0) {
+    dispatch({
+      type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS_REQUEST,
     });
+    for (const experiment of experiments) {
+      await implantedExperimentsApi
+        .getDeployedExperiment(experiment.uuid)
+        .then((response) => {
+          implantedExperiments.push(response.data);
+        })
+        .catch((error) => {});
+    }
+  }
+  dispatch(implantedExperimentsDataLoaded());
+  dispatch({
+    type: actionTypes.FETCH_IMPLANTED_EXPERIMENTS,
+    implantedExperiments: implantedExperiments,
+  });
 };
 
 /**
