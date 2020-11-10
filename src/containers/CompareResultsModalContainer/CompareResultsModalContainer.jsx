@@ -1,6 +1,7 @@
 // REACT LIBS
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import RGL, { WidthProvider } from 'react-grid-layout';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,6 +29,10 @@ import {
   updateCompareResult,
 } from 'store/compareResults/actions';
 
+// STYLES
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -49,8 +54,8 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchTrainingHistory: (experimentId) => {
       dispatch(fetchTrainingHistory(experimentId));
     },
-    handleUpdateCompareResult: (compareResult) => {
-      dispatch(updateCompareResult(compareResult));
+    handleUpdateCompareResult: (compareResult, changedPosition) => {
+      dispatch(updateCompareResult(compareResult, changedPosition));
     },
   };
 };
@@ -70,6 +75,9 @@ const mapStateToProps = (state) => {
     tasks: state.tasksReducer.tasks,
   };
 };
+
+const ADD_COMPARE_RESULT_GRID_KEY = 'add-compare-result-grid-key';
+const ReactGridLayout = WidthProvider(RGL);
 
 /**
  * Container to display operator experiment results modal.
@@ -147,13 +155,9 @@ const CompareResultsModalContainer = (props) => {
   };
 
   const renderCompareResultItem = () => {
-    if (compareResults.length === 0) {
-      return;
-    }
-
     return compareResults.map((compareResult) => {
       return (
-        <Col key={compareResult.uuid} span={12}>
+        <div key={compareResult.uuid}>
           <CompareResultItem
             compareResult={compareResult}
             experiments={experiments}
@@ -167,9 +171,59 @@ const CompareResultsModalContainer = (props) => {
             onUpdate={handleUpdateCompareResult}
             tasks={tasks}
           />
-        </Col>
+        </div>
       );
     });
+  };
+
+  const generateGridLayout = () => {
+    let totalW = 0;
+    const gridLayout = compareResults.map((item, i) => {
+      let itemLayout = item.layout;
+      if (!itemLayout) {
+        itemLayout = {
+          x: (Math.floor(totalW / 6) % 2) * 6,
+          y: 9999,
+          w: 6,
+          h: 12,
+        };
+      }
+      totalW += itemLayout.w;
+      itemLayout.i = item.uuid;
+      itemLayout.minW = 6;
+      itemLayout.minH = 12;
+      return itemLayout;
+    });
+    gridLayout.push({
+      i: ADD_COMPARE_RESULT_GRID_KEY,
+      x: (Math.floor(totalW / 6) % 2) * 6,
+      y: 99999,
+      w: 6,
+      h: 2,
+      isBounded: true,
+      isDraggable: true,
+      isResizable: false,
+    });
+    return gridLayout;
+  };
+
+  const handleUpdateCompareResultLayout = (layout, oldItem, newItem) => {
+    if (newItem.i !== ADD_COMPARE_RESULT_GRID_KEY) {
+      for (const layoutItem of layout) {
+        if (layoutItem.i !== ADD_COMPARE_RESULT_GRID_KEY) {
+          let compareResult = compareResults.find(
+            (e) => e.uuid === layoutItem.i
+          );
+          compareResult.layout = {
+            x: layoutItem.x,
+            y: layoutItem.y,
+            w: layoutItem.w,
+            h: layoutItem.h,
+          };
+          handleUpdateCompareResult(compareResult, true);
+        }
+      }
+    }
   };
 
   return (
@@ -186,37 +240,42 @@ const CompareResultsModalContainer = (props) => {
       title={title}
       width={'90%'}
     >
-      <Row gutter={[8, 8]}>
-        {isLoading || deleteIsLoading ? (
-          renderLoadingCard()
-        ) : (
-          <>
-            {renderCompareResultItem()}
-            <Col span={12}>
-              <Card
-                style={{
-                  border: '2px dashed #D9D9D9',
-                  textAlign: 'center',
+      {isLoading || deleteIsLoading ? (
+        <Row gutter={[8, 8]}>{renderLoadingCard()}</Row>
+      ) : (
+        <ReactGridLayout
+          className={'layout'}
+          cols={12}
+          layout={generateGridLayout()}
+          rowHeight={35}
+          onDragStop={handleUpdateCompareResultLayout}
+          onResizeStop={handleUpdateCompareResultLayout}
+        >
+          {renderCompareResultItem()}
+          <div key={ADD_COMPARE_RESULT_GRID_KEY}>
+            <Card
+              style={{
+                border: '2px dashed #D9D9D9',
+                textAlign: 'center',
+              }}
+            >
+              <Button
+                shape='round'
+                type='default'
+                disabled={addIsLoading}
+                onClick={() => {
+                  handleAddCompareResult(projectId);
                 }}
               >
-                <Button
-                  shape='round'
-                  type='default'
-                  disabled={addIsLoading}
-                  onClick={() => {
-                    handleAddCompareResult(projectId);
-                  }}
-                >
-                  <Space style={{ color: '#0050B3' }}>
-                    {addIsLoading ? <LoadingOutlined /> : <PlusOutlined />}
-                    Adicionar resultado
-                  </Space>
-                </Button>
-              </Card>
-            </Col>
-          </>
-        )}
-      </Row>
+                <Space style={{ color: '#0050B3' }}>
+                  {addIsLoading ? <LoadingOutlined /> : <PlusOutlined />}
+                  Adicionar resultado
+                </Space>
+              </Button>
+            </Card>
+          </div>
+        </ReactGridLayout>
+      )}
     </Modal>
   );
 };

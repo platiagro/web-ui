@@ -82,7 +82,7 @@ const ResizableSection = (props) => {
               <div className='resizable-section-tip'>
                 <PopoverTip
                   isPopoverBelow={true}
-                  popoverTitle={title}
+                  popoverTitle={title || ''}
                   popoverText={tip}
                   iconType='info'
                 />

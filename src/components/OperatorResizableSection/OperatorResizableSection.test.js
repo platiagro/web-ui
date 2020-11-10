@@ -75,9 +75,6 @@ describe('Operator Content', () => {
       operatorResizableSection.contains(<NotebookOutputsContainer />)
     ).toBeTruthy();
     expect(
-      operatorResizableSection.contains(resultsButtonBarComponent())
-    ).toBeTruthy();
-    expect(
       operatorResizableSection.contains(<DatasetDrawerContainer />)
     ).not.toBeTruthy();
     expect(
@@ -113,39 +110,6 @@ describe('Operator Content', () => {
     ).not.toBeTruthy();
     expect(
       operatorResizableSection.contains(resultsDrawerComponent)
-    ).not.toBeTruthy();
-  });
-
-  // should render a operator experiment results content
-  it('should render a operator experiment results content', () => {
-    // operator is dataset
-    const showExperimentResults = true;
-
-    // operator resizable section component
-    const operatorResizableSection = shallow(
-      <OperatorResizableSection
-        {...mockProps}
-        showExperimentResults={showExperimentResults}
-      />
-    );
-
-    // expected conditions
-    expect(
-      operatorResizableSection.contains(resultsDrawerComponent)
-    ).toBeTruthy();
-    expect(
-      operatorResizableSection.contains(<NotebookOutputsContainer />)
-    ).not.toBeTruthy();
-    expect(
-      operatorResizableSection.contains(
-        resultsButtonBarComponent(showExperimentResults)
-      )
-    ).toBeTruthy();
-    expect(
-      operatorResizableSection.contains(<GenericDrawerContainer />)
-    ).not.toBeTruthy();
-    expect(
-      operatorResizableSection.contains(<DatasetDrawerContainer />)
     ).not.toBeTruthy();
   });
 });
