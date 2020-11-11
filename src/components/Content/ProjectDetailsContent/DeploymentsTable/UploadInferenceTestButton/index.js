@@ -3,8 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { UploadOutlined } from '@ant-design/icons';
-import { Upload, Button } from 'antd';
+import { FundOutlined } from '@ant-design/icons';
+import { Button, Tooltip, Upload } from 'antd';
 
 // EXTENSION LIBS
 import { getEncoding } from 'istextorbinary';
@@ -82,11 +82,11 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
       }}
       {...props}
     >
-      {/* upload button link */}
-      <Button type='link'>
-        <UploadOutlined style={{ marginRight: 5 }} />
-        Testar o fluxo
-      </Button>
+      <Tooltip placement='bottom' title='Testar o fluxo'>
+        <Button size='large' style={{ padding: 0 }} type='link'>
+          <FundOutlined />
+        </Button>
+      </Tooltip>
     </Upload>
   );
 };

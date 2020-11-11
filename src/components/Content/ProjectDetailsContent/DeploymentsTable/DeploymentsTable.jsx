@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
+import { DeleteOutlined, ProfileOutlined } from '@ant-design/icons';
 import { Badge, Button, Divider, Popconfirm, Tooltip, Typography } from 'antd';
 
 // COMPONENTS
@@ -40,26 +41,43 @@ const DeploymentsTable = (props) => {
     Succeeded: 'success',
   };
 
+  // convert status text to portuguese
+  const statusTextToPortuguese = {
+    Failed: 'Falhou',
+    Running: 'Em implantação',
+    Succeeded: 'Sucesso',
+  };
+
   // table columns config
   const columnsConfig = [
     {
       title: <strong>Status</strong>,
       dataIndex: 'status',
       key: 'status',
-      render: (value) => <Badge status={statusToBadge[value]} text={value} />,
+      width: '12%',
+      render: (value) => (
+        <Badge
+          status={statusToBadge[value]}
+          text={statusTextToPortuguese[value]}
+        />
+      ),
     },
     {
       title: <strong>Nome</strong>,
       dataIndex: 'name',
       key: 'name',
+      width: '18%',
     },
     {
       title: <strong>URL</strong>,
       dataIndex: 'url',
       key: 'url',
+      width: '35%',
       render: (value) => (
         <Tooltip title={value}>
-          <Paragraph copyable>{value}</Paragraph>
+          <Paragraph copyable ellipsis>
+            {value}
+          </Paragraph>
         </Tooltip>
       ),
     },
@@ -67,14 +85,31 @@ const DeploymentsTable = (props) => {
       title: <strong>Data de Criação</strong>,
       dataIndex: 'createdAt',
       key: 'createdAt',
+      width: '20%',
       render: (value) => new Date(value).toLocaleString(),
     },
     {
       title: <strong>Ação</strong>,
       dataIndex: 'action',
       key: 'action',
+      width: '15%',
       render: (value, record) => (
         <>
+          <UploadInferenceTestButton
+            handleUpload={(file) => onTestInference(record.experimentId, file)}
+          />{' '}
+          <Divider type='vertical' />
+          <Tooltip placement='bottom' title='Ver logs'>
+            <Button
+              onClick={() => onOpenLog(record.experimentId)}
+              size='large'
+              style={{ padding: 0 }}
+              type='link'
+            >
+              <ProfileOutlined />
+            </Button>
+          </Tooltip>
+          <Divider type='vertical' />
           <Popconfirm
             placement='left'
             title='Você tem certeza que deseja excluir essa implantação?'
@@ -82,16 +117,12 @@ const DeploymentsTable = (props) => {
             cancelText='Não'
             onConfirm={() => onDeleteDeployment(record.experimentId)}
           >
-            <Button type='link'>Deletar</Button>
+            <Tooltip placement='bottom' title='Excluir'>
+              <Button size='large' style={{ padding: 0 }} type='link'>
+                <DeleteOutlined />
+              </Button>
+            </Tooltip>
           </Popconfirm>
-          <Divider type='vertical' />
-          <Button type='link' onClick={() => onOpenLog(record.experimentId)}>
-            Logs
-          </Button>
-          <Divider type='vertical' />
-          <UploadInferenceTestButton
-            handleUpload={(file) => onTestInference(record.experimentId, file)}
-          />
         </>
       ),
     },
