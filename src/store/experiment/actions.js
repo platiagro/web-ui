@@ -389,9 +389,7 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
   });
 
   message.success(`Experimento excluído!`);
-
-  // go to project
-  routerProps.history.push(`/projetos/${projectId}`);
+  routerProps.history.push(`/projetos/${projectId}/deleted`);
 };
 
 /**

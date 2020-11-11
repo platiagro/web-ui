@@ -73,8 +73,7 @@ const ExperimentHeaderContainer = ({
   // HOOKS
   // did mount hook
   useEffect(() => {
-    // fetching projects
-    if (experimentId) {
+    if (experimentId && experimentId !== 'deleted') {
       handleFetchExperiment(projectId, experimentId);
     }
   }, [experimentId, projectId, handleFetchExperiment]);

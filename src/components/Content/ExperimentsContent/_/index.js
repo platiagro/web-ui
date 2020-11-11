@@ -32,7 +32,7 @@ const ExperimentsContent = () => {
   const renderFlowContent = () => (
     <Layout style={{ overflow: 'hidden' }}>
       <Sider width={250}>
-        <TasksMenuBlock disabled={!experimentId} />
+        <TasksMenuBlock disabled={experimentId === 'deleted'} />
       </Sider>
       <Content>
         <Layout style={{ height: '100%' }}>

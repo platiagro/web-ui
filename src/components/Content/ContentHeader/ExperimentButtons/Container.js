@@ -84,6 +84,7 @@ const ExperimentButtonsContainer = ({
   return (
     <ExperimentButtons
       disabled={
+        experimentId === 'deleted' ||
         !hasExecutorOperator ||
         loading ||
         trainingLoading ||

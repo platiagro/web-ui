@@ -120,8 +120,8 @@ const ExperimentTabsContainer = (props) => {
 
   // listen experiments to redirect to active
   useEffect(() => {
-    // if has experiments and hasn't experiment id into url
-    if (experiments.length > 0 && !experimentId) {
+    // if has experiments and experiment id is deleted
+    if (experiments.length > 0 && experimentId === 'deleted') {
       // active tab is finded into experiments
       const activeTab = experiments.find((element) => element.isActive);
       // if active tab exists, then url will change

@@ -18,7 +18,7 @@ const FlowDrop = () => {
     <div className='custom-flow'>
       <ReactFlowProvider>
         <ExperimentHeader />
-        {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
+        {experimentId !== 'deleted' ? <ExperimentFlow /> : <ExperimentEmpty />}
         <CustomDragLayer />
       </ReactFlowProvider>
     </div>

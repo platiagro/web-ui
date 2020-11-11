@@ -55,9 +55,6 @@ const ProjectDetailContainer = (props) => {
 
   if (project.uuid != null) {
     experimentsLength = project.experiments.length;
-    project.experiments.forEach((elements) => {
-      fluxoLength += elements.operators.length;
-    });
   }
 
   const redirectExperiment = () => {
