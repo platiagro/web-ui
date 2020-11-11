@@ -1,5 +1,5 @@
 // CORE LIBS
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
 
@@ -9,13 +9,18 @@ import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
 import ExperimentButtonsContainer from 'components/Content/ContentHeader/ExperimentButtons/Container';
 
 // ACTIONS
-import { editProjectNameRequest } from 'store/project/actions';
+import {
+  editProjectNameRequest,
+  fetchProjectRequest,
+} from 'store/project/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleEditProjectName: (projectId, newName) =>
       dispatch(editProjectNameRequest(projectId, newName)),
+    handleFetchProject: (projectId) =>
+      dispatch(fetchProjectRequest(projectId, routerProps)),
   };
 };
 
@@ -33,7 +38,7 @@ const mapStateToProps = (state) => {
  * header with route control.
  */
 const HeaderExperimentsContentContainer = (props) => {
-  const { project, handleEditProjectName } = props;
+  const { project, handleEditProjectName, handleFetchProject } = props;
   const { projectId } = useParams();
   const history = useHistory();
 
@@ -41,6 +46,14 @@ const HeaderExperimentsContentContainer = (props) => {
   const goBackHandler = () => history.push(`/projetos/${projectId}`);
   const editProjectNameHandler = (newProjectName) =>
     handleEditProjectName(projectId, newProjectName);
+
+  // HOOKS
+  useEffect(() => {
+    // fetch project if project details is null
+    if (!project.uuid) {
+      handleFetchProject(projectId);
+    }
+  }, [handleFetchProject, project, projectId]);
 
   // RENDER
   return (
