@@ -6,11 +6,11 @@ import { shallow } from 'enzyme';
 
 // COMPONENTS
 import OperatorResizableSection from './OperatorResizableSection';
-import DatasetDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/DatasetDrawer/_/Container';
-import GenericDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/GenericDrawer/_/Container';
-import ResultsDrawer from '../Content/ProjectContent/Experiment/Drawer/ResultsDrawer/_';
-import ResultsButtonBar from '../Content/ProjectContent/Experiment/Drawer/ResultsButtonBar';
-import NotebookOutputsContainer from '../Content/ProjectContent/Experiment/Drawer/NotebookOutputs/_/Container';
+import DatasetDrawerContainer from '../Content/ExperimentsContent/Experiment/Drawer/DatasetDrawer/_/Container';
+import GenericDrawerContainer from '../Content/ExperimentsContent/Experiment/Drawer/GenericDrawer/_/Container';
+import ResultsDrawer from '../Content/ExperimentsContent/Experiment/Drawer/ResultsDrawer/_';
+import ResultsButtonBar from '../Content/ExperimentsContent/Experiment/Drawer/ResultsButtonBar';
+import NotebookOutputsContainer from '../Content/ExperimentsContent/Experiment/Drawer/NotebookOutputs/_/Container';
 
 // MOCKS
 const mockProps = {

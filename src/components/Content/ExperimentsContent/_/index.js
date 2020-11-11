@@ -5,18 +5,18 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // COMPONENTS
-import ContentHeaderProjectContentContainer from '../../ContentHeader/_/ContentHeaderProjectContentContainer';
 import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
 
 import {
+  ChangeRoutePromptContainer,
   CompareResultsModalContainer,
+  DataViewModalContainer,
+  HeaderExperimentsContentContainer,
   OperatorResizableSectionContainer,
   OperatorResultsModalContainer,
-  DataViewModalContainer,
-  ChangeRoutePromptContainer,
 } from 'containers';
 
 import FlowDrop from './FlowDrop';
@@ -26,7 +26,7 @@ import './style.less';
 
 const { Footer, Sider, Content } = Layout;
 
-const ProjectContent = () => {
+const ExperimentsContent = () => {
   const { experimentId } = useParams();
 
   const renderFlowContent = () => (
@@ -56,17 +56,11 @@ const ProjectContent = () => {
   return (
     <>
       <DndProvider backend={HTML5Backend}>
-        {/* compare results modal container */}
         <CompareResultsModalContainer />
-        {/* data view modal container */}
         <DataViewModalContainer />
-        {/* operator results modal */}
         <OperatorResultsModalContainer />
-        {/* Header from project content(name and rename) */}
-        <ContentHeaderProjectContentContainer />
-        {/* render flow */}
+        <HeaderExperimentsContentContainer />
         {renderFlowContent()}
-        {/* change route prompt */}
         <ChangeRoutePromptContainer />
       </DndProvider>
     </>
@@ -74,4 +68,4 @@ const ProjectContent = () => {
 };
 
 // EXPORT
-export default ProjectContent;
+export default ExperimentsContent;
