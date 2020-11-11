@@ -6,6 +6,8 @@ import DatasetUploadInputBlockContainer from './DatasetUploadInputBlockContainer
 import DataViewButtonContainer from './DataViewButtonContainer';
 import DataViewModalContainer from './DataViewModalContainer';
 
+import HeaderExperimentsContentContainer from './HeaderExperimentsContentContainer';
+
 import ImplantedExperimentsTableContainer from './ImplantedExperimentsTableContainer';
 import InferenceTestResultModalContainer from './InferenceTestResultModalContainer';
 
@@ -24,6 +26,7 @@ export {
   DatasetUploadInputBlockContainer,
   DataViewButtonContainer,
   DataViewModalContainer,
+  HeaderExperimentsContentContainer,
   ImplantedExperimentsTableContainer,
   InferenceTestResultModalContainer,
   LogsDrawerContainer,
