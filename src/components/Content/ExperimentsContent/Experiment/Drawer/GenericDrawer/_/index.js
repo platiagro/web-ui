@@ -48,7 +48,7 @@ const inputTypes = {
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
-        handleChange={(value) => handleChange(name, value)}
+        handleChange={(newValue) => handleChange(name, newValue)}
         name={name}
         isLoading={loading}
         isDisabled={trainingLoading}
@@ -87,7 +87,7 @@ const inputTypes = {
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
-        handleChange={(value) => handleChange(name, value)}
+        handleChange={(newValue) => handleChange(name, newValue)}
         name={name}
         isLoading={loading}
         isDisabled={trainingLoading}
@@ -126,7 +126,7 @@ const inputTypes = {
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
-        handleChange={(value) => handleChange(name, value)}
+        handleChange={(newValue) => handleChange(name, newValue)}
         name={name}
         isLoading={loading}
         isDisabled={trainingLoading}
@@ -165,7 +165,7 @@ const inputTypes = {
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
-        handleChange={(value) => handleChange(name, value)}
+        handleChange={(newValue) => handleChange(name, newValue)}
         name={name}
         isLoading={loading}
         isDisabled={trainingLoading}
@@ -201,7 +201,7 @@ const inputTypes = {
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
-        handleChange={(value) => handleChange(name, value)}
+        handleChange={(newValue) => handleChange(name, newValue)}
         name={name}
         isLoading={loading}
         isDisabled={trainingLoading}
@@ -221,7 +221,9 @@ const inputTypes = {
     return (
       <ToggleInputBlock
         key={uuid || name}
-        handleChange={(inputName, value) => handleChange(inputName, value)}
+        handleChange={(inputName, newValue) =>
+          handleChange(inputName, newValue)
+        }
         name={name}
         title={label || name}
         isLoading={loading}
