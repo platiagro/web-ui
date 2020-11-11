@@ -8,7 +8,7 @@ import actionTypes from './actionTypes';
 import projectsApi from '../../services/ProjectsApi';
 
 //API
-import implantedExperimentsApi from 'services/ImplantedExperimentsApi';
+import deploymentsApi from 'services/DeploymentsApi';
 
 import _ from 'lodash';
 
@@ -34,7 +34,7 @@ export const fetchPaginatedProjects = (name, page, pageSize) => {
     return projectsApi
       .getPaginatedProjects(name, page, pageSize)
       .then(async (response) => {
-        const deployedProjects = await implantedExperimentsApi.getDeployedExperiments();
+        const deployedProjects = await deploymentsApi.fetchDeployedExperiments();
         const deployedProjectsIds = deployedProjects.data.map(
           (experimento) => experimento.experimentId
         );
@@ -146,7 +146,7 @@ export const deleteSelectedProjects = (searchText, projects) => {
 export const deleteProject = (searchText, uuid) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
-   
+
     return projectsApi
       .deleteProject(uuid)
       .then(() => {

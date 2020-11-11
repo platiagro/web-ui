@@ -71,6 +71,7 @@ const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
           <CommonTable
             bordered={true}
             columns={logsTableColumns}
+            dataSource={[]}
             isLoading={true}
             size={'small'}
           />

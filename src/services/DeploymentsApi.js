@@ -16,19 +16,19 @@ const seldonApi = axios.create({
 
 const deploymentsPath = '/deployments';
 
-const getDeployedExperiment = (deployId) => {
+const fetchDeployedExperiment = (deployId) => {
   return pipelinesApi.get(`${deploymentsPath}/${deployId}`);
 };
 
-const getDeployedExperiments = () => {
+const fetchDeployedExperiments = () => {
   return pipelinesApi.get(deploymentsPath);
 };
 
-const getDeployedExperimentLogs = (deployId) => {
+const fetchDeployedExperimentLogs = (deployId) => {
   return pipelinesApi.get(`${deploymentsPath}/${deployId}/logs`);
 };
 
-const getExperimentDeployStatus = (experimentId) => {
+const fetchExperimentDeployStatus = (experimentId) => {
   return pipelinesApi.get(`${deploymentsPath}/${experimentId}`);
 };
 
@@ -42,10 +42,10 @@ const deleteDeployedExperiments = (experimentId) => {
 
 // EXPORT DEFAULT
 export default {
-  getDeployedExperiment,
-  getDeployedExperiments,
-  getDeployedExperimentLogs,
-  getExperimentDeployStatus,
+  fetchDeployedExperiment,
+  fetchDeployedExperiments,
+  fetchDeployedExperimentLogs,
+  fetchExperimentDeployStatus,
   testDeployedExperiments,
   deleteDeployedExperiments,
 };

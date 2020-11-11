@@ -9,18 +9,18 @@ import DeploymentsTable from 'components/Content/ProjectDetailsContent/Deploymen
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
-  fetchImplantedExperiments,
-  deleteImplantedExperiment,
-} from 'store/implantedExperiments/actions';
+  fetchDeployedExperiments,
+  deleteDeployedExperiment,
+} from 'store/deployments/actions';
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleDeleteImplantedExperiment: (implantedExperimentUuid) =>
-      dispatch(deleteImplantedExperiment(implantedExperimentUuid)),
-    handleFetchImplantedExperiments: (experiments, isToShowLoader) =>
-      dispatch(fetchImplantedExperiments(experiments, isToShowLoader)),
+    handleDeleteDeployedExperiment: (implantedExperimentUuid) =>
+      dispatch(deleteDeployedExperiment(implantedExperimentUuid)),
+    handleFetchDeployedExperiments: (experiments, isToShowLoader) =>
+      dispatch(fetchDeployedExperiments(experiments, isToShowLoader)),
     handleGetDeployExperimentLogs: (deployId) =>
       dispatch(getDeployExperimentLogs(deployId)),
     handleTestImplantedExperimentInference: (implantedExperimentUuid, file) =>
@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    implantedExperiments: state.implantedExperimentsReducer,
+    deployments: state.deploymentsReducer,
     loading: state.uiReducer.implantedExperiments.loading,
     project: state.projectReducer,
   };
@@ -46,11 +46,11 @@ const mapStateToProps = (state) => {
  */
 const DeploymentsTableContainer = (props) => {
   const {
-    handleDeleteImplantedExperiment,
-    handleFetchImplantedExperiments,
+    deployments,
+    handleDeleteDeployedExperiment,
+    handleFetchDeployedExperiments,
     handleGetDeployExperimentLogs,
     handleTestImplantedExperimentInference,
-    implantedExperiments,
     loading,
     project,
   } = props;
@@ -64,15 +64,15 @@ const DeploymentsTableContainer = (props) => {
   // HOOKS
   useEffect(() => {
     // fetching deployed experiments
-    handleFetchImplantedExperiments(experiments, true);
+    handleFetchDeployedExperiments(experiments, true);
 
     // polling deployed experiments
     const polling = setInterval(
-      () => handleFetchImplantedExperiments(experiments, false),
+      () => handleFetchDeployedExperiments(experiments, false),
       30000
     );
     return () => clearInterval(polling);
-  }, [handleFetchImplantedExperiments, experiments]);
+  }, [handleFetchDeployedExperiments, experiments]);
 
   const handleOpenLog = (deployId) => {
     handleGetDeployExperimentLogs(deployId);
@@ -81,9 +81,9 @@ const DeploymentsTableContainer = (props) => {
   return (
     <div className='deploymentsTableContainer'>
       <DeploymentsTable
-        deployments={implantedExperiments}
+        deployments={deployments}
         loading={loading}
-        onDeleteDeployment={handleDeleteImplantedExperiment}
+        onDeleteDeployment={handleDeleteDeployedExperiment}
         onOpenLog={handleOpenLog}
         onTestInference={handleTestImplantedExperimentInference}
       />
