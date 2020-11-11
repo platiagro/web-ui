@@ -107,7 +107,7 @@ export const fetchCancelDatasetUpload = () => (dispatch, getState) => {
   datasetReducer.cancelToken.cancel();
 
   // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
+  dispatch(fetchDatasetOperatorDataLoaded());
 
   // dispatching create dataset cancel
   dispatch({
