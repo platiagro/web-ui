@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
  */
 const UsingDeploymentsButtonContainer = (props) => {
   const { handleShowModal } = props;
-  return <UsingDeploymentsButton handleClick={handleShowModal} />;
+  return <UsingDeploymentsButton onClick={handleShowModal} />;
 };
 
 // EXPORT

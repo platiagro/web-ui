@@ -7,10 +7,10 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
 const UsingDeploymentsButton = (props) => {
-  const { handleClick } = props;
+  const { onClick } = props;
   return (
     <Button
-      onClick={handleClick}
+      onClick={onClick}
       icon={<QuestionCircleOutlined />}
       className='newProjectButton'
       shape='round'
@@ -24,7 +24,7 @@ const UsingDeploymentsButton = (props) => {
 // PROP TYPES
 UsingDeploymentsButton.propTypes = {
   /** function to handle click */
-  handleClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 // EXPORT
