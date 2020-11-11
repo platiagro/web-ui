@@ -21,10 +21,10 @@ import { UploadButton } from 'components/Buttons';
 import { fetchHideDataViewModal } from 'store/ui/actions';
 import {
   fetchPaginatedDataset,
-  updateDatasetColumnRequest,
-  updateAllDatasetColumnSuccess,
-  updateAllDatasetColumnFail,
-  updateAllDatasetColumnStart,
+  fetchUpdateDatasetColumnRequest,
+  fetchUpdateAllDatasetColumnSuccess,
+  fetchUpdateAllDatasetColumnFail,
+  fetchUpdateAllDatasetColumnStart,
 } from 'store/dataset/actions';
 import { saveTargetAttribute } from 'store/operator/actions';
 
@@ -44,14 +44,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchPaginatedDataset(datasetName, page, pageSize)),
     // update dataset column
     handleUpdateDatasetColumn: (columnName, columnNewType) =>
-      dispatch(updateDatasetColumnRequest(columnName, columnNewType)),
+      dispatch(fetchUpdateDatasetColumnRequest(columnName, columnNewType)),
     // update all columns
     handleUpdateAllDatasetColumnSuccess: (allColumns) =>
-      dispatch(updateAllDatasetColumnSuccess(allColumns)),
+      dispatch(fetchUpdateAllDatasetColumnSuccess(allColumns)),
     handleUpdateAllDatasetColumnFail: (message) =>
-      dispatch(updateAllDatasetColumnFail(message)),
+      dispatch(fetchUpdateAllDatasetColumnFail(message)),
     handleUpdateAllDatasetColumnStart: () =>
-      dispatch(updateAllDatasetColumnStart()),
+      dispatch(fetchUpdateAllDatasetColumnStart()),
     handleTargetAttribute: (parameters, projectId, experimentId) =>
       dispatch(saveTargetAttribute(projectId, experimentId, parameters)),
   };

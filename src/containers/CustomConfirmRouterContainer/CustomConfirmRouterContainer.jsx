@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 // ACTIONS
-import { cancelDatasetUpload } from 'store/dataset/actions';
+import { fetchCancelDatasetUpload } from 'store/dataset/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // show data view modal
-    cancelUpload: () => dispatch(cancelDatasetUpload()),
+    cancelUpload: () => dispatch(fetchCancelDatasetUpload()),
   };
 };
 
