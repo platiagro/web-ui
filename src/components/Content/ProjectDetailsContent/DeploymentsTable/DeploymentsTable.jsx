@@ -17,19 +17,19 @@ import './style.less';
 const { Paragraph } = Typography;
 
 /**
- * Implanted Experiments Table.
- * This component is responsible for displaying implanted experiments table.
+ * Deployments Table.
+ * This component is responsible for displaying deployments table.
  *
  * @param {object} props Component props
- * @returns {ImplantedExperimentsTable} React Component
+ * @returns {DeploymentsTable} React Component
  */
-const ImplantedExperimentsTable = (props) => {
+const DeploymentsTable = (props) => {
   const {
-    handleDeleteImplantedExperiment,
-    handleOpenLog,
-    handleTestInference,
-    implantedExperiments,
+    deployments,
     loading,
+    onDeleteDeployment,
+    onOpenLog,
+    onTestInference,
     selectedExperiment,
   } = props;
 
@@ -80,24 +80,17 @@ const ImplantedExperimentsTable = (props) => {
             title='Você tem certeza que deseja excluir essa implantação?'
             okText='Sim'
             cancelText='Não'
-            onConfirm={() =>
-              handleDeleteImplantedExperiment(record.experimentId)
-            }
+            onConfirm={() => onDeleteDeployment(record.experimentId)}
           >
             <Button type='link'>Deletar</Button>
           </Popconfirm>
           <Divider type='vertical' />
-          <Button
-            type='link'
-            onClick={() => handleOpenLog(record.experimentId)}
-          >
+          <Button type='link' onClick={() => onOpenLog(record.experimentId)}>
             Logs
           </Button>
           <Divider type='vertical' />
           <UploadInferenceTestButton
-            handleUpload={(file) =>
-              handleTestInference(record.experimentId, file)
-            }
+            handleUpload={(file) => onTestInference(record.experimentId, file)}
           />
         </>
       ),
@@ -108,7 +101,7 @@ const ImplantedExperimentsTable = (props) => {
   return (
     <CommonTable
       columns={columnsConfig}
-      dataSource={implantedExperiments}
+      dataSource={deployments}
       isLoading={loading}
       locale={{
         emptyText: 'Nenhum fluxo implantado',
@@ -135,15 +128,15 @@ const ImplantedExperimentsTable = (props) => {
 };
 
 // PROP TYPES
-ImplantedExperimentsTable.propTypes = {
-  /** delete implanted experiment handle */
-  handleDeleteImplantedExperiment: PropTypes.func.isRequired,
+DeploymentsTable.propTypes = {
+  /** delete deployment handle */
+  onDeleteDeployment: PropTypes.func.isRequired,
   /** open log handle */
-  handleOpenLog: PropTypes.func.isRequired,
+  onOpenLog: PropTypes.func.isRequired,
   /** test inference handle */
-  handleTestInference: PropTypes.func.isRequired,
-  /** implanted experiments list */
-  implantedExperiments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onTestInference: PropTypes.func.isRequired,
+  /** deployments list */
+  deployments: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** table is loading */
   loading: PropTypes.bool.isRequired,
   /** selected experiment */
@@ -151,4 +144,4 @@ ImplantedExperimentsTable.propTypes = {
 };
 
 // EXPORT
-export default ImplantedExperimentsTable;
+export default DeploymentsTable;

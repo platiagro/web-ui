@@ -6,7 +6,7 @@ import ContentHeader from 'components/Content/ContentHeader/_/ContentHeaderConta
 
 // CONTAINERS
 import {
-  ImplantedExperimentsTableContainer,
+  DeploymentsTableContainer,
   InferenceTestResultModalContainer,
   LogsDrawerContainer,
   UsingDeploymentsButtonContainer,
@@ -30,7 +30,7 @@ const ImplantedExperimentsContent = () => (
     <div className='contentPage'>
       <UsingDeploymentsButtonContainer />
       <UsingDeploymentsModalContainer />
-      <ImplantedExperimentsTableContainer />
+      <DeploymentsTableContainer />
       <LogsDrawerContainer />
       <InferenceTestResultModalContainer />
     </div>

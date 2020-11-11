@@ -10,7 +10,7 @@ import { Image } from 'antd';
 // CONTAINER
 import NewExperimentModalContainer from 'components/Content/ExperimentsContent/NewExperimentModal/Container';
 import {
-  ImplantedExperimentsTableContainer,
+  DeploymentsTableContainer,
   InferenceTestResultModalContainer,
   LogsDrawerContainer,
   UsingDeploymentsButtonContainer,
@@ -132,7 +132,7 @@ const ProjectDetailContainer = (props) => {
           </span>
           <UsingDeploymentsButtonContainer />
         </div>
-        <ImplantedExperimentsTableContainer />
+        <DeploymentsTableContainer />
       </div>
 
       <InferenceTestResultModalContainer />

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import { ImplantedExperimentsTable } from 'components';
+import DeploymentsTable from 'components/Content/ProjectDetailsContent/DeploymentsTable';
 
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
@@ -40,11 +40,11 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * Container to display implanted experiments table.
+ * Container to display deployments table.
  * @param {object} props Container props
- * @returns {ImplantedExperimentsTableContainer} Container
+ * @returns {DeploymentsTableContainer} Container
  */
-const ImplantedExperimentsTableContainer = (props) => {
+const DeploymentsTableContainer = (props) => {
   const {
     handleDeleteImplantedExperiment,
     handleFetchImplantedExperiments,
@@ -79,21 +79,18 @@ const ImplantedExperimentsTableContainer = (props) => {
   };
 
   return (
-    <div className='implantedExperimentsContainer'>
-      <ImplantedExperimentsTable
-        handleDeleteImplantedExperiment={handleDeleteImplantedExperiment}
-        handleOpenLog={handleOpenLog}
-        handleTestInference={handleTestImplantedExperimentInference}
-        implantedExperiments={implantedExperiments}
+    <div className='deploymentsTableContainer'>
+      <DeploymentsTable
+        deployments={implantedExperiments}
         loading={loading}
+        onDeleteDeployment={handleDeleteImplantedExperiment}
+        onOpenLog={handleOpenLog}
+        onTestInference={handleTestImplantedExperimentInference}
       />
     </div>
   );
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ImplantedExperimentsTableContainer)
+  connect(mapStateToProps, mapDispatchToProps)(DeploymentsTableContainer)
 );

@@ -5,10 +5,10 @@ import CustomConfirmRouterContainer from './CustomConfirmRouterContainer';
 import DatasetUploadInputBlockContainer from './DatasetUploadInputBlockContainer';
 import DataViewButtonContainer from './DataViewButtonContainer';
 import DataViewModalContainer from './DataViewModalContainer';
+import DeploymentsTableContainer from './DeploymentsTableContainer';
 
 import HeaderExperimentsContentContainer from './HeaderExperimentsContentContainer';
 
-import ImplantedExperimentsTableContainer from './ImplantedExperimentsTableContainer';
 import InferenceTestResultModalContainer from './InferenceTestResultModalContainer';
 
 import LogsDrawerContainer from './LogsDrawerContainer';
@@ -26,8 +26,8 @@ export {
   DatasetUploadInputBlockContainer,
   DataViewButtonContainer,
   DataViewModalContainer,
+  DeploymentsTableContainer,
   HeaderExperimentsContentContainer,
-  ImplantedExperimentsTableContainer,
   InferenceTestResultModalContainer,
   LogsDrawerContainer,
   OperatorResizableSectionContainer,
