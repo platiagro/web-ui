@@ -222,13 +222,12 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
  * @param {object} routerProps
  * @returns {Function}
  */
-export const deployExperiment = (
+export const deployExperimentRequest = (
   project,
   experiment,
   operators,
   routerProps
 ) => (dispatch) => {
-  // dispatching request action
   dispatch({
     type: actionTypes.DEPLOY_EXPERIMENT_REQUEST,
   });
@@ -253,11 +252,16 @@ export const deployExperiment = (
   pipelinesApi
     .deployExperiment(experiment.uuid, deployObject)
     .then(() => {
-      // go to project details
+      dispatch({
+        type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
+      });
       routerProps.history.push(`/projetos/${project.uuid}`);
       message.success('Experimento implantado!');
     })
     .catch((error) => {
+      dispatch({
+        type: actionTypes.DEPLOY_EXPERIMENT_FAIL,
+      });
       const errorMessage = error.message;
       message.error(errorMessage);
     });
