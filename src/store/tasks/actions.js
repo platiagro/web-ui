@@ -8,7 +8,7 @@ import actionTypes from './actionTypes';
 import tasksApi from '../../services/TasksApi';
 
 // UI ACTIONS
-import { tasksTableLoadingData, tasksTableDataLoaded } from '../ui/actions';
+import { fetchTasksTableLoadingData, fetchTasksTableDataLoaded } from '../ui/actions';
 
 // ACTIONS
 export const showTasksModal = (record) => {
@@ -49,13 +49,13 @@ const sleep = (milliseconds) => {
 export const addTask = (task) => {
   return (dispatch) => {
     // showing loading
-    dispatch(tasksTableLoadingData());
+    dispatch(fetchTasksTableLoadingData());
 
     return tasksApi
       .createTask(task)
       .then(async (response) => {
         const responseTask = response.data;
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         dispatch({
           type: actionTypes.ADD_TASK_SUCCESS,
           task: responseTask,
@@ -72,7 +72,7 @@ export const addTask = (task) => {
         );
       })
       .catch((error) => {
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         let errorMessage;
         if (error.response.status === 500) {
           errorMessage = error.message;
@@ -101,12 +101,12 @@ export const addTask = (task) => {
 export const deleteTask = (id) => {
   return (dispatch) => {
     // showing loading
-    dispatch(tasksTableLoadingData());
+    dispatch(fetchTasksTableLoadingData());
 
     return tasksApi
       .deleteTask(id)
       .then(() => {
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         dispatch({
           type: actionTypes.DELETE_TASK,
           id,
@@ -120,7 +120,7 @@ export const deleteTask = (id) => {
         } else {
           errorMessage = error.message;
         }
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         message.error(errorMessage, 5);
       });
   };
@@ -137,12 +137,12 @@ export const deleteTask = (id) => {
 export const fetchPaginatedTasks = (page, pageSize) => {
   return (dispatch) => {
     // showing loading
-    dispatch(tasksTableLoadingData());
+    dispatch(fetchTasksTableLoadingData());
 
     return tasksApi
       .getPaginatedTasks(page, pageSize)
       .then((response) => {
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_PAGINATED_TASK,
           tasks: response.data,
@@ -151,7 +151,7 @@ export const fetchPaginatedTasks = (page, pageSize) => {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         message.error(errorMessage, 5);
       });
   };
@@ -163,12 +163,12 @@ export const fetchPaginatedTasks = (page, pageSize) => {
 export const fetchTasks = () => {
   return (dispatch) => {
     // showing loading
-    dispatch(tasksTableLoadingData());
+    dispatch(fetchTasksTableLoadingData());
 
     return tasksApi
       .getAllTasks()
       .then((response) => {
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_TASK,
           tasks: response.data.tasks,
@@ -176,7 +176,7 @@ export const fetchTasks = () => {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         message.error(errorMessage, 5);
       });
   };
@@ -191,12 +191,12 @@ export const fetchTasks = () => {
 export const updateTask = (uuid, task) => {
   return (dispatch) => {
     // showing loading
-    dispatch(tasksTableLoadingData());
+    dispatch(fetchTasksTableLoadingData());
 
     return tasksApi
       .updateTask(uuid, task)
       .then((response) => {
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         dispatch({
           type: actionTypes.UPDATE_TASK_SUCCESS,
           task: response.data,
@@ -205,7 +205,7 @@ export const updateTask = (uuid, task) => {
         message.success(`Alteração realizada com sucesso.`);
       })
       .catch((error) => {
-        dispatch(tasksTableDataLoaded());
+        dispatch(fetchTasksTableDataLoaded());
         let errorMessage;
         if (error.response.status === 500) {
           errorMessage = error.message;

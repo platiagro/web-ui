@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { hideUsingDeploymentsModal } from '../../../../store/ui/actions';
+import { fetchHideUsingDeploymentsModal } from '../../../../store/ui/actions';
 
 import DeploymentsModal from './index';
 
@@ -86,7 +86,7 @@ const ContentInfo = () => {
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleCloseModal: () => dispatch(hideUsingDeploymentsModal()),
+    handleCloseModal: () => dispatch(fetchHideUsingDeploymentsModal()),
   };
 };
 

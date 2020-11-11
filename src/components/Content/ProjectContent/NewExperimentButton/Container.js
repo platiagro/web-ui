@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import NewExperimentButton from './index';
 
 // ACTIONS
-import { showNewExperimentModal } from '../../../../store/ui/actions';
+import { fetchShowNewExperimentModal } from '../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleShowModal: () => dispatch(showNewExperimentModal()),
+    handleShowModal: () => dispatch(fetchShowNewExperimentModal()),
   };
 };
 

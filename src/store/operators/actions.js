@@ -12,12 +12,12 @@ import tasksApi from '../../services/TasksApi';
 
 // UI ACTIONS
 import {
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
-  operatorParameterLoadingData,
-  operatorParameterDataLoaded,
-  experimentsTabsLoadingData,
-  experimentsTabsDataLoaded,
+  fetchExperimentOperatorsDataLoaded,
+  fetchExperimentOperatorsLoadingData,
+  fetchOperatorParameterLoadingData,
+  fetchOperatorParameterDataLoaded,
+  fetchExperimentsTabsLoadingData,
+  fetchExperimentsTabsDataLoaded,
 } from '../ui/actions';
 
 // PIPELINES ACTIONS
@@ -40,10 +40,10 @@ import utils from '../../utils';
  */
 const fetchOperatorsSuccess = (operators, experimentId) => (dispatch) => {
   // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
+  dispatch(fetchExperimentOperatorsDataLoaded());
 
   // dispatching experiment tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching get training experiment status request action
   dispatch(getTrainExperimentStatusRequest(experimentId));
@@ -66,10 +66,10 @@ const fetchOperatorsFail = (error) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
+  dispatch(fetchExperimentOperatorsDataLoaded());
 
   // dispatching experiment tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching fetch operators fail
   dispatch({
@@ -97,10 +97,10 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
   });
 
   // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
+  dispatch(fetchExperimentOperatorsLoadingData());
 
   // dispatching experiment tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(fetchExperimentsTabsLoadingData());
 
   try {
     // getting tasks
@@ -160,7 +160,7 @@ export const clearOperatorsFeatureParametersRequest = (
     type: actionTypes.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
   });
 
-  dispatch(operatorParameterLoadingData());
+  dispatch(fetchOperatorParameterLoadingData());
 
   try {
     // getting all operators with feature parameter
@@ -202,9 +202,9 @@ export const clearOperatorsFeatureParametersRequest = (
     }
 
     dispatch(fetchOperatorsRequest(projectId, experimentId));
-    dispatch(operatorParameterDataLoaded());
+    dispatch(fetchOperatorParameterDataLoaded());
   } catch (e) {
-    dispatch(operatorParameterDataLoaded());
+    dispatch(fetchOperatorParameterDataLoaded());
     console.log(e);
   }
 };

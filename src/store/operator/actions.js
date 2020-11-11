@@ -13,18 +13,18 @@ import { message } from 'antd';
 
 // UI ACTIONS
 import {
-  showOperatorDrawer,
-  hideOperatorDrawer,
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
-  operatorParameterLoadingData,
-  operatorParameterDataLoaded,
-  operatorResultsDataLoaded,
-  operatorResultsLoadingData,
-  operatorMetricsLoadingData,
-  operatorMetricsDataLoaded,
-  dependenciesOperatorLoading,
-  dependenciesOperatorLoaded,
+  fetchShowOperatorDrawer,
+  fetchHideOperatorDrawer,
+  fetchExperimentOperatorsDataLoaded,
+  fetchExperimentOperatorsLoadingData,
+  fetchOperatorParameterLoadingData,
+  fetchOperatorParameterDataLoaded,
+  fetchOperatorResultsDataLoaded,
+  fetchOperatorResultsLoadingData,
+  fetchOperatorMetricsLoadingData,
+  fetchOperatorMetricsDataLoaded,
+  fetchDependenciesOperatorLoading,
+  fetchDependenciesOperatorLoaded,
 } from '../ui/actions';
 
 // DATASET ACTIONS
@@ -83,7 +83,7 @@ const getOperatorResultsSuccess = (
   }
 
   // dispatching operator results data loaded action
-  dispatch(operatorResultsDataLoaded());
+  dispatch(fetchOperatorResultsDataLoaded());
 
   // dispatching get operator results success action
   dispatch({
@@ -103,7 +103,7 @@ const getOperatorResultsFail = (error) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching operator results data loaded action
-  dispatch(operatorResultsDataLoaded());
+  dispatch(fetchOperatorResultsDataLoaded());
 
   // dispatching get operator results fail
   dispatch({
@@ -172,7 +172,7 @@ export const getOperatorResultsRequest = (
   dispatch({
     type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
   });
-  dispatch(operatorResultsLoadingData());
+  dispatch(fetchOperatorResultsLoadingData());
 
   pipelinesApi
     .getOperatorFigures(experimentId, runId, operatorId)
@@ -232,7 +232,7 @@ const getDataSetResultSuccess = (responseTable, operatorId, page) => (
   }
 
   // dispatching operator results data loaded action
-  dispatch(operatorResultsDataLoaded());
+  dispatch(fetchOperatorResultsDataLoaded());
 
   // dispatching get operator results success action
   dispatch({
@@ -254,7 +254,7 @@ export const getPageDataSetRequest = (experimentId, operatorId, page) => (
   dispatch({
     type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
   });
-  dispatch(operatorResultsLoadingData());
+  dispatch(fetchOperatorResultsLoadingData());
 
   operatorsApi
     .getOperatorDataset(experimentId, 'latest', operatorId, page)
@@ -272,7 +272,7 @@ export const getOperatorMetricsRequest = (experimentId, runId, operatorId) => (
   dispatch({
     type: actionTypes.GET_OPERATOR_METRICS_REQUEST,
   });
-  dispatch(operatorMetricsLoadingData());
+  dispatch(fetchOperatorMetricsLoadingData());
 
   pipelinesApi
     .getOperatorMetrics(experimentId, runId, operatorId)
@@ -281,13 +281,13 @@ export const getOperatorMetricsRequest = (experimentId, runId, operatorId) => (
         type: actionTypes.GET_OPERATOR_METRICS_SUCCESS,
         metrics: response.data,
       });
-      dispatch(operatorMetricsDataLoaded());
+      dispatch(fetchOperatorMetricsDataLoaded());
     })
     .catch((error) => {
       dispatch({
         type: actionTypes.GET_OPERATOR_METRICS_FAIL,
       });
-      dispatch(operatorMetricsDataLoaded());
+      dispatch(fetchOperatorMetricsDataLoaded());
     });
 };
 
@@ -347,7 +347,7 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
   dispatch(getOperatorMetricsRequest(experimentId, 'latest', operator.uuid));
 
   // dispatching action to show drawer
-  dispatch(showOperatorDrawer(operator.name, isDataset));
+  dispatch(fetchShowOperatorDrawer(operator.name, isDataset));
 };
 
 // // // // // // // // // //
@@ -373,7 +373,7 @@ const createOperatorFail = (error) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
+  dispatch(fetchExperimentOperatorsDataLoaded());
 
   // dispatching create operator fail
   dispatch({
@@ -432,7 +432,7 @@ export const createOperatorRequest = (
   }
 
   // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
+  dispatch(fetchExperimentOperatorsLoadingData());
 
   // getting dataset columns
   const datasetName = utils.getDatasetName(tasks, experimentOperators);
@@ -474,7 +474,7 @@ export const createOperatorRequest = (
       const operator = response.data;
 
       // dispatching experiment operators data loaded action
-      dispatch(experimentOperatorsDataLoaded());
+      dispatch(fetchExperimentOperatorsDataLoaded());
 
       // dispatching create operator success action
       dispatch({
@@ -509,14 +509,14 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
   });
 
   // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
+  dispatch(fetchExperimentOperatorsLoadingData());
 
   // creating operator
   operatorsApi
     .deleteOperator(projectId, experimentId, operator.uuid)
     .then(() => {
       // dispatching hide drawer action
-      dispatch(hideOperatorDrawer());
+      dispatch(fetchHideOperatorDrawer());
 
       //deselect operator after success remotion
       dispatch(deselectOperator());
@@ -537,7 +537,7 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
       const errorMessage = error.message;
 
       // dispatching experiment operators data loaded action
-      dispatch(experimentOperatorsDataLoaded());
+      dispatch(fetchExperimentOperatorsDataLoaded());
 
       // dispatching remove operator fail
       dispatch({
@@ -558,7 +558,7 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
  */
 const setOperatorParametersSuccess = (operator) => (dispatch) => {
   // dispatching operator parameter data loaded action
-  dispatch(operatorParameterDataLoaded());
+  dispatch(fetchOperatorParameterDataLoaded());
 
   // dispatching set operator params success action
   dispatch({
@@ -578,7 +578,7 @@ const setOperatorParametersFail = (error) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching operator parameter data loaded action
-  dispatch(operatorParameterDataLoaded());
+  dispatch(fetchOperatorParameterDataLoaded());
 
   // dispatching set operator params fail
   dispatch({
@@ -612,7 +612,7 @@ export const setOperatorParametersRequest = (
   });
 
   // dispatching operator parameter loading data action
-  dispatch(operatorParameterLoadingData());
+  dispatch(fetchOperatorParameterLoadingData());
 
   // formating parameter value
   const formatedValue = Array.isArray(parameterValue)
@@ -712,7 +712,7 @@ export const saveOperatorDependencies = (
   };
 
   dispatch(
-    dependenciesOperatorLoading(
+    fetchDependenciesOperatorLoading(
       `${operatorId}-${dependencies[dependencies.length - 1]}`
     )
   );
@@ -731,10 +731,10 @@ export const saveOperatorDependencies = (
   await operatorsApi
     .updateOperator(projectId, experimentId, operatorId, body)
     .then(() => {
-      dispatch(dependenciesOperatorLoaded());
+      dispatch(fetchDependenciesOperatorLoaded());
     })
     .catch((error) => {
-      dispatch(dependenciesOperatorLoaded());
+      dispatch(fetchDependenciesOperatorLoaded());
       const errorMessage = error.message;
       message.error(errorMessage);
       dispatch(upadteOperatorDependencies(operators));

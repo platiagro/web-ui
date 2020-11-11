@@ -3,9 +3,9 @@ import actionTypes from './actionTypes';
 
 // ACTIONS
 import {
-  inferenceTestResultModalLoadingData,
-  inferenceTestResultModalDataLoaded,
-  showInferenceTestResultModal,
+  fetchInferenceTestResultModalLoadingData,
+  fetchInferenceTestResultModalDataLoaded,
+  fetchShowInferenceTestResultModal,
 } from 'store/ui/actions';
 
 // SERVICES
@@ -20,8 +20,8 @@ import implantedExperimentsApi from 'services/ImplantedExperimentsApi';
 export const testImplantedExperimentInferenceAction = (deployId, file) => (
   dispatch
 ) => {
-  dispatch(inferenceTestResultModalLoadingData());
-  dispatch(showInferenceTestResultModal());
+  dispatch(fetchInferenceTestResultModalLoadingData());
+  dispatch(fetchShowInferenceTestResultModal());
   implantedExperimentsApi
     .testDeployedExperiments(deployId, file)
     .then((response) => {
@@ -31,7 +31,7 @@ export const testImplantedExperimentInferenceAction = (deployId, file) => (
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE,
         inferenceResult: seldonResponse,
       });
-      dispatch(inferenceTestResultModalDataLoaded());
+      dispatch(fetchInferenceTestResultModalDataLoaded());
     })
     .catch((error) => {
       dispatch({
@@ -39,6 +39,6 @@ export const testImplantedExperimentInferenceAction = (deployId, file) => (
         deployId: deployId,
         file: file,
       });
-      dispatch(inferenceTestResultModalDataLoaded());
+      dispatch(fetchInferenceTestResultModalDataLoaded());
     });
 };

@@ -9,13 +9,13 @@ import projectsApi from '../../services/ProjectsApi';
 
 // UI ACTIONS
 import {
-  hideNewProjectModal,
-  projectsTableLoadingData,
-  projectsTableDataLoaded,
-  projectNameLoadingData,
-  projectNameDataLoaded,
-  projectEditNameLoadingData,
-  projectEditNameDataLoaded,
+  fetchHideNewProjectModal,
+  fetchProjectsTableLoadingData,
+  fetchProjectsTableDataLoaded,
+  fetchProjectNameLoadingData,
+  fetchProjectNameDataLoaded,
+  fetchProjectEditNameLoadingData,
+  fetchProjectEditNameDataLoaded,
 } from '../ui/actions';
 
 // TASKS ACTIONS
@@ -37,7 +37,7 @@ const fetchProjectSuccess = (response) => (dispatch) => {
   dispatch(fetchTasks());
 
   // dispatching project name data loaded action
-  dispatch(projectNameDataLoaded());
+  dispatch(fetchProjectNameDataLoaded());
 
   // dispatching fetch project success action
   dispatch({
@@ -58,7 +58,7 @@ const fetchProjectFail = (error, routerProps) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching project name data loaded action
-  dispatch(projectNameDataLoaded());
+  dispatch(fetchProjectNameDataLoaded());
 
   // dispatching fetch project fail action
   dispatch({
@@ -91,7 +91,7 @@ export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
   });
 
   // dispatching project name loading data action
-  dispatch(projectNameLoadingData({}));
+  dispatch(fetchProjectNameLoadingData({}));
 
   // fetching project
   projectsApi
@@ -115,10 +115,10 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
   const project = response.data;
 
   // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
+  dispatch(fetchProjectsTableDataLoaded());
 
   // dispatching hide modal
-  dispatch(hideNewProjectModal());
+  dispatch(fetchHideNewProjectModal());
 
   // dispatching create project success
   dispatch({
@@ -140,7 +140,7 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
  */
 const createProjectFail = (error) => (dispatch) => {
   // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
+  dispatch(fetchProjectsTableDataLoaded());
 
   // getting error message
   let errorMessage;
@@ -188,7 +188,7 @@ export const createProjectRequest = (
   });
 
   // dispatching projects table loading data action
-  dispatch(projectsTableLoadingData());
+  dispatch(fetchProjectsTableLoadingData());
 
   // creating project
   projectsApi
@@ -211,14 +211,14 @@ const editProjectNameSuccess = (response) => (dispatch) => {
   const project = response.data;
 
   // dispatching project name data loaded action
-  dispatch(projectEditNameDataLoaded());
+  dispatch(fetchProjectEditNameDataLoaded());
 
   // dispatching edit project name success
   dispatch({
     type: actionTypes.EDIT_PROJECT_NAME_SUCCESS,
     project,
   });
-  dispatch(hideNewProjectModal());
+  dispatch(fetchHideNewProjectModal());
 };
 
 /**
@@ -230,7 +230,7 @@ const editProjectNameSuccess = (response) => (dispatch) => {
  */
 const editProjectNameFail = (error, isModal) => (dispatch) => {
   // dispatching project name data loaded action
-  dispatch(projectEditNameDataLoaded());
+  dispatch(fetchProjectEditNameDataLoaded());
 
   // getting error message
   let errorMessage;
@@ -276,7 +276,7 @@ export const editProjectNameRequest = (
   });
 
   // dispatching project name loading data action
-  dispatch(projectEditNameLoadingData());
+  dispatch(fetchProjectEditNameLoadingData());
 
   // creating project
   projectsApi
@@ -296,7 +296,7 @@ export const editProjectNameRequest = (
  */
 const deleteProjectSuccess = (projectId) => (dispatch) => {
   // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
+  dispatch(fetchProjectsTableDataLoaded());
 
   // dispatching delete projects success action
   dispatch({
@@ -318,7 +318,7 @@ const deleteProjectFail = (error) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
+  dispatch(fetchProjectsTableDataLoaded());
 
   // dispatching delete projects fail action
   dispatch({
@@ -342,7 +342,7 @@ export const deleteProjectRequest = (projectId) => (dispatch) => {
   });
 
   // dispatching projects table loading data action
-  dispatch(projectsTableLoadingData());
+  dispatch(fetchProjectsTableLoadingData());
 
   // deleting project
   projectsApi

@@ -5,7 +5,7 @@ import { withRouter, useParams } from 'react-router-dom';
 
 // ACTIONS
 import { createExperimentRequest } from '../../../../store/experiment/actions';
-import { hideNewExperimentModal } from '../../../../store/ui/actions';
+import { fetchHideNewExperimentModal } from '../../../../store/ui/actions';
 
 // COMPONENTS
 import NewExperimentModal from './index';
@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
         )
       ),
     // hide modal action
-    handleHideExperimentModal: () => dispatch(hideNewExperimentModal()),
+    handleHideExperimentModal: () => dispatch(fetchHideNewExperimentModal()),
   };
 };
 

@@ -5,7 +5,7 @@ import { withRouter, useParams } from 'react-router-dom';
 
 // ACTIONS
 import { createTemplateRequest } from '../../../../../../store/templates/actions';
-import { hideNewTemplateModal } from '../../../../../../store/ui/actions';
+import { fetchHideNewTemplateModal } from '../../../../../../store/ui/actions';
 
 // COMPONENTS
 import NewTemplateModal from './index';
@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch) => {
     handleCreateTemplate: (templateName, experimentId) =>
       dispatch(createTemplateRequest(templateName, experimentId)),
     // hide modal action
-    handleHideTemplateModal: () => dispatch(hideNewTemplateModal()),
+    handleHideTemplateModal: () => dispatch(fetchHideNewTemplateModal()),
   };
 };
 

@@ -10,9 +10,9 @@ import pipelinesApi from 'services/PipelinesApi';
 
 // UI ACTIONS
 import {
-  changeLoadingCompareResultsModal,
-  setAddLoaderCompareResultsModal,
-  setDeleteLoaderCompareResultsModal,
+  fetchChangeLoadingCompareResultsModal,
+  fetchSetAddLoaderCompareResultsModal,
+  fetchSetDeleteLoaderCompareResultsModal,
 } from 'store/ui/actions';
 
 // UTILS
@@ -20,9 +20,10 @@ import utils from 'utils';
 
 /**
  * Function to update experiments options data
- * @param {String} experimentId
- * @param {Object[]} children
- * @param {Boolean} isLoading
+ *
+ * @param {string} experimentId
+ * @param {object[]} children
+ * @param {boolean} isLoading
  */
 const updateExperimentsOptions = (experimentId, children, isLoading) => {
   return {
@@ -35,22 +36,23 @@ const updateExperimentsOptions = (experimentId, children, isLoading) => {
 
 /**
  * Function to add compare result and dispatch to reducer
+ *
  * @param {string} projectId
  */
 export const addCompareResult = (projectId) => {
   return (dispatch) => {
-    dispatch(setAddLoaderCompareResultsModal(true));
+    dispatch(fetchSetAddLoaderCompareResultsModal(true));
     compareResultsApi
       .createCompareResult(projectId)
       .then((response) => {
-        dispatch(setAddLoaderCompareResultsModal(false));
+        dispatch(fetchSetAddLoaderCompareResultsModal(false));
         dispatch({
           type: actionTypes.ADD_COMPARE_RESULT,
           compareResult: response.data,
         });
       })
       .catch((error) => {
-        dispatch(setAddLoaderCompareResultsModal(false));
+        dispatch(fetchSetAddLoaderCompareResultsModal(false));
         let errorMessage = error.message;
         message.error(errorMessage, 5);
       });
@@ -59,23 +61,24 @@ export const addCompareResult = (projectId) => {
 
 /**
  * Function to delete compare result and dispatch to reducer
+ *
  * @param {string} projectId
  * @param {string} id
  */
 export const deleteCompareResult = (projectId, id) => {
   return (dispatch) => {
-    dispatch(setDeleteLoaderCompareResultsModal(true));
+    dispatch(fetchSetDeleteLoaderCompareResultsModal(true));
     compareResultsApi
       .deleteCompareResult(projectId, id)
       .then((response) => {
-        dispatch(setDeleteLoaderCompareResultsModal(false));
+        dispatch(fetchSetDeleteLoaderCompareResultsModal(false));
         dispatch({
           type: actionTypes.DELETE_COMPARE_RESULT,
           id,
         });
       })
       .catch((error) => {
-        dispatch(setDeleteLoaderCompareResultsModal(false));
+        dispatch(fetchSetDeleteLoaderCompareResultsModal(false));
         let errorMessage = error.message;
         message.error(errorMessage, 5);
       });
@@ -84,17 +87,18 @@ export const deleteCompareResult = (projectId, id) => {
 
 /**
  * Function to fetch compare results and dispatch to reducer
+ *
  * @param {string} projectId
- * @param {Object[]} experiments
+ * @param {object[]} experiments
  */
 export const fetchCompareResults = (projectId, experiments) => {
   return (dispatch) => {
-    dispatch(changeLoadingCompareResultsModal(true));
+    dispatch(fetchChangeLoadingCompareResultsModal(true));
     compareResultsApi
       .listCompareResult(projectId)
       .then(async (response) => {
         const compareResults = response.data;
-        dispatch(changeLoadingCompareResultsModal(false));
+        dispatch(fetchChangeLoadingCompareResultsModal(false));
         dispatch({
           type: actionTypes.FETCH_COMPARE_RESULTS,
           compareResults: compareResults,
@@ -114,7 +118,7 @@ export const fetchCompareResults = (projectId, experiments) => {
         }
       })
       .catch((error) => {
-        dispatch(changeLoadingCompareResultsModal(false));
+        dispatch(fetchChangeLoadingCompareResultsModal(false));
         let errorMessage = error.message;
         message.error(errorMessage, 5);
       });
@@ -123,7 +127,8 @@ export const fetchCompareResults = (projectId, experiments) => {
 
 /**
  * Function to fetch the compare results results and dispatch to reducer
- * @param {Object} compareResult
+ *
+ * @param {object} compareResult
  */
 export const fetchCompareResultsResults = (compareResult) => async (
   dispatch
@@ -186,7 +191,8 @@ export const fetchCompareResultsResults = (compareResult) => async (
 
 /**
  * Function to fetch the training history and dispatch to reducer
- * @param {String} experimentId
+ *
+ * @param {string} experimentId
  */
 export const fetchTrainingHistory = (experimentId) => {
   return (dispatch, getState) => {
@@ -221,8 +227,9 @@ export const fetchTrainingHistory = (experimentId) => {
 
 /**
  * Function to update compare result and dispatch to reducer
- * @param {Object} compareResult
- * @param {Boolean} changedPosition
+ *
+ * @param {object} compareResult
+ * @param {boolean} changedPosition
  */
 export const updateCompareResult = (compareResult, changedPosition) => {
   return (dispatch) => {

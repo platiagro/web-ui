@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import { OperatorResizableSection } from 'components';
 
 // ACTIONS
-import { showOperatorResults } from '../../store/ui/actions';
+import { fetchShowOperatorResults } from '../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // show results button click handler
-    handleShowResultsClick: () => dispatch(showOperatorResults()),
+    handleShowResultsClick: () => dispatch(fetchShowOperatorResults()),
   };
 };
 
@@ -31,7 +31,7 @@ const mapStateToProps = (state) => {
       ? state.operatorReducer.tags.includes('DATASETS')
       : false,
     // show operator experiment results
-    showExperimentResults: state.uiReducer.operatorResults.showOperatorResults,
+    showExperimentResults: state.uiReducer.operatorResults.fetchShowOperatorResults,
     // operator parent experiment is finished
     experimentIsFinished: state.experimentReducer.succeeded,
     // operator status

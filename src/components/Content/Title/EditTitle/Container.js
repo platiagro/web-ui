@@ -7,14 +7,14 @@ import EditTitle from './index';
 import NewProjectModal from '../../ProjectsContent/NewProjectModal/Container';
 
 // ACTIONS
-import { showNewProjectModal } from 'store/ui/actions';
+import { fetchShowNewProjectModall } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // show new project modal
     handleShowNewProjectModal: (record) =>
-      dispatch(showNewProjectModal(record)),
+      dispatch(fetchShowNewProjectModall(record)),
   };
 };
 

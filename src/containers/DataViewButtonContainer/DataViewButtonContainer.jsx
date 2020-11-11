@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import { DataViewButton } from 'components/Buttons';
 
 // ACTIONS
-import { showDataViewModal } from 'store/ui/actions';
+import { fetchShowDataViewModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // show data view modal
-    handleClick: () => dispatch(showDataViewModal()),
+    handleClick: () => dispatch(fetchShowDataViewModal()),
   };
 };
 

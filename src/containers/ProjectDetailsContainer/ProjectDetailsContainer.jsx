@@ -15,8 +15,8 @@ import NewExperimentModalContainer from 'components/Content/ProjectContent/NewEx
 import Button from 'uiComponents/Button/index';
 
 // ACTIONS
-import { showUsingDeploymentsModal } from 'store/ui/actions';
-import { showNewExperimentModal } from 'store/ui/actions';
+import { fetchShowUsingDeploymentsModal } from 'store/ui/actions';
+import { fetchShowNewExperimentModal } from 'store/ui/actions';
 
 //IMAGES SVG
 import experimentacao from 'assets/experimentacao.svg';
@@ -27,9 +27,9 @@ import './style.less';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleShowModal: () => dispatch(showUsingDeploymentsModal()),
+    handleShowModal: () => dispatch(fetchShowUsingDeploymentsModal()),
     // show new project modal
-    handleNewExperimentModal: () => dispatch(showNewExperimentModal()),
+    handleNewExperimentModal: () => dispatch(fetchShowNewExperimentModal()),
   };
 };
 

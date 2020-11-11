@@ -16,7 +16,7 @@ import {
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
 // ACTIONS
-import { showNewProjectModal } from '../../../../store/ui/actions';
+import { fetchShowNewProjectModall } from '../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
     handleDeleteProject: (projectUuid) =>
       dispatch(deleteProjectRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>
-      dispatch(showNewProjectModal(record)),
+      dispatch(fetchShowNewProjectModall(record)),
     handleSelectProjects: (record) => dispatch(selectProjects(record)),
   };
 };

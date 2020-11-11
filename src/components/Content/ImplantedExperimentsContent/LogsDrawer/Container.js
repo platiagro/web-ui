@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import Drawer from './index';
 
 // ACTIONS
-import { hideInferenceLogsDrawer } from 'store/ui/actions';
+import { fetchHideInferenceLogsDrawer } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleHideDrawer: () => dispatch(hideInferenceLogsDrawer()),
+    handleHideDrawer: () => dispatch(fetchHideInferenceLogsDrawer()),
   };
 };
 

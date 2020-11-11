@@ -9,7 +9,7 @@ import ExperimentButtons from './index';
 // ACTIONS
 import { fetchExperimentDeployStatusRequest } from 'store/experiment/actions';
 import { deployExperimentRequest } from 'store/pipelines/actions';
-import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
+import { fetchChangeVisibilityCompareResultsModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleFetchExperimentDeployStatus: (experimentId) =>
       dispatch(fetchExperimentDeployStatusRequest(experimentId)),
     handleCompareResultsClick: () => {
-      dispatch(changeVisibilityCompareResultsModal(true));
+      dispatch(fetchChangeVisibilityCompareResultsModal(true));
     },
   };
 };

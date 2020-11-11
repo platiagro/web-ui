@@ -18,7 +18,7 @@ import { CommonTable, DatasetColumnsTable } from 'components';
 import { UploadButton } from 'components/Buttons';
 
 // ACTIONS
-import { hideDataViewModal } from 'store/ui/actions';
+import { fetchHideDataViewModal } from 'store/ui/actions';
 import {
   fetchPaginatedDataset,
   updateDatasetColumnRequest,
@@ -38,7 +38,7 @@ const { TabPane } = Tabs;
 const mapDispatchToProps = (dispatch) => {
   return {
     // close results modal
-    handleClose: () => dispatch(hideDataViewModal()),
+    handleClose: () => dispatch(fetchHideDataViewModal()),
     // fetch paginated dataset
     handleFetchPaginatedDataset: (datasetName, page, pageSize) =>
       dispatch(fetchPaginatedDataset(datasetName, page, pageSize)),

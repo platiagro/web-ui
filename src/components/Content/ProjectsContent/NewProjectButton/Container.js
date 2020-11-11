@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 import NewProjectButton from './index';
 
 // ACTIONS
-import { showNewProjectModal } from '../../../../store/ui/actions';
+import { fetchShowNewProjectModall } from '../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // show new project modal
-    handleShowNewProjectModal: () => dispatch(showNewProjectModal()),
+    handleShowNewProjectModal: () => dispatch(fetchShowNewProjectModall()),
   };
 };
 

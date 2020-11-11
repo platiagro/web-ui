@@ -19,7 +19,7 @@ import { CommonTable, CompareResultItem } from 'components';
 import { Modal, Skeleton } from 'uiComponents';
 
 // ACTIONS
-import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
+import { fetchChangeVisibilityCompareResultsModal } from 'store/ui/actions';
 import {
   addCompareResult,
   deleteCompareResult,
@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addCompareResult(projectId));
     },
     handleChangeVisibilityCompareResultsModal: () => {
-      dispatch(changeVisibilityCompareResultsModal(false));
+      dispatch(fetchChangeVisibilityCompareResultsModal(false));
     },
     handleDeleteCompareResult: (projectId, id) => {
       dispatch(deleteCompareResult(projectId, id));
@@ -81,6 +81,8 @@ const ReactGridLayout = WidthProvider(RGL);
 
 /**
  * Container to display operator experiment results modal.
+ *
+ * @param props
  */
 const CompareResultsModalContainer = (props) => {
   const {

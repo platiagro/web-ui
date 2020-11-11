@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import NewTemplateButton from './index';
 
 // ACTIONS
-import { showNewTemplateModal } from '../../../../../../store/ui/actions';
+import { fetchShowNewTemplateModal } from '../../../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleShowModal: () => dispatch(showNewTemplateModal()),
+    handleShowModal: () => dispatch(fetchShowNewTemplateModal()),
   };
 };
 

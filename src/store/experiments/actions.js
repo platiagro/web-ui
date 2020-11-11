@@ -9,23 +9,24 @@ import experimentsApi from '../../services/ExperimentsApi';
 
 // UI ACTIONS
 import {
-  experimentsTabsDataLoaded,
-  experimentsTabsLoadingData,
+  fetchExperimentsTabsDataLoaded,
+  fetchExperimentsTabsLoadingData,
 } from '../ui/actions';
 
 // ACTIONS
 // ** FETCH EXPERIMENTS
 /**
  * fetch experiments success action
- * @param {Object} response
- * @returns {Object} { type, experiments }
+ *
+ * @param {object} response
+ * @returns {object} { type, experiments }
  */
 const fetchExperimentsSuccess = (response) => (dispatch) => {
   // getting experiments from response
   const experiments = response.data;
 
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching fetch experiments success action
   dispatch({
@@ -36,15 +37,16 @@ const fetchExperimentsSuccess = (response) => (dispatch) => {
 
 /**
  * fetch experiments fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const fetchExperimentsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching fetch experiments fail action
   dispatch({
@@ -57,6 +59,7 @@ const fetchExperimentsFail = (error) => (dispatch) => {
 
 /**
  * fetch experiments request action
+ *
  * @param {string} projectId
  * @returns {Function}
  */
@@ -67,7 +70,7 @@ export const fetchExperimentsRequest = (projectId) => (dispatch) => {
   });
 
   // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(fetchExperimentsTabsLoadingData());
 
   // fetching experiments
   experimentsApi
@@ -78,6 +81,7 @@ export const fetchExperimentsRequest = (projectId) => (dispatch) => {
 
 /**
  * clear all experiments action
+ *
  * @returns {Function}
  */
 export const clearAllExperiments = () => (dispatch) => {
@@ -91,14 +95,19 @@ export const clearAllExperiments = () => (dispatch) => {
 // ** ORGANIZE EXPERIMENTS
 /**
  * organize experiments success action
- * @param {Object} response
- * @returns {Object} { type, dragExperimentId, hoverExperimentId }
+ *
+ * @param {object} response
+ * @param dragExperimentId
+ * @param hoverExperimentId
+ * @param dragExperimentId
+ * @param hoverExperimentId
+ * @returns {object} { type, dragExperimentId, hoverExperimentId }
  */
 const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
   dispatch
 ) => {
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching organize experiments success action
   dispatch({
@@ -110,15 +119,16 @@ const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
 
 /**
  * organize experiments fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const organizeExperimentsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching organize experiments fail action
   dispatch({
@@ -131,9 +141,11 @@ const organizeExperimentsFail = (error) => (dispatch) => {
 
 /**
  * organize experiments request action
+ *
  * @param {string} projectId
  * @param {string} dragExperimentId
  * @param {string} hoverExperimentId
+ * @param newPosition
  * @returns {Function}
  */
 export const organizeExperimentsRequest = (
@@ -148,7 +160,7 @@ export const organizeExperimentsRequest = (
   });
 
   // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(fetchExperimentsTabsLoadingData());
 
   // constructing experiment object
   const experiment = { position: newPosition };

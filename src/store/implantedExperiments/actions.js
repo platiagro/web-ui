@@ -12,8 +12,8 @@ import utils from 'utils';
 
 // UI ACTIONS
 import {
-  implantedExperimentsLoadingData,
-  implantedExperimentsDataLoaded,
+  fetchImplantedExperimentsLoadingData,
+  fetchImplantedExperimentsDataLoaded,
 } from '../ui/actions';
 
 // DESTRUCTURING UTILS
@@ -22,20 +22,22 @@ const { getErrorMessage } = utils;
 // ACTIONS
 /**
  * fetch implanted experiments action
+ *
  * @returns {type, implantedExperiments}
  */
 
 /**
  * fetch implanted experiments success action
- * @param {Object} response
- * @returns {Object} { type, implanted }
+ *
+ * @param {object} response
+ * @returns {object} { type, implanted }
  */
 const implantedExperimentsSuccess = (response) => (dispatch) => {
   // getting implanted experiments from response
   const implanted = response.data;
 
   // dispatching implanted experiments table data loaded action
-  dispatch(implantedExperimentsDataLoaded());
+  dispatch(fetchImplantedExperimentsDataLoaded());
 
   // dispatching fetch implanted experiments success action
   dispatch({
@@ -46,15 +48,16 @@ const implantedExperimentsSuccess = (response) => (dispatch) => {
 
 /**
  * fetch implanted experiments fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const implantedExperimentsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
   // dispatching implanted experiments table data loaded action
-  dispatch(implantedExperimentsDataLoaded());
+  dispatch(fetchImplantedExperimentsDataLoaded());
 
   // dispatching fetch implanted experiments fail action
   dispatch({
@@ -66,7 +69,7 @@ const implantedExperimentsFail = (error) => (dispatch) => {
 };
 
 export const fetchImplantedExperiments = () => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
+  dispatch(fetchImplantedExperimentsLoadingData());
   // fetching experiment
   implantedExperimentsApi
     .getDeployedExperiments()
@@ -76,13 +79,14 @@ export const fetchImplantedExperiments = () => (dispatch) => {
 
 /**
  * delete implanted experiment action
+ *
  * @param {string} implantedExperimentUuid
  * @returns {type, implantedExperiments}
  */
 export const deleteImplantedExperiment = (implantedExperimentUuid) => (
   dispatch
 ) => {
-  dispatch(implantedExperimentsLoadingData());
+  dispatch(fetchImplantedExperimentsLoadingData());
   // fetching experiment
   implantedExperimentsApi
     .deleteDeployedExperiments(implantedExperimentUuid)
@@ -97,5 +101,5 @@ const deleteImplantedExperimentSuccess = (response) => (dispatch) => {
 const deleteimplantedExperimentsFail = (error) => (dispatch) => {
   console.log(error);
   message.error(getErrorMessage(error));
-  dispatch(implantedExperimentsDataLoaded());
+  dispatch(fetchImplantedExperimentsDataLoaded());
 };

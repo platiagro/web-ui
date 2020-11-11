@@ -10,13 +10,13 @@ import { Modal } from 'uiComponents';
 import ResultsDrawer from 'components/Content/ProjectContent/Experiment/Drawer/ResultsDrawer/_';
 
 // ACTIONS
-import { hideOperatorResults } from '../../store/ui/actions';
+import { fetchHideOperatorResults } from '../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // close results modal
-    handleClose: () => dispatch(hideOperatorResults()),
+    handleClose: () => dispatch(fetchHideOperatorResults()),
   };
 };
 
@@ -37,7 +37,7 @@ const mapStateToProps = (state) => {
     // operator experiment metrics is loading
     operatorMetricsLoading: state.uiReducer.operatorMetrics.loading,
     // show operator results modal
-    isVisible: state.uiReducer.operatorResults.showOperatorResults,
+    isVisible: state.uiReducer.operatorResults.fetchShowOperatorResults,
   };
 };
 

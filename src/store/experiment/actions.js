@@ -10,13 +10,13 @@ import implantedExperimentsApi from '../../services/ImplantedExperimentsApi';
 
 // UI ACTIONS
 import {
-  hideNewExperimentModal,
-  experimentsTabsDataLoaded,
-  experimentsTabsLoadingData,
-  experimentNameDataLoaded,
-  experimentNameLoadingData,
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
+  fetchHideNewExperimentModal,
+  fetchExperimentsTabsDataLoaded,
+  fetchExperimentsTabsLoadingData,
+  fetchExperimentNameDataLoaded,
+  fetchExperimentNameLoadingData,
+  fetchExperimentOperatorsDataLoaded,
+  fetchExperimentOperatorsLoadingData,
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
@@ -48,7 +48,7 @@ const fetchExperimentSuccess = (response, projectId, experimentId) => (
   const { isUploading } = datasetReducer;
 
   // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
+  dispatch(fetchExperimentNameDataLoaded());
 
   // if dataset is not uploading
   if (!isUploading) {
@@ -78,7 +78,7 @@ const fetchExperimentFail = (error, routerProps) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
+  dispatch(fetchExperimentNameDataLoaded());
 
   // dispatching fetch experiment fail action response
   dispatch({
@@ -114,7 +114,7 @@ export const fetchExperimentRequest = (
   });
 
   // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
+  dispatch(fetchExperimentNameLoadingData());
 
   // fetching experiment
   experimentsApi
@@ -143,7 +143,7 @@ export const fetchExperimentActiveRequest = (projectId, experimentId) => (
   });
 
   // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
+  dispatch(fetchExperimentNameLoadingData());
 
   // At first should updtate isActive of clicked experiment
   experimentsApi
@@ -178,13 +178,13 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
   const experiment = response.data;
 
   // dispatching hide new experiment modal action
-  dispatch(hideNewExperimentModal());
+  dispatch(fetchHideNewExperimentModal());
 
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
+  dispatch(fetchExperimentNameDataLoaded());
 
   // fetching operators
   dispatch(fetchOperatorsRequest(projectId, experiment.uuid));
@@ -210,10 +210,10 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
  */
 const createExperimentFail = (error, duplicate) => (dispatch) => {
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
+  dispatch(fetchExperimentNameDataLoaded());
 
   // getting error message
   let errorMessage;
@@ -261,10 +261,10 @@ export const createExperimentRequest = (
   });
 
   // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(fetchExperimentsTabsLoadingData());
 
   // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
+  dispatch(fetchExperimentNameLoadingData());
 
   // creating experiment
   experimentsApi
@@ -289,10 +289,10 @@ const editExperimentNameSuccess = (response) => (dispatch) => {
   const experiment = response.data;
 
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
+  dispatch(fetchExperimentNameDataLoaded());
 
   // dispatching edit experiment name success
   dispatch({
@@ -309,10 +309,10 @@ const editExperimentNameSuccess = (response) => (dispatch) => {
  */
 const editExperimentNameFail = (error) => (dispatch) => {
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
+  dispatch(fetchExperimentNameDataLoaded());
 
   // getting error message
   let errorMessage;
@@ -344,10 +344,10 @@ export const editExperimentNameRequest = (projectId, experimentId, newName) => (
   });
 
   // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(fetchExperimentsTabsLoadingData());
 
   // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
+  dispatch(fetchExperimentNameLoadingData());
 
   // creating experiment object
   const experiment = { name: newName };
@@ -374,13 +374,13 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
   dispatch
 ) => {
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
+  dispatch(fetchExperimentNameDataLoaded());
 
   // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
+  dispatch(fetchExperimentOperatorsDataLoaded());
 
   // dispatching delete experiment success
   dispatch({
@@ -405,13 +405,13 @@ const deleteExperimentFail = (error) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(fetchExperimentsTabsDataLoaded());
 
   // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
+  dispatch(fetchExperimentNameDataLoaded());
 
   // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
+  dispatch(fetchExperimentOperatorsDataLoaded());
 
   // dispatching delete experiment fail
   dispatch({
@@ -441,13 +441,13 @@ export const deleteExperimentRequest = (
   });
 
   // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(fetchExperimentsTabsLoadingData());
 
   // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
+  dispatch(fetchExperimentNameLoadingData());
 
   // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
+  dispatch(fetchExperimentOperatorsLoadingData());
 
   // deleting experiment
   experimentsApi

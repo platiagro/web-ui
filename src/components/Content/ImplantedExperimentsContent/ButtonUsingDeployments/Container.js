@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import ButtonUsingDeployments from './index';
 
 // ACTIONS
-import { showUsingDeploymentsModal } from '../../../../store/ui/actions';
+import { fetchShowUsingDeploymentsModal } from '../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleShowModal: () => dispatch(showUsingDeploymentsModal()),
+    handleShowModal: () => dispatch(fetchShowUsingDeploymentsModal()),
   };
 };
 

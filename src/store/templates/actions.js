@@ -10,13 +10,13 @@ import experimentsApi from '../../services/ExperimentsApi';
 
 // UI ACTIONS
 import {
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
-  templateDataLoaded,
-  templateLoadingData,
-  hideNewTemplateModal,
-  tasksMenuLoadingData,
-  tasksMenuDataLoaded,
+  fetchExperimentOperatorsDataLoaded,
+  fetchExperimentOperatorsLoadingData,
+  fetchTemplateDataLoaded,
+  fetchTemplateLoadingData,
+  fetchHideNewTemplateModal,
+  fetchTasksMenuLoadingData,
+  fetchTasksMenuDataLoaded,
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
@@ -29,8 +29,9 @@ import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 // ** FETCH TEMPLATES
 /**
  * fetch templates success action
- * @param {Object} response
- * @returns {Object} { type, templates }
+ *
+ * @param {object} response
+ * @returns {object} { type, templates }
  */
 const fetchTemplatesSuccess = (response) => {
   // getting templates from response
@@ -44,8 +45,9 @@ const fetchTemplatesSuccess = (response) => {
 
 /**
  * fetch templates fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const fetchTemplatesFail = (error) => {
   // getting error message
@@ -61,6 +63,7 @@ const fetchTemplatesFail = (error) => {
 
 /**
  * fetch templates request action
+ *
  * @returns {Function}
  */
 export const fetchTemplatesRequest = () => (dispatch) => {
@@ -81,18 +84,19 @@ export const fetchTemplatesRequest = () => (dispatch) => {
 // ** CREATE TEMPLATE
 /**
  * create template success action
- * @param {Object} response
- * @returns {Object} { type, templates }
+ *
+ * @param {object} response
+ * @returns {object} { type, templates }
  */
 const createTemplateSuccess = (response) => (dispatch) => {
   // getting templates from response
   const templates = response.data;
 
   // dispatching template data loaded action
-  dispatch(templateDataLoaded());
+  dispatch(fetchTemplateDataLoaded());
 
   // dispatching hide new template modal action
-  dispatch(hideNewTemplateModal());
+  dispatch(fetchHideNewTemplateModal());
 
   // dispatching fetch components menu request
   dispatch(fetchTasksMenuRequest());
@@ -106,15 +110,16 @@ const createTemplateSuccess = (response) => (dispatch) => {
 
 /**
  * create template fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const createTemplateFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
   // dispatching template data loaded action
-  dispatch(templateDataLoaded());
+  dispatch(fetchTemplateDataLoaded());
 
   // dispatching create template fail
   dispatch({
@@ -127,6 +132,7 @@ const createTemplateFail = (error) => (dispatch) => {
 
 /**
  * create template request action
+ *
  * @param {string} templateName
  * @param {string} experimentId
  * @returns {Function}
@@ -140,7 +146,7 @@ export const createTemplateRequest = (templateName, experimentId) => (
   });
 
   // dispatching template loading data action
-  dispatch(templateLoadingData());
+  dispatch(fetchTemplateLoadingData());
 
   // fetching templates
   templatesApi
@@ -154,8 +160,13 @@ export const createTemplateRequest = (templateName, experimentId) => (
 // ** SET TEMPLATE
 /**
  * set template success action
- * @param {Object} response
- * @returns {Object} { type, templates }
+ *
+ * @param {object} response
+ * @param projectId
+ * @param experimentId
+ * @param projectId
+ * @param experimentId
+ * @returns {object} { type, templates }
  */
 const setTemplateSuccess = (response, projectId, experimentId) => (
   dispatch
@@ -175,15 +186,16 @@ const setTemplateSuccess = (response, projectId, experimentId) => (
 
 /**
  * set template fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const setTemplateFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
   // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
+  dispatch(fetchExperimentOperatorsDataLoaded());
 
   dispatch({
     type: actionTypes.SET_TEMPLATE_FAIL,
@@ -195,6 +207,7 @@ const setTemplateFail = (error) => (dispatch) => {
 
 /**
  * set template request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} templateId
@@ -209,7 +222,7 @@ export const setTemplateRequest = (projectId, experimentId, templateId) => (
   });
 
   // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
+  dispatch(fetchExperimentOperatorsLoadingData());
 
   // experiment body
   const experiment = {
@@ -227,6 +240,11 @@ export const setTemplateRequest = (projectId, experimentId, templateId) => (
 
 /**
  * delete template request action
+ *
+ * @param templateId
+ * @param allTasks
+ * @param templateId
+ * @param allTasks
  * @returns {Function}
  */
 export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
@@ -236,7 +254,7 @@ export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
   });
 
   // dispatching template table loading data action
-  dispatch(tasksMenuLoadingData());
+  dispatch(fetchTasksMenuLoadingData());
 
   // deleting project
   templatesApi
@@ -247,15 +265,16 @@ export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
 
 /**
  * delete template fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const deleteTemplateFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
   // dispatching projects table data loaded action
-  dispatch(tasksMenuDataLoaded());
+  dispatch(fetchTasksMenuDataLoaded());
 
   // dispatching delete projects fail action
   dispatch({
@@ -271,8 +290,10 @@ const deleteTemplateFail = (error) => (dispatch) => {
 // ** DELETE TEMPLATE
 /**
  * delete template success action
- * @param {Object} templateId
- * @returns {Object} { type }
+ *
+ * @param {object} templateId
+ * @param allTasks
+ * @returns {object} { type }
  */
 const deleteTemplateSuccess = (templateId, allTasks) => (dispatch) => {
   const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
@@ -302,7 +323,7 @@ const deleteTemplateSuccess = (templateId, allTasks) => (dispatch) => {
     delete tasks.filtered.TEMPLATES;
   }
 
-  dispatch(tasksMenuDataLoaded());
+  dispatch(fetchTasksMenuDataLoaded());
 
   // dispatching delete template success action
   dispatch({

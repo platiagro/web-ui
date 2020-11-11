@@ -6,25 +6,25 @@ import { deselectOperator } from '../operator/actions';
 
 // // // // // // // // // //
 // COMPARE RESULTS MODAL
-export const changeVisibilityCompareResultsModal = (visible) => {
+export const fetchChangeVisibilityCompareResultsModal = (visible) => {
   return {
     type: actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL,
     isVisible: visible,
   };
 };
-export const changeLoadingCompareResultsModal = (loading) => {
+export const fetchChangeLoadingCompareResultsModal = (loading) => {
   return {
     type: actionTypes.LOADING_COMPARE_RESULTS_MODAL,
     loading: loading,
   };
 };
-export const setAddLoaderCompareResultsModal = (addIsLoading) => {
+export const fetchSetAddLoaderCompareResultsModal = (addIsLoading) => {
   return {
     type: actionTypes.ADD_COMPARE_RESULT_LOADER,
     addIsLoading: addIsLoading,
   };
 };
-export const setDeleteLoaderCompareResultsModal = (deleteIsLoading) => {
+export const fetchSetDeleteLoaderCompareResultsModal = (deleteIsLoading) => {
   return {
     type: actionTypes.DELETE_COMPARE_RESULT_LOADER,
     deleteIsLoading: deleteIsLoading,
@@ -38,7 +38,7 @@ export const setDeleteLoaderCompareResultsModal = (deleteIsLoading) => {
  * @param record
  * @returns {object} { type, newProjectModalVisible }
  */
-export const showNewProjectModal = (record) => {
+export const fetchShowNewProjectModall = (record) => {
   if (record !== undefined && record !== null) {
     return {
       type: actionTypes.SHOW_EDIT_PROJECT_MODAL,
@@ -61,7 +61,7 @@ export const showNewProjectModal = (record) => {
  *
  * @returns {object} { type, newProjectModalVisible }
  */
-export const hideNewProjectModal = () => {
+export const fetchHideNewProjectModal = () => {
   return {
     type: actionTypes.HIDE_NEW_PROJECT_MODAL,
     newProjectModalVisible: false,
@@ -76,7 +76,7 @@ export const hideNewProjectModal = () => {
  *
  * @returns {object} { type, newExperimentModalVisible }
  */
-export const showNewExperimentModal = () => (dispatch) => {
+export const fetchShowNewExperimentModal = () => (dispatch) => {
   dispatch(deselectOperator());
 
   dispatch({
@@ -93,7 +93,7 @@ export const showNewExperimentModal = () => (dispatch) => {
  *
  * @returns {object} { type, newExperimentModalVisible }
  */
-export const hideNewExperimentModal = () => {
+export const fetchHideNewExperimentModal = () => {
   return {
     type: actionTypes.HIDE_NEW_EXPERIMENT_MODAL,
     newExperimentModalVisible: false,
@@ -108,7 +108,7 @@ export const hideNewExperimentModal = () => {
  *
  * @returns {object} { type, newTemplateModalVisible }
  */
-export const showNewTemplateModal = () => {
+export const fetchShowNewTemplateModal = () => {
   return {
     type: actionTypes.SHOW_NEW_TEMPLATE_MODAL,
     newTemplateModalVisible: true,
@@ -123,7 +123,7 @@ export const showNewTemplateModal = () => {
  *
  * @returns {object} { type, newTemplateModalVisible }
  */
-export const hideNewTemplateModal = () => {
+export const fetchHideNewTemplateModal = () => {
   return {
     type: actionTypes.HIDE_NEW_TEMPLATE_MODAL,
     newTemplateModalVisible: false,
@@ -139,7 +139,7 @@ export const hideNewTemplateModal = () => {
  * @param {boolean} isDataset is a operator is DATASET type
  * @returns {object} { type, drawerVisible }
  */
-export const showOperatorDrawer = (title, isDataset) => {
+export const fetchShowOperatorDrawer = (title, isDataset) => {
   return {
     type: actionTypes.SHOW_OPERATOR_DRAWER,
     operatorDrawer: { visible: true, title, isDataset },
@@ -153,7 +153,7 @@ export const showOperatorDrawer = (title, isDataset) => {
  *
  * @returns {object} { type, drawerVisible }
  */
-export const hideOperatorDrawer = () => (dispatch) => {
+export const fetchHideOperatorDrawer = () => (dispatch) => {
   //hidding drawer
   dispatch({
     type: actionTypes.HIDE_OPERATOR_DRAWER,
@@ -161,7 +161,7 @@ export const hideOperatorDrawer = () => (dispatch) => {
   });
 
   // hidding drawer results
-  dispatch(hideOperatorResults());
+  dispatch(fetchHideOperatorResults());
 };
 
 // // // // // // // // // // // // // //
@@ -174,7 +174,7 @@ export const hideOperatorDrawer = () => (dispatch) => {
  * @param {string} title drawer title
  * @returns {object} { type, title }
  */
-export const showInferenceLogsDrawer = (title) => {
+export const fetchShowInferenceLogsDrawer = (title) => {
   return {
     type: actionTypes.SHOW_INFERENCE_LOGS_DRAWER,
     inferenceLogsDrawer: { visible: true, title },
@@ -186,7 +186,7 @@ export const showInferenceLogsDrawer = (title) => {
  *
  * @returns {object} { type, drawerVisible }
  */
-export const hideInferenceLogsDrawer = () => {
+export const fetchHideInferenceLogsDrawer = () => {
   return {
     type: actionTypes.HIDE_INFERENCE_LOGS_DRAWER,
     drawerVisible: false,
@@ -210,7 +210,7 @@ export const inferenceLogsDrawerLoadingData = () => {
  *
  * @returns {object} { type, inferenceLogsDrawerLoading }
  */
-export const inferenceLogsDrawerDataLoaded = () => {
+export const fetchInferenceLogsDrawerDataLoaded = () => {
   return {
     type: actionTypes.INFERENCE_LOGS_DRAWER_DATA_LOADED,
     inferenceLogsDrawerLoading: false,
@@ -225,10 +225,10 @@ export const inferenceLogsDrawerDataLoaded = () => {
  *
  * @returns {object} { type, showResults }
  */
-export const showOperatorResults = () => {
+export const fetchShowOperatorResults = () => {
   return {
     type: actionTypes.SHOW_OPERATOR_RESULTS,
-    showOperatorResults: true,
+    fetchShowOperatorResults: true,
   };
 };
 
@@ -240,10 +240,10 @@ export const showOperatorResults = () => {
  *
  * @returns {object} { type, showResults }
  */
-export const hideOperatorResults = () => {
+export const fetchHideOperatorResults = () => {
   return {
     type: actionTypes.HIDE_OPERATOR_RESULTS,
-    showOperatorResults: false,
+    fetchShowOperatorResults: false,
   };
 };
 
@@ -255,7 +255,7 @@ export const hideOperatorResults = () => {
  *
  * @returns {object} { type, tasksTableLoading }
  */
-export const tasksTableLoadingData = () => {
+export const fetchTasksTableLoadingData = () => {
   return {
     type: actionTypes.TASKS_TABLE_LOADING_DATA,
     tasksTableLoading: true,
@@ -270,7 +270,7 @@ export const tasksTableLoadingData = () => {
  *
  * @returns {object} { type, tasksTableLoading }
  */
-export const tasksTableDataLoaded = () => {
+export const fetchTasksTableDataLoaded = () => {
   return {
     type: actionTypes.TASKS_TABLE_DATA_LOADED,
     tasksTableLoading: false,
@@ -285,7 +285,7 @@ export const tasksTableDataLoaded = () => {
  *
  * @returns {object} { type, projectsTableLoading }
  */
-export const projectsTableLoadingData = () => {
+export const fetchProjectsTableLoadingData = () => {
   return {
     type: actionTypes.PROJECTS_TABLE_LOADING_DATA,
     projectsTableLoading: true,
@@ -300,7 +300,7 @@ export const projectsTableLoadingData = () => {
  *
  * @returns {object} { type, projectsTableLoading }
  */
-export const projectsTableDataLoaded = () => {
+export const fetchProjectsTableDataLoaded = () => {
   return {
     type: actionTypes.PROJECTS_TABLE_DATA_LOADED,
     projectsTableLoading: false,
@@ -315,7 +315,7 @@ export const projectsTableDataLoaded = () => {
  *
  * @returns {object} { type, projectNameLoading }
  */
-export const projectNameLoadingData = () => {
+export const fetchProjectNameLoadingData = () => {
   return {
     type: actionTypes.PROJECT_NAME_LOADING_DATA,
     projectNameLoading: true,
@@ -330,7 +330,7 @@ export const projectNameLoadingData = () => {
  *
  * @returns {object} { type, projectNameLoading }
  */
-export const projectNameDataLoaded = () => {
+export const fetchProjectNameDataLoaded = () => {
   return {
     type: actionTypes.PROJECT_NAME_DATA_LOADED,
     projectNameLoading: false,
@@ -345,7 +345,7 @@ export const projectNameDataLoaded = () => {
  *
  * @returns {object} { type, projectEditNameLoading }
  */
-export const projectEditNameLoadingData = () => {
+export const fetchProjectEditNameLoadingData = () => {
   return {
     type: actionTypes.PROJECT_EDIT_NAME_LOADING_DATA,
     projectEditNameLoading: true,
@@ -360,7 +360,7 @@ export const projectEditNameLoadingData = () => {
  *
  * @returns {object} { type, projectEditNameLoading }
  */
-export const projectEditNameDataLoaded = () => {
+export const fetchProjectEditNameDataLoaded = () => {
   return {
     type: actionTypes.PROJECT_EDIT_NAME_DATA_LOADED,
     projectEditNameLoading: false,
@@ -375,7 +375,7 @@ export const projectEditNameDataLoaded = () => {
  *
  * @returns {object} { type, tasksMenuLoading }
  */
-export const tasksMenuLoadingData = () => {
+export const fetchTasksMenuLoadingData = () => {
   return {
     type: actionTypes.TASKS_MENU_LOADING_DATA,
     tasksMenuLoading: true,
@@ -390,7 +390,7 @@ export const tasksMenuLoadingData = () => {
  *
  * @returns {object} { type, tasksMenuLoading }
  */
-export const tasksMenuDataLoaded = () => {
+export const fetchTasksMenuDataLoaded = () => {
   return {
     type: actionTypes.TASKS_MENU_DATA_LOADED,
     tasksMenuLoading: false,
@@ -405,7 +405,7 @@ export const tasksMenuDataLoaded = () => {
  *
  * @returns {object} { type, experimentsTabsLoading }
  */
-export const experimentsTabsLoadingData = () => {
+export const fetchExperimentsTabsLoadingData = () => {
   return {
     type: actionTypes.EXPERIMENTS_TABS_LOADING_DATA,
     experimentsTabsLoading: true,
@@ -420,7 +420,7 @@ export const experimentsTabsLoadingData = () => {
  *
  * @returns {object} { type, experimentsTabsLoading }
  */
-export const experimentsTabsDataLoaded = () => {
+export const fetchExperimentsTabsDataLoaded = () => {
   return {
     type: actionTypes.EXPERIMENTS_TABS_DATA_LOADED,
     experimentsTabsLoading: false,
@@ -435,7 +435,7 @@ export const experimentsTabsDataLoaded = () => {
  *
  * @returns {object} { type, experimentTrainingLoading }
  */
-export const experimentTrainingLoadingData = () => {
+export const fetchExperimentTrainingLoadingData = () => {
   return {
     type: actionTypes.EXPERIMENT_TRAINING_LOADING_DATA,
     experimentTrainingLoading: true,
@@ -450,7 +450,7 @@ export const experimentTrainingLoadingData = () => {
  *
  * @returns {object} { type, experimentTrainingLoading }
  */
-export const experimentTrainingDataLoaded = () => {
+export const fetchExperimentTrainingDataLoaded = () => {
   return {
     type: actionTypes.EXPERIMENT_TRAINING_DATA_LOADED,
     experimentTrainingLoading: false,
@@ -465,7 +465,7 @@ export const experimentTrainingDataLoaded = () => {
  *
  * @returns {object} { type, experimentDeleteTrainingLoading }
  */
-export const experimentDeleteTrainingLoadingData = () => {
+export const fetchExperimentDeleteTrainingLoadingData = () => {
   return {
     type: actionTypes.EXPERIMENT_DELETE_TRAINING_LOADING_DATA,
     experimentDeleteTrainingLoading: true,
@@ -480,7 +480,7 @@ export const experimentDeleteTrainingLoadingData = () => {
  *
  * @returns {object} { type, experimentDeleteTrainingLoading }
  */
-export const experimentDeleteTrainingDataLoaded = () => {
+export const fetchExperimentDeleteTrainingDataLoaded = () => {
   return {
     type: actionTypes.EXPERIMENT_DELETE_TRAINING_DATA_LOADED,
     experimentDeleteTrainingLoading: false,
@@ -495,7 +495,7 @@ export const experimentDeleteTrainingDataLoaded = () => {
  *
  * @returns {object} { type, experimentNameLoading }
  */
-export const experimentNameLoadingData = () => {
+export const fetchExperimentNameLoadingData = () => {
   return {
     type: actionTypes.EXPERIMENT_NAME_LOADING_DATA,
     experimentNameLoading: true,
@@ -510,7 +510,7 @@ export const experimentNameLoadingData = () => {
  *
  * @returns {object} { type, experimentNameLoading }
  */
-export const experimentNameDataLoaded = () => {
+export const fetchExperimentNameDataLoaded = () => {
   return {
     type: actionTypes.EXPERIMENT_NAME_DATA_LOADED,
     experimentNameLoading: false,
@@ -525,7 +525,7 @@ export const experimentNameDataLoaded = () => {
  *
  * @returns {object} { type, experimentOperatorsLoading }
  */
-export const experimentOperatorsLoadingData = () => {
+export const fetchExperimentOperatorsLoadingData = () => {
   return {
     type: actionTypes.EXPERIMENT_OPERATORS_LOADING_DATA,
     experimentOperatorsLoading: true,
@@ -540,7 +540,7 @@ export const experimentOperatorsLoadingData = () => {
  *
  * @returns {object} { type, experimentOperatorsLoading }
  */
-export const experimentOperatorsDataLoaded = () => {
+export const fetchExperimentOperatorsDataLoaded = () => {
   return {
     type: actionTypes.EXPERIMENT_OPERATORS_DATA_LOADED,
     experimentOperatorsLoading: false,
@@ -555,7 +555,7 @@ export const experimentOperatorsDataLoaded = () => {
  *
  * @returns {object} { type, datasetsListLoading }
  */
-export const datasetsListLoadingData = () => {
+export const fetchDatasetsListLoadingData = () => {
   return {
     type: actionTypes.DATASETS_LIST_LOADING_DATA,
     datasetsListLoading: true,
@@ -570,7 +570,7 @@ export const datasetsListLoadingData = () => {
  *
  * @returns {object} { type, datasetsListLoading }
  */
-export const datasetsListDataLoaded = () => {
+export const fetchDatasetsListDataLoaded = () => {
   return {
     type: actionTypes.DATASETS_LIST_DATA_LOADED,
     datasetsListLoading: false,
@@ -585,7 +585,7 @@ export const datasetsListDataLoaded = () => {
  *
  * @returns {object} { type, datasetOperatorLoading }
  */
-export const datasetOperatorLoadingData = () => {
+export const fetchDatasetOperatorLoadingData = () => {
   return {
     type: actionTypes.DATASET_OPERATOR_LOADING_DATA,
     datasetOperatorLoading: true,
@@ -600,7 +600,7 @@ export const datasetOperatorLoadingData = () => {
  *
  * @returns {object} { type, datasetOperatorLoading }
  */
-export const datasetOperatorDataLoaded = () => {
+export const fetchDatasetOperatorDataLoaded = () => {
   return {
     type: actionTypes.DATASET_OPERATOR_DATA_LOADED,
     datasetOperatorLoading: false,
@@ -615,7 +615,7 @@ export const datasetOperatorDataLoaded = () => {
  *
  * @returns {object} { type, operatorParameterLoading }
  */
-export const operatorParameterLoadingData = () => {
+export const fetchOperatorParameterLoadingData = () => {
   return {
     type: actionTypes.OPERATOR_PARAMETER_LOADING_DATA,
     operatorParameterLoading: true,
@@ -630,7 +630,7 @@ export const operatorParameterLoadingData = () => {
  *
  * @returns {object} { type, operatorParameterLoading }
  */
-export const operatorParameterDataLoaded = () => {
+export const fetchOperatorParameterDataLoaded = () => {
   return {
     type: actionTypes.OPERATOR_PARAMETER_DATA_LOADED,
     operatorParameterLoading: false,
@@ -645,7 +645,7 @@ export const operatorParameterDataLoaded = () => {
  *
  * @returns {object} { type, operatorResultsLoading }
  */
-export const operatorResultsLoadingData = () => {
+export const fetchOperatorResultsLoadingData = () => {
   return {
     type: actionTypes.OPERATOR_RESULTS_LOADING_DATA,
     operatorResultsLoading: true,
@@ -660,7 +660,7 @@ export const operatorResultsLoadingData = () => {
  *
  * @returns {object} { type, operatorResultsLoading }
  */
-export const operatorResultsDataLoaded = () => {
+export const fetchOperatorResultsDataLoaded = () => {
   return {
     type: actionTypes.OPERATOR_RESULTS_DATA_LOADED,
     operatorResultsLoading: false,
@@ -673,7 +673,7 @@ export const operatorResultsDataLoaded = () => {
  *
  * @returns {object} { type, operatorResultsLoading }
  */
-export const operatorMetricsLoadingData = () => {
+export const fetchOperatorMetricsLoadingData = () => {
   return {
     type: actionTypes.OPERATOR_METRICS_LOADING_DATA,
   };
@@ -687,7 +687,7 @@ export const operatorMetricsLoadingData = () => {
  *
  * @returns {object} { type, operatorResultsLoading }
  */
-export const operatorMetricsDataLoaded = () => {
+export const fetchOperatorMetricsDataLoaded = () => {
   return {
     type: actionTypes.OPERATOR_METRICS_DATA_LOADED,
   };
@@ -701,7 +701,7 @@ export const operatorMetricsDataLoaded = () => {
  *
  * @returns {object} { type, templateLoading }
  */
-export const templateLoadingData = () => {
+export const fetchTemplateLoadingData = () => {
   return {
     type: actionTypes.TEMPLATE_LOADING_DATA,
     templateLoading: true,
@@ -716,7 +716,7 @@ export const templateLoadingData = () => {
  *
  * @returns {object} { type, templateLoading }
  */
-export const templateDataLoaded = () => {
+export const fetchTemplateDataLoaded = () => {
   return {
     type: actionTypes.TEMPLATE_DATA_LOADED,
     templateLoading: false,
@@ -731,7 +731,7 @@ export const templateDataLoaded = () => {
  *
  * @returns {object} { type, implantedExperimentsLoading }
  */
-export const implantedExperimentsLoadingData = () => {
+export const fetchImplantedExperimentsLoadingData = () => {
   return {
     type: actionTypes.IMPLANTED_EXPERIMENTS_LOADING_DATA,
     implantedExperimentsLoading: true,
@@ -746,7 +746,7 @@ export const implantedExperimentsLoadingData = () => {
  *
  * @returns {object} { type, implantedExperimentsLoading }
  */
-export const implantedExperimentsDataLoaded = () => {
+export const fetchImplantedExperimentsDataLoaded = () => {
   return {
     type: actionTypes.IMPLANTED_EXPERIMENTS_DATA_LOADED,
     implantedExperimentsLoading: false,
@@ -754,7 +754,7 @@ export const implantedExperimentsDataLoaded = () => {
 };
 
 // USING_DEPLOYMENTS_MODAL
-export const showUsingDeploymentsModal = () => {
+export const fetchShowUsingDeploymentsModal = () => {
   return {
     type: actionTypes.SHOW_USING_DEPLOYMENTS_MODAL,
   };
@@ -767,20 +767,20 @@ export const showUsingDeploymentsModal = () => {
  *
  * @returns {object} { type, newTemplateModalVisible }
  */
-export const hideUsingDeploymentsModal = () => {
+export const fetchHideUsingDeploymentsModal = () => {
   return {
     type: actionTypes.HIDE_USING_DEPLOYMENTS_MODAL,
   };
 };
 
-export const loadingOnDataViewModal = () => {
+export const fetchLoadingOnDataViewModal = () => {
   return {
     type: actionTypes.LOADING_DATA_VIEW_MODAL,
     loading: true,
   };
 };
 
-export const loadingOffDataViewModal = () => {
+export const fetchLoadingOffDataViewModal = () => {
   return {
     type: actionTypes.LOADING_DATA_VIEW_MODAL,
     loading: false,
@@ -796,7 +796,7 @@ export const loadingOffDataViewModal = () => {
  *
  * @returns {object} Action
  */
-export const showDataViewModal = () => {
+export const fetchShowDataViewModal = () => {
   return {
     type: actionTypes.SHOW_DATA_VIEW_MODAL,
     isVisible: true,
@@ -808,7 +808,7 @@ export const showDataViewModal = () => {
  *
  * @returns {object} Action
  */
-export const hideDataViewModal = () => {
+export const fetchHideDataViewModal = () => {
   return {
     type: actionTypes.HIDE_DATA_VIEW_MODAL,
     isVisible: false,
@@ -823,7 +823,7 @@ export const hideDataViewModal = () => {
  *
  * @returns {object} { type, newTemplateModalVisible }
  */
-export const showInferenceTestResultModal = () => {
+export const fetchShowInferenceTestResultModal = () => {
   return {
     type: actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL,
   };
@@ -834,7 +834,7 @@ export const showInferenceTestResultModal = () => {
  *
  * @returns {object} { type, newTemplateModalVisible }
  */
-export const hideInferenceTestResultModal = () => {
+export const fetchHideInferenceTestResultModal = () => {
   return {
     type: actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL,
   };
@@ -845,7 +845,7 @@ export const hideInferenceTestResultModal = () => {
  *
  * @returns {object} { type, inferenceLogsDrawerLoading }
  */
-export const inferenceTestResultModalLoadingData = () => {
+export const fetchInferenceTestResultModalLoadingData = () => {
   return {
     type: actionTypes.EXPERIMENT_INFERENCE_MODAL_LOADING_DATA,
     inferenceTestResultModalLoading: true,
@@ -857,7 +857,7 @@ export const inferenceTestResultModalLoadingData = () => {
  *
  * @returns {object} { type, inferenceLogsDrawerLoading }
  */
-export const inferenceTestResultModalDataLoaded = () => {
+export const fetchInferenceTestResultModalDataLoaded = () => {
   return {
     type: actionTypes.EXPERIMENT_INFERENCE_MODAL_DATA_LOADED,
     inferenceTestResultModalLoading: false,
@@ -867,14 +867,14 @@ export const inferenceTestResultModalDataLoaded = () => {
 // // // // // // // // // // // // // //
 // // // // // // // // // //
 
-export const saveFlowTransform = (transform) => {
+export const fetchSaveFlowTransform = (transform) => {
   return {
     type: actionTypes.SAVE_FLOW_TRANSFORM,
     transform: transform,
   };
 };
 
-export const dependenciesOperatorLoading = (dependencyId) => {
+export const fetchDependenciesOperatorLoading = (dependencyId) => {
   return {
     type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
     loading: true,
@@ -882,7 +882,7 @@ export const dependenciesOperatorLoading = (dependencyId) => {
   };
 };
 
-export const dependenciesOperatorLoaded = (dependencyId) => {
+export const fetchDependenciesOperatorLoaded = (dependencyId) => {
   return {
     type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
     loading: false,

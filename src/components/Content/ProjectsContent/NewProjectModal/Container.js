@@ -8,7 +8,7 @@ import {
   createProjectRequest,
   editProjectNameRequest,
 } from '../../../../store/project/actions';
-import { hideNewProjectModal } from '../../../../store/ui/actions';
+import { fetchHideNewProjectModal } from '../../../../store/ui/actions';
 
 // COMPONENTS
 import NewProjectModal from './index';
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
         createProjectRequest(projectName, projectDescription, routerProps)
       ),
     // close modal action
-    handleCloseModal: () => dispatch(hideNewProjectModal()),
+    handleCloseModal: () => dispatch(fetchHideNewProjectModal()),
     handleUpdateProject: (
       projectId,
       projectName,

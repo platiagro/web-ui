@@ -6,9 +6,9 @@ import actionTypes from './actionTypes';
 
 // ACTIONS
 import {
-  showInferenceLogsDrawer,
+  fetchShowInferenceLogsDrawer,
   inferenceLogsDrawerLoadingData,
-  inferenceLogsDrawerDataLoaded,
+  fetchInferenceLogsDrawerDataLoaded,
 } from '../ui/actions';
 
 // SERVICES
@@ -22,10 +22,10 @@ const { getErrorMessage } = utils;
 /**
  * Get logs of implanted experiments
  *
- * @param {String} deployId
+ * @param {string} deployId
  */
 export const getDeployExperimentLogs = (deployId) => (dispatch) => {
-  dispatch(showInferenceLogsDrawer('Logs'));
+  dispatch(fetchShowInferenceLogsDrawer('Logs'));
   dispatch(inferenceLogsDrawerLoadingData());
   implantedExperimentsApi
     .getDeployedExperimentLogs(deployId)
@@ -35,13 +35,13 @@ export const getDeployExperimentLogs = (deployId) => (dispatch) => {
         type: actionTypes.GET_DEPLOYMENT_LOGS,
         payload: logs,
       });
-      dispatch(inferenceLogsDrawerDataLoaded());
+      dispatch(fetchInferenceLogsDrawerDataLoaded());
     })
     .catch((error) => {
       dispatch({
         type: actionTypes.GET_DEPLOYMENT_LOGS_FAIL,
       });
       message.error(getErrorMessage(error));
-      dispatch(inferenceLogsDrawerDataLoaded());
+      dispatch(fetchInferenceLogsDrawerDataLoaded());
     });
 };

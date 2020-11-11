@@ -48,7 +48,7 @@ const initialState = {
   datasetsList: { loading: false },
   datasetOperator: { loading: false },
   operatorParameter: { loading: false },
-  operatorResults: { loading: false, showOperatorResults: false },
+  operatorResults: { loading: false, fetchShowOperatorResults: false },
   operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
   inferenceTestResultModal: { loading: false, visible: false },
@@ -226,7 +226,7 @@ const uiReducer = (state = initialState, action = undefined) => {
         ...state,
         operatorResults: {
           ...state.operatorResults,
-          showOperatorResults: action.showOperatorResults,
+          fetchShowOperatorResults: action.fetchShowOperatorResults,
         },
       };
 

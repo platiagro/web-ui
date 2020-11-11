@@ -8,12 +8,12 @@ import InferenceTestResultModal from './index';
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
-import { hideInferenceTestResultModal } from 'store/ui/actions';
+import { fetchHideInferenceTestResultModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleCloseModal: () => dispatch(hideInferenceTestResultModal()),
+    handleCloseModal: () => dispatch(fetchHideInferenceTestResultModal()),
     handleGetDeployExperimentLogs: (deployId) =>
       dispatch(getDeployExperimentLogs(deployId)),
     handleTestImplantedExperimentInference: (deployId, file) =>

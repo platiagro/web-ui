@@ -12,10 +12,10 @@ import { message } from 'antd';
 
 // UI ACTIONS
 import {
-  experimentTrainingLoadingData,
-  experimentTrainingDataLoaded,
-  experimentDeleteTrainingLoadingData,
-  experimentDeleteTrainingDataLoaded,
+  fetchExperimentTrainingLoadingData,
+  fetchExperimentTrainingDataLoaded,
+  fetchExperimentDeleteTrainingLoadingData,
+  fetchExperimentDeleteTrainingDataLoaded,
 } from '../ui/actions';
 
 // UTILS
@@ -43,7 +43,7 @@ const trainExperimentFail = (error) => (dispatch) => {
   const errorMessage = error.message;
 
   // dispatching experiment training data loaded
-  dispatch(experimentTrainingDataLoaded());
+  dispatch(fetchExperimentTrainingDataLoaded());
 
   message.error(errorMessage);
 };
@@ -65,7 +65,7 @@ export const trainExperimentRequest = (experiment, operators) => (
   });
 
   // dispatching experiment training loading data action
-  dispatch(experimentTrainingLoadingData());
+  dispatch(fetchExperimentTrainingLoadingData());
 
   // getting tasks from store
   const { tasksReducer } = getState();
@@ -155,15 +155,15 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
 
   // experiment training not is running
   if (!isRunning) {
-    dispatch(experimentTrainingDataLoaded());
+    dispatch(fetchExperimentTrainingDataLoaded());
     // check if is interrupting flow
     if (deleteLoading) {
-      dispatch(experimentDeleteTrainingDataLoaded());
+      dispatch(fetchExperimentDeleteTrainingDataLoaded());
       message.success('Treinamento interrompido!');
       deleteLoading = false;
     }
   } else {
-    dispatch(experimentTrainingLoadingData());
+    dispatch(fetchExperimentTrainingLoadingData());
   }
 
   dispatch({
@@ -186,7 +186,7 @@ const getTrainExperimentStatusFail = (error) => (dispatch) => {
 
   // experiment training not is running
   if (errorMessage !== 'Network Error') {
-    dispatch(experimentTrainingDataLoaded());
+    dispatch(fetchExperimentTrainingDataLoaded());
     dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_NOT_SUCCEEDED });
   }
 };
@@ -293,7 +293,7 @@ export const deployExperimentRequest = (
  * @returns {Function}
  */
 export const deleteTrainExperiment = (experimentId) => (dispatch) => {
-  dispatch(experimentDeleteTrainingLoadingData());
+  dispatch(fetchExperimentDeleteTrainingLoadingData());
   pipelinesApi
     .deleteTrainExperiment(experimentId)
     .then(() => {
@@ -301,7 +301,7 @@ export const deleteTrainExperiment = (experimentId) => (dispatch) => {
       dispatch(getTrainExperimentStatusRequest(experimentId));
     })
     .catch((error) => {
-      dispatch(experimentDeleteTrainingDataLoaded());
+      dispatch(fetchExperimentDeleteTrainingDataLoaded());
       message.error(error.message);
     });
 };
