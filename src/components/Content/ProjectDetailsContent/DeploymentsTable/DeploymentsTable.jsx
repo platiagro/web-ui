@@ -82,14 +82,14 @@ const DeploymentsTable = (props) => {
       ),
     },
     {
-      title: <strong>Data de Criação</strong>,
+      title: <strong>Data de criação</strong>,
       dataIndex: 'createdAt',
       key: 'createdAt',
       width: '20%',
       render: (value) => new Date(value).toLocaleString(),
     },
     {
-      title: <strong>Ação</strong>,
+      title: <strong>Ações</strong>,
       dataIndex: 'action',
       key: 'action',
       width: '15%',
