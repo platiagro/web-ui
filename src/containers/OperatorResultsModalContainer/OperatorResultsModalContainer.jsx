@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Modal } from 'uiComponents';
 
 // COMPONENTS
-import ResultsDrawer from 'components/Content/ProjectContent/Experiment/Drawer/ResultsDrawer/_';
+import ResultsDrawer from 'components/Content/ExperimentsContent/Experiment/Drawer/ResultsDrawer/_';
 
 // ACTIONS
 import { hideOperatorResults } from '../../store/ui/actions';

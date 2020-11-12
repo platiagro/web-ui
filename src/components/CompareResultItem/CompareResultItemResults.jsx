@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { Image } from 'antd';
 
 // COMPONENTS
-import ResultsDrawer from 'components/Content/ProjectContent/Experiment/Drawer/ResultsDrawer/_';
+import ResultsDrawer from 'components/Content/ExperimentsContent/Experiment/Drawer/ResultsDrawer/_';
 
 // IMAGES
 import graphLoaderImage from 'assets/resultGraphLoader.svg';

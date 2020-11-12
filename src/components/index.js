@@ -1,33 +1,28 @@
+import CommonTable from './CommonTable';
 import CompareResultItem from './CompareResultItem';
 
-// RESIZABLE SECTION
-import ResizableSection from './ResizableSection';
-
-// OPERATOR RESIZABLE SECTION
-import OperatorResizableSection from './OperatorResizableSection';
-
-// POPOVER TIP
-import PopoverTip from './PopoverTip';
-
-// TOOLTIP TIP
-import TooltipTip from './TooltipTip';
-
-// INPUT BLOCK
-import InputBlockContainer from './InputBlockContainer';
-
-// DATASET COLUMNS TABLE
 import DatasetColumnsTable from './DatasetColumnsTable';
 
-// COMMON TABLE
-import CommonTable from './CommonTable';
+import InputBlockContainer from './InputBlockContainer';
+
+import LogsDrawer from './LogsDrawer';
+
+import OperatorResizableSection from './OperatorResizableSection';
+
+import PopoverTip from './PopoverTip';
+
+import ResizableSection from './ResizableSection';
+
+import TooltipTip from './TooltipTip';
 
 export {
+  CommonTable,
   CompareResultItem,
-  ResizableSection,
+  DatasetColumnsTable,
+  InputBlockContainer,
+  LogsDrawer,
   OperatorResizableSection,
   PopoverTip,
-  InputBlockContainer,
+  ResizableSection,
   TooltipTip,
-  DatasetColumnsTable,
-  CommonTable,
 };

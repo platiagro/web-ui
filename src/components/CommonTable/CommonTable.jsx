@@ -22,6 +22,7 @@ const CommonTable = (props) => {
     columns,
     dataSource,
     isLoading,
+    locale,
     pagination,
     rowClassName,
     rowKey,
@@ -75,6 +76,7 @@ const CommonTable = (props) => {
       className={className}
       dataSource={isLoading ? skeletonDataSource : dataSource}
       columns={isLoading ? skeletonColumns : columns}
+      locale={locale}
       pagination={pagination}
       rowClassName={rowClassName}
       rowKey={rowKey}
@@ -97,6 +99,8 @@ CommonTable.propTypes = {
   dataSource: PropTypes.array.isRequired,
   /** Table is loading */
   isLoading: PropTypes.bool,
+  /** Table locale config */
+  locale: PropTypes.object,
   /** Table pagination config */
   pagination: PropTypes.any,
   /** Table row class name */

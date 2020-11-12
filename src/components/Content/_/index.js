@@ -6,12 +6,12 @@ import { Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
 // CONTENTS
+import Error404Content from '../Error404Content';
+import ExperimentsContent from '../ExperimentsContent/_';
+import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
 import ProjectsContent from '../ProjectsContent/_';
-import ProjectContent from '../ProjectContent/_';
 import ProjectsDetailsContent from '../ProjectDetailsContent/_';
 import TaskContent from '../TasksContent/_';
-import ImplantedExperimentsContent from '../ImplantedExperimentsContent/_';
-import Error404Content from '../Error404Content';
 
 // STYLES
 import './style.less';
@@ -35,12 +35,12 @@ const Content = () => {
           <ProjectsContent />
         </Route>
         {/* project content */}
-        <Route exact path='/projetos/:projectId'>
+        <Route exact strict path='/projetos/:projectId'>
           <ProjectsDetailsContent />
         </Route>
         {/* experiment content */}
-        <Route exact path='/projetos/:projectId/:experimentId'>
-          <ProjectContent />
+        <Route exact path='/projetos/:projectId/:experimentId?'>
+          <ExperimentsContent />
         </Route>
         {/* implanted experiments content */}
         <Route exact path='/fluxos-implantados'>

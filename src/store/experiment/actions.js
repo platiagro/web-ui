@@ -5,8 +5,8 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import experimentsApi from '../../services/ExperimentsApi';
-import implantedExperimentsApi from '../../services/ImplantedExperimentsApi';
+import experimentsApi from 'services/ExperimentsApi';
+import deploymentsApi from 'services/DeploymentsApi';
 
 // UI ACTIONS
 import {
@@ -389,9 +389,7 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
   });
 
   message.success(`Experimento excluído!`);
-
-  // go to project
-  routerProps.history.push(`/projetos/${projectId}`);
+  routerProps.history.push(`/projetos/${projectId}/`);
 };
 
 /**
@@ -523,8 +521,8 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
   });
 
   // fetching id experiment deploy status
-  implantedExperimentsApi
-    .getExperimentDeployStatus(experimentId)
+  deploymentsApi
+    .fetchExperimentDeployStatus(experimentId)
     .then((response) => {
       dispatch(fetchExperimentDeployStatusSuccess(response));
     })

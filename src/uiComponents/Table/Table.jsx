@@ -17,12 +17,12 @@ import { Table as AntTable } from 'antd';
  * @component
  */
 const Table = (props) => {
-  // destructuring props
   const {
     bordered,
     className,
     columns,
     dataSource,
+    locale,
     pagination,
     rowClassName,
     rowKey,
@@ -42,6 +42,7 @@ const Table = (props) => {
       columns={columns}
       dataSource={dataSource}
       loading={isLoading}
+      locale={locale}
       pagination={pagination}
       rowClassName={rowClassName}
       rowKey={rowKey}
@@ -62,6 +63,8 @@ Table.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Table data source (rows) */
   dataSource: PropTypes.array.isRequired,
+  /** Table locale config */
+  locale: PropTypes.object,
   /** Table pagination config */
   pagination: PropTypes.any,
   /** Table row class name */

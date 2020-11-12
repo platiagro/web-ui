@@ -8,14 +8,18 @@ import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
 
 // CONTAINER
-import ImplantedExperimentsTableContainer from 'components/Content/ImplantedExperimentsContent/ImplantedExperimentsTable/_/Container';
-import NewDeploymentsModalContainer from 'components/Content/ImplantedExperimentsContent/UsingDeploymentsModal/Container';
-import NewExperimentModalContainer from 'components/Content/ProjectContent/NewExperimentModal/Container';
+import NewExperimentModalContainer from 'components/Content/ExperimentsContent/NewExperimentModal/Container';
+import {
+  DeploymentsTableContainer,
+  InferenceTestResultModalContainer,
+  LogsDrawerContainer,
+  UsingDeploymentsButtonContainer,
+  UsingDeploymentsModalContainer,
+} from 'containers';
 
 import Button from 'uiComponents/Button/index';
 
 // ACTIONS
-import { showUsingDeploymentsModal } from 'store/ui/actions';
 import { showNewExperimentModal } from 'store/ui/actions';
 
 //IMAGES SVG
@@ -27,8 +31,6 @@ import './style.less';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleShowModal: () => dispatch(showUsingDeploymentsModal()),
-    // show new project modal
     handleNewExperimentModal: () => dispatch(showNewExperimentModal()),
   };
 };
@@ -46,24 +48,17 @@ const mapStateToProps = (state) => {
 };
 
 const ProjectDetailContainer = (props) => {
-  const { project, handleShowModal, handleNewExperimentModal } = props;
+  const { project, handleNewExperimentModal } = props;
 
   let experimentsLength = 0;
   let fluxoLength = 0;
 
   if (project.uuid != null) {
     experimentsLength = project.experiments.length;
-    project.experiments.forEach((elements) => {
-      fluxoLength += elements.operators.length;
-    });
   }
 
   const redirectExperiment = () => {
-    if (project.uuid != null && Object.keys(project.experiments).length !== 0) {
-      history.push(
-        '/projetos/' + project.uuid + '/' + project.experiments[0].uuid
-      );
-    }
+    history.push('/projetos/' + project.uuid + '/');
   };
 
   const history = useHistory();
@@ -123,25 +118,20 @@ const ProjectDetailContainer = (props) => {
         </div>
       </div>
 
-      <div className='tableTitle'>
-        <span>
-          Fluxos implantados <QuestionCircleOutlined />
-        </span>
-
-        <Button
-          icon={<QuestionCircleOutlined />}
-          disabled={false}
-          shape='round'
-          type='primary-inverse'
-          handleClick={handleShowModal}
-        >
-          Como usar um fluxo implantado?
-        </Button>
+      <div className='tableContent'>
+        <div className='tableTitle'>
+          <span>
+            Fluxos implantados <QuestionCircleOutlined />
+          </span>
+          <UsingDeploymentsButtonContainer />
+        </div>
+        <DeploymentsTableContainer />
       </div>
 
-      <ImplantedExperimentsTableContainer />
-      <NewDeploymentsModalContainer />
+      <InferenceTestResultModalContainer />
+      <LogsDrawerContainer />
       <NewExperimentModalContainer />
+      <UsingDeploymentsModalContainer />
     </>
   );
 };

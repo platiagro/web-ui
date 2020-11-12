@@ -9,7 +9,7 @@ import {
 } from 'store/ui/actions';
 
 // SERVICES
-import implantedExperimentsApi from 'services/ImplantedExperimentsApi';
+import deploymentsApi from 'services/DeploymentsApi';
 
 /**
  * Test implanted experiment inference action
@@ -22,7 +22,7 @@ export const testImplantedExperimentInferenceAction = (deployId, file) => (
 ) => {
   dispatch(inferenceTestResultModalLoadingData());
   dispatch(showInferenceTestResultModal());
-  implantedExperimentsApi
+  deploymentsApi
     .testDeployedExperiments(deployId, file)
     .then((response) => {
       const seldonResponse =

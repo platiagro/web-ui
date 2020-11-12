@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 
 // COMPONENTS
 import { ResizableSection } from 'components';
-import DatasetDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/DatasetDrawer/_/Container';
-import GenericDrawerContainer from '../Content/ProjectContent/Experiment/Drawer/GenericDrawer/_/Container';
-import ResultsButtonBar from '../Content/ProjectContent/Experiment/Drawer/ResultsButtonBar';
-import NotebookOutputsContainer from '../Content/ProjectContent/Experiment/Drawer/NotebookOutputs/_/Container';
+import DatasetDrawerContainer from '../Content/ExperimentsContent/Experiment/Drawer/DatasetDrawer/_/Container';
+import GenericDrawerContainer from '../Content/ExperimentsContent/Experiment/Drawer/GenericDrawer/_/Container';
+import ResultsButtonBar from '../Content/ExperimentsContent/Experiment/Drawer/ResultsButtonBar';
+import NotebookOutputsContainer from '../Content/ExperimentsContent/Experiment/Drawer/NotebookOutputs/_/Container';
 import InputBlockContainer from 'components/InputBlockContainer';
 import OperatorLogBlock from 'components/LogBlock';
 
