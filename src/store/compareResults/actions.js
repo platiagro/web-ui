@@ -20,9 +20,10 @@ import utils from 'utils';
 
 /**
  * Function to update experiments options data
- * @param {String} experimentId
- * @param {Object[]} children
- * @param {Boolean} isLoading
+ *
+ * @param {string} experimentId
+ * @param {object[]} children
+ * @param {boolean} isLoading
  */
 const updateExperimentsOptions = (experimentId, children, isLoading) => {
   return {
@@ -35,9 +36,10 @@ const updateExperimentsOptions = (experimentId, children, isLoading) => {
 
 /**
  * Function to add compare result and dispatch to reducer
+ *
  * @param {string} projectId
  */
-export const addCompareResult = (projectId) => {
+export const fetchAddCompareResult = (projectId) => {
   return (dispatch) => {
     dispatch(setAddLoaderCompareResultsModal(true));
     compareResultsApi
@@ -59,10 +61,11 @@ export const addCompareResult = (projectId) => {
 
 /**
  * Function to delete compare result and dispatch to reducer
+ *
  * @param {string} projectId
  * @param {string} id
  */
-export const deleteCompareResult = (projectId, id) => {
+export const fetchDeleteCompareResult = (projectId, id) => {
   return (dispatch) => {
     dispatch(setDeleteLoaderCompareResultsModal(true));
     compareResultsApi
@@ -84,8 +87,9 @@ export const deleteCompareResult = (projectId, id) => {
 
 /**
  * Function to fetch compare results and dispatch to reducer
+ *
  * @param {string} projectId
- * @param {Object[]} experiments
+ * @param {object[]} experiments
  */
 export const fetchCompareResults = (projectId, experiments) => {
   return (dispatch) => {
@@ -123,7 +127,8 @@ export const fetchCompareResults = (projectId, experiments) => {
 
 /**
  * Function to fetch the compare results results and dispatch to reducer
- * @param {Object} compareResult
+ *
+ * @param {object} compareResult
  */
 export const fetchCompareResultsResults = (compareResult) => async (
   dispatch
@@ -186,7 +191,8 @@ export const fetchCompareResultsResults = (compareResult) => async (
 
 /**
  * Function to fetch the training history and dispatch to reducer
- * @param {String} experimentId
+ *
+ * @param {string} experimentId
  */
 export const fetchTrainingHistory = (experimentId) => {
   return (dispatch, getState) => {
@@ -221,8 +227,9 @@ export const fetchTrainingHistory = (experimentId) => {
 
 /**
  * Function to update compare result and dispatch to reducer
- * @param {Object} compareResult
- * @param {Boolean} changedPosition
+ *
+ * @param {object} compareResult
+ * @param {boolean} changedPosition
  */
 export const updateCompareResult = (compareResult, changedPosition) => {
   return (dispatch) => {

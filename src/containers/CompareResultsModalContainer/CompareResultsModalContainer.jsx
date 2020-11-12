@@ -21,8 +21,8 @@ import { Modal, Skeleton } from 'uiComponents';
 // ACTIONS
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 import {
-  addCompareResult,
-  deleteCompareResult,
+  fetchAddCompareResult,
+  fetchDeleteCompareResult,
   fetchCompareResults,
   fetchCompareResultsResults,
   fetchTrainingHistory,
@@ -36,14 +36,14 @@ import 'react-resizable/css/styles.css';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddCompareResult: (projectId) => {
-      dispatch(addCompareResult(projectId));
+    handlefetchAddCompareResult: (projectId) => {
+      dispatch(fetchAddCompareResult(projectId));
     },
     handleChangeVisibilityCompareResultsModal: () => {
       dispatch(changeVisibilityCompareResultsModal(false));
     },
     handleDeleteCompareResult: (projectId, id) => {
-      dispatch(deleteCompareResult(projectId, id));
+      dispatch(fetchDeleteCompareResult(projectId, id));
     },
     handleFetchCompareResults: (projectId, experiments) => {
       dispatch(fetchCompareResults(projectId, experiments));
@@ -81,6 +81,8 @@ const ReactGridLayout = WidthProvider(RGL);
 
 /**
  * Container to display operator experiment results modal.
+ *
+ * @param props
  */
 const CompareResultsModalContainer = (props) => {
   const {
@@ -95,7 +97,7 @@ const CompareResultsModalContainer = (props) => {
     tasks,
   } = props;
   const {
-    handleAddCompareResult,
+    handlefetchAddCompareResult,
     handleChangeVisibilityCompareResultsModal,
     handleDeleteCompareResult,
     handleFetchCompareResults,
@@ -264,7 +266,7 @@ const CompareResultsModalContainer = (props) => {
                 type='default'
                 disabled={addIsLoading}
                 onClick={() => {
-                  handleAddCompareResult(projectId);
+                  handlefetchAddCompareResult(projectId);
                 }}
               >
                 <Space style={{ color: '#0050B3' }}>
@@ -292,7 +294,7 @@ CompareResultsModalContainer.propTypes = {
   /** The expriments training history */
   experimentsTrainingHistory: PropTypes.object.isRequired,
   /** Function to handle add compare result */
-  handleAddCompareResult: PropTypes.func.isRequired,
+  handlefetchAddCompareResult: PropTypes.func.isRequired,
   /** Function to handle change visibility compare result modal */
   handleChangeVisibilityCompareResultsModal: PropTypes.func.isRequired,
   /** Function to handle delete compare result */
