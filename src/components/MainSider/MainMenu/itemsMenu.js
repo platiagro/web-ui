@@ -2,7 +2,6 @@ import React from 'react';
 import {
   AppstoreOutlined,
   BuildOutlined,
-  DeploymentUnitOutlined,
   SettingOutlined,
   ShoppingOutlined,
 } from '@ant-design/icons';
@@ -12,11 +11,6 @@ const itemsMenu = [
     icon: <AppstoreOutlined />,
     title: 'Meus projetos',
     path: '/projetos',
-  },
-  {
-    icon: <DeploymentUnitOutlined />,
-    title: 'Fluxos implantados',
-    path: '/fluxos-implantados',
   },
   {
     icon: <BuildOutlined />,
