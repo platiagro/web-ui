@@ -10,7 +10,7 @@ import DeploymentsTable from 'components/Content/ProjectDetailsContent/Deploymen
 import { fetchDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
   fetchDeployedExperiments,
-  deleteDeployedExperiment,
+  fetchDeleteDeployedExperiment,
 } from 'store/deployments/actions';
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 
@@ -18,7 +18,7 @@ import { testImplantedExperimentInferenceAction } from 'store/testExperimentInfe
 const mapDispatchToProps = (dispatch) => {
   return {
     handleDeleteDeployedExperiment: (implantedExperimentUuid) =>
-      dispatch(deleteDeployedExperiment(implantedExperimentUuid)),
+      dispatch(fetchDeleteDeployedExperiment(implantedExperimentUuid)),
     handleFetchDeployedExperiments: (experiments, isToShowLoader) =>
       dispatch(fetchDeployedExperiments(experiments, isToShowLoader)),
     handleGetDeployExperimentLogs: (deployId) =>
