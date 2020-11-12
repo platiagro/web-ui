@@ -7,7 +7,7 @@ import { useParams, withRouter } from 'react-router-dom';
 import DeploymentsTable from 'components/Content/ProjectDetailsContent/DeploymentsTable';
 
 // ACTIONS
-import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
+import { fetchDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
   fetchDeployedExperiments,
   deleteDeployedExperiment,
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchDeployedExperiments: (experiments, isToShowLoader) =>
       dispatch(fetchDeployedExperiments(experiments, isToShowLoader)),
     handleGetDeployExperimentLogs: (deployId) =>
-      dispatch(getDeployExperimentLogs(deployId)),
+      dispatch(fetchDeployExperimentLogs(deployId)),
     handleTestImplantedExperimentInference: (implantedExperimentUuid, file) =>
       dispatch(
         testImplantedExperimentInferenceAction(implantedExperimentUuid, file)
@@ -41,6 +41,7 @@ const mapStateToProps = (state) => {
 
 /**
  * Container to display deployments table.
+ *
  * @param {object} props Container props
  * @returns {DeploymentsTableContainer} Container
  */

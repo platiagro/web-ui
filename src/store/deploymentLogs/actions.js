@@ -22,9 +22,9 @@ const { getErrorMessage } = utils;
 /**
  * Get logs of implanted experiments
  *
- * @param {String} deployId
+ * @param {string} deployId
  */
-export const getDeployExperimentLogs = (deployId) => (dispatch) => {
+export const fetchDeployExperimentLogs = (deployId) => (dispatch) => {
   dispatch(showInferenceLogsDrawer('Logs'));
   dispatch(inferenceLogsDrawerLoadingData());
   deploymentsApi

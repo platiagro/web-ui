@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { InferenceTestResultModal } from 'components/Modals';
 
 // ACTIONS
-import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
+import { fetchDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 import { hideInferenceTestResultModal } from 'store/ui/actions';
 
@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleCloseModal: () => dispatch(hideInferenceTestResultModal()),
     handleGetDeployExperimentLogs: (deployId) =>
-      dispatch(getDeployExperimentLogs(deployId)),
+      dispatch(fetchDeployExperimentLogs(deployId)),
     handleTestImplantedExperimentInference: (deployId, file) =>
       dispatch(testImplantedExperimentInferenceAction(deployId, file)),
   };
@@ -34,6 +34,7 @@ const mapStateToProps = (state) => {
 
 /**
  * Container to display inference test result modal.
+ *
  * @param {object} props Container props
  * @returns {InferenceTestResultModalContainer} Container
  */
@@ -61,7 +62,7 @@ const InferenceTestResultModalContainer = (props) => {
     <InferenceTestResultModal
       closeModal={handleCloseModal}
       experimentInference={inferenceResult}
-      getDeployExperimentLogs={handleOpenLog}
+      fetchDeployExperimentLogs={handleOpenLog}
       isLoading={loading}
       retryTest={handleRetryTest}
       visible={visible}
