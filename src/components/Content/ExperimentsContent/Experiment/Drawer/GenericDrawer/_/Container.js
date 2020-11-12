@@ -8,8 +8,8 @@ import GenericDrawer from './index';
 
 // ACTIONS
 import {
-  removeOperatorRequest,
-  setOperatorParametersRequest,
+  fetchRemoveOperatorRequest,
+  fetchSetOperatorParametersRequest,
 } from '../../../../../../../store/operator/actions';
 
 // DISPATCHS
@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // remove operator
     handleRemoveOperator: (projectId, experimentId, operator) =>
-      dispatch(removeOperatorRequest(projectId, experimentId, operator)),
+      dispatch(fetchRemoveOperatorRequest(projectId, experimentId, operator)),
     // set operator parameter
     handleSetOperatorParameter: (
       projectId,
@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => {
       parameterValue
     ) =>
       dispatch(
-        setOperatorParametersRequest(
+        fetchSetOperatorParametersRequest(
           projectId,
           experimentId,
           operator,
@@ -54,6 +54,8 @@ const mapStateToProps = (state) => {
  * Generic Drawer Container.
  * This component is responsible for create a logic container for drawer with
  * redux.
+ *
+ * @param props
  */
 const GenericDrawerContainer = (props) => {
   // CONSTANTS

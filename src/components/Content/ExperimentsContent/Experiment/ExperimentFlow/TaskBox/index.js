@@ -19,14 +19,14 @@ import { Tooltip, Menu, Dropdown } from 'antd';
 import './style.less';
 
 // ACTIONS
-import { removeOperatorRequest } from 'store/operator/actions';
+import { fetchRemoveOperatorRequest } from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // remove operator
     handleRemoveOperator: (projectId, experimentId, operatorId) =>
-      dispatch(removeOperatorRequest(projectId, experimentId, operatorId)),
+      dispatch(fetchRemoveOperatorRequest(projectId, experimentId, operatorId)),
   };
 };
 

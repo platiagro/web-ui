@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import TasksMenuBlock from './index';
 
 // ACTIONS
-import { createOperatorRequest } from '../../../../../store/operator/actions';
+import { fetchCreateOperatorRequest } from '../../../../../store/operator/actions';
 import {
   fetchTasksMenuRequest,
   filterTasksMenu,
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
       position
     ) =>
       dispatch(
-        createOperatorRequest(
+        fetchCreateOperatorRequest(
           projectId,
           experimentId,
           taskId,

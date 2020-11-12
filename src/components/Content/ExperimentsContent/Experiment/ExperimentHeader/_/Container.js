@@ -8,7 +8,7 @@ import ExperimentHeader from './index';
 
 // ACTIONS
 // operator
-import { removeOperatorRequest } from '../../../../../../store/operator/actions';
+import { fetchRemoveOperatorRequest } from '../../../../../../store/operator/actions';
 // experiment
 import {
   fetchExperimentRequest,
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleDeleteTrainExperiment: (experimentId) =>
       dispatch(deleteTrainExperiment(experimentId)),
     handleRemoveOperator: (projectId, experimentId, operator) =>
-      dispatch(removeOperatorRequest(projectId, experimentId, operator)),
+      dispatch(fetchRemoveOperatorRequest(projectId, experimentId, operator)),
   };
 };
 

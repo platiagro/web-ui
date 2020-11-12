@@ -28,11 +28,11 @@ import {
 } from '../ui/actions';
 
 // DATASET ACTIONS
-import { getDatasetRequest } from '../dataset/actions';
+import { fetchDatasetRequest } from '../dataset/actions';
 
 // OPERATORS ACTIONS
 import {
-  clearOperatorsFeatureParametersRequest,
+  fetchClearOperatorsFeatureParametersRequest,
   fetchOperatorsRequest,
   upadteOperatorDependencies,
 } from '../operators/actions';
@@ -142,7 +142,7 @@ const getLogsFail = (error) => (dispatch) => {
  * @param {string} experimentId
  * @param {string} operatorId
  */
-export const getOperatorLogs = (experimentId, operatorId) => async (
+export const fetchOperatorLogs = (experimentId, operatorId) => async (
   dispatch
 ) => {
   pipelinesApi
@@ -163,7 +163,7 @@ export const getOperatorLogs = (experimentId, operatorId) => async (
  * @param {string} operatorId
  * @param page
  */
-export const getOperatorResultsRequest = (
+export const fetchOperatorResultsRequest = (
   experimentId,
   runId,
   operatorId,
@@ -266,7 +266,7 @@ export const getPageDataSetRequest = (experimentId, operatorId, page) => (
     });
 };
 
-export const getOperatorMetricsRequest = (experimentId, runId, operatorId) => (
+export const fetchOperatorMetricsRequest = (experimentId, runId, operatorId) => (
   dispatch
 ) => {
   dispatch({
@@ -332,19 +332,19 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
     });
 
     // fetching dataset columns
-    dispatch(getDatasetRequest(datasetValue));
+    dispatch(fetchDatasetRequest(datasetValue));
   }
 
   // getting results
   dispatch(
-    getOperatorResultsRequest(experimentId, 'latest', operator.uuid, page)
+    fetchOperatorResultsRequest(experimentId, 'latest', operator.uuid, page)
   );
 
   if (!isDataset && operator.status === 'Failed') {
-    dispatch(getOperatorLogs(experimentId, operator.uuid));
+    dispatch(fetchOperatorLogs(experimentId, operator.uuid));
   }
 
-  dispatch(getOperatorMetricsRequest(experimentId, 'latest', operator.uuid));
+  dispatch(fetchOperatorMetricsRequest(experimentId, 'latest', operator.uuid));
 
   // dispatching action to show drawer
   dispatch(showOperatorDrawer(operator.name, isDataset));
@@ -398,7 +398,7 @@ const createOperatorFail = (error) => (dispatch) => {
  * @param position
  * @returns {Function}
  */
-export const createOperatorRequest = (
+export const fetchCreateOperatorRequest = (
   projectId,
   experimentId,
   taskId,
@@ -500,7 +500,7 @@ export const createOperatorRequest = (
  * @param {string} operatorId
  * @param operator
  */
-export const removeOperatorRequest = (projectId, experimentId, operator) => (
+export const fetchRemoveOperatorRequest = (projectId, experimentId, operator) => (
   dispatch
 ) => {
   // dispatching request action
@@ -524,7 +524,7 @@ export const removeOperatorRequest = (projectId, experimentId, operator) => (
       // dispatching to fetch operator
       if (operator.tags.includes('DATASETS')) {
         dispatch(
-          clearOperatorsFeatureParametersRequest(projectId, experimentId)
+          fetchClearOperatorsFeatureParametersRequest(projectId, experimentId)
         );
       } else {
         dispatch(fetchOperatorsRequest(projectId, experimentId));
@@ -599,7 +599,7 @@ const setOperatorParametersFail = (error) => (dispatch) => {
  * @param {any} parameterValue
  * @returns {Function}
  */
-export const setOperatorParametersRequest = (
+export const fetchSetOperatorParametersRequest = (
   projectId,
   experimentId,
   operator,
@@ -682,7 +682,7 @@ export const setOperatorParametersRequest = (
 
 // // // // // // // // // //
 
-export const saveOperatorPosition = (
+export const fetchSaveOperatorPosition = (
   projectId,
   experimentId,
   operatorId,
@@ -700,7 +700,7 @@ export const saveOperatorPosition = (
     });
 };
 
-export const saveOperatorDependencies = (
+export const fetchSaveOperatorDependencies = (
   projectId,
   experimentId,
   operatorId,
@@ -741,7 +741,7 @@ export const saveOperatorDependencies = (
     });
 };
 
-export const saveTargetAttribute = (
+export const fetchSaveTargetAttribute = (
   projectId,
   experimentId,
   parameters
@@ -749,7 +749,7 @@ export const saveTargetAttribute = (
   const { operatorReducer: datasetOperator } = getState();
 
   dispatch(
-    setOperatorParametersRequest(
+    fetchSetOperatorParametersRequest(
       projectId,
       experimentId,
       datasetOperator,

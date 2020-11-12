@@ -8,8 +8,8 @@ import actionTypes from './actionTypes';
 import datasetsApi from '../../services/DatasetsApi';
 
 // OPERATOR ACTIONS
-import { setOperatorParametersRequest } from '../operator/actions';
-import { clearOperatorsFeatureParametersRequest } from '../operators/actions';
+import { fetchSetOperatorParametersRequest } from '../operator/actions';
+import { fetchClearOperatorsFeatureParametersRequest } from '../operators/actions';
 
 // UI ACTIONS
 import {
@@ -31,7 +31,7 @@ import { CancelToken, isCancel } from 'axios';
  * @param {object} response
  * @returns {object} { type, columns }
  */
-const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
+const dataSetColumnsSuccess = (response) => (dispatch) => {
   // getting dataset columns from response
   const columns = response.data;
 
@@ -86,9 +86,9 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
     // fetching dataset columns
     datasetsApi
       .listDatasetColumns(datasetName)
-      .then((response) => dispatch(fetchDatasetColumnsSuccess(response)))
+      .then((response) => dispatch(dataSetColumnsSuccess(response)))
       .catch((error) => dispatch(fetchDatasetColumnsFail(error)));
-  else dispatch(fetchDatasetColumnsSuccess({ data: [] }));
+  else dispatch(dataSetColumnsSuccess({ data: [] }));
 };
 
 // // // // // // // // // //
@@ -135,7 +135,7 @@ export const cancelDatasetUpload = () => (dispatch, getState) => {
  * @param {object} datasetOperator Dataset operator
  * @returns {Function} Dispatch function
  */
-export const datasetUploadSuccess = (
+export const fetchDatasetUploadSuccess = (
   dataset,
   projectId,
   experimentId,
@@ -160,7 +160,7 @@ export const datasetUploadSuccess = (
 
   // update dataset parameter
   dispatch(
-    setOperatorParametersRequest(
+    fetchSetOperatorParametersRequest(
       projectId,
       experimentId,
       datasetOperator,
@@ -170,7 +170,7 @@ export const datasetUploadSuccess = (
   );
 
   // dispatching clear operator feature parameters
-  dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
+  dispatch(fetchClearOperatorsFeatureParametersRequest(projectId, experimentId));
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
@@ -256,7 +256,7 @@ export const startFileDatasetUpload = (file) => (dispatch) => {
   // append dataset file
   fileFormData.append('file', file);
 
-  dispatch(startDatasetUpload(fileFormData, cancelToken));
+  dispatch(fetchStartDatasetUpload(fileFormData, cancelToken));
 };
 
 /**
@@ -266,7 +266,7 @@ export const startFileDatasetUpload = (file) => (dispatch) => {
  *
  * @returns {Function} Dispatch function
  */
-export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
+export const fetchStartGoogleDatasetUpload = (gfile) => (dispatch) => {
   // create cancel token
   const cancelToken = CancelToken.source();
 
@@ -279,7 +279,7 @@ export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
 
   const file = { gfile };
 
-  dispatch(startDatasetUpload(file, cancelToken));
+  dispatch(fetchStartDatasetUpload(file, cancelToken));
 };
 
 /**
@@ -289,7 +289,7 @@ export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
  * @param {object} cancelToken Cancel request token
  * @returns {Function} Dispatch function
  */
-export const startDatasetUpload = (file, cancelToken) => async (
+export const fetchStartDatasetUpload = (file, cancelToken) => async (
   dispatch,
   getState
 ) => {
@@ -339,7 +339,7 @@ export const startDatasetUpload = (file, cancelToken) => async (
 
     // dispatch success action
     dispatch(
-      datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+      fetchDatasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
     );
     // on error
   } catch (error) {
@@ -404,7 +404,7 @@ const updateDatasetColumnFail = (error) => (dispatch) => {
  * @param {string} columnNewType
  * @returns {Function}
  */
-export const updateDatasetColumnRequest = (columnName, columnNewType) => (
+export const fetchUpdateDatasetColumnRequest = (columnName, columnNewType) => (
   dispatch,
   getState
 ) => {
@@ -487,7 +487,7 @@ const getDatasetFail = (error) => (dispatch) => {
  * @param datasetName
  * @returns {Function}
  */
-export const getDatasetRequest = (datasetName) => (dispatch) => {
+export const fetchDatasetRequest = (datasetName) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.GET_DATASET_REQUEST,
@@ -528,7 +528,7 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
  * @param {string} experimentId Experiment id
  * @returns {Function} Action
  */
-export const selectDataset = (datasetName, projectId, experimentId) => (
+export const fetchSelectDataset = (datasetName, projectId, experimentId) => (
   dispatch,
   getState
 ) => {
@@ -552,7 +552,7 @@ export const selectDataset = (datasetName, projectId, experimentId) => (
 
       // dispatch action to save dataset
       dispatch(
-        datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+        fetchDatasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
       );
     })
     .catch((error) => dispatch(getDatasetFail(error)));
@@ -616,7 +616,7 @@ export const deleteDatasetFail = () => (dispatch) => {
  * @param experimentId
  * @returns {Function} Dispatch function
  */
-export const deleteDatasetRequest = (projectId, experimentId) => (
+export const fetchDeleteDatasetRequest = (projectId, experimentId) => (
   dispatch,
   getState
 ) => {
@@ -634,7 +634,7 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
   try {
     // update dataset parameter
     dispatch(
-      setOperatorParametersRequest(
+      fetchSetOperatorParametersRequest(
         projectId,
         experimentId,
         operator,
@@ -644,7 +644,7 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
     );
 
     // dispatching clear operator feature parameters
-    dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
+    dispatch(fetchClearOperatorsFeatureParametersRequest(projectId, experimentId));
 
     dispatch(deleteDatasetSuccess());
   } catch (e) {

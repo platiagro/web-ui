@@ -11,8 +11,8 @@ import { selectOperator } from '../../../../../../store/operator/actions';
 import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
 import {
   deselectOperator,
-  saveOperatorPosition,
-  saveOperatorDependencies,
+  fetchSaveOperatorPosition,
+  fetchSaveOperatorDependencies,
 } from '../../../../../../store/operator/actions';
 import { useStoreState } from 'react-flow-renderer';
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch) => {
       position
     ) =>
       dispatch(
-        saveOperatorPosition(projectId, experimentId, operatorId, position)
+        fetchSaveOperatorPosition(projectId, experimentId, operatorId, position)
       ),
     handleSaveOperatorDependencies: (
       projectId,
@@ -44,7 +44,7 @@ const mapDispatchToProps = (dispatch) => {
       operators
     ) =>
       dispatch(
-        saveOperatorDependencies(
+        fetchSaveOperatorDependencies(
           projectId,
           experimentId,
           operatorId,

@@ -21,12 +21,12 @@ import { UploadButton } from 'components/Buttons';
 import { hideDataViewModal } from 'store/ui/actions';
 import {
   fetchPaginatedDataset,
-  updateDatasetColumnRequest,
+  fetchUpdateDatasetColumnRequest,
   updateAllDatasetColumnSuccess,
   updateAllDatasetColumnFail,
   updateAllDatasetColumnStart,
 } from 'store/dataset/actions';
-import { saveTargetAttribute } from 'store/operator/actions';
+import { fetchSaveTargetAttribute } from 'store/operator/actions';
 
 // STYLES
 import './DataViewModalContainer.less';
@@ -44,7 +44,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchPaginatedDataset(datasetName, page, pageSize)),
     // update dataset column
     handleUpdateDatasetColumn: (columnName, columnNewType) =>
-      dispatch(updateDatasetColumnRequest(columnName, columnNewType)),
+      dispatch(fetchUpdateDatasetColumnRequest(columnName, columnNewType)),
     // update all columns
     handleUpdateAllDatasetColumnSuccess: (allColumns) =>
       dispatch(updateAllDatasetColumnSuccess(allColumns)),
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch) => {
     handleUpdateAllDatasetColumnStart: () =>
       dispatch(updateAllDatasetColumnStart()),
     handleTargetAttribute: (parameters, projectId, experimentId) =>
-      dispatch(saveTargetAttribute(projectId, experimentId, parameters)),
+      dispatch(fetchSaveTargetAttribute(projectId, experimentId, parameters)),
   };
 };
 
