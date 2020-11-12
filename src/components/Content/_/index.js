@@ -35,11 +35,11 @@ const Content = () => {
           <ProjectsContent />
         </Route>
         {/* project content */}
-        <Route exact path='/projetos/:projectId'>
+        <Route exact strict path='/projetos/:projectId'>
           <ProjectsDetailsContent />
         </Route>
         {/* experiment content */}
-        <Route exact path='/projetos/:projectId/:experimentId'>
+        <Route exact path='/projetos/:projectId/:experimentId?'>
           <ExperimentsContent />
         </Route>
         {/* implanted experiments content */}
