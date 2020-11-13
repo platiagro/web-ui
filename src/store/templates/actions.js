@@ -243,8 +243,6 @@ export const fetchSetTemplateRequest = (projectId, experimentId, templateId) => 
  *
  * @param templateId
  * @param allTasks
- * @param templateId
- * @param allTasks
  * @returns {Function}
  */
 export const fetchDeleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
