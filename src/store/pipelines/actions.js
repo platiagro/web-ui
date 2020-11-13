@@ -28,7 +28,7 @@ import utils from '../../utils';
  *
  * @returns {object} { type }
  */
-const trainExperimentSuccess = () => {
+const fetchTrainExperimentSuccess = () => {
   message.success('Treinamento iniciado!');
 };
 
@@ -38,7 +38,7 @@ const trainExperimentSuccess = () => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const trainExperimentFail = (error) => (dispatch) => {
+const fetchTrainExperimentFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -55,7 +55,7 @@ const trainExperimentFail = (error) => (dispatch) => {
  * @param {object[]} operators
  * @returns {Function}
  */
-export const trainExperimentRequest = (experiment, operators) => (
+export const fetchTrainExperimentRequest = (experiment, operators) => (
   dispatch,
   getState
 ) => {
@@ -107,8 +107,8 @@ export const trainExperimentRequest = (experiment, operators) => (
   // training experiment
   pipelinesApi
     .trainExperiment(trainObject)
-    .then(() => trainExperimentSuccess())
-    .catch((error) => dispatch(trainExperimentFail(error)));
+    .then(() => fetchTrainExperimentSuccess())
+    .catch((error) => dispatch(fetchTrainExperimentFail(error)));
 };
 
 // // // // // // // // // //
@@ -120,7 +120,7 @@ export const trainExperimentRequest = (experiment, operators) => (
  * @param {object} response
  * @returns {object} { type }
  */
-const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
+const fetchTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
   // getting operators from response
   const { operators } = response.data;
 
@@ -180,7 +180,7 @@ const getTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const getTrainExperimentStatusFail = (error) => (dispatch) => {
+const fetchTrainExperimentStatusFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -198,7 +198,7 @@ const getTrainExperimentStatusFail = (error) => (dispatch) => {
  * @param {object[]} operators
  * @returns {Function}
  */
-export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
+export const fetchTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_REQUEST,
@@ -207,8 +207,8 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
   // training experiment
   pipelinesApi
     .getTrainExperimentStatus(experimentId)
-    .then((response) => dispatch(getTrainExperimentStatusSuccess(response)))
-    .catch((error) => dispatch(getTrainExperimentStatusFail(error)));
+    .then((response) => dispatch(fetchTrainExperimentStatusSuccess(response)))
+    .catch((error) => dispatch(fetchTrainExperimentStatusFail(error)));
 };
 
 // // // // // // // // // //
@@ -222,7 +222,7 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
  * @param {object} routerProps
  * @returns {Function}
  */
-export const deployExperimentRequest = (
+export const fetchDeployExperimentRequest = (
   project,
   experiment,
   operators,
@@ -275,13 +275,13 @@ export const deployExperimentRequest = (
  * @param {string} experimentId
  * @returns {Function}
  */
-export const deleteTrainExperiment = (experimentId) => (dispatch) => {
+export const fetchDeleteTrainExperiment = (experimentId) => (dispatch) => {
   dispatch(experimentDeleteTrainingLoadingData());
   pipelinesApi
     .deleteTrainExperiment(experimentId)
     .then(() => {
       message.loading('Interrompendo execução...', 5);
-      dispatch(getTrainExperimentStatusRequest(experimentId));
+      dispatch(fetchTrainExperimentStatusRequest(experimentId));
     })
     .catch((error) => {
       dispatch(experimentDeleteTrainingDataLoaded());

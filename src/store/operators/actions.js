@@ -21,7 +21,7 @@ import {
 } from '../ui/actions';
 
 // PIPELINES ACTIONS
-import { getTrainExperimentStatusRequest } from '../pipelines/actions';
+import { fetchTrainExperimentStatusRequest } from '../pipelines/actions';
 
 // UTILS
 import utils from '../../utils';
@@ -46,7 +46,7 @@ const fetchOperatorsSuccess = (operators, experimentId) => (dispatch) => {
   dispatch(experimentsTabsDataLoaded());
 
   // dispatching get training experiment status request action
-  dispatch(getTrainExperimentStatusRequest(experimentId));
+  dispatch(fetchTrainExperimentStatusRequest(experimentId));
 
   // dispatching fetch operators success action
   dispatch({

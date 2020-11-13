@@ -8,7 +8,7 @@ import ExperimentFlow from './index';
 
 // ACTIONS
 import { fetchSelectOperator } from '../../../../../../store/operator/actions';
-import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
+import { fetchTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
 import {
   deselectOperator,
   fetchSaveOperatorPosition,
@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchSelectOperator(projectId, experimentId, operator, page)),
     // getting training experiment status
     handleGetTrainExperimentStatus: (experimentId) =>
-      dispatch(getTrainExperimentStatusRequest(experimentId)),
+      dispatch(fetchTrainExperimentStatusRequest(experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),
     // saving operator position
     handleSaveOperatorPosition: (

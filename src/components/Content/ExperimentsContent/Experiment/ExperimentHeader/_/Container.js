@@ -16,8 +16,8 @@ import {
 } from '../../../../../../store/experiment/actions';
 // pipelines
 import {
-  trainExperimentRequest,
-  deleteTrainExperiment,
+  fetchTrainExperimentRequest,
+  fetchDeleteTrainExperiment,
 } from '../../../../../../store/pipelines/actions';
 
 // DISPATCHS
@@ -28,9 +28,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleEditExperimentName: (projectId, experimentId, newName) =>
       dispatch(editExperimentNameRequest(projectId, experimentId, newName)),
     handleTrainExperiment: (experiment, operators) =>
-      dispatch(trainExperimentRequest(experiment, operators)),
+      dispatch(fetchTrainExperimentRequest(experiment, operators)),
     handleDeleteTrainExperiment: (experimentId) =>
-      dispatch(deleteTrainExperiment(experimentId)),
+      dispatch(fetchDeleteTrainExperiment(experimentId)),
     handleRemoveOperator: (projectId, experimentId, operator) =>
       dispatch(fetchRemoveOperatorRequest(projectId, experimentId, operator)),
   };
