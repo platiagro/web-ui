@@ -31,7 +31,7 @@ import { CancelToken, isCancel } from 'axios';
  * @param {object} response
  * @returns {object} { type, columns }
  */
-const dataSetColumnsSuccess = (response) => (dispatch) => {
+const fetchDataSetColumnsSuccess = (response) => (dispatch) => {
   // getting dataset columns from response
   const columns = response.data;
 
@@ -86,9 +86,9 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
     // fetching dataset columns
     datasetsApi
       .listDatasetColumns(datasetName)
-      .then((response) => dispatch(dataSetColumnsSuccess(response)))
+      .then((response) => dispatch(fetchDataSetColumnsSuccess(response)))
       .catch((error) => dispatch(fetchDatasetColumnsFail(error)));
-  else dispatch(dataSetColumnsSuccess({ data: [] }));
+  else dispatch(fetchDataSetColumnsSuccess({ data: [] }));
 };
 
 // // // // // // // // // //
@@ -490,7 +490,7 @@ const getDatasetFail = (error) => (dispatch) => {
 export const fetchDatasetRequest = (datasetName) => (dispatch) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.GET_DATASET_REQUEST,
+    type: actionTypes.FETCH_DATASET_REQUEST,
   });
 
   // dispatching dataset operator loading data action
