@@ -110,7 +110,7 @@ export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
  * @param {object} routerProps
  * @returns {object} { type, project }
  */
-const createProjectSuccess = (response, routerProps) => (dispatch) => {
+const fetchCreateProjectSuccess = (response, routerProps) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
@@ -138,7 +138,7 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const createProjectFail = (error) => (dispatch) => {
+const fetchCreateProjectFail = (error) => (dispatch) => {
   // dispatching projects table data loaded action
   dispatch(projectsTableDataLoaded());
 
@@ -177,7 +177,7 @@ const createProjectFail = (error) => (dispatch) => {
  * @param routerProps
  * @returns {Function}
  */
-export const createProjectRequest = (
+export const fetchCreateProjectRequest = (
   projectName,
   projectDescription,
   routerProps
@@ -193,8 +193,8 @@ export const createProjectRequest = (
   // creating project
   projectsApi
     .createProject(projectName, projectDescription)
-    .then((response) => dispatch(createProjectSuccess(response, routerProps)))
-    .catch((error) => dispatch(createProjectFail(error)));
+    .then((response) => dispatch(fetchCreateProjectSuccess(response, routerProps)))
+    .catch((error) => dispatch(fetchCreateProjectFail(error)));
 };
 
 // // // // // // // // // //
@@ -206,7 +206,7 @@ export const createProjectRequest = (
  * @param {object} response
  * @returns {object} { type, project }
  */
-const editProjectNameSuccess = (response) => (dispatch) => {
+const fetchEditProjectNameSuccess = (response) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
@@ -228,7 +228,7 @@ const editProjectNameSuccess = (response) => (dispatch) => {
  * @param isModal
  * @returns {object} { type, errorMessage }
  */
-const editProjectNameFail = (error, isModal) => (dispatch) => {
+const fetchEditProjectNameFail = (error, isModal) => (dispatch) => {
   // dispatching project name data loaded action
   dispatch(projectEditNameDataLoaded());
 
@@ -264,7 +264,7 @@ const editProjectNameFail = (error, isModal) => (dispatch) => {
  * @param isModal
  * @returns {Function}
  */
-export const editProjectNameRequest = (
+export const fetchEditProjectNameRequest = (
   projectId,
   newProjectName,
   newProjectDescription,
@@ -281,8 +281,8 @@ export const editProjectNameRequest = (
   // creating project
   projectsApi
     .updateProject(projectId, newProjectName, newProjectDescription)
-    .then((response) => dispatch(editProjectNameSuccess(response)))
-    .catch((error) => dispatch(editProjectNameFail(error, isModal)));
+    .then((response) => dispatch(fetchEditProjectNameSuccess(response)))
+    .catch((error) => dispatch(fetchEditProjectNameFail(error, isModal)));
 };
 
 // // // // // // // // // //
@@ -294,7 +294,7 @@ export const editProjectNameRequest = (
  * @param {object} projectId
  * @returns {object} { type }
  */
-const deleteProjectSuccess = (projectId) => (dispatch) => {
+const fetchDeleteProjectSuccess = (projectId) => (dispatch) => {
   // dispatching projects table data loaded action
   dispatch(projectsTableDataLoaded());
 
@@ -313,7 +313,7 @@ const deleteProjectSuccess = (projectId) => (dispatch) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const deleteProjectFail = (error) => (dispatch) => {
+const fetchDeleteProjectFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -335,7 +335,7 @@ const deleteProjectFail = (error) => (dispatch) => {
  * @param projectId
  * @returns {Function}
  */
-export const deleteProjectRequest = (projectId) => (dispatch) => {
+export const fetchDeleteProjectRequest = (projectId) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DELETE_PROJECT_REQUEST,
@@ -347,6 +347,6 @@ export const deleteProjectRequest = (projectId) => (dispatch) => {
   // deleting project
   projectsApi
     .deleteProject(projectId)
-    .then(() => dispatch(deleteProjectSuccess(projectId)))
-    .catch((error) => dispatch(deleteProjectFail(error)));
+    .then(() => dispatch(fetchDeleteProjectSuccess(projectId)))
+    .catch((error) => dispatch(fetchDeleteProjectFail(error)));
 };

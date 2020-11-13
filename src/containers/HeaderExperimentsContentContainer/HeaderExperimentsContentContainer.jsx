@@ -10,7 +10,7 @@ import ExperimentButtonsContainer from 'components/Content/ContentHeader/Experim
 
 // ACTIONS
 import {
-  editProjectNameRequest,
+  fetchEditProjectNameRequest,
   fetchProjectRequest,
 } from 'store/project/actions';
 
@@ -18,7 +18,7 @@ import {
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleEditProjectName: (projectId, newName) =>
-      dispatch(editProjectNameRequest(projectId, newName)),
+      dispatch(fetchEditProjectNameRequest(projectId, newName)),
     handleFetchProject: (projectId) =>
       dispatch(fetchProjectRequest(projectId, routerProps)),
   };
@@ -36,6 +36,8 @@ const mapStateToProps = (state) => {
  * Content Header Experiments Content Container.
  * This component is responsible for create a logic container for experiments content
  * header with route control.
+ *
+ * @param props
  */
 const HeaderExperimentsContentContainer = (props) => {
   const { project, handleEditProjectName, handleFetchProject } = props;

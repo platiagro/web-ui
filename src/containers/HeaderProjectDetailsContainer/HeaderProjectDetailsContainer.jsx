@@ -10,10 +10,10 @@ import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
 // ACTIONS
 import {
   fetchProjectRequest,
-  editProjectNameRequest,
+  fetchEditProjectNameRequest,
 } from 'store/project/actions';
 
-import { deleteProject } from 'store/projects/actions';
+import { fetchDeleteProject } from 'store/projects/actions';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
 
@@ -28,9 +28,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleFetchProject: (projectId) =>
       dispatch(fetchProjectRequest(projectId, routerProps)),
     handleEditProjectName: (projectId, newName) =>
-      dispatch(editProjectNameRequest(projectId, newName)),
+      dispatch(fetchEditProjectNameRequest(projectId, newName)),
     handleDeleteProject: (searchText, selectedProjects) =>
-      dispatch(deleteProject(searchText, selectedProjects)),
+      dispatch(fetchDeleteProject(searchText, selectedProjects)),
   };
 };
 

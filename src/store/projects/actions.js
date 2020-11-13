@@ -99,7 +99,7 @@ export const fetchProjects = () => (dispatch) => {
  *
  * @param projects
  */
-export const selectProjects = (projects) => {
+export const fetchSelectProjects = (projects) => {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SELECTED_PROJECTS,
@@ -114,7 +114,7 @@ export const selectProjects = (projects) => {
  * @param searchText
  * @param projects
  */
-export const deleteSelectedProjects = (searchText, projects) => {
+export const fetchDeleteSelectedProjects = (searchText, projects) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
 
@@ -143,7 +143,7 @@ export const deleteSelectedProjects = (searchText, projects) => {
  * @param searchText
  * @param uuid
  */
-export const deleteProject = (searchText, uuid) => {
+export const fetchDeleteProject = (searchText, uuid) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
 

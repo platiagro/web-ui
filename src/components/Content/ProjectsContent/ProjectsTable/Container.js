@@ -11,9 +11,9 @@ import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 // ACTIONS
 import {
   fetchPaginatedProjects,
-  selectProjects,
+  fetchSelectProjects,
 } from '../../../../store/projects/actions';
-import { deleteProjectRequest } from '../../../../store/project/actions';
+import { fetchDeleteProjectRequest } from '../../../../store/project/actions';
 
 // ACTIONS
 import { showNewProjectModal } from '../../../../store/ui/actions';
@@ -24,10 +24,10 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchPaginatedProjects: (name) =>
       dispatch(fetchPaginatedProjects(name, 1, 10)),
     handleDeleteProject: (projectUuid) =>
-      dispatch(deleteProjectRequest(projectUuid)),
+      dispatch(fetchDeleteProjectRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>
       dispatch(showNewProjectModal(record)),
-    handleSelectProjects: (record) => dispatch(selectProjects(record)),
+    handleSelectProjects: (record) => dispatch(fetchSelectProjects(record)),
   };
 };
 
