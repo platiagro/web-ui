@@ -17,8 +17,9 @@ import {
 // ** FETCH EXPERIMENTS
 /**
  * fetch experiments success action
- * @param {Object} response
- * @returns {Object} { type, experiments }
+ *
+ * @param {object} response
+ * @returns {object} { type, experiments }
  */
 const fetchExperimentsSuccess = (response) => (dispatch) => {
   // getting experiments from response
@@ -36,8 +37,9 @@ const fetchExperimentsSuccess = (response) => (dispatch) => {
 
 /**
  * fetch experiments fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const fetchExperimentsFail = (error) => (dispatch) => {
   // getting error message
@@ -57,6 +59,7 @@ const fetchExperimentsFail = (error) => (dispatch) => {
 
 /**
  * fetch experiments request action
+ *
  * @param {string} projectId
  * @returns {Function}
  */
@@ -78,6 +81,7 @@ export const fetchExperimentsRequest = (projectId) => (dispatch) => {
 
 /**
  * clear all experiments action
+ *
  * @returns {Function}
  */
 export const clearAllExperiments = () => (dispatch) => {
@@ -91,10 +95,15 @@ export const clearAllExperiments = () => (dispatch) => {
 // ** ORGANIZE EXPERIMENTS
 /**
  * organize experiments success action
- * @param {Object} response
- * @returns {Object} { type, dragExperimentId, hoverExperimentId }
+ *
+ * @param {object} response
+ * @param dragExperimentId
+ * @param hoverExperimentId
+ * @param dragExperimentId
+ * @param hoverExperimentId
+ * @returns {object} { type, dragExperimentId, hoverExperimentId }
  */
-const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
+const fetchOrganizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
   dispatch
 ) => {
   // dispatching experiments tabs data loaded action
@@ -110,10 +119,11 @@ const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
 
 /**
  * organize experiments fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
-const organizeExperimentsFail = (error) => (dispatch) => {
+const fetchOrganizeExperimentsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -131,12 +141,14 @@ const organizeExperimentsFail = (error) => (dispatch) => {
 
 /**
  * organize experiments request action
+ *
  * @param {string} projectId
  * @param {string} dragExperimentId
  * @param {string} hoverExperimentId
+ * @param newPosition
  * @returns {Function}
  */
-export const organizeExperimentsRequest = (
+export const fetchOrganizeExperimentsRequest = (
   projectId,
   dragExperimentId,
   hoverExperimentId,
@@ -157,7 +169,7 @@ export const organizeExperimentsRequest = (
   experimentsApi
     .updateExperiment(projectId, dragExperimentId, experiment)
     .then(() =>
-      dispatch(organizeExperimentsSuccess(dragExperimentId, hoverExperimentId))
+      dispatch(fetchOrganizeExperimentsSuccess(dragExperimentId, hoverExperimentId))
     )
-    .catch((error) => dispatch(organizeExperimentsFail(error)));
+    .catch((error) => dispatch(fetchOrganizeExperimentsFail(error)));
 };

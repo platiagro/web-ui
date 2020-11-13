@@ -9,7 +9,7 @@ import ExperimentsTabs from './index';
 // ACTIONS
 import {
   fetchExperimentsRequest,
-  organizeExperimentsRequest,
+  fetchOrganizeExperimentsRequest,
   clearAllExperiments,
 } from '../../../../../store/experiments/actions';
 import {
@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       newPosition
     ) =>
       dispatch(
-        organizeExperimentsRequest(
+        fetchOrganizeExperimentsRequest(
           projectId,
           dragExperimentId,
           hoverExperimentId,
