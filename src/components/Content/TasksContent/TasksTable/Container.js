@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // ACTIONS
 import {
   showCopyTaksModal,
-  deleteTask,
+  fetchDeleteTask,
   fetchTasks,
   showTasksModal,
 } from '../../../../store/tasks/actions';
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchTasks());
     },
     handleDeleteTask: (id) => {
-      dispatch(deleteTask(id));
+      dispatch(fetchDeleteTask(id));
     },
     handleShowTasksModal: (record) => dispatch(showTasksModal(record)),
     handleCopyTaskRequest: (record) => dispatch(showCopyTaksModal(record)),

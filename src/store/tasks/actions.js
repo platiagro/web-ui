@@ -46,7 +46,7 @@ const sleep = (milliseconds) => {
  *
  * @param {object} task
  */
-export const addTask = (task) => {
+export const fetchAddTask = (task) => {
   return (dispatch) => {
     // showing loading
     dispatch(tasksTableLoadingData());
@@ -98,7 +98,7 @@ export const addTask = (task) => {
  *
  * @param {string} id
  */
-export const deleteTask = (id) => {
+export const fetchDeleteTask = (id) => {
   return (dispatch) => {
     // showing loading
     dispatch(tasksTableLoadingData());
@@ -188,7 +188,7 @@ export const fetchTasks = () => {
  * @param uuid
  * @param {object} task
  */
-export const updateTask = (uuid, task) => {
+export const fetchUpdateTask = (uuid, task) => {
   return (dispatch) => {
     // showing loading
     dispatch(tasksTableLoadingData());

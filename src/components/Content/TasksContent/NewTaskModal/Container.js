@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // ACTIONS
-import { addTask, closeTasksModal } from '../../../../store/tasks/actions';
+import { fetchAddTask, closeTasksModal } from '../../../../store/tasks/actions';
 
 // COMPONENTS
 import NewTaskModal from './index';
@@ -12,7 +12,7 @@ import NewTaskModal from './index';
 const mapDispatchToProps = (dispatch) => {
   return {
     handleAddTask: (taskValues) => {
-      return dispatch(addTask(taskValues));
+      return dispatch(fetchAddTask(taskValues));
     },
     handleCloseTasksModal: () => {
       return dispatch(closeTasksModal());

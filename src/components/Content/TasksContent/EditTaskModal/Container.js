@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // ACTIONS
-import { updateTask, closeTasksModal } from '../../../../store/tasks/actions';
+import { fetchUpdateTask, closeTasksModal } from '../../../../store/tasks/actions';
 
 // COMPONENTS
 import EditTaskModal from './index';
@@ -12,7 +12,7 @@ import EditTaskModal from './index';
 const mapDispatchToProps = (dispatch) => {
   return {
     handleUpdateTask: (uuid, taskValues) => {
-      return dispatch(updateTask(uuid, taskValues));
+      return dispatch(fetchUpdateTask(uuid, taskValues));
     },
     handleCloseTasksModal: () => {
       return dispatch(closeTasksModal());
@@ -35,6 +35,8 @@ const mapStateToProps = (state) => {
  * Edit Task Modal Container.
  * This component is responsible for create a logic container for edit task modal
  * with redux.
+ *
+ * @param props
  */
 const EditTaskModalContainer = (props) => {
   // states
