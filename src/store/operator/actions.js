@@ -32,7 +32,7 @@ import { fetchDatasetRequest } from '../dataset/actions';
 
 // OPERATORS ACTIONS
 import {
-  fetchClearOperatorsFeatureParametersRequest,
+  updateOperatorsParametersRequest,
   fetchOperatorsRequest,
   fetchUpdateOperatorDependencies,
 } from '../operators/actions';
@@ -524,7 +524,7 @@ export const fetchRemoveOperatorRequest = (projectId, experimentId, operator) =>
       // dispatching to fetch operator
       if (operator.tags.includes('DATASETS')) {
         dispatch(
-          fetchClearOperatorsFeatureParametersRequest(projectId, experimentId)
+          updateOperatorsParametersRequest(projectId, experimentId)
         );
       } else {
         dispatch(fetchOperatorsRequest(projectId, experimentId));
@@ -599,7 +599,7 @@ const fetchSetOperatorParametersFail = (error) => (dispatch) => {
  * @param {any} parameterValue
  * @returns {Function}
  */
-export const fetchSetOperatorParametersRequest = (
+export const updateOperatorParametersRequest = (
   projectId,
   experimentId,
   operator,
@@ -749,7 +749,7 @@ export const fetchSaveTargetAttribute = (
   const { operatorReducer: datasetOperator } = getState();
 
   dispatch(
-    fetchSetOperatorParametersRequest(
+    updateOperatorParametersRequest(
       projectId,
       experimentId,
       datasetOperator,

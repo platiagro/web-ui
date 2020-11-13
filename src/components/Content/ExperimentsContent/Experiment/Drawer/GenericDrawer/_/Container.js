@@ -9,7 +9,7 @@ import GenericDrawer from './index';
 // ACTIONS
 import {
   fetchRemoveOperatorRequest,
-  fetchSetOperatorParametersRequest,
+  updateOperatorParametersRequest,
 } from '../../../../../../../store/operator/actions';
 
 // DISPATCHS
@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => {
       parameterValue
     ) =>
       dispatch(
-        fetchSetOperatorParametersRequest(
+        updateOperatorParametersRequest(
           projectId,
           experimentId,
           operator,

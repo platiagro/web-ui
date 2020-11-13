@@ -149,7 +149,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
  * @param {string} projectId
  * @param {string} experimentId
  */
-export const fetchClearOperatorsFeatureParametersRequest = (
+export const updateOperatorsParametersRequest = (
   projectId,
   experimentId
 ) => async (dispatch, getState) => {

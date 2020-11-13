@@ -8,8 +8,8 @@ import actionTypes from './actionTypes';
 import datasetsApi from '../../services/DatasetsApi';
 
 // OPERATOR ACTIONS
-import { fetchSetOperatorParametersRequest } from '../operator/actions';
-import { fetchClearOperatorsFeatureParametersRequest } from '../operators/actions';
+import { updateOperatorParametersRequest } from '../operator/actions';
+import { updateOperatorsParametersRequest } from '../operators/actions';
 
 // UI ACTIONS
 import {
@@ -160,7 +160,7 @@ export const fetchDatasetUploadSuccess = (
 
   // update dataset parameter
   dispatch(
-    fetchSetOperatorParametersRequest(
+    updateOperatorParametersRequest(
       projectId,
       experimentId,
       datasetOperator,
@@ -170,7 +170,7 @@ export const fetchDatasetUploadSuccess = (
   );
 
   // dispatching clear operator feature parameters
-  dispatch(fetchClearOperatorsFeatureParametersRequest(projectId, experimentId));
+  dispatch(updateOperatorsParametersRequest(projectId, experimentId));
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
@@ -634,7 +634,7 @@ export const fetchDeleteDatasetRequest = (projectId, experimentId) => (
   try {
     // update dataset parameter
     dispatch(
-      fetchSetOperatorParametersRequest(
+      updateOperatorParametersRequest(
         projectId,
         experimentId,
         operator,
@@ -644,7 +644,7 @@ export const fetchDeleteDatasetRequest = (projectId, experimentId) => (
     );
 
     // dispatching clear operator feature parameters
-    dispatch(fetchClearOperatorsFeatureParametersRequest(projectId, experimentId));
+    dispatch(updateOperatorsParametersRequest(projectId, experimentId));
 
     dispatch(deleteDatasetSuccess());
   } catch (e) {
