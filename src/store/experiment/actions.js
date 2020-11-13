@@ -428,7 +428,7 @@ const deleteExperimentFail = (error) => (dispatch) => {
  * @param {object} routerProps
  * @returns {Function}
  */
-export const deleteExperimentRequest = (
+export const fetchDeleteExperimentRequest = (
   projectId,
   experimentId,
   routerProps
