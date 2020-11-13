@@ -248,7 +248,7 @@ const fetchDataSetResultSuccess = (responseTable, operatorId, page) => (
  * @param {string} operatorId
  * @param page
  */
-export const fetchPageDataSetRequest = (experimentId, operatorId, page) => (
+export const fetchDatasetPageRequest = (experimentId, operatorId, page) => (
   dispatch
 ) => {
   dispatch({
