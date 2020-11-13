@@ -211,7 +211,7 @@ export const fetchClearOperatorsFeatureParametersRequest = (
 
 // // // // // // // // // //
 
-export const fetchUpadteOperatorDependencies = (operators) => (dispatch) => {
+export const fetchUpdateOperatorDependencies = (operators) => (dispatch) => {
   dispatch({
     type: actionTypes.UPDATE_OPERATOR_DEPENDENCIES,
     operators,

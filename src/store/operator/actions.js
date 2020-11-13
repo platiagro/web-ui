@@ -34,7 +34,7 @@ import { fetchDatasetRequest } from '../dataset/actions';
 import {
   fetchClearOperatorsFeatureParametersRequest,
   fetchOperatorsRequest,
-  fetchUpadteOperatorDependencies,
+  fetchUpdateOperatorDependencies,
 } from '../operators/actions';
 
 // UTILS
@@ -726,7 +726,7 @@ export const fetchSaveOperatorDependencies = (
     return el;
   });
 
-  dispatch(fetchUpadteOperatorDependencies(operatorWithNewDependencies));
+  dispatch(fetchUpdateOperatorDependencies(operatorWithNewDependencies));
 
   await operatorsApi
     .updateOperator(projectId, experimentId, operatorId, body)
@@ -737,7 +737,7 @@ export const fetchSaveOperatorDependencies = (
       dispatch(dependenciesOperatorLoaded());
       const errorMessage = error.message;
       message.error(errorMessage);
-      dispatch(fetchUpadteOperatorDependencies(operators));
+      dispatch(fetchUpdateOperatorDependencies(operators));
     });
 };
 
