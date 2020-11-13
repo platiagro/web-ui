@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 
 // ACTIONS
-import { createTemplateRequest } from '../../../../../../store/templates/actions';
+import { fetchCreateTemplateRequest } from '../../../../../../store/templates/actions';
 import { hideNewTemplateModal } from '../../../../../../store/ui/actions';
 
 // COMPONENTS
@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // create template action
     handleCreateTemplate: (templateName, experimentId) =>
-      dispatch(createTemplateRequest(templateName, experimentId)),
+      dispatch(fetchCreateTemplateRequest(templateName, experimentId)),
     // hide modal action
     handleHideTemplateModal: () => dispatch(hideNewTemplateModal()),
   };

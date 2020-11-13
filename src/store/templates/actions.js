@@ -29,8 +29,9 @@ import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 // ** FETCH TEMPLATES
 /**
  * fetch templates success action
- * @param {Object} response
- * @returns {Object} { type, templates }
+ *
+ * @param {object} response
+ * @returns {object} { type, templates }
  */
 const fetchTemplatesSuccess = (response) => {
   // getting templates from response
@@ -44,8 +45,9 @@ const fetchTemplatesSuccess = (response) => {
 
 /**
  * fetch templates fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const fetchTemplatesFail = (error) => {
   // getting error message
@@ -61,6 +63,7 @@ const fetchTemplatesFail = (error) => {
 
 /**
  * fetch templates request action
+ *
  * @returns {Function}
  */
 export const fetchTemplatesRequest = () => (dispatch) => {
@@ -81,10 +84,11 @@ export const fetchTemplatesRequest = () => (dispatch) => {
 // ** CREATE TEMPLATE
 /**
  * create template success action
- * @param {Object} response
- * @returns {Object} { type, templates }
+ *
+ * @param {object} response
+ * @returns {object} { type, templates }
  */
-const createTemplateSuccess = (response) => (dispatch) => {
+const fetchCreateTemplateSuccess = (response) => (dispatch) => {
   // getting templates from response
   const templates = response.data;
 
@@ -106,10 +110,11 @@ const createTemplateSuccess = (response) => (dispatch) => {
 
 /**
  * create template fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
-const createTemplateFail = (error) => (dispatch) => {
+const fetchCreateTemplateFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -127,11 +132,12 @@ const createTemplateFail = (error) => (dispatch) => {
 
 /**
  * create template request action
+ *
  * @param {string} templateName
  * @param {string} experimentId
  * @returns {Function}
  */
-export const createTemplateRequest = (templateName, experimentId) => (
+export const fetchCreateTemplateRequest = (templateName, experimentId) => (
   dispatch
 ) => {
   // dispatching request action
@@ -145,8 +151,8 @@ export const createTemplateRequest = (templateName, experimentId) => (
   // fetching templates
   templatesApi
     .createTemplate(templateName, experimentId)
-    .then((response) => dispatch(createTemplateSuccess(response)))
-    .catch((error) => dispatch(createTemplateFail(error)));
+    .then((response) => dispatch(fetchCreateTemplateSuccess(response)))
+    .catch((error) => dispatch(fetchCreateTemplateFail(error)));
 };
 
 // // // // // // // // // //
@@ -154,10 +160,15 @@ export const createTemplateRequest = (templateName, experimentId) => (
 // ** SET TEMPLATE
 /**
  * set template success action
- * @param {Object} response
- * @returns {Object} { type, templates }
+ *
+ * @param {object} response
+ * @param projectId
+ * @param experimentId
+ * @param projectId
+ * @param experimentId
+ * @returns {object} { type, templates }
  */
-const setTemplateSuccess = (response, projectId, experimentId) => (
+const fetchSetTemplateSuccess = (response, projectId, experimentId) => (
   dispatch
 ) => {
   // getting templates from response
@@ -175,10 +186,11 @@ const setTemplateSuccess = (response, projectId, experimentId) => (
 
 /**
  * set template fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
-const setTemplateFail = (error) => (dispatch) => {
+const fetchSetTemplateFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -195,12 +207,13 @@ const setTemplateFail = (error) => (dispatch) => {
 
 /**
  * set template request action
+ *
  * @param {string} projectId
  * @param {string} experimentId
  * @param {string} templateId
  * @returns {Function}
  */
-export const setTemplateRequest = (projectId, experimentId, templateId) => (
+export const fetchSetTemplateRequest = (projectId, experimentId, templateId) => (
   dispatch
 ) => {
   // dispatching request action
@@ -220,16 +233,21 @@ export const setTemplateRequest = (projectId, experimentId, templateId) => (
   experimentsApi
     .updateExperiment(projectId, experimentId, experiment)
     .then((response) =>
-      dispatch(setTemplateSuccess(response, projectId, experimentId))
+      dispatch(fetchSetTemplateSuccess(response, projectId, experimentId))
     )
-    .catch((error) => dispatch(setTemplateFail(error)));
+    .catch((error) => dispatch(fetchSetTemplateFail(error)));
 };
 
 /**
  * delete template request action
+ *
+ * @param templateId
+ * @param allTasks
+ * @param templateId
+ * @param allTasks
  * @returns {Function}
  */
-export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
+export const fetchDeleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DELETE_TEMPLATE_REQUEST,
@@ -241,16 +259,17 @@ export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
   // deleting project
   templatesApi
     .deleteTemplate(templateId)
-    .then(() => dispatch(deleteTemplateSuccess(templateId, allTasks)))
-    .catch((error) => dispatch(deleteTemplateFail(error)));
+    .then(() => dispatch(fetchDeleteTemplateSuccess(templateId, allTasks)))
+    .catch((error) => dispatch(fetchDeleteTemplateFail(error)));
 };
 
 /**
  * delete template fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
-const deleteTemplateFail = (error) => (dispatch) => {
+const fetchDeleteTemplateFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -271,10 +290,12 @@ const deleteTemplateFail = (error) => (dispatch) => {
 // ** DELETE TEMPLATE
 /**
  * delete template success action
- * @param {Object} templateId
- * @returns {Object} { type }
+ *
+ * @param {object} templateId
+ * @param allTasks
+ * @returns {object} { type }
  */
-const deleteTemplateSuccess = (templateId, allTasks) => (dispatch) => {
+const fetchDeleteTemplateSuccess = (templateId, allTasks) => (dispatch) => {
   const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
     (template) => template.uuid !== templateId
   );
