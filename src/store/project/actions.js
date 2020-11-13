@@ -264,7 +264,7 @@ const fetchEditProjectNameFail = (error, isModal) => (dispatch) => {
  * @param isModal
  * @returns {Function}
  */
-export const fetchEditProjectNameRequest = (
+export const updateProjectNameRequest = (
   projectId,
   newProjectName,
   newProjectDescription,
@@ -294,7 +294,7 @@ export const fetchEditProjectNameRequest = (
  * @param {object} projectId
  * @returns {object} { type }
  */
-const fetchDeleteProjectSuccess = (projectId) => (dispatch) => {
+const deleteProjectRequestSuccess = (projectId) => (dispatch) => {
   // dispatching projects table data loaded action
   dispatch(projectsTableDataLoaded());
 
@@ -313,7 +313,7 @@ const fetchDeleteProjectSuccess = (projectId) => (dispatch) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const fetchDeleteProjectFail = (error) => (dispatch) => {
+const deleteProjectRequestFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -335,7 +335,7 @@ const fetchDeleteProjectFail = (error) => (dispatch) => {
  * @param projectId
  * @returns {Function}
  */
-export const fetchDeleteProjectRequest = (projectId) => (dispatch) => {
+export const deleteProjectRequestRequest = (projectId) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DELETE_PROJECT_REQUEST,
@@ -347,6 +347,6 @@ export const fetchDeleteProjectRequest = (projectId) => (dispatch) => {
   // deleting project
   projectsApi
     .deleteProject(projectId)
-    .then(() => dispatch(fetchDeleteProjectSuccess(projectId)))
-    .catch((error) => dispatch(fetchDeleteProjectFail(error)));
+    .then(() => dispatch(deleteProjectRequestSuccess(projectId)))
+    .catch((error) => dispatch(deleteProjectRequestFail(error)));
 };

@@ -10,7 +10,7 @@ import ExperimentButtonsContainer from 'components/Content/ContentHeader/Experim
 
 // ACTIONS
 import {
-  fetchEditProjectNameRequest,
+  updateProjectNameRequest,
   fetchProjectRequest,
 } from 'store/project/actions';
 
@@ -18,7 +18,7 @@ import {
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleEditProjectName: (projectId, newName) =>
-      dispatch(fetchEditProjectNameRequest(projectId, newName)),
+      dispatch(updateProjectNameRequest(projectId, newName)),
     handleFetchProject: (projectId) =>
       dispatch(fetchProjectRequest(projectId, routerProps)),
   };

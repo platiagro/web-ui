@@ -13,7 +13,7 @@ import {
   fetchPaginatedProjects,
   fetchSelectProjects,
 } from '../../../../store/projects/actions';
-import { fetchDeleteProjectRequest } from '../../../../store/project/actions';
+import { deleteProjectRequestRequest } from '../../../../store/project/actions';
 
 // ACTIONS
 import { showNewProjectModal } from '../../../../store/ui/actions';
@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchPaginatedProjects: (name) =>
       dispatch(fetchPaginatedProjects(name, 1, 10)),
     handleDeleteProject: (projectUuid) =>
-      dispatch(fetchDeleteProjectRequest(projectUuid)),
+      dispatch(deleteProjectRequestRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>
       dispatch(showNewProjectModal(record)),
     handleSelectProjects: (record) => dispatch(fetchSelectProjects(record)),

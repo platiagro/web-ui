@@ -143,7 +143,7 @@ export const fetchDeleteSelectedProjects = (searchText, projects) => {
  * @param searchText
  * @param uuid
  */
-export const fetchDeleteProject = (searchText, uuid) => {
+export const deleteProjectRequest = (searchText, uuid) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
 

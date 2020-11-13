@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 // ACTIONS
 import {
   fetchCreateProjectRequest,
-  fetchEditProjectNameRequest,
+  updateProjectNameRequest,
 } from '../../../../store/project/actions';
 import { hideNewProjectModal } from '../../../../store/ui/actions';
 
@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       isModal
     ) =>
       dispatch(
-        fetchEditProjectNameRequest(
+        updateProjectNameRequest(
           projectId,
           projectName,
           projectDescription,
