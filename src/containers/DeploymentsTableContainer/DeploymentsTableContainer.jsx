@@ -7,7 +7,7 @@ import { useParams, withRouter } from 'react-router-dom';
 import DeploymentsTable from 'components/Content/ProjectDetailsContent/DeploymentsTable';
 
 // ACTIONS
-import { fetchDeployExperimentLogs } from 'store/deploymentLogs/actions';
+import { fetchDeploymentLogsRequest } from 'store/deploymentLogs/actions';
 import {
   fetchDeployedExperiments,
   fetchDeleteDeployedExperiment,
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchDeployedExperiments: (experiments, isToShowLoader) =>
       dispatch(fetchDeployedExperiments(experiments, isToShowLoader)),
     handleGetDeployExperimentLogs: (deployId) =>
-      dispatch(fetchDeployExperimentLogs(deployId)),
+      dispatch(fetchDeploymentLogsRequest(deployId)),
     handleTestImplantedExperimentInference: (implantedExperimentUuid, file) =>
       dispatch(
         testImplantedExperimentInferenceAction(implantedExperimentUuid, file)

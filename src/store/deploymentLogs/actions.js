@@ -24,7 +24,7 @@ const { getErrorMessage } = utils;
  *
  * @param {string} deployId
  */
-export const fetchDeployExperimentLogs = (deployId) => (dispatch) => {
+export const fetchDeploymentLogsRequest = (deployId) => (dispatch) => {
   dispatch(showInferenceLogsDrawer('Logs'));
   dispatch(inferenceLogsDrawerLoadingData());
   deploymentsApi

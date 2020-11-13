@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { InferenceTestResultModal } from 'components/Modals';
 
 // ACTIONS
-import { fetchDeployExperimentLogs } from 'store/deploymentLogs/actions';
+import { fetchDeploymentLogsRequest } from 'store/deploymentLogs/actions';
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 import { hideInferenceTestResultModal } from 'store/ui/actions';
 
@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleCloseModal: () => dispatch(hideInferenceTestResultModal()),
     handleGetDeployExperimentLogs: (deployId) =>
-      dispatch(fetchDeployExperimentLogs(deployId)),
+      dispatch(fetchDeploymentLogsRequest(deployId)),
     handleTestImplantedExperimentInference: (deployId, file) =>
       dispatch(testImplantedExperimentInferenceAction(deployId, file)),
   };
