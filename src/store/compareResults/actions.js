@@ -39,7 +39,7 @@ const updateExperimentsOptions = (experimentId, children, isLoading) => {
  *
  * @param {string} projectId
  */
-export const fetchAddCompareResult = (projectId) => {
+export const createCompareResultRequest = (projectId) => {
   return (dispatch) => {
     dispatch(setAddLoaderCompareResultsModal(true));
     compareResultsApi
@@ -65,7 +65,7 @@ export const fetchAddCompareResult = (projectId) => {
  * @param {string} projectId
  * @param {string} id
  */
-export const fetchDeleteCompareResult = (projectId, id) => {
+export const deleteCompareResultRequest = (projectId, id) => {
   return (dispatch) => {
     dispatch(setDeleteLoaderCompareResultsModal(true));
     compareResultsApi

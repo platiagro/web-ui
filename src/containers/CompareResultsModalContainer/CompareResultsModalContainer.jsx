@@ -21,8 +21,8 @@ import { Modal, Skeleton } from 'uiComponents';
 // ACTIONS
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 import {
-  fetchAddCompareResult,
-  fetchDeleteCompareResult,
+  createCompareResultRequest,
+  deleteCompareResultRequest,
   fetchCompareResults,
   fetchCompareResultsResults,
   fetchTrainingHistory,
@@ -37,13 +37,13 @@ import 'react-resizable/css/styles.css';
 const mapDispatchToProps = (dispatch) => {
   return {
     handlefetchAddCompareResult: (projectId) => {
-      dispatch(fetchAddCompareResult(projectId));
+      dispatch(createCompareResultRequest(projectId));
     },
     handleChangeVisibilityCompareResultsModal: () => {
       dispatch(changeVisibilityCompareResultsModal(false));
     },
     handleDeleteCompareResult: (projectId, id) => {
-      dispatch(fetchDeleteCompareResult(projectId, id));
+      dispatch(deleteCompareResultRequest(projectId, id));
     },
     handleFetchCompareResults: (projectId, experiments) => {
       dispatch(fetchCompareResults(projectId, experiments));
@@ -294,7 +294,7 @@ CompareResultsModalContainer.propTypes = {
   /** The expriments training history */
   experimentsTrainingHistory: PropTypes.object.isRequired,
   /** Function to handle add compare result */
-  handlefetchAddCompareResult: PropTypes.func.isRequired,
+  handlecreateCompareResultRequest: PropTypes.func.isRequired,
   /** Function to handle change visibility compare result modal */
   handleChangeVisibilityCompareResultsModal: PropTypes.func.isRequired,
   /** Function to handle delete compare result */
