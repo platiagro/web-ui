@@ -50,7 +50,7 @@ import utils from '../../utils';
  * @param {string} operatorId
  * @returns {object} { type, results }
  */
-const getOperatorResultsSuccess = (
+const fetchOperatorResultsSuccess = (
   responseFigure,
   responseTable,
   operatorId
@@ -98,7 +98,7 @@ const getOperatorResultsSuccess = (
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const getOperatorResultsFail = (error) => (dispatch) => {
+const fetchOperatorResultsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -120,7 +120,7 @@ const getOperatorResultsFail = (error) => (dispatch) => {
  * @param {object} response
  * @returns {Function}
  */
-const getLogsSuccess = (response) => (dispatch) => {
+const fetchLogsSuccess = (response) => (dispatch) => {
   const logs = response.data;
 
   dispatch({
@@ -148,7 +148,7 @@ export const fetchOperatorLogs = (experimentId, operatorId) => async (
   pipelinesApi
     .getOperatorLog(experimentId, 'latest', operatorId)
     .then((res) => {
-      dispatch(getLogsSuccess(res));
+      dispatch(fetchLogsSuccess(res));
     })
     .catch((error) => {
       dispatch(getLogsFail(error));
@@ -181,15 +181,15 @@ export const fetchOperatorResultsRequest = (
         .getOperatorDataset(experimentId, runId, operatorId, page)
         .then((responseTable) => {
           dispatch(
-            getOperatorResultsSuccess(responseFigure, responseTable, operatorId)
+            fetchOperatorResultsSuccess(responseFigure, responseTable, operatorId)
           );
         })
         .catch((error) => {
           console.log(error);
-          dispatch(getOperatorResultsSuccess(responseFigure, null, operatorId));
+          dispatch(fetchOperatorResultsSuccess(responseFigure, null, operatorId));
         });
     })
-    .catch((error) => dispatch(getOperatorResultsFail(error)));
+    .catch((error) => dispatch(fetchOperatorResultsFail(error)));
 };
 
 /**
@@ -201,7 +201,7 @@ export const fetchOperatorResultsRequest = (
  * @param page
  * @returns {object} { type, results }
  */
-const getDataSetResultSuccess = (responseTable, operatorId, page) => (
+const fetchDataSetResultSuccess = (responseTable, operatorId, page) => (
   dispatch
 ) => {
   // getting figure results
@@ -248,7 +248,7 @@ const getDataSetResultSuccess = (responseTable, operatorId, page) => (
  * @param {string} operatorId
  * @param page
  */
-export const getPageDataSetRequest = (experimentId, operatorId, page) => (
+export const fetchPageDataSetRequest = (experimentId, operatorId, page) => (
   dispatch
 ) => {
   dispatch({
@@ -259,7 +259,7 @@ export const getPageDataSetRequest = (experimentId, operatorId, page) => (
   operatorsApi
     .getOperatorDataset(experimentId, 'latest', operatorId, page)
     .then((responseTable) => {
-      dispatch(getDataSetResultSuccess(responseTable, operatorId, page));
+      dispatch(fetchDataSetResultSuccess(responseTable, operatorId, page));
     })
     .catch((error) => {
       console.log(error);
@@ -302,7 +302,7 @@ export const fetchOperatorMetricsRequest = (experimentId, runId, operatorId) => 
  * @param {number} page
  * @returns {Function}
  */
-export const selectOperator = (projectId, experimentId, operator, page) => (
+export const fetchSelectOperator = (projectId, experimentId, operator, page) => (
   dispatch,
   getState
 ) => {
@@ -368,7 +368,7 @@ export const deselectOperator = () => (dispatch) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const createOperatorFail = (error) => (dispatch) => {
+const fetchCreateOperatorFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -442,7 +442,7 @@ export const fetchCreateOperatorRequest = (
       const response = await DatasetsApi.listDatasetColumns(datasetName);
       datasetColumns = response.data;
     } catch (e) {
-      dispatch(createOperatorFail(e));
+      dispatch(fetchCreateOperatorFail(e));
     }
 
   // configuring feature options
@@ -489,7 +489,7 @@ export const fetchCreateOperatorRequest = (
         },
       });
     })
-    .catch((error) => dispatch(createOperatorFail(error)));
+    .catch((error) => dispatch(fetchCreateOperatorFail(error)));
 };
 
 /**
@@ -556,7 +556,7 @@ export const fetchRemoveOperatorRequest = (projectId, experimentId, operator) =>
  * @param {object} operator
  * @returns {object} { type, operator }
  */
-const setOperatorParametersSuccess = (operator) => (dispatch) => {
+const fetchSetOperatorParametersSuccess = (operator) => (dispatch) => {
   // dispatching operator parameter data loaded action
   dispatch(operatorParameterDataLoaded());
 
@@ -573,7 +573,7 @@ const setOperatorParametersSuccess = (operator) => (dispatch) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const setOperatorParametersFail = (error) => (dispatch) => {
+const fetchSetOperatorParametersFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -675,9 +675,9 @@ export const fetchSetOperatorParametersRequest = (
       successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
 
       // dispatching success action
-      dispatch(setOperatorParametersSuccess(successOperator));
+      dispatch(fetchSetOperatorParametersSuccess(successOperator));
     })
-    .catch((error) => dispatch(setOperatorParametersFail(error)));
+    .catch((error) => dispatch(fetchSetOperatorParametersFail(error)));
 };
 
 // // // // // // // // // //

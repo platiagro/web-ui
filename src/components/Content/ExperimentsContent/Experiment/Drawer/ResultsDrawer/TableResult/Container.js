@@ -7,14 +7,14 @@ import { useParams } from 'react-router-dom';
 import TableResult from './index';
 
 // ACTIONS
-import { getPageDataSetRequest } from 'store/operator/actions';
+import { fetchPageDataSetRequest } from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // show operator details action
     handleFetchPage: (projectId, experimentId, operator, page) =>
-      dispatch(getPageDataSetRequest(projectId, experimentId, operator, page)),
+      dispatch(fetchPageDataSetRequest(projectId, experimentId, operator, page)),
   };
 };
 
