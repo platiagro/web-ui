@@ -22,9 +22,12 @@ const { getErrorMessage } = utils;
 /**
  * Get logs of implanted experiments
  *
- * @param {String} deployId
+ * @param {string} deployId
  */
 export const getDeployExperimentLogs = (deployId) => (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_DEPLOYMENT_LOGS_REQUEST,
+  });
   dispatch(showInferenceLogsDrawer('Logs'));
   dispatch(inferenceLogsDrawerLoadingData());
   deploymentsApi
@@ -32,7 +35,7 @@ export const getDeployExperimentLogs = (deployId) => (dispatch) => {
     .then((response) => {
       const logs = response.data;
       dispatch({
-        type: actionTypes.GET_DEPLOYMENT_LOGS,
+        type: actionTypes.GET_DEPLOYMENT_LOGS_SUCCESS,
         payload: logs,
       });
       dispatch(inferenceLogsDrawerDataLoaded());
