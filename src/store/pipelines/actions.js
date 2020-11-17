@@ -55,7 +55,7 @@ const fetchTrainExperimentFail = (error) => (dispatch) => {
  * @param {object[]} operators
  * @returns {Function}
  */
-export const fetchTrainExperimentRequest = (experiment, operators) => (
+export const createExperimentRunRequest = (experiment, operators) => (
   dispatch,
   getState
 ) => {
