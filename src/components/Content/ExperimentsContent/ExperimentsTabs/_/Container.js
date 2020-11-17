@@ -9,17 +9,17 @@ import ExperimentsTabs from './index';
 // ACTIONS
 import {
   fetchExperimentsRequest,
-  fetchOrganizeExperimentsRequest,
+  updateExperimentPositionRequest,
   clearAllExperiments,
-} from '../../../../../store/experiments/actions';
+} from 'store/experiments/actions';
 import {
   fetchExperimentActiveRequest,
   fetchDeleteExperimentRequest,
   editExperimentNameRequest,
   createExperimentRequest,
-} from '../../../../../store/experiment/actions';
+} from 'store/experiment/actions';
 
-import { deselectOperator } from '../../../../../store/operator/actions';
+import { deselectOperator } from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -30,7 +30,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(fetchExperimentActiveRequest(projectId, experimentId)),
     handleDeleteExperiment: (projectId, experimentId) =>
-      dispatch(fetchDeleteExperimentRequest(projectId, experimentId, routerProps)),
+      dispatch(
+        fetchDeleteExperimentRequest(projectId, experimentId, routerProps)
+      ),
     handleRenameExperiment: (projectId, experimentId, newName) =>
       dispatch(
         editExperimentNameRequest(projectId, experimentId, newName, routerProps)
@@ -52,7 +54,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       newPosition
     ) =>
       dispatch(
-        fetchOrganizeExperimentsRequest(
+        updateExperimentPositionRequest(
           projectId,
           dragExperimentId,
           hoverExperimentId,

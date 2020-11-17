@@ -22,7 +22,7 @@ const experimentsReducer = (state = initialState, action = undefined) => {
     case actionTypes.FETCH_EXPERIMENTS_SUCCESS:
       return [...action.experiments];
     // organize experiments success
-    case actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS:
+    case actionTypes.UPDATE_EXPERIMENT_POSITION_SUCCESS:
       return [
         ...utils.organizeExperiments(
           state,
@@ -56,7 +56,7 @@ const experimentsReducer = (state = initialState, action = undefined) => {
     case actionTypes.FETCH_EXPERIMENTS_FAIL:
       return [...state];
     // organize experiments fail
-    case actionTypes.ORGANIZE_EXPERIMENTS_FAIL:
+    case actionTypes.UPDATE_EXPERIMENT_POSITION_FAIL:
       return [...state];
     // // // // // // //
 

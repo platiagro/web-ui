@@ -92,9 +92,9 @@ export const clearAllExperiments = () => (dispatch) => {
 
 // // // // // // // // // //
 
-// ** ORGANIZE EXPERIMENTS
+// ** UPDATE EXPERIMENT POSITION
 /**
- * organize experiments success action
+ * update experiment position success action
  *
  * @param {object} response
  * @param dragExperimentId
@@ -103,36 +103,37 @@ export const clearAllExperiments = () => (dispatch) => {
  * @param hoverExperimentId
  * @returns {object} { type, dragExperimentId, hoverExperimentId }
  */
-const fetchOrganizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
-  dispatch
-) => {
+const updateExperimentPositionSuccess = (
+  dragExperimentId,
+  hoverExperimentId
+) => (dispatch) => {
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
   // dispatching organize experiments success action
   dispatch({
-    type: actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS,
+    type: actionTypes.UPDATE_EXPERIMENT_POSITION_SUCCESS,
     dragExperimentId,
     hoverExperimentId,
   });
 };
 
 /**
- * organize experiments fail action
+ * update experiment position fail action
  *
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const fetchOrganizeExperimentsFail = (error) => (dispatch) => {
+const updateExperimentPositionFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
-  // dispatching organize experiments fail action
+  // dispatching update experiment position fail action
   dispatch({
-    type: actionTypes.ORGANIZE_EXPERIMENTS_FAIL,
+    type: actionTypes.UPDATE_EXPERIMENT_POSITION_FAIL,
     errorMessage,
   });
 
@@ -140,7 +141,7 @@ const fetchOrganizeExperimentsFail = (error) => (dispatch) => {
 };
 
 /**
- * organize experiments request action
+ * update experiments position request action
  *
  * @param {string} projectId
  * @param {string} dragExperimentId
@@ -148,7 +149,7 @@ const fetchOrganizeExperimentsFail = (error) => (dispatch) => {
  * @param newPosition
  * @returns {Function}
  */
-export const fetchOrganizeExperimentsRequest = (
+export const updateExperimentPositionRequest = (
   projectId,
   dragExperimentId,
   hoverExperimentId,
@@ -156,7 +157,7 @@ export const fetchOrganizeExperimentsRequest = (
 ) => (dispatch) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.ORGANIZE_EXPERIMENTS_REQUEST,
+    type: actionTypes.UPDATE_EXPERIMENT_POSITION_REQUEST,
   });
 
   // dispatching experiments tabs loading data action
@@ -169,7 +170,9 @@ export const fetchOrganizeExperimentsRequest = (
   experimentsApi
     .updateExperiment(projectId, dragExperimentId, experiment)
     .then(() =>
-      dispatch(fetchOrganizeExperimentsSuccess(dragExperimentId, hoverExperimentId))
+      dispatch(
+        updateExperimentPositionSuccess(dragExperimentId, hoverExperimentId)
+      )
     )
-    .catch((error) => dispatch(fetchOrganizeExperimentsFail(error)));
+    .catch((error) => dispatch(updateExperimentPositionFail(error)));
 };
