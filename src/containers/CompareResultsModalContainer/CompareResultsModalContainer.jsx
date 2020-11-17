@@ -36,7 +36,7 @@ import 'react-resizable/css/styles.css';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handlefetchAddCompareResult: (projectId) => {
+    handleCreateCompareResult: (projectId) => {
       dispatch(createCompareResultRequest(projectId));
     },
     handleChangeVisibilityCompareResultsModal: () => {
@@ -97,7 +97,7 @@ const CompareResultsModalContainer = (props) => {
     tasks,
   } = props;
   const {
-    handlefetchAddCompareResult,
+    handleCreateCompareResult,
     handleChangeVisibilityCompareResultsModal,
     handleDeleteCompareResult,
     handleFetchCompareResults,
@@ -266,7 +266,7 @@ const CompareResultsModalContainer = (props) => {
                 type='default'
                 disabled={addIsLoading}
                 onClick={() => {
-                  handlefetchAddCompareResult(projectId);
+                  handleCreateCompareResult(projectId);
                 }}
               >
                 <Space style={{ color: '#0050B3' }}>
