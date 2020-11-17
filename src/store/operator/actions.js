@@ -310,12 +310,10 @@ export const fetchOperatorMetricsRequest = (
  * @param {number} page
  * @returns {Function}
  */
-export const fetchSelectOperator = (
-  projectId,
-  experimentId,
-  operator,
-  page
-) => (dispatch, getState) => {
+export const selectOperator = (projectId, experimentId, operator, page) => (
+  dispatch,
+  getState
+) => {
   // dispatching action
   dispatch({
     type: actionTypes.SELECT_OPERATOR,

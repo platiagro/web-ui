@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import ExperimentFlow from './index';
 
 // ACTIONS
-import { fetchSelectOperator } from 'store/operator/actions';
+import { selectOperator } from 'store/operator/actions';
 import { fetchTrainExperimentStatusRequest } from 'store/pipelines/actions';
 import {
   deselectOperator,
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // show operator details action
     handleShowOperatorDetails: (projectId, experimentId, operator, page) =>
-      dispatch(fetchSelectOperator(projectId, experimentId, operator, page)),
+      dispatch(selectOperator(projectId, experimentId, operator, page)),
     // getting training experiment status
     handleGetTrainExperimentStatus: (experimentId) =>
       dispatch(fetchTrainExperimentStatusRequest(experimentId)),
