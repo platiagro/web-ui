@@ -74,7 +74,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
         };
       });
     // train experiment success
-    case pipelinesActionTypes.TRAIN_EXPERIMENT_SUCCESS:
+    case pipelinesActionTypes.CREATE_EXPERIMENT_RUN_SUCCESS:
       return state.map((operator) => ({
         ...operator,
         status: operator.uuid === 'dataset' ? 'Succeeded' : 'Pending',

@@ -24,21 +24,21 @@ import utils from '../../utils';
 // ACTIONS
 // ** TRAIN EXPERIMENT
 /**
- * train experiment success action
+ * create experiment run success action
  *
  * @returns {object} { type }
  */
-const fetchTrainExperimentSuccess = () => {
+const createExperimentRunSuccess = () => {
   message.success('Treinamento iniciado!');
 };
 
 /**
- * train experiment fail action
+ * create experiment fail action
  *
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const fetchTrainExperimentFail = (error) => (dispatch) => {
+const createExperimentRunFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -61,7 +61,7 @@ export const createExperimentRunRequest = (experiment, operators) => (
 ) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.TRAIN_EXPERIMENT_REQUEST,
+    type: actionTypes.CREATE_EXPERIMENT_RUN_REQUEST,
   });
 
   // dispatching experiment training loading data action
@@ -107,8 +107,8 @@ export const createExperimentRunRequest = (experiment, operators) => (
   // training experiment
   pipelinesApi
     .trainExperiment(trainObject)
-    .then(() => fetchTrainExperimentSuccess())
-    .catch((error) => dispatch(fetchTrainExperimentFail(error)));
+    .then(() => createExperimentRunSuccess())
+    .catch((error) => dispatch(createExperimentRunFail(error)));
 };
 
 // // // // // // // // // //
