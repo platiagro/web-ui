@@ -114,7 +114,7 @@ export const fetchSelectProjects = (projects) => {
  * @param searchText
  * @param projects
  */
-export const fetchDeleteSelectedProjects = (searchText, projects) => {
+export const deleteSelectedProjectsRequest = (searchText, projects) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
 
