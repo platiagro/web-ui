@@ -46,7 +46,7 @@ const sleep = (milliseconds) => {
  *
  * @param {object} task
  */
-export const fetchAddTask = (task) => {
+export const addTaskRequest = (task) => {
   return (dispatch) => {
     // showing loading
     dispatch(tasksTableLoadingData());
