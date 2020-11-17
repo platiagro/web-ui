@@ -20,8 +20,9 @@ const { getErrorMessage } = utils;
 
 /**
  * Fetch deployed experiments
+ *
  * @param {object[]} experiments
- * @param {Boolean} isToShowLoader
+ * @param {boolean} isToShowLoader
  */
 export const fetchDeployedExperiments = (experiments, isToShowLoader) => async (
   dispatch
@@ -41,19 +42,25 @@ export const fetchDeployedExperiments = (experiments, isToShowLoader) => async (
         .then((response) => {
           deployments.push(response.data);
         })
-        .catch((error) => {});
+        .catch((error) => {
+          dispatch({
+            type: actionTypes.FETCH_DEPLOYED_EXPERIMENTS_FAIL,
+          });
+          message.error(getErrorMessage(error));
+        });
     }
   }
   dispatch(implantedExperimentsDataLoaded());
   dispatch({
-    type: actionTypes.FETCH_DEPLOYED_EXPERIMENTS,
+    type: actionTypes.FETCH_DEPLOYED_EXPERIMENTS_SUCCESS,
     deployments: deployments,
   });
 };
 
 /**
  * Delete deployed experiment
- * @param {String} experimentId
+ *
+ * @param {string} experimentId
  */
 export const deleteDeployedExperiment = (experimentId) => (dispatch) => {
   dispatch(implantedExperimentsLoadingData());
@@ -65,7 +72,7 @@ export const deleteDeployedExperiment = (experimentId) => (dispatch) => {
     .then((response) => {
       dispatch(implantedExperimentsDataLoaded());
       dispatch({
-        type: actionTypes.DELETE_DEPLOYED_EXPERIMENT,
+        type: actionTypes.DELETE_DEPLOYED_EXPERIMENT_SUCCESS,
         experimentId,
       });
     })
