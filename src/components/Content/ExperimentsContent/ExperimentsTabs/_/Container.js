@@ -14,7 +14,7 @@ import {
 } from 'store/experiments/actions';
 import {
   fetchExperimentActiveRequest,
-  fetchDeleteExperimentRequest,
+  deleteExperimentRequest,
   editExperimentNameRequest,
   createExperimentRequest,
 } from 'store/experiment/actions';
@@ -30,9 +30,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(fetchExperimentActiveRequest(projectId, experimentId)),
     handleDeleteExperiment: (projectId, experimentId) =>
-      dispatch(
-        fetchDeleteExperimentRequest(projectId, experimentId, routerProps)
-      ),
+      dispatch(deleteExperimentRequest(projectId, experimentId, routerProps)),
     handleRenameExperiment: (projectId, experimentId, newName) =>
       dispatch(
         editExperimentNameRequest(projectId, experimentId, newName, routerProps)
