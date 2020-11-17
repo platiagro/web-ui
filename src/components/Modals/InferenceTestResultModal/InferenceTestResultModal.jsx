@@ -19,7 +19,7 @@ const { TextArea } = Input;
 const InferenceTestResultModal = ({
   closeModal,
   experimentInference,
-  getDeployExperimentLogs,
+  onLogsClick,
   isLoading,
   retryTest,
   visible,
@@ -99,7 +99,7 @@ const InferenceTestResultModal = ({
                 <Button
                   type='primary'
                   key='logs'
-                  onClick={getDeployExperimentLogs}
+                  onClick={onLogsClick}
                 >
                   Acessar Logs
                 </Button>,
@@ -196,7 +196,7 @@ InferenceTestResultModal.propTypes = {
   /** experiment inference results*/
   experimentInference: PropTypes.object,
   /** get deploy experiment logs handler */
-  getDeployExperimentLogs: PropTypes.func.isRequired,
+  onLogsClick: PropTypes.func.isRequired,
   /** results is loading */
   isLoading: PropTypes.bool.isRequired,
   /** retry test handler */

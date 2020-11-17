@@ -14,7 +14,7 @@ import { hideInferenceTestResultModal } from 'store/ui/actions';
 const mapDispatchToProps = (dispatch) => {
   return {
     handleCloseModal: () => dispatch(hideInferenceTestResultModal()),
-    handleGetDeployExperimentLogs: (deployId) =>
+    handleFetchDeploymentLogs: (deployId) =>
       dispatch(fetchDeploymentLogsRequest(deployId)),
     handleTestImplantedExperimentInference: (deployId, file) =>
       dispatch(testImplantedExperimentInferenceAction(deployId, file)),
@@ -43,7 +43,7 @@ const InferenceTestResultModalContainer = (props) => {
     deployId,
     file,
     handleCloseModal,
-    handleGetDeployExperimentLogs,
+    handleFetchDeploymentLogs,
     handleTestImplantedExperimentInference,
     inferenceResult,
     loading,
@@ -51,7 +51,7 @@ const InferenceTestResultModalContainer = (props) => {
   } = props;
 
   const handleOpenLog = () => {
-    handleGetDeployExperimentLogs(deployId);
+    handleFetchDeploymentLogs(deployId);
   };
 
   const handleRetryTest = () => {
@@ -62,7 +62,7 @@ const InferenceTestResultModalContainer = (props) => {
     <InferenceTestResultModal
       closeModal={handleCloseModal}
       experimentInference={inferenceResult}
-      fetchDeployExperimentLogs={handleOpenLog}
+      onLogsClick={handleOpenLog}
       isLoading={loading}
       retryTest={handleRetryTest}
       visible={visible}
