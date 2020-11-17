@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 // ACTIONS
 import {
-  fetchCreateProjectRequest,
+  createProjectRequest,
   updateProjectNameRequest,
 } from 'store/project/actions';
 import { hideNewProjectModal } from 'store/ui/actions';
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     // create project action
     handleCreateProject: (projectName, projectDescription) =>
       dispatch(
-        fetchCreateProjectRequest(projectName, projectDescription, routerProps)
+        createProjectRequest(projectName, projectDescription, routerProps)
       ),
     // close modal action
     handleCloseModal: () => dispatch(hideNewProjectModal()),

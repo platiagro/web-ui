@@ -110,7 +110,7 @@ export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
  * @param {object} routerProps
  * @returns {object} { type, project }
  */
-const fetchCreateProjectSuccess = (response, routerProps) => (dispatch) => {
+const createProjectSuccess = (response, routerProps) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
@@ -138,7 +138,7 @@ const fetchCreateProjectSuccess = (response, routerProps) => (dispatch) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const fetchCreateProjectFail = (error) => (dispatch) => {
+const createProjectFail = (error) => (dispatch) => {
   // dispatching projects table data loaded action
   dispatch(projectsTableDataLoaded());
 
@@ -177,7 +177,7 @@ const fetchCreateProjectFail = (error) => (dispatch) => {
  * @param routerProps
  * @returns {Function}
  */
-export const fetchCreateProjectRequest = (
+export const createProjectRequest = (
   projectName,
   projectDescription,
   routerProps
@@ -193,10 +193,8 @@ export const fetchCreateProjectRequest = (
   // creating project
   projectsApi
     .createProject(projectName, projectDescription)
-    .then((response) =>
-      dispatch(fetchCreateProjectSuccess(response, routerProps))
-    )
-    .catch((error) => dispatch(fetchCreateProjectFail(error)));
+    .then((response) => dispatch(createProjectSuccess(response, routerProps)))
+    .catch((error) => dispatch(createProjectFail(error)));
 };
 
 // // // // // // // // // //
