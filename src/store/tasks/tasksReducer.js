@@ -46,7 +46,7 @@ const tasksReducer = (state = initialState, action = undefined) => {
         modalValidateStatus: null,
         errorMessage: null,
       };
-    case actionTypes.DELETE_TASK:
+    case actionTypes.DELETE_TASK_SUCCESS:
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.uuid !== action.id),

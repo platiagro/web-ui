@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 // ACTIONS
 import {
   showCopyTaksModal,
-  fetchDeleteTask,
+  deleteTaskRequest,
   fetchTasks,
   showTasksModal,
-} from '../../../../store/tasks/actions';
+} from 'store/tasks/actions';
 
 // COMPONENTS
 import TasksTable from './index';
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchTasks());
     },
     handleDeleteTask: (id) => {
-      dispatch(fetchDeleteTask(id));
+      dispatch(deleteTaskRequest(id));
     },
     handleShowTasksModal: (record) => dispatch(showTasksModal(record)),
     handleCopyTaskRequest: (record) => dispatch(showCopyTaksModal(record)),

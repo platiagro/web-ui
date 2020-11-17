@@ -98,7 +98,7 @@ export const addTaskRequest = (task) => {
  *
  * @param {string} id
  */
-export const fetchDeleteTask = (id) => {
+export const deleteTaskRequest = (id) => {
   return (dispatch) => {
     // showing loading
     dispatch(tasksTableLoadingData());
@@ -108,7 +108,7 @@ export const fetchDeleteTask = (id) => {
       .then(() => {
         dispatch(tasksTableDataLoaded());
         dispatch({
-          type: actionTypes.DELETE_TASK,
+          type: actionTypes.DELETE_TASK_SUCCESS,
           id,
         });
       })
