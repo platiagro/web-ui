@@ -7,8 +7,8 @@ import { withRouter } from 'react-router-dom';
 import {
   fetchCreateProjectRequest,
   updateProjectNameRequest,
-} from '../../../../store/project/actions';
-import { hideNewProjectModal } from '../../../../store/ui/actions';
+} from 'store/project/actions';
+import { hideNewProjectModal } from 'store/ui/actions';
 
 // COMPONENTS
 import NewProjectModal from './index';

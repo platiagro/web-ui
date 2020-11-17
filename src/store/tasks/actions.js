@@ -188,7 +188,7 @@ export const fetchTasks = () => {
  * @param uuid
  * @param {object} task
  */
-export const fetchUpdateTask = (uuid, task) => {
+export const updateTaskRequest = (uuid, task) => {
   return (dispatch) => {
     // showing loading
     dispatch(tasksTableLoadingData());
