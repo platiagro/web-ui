@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {
   showCopyTaksModal,
   deleteTaskRequest,
-  fetchTasks,
+  fetchTasksRequest,
   showTasksModal,
 } from 'store/tasks/actions';
 
@@ -19,7 +19,7 @@ import { TasksEmptyPlaceholder } from 'components/EmptyPlaceholders';
 const mapDispatchToProps = (dispatch) => {
   return {
     handleFetchTasks: () => {
-      dispatch(fetchTasks());
+      dispatch(fetchTasksRequest());
     },
     handleDeleteTask: (id) => {
       dispatch(deleteTaskRequest(id));

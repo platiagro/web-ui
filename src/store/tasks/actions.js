@@ -160,7 +160,7 @@ export const fetchPaginatedTasks = (page, pageSize) => {
 /**
  * Function to fetch tasks and dispatch to reducer
  */
-export const fetchTasks = () => {
+export const fetchTasksRequest = () => {
   return (dispatch) => {
     // showing loading
     dispatch(tasksTableLoadingData());
@@ -170,7 +170,7 @@ export const fetchTasks = () => {
       .then((response) => {
         dispatch(tasksTableDataLoaded());
         dispatch({
-          type: actionTypes.FETCH_TASK,
+          type: actionTypes.FETCH_TASK_REQUEST,
           tasks: response.data.tasks,
         });
       })

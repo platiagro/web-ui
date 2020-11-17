@@ -19,7 +19,7 @@ import {
 } from '../ui/actions';
 
 // TASKS ACTIONS
-import { fetchTasks } from '../tasks/actions';
+import { fetchTasksRequest } from '../tasks/actions';
 
 // ACTIONS
 // ** FETCH PROJECT
@@ -34,7 +34,7 @@ const fetchProjectSuccess = (response) => (dispatch) => {
   const project = response.data;
 
   // dispatching fetch tasks action
-  dispatch(fetchTasks());
+  dispatch(fetchTasksRequest());
 
   // dispatching project name data loaded action
   dispatch(projectNameDataLoaded());
@@ -193,7 +193,9 @@ export const fetchCreateProjectRequest = (
   // creating project
   projectsApi
     .createProject(projectName, projectDescription)
-    .then((response) => dispatch(fetchCreateProjectSuccess(response, routerProps)))
+    .then((response) =>
+      dispatch(fetchCreateProjectSuccess(response, routerProps))
+    )
     .catch((error) => dispatch(fetchCreateProjectFail(error)));
 };
 

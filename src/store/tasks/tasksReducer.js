@@ -58,7 +58,7 @@ const tasksReducer = (state = initialState, action = undefined) => {
         totalTasks: action.tasks.length,
         pageSize: action.pageSize,
       };
-    case actionTypes.FETCH_TASK:
+    case actionTypes.FETCH_TASK_REQUEST:
       return {
         ...state,
         tasks: action.tasks,
