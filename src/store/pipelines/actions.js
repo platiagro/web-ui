@@ -22,7 +22,7 @@ import {
 import utils from '../../utils';
 
 // ACTIONS
-// ** TRAIN EXPERIMENT
+// ** CREATE EXPERIMENT RUN
 /**
  * create experiment run success action
  *
@@ -49,7 +49,7 @@ const createExperimentRunFail = (error) => (dispatch) => {
 };
 
 /**
- * train experiment request action
+ * craete experiment request run action
  *
  * @param {object} experiment
  * @param {object[]} operators
@@ -113,17 +113,14 @@ export const createExperimentRunRequest = (experiment, operators) => (
 
 // // // // // // // // // //
 
-// ** GET TRAIN EXPERIMENT STATUS
+// ** FETCH EXPERIMENT RUN
 /**
- * get train experiment status success action
+ * fetch experiment run success action
  *
  * @param {object} response
  * @returns {object} { type }
  */
-const fetchTrainExperimentStatusSuccess = (response) => (
-  dispatch,
-  getState
-) => {
+const fetchExperimentRunSuccess = (response) => (dispatch, getState) => {
   // getting operators from response
   const { operators } = response.data;
 
@@ -149,8 +146,9 @@ const fetchTrainExperimentStatusSuccess = (response) => (
   });
 
   // experiment training is succeeded
-  if (isSucceeded)
+  if (isSucceeded) {
     dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_SUCCEEDED });
+  }
 
   // get deleteLoading state
   const { uiReducer } = getState();
@@ -170,7 +168,7 @@ const fetchTrainExperimentStatusSuccess = (response) => (
   }
 
   dispatch({
-    type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS,
+    type: actionTypes.FETCH_EXPERIMENT_RUN_SUCCESS,
     operatorsLatestTraining: operators,
     experimentIsRunning: isRunning,
     interruptIsRunning: deleteLoading,
@@ -178,16 +176,16 @@ const fetchTrainExperimentStatusSuccess = (response) => (
 };
 
 /**
- * get train experiment status fail action
+ * fetch experiment run fail action
  *
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const fetchTrainExperimentStatusFail = (error) => (dispatch) => {
+const fetchExperimentRunFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  // experiment training not is running
+  // experiment run not is running
   if (errorMessage !== 'Network Error') {
     dispatch(experimentTrainingDataLoaded());
     dispatch({ type: experimentActionTypes.TRAINING_EXPERIMENT_NOT_SUCCEEDED });
@@ -195,25 +193,23 @@ const fetchTrainExperimentStatusFail = (error) => (dispatch) => {
 };
 
 /**
- * get train experiment status request action
+ * fetch experiment run request action
  *
  * @param {string} experimentId
  * @param {object[]} operators
  * @returns {Function}
  */
-export const fetchTrainExperimentStatusRequest = (experimentId) => (
-  dispatch
-) => {
+export const fetchExperimentRunRequest = (experimentId) => (dispatch) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_REQUEST,
+    type: actionTypes.FETCH_EXPERIMENT_RUN_REQUEST,
   });
 
   // training experiment
   pipelinesApi
     .getTrainExperimentStatus(experimentId)
-    .then((response) => dispatch(fetchTrainExperimentStatusSuccess(response)))
-    .catch((error) => dispatch(fetchTrainExperimentStatusFail(error)));
+    .then((response) => dispatch(fetchExperimentRunSuccess(response)))
+    .catch((error) => dispatch(fetchExperimentRunFail(error)));
 };
 
 // // // // // // // // // //
@@ -286,7 +282,7 @@ export const fetchDeleteTrainExperiment = (experimentId) => (dispatch) => {
     .deleteTrainExperiment(experimentId)
     .then(() => {
       message.loading('Interrompendo execução...', 5);
-      dispatch(fetchTrainExperimentStatusRequest(experimentId));
+      dispatch(fetchExperimentRunRequest(experimentId));
     })
     .catch((error) => {
       dispatch(experimentDeleteTrainingDataLoaded());

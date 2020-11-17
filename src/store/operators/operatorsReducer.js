@@ -41,7 +41,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
 
     // pipelines
     // get training experiment status
-    case pipelinesActionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS:
+    case pipelinesActionTypes.FETCH_EXPERIMENT_RUN_SUCCESS:
       let isTerminated = false;
       return state.map((operator) => {
         const operatorLatestTraining =
