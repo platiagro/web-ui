@@ -7,13 +7,13 @@ import { useParams } from 'react-router-dom';
 import ExperimentFlow from './index';
 
 // ACTIONS
-import { fetchSelectOperator } from '../../../../../../store/operator/actions';
-import { fetchTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
+import { fetchSelectOperator } from 'store/operator/actions';
+import { fetchTrainExperimentStatusRequest } from 'store/pipelines/actions';
 import {
   deselectOperator,
-  fetchSaveOperatorPosition,
+  updateOperatorPositionRequest,
   fetchSaveOperatorDependencies,
-} from '../../../../../../store/operator/actions';
+} from 'store/operator/actions';
 import { useStoreState } from 'react-flow-renderer';
 
 // DISPATCHS
@@ -34,7 +34,12 @@ const mapDispatchToProps = (dispatch) => {
       position
     ) =>
       dispatch(
-        fetchSaveOperatorPosition(projectId, experimentId, operatorId, position)
+        updateOperatorPositionRequest(
+          projectId,
+          experimentId,
+          operatorId,
+          position
+        )
       ),
     handleSaveOperatorDependencies: (
       projectId,

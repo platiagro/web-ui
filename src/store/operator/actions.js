@@ -693,7 +693,7 @@ export const updateOperatorParametersRequest = (
 
 // // // // // // // // // //
 
-export const fetchSaveOperatorPosition = (
+export const updateOperatorPositionRequest = (
   projectId,
   experimentId,
   operatorId,
