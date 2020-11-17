@@ -136,7 +136,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
       datasetColumns,
       pipelinesResponse.data
     );
-    
+
     dispatch(fetchOperatorsSuccess(configuredOperators, experimentId));
   } catch (e) {
     dispatch(fetchOperatorsFail(e));
@@ -211,7 +211,7 @@ export const updateOperatorsParametersRequest = (
 
 // // // // // // // // // //
 
-export const fetchUpdateOperatorDependencies = (operators) => (dispatch) => {
+export const updateOperatorDependencies = (operators) => (dispatch) => {
   dispatch({
     type: actionTypes.UPDATE_OPERATOR_DEPENDENCIES,
     operators,

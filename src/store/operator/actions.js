@@ -32,9 +32,9 @@ import { fetchDatasetRequest } from '../dataset/actions';
 
 // OPERATORS ACTIONS
 import {
-  updateOperatorsParametersRequest,
   fetchOperatorsRequest,
-  fetchUpdateOperatorDependencies,
+  updateOperatorsParametersRequest,
+  updateOperatorDependencies,
 } from '../operators/actions';
 
 // UTILS
@@ -181,12 +181,18 @@ export const fetchOperatorResultsRequest = (
         .getOperatorDataset(experimentId, runId, operatorId, page)
         .then((responseTable) => {
           dispatch(
-            fetchOperatorResultsSuccess(responseFigure, responseTable, operatorId)
+            fetchOperatorResultsSuccess(
+              responseFigure,
+              responseTable,
+              operatorId
+            )
           );
         })
         .catch((error) => {
           console.log(error);
-          dispatch(fetchOperatorResultsSuccess(responseFigure, null, operatorId));
+          dispatch(
+            fetchOperatorResultsSuccess(responseFigure, null, operatorId)
+          );
         });
     })
     .catch((error) => dispatch(fetchOperatorResultsFail(error)));
@@ -266,9 +272,11 @@ export const fetchDatasetPageRequest = (experimentId, operatorId, page) => (
     });
 };
 
-export const fetchOperatorMetricsRequest = (experimentId, runId, operatorId) => (
-  dispatch
-) => {
+export const fetchOperatorMetricsRequest = (
+  experimentId,
+  runId,
+  operatorId
+) => (dispatch) => {
   dispatch({
     type: actionTypes.GET_OPERATOR_METRICS_REQUEST,
   });
@@ -302,10 +310,12 @@ export const fetchOperatorMetricsRequest = (experimentId, runId, operatorId) => 
  * @param {number} page
  * @returns {Function}
  */
-export const fetchSelectOperator = (projectId, experimentId, operator, page) => (
-  dispatch,
-  getState
-) => {
+export const fetchSelectOperator = (
+  projectId,
+  experimentId,
+  operator,
+  page
+) => (dispatch, getState) => {
   // dispatching action
   dispatch({
     type: actionTypes.SELECT_OPERATOR,
@@ -454,7 +464,10 @@ export const fetchCreateOperatorRequest = (
   // necessary to check if dataset because dataset param is removed on getTaskData
   let configuredParameters;
   if (restTaskData.tags.includes('DATASETS')) {
-    configuredParameters = [{ name: 'dataset', value: '' }, {name:'target', value:''}];
+    configuredParameters = [
+      { name: 'dataset', value: '' },
+      { name: 'target', value: '' },
+    ];
   } else {
     configuredParameters = utils.configureOperatorParameters(
       parameters,
@@ -500,9 +513,11 @@ export const fetchCreateOperatorRequest = (
  * @param {string} operatorId
  * @param operator
  */
-export const fetchRemoveOperatorRequest = (projectId, experimentId, operator) => (
-  dispatch
-) => {
+export const fetchRemoveOperatorRequest = (
+  projectId,
+  experimentId,
+  operator
+) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.REMOVE_OPERATOR_REQUEST,
@@ -523,9 +538,7 @@ export const fetchRemoveOperatorRequest = (projectId, experimentId, operator) =>
 
       // dispatching to fetch operator
       if (operator.tags.includes('DATASETS')) {
-        dispatch(
-          updateOperatorsParametersRequest(projectId, experimentId)
-        );
+        dispatch(updateOperatorsParametersRequest(projectId, experimentId));
       } else {
         dispatch(fetchOperatorsRequest(projectId, experimentId));
       }
@@ -726,7 +739,7 @@ export const fetchSaveOperatorDependencies = (
     return el;
   });
 
-  dispatch(fetchUpdateOperatorDependencies(operatorWithNewDependencies));
+  dispatch(updateOperatorDependencies(operatorWithNewDependencies));
 
   await operatorsApi
     .updateOperator(projectId, experimentId, operatorId, body)
@@ -737,7 +750,7 @@ export const fetchSaveOperatorDependencies = (
       dispatch(dependenciesOperatorLoaded());
       const errorMessage = error.message;
       message.error(errorMessage);
-      dispatch(fetchUpdateOperatorDependencies(operators));
+      dispatch(updateOperatorDependencies(operators));
     });
 };
 
