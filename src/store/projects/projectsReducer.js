@@ -39,7 +39,7 @@ const projectsReducer = (state = initialState, action = undefined) => {
           (project) => project.uuid !== action.projectId
         ),
       };
-    case projectActionTypes.EDIT_PROJECT_NAME_SUCCESS:
+    case projectActionTypes.UPDATE_PROJECT_NAME_SUCCESS:
       const updatedProject = action.project;
       const projectsAux = [...state.projects];
       const projectIndex = projectsAux.findIndex(

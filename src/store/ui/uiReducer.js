@@ -98,7 +98,7 @@ const uiReducer = (state = initialState, action = undefined) => {
 
     // NEW PROJECT MODAL
     case projectActionTypes.CREATE_PROJECT_FAIL:
-    case projectActionTypes.EDIT_PROJECT_NAME_FAIL:
+    case projectActionTypes.UPDATE_PROJECT_NAME_FAIL:
       return {
         ...state,
         newProjectModal: {

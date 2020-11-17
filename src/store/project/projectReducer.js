@@ -28,7 +28,7 @@ const projectReducer = (state = initialState, action = undefined) => {
     case actionTypes.DELETE_PROJECT_SUCCESS:
       return initialState;
     // edit project name success
-    case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
+    case actionTypes.UPDATE_PROJECT_NAME_SUCCESS:
       return { ...action.project };
     // // // // // // //
 
@@ -36,7 +36,7 @@ const projectReducer = (state = initialState, action = undefined) => {
     // project
     case actionTypes.FETCH_PROJECT_FAIL:
     case actionTypes.DELETE_PROJECT_FAIL:
-    case actionTypes.EDIT_PROJECT_NAME_FAIL:
+    case actionTypes.UPDATE_PROJECT_NAME_FAIL:
       return { ...state };
 
     // DEFAULT

@@ -199,14 +199,14 @@ export const createProjectRequest = (
 
 // // // // // // // // // //
 
-// ** EDIT PROJECT NAME
+// ** UPDATE PROJECT NAME
 /**
- * edit project name success action
+ * update project name success action
  *
  * @param {object} response
  * @returns {object} { type, project }
  */
-const fetchEditProjectNameSuccess = (response) => (dispatch) => {
+const updateProjectNameSuccess = (response) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
@@ -215,20 +215,20 @@ const fetchEditProjectNameSuccess = (response) => (dispatch) => {
 
   // dispatching edit project name success
   dispatch({
-    type: actionTypes.EDIT_PROJECT_NAME_SUCCESS,
+    type: actionTypes.UPDATE_PROJECT_NAME_SUCCESS,
     project,
   });
   dispatch(hideNewProjectModal());
 };
 
 /**
- * edit project name fail action
+ * update project name fail action
  *
  * @param {object} error
  * @param isModal
  * @returns {object} { type, errorMessage }
  */
-const fetchEditProjectNameFail = (error, isModal) => (dispatch) => {
+const updateProjectNameFail = (error, isModal) => (dispatch) => {
   // dispatching project name data loaded action
   dispatch(projectEditNameDataLoaded());
 
@@ -243,7 +243,7 @@ const fetchEditProjectNameFail = (error, isModal) => (dispatch) => {
       errorMessage = 'Já existe um projeto com este nome!';
       if (isModal) {
         dispatch({
-          type: actionTypes.EDIT_PROJECT_NAME_FAIL,
+          type: actionTypes.UPDATE_PROJECT_NAME_FAIL,
           errorMessage,
         });
       } else {
@@ -272,7 +272,7 @@ export const updateProjectNameRequest = (
 ) => (dispatch) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.EDIT_PROJECT_NAME_REQUEST,
+    type: actionTypes.UPDATE_PROJECT_NAME_REQUEST,
   });
 
   // dispatching project name loading data action
@@ -281,8 +281,8 @@ export const updateProjectNameRequest = (
   // creating project
   projectsApi
     .updateProject(projectId, newProjectName, newProjectDescription)
-    .then((response) => dispatch(fetchEditProjectNameSuccess(response)))
-    .catch((error) => dispatch(fetchEditProjectNameFail(error, isModal)));
+    .then((response) => dispatch(updateProjectNameSuccess(response)))
+    .catch((error) => dispatch(updateProjectNameFail(error, isModal)));
 };
 
 // // // // // // // // // //
