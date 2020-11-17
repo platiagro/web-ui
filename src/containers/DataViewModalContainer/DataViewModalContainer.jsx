@@ -21,7 +21,7 @@ import { UploadButton } from 'components/Buttons';
 import { hideDataViewModal } from 'store/ui/actions';
 import {
   fetchPaginatedDataset,
-  fetchUpdateDatasetColumnRequest,
+  updateDatasetColumnRequest,
   updateAllDatasetColumnSuccess,
   updateAllDatasetColumnFail,
   updateAllDatasetColumnStart,
@@ -44,7 +44,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchPaginatedDataset(datasetName, page, pageSize)),
     // update dataset column
     handleUpdateDatasetColumn: (columnName, columnNewType) =>
-      dispatch(fetchUpdateDatasetColumnRequest(columnName, columnNewType)),
+      dispatch(updateDatasetColumnRequest(columnName, columnNewType)),
     // update all columns
     handleUpdateAllDatasetColumnSuccess: (allColumns) =>
       dispatch(updateAllDatasetColumnSuccess(allColumns)),

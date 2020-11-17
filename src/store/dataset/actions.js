@@ -409,7 +409,7 @@ const updateDatasetColumnFail = (error) => (dispatch) => {
  * @param {string} columnNewType
  * @returns {Function}
  */
-export const fetchUpdateDatasetColumnRequest = (columnName, columnNewType) => (
+export const updateDatasetColumnRequest = (columnName, columnNewType) => (
   dispatch,
   getState
 ) => {
