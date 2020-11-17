@@ -524,24 +524,20 @@ export const fetchDatasetRequest = (datasetName) => (dispatch) => {
 
 // // // // // // // // // //
 
-// ** SELECT DATASET
+// ** UPDATE SELECTED DATASET
 /**
- * select dataset action
+ * updated selected dataset action
  *
  * @param {string} datasetName Dataset name
  * @param {string} projectId Project id
  * @param {string} experimentId Experiment id
  * @returns {Function} Action
  */
-export const fetchSelectDataset = (datasetName, projectId, experimentId) => (
-  dispatch,
-  getState
-) => {
-  // dispatch action
-  dispatch({
-    type: actionTypes.SELECT_DATASET,
-  });
-
+export const updateSelectedDatasetRequest = (
+  datasetName,
+  projectId,
+  experimentId
+) => (dispatch, getState) => {
   // get operator reducer from store
   const { operatorReducer } = getState();
 

@@ -12,7 +12,7 @@ import {
 
 // ACTIONS
 import {
-  fetchSelectDataset,
+  updateSelectedDatasetRequest,
   startFileDatasetUpload,
   cancelDatasetUpload,
   fetchStartGoogleDatasetUpload,
@@ -23,9 +23,8 @@ import { fetchDatasetsRequest } from 'store/datasets/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // start dataset upload
-    handlefetchSelectDataset: (dataset, projectId, experimentId) =>
-      dispatch(fetchSelectDataset(dataset, projectId, experimentId)),
+    handleSelectDataset: (dataset, projectId, experimentId) =>
+      dispatch(updateSelectedDatasetRequest(dataset, projectId, experimentId)),
     handleFetchDatasets: () => dispatch(fetchDatasetsRequest()),
     handleCreateGoogleDataset: (file) =>
       dispatch(fetchStartGoogleDatasetUpload(file)),
