@@ -31,7 +31,7 @@ import { CancelToken, isCancel } from 'axios';
  * @param {object} response
  * @returns {object} { type, columns }
  */
-const fetchDataSetColumnsSuccess = (response) => (dispatch) => {
+const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
   // getting dataset columns from response
   const columns = response.data;
 
@@ -86,9 +86,9 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
     // fetching dataset columns
     datasetsApi
       .listDatasetColumns(datasetName)
-      .then((response) => dispatch(fetchDataSetColumnsSuccess(response)))
+      .then((response) => dispatch(fetchDatasetColumnsSuccess(response)))
       .catch((error) => dispatch(fetchDatasetColumnsFail(error)));
-  else dispatch(fetchDataSetColumnsSuccess({ data: [] }));
+  else dispatch(fetchDatasetColumnsSuccess({ data: [] }));
 };
 
 // // // // // // // // // //
@@ -309,7 +309,7 @@ export const fetchStartDatasetUpload = (file, cancelToken) => async (
   dispatch(datasetOperatorLoadingData());
 
   // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
-  /* 
+  /*
   const {
     operatorsReducer,
   } = getState();
@@ -339,7 +339,12 @@ export const fetchStartDatasetUpload = (file, cancelToken) => async (
 
     // dispatch success action
     dispatch(
-      fetchDatasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+      fetchDatasetUploadSuccess(
+        dataset,
+        projectId,
+        experimentId,
+        datasetOperator
+      )
     );
     // on error
   } catch (error) {
@@ -552,7 +557,12 @@ export const fetchSelectDataset = (datasetName, projectId, experimentId) => (
 
       // dispatch action to save dataset
       dispatch(
-        fetchDatasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+        fetchDatasetUploadSuccess(
+          dataset,
+          projectId,
+          experimentId,
+          datasetOperator
+        )
       );
     })
     .catch((error) => dispatch(getDatasetFail(error)));
