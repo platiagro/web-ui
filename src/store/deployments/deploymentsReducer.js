@@ -6,7 +6,7 @@ const initialState = [];
 
 const deploymentsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    case actionTypes.DELETE_DEPLOYED_EXPERIMENT:
+    case actionTypes.DELETE_DEPLOYMENT_SUCCESS:
       return state.filter((deployment) => {
         return deployment.experimentId !== action.experimentId;
       });

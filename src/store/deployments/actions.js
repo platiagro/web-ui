@@ -58,21 +58,21 @@ export const fetchDeployedExperiments = (experiments, isToShowLoader) => async (
 export const deleteDeploymentRequest = (experimentId) => (dispatch) => {
   dispatch(implantedExperimentsLoadingData());
   dispatch({
-    type: actionTypes.DELETE_DEPLOYED_EXPERIMENT_REQUEST,
+    type: actionTypes.DELETE_DEPLOYMENT_REQUEST,
   });
   deploymentsApi
     .deleteDeployedExperiments(experimentId)
     .then((response) => {
       dispatch(implantedExperimentsDataLoaded());
       dispatch({
-        type: actionTypes.DELETE_DEPLOYED_EXPERIMENT,
+        type: actionTypes.DELETE_DEPLOYMENT_SUCCESS,
         experimentId,
       });
     })
     .catch((error) => {
       dispatch(implantedExperimentsDataLoaded());
       dispatch({
-        type: actionTypes.DELETE_DEPLOYED_EXPERIMENT_FAIL,
+        type: actionTypes.DELETE_DEPLOYMENT_FAIL,
       });
       message.error(getErrorMessage(error));
     });

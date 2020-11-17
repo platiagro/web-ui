@@ -294,7 +294,7 @@ CompareResultsModalContainer.propTypes = {
   /** The expriments training history */
   experimentsTrainingHistory: PropTypes.object.isRequired,
   /** Function to handle add compare result */
-  handlecreateCompareResultRequest: PropTypes.func.isRequired,
+  handleCreateCompareResult: PropTypes.func.isRequired,
   /** Function to handle change visibility compare result modal */
   handleChangeVisibilityCompareResultsModal: PropTypes.func.isRequired,
   /** Function to handle delete compare result */
