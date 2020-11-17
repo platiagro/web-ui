@@ -7,15 +7,15 @@ import { useParams } from 'react-router-dom';
 import TasksMenuBlock from './index';
 
 // ACTIONS
-import { fetchCreateOperatorRequest } from '../../../../../store/operator/actions';
+import { createOperatorRequest } from 'store/operator/actions';
 import {
   fetchTasksMenuRequest,
   filterTasksMenu,
-} from '../../../../../store/tasksMenu/actions';
+} from 'store/tasksMenu/actions';
 import {
   fetchSetTemplateRequest,
   fetchDeleteTemplateRequest,
-} from '../../../../../store/templates/actions';
+} from 'store/templates/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
       position
     ) =>
       dispatch(
-        fetchCreateOperatorRequest(
+        createOperatorRequest(
           projectId,
           experimentId,
           taskId,

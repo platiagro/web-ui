@@ -406,7 +406,7 @@ const fetchCreateOperatorFail = (error) => (dispatch) => {
  * @param position
  * @returns {Function}
  */
-export const fetchCreateOperatorRequest = (
+export const createOperatorRequest = (
   projectId,
   experimentId,
   taskId,
