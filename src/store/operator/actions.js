@@ -680,7 +680,23 @@ export const setOperatorParametersRequest = (
     .catch((error) => dispatch(setOperatorParametersFail(error)));
 };
 
-// // // // // // // // // //
+// // // // // // // // // // SAVE POSITION
+
+export const saveOperatorPositionSuccess =() => (dispatch)=>{
+  dispatch({
+    type:actionTypes.POSITION_SUCCESS,
+  })
+}
+export const saveOperatorPositionFail =(error) => (dispatch)=>{
+  // getting error message
+  const errorMessage = error.message;
+
+  dispatch({
+    type:actionTypes.POSITION_SUCCESS,
+    errorMessage,
+  })
+  message.error(errorMessage);
+}
 
 export const saveOperatorPosition = (
   projectId,
@@ -688,6 +704,11 @@ export const saveOperatorPosition = (
   operatorId,
   position
 ) => async (dispatch) => {
+  
+  dispatch({
+    type:actionTypes.POSITION_REQUEST,
+  })
+  
   const body = {
     positionX: position.x,
     positionY: position.y,
@@ -695,8 +716,11 @@ export const saveOperatorPosition = (
 
   await operatorsApi
     .updateOperator(projectId, experimentId, operatorId, body)
+    .then((dispatch) =>{
+      dispatch(saveOperatorPositionSuccess)
+    })
     .catch((error) => {
-      console.log(error);
+     dispatch(saveOperatorPositionFail(error))
     });
 };
 
@@ -707,6 +731,11 @@ export const saveOperatorDependencies = (
   dependencies,
   operators
 ) => async (dispatch) => {
+
+  dispatch({
+    type:actionTypes.CREATE_OPERATOR_REQUEST,
+  });
+
   const body = {
     dependencies: dependencies,
   };
@@ -747,6 +776,10 @@ export const saveTargetAttribute = (
   parameters
 ) => async (dispatch, getState) => {
   const { operatorReducer: datasetOperator } = getState();
+
+  dispatch({
+    type: actionTypes.TARGETATRIBUTE_REQUEST
+  });
 
   dispatch(
     setOperatorParametersRequest(
