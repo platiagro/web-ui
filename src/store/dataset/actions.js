@@ -622,7 +622,7 @@ export const deleteDatasetFail = () => (dispatch) => {
  * @param experimentId
  * @returns {Function} Dispatch function
  */
-export const fetchDeleteDatasetRequest = (projectId, experimentId) => (
+export const deleteDatasetRequest = (projectId, experimentId) => (
   dispatch,
   getState
 ) => {

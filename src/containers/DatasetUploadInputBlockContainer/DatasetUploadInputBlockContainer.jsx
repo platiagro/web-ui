@@ -16,7 +16,7 @@ import {
   startFileDatasetUpload,
   cancelDatasetUpload,
   createGoogleDriveDatasetRequest,
-  fetchDeleteDatasetRequest,
+  deleteDatasetRequest,
 } from 'store/dataset/actions';
 import { fetchDatasetsRequest } from 'store/datasets/actions';
 
@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(createGoogleDriveDatasetRequest(file)),
     handleUploadStart: (file) => dispatch(startFileDatasetUpload(file)),
     handleDeleteDataset: (projectId, experimentId) =>
-      dispatch(fetchDeleteDatasetRequest(projectId, experimentId)),
+      dispatch(deleteDatasetRequest(projectId, experimentId)),
     handleUploadCancel: () => dispatch(cancelDatasetUpload()),
   };
 };
