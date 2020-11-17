@@ -513,14 +513,12 @@ export const fetchCreateOperatorRequest = (
  * @param {string} operatorId
  * @param operator
  */
-export const fetchRemoveOperatorRequest = (
-  projectId,
-  experimentId,
-  operator
-) => (dispatch) => {
+export const deleteOperatorRequest = (projectId, experimentId, operator) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.REMOVE_OPERATOR_REQUEST,
+    type: actionTypes.DELETE_OPERATOR_REQUEST,
   });
 
   // dispatching experiment operators loading data action
@@ -554,7 +552,7 @@ export const fetchRemoveOperatorRequest = (
 
       // dispatching remove operator fail
       dispatch({
-        type: actionTypes.REMOVE_OPERATOR_FAIL,
+        type: actionTypes.DELETE_OPERATOR_FAIL,
         errorMessage,
       });
 

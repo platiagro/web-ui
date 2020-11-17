@@ -25,7 +25,7 @@ const operatorReducer = (state = initialState, action = undefined) => {
     // SUCCESS
     // operator
     // remove operator success
-    case actionTypes.REMOVE_OPERATOR_SUCCESS:
+    case actionTypes.DELETE_OPERATOR_SUCCESS:
       return { ...state };
     // set operator params success
     case actionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
@@ -44,7 +44,7 @@ const operatorReducer = (state = initialState, action = undefined) => {
     case actionTypes.CREATE_OPERATOR_FAIL:
       return { ...state };
     // remove operator fail
-    case actionTypes.REMOVE_OPERATOR_FAIL:
+    case actionTypes.DELETE_OPERATOR_FAIL:
       return { ...state };
     // set operator params fail
     case actionTypes.SET_OPERATOR_PARAMETERS_FAIL:

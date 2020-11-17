@@ -8,16 +8,16 @@ import GenericDrawer from './index';
 
 // ACTIONS
 import {
-  fetchRemoveOperatorRequest,
+  deleteOperatorRequest,
   updateOperatorParametersRequest,
-} from '../../../../../../../store/operator/actions';
+} from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     // remove operator
     handleRemoveOperator: (projectId, experimentId, operator) =>
-      dispatch(fetchRemoveOperatorRequest(projectId, experimentId, operator)),
+      dispatch(deleteOperatorRequest(projectId, experimentId, operator)),
     // set operator parameter
     handleSetOperatorParameter: (
       projectId,

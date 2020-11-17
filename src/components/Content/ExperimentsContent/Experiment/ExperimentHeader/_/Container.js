@@ -8,17 +8,17 @@ import ExperimentHeader from './index';
 
 // ACTIONS
 // operator
-import { fetchRemoveOperatorRequest } from '../../../../../../store/operator/actions';
+import { deleteOperatorRequest } from 'store/operator/actions';
 // experiment
 import {
   fetchExperimentRequest,
   editExperimentNameRequest,
-} from '../../../../../../store/experiment/actions';
+} from 'store/experiment/actions';
 // pipelines
 import {
   fetchTrainExperimentRequest,
   fetchDeleteTrainExperiment,
-} from '../../../../../../store/pipelines/actions';
+} from 'store/pipelines/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleDeleteTrainExperiment: (experimentId) =>
       dispatch(fetchDeleteTrainExperiment(experimentId)),
     handleRemoveOperator: (projectId, experimentId, operator) =>
-      dispatch(fetchRemoveOperatorRequest(projectId, experimentId, operator)),
+      dispatch(deleteOperatorRequest(projectId, experimentId, operator)),
   };
 };
 
