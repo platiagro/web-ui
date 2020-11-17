@@ -260,13 +260,13 @@ export const startFileDatasetUpload = (file) => (dispatch) => {
 };
 
 /**
- * Start a Google upload
+ * Start a Google Drive upload
  *
- * @param {object} gfile Google file
+ * @param {object} gfile Google Drive file
  *
  * @returns {Function} Dispatch function
  */
-export const fetchStartGoogleDatasetUpload = (gfile) => (dispatch) => {
+export const createGoogleDriveDatasetRequest = (gfile) => (dispatch) => {
   // create cancel token
   const cancelToken = CancelToken.source();
 
