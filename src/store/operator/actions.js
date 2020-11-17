@@ -709,7 +709,7 @@ export const updateOperatorPositionRequest = (
     });
 };
 
-export const fetchSaveOperatorDependencies = (
+export const updateOperatorDependenciesRequest = (
   projectId,
   experimentId,
   operatorId,
