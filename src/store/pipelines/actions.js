@@ -271,12 +271,12 @@ export const createDeploymentRequest = (
 // // // // // // // // // //
 
 /**
- * Delete train experiment
+ * Delete experiment run
  *
  * @param {string} experimentId
  * @returns {Function}
  */
-export const fetchDeleteTrainExperiment = (experimentId) => (dispatch) => {
+export const deleteExperimentRunRequest = (experimentId) => (dispatch) => {
   dispatch(experimentDeleteTrainingLoadingData());
   pipelinesApi
     .deleteTrainExperiment(experimentId)

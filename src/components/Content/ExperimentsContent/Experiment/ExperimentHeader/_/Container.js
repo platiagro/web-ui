@@ -17,7 +17,7 @@ import {
 // pipelines
 import {
   createExperimentRunRequest,
-  fetchDeleteTrainExperiment,
+  deleteExperimentRunRequest,
 } from 'store/pipelines/actions';
 
 // DISPATCHS
@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleTrainExperiment: (experiment, operators) =>
       dispatch(createExperimentRunRequest(experiment, operators)),
     handleDeleteTrainExperiment: (experimentId) =>
-      dispatch(fetchDeleteTrainExperiment(experimentId)),
+      dispatch(deleteExperimentRunRequest(experimentId)),
     handleRemoveOperator: (projectId, experimentId, operator) =>
       dispatch(deleteOperatorRequest(projectId, experimentId, operator)),
   };
