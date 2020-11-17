@@ -269,6 +269,18 @@ export const deployExperimentRequest = (
 
 // // // // // // // // // //
 
+const deleteTrainExperimentFail = (error) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching experiment training data loaded
+  dispatch({
+    type:actionTypes.DELETE_EXPERIMENT_FAIL,
+  });
+
+  message.error(errorMessage);
+};
+
 /**
  * Delete train experiment
  *
@@ -276,15 +288,22 @@ export const deployExperimentRequest = (
  * @returns {Function}
  */
 export const deleteTrainExperiment = (experimentId) => (dispatch) => {
+  dispatch({
+    type:actionTypes.DELETE_EXPERIMENT_REQUEST,
+  });
+
   dispatch(experimentDeleteTrainingLoadingData());
   pipelinesApi
     .deleteTrainExperiment(experimentId)
     .then(() => {
       message.loading('Interrompendo execução...', 5);
       dispatch(getTrainExperimentStatusRequest(experimentId));
+      dispatch({
+        type:actionTypes.DELETE_EXPERIMENT_SUCCESS,
+      });
     })
     .catch((error) => {
       dispatch(experimentDeleteTrainingDataLoaded());
-      message.error(error.message);
+      dispatch(deleteTrainExperimentFail(error))
     });
 };
