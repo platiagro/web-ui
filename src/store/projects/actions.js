@@ -18,6 +18,18 @@ import {
   projectsTableDataLoaded,
 } from '../ui/actions';
 
+
+export const fetchPaginatedProjectsFail = (error) => (dispatch) => {
+  const errorMessage = error.message;
+  
+  dispatch({
+    type: actionTypes.FETCH_PAGINATED_PROJECTS_FAIL,
+    errorMessage,
+  });
+
+  message.error(errorMessage, 5);
+};
+
 /**
  * Function to fetch pagineted projects and dispatch to reducer
  *
@@ -27,6 +39,11 @@ import {
  */
 export const fetchPaginatedProjects = (name, page, pageSize) => {
   return (dispatch) => {
+
+    dispatch({
+      type:actionTypes.FETCH_PAGINATED_PROJECTS_REQUEST,
+    })
+
     dispatch(projectsTableLoadingData());
     if (name === undefined) {
       name = '';
@@ -60,19 +77,44 @@ export const fetchPaginatedProjects = (name, page, pageSize) => {
           pageSize: pageSize,
           total: response.data.total,
         });
+        dispatch({
+          type: actionTypes.FETCH_PAGINATED_PROJECTS_SUCCESS,
+        });
       })
       .catch((error) => {
-        const errorMessage = error.message;
         dispatch(projectsTableDataLoaded());
-        message.error(errorMessage, 5);
+        dispatch(fetchPaginatedProjectsFail(error));
       });
   };
+};
+
+export const fetchProjectsSuccess = (projects) => (dispatch) => {
+  dispatch({
+    type: actionTypes.FETCH_PROJECTS,
+    projects,
+  });
+};
+
+export const fetchProjectsFail = (error) => (dispatch) => {
+  const errorMessage = error.message;
+  
+  dispatch({
+    type: actionTypes.FETCH_PROJECTS_FAIL,
+    errorMessage,
+  });
+
+  message.error(errorMessage, 5);
 };
 
 /**
  * Function to fetch all projects and dispatch to reducer
  */
 export const fetchProjects = () => (dispatch) => {
+
+  dispatch({
+    type: actionTypes.FETCH_PROJECTS_REQUEST,
+  });
+
   // dispatching projects table loading data action
   dispatch(projectsTableLoadingData());
 
@@ -82,15 +124,11 @@ export const fetchProjects = () => (dispatch) => {
     .then((response) => {
       const projects = response.data;
       dispatch(projectsTableDataLoaded());
-      dispatch({
-        type: actionTypes.FETCH_PROJECTS,
-        projects,
-      });
+      dispatch(fetchProjectsSuccess(projects));
     })
     .catch((error) => {
-      const errorMessage = error.message;
       dispatch(projectsTableDataLoaded());
-      message.error(errorMessage, 5);
+      dispatch(fetchProjectsFail(error));
     });
 };
 
@@ -108,6 +146,23 @@ export const selectProjects = (projects) => {
   };
 };
 
+export const deleteSelectedProjectsSuccess = () => (dispatch) => { 
+  dispatch({
+    type: actionTypes.DELETE_SELECTED_PROJECTS_SUCCESS,
+  });
+};
+
+export const deleteSelectedProjectsFail = (error) => (dispatch) => {
+  const errorMessage = error.message;
+  
+  dispatch({
+    type: actionTypes.DELETE_SELECTED_PROJECTS_FAIL,
+    errorMessage,
+  });
+
+  message.error(errorMessage, 5);
+};
+
 /**
  * Function to delete selected projects and dispatch to reducer
  *
@@ -116,6 +171,10 @@ export const selectProjects = (projects) => {
  */
 export const deleteSelectedProjects = (searchText, projects) => {
   return (dispatch) => {
+
+    dispatch({
+      type: actionTypes.DELETE_SELECTED_PROJECTS_REQUEST,
+    });
     dispatch(projectsTableLoadingData());
 
     const formatedProjects = projects.map((uuid) => {
@@ -128,13 +187,30 @@ export const deleteSelectedProjects = (searchText, projects) => {
         dispatch(projectsTableDataLoaded());
         message.success('Projetos excluídos!');
         dispatch(fetchPaginatedProjects(searchText, 1, 10));
+        dispatch(deleteSelectedProjectsSuccess);
       })
       .catch((error) => {
-        const errorMessage = error.message;
         dispatch(projectsTableDataLoaded());
-        message.error(errorMessage, 5);
+        dispatch(deleteSelectedProjectsFail(error));
       });
   };
+};
+
+export const deleteProjectSuccess = () => (dispatch) => { 
+  dispatch({
+    type: actionTypes.DELETE_PROJECT_SUCCESS,
+  });
+};
+
+export const deleteProjectFail = (error) => (dispatch) => {
+  const errorMessage = error.message;
+  
+  dispatch({
+    type: actionTypes.DELETE_PROJECT_FAIL,
+    errorMessage,
+  });
+
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -145,6 +221,11 @@ export const deleteSelectedProjects = (searchText, projects) => {
  */
 export const deleteProject = (searchText, uuid) => {
   return (dispatch) => {
+
+    dispatch({
+      type:actionTypes.DELETE_PROJECT_REQUEST
+    })
+
     dispatch(projectsTableLoadingData());
 
     return projectsApi
@@ -153,11 +234,11 @@ export const deleteProject = (searchText, uuid) => {
         dispatch(projectsTableDataLoaded());
         message.success('Projeto excluído com sucesso.');
         dispatch(fetchPaginatedProjects(searchText, 1, 10));
+        dispatch(deleteProjectSuccess);
       })
       .catch((error) => {
-        const errorMessage = error.message;
         dispatch(projectsTableDataLoaded());
-        message.error(errorMessage, 5);
+        dispatch(deleteProjectFail(error));
       });
   };
 };
