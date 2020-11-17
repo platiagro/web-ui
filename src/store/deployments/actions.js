@@ -55,13 +55,13 @@ export const fetchDeployedExperiments = (experiments, isToShowLoader) => async (
  * Delete deployed experiment
  * @param {String} experimentId
  */
-export const fetchDeleteDeployedExperiment = (experimentId) => (dispatch) => {
+export const deleteDeploymentRequest = (experimentId) => (dispatch) => {
   dispatch(implantedExperimentsLoadingData());
   dispatch({
     type: actionTypes.DELETE_DEPLOYED_EXPERIMENT_REQUEST,
   });
   deploymentsApi
-    .fetchDeleteDeployedExperiments(experimentId)
+    .deleteDeployedExperiments(experimentId)
     .then((response) => {
       dispatch(implantedExperimentsDataLoaded());
       dispatch({
