@@ -143,6 +143,18 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
   }
 };
 
+export const clearOperatorsFeatureParametersFail = (error) => (dispatch) =>{
+
+   // getting error message
+   const errorMessage = error.message;
+   dispatch({
+     type: actionTypes.CLEAR_OPERATORS_FEATURE_PARAMETERS_FAIL,
+     errorMessage,
+   });
+ 
+}
+
+
 /**
  * Clear operators feature parameters
  *
@@ -196,16 +208,21 @@ export const clearOperatorsFeatureParametersRequest = (
       const body = { parameters };
       await operatorsApi
         .updateOperator(projectId, experimentId, operator.uuid, body)
+        .then((dispatch)=>{
+          dispatch({
+            type:actionTypes.CLEAR_OPERATORS_FEATURE_PARAMETERS_SUCCESS,
+          })
+        })
         .catch((error) => {
-          console.log(error);
+          dispatch(clearOperatorsFeatureParametersFail(error));
         });
     }
 
     dispatch(fetchOperatorsRequest(projectId, experimentId));
     dispatch(operatorParameterDataLoaded());
-  } catch (e) {
+  } catch (error) {
     dispatch(operatorParameterDataLoaded());
-    console.log(e);
+    dispatch(clearOperatorsFeatureParametersFail(error));
   }
 };
 
