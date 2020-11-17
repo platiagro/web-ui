@@ -9,14 +9,11 @@ import ProjectsTable from './index';
 import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
-import {
-  fetchPaginatedProjects,
-  fetchSelectProjects,
-} from '../../../../store/projects/actions';
-import { deleteProjectRequestRequest } from '../../../../store/project/actions';
+import { fetchPaginatedProjects, selectProjects } from 'store/projects/actions';
+import { deleteProjectRequestRequest } from 'store/project/actions';
 
 // ACTIONS
-import { showNewProjectModal } from '../../../../store/ui/actions';
+import { showNewProjectModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -27,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(deleteProjectRequestRequest(projectUuid)),
     handleShowNewProjectModal: (record) =>
       dispatch(showNewProjectModal(record)),
-    handleSelectProjects: (record) => dispatch(fetchSelectProjects(record)),
+    handleSelectProjects: (record) => dispatch(selectProjects(record)),
   };
 };
 

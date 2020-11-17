@@ -99,7 +99,7 @@ export const fetchProjects = () => (dispatch) => {
  *
  * @param projects
  */
-export const fetchSelectProjects = (projects) => {
+export const selectProjects = (projects) => {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SELECTED_PROJECTS,
