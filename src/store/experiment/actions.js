@@ -500,10 +500,13 @@ const fetchExperimentDeployStatusSuccess = (response) => (dispatch) => {
   });
 };
 
-const fetchExperimentDeployStatusFail = () => (dispatch) => {
+const fetchExperimentDeployStatusFail = (error) => (dispatch) => {
+  const errorMessage = error.message;
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_DEPLOY_STATUS_FAIL,
+    errorMessage,
   });
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -526,8 +529,8 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
     .then((response) => {
       dispatch(fetchExperimentDeployStatusSuccess(response));
     })
-    .catch((err) => {
-      dispatch(fetchExperimentDeployStatusFail());
+    .catch((error) => {
+      dispatch(fetchExperimentDeployStatusFail(error));
     });
 };
 
