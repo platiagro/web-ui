@@ -13,8 +13,8 @@ import {
   filterTasksMenu,
 } from 'store/tasksMenu/actions';
 import {
-  fetchSetTemplateRequest,
-  fetchDeleteTemplateRequest,
+  setTemplateRequest,
+  deleteTemplateRequest,
 } from 'store/templates/actions';
 
 // DISPATCHS
@@ -41,9 +41,9 @@ const mapDispatchToProps = (dispatch) => {
         )
       ),
     handleSetTemplate: (projectId, experimentId, templateId) =>
-      dispatch(fetchSetTemplateRequest(projectId, experimentId, templateId)),
+      dispatch(setTemplateRequest(projectId, experimentId, templateId)),
     handleDeleteTemplate: (templateId, allTasks) =>
-      dispatch(fetchDeleteTemplateRequest(templateId, allTasks)),
+      dispatch(deleteTemplateRequest(templateId, allTasks)),
   };
 };
 

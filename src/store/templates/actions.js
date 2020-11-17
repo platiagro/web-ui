@@ -213,11 +213,9 @@ const fetchSetTemplateFail = (error) => (dispatch) => {
  * @param {string} templateId
  * @returns {Function}
  */
-export const fetchSetTemplateRequest = (
-  projectId,
-  experimentId,
-  templateId
-) => (dispatch) => {
+export const setTemplateRequest = (projectId, experimentId, templateId) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.SET_TEMPLATE_REQUEST,
@@ -247,9 +245,7 @@ export const fetchSetTemplateRequest = (
  * @param allTasks
  * @returns {Function}
  */
-export const fetchDeleteTemplateRequest = (templateId, allTasks) => (
-  dispatch
-) => {
+export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DELETE_TEMPLATE_REQUEST,
