@@ -120,7 +120,10 @@ export const fetchTrainExperimentRequest = (experiment, operators) => (
  * @param {object} response
  * @returns {object} { type }
  */
-const fetchTrainExperimentStatusSuccess = (response) => (dispatch, getState) => {
+const fetchTrainExperimentStatusSuccess = (response) => (
+  dispatch,
+  getState
+) => {
   // getting operators from response
   const { operators } = response.data;
 
@@ -198,7 +201,9 @@ const fetchTrainExperimentStatusFail = (error) => (dispatch) => {
  * @param {object[]} operators
  * @returns {Function}
  */
-export const fetchTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
+export const fetchTrainExperimentStatusRequest = (experimentId) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_REQUEST,
@@ -222,14 +227,14 @@ export const fetchTrainExperimentStatusRequest = (experimentId) => (dispatch) =>
  * @param {object} routerProps
  * @returns {Function}
  */
-export const fetchDeployExperimentRequest = (
+export const createDeploymentRequest = (
   project,
   experiment,
   operators,
   routerProps
 ) => (dispatch) => {
   dispatch({
-    type: actionTypes.DEPLOY_EXPERIMENT_REQUEST,
+    type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
   });
 
   // creating deploy object
@@ -253,14 +258,14 @@ export const fetchDeployExperimentRequest = (
     .deployExperiment(experiment.uuid, deployObject)
     .then(() => {
       dispatch({
-        type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
+        type: actionTypes.CREATE_DEPLOYMENT_SUCCESS,
       });
       routerProps.history.push(`/projetos/${project.uuid}`);
       message.success('Experimento implantado!');
     })
     .catch((error) => {
       dispatch({
-        type: actionTypes.DEPLOY_EXPERIMENT_FAIL,
+        type: actionTypes.CREATE_DEPLOYMENT_FAIL,
       });
       const errorMessage = error.message;
       message.error(errorMessage);
