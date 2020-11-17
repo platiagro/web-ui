@@ -26,7 +26,7 @@ import {
   updateAllDatasetColumnFail,
   updateAllDatasetColumnStart,
 } from 'store/dataset/actions';
-import { fetchSaveTargetAttribute } from 'store/operator/actions';
+import { updateTargetAttribute } from 'store/operator/actions';
 
 // STYLES
 import './DataViewModalContainer.less';
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch) => {
     handleUpdateAllDatasetColumnStart: () =>
       dispatch(updateAllDatasetColumnStart()),
     handleTargetAttribute: (parameters, projectId, experimentId) =>
-      dispatch(fetchSaveTargetAttribute(projectId, experimentId, parameters)),
+      dispatch(updateTargetAttribute(projectId, experimentId, parameters)),
   };
 };
 

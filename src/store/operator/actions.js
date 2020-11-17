@@ -750,7 +750,7 @@ export const updateOperatorDependenciesRequest = (
     });
 };
 
-export const fetchSaveTargetAttribute = (
+export const updateTargetAttribute = (
   projectId,
   experimentId,
   parameters
