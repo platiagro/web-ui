@@ -5,8 +5,8 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import DatasetsApi from 'services/DatasetsApi';
-import operatorsApi from '../../services/OperatorsApi';
-import pipelinesApi from '../../services/PipelinesApi';
+import operatorsApi from 'services/OperatorsApi';
+import pipelinesApi from 'services/PipelinesApi';
 
 // UI LIB
 import { message } from 'antd';
@@ -21,26 +21,68 @@ import {
   operatorParameterDataLoaded,
   operatorResultsDataLoaded,
   operatorResultsLoadingData,
+  operatorResultsDownloadDatasetLoaded,
+  operatorResultsDownloadDatasetLoading,
   operatorMetricsLoadingData,
   operatorMetricsDataLoaded,
   dependenciesOperatorLoading,
   dependenciesOperatorLoaded,
-} from '../ui/actions';
+} from 'store/ui/actions';
 
 // DATASET ACTIONS
-import { getDatasetRequest } from '../dataset/actions';
+import { getDatasetRequest } from 'store/dataset/actions';
 
 // OPERATORS ACTIONS
 import {
   clearOperatorsFeatureParametersRequest,
   fetchOperatorsRequest,
   upadteOperatorDependencies,
-} from '../operators/actions';
+} from 'store/operators/actions';
 
 // UTILS
-import utils from '../../utils';
+import utils from 'utils';
 
 // ACTIONS
+/**
+ * Download operator result dataset
+ */
+export const downloadOperatorResultDataset = (
+  experimentId,
+  operatorId
+) => async (dispatch) => {
+  dispatch(operatorResultsDownloadDatasetLoading());
+  dispatch({
+    type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
+  });
+
+  let columns = [];
+  let data = [];
+  let page = 1;
+  let operatorDatasetResponse;
+  do {
+    operatorDatasetResponse = await pipelinesApi
+      .getOperatorDataset(experimentId, 'latest', operatorId, page, 100)
+      .then((response) => {
+        if (response) {
+          return response.data;
+        }
+        return;
+      })
+      .catch((error) => {});
+    if (operatorDatasetResponse) {
+      columns = operatorDatasetResponse.columns;
+      data = [...data, ...operatorDatasetResponse.data];
+    }
+    page++;
+  } while (operatorDatasetResponse);
+
+  dispatch(operatorResultsDownloadDatasetLoaded());
+  dispatch({
+    type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS,
+    resultDataset: [[...columns], ...data],
+  });
+};
+
 // ** GET OPERATOR RESULTS
 /**
  * get operator results success action
@@ -53,7 +95,9 @@ import utils from '../../utils';
 const getOperatorResultsSuccess = (
   responseFigure,
   responseTable,
-  operatorId
+  operatorId,
+  page,
+  pageSize
 ) => (dispatch) => {
   // getting figure results
   const results = utils.transformResults(operatorId, responseFigure.data);
@@ -77,15 +121,13 @@ const getOperatorResultsSuccess = (
         columns: tableColumns,
         rows: responseTable.data.data,
         total: responseTable.data.total,
-        currentPage: 1,
+        currentPage: page,
+        pageSize: pageSize,
       },
     });
   }
 
-  // dispatching operator results data loaded action
   dispatch(operatorResultsDataLoaded());
-
-  // dispatching get operator results success action
   dispatch({
     type: actionTypes.GET_OPERATOR_RESULTS_SUCCESS,
     results,
@@ -167,7 +209,8 @@ export const getOperatorResultsRequest = (
   experimentId,
   runId,
   operatorId,
-  page
+  page,
+  pageSize
 ) => (dispatch) => {
   dispatch({
     type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
@@ -178,10 +221,16 @@ export const getOperatorResultsRequest = (
     .getOperatorFigures(experimentId, runId, operatorId)
     .then((responseFigure) => {
       pipelinesApi
-        .getOperatorDataset(experimentId, runId, operatorId, page)
+        .getOperatorDataset(experimentId, runId, operatorId, page, pageSize)
         .then((responseTable) => {
           dispatch(
-            getOperatorResultsSuccess(responseFigure, responseTable, operatorId)
+            getOperatorResultsSuccess(
+              responseFigure,
+              responseTable,
+              operatorId,
+              page,
+              pageSize
+            )
           );
         })
         .catch((error) => {
@@ -193,76 +242,55 @@ export const getOperatorResultsRequest = (
 };
 
 /**
- * get operator results success action
- *
- * @param {object} responseFigure
- * @param {object} responseTable
- * @param {string} operatorId
- * @param page
- * @returns {object} { type, results }
+ * Get operator result dataset
  */
-const getDataSetResultSuccess = (responseTable, operatorId, page) => (
-  dispatch
-) => {
-  // getting figure results
-  const results = [];
-  if (responseTable) {
-    // create columns in antd format
-    let tableColumns = [];
-    let index = 0;
-    for (let column of responseTable.data.columns) {
-      let tableColumn = {
-        title: column,
-        dataIndex: index,
-      };
-      tableColumns.push(tableColumn);
-      index++;
-    }
-
-    results.push({
-      type: 'table',
-      uuid: `table-${operatorId}`,
-      resultTable: {
-        columns: tableColumns,
-        rows: responseTable.data.data,
-        total: responseTable.data.total,
-        currentPage: page,
-      },
-    });
-  }
-
-  // dispatching operator results data loaded action
-  dispatch(operatorResultsDataLoaded());
-
-  // dispatching get operator results success action
+export const getOperatorResultDataset = (
+  projectId,
+  experimentId,
+  operatorId,
+  page,
+  pageSize
+) => (dispatch) => {
   dispatch({
-    type: actionTypes.GET_OPERATOR_RESULTS_SUCCESS,
-    results,
+    type: actionTypes.GET_OPERATOR_DATASET_RESULT_REQUEST,
   });
-};
-
-/**
- * set operator params request action
- *
- * @param {string} experimentId
- * @param {string} operatorId
- * @param page
- */
-export const getPageDataSetRequest = (experimentId, operatorId, page) => (
-  dispatch
-) => {
-  dispatch({
-    type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
-  });
-  dispatch(operatorResultsLoadingData());
-
-  operatorsApi
-    .getOperatorDataset(experimentId, 'latest', operatorId, page)
+  pipelinesApi
+    .getOperatorDataset(experimentId, 'latest', operatorId, page, pageSize)
     .then((responseTable) => {
-      dispatch(getDataSetResultSuccess(responseTable, operatorId, page));
+      let result = null;
+      if (responseTable) {
+        // create columns in antd format
+        let tableColumns = [];
+        let index = 0;
+        for (let column of responseTable.data.columns) {
+          let tableColumn = {
+            title: column,
+            dataIndex: index,
+          };
+          tableColumns.push(tableColumn);
+          index++;
+        }
+        result = {
+          type: 'table',
+          uuid: `table-${operatorId}`,
+          resultTable: {
+            columns: tableColumns,
+            rows: responseTable.data.data,
+            total: responseTable.data.total,
+            currentPage: page,
+            pageSize: pageSize,
+          },
+        };
+        dispatch({
+          type: actionTypes.GET_OPERATOR_DATASET_RESULT_SUCCESS,
+          result,
+        });
+      }
     })
     .catch((error) => {
-      console.log(error);
+      dispatch({
+        type: actionTypes.GET_OPERATOR_DATASET_RESULT_FAIL,
+      });
     });
 };
 
@@ -296,13 +324,10 @@ export const getOperatorMetricsRequest = (experimentId, runId, operatorId) => (
 /**
  * select operator action
  *
- * @param {string} projectId
  * @param {string} experimentId
- * @param {string} operator
- * @param {number} page
- * @returns {Function}
+ * @param {object} operator
  */
-export const selectOperator = (projectId, experimentId, operator, page) => (
+export const selectOperator = (experimentId, operator) => (
   dispatch,
   getState
 ) => {
@@ -337,7 +362,7 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
 
   // getting results
   dispatch(
-    getOperatorResultsRequest(experimentId, 'latest', operator.uuid, page)
+    getOperatorResultsRequest(experimentId, 'latest', operator.uuid, 1, 10)
   );
 
   if (!isDataset && operator.status === 'Failed') {
@@ -454,7 +479,10 @@ export const createOperatorRequest = (
   // necessary to check if dataset because dataset param is removed on getTaskData
   let configuredParameters;
   if (restTaskData.tags.includes('DATASETS')) {
-    configuredParameters = [{ name: 'dataset', value: '' }, {name:'target', value:''}];
+    configuredParameters = [
+      { name: 'dataset', value: '' },
+      { name: 'target', value: '' },
+    ];
   } else {
     configuredParameters = utils.configureOperatorParameters(
       parameters,

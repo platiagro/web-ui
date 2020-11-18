@@ -137,7 +137,7 @@ export const fetchCompareResultsResults = (compareResult) => async (
     .catch((error) => {});
 
   const dataset = await pipelinesApi
-    .getOperatorDataset(experimentId, runId, operatorId, 1)
+    .getOperatorDataset(experimentId, runId, operatorId, 1, 10)
     .then((response) => {
       return response.data;
     })
@@ -154,7 +154,7 @@ export const fetchCompareResultsResults = (compareResult) => async (
   if (dataset) {
     let tableColumns = [];
     let index = 0;
-    for (let column of dataset.data.columns) {
+    for (let column of dataset.columns) {
       let tableColumn = {
         title: column,
         dataIndex: index,
@@ -168,9 +168,10 @@ export const fetchCompareResultsResults = (compareResult) => async (
       uuid: `table-${operatorId}`,
       resultTable: {
         columns: tableColumns,
-        rows: dataset.data.data,
-        total: dataset.data.total,
+        rows: dataset.data,
+        total: dataset.total,
         currentPage: 1,
+        pageSize: 10,
       },
     });
   }

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
 import { LoadingOutlined } from '@ant-design/icons';
-import { Spin, Tabs, Empty } from 'antd';
+import { Empty, Spin, Tabs } from 'antd';
 
 // COMPONENTS
 import { CommonTable } from 'components';
@@ -13,6 +13,9 @@ import TagResult from '../TagResult';
 import TableResult from '../TableResult/Container';
 import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
+
+// CONTAINERS
+import { DownloadOperatorDatasetContainer } from 'containers';
 
 // STYLES
 import './ResultsDrawer.less';
@@ -39,6 +42,7 @@ const resultsTypes = {
  */
 const ResultsDrawer = (props) => {
   const {
+    isToShowDownloadButtons,
     loading,
     metrics,
     metricsLoading,
@@ -111,6 +115,9 @@ const ResultsDrawer = (props) => {
                   </div>
                 ))}
               </div>
+              {isToShowDownloadButtons ? (
+                <DownloadOperatorDatasetContainer />
+              ) : null}
             </TabPane>
 
             {/* metrics */}
@@ -162,6 +169,8 @@ const ResultsDrawer = (props) => {
 
 // PROP TYPES
 ResultsDrawer.propTypes = {
+  /** Show download buttons */
+  isToShowDownloadButtons: PropTypes.bool,
   /** Results drawer is loading */
   loading: PropTypes.bool.isRequired,
   /** Metrics list */

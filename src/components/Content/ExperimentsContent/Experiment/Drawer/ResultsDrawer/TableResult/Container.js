@@ -7,14 +7,27 @@ import { useParams } from 'react-router-dom';
 import TableResult from './index';
 
 // ACTIONS
-import { getPageDataSetRequest } from 'store/operator/actions';
+import { getOperatorResultDataset } from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // show operator details action
-    handleFetchPage: (projectId, experimentId, operator, page) =>
-      dispatch(getPageDataSetRequest(projectId, experimentId, operator, page)),
+    handleGetOperatorResultDataset: (
+      projectId,
+      experimentId,
+      operator,
+      page,
+      pageSize
+    ) =>
+      dispatch(
+        getOperatorResultDataset(
+          projectId,
+          experimentId,
+          operator,
+          page,
+          pageSize
+        )
+      ),
   };
 };
 
@@ -25,12 +38,28 @@ const mapStateToProps = (state) => {
   };
 };
 
-const TableResultContainer = ({ handleFetchPage, operator, ...props }) => {
+const TableResultContainer = (props) => {
+  const { handleGetOperatorResultDataset, operator, resultTable } = props;
   const { projectId, experimentId } = useParams();
-  const handlePageChange = (page) => {
-    handleFetchPage(projectId, experimentId, operator, page);
+  const handleOnPageChange = (page, size) => {
+    handleGetOperatorResultDataset(
+      projectId,
+      experimentId,
+      operator,
+      page,
+      size
+    );
   };
-  return <TableResult pageChange={handlePageChange} {...props} />;
+  return (
+    <TableResult
+      columns={resultTable.columns}
+      currentPage={resultTable.currentPage}
+      onPageChange={handleOnPageChange}
+      pageSize={resultTable.pageSize}
+      rows={resultTable.rows}
+      total={resultTable.total}
+    />
+  );
 };
 
 // EXPORT

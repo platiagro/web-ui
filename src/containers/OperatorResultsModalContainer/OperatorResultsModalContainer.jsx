@@ -111,6 +111,7 @@ const OperatorResultsModalContainer = (props) => {
       title={title}
     >
       <ResultsDrawer
+        isToShowDownloadButtons={true}
         loading={operatorResultsLoading}
         metricsLoading={operatorMetricsLoading}
         metrics={operatorMetrics}

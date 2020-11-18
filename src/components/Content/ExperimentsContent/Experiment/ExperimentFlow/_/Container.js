@@ -20,8 +20,8 @@ import { useStoreState } from 'react-flow-renderer';
 const mapDispatchToProps = (dispatch) => {
   return {
     // show operator details action
-    handleShowOperatorDetails: (projectId, experimentId, operator, page) =>
-      dispatch(selectOperator(projectId, experimentId, operator, page)),
+    handleShowOperatorDetails: (experimentId, operator) =>
+      dispatch(selectOperator(experimentId, operator)),
     // getting training experiment status
     handleGetTrainExperimentStatus: (experimentId) =>
       dispatch(getTrainExperimentStatusRequest(experimentId)),
@@ -103,7 +103,7 @@ const ExperimentFlowContainer = ({
   });
 
   const selectOperatorHandler = (operator) =>
-    handleShowOperatorDetails(projectId, experimentId, operator, 1);
+    handleShowOperatorDetails(experimentId, operator);
 
   const handleSavePosition = (operatorId, position) => {
     handleSaveOperatorPosition(projectId, experimentId, operatorId, position);

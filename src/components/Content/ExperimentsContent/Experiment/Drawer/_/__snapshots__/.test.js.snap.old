@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`MainDrawer component is expected renders html correctly 1`] = `
-<withConfigConsumer(Drawer)
-  closable={true}
-  placement="right"
-  width={350}
-/>
-`;

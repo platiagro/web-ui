@@ -50,9 +50,9 @@ const deleteTrainExperiment = (experimentId) => {
   return pipelinesApi.delete(`${trainPath}/${experimentId}`);
 };
 
-const getOperatorDataset = (trainingId, runId, operatorId, page) => {
+const getOperatorDataset = (trainingId, runId, operatorId, page, pageSize) => {
   return pipelinesApi.get(
-    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=10`
+    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=${pageSize}`
   );
 };
 

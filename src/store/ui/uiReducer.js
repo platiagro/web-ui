@@ -48,7 +48,11 @@ const initialState = {
   datasetsList: { loading: false },
   datasetOperator: { loading: false },
   operatorParameter: { loading: false },
-  operatorResults: { loading: false, showOperatorResults: false },
+  operatorResults: {
+    downloadDatasetLoading: false,
+    loading: false,
+    showOperatorResults: false,
+  },
   operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
   inferenceTestResultModal: { loading: false, visible: false },
@@ -389,6 +393,17 @@ const uiReducer = (state = initialState, action = undefined) => {
         operatorResults: {
           ...state.operatorResults,
           loading: action.operatorResultsLoading,
+        },
+      };
+
+    // OPERATOR RESULTS DOWNLOAD DATASET
+    case actionTypes.OPERATOR_RESULTS_DOWNLOAD_DATASET_LOADING: // loading data
+    case actionTypes.OPERATOR_RESULTS_DOWNLOAD_DATASET_LOADED: // data loaded
+      return {
+        ...state,
+        operatorResults: {
+          ...state.operatorResults,
+          downloadDatasetLoading: action.downloadDatasetLoading,
         },
       };
 

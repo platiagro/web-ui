@@ -19,18 +19,28 @@ const initialState = {
  */
 const operatorReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    //REQUEST INITIAL
+    // REQUEST INITIAL
     case actionTypes.GET_OPERATOR_METRICS_REQUEST:
       return { ...state, metrics: [] };
     // SUCCESS
     // operator
-    // remove operator success
     case actionTypes.REMOVE_OPERATOR_SUCCESS:
       return { ...state };
-    // set operator params success
     case actionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
       return { ...state, ...action.operator };
-    // get operator results success
+    case actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS:
+      return { ...state, resultDataset: [...action.resultDataset] };
+    case actionTypes.GET_OPERATOR_DATASET_RESULT_SUCCESS:
+      const results = [
+        ...state.results.map((result) => {
+          if (result.uuid === action.result.uuid) {
+            return { ...action.result };
+          } else {
+            return result;
+          }
+        }),
+      ];
+      return { ...state, results: [...results] };
     case actionTypes.GET_OPERATOR_RESULTS_SUCCESS:
       return { ...state, results: [...action.results] };
     case actionTypes.GET_OPERATOR_METRICS_SUCCESS:

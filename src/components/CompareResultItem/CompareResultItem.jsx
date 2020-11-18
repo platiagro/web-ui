@@ -66,7 +66,7 @@ const CompareResultItem = (props) => {
           trainingDetail={trainingDetail}
         />
       }
-      style={{ height: '100%' }}
+      style={{ height: '100%', margin: 0 }}
     >
       <CompareResultItemTasks
         compareResult={compareResult}
