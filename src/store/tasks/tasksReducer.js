@@ -22,7 +22,7 @@ const tasksReducer = (state = initialState, action = undefined) => {
         modalValidateStatus: null,
         errorMessage: null,
       };
-    case actionTypes.ADD_TASK_SUCCESS:
+    case actionTypes.CREATE_TASK_SUCCESS:
     case actionTypes.COPY_TASK_SUCCESS:
       // creating task aux list with new task and olders
       const tasksListAux = [action.task, ...state.tasks];
@@ -92,7 +92,7 @@ const tasksReducer = (state = initialState, action = undefined) => {
         ...state,
         modalIsVisible: true,
       };
-    case actionTypes.ADD_TASK_FAIL:
+    case actionTypes.CREATE_TASK_FAIL:
     case actionTypes.UPDATE_TASK_FAIL:
     case actionTypes.COPY_TASK_FAIL:
       return {

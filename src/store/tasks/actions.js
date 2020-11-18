@@ -42,11 +42,11 @@ const sleep = (milliseconds) => {
 };
 
 /**
- * Function to add task and dispatch to reducer
+ * Function to create task and dispatch to reducer
  *
  * @param {object} task
  */
-export const addTaskRequest = (task) => {
+export const createTaskRequest = (task) => {
   return (dispatch) => {
     // showing loading
     dispatch(tasksTableLoadingData());
@@ -57,7 +57,7 @@ export const addTaskRequest = (task) => {
         const responseTask = response.data;
         dispatch(tasksTableDataLoaded());
         dispatch({
-          type: actionTypes.ADD_TASK_SUCCESS,
+          type: actionTypes.CREATE_TASK_SUCCESS,
           task: responseTask,
         });
         dispatch(closeTasksModal());
@@ -82,7 +82,7 @@ export const addTaskRequest = (task) => {
           if (errorMessage.includes('name already exist')) {
             errorMessage = 'Já existe uma tarefa com este nome!';
             dispatch({
-              type: actionTypes.ADD_TASK_FAIL,
+              type: actionTypes.CREATE_TASK_FAIL,
               errorMessage,
             });
           } else {
