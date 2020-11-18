@@ -41,6 +41,37 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
+export const addTaskSuccess = (responseTask) => (dispatch) => {
+  dispatch({
+    type: actionTypes.ADD_TASK_SUCCESS,
+    task: responseTask,
+  });
+};
+
+export const addTaskFail = (error, messageError) => (dispatch) => {
+  let errorMessage = null;
+
+  if (
+    messageError !== null ||
+    (messageError !== undefined && errorMessage == null)
+  ) {
+    errorMessage = messageError;
+  }
+
+  if (
+    error.message !== null ||
+    (error.message !== undefined && errorMessage == null)
+  ) {
+    errorMessage = error.message;
+  }
+
+  dispatch({
+    type: actionTypes.ADD_TASK_FAIL,
+    errorMessage,
+  });
+  message.error(errorMessage, 5);
+};
+
 /**
  * Function to add task and dispatch to reducer
  *
@@ -48,6 +79,9 @@ const sleep = (milliseconds) => {
  */
 export const addTask = (task) => {
   return (dispatch) => {
+    dispatch({
+      type: actionTypes.ADD_TASK_REQUEST,
+    });
     // showing loading
     dispatch(tasksTableLoadingData());
 
@@ -56,10 +90,7 @@ export const addTask = (task) => {
       .then(async (response) => {
         const responseTask = response.data;
         dispatch(tasksTableDataLoaded());
-        dispatch({
-          type: actionTypes.ADD_TASK_SUCCESS,
-          task: responseTask,
-        });
+        dispatch(addTaskSuccess(responseTask));
         dispatch(closeTasksModal());
         message.success(`Tarefa adicionada com sucesso.`);
         await sleep(1000);
@@ -75,22 +106,49 @@ export const addTask = (task) => {
         dispatch(tasksTableDataLoaded());
         let errorMessage;
         if (error.response.status === 500) {
-          errorMessage = error.message;
-          message.error(errorMessage, 5);
+          dispatch(addTaskFail(error, null));
         } else {
           errorMessage = error.response.data.message;
           if (errorMessage.includes('name already exist')) {
             errorMessage = 'Já existe uma tarefa com este nome!';
-            dispatch({
-              type: actionTypes.ADD_TASK_FAIL,
-              errorMessage,
-            });
+            dispatch(addTaskFail(null, errorMessage));
           } else {
-            message.error(errorMessage, 5);
+            dispatch(addTaskFail(error, null));
           }
         }
       });
   };
+};
+
+export const deleteTaskSuccess = (id) => (dispatch) => {
+  dispatch({
+    type: actionTypes.DELETE_TASK_SUCCESS,
+    id,
+  });
+};
+
+export const deleteTaskFail = (error, messageError) => (dispatch) => {
+  let errorMessage = null;
+
+  if (
+    messageError !== null ||
+    (messageError !== undefined && errorMessage == null)
+  ) {
+    errorMessage = messageError;
+  }
+
+  if (
+    error.message !== null ||
+    (error.message !== undefined && errorMessage == null)
+  ) {
+    errorMessage = error.message;
+  }
+
+  dispatch({
+    type: actionTypes.DELETE_TASK_FAIL,
+    errorMessage,
+  });
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -100,6 +158,10 @@ export const addTask = (task) => {
  */
 export const deleteTask = (id) => {
   return (dispatch) => {
+    dispatch({
+      type: actionTypes.DELETE_TASK_REQUEST,
+    });
+
     // showing loading
     dispatch(tasksTableLoadingData());
 
@@ -107,10 +169,7 @@ export const deleteTask = (id) => {
       .deleteTask(id)
       .then(() => {
         dispatch(tasksTableDataLoaded());
-        dispatch({
-          type: actionTypes.DELETE_TASK,
-          id,
-        });
+        dispatch(deleteTaskSuccess(id));
       })
       .catch((error) => {
         let errorMessage;
@@ -118,12 +177,32 @@ export const deleteTask = (id) => {
           errorMessage =
             'Não foi possível excluir esta tarefa, pois ela está associada a um experimento.';
         } else {
-          errorMessage = error.message;
+          dispatch(deleteTaskFail(error, errorMessage));
         }
         dispatch(tasksTableDataLoaded());
-        message.error(errorMessage, 5);
+        dispatch(deleteTaskFail(error, errorMessage));
       });
   };
+};
+
+export const fetchPaginatedTasksSuccess = (response, pageSize) => (
+  dispatch
+) => {
+  dispatch({
+    type: actionTypes.FETCH_PAGINATED_SUCCESS,
+    tasks: response.data,
+    pageSize: pageSize,
+  });
+};
+
+export const fetchPaginatedTasksFail = (error) => (dispatch) => {
+  const errorMessage = error.message;
+
+  dispatch({
+    type: actionTypes.FETCH_PAGINATED_FAIL,
+    errorMessage,
+  });
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -136,6 +215,9 @@ export const deleteTask = (id) => {
  */
 export const fetchPaginatedTasks = (page, pageSize) => {
   return (dispatch) => {
+    dispatch({
+      type: actionTypes.FETCH_PAGINATED_REQUEST,
+    });
     // showing loading
     dispatch(tasksTableLoadingData());
 
@@ -143,18 +225,30 @@ export const fetchPaginatedTasks = (page, pageSize) => {
       .getPaginatedTasks(page, pageSize)
       .then((response) => {
         dispatch(tasksTableDataLoaded());
-        dispatch({
-          type: actionTypes.FETCH_PAGINATED_TASK,
-          tasks: response.data,
-          pageSize: pageSize,
-        });
+        dispatch(fetchPaginatedTasksSuccess(response, pageSize));
       })
       .catch((error) => {
-        const errorMessage = error.message;
         dispatch(tasksTableDataLoaded());
-        message.error(errorMessage, 5);
+        dispatch(fetchPaginatedTasksFail(error));
       });
   };
+};
+
+export const fetchTasksSuccess = (response) => (dispatch) => {
+  dispatch({
+    type: actionTypes.FETCH_TASK_SUCCESS,
+    tasks: response.data.tasks,
+  });
+};
+
+export const fetchTasksFail = (error) => (dispatch) => {
+  const errorMessage = error.message;
+
+  dispatch({
+    type: actionTypes.FETCH_TASK_FAIL,
+    errorMessage,
+  });
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -162,6 +256,10 @@ export const fetchPaginatedTasks = (page, pageSize) => {
  */
 export const fetchTasks = () => {
   return (dispatch) => {
+    dispatch({
+      type: actionTypes.FETCH_TASK_REQUEST,
+    });
+
     // showing loading
     dispatch(tasksTableLoadingData());
 
@@ -169,15 +267,11 @@ export const fetchTasks = () => {
       .getAllTasks()
       .then((response) => {
         dispatch(tasksTableDataLoaded());
-        dispatch({
-          type: actionTypes.FETCH_TASK,
-          tasks: response.data.tasks,
-        });
+        dispatch(fetchTasksSuccess(response));
       })
       .catch((error) => {
-        const errorMessage = error.message;
         dispatch(tasksTableDataLoaded());
-        message.error(errorMessage, 5);
+        dispatch(fetchTasksFail(error));
       });
   };
 };
@@ -190,6 +284,10 @@ export const fetchTasks = () => {
  */
 export const updateTask = (uuid, task) => {
   return (dispatch) => {
+    dispatch({
+      type: actionTypes.UPDATE_TASK_REQUEST,
+    });
+
     // showing loading
     dispatch(tasksTableLoadingData());
 
