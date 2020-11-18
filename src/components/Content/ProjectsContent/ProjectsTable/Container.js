@@ -10,7 +10,7 @@ import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
 import { fetchPaginatedProjects, selectProjects } from 'store/projects/actions';
-import { deleteProjectRequestRequest } from 'store/project/actions';
+import { deleteProjectRequest } from 'store/project/actions';
 
 // ACTIONS
 import { showNewProjectModal } from 'store/ui/actions';
@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleFetchPaginatedProjects: (name) =>
       dispatch(fetchPaginatedProjects(name, 1, 10)),
-    handleDeleteProject: (projectUuid) =>
-      dispatch(deleteProjectRequestRequest(projectUuid)),
+    handleDeleteProject: (projectId) =>
+      dispatch(deleteProjectRequest(projectId)),
     handleShowNewProjectModal: (record) =>
       dispatch(showNewProjectModal(record)),
     handleSelectProjects: (record) => dispatch(selectProjects(record)),
@@ -70,8 +70,8 @@ const ProjectsTableContainer = (props) => {
 
   // HANDLERS
   // project click
-  const handleClickProject = (projectUuid) =>
-    history.push(`/projetos/${projectUuid}`);
+  const handleClickProject = (projectId) =>
+    history.push(`/projetos/${projectId}`);
 
   // RENDER
   return loading || searchText || (projects && projects.length > 0) ? (

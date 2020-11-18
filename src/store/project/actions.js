@@ -335,7 +335,7 @@ const deleteProjectRequestFail = (error) => (dispatch) => {
  * @param projectId
  * @returns {Function}
  */
-export const deleteProjectRequestRequest = (projectId) => (dispatch) => {
+export const deleteProjectRequest = (projectId) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DELETE_PROJECT_REQUEST,
