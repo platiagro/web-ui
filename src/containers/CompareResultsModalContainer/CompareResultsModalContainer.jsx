@@ -19,15 +19,16 @@ import { CommonTable, CompareResultItem } from 'components';
 import { Modal, Skeleton } from 'uiComponents';
 
 // ACTIONS
-import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 import {
   addCompareResult,
   deleteCompareResult,
   fetchCompareResults,
   fetchCompareResultsResults,
   fetchTrainingHistory,
+  getCompareResultDatasetPaginated,
   updateCompareResult,
 } from 'store/compareResults/actions';
+import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
 // STYLES
 import 'react-grid-layout/css/styles.css';
@@ -54,6 +55,8 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchTrainingHistory: (experimentId) => {
       dispatch(fetchTrainingHistory(experimentId));
     },
+    handleGetCompareResultDatasetPaginated: (compareResult, page, pageSize) =>
+      dispatch(getCompareResultDatasetPaginated(compareResult, page, pageSize)),
     handleUpdateCompareResult: (compareResult, changedPosition) => {
       dispatch(updateCompareResult(compareResult, changedPosition));
     },
@@ -101,6 +104,7 @@ const CompareResultsModalContainer = (props) => {
     handleFetchCompareResults,
     handleFetchCompareResultsResults,
     handleFetchTrainingHistory,
+    handleGetCompareResultDatasetPaginated,
     handleUpdateCompareResult,
   } = props;
 
@@ -168,6 +172,7 @@ const CompareResultsModalContainer = (props) => {
             }}
             onFetchResults={handleFetchCompareResultsResults}
             onLoadTrainingHistory={handleFetchTrainingHistory}
+            onResultDatasetPageChange={handleGetCompareResultDatasetPaginated}
             onUpdate={handleUpdateCompareResult}
             tasks={tasks}
           />
@@ -303,6 +308,8 @@ CompareResultsModalContainer.propTypes = {
   handleFetchCompareResultsResults: PropTypes.func.isRequired,
   /** Function to handle fetch training history */
   handleFetchTrainingHistory: PropTypes.func.isRequired,
+  /** Function to handle get compare result dataset paginated */
+  handleGetCompareResultDatasetPaginated: PropTypes.func.isRequired,
   /** Function to handle update compare result */
   handleUpdateCompareResult: PropTypes.func.isRequired,
   /** Modal is loading */

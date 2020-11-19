@@ -10,7 +10,7 @@ import { Empty, Spin, Tabs } from 'antd';
 // COMPONENTS
 import { CommonTable } from 'components';
 import TagResult from '../TagResult';
-import TableResult from '../TableResult/Container';
+import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
 
@@ -28,7 +28,9 @@ const resultsTypes = {
   // tag
   tag: ({ uuid, ...props }) => <TagResult key={uuid} {...props} />,
   // table
-  table: ({ uuid, ...props }) => <TableResult key={uuid} {...props} />,
+  table: ({ uuid, ...props }, onPageChange) => (
+    <TableResult key={uuid} onPageChange={onPageChange} {...props} />
+  ),
   // plot
   plot: ({ uuid, ...props }) => <PlotResult key={uuid} {...props} />,
 };
@@ -46,6 +48,7 @@ const ResultsDrawer = (props) => {
     loading,
     metrics,
     metricsLoading,
+    onDatasetPageChange,
     parameters,
     results,
     resultsTabStyle,
@@ -105,13 +108,9 @@ const ResultsDrawer = (props) => {
             {/* results */}
             <TabPane tab='Resultados' key='1'>
               <div style={resultsTabStyle}>
-                {results.map((
-                  result // div result container
-                ) => (
+                {results.map((result) => (
                   <div className='tab-content' key={result.uuid}>
-                    {/* rendering result */}
-                    {resultsTypes[result.type](result)}
-                    {/* rendering divider */}
+                    {resultsTypes[result.type](result, onDatasetPageChange)}
                   </div>
                 ))}
               </div>

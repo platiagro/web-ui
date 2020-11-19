@@ -245,7 +245,6 @@ export const getOperatorResultsRequest = (
  * Get operator result dataset
  */
 export const getOperatorResultDataset = (
-  projectId,
   experimentId,
   operatorId,
   page,

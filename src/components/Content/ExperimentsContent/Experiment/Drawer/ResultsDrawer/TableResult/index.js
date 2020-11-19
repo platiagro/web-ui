@@ -14,15 +14,8 @@ import { CommonTable } from 'components';
  * This component is responsible for displaying table result.
  */
 const TableResult = (props) => {
-  const {
-    columns,
-    currentPage,
-    onPageChange,
-    pageSize,
-    rows,
-    title,
-    total,
-  } = props;
+  const { onPageChange, resultTable } = props;
+  const { columns, currentPage, pageSize, rows, title, total } = resultTable;
   return (
     <div>
       {title && (
@@ -52,26 +45,19 @@ const TableResult = (props) => {
         showSizeChanger
         pageSizeOptions={['10', '20', '30', '40', '50']}
       />
+      <br />
     </div>
   );
 };
 
 // PROP TYPES
 TableResult.propTypes = {
-  /** table  columns */
-  columns: PropTypes.array.isRequired,
-  /** table current page */
-  currentPage: PropTypes.number.isRequired,
   /** function to handle table page change */
   onPageChange: PropTypes.func.isRequired,
-  /** table page size */
-  pageSize: PropTypes.number.isRequired,
-  /** table rows*/
-  rows: PropTypes.array.isRequired,
+  /** object with table informations */
+  resultTable: PropTypes.object.isRequired,
   /** table title */
   title: PropTypes.string,
-  /** table total rows */
-  total: PropTypes.number.isRequired,
 };
 
 TableResult.defaultProps = {

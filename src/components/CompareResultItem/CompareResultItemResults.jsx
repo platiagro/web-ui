@@ -19,7 +19,13 @@ import utils from 'utils';
 import './CompareResultItem.less';
 
 const CompareResultItemResults = (props) => {
-  const { compareResult, height, tasks, trainingDetail } = props;
+  const {
+    compareResult,
+    height,
+    onResultDatasetPageChange,
+    tasks,
+    trainingDetail,
+  } = props;
   const [randResultImage] = useState(Math.floor(Math.random() * 2) + 1);
 
   if (
@@ -64,12 +70,18 @@ const CompareResultItemResults = (props) => {
       });
     }
   }
+
+  const handleOnDatasetPageChange = (page, size) => {
+    onResultDatasetPageChange(compareResult, page, size);
+  };
+
   return (
     <ResultsDrawer
       loading={false}
       metrics={compareResult.metrics}
       metricsLoading={false}
       parameters={resultsParameters}
+      onDatasetPageChange={handleOnDatasetPageChange}
       results={compareResult.results}
       resultsTabStyle={{
         maxHeight: height ? height - 220 : 300,
@@ -86,6 +98,8 @@ CompareResultItemResults.propTypes = {
   compareResult: PropTypes.object.isRequired,
   /** The current card height on grid */
   height: PropTypes.number,
+  /** Function to handle result dataset page change */
+  onResultDatasetPageChange: PropTypes.func.isRequired,
   /** Tasks list */
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** The expriment training detail */
