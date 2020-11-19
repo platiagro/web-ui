@@ -16,7 +16,7 @@ import AccountInfo from '../AccountInfo';
  */
 const ContentHeaderContainer = (props) => {
   // destructuring props
-  const { title, subTitle, backIcon } = props;
+  const { title, subTitle, customSubTitle, backIcon } = props;
 
   // getting history
   const history = useHistory();
@@ -29,6 +29,7 @@ const ContentHeaderContainer = (props) => {
     <ContentHeader
       title={title}
       subTitle={subTitle}
+      customSubTitle={customSubTitle}
       loading={false}
       handleGoBack={goBackHandler}
       extra={<AccountInfo />}
