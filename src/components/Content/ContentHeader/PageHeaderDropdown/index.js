@@ -1,5 +1,6 @@
 // CORE LIBS
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // UI LIBS
@@ -22,7 +23,8 @@ import './style.less';
 const PageHeaderDropdown = (props) => {
   // destructuring props
   const {
-    type
+    type,
+    target
   } = props;
 
   let icon, title, targetTitle;
@@ -42,10 +44,21 @@ const PageHeaderDropdown = (props) => {
       break;
   }
 
+  const changeView = () => {
+    history.push(target);
+  };
+
+  const history = useHistory();
+
   const menu = (
     <Menu className='dropdown-menu'>
       <h1>Ir para:</h1>
-      <Button shape='round' type='primary-inverse' size='medium'>
+      <Button
+        shape='round'
+        type='primary-inverse'
+        size='medium'
+        onClick={changeView}
+      >
         {targetTitle}
       </Button>
     </Menu>
@@ -54,7 +67,12 @@ const PageHeaderDropdown = (props) => {
   return (
     <div className='pageHeaderDropdown'>
       <Dropdown overlay={menu} trigger={['click']}>
-        <Button className={type} type='primary-inverse' size='large' onClick={e => e.preventDefault()}>
+        <Button
+          className={type}
+          type='primary-inverse'
+          size='large'
+          onClick={e => e.preventDefault()}
+        >
           {icon}
           {title}
           <DownOutlined />
