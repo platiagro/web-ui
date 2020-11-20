@@ -23,9 +23,11 @@ const { getErrorMessage } = utils;
  * @param {object[]} experiments
  * @param {Boolean} isToShowLoader
  */
-export const fetchDeployedExperiments = (experiments, isToShowLoader) => async (
-  dispatch
-) => {
+export const fetchDeployedExperiments = (
+  projectId,
+  experiments,
+  isToShowLoader
+) => async (dispatch) => {
   if (isToShowLoader) {
     dispatch(implantedExperimentsLoadingData());
   }
@@ -37,7 +39,7 @@ export const fetchDeployedExperiments = (experiments, isToShowLoader) => async (
     });
     for (const experiment of experiments) {
       await deploymentsApi
-        .fetchDeployedExperiment(experiment.uuid)
+        .fetchDeployedExperiment(projectId, experiment.uuid)
         .then((response) => {
           deployments.push(response.data);
         })
@@ -55,13 +57,15 @@ export const fetchDeployedExperiments = (experiments, isToShowLoader) => async (
  * Delete deployed experiment
  * @param {String} experimentId
  */
-export const deleteDeployedExperiment = (experimentId) => (dispatch) => {
+export const deleteDeployedExperiment = (projectId, experimentId) => (
+  dispatch
+) => {
   dispatch(implantedExperimentsLoadingData());
   dispatch({
     type: actionTypes.DELETE_DEPLOYED_EXPERIMENT_REQUEST,
   });
   deploymentsApi
-    .deleteDeployedExperiments(experimentId)
+    .deleteDeployedExperiments(projectId, experimentId)
     .then((response) => {
       dispatch(implantedExperimentsDataLoaded());
       dispatch({

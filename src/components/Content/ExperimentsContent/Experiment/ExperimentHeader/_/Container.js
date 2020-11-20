@@ -7,18 +7,15 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentHeader from './index';
 
 // ACTIONS
-// operator
-import { removeOperatorRequest } from '../../../../../../store/operator/actions';
-// experiment
 import {
   fetchExperimentRequest,
   editExperimentNameRequest,
-} from '../../../../../../store/experiment/actions';
-// pipelines
+} from 'store/experiment/actions';
+import { removeOperatorRequest } from 'store/operator/actions';
 import {
   trainExperimentRequest,
   deleteTrainExperiment,
-} from '../../../../../../store/pipelines/actions';
+} from 'store/pipelines/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -29,8 +26,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(editExperimentNameRequest(projectId, experimentId, newName)),
     handleTrainExperiment: (experiment, operators) =>
       dispatch(trainExperimentRequest(experiment, operators)),
-    handleDeleteTrainExperiment: (experimentId) =>
-      dispatch(deleteTrainExperiment(experimentId)),
+    handleDeleteTrainExperiment: (projectId, experimentId) =>
+      dispatch(deleteTrainExperiment(projectId, experimentId)),
     handleRemoveOperator: (projectId, experimentId, operator) =>
       dispatch(removeOperatorRequest(projectId, experimentId, operator)),
   };
@@ -66,8 +63,6 @@ const ExperimentHeaderContainer = ({
   handleTrainExperiment,
   handleDeleteTrainExperiment,
 }) => {
-  // CONSTANTS
-  // getting project uuid
   const { projectId, experimentId } = useParams();
 
   // HOOKS
@@ -79,16 +74,12 @@ const ExperimentHeaderContainer = ({
   }, [experimentId, projectId, handleFetchExperiment]);
 
   // HANDLERS
-  // edit experiment name
   const editExperimentNameHandler = (newName) =>
     handleEditExperimentName(projectId, experimentId, newName);
-  // train experiment
   const trainExperimentHandler = () =>
     handleTrainExperiment(experiment, operators);
-  // delete train experiment
   const deleteTrainExperimentHandler = () =>
-    handleDeleteTrainExperiment(experiment.uuid);
-  // delete operator
+    handleDeleteTrainExperiment(projectId, experiment.uuid);
   const removeOperatorHandler = () =>
     handleRemoveOperator(projectId, experimentId, operator);
 

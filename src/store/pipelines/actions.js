@@ -75,7 +75,7 @@ export const trainExperimentRequest = (experiment, operators) => (
   const datasetName = utils.getDatasetName(tasks, operators);
 
   // getting experiment data
-  const { uuid: experimentId } = experiment;
+  const { projectId, uuid: experimentId } = experiment;
 
   // creating train object
   const trainObject = { experimentId };
@@ -106,7 +106,7 @@ export const trainExperimentRequest = (experiment, operators) => (
 
   // training experiment
   pipelinesApi
-    .trainExperiment(trainObject)
+    .trainExperiment(projectId, experimentId, trainObject)
     .then(() => trainExperimentSuccess())
     .catch((error) => dispatch(trainExperimentFail(error)));
 };
@@ -198,7 +198,9 @@ const getTrainExperimentStatusFail = (error) => (dispatch) => {
  * @param {object[]} operators
  * @returns {Function}
  */
-export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
+export const getTrainExperimentStatusRequest = (projectId, experimentId) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.GET_TRAIN_EXPERIMENT_STATUS_REQUEST,
@@ -206,7 +208,7 @@ export const getTrainExperimentStatusRequest = (experimentId) => (dispatch) => {
 
   // training experiment
   pipelinesApi
-    .getTrainExperimentStatus(experimentId)
+    .getTrainExperimentStatus(projectId, experimentId, experimentId)
     .then((response) => dispatch(getTrainExperimentStatusSuccess(response)))
     .catch((error) => dispatch(getTrainExperimentStatusFail(error)));
 };
@@ -250,7 +252,7 @@ export const deployExperimentRequest = (
 
   // deploying experiment
   pipelinesApi
-    .deployExperiment(experiment.uuid, deployObject)
+    .deployExperiment(project.uuid, experiment.uuid, deployObject)
     .then(() => {
       dispatch({
         type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
@@ -275,13 +277,15 @@ export const deployExperimentRequest = (
  * @param {string} experimentId
  * @returns {Function}
  */
-export const deleteTrainExperiment = (experimentId) => (dispatch) => {
+export const deleteTrainExperiment = (projectId, experimentId) => (
+  dispatch
+) => {
   dispatch(experimentDeleteTrainingLoadingData());
   pipelinesApi
-    .deleteTrainExperiment(experimentId)
+    .deleteTrainExperiment(projectId, experimentId)
     .then(() => {
       message.loading('Interrompendo execução...', 5);
-      dispatch(getTrainExperimentStatusRequest(experimentId));
+      dispatch(getTrainExperimentStatusRequest(projectId, experimentId));
     })
     .catch((error) => {
       dispatch(experimentDeleteTrainingDataLoaded());

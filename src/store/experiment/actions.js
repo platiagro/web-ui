@@ -512,7 +512,7 @@ const fetchExperimentDeployStatusFail = () => (dispatch) => {
  * @param {string} experimentId
  * @returns {Function}
  */
-export const fetchExperimentDeployStatusRequest = (experimentId) => (
+export const fetchExperimentDeployStatusRequest = (projectId, experimentId) => (
   dispatch
 ) => {
   // dispatching request action
@@ -522,7 +522,7 @@ export const fetchExperimentDeployStatusRequest = (experimentId) => (
 
   // fetching id experiment deploy status
   deploymentsApi
-    .fetchExperimentDeployStatus(experimentId)
+    .fetchDeployedExperiment(projectId, experimentId)
     .then((response) => {
       dispatch(fetchExperimentDeployStatusSuccess(response));
     })
