@@ -126,7 +126,7 @@ const ExperimentTabsContainer = (props) => {
       const activeTab = experiments.find((element) => element.isActive);
       // if active tab exists, then url will change
       if (activeTab) {
-        history.push(`/projetos/${projectId}/${activeTab.uuid}`);
+        history.push(`/projetos/${projectId}/experimentos/${activeTab.uuid}`);
       }
     }
   }, [experiments, history, projectId, experimentId]);
@@ -148,7 +148,7 @@ const ExperimentTabsContainer = (props) => {
     if (targetId !== experimentId) {
       handleFetchExperiment(projectId, targetId);
       // routing
-      history.push(`/projetos/${projectId}/${targetId}`);
+      history.push(`/projetos/${projectId}/experimentos/${targetId}`);
     }
     handleDeselectOperator();
   };
