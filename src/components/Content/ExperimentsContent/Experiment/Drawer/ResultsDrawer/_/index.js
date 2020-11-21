@@ -5,14 +5,17 @@ import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
 import { LoadingOutlined } from '@ant-design/icons';
-import { Spin, Tabs, Empty } from 'antd';
+import { Empty, Spin, Tabs } from 'antd';
 
 // COMPONENTS
 import { CommonTable } from 'components';
 import TagResult from '../TagResult';
-import TableResult from '../TableResult/Container';
+import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
+
+// CONTAINERS
+import { DownloadOperatorDatasetContainer } from 'containers';
 
 // STYLES
 import './ResultsDrawer.less';
@@ -25,7 +28,9 @@ const resultsTypes = {
   // tag
   tag: ({ uuid, ...props }) => <TagResult key={uuid} {...props} />,
   // table
-  table: ({ uuid, ...props }) => <TableResult key={uuid} {...props} />,
+  table: ({ uuid, ...props }, onPageChange) => (
+    <TableResult key={uuid} onPageChange={onPageChange} {...props} />
+  ),
   // plot
   plot: ({ uuid, ...props }) => <PlotResult key={uuid} {...props} />,
 };
@@ -39,9 +44,11 @@ const resultsTypes = {
  */
 const ResultsDrawer = (props) => {
   const {
+    isToShowDownloadButtons,
     loading,
     metrics,
     metricsLoading,
+    onDatasetPageChange,
     parameters,
     results,
     resultsTabStyle,
@@ -101,16 +108,15 @@ const ResultsDrawer = (props) => {
             {/* results */}
             <TabPane tab='Resultados' key='1'>
               <div style={resultsTabStyle}>
-                {results.map((
-                  result // div result container
-                ) => (
+                {results.map((result) => (
                   <div className='tab-content' key={result.uuid}>
-                    {/* rendering result */}
-                    {resultsTypes[result.type](result)}
-                    {/* rendering divider */}
+                    {resultsTypes[result.type](result, onDatasetPageChange)}
                   </div>
                 ))}
               </div>
+              {isToShowDownloadButtons ? (
+                <DownloadOperatorDatasetContainer />
+              ) : null}
             </TabPane>
 
             {/* metrics */}
@@ -162,6 +168,8 @@ const ResultsDrawer = (props) => {
 
 // PROP TYPES
 ResultsDrawer.propTypes = {
+  /** Show download buttons */
+  isToShowDownloadButtons: PropTypes.bool,
   /** Results drawer is loading */
   loading: PropTypes.bool.isRequired,
   /** Metrics list */

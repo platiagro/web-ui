@@ -176,6 +176,7 @@ export const fetchCompareResultsResults = (compareResult) => async (
         rows: dataset.data,
         total: dataset.total,
         currentPage: 1,
+        pageSize: 10,
       },
     });
   }
@@ -187,6 +188,71 @@ export const fetchCompareResultsResults = (compareResult) => async (
     type: actionTypes.UPDATE_COMPARE_RESULT,
     compareResult: compareResultsAux,
   });
+};
+
+/**
+ * Get compare result dataset paginated
+ */
+export const getCompareResultDatasetPaginated = (
+  compareResult,
+  page,
+  pageSize
+) => (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_COMPARE_RESULT_DATASET_PAGINATED_REQUEST,
+  });
+
+  const { experimentId, operatorId } = compareResult;
+  pipelinesApi
+    .getOperatorDataset(experimentId, 'latest', operatorId, page, pageSize)
+    .then((response) => {
+      let newDatasetResult = null;
+      if (response) {
+        const responseData = response.data;
+        // create columns in antd format
+        let tableColumns = [];
+        let index = 0;
+        for (let column of responseData.columns) {
+          let tableColumn = {
+            title: column,
+            dataIndex: index,
+          };
+          tableColumns.push(tableColumn);
+          index++;
+        }
+        newDatasetResult = {
+          type: 'table',
+          uuid: `table-${operatorId}`,
+          resultTable: {
+            columns: tableColumns,
+            rows: responseData.data,
+            total: responseData.total,
+            currentPage: page,
+            pageSize: pageSize,
+          },
+        };
+        const newResults = [
+          ...compareResult.results.map((result) => {
+            if (result.uuid === newDatasetResult.uuid) {
+              return { ...newDatasetResult };
+            } else {
+              return result;
+            }
+          }),
+        ];
+        const compareResultsAux = { ...compareResult };
+        compareResultsAux.results = newResults;
+        dispatch({
+          type: actionTypes.UPDATE_COMPARE_RESULT,
+          compareResult: compareResultsAux,
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionTypes.GET_COMPARE_RESULT_DATASET_PAGINATED_FAIL,
+      });
+    });
 };
 
 /**

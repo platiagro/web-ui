@@ -92,7 +92,7 @@ const ExperimentFlowContainer = ({
   });
 
   const selectOperatorHandler = (operator) =>
-    handleShowOperatorDetails(projectId, experimentId, operator, 1);
+    handleShowOperatorDetails(experimentId, operator);
 
   const handleSavePosition = (operatorId, position) => {
     handleSaveOperatorPosition(projectId, experimentId, operatorId, position);

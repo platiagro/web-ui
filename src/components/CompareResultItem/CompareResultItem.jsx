@@ -23,6 +23,7 @@ const CompareResultItem = (props) => {
     onDelete,
     onFetchResults,
     onLoadTrainingHistory,
+    onResultDatasetPageChange,
     onUpdate,
     tasks,
   } = props;
@@ -66,7 +67,7 @@ const CompareResultItem = (props) => {
           trainingDetail={trainingDetail}
         />
       }
-      style={{ height: '100%' }}
+      style={{ height: '100%', margin: 0 }}
     >
       <CompareResultItemTasks
         compareResult={compareResult}
@@ -77,6 +78,7 @@ const CompareResultItem = (props) => {
       <CompareResultItemResults
         compareResult={compareResult}
         height={height}
+        onResultDatasetPageChange={onResultDatasetPageChange}
         tasks={tasks}
         trainingDetail={trainingDetail}
       />
@@ -100,6 +102,8 @@ CompareResultItem.propTypes = {
   onFetchResults: PropTypes.func.isRequired,
   /** Function to handle load training history */
   onLoadTrainingHistory: PropTypes.func.isRequired,
+  /** Function to handle result dataset page change */
+  onResultDatasetPageChange: PropTypes.func.isRequired,
   /** Function to handle update compare result */
   onUpdate: PropTypes.func.isRequired,
   /** Tasks list */

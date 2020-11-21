@@ -1,7 +1,8 @@
 // REACT LIBS
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 // UI COMPONENTS
 import { Modal } from 'uiComponents';
@@ -10,34 +11,32 @@ import { Modal } from 'uiComponents';
 import ResultsDrawer from 'components/Content/ExperimentsContent/Experiment/Drawer/ResultsDrawer/_';
 
 // ACTIONS
-import { hideOperatorResults } from '../../store/ui/actions';
+import { getOperatorResultDataset } from 'store/operator/actions';
+import { hideOperatorResults } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // close results modal
     handleClose: () => dispatch(hideOperatorResults()),
+    handleGetOperatorResultDataset: (experimentId, operator, page, pageSize) =>
+      dispatch(
+        getOperatorResultDataset(experimentId, operator, page, pageSize)
+      ),
   };
 };
 
 // STATES
 const mapStateToProps = (state) => {
   return {
-    // operator experiment results
-    operatorResults: state.operatorReducer.results,
-    // operator experiment metrics
+    isVisible: state.uiReducer.operatorResults.showOperatorResults,
+    operatorId: state.operatorReducer.uuid,
     operatorMetrics: state.operatorReducer.metrics,
-    // operator parameters
+    operatorMetricsLoading: state.uiReducer.operatorMetrics.loading,
     operatorParameters: state.operatorReducer.parameters,
-    // operator parameters latestTraining
     operatorParametersLatestTraining:
       state.operatorReducer.parametersLatestTraining,
-    // operator experiment results is loading
+    operatorResults: state.operatorReducer.results,
     operatorResultsLoading: state.uiReducer.operatorResults.loading,
-    // operator experiment metrics is loading
-    operatorMetricsLoading: state.uiReducer.operatorMetrics.loading,
-    // show operator results modal
-    isVisible: state.uiReducer.operatorResults.showOperatorResults,
   };
 };
 
@@ -49,35 +48,19 @@ const mapStateToProps = (state) => {
  * @component
  */
 const OperatorResultsModalContainer = (props) => {
-  // destructuring container props
   const {
-    // operator experiment results
-    operatorResults,
-    // operator experiment metrics
-    operatorMetrics,
-    // operator experiment results is loading
-    operatorResultsLoading,
-    // operator parameters
-    operatorParameters,
-    // operator parameters latestTraining
-    operatorParametersLatestTraining,
-    // operator experiment metrics is loading
-    operatorMetricsLoading,
-    // close results modal handler
     handleClose,
-    // show operator results modal
+    handleGetOperatorResultDataset,
     isVisible,
+    operatorId,
+    operatorMetrics,
+    operatorMetricsLoading,
+    operatorParameters,
+    operatorParametersLatestTraining,
+    operatorResults,
+    operatorResultsLoading,
   } = props;
-
-  // CONSTANTS
-  // button text
-  const closeButtonText = 'Fechar';
-
-  // modal title
-  const title = 'Visualizar Resultados';
-
-  // modal is full screen
-  const isFullScreen = true;
+  const { experimentId } = useParams();
 
   // format results parameters to use label from parameter and value from latest training
   const resultsParameters = [];
@@ -101,21 +84,26 @@ const OperatorResultsModalContainer = (props) => {
     }
   }
 
-  // rendering component
+  const handleOnDatasetPageChange = (page, size) => {
+    handleGetOperatorResultDataset(experimentId, operatorId, page, size);
+  };
+
   return (
     <Modal
-      closeButtonText={closeButtonText}
+      closeButtonText={'Fechar'}
       handleClose={handleClose}
-      isFullScreen={isFullScreen}
+      isFullScreen={true}
       isVisible={isVisible}
-      title={title}
+      title={'Visualizar Resultados'}
     >
       <ResultsDrawer
+        isToShowDownloadButtons={true}
         loading={operatorResultsLoading}
         metricsLoading={operatorMetricsLoading}
         metrics={operatorMetrics}
-        results={operatorResults}
+        onDatasetPageChange={handleOnDatasetPageChange}
         parameters={resultsParameters}
+        results={operatorResults}
       />
     </Modal>
   );
@@ -124,16 +112,18 @@ const OperatorResultsModalContainer = (props) => {
 OperatorResultsModalContainer.propTypes = {
   /** Operator results modal close handler */
   handleClose: PropTypes.func.isRequired,
+  /** Operator results modal get operator result dataset handler */
+  handleGetOperatorResultDataset: PropTypes.func.isRequired,
   /** Operator results modal is visible */
   isVisible: PropTypes.bool.isRequired,
   /** Operator experiment metrics*/
   operatorMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Operator experiment metrics is loading */
+  operatorMetricsLoading: PropTypes.bool.isRequired,
   /** Operator parameters */
   operatorParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator parameters latest training*/
   operatorParametersLatestTraining: PropTypes.object.isRequired,
-  /** Operator experiment metrics is loading */
-  operatorMetricsLoading: PropTypes.bool.isRequired,
   /** Operator experiment results */
   operatorResults: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator experiment results is loading */

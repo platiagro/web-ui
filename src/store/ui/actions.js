@@ -639,6 +639,24 @@ export const operatorParameterDataLoaded = () => {
 
 // // // // // // // // // //
 
+// ** OPERATOR RESULTS DOWNLOAD DATASET LOADED
+export const operatorResultsDownloadDatasetLoaded = () => {
+  return {
+    type: actionTypes.OPERATOR_RESULTS_DOWNLOAD_DATASET_LOADED,
+    downloadDatasetLoading: false,
+  };
+};
+
+// ** OPERATOR RESULTS DOWNLOAD DATASET LOADING
+export const operatorResultsDownloadDatasetLoading = () => {
+  return {
+    type: actionTypes.OPERATOR_RESULTS_DOWNLOAD_DATASET_LOADING,
+    downloadDatasetLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
 // ** OPERATOR RESULTS LOADING DATA
 /**
  * operator parameter loading data
