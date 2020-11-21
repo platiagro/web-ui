@@ -2,80 +2,73 @@
 import axios from 'axios';
 
 // CONSTANTS
-// api base url
 const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
-// api object
 const pipelinesApi = axios.create({
-  baseURL: `${URL}`,
+  baseURL: `${URL}/projects/`,
 });
-// train path
-const trainPath = '/trainings';
-// deploy path
-const deployPath = '/deployments';
+const deployPath = 'deployments';
+const experimentPath = 'experiments';
 
-/**
- * Train Experiment
- * @param {Object} trainObject
- * @returns {Promise}
- */
-const trainExperiment = (trainObject) => {
-  const { experimentId } = trainObject;
-  return pipelinesApi.put(`${trainPath}/${experimentId}`, trainObject);
-};
-
-/**
- * Get Training Experiment Status
- * @param {string} experimentId
- * @returns {Promise}
- */
-const getTrainExperimentStatus = (experimentId) => {
-  return pipelinesApi.get(`${trainPath}/${experimentId}`);
-};
-
-/**
- * Deploy Experiment
- * @param {Object} deployObject
- * @returns {Promise}
- */
-const deployExperiment = (experimentId, deployObject) => {
-  return pipelinesApi.put(`${deployPath}/${experimentId}`, deployObject);
-};
-
-/**
- * Delete Train Experiment
- * @param {String} experimentId
- * @returns {Promise}
- */
-const deleteTrainExperiment = (experimentId) => {
-  return pipelinesApi.delete(`${trainPath}/${experimentId}`);
-};
-
-const getOperatorDataset = (trainingId, runId, operatorId, page, pageSize) => {
-  return pipelinesApi.get(
-    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=${pageSize}`
+const trainExperiment = (projectId, experimentId, trainObject) => {
+  return pipelinesApi.post(
+    `${projectId}/${experimentPath}/${experimentId}/runs`,
+    trainObject
   );
 };
 
-const getOperatorFigures = (trainingId, runId, operatorId) => {
+const getTrainExperimentStatus = (projectId, experimentId, runId) => {
   return pipelinesApi.get(
-    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/figures`
+    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}`
   );
 };
 
-const getOperatorLog = (trainingId, runId, operatorId) => {
-  return pipelinesApi.get(
-    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/logs`
+const deployExperiment = (projectId, experimentId, deployObject) => {
+  return pipelinesApi.post(
+    `${projectId}/${deployPath}/${experimentId}/runs?experimentDeploy=true`,
+    deployObject
   );
 };
 
-const getOperatorMetrics = (trainingId, runId, operatorId) => {
-  return pipelinesApi.get(
-    `${trainPath}/${trainingId}/runs/${runId}/operators/${operatorId}/metrics`
+const deleteTrainExperiment = (projectId, experimentId) => {
+  return pipelinesApi.delete(
+    `${projectId}/${experimentPath}/${experimentId}/runs`
   );
 };
 
-const getTrainingHistory = (experimentId) => {
-  return pipelinesApi.get(`${trainPath}/${experimentId}/runs`);
+const getOperatorDataset = (
+  projectId,
+  experimentId,
+  runId,
+  operatorId,
+  page
+) => {
+  return pipelinesApi.get(
+    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=10`
+  );
+};
+
+const getOperatorFigures = (projectId, experimentId, runId, operatorId) => {
+  return pipelinesApi.get(
+    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}/operators/${operatorId}/figures`
+  );
+};
+
+const getOperatorLog = (projectId, experimentId, runId, operatorId) => {
+  return pipelinesApi.get(
+    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}/operators/${operatorId}/logs`
+  );
+};
+
+const getOperatorMetrics = (projectId, experimentId, runId, operatorId) => {
+  return pipelinesApi.get(
+    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}/operators/${operatorId}/metrics`
+  );
+};
+
+const getTrainingHistory = (projectId, experimentId) => {
+  return pipelinesApi.get(
+    `${projectId}/${experimentPath}/${experimentId}/runs`
+  );
 };
 
 // EXPORT DEFAULT

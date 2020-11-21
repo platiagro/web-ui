@@ -18,8 +18,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(
         deployExperimentRequest(project, experiment, operators, routerProps)
       ),
-    handleFetchExperimentDeployStatus: (experimentId) =>
-      dispatch(fetchExperimentDeployStatusRequest(experimentId)),
+    handleFetchExperimentDeployStatus: (projectId, experimentId) =>
+      dispatch(fetchExperimentDeployStatusRequest(projectId, experimentId)),
     handleCompareResultsClick: () => {
       dispatch(changeVisibilityCompareResultsModal(true));
     },
@@ -52,8 +52,7 @@ const ExperimentButtonsContainer = ({
   handleDeployExperiment,
   handleFetchExperimentDeployStatus,
 }) => {
-  // CONSTANTS
-  const { experimentId } = useParams();
+  const { projectId, experimentId } = useParams();
   const { deployStatus } = experiment;
 
   // Checks if the experiment has, at least, one non DATASET operator
@@ -70,7 +69,7 @@ const ExperimentButtonsContainer = ({
   // did mount hook
   useEffect(() => {
     const polling = setInterval(
-      () => handleFetchExperimentDeployStatus(experimentId),
+      () => handleFetchExperimentDeployStatus(projectId, experimentId),
       5000
     );
     return () => clearInterval(polling);

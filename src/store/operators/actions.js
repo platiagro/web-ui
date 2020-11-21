@@ -38,7 +38,9 @@ import utils from '../../utils';
  * @param experimentId
  * @returns {object} { type, operators }
  */
-const fetchOperatorsSuccess = (operators, experimentId) => (dispatch) => {
+const fetchOperatorsSuccess = (operators, projectId, experimentId) => (
+  dispatch
+) => {
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
 
@@ -46,7 +48,7 @@ const fetchOperatorsSuccess = (operators, experimentId) => (dispatch) => {
   dispatch(experimentsTabsDataLoaded());
 
   // dispatching get training experiment status request action
-  dispatch(getTrainExperimentStatusRequest(experimentId));
+  dispatch(getTrainExperimentStatusRequest(projectId, experimentId));
 
   // dispatching fetch operators success action
   dispatch({
@@ -126,6 +128,8 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
 
     // gettins pipelines status
     const pipelinesResponse = await pipelinesApi.getTrainExperimentStatus(
+      projectId,
+      experimentId,
       experimentId
     );
 
@@ -136,8 +140,10 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
       datasetColumns,
       pipelinesResponse.data
     );
-    
-    dispatch(fetchOperatorsSuccess(configuredOperators, experimentId));
+
+    dispatch(
+      fetchOperatorsSuccess(configuredOperators, projectId, experimentId)
+    );
   } catch (e) {
     dispatch(fetchOperatorsFail(e));
   }
