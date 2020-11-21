@@ -330,7 +330,7 @@ export const getOperatorMetricsRequest = (
  * @param {string} experimentId
  * @param {object} operator
  */
-export const selectOperator = (experimentId, operator) => (
+export const selectOperator = (projectId, experimentId, operator, page) => (
   dispatch,
   getState
 ) => {
