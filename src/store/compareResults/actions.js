@@ -109,7 +109,12 @@ export const fetchCompareResults = (projectId, experiments) => {
 
         for (const compareResult of compareResults) {
           if (compareResult.experimentId) {
-            await dispatch(fetchTrainingHistory(compareResult.experimentId));
+            await dispatch(
+              fetchTrainingHistory(
+                compareResult.projectId,
+                compareResult.experimentId
+              )
+            );
           }
         }
       })
@@ -128,23 +133,23 @@ export const fetchCompareResults = (projectId, experiments) => {
 export const fetchCompareResultsResults = (compareResult) => async (
   dispatch
 ) => {
-  const { experimentId, operatorId, runId } = compareResult;
+  const { projectId, experimentId, operatorId, runId } = compareResult;
   const figures = await pipelinesApi
-    .getOperatorFigures(experimentId, runId, operatorId)
+    .getOperatorFigures(projectId, experimentId, runId, operatorId)
     .then((response) => {
       return response.data;
     })
     .catch((error) => {});
 
   const dataset = await pipelinesApi
-    .getOperatorDataset(experimentId, runId, operatorId, 1)
+    .getOperatorDataset(projectId, experimentId, runId, operatorId, 1)
     .then((response) => {
       return response.data;
     })
     .catch((error) => {});
 
   const metrics = await pipelinesApi
-    .getOperatorMetrics(experimentId, runId, operatorId)
+    .getOperatorMetrics(projectId, experimentId, runId, operatorId)
     .then((response) => {
       return response.data;
     })
@@ -154,7 +159,7 @@ export const fetchCompareResultsResults = (compareResult) => async (
   if (dataset) {
     let tableColumns = [];
     let index = 0;
-    for (let column of dataset.data.columns) {
+    for (let column of dataset.columns) {
       let tableColumn = {
         title: column,
         dataIndex: index,
@@ -168,8 +173,8 @@ export const fetchCompareResultsResults = (compareResult) => async (
       uuid: `table-${operatorId}`,
       resultTable: {
         columns: tableColumns,
-        rows: dataset.data.data,
-        total: dataset.data.total,
+        rows: dataset.data,
+        total: dataset.total,
         currentPage: 1,
       },
     });
@@ -188,14 +193,14 @@ export const fetchCompareResultsResults = (compareResult) => async (
  * Function to fetch the training history and dispatch to reducer
  * @param {String} experimentId
  */
-export const fetchTrainingHistory = (experimentId) => {
+export const fetchTrainingHistory = (projectId, experimentId) => {
   return (dispatch, getState) => {
     const { compareResultsReducer } = getState();
     const trainingHistory = compareResultsReducer.experimentsTrainingHistory;
     if (!trainingHistory.hasOwnProperty(experimentId)) {
       dispatch(updateExperimentsOptions(experimentId, null, true));
       return pipelinesApi
-        .getTrainingHistory(experimentId)
+        .getTrainingHistory(projectId, experimentId)
         .then((response) => {
           trainingHistory[experimentId] = response.data;
           dispatch({

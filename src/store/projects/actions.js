@@ -5,18 +5,14 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import projectsApi from '../../services/ProjectsApi';
-
-//API
 import deploymentsApi from 'services/DeploymentsApi';
-
-import _ from 'lodash';
+import projectsApi from 'services/ProjectsApi';
 
 // UI ACTIONS
 import {
   projectsTableLoadingData,
   projectsTableDataLoaded,
-} from '../ui/actions';
+} from 'store/ui/actions';
 
 /**
  * Function to fetch pagineted projects and dispatch to reducer
@@ -34,23 +30,24 @@ export const fetchPaginatedProjects = (name, page, pageSize) => {
     return projectsApi
       .getPaginatedProjects(name, page, pageSize)
       .then(async (response) => {
-        const deployedProjects = await deploymentsApi.fetchDeployedExperiments();
-        const deployedProjectsIds = deployedProjects.data.map(
-          (experimento) => experimento.experimentId
+        const projectsTagged = await Promise.all(
+          response.data.projects.map(async (project) => {
+            let flagDeployed = false;
+            for (const experiment of project.experiments) {
+              const deployedExperiment = await deploymentsApi
+                .fetchDeployedExperiment(project.uuid, experiment.uuid)
+                .catch((error) => {});
+              if (deployedExperiment) {
+                flagDeployed = true;
+                break;
+              }
+            }
+            return {
+              ...project,
+              deployed: flagDeployed,
+            };
+          })
         );
-        const projectsTagged = response.data.projects.map((project) => {
-          const experiments = project.experiments.map(
-            (experimento) => experimento.uuid
-          );
-          const flagDeployed = Boolean(
-            _.intersection(experiments, deployedProjectsIds).length
-          );
-          return {
-            ...project,
-            deployed: flagDeployed,
-          };
-        });
-
         dispatch(projectsTableDataLoaded());
         dispatch({
           type: actionTypes.FETCH_PAGINATED_PROJECTS,
@@ -73,10 +70,7 @@ export const fetchPaginatedProjects = (name, page, pageSize) => {
  * Function to fetch all projects and dispatch to reducer
  */
 export const fetchProjects = () => (dispatch) => {
-  // dispatching projects table loading data action
   dispatch(projectsTableLoadingData());
-
-  // fetching projects
   projectsApi
     .listProjects()
     .then((response) => {

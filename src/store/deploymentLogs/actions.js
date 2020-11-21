@@ -24,11 +24,11 @@ const { getErrorMessage } = utils;
  *
  * @param {String} deployId
  */
-export const getDeployExperimentLogs = (deployId) => (dispatch) => {
+export const getDeployExperimentLogs = (projectId, deployId) => (dispatch) => {
   dispatch(showInferenceLogsDrawer('Logs'));
   dispatch(inferenceLogsDrawerLoadingData());
   deploymentsApi
-    .fetchDeployedExperimentLogs(deployId)
+    .fetchDeployedExperimentLogs(projectId, deployId, 'latest')
     .then((response) => {
       const logs = response.data;
       dispatch({

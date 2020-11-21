@@ -51,8 +51,8 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchCompareResultsResults: (compareResult) => {
       dispatch(fetchCompareResultsResults(compareResult));
     },
-    handleFetchTrainingHistory: (experimentId) => {
-      dispatch(fetchTrainingHistory(experimentId));
+    handleFetchTrainingHistory: (projectId, experimentId) => {
+      dispatch(fetchTrainingHistory(projectId, experimentId));
     },
     handleUpdateCompareResult: (compareResult, changedPosition) => {
       dispatch(updateCompareResult(compareResult, changedPosition));
@@ -167,7 +167,9 @@ const CompareResultsModalContainer = (props) => {
               handleDeleteCompareResult(projectId, id);
             }}
             onFetchResults={handleFetchCompareResultsResults}
-            onLoadTrainingHistory={handleFetchTrainingHistory}
+            onLoadTrainingHistory={(experimentId) => {
+              handleFetchTrainingHistory(projectId, experimentId);
+            }}
             onUpdate={handleUpdateCompareResult}
             tasks={tasks}
           />

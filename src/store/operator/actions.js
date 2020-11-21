@@ -142,11 +142,11 @@ const getLogsFail = (error) => (dispatch) => {
  * @param {string} experimentId
  * @param {string} operatorId
  */
-export const getOperatorLogs = (experimentId, operatorId) => async (
+export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
   dispatch
 ) => {
   pipelinesApi
-    .getOperatorLog(experimentId, 'latest', operatorId)
+    .getOperatorLog(projectId, experimentId, 'latest', operatorId)
     .then((res) => {
       dispatch(getLogsSuccess(res));
     })
@@ -164,6 +164,7 @@ export const getOperatorLogs = (experimentId, operatorId) => async (
  * @param page
  */
 export const getOperatorResultsRequest = (
+  projectId,
   experimentId,
   runId,
   operatorId,
@@ -175,10 +176,10 @@ export const getOperatorResultsRequest = (
   dispatch(operatorResultsLoadingData());
 
   pipelinesApi
-    .getOperatorFigures(experimentId, runId, operatorId)
+    .getOperatorFigures(projectId, experimentId, runId, operatorId)
     .then((responseFigure) => {
       pipelinesApi
-        .getOperatorDataset(experimentId, runId, operatorId, page)
+        .getOperatorDataset(projectId, experimentId, runId, operatorId, page)
         .then((responseTable) => {
           dispatch(
             getOperatorResultsSuccess(responseFigure, responseTable, operatorId)
@@ -266,16 +267,19 @@ export const getPageDataSetRequest = (experimentId, operatorId, page) => (
     });
 };
 
-export const getOperatorMetricsRequest = (experimentId, runId, operatorId) => (
-  dispatch
-) => {
+export const getOperatorMetricsRequest = (
+  projectId,
+  experimentId,
+  runId,
+  operatorId
+) => (dispatch) => {
   dispatch({
     type: actionTypes.GET_OPERATOR_METRICS_REQUEST,
   });
   dispatch(operatorMetricsLoadingData());
 
   pipelinesApi
-    .getOperatorMetrics(experimentId, runId, operatorId)
+    .getOperatorMetrics(projectId, experimentId, runId, operatorId)
     .then((response) => {
       dispatch({
         type: actionTypes.GET_OPERATOR_METRICS_SUCCESS,
@@ -337,14 +341,22 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
 
   // getting results
   dispatch(
-    getOperatorResultsRequest(experimentId, 'latest', operator.uuid, page)
+    getOperatorResultsRequest(
+      projectId,
+      experimentId,
+      'latest',
+      operator.uuid,
+      page
+    )
   );
 
   if (!isDataset && operator.status === 'Failed') {
-    dispatch(getOperatorLogs(experimentId, operator.uuid));
+    dispatch(getOperatorLogs(projectId, experimentId, operator.uuid));
   }
 
-  dispatch(getOperatorMetricsRequest(experimentId, 'latest', operator.uuid));
+  dispatch(
+    getOperatorMetricsRequest(projectId, experimentId, 'latest', operator.uuid)
+  );
 
   // dispatching action to show drawer
   dispatch(showOperatorDrawer(operator.name, isDataset));
@@ -454,7 +466,10 @@ export const createOperatorRequest = (
   // necessary to check if dataset because dataset param is removed on getTaskData
   let configuredParameters;
   if (restTaskData.tags.includes('DATASETS')) {
-    configuredParameters = [{ name: 'dataset', value: '' }, {name:'target', value:''}];
+    configuredParameters = [
+      { name: 'dataset', value: '' },
+      { name: 'target', value: '' },
+    ];
   } else {
     configuredParameters = utils.configureOperatorParameters(
       parameters,

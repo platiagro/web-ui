@@ -19,14 +19,11 @@ import { useStoreState } from 'react-flow-renderer';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // show operator details action
     handleShowOperatorDetails: (projectId, experimentId, operator, page) =>
       dispatch(selectOperator(projectId, experimentId, operator, page)),
-    // getting training experiment status
-    handleGetTrainExperimentStatus: (experimentId) =>
-      dispatch(getTrainExperimentStatusRequest(experimentId)),
+    handleGetTrainExperimentStatus: (projectId, experimentId) =>
+      dispatch(getTrainExperimentStatusRequest(projectId, experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),
-    // saving operator position
     handleSaveOperatorPosition: (
       projectId,
       experimentId,
@@ -65,10 +62,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-// CONSTANTS
-// polling time in miliseconds;
-const pollingTime = 5000;
-
 /**
  * Experiment Flow Container.
  * This component is responsible for create a logic container for experiment flow
@@ -84,10 +77,7 @@ const ExperimentFlowContainer = ({
   handleSaveOperatorPosition,
   handleSaveOperatorDependencies,
 }) => {
-  // CONSTANTS
-  // getting experiment uuid
   const { projectId, experimentId } = useParams();
-
   const transformations = useStoreState((flowStore) => flowStore.transform);
 
   // HOOKS
@@ -95,10 +85,9 @@ const ExperimentFlowContainer = ({
   useEffect(() => {
     // polling experiment status
     const polling = setInterval(
-      () => handleGetTrainExperimentStatus(experimentId),
-      pollingTime
+      () => handleGetTrainExperimentStatus(projectId, experimentId),
+      5000
     );
-
     return () => clearInterval(polling);
   });
 
