@@ -18,9 +18,21 @@ import { hideOperatorResults } from 'store/ui/actions';
 const mapDispatchToProps = (dispatch) => {
   return {
     handleClose: () => dispatch(hideOperatorResults()),
-    handleGetOperatorResultDataset: (experimentId, operator, page, pageSize) =>
+    handleGetOperatorResultDataset: (
+      projectId,
+      experimentId,
+      operator,
+      page,
+      pageSize
+    ) =>
       dispatch(
-        getOperatorResultDataset(experimentId, operator, page, pageSize)
+        getOperatorResultDataset(
+          projectId,
+          experimentId,
+          operator,
+          page,
+          pageSize
+        )
       ),
   };
 };
@@ -60,7 +72,7 @@ const OperatorResultsModalContainer = (props) => {
     operatorResults,
     operatorResultsLoading,
   } = props;
-  const { experimentId } = useParams();
+  const { projectId, experimentId } = useParams();
 
   // format results parameters to use label from parameter and value from latest training
   const resultsParameters = [];
@@ -85,7 +97,13 @@ const OperatorResultsModalContainer = (props) => {
   }
 
   const handleOnDatasetPageChange = (page, size) => {
-    handleGetOperatorResultDataset(experimentId, operatorId, page, size);
+    handleGetOperatorResultDataset(
+      projectId,
+      experimentId,
+      operatorId,
+      page,
+      size
+    );
   };
 
   return (

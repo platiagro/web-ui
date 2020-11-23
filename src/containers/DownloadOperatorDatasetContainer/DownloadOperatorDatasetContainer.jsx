@@ -17,8 +17,14 @@ import utils from 'utils';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleDownloadOperatorResultDataset: (experimentId, operatorId) =>
-      dispatch(downloadOperatorResultDataset(experimentId, operatorId)),
+    handleDownloadOperatorResultDataset: (
+      projectId,
+      experimentId,
+      operatorId
+    ) =>
+      dispatch(
+        downloadOperatorResultDataset(projectId, experimentId, operatorId)
+      ),
   };
 };
 
@@ -44,7 +50,7 @@ const DownloadOperatorDatasetContainer = (props) => {
     operator,
     resultDataset,
   } = props;
-  const { experimentId } = useParams();
+  const { projectId, experimentId } = useParams();
   const csvLinkRef = useRef();
 
   const dispachCSVLinkClick = async () => {
@@ -73,7 +79,11 @@ const DownloadOperatorDatasetContainer = (props) => {
           if (resultDataset && resultDataset.length > 0) {
             csvLinkRef.current.link.click();
           } else {
-            handleDownloadOperatorResultDataset(experimentId, operator.uuid);
+            handleDownloadOperatorResultDataset(
+              projectId,
+              experimentId,
+              operator.uuid
+            );
           }
         }}
       >

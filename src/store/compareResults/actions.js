@@ -202,9 +202,16 @@ export const getCompareResultDatasetPaginated = (
     type: actionTypes.GET_COMPARE_RESULT_DATASET_PAGINATED_REQUEST,
   });
 
-  const { experimentId, operatorId } = compareResult;
+  const { projectId, experimentId, operatorId, runId } = compareResult;
   pipelinesApi
-    .getOperatorDataset(experimentId, 'latest', operatorId, page, pageSize)
+    .getOperatorDataset(
+      projectId,
+      experimentId,
+      runId,
+      operatorId,
+      page,
+      pageSize
+    )
     .then((response) => {
       let newDatasetResult = null;
       if (response) {
