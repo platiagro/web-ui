@@ -2,10 +2,10 @@
 import actionTypes from './actionTypes';
 
 // EXPERIMENT ACTION TYPES
-import experimentActionTypes from '../experiment/actionTypes';
+import experimentActionTypes from 'store/experiment/actionTypes';
 
 // SERVICES
-import pipelinesApi from '../../services/PipelinesApi';
+import pipelinesApi from 'services/PipelinesApi';
 
 // UI LIBS
 import { message } from 'antd';
@@ -16,10 +16,7 @@ import {
   experimentTrainingDataLoaded,
   experimentDeleteTrainingLoadingData,
   experimentDeleteTrainingDataLoaded,
-} from '../ui/actions';
-
-// UTILS
-import utils from '../../utils';
+} from 'store/ui/actions';
 
 // ACTIONS
 // ** TRAIN EXPERIMENT
