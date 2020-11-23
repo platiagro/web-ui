@@ -47,6 +47,7 @@ import utils from 'utils';
  * Download operator result dataset
  */
 export const downloadOperatorResultDataset = (
+  projectId,
   experimentId,
   operatorId
 ) => async (dispatch) => {
@@ -61,7 +62,14 @@ export const downloadOperatorResultDataset = (
   let operatorDatasetResponse;
   do {
     operatorDatasetResponse = await pipelinesApi
-      .getOperatorDataset(experimentId, 'latest', operatorId, page, 100)
+      .getOperatorDataset(
+        projectId,
+        experimentId,
+        'latest',
+        operatorId,
+        page,
+        100
+      )
       .then((response) => {
         if (response) {
           return response.data;
@@ -246,6 +254,7 @@ export const getOperatorResultsRequest = (
  * Get operator result dataset
  */
 export const getOperatorResultDataset = (
+  projectId,
   experimentId,
   operatorId,
   page,
@@ -255,7 +264,14 @@ export const getOperatorResultDataset = (
     type: actionTypes.GET_OPERATOR_DATASET_RESULT_REQUEST,
   });
   pipelinesApi
-    .getOperatorDataset(experimentId, 'latest', operatorId, page, pageSize)
+    .getOperatorDataset(
+      projectId,
+      experimentId,
+      'latest',
+      operatorId,
+      page,
+      pageSize
+    )
     .then((responseTable) => {
       let result = null;
       if (responseTable) {
@@ -330,7 +346,7 @@ export const getOperatorMetricsRequest = (
  * @param {string} experimentId
  * @param {object} operator
  */
-export const selectOperator = (projectId, experimentId, operator, page) => (
+export const selectOperator = (projectId, experimentId, operator) => (
   dispatch,
   getState
 ) => {
@@ -370,7 +386,8 @@ export const selectOperator = (projectId, experimentId, operator, page) => (
       experimentId,
       'latest',
       operator.uuid,
-      page
+      1,
+      10
     )
   );
 
