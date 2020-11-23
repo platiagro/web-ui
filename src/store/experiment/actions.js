@@ -198,7 +198,7 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
   message.success(`Experimento ${experiment.name} criado!`);
 
   // go to new experiment
-  routerProps.history.push(`/projetos/${projectId}/${experiment.uuid}`);
+  routerProps.history.push(`/projetos/${projectId}/experimentos/${experiment.uuid}`);
 };
 
 /**
@@ -389,7 +389,7 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
   });
 
   message.success(`Experimento excluído!`);
-  routerProps.history.push(`/projetos/${projectId}/`);
+  routerProps.history.push(`/projetos/${projectId}/experimentos`);
 };
 
 /**

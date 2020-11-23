@@ -58,7 +58,7 @@ const ProjectDetailContainer = (props) => {
   }
 
   const redirectExperiment = () => {
-    history.push('/projetos/' + project.uuid + '/');
+    history.push('/projetos/' + project.uuid + '/experimentos');
   };
 
   const history = useHistory();
