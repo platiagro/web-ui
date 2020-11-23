@@ -25,8 +25,9 @@ const ContentHeader = (props) => {
     handleGoBack,
     handleSubmit,
     title,
-    loading,
     subTitle,
+    loading,
+    customSubTitle,
     extra,
     backIcon,
   } = props;
@@ -39,7 +40,7 @@ const ContentHeader = (props) => {
       title={
         // title component
         <>
-          <span className='subtitle-custom'>{subTitle}</span>
+          <span className='subtitle-custom'>{customSubTitle}</span>
           <Title
             loading={loading}
             level={3}
@@ -48,6 +49,7 @@ const ContentHeader = (props) => {
           />
         </>
       }
+      subTitle={subTitle}
       onBack={handleGoBack}
       extra={extra}
       backIcon={backIcon}

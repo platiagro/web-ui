@@ -5,6 +5,10 @@
   padding: 0;
   box-shadow: 0px 1px 4px rgba(0, 21, 41, 0.12);
 
+  .ant-page-header-heading-left {
+    margin: 0 0;
+  }
+
   .ant-page-header-back {
     margin: auto;
     border: 3px solid white;
@@ -18,8 +22,13 @@
     color: rgba(0, 0, 0, 0.65);
   }
 
-  .ant-page-header-heading-title:first-child {
-    margin: 16px 0 0 42px;
+  .ant-page-header-heading-title {
+    padding-right: 21px;
+    border-right: 1px solid rgba(0, 0, 0, 0.09);
+
+    &:first-child {
+      padding: 16px 42px 0 42px;
+    }
   }
 
   .ant-page-header-heading-extra {

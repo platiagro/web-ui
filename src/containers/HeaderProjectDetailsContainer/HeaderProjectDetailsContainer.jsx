@@ -88,7 +88,7 @@ const ContentHeaderProjectDetailsContainer = (props) => {
   return (
     <ContentHeader
       title={project.name}
-      subTitle='Meus projetos'
+      customSubTitle='Meus projetos'
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
       extra={

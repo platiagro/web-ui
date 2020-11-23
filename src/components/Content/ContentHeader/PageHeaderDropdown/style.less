@@ -1,0 +1,67 @@
+@import 'variables.less';
+
+// PAGE HEADER DROPDOWN
+.pageHeaderDropdown {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+
+  .ant-btn-primary-inverse {
+    margin: 0 6px 6px 0;
+    font-size: 1.1rem;
+  }
+
+  .experiment {
+    color: #722ed1;
+    background-color: @white;
+    border-color: #722ed1;
+
+    &:hover,
+    &:focus {
+      color: #722ed1;
+      background-color: #f9f0ff;
+      border-color: #722ed1;
+    }
+  }
+
+  .deployment {
+    color: #fa541c;
+    background-color: @white;
+    border-color: #fa541c;
+
+    &:hover,
+    &:focus {
+      color: #fa541c;
+      background-color: #fff2e8;
+      border-color: #fa541c;
+    }
+  }
+}
+
+.dropdown-menu {
+  padding: 15px 15px 15px 15px;
+
+  h1 {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  .ant-btn-primary-inverse {
+    margin: 0 6px 6px 0;
+    font-size: 1.1rem;
+
+    color: @primary-color;
+    background-color: @white;
+    border-color: @gray-light;
+
+    &:hover,
+    &:focus {
+      color: @primary-color;
+      background-color: @white;
+      border-color: @primary-color;
+    }
+  }
+}

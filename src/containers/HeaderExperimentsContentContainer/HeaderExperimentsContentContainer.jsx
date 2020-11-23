@@ -6,6 +6,7 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 // COMPONENTS
 import ContentHeader from 'components/Content/ContentHeader/_/index';
 import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
+import PageHeaderDropdown from 'components/Content/ContentHeader/PageHeaderDropdown';
 import ExperimentButtonsContainer from 'components/Content/ContentHeader/ExperimentButtons/Container';
 
 // ACTIONS
@@ -36,6 +37,8 @@ const mapStateToProps = (state) => {
  * Content Header Experiments Content Container.
  * This component is responsible for create a logic container for experiments content
  * header with route control.
+ *
+ * @param props
  */
 const HeaderExperimentsContentContainer = (props) => {
   const { project, handleEditProjectName, handleFetchProject } = props;
@@ -59,7 +62,12 @@ const HeaderExperimentsContentContainer = (props) => {
   return (
     <ContentHeader
       title={project.name}
-      subTitle='Meus projetos'
+      subTitle={
+        <>
+          <PageHeaderDropdown type='experiment' target='' />
+        </>
+      }
+      customSubTitle='Meus projetos'
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
       extra={
