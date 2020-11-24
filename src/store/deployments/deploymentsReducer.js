@@ -12,6 +12,10 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
       });
     case actionTypes.FETCH_DEPLOYED_EXPERIMENTS:
       return [...action.deployments];
+    case actionTypes.FETCH_DEPLOYMENTS_SUCCESS:
+      return [...action.deployments];
+    case actionTypes.FETCH_DEPLOYMENTS_FAIL:
+      return [];
     default:
       return state;
   }
