@@ -24,8 +24,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchExperimentRequest(projectId, experimentId, routerProps)),
     handleEditExperimentName: (projectId, experimentId, newName) =>
       dispatch(editExperimentNameRequest(projectId, experimentId, newName)),
-    handleTrainExperiment: (experiment, operators) =>
-      dispatch(trainExperimentRequest(experiment, operators)),
+    handleTrainExperiment: (experiment) =>
+      dispatch(trainExperimentRequest(experiment)),
     handleDeleteTrainExperiment: (projectId, experimentId) =>
       dispatch(deleteTrainExperiment(projectId, experimentId)),
     handleRemoveOperator: (projectId, experimentId, operator) =>
@@ -76,8 +76,7 @@ const ExperimentHeaderContainer = ({
   // HANDLERS
   const editExperimentNameHandler = (newName) =>
     handleEditExperimentName(projectId, experimentId, newName);
-  const trainExperimentHandler = () =>
-    handleTrainExperiment(experiment, operators);
+  const trainExperimentHandler = () => handleTrainExperiment(experiment);
   const deleteTrainExperimentHandler = () =>
     handleDeleteTrainExperiment(projectId, experiment.uuid);
   const removeOperatorHandler = () =>

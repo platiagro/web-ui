@@ -2,10 +2,10 @@
 import actionTypes from './actionTypes';
 
 // EXPERIMENT ACTION TYPES
-import experimentActionTypes from '../experiment/actionTypes';
+import experimentActionTypes from 'store/experiment/actionTypes';
 
 // SERVICES
-import pipelinesApi from '../../services/PipelinesApi';
+import pipelinesApi from 'services/PipelinesApi';
 
 // UI LIBS
 import { message } from 'antd';
@@ -16,10 +16,7 @@ import {
   experimentTrainingDataLoaded,
   experimentDeleteTrainingLoadingData,
   experimentDeleteTrainingDataLoaded,
-} from '../ui/actions';
-
-// UTILS
-import utils from '../../utils';
+} from 'store/ui/actions';
 
 // ACTIONS
 // ** TRAIN EXPERIMENT
@@ -52,61 +49,19 @@ const trainExperimentFail = (error) => (dispatch) => {
  * train experiment request action
  *
  * @param {object} experiment
- * @param {object[]} operators
  * @returns {Function}
  */
-export const trainExperimentRequest = (experiment, operators) => (
-  dispatch,
-  getState
-) => {
-  // dispatching request action
+export const trainExperimentRequest = (experiment) => (dispatch) => {
   dispatch({
     type: actionTypes.TRAIN_EXPERIMENT_REQUEST,
   });
 
-  // dispatching experiment training loading data action
   dispatch(experimentTrainingLoadingData());
 
-  // getting tasks from store
-  const { tasksReducer } = getState();
-  const tasks = tasksReducer.tasks;
-
-  // get dataset name
-  const datasetName = utils.getDatasetName(tasks, operators);
-
-  // getting experiment data
   const { projectId, uuid: experimentId } = experiment;
 
-  // creating train object
-  const trainObject = { experimentId };
-
-  // getting operators
-  trainObject.operators = operators.map((operator) => {
-    // configuring parameters
-    const configuredParameters = operator.parameters.map((parameter) => ({
-      name: parameter.name,
-      value: parameter.value,
-    }));
-
-    // add dataset parameter
-    if (datasetName && !operator.tags.includes('DATASETS')) {
-      configuredParameters.push({ name: 'dataset', value: datasetName });
-    }
-
-    return {
-      image: operator.image,
-      commands: operator.commands,
-      arguments: operator.args,
-      dependencies: operator.dependencies,
-      notebookPath: operator.experimentNotebookPath,
-      parameters: configuredParameters,
-      operatorId: operator.uuid,
-    };
-  });
-
-  // training experiment
   pipelinesApi
-    .trainExperiment(projectId, experimentId, trainObject)
+    .trainExperiment(projectId, experimentId)
     .then(() => trainExperimentSuccess())
     .catch((error) => dispatch(trainExperimentFail(error)));
 };
@@ -218,41 +173,21 @@ export const getTrainExperimentStatusRequest = (projectId, experimentId) => (
 /**
  * Deploy experiment
  *
- * @param project
+ * @param {object} project
  * @param {object} experiment
- * @param {object[]} operators
  * @param {object} routerProps
  * @returns {Function}
  */
-export const deployExperimentRequest = (
-  project,
-  experiment,
-  operators,
-  routerProps
-) => (dispatch) => {
+export const deployExperimentRequest = (project, experiment, routerProps) => (
+  dispatch
+) => {
   dispatch({
     type: actionTypes.DEPLOY_EXPERIMENT_REQUEST,
   });
 
-  // creating deploy object
-  const deployObject = {
-    name: `${project.name}/${experiment.name}`,
-    dataset: experiment.dataset,
-  };
-
-  // getting operators
-  deployObject.operators = operators.map((operator) => ({
-    image: operator.image,
-    commands: operator.commands,
-    arguments: operator.args,
-    dependencies: operator.dependencies,
-    notebookPath: operator.deploymentNotebookPath,
-    operatorId: operator.uuid,
-  }));
-
   // deploying experiment
   pipelinesApi
-    .deployExperiment(project.uuid, experiment.uuid, deployObject)
+    .deployExperiment(project.uuid, experiment.uuid)
     .then(() => {
       dispatch({
         type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
