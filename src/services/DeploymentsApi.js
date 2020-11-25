@@ -28,8 +28,11 @@ const deleteDeployedExperiments = (projectId, experimentId) => {
   );
 };
 
-const testDeployedExperiments = (id, body) => {
-  return seldonApi.post(`/deployments/${id}/api/v1.0/predictions`, body);
+const testDeployedExperiments = (id, file) => {
+  const form = new FormData();
+  form.append('url', `/deployments/${id}/api/v1.0/predictions`);
+  form.append('file', file);
+  return seldonApi.post(`deployments/seldon/test`, form);
 };
 
 // EXPORT DEFAULT
