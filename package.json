@@ -3,10 +3,8 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^5.6.4",
     "antd": "4.6.4",
     "axios": "^0.20.0",
-    "craco-less": "^1.17.0",
     "istextorbinary": "^5.11.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -37,8 +35,7 @@
     "build": "craco build",
     "test": "craco test",
     "test:ci": "react-scripts test --silent --coverage --testResultsProcessor jest-sonar-reporter",
-    "eject": "react-scripts eject",
-    "docs": "jsdoc -c jsdoc.json"
+    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [
@@ -53,8 +50,9 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^5.8.0",
     "babel-eslint": "10.1.0",
-    "better-docs": "^2.3.2",
+    "craco-less": "^1.17.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "enzyme-to-json": "^3.5.0",
@@ -69,9 +67,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-react-redux": "^3.3.0",
     "jest-sonar-reporter": "^2.0.0",
-    "jsdoc": "^3.6.5",
     "nock": "^13.0.4",
-    "parcel-bundler": "^1.12.4",
     "prettier": "^2.1.2",
     "react-axe": "^3.5.3",
     "redux-mock-store": "^1.5.3"
