@@ -42,7 +42,7 @@ const Content = () => {
           <ExperimentsContent />
         </Route>
         <Route exact path='/projetos/:projectId/pre-implantacao/:deploymentId?'>
-          <ExperimentsContent />
+          <span>Pré-implantação placeholder</span>
         </Route>
         {/* task content */}
         <Route exact path='/tarefas'>
