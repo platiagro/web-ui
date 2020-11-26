@@ -25,7 +25,7 @@ import * as serviceWorker from './serviceWorker';
 
 // CONFIGURE REACT AXE
 if (process.env.NODE_ENV !== 'production') {
-  var axe = require('react-axe');
+  var axe = require('@axe-core/react');
   axe(React, ReactDOM, 1000);
 }
 
