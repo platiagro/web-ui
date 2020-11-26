@@ -14,7 +14,7 @@ module.exports = {
   sections: [
     {
       name: 'Components',
-      description: 'Componentes da aplicação.',
+      description: 'Application components.',
       components: ['src/components/**/*.component.jsx'],
     },
   ],
