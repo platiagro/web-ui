@@ -15,15 +15,16 @@ import deploymentsApi from 'services/DeploymentsApi';
  * Test implanted experiment inference action
  *
  * @param {string} deployId
+ * @param url
  * @param {object} file
  */
-export const testImplantedExperimentInferenceAction = (deployId, file) => (
+export const testImplantedExperimentInferenceAction = (url, file) => (
   dispatch
 ) => {
   dispatch(inferenceTestResultModalLoadingData());
   dispatch(showInferenceTestResultModal());
   deploymentsApi
-    .testDeployedExperiments(deployId, file)
+    .testDeployedExperiments(url, file)
     .then((response) => {
       const seldonResponse =
         'data' in response.data ? response.data.data : response.data;
@@ -36,7 +37,7 @@ export const testImplantedExperimentInferenceAction = (deployId, file) => (
     .catch((error) => {
       dispatch({
         type: actionTypes.TEST_IMPLANTED_EXPERIMENT_INFERENCE_FAILS,
-        deployId: deployId,
+        url: url,
         file: file,
       });
       dispatch(inferenceTestResultModalDataLoaded());

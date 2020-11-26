@@ -25,8 +25,8 @@ const mapDispatchToProps = (dispatch) => {
       ),
     handleGetDeployExperimentLogs: (projectId, deployId) =>
       dispatch(getDeployExperimentLogs(projectId, deployId)),
-    handleTestImplantedExperimentInference: (deployId, file) =>
-      dispatch(testImplantedExperimentInferenceAction(deployId, file)),
+    handleTestImplantedExperimentInference: (url, file) =>
+      dispatch(testImplantedExperimentInferenceAction(url, file)),
   };
 };
 
@@ -41,6 +41,7 @@ const mapStateToProps = (state) => {
 
 /**
  * Container to display deployments table.
+ *
  * @param {object} props Container props
  * @returns {DeploymentsTableContainer} Container
  */

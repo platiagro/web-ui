@@ -28,9 +28,9 @@ const deleteDeployedExperiments = (projectId, experimentId) => {
   );
 };
 
-const testDeployedExperiments = (id, file) => {
+const testDeployedExperiments = (url, file) => {
   const form = new FormData();
-  form.append('url', `/deployments/${id}/api/v1.0/predictions`);
+  form.append('url', url);
   form.append('file', file);
   return seldonApi.post(`deployments/seldon/test`, form);
 };

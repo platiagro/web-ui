@@ -48,6 +48,9 @@ const DeploymentsTable = (props) => {
     Succeeded: 'Sucesso',
   };
 
+  const urlSeldonTest = (experimentId) => {
+    return `http://istio-ingressgateway:31380/seldon/deployments/${experimentId}/api/v1.0/predictions`;
+  };
   // table columns config
   const columnsConfig = [
     {
@@ -96,7 +99,9 @@ const DeploymentsTable = (props) => {
       render: (value, record) => (
         <>
           <UploadInferenceTestButton
-            handleUpload={(file) => onTestInference(record.experimentId, file)}
+            handleUpload={(file) =>
+              onTestInference(urlSeldonTest(record.experimentId), file)
+            }
           />{' '}
           <Divider type='vertical' />
           <Tooltip placement='bottom' title='Ver logs'>
