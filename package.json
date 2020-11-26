@@ -55,6 +55,7 @@
     "@craco/craco": "^5.8.0",
     "babel-eslint": "10.1.0",
     "craco-less": "^1.17.0",
+    "customize-cra": "^1.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "enzyme-to-json": "^3.5.0",

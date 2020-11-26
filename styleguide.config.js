@@ -1,6 +1,17 @@
+const { addLessLoader } = require('customize-cra');
+
 module.exports = {
+    dangerouslyUpdateWebpackConfig(webpackConfig) {
+    const newWebpackConfig = addLessLoader({
+      lessOptions: {
+        javascriptEnabled: true,
+      },
+    })(webpackConfig);
+
+    return newWebpackConfig;
+  },
+  require: ['less-loader', './src/style.less'],
   sections: [
-    // Módulos de componentes do projeto
     {
       name: 'Components',
       description: 'Componentes da aplicação.',
