@@ -6,7 +6,6 @@
     "antd": "4.6.4",
     "axios": "^0.20.0",
     "istextorbinary": "^5.11.0",
-    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-contextmenu": "^2.14.0",
     "react-copy-to-clipboard": "^5.0.1",
