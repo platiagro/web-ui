@@ -35,7 +35,9 @@
     "build": "craco build",
     "test": "craco test",
     "test:ci": "react-scripts test --silent --coverage --testResultsProcessor jest-sonar-reporter",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "styleguide": "FAST_REFRESH=false styleguidist server",
+    "styleguide:build": "styleguidist build"
   },
   "browserslist": {
     "production": [
@@ -70,6 +72,7 @@
     "nock": "^13.0.4",
     "prettier": "^2.1.2",
     "react-axe": "^3.5.3",
+    "react-styleguidist": "^11.1.4",
     "redux-mock-store": "^1.5.3"
   },
   "jest": {
