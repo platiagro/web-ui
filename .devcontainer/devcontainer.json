@@ -1,25 +1,43 @@
 {
-  "dockerComposeFile": ["docker-compose.yml"],
-
-  "service": "node-lts",
-
-  "workspaceFolder": "/web-ui",
-
-  "settings": {
-    "terminal.integrated.shell.linux": null
+  "dockerComposeFile": [ 
+    "docker-compose.yml"
+  ],
+  "service": "platiagro-web-ui-dev", 
+  "workspaceFolder": "/web-ui", 
+  "settings": { 
+    "terminal.integrated.shell.linux": null, 
+    "editor.rulers": [
+      80,
+      120
+    ], 
+    "editor.insertSpaces": true, 
+    "editor.tabSize": 2, 
+    "editor.formatOnSave": true, 
+    "editor.formatOnPaste": true, 
+    "editor.defaultFormatter": "esbenp.prettier-vscode", 
+    "prettier.singleQuote": true, 
+    "prettier.arrowParens": "always", 
+    "prettier.trailingComma": "es5", 
+    "files.watcherExclude": { 
+      "**/node_modules/**": true,
+      "**/build/**": true,
+      "**/coverage/**": true
+    },
+    "editor.codeActionsOnSave": { 
+      "source.fixAll": true 
+    },
+    "typescript.validate.enable": false, 
+    "prettier.jsxSingleQuote": true, 
+    "emmet.includeLanguages": { 
+      "javascript": "javascriptreact" 
+    },
   },
-
-  "extensions": [
-    "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint",
-    "dracula-theme.theme-dracula",
-    "pkief.material-icon-theme",
-    "mikestead.dotenv",
-    "mgmcdermott.vscode-language-babel",
-    "bierner.jsdoc-markdown-highlighting",
-    "alefragnani.bookmarks",
-    "wayou.vscode-todo-highlight",
-    "yzhang.markdown-all-in-one",
-    "ofhumanbondage.react-proptypes-intellisense"
+  "initializeCommand": "export UID=$(id -u) && export GID=$(id -g)", 
+  "extensions": [ 
+    "esbenp.prettier-vscode", 
+    "dbaeumer.vscode-eslint", 
+    "mgmcdermott.vscode-language-babel", 
+    "OfHumanBondage.react-proptypes-intellisense", 
+    "suming.react-proptypes-generate"
   ]
 }
