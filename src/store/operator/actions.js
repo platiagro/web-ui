@@ -11,7 +11,13 @@ import pipelinesApi from 'services/PipelinesApi';
 // UI LIB
 import { message } from 'antd';
 
-// UI ACTIONS
+// ACTIONS
+import { getDatasetRequest } from 'store/dataset/actions';
+import {
+  clearOperatorsFeatureParametersRequest,
+  fetchOperatorsRequest,
+  upadteOperatorDependencies,
+} from 'store/operators/actions';
 import {
   showOperatorDrawer,
   hideOperatorDrawer,
@@ -28,16 +34,6 @@ import {
   dependenciesOperatorLoading,
   dependenciesOperatorLoaded,
 } from 'store/ui/actions';
-
-// DATASET ACTIONS
-import { getDatasetRequest } from 'store/dataset/actions';
-
-// OPERATORS ACTIONS
-import {
-  clearOperatorsFeatureParametersRequest,
-  fetchOperatorsRequest,
-  upadteOperatorDependencies,
-} from 'store/operators/actions';
 
 // UTILS
 import utils from 'utils';
@@ -559,48 +555,31 @@ export const createOperatorRequest = (
 export const removeOperatorRequest = (projectId, experimentId, operator) => (
   dispatch
 ) => {
-  // dispatching request action
   dispatch({
     type: actionTypes.REMOVE_OPERATOR_REQUEST,
   });
 
-  // dispatching experiment operators loading data action
   dispatch(experimentOperatorsLoadingData());
 
-  // creating operator
   operatorsApi
     .deleteOperator(projectId, experimentId, operator.uuid)
     .then(() => {
-      // dispatching hide drawer action
       dispatch(hideOperatorDrawer());
-
-      //deselect operator after success remotion
       dispatch(deselectOperator());
-
-      // dispatching to fetch operator
       if (operator.tags.includes('DATASETS')) {
         dispatch(
-          clearOperatorsFeatureParametersRequest(projectId, experimentId)
+          clearOperatorsFeatureParametersRequest(projectId, experimentId, null)
         );
-      } else {
-        dispatch(fetchOperatorsRequest(projectId, experimentId));
       }
-
+      dispatch(fetchOperatorsRequest(projectId, experimentId));
       message.success('Operador removido com sucesso!');
     })
     .catch((error) => {
-      // getting error message
-      const errorMessage = error.message;
-
-      // dispatching experiment operators data loaded action
       dispatch(experimentOperatorsDataLoaded());
-
-      // dispatching remove operator fail
       dispatch({
         type: actionTypes.REMOVE_OPERATOR_FAIL,
-        errorMessage,
       });
-
+      const errorMessage = error.message;
       message.error(errorMessage);
     });
 };

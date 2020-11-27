@@ -24,8 +24,6 @@ const operatorReducer = (state = initialState, action = undefined) => {
       return { ...state, metrics: [] };
     // SUCCESS
     // operator
-    case actionTypes.REMOVE_OPERATOR_SUCCESS:
-      return { ...state };
     case actionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
       return { ...state, ...action.operator };
     case actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS:

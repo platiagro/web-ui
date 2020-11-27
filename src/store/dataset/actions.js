@@ -5,22 +5,20 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import datasetsApi from '../../services/DatasetsApi';
+import datasetsApi from 'services/DatasetsApi';
 
-// OPERATOR ACTIONS
-import { setOperatorParametersRequest } from '../operator/actions';
-import { clearOperatorsFeatureParametersRequest } from '../operators/actions';
-
-// UI ACTIONS
+// ACTIONS
+import { setOperatorParametersRequest } from 'store/operator/actions';
+import { clearOperatorsFeatureParametersRequest } from 'store/operators/actions';
 import {
   datasetOperatorDataLoaded,
   datasetOperatorLoadingData,
   loadingOffDataViewModal,
   loadingOnDataViewModal,
-} from '../ui/actions';
+} from 'store/ui/actions';
 
 // UTILS
-import utils from '../../utils';
+import utils from 'utils';
 import { CancelToken, isCancel } from 'axios';
 
 // ACTIONS
@@ -170,7 +168,9 @@ export const datasetUploadSuccess = (
   );
 
   // dispatching clear operator feature parameters
-  dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
+  dispatch(
+    clearOperatorsFeatureParametersRequest(projectId, experimentId, dataset)
+  );
 
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
@@ -644,7 +644,9 @@ export const deleteDatasetRequest = (projectId, experimentId) => (
     );
 
     // dispatching clear operator feature parameters
-    dispatch(clearOperatorsFeatureParametersRequest(projectId, experimentId));
+    dispatch(
+      clearOperatorsFeatureParametersRequest(projectId, experimentId, null)
+    );
 
     dispatch(deleteDatasetSuccess());
   } catch (e) {
