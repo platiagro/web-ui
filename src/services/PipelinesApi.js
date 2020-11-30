@@ -38,10 +38,11 @@ const getOperatorDataset = (
   experimentId,
   runId,
   operatorId,
-  page
+  page,
+  pageSize
 ) => {
   return pipelinesApi.get(
-    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=10`
+    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=${pageSize}`
   );
 };
 

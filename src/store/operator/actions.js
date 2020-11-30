@@ -50,45 +50,26 @@ export const downloadOperatorResultDataset = (
   projectId,
   experimentId,
   operatorId
-) => async (dispatch) => {
+) => (dispatch) => {
   dispatch(operatorResultsDownloadDatasetLoading());
   dispatch({
     type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
   });
 
-  let columns = [];
-  let data = [];
-  let page = 1;
-  let operatorDatasetResponse;
-  do {
-    operatorDatasetResponse = await pipelinesApi
-      .getOperatorDataset(
-        projectId,
-        experimentId,
-        'latest',
-        operatorId,
-        page,
-        100
-      )
-      .then((response) => {
-        if (response) {
-          return response.data;
-        }
-        return;
-      })
-      .catch((error) => {});
-    if (operatorDatasetResponse) {
-      columns = operatorDatasetResponse.columns;
-      data = [...data, ...operatorDatasetResponse.data];
-    }
-    page++;
-  } while (operatorDatasetResponse);
-
-  dispatch(operatorResultsDownloadDatasetLoaded());
-  dispatch({
-    type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS,
-    resultDataset: [[...columns], ...data],
-  });
+  pipelinesApi
+    .getOperatorDataset(projectId, experimentId, 'latest', operatorId, 1, -1)
+    .then((response) => {
+      dispatch(operatorResultsDownloadDatasetLoaded());
+      const responseData = response.data;
+      dispatch({
+        type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS,
+        resultDataset: [[...responseData.columns], ...responseData.data],
+      });
+    })
+    .catch((error) => {
+      dispatch(operatorResultsDownloadDatasetLoaded());
+      message.error(error.message);
+    });
 };
 
 // ** GET OPERATOR RESULTS
@@ -230,7 +211,14 @@ export const getOperatorResultsRequest = (
     .getOperatorFigures(projectId, experimentId, runId, operatorId)
     .then((responseFigure) => {
       pipelinesApi
-        .getOperatorDataset(projectId, experimentId, runId, operatorId, page)
+        .getOperatorDataset(
+          projectId,
+          experimentId,
+          runId,
+          operatorId,
+          page,
+          pageSize
+        )
         .then((responseTable) => {
           dispatch(
             getOperatorResultsSuccess(
