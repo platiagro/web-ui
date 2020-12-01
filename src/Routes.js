@@ -1,5 +1,6 @@
 import ProjectsContent from 'components/Content/ProjectsContent/_';
 import ProjectsDetailsContent from 'components/Content/ProjectDetailsContent/_';
+import ExperimentsContent from 'components/Content/ExperimentsContent/_';
 
 const Routes = [
   {
@@ -17,6 +18,11 @@ const Routes = [
     exact: true,
     strict: true,
     component: ProjectsDetailsContent,
+  },
+  {
+    path: '/projetos/:projectId/experimentos/:experimentId?',
+    exact: true,
+    component: ExperimentsContent,
   },
 ];
 
