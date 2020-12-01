@@ -6,6 +6,11 @@ const Routes = [
     exact: true,
     component: ProjectsContent,
   },
+  {
+    path: '/projetos',
+    exact: true,
+    component: ProjectsContent,
+  },
 ];
 
 export default Routes;
