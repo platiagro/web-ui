@@ -10,6 +10,9 @@ import Error404Content from 'components/Content/Error404Content';
 // FIXME: Remover quando componente estiver pronto
 const tempDeploymentComponent = () => <span>Pré-implantação placeholder</span>;
 
+/**
+ * @type {Routes}
+ */
 const Routes = [
   {
     path: '/',
