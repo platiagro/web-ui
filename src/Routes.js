@@ -5,6 +5,7 @@ import ProjectsContent from 'components/Content/ProjectsContent/_';
 import ProjectsDetailsContent from 'components/Content/ProjectDetailsContent/_';
 import ExperimentsContent from 'components/Content/ExperimentsContent/_';
 import TaskContent from 'components/Content/TasksContent/_';
+import Error404Content from 'components/Content/Error404Content';
 
 // FIXME: Remover quando componente estiver pronto
 const tempDeploymentComponent = () => <span>Pré-implantação placeholder</span>;
@@ -40,6 +41,10 @@ const Routes = [
     path: '/tarefas',
     exact: true,
     component: TaskContent,
+  },
+  {
+    path: '*',
+    component: Error404Content,
   },
 ];
 
