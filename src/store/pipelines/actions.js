@@ -192,7 +192,7 @@ export const deployExperimentRequest = (project, experiment, routerProps) => (
       dispatch({
         type: actionTypes.DEPLOY_EXPERIMENT_SUCCESS,
       });
-      routerProps.history.push(`/projetos/${project.uuid}/experimentos`);
+      routerProps.history.push(`/projetos/${project.uuid}`);
       message.success('Experimento implantado!');
     })
     .catch((error) => {
