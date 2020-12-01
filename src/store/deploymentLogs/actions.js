@@ -6,10 +6,11 @@ import actionTypes from './actionTypes';
 
 // ACTIONS
 import {
+  hideInferenceLogsDrawer,
   showInferenceLogsDrawer,
   inferenceLogsDrawerLoadingData,
   inferenceLogsDrawerDataLoaded,
-} from '../ui/actions';
+} from 'store/ui/actions';
 
 // SERVICES
 import deploymentsApi from 'services/DeploymentsApi';
@@ -24,7 +25,9 @@ const { getErrorMessage } = utils;
  *
  * @param {String} deployId
  */
-export const getDeployExperimentLogs = (projectId, deployId) => (dispatch) => {
+export const getDeployExperimentLogs = (projectId, deployId, deployStatus) => (
+  dispatch
+) => {
   dispatch(showInferenceLogsDrawer('Logs'));
   dispatch(inferenceLogsDrawerLoadingData());
   deploymentsApi
@@ -37,11 +40,17 @@ export const getDeployExperimentLogs = (projectId, deployId) => (dispatch) => {
       });
       dispatch(inferenceLogsDrawerDataLoaded());
     })
-    .catch((error) => {
+    .catch(async (error) => {
       dispatch({
         type: actionTypes.GET_DEPLOYMENT_LOGS_FAIL,
       });
-      message.error(getErrorMessage(error));
+      await utils.sleep(1000);
       dispatch(inferenceLogsDrawerDataLoaded());
+      dispatch(hideInferenceLogsDrawer());
+      if (deployStatus === 'Running') {
+        message.info('Fluxo em implantação!');
+      } else {
+        message.error(getErrorMessage(error));
+      }
     });
 };

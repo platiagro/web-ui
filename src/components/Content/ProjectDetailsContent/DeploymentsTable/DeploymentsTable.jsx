@@ -101,7 +101,9 @@ const DeploymentsTable = (props) => {
           <Divider type='vertical' />
           <Tooltip placement='bottom' title='Ver logs'>
             <Button
-              onClick={() => onOpenLog(record.experimentId)}
+              onClick={() => {
+                onOpenLog(record.experimentId, record.status);
+              }}
               size='large'
               style={{ padding: 0 }}
               type='link'

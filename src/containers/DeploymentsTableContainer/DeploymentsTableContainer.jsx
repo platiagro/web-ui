@@ -23,8 +23,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(
         fetchDeployedExperiments(projectId, experiments, isToShowLoader)
       ),
-    handleGetDeployExperimentLogs: (projectId, deployId) =>
-      dispatch(getDeployExperimentLogs(projectId, deployId)),
+    handleGetDeployExperimentLogs: (projectId, deployId, deployStatus) =>
+      dispatch(getDeployExperimentLogs(projectId, deployId, deployStatus)),
     handleTestImplantedExperimentInference: (deployId, file) =>
       dispatch(testImplantedExperimentInferenceAction(deployId, file)),
   };
@@ -78,8 +78,8 @@ const DeploymentsTableContainer = (props) => {
     handleDeleteDeployedExperiment(projectId, deployId);
   };
 
-  const handleOpenLog = (deployId) => {
-    handleGetDeployExperimentLogs(projectId, deployId);
+  const handleOpenLog = (deployId, deployStatus) => {
+    handleGetDeployExperimentLogs(projectId, deployId, deployStatus);
   };
 
   return (
