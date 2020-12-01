@@ -142,7 +142,7 @@ export const fetchCompareResultsResults = (compareResult) => async (
     .catch((error) => {});
 
   const dataset = await pipelinesApi
-    .getOperatorDataset(projectId, experimentId, runId, operatorId, 1)
+    .getOperatorDataset(projectId, experimentId, runId, operatorId, 1, 10)
     .then((response) => {
       return response.data;
     })
