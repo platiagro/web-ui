@@ -26,7 +26,7 @@ import * as serviceWorker from './serviceWorker';
 // CONFIGURE REACT AXE
 if (process.env.NODE_ENV !== 'production') {
   var axe = require('@axe-core/react');
-  axe(React, ReactDOM, 1000);
+  axe(React, ReactDOM, 1000, {}); // empty configuration to fix "runOnly" bug
 }
 
 // initializing react app
