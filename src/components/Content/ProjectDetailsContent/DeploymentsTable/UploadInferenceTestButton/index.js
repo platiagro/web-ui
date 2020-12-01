@@ -13,7 +13,7 @@ import { getEncoding } from 'istextorbinary';
  * Upload Inference Test Button.
  * This component is responsible for displaying upload inference test button.
  */
-const UploadInferenceTestButton = ({ handleUpload }) => {
+const UploadInferenceTestButton = ({ disabled, handleUpload }) => {
   // upload props
   const props = {
     name: 'file',
@@ -80,10 +80,16 @@ const UploadInferenceTestButton = ({ handleUpload }) => {
         isImageOrVideo ? reader.readAsDataURL(file) : reader.readAsText(file);
         return false;
       }}
+      disabled={disabled}
       {...props}
     >
       <Tooltip placement='bottom' title='Testar o fluxo'>
-        <Button size='large' style={{ padding: 0 }} type='link'>
+        <Button
+          disabled={disabled}
+          size='large'
+          style={{ padding: 0 }}
+          type='link'
+        >
           <FundOutlined />
         </Button>
       </Tooltip>
