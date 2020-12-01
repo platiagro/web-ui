@@ -1,0 +1,40 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {    
+    "editor.rulers": [80, 120], 
+    "editor.insertSpaces": true, 
+    "editor.tabSize": 2, 
+    "editor.formatOnSave": true, 
+    "editor.formatOnPaste": true, 
+    "editor.defaultFormatter": "esbenp.prettier-vscode", 
+    "prettier.singleQuote": true, 
+    "prettier.arrowParens": "always", 
+    "prettier.trailingComma": "es5", 
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/build/**": true,
+      "**/coverage/**": true
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true 
+    },
+    "typescript.validate.enable": false, 
+    "prettier.jsxSingleQuote": true, 
+    "emmet.includeLanguages": {
+      "javascript": "javascriptreact"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode", 
+      "dbaeumer.vscode-eslint", 
+      "mgmcdermott.vscode-language-babel", 
+      "OfHumanBondage.react-proptypes-intellisense", 
+      "suming.react-proptypes-generate" 
+    ]
+  }
+}
