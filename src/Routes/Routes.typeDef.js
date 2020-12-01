@@ -7,3 +7,9 @@
  * @property {boolean=} strict Is strict route
  * @property {Function | object} component Route component
  */
+
+/**
+ * Route list
+ *
+ * @typedef {Route[]} Routes
+ */
