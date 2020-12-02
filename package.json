@@ -92,6 +92,7 @@
     "services": "./src/services",
     "assets": "./src/components",
     "uiComponents": "./src/uiComponents",
-    "containers": "./src/containers"
+    "containers": "./src/containers",
+    "Routes": "./src/Routes"
   }
 }
