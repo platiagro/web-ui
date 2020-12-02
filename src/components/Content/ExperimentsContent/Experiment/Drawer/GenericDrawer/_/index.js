@@ -304,7 +304,7 @@ GenericDrawer.propTypes = {
   /** generic drawer tip node */
   drawerTip: PropTypes.node,
   /** pipeline parameters list */
-  parametersLatestTraining: PropTypes.arrayOf(PropTypes.object),
+  parametersLatestTraining: PropTypes.object,
   /** experiment is loading */
   loading: PropTypes.bool,
   /** parameter is loading */

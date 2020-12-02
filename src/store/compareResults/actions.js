@@ -155,8 +155,10 @@ export const fetchCompareResultsResults = (compareResult) => async (
     })
     .catch((error) => {});
 
-  const results = utils.transformResults(operatorId, figures);
+  const figureResults = utils.transformResults(operatorId, figures);
+  let datasetResult = null;
   if (dataset) {
+    // create columns in antd format
     let tableColumns = [];
     let index = 0;
     for (let column of dataset.columns) {
@@ -167,23 +169,20 @@ export const fetchCompareResultsResults = (compareResult) => async (
       tableColumns.push(tableColumn);
       index++;
     }
-
-    results.push({
-      type: 'table',
+    datasetResult = {
       uuid: `table-${operatorId}`,
-      resultTable: {
-        columns: tableColumns,
-        rows: dataset.data,
-        total: dataset.total,
-        currentPage: 1,
-        pageSize: 10,
-      },
-    });
+      columns: tableColumns,
+      currentPage: 1,
+      pageSize: 10,
+      rows: dataset.data,
+      total: dataset.total,
+    };
   }
 
   const compareResultsAux = { ...compareResult };
+  compareResultsAux.dataset = datasetResult ? datasetResult : null;
+  compareResultsAux.figures = figureResults ? figureResults : [];
   compareResultsAux.metrics = metrics ? metrics : [];
-  compareResultsAux.results = results;
   dispatch({
     type: actionTypes.UPDATE_COMPARE_RESULT,
     compareResult: compareResultsAux,
@@ -228,27 +227,15 @@ export const getCompareResultDatasetPaginated = (
           index++;
         }
         newDatasetResult = {
-          type: 'table',
           uuid: `table-${operatorId}`,
-          resultTable: {
-            columns: tableColumns,
-            rows: responseData.data,
-            total: responseData.total,
-            currentPage: page,
-            pageSize: pageSize,
-          },
+          columns: tableColumns,
+          currentPage: page,
+          pageSize: pageSize,
+          rows: responseData.data,
+          total: responseData.total,
         };
-        const newResults = [
-          ...compareResult.results.map((result) => {
-            if (result.uuid === newDatasetResult.uuid) {
-              return { ...newDatasetResult };
-            } else {
-              return result;
-            }
-          }),
-        ];
         const compareResultsAux = { ...compareResult };
-        compareResultsAux.results = newResults;
+        compareResultsAux.dataset = newDatasetResult;
         dispatch({
           type: actionTypes.UPDATE_COMPARE_RESULT,
           compareResult: compareResultsAux,

@@ -58,11 +58,11 @@ const ToolbarConfig = ({ handleDeleteClick, operator }) => {
 // PROP TYPES
 ToolbarConfig.propTypes = {
   /** remove operator button is disabled */
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   /** remove operator button click function */
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
   /** is loading */
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
 };
 
 // EXPORT

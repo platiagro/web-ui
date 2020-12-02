@@ -190,7 +190,7 @@ ExperimentFlow.propTypes = {
   /** flag for show item over drop area */
   isOver: PropTypes.bool.isRequired,
   /** function to save offset of Flow Area */
-  handleSaveFlowTransform: PropTypes.func.isRequired,
+  handleSaveFlowTransform: PropTypes.func,
 };
 
 //HOC for transform ExperimentFlow into DropTarget

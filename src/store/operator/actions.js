@@ -59,7 +59,7 @@ export const downloadOperatorResultDataset = (
       const responseData = response.data;
       dispatch({
         type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS,
-        resultDataset: [[...responseData.columns], ...responseData.data],
+        downloadDataset: [[...responseData.columns], ...responseData.data],
       });
     })
     .catch((error) => {
@@ -69,78 +69,6 @@ export const downloadOperatorResultDataset = (
 };
 
 // ** GET OPERATOR RESULTS
-/**
- * get operator results success action
- *
- * @param {object} responseFigure
- * @param {object} responseTable
- * @param {string} operatorId
- * @returns {object} { type, results }
- */
-const getOperatorResultsSuccess = (
-  responseFigure,
-  responseTable,
-  operatorId,
-  page,
-  pageSize
-) => (dispatch) => {
-  // getting figure results
-  const results = utils.transformResults(operatorId, responseFigure.data);
-  if (responseTable) {
-    // create columns in antd format
-    let tableColumns = [];
-    let index = 0;
-    for (let column of responseTable.data.columns) {
-      let tableColumn = {
-        title: column,
-        dataIndex: index,
-      };
-      tableColumns.push(tableColumn);
-      index++;
-    }
-
-    results.push({
-      type: 'table',
-      uuid: `table-${operatorId}`,
-      resultTable: {
-        columns: tableColumns,
-        rows: responseTable.data.data,
-        total: responseTable.data.total,
-        currentPage: page,
-        pageSize: pageSize,
-      },
-    });
-  }
-
-  dispatch(operatorResultsDataLoaded());
-  dispatch({
-    type: actionTypes.GET_OPERATOR_RESULTS_SUCCESS,
-    results,
-  });
-};
-
-/**
- * get operator results fail action
- *
- * @param {object} error
- * @returns {object} { type, errorMessage }
- */
-const getOperatorResultsFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching operator results data loaded action
-  dispatch(operatorResultsDataLoaded());
-
-  // dispatching get operator results fail
-  dispatch({
-    type: actionTypes.GET_OPERATOR_RESULTS_FAIL,
-    errorMessage,
-  });
-
-  message.error(errorMessage);
-};
-
 /**
  *  get operator logs success action
  *
@@ -183,55 +111,35 @@ export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
 };
 
 /**
- * Get operator results request
- *
- * @param {string} experimentId
- * @param {string} runId
- * @param {string} operatorId
- * @param page
+ * Get operator figures
  */
-export const getOperatorResultsRequest = (
+export const getOperatorFigures = (
   projectId,
   experimentId,
   runId,
-  operatorId,
-  page,
-  pageSize
+  operatorId
 ) => (dispatch) => {
   dispatch({
-    type: actionTypes.GET_OPERATOR_RESULTS_REQUEST,
+    type: actionTypes.GET_OPERATOR_FIGURES_REQUEST,
   });
   dispatch(operatorResultsLoadingData());
-
   pipelinesApi
     .getOperatorFigures(projectId, experimentId, runId, operatorId)
     .then((responseFigure) => {
-      pipelinesApi
-        .getOperatorDataset(
-          projectId,
-          experimentId,
-          runId,
-          operatorId,
-          page,
-          pageSize
-        )
-        .then((responseTable) => {
-          dispatch(
-            getOperatorResultsSuccess(
-              responseFigure,
-              responseTable,
-              operatorId,
-              page,
-              pageSize
-            )
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch(getOperatorResultsSuccess(responseFigure, null, operatorId));
-        });
+      const results = utils.transformResults(operatorId, responseFigure.data);
+      dispatch(operatorResultsDataLoaded());
+      dispatch({
+        type: actionTypes.GET_OPERATOR_FIGURES_SUCCESS,
+        results,
+      });
     })
-    .catch((error) => dispatch(getOperatorResultsFail(error)));
+    .catch((error) => {
+      dispatch(operatorResultsDataLoaded());
+      dispatch({
+        type: actionTypes.GET_OPERATOR_FIGURES_FAIL,
+      });
+      message.error(error.message);
+    });
 };
 
 /**
@@ -271,15 +179,12 @@ export const getOperatorResultDataset = (
           index++;
         }
         result = {
-          type: 'table',
           uuid: `table-${operatorId}`,
-          resultTable: {
-            columns: tableColumns,
-            rows: responseTable.data.data,
-            total: responseTable.data.total,
-            currentPage: page,
-            pageSize: pageSize,
-          },
+          columns: tableColumns,
+          currentPage: page,
+          pageSize: pageSize,
+          rows: responseTable.data.data,
+          total: responseTable.data.total,
         };
         dispatch({
           type: actionTypes.GET_OPERATOR_DATASET_RESULT_SUCCESS,
@@ -363,25 +268,21 @@ export const selectOperator = (projectId, experimentId, operator) => (
     dispatch(getDatasetRequest(datasetValue));
   }
 
-  // getting results
   dispatch(
-    getOperatorResultsRequest(
-      projectId,
-      experimentId,
-      'latest',
-      operator.uuid,
-      1,
-      10
-    )
+    getOperatorFigures(projectId, experimentId, 'latest', operator.uuid)
+  );
+
+  dispatch(
+    getOperatorResultDataset(projectId, experimentId, operator.uuid, 1, 10)
+  );
+
+  dispatch(
+    getOperatorMetricsRequest(projectId, experimentId, 'latest', operator.uuid)
   );
 
   if (!isDataset && operator.status === 'Failed') {
     dispatch(getOperatorLogs(projectId, experimentId, operator.uuid));
   }
-
-  dispatch(
-    getOperatorMetricsRequest(projectId, experimentId, 'latest', operator.uuid)
-  );
 
   // dispatching action to show drawer
   dispatch(showOperatorDrawer(operator.name, isDataset));

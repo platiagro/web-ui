@@ -97,7 +97,7 @@ UploadButton.propTypes = {
   buttonText: PropTypes.string.isRequired,
 
   /** Upload cancel handler */
-  handleUploadCancel: PropTypes.func.isRequired,
+  handleUploadCancel: PropTypes.func,
 
   /** Upload fail handler */
   handleUploadFail: PropTypes.func.isRequired,
