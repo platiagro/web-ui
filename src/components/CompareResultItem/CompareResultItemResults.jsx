@@ -30,9 +30,8 @@ const CompareResultItemResults = (props) => {
 
   if (
     !compareResult.operatorId ||
-    !compareResult.metrics ||
-    !compareResult.results ||
-    !trainingDetail
+    !trainingDetail ||
+    (!compareResult.dataset && !compareResult.figures && !compareResult.metrics)
   ) {
     return (
       <>
@@ -77,12 +76,14 @@ const CompareResultItemResults = (props) => {
 
   return (
     <ResultsDrawer
+      dataset={compareResult.dataset}
+      datasetScroll={{ y: height ? height - 350 : 200 }}
+      figures={compareResult.figures}
       loading={false}
       metrics={compareResult.metrics}
       metricsLoading={false}
       parameters={resultsParameters}
       onDatasetPageChange={handleOnDatasetPageChange}
-      results={compareResult.results}
       resultsTabStyle={{
         maxHeight: height ? height - 220 : 300,
         overflow: 'auto',

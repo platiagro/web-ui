@@ -61,7 +61,7 @@ Title.propTypes = {
   /** title level number */
   level: PropTypes.number.isRequired,
   /** title is loading */
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   /** title submit function */
   handleSubmit: PropTypes.func,
 };

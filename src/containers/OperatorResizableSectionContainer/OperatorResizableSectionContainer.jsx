@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { OperatorResizableSection } from 'components';
 
 // ACTIONS
-import { showOperatorResults } from '../../store/ui/actions';
+import { showOperatorResults } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -22,8 +22,6 @@ const mapStateToProps = (state) => {
   return {
     // operator name
     operatorName: state.operatorReducer.name,
-    // operator experiment results
-    operatorResults: state.operatorReducer.results,
     // operator description
     operatorDescription: state.operatorReducer.description,
     // operator is a dataset operator
@@ -53,8 +51,6 @@ const OperatorResizableSectionContainer = (props) => {
   const {
     // operator name
     operatorName,
-    // operator experiment results
-    operatorResults,
     // operator is a dataset operator
     operatorIsDataset,
     // operator parent experiment is finished
@@ -73,7 +69,6 @@ const OperatorResizableSectionContainer = (props) => {
   return (
     <OperatorResizableSection
       operatorName={operatorName}
-      operatorResults={operatorResults}
       operatorIsDataset={operatorIsDataset}
       experimentIsFinished={experimentIsFinished}
       handleShowResultsClick={handleShowResultsClick}
@@ -88,8 +83,6 @@ const OperatorResizableSectionContainer = (props) => {
 OperatorResizableSectionContainer.propTypes = {
   /** Operator name */
   operatorName: PropTypes.string.isRequired,
-  /** Operator experiment results */
-  operatorResults: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator is a dataset operator */
   operatorIsDataset: PropTypes.bool.isRequired,
   /** Operator parent experiment is finished */
@@ -101,7 +94,7 @@ OperatorResizableSectionContainer.propTypes = {
   /** Operator status */
   operatorStatus: PropTypes.string,
   /** Operator logs */
-  operatorLogs: PropTypes.string,
+  operatorLogs: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };
 
 // DEFAULT PROPS

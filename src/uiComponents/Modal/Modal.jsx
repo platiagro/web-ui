@@ -91,7 +91,7 @@ Modal.propTypes = {
   /** Modal css class */
   className: PropTypes.string,
   /** Modal close button text */
-  closeButtonText: PropTypes.string.isRequired,
+  closeButtonText: PropTypes.string,
   /** Modal footer node content */
   footer: PropTypes.node,
   /** Modal close handler */
@@ -101,7 +101,7 @@ Modal.propTypes = {
   /** Modal is visible */
   isVisible: PropTypes.bool.isRequired,
   /** Modal header title */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   /** Modal width */
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

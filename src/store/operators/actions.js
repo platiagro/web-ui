@@ -5,10 +5,10 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import operatorsApi from '../../services/OperatorsApi';
-import datasetsApi from '../../services/DatasetsApi';
-import pipelinesApi from '../../services/PipelinesApi';
-import tasksApi from '../../services/TasksApi';
+import operatorsApi from 'services/OperatorsApi';
+import datasetsApi from 'services/DatasetsApi';
+import pipelinesApi from 'services/PipelinesApi';
+import tasksApi from 'services/TasksApi';
 
 // UI ACTIONS
 import {

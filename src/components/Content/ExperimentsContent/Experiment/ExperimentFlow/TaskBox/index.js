@@ -232,7 +232,7 @@ TaskBox.propTypes = {
   /** task title string */
   name: PropTypes.string.isRequired,
   /** task icon string */
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   /** task status string */
   status: PropTypes.string.isRequired,
   /** task is setted up */

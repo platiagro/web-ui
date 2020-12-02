@@ -31,10 +31,10 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
+    downloadDataset: state.operatorReducer.downloadDataset,
     downloadDatasetLoading:
       state.uiReducer.operatorResults.downloadDatasetLoading,
     operator: state.operatorReducer,
-    resultDataset: state.operatorReducer.resultDataset,
   };
 };
 
@@ -45,10 +45,10 @@ const mapStateToProps = (state) => {
  */
 const DownloadOperatorDatasetContainer = (props) => {
   const {
+    downloadDataset,
     downloadDatasetLoading,
     handleDownloadOperatorResultDataset,
     operator,
-    resultDataset,
   } = props;
   const { projectId, experimentId } = useParams();
   const csvLinkRef = useRef();
@@ -60,15 +60,15 @@ const DownloadOperatorDatasetContainer = (props) => {
   };
 
   useEffect(() => {
-    if (resultDataset && resultDataset.length > 0) {
+    if (downloadDataset && downloadDataset.length > 0) {
       dispachCSVLinkClick();
     }
-  }, [resultDataset]);
+  }, [downloadDataset]);
 
   return (
     <>
       <CSVLink
-        data={resultDataset ? resultDataset : []}
+        data={downloadDataset ? downloadDataset : []}
         filename={'resultDataset.csv'}
         ref={csvLinkRef}
       />
@@ -76,7 +76,7 @@ const DownloadOperatorDatasetContainer = (props) => {
         disabled={downloadDatasetLoading}
         type={'default'}
         onClick={() => {
-          if (resultDataset && resultDataset.length > 0) {
+          if (downloadDataset && downloadDataset.length > 0) {
             csvLinkRef.current.link.click();
           } else {
             handleDownloadOperatorResultDataset(

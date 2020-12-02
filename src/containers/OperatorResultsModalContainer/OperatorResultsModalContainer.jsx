@@ -42,12 +42,13 @@ const mapStateToProps = (state) => {
   return {
     isVisible: state.uiReducer.operatorResults.showOperatorResults,
     operatorId: state.operatorReducer.uuid,
+    operatorDataset: state.operatorReducer.dataset,
+    operatorFigures: state.operatorReducer.figures,
     operatorMetrics: state.operatorReducer.metrics,
     operatorMetricsLoading: state.uiReducer.operatorMetrics.loading,
     operatorParameters: state.operatorReducer.parameters,
     operatorParametersLatestTraining:
       state.operatorReducer.parametersLatestTraining,
-    operatorResults: state.operatorReducer.results,
     operatorResultsLoading: state.uiReducer.operatorResults.loading,
   };
 };
@@ -65,11 +66,12 @@ const OperatorResultsModalContainer = (props) => {
     handleGetOperatorResultDataset,
     isVisible,
     operatorId,
+    operatorDataset,
+    operatorFigures,
     operatorMetrics,
     operatorMetricsLoading,
     operatorParameters,
     operatorParametersLatestTraining,
-    operatorResults,
     operatorResultsLoading,
   } = props;
   const { projectId, experimentId } = useParams();
@@ -115,13 +117,14 @@ const OperatorResultsModalContainer = (props) => {
       title={'Visualizar Resultados'}
     >
       <ResultsDrawer
+        dataset={operatorDataset}
+        figures={operatorFigures}
         isToShowDownloadButtons={true}
         loading={operatorResultsLoading}
         metricsLoading={operatorMetricsLoading}
         metrics={operatorMetrics}
         onDatasetPageChange={handleOnDatasetPageChange}
         parameters={resultsParameters}
-        results={operatorResults}
       />
     </Modal>
   );
@@ -134,6 +137,10 @@ OperatorResultsModalContainer.propTypes = {
   handleGetOperatorResultDataset: PropTypes.func.isRequired,
   /** Operator results modal is visible */
   isVisible: PropTypes.bool.isRequired,
+  /** Operator dataset result */
+  operatorDataset: PropTypes.object,
+  /** Operator figures results */
+  operatorFigures: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator experiment metrics*/
   operatorMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator experiment metrics is loading */
@@ -141,9 +148,7 @@ OperatorResultsModalContainer.propTypes = {
   /** Operator parameters */
   operatorParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator parameters latest training*/
-  operatorParametersLatestTraining: PropTypes.object.isRequired,
-  /** Operator experiment results */
-  operatorResults: PropTypes.arrayOf(PropTypes.object).isRequired,
+  operatorParametersLatestTraining: PropTypes.object,
   /** Operator experiment results is loading */
   operatorResultsLoading: PropTypes.bool.isRequired,
 };

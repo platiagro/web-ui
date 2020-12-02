@@ -14,8 +14,16 @@ import { CommonTable } from 'components';
  * This component is responsible for displaying table result.
  */
 const TableResult = (props) => {
-  const { onPageChange, resultTable } = props;
-  const { columns, currentPage, pageSize, rows, title, total } = resultTable;
+  const {
+    columns,
+    currentPage,
+    onPageChange,
+    pageSize,
+    rows,
+    scroll,
+    title,
+    total,
+  } = props;
   return (
     <div>
       {title && (
@@ -31,6 +39,7 @@ const TableResult = (props) => {
           return uuidv4();
         }}
         size={'middle'}
+        scroll={scroll}
       />
       <br />
       <Pagination
@@ -45,23 +54,32 @@ const TableResult = (props) => {
         showSizeChanger
         pageSizeOptions={['10', '20', '30', '40', '50']}
       />
-      <br />
     </div>
   );
 };
 
 // PROP TYPES
 TableResult.propTypes = {
-  /** function to handle table page change */
-  onPageChange: PropTypes.func.isRequired,
-  /** object with table informations */
-  resultTable: PropTypes.object.isRequired,
-  /** table title */
+  /** Table columns */
+  columns: PropTypes.arrayOf(PropTypes.object),
+  /** Table current page */
+  currentPage: PropTypes.number,
+  /** Function to handle table page change */
+  onPageChange: PropTypes.func,
+  /** Table page size */
+  pageSize: PropTypes.number,
+  /** Table rows */
+  rows: PropTypes.array,
+  /** Table scroll config */
+  scroll: PropTypes.object,
+  /** Table title */
   title: PropTypes.string,
+  /** Table total rown */
+  total: PropTypes.number,
 };
 
 TableResult.defaultProps = {
-  /** table title */
+  /** Table title */
   title: undefined,
 };
 

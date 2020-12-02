@@ -263,6 +263,7 @@ const CompareResultsModalContainer = (props) => {
             <Card
               style={{
                 border: '2px dashed #D9D9D9',
+                margin: 0,
                 textAlign: 'center',
               }}
             >
@@ -295,7 +296,7 @@ CompareResultsModalContainer.propTypes = {
   /** Compare result delete is loading */
   deleteIsLoading: PropTypes.bool.isRequired,
   /** The expriment options to use on Cascader */
-  experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  experimentsOptions: PropTypes.arrayOf(PropTypes.object),
   /** The expriments training history */
   experimentsTrainingHistory: PropTypes.object.isRequired,
   /** Function to handle add compare result */

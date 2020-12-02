@@ -49,7 +49,7 @@ const ExperimentButtons = ({
 // PROP TYPES
 ExperimentButtons.propTypes = {
   /** deploy experiment button is disabled */
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
   /** deployment is running / loading */
   loading: PropTypes.bool.isRequired,
   /** compare results button click function */
