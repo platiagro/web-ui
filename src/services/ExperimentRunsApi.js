@@ -18,7 +18,7 @@ const runsPath = 'runs';
  * @param {string} experimentId Experiment UUID
  * @returns {Promise} Request Promise
  */
-const detailExperimentRuns = (projectId, experimentId) => {
+const fetchExperimentRuns = (projectId, experimentId) => {
   return pipelinesApi.get(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}`
   );
@@ -149,8 +149,8 @@ const fetchOperatorLogs = (projectId, experimentId, runId, operatorId) => {
 };
 
 // EXPORT DEFAULT
-export { 
-  detailExperimentRuns,
+export default{ 
+  fetchExperimentRuns,
   createExperimentRun,
   deleteExperimentRun,
   detailExperimentRun,
