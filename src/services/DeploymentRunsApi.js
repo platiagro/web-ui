@@ -11,17 +11,8 @@ const deploymentsPath = 'deployments';
 const runsPath = 'runs';
 
 // API METHODS
-/**
- * Detail Deployment Runs
- *
- * @param {string} projectId Project UUID
- * @param {string} deploymentId Deployment UUID
- * @returns {Promise} Request Promise
- */
-const detailDeploymentRuns = (projectId, deploymentId) => {
-  return pipelinesApi.get(
-    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`
-  );
+const fetchDeploymentRuns = (projectId, deploymentId) => {
+  return pipelinesApi.get(`${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`);
 };
 
 /**
@@ -79,8 +70,8 @@ const retryDeploymentRun = (projectId, deploymentId, runId) => {
 }
 
 // EXPORT DEFAULT
-export default{
-  detailDeploymentRuns,
+export default {
+  fetchDeploymentRuns,
   createDeploymentRun,
   deleteDeploymentRun,
   fetchDeploymentRunLogs,
