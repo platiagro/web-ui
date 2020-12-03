@@ -1,14 +1,9 @@
-// FIXME: Remover quando componente (deployment) estiver pronto
-import React from 'react';
-
 import ProjectsContent from 'components/Content/ProjectsContent/_';
 import ProjectsDetailsContent from 'components/Content/ProjectDetailsContent/_';
 import ExperimentsContent from 'components/Content/ExperimentsContent/_';
 import TaskContent from 'components/Content/TasksContent/_';
 import Error404Content from 'components/Content/Error404Content';
-
-// FIXME: Remover quando componente estiver pronto
-const tempDeploymentComponent = () => <span>Pré-implantação placeholder</span>;
+import { Deployment } from 'Pages';
 
 /**
  * @type {Routes}
@@ -38,7 +33,7 @@ const Routes = [
   {
     path: '/projetos/:projectId/pre-implantacao/:deploymentId?',
     exact: true,
-    component: tempDeploymentComponent,
+    component: Deployment,
   },
   {
     path: '/tarefas',
