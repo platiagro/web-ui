@@ -11,6 +11,13 @@ const deploymentsPath = 'deployments';
 const runsPath = 'runs';
 
 // API METHODS
+/**
+ * Fetch Deployment Runs
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} deploymentId Deployment UUID
+ * @returns {Promise} Request Promise
+ */
 const fetchDeploymentRuns = (projectId, deploymentId) => {
   return pipelinesApi.get(`${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`);
 };
