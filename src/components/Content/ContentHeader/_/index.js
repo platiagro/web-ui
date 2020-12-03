@@ -64,11 +64,11 @@ ContentHeader.propTypes = {
   /** content header edit submit function */
   handleSubmit: PropTypes.func,
   /** content header title */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /** content header is loading */
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   /** if false the back icon will not be displayed */
-  backIcon: PropTypes.bool.isRequired,
+  backIcon: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
 // PROP DEFAULT VALUES

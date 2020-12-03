@@ -96,7 +96,7 @@ CommonTable.propTypes = {
   /** Table columns */
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Table data source (rows) */
-  dataSource: PropTypes.array.isRequired,
+  dataSource: PropTypes.array,
   /** Table is loading */
   isLoading: PropTypes.bool,
   /** Table locale config */

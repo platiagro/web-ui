@@ -45,9 +45,9 @@ const CustomDragLayer = DragLayer((monitor) => ({
 
 // PROP TYPES
 CustomDragLayer.propTypes = {
-  isDragging: PropTypes.bool.isRequired,
-  itemType: PropTypes.string.isRequired,
-  item: PropTypes.any.isRequired,
+  isDragging: PropTypes.bool,
+  itemType: PropTypes.string,
+  item: PropTypes.any,
 };
 
 export default CustomDragLayer;

@@ -24,7 +24,7 @@ import {
 import { getExperimentRunStatusRequest } from '../experiments/experimentRuns/actions';
 
 // UTILS
-import utils from '../../utils';
+import utils from 'utils';
 
 // ACTIONS
 // ** FETCH OPERATORS
@@ -159,9 +159,9 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
  */
 export const clearOperatorsFeatureParametersRequest = (
   projectId,
-  experimentId
+  experimentId,
+  dataset
 ) => async (dispatch, getState) => {
-  // getting operators from store
   const { operatorsReducer: operators } = getState();
 
   dispatch({
@@ -209,7 +209,11 @@ export const clearOperatorsFeatureParametersRequest = (
         });
     }
 
-    dispatch(fetchOperatorsRequest(projectId, experimentId));
+    dispatch({
+      type: actionTypes.UPDATE_OPERATORS_OPTIONS,
+      columns: dataset ? dataset.columns : [],
+    });
+
     dispatch(operatorParameterDataLoaded());
   } catch (e) {
     dispatch(operatorParameterDataLoaded());

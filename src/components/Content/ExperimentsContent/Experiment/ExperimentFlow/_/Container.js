@@ -7,20 +7,23 @@ import { useParams } from 'react-router-dom';
 import ExperimentFlow from './index';
 
 // ACTIONS
+
+import { selectOperator } from 'store/operator/actions';
+
 import {
   selectOperator,
   deselectOperator,
   saveOperatorPosition,
   saveOperatorDependencies,
-} from '../../../../../../store/operator/actions';
+} from 'store/operator/actions';
 import { useStoreState } from 'react-flow-renderer';
 import { getExperimentRunStatusRequest } from 'store/experiments/experimentRuns/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleShowOperatorDetails: (projectId, experimentId, operator, page) =>
-      dispatch(selectOperator(projectId, experimentId, operator, page)),
+    handleShowOperatorDetails: (projectId, experimentId, operator) =>
+      dispatch(selectOperator(projectId, experimentId, operator)),
     handleGetExperimentRunStatus: (projectId, experimentId) =>
       dispatch(getExperimentRunStatusRequest(projectId, experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),
@@ -91,7 +94,7 @@ const ExperimentFlowContainer = ({
   });
 
   const selectOperatorHandler = (operator) =>
-    handleShowOperatorDetails(experimentId, operator);
+    handleShowOperatorDetails(projectId, experimentId, operator);
 
   const handleSavePosition = (operatorId, position) => {
     handleSaveOperatorPosition(projectId, experimentId, operatorId, position);

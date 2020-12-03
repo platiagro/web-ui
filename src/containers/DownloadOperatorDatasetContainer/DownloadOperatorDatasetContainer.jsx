@@ -17,18 +17,24 @@ import utils from 'utils';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleDownloadOperatorResultDataset: (experimentId, operatorId) =>
-      dispatch(downloadOperatorResultDataset(experimentId, operatorId)),
+    handleDownloadOperatorResultDataset: (
+      projectId,
+      experimentId,
+      operatorId
+    ) =>
+      dispatch(
+        downloadOperatorResultDataset(projectId, experimentId, operatorId)
+      ),
   };
 };
 
 // STATES
 const mapStateToProps = (state) => {
   return {
+    downloadDataset: state.operatorReducer.downloadDataset,
     downloadDatasetLoading:
       state.uiReducer.operatorResults.downloadDatasetLoading,
     operator: state.operatorReducer,
-    resultDataset: state.operatorReducer.resultDataset,
   };
 };
 
@@ -39,12 +45,12 @@ const mapStateToProps = (state) => {
  */
 const DownloadOperatorDatasetContainer = (props) => {
   const {
+    downloadDataset,
     downloadDatasetLoading,
     handleDownloadOperatorResultDataset,
     operator,
-    resultDataset,
   } = props;
-  const { experimentId } = useParams();
+  const { projectId, experimentId } = useParams();
   const csvLinkRef = useRef();
 
   const dispachCSVLinkClick = async () => {
@@ -54,15 +60,15 @@ const DownloadOperatorDatasetContainer = (props) => {
   };
 
   useEffect(() => {
-    if (resultDataset && resultDataset.length > 0) {
+    if (downloadDataset && downloadDataset.length > 0) {
       dispachCSVLinkClick();
     }
-  }, [resultDataset]);
+  }, [downloadDataset]);
 
   return (
     <>
       <CSVLink
-        data={resultDataset ? resultDataset : []}
+        data={downloadDataset ? downloadDataset : []}
         filename={'resultDataset.csv'}
         ref={csvLinkRef}
       />
@@ -70,10 +76,14 @@ const DownloadOperatorDatasetContainer = (props) => {
         disabled={downloadDatasetLoading}
         type={'default'}
         onClick={() => {
-          if (resultDataset && resultDataset.length > 0) {
+          if (downloadDataset && downloadDataset.length > 0) {
             csvLinkRef.current.link.click();
           } else {
-            handleDownloadOperatorResultDataset(experimentId, operator.uuid);
+            handleDownloadOperatorResultDataset(
+              projectId,
+              experimentId,
+              operator.uuid
+            );
           }
         }}
       >

@@ -118,7 +118,7 @@ DraggableTabs.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
-  ]).isRequired,
+  ]),
 };
 
 // PROP DEFAULT VALUES
