@@ -1,32 +1,38 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import monitoringApi from 'services/MonitoringsApi';
+import monitoringsApi from 'services/MonitoringsApi';
 
 // UI LIB
 import { message } from 'antd';
 
-export const getMonitoring = (projectId) => async (dispatch, getState) => {
+/**
+ * Fetch Monitorings
+ *
+ * @param {string} projectId
+ */
+export const fetchMonitorings = (projectId) => async (dispatch, getState) => {
   const { monitorings } = getState();
   dispatch({
-    type: actionTypes.GET_MONITORING_REQUEST,
+    type: actionTypes.FETCH_MONITORINGS_REQUEST,
   });
   try {
-    const response = await monitoringApi.requestMonitoring(projectId);
+    const response = await monitoringsApi.requestMonitorings(projectId);
     if (response) {
-      dispatch(getMonitoringSuccess(monitorings, response));
+      dispatch(fetchMonitoringsSuccess(monitorings, response));
     }
   } catch (error) {
-    dispatch(getMonitoringFail(error));
+    dispatch(fetchMonitoringsFail(error));
   }
 };
 
 /**
+ *Fetch monitorings success
  *
  * @param {object} monitorings
  * @param {object} response
  */
-const getMonitoringSuccess = (monitorings, response) => (dispatch) => {
-  // dispatching get monitoring success
+const fetchMonitoringsSuccess = (monitorings, response) => (dispatch) => {
+  // dispatching get monitorings success
   dispatch({
     type: actionTypes.CREATE_MONITORING_SUCCESS,
     monitorings: [...monitorings, response.data],
@@ -34,15 +40,15 @@ const getMonitoringSuccess = (monitorings, response) => (dispatch) => {
 };
 
 /**
- * get monitoring
+ * Fetch monitorings fail
  *
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const getMonitoringFail = (error) => (dispatch) => {
+const fetchMonitoringsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
-  // dispatching get monitoring fail
+  // dispatching get monitorings fail
   dispatch({
     type: actionTypes.GET_MONITORING_FAIL,
     errorMessage,
@@ -50,7 +56,13 @@ const getMonitoringFail = (error) => (dispatch) => {
   message.error(errorMessage);
 };
 
-export const createMonitoring = (projectId, body) => async (
+/**
+ * Create monitorings
+ *
+ * @param {string} projectId
+ * @param {object} body
+ */
+export const createMonitorings = (projectId, body) => async (
   dispatch,
   getState
 ) => {
@@ -59,39 +71,40 @@ export const createMonitoring = (projectId, body) => async (
   });
   const { monitorings } = getState();
   try {
-    const response = await monitoringApi.poststMonitoring(projectId, body);
+    const response = await monitoringsApi.poststMonitoring(projectId, body);
     if (response) {
-      dispatch(createMonitoringSuccess(monitorings, response));
+      dispatch(createMonitoringsSuccess(monitorings, response));
     }
   } catch (error) {
-    dispatch(createMonitoringFail(error));
+    dispatch(createMonitoringsFail(error));
   }
 };
 
 /**
- * get monitoring
+ * Create monitorings success
  *
  * @param monitorings
  * @param response
  *
  */
-const createMonitoringSuccess = (monitorings, response) => (dispatch) => {
-  // dispatching get monitoring success
+const createMonitoringsSuccess = (monitorings, response) => (dispatch) => {
+  // dispatching get monitorings success
   dispatch({
     type: actionTypes.CREATE_MONITORING_SUCCESS,
     monitorings: [...monitorings, response.data],
   });
 };
+
 /**
- * get monitoring
+ * Create monitorings fail
  *
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const createMonitoringFail = (error) => (dispatch) => {
+const createMonitoringsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
-  // dispatching get monitoring fail
+  // dispatching get monitorings fail
   dispatch({
     type: actionTypes.CREATE_MONITORING_FAIL,
     errorMessage,
@@ -99,7 +112,15 @@ const createMonitoringFail = (error) => (dispatch) => {
   message.error(errorMessage);
 };
 
-export const updateMonitoring = (projectId, body) => async (
+/**
+ * Update Monitorings
+ *
+ * @param {string} projectId
+ * @param {string} projectId
+ * @param {object} body
+ *
+ */
+export const updateMonitorings = (projectId, body) => async (
   dispatch,
   getState
 ) => {
@@ -109,87 +130,99 @@ export const updateMonitoring = (projectId, body) => async (
     type: actionTypes.UPDATE_MONITORING_REQUEST,
   });
   try {
-    const response = await monitoringApi.updateMonitoring(projectId, body);
+    const response = await monitoringsApi.updateMonitoring(projectId, body);
     if (response) {
-      counter.dispatch(updateMonitoringSuccess(response));
+      counter.dispatch(updateMonitoringsSuccess(response));
     }
   } catch (error) {
-    dispatch(updateMonitoringFail(error));
+    dispatch(updateMonitoringsFail(error));
   }
 };
 
 /**
- * get monitoring
+ * Update monitorings success
  *
  * @param response
  *
  */
-const updateMonitoringSuccess = (response) => (dispatch) => {
-  // dispatching get monitoring success
+const updateMonitoringsSuccess = (response) => (dispatch) => {
+  // dispatching get monitorings success
   dispatch({
-    type: actionTypes.UPDATE_MONITORING_SUCCESS,
-    monitoringItem: response.data,
+    type: actionTypes.UPDATE_MONITORINGS_SUCCESS,
+    monitoringsItem: response.data,
   });
 };
 
 /**
- * get monitoring
+ * Update monitorings fail
  *
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const updateMonitoringFail = (error) => (dispatch) => {
+const updateMonitoringsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
-  // dispatching get monitoring fail
+  // dispatching get monitorings fail
   dispatch({
-    type: actionTypes.UPDATE_MONITORING_FAIL,
+    type: actionTypes.UPDATE_MONITORINGS_FAIL,
     errorMessage,
   });
   message.error(errorMessage);
 };
 
-export const deleteMonitoring = (projectId) => async (dispatch, getState) => {
+/**
+ *Delete monitorings
+ *
+ * @param {string} projectId
+ * @param {string} monitoringId
+ */
+export const deleteMonitorings = (projectId, monitoringId) => async (
+  dispatch,
+  getState
+) => {
   const { counter } = getState();
 
   dispatch({
-    type: actionTypes.DELETE_MONITORING_REQUEST,
+    type: actionTypes.DELETE_MONITORINGS_REQUEST,
   });
   try {
-    const response = await monitoringApi.deleteMonitoring(projectId);
+    const response = await monitoringsApi.deleteMonitorings(
+      projectId,
+      monitoringId
+    );
     if (response) {
-      counter.dispatch(deleteMonitoringSucess(response));
+      counter.dispatch(deleteMonitoringsSucess(response));
     }
   } catch (error) {
-    dispatch(deleteMonitoringFail(error));
+    dispatch(deleteMonitoringsFail(error));
   }
 };
 
 /**
- * get monitoring success
+ * delete monitorings success
  *
  * @param {object} response
  */
-const deleteMonitoringSucess = (response) => (dispatch) => {
-  // dispatching get monitoring success
+const deleteMonitoringsSucess = (response) => (dispatch) => {
+  // dispatching get monitorings success
   dispatch({
-    type: actionTypes.DELETE_MONITORING_SUCCESS,
+    type: actionTypes.DELETE_MONITORINGS_SUCCESS,
     monitoringItem: response.data,
   });
 };
 
 /**
- * get monitoring
+ * delete monitorings fail
  *
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const deleteMonitoringFail = (error) => (dispatch) => {
+const deleteMonitoringsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
-  // dispatching get monitoring fail
+  // dispatching get monitorings fail
   dispatch({
-    type: actionTypes.UPDATE_MONITORING_FAIL,
+    type: actionTypes.UPDATE_MONITORINGS_FAIL,
     errorMessage,
   });
   message.error(errorMessage);

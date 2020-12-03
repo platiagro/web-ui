@@ -3,30 +3,30 @@ import axios from 'axios';
 
 // CONSTANTS
 const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
-const monitoringApi = axios.create({
+const monitoringsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
 
-const requestMonitoring = (projectId) => {
-  return monitoringApi.get(`${projectId}/monitorings`);
+const requestMonitorings = (projectId) => {
+  return monitoringsApi.get(`${projectId}/monitorings`);
 };
 
-const postMonitoring = (projectId, body) => {
-  return monitoringApi.post(`${projectId}/monitorings`, body);
+const postMonitorings = (projectId, body) => {
+  return monitoringsApi.post(`${projectId}/monitorings`, body);
 };
 
-const putMonitoring = (projectId, monitoringId, body) => {
-  return monitoringApi.put(`${projectId}/monitorings/${monitoringId}`, body);
+const putMonitorings = (projectId, monitoringId, body) => {
+  return monitoringsApi.put(`${projectId}/monitorings/${monitoringId}`, body);
 };
 
-const deleteMonitoring = (projectId) => {
-  return monitoringApi.delete(`${projectId}`);
+const deleteMonitorings = (projectId, monitoringId) => {
+  return monitoringsApi.delete(`${projectId}/monitorings/${monitoringId}`);
 };
 
 // EXPORT DEFAULT
 export default {
-  requestMonitoring,
-  deleteMonitoring,
-  putMonitoring,
-  postMonitoring,
+  requestMonitorings,
+  deleteMonitorings,
+  putMonitorings,
+  postMonitorings,
 };
