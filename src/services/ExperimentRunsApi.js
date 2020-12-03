@@ -25,6 +25,20 @@ const fetchExperimentRuns = (projectId, experimentId) => {
 };
 
 /**
+ * Fetch Experiment Run Status
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentId Experiment UUID
+ * @param {string} runId Run UUID
+ * @returns {Promise} Request Promise
+ */
+const fetchExperimentRunStatus = (projectId, experimentId, runId) => {
+  return pipelinesApi.get(
+    `${projectId}/${experimentsPath}/${experimentId}/runs/${runId}`
+  );
+};
+
+/**
  * Create Experiment Run
  *
  * @param {string} projectId Project UUID
@@ -151,6 +165,7 @@ const fetchOperatorLogs = (projectId, experimentId, runId, operatorId) => {
 // EXPORT DEFAULT
 export default{ 
   fetchExperimentRuns,
+  fetchExperimentRunStatus,
   createExperimentRun,
   deleteExperimentRun,
   detailExperimentRun,
