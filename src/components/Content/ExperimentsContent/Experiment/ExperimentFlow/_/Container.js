@@ -7,22 +7,22 @@ import { useParams } from 'react-router-dom';
 import ExperimentFlow from './index';
 
 // ACTIONS
-import { selectOperator } from '../../../../../../store/operator/actions';
-import { getTrainExperimentStatusRequest } from '../../../../../../store/pipelines/actions';
 import {
+  selectOperator,
   deselectOperator,
   saveOperatorPosition,
   saveOperatorDependencies,
 } from '../../../../../../store/operator/actions';
 import { useStoreState } from 'react-flow-renderer';
+import { getExperimentRunStatusRequest } from 'store/experiments/experimentRuns/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     handleShowOperatorDetails: (projectId, experimentId, operator, page) =>
       dispatch(selectOperator(projectId, experimentId, operator, page)),
-    handleGetTrainExperimentStatus: (projectId, experimentId) =>
-      dispatch(getTrainExperimentStatusRequest(projectId, experimentId)),
+    handleGetExperimentRunStatus: (projectId, experimentId) =>
+      dispatch(getExperimentRunStatusRequest(projectId, experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),
     handleSaveOperatorPosition: (
       projectId,
@@ -56,7 +56,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     operators: state.operatorsReducer,
-    datasetName: state.experimentReducer.dataset,
     loading: state.uiReducer.experimentOperators.loading,
     arrowConfigs: state.uiReducer.operatorsDependencies,
   };
@@ -72,7 +71,7 @@ const ExperimentFlowContainer = ({
   loading,
   arrowConfigs,
   handleShowOperatorDetails,
-  handleGetTrainExperimentStatus,
+  handleGetExperimentRunStatus,
   handleDeselectOperator,
   handleSaveOperatorPosition,
   handleSaveOperatorDependencies,
@@ -85,7 +84,7 @@ const ExperimentFlowContainer = ({
   useEffect(() => {
     // polling experiment status
     const polling = setInterval(
-      () => handleGetTrainExperimentStatus(projectId, experimentId),
+      () => handleGetExperimentRunStatus(projectId, experimentId),
       5000
     );
     return () => clearInterval(polling);

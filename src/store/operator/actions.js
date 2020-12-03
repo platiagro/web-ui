@@ -6,7 +6,7 @@ import actionTypes from './actionTypes';
 // SERVICES
 import DatasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
-import pipelinesApi from 'services/PipelinesApi';
+import experimentRunsApi from 'services/ExperimentRunsApi'
 
 // UI LIB
 import { message } from 'antd';
@@ -45,6 +45,9 @@ import utils from 'utils';
 // ACTIONS
 /**
  * Download operator result dataset
+ *
+ * @param experimentId
+ * @param operatorId
  */
 export const downloadOperatorResultDataset = (
   experimentId,
@@ -60,8 +63,8 @@ export const downloadOperatorResultDataset = (
   let page = 1;
   let operatorDatasetResponse;
   do {
-    operatorDatasetResponse = await pipelinesApi
-      .getOperatorDataset(experimentId, 'latest', operatorId, page, 100)
+    operatorDatasetResponse = await experimentRunsApi
+      .listOperatorDatasets(experimentId, 'latest', operatorId, page, 100)
       .then((response) => {
         if (response) {
           return response.data;
@@ -90,6 +93,10 @@ export const downloadOperatorResultDataset = (
  * @param {object} responseFigure
  * @param {object} responseTable
  * @param {string} operatorId
+ * @param page
+ * @param pageSize
+ * @param page
+ * @param pageSize
  * @returns {object} { type, results }
  */
 const getOperatorResultsSuccess = (
@@ -181,14 +188,15 @@ const getLogsFail = (error) => (dispatch) => {
 /**
  * Get operator logs
  *
+ * @param projectId
  * @param {string} experimentId
  * @param {string} operatorId
  */
 export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
   dispatch
 ) => {
-  pipelinesApi
-    .getOperatorLog(projectId, experimentId, 'latest', operatorId)
+  experimentRunsApi
+    .fetchOperatorLogs(projectId, experimentId, 'latest', operatorId)
     .then((res) => {
       dispatch(getLogsSuccess(res));
     })
@@ -200,10 +208,12 @@ export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
 /**
  * Get operator results request
  *
+ * @param projectId
  * @param {string} experimentId
  * @param {string} runId
  * @param {string} operatorId
  * @param page
+ * @param pageSize
  */
 export const getOperatorResultsRequest = (
   projectId,
@@ -218,11 +228,11 @@ export const getOperatorResultsRequest = (
   });
   dispatch(operatorResultsLoadingData());
 
-  pipelinesApi
-    .getOperatorFigures(projectId, experimentId, runId, operatorId)
+  experimentRunsApi
+    .listOperatorFigures(projectId, experimentId, runId, operatorId)
     .then((responseFigure) => {
-      pipelinesApi
-        .getOperatorDataset(projectId, experimentId, runId, operatorId, page)
+      experimentRunsApi
+        .listOperatorDatasets(projectId, experimentId, runId, operatorId, page)
         .then((responseTable) => {
           dispatch(
             getOperatorResultsSuccess(
@@ -244,6 +254,11 @@ export const getOperatorResultsRequest = (
 
 /**
  * Get operator result dataset
+ *
+ * @param experimentId
+ * @param operatorId
+ * @param page
+ * @param pageSize
  */
 export const getOperatorResultDataset = (
   experimentId,
@@ -254,8 +269,8 @@ export const getOperatorResultDataset = (
   dispatch({
     type: actionTypes.GET_OPERATOR_DATASET_RESULT_REQUEST,
   });
-  pipelinesApi
-    .getOperatorDataset(experimentId, 'latest', operatorId, page, pageSize)
+  experimentRunsApi
+    .listOperatorDatasets(experimentId, 'latest', operatorId, page, pageSize)
     .then((responseTable) => {
       let result = null;
       if (responseTable) {
@@ -305,8 +320,8 @@ export const getOperatorMetricsRequest = (
   });
   dispatch(operatorMetricsLoadingData());
 
-  pipelinesApi
-    .getOperatorMetrics(projectId, experimentId, runId, operatorId)
+  experimentRunsApi
+    .listOperatorMetrics(projectId, experimentId, runId, operatorId)
     .then((response) => {
       dispatch({
         type: actionTypes.GET_OPERATOR_METRICS_SUCCESS,
@@ -327,8 +342,10 @@ export const getOperatorMetricsRequest = (
 /**
  * select operator action
  *
+ * @param projectId
  * @param {string} experimentId
  * @param {object} operator
+ * @param page
  */
 export const selectOperator = (projectId, experimentId, operator, page) => (
   dispatch,

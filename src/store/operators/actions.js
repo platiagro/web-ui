@@ -7,7 +7,7 @@ import actionTypes from './actionTypes';
 // SERVICES
 import operatorsApi from '../../services/OperatorsApi';
 import datasetsApi from '../../services/DatasetsApi';
-import pipelinesApi from '../../services/PipelinesApi';
+import experimentRunsApi from '../../services/ExperimentRunsApi';
 import tasksApi from '../../services/TasksApi';
 
 // UI ACTIONS
@@ -20,8 +20,8 @@ import {
   experimentsTabsDataLoaded,
 } from '../ui/actions';
 
-// PIPELINES ACTIONS
-import { getTrainExperimentStatusRequest } from '../pipelines/actions';
+// EXPERIMENT RUNS ACTIONS
+import { getExperimentRunStatusRequest } from '../experiments/experimentRuns/actions';
 
 // UTILS
 import utils from '../../utils';
@@ -33,6 +33,7 @@ import utils from '../../utils';
  *
  * @param {object} response
  * @param operators
+ * @param projectId
  * @param experimentId
  * @param operators
  * @param experimentId
@@ -48,7 +49,7 @@ const fetchOperatorsSuccess = (operators, projectId, experimentId) => (
   dispatch(experimentsTabsDataLoaded());
 
   // dispatching get training experiment status request action
-  dispatch(getTrainExperimentStatusRequest(projectId, experimentId));
+  dispatch(getExperimentRunStatusRequest(projectId, experimentId));
 
   // dispatching fetch operators success action
   dispatch({
@@ -87,12 +88,13 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  *
  * @param {string} projectId
  * @param {string} experimentId
- * @param {string} datasetName
  * @returns {Function}
  */
 export const fetchOperatorsRequest = (projectId, experimentId) => async (
   dispatch
 ) => {
+
+  console.log('BBBB')
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_OPERATORS_REQUEST,
@@ -127,7 +129,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     }
 
     // gettins pipelines status
-    const pipelinesResponse = await pipelinesApi.getTrainExperimentStatus(
+    const pipelinesResponse = await experimentRunsApi.fetchExperimentRuns(
       projectId,
       experimentId,
       experimentId

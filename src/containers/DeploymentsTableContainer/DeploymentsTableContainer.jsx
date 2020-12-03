@@ -9,19 +9,20 @@ import DeploymentsTable from 'components/Content/ProjectDetailsContent/Deploymen
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
-  fetchDeployedExperiments,
-  deleteDeployedExperiment,
+  fetchDeploymentsRequest,
+  deleteDeploymentRequest
 } from 'store/deployments/actions';
+
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleDeleteDeployedExperiment: (projectId, deployId) =>
-      dispatch(deleteDeployedExperiment(projectId, deployId)),
-    handleFetchDeployedExperiments: (projectId, experiments, isToShowLoader) =>
+    handleDeleteDeployment: (projectId, deploymentId) =>
+      dispatch(deleteDeploymentRequest(projectId, deploymentId)),
+    handleFetchDeployments: (projectId, isToShowLoader) =>
       dispatch(
-        fetchDeployedExperiments(projectId, experiments, isToShowLoader)
+        fetchDeploymentsRequest(projectId, isToShowLoader)
       ),
     handleGetDeployExperimentLogs: (projectId, deployId) =>
       dispatch(getDeployExperimentLogs(projectId, deployId)),
@@ -41,14 +42,15 @@ const mapStateToProps = (state) => {
 
 /**
  * Container to display deployments table.
+ *
  * @param {object} props Container props
  * @returns {DeploymentsTableContainer} Container
  */
 const DeploymentsTableContainer = (props) => {
   const {
     deployments,
-    handleDeleteDeployedExperiment,
-    handleFetchDeployedExperiments,
+    handleDeleteDeployment,
+    handleFetchDeployments,
     handleGetDeployExperimentLogs,
     handleTestImplantedExperimentInference,
     loading,
@@ -56,26 +58,26 @@ const DeploymentsTableContainer = (props) => {
   } = props;
   const { projectId } = useParams();
 
-  let experiments = [];
-  if (projectId === project.uuid) {
-    experiments = project.experiments;
-  }
+  // let experiments = [];
+  // if (projectId === project.uuid) {
+  //   experiments = project.experiments;
+  // }
 
   // HOOKS
   useEffect(() => {
     // fetching deployed experiments
-    handleFetchDeployedExperiments(projectId, experiments, true);
+    handleFetchDeployments(projectId, true);
 
     // polling deployed experiments
     const polling = setInterval(
-      () => handleFetchDeployedExperiments(projectId, experiments, false),
+      () => handleFetchDeployments(projectId, false),
       30000
     );
     return () => clearInterval(polling);
-  }, [experiments, handleFetchDeployedExperiments, projectId]);
+  }, [handleFetchDeployments, projectId]);
 
-  const handleDeleteDeployment = (deployId) => {
-    handleDeleteDeployedExperiment(projectId, deployId);
+  const deleteDeployment = (deployId) => {
+    handleDeleteDeployment(projectId, deployId);
   };
 
   const handleOpenLog = (deployId) => {
@@ -87,7 +89,7 @@ const DeploymentsTableContainer = (props) => {
       <DeploymentsTable
         deployments={deployments}
         loading={loading}
-        onDeleteDeployment={handleDeleteDeployment}
+        onDeleteDeployment={deleteDeployment}
         onOpenLog={handleOpenLog}
         onTestInference={handleTestImplantedExperimentInference}
       />

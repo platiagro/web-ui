@@ -1,7 +1,7 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import projectActionTypes from '../project/actionTypes';
-import experimentActionTypes from '../experiment/actionTypes';
+import experimentActionTypes from '../experiments/actionTypes';
 
 // INITIAL STATE
 const initialState = {
