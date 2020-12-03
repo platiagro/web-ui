@@ -32,7 +32,7 @@ const testDeployedExperiments = (url, file) => {
   const form = new FormData();
   form.append('url', url);
   form.append('file', file);
-  return seldonApi.post(`deployments/seldon/test`, form);
+  return seldonApi.post(`uu878/deployments/ii89/runs/seldon/test`, form);
 };
 
 // EXPORT DEFAULT
