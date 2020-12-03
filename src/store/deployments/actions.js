@@ -6,10 +6,12 @@ import actionTypes from './actionTypes';
 
 // SERVICE
 import deploymentsApi from 'services/DeploymentsApi';
+import deploymentsRunsApi from 'services/DeploymentRunsApi';
 
 // UI ACTIONS
 import {
-  implantedExperimentsLoadingData
+  implantedExperimentsLoadingData,
+  implantedExperimentsDataLoaded,
 } from 'store/ui/actions';
 
 // ACTIONS
@@ -322,115 +324,34 @@ export const clearAllDeployments = () => (dispatch) => {
   });
 };
 
-export const fetchDeploymentsRequest = (projectId) => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
-  dispatch({
-    type: actionTypes.FETCH_DEPLOYMENTS_REQUEST,
-  });
+/** FIXME: Temporary solution to get all deployments runs
+ * 
+ * On future need to be substituted by data normalization
+ * on deployment reducer 
+ */
 
-  deploymentsApi
-    .listDeployments(projectId)
-    .then((response) => {
-      dispatch(implantedExperimentsDataLoaded());
+export const fetchAllDeploymentsRuns = (
+  projectId,
+  experiments,
+  isToShowLoader
+) => async (dispatch) => {
+  if (isToShowLoader) {
+    dispatch(implantedExperimentsLoadingData());
+  }
 
-      //On success
-      dispatch({
-        type: actionTypes.FETCH_DEPLOYMENTS_SUCCESS,
-        deployments: response,
-      });
-    })
-    .catch((error) => {
-      dispatch(implantedExperimentsDataLoaded());
+  const deployments = [];
 
-      //On fail
-      dispatch({
-        type: actionTypes.FETCH_DEPLOYMENTS_FAIL,
-      });
-      message.error(getErrorMessage(error));
-    });
-};
+  if (experiments && experiments.length > 0) {
+    for (const experiment of experiments) {
+      await deploymentsRunsApi
+        .fetchDeploymentRuns(projectId, experiment.uuid)
+        .then((response) => {
+          deployments.push(response.data);
+        })
+        .catch((error) => {});
+    }
+  }
+  dispatch(implantedExperimentsDataLoaded());
 
-export const createDeploymentsRequest = (projectId, body) => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
-  dispatch({
-    type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
-  });
-
-  deploymentsApi
-    .createDeployment(projectId, body)
-    .then((response) => {
-      dispatch(implantedExperimentsDataLoaded());
-
-      //On success
-      dispatch({
-        type: actionTypes.CREATE_DEPLOYMENT_SUCCESS,
-      });
-    })
-    .catch((error) => {
-      dispatch(implantedExperimentsDataLoaded());
-
-      //On fail
-      dispatch({
-        type: actionTypes.CREATE_DEPLOYMENT_FAIL,
-      });
-      message.error(getErrorMessage(error));
-    });
-};
-
-export const deleteDeploymentRequest = (projectId, deploymentId) => (
-  dispatch
-) => {
-  dispatch(implantedExperimentsLoadingData());
-  dispatch({
-    type: actionTypes.DELETE_DEPLOYMENT_REQUEST,
-  });
-
-  deploymentsApi
-    .deleteDeployment(projectId, deploymentId)
-    .then((response) => {
-      dispatch(implantedExperimentsDataLoaded());
-
-      //On success
-      dispatch({
-        type: actionTypes.DELETE_DEPLOYMENT_SUCCESS,
-      });
-    })
-    .catch((error) => {
-      dispatch(implantedExperimentsDataLoaded());
-
-      //On fail
-      dispatch({
-        type: actionTypes.DELETE_DEPLOYMENT_FAIL,
-      });
-      message.error(getErrorMessage(error));
-    });
-};
-
-export const updateDeployment = (projectId, deploymentId, body) => (
-  dispatch
-) => {
-  dispatch(implantedExperimentsLoadingData());
-  dispatch({
-    type: actionTypes.UPDATE_DEPLOYMENT_REQUEST,
-  });
-
-  deploymentsApi
-    .updateDeployment(projectId, deploymentId, body)
-    .then((response) => {
-      dispatch(implantedExperimentsDataLoaded());
-
-      //On success
-      dispatch({
-        type: actionTypes.UPDATE_DEPLOYMENT_SUCCESS,
-      });
-    })
-    .catch((error) => {
-      dispatch(implantedExperimentsDataLoaded());
-
-      //On fail
-      dispatch({
-        type: actionTypes.UPDATE_DEPLOYMENT_FAIL,
-      });
-      message.error(getErrorMessage(error));
-    });
+  return deployments;
 };

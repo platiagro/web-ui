@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
@@ -9,8 +9,8 @@ import DeploymentsTable from 'components/Content/ProjectDetailsContent/Deploymen
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
-  fetchDeploymentsRequest,
-  deleteDeploymentRequest
+  deleteDeploymentRequest,
+  fetchAllDeploymentsRuns
 } from 'store/deployments/actions';
 
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
@@ -18,12 +18,11 @@ import { testImplantedExperimentInferenceAction } from 'store/testExperimentInfe
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
+    handleFetchDeploymentsRuns: (projectId, experiments, isToShowLoader) => {
+      return dispatch(fetchAllDeploymentsRuns(projectId, experiments, isToShowLoader))
+    },
     handleDeleteDeployment: (projectId, deploymentId) =>
       dispatch(deleteDeploymentRequest(projectId, deploymentId)),
-    handleFetchDeployments: (projectId, isToShowLoader) =>
-      dispatch(
-        fetchDeploymentsRequest(projectId, isToShowLoader)
-      ),
     handleGetDeployExperimentLogs: (projectId, deployId) =>
       dispatch(getDeployExperimentLogs(projectId, deployId)),
     handleTestImplantedExperimentInference: (deployId, file) =>
@@ -34,7 +33,6 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    deployments: state.deploymentsReducer,
     loading: state.uiReducer.implantedExperiments.loading,
     project: state.projectReducer,
   };
@@ -48,9 +46,8 @@ const mapStateToProps = (state) => {
  */
 const DeploymentsTableContainer = (props) => {
   const {
-    deployments,
+    handleFetchDeploymentsRuns,
     handleDeleteDeployment,
-    handleFetchDeployments,
     handleGetDeployExperimentLogs,
     handleTestImplantedExperimentInference,
     loading,
@@ -58,23 +55,36 @@ const DeploymentsTableContainer = (props) => {
   } = props;
   const { projectId } = useParams();
 
-  // let experiments = [];
-  // if (projectId === project.uuid) {
-  //   experiments = project.experiments;
-  // }
+  let experiments = [];
+  if (projectId === project.uuid) {
+    experiments = project.experiments;
+  }
+
+  const [deployments, setDeployments] = useState([]);
+
+  const handleFetchAllDeploymentsRuns = async (isToShowLoader) => {
+    const deploymentsRuns = await handleFetchDeploymentsRuns(
+      projectId,
+      experiments,
+      isToShowLoader
+    );
+
+    setDeployments(deploymentsRuns);
+  }
 
   // HOOKS
   useEffect(() => {
     // fetching deployed experiments
-    handleFetchDeployments(projectId, true);
+    handleFetchAllDeploymentsRuns(true);
 
     // polling deployed experiments
     const polling = setInterval(
-      () => handleFetchDeployments(projectId, false),
+      () =>
+      handleFetchAllDeploymentsRuns(false),
       30000
     );
     return () => clearInterval(polling);
-  }, [handleFetchDeployments, projectId]);
+  }, [projectId]);
 
   const deleteDeployment = (deployId) => {
     handleDeleteDeployment(projectId, deployId);

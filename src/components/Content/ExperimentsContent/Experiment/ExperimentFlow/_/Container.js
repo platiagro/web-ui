@@ -8,14 +8,13 @@ import ExperimentFlow from './index';
 
 // ACTIONS
 
-import { selectOperator } from 'store/operator/actions';
-
 import {
   selectOperator,
   deselectOperator,
   saveOperatorPosition,
-  saveOperatorDependencies,
+  saveOperatorDependencies
 } from 'store/operator/actions';
+
 import { useStoreState } from 'react-flow-renderer';
 import { getExperimentRunStatusRequest } from 'store/experiments/experimentRuns/actions';
 

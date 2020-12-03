@@ -93,8 +93,6 @@ const fetchOperatorsFail = (error) => (dispatch) => {
 export const fetchOperatorsRequest = (projectId, experimentId) => async (
   dispatch
 ) => {
-
-  console.log('BBBB')
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_OPERATORS_REQUEST,

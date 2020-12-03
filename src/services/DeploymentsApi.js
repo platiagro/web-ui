@@ -110,27 +110,6 @@ const testDeployment = (id, body) => {
   );
 };
 
-const listDeployments = (projectsId) => {
-  return pipelinesApi.get(`${projectsId}/${deploymentsPath}`);
-};
-
-const createDeployment = (projectsId, body) => {
-  return pipelinesApi.post(`${projectsId}/${deploymentsPath}`, body);
-};
-
-const updateDeployment = (projectsId, deploymentId, body) => {
-  return pipelinesApi.patch(
-    `${projectsId}/${deploymentsPath}/${deploymentId}`,
-    body
-  );
-};
-
-const deleteDeployment = (projectsId, deploymentId) => {
-  return pipelinesApi.delete(
-    `${projectsId}/${deploymentsPath}/${deploymentId}`
-  );
-};
-
 // EXPORT DEFAULT
 export default {
   listDeployments,
