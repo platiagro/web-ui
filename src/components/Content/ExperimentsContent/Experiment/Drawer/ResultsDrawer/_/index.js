@@ -9,7 +9,6 @@ import { Empty, Spin, Tabs } from 'antd';
 
 // COMPONENTS
 import { CommonTable } from 'components';
-import TagResult from '../TagResult';
 import TableResult from '../TableResult';
 import PlotResult from '../PlotResult';
 import MetricsTitle from './MetricsTitle';
@@ -20,20 +19,37 @@ import { DownloadOperatorDatasetContainer } from 'containers';
 // STYLES
 import './ResultsDrawer.less';
 
-// DESTRUCTURING TABS
 const { TabPane } = Tabs;
 
-// RESULTS TYPES
-const resultsTypes = {
-  // tag
-  tag: ({ uuid, ...props }) => <TagResult key={uuid} {...props} />,
-  // table
-  table: ({ uuid, ...props }, onPageChange) => (
-    <TableResult key={uuid} onPageChange={onPageChange} {...props} />
-  ),
-  // plot
-  plot: ({ uuid, ...props }) => <PlotResult key={uuid} {...props} />,
-};
+const metricsColumns = [
+  {
+    title: 'Métrica',
+    dataIndex: 'metrica',
+    key: 'metrica',
+    render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
+  },
+  {
+    title: 'Valor',
+    dataIndex: 'valor',
+    key: 'valor',
+    render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
+  },
+];
+
+const parametersColumns = [
+  {
+    title: 'Parâmetro',
+    dataIndex: 'name',
+    key: 'parameter',
+    render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
+  },
+  {
+    title: 'Valor',
+    dataIndex: 'value',
+    key: 'value',
+    render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
+  },
+];
 
 /**
  * Results Drawer.
@@ -44,18 +60,20 @@ const resultsTypes = {
  */
 const ResultsDrawer = (props) => {
   const {
+    dataset,
+    datasetScroll,
+    figures,
     isToShowDownloadButtons,
     loading,
     metrics,
     metricsLoading,
     onDatasetPageChange,
     parameters,
-    results,
     resultsTabStyle,
     scroll,
   } = props;
-  // metrics data source
-  const dataSource = metrics.map((element, i) => {
+
+  const metricsDataSource = metrics.map((element, i) => {
     const objectKey = Object.keys(element)[0];
     const objectValor = element[objectKey];
     const obj = {
@@ -66,54 +84,51 @@ const ResultsDrawer = (props) => {
     return obj;
   });
 
-  // metrics columns
-  const columns = [
-    {
-      title: 'Métrica',
-      dataIndex: 'metrica',
-      key: 'metrica',
-      render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
-    },
-    {
-      title: 'Valor',
-      dataIndex: 'valor',
-      key: 'valor',
-      render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
-    },
-  ];
-
-  // parameters columns
-  const parametersColumns = [
-    {
-      title: 'Parâmetro',
-      dataIndex: 'name',
-      key: 'parameter',
-      render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
-    },
-    {
-      title: 'Valor',
-      dataIndex: 'value',
-      key: 'value',
-      render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
-    },
-  ];
+  const hasResult =
+    figures.length > 0 ||
+    metrics.length > 0 ||
+    parameters.length > 0 ||
+    dataset;
 
   return (
     <div className='resultsDrawer'>
       {loading ? (
         <Spin indicator={<LoadingOutlined />} />
-      ) : results.length > 0 || metrics.length > 0 || parameters.length > 0 ? (
+      ) : hasResult ? (
         <>
           <Tabs defaultActiveKey='1'>
-            {/* results */}
-            <TabPane tab='Resultados' key='1'>
-              <div style={resultsTabStyle}>
-                {results.map((result) => (
-                  <div className='tab-content' key={result.uuid}>
-                    {resultsTypes[result.type](result, onDatasetPageChange)}
+            {/* figures */}
+            {figures.map((result, i) => {
+              const index = i + 1;
+              return (
+                <TabPane tab={`Figura ${index}`} key={index}>
+                  <div style={resultsTabStyle}>
+                    <div className='tab-content'>
+                      <PlotResult key={result.uuid} plotUrl={result.plotUrl} />
+                    </div>
                   </div>
-                ))}
-              </div>
+                </TabPane>
+              );
+            })}
+
+            {/* dataset */}
+            <TabPane
+              tab={<span>Dataset</span>}
+              key={figures.length + 1}
+              disabled={dataset ? false : true}
+            >
+              {dataset ? (
+                <TableResult
+                  columns={dataset.columns}
+                  currentPage={dataset.currentPage}
+                  key={dataset.uuid}
+                  onPageChange={onDatasetPageChange}
+                  pageSize={dataset.pageSize}
+                  rows={dataset.rows}
+                  scroll={datasetScroll}
+                  total={dataset.total}
+                />
+              ) : null}
               {isToShowDownloadButtons ? (
                 <DownloadOperatorDatasetContainer />
               ) : null}
@@ -122,13 +137,13 @@ const ResultsDrawer = (props) => {
             {/* metrics */}
             <TabPane
               tab={<MetricsTitle loading={metricsLoading} />}
-              key='2'
+              key={figures.length + 2}
               disabled={metrics.length <= 0}
             >
               <CommonTable
                 bordered
-                columns={columns}
-                dataSource={dataSource}
+                columns={metricsColumns}
+                dataSource={metricsDataSource}
                 isLoading={false}
                 rowKey={() => {
                   return uuidv4();
@@ -140,7 +155,7 @@ const ResultsDrawer = (props) => {
             {/* parameters */}
             <TabPane
               tab={<span>Parâmetros</span>}
-              key='3'
+              key={figures.length + 3}
               disabled={parameters.length <= 0}
             >
               <CommonTable
@@ -168,6 +183,12 @@ const ResultsDrawer = (props) => {
 
 // PROP TYPES
 ResultsDrawer.propTypes = {
+  /** Dataset result  */
+  dataset: PropTypes.object,
+  /** Dataset scroll config */
+  datasetScroll: PropTypes.object,
+  /** Figures list  */
+  figures: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Show download buttons */
   isToShowDownloadButtons: PropTypes.bool,
   /** Results drawer is loading */
@@ -178,10 +199,6 @@ ResultsDrawer.propTypes = {
   metricsLoading: PropTypes.bool.isRequired,
   /** Training parameters */
   parameters: PropTypes.arrayOf(PropTypes.object),
-  /** Results list */
-  results: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** CSS style for results tab */
-  resultsTabStyle: PropTypes.object,
   /** Table scroll config */
   scroll: PropTypes.object,
 };

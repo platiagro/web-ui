@@ -76,7 +76,7 @@ Button.propTypes = {
   /** Button icon node content */
   icon: PropTypes.node,
   /** Button click handler */
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
   /** Button is loading */
   isLoading: PropTypes.bool.isRequired,
   /** Button is disabled */

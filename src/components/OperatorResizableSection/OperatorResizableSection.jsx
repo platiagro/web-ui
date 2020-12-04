@@ -21,8 +21,6 @@ import OperatorLogBlock from 'components/LogBlock';
  * // operator name
  * const operatorName = 'Component Test';
  *
- * // operator experiment results
- * const operatorResults = [];
  *
  * // operator is a dataset operator
  * const operatorIsDataset = false;
@@ -41,7 +39,6 @@ import OperatorLogBlock from 'components/LogBlock';
  *  <div style={{ width: '300px', height: '900px'}}>
  *    <OperatorResizableSection
  *      operatorName={operatorName}
- *      operatorResults={operatorResults}
  *      operatorIsDataset={operatorIsDataset}
  *      experimentIsFinished={experimentIsFinished}
  *      handleShowResultsClick={handleShowResultsClick}
@@ -56,8 +53,6 @@ const OperatorResizableSection = (props) => {
   const {
     // operator name
     operatorName,
-    // operator experiment results
-    operatorResults,
     // operator is a dataset operator
     operatorIsDataset,
     // operator parent experiment is finished
@@ -122,12 +117,7 @@ const OperatorResizableSection = (props) => {
               handleResultsClick={handleShowResultsClick}
               // always show results button
               showingResults={false}
-              disabled={
-                !operatorResults ||
-                (!experimentIsFinished &&
-                  operatorResults &&
-                  operatorResults.lenght <= 0)
-              }
+              disabled={!experimentIsFinished}
             />
           )}
 
@@ -157,8 +147,6 @@ const OperatorResizableSection = (props) => {
 OperatorResizableSection.propTypes = {
   /** Operator name */
   operatorName: PropTypes.string.isRequired,
-  /** Operator experiment results */
-  operatorResults: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Operator is a dataset operator */
   operatorIsDataset: PropTypes.bool.isRequired,
   /** Operator parent experiment is finished */
@@ -170,7 +158,7 @@ OperatorResizableSection.propTypes = {
   /** Operator status */
   operatorStatus: PropTypes.string,
   /** Operator logs */
-  operatorLogs: PropTypes.string,
+  operatorLogs: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };
 
 // DEFAULT PROPS

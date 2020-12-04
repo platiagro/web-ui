@@ -9,10 +9,9 @@ const pipelinesApi = axios.create({
 const deployPath = 'deployments';
 const experimentPath = 'experiments';
 
-const trainExperiment = (projectId, experimentId, trainObject) => {
+const trainExperiment = (projectId, experimentId) => {
   return pipelinesApi.post(
-    `${projectId}/${experimentPath}/${experimentId}/runs`,
-    trainObject
+    `${projectId}/${experimentPath}/${experimentId}/runs`
   );
 };
 
@@ -22,10 +21,9 @@ const getTrainExperimentStatus = (projectId, experimentId, runId) => {
   );
 };
 
-const deployExperiment = (projectId, experimentId, deployObject) => {
+const deployExperiment = (projectId, experimentId) => {
   return pipelinesApi.post(
-    `${projectId}/${deployPath}/${experimentId}/runs?experimentDeploy=true`,
-    deployObject
+    `${projectId}/${deployPath}/${experimentId}/runs?experimentDeploy=true`
   );
 };
 
@@ -40,10 +38,11 @@ const getOperatorDataset = (
   experimentId,
   runId,
   operatorId,
-  page
+  page,
+  pageSize
 ) => {
   return pipelinesApi.get(
-    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=10`
+    `${projectId}/${experimentPath}/${experimentId}/runs/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=${pageSize}`
   );
 };
 

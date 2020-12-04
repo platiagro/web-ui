@@ -96,11 +96,13 @@ const DeploymentsTable = (props) => {
       render: (value, record) => (
         <>
           <UploadInferenceTestButton
+            disabled={record.status === 'Failed' || record.status === 'Running'}
             handleUpload={(file) => onTestInference(record.url, file)}
           />{' '}
           <Divider type='vertical' />
           <Tooltip placement='bottom' title='Ver logs'>
             <Button
+              disabled={record.status === 'Running'}
               onClick={() => onOpenLog(record.experimentId)}
               size='large'
               style={{ padding: 0 }}

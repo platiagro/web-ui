@@ -27,10 +27,10 @@ const FlowDrop = () => {
 
 // PROP TYPES
 FlowDrop.propTypes = {
-  canDrop: PropTypes.bool.isRequired,
-  isOver: PropTypes.bool.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
-  handleDeselectOperator: PropTypes.func.isRequired,
+  canDrop: PropTypes.bool,
+  isOver: PropTypes.bool,
+  connectDropTarget: PropTypes.func,
+  handleDeselectOperator: PropTypes.func,
 };
 
 export default FlowDrop;

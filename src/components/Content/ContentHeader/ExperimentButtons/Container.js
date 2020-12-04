@@ -14,10 +14,8 @@ import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleDeployExperiment: (project, experiment, operators) =>
-      dispatch(
-        deployExperimentRequest(project, experiment, operators, routerProps)
-      ),
+    handleDeployExperiment: (project, experiment) =>
+      dispatch(deployExperimentRequest(project, experiment, routerProps)),
     handleFetchExperimentDeployStatus: (projectId, experimentId) =>
       dispatch(fetchExperimentDeployStatusRequest(projectId, experimentId)),
     handleCompareResultsClick: () => {
@@ -77,7 +75,7 @@ const ExperimentButtonsContainer = ({
 
   // HANDLERS
   const handleDeploymentClick = () =>
-    handleDeployExperiment(project, experiment, operators);
+    handleDeployExperiment(project, experiment);
 
   // RENDER
   return (
