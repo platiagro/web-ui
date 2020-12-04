@@ -4,8 +4,6 @@ import ReactFlow, { Background } from 'react-flow-renderer';
 import LoadingBox from 'components/LoadingBox';
 import PropTypes from 'prop-types';
 
-import './DeploymentFlow.style.less';
-
 /**
  * Fluxo de pré-implantação/implantação.
  */
@@ -19,7 +17,7 @@ function DeploymentFlow(props) {
       return {
         id: arrowId,
         target: component.uuid,
-        source: arrow,        
+        source: arrow,
       };
     });
 
@@ -44,29 +42,29 @@ function DeploymentFlow(props) {
   };
 
   //TODO: Trocar log por salvar posição do card
-  const handleDragStop = (_, task) =>
+  const handleDragStop = (event, task) =>
     console.log(task.id, task.position);
- 
-  return  loading ? (
+
+  return loading ? (
     <LoadingBox siderColor='#FFF2E8' />
   ) : (
-    <div style={{ height: '100%' }} >
-      <ReactFlow
-        nodesConnectable={false}
-        elements={_.flattenDeep(cardsElements)}
-        onLoad={handleLoad}
-        onNodeDragStop={handleDragStop}
-        onPaneContextMenu={(e) => e.preventDefault()}
-      >
-        <Background
-          variant='dots'
-          gap={25}
-          size={1}
-          color={'#58585850'}
-        />
-      </ReactFlow>
-  </div>
-);
+      <div style={{ height: '100%' }} >
+        <ReactFlow
+          nodesConnectable={false}
+          elements={_.flattenDeep(cardsElements)}
+          onLoad={handleLoad}
+          onNodeDragStop={handleDragStop}
+          onPaneContextMenu={(e) => e.preventDefault()}
+        >
+          <Background
+            variant='dots'
+            gap={25}
+            size={1}
+            color={'#58585850'}
+          />
+        </ReactFlow>
+      </div>
+    );
 }
 
 DeploymentFlow.propTypes = {
