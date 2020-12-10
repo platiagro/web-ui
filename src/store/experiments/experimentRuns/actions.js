@@ -222,13 +222,13 @@ const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
 // // // // // // // // // //
 // ** GET EXPERIMENT RUN STATUS
 /**
- * get train experiment status success action
+ * fetch train experiment status success action
  *
  * @param {object} response
  * @param experimentId
  * @returns {object} { type }
  */
-const getExperimentRunStatusSuccess = (response, experimentId) => (dispatch, getState) => {
+const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, getState) => {
   // getting operators from response
   const { operators } = response.data;
 
@@ -298,13 +298,13 @@ const getExperimentRunStatusSuccess = (response, experimentId) => (dispatch, get
 };
 
 /**
- * get train experiment status fail action
+ * fetch train experiment status fail action
  *
  * @param {object} error
  * @param experimentId
  * @returns {object} { type, errorMessage }
  */
-const getExperimentRunStatusFail = (error, experimentId) => (dispatch, getState) => {
+const fetchExperimentRunStatusFail = (error, experimentId) => (dispatch, getState) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -328,13 +328,13 @@ const getExperimentRunStatusFail = (error, experimentId) => (dispatch, getState)
 };
 
 /**
- * get experiment run status request action
+ * fetch experiment run status request action
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment UUID
  * @returns {Function}
  */
-export const getExperimentRunStatusRequest = (projectId, experimentId) => (
+export const fetchExperimentRunStatusRequest = (projectId, experimentId) => (
   dispatch
 ) => {
   // dispatching request action
@@ -345,8 +345,8 @@ export const getExperimentRunStatusRequest = (projectId, experimentId) => (
   // experiment run status
   experimentRunsApi
     .fetchExperimentRunStatus(projectId, experimentId, experimentId)
-    .then((response) => dispatch(getExperimentRunStatusSuccess(response, experimentId)))
-    .catch((error) => dispatch(getExperimentRunStatusFail(error, experimentId)));
+    .then((response) => dispatch(fetchExperimentRunStatusSuccess(response, experimentId)))
+    .catch((error) => dispatch(fetchExperimentRunStatusFail(error, experimentId)));
 };
 
 // EXPORT DEFAUL
@@ -354,5 +354,5 @@ export default {
   fetchExperimentRunsRequest,
   createExperimentRunRequest,
   deleteExperimentRunRequest,
-  getExperimentRunStatusRequest,
+  fetchExperimentRunStatusRequest,
 }

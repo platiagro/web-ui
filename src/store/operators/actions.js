@@ -21,7 +21,7 @@ import {
 } from '../ui/actions';
 
 // EXPERIMENT RUNS ACTIONS
-import { getExperimentRunStatusRequest } from '../experiments/experimentRuns/actions';
+import { fetchExperimentRunStatusRequest } from '../experiments/experimentRuns/actions';
 
 // UTILS
 import utils from 'utils';
@@ -49,7 +49,7 @@ const fetchOperatorsSuccess = (operators, projectId, experimentId) => (
   dispatch(experimentsTabsDataLoaded());
 
   // dispatching get training experiment status request action
-  dispatch(getExperimentRunStatusRequest(projectId, experimentId));
+  dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
 
   // dispatching fetch operators success action
   dispatch({

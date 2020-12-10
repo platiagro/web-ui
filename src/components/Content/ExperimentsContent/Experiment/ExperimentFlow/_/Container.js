@@ -16,15 +16,15 @@ import {
 } from 'store/operator/actions';
 
 import { useStoreState } from 'react-flow-renderer';
-import { getExperimentRunStatusRequest } from 'store/experiments/experimentRuns/actions';
+import { fetchExperimentRunStatusRequest } from 'store/experiments/experimentRuns/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     handleShowOperatorDetails: (projectId, experimentId, operator) =>
       dispatch(selectOperator(projectId, experimentId, operator)),
-    handleGetExperimentRunStatus: (projectId, experimentId) =>
-      dispatch(getExperimentRunStatusRequest(projectId, experimentId)),
+    handleFetchExperimentRunStatus: (projectId, experimentId) =>
+      dispatch(fetchExperimentRunStatusRequest(projectId, experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),
     handleSaveOperatorPosition: (
       projectId,
@@ -73,7 +73,7 @@ const ExperimentFlowContainer = ({
   loading,
   arrowConfigs,
   handleShowOperatorDetails,
-  handleGetExperimentRunStatus,
+  handleFetchExperimentRunStatus,
   handleDeselectOperator,
   handleSaveOperatorPosition,
   handleSaveOperatorDependencies,
@@ -86,7 +86,7 @@ const ExperimentFlowContainer = ({
   useEffect(() => {
     // polling experiment status
     const polling = setInterval(
-      () => handleGetExperimentRunStatus(projectId, experimentId),
+      () => handleFetchExperimentRunStatus(projectId, experimentId),
       5000
     );
     return () => clearInterval(polling);
