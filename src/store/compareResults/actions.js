@@ -6,7 +6,7 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import compareResultsApi from 'services/CompareResultsApi';
-import experimentRunsApi from '../../services/ExperimentRunsApi';
+import experimentRunsApi from 'services/ExperimentRunsApi';
 
 // UI ACTIONS
 import {

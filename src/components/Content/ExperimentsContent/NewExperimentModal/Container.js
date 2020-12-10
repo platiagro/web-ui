@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 
 // ACTIONS
-import experimentsActions from '../../../../store/experiments/actions';
-import { hideNewExperimentModal } from '../../../../store/ui/actions';
+import experimentsActions from 'store/experiments/actions';
+import { hideNewExperimentModal } from 'store/ui/actions';
 
 // COMPONENTS
 import NewExperimentModal from './index';

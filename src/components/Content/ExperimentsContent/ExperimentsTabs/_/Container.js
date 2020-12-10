@@ -7,9 +7,9 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 import ExperimentsTabs from './index';
 
 // ACTIONS
-import experimentsActions from '../../../../../store/experiments/actions';
+import experimentsActions from 'store/experiments/actions';
 
-import { deselectOperator } from '../../../../../store/operator/actions';
+import { deselectOperator } from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
