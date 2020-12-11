@@ -1,7 +1,7 @@
 const { addLessLoader } = require('customize-cra');
 
 module.exports = {
-    dangerouslyUpdateWebpackConfig(webpackConfig) {
+  dangerouslyUpdateWebpackConfig(webpackConfig) {
     const newWebpackConfig = addLessLoader({
       lessOptions: {
         javascriptEnabled: true,
@@ -16,6 +16,11 @@ module.exports = {
       name: 'Components',
       description: 'Application components.',
       components: ['src/components/**/*.component.jsx'],
+    },
+    {
+      name: 'Pages',
+      description: 'Application pages.',
+      components: ['src/Pages/**/*.page.jsx'],
     },
   ],
 };
