@@ -7,6 +7,7 @@ import compareResultsReducer from './compareResults/compareResultsReducer';
 import deploymentsReducer from './deployments/deploymentsReducer';
 import projectsReducer from './projects/projectsReducer';
 import projectReducer from './project/projectReducer';
+import projectDeploymentsReducer from './projectDeployments/projectDeploymentsReducer';
 import experimentsReducer from './experiments/experimentsReducer';
 import experimentReducer from './experiment/experimentReducer';
 import operatorsReducer from './operators/operatorsReducer';
@@ -35,6 +36,7 @@ const reducers = combineReducers({
   deploymentsReducer,
   projectsReducer,
   projectReducer,
+  projectDeploymentsReducer,
   experimentsReducer,
   experimentReducer,
   operatorsReducer,

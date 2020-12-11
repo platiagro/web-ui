@@ -41,6 +41,7 @@ const initialState = {
   projectsTable: { loading: false },
   projectName: { loading: false },
   tasksMenu: { loading: false },
+  deploymentsTabs: { loading: false },
   experimentsTabs: { loading: false },
   experimentName: { loading: false },
   experimentOperators: { loading: false },
@@ -288,6 +289,17 @@ const uiReducer = (state = initialState, action = undefined) => {
         tasksMenu: {
           ...state.tasksMenu,
           loading: action.tasksMenuLoading,
+        },
+      };
+
+    // DEPLOYMENTS TABS
+    case actionTypes.DEPLOYMENTS_TABS_LOADING_DATA:
+    case actionTypes.DEPLOYMENTS_TABS_DATA_LOADED:
+      return {
+        ...state,
+        deploymentsTabs: {
+          ...state.deploymentsTabs,
+          loading: action.loading,
         },
       };
 
