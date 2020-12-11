@@ -18,7 +18,7 @@ import {
 // STYLES
 import './MonitoringFlowBox.style.less';
 
-const statusTable = {
+const statusFlowBox = {
   pending: <ClockCircleFilled />,
   loading: <LoadingOutlined />,
   success: <CheckCircleFilled style={{ color: '#389E0D' }} />,
@@ -33,7 +33,7 @@ const statusTable = {
 function MonitoringFlowBox(props) {
   const { title, status } = props;
 
-  const statusIcon = statusTable[status];
+  const statusIcon = statusFlowBox[status];
 
   // RENDER
   return (
