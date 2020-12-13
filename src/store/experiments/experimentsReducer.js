@@ -78,12 +78,10 @@ const experimentsReducer = (state = initialState, action = undefined) => {
  * @returns {Array}
  */
 export const getExperimentById = (state, experimentId) => {
-  return state.experimentsReducer.filter((experiment) => {
-    if (experiment.uuid == experimentId) {
-      return experiment
-    }
-  });
-}
+  return state.experimentsReducer.find((experiment) => 
+    experiment.uuid === experimentId
+  );
+};
 
 // EXPORT
 export default experimentsReducer;

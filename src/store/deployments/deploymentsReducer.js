@@ -65,12 +65,10 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
  * @returns {Array}
  */
 export const getDeploymentById = (state, deploymentId) => {
-  return state.filter((deployment) => {
-    if (deployment.uuid == deploymentId) {
-      return deployment
-    }
-  });
-}
+  return state.deploymentsReducer.find((deployment) => 
+    deployment.uuid === deploymentId
+  );
+};
 
 // EXPORT
 export default deploymentsReducer;
