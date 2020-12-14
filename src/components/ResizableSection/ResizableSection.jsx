@@ -1,8 +1,9 @@
 // REACT LIBS
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 // UI LIBS
+import { Tooltip } from 'antd';
 import ResizePanel from 'react-resize-panel';
 
 // COMPONENTS
@@ -72,7 +73,13 @@ const ResizableSection = (props) => {
             {/* title */}
             {title && (
               <div className='resizable-section-title'>
-                <h3><strong>{title}</strong></h3>
+                <h3>
+                  <strong>
+                    <Tooltip placement='top' title={title}>
+                      <div className='title-ellipsis'>{title}</div>
+                    </Tooltip>
+                  </strong>
+                </h3>
               </div>
             )}
 
