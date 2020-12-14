@@ -10,7 +10,7 @@ import NewTabModal from './NewTabModal';
 import Tab from './Tab';
 
 // STYLE
-import './style.less';
+import './Tabs.component.style.less';
 
 /**
  * This component is responsible for displaying tabs.
