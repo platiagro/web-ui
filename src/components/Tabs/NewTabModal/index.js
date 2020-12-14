@@ -1,3 +1,3 @@
-import NewTabModal from './NewTabModal';
+import NewTabModal from './NewTabModal.component';
 
 export default NewTabModal;

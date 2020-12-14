@@ -1,3 +1,3 @@
-import NewTabButton from './NewTabButton';
+import NewTabButton from './NewTabButton.component';
 
 export default NewTabButton;

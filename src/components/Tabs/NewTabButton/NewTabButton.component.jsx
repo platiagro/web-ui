@@ -7,7 +7,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
 //STYLE
-import './style.less';
+import './NewTabButton.component.style.less';
 
 /**
  * New Tab Button.
