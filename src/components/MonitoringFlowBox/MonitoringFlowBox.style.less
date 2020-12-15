@@ -1,0 +1,62 @@
+.monitoringFlowBox {
+  display: flex;
+  align-items: center;
+
+  .circleDetail {
+    height: 16px;
+    width: 16px;
+    background-color: #fff2e8;
+    border: 1px solid #595959;
+    border-radius: 50%;
+  }
+
+  .lineDetail {
+    width: 4px;
+    height: 1px;
+    background-color: #595959;
+  }
+
+  .box {
+    display: flex;
+    max-width: 220px;
+    height: 6em;
+    border: 2px dashed #979797;
+
+    .icon,
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 100%;
+      background-color: #f6ffed;
+    }
+
+    .status {
+      .statusIcon {
+        height: 6px;
+        width: 6px;
+        background-color: grey;
+        border-radius: 50%;
+        margin: 0;
+        padding: 0;
+
+        &.active {
+          background-color: #1890ff;
+        }
+      }
+    }
+
+    .title {
+      padding: 0 5px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 136px;
+      border-left: 2px dashed #979797;
+      border-right: 2px dashed #979797;
+    }
+  }
+}
