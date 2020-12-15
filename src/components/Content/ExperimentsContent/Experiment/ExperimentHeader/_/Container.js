@@ -63,12 +63,14 @@ const ExperimentHeaderContainer = ({
 }) => {
   const { projectId, experimentId } = useParams();
 
+  // select experiment
+  experiment(experimentId);
+
   // HOOKS
   // did mount hook
   useEffect(() => {
     if (experimentId) {
       handleFetchOperators(projectId, experimentId);
-      experiment(experimentId);
     }
   }, [projectId, experimentId, handleFetchOperators]);
 

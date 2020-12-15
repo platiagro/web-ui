@@ -61,6 +61,10 @@ const ExperimentButtonsContainer = ({
   handleFetchDeploymentStatus,
 }) => {
   const { projectId, experimentId } = useParams();
+  
+  // select experiment
+  experiment(experimentId);
+
   const { deployStatus } = experiment;
 
   // Checks if the experiment has, at least, one non DATASET operator
@@ -86,7 +90,6 @@ const ExperimentButtonsContainer = ({
   useEffect(() => {
     if (experimentId) {
       handleFetchOperators(projectId, experimentId);
-      experiment(experimentId);
     }
   }, [projectId, experimentId, handleFetchOperators]);
 
