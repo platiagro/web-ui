@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI COMPONENTS
+import { CloudUploadOutlined } from '@ant-design/icons';
 import { Button } from 'uiComponents';
 
 /**
@@ -23,7 +24,7 @@ const RunDeploymentButton = (props) => {
   // rendering component
   return (
     <Button type='primary' shape='round' handleClick={onClick}>
-        Implantar fluxo
+        <CloudUploadOutlined/> Implantar fluxo
     </Button>
   )
 };
