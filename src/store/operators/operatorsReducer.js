@@ -1,8 +1,8 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import operatorActionTypes from 'store/operator/actionTypes';
-import pipelinesActionTypes from 'store/pipelines/actionTypes';
-import uiActionTypes from 'store/ui/actionTypes';
+import operatorActionTypes from '../operator/actionTypes';
+import uiActionTypes from '../ui/actionTypes';
+import experimentRunsActionTypes from '../experiments/experimentRuns/actionTypes';
 
 // UTILS
 import utils from 'utils';
@@ -12,6 +12,9 @@ const initialState = [];
 
 /**
  * operators reducer
+ *
+ * @param state
+ * @param action
  */
 const operatorsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
@@ -57,8 +60,8 @@ const operatorsReducer = (state = initialState, action = undefined) => {
       );
 
     // pipelines
-    // get training experiment status
-    case pipelinesActionTypes.GET_TRAIN_EXPERIMENT_STATUS_SUCCESS:
+    // get experiment run status
+    case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS:
       let isTerminated = false;
       return state.map((operator) => {
         const operatorLatestTraining =
@@ -91,7 +94,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
         };
       });
     // train experiment success
-    case pipelinesActionTypes.TRAIN_EXPERIMENT_SUCCESS:
+    case experimentRunsActionTypes.CREATE_EXPERIMENT_RUN_SUCCESS:
       return state.map((operator) => ({
         ...operator,
         status: operator.uuid === 'dataset' ? 'Succeeded' : 'Pending',

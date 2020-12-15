@@ -5,10 +5,11 @@ import thunk from 'redux-thunk';
 // REDUCERS
 import compareResultsReducer from './compareResults/compareResultsReducer';
 import deploymentsReducer from './deployments/deploymentsReducer';
+import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsReducer';
 import projectsReducer from './projects/projectsReducer';
 import projectReducer from './project/projectReducer';
 import experimentsReducer from './experiments/experimentsReducer';
-import experimentReducer from './experiment/experimentReducer';
+import experimentRunReducer from './experiments/experimentRuns/experimentRunsReducer';
 import operatorsReducer from './operators/operatorsReducer';
 import operatorReducer from './operator/operatorReducer';
 import tasksMenuReducer from './tasksMenu/tasksMenuReducer';
@@ -33,10 +34,11 @@ const composeEnhancers =
 const reducers = combineReducers({
   compareResultsReducer,
   deploymentsReducer,
+  deploymentRunsReducer,
   projectsReducer,
   projectReducer,
   experimentsReducer,
-  experimentReducer,
+  experimentRunReducer,
   operatorsReducer,
   operatorReducer,
   tasksMenuReducer,

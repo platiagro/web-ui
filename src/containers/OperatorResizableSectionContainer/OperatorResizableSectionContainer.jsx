@@ -1,13 +1,15 @@
 // REACT LIBS
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import { OperatorResizableSection } from 'components';
 
 // ACTIONS
-import { showOperatorResults } from 'store/ui/actions';
+import { showOperatorResults } from '../../store/ui/actions';
+import { getExperimentById } from 'store/experiments/experimentsReducer';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -31,7 +33,9 @@ const mapStateToProps = (state) => {
     // show operator experiment results
     showExperimentResults: state.uiReducer.operatorResults.showOperatorResults,
     // operator parent experiment is finished
-    experimentIsFinished: state.experimentReducer.succeeded,
+    experimentIsFinished: (experimentId) => {
+      return getExperimentById(state, experimentId).succeeded;
+    },
     // operator status
     operatorStatus: state.operatorReducer.status,
     // operator logs
@@ -64,6 +68,14 @@ const OperatorResizableSectionContainer = (props) => {
     // operator logs
     operatorLogs,
   } = props;
+
+  const { projectId, experimentId } = useParams();
+
+  useEffect(() => {
+    if (experimentId) {
+      experimentIsFinished(experimentId);
+    }
+  }, [projectId, experimentId, experimentIsFinished]);
 
   // rendering container
   return (

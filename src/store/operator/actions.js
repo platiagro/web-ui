@@ -6,7 +6,7 @@ import actionTypes from './actionTypes';
 // SERVICES
 import DatasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
-import pipelinesApi from 'services/PipelinesApi';
+import experimentRunsApi from 'services/ExperimentRunsApi'
 
 // UI LIB
 import { message } from 'antd';
@@ -41,6 +41,9 @@ import utils from 'utils';
 // ACTIONS
 /**
  * Download operator result dataset
+ *
+ * @param experimentId
+ * @param operatorId
  */
 export const downloadOperatorResultDataset = (
   projectId,
@@ -52,8 +55,8 @@ export const downloadOperatorResultDataset = (
     type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
   });
 
-  pipelinesApi
-    .getOperatorDataset(projectId, experimentId, 'latest', operatorId, 1, -1)
+  experimentRunsApi
+    .listOperatorDatasets(projectId, experimentId, 'latest', operatorId, 1, -1)
     .then((response) => {
       dispatch(operatorResultsDownloadDatasetLoaded());
       const responseData = response.data;
@@ -94,14 +97,15 @@ const getLogsFail = (error) => (dispatch) => {
 /**
  * Get operator logs
  *
+ * @param projectId
  * @param {string} experimentId
  * @param {string} operatorId
  */
 export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
   dispatch
 ) => {
-  pipelinesApi
-    .getOperatorLog(projectId, experimentId, 'latest', operatorId)
+  experimentRunsApi
+    .fetchOperatorLogs(projectId, experimentId, 'latest', operatorId)
     .then((res) => {
       dispatch(getLogsSuccess(res));
     })
@@ -123,8 +127,8 @@ export const getOperatorFigures = (
     type: actionTypes.GET_OPERATOR_FIGURES_REQUEST,
   });
   dispatch(operatorResultsLoadingData());
-  pipelinesApi
-    .getOperatorFigures(projectId, experimentId, runId, operatorId)
+  experimentRunsApi
+    .listOperatorFigures(projectId, experimentId, runId, operatorId)
     .then((responseFigure) => {
       const results = utils.transformResults(operatorId, responseFigure.data);
       dispatch(operatorResultsDataLoaded());
@@ -144,6 +148,11 @@ export const getOperatorFigures = (
 
 /**
  * Get operator result dataset
+ *
+ * @param experimentId
+ * @param operatorId
+ * @param page
+ * @param pageSize
  */
 export const getOperatorResultDataset = (
   projectId,
@@ -155,8 +164,8 @@ export const getOperatorResultDataset = (
   dispatch({
     type: actionTypes.GET_OPERATOR_DATASET_RESULT_REQUEST,
   });
-  pipelinesApi
-    .getOperatorDataset(
+  experimentRunsApi
+    .listOperatorDatasets(
       projectId,
       experimentId,
       'latest',
@@ -210,8 +219,8 @@ export const getOperatorMetricsRequest = (
   });
   dispatch(operatorMetricsLoadingData());
 
-  pipelinesApi
-    .getOperatorMetrics(projectId, experimentId, runId, operatorId)
+  experimentRunsApi
+    .listOperatorMetrics(projectId, experimentId, runId, operatorId)
     .then((response) => {
       dispatch({
         type: actionTypes.GET_OPERATOR_METRICS_SUCCESS,
@@ -232,8 +241,10 @@ export const getOperatorMetricsRequest = (
 /**
  * select operator action
  *
+ * @param projectId
  * @param {string} experimentId
  * @param {object} operator
+ * @param page
  */
 export const selectOperator = (projectId, experimentId, operator) => (
   dispatch,

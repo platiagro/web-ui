@@ -7,22 +7,24 @@ import { useParams } from 'react-router-dom';
 import ExperimentFlow from './index';
 
 // ACTIONS
-import { selectOperator } from 'store/operator/actions';
-import { getTrainExperimentStatusRequest } from 'store/pipelines/actions';
+
 import {
+  selectOperator,
   deselectOperator,
   saveOperatorPosition,
-  saveOperatorDependencies,
+  saveOperatorDependencies
 } from 'store/operator/actions';
+
 import { useStoreState } from 'react-flow-renderer';
+import { fetchExperimentRunStatusRequest } from 'store/experiments/experimentRuns/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
     handleShowOperatorDetails: (projectId, experimentId, operator) =>
       dispatch(selectOperator(projectId, experimentId, operator)),
-    handleGetTrainExperimentStatus: (projectId, experimentId) =>
-      dispatch(getTrainExperimentStatusRequest(projectId, experimentId)),
+    handleFetchExperimentRunStatus: (projectId, experimentId) =>
+      dispatch(fetchExperimentRunStatusRequest(projectId, experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),
     handleSaveOperatorPosition: (
       projectId,
@@ -56,7 +58,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     operators: state.operatorsReducer,
-    datasetName: state.experimentReducer.dataset,
     loading: state.uiReducer.experimentOperators.loading,
     arrowConfigs: state.uiReducer.operatorsDependencies,
   };
@@ -72,7 +73,7 @@ const ExperimentFlowContainer = ({
   loading,
   arrowConfigs,
   handleShowOperatorDetails,
-  handleGetTrainExperimentStatus,
+  handleFetchExperimentRunStatus,
   handleDeselectOperator,
   handleSaveOperatorPosition,
   handleSaveOperatorDependencies,
@@ -85,7 +86,7 @@ const ExperimentFlowContainer = ({
   useEffect(() => {
     // polling experiment status
     const polling = setInterval(
-      () => handleGetTrainExperimentStatus(projectId, experimentId),
+      () => handleFetchExperimentRunStatus(projectId, experimentId),
       5000
     );
     return () => clearInterval(polling);
