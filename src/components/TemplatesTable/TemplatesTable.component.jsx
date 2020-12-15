@@ -3,6 +3,8 @@ import { PartitionOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import React from 'react';
 
+import './TemplatesTable.style.less';
+
 /**
  * Componente de tabela de templates
  */
