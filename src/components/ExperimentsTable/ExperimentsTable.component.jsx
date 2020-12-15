@@ -14,6 +14,8 @@ function ExperimentsTable(props) {
   const columns = [
     {
       dataIndex: 'name',
+      /* eslint-disable-next-line */
+      render: (text) => <strong>{text}</strong>,
     },
   ];
 
