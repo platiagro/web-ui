@@ -57,6 +57,16 @@
   height: 50px;
   padding: 0;
   margin: 10px 0px 0px 15px;
+
+  .title-ellipsis {
+    direction: ltr;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
 }
 
 .resizable-section-tip {
