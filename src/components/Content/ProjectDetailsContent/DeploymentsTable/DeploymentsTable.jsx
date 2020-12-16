@@ -97,7 +97,7 @@ const DeploymentsTable = (props) => {
         <>
           <UploadInferenceTestButton
             disabled={record.status === 'Failed' || record.status === 'Running'}
-            handleUpload={(file) => onTestInference(record.url, file)}
+            handleUpload={(file) => onTestInference(record.experimentId, file)}
           />{' '}
           <Divider type='vertical' />
           <Tooltip placement='bottom' title='Ver logs'>
