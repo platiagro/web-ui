@@ -95,7 +95,7 @@ jobs:
       - name: Set output variables
         id: vars
         run: |
-          VERSION=$(npm view app version)
+          VERSION=$(node -p "require('./package.json').version")
           if [ ${{ github.ref }} = "refs/heads/master" ]; then
             echo ::set-output name=TAG::${VERSION}-SNAPSHOT
           elif [[ ${{ github.ref }} =~ ^refs/heads/v.*-branch$ ]]; then
