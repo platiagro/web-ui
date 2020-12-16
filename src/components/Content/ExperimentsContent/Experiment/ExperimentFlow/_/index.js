@@ -1,19 +1,19 @@
 // CORE LIBS
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import _ from "lodash";
-import { DropTarget } from "react-dnd";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import { DropTarget } from 'react-dnd';
 
 // UI LIBS
-import ReactFlow, { Background } from "react-flow-renderer";
+import ReactFlow, { Background } from 'react-flow-renderer';
 
 // COMPONENTS
-import TaskBox from "../TaskBox";
-import LoadingBox from "components/LoadingBox";
-import Vectors, { nodeTypes, edgeTypes } from "./CustomNodes";
+import TaskBox from '../TaskBox';
+import LoadingBox from 'components/LoadingBox';
+import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
 
 // STYLES
-import "./style.less";
+import './style.less';
 
 /**
  * Experiment Flow.
@@ -46,7 +46,7 @@ const ExperimentFlow = ({
   isOver,
   connectDropTarget,
 }) => {
-  const [connectClass, setConnectClass] = useState("");
+  const [connectClass, setConnectClass] = useState('');
 
   const handleLoad = (reactFlowInstance) => {
     setTimeout(() => {
@@ -81,11 +81,11 @@ const ExperimentFlow = ({
 
   const isActive = canDrop && isOver;
 
-  let backgroundColor = "#fff";
+  let backgroundColor = '#fff';
   if (isActive) {
-    backgroundColor = "rgba(20,250,20,0.1)";
+    backgroundColor = 'rgba(20,250,20,0.1)';
   } else if (canDrop) {
-    backgroundColor = "rgba(250,20,20,0.1)";
+    backgroundColor = 'rgba(250,20,20,0.1)';
   }
 
   const cardsElements = tasks.map((component) => {
@@ -93,7 +93,7 @@ const ExperimentFlow = ({
       const arrowId = `${component.uuid}/${arrow}`;
       return {
         id: arrowId,
-        type: "customEdge",
+        type: 'customEdge',
         target: component.uuid,
         source: arrow,
         animated: arrowId === arrowConfigs.uuid ? arrowConfigs.loading : false,
@@ -105,15 +105,15 @@ const ExperimentFlow = ({
 
     const card = {
       id: component.uuid,
-      sourcePosition: "right",
-      targetPosition: "left",
-      type: "cardNode",
+      sourcePosition: 'right',
+      targetPosition: 'left',
+      type: 'cardNode',
       data: {
         label: (
           <div
             id={component.uuid}
             style={{ width: 200 }}
-            className="task-elements"
+            className='task-elements'
           >
             <TaskBox
               handleClick={handleTaskBoxClick}
@@ -142,7 +142,7 @@ const ExperimentFlow = ({
   return loading ? (
     <LoadingBox />
   ) : (
-    <div style={{ height: "100%" }} ref={connectDropTarget}>
+    <div style={{ height: '100%' }} ref={connectDropTarget}>
       <ReactFlow
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
@@ -153,22 +153,22 @@ const ExperimentFlow = ({
         onLoad={handleLoad}
         onConnect={handleConnect}
         onNodeDragStop={handleDragStop}
-        onConnectEnd={() => setConnectClass("")}
-        onConnectStart={() => setConnectClass("Connecting")}
+        onConnectEnd={() => setConnectClass('')}
+        onConnectStart={() => setConnectClass('Connecting')}
         deleteKeyCode={46}
         onElementsRemove={(e) => {
           const line = e[0];
-          if (line.type !== "cardNode") {
+          if (line.type !== 'cardNode') {
             handleDeleteConnection(line.target, line.source);
           }
         }}
         onPaneContextMenu={(e) => e.preventDefault()}
       >
         <Background
-          variant="dots"
+          variant='dots'
           gap={25}
           size={1}
-          color={"#58585850"}
+          color={'#58585850'}
           style={{ backgroundColor }}
         />
         <Vectors />
@@ -195,7 +195,7 @@ ExperimentFlow.propTypes = {
 
 //HOC for transform ExperimentFlow into DropTarget
 const ExperimentFlowDrop = DropTarget(
-  "TASK",
+  'TASK',
   {
     canDrop(props) {
       const canDrop = !props.loading;
@@ -220,7 +220,7 @@ const ExperimentFlowDrop = DropTarget(
       };
 
       return {
-        name: "Flow",
+        name: 'Flow',
         pos: zoomRealPosition,
       };
     },
