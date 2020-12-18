@@ -56,6 +56,7 @@ const initialState = {
   operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
   inferenceTestResultModal: { loading: false, visible: false },
+  preImplantationModal: {loading: false, visible: false},
   projectEditName: { loading: false },
   dataViewModal: { isVisible: false, loading: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
@@ -536,6 +537,24 @@ const uiReducer = (state = initialState, action = undefined) => {
           ...state.operatorsDependencies,
           loading: action.loading,
           uuid: action.uuid,
+        },
+      };
+          // show pre experiment modal
+    case actionTypes.SHOW_PRE_IMPLANTATION_MODAL:
+      return {
+        ...state,
+        preImplantationModal: {
+          ...state.preImplantationModal,
+          visible: action.preImplantationModalVisible,
+        },
+      };
+    // hide pre experiment modal
+    case actionTypes.HIDE_PRE_IMPLANTATION_MODAL:
+      return {
+        ...state,
+        preImplantationModal: {
+          ...state.preImplantationModal,
+          visible: action.preImplantationModalVisible,
         },
       };
     // DEFAULT

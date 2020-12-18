@@ -907,3 +907,17 @@ export const dependenciesOperatorLoaded = (dependencyId) => {
     uuid: dependencyId,
   };
 };
+
+export const hidePreImplantationModal = () =>{
+  return{
+    type: actionTypes.HIDE_PRE_IMPLANTATION_MODAL,
+    preImplantationModalVisible: false,
+  }
+}
+
+export const showPreImplantationModal = () =>{
+  return{
+    type: actionTypes.SHOW_PRE_IMPLANTATION_MODAL,
+    preImplantationModalVisible: true,
+  }
+}

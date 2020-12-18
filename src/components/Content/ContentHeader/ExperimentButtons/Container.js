@@ -9,7 +9,7 @@ import ExperimentButtons from './index';
 // ACTIONS
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
-import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
+import { changeVisibilityCompareResultsModal, showPreImplantationModal } from 'store/ui/actions';
 import { getExperimentById } from 'store/experiments/experimentsReducer';
 
 // DISPATCHS
@@ -28,6 +28,7 @@ const mapDispatchToProps = (dispatch) => {
     handleCompareResultsClick: () => {
       dispatch(changeVisibilityCompareResultsModal(true));
     },
+    handleOpenModal: () => {dispatch(showPreImplantationModal())}
   };
 };
 
@@ -59,6 +60,7 @@ const ExperimentButtonsContainer = ({
   handleFetchOperators,
   handleCreateDeploymentRun,
   handleFetchDeploymentStatus,
+  handleOpenModal,
 }) => {
   const { projectId, experimentId } = useParams();
   
@@ -95,7 +97,8 @@ const ExperimentButtonsContainer = ({
 
   // HANDLERS
   const handleDeploymentClick = () =>
-    handleCreateDeploymentRun(projectId, experimentId);
+    handleOpenModal()
+    //handleCreateDeploymentRun(projectId, experimentId);
 
   // RENDER
   return (
