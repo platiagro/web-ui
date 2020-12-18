@@ -77,7 +77,12 @@ const CompareResultItemResults = (props) => {
   return (
     <ResultsDrawer
       dataset={compareResult.dataset}
-      datasetScroll={{ y: height ? height - 350 : 200 }}
+      datasetScroll={{
+        x: compareResult.dataset
+          ? compareResult.dataset.columns.length * 100
+          : undefined,
+        y: height ? height - 375 : 200,
+      }}
       figures={compareResult.figures}
       loading={false}
       metrics={compareResult.metrics}
