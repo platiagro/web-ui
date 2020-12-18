@@ -9,7 +9,7 @@ import ReactFlow, { Background } from 'react-flow-renderer';
 
 // COMPONENTS
 import TaskBox from '../TaskBox';
-import LoadingBox from '../LoadingBox';
+import LoadingBox from 'components/LoadingBox';
 import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
 
 // STYLES

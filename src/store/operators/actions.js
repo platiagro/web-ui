@@ -5,10 +5,10 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import operatorsApi from 'services/OperatorsApi';
-import datasetsApi from 'services/DatasetsApi';
-import pipelinesApi from 'services/PipelinesApi';
-import tasksApi from 'services/TasksApi';
+import operatorsApi from '../../services/OperatorsApi';
+import datasetsApi from '../../services/DatasetsApi';
+import experimentRunsApi from '../../services/ExperimentRunsApi';
+import tasksApi from '../../services/TasksApi';
 
 // UI ACTIONS
 import {
@@ -20,8 +20,8 @@ import {
   experimentsTabsDataLoaded,
 } from '../ui/actions';
 
-// PIPELINES ACTIONS
-import { getTrainExperimentStatusRequest } from '../pipelines/actions';
+// EXPERIMENT RUNS ACTIONS
+import { fetchExperimentRunStatusRequest } from '../experiments/experimentRuns/actions';
 
 // UTILS
 import utils from 'utils';
@@ -33,6 +33,7 @@ import utils from 'utils';
  *
  * @param {object} response
  * @param operators
+ * @param projectId
  * @param experimentId
  * @param operators
  * @param experimentId
@@ -48,7 +49,7 @@ const fetchOperatorsSuccess = (operators, projectId, experimentId) => (
   dispatch(experimentsTabsDataLoaded());
 
   // dispatching get training experiment status request action
-  dispatch(getTrainExperimentStatusRequest(projectId, experimentId));
+  dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
 
   // dispatching fetch operators success action
   dispatch({
@@ -87,7 +88,6 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  *
  * @param {string} projectId
  * @param {string} experimentId
- * @param {string} datasetName
  * @returns {Function}
  */
 export const fetchOperatorsRequest = (projectId, experimentId) => async (
@@ -127,7 +127,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     }
 
     // gettins pipelines status
-    const pipelinesResponse = await pipelinesApi.getTrainExperimentStatus(
+    const pipelinesResponse = await experimentRunsApi.fetchExperimentRuns(
       projectId,
       experimentId,
       experimentId

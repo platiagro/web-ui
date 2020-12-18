@@ -7,37 +7,27 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 import ExperimentsTabs from './index';
 
 // ACTIONS
-import {
-  fetchExperimentsRequest,
-  organizeExperimentsRequest,
-  clearAllExperiments,
-} from '../../../../../store/experiments/actions';
-import {
-  fetchExperimentActiveRequest,
-  deleteExperimentRequest,
-  editExperimentNameRequest,
-  createExperimentRequest,
-} from '../../../../../store/experiment/actions';
+import experimentsActions from 'store/experiments/actions';
 
-import { deselectOperator } from '../../../../../store/operator/actions';
+import { deselectOperator } from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleClearAllExperiments: () => dispatch(clearAllExperiments()),
+    handleClearAllExperiments: () => dispatch(experimentsActions.clearAllExperiments()),
     handleFetchExperiments: (projectId) =>
-      dispatch(fetchExperimentsRequest(projectId, routerProps)),
+      dispatch(experimentsActions.fetchExperimentsRequest(projectId, routerProps)),
     handleFetchExperiment: (projectId, experimentId) =>
-      dispatch(fetchExperimentActiveRequest(projectId, experimentId)),
+      dispatch(experimentsActions.activeExperiment(projectId, experimentId)),
     handleDeleteExperiment: (projectId, experimentId) =>
-      dispatch(deleteExperimentRequest(projectId, experimentId, routerProps)),
+      dispatch(experimentsActions.deleteExperimentRequest(projectId, experimentId, routerProps)),
     handleRenameExperiment: (projectId, experimentId, newName) =>
       dispatch(
-        editExperimentNameRequest(projectId, experimentId, newName, routerProps)
+        experimentsActions.updateExperimentName(projectId, experimentId, newName, routerProps)
       ),
     handleDuplicateExperiment: (projectId, experimentId, newName) =>
       dispatch(
-        createExperimentRequest(
+        experimentsActions.createExperimentRequest(
           projectId,
           newName,
           experimentId,
@@ -52,7 +42,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       newPosition
     ) =>
       dispatch(
-        organizeExperimentsRequest(
+        experimentsActions.organizeExperimentsRequest(
           projectId,
           dragExperimentId,
           hoverExperimentId,

@@ -6,7 +6,7 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import compareResultsApi from 'services/CompareResultsApi';
-import pipelinesApi from 'services/PipelinesApi';
+import experimentRunsApi from 'services/ExperimentRunsApi';
 
 // UI ACTIONS
 import {
@@ -20,9 +20,10 @@ import utils from 'utils';
 
 /**
  * Function to update experiments options data
- * @param {String} experimentId
- * @param {Object[]} children
- * @param {Boolean} isLoading
+ *
+ * @param {string} experimentId
+ * @param {object[]} children
+ * @param {boolean} isLoading
  */
 const updateExperimentsOptions = (experimentId, children, isLoading) => {
   return {
@@ -35,6 +36,7 @@ const updateExperimentsOptions = (experimentId, children, isLoading) => {
 
 /**
  * Function to add compare result and dispatch to reducer
+ *
  * @param {string} projectId
  */
 export const addCompareResult = (projectId) => {
@@ -59,6 +61,7 @@ export const addCompareResult = (projectId) => {
 
 /**
  * Function to delete compare result and dispatch to reducer
+ *
  * @param {string} projectId
  * @param {string} id
  */
@@ -84,8 +87,9 @@ export const deleteCompareResult = (projectId, id) => {
 
 /**
  * Function to fetch compare results and dispatch to reducer
+ *
  * @param {string} projectId
- * @param {Object[]} experiments
+ * @param {object[]} experiments
  */
 export const fetchCompareResults = (projectId, experiments) => {
   return (dispatch) => {
@@ -128,28 +132,29 @@ export const fetchCompareResults = (projectId, experiments) => {
 
 /**
  * Function to fetch the compare results results and dispatch to reducer
- * @param {Object} compareResult
+ *
+ * @param {object} compareResult
  */
 export const fetchCompareResultsResults = (compareResult) => async (
   dispatch
 ) => {
   const { projectId, experimentId, operatorId, runId } = compareResult;
-  const figures = await pipelinesApi
-    .getOperatorFigures(projectId, experimentId, runId, operatorId)
+  const figures = await experimentRunsApi
+    .listOperatorFigures(projectId, experimentId, runId, operatorId)
     .then((response) => {
       return response.data;
     })
     .catch((error) => {});
 
-  const dataset = await pipelinesApi
-    .getOperatorDataset(projectId, experimentId, runId, operatorId, 1, 10)
+  const dataset = await experimentRunsApi
+    .listOperatorDatasets(projectId, experimentId, runId, operatorId, 1)
     .then((response) => {
       return response.data;
     })
     .catch((error) => {});
 
-  const metrics = await pipelinesApi
-    .getOperatorMetrics(projectId, experimentId, runId, operatorId)
+  const metrics = await experimentRunsApi
+    .listOperatorMetrics(projectId, experimentId, runId, operatorId)
     .then((response) => {
       return response.data;
     })
@@ -191,6 +196,10 @@ export const fetchCompareResultsResults = (compareResult) => async (
 
 /**
  * Get compare result dataset paginated
+ *
+ * @param compareResult
+ * @param page
+ * @param pageSize
  */
 export const getCompareResultDatasetPaginated = (
   compareResult,
@@ -202,15 +211,8 @@ export const getCompareResultDatasetPaginated = (
   });
 
   const { projectId, experimentId, operatorId, runId } = compareResult;
-  pipelinesApi
-    .getOperatorDataset(
-      projectId,
-      experimentId,
-      runId,
-      operatorId,
-      page,
-      pageSize
-    )
+  experimentRunsApi
+    .listOperatorDatasets(projectId, experimentId, runId, operatorId, page, pageSize)
     .then((response) => {
       let newDatasetResult = null;
       if (response) {
@@ -251,7 +253,9 @@ export const getCompareResultDatasetPaginated = (
 
 /**
  * Function to fetch the training history and dispatch to reducer
- * @param {String} experimentId
+ *
+ * @param projectId
+ * @param {string} experimentId
  */
 export const fetchTrainingHistory = (projectId, experimentId) => {
   return (dispatch, getState) => {
@@ -259,8 +263,8 @@ export const fetchTrainingHistory = (projectId, experimentId) => {
     const trainingHistory = compareResultsReducer.experimentsTrainingHistory;
     if (!trainingHistory.hasOwnProperty(experimentId)) {
       dispatch(updateExperimentsOptions(experimentId, null, true));
-      return pipelinesApi
-        .getTrainingHistory(projectId, experimentId)
+      return experimentRunsApi
+        .fetchExperimentRuns(projectId, experimentId)
         .then((response) => {
           trainingHistory[experimentId] = response.data;
           dispatch({
@@ -286,8 +290,9 @@ export const fetchTrainingHistory = (projectId, experimentId) => {
 
 /**
  * Function to update compare result and dispatch to reducer
- * @param {Object} compareResult
- * @param {Boolean} changedPosition
+ *
+ * @param {object} compareResult
+ * @param {boolean} changedPosition
  */
 export const updateCompareResult = (compareResult, changedPosition) => {
   return (dispatch) => {

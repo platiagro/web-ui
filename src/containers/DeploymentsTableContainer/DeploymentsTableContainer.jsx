@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
@@ -9,20 +9,20 @@ import DeploymentsTable from 'components/Content/ProjectDetailsContent/Deploymen
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
-  fetchDeployedExperiments,
-  deleteDeployedExperiment,
+  deleteDeploymentRequest,
+  fetchAllDeploymentsRuns
 } from 'store/deployments/actions';
+
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleDeleteDeployedExperiment: (projectId, deployId) =>
-      dispatch(deleteDeployedExperiment(projectId, deployId)),
-    handleFetchDeployedExperiments: (projectId, experiments, isToShowLoader) =>
-      dispatch(
-        fetchDeployedExperiments(projectId, experiments, isToShowLoader)
-      ),
+    handleFetchDeploymentsRuns: (projectId, experiments, isToShowLoader) => {
+      return dispatch(fetchAllDeploymentsRuns(projectId, experiments, isToShowLoader))
+    },
+    handleDeleteDeployment: (projectId, deploymentId) =>
+      dispatch(deleteDeploymentRequest(projectId, deploymentId)),
     handleGetDeployExperimentLogs: (projectId, deployId) =>
       dispatch(getDeployExperimentLogs(projectId, deployId)),
     handleTestImplantedExperimentInference: (deployId, file) =>
@@ -33,7 +33,6 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    deployments: state.deploymentsReducer,
     loading: state.uiReducer.implantedExperiments.loading,
     project: state.projectReducer,
   };
@@ -41,14 +40,14 @@ const mapStateToProps = (state) => {
 
 /**
  * Container to display deployments table.
+ *
  * @param {object} props Container props
  * @returns {DeploymentsTableContainer} Container
  */
 const DeploymentsTableContainer = (props) => {
   const {
-    deployments,
-    handleDeleteDeployedExperiment,
-    handleFetchDeployedExperiments,
+    handleFetchDeploymentsRuns,
+    handleDeleteDeployment,
     handleGetDeployExperimentLogs,
     handleTestImplantedExperimentInference,
     loading,
@@ -56,26 +55,41 @@ const DeploymentsTableContainer = (props) => {
   } = props;
   const { projectId } = useParams();
 
-  let experiments = [];
-  if (projectId === project.uuid) {
-    experiments = project.experiments;
-  }
+  // get project experiments
+  const memoizedExperiments = useMemo(() => {
+    if (projectId === project.uuid) {
+      return project.experiments;
+    }
+  }, [projectId, project]);
+
+  const [deployments, setDeployments] = useState([]);
 
   // HOOKS
   useEffect(() => {
+    const handleFetchAllDeploymentsRuns = async (isToShowLoader) => {
+      const deploymentsRuns = await handleFetchDeploymentsRuns(
+        projectId,
+        memoizedExperiments,
+        isToShowLoader
+      );
+  
+      setDeployments(deploymentsRuns);
+    }
+
     // fetching deployed experiments
-    handleFetchDeployedExperiments(projectId, experiments, true);
+    handleFetchAllDeploymentsRuns(true);
 
     // polling deployed experiments
     const polling = setInterval(
-      () => handleFetchDeployedExperiments(projectId, experiments, false),
+      () =>
+      handleFetchAllDeploymentsRuns(false),
       30000
     );
     return () => clearInterval(polling);
-  }, [experiments, handleFetchDeployedExperiments, projectId]);
+  }, [projectId, memoizedExperiments, handleFetchDeploymentsRuns]);
 
-  const handleDeleteDeployment = (deployId) => {
-    handleDeleteDeployedExperiment(projectId, deployId);
+  const deleteDeployment = (deployId) => {
+    handleDeleteDeployment(projectId, deployId);
   };
 
   const handleOpenLog = (deployId) => {
@@ -87,7 +101,7 @@ const DeploymentsTableContainer = (props) => {
       <DeploymentsTable
         deployments={deployments}
         loading={loading}
-        onDeleteDeployment={handleDeleteDeployment}
+        onDeleteDeployment={deleteDeployment}
         onOpenLog={handleOpenLog}
         onTestInference={handleTestImplantedExperimentInference}
       />
