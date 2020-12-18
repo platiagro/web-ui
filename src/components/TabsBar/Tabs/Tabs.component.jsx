@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // UI LIBS
 import {
@@ -11,27 +13,27 @@ import {
   LoadingOutlined,
   CopyOutlined,
 } from '@ant-design/icons';
-import { Tabs, Popconfirm, Popover, Input } from 'antd';
+import { Tabs as antdTabs, Popconfirm, Popover, Input } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';
 
 // TABS COMPONENTS
-const { TabPane } = Tabs;
+const { TabPane } = antdTabs;
 
 /**
- * This component is responsible for displaying tab.
+ * This component is responsible for displaying tabs.
  */
-const Tab = (props) => {
+const Tabs = (props) => {
   const {
     activeTab,
     deleteTitle,
-    handleChange,
-    handleDelete,
-    handleDuplicate,
-    handleMoveTab,
-    handleRename,
     loading,
+    onChange,
+    onDelete,
+    onDuplicate,
+    onMoveTab,
+    onRename,
     tabs,
   } = props;
 
@@ -80,7 +82,7 @@ const Tab = (props) => {
               onConfirm={(e) => {
                 //Need to stop propagation for don't enter into tab
                 e.stopPropagation();
-                handleDelete(tabId);
+                onDelete(tabId);
               }}
               onCancel={(e) => {
                 e.stopPropagation();
@@ -116,7 +118,7 @@ const Tab = (props) => {
         onSearch={(name) => {
           //Only send rename if has a name
           if (name.length > 0) {
-            handleRename(currentId, name);
+            onRename(currentId, name);
           }
         }}
         placeholder='Digite o novo nome'
@@ -138,7 +140,7 @@ const Tab = (props) => {
         enterButton='Ok'
         onSearch={(name) => {
           if (name.length > 0) {
-            handleDuplicate(currentId, name);
+            onDuplicate(currentId, name);
           }
         }}
         placeholder='Digite o novo nome'
@@ -198,102 +200,104 @@ const Tab = (props) => {
 
   return (
     <>
-      <DraggableTabs
-        handleMoveTab={handleMoveTab}
-        onChange={handleChange}
-        activeTab={activeTab}
-      >
-        {renderTabs()}
-      </DraggableTabs>
-      <ContextMenu className='menu-tab' id='menu_id'>
-        <Popover
-          trigger='click'
-          content={contentRename}
-          visible={renameVisible}
-          onVisibleChange={(visible) => {
-            setRenameVisible(visible);
-          }}
+      <DndProvider backend={HTML5Backend}>
+        <DraggableTabs
+          activeTab={activeTab}
+          onChange={onChange}
+          onMoveTab={onMoveTab}
         >
-          <MenuItem
-            className='menu-tab-item'
-            data={{ action: 'rename' }}
-            onClick={(e, data) =>
-              handleMenuClick(data.action, data.tabId, data.experimentTitle)
-            }
-            preventClose={true}
+          {renderTabs()}
+        </DraggableTabs>
+        <ContextMenu className='menu-tab' id='menu_id'>
+          <Popover
+            trigger='click'
+            content={contentRename}
+            visible={renameVisible}
+            onVisibleChange={(visible) => {
+              setRenameVisible(visible);
+            }}
           >
-            <ItemName name='Renomear' icon={<EditOutlined />} />
-          </MenuItem>
-        </Popover>
+            <MenuItem
+              className='menu-tab-item'
+              data={{ action: 'rename' }}
+              onClick={(e, data) =>
+                handleMenuClick(data.action, data.tabId, data.experimentTitle)
+              }
+              preventClose={true}
+            >
+              <ItemName name='Renomear' icon={<EditOutlined />} />
+            </MenuItem>
+          </Popover>
 
-        <Popover
-          trigger='click'
-          content={contentDuplicate}
-          visible={duplicateVisible}
-          onVisibleChange={(visible) => {
-            setDuplicateVisible(visible);
-          }}
-        >
-          <MenuItem
-            className='menu-tab-item'
-            data={{ action: 'duplicar' }}
-            onClick={(e, data) =>
-              handleMenuClick(data.action, data.tabId, data.experimentTitle)
-            }
-            preventClose={true}
+          <Popover
+            trigger='click'
+            content={contentDuplicate}
+            visible={duplicateVisible}
+            onVisibleChange={(visible) => {
+              setDuplicateVisible(visible);
+            }}
           >
-            <ItemName name='Duplicar' icon={<CopyOutlined />} />
-          </MenuItem>
-        </Popover>
+            <MenuItem
+              className='menu-tab-item'
+              data={{ action: 'duplicar' }}
+              onClick={(e, data) =>
+                handleMenuClick(data.action, data.tabId, data.experimentTitle)
+              }
+              preventClose={true}
+            >
+              <ItemName name='Duplicar' icon={<CopyOutlined />} />
+            </MenuItem>
+          </Popover>
 
-        <Popconfirm
-          title={deleteTitle}
-          onConfirm={() => handleDelete(currentId)}
-          onCancel={() => setCurrentId(null)}
-          okText='Sim'
-          cancelText='Não'
-        >
-          <MenuItem
-            className='menu-tab-item'
-            data={{ action: 'delete' }}
-            preventClose={true}
-            onClick={(e, data) => handleMenuClick(data.action, data.tabId)}
+          <Popconfirm
+            title={deleteTitle}
+            onConfirm={() => onDelete(currentId)}
+            onCancel={() => setCurrentId(null)}
+            okText='Sim'
+            cancelText='Não'
           >
-            <ItemName name='Excluir' icon={<DeleteOutlined />} />
-          </MenuItem>
-        </Popconfirm>
-      </ContextMenu>
+            <MenuItem
+              className='menu-tab-item'
+              data={{ action: 'delete' }}
+              preventClose={true}
+              onClick={(e, data) => handleMenuClick(data.action, data.tabId)}
+            >
+              <ItemName name='Excluir' icon={<DeleteOutlined />} />
+            </MenuItem>
+          </Popconfirm>
+        </ContextMenu>
+      </DndProvider>
     </>
   );
 };
 
 // PROP TYPES
-Tab.propTypes = {
+Tabs.propTypes = {
   /** active tab key */
   activeTab: PropTypes.string,
   /** delete pop confirm title */
   deleteTitle: PropTypes.string,
-  /** handle tab change function */
-  handleChange: PropTypes.func.isRequired,
-  /** delete function to use on context menu */
-  handleDelete: PropTypes.func.isRequired,
-  /** duplicate function to use on context menu */
-  handleDuplicate: PropTypes.func.isRequired,
-  /** handle move tab function */
-  handleMoveTab: PropTypes.func.isRequired,
-  /** rename function to use on context menu */
-  handleRename: PropTypes.func.isRequired,
   /** is loading */
   loading: PropTypes.bool.isRequired,
+  /** handle tab change function */
+  onChange: PropTypes.func.isRequired,
+  /** delete function to use on context menu */
+  onDelete: PropTypes.func.isRequired,
+  /** duplicate function to use on context menu */
+  onDuplicate: PropTypes.func.isRequired,
+  /** handle move tab function */
+  onMoveTab: PropTypes.func.isRequired,
+  /** rename function to use on context menu */
+  onRename: PropTypes.func.isRequired,
   /** tabs list */
   tabs: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // PROP DEFAULT VALUES
-Tab.defaultProps = {
+Tabs.defaultProps = {
   /** experiments tabs active experiment key */
   activeTab: undefined,
 };
 
 // EXPORT
-export default Tab;
+export default Tabs;

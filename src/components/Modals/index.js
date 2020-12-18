@@ -1,4 +1,9 @@
+import DeploymentsNewTabModal from './DeploymentsNewTabModal';
 import InferenceTestResultModal from './InferenceTestResultModal';
 import UsingDeploymentsModal from './UsingDeploymentsModal';
 
-export { InferenceTestResultModal, UsingDeploymentsModal };
+export {
+  DeploymentsNewTabModal,
+  InferenceTestResultModal,
+  UsingDeploymentsModal,
+};

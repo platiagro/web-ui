@@ -64,7 +64,7 @@ const WrappedTabNode = DropTarget(TAB_TYPE, tabTargetConfig, (connect) => ({
  * This component is responsible for displaying and configuring draggable tabs.
  */
 const DraggableTabs = (props) => {
-  const { handleMoveTab, children, activeTab } = props;
+  const { activeTab, children, onMoveTab } = props;
 
   // tabs array
   const tabs = [];
@@ -79,11 +79,7 @@ const DraggableTabs = (props) => {
     <DefaultTabBar {...propsTabBar}>
       {/* wrapped tabs */}
       {(node) => (
-        <WrappedTabNode
-          key={node.key}
-          index={node.key}
-          moveTabNode={handleMoveTab}
-        >
+        <WrappedTabNode key={node.key} index={node.key} moveTabNode={onMoveTab}>
           {node}
         </WrappedTabNode>
       )}
@@ -107,8 +103,6 @@ const DraggableTabs = (props) => {
 
 // PROP TYPES
 DraggableTabs.propTypes = {
-  /** draggable tabs move tab handler */
-  handleMoveTab: PropTypes.func.isRequired,
   /** draggable tabs active tab key */
   activeTab: PropTypes.string,
   /** draggable tabs or tab */
@@ -116,6 +110,8 @@ DraggableTabs.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  /** draggable tabs move tab handler */
+  onMoveTab: PropTypes.func.isRequired,
 };
 
 // PROP DEFAULT VALUES

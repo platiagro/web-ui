@@ -424,6 +424,30 @@ export const deploymentsTabsLoadingData = () => {
   };
 };
 
+/**
+ * deployments tabs hide modal
+ *
+ * @returns {object} { type, visible }
+ */
+export const deploymentsTabsHideModal = () => {
+  return {
+    type: actionTypes.DEPLOYMENTS_TABS_HIDE_MODAL,
+    visible: false,
+  };
+};
+
+/**
+ * deployments tabs show modal
+ *
+ * @returns {object} { type, visible }
+ */
+export const deploymentsTabsShowModal = () => {
+  return {
+    type: actionTypes.DEPLOYMENTS_TABS_SHOW_MODAL,
+    visible: true,
+  };
+};
+
 // // // // // // // // // //
 
 // ** EXPERIMENTS TABS LOADING DATA

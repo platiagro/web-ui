@@ -11,6 +11,7 @@ import projectsDeploymentsApi from 'services/ProjectsDeploymentsApi';
 import {
   deploymentsTabsDataLoaded,
   deploymentsTabsLoadingData,
+  deploymentsTabsHideModal,
 } from 'store/ui/actions';
 
 // ACTIONS
@@ -33,6 +34,7 @@ export const createProjectDeployment = (projectId, experimentId, name) => (
     .createProjectDeployment(projectId, experimentId, name)
     .then((response) => {
       dispatch(deploymentsTabsDataLoaded());
+      dispatch(deploymentsTabsHideModal());
       const deployment = response.data;
       dispatch({
         type: actionTypes.CREATE_DEPLOYMENT_SUCCESS,
@@ -42,12 +44,21 @@ export const createProjectDeployment = (projectId, experimentId, name) => (
     })
     .catch((error) => {
       dispatch(deploymentsTabsDataLoaded());
-      let errorMessage = error.message;
-      dispatch({
-        type: actionTypes.CREATE_DEPLOYMENT_FAILURE,
-        errorMessage,
-      });
-      message.error(errorMessage, 5);
+      let errorMessage;
+      if (error.response.status === 500) {
+        errorMessage = error.message;
+        message.error(errorMessage, 5);
+      } else {
+        errorMessage = error.response.data.message;
+        if (errorMessage.includes('name already exist')) {
+          dispatch({
+            type: actionTypes.CREATE_DEPLOYMENT_FAILURE,
+            errorMessage: 'Já existe uma pré-implantação com este nome!',
+          });
+        } else {
+          message.error(errorMessage, 5);
+        }
+      }
     });
 };
 

@@ -1,7 +1,8 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import projectActionTypes from '../project/actionTypes';
-import experimentActionTypes from '../experiment/actionTypes';
+import experimentActionTypes from 'store/experiment/actionTypes';
+import projectActionTypes from 'store/project/actionTypes';
+import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE
 const initialState = {
@@ -41,7 +42,7 @@ const initialState = {
   projectsTable: { loading: false },
   projectName: { loading: false },
   tasksMenu: { loading: false },
-  deploymentsTabs: { loading: false },
+  deploymentsTabs: { loading: false, modalVisible: false },
   experimentsTabs: { loading: false },
   experimentName: { loading: false },
   experimentOperators: { loading: false },
@@ -300,6 +301,26 @@ const uiReducer = (state = initialState, action = undefined) => {
         deploymentsTabs: {
           ...state.deploymentsTabs,
           loading: action.loading,
+        },
+      };
+    case actionTypes.DEPLOYMENTS_TABS_HIDE_MODAL:
+    case actionTypes.DEPLOYMENTS_TABS_SHOW_MODAL:
+      return {
+        ...state,
+        deploymentsTabs: {
+          ...state.deploymentsTabs,
+          modalVisible: action.visible,
+          modalErrorMessage: null,
+          modalValidateStatus: null,
+        },
+      };
+    case projectDeploymentstActionTypes.CREATE_DEPLOYMENT_FAILURE:
+      return {
+        ...state,
+        deploymentsTabs: {
+          ...state.deploymentsTabs,
+          modalErrorMessage: action.errorMessage,
+          modalValidateStatus: 'error',
         },
       };
 

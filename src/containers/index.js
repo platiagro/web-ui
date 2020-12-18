@@ -5,6 +5,7 @@ import CustomConfirmRouterContainer from './CustomConfirmRouterContainer';
 import DatasetUploadInputBlockContainer from './DatasetUploadInputBlockContainer';
 import DataViewButtonContainer from './DataViewButtonContainer';
 import DataViewModalContainer from './DataViewModalContainer';
+import DeploymentsNewTabModalContainer from './DeploymentsNewTabModalContainer';
 import DeploymentsTableContainer from './DeploymentsTableContainer';
 import DeploymentsTabsContainer from './DeploymentsTabsContainer';
 import DownloadOperatorDatasetContainer from './DownloadOperatorDatasetContainer';
@@ -28,6 +29,7 @@ export {
   DatasetUploadInputBlockContainer,
   DataViewButtonContainer,
   DataViewModalContainer,
+  DeploymentsNewTabModalContainer,
   DeploymentsTableContainer,
   DeploymentsTabsContainer,
   DownloadOperatorDatasetContainer,

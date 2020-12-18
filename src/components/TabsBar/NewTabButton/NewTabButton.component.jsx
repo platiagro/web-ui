@@ -14,11 +14,11 @@ import './NewTabButton.component.style.less';
  * This component is responsible for show new tab button.
  */
 const NewTabButton = (props) => {
-  const { handleClick, disabled } = props;
+  const { disabled, onClick } = props;
   return (
     <Button
       disabled={disabled}
-      onClick={handleClick}
+      onClick={onClick}
       size='small'
       type='add'
       icon={<PlusOutlined />}
@@ -32,7 +32,7 @@ NewTabButton.propTypes = {
   /** button is disabled */
   disabled: PropTypes.bool.isRequired,
   /** button click function */
-  handleClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 // EXPORT

@@ -4,21 +4,19 @@ import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import Tabs from 'components/Tabs';
+import TabsBar from 'components/TabsBar';
 
 // ACTIONS
 import {
-  createProjectDeployment,
   deleteProjectDeployment,
   fetchProjectDeployments,
   updateDeploymentPosition,
 } from 'store/projectDeployments/actions';
+import { deploymentsTabsShowModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleCreateProjectDeployment: (projectId, experimentId, name) =>
-      dispatch(createProjectDeployment(projectId, experimentId, name)),
     handleFetchProjectDeployments: (projectId) =>
       dispatch(fetchProjectDeployments(projectId)),
     handleDeleteProjectDeployment: (projectId, experimentId) =>
@@ -27,6 +25,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(
         updateDeploymentPosition(projectId, dragId, hoverId, newPosition)
       ),
+    handleShowModal: () => dispatch(deploymentsTabsShowModal()),
   };
 };
 
@@ -39,13 +38,9 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * Experiment Tabs Container.
- * This component is responsible for create a logic container for experiment tabs
+ * Deployments Tabs Container.
+ * This component is responsible for create a logic container for deploymenys tabs
  * with redux.
- *
- * @component
- * @param {object} props Component props
- * @returns {ProjectsDeploymentsContainer} React component
  */
 const DeploymentsTabsContainer = (props) => {
   const {
@@ -53,6 +48,7 @@ const DeploymentsTabsContainer = (props) => {
     handleDeleteProjectDeployment,
     handleFetchProjectDeployments,
     handleUpdateDeploymentPosition,
+    handleShowModal,
     loading,
   } = props;
   const { projectId } = useParams();
@@ -75,15 +71,12 @@ const DeploymentsTabsContainer = (props) => {
 
   // RENDER
   return (
-    <Tabs
+    <TabsBar
       deleteTitle={'Excluir monitoramento?'}
-      modalItemLabel='Qual o nome do seu monitoramento?'
-      modalInitialValue='Novo monitoramento'
-      modalRuleMessage='Por favor insira um nome para o monitoramento!'
-      modalTitle='Novo Monitoramento'
-      handleDelete={handleDelete}
-      handleMoveTab={handleMoveTab}
       loading={loading}
+      onClick={handleShowModal}
+      onDelete={handleDelete}
+      onMoveTab={handleMoveTab}
       tabs={deployments}
     />
   );

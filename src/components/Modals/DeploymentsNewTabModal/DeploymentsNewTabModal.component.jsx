@@ -6,19 +6,15 @@ import PropTypes from 'prop-types';
 import { Form, Input, Modal } from 'antd';
 
 /**
- * This component is responsible for displaying a new tab modal.
+ * This component is responsible for displaying deployments new tab modal.
  */
-const NewTabModal = (props) => {
+const DeploymentsNewTabModal = (props) => {
   const {
     errorMessage,
-    handleCloseModal,
-    handleNewTab,
-    itemLabel,
-    initialValue,
     loading,
-    modalValidateStatus,
-    ruleMessage,
-    title,
+    onClose,
+    onConfirm,
+    validateStatus,
     visible,
   } = props;
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -33,8 +29,8 @@ const NewTabModal = (props) => {
     } else {
       setButtonDisabled(false);
     }
-    setStatus(modalValidateStatus);
-  }, [modalValidateStatus, visible]);
+    setStatus(validateStatus);
+  }, [validateStatus, visible]);
 
   // FUNCTIONS
   // function to enable or disable submit button
@@ -48,7 +44,7 @@ const NewTabModal = (props) => {
   // Function to handle form submit
   const handleSubmit = () => {
     form.validateFields().then((values) => {
-      handleNewTab(values.name);
+      onConfirm(values.name);
     });
   };
 
@@ -57,15 +53,15 @@ const NewTabModal = (props) => {
     // modal component
     <Modal
       visible={visible}
-      title={title}
+      title='Novo Monitoramento'
       okText='Criar'
       cancelText='Cancelar'
-      onCancel={handleCloseModal}
+      onCancel={onClose}
       onOk={handleSubmit}
       okButtonProps={{
         disabled: buttonDisabled,
         loading,
-        form: 'newTabForm',
+        form: 'newDeploymentTabForm',
         key: 'submit',
         htmlType: 'submit',
       }}
@@ -73,23 +69,23 @@ const NewTabModal = (props) => {
     >
       {/* form details */}
       <Form
-        id='newTabForm'
+        id='newDeploymentTabForm'
         layout='vertical'
         form={form}
         preserve={false}
         onValuesChange={onValuesChangeForm}
       >
         <Form.Item
-          label={itemLabel}
+          label='Qual o nome do seu monitoramento?'
           name='name'
-          initialValue={initialValue}
+          initialValue='Novo monitoramento'
           rules={[
             {
               required: true,
-              message: ruleMessage,
+              message: 'Por favor insira um nome para o monitoramento!',
             },
           ]}
-          validateStatus={status ? modalValidateStatus : undefined}
+          validateStatus={status ? validateStatus : undefined}
           help={status ? errorMessage : undefined}
           autoFocus
         >
@@ -109,26 +105,20 @@ const NewTabModal = (props) => {
 };
 
 // PROP TYPES
-NewTabModal.propTypes = {
+DeploymentsNewTabModal.propTypes = {
   /** modal error message */
   errorMessage: PropTypes.string,
   /** is loading */
   loading: PropTypes.string,
   /** modal close handler */
-  handleCloseModal: PropTypes.func.isRequired,
-  /** modal new tab handler */
-  handleNewTab: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  /** modal confirm handler */
+  onConfirm: PropTypes.func.isRequired,
   /** modal validate status */
-  modalValidateStatus: PropTypes.string,
-  /** modal item label */
-  itemLabel: PropTypes.string,
-  /** modal rule message */
-  ruleMessage: PropTypes.string,
-  /** modal title */
-  title: PropTypes.string,
+  validateStatus: PropTypes.string,
   /** modal visible */
   visible: PropTypes.bool.isRequired,
 };
 
 // EXPORT
-export default NewTabModal;
+export default DeploymentsNewTabModal;
