@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import { Form, Input, Modal } from 'antd';
 
 /**
- * This component is responsible for displaying deployments new tab modal.
+ * This component is responsible for displaying new monitorings modal.
  */
-const DeploymentsNewTabModal = (props) => {
+const NewMonitoringModal = (props) => {
   const {
     errorMessage,
     loading,
@@ -105,7 +105,7 @@ const DeploymentsNewTabModal = (props) => {
 };
 
 // PROP TYPES
-DeploymentsNewTabModal.propTypes = {
+NewMonitoringModal.propTypes = {
   /** modal error message */
   errorMessage: PropTypes.string,
   /** is loading */
@@ -121,4 +121,4 @@ DeploymentsNewTabModal.propTypes = {
 };
 
 // EXPORT
-export default DeploymentsNewTabModal;
+export default NewMonitoringModal;

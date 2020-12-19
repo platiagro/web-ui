@@ -13,7 +13,7 @@ const onConfirm = () => {
 };
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
-  <DeploymentsNewTabModal
+  <NewMonitoringModal
     errorMessage={errorMessage}
     loading={loading}
     onClose={onClose}
