@@ -6,6 +6,9 @@ import { useParams, withRouter } from 'react-router-dom';
 // COMPONENTS
 import TabsBar from 'components/TabsBar';
 
+// CONTAINERS
+import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer';
+
 // ACTIONS
 import {
   deleteProjectDeployment,
@@ -71,14 +74,17 @@ const DeploymentsTabsContainer = (props) => {
 
   // RENDER
   return (
-    <TabsBar
-      deleteTitle={'Excluir monitoramento?'}
-      loading={loading}
-      onClick={handleShowModal}
-      onDelete={handleDelete}
-      onMoveTab={handleMoveTab}
-      tabs={deployments}
-    />
+    <>
+      <TabsBar
+        deleteTitle={'Excluir monitoramento?'}
+        loading={loading}
+        onClick={handleShowModal}
+        onDelete={handleDelete}
+        onMoveTab={handleMoveTab}
+        tabs={deployments}
+      />
+      <NewDeploymentModalContainer />
+    </>
   );
 };
 

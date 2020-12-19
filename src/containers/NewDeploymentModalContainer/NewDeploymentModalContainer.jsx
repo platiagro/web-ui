@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import { DeploymentsNewTabModal } from 'components/Modals';
+// import { NewDeploymentModal } from 'components/Modals';
 
 // ACTIONS
 import { createProjectDeployment } from 'store/projectDeployments/actions';
@@ -30,45 +30,48 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * Deployments new tab modal container.
- * This component is responsible for create a logic container for deployments new tab modal
+ * New Deployments modal container.
+ * This component is responsible for create a logic container for new deployments modal
  * with redux.
  */
-const DeploymentsNewTabModalContainer = (props) => {
-  const {
-    errorMessage,
-    handleCreateProjectDeployment,
-    handleHideModal,
-    loading,
-    validateStatus,
-    visible,
-  } = props;
+const NewDeploymentModalContainer = (props) => {
+  // const {
+  //   errorMessage,
+  //   handleCreateProjectDeployment,
+  //   handleHideModal,
+  //   loading,
+  //   validateStatus,
+  //   visible,
+  // } = props;
   const { projectId } = useParams();
 
   // HANDLERS
   // Verificar como escolher o experimento
-  const onConfirm = (name) => {
-    handleCreateProjectDeployment(
-      projectId,
-      'f6d3019a-a739-4ee4-9c2a-eefd17f21148',
-      name
-    );
-  };
+  // const onConfirm = (name) => {
+  //   handleCreateProjectDeployment(
+  //     projectId,
+  //     'f6d3019a-a739-4ee4-9c2a-eefd17f21148',
+  //     name
+  //   );
+  // };
 
   // RENDER
   return (
-    <DeploymentsNewTabModal
-      errorMessage={errorMessage}
-      loading={loading}
-      onClose={handleHideModal}
-      onConfirm={onConfirm}
-      validateStatus={validateStatus}
-      visible={visible}
-    />
+    <>
+      `TODO ${projectId}`
+    </>
+    // <NewDeploymentModal
+    //   errorMessage={errorMessage}
+    //   loading={loading}
+    //   onClose={handleHideModal}
+    //   onConfirm={onConfirm}
+    //   validateStatus={validateStatus}
+    //   visible={visible}
+    // />
   );
 };
 
 // EXPORT
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DeploymentsNewTabModalContainer)
+  connect(mapStateToProps, mapDispatchToProps)(NewDeploymentModalContainer)
 );
