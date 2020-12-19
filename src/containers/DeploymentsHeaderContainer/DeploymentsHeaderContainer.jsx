@@ -32,13 +32,13 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * Content Header Deployments Content Container.
- * This components is responsible for create a logic container 
- * for deployments content header with route control.
- * 
+ * Deployments Header Container.
+ * This components is responsible for create a logic container
+ * for deployments header with route control.
+ *
  * @param {*} props Container props
  */
-const HeaderDeploymentsContentContainer = (props) => {
+const DeploymentsHeaderContainer = (props) => {
   const { project, handleEditProjectName, handleFetchProject } = props;
 
   const { projectId } = useParams();
@@ -77,12 +77,12 @@ const HeaderDeploymentsContentContainer = (props) => {
           {/* FIXME: missing deployment buttons */}
           <AccountInfo />
         </>
-      }    
+      }
     />
   );
 };
 
-HeaderDeploymentsContentContainer.propTypes = {
+DeploymentsHeaderContainer.propTypes = {
   /** Project object */
   project: PropTypes.object.isRequired,
   /** Action to edit project name */
@@ -97,5 +97,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(HeaderDeploymentsContentContainer)
+  )(DeploymentsHeaderContainer)
 )
