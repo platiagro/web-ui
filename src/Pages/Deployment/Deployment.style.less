@@ -33,8 +33,8 @@
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
+        min-height: calc(100% - 40px);
         min-width: 100%;
-        min-height: 90%;
         background-color: cyan;
 
         .options {
@@ -63,9 +63,10 @@
         }
       }
 
-      .experiments {
+      .custom-tabs {
         min-width: 100%;
-        background-color: lime;
+        align-self: flex-end;
+        min-height: 40px;
       }
     }
   }

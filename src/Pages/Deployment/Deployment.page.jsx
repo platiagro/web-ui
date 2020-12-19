@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DeploymentsHeaderContainer from 'containers/DeploymentsHeaderContainer';
+import DeploymentsTabsContainer from 'containers/DeploymentsTabsContainer';
 
 import './Deployment.style.less';
 
@@ -22,7 +23,7 @@ function Deployment() {
             <div className='monitoring'>monitoramento</div>
             <div className='parameters'>parametros</div>
           </div>
-          <div className='experiments'>experimentos</div>
+          <DeploymentsTabsContainer />
         </div>
       </div>
     </div>

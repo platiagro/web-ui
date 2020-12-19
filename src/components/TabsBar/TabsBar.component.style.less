@@ -1,0 +1,116 @@
+@import './src/variables.less';
+
+.draggableTabs {
+  position: relative;
+  top: -0.5px;
+  margin-bottom: -0.5px;
+  margin-left: 2px;
+}
+
+.custom-tabs {
+  align-items: center;
+  background-color: #e5e5e5;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  display: flex;
+  padding-left: 5px;
+  min-height: 41px;
+
+  .ant-tabs-bar {
+    background: #eceff1;
+    margin: 0;
+    padding-left: 8px;
+  }
+
+  .ant-tabs-top > .ant-tabs-nav {
+    margin: 0;
+  }
+
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+    padding: 0;
+    margin: 0px 0.5px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0px 0px 2px 2px;
+
+    &.ant-tabs-tab-active {
+      border-top: 1px solid #fff;
+    }
+  }
+
+  .ant-tabs-nav .ant-tabs-tab .anticon {
+    margin: 0px 7px;
+    padding: 0px;
+  }
+
+  .tab-title-custom {
+    padding: 12px 0px;
+    margin: 0px;
+    margin-left: 10px;
+  }
+
+  .ant-tabs-nav-list {
+    line-height: 15px;
+  }
+
+  .menu-tab {
+    background-color: #fff;
+    z-index: 10;
+    margin: 0;
+    color: rgba(0, 0, 0, 0.65);
+    padding: 4px 0;
+    text-align: left;
+    list-style-type: none;
+    border-radius: 4px;
+    outline: none;
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    -webkit-transform: translate3d(0, 0, 0);
+
+    .menu-tab-item {
+      clear: both;
+      margin: 0;
+      padding: 5px 12px;
+      color: rgba(0, 0, 0, 0.65);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      white-space: nowrap;
+      cursor: pointer;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+  }
+
+  .close-icon-tab {
+    color: #aaa;
+    transition: all ease 0.3s;
+    padding: 1px;
+    margin-left: 5px;
+    &:hover {
+      color: #777;
+      background-color: #dedede;
+    }
+  }
+
+  .menu-item-name {
+    span {
+      margin-left: 8px;
+    }
+    &:hover {
+      color: @primary-color;
+    }
+  }
+
+  .ant-btn.ant-btn-add {
+    background-color: @white;
+    border-color: @gray-light;
+    border-radius: 0 !important;
+    color: darken(@gray-light, 30%);
+
+    &:hover,
+    &:focus {
+      background-color: darken(@white, 5%);
+      border-color: darken(@gray-light, 5%);
+      color: darken(@gray-light, 30%);
+    }
+  }
+}

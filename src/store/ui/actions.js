@@ -399,6 +399,57 @@ export const tasksMenuDataLoaded = () => {
 
 // // // // // // // // // //
 
+// ** DEPLOYMENTS TABS
+/**
+ * deployments tabs loading data
+ *
+ * @returns {object} { type, loading }
+ */
+export const deploymentsTabsDataLoaded = () => {
+  return {
+    type: actionTypes.DEPLOYMENTS_TABS_DATA_LOADED,
+    loading: false,
+  };
+};
+
+/**
+ * deployments tabs loading data
+ *
+ * @returns {object} { type, loading }
+ */
+export const deploymentsTabsLoadingData = () => {
+  return {
+    type: actionTypes.DEPLOYMENTS_TABS_LOADING_DATA,
+    loading: true,
+  };
+};
+
+/**
+ * deployments tabs hide modal
+ *
+ * @returns {object} { type, visible }
+ */
+export const deploymentsTabsHideModal = () => {
+  return {
+    type: actionTypes.DEPLOYMENTS_TABS_HIDE_MODAL,
+    visible: false,
+  };
+};
+
+/**
+ * deployments tabs show modal
+ *
+ * @returns {object} { type, visible }
+ */
+export const deploymentsTabsShowModal = () => {
+  return {
+    type: actionTypes.DEPLOYMENTS_TABS_SHOW_MODAL,
+    visible: true,
+  };
+};
+
+// // // // // // // // // //
+
 // ** EXPERIMENTS TABS LOADING DATA
 /**
  * experiments tabs loading data
