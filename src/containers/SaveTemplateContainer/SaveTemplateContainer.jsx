@@ -62,11 +62,11 @@ const SaveTemplateContainer = (props) => {
     <div>
       <SaveTemplateModal 
         visible={modalVisible}
-        handleCloseModal={handleHideModal}
-        handleNewTemplate={newTemplateHandle}
+        onClose={handleHideModal}
+        onConfirm={newTemplateHandle}
         loading={loading}
       />
-      <SaveTemplateButton disabled={disabled} handleClick={handleShowModal}/>
+      <SaveTemplateButton disabled={disabled} onClick={handleShowModal}/>
     </div>
   );
 };
