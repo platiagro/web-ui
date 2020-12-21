@@ -14,7 +14,7 @@ import { Form, Input, Modal } from 'antd';
  * @component 
  */
 const SaveTemplateModal = (props) => {
-  const { visible, loading, handleCloseModal, handleSaveTemplate } = props;
+  const { visible, loading, onClose, onConfirm } = props;
 
   const [buttonDisabled, setButtonDisabled] = useState();
   const [form] = Form.useForm();
@@ -43,7 +43,7 @@ const SaveTemplateModal = (props) => {
     form
       .validateFields()
       .then((values) => {
-        handleSaveTemplate(values.name);
+        onConfirm(values.name);
       });
   };
 
@@ -55,7 +55,7 @@ const SaveTemplateModal = (props) => {
       okText='Salvar'
       onOk={handleSubmit}
       cancelText='Cancelar'
-      onCancel={handleCloseModal}
+      onCancel={onClose}
       okButtonProps={{
         disabled: buttonDisabled,
         loading,
@@ -95,10 +95,12 @@ const SaveTemplateModal = (props) => {
 SaveTemplateModal.propTypes = {
   /** save template modal visible */
   visible: PropTypes.bool.isRequired,
+  /** save template modal is loading */
+  loading: PropTypes.bool.isRequired,
   /** save template modal close handler */
-  handleCloseModal: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   /** save template modal new template handle*/
-  handleSaveTemplate: PropTypes.func.isRequired
+  onConfirm: PropTypes.func.isRequired
 };
 
 // EXPORT

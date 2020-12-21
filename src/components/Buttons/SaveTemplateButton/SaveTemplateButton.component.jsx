@@ -18,7 +18,7 @@ import { Button } from 'uiComponents';
 const SaveTemplateButton = (props) => {
   // destructuring propsSaveTemplateButton
   const { 
-    handleClick,
+    onClick,
     disabled
   } = props;
 
@@ -27,7 +27,7 @@ const SaveTemplateButton = (props) => {
     <Button 
       type='primary-inverse'
       shape='round' 
-      handleClick={handleClick}
+      handleClick={onClick}
       isDisabled={disabled}
     >
       <PartitionOutlined />
@@ -39,7 +39,7 @@ const SaveTemplateButton = (props) => {
 // PROP TYPES
 SaveTemplateButton.propTypes = {
   /** click function */
-  handleClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   /** save template button is disabled */
   disabled: PropTypes.bool.isRequired,
 };

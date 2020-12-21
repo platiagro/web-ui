@@ -1,42 +1,20 @@
 ```js
-    import { PartitionOutlined } from '@ant-design/icons';
-    import { Button } from 'uiComponents';
-
-    const handleClick = () => {
+    const onClick = () => {
         alert('Novo template!')
     };
 
     const disabled = false;
- 
-    <Button 
-      type='primary-inverse'
-      shape='round' 
-      handleClick={handleClick}
-      isDisabled={disabled}
-    >
-      <PartitionOutlined />
-      Salvar como template
-    </Button>
+
+    <SaveTemplateButton disabled={disabled} onClick={onClick} />;
 ```
 
 Botão desabilitado.
 ```js
-    import { PartitionOutlined } from '@ant-design/icons';
-    import { Button } from 'uiComponents';
-
-    const handleClick = () => {
+    const onClick = () => {
         alert('Novo template!')
     };
 
     const disabled = true;
  
-    <Button 
-      type='primary-inverse'
-      shape='round' 
-      handleClick={handleClick}
-      isDisabled={disabled}
-    >
-      <PartitionOutlined />
-      Salvar como template
-    </Button>
+     <SaveTemplateButton disabled={disabled} onClick={onClick} />;
 ```

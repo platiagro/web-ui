@@ -1,5 +1,4 @@
 // REACT LIBS
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
@@ -70,21 +69,6 @@ const SaveTemplateContainer = (props) => {
       <SaveTemplateButton disabled={disabled} handleClick={handleShowModal}/>
     </div>
   );
-};
-
-SaveTemplateContainer.propTypes = {
-  /** save template modal is visible */
-  modalVisible: PropTypes.bool.isRequired,
-  /** save template modal is loading */
-  loading: PropTypes.bool.isRequired,
-  /** action to create a new template */
-  handleCreateTemplate: PropTypes.func.isRequired,
-  /** action to show save template modal */
-  handleShowModal: PropTypes.func.isRequired,
-  /** action to hide save template modal */
-  handleHideModal: PropTypes.func.isRequired,
-  /** save template button is disabled */
-  disabled: PropTypes.bool,
 };
 
 // EXPORT DEFAULT
