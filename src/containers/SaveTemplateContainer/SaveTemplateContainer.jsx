@@ -50,11 +50,11 @@ const SaveTemplateContainer = (props) => {
   } = props;
 
   // CONSTANTS
-  const { experimentId } = useParams();
+  const { deploymentId } = useParams();
 
   // HANDLERS
   const newTemplateHandle = (templateName) => {
-    handleCreateTemplate(templateName, experimentId);
+    handleCreateTemplate(templateName, deploymentId);
   };
 
   // RENDER
