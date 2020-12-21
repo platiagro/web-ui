@@ -23,6 +23,7 @@ const CompareResultItemResults = (props) => {
     compareResult,
     height,
     onResultDatasetPageChange,
+    onUpdate,
     tasks,
     trainingDetail,
   } = props;
@@ -74,8 +75,17 @@ const CompareResultItemResults = (props) => {
     onResultDatasetPageChange(compareResult, page, size);
   };
 
+  const handleOnTabChange = (activeKey) => {
+    const updatedCompareResult = {
+      ...compareResult,
+      activeTab: activeKey,
+    };
+    onUpdate(updatedCompareResult, false);
+  };
+
   return (
     <ResultsDrawer
+      activeKey={compareResult.activeTab}
       dataset={compareResult.dataset}
       datasetScroll={{
         x: compareResult.dataset
@@ -89,6 +99,7 @@ const CompareResultItemResults = (props) => {
       metricsLoading={false}
       parameters={resultsParameters}
       onDatasetPageChange={handleOnDatasetPageChange}
+      onTabChange={handleOnTabChange}
       resultsTabStyle={{
         maxHeight: height ? height - 220 : 300,
         overflow: 'auto',
@@ -106,6 +117,8 @@ CompareResultItemResults.propTypes = {
   height: PropTypes.number,
   /** Function to handle result dataset page change */
   onResultDatasetPageChange: PropTypes.func.isRequired,
+  /** Function to handle update compare result */
+  onUpdate: PropTypes.func.isRequired,
   /** Tasks list */
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** The expriment training detail */

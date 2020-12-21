@@ -294,13 +294,16 @@ export const startDatasetUpload = (file, cancelToken) => async (
   getState
 ) => {
   // get reducers from store
-  const { projectReducer, experimentReducer, operatorReducer } = getState();
+  const { projectReducer, experimentsReducer, operatorReducer } = getState();
 
   // get project id
   const { uuid: projectId } = projectReducer;
 
   // get experiment id
-  const { uuid: experimentId } = experimentReducer;
+  const experiment = experimentsReducer.find((ex) => {
+    return ex.isActive;
+  });
+  const { uuid: experimentId } = experiment;
 
   // save dataset operator
   const datasetOperator = { ...operatorReducer };

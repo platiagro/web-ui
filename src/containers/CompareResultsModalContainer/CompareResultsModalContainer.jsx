@@ -57,8 +57,8 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleGetCompareResultDatasetPaginated: (compareResult, page, pageSize) =>
       dispatch(getCompareResultDatasetPaginated(compareResult, page, pageSize)),
-    handleUpdateCompareResult: (compareResult, changedPosition) => {
-      dispatch(updateCompareResult(compareResult, changedPosition));
+    handleUpdateCompareResult: (compareResult, isToDispachAction) => {
+      dispatch(updateCompareResult(compareResult, isToDispachAction));
     },
   };
 };
@@ -227,7 +227,7 @@ const CompareResultsModalContainer = (props) => {
             w: layoutItem.w,
             h: layoutItem.h,
           };
-          handleUpdateCompareResult(compareResult, true);
+          handleUpdateCompareResult(compareResult, false);
         }
       }
     }

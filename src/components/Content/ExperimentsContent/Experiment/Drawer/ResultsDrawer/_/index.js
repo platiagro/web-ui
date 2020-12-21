@@ -60,6 +60,7 @@ const parametersColumns = [
  */
 const ResultsDrawer = (props) => {
   const {
+    activeKey,
     dataset,
     datasetScroll,
     figures,
@@ -68,6 +69,7 @@ const ResultsDrawer = (props) => {
     metrics,
     metricsLoading,
     onDatasetPageChange,
+    onTabChange,
     parameters,
     resultsTabStyle,
     scroll,
@@ -96,7 +98,7 @@ const ResultsDrawer = (props) => {
         <Spin indicator={<LoadingOutlined />} />
       ) : hasResult ? (
         <>
-          <Tabs defaultActiveKey='1'>
+          <Tabs defaultActiveKey={activeKey} onChange={onTabChange}>
             {/* figures */}
             {figures.map((result, i) => {
               const index = i + 1;
@@ -183,6 +185,8 @@ const ResultsDrawer = (props) => {
 
 // PROP TYPES
 ResultsDrawer.propTypes = {
+  /** Tabs active key */
+  activeKey: PropTypes.string,
   /** Dataset result  */
   dataset: PropTypes.object,
   /** Dataset scroll config */
@@ -197,6 +201,10 @@ ResultsDrawer.propTypes = {
   metrics: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Metrics is loading */
   metricsLoading: PropTypes.bool.isRequired,
+  /** Function to handle dataset page change */
+  onDatasetPageChange: PropTypes.func.isRequired,
+  /** Function to handle tab change */
+  onTabChange: PropTypes.func.isRequired,
   /** Training parameters */
   parameters: PropTypes.arrayOf(PropTypes.object),
   /** Table scroll config */
@@ -204,6 +212,8 @@ ResultsDrawer.propTypes = {
 };
 
 ResultsDrawer.defaultProps = {
+  /** Tabs active key */
+  activeKey: '1',
   /** Table scroll config */
   scroll: undefined,
 };
