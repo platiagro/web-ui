@@ -7,6 +7,7 @@ import DataViewButtonContainer from './DataViewButtonContainer';
 import DataViewModalContainer from './DataViewModalContainer';
 import DeploymentsTableContainer from './DeploymentsTableContainer';
 import DeploymentsTabsContainer from './DeploymentsTabsContainer';
+import DeploymentToolbarContainer from './DeploymentToolbarContainer';
 import DownloadOperatorDatasetContainer from './DownloadOperatorDatasetContainer';
 
 import HeaderExperimentsContentContainer from './HeaderExperimentsContentContainer';
@@ -32,6 +33,7 @@ export {
   DataViewModalContainer,
   DeploymentsTableContainer,
   DeploymentsTabsContainer,
+  DeploymentToolbarContainer,
   DownloadOperatorDatasetContainer,
   HeaderExperimentsContentContainer,
   InferenceTestResultModalContainer,
