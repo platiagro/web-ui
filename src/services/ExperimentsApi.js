@@ -16,8 +16,9 @@ const experimentsPath = '/experiments';
 // API METHODS
 /**
  * List Experiments
- * @param {string} projectId
- * @returns {Promise}
+ *
+ * @param {string} projectId Project UUID
+ * @returns {Promise} Request Promise
  */
 const listExperiments = (projectId) => {
   return experimentsApi.get(`/${projectId}${experimentsPath}`);
@@ -25,8 +26,10 @@ const listExperiments = (projectId) => {
 
 /**
  * Detail Experiment
- * @param {string} projectId
- * @returns {Promise}
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentId experiment uuid
+ * @returns {Promise} Request Promise
  */
 const detailExperiment = (projectId, experimentId) => {
   return experimentsApi.get(`/${projectId}${experimentsPath}/${experimentId}`);
@@ -34,10 +37,11 @@ const detailExperiment = (projectId, experimentId) => {
 
 /**
  * Create Experiment
- * @param {string} projectId
- * @param {string} experimentName
- * @param {string} copyFrom
- * @returns {Promise}
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentName Experiment name
+ * @param {string} copyFrom Reference to copy (optional)
+ * @returns {Promise} Request Promise
  */
 const createExperiment = (projectId, experimentName, copyFrom) => {
   const body = {
@@ -49,10 +53,11 @@ const createExperiment = (projectId, experimentName, copyFrom) => {
 
 /**
  * Update Experiment
- * @param {string} projectId
- * @param {string} experimentId
- * @param {Object} experiment
- * @returns {Promise}
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentId Experiment UUID
+ * @param {object} experiment Experiment object updated
+ * @returns {Promise} Request Promise
  */
 const updateExperiment = (projectId, experimentId, experiment) => {
   return experimentsApi.patch(
@@ -63,9 +68,10 @@ const updateExperiment = (projectId, experimentId, experiment) => {
 
 /**
  * Delete Experiment
- * @param {string} projectId
- * @param {string} experimentId
- * @returns {Promise}
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentId Experiment UUID
+ * @returns {Promise} Request Promise
  */
 const deleteExperiment = (projectId, experimentId) => {
   return experimentsApi.delete(

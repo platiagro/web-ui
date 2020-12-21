@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [master]
+    branches: [ master, v*-branch ]
   pull_request:
-    branches: [master]
+    branches: [ master, v*-branch ]
 
 jobs:
   build:
@@ -66,37 +66,46 @@ jobs:
             - [Nomeie as `actions` como "eventos", não como "setters".](https://redux.js.org/style-guide/style-guide#model-actions-as-events-not-setters)
               ex: `SET_TASK_NAME` `SET_TASK_DESCRIPTION` **(ERRADO)**. `TASK_DETAILS_EDITED` **(CORRETO)**.
             - [Utilize nomes auto-explicativos para as actions. Evite nomes como `SET_DATA` e `UPDATE_DATA`.](https://redux.js.org/style-guide/style-guide#write-meaningful-action-names)
-      - name: Set output variables
-        id: vars
-        run: |
-          echo ${{ github.ref }}
-          if [ ${{ github.ref }} = "refs/heads/master" ]; then
-            echo ::set-output name=TAG::0.2.0
-          else
-            echo ::set-output name=TAG::0.2.0-SNAPSHOT
-          fi
-          echo ::set-output name=BRANCH::${{ github.ref }}
-          echo ::set-output name=COMMIT::${{ github.sha }}
+
       - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Install dependencies
         run: |
           yarn
+
       - name: Perform tests
         run: |
           yarn build
           yarn test:ci
         env:
           CI: false
+
       - name: SonarCloud Scan
         if: ${{ always() }}
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Set output variables
+        id: vars
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ ${{ github.ref }} = "refs/heads/master" ]; then
+            echo ::set-output name=TAG::${VERSION}-SNAPSHOT
+          elif [[ ${{ github.ref }} =~ ^refs/heads/v.*-branch$ ]]; then
+            echo ::set-output name=TAG::${VERSION}
+          else
+            echo ::set-output name=TAG::${VERSION}-${{ github.sha }}
+          fi
+          echo ::set-output name=BRANCH::${{ github.ref }}
+          echo ::set-output name=COMMIT::${{ github.sha }}
+
       - name: Build and push image (NO AUTH) 📦
         if: ${{ always() }}
         uses: docker/build-push-action@v1
@@ -107,6 +116,7 @@ jobs:
           repository: platiagro/web-ui
           tags: ${{ steps.vars.outputs.TAG }}
           build_args: COMMIT=${{ steps.vars.outputs.COMMIT }},BRANCH=${{ steps.vars.outputs.BRANCH }}
+
       - name: Build and push image (AUTH) 📦
         if: ${{ always() }}
         uses: docker/build-push-action@v1

@@ -5,7 +5,7 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import deploymentsApi from 'services/DeploymentsApi';
+import deploymentRunsApi from 'services/DeploymentRunsApi';
 import projectsApi from 'services/ProjectsApi';
 
 // UI ACTIONS
@@ -34,10 +34,10 @@ export const fetchPaginatedProjects = (name, page, pageSize) => {
           response.data.projects.map(async (project) => {
             let flagDeployed = false;
             for (const experiment of project.experiments) {
-              const deployedExperiment = await deploymentsApi
-                .fetchDeployedExperiment(project.uuid, experiment.uuid)
+              const deploymentRuns = await deploymentRunsApi
+                .fetchDeploymentRuns(project.uuid, experiment.uuid)
                 .catch((error) => {});
-              if (deployedExperiment) {
+              if (deploymentRuns) {
                 flagDeployed = true;
                 break;
               }

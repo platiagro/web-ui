@@ -1,0 +1,73 @@
+.deploymentPage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: aqua;
+
+  .menu {
+    min-width: 6%;
+    min-height: 100%;
+    background-color: green;
+  }
+
+  .contentBlock {
+    display: flex;
+    min-width: 94%;
+    flex-direction: column;
+    background-color: yellow;
+
+    .title {
+      min-width: 100%;
+      min-height: 8%;
+      background-color: red;
+    }
+
+    .deploymentContent {
+      display: flex;
+      flex-wrap: wrap;
+      min-width: 100%;
+      min-height: 92%;
+      background-color: orange;
+
+      .flowContent {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        min-height: calc(100% - 40px);
+        min-width: 100%;
+        background-color: cyan;
+
+        .options {
+          background-color: magenta;
+          min-width: 80%;
+          min-height: 10%;
+        }
+
+        .flow {
+          min-width: 80%;
+          min-height: 70%;
+          background-color: mintcream;
+        }
+
+        .monitoring {
+          min-width: 80%;
+          min-height: 20%;
+          background-color: rebeccapurple;
+        }
+
+        .parameters {
+          min-width: 20%;
+          min-height: 100%;
+          align-self: start;
+          background-color: grey;
+        }
+      }
+
+      .custom-tabs {
+        min-width: 100%;
+        align-self: flex-end;
+        min-height: 40px;
+      }
+    }
+  }
+}

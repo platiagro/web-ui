@@ -7,17 +7,24 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentButtons from './index';
 
 // ACTIONS
-import { fetchExperimentDeployStatusRequest } from 'store/experiment/actions';
-import { deployExperimentRequest } from 'store/pipelines/actions';
+import { fetchOperatorsRequest } from 'store/operators/actions';
+import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
+import { getExperimentById } from 'store/experiments/experimentsReducer';
 
 // DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    handleDeployExperiment: (project, experiment) =>
-      dispatch(deployExperimentRequest(project, experiment, routerProps)),
-    handleFetchExperimentDeployStatus: (projectId, experimentId) =>
-      dispatch(fetchExperimentDeployStatusRequest(projectId, experimentId)),
+    handleFetchOperators: (projectId, experimentId) =>
+      dispatch(fetchOperatorsRequest(projectId, experimentId)),
+    handleCreateDeploymentRun: (projectId, experimentId) =>
+      dispatch(
+        deploymentRunsActions.createDeploymentRunSuccess(projectId, experimentId)
+      ),
+    handleFetchDeploymentStatus: (projectId, experimentId) =>
+      dispatch(
+        deploymentRunsActions.fetchDeploymentRunsRequest(projectId, experimentId)
+      ),
     handleCompareResultsClick: () => {
       dispatch(changeVisibilityCompareResultsModal(true));
     },
@@ -27,7 +34,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    experiment: state.experimentReducer,
+    experiment: (experimentId) => {
+      return getExperimentById(state, experimentId);
+    },
     operators: state.operatorsReducer,
     project: state.projectReducer,
     loading: state.uiReducer.experimentName.loading,
@@ -47,10 +56,15 @@ const ExperimentButtonsContainer = ({
   project,
   trainingLoading,
   handleCompareResultsClick,
-  handleDeployExperiment,
-  handleFetchExperimentDeployStatus,
+  handleFetchOperators,
+  handleCreateDeploymentRun,
+  handleFetchDeploymentStatus,
 }) => {
   const { projectId, experimentId } = useParams();
+  
+  // select experiment
+  experiment(experimentId);
+
   const { deployStatus } = experiment;
 
   // Checks if the experiment has, at least, one non DATASET operator
@@ -64,18 +78,24 @@ const ExperimentButtonsContainer = ({
   });
 
   // HOOKS
-  // did mount hook
+  // did mount hooks
   useEffect(() => {
     const polling = setInterval(
-      () => handleFetchExperimentDeployStatus(projectId, experimentId),
+      () => handleFetchDeploymentStatus(projectId, experimentId),
       5000
     );
     return () => clearInterval(polling);
   });
 
+  useEffect(() => {
+    if (experimentId) {
+      handleFetchOperators(projectId, experimentId);
+    }
+  }, [projectId, experimentId, handleFetchOperators]);
+
   // HANDLERS
   const handleDeploymentClick = () =>
-    handleDeployExperiment(project, experiment);
+    handleCreateDeploymentRun(projectId, experimentId);
 
   // RENDER
   return (

@@ -58,13 +58,16 @@ const HeaderExperimentsContentContainer = (props) => {
     }
   }, [handleFetchProject, project, projectId]);
 
+  // SET TARGET ROUTE FOR PAGE HEADER DROPDOWN
+  const target = `/projetos/${projectId}/pre-implantacao`
+
   // RENDER
   return (
     <ContentHeader
       title={project.name}
       subTitle={
         <>
-          <PageHeaderDropdown type='experiment' target='' />
+          <PageHeaderDropdown type='experiment' target={target} />
         </>
       }
       customSubTitle='Meus projetos'

@@ -1,69 +1,86 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import experimentActionTypes from '../experiment/actionTypes';
-
-// UTILS
-import utils from '../../utils';
+import experimentRunsActionTypes from './experimentRuns/actionTypes';
 
 // INITIAL STATE
 const initialState = [];
 
 /**
  * experiments reducer
+ *
+ * @param state
+ * @param action
+ * @returns {Array} Experiments list
  */
 const experimentsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     //reset initial fetch of experiments
     case actionTypes.CLEAR_ALL_EXPERIMENTS:
       return [];
+    
     // SUCCESS
-    // experiments
     // fetch experiments success
     case actionTypes.FETCH_EXPERIMENTS_SUCCESS:
       return [...action.experiments];
-    // organize experiments success
-    case actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS:
-      return [
-        ...utils.organizeExperiments(
-          state,
-          action.dragExperimentId,
-          action.hoverExperimentId
-        ),
-      ];
-
-    // experiment
     // create experiment success
-    case experimentActionTypes.CREATE_EXPERIMENT_SUCCESS:
+    case actionTypes.CREATE_EXPERIMENT_SUCCESS:
       return [...state, action.experiment];
     // edit experiment name success
-    case experimentActionTypes.EDIT_EXPERIMENT_NAME_SUCCESS:
-      return [
-        ...state.map((experiment) =>
-          experiment.uuid !== action.experiment.uuid
-            ? experiment
-            : { ...experiment, name: action.experiment.name }
-        ),
-      ];
+    case actionTypes.UPDATE_EXPERIMENT_SUCCESS:
+      return [...action.experiments];
     // delete experiment success
-    case experimentActionTypes.DELETE_EXPERIMENT_SUCCESS:
-      return [...utils.deleteExperiment(state, action.experimentId)];
+    case actionTypes.DELETE_EXPERIMENT_SUCCESS:
+      return [...action.experiments];
+    // organize experiments success
+    case actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS:
+      return [...action.experiments];
 
     // // // // // // //
 
     // FAIL
-    // experiments
     // fetch experiments fail
     case actionTypes.FETCH_EXPERIMENTS_FAIL:
+      return [...state];
+    // create experiment fail
+    case actionTypes.CREATE_EXPERIMENT_FAIL:
+      return [...state];
+    // update experiment fail
+    case actionTypes.UPDATE_EXPERIMENT_FAIL:
+      return [...state];
+    // delete experiment fail
+    case actionTypes.DELETE_EXPERIMENT_FAIL:
       return [...state];
     // organize experiments fail
     case actionTypes.ORGANIZE_EXPERIMENTS_FAIL:
       return [...state];
+    
     // // // // // // //
+
+    // EXPERIMENT RUNS
+    case experimentRunsActionTypes.EXPERIMENT_RUN_SUCCEEDED:
+      return [...action.experiments];
+    case experimentRunsActionTypes.EXPERIMENT_RUN_NOT_SUCCEEDED:
+      return [...action.experiments];
 
     // DEFAULT
     default:
       return state;
   }
+};
+
+// SELECTOR
+
+/**
+ * Select experiment by id
+ *
+ * @param {object} state
+ * @param {string} experimentId Experiment UUID
+ * @returns {Array}
+ */
+export const getExperimentById = (state, experimentId) => {
+  return state.experimentsReducer.find((experiment) => 
+    experiment.uuid === experimentId
+  );
 };
 
 // EXPORT
