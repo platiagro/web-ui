@@ -7,7 +7,7 @@ import { PartitionOutlined } from '@ant-design/icons';
 import { Button } from 'uiComponents';
 
 /**
- * A button to save deployment template.
+ * A button to save oeprators template.
  * 
  * @param {*} props Component props
  * 
@@ -18,22 +18,30 @@ import { Button } from 'uiComponents';
 const SaveTemplateButton = (props) => {
   // destructuring propsSaveTemplateButton
   const { 
-    onClick,
+    handleClick,
+    disabled
   } = props;
 
   // rendering componentSaveTemplateButton
   return (
-    <Button type='primary-inverse' shape='round' handleClick={onClick}>
-      <PartitionOutlined /> Salvar como template
+    <Button 
+      type='primary-inverse'
+      shape='round' 
+      handleClick={handleClick}
+      isDisabled={disabled}
+    >
+      <PartitionOutlined />
+      Salvar como template
     </Button>
   );
 };
 
 // PROP TYPES
 SaveTemplateButton.propTypes = {
-  /** */
-  onClick: PropTypes.func.isRequired
-
+  /** click function */
+  handleClick: PropTypes.func.isRequired,
+  /** save template button is disabled */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT DEFAULT
