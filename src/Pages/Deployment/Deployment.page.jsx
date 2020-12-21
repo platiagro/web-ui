@@ -2,6 +2,7 @@ import React from 'react';
 
 import DeploymentsHeaderContainer from 'containers/DeploymentsHeaderContainer';
 import DeploymentsTabsContainer from 'containers/DeploymentsTabsContainer';
+import DeploymentToolbarContainer from 'containers/DeploymentToolbarContainer';
 
 import './Deployment.style.less';
 
@@ -18,7 +19,9 @@ function Deployment() {
       <DeploymentsHeaderContainer />
         <div className='deploymentContent'>
           <div className='flowContent'>
-            <div className='options'>opcoes</div>
+            <div className='options'>
+              <DeploymentToolbarContainer />
+            </div>
             <div className='flow'>fluxo</div>
             <div className='monitoring'>monitoramento</div>
             <div className='parameters'>parametros</div>
