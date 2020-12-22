@@ -18,12 +18,18 @@ import { Button } from 'uiComponents';
 const RunDeploymentButton = (props) => {
   // destructuring props
   const {
-    onClick
+    onClick,
+    disabled
   } = props;
 
   // rendering component
   return (
-    <Button type='primary' shape='round' handleClick={onClick}>
+    <Button 
+      type='primary'
+      shape='round'
+      handleClick={onClick}
+      isDisabled={disabled}
+    >
         <CloudUploadOutlined/> Implantar fluxo
     </Button>
   )
@@ -33,6 +39,8 @@ const RunDeploymentButton = (props) => {
 RunDeploymentButton.propTypes = {
   /** Run deployment handler */
   onClick: PropTypes.func.isRequired,
+  /** Run Deployment button is disabled */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT DEFAULT
