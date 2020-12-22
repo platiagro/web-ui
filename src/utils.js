@@ -623,17 +623,14 @@ const isSupportedBinaryData = (response) => {
   if (isExpectedResponse) {
     const [base, content] = response.strData.split(',');
     const mimeType = base.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/);
-
     if (mimeType != null) {
       const pattern = /[A-Za-z0-9+/=]/;
       const [type] = mimeType.shift().split('/');
-
       if (['video', 'image'].includes(type) && pattern.test(content))
         return true;
     }
-  } else {
-    return false;
   }
+  return false;
 };
 
 /**

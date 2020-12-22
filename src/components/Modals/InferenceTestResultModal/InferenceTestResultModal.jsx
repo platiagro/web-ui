@@ -31,13 +31,14 @@ const InferenceTestResultModal = ({
    * @returns {string} a string with Seldon response
    */
   const toRawText = (strEncoded) => {
-    const { names, ndarray } = strEncoded;
-
+    const { binData, names, ndarray, strData } = strEncoded;
     if (names && ndarray) {
       const columns = names.join(',');
       return columns + '\n' + ndarray.join('\n');
+    } else if (binData) {
+      return binData;
     } else {
-      return strEncoded.binData;
+      return strData;
     }
   };
 
@@ -45,10 +46,7 @@ const InferenceTestResultModal = ({
    * Copy Seldon response to clipboard.
    */
   const copyToClipboard = () => {
-    const text = utils.isSupportedBinaryData(experimentInference)
-      ? experimentInference.strData
-      : toRawText(experimentInference);
-
+    const text = toRawText(experimentInference);
     navigator.clipboard
       .writeText(text)
       .then(() =>
@@ -156,7 +154,11 @@ const InferenceTestResultModal = ({
                       <h3>Resposta do Modelo</h3>
                       <TextArea
                         disabled={true}
-                        defaultValue={experimentInference.binData}
+                        defaultValue={
+                          experimentInference.binData
+                            ? experimentInference.binData
+                            : experimentInference.strData
+                        }
                       />
                     </div>
                   )}

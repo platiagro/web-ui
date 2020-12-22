@@ -6,6 +6,8 @@ import DatasetUploadInputBlockContainer from './DatasetUploadInputBlockContainer
 import DataViewButtonContainer from './DataViewButtonContainer';
 import DataViewModalContainer from './DataViewModalContainer';
 import DeploymentsTableContainer from './DeploymentsTableContainer';
+import DeploymentsTabsContainer from './DeploymentsTabsContainer';
+import DeploymentToolbarContainer from './DeploymentToolbarContainer';
 import DownloadOperatorDatasetContainer from './DownloadOperatorDatasetContainer';
 
 import HeaderExperimentsContentContainer from './HeaderExperimentsContentContainer';
@@ -13,6 +15,8 @@ import HeaderExperimentsContentContainer from './HeaderExperimentsContentContain
 import InferenceTestResultModalContainer from './InferenceTestResultModalContainer';
 
 import LogsDrawerContainer from './LogsDrawerContainer';
+
+import NewDeploymentModalContainer from './NewDeploymentModalContainer';
 
 import OperatorResizableSectionContainer from './OperatorResizableSectionContainer';
 import OperatorResultsModalContainer from './OperatorResultsModalContainer';
@@ -28,10 +32,13 @@ export {
   DataViewButtonContainer,
   DataViewModalContainer,
   DeploymentsTableContainer,
+  DeploymentsTabsContainer,
+  DeploymentToolbarContainer,
   DownloadOperatorDatasetContainer,
   HeaderExperimentsContentContainer,
   InferenceTestResultModalContainer,
   LogsDrawerContainer,
+  NewDeploymentModalContainer,
   OperatorResizableSectionContainer,
   OperatorResultsModalContainer,
   UsingDeploymentsButtonContainer,

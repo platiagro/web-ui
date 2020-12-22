@@ -1,4 +1,4 @@
-**Padrão:**
+<!-- **Padrão:**
 
 Renderização padrão da página.
 ```js
@@ -9,4 +9,4 @@ const screenHeight = '480px';
 <div style={{ width: screeWidth, height: screenHeight }}>
   <Deployment/>
 </div>
-```
+``` -->
