@@ -59,7 +59,7 @@ const SaveTemplateContainer = (props) => {
 
   // RENDER
   return (
-    <div>
+    <>
       <SaveTemplateModal 
         visible={modalVisible}
         onClose={handleHideModal}
@@ -67,7 +67,7 @@ const SaveTemplateContainer = (props) => {
         loading={loading}
       />
       <SaveTemplateButton disabled={disabled} onClick={handleShowModal}/>
-    </div>
+    </>
   );
 };
 

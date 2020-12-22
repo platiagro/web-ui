@@ -37,6 +37,8 @@ const mapStateToProps = (state) => {
  * for deployments header with route control.
  *
  * @param {*} props Container props
+ * 
+ * @returns {DeploymentsHeaderContainer} Container
  */
 const DeploymentsHeaderContainer = (props) => {
   const { project, handleEditProjectName, handleFetchProject } = props;
