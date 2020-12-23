@@ -1,20 +1,25 @@
 // REACT LIBS
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import { OperatorResizableSection } from 'components';
+import { PropertiesPanel } from 'components';
+import InputBlockContainer from 'components/InputBlockContainer';
+import OperatorLogBlock from 'components/LogBlock';
+import DatasetDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/DatasetDrawer/_/Container';
+import GenericDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/GenericDrawer/_/Container';
+import NotebookOutputsContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/NotebookOutputs/_/Container';
+import ResultsButtonBar from 'components/Content/ExperimentsContent/Experiment/Drawer/ResultsButtonBar';
 
 // ACTIONS
-import { showOperatorResults } from '../../store/ui/actions';
 import { getExperimentById } from 'store/experiments/experimentsReducer';
+import { showOperatorResults } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // show results button click handler
     handleShowResultsClick: () => dispatch(showOperatorResults()),
   };
 };
@@ -22,24 +27,16 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    // operator name
-    operatorName: state.operatorReducer.name,
-    // operator description
-    operatorDescription: state.operatorReducer.description,
-    // operator is a dataset operator
-    operatorIsDataset: state.operatorReducer.tags
-      ? state.operatorReducer.tags.includes('DATASETS')
-      : false,
-    // show operator experiment results
-    showExperimentResults: state.uiReducer.operatorResults.showOperatorResults,
-    // operator parent experiment is finished
     experimentIsFinished: (experimentId) => {
       return getExperimentById(state, experimentId).succeeded;
     },
-    // operator status
-    operatorStatus: state.operatorReducer.status,
-    // operator logs
+    operatorDescription: state.operatorReducer.description,
+    operatorIsDataset: state.operatorReducer.tags
+      ? state.operatorReducer.tags.includes('DATASETS')
+      : false,
     operatorLogs: state.operatorReducer.logs,
+    operatorName: state.operatorReducer.name,
+    operatorStatus: state.operatorReducer.status,
   };
 };
 
@@ -51,24 +48,15 @@ const mapStateToProps = (state) => {
  * @component
  */
 const OperatorResizableSectionContainer = (props) => {
-  // destructuring container props
   const {
-    // operator name
-    operatorName,
-    // operator is a dataset operator
-    operatorIsDataset,
-    // operator parent experiment is finished
     experimentIsFinished,
-    // show results button click handler
     handleShowResultsClick,
-    // operator description
     operatorDescription,
-    // operator status
-    operatorStatus,
-    // operator logs
+    operatorIsDataset,
     operatorLogs,
+    operatorName,
+    operatorStatus,
   } = props;
-
   const { projectId, experimentId } = useParams();
 
   useEffect(() => {
@@ -77,41 +65,86 @@ const OperatorResizableSectionContainer = (props) => {
     }
   }, [projectId, experimentId, experimentIsFinished]);
 
-  // rendering container
+  const resizableContent = operatorName ? (
+    <>
+      {/* rendering data set drawer */}
+      {operatorIsDataset && <DatasetDrawerContainer />}
+
+      <div
+        style={{
+          overflowY: 'auto',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.09)',
+        }}
+      >
+        {/* rendering generic drawer */}
+        {!operatorIsDataset && <GenericDrawerContainer />}
+      </div>
+
+      <div
+        style={{
+          borderTop: '1px solid rgba(0, 0, 0, 0.09)',
+        }}
+      >
+        {/* rendering operator's notebook logger */}
+        {!operatorIsDataset && operatorStatus === 'Failed' && (
+          <InputBlockContainer
+            title='Erro na execução'
+            tip='Veja o código no Jupyter para mais detalhes sobre a execução'
+            error='true'
+            status={operatorStatus}
+          >
+            <OperatorLogBlock logContent={operatorLogs} />
+          </InputBlockContainer>
+        )}
+
+        <InputBlockContainer>
+          {/* rendering results button bar */}
+          {!operatorIsDataset && (
+            <ResultsButtonBar
+              handleEditClick={() => undefined}
+              handleResultsClick={handleShowResultsClick}
+              // always show results button
+              showingResults={false}
+              disabled={!experimentIsFinished}
+            />
+          )}
+
+          {/* rendering link to Jupyter */}
+          {!operatorIsDataset && <NotebookOutputsContainer />}
+        </InputBlockContainer>
+      </div>
+    </>
+  ) : undefined;
+
   return (
-    <OperatorResizableSection
-      operatorName={operatorName}
-      operatorIsDataset={operatorIsDataset}
-      experimentIsFinished={experimentIsFinished}
-      handleShowResultsClick={handleShowResultsClick}
-      operatorDescription={operatorDescription}
-      operatorStatus={operatorStatus}
-      operatorLogs={operatorLogs}
+    <PropertiesPanel
+      resizableContent={resizableContent}
+      tip={operatorDescription}
+      title={operatorName}
     />
   );
 };
 
 // PROP TYPES
 OperatorResizableSectionContainer.propTypes = {
-  /** Operator name */
-  operatorName: PropTypes.string.isRequired,
-  /** Operator is a dataset operator */
-  operatorIsDataset: PropTypes.bool.isRequired,
   /** Operator parent experiment is finished */
   experimentIsFinished: PropTypes.bool.isRequired,
   /** Show results button click handler */
   handleShowResultsClick: PropTypes.func.isRequired,
   /** Operator description */
   operatorDescription: PropTypes.string,
-  /** Operator status */
-  operatorStatus: PropTypes.string,
+  /** Operator is a dataset operator */
+  operatorIsDataset: PropTypes.bool.isRequired,
   /** Operator logs */
   operatorLogs: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  /** Operator name */
+  operatorName: PropTypes.string.isRequired,
+  /** Operator status */
+  operatorStatus: PropTypes.string,
 };
 
 // DEFAULT PROPS
 OperatorResizableSectionContainer.defaultProps = {
-  /** Operator description */
   operatorDescription: undefined,
 };
 

@@ -7,9 +7,8 @@ import InputBlockContainer from './InputBlockContainer';
 
 import LogsDrawer from './LogsDrawer';
 
-import OperatorResizableSection from './OperatorResizableSection';
-
 import PopoverTip from './PopoverTip';
+import PropertiesPanel from './PropertiesPanel';
 
 import ResizableSection from './ResizableSection';
 
@@ -21,8 +20,8 @@ export {
   DatasetColumnsTable,
   InputBlockContainer,
   LogsDrawer,
-  OperatorResizableSection,
   PopoverTip,
+  PropertiesPanel,
   ResizableSection,
   TooltipTip,
 };
