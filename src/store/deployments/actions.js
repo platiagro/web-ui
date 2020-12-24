@@ -14,6 +14,8 @@ import {
   implantedExperimentsDataLoaded,
 } from 'store/ui/actions';
 
+import createDeploymentRunRequest from 'store/deployments/deploymentRuns/actions';
+
 // ACTIONS
 // ** FETCH DEPLOYMENTS
 /**
@@ -45,8 +47,6 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_DEPLOYMENTS_FAIL,
     errorMessage,
   });
-
-  message.error(errorMessage);
 };
 
 /**
@@ -94,9 +94,12 @@ const createDeploymentSuccess = (response) => (
  * @param routerProps
  * @returns {object} { type, errorMessage }
  */
-const createDeploymentFail = (error, routerProps) => (dispatch) => {
+const createDeploymentFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  let errorMessage = error.message;
+
+  if ('response' in error)
+    errorMessage = error.response.data.message;
 
   // dispatching create deployment fail action response
   dispatch({
@@ -105,12 +108,6 @@ const createDeploymentFail = (error, routerProps) => (dispatch) => {
   });
 
   message.error(errorMessage, 5);
-
-  // check if error is 404
-  if (error.response?.status === 404) {
-    // redirect to error page
-    routerProps.history.replace('/erro-404');
-  }
 };
 
 /**
@@ -125,7 +122,6 @@ const createDeploymentFail = (error, routerProps) => (dispatch) => {
 export const createDeploymentRequest = (
   project,
   experiment,
-  operators,
   routerProps
 ) => (dispatch) => {
   // dispatching request action
@@ -138,27 +134,18 @@ export const createDeploymentRequest = (
   // creating deployment object
   const deploymentObj = {
     name: `${project.name}/${experiment.name}`,
-    dataset: experiment.dataset,
+    experimentId: experiment.uuid,
   };
-
-  // getting operators
-  deploymentObj.operators = operators.map((operator) => ({
-    image: operator.image,
-    commands: operator.commands,
-    arguments: operator.args,
-    dependencies: operator.dependencies,
-    notebookPath: operator.deploymentNotebookPath,
-    operatorId: operator.uuid,
-  }));
 
   // creating deployment
   deploymentsApi
     .createDeployment(projectId, deploymentObj)
-    .then((response) =>
-      dispatch(createDeploymentSuccess(response))
-    )
+    .then((response) => {
+      dispatch(createDeploymentSuccess(response));
+      dispatch(createDeploymentRunRequest(projectId, response.data.uuid, routerProps))
+    })
     .catch((error) =>
-      dispatch(createDeploymentFail(error, routerProps))
+      dispatch(createDeploymentFail(error))
     );
   };
 

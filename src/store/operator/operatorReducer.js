@@ -55,7 +55,7 @@ const operatorReducer = (state = initialState, action = undefined) => {
     case actionTypes.GET_OPERATOR_METRICS_FAIL:
       return { ...state, metrics: [] };
     case actionTypes.GET_OPERATOR_LOGS_FAIL:
-      return { ...state, logs: [] };
+      return { ...state, logs: action.logs };
 
     // DEFAULT
     default:

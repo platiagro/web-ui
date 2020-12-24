@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // CONSTANTS
-const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
+const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 const projectsApi = axios.create({
   baseURL: URL,
 });

@@ -90,8 +90,8 @@ const getLogsSuccess = (response) => (dispatch) => {
 const getLogsFail = (error) => (dispatch) => {
   dispatch({
     type: actionTypes.GET_OPERATOR_LOGS_FAIL,
+    logs: error.response.data.message,
   });
-  message.error(utils.getErrorMessage(error));
 };
 
 /**

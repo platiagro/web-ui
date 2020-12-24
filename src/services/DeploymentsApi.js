@@ -2,10 +2,10 @@
 import axios from 'axios';
 
 // CONSTANTS
-const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
+const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 const URL_SELDON = process.env.REACT_APP_SELDON_API;
 
-const pipelinesApi = axios.create({
+const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
 const seldonApi = axios.create({
@@ -22,7 +22,7 @@ const deploymentsPath = 'deployments';
  * @returns {Promise} Request Promise
  */
 const listDeployments = (projectId) => {
-  return pipelinesApi.get(`${projectId}/${deploymentsPath}`);
+  return projectsApi.get(`${projectId}/${deploymentsPath}`);
 };
 
 /**
@@ -33,7 +33,7 @@ const listDeployments = (projectId) => {
  * @returns {Promise} Request Promise
  */
 const createDeployment = (projectId, deploymentObj) => {
-  return pipelinesApi.post(
+  return projectsApi.post(
     `${projectId}/${deploymentsPath}`,
     deploymentObj
   );
@@ -47,7 +47,7 @@ const createDeployment = (projectId, deploymentObj) => {
  * @returns {Promise} Request Promise
  */
 const detailDeployment = (projectId, deploymentId) => {
-  return pipelinesApi.get(
+  return projectsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}`
   );
 };
@@ -61,7 +61,7 @@ const detailDeployment = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const updateDeployment = (projectId, deploymentId, deploymentObj) => {
-  return pipelinesApi.patch(
+  return projectsApi.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}`,
     deploymentObj
   );
@@ -75,7 +75,7 @@ const updateDeployment = (projectId, deploymentId, deploymentObj) => {
  * @returns {Promise} Request Promise
  */
 const deleteDeployment = (projectId, deploymentId) => {
-  return pipelinesApi.delete(
+  return projects.delete(
     `${projectId}/${deploymentsPath}/${deploymentId}`
   );
 };
@@ -90,7 +90,7 @@ const deleteDeployment = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const updateDeploymentOperator = (projectId, deploymentId, operatorId, operatorObj) => {
-  return pipelinesApi.patch(
+  return projects.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}/operators/${operatorId}`,
     operatorObj
   );

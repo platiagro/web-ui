@@ -9,17 +9,17 @@ import ExperimentButtons from './index';
 // ACTIONS
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
+import { createDeploymentRequest } from 'store/deployments/actions'
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
-import { getExperimentById } from 'store/experiments/experimentsReducer';
 
 // DISPATCHS
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleFetchOperators: (projectId, experimentId) =>
       dispatch(fetchOperatorsRequest(projectId, experimentId)),
     handleCreateDeploymentRun: (projectId, experimentId) =>
       dispatch(
-        deploymentRunsActions.createDeploymentRunSuccess(projectId, experimentId)
+        createDeploymentRequest(projectId, experimentId, routerProps)
       ),
     handleFetchDeploymentStatus: (projectId, experimentId) =>
       dispatch(
@@ -34,10 +34,8 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    experiment: (experimentId) => {
-      return getExperimentById(state, experimentId);
-    },
     operators: state.operatorsReducer,
+    experiments: state.experimentsReducer,
     project: state.projectReducer,
     loading: state.uiReducer.experimentName.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
@@ -50,7 +48,7 @@ const mapStateToProps = (state) => {
  * buttons with redux.
  */
 const ExperimentButtonsContainer = ({
-  experiment,
+  experiments,
   loading,
   operators,
   project,
@@ -61,11 +59,14 @@ const ExperimentButtonsContainer = ({
   handleFetchDeploymentStatus,
 }) => {
   const { projectId, experimentId } = useParams();
+  let deployStatus = false;
   
-  // select experiment
-  experiment(experimentId);
+  const experiment = experiments.find((experiment) => {
+    return experiment.uuid === experimentId;
+  });
 
-  const { deployStatus } = experiment;
+  if (experiment)
+    deployStatus = experiment.deployStatus;
 
   // Checks if the experiment has, at least, one non DATASET operator
   const hasExecutorOperator = operators.some((operator) => {
@@ -95,7 +96,7 @@ const ExperimentButtonsContainer = ({
 
   // HANDLERS
   const handleDeploymentClick = () =>
-    handleCreateDeploymentRun(projectId, experimentId);
+    handleCreateDeploymentRun(project, experiment);
 
   // RENDER
   return (

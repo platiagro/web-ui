@@ -43,8 +43,6 @@ const fetchDeploymentRunsFail = (error) => (
     type: actionTypes.FETCH_DEPLOYMENT_RUNS_FAIL,
     errorMessage,
   });
-
-  message.error(errorMessage, 5);
 };
 
 /**
@@ -88,7 +86,7 @@ const fetchDeploymentRunsRequest = (
 const createDeploymentRunSuccess = (projectId, routerProps, response) => (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_RUN_SUCCESS,
-    runId: response.runId
+    runId: response.data.uuid
   });
 
   routerProps.history.push(`/projetos/${projectId}/pre-implantacao`);

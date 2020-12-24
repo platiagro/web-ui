@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 // CONSTANTS
-const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
-const pipelinesApi = axios.create({
+const URL = 'http://localhost:8080';
+const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
 
@@ -19,7 +19,7 @@ const runsPath = 'runs';
  * @returns {Promise} Request Promise
  */
 const fetchExperimentRuns = (projectId, experimentId) => {
-  return pipelinesApi.get(
+  return projectsApi.get(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}`
   );
 };
@@ -33,7 +33,7 @@ const fetchExperimentRuns = (projectId, experimentId) => {
  * @returns {Promise} Request Promise
  */
 const fetchExperimentRunStatus = (projectId, experimentId, runId) => {
-  return pipelinesApi.get(
+  return projectsApi.get(
     `${projectId}/${experimentsPath}/${experimentId}/runs/${runId}`
   );
 };
@@ -46,7 +46,7 @@ const fetchExperimentRunStatus = (projectId, experimentId, runId) => {
  * @returns {Promise} Request Promise
  */
 const createExperimentRun = (projectId, experimentId) => {
-  return pipelinesApi.post(
+  return projectsApi.post(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}`
   );
 };
@@ -59,25 +59,10 @@ const createExperimentRun = (projectId, experimentId) => {
  * @returns {Promise} Request Promise
  */
 const deleteExperimentRun = (projectId, experimentId) => {
-  return pipelinesApi.delete(
+  return projectsApi.delete(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}`
   );
 };
-
-/**
- * Detail Experiment Run
- *
- * @param {string} projectId Project UUID
- * @param {string} experimentId Experiment UUID
- * @param {string} runId Run UUID
- * @returns {Promise} Request Promise
- */
-const detailExperimentRun = (projectId, experimentId, runId) => {
-  return pipelinesApi.get(
-    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}`
-  );
-}
-
 
 /**
  * Retry Experiment Run
@@ -88,7 +73,7 @@ const detailExperimentRun = (projectId, experimentId, runId) => {
  * @returns {Promise} Request Promise
  */
 const retryExperimentRun = (projectId, experimentId, runId) => {
-  return pipelinesApi.put(
+  return projectsApi.put(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}${runId}/retry`
   );
 }
@@ -112,7 +97,7 @@ const listOperatorDatasets = (
   operatorId,
   page
 ) => {
-  return pipelinesApi.get(
+  return projectsApi.get(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=10`
   );
 };
@@ -127,7 +112,7 @@ const listOperatorDatasets = (
  * @returns {Promise} Request Promise
  */
 const listOperatorFigures = (projectId, experimentId, runId, operatorId) => {
-  return pipelinesApi.get(
+  return projectsApi.get(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/figures`
   );
 };
@@ -142,7 +127,7 @@ const listOperatorFigures = (projectId, experimentId, runId, operatorId) => {
  * @returns {Promise} Request Promise
  */
 const listOperatorMetrics = (projectId, experimentId, runId, operatorId) => {
-  return pipelinesApi.get(
+  return projectsApi.get(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/metrics`
   );
 };
@@ -157,7 +142,7 @@ const listOperatorMetrics = (projectId, experimentId, runId, operatorId) => {
  * @returns {Promise} Request Promise
  */
 const fetchOperatorLogs = (projectId, experimentId, runId, operatorId) => {
-  return pipelinesApi.get(
+  return projectsApi.get(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/logs`
   );
 };
@@ -168,7 +153,6 @@ export default{
   fetchExperimentRunStatus,
   createExperimentRun,
   deleteExperimentRun,
-  detailExperimentRun,
   retryExperimentRun,
   listOperatorDatasets,
   listOperatorFigures,

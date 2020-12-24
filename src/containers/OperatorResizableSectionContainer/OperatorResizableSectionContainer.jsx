@@ -34,7 +34,10 @@ const mapStateToProps = (state) => {
     showExperimentResults: state.uiReducer.operatorResults.showOperatorResults,
     // operator parent experiment is finished
     experimentIsFinished: (experimentId) => {
-      return getExperimentById(state, experimentId).succeeded;
+      const experiment = getExperimentById(state, experimentId);
+      if ('succeeded' in experiment)
+        return experiment.succeeded;
+      return false;
     },
     // operator status
     operatorStatus: state.operatorReducer.status,

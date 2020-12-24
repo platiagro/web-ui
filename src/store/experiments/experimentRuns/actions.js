@@ -305,10 +305,9 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
  * @returns {object} { type, errorMessage }
  */
 const fetchExperimentRunStatusFail = (error, experimentId) => (dispatch, getState) => {
-  // getting error message
   const errorMessage = error.message;
 
-  // experiment training not is running
+  // experiment training isn't running
   if (errorMessage !== 'Network Error') {
     const currentState = getState();
     const experimentsState = currentState.experimentsReducer;
@@ -342,9 +341,10 @@ export const fetchExperimentRunStatusRequest = (projectId, experimentId) => (
     type: actionTypes.GET_EXPERIMENT_RUN_STATUS_REQUEST,
   });
 
-  // experiment run status
+  // get experiment run status
+  // Note: always get for the latest one
   experimentRunsApi
-    .fetchExperimentRunStatus(projectId, experimentId, experimentId)
+    .fetchExperimentRunStatus(projectId, experimentId, 'latest')
     .then((response) => dispatch(fetchExperimentRunStatusSuccess(response, experimentId)))
     .catch((error) => dispatch(fetchExperimentRunStatusFail(error, experimentId)));
 };

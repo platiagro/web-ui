@@ -15,13 +15,19 @@ const OperatorLogBlock = (props) => {
 
   return (
     <div className='sideBar'>
-      {logContent && (
+      {Array.isArray(logContent) ? (
         <div className='errorMessageContainer'>
           {
             logContent.map((line, index) => {
               return(<p key={index}>{line}</p>)
               }
             )
+          }
+        </div>
+      ):(
+        <div className='errorMessageContainer'>
+          {
+            <p>{logContent}</p>
           }
         </div>
       )}
