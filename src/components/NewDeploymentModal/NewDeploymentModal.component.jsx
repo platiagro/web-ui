@@ -4,6 +4,7 @@ import { Modal, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import ExperimentsTable from './ExperimentsTable';
+import TemplatesTable from './TemplatesTable';
 
 /**
  * Componente de modal de nova implantação
@@ -42,6 +43,8 @@ function NewDeploymentModal(props) {
   const handleExperimentSelect = (uuid) =>
     setSelectedUuid(`Experiment-${uuid}`);
 
+  const handleTemplateSelect = (uuid) => setSelectedUuid(`Template-${uuid}`);
+
   const handleOk = () => onConfirm(selectedUuid);
 
   return (
@@ -68,10 +71,10 @@ function NewDeploymentModal(props) {
         />
       </div>
       <div>
-        {/* FIXME: Adicionar tabela real */}
-        Tabela Fluxos/Templates
-        <hr />
-        {JSON.stringify(filteredTemplates)}
+        <TemplatesTable
+          onSelect={handleTemplateSelect}
+          templatesData={filteredTemplates}
+        />
       </div>
     </Modal>
   );
