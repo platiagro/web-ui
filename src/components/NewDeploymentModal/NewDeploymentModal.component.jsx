@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { Modal, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
+import ExperimentsTable from './ExperimentsTable';
+
 /**
  * Componente de modal de nova implantação
  */
 function NewDeploymentModal(props) {
-  // FIXME: Criar handler set uuid
   const {
     visible,
     experimentsData,
@@ -20,6 +21,7 @@ function NewDeploymentModal(props) {
     experimentsData
   );
   const [filteredTemplates, setFilteredTemplates] = useState(templatesData);
+  const [selectedUuid, setSelectedUuid] = useState(undefined);
 
   const handleSearch = (e) => {
     // FIXME: sanitizar filtro
@@ -37,7 +39,10 @@ function NewDeploymentModal(props) {
     setFilteredTemplates(newFilteredTemplates);
   };
 
-  const handleOk = () => onConfirm(undefined);
+  const handleExperimentSelect = (uuid) =>
+    setSelectedUuid(`Experiment-${uuid}`);
+
+  const handleOk = () => onConfirm(selectedUuid);
 
   return (
     <Modal
@@ -57,10 +62,10 @@ function NewDeploymentModal(props) {
         />
       </div>
       <div>
-        {/* FIXME: Adicionar tabela real */}
-        Tabela Experimentos
-        <hr />
-        {JSON.stringify(filteredExperiments)}
+        <ExperimentsTable
+          onSelect={handleExperimentSelect}
+          experimentsData={filteredExperiments}
+        />
       </div>
       <div>
         {/* FIXME: Adicionar tabela real */}
