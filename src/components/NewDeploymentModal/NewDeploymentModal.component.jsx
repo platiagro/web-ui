@@ -6,6 +6,8 @@ import { SearchOutlined } from '@ant-design/icons';
 import ExperimentsTable from './ExperimentsTable';
 import TemplatesTable from './TemplatesTable';
 
+import './NewDeploymentModal.style.less';
+
 /**
  * Componente de modal de nova implantação
  */
@@ -55,6 +57,7 @@ function NewDeploymentModal(props) {
       width={'70%'}
       cancelText='Cancelar'
       okText='Confirmar'
+      className='newDeploymentModal'
     >
       <div>
         <Input
@@ -63,13 +66,13 @@ function NewDeploymentModal(props) {
           onChange={handleSearch}
         />
       </div>
-      <div>
+      <div className='section'>
         <ExperimentsTable
           onSelect={handleExperimentSelect}
           experimentsData={filteredExperiments}
         />
       </div>
-      <div>
+      <div className='section'>
         <TemplatesTable
           onSelect={handleTemplateSelect}
           templatesData={filteredTemplates}
