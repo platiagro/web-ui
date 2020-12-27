@@ -25,15 +25,14 @@ function NewDeploymentModal(props) {
   const [selectedUuid, setSelectedUuid] = useState(undefined);
 
   const handleSearch = (e) => {
-    // FIXME: sanitizar filtro
-    const filterValue = e.target.value;
+    const filterValue = e.target.value.toLowerCase();
 
     const newFilteredExperiments = experimentsData.filter((experiment) =>
-      experiment.name.includes(filterValue)
+      experiment.name.toLowerCase().includes(filterValue)
     );
 
     const newFilteredTemplates = templatesData.filter((template) =>
-      template.name.includes(filterValue)
+      template.name.toLowerCase().includes(filterValue)
     );
 
     setFilteredExperiments(newFilteredExperiments);
