@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { PartitionOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import React from 'react';
+import UserAvatar from './UserAvatar';
 
 import './TemplatesTable.style.less';
 
@@ -11,22 +12,27 @@ import './TemplatesTable.style.less';
 function TemplatesTable(props) {
   const { onSelect, templatesData } = props;
 
+  const renderName = (text) => <strong>{text}</strong>;
+
+  const renderUser = (user, index) => (
+    <UserAvatar
+      userName={user.username}
+      key={user.name + index}
+      avatarColor={user.avatarColor}
+    />
+  );
+
   const columns = [
     {
       dataIndex: 'name',
-      /* eslint-disable-next-line */
-      render: (text) => <strong>{text}</strong>,
+      render: renderName,
     },
     {
       dataIndex: 'description',
     },
     {
       dataIndex: 'user',
-      // FIXME: Adicionar componente UserAvatar
-      /* eslint-disable-next-line */
-      render: (user) => (
-        <div style={{ backgroundColor: user.avatarColor }}>{user.username}</div>
-      ),
+      render: renderUser,
     },
   ];
 
