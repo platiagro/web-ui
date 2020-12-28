@@ -7,6 +7,7 @@ import LogsDrawer from './LogsDrawer';
 
 import OperatorResizableSection from './OperatorResizableSection';
 
+import ParameterGroup from './ParameterGroup';
 import PopoverTip from './PopoverTip';
 import PropertyBlock from './PropertyBlock';
 
@@ -20,6 +21,7 @@ export {
   DatasetColumnsTable,
   LogsDrawer,
   OperatorResizableSection,
+  ParameterGroup,
   PopoverTip,
   PropertyBlock,
   ResizableSection,

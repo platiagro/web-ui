@@ -1,42 +1,34 @@
-// CORE LIBS
-import React from 'react';
+// REACT LIBS
 import PropTypes from 'prop-types';
-
-// UI LIBS
-import { BulbOutlined } from '@ant-design/icons';
-import { Divider, Empty } from 'antd';
+import React from 'react';
 
 // COMPONENTS
-import RadioInput from '../RadioInput';
 import {
-  ToggleInputBlock,
   NumberInputBlock,
+  RadioInput,
   SelectInputBlock,
   TextInputBlock,
+  ToggleInputBlock,
 } from 'components/InputBlocks';
-import InputBlockContainer from 'components/PropertyBlock';
 
-// INPUT TYPES
-const inputTypes = {
-  // select
-  select({ uuid, name, ...props }) {
+// PARAMETER TYPES
+const parameterTypes = {
+  // BOOLEAN / TOGGLE
+  boolean(props, loading, handleChange, trainingLoading, valueLatestTraining) {
+    const { uuid, name, description, label, value } = props;
     return (
-      <SelectInputBlock
+      <ToggleInputBlock
         key={uuid || name}
-        handleChange={(value) => alert(`(select) Valor selecionado: ${value}`)}
-        {...props}
+        handleChange={(inputName, newValue) =>
+          handleChange(inputName, newValue)
+        }
         name={name}
-      />
-    );
-  },
-  // radio
-  radio({ uuid, name, ...props }) {
-    return (
-      <RadioInput
-        key={uuid || name}
-        handleChange={(value) => alert(`(radio) Valor selecionado: ${value}`)}
-        {...props}
-        name={name}
+        title={label || name}
+        isLoading={loading}
+        tip={description}
+        isChecked={value}
+        isDisabled={trainingLoading}
+        valueLatestTraining={valueLatestTraining}
       />
     );
   },
@@ -45,45 +37,6 @@ const inputTypes = {
     const { uuid, name, label, value, options, multiple, description } = props;
 
     return (
-      <SelectInputBlock
-        key={uuid || name}
-        isMultiple={multiple ? true : false}
-        handleChange={(newValue) => handleChange(name, newValue)}
-        name={name}
-        isLoading={loading}
-        isDisabled={trainingLoading}
-        placeholder='Selecionar'
-        options={options}
-        tip={description}
-        value={value}
-        title={label || name}
-        valueLatestTraining={valueLatestTraining}
-      />
-    );
-  },
-  // number
-  number(props, loading, handleChange, trainingLoading, valueLatestTraining) {
-    const { description, label, max, multiple, min, name } = props;
-    const { options, placeholder, step, uuid, value } = props;
-
-    return options === undefined ? (
-      <NumberInputBlock
-        key={uuid || name}
-        handleChange={handleChange}
-        title={label || name}
-        name={name}
-        tip={description}
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        isLoading={loading}
-        isDisabled={trainingLoading}
-        placeholder={placeholder}
-        valueLatestTraining={valueLatestTraining}
-      />
-    ) : (
-      // number select input
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
@@ -178,6 +131,67 @@ const inputTypes = {
       />
     );
   },
+  // number
+  number(props, loading, handleChange, trainingLoading, valueLatestTraining) {
+    const { description, label, max, multiple, min, name } = props;
+    const { options, placeholder, step, uuid, value } = props;
+
+    return options === undefined ? (
+      <NumberInputBlock
+        key={uuid || name}
+        handleChange={handleChange}
+        title={label || name}
+        name={name}
+        tip={description}
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        isLoading={loading}
+        isDisabled={trainingLoading}
+        placeholder={placeholder}
+        valueLatestTraining={valueLatestTraining}
+      />
+    ) : (
+      // number select input
+      <SelectInputBlock
+        key={uuid || name}
+        isMultiple={multiple ? true : false}
+        handleChange={(newValue) => handleChange(name, newValue)}
+        name={name}
+        isLoading={loading}
+        isDisabled={trainingLoading}
+        placeholder='Selecionar'
+        options={options}
+        tip={description}
+        value={value}
+        title={label || name}
+        valueLatestTraining={valueLatestTraining}
+      />
+    );
+  },
+  // radio
+  radio({ uuid, name, ...props }) {
+    return (
+      <RadioInput
+        key={uuid || name}
+        handleChange={(value) => alert(`(radio) Valor selecionado: ${value}`)}
+        {...props}
+        name={name}
+      />
+    );
+  },
+  // select
+  select({ uuid, name, ...props }) {
+    return (
+      <SelectInputBlock
+        key={uuid || name}
+        handleChange={(value) => alert(`(select) Valor selecionado: ${value}`)}
+        {...props}
+        name={name}
+      />
+    );
+  },
   // string
   string(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, multiple, name } = props;
@@ -214,116 +228,46 @@ const inputTypes = {
       />
     );
   },
-  // BOOLEAN / TOGGLE
-  boolean(props, loading, handleChange, trainingLoading, valueLatestTraining) {
-    const { uuid, name, description, label, value } = props;
-
-    return (
-      <ToggleInputBlock
-        key={uuid || name}
-        handleChange={(inputName, newValue) =>
-          handleChange(inputName, newValue)
-        }
-        name={name}
-        title={label || name}
-        isLoading={loading}
-        tip={description}
-        isChecked={value}
-        isDisabled={trainingLoading}
-        valueLatestTraining={valueLatestTraining}
-      />
-    );
-  },
 };
 
 /**
- * Generic Drawer.
- * This component is responsible for displaying generic drawer content.
- *
- * @param props
+ * This component is responsible for render the parameter group.
  */
-const GenericDrawer = (props) => {
-  const { drawerInputs, drawerTip, parametersLatestTraining } = props;
-  const { parameterLoading, trainingLoading } = props;
-  const { handleChangeParameter } = props;
+const ParameterGroup = (props) => {
+  const {
+    loading,
+    onChange,
+    parameter,
+    trainingLoading,
+    valueLatestTraining,
+  } = props;
 
-  return (
-    // div container
-    <>
-      {/* Render empty component when drawer is empty */}
-      {drawerInputs && drawerInputs.length === 0 && (
-        <InputBlockContainer>
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description='Não há parâmetros para configuração'
-          />
-        </InputBlockContainer>
-      )}
-      {/* rendering drawer inputs */}
-      {drawerInputs &&
-        drawerInputs.length > 0 &&
-        drawerInputs.map((input) => {
-          let valueLatestTraining = parametersLatestTraining
-            ? parametersLatestTraining[input.name]
-            : null;
-          if (
-            valueLatestTraining === undefined ||
-            valueLatestTraining === null
-          ) {
-            valueLatestTraining = input.value;
-          }
-
-          return inputTypes[input.type](
-            input,
-            parameterLoading,
-            handleChangeParameter,
-            trainingLoading,
-            valueLatestTraining
-          );
-        })}
-      {/* rendering drawer tip node */}
-      {drawerTip && (
-        <div>
-          {/* divider */}
-          <Divider orientation='left'>
-            <BulbOutlined />
-            Dica
-          </Divider>
-          {/* drawer tip node */}
-          {drawerTip}
-        </div>
-      )}
-    </>
+  return parameterTypes[parameter.type](
+    parameter,
+    loading,
+    onChange,
+    trainingLoading,
+    valueLatestTraining
   );
 };
 
 // PROP TYPES
-GenericDrawer.propTypes = {
-  /** generic drawer inputs list */
-  drawerInputs: PropTypes.arrayOf(PropTypes.object),
-  /** generic drawer tip node */
-  drawerTip: PropTypes.node,
-  /** pipeline parameters list */
-  parametersLatestTraining: PropTypes.object,
-  /** experiment is loading */
-  loading: PropTypes.bool,
+ParameterGroup.propTypes = {
   /** parameter is loading */
-  parameterLoading: PropTypes.bool,
+  loading: PropTypes.bool,
+  /** function to handle change parameter */
+  onChange: PropTypes.func,
+  /** parameter object */
+  parameter: PropTypes.object,
   /** training is running */
   trainingLoading: PropTypes.bool,
-  /** function to handle change parameter */
-  handleChangeParameter: PropTypes.func,
-  /** function to handle remove operator */
-  handleRemoveOperatorClick: PropTypes.func,
+  /** latest training value */
+  valueLatestTraining: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.string,
+  ]),
 };
 
-// PROP DEFAULT VALUES
-GenericDrawer.defaultProps = {
-  /** generic drawer tip node */
-  drawerTip: undefined,
-  /** generic drawer inputs list */
-  drawerInputs: [],
-};
-
-// EXPORT
-export default GenericDrawer;
+// EXPORT DEFAULT
+export default ParameterGroup;
