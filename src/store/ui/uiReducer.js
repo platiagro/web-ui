@@ -25,6 +25,7 @@ const initialState = {
     errorMessage: null,
   },
   newTemplateModal: { visible: false },
+  newDeploymentModal: { visible: false },
   usingDeploymentsModal: { visible: false },
   operatorDrawer: {
     visible: false,
