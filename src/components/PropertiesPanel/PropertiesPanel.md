@@ -4,5 +4,7 @@
 const children = <p>Conteúdo redimensionável.</p>;
 const tip = 'Dica';
 const title = 'Título';
-<PropertiesPanel children={children} tip={tip} title={title} />;
+<PropertiesPanel tip={tip} title={title}>
+  {children}
+</PropertiesPanel>;
 ```

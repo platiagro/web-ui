@@ -117,11 +117,9 @@ const OperatorResizableSectionContainer = (props) => {
   ) : undefined;
 
   return (
-    <PropertiesPanel
-      children={propertiesContent}
-      tip={operatorDescription}
-      title={operatorName}
-    />
+    <PropertiesPanel tip={operatorDescription} title={operatorName}>
+      {propertiesContent}
+    </PropertiesPanel>
   );
 };
 
