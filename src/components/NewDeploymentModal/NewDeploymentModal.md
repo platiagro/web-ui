@@ -46,7 +46,7 @@ const experimentsData = [
   },
 ];
 
-const handleConfirm = (selectedUuid) => alert(`Criar: ${selectedUuid}`);
+const handleConfirm = (selectedType, selectedUuid) => alert(`Criar: ${selectedType}-${selectedUuid}`);
 
 const handleCancel = () => setVisible(false);
 
