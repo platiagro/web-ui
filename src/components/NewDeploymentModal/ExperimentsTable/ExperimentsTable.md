@@ -1,6 +1,10 @@
 **Exemplo:**
 
 ```js
+import { useState } from 'react';
+
+const [selectedRowKey, setSelectedRowKey] = useState('');
+
 const experimentsData = [
   { 
     uuid: 'id0001',
@@ -14,9 +18,19 @@ const experimentsData = [
 
 const containerStyle = { margin: '20px' };
 
-const handleSelect = (selectedUuid) => alert(`Experimento selecionado: ${selectedUuid}`);
+const handleSelect = (selectedArray) => {
+  const [selectedUuid, ...arrayRest] = selectedArray;
+
+  setSelectedRowKey(selectedUuid);
+
+  alert(`Experimento selecionado: ${selectedUuid}`);
+};
 
 <div style={containerStyle}>
-  <ExperimentsTable onSelect={handleSelect} experimentsData={experimentsData} />
+  <ExperimentsTable
+    selectedRowKey={selectedRowKey} 
+    onSelect={handleSelect} 
+    experimentsData={experimentsData}
+  />
 </div>
 ```
