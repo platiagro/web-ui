@@ -9,7 +9,7 @@ import './ExperimentsTable.style.less';
  * Componente de tabela de experimentos
  */
 function ExperimentsTable(props) {
-  const { onSelect, experimentsData } = props;
+  const { onSelect, experimentsData, selectedRowKey } = props;
 
   const columns = [
     {
@@ -20,6 +20,8 @@ function ExperimentsTable(props) {
   ];
 
   const rowSelection = {
+    type: 'radio',
+    selectedRowKeys: [selectedRowKey],
     onChange: (selectedRowKeys) => {
       onSelect(selectedRowKeys);
     },
@@ -33,10 +35,7 @@ function ExperimentsTable(props) {
       </div>
       <div>
         <Table
-          rowSelection={{
-            type: 'radio',
-            ...rowSelection,
-          }}
+          rowSelection={rowSelection}
           rowKey='uuid'
           showHeader={false}
           pagination={false}
@@ -56,6 +55,11 @@ ExperimentsTable.propTypes = {
     })
   ),
   onSelect: PropTypes.func.isRequired,
+  selectedRowKey: PropTypes.string,
+};
+
+ExperimentsTable.defaultProps = {
+  selectedRowKey: '',
 };
 
 export default ExperimentsTable;
