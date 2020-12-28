@@ -25,7 +25,7 @@ const initialState = {
     errorMessage: null,
   },
   newTemplateModal: { visible: false },
-  newDeploymentsModal: { visible: false },
+  usingDeploymentsModal: { visible: false },
   operatorDrawer: {
     visible: false,
     isDataset: false,
@@ -182,8 +182,8 @@ const uiReducer = (state = initialState, action = undefined) => {
     case actionTypes.SHOW_USING_DEPLOYMENTS_MODAL:
       return {
         ...state,
-        newDeploymentsModal: {
-          ...state.newDeploymentsModal,
+        usingDeploymentsModal: {
+          ...state.usingDeploymentsModal,
           visible: true,
         },
       };
@@ -191,8 +191,8 @@ const uiReducer = (state = initialState, action = undefined) => {
     case actionTypes.HIDE_USING_DEPLOYMENTS_MODAL:
       return {
         ...state,
-        newDeploymentsModal: {
-          ...state.newDeploymentsModal,
+        usingDeploymentsModal: {
+          ...state.usingDeploymentsModal,
           visible: false,
         },
       };
