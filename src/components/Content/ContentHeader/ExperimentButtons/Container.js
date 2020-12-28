@@ -9,7 +9,7 @@ import ExperimentButtons from './index';
 // ACTIONS
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
-import { createDeploymentRequest } from 'store/deployments/actions'
+import { createDeploymentRequest} from 'store/deployments/actions'
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
 // DISPATCHS
@@ -17,9 +17,15 @@ const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleFetchOperators: (projectId, experimentId) =>
       dispatch(fetchOperatorsRequest(projectId, experimentId)),
-    handleCreateDeploymentRun: (projectId, experimentId) =>
+    handleCreateDeploymentRequest: (experiment, project, routerProps) =>
       dispatch(
-        createDeploymentRequest(projectId, experimentId, routerProps)
+        createDeploymentRequest(
+          experiment.uuid,
+          experiment.name,
+          project.uuid,
+          project.name,
+          routerProps,
+        )
       ),
     handleFetchDeploymentStatus: (projectId, experimentId) =>
       dispatch(
@@ -55,7 +61,7 @@ const ExperimentButtonsContainer = ({
   trainingLoading,
   handleCompareResultsClick,
   handleFetchOperators,
-  handleCreateDeploymentRun,
+  handleCreateDeploymentRequest,
   handleFetchDeploymentStatus,
 }) => {
   const { projectId, experimentId } = useParams();
@@ -96,7 +102,7 @@ const ExperimentButtonsContainer = ({
 
   // HANDLERS
   const handleDeploymentClick = () =>
-    handleCreateDeploymentRun(project, experiment);
+    handleCreateDeploymentRequest(experiment, project);
 
   // RENDER
   return (

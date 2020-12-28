@@ -75,7 +75,7 @@ const updateDeployment = (projectId, deploymentId, deploymentObj) => {
  * @returns {Promise} Request Promise
  */
 const deleteDeployment = (projectId, deploymentId) => {
-  return projects.delete(
+  return projectsApi.delete(
     `${projectId}/${deploymentsPath}/${deploymentId}`
   );
 };
@@ -90,7 +90,7 @@ const deleteDeployment = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const updateDeploymentOperator = (projectId, deploymentId, operatorId, operatorObj) => {
-  return projects.patch(
+  return projectsApi.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}/operators/${operatorId}`,
     operatorObj
   );

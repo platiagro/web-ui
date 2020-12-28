@@ -83,7 +83,7 @@ const fetchDeploymentRunsRequest = (
  * @param response
  * @returns {object} { type }
  */
-const createDeploymentRunSuccess = (projectId, routerProps, response) => (dispatch) => {
+const createDeploymentRunSuccess = (projectId, response, routerProps) => (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_RUN_SUCCESS,
     runId: response.data.uuid
@@ -105,7 +105,7 @@ const createDeploymentRunFail = (error) => (dispatch) => {
   });
 
   const errorMessage = error.message;
-  message.error(errorMessage);
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -123,7 +123,7 @@ const createDeploymentRunRequest = (projectId, deploymentId, routerProps) => (di
 
   deploymentRunsApi
     .createDeploymentRun(projectId, deploymentId)
-    .then((response) => dispatch(createDeploymentRunSuccess(projectId, routerProps, response)))
+    .then((response) => dispatch(createDeploymentRunSuccess(projectId, response, routerProps)))
     .catch((error) => dispatch(createDeploymentRunFail(error)));
 };
 

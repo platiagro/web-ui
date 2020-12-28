@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // CONSTANTS
-const URL = 'http://localhost:8080';
+const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
@@ -87,18 +87,16 @@ const retryExperimentRun = (projectId, experimentId, runId) => {
  * @param {string} experimentId Experiment UUID
  * @param {string} runId Run UUID
  * @param {string} operatorId Operator UUID
- * @param {number} page Page number
  * @returns {Promise} Request Promise
  */
 const listOperatorDatasets = (
   projectId,
   experimentId,
   runId,
-  operatorId,
-  page
+  operatorId
 ) => {
   return projectsApi.get(
-    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=10`
+    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/datasets`
   );
 };
 
