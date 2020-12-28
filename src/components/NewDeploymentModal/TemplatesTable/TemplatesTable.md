@@ -1,4 +1,3 @@
-<!-- FIXME: Ajustar dados e nomes para refletirem a realidade -->
 **Exemplo:**
 
 ```js
