@@ -1,3 +1,3 @@
-import DeploymentFlow from "./DeploymentFlow.container";
+import DeploymentFlow from './DeploymentFlow.component';
 
 export default DeploymentFlow;
