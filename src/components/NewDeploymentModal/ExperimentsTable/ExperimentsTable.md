@@ -19,7 +19,7 @@ const experimentsData = [
 const containerStyle = { margin: '20px' };
 
 const handleSelect = (selectedArray) => {
-  const [selectedUuid, ...arrayRest] = selectedArray;
+  const selectedUuid = selectedArray[0];
 
   setSelectedRowKey(selectedUuid);
 
