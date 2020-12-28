@@ -9,7 +9,7 @@ import { ResizableSection } from 'components';
  * Component to display properties panel.
  */
 const PropertiesPanel = (props) => {
-  const { resizableContent, tip, title } = props;
+  const { children, tip, title } = props;
 
   const emptySectionPlaceholder = (
     <p style={{ textAlign: 'center', padding: '20px' }}>
@@ -23,7 +23,7 @@ const PropertiesPanel = (props) => {
       tip={tip}
       title={title || 'Propriedades'}
     >
-      {resizableContent}
+      {children}
     </ResizableSection>
   );
 };
@@ -31,7 +31,7 @@ const PropertiesPanel = (props) => {
 // PROP TYPES
 PropertiesPanel.propTypes = {
   /** Elemento html ou componente react */
-  resizableContent: PropTypes.node,
+  children: PropTypes.node,
   /** tip */
   tip: PropTypes.string,
   /** title */

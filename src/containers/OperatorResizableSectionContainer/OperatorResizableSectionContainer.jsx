@@ -65,7 +65,7 @@ const OperatorResizableSectionContainer = (props) => {
     }
   }, [projectId, experimentId, experimentIsFinished]);
 
-  const resizableContent = operatorName ? (
+  const propertiesContent = operatorName ? (
     <>
       {/* rendering data set drawer */}
       {operatorIsDataset && <DatasetDrawerContainer />}
@@ -118,7 +118,7 @@ const OperatorResizableSectionContainer = (props) => {
 
   return (
     <PropertiesPanel
-      resizableContent={resizableContent}
+      children={propertiesContent}
       tip={operatorDescription}
       title={operatorName}
     />
