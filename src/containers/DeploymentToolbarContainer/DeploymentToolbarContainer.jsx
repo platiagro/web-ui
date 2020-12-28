@@ -6,6 +6,7 @@ import { withRouter, useParams } from 'react-router-dom';
 // COMPONENTS
 import { RunDeploymentButton } from 'components/Buttons';
 import SaveTemplateContainer from 'containers/SaveTemplateContainer';
+import ToolbarConfig from 'components/Content/ExperimentsContent/Experiment/ExperimentHeader/ToolbarConfig/index';
 
 // ACTIONS
 import { fetchOperatorsRequest } from 'store/operators/actions';
@@ -18,7 +19,11 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchOperatorsRequest(projectId + deploymentId)),
     handleRunDeployment: (projectId, deploymentId) =>
       dispatch(
-        deploymentRunsActions.createDeploymentRunRequest(projectId, deploymentId, routerProps)
+        deploymentRunsActions.createDeploymentRunRequest(
+          projectId,
+          deploymentId,
+          routerProps
+        )
       ),
   };
 };
@@ -27,9 +32,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 const mapStateToProps = (state) => {
   return {
     operators: state.operatorsReducer,
-    loading: state.uiReducer.experimentName.loading
-  }
-}
+    loading: state.uiReducer.experimentName.loading,
+  };
+};
 
 /**
  * Deployment Toolbar Container.
@@ -37,7 +42,7 @@ const mapStateToProps = (state) => {
  * for deployment toolbar.
  *
  * @param {*} props Container props
- * 
+ *
  * @returns {DeploymentToolbarContainer} Container
  */
 const DeploymentToolbarContainer = (props) => {
@@ -47,7 +52,7 @@ const DeploymentToolbarContainer = (props) => {
     handleRunDeployment,
     operators,
   } = props;
-  
+
   const empty = operators.length <= 0;
 
   const { projectId, deploymentId } = useParams();
@@ -68,19 +73,24 @@ const DeploymentToolbarContainer = (props) => {
     <div className='buttons-config'>
       <div>
         {/** FIXME: missing toolbar config */}
+        <ToolbarConfig deployment />
       </div>
       <div>
-        <SaveTemplateContainer className='deployment-buttons' disabled={loading || empty} />
-        <RunDeploymentButton className='deployment-buttons' onClick={runDeploymentHandler} disabled={loading || empty}/>
+        <SaveTemplateContainer
+          className='deployment-buttons'
+          disabled={loading || empty}
+        />
+        <RunDeploymentButton
+          className='deployment-buttons'
+          onClick={runDeploymentHandler}
+          disabled={loading || empty}
+        />
       </div>
     </div>
-  )
+  );
 };
 
 // EXPORT
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(DeploymentToolbarContainer)
+  connect(mapStateToProps, mapDispatchToProps)(DeploymentToolbarContainer)
 );
