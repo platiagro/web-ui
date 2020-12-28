@@ -9,7 +9,7 @@ import {
 } from 'containers';
 
 // COMPONENTS
-import { InputBlockContainer } from 'components';
+import { PropertyBlock } from 'components';
 
 /**
  * Dataset Drawer.
@@ -31,9 +31,9 @@ const DatasetDrawer = (props) => {
     // rendering table
     return columns.length === 0 ? null : (
       // input container
-      <InputBlockContainer>
+      <PropertyBlock>
         <DataViewButtonContainer />
-      </InputBlockContainer>
+      </PropertyBlock>
     );
   };
 

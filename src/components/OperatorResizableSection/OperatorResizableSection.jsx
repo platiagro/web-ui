@@ -8,7 +8,7 @@ import DatasetDrawerContainer from '../Content/ExperimentsContent/Experiment/Dra
 import GenericDrawerContainer from '../Content/ExperimentsContent/Experiment/Drawer/GenericDrawer/_/Container';
 import ResultsButtonBar from '../Content/ExperimentsContent/Experiment/Drawer/ResultsButtonBar';
 import NotebookOutputsContainer from '../Content/ExperimentsContent/Experiment/Drawer/NotebookOutputs/_/Container';
-import InputBlockContainer from 'components/InputBlockContainer';
+import PropertyBlock from 'components/PropertyBlock';
 import OperatorLogBlock from 'components/LogBlock';
 
 /**
@@ -99,17 +99,17 @@ const OperatorResizableSection = (props) => {
       >
         {/* rendering operator's notebook logger */}
         {!operatorIsDataset && operatorStatus === 'Failed' && (
-          <InputBlockContainer
+          <PropertyBlock
             title='Erro na execução'
             tip='Veja o código no Jupyter para mais detalhes sobre a execução'
             error='true'
             status={operatorStatus}
           >
             <OperatorLogBlock logContent={operatorLogs} />
-          </InputBlockContainer>
+          </PropertyBlock>
         )}
 
-        <InputBlockContainer>
+        <PropertyBlock>
           {/* rendering results button bar */}
           {!operatorIsDataset && (
             <ResultsButtonBar
@@ -123,7 +123,7 @@ const OperatorResizableSection = (props) => {
 
           {/* rendering link to Jupyter */}
           {!operatorIsDataset && <NotebookOutputsContainer />}
-        </InputBlockContainer>
+        </PropertyBlock>
       </div>
     </>
   ) : undefined;

@@ -7,7 +7,7 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Input, Tooltip, Skeleton } from 'antd';
 
 // COMPONENTS
-import { InputBlockContainer } from 'components';
+import { PropertyBlock } from 'components';
 
 /**
  * A input block with text input
@@ -52,7 +52,7 @@ const TextInputBlock = (props) => {
 
   // RENDER
   return (
-    <InputBlockContainer tip={tip} title={title}>
+    <PropertyBlock tip={tip} title={title}>
       {isLoading ? (
         /* loading */
         <Skeleton
@@ -89,7 +89,7 @@ const TextInputBlock = (props) => {
           ) : null}
         </>
       )}
-    </InputBlockContainer>
+    </PropertyBlock>
   );
 };
 

@@ -14,7 +14,7 @@ import {
   SelectInputBlock,
   TextInputBlock,
 } from 'components/InputBlocks';
-import InputBlockContainer from 'components/InputBlockContainer';
+import InputBlockContainer from 'components/PropertyBlock';
 
 // INPUT TYPES
 const inputTypes = {
