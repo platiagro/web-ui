@@ -25,6 +25,7 @@ function NewDeploymentModal(props) {
   );
   const [filteredTemplates, setFilteredTemplates] = useState(templatesData);
   const [selectedUuid, setSelectedUuid] = useState(undefined);
+  const [selectedType, setSelectedType] = useState(undefined);
 
   const handleSearch = (e) => {
     const filterValue = e.target.value.toLowerCase();
@@ -41,12 +42,26 @@ function NewDeploymentModal(props) {
     setFilteredTemplates(newFilteredTemplates);
   };
 
-  const handleExperimentSelect = (uuid) =>
-    setSelectedUuid(`Experiment-${uuid}`);
+  const handleExperimentSelect = (selectedArray) => {
+    const uuid = selectedArray[0];
 
-  const handleTemplateSelect = (uuid) => setSelectedUuid(`Template-${uuid}`);
+    setSelectedType('experiment');
+    setSelectedUuid(uuid);
+  };
 
-  const handleOk = () => onConfirm(selectedUuid);
+  const handleTemplateSelect = (selectedArray) => {
+    const uuid = selectedArray[0];
+
+    setSelectedType('template');
+    setSelectedUuid(uuid);
+  };
+
+  const handleOk = () => onConfirm(selectedType, selectedUuid);
+
+  const experimentsSelectedRow =
+    selectedType === 'experiment' ? selectedUuid : '';
+
+  const templatesSelectedRow = selectedType === 'template' ? selectedUuid : '';
 
   return (
     <Modal
@@ -70,12 +85,14 @@ function NewDeploymentModal(props) {
         <ExperimentsTable
           onSelect={handleExperimentSelect}
           experimentsData={filteredExperiments}
+          selectedRowKey={experimentsSelectedRow}
         />
       </div>
       <div className='section'>
         <TemplatesTable
           onSelect={handleTemplateSelect}
           templatesData={filteredTemplates}
+          selectedRowKey={templatesSelectedRow}
         />
       </div>
     </Modal>
