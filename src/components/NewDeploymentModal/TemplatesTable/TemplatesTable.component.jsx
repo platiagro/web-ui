@@ -10,7 +10,7 @@ import './TemplatesTable.style.less';
  * Componente de tabela de templates
  */
 function TemplatesTable(props) {
-  const { onSelect, templatesData } = props;
+  const { onSelect, templatesData, selectedRowKey } = props;
 
   const renderName = (text) => <strong>{text}</strong>;
 
@@ -37,6 +37,8 @@ function TemplatesTable(props) {
   ];
 
   const rowSelection = {
+    type: 'radio',
+    selectedRowKeys: [selectedRowKey],
     onChange: (selectedRowKeys) => {
       onSelect(selectedRowKeys);
     },
@@ -50,10 +52,7 @@ function TemplatesTable(props) {
       </div>
       <div>
         <Table
-          rowSelection={{
-            type: 'radio',
-            ...rowSelection,
-          }}
+          rowSelection={rowSelection}
           rowKey='uuid'
           showHeader={false}
           pagination={false}
@@ -78,6 +77,11 @@ TemplatesTable.propTypes = {
     })
   ),
   onSelect: PropTypes.func.isRequired,
+  selectedRowKey: PropTypes.string,
+};
+
+TemplatesTable.defaultProps = {
+  selectedRowKey: '',
 };
 
 export default TemplatesTable;
