@@ -16,6 +16,26 @@ module.exports = {
       name: 'Components',
       description: 'Application components.',
       components: ['src/components/**/*.component.jsx'],
+      ignore: ['src/components/NewDeploymentModal/**/*.component.jsx'],
+      sections: [
+        {
+          name: 'NewDeploymentModal',
+          description: 'NewDeploymentModal components.',
+          components: ['src/components/NewDeploymentModal/**/*.component.jsx'],
+          ignore: [
+            'src/components/NewDeploymentModal/TemplatesTable/**/*.component.jsx',
+          ],
+          sections: [
+            {
+              name: 'TemplatesTable',
+              description: 'TemplatesTable components.',
+              components: [
+                'src/components/NewDeploymentModal/TemplatesTable/**/*.component.jsx',
+              ],
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'Pages',
