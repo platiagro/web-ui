@@ -61,13 +61,12 @@ const ExperimentButtonsContainer = ({
   handleCompareResultsClick,
   handleFetchOperators,
   handleCreateDeploymentRequest,
-  handleFetchDeploymentStatus,
 }) => {
   const { projectId, experimentId } = useParams();
   let deployStatus = false;
   
-  const experiment = experiments.find((experiment) => {
-    return experiment.uuid === experimentId;
+  const experiment = experiments.find((experiment_) => {
+    return experiment_.uuid === experimentId;
   });
 
   if (experiment)
@@ -84,15 +83,6 @@ const ExperimentButtonsContainer = ({
   });
 
   // HOOKS
-  // did mount hooks
-  useEffect(() => {
-    const polling = setInterval(
-      () => handleFetchDeploymentStatus(projectId, experimentId),
-      5000
-    );
-    return () => clearInterval(polling);
-  });
-
   useEffect(() => {
     if (experimentId) {
       handleFetchOperators(projectId, experimentId);
