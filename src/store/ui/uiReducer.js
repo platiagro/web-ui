@@ -574,6 +574,7 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     case actionTypes.SHOW_DEPLOYMENT_MODAL:
+    case actionTypes.HIDE_DEPLOYMENT_MODAL:
       return {
         ...state,
         newDeploymentModal: {

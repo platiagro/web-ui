@@ -965,3 +965,10 @@ export const showNewDeploymentModal = () => {
     visible: true,
   };
 };
+
+export const hideNewDeploymentModal = () => {
+  return {
+    type: actionTypes.HIDE_DEPLOYMENT_MODAL,
+    visible: false,
+  };
+};
