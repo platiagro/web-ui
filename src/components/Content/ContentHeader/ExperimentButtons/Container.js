@@ -17,14 +17,13 @@ const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleFetchOperators: (projectId, experimentId) =>
       dispatch(fetchOperatorsRequest(projectId, experimentId)),
-    handleCreateDeploymentRequest: (experiment, project, routerProps) =>
+    handleCreateDeploymentRequest: (experiment, project) =>
       dispatch(
         createDeploymentRequest(
           experiment.uuid,
           experiment.name,
           project.uuid,
           project.name,
-          routerProps,
         )
       ),
     handleFetchDeploymentStatus: (projectId, experimentId) =>

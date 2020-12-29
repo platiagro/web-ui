@@ -119,7 +119,6 @@ export const createDeploymentRequest = (
   experimentName,
   projectId,
   projectName,
-  routerProps
 ) => (dispatch) => {
   // dispatching request action
   dispatch({
@@ -136,7 +135,7 @@ export const createDeploymentRequest = (
   deploymentsApi
     .createDeployment(projectId, deploymentObj)
     .then((response) => {
-      dispatch(createDeploymentSuccess(response, projectId, routerProps));
+      dispatch(createDeploymentSuccess(response));
     })
     .catch((error) =>
       dispatch(createDeploymentFail(error))
