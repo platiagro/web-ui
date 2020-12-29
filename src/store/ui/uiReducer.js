@@ -572,6 +572,16 @@ const uiReducer = (state = initialState, action = undefined) => {
           uuid: action.uuid,
         },
       };
+
+    case actionTypes.SHOW_DEPLOYMENT_MODAL:
+      return {
+        ...state,
+        newDeploymentModal: {
+          ...state.newDeploymentModal,
+          visible: action.visible,
+        },
+      };
+
     // DEFAULT
     default:
       return state;
