@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 // COMPONENTS
 import { ResizableSection } from 'components';
 
+// STYLES
+import './PropertiesPanel.component.less';
+
 /**
  * Component to display properties panel.
  */
@@ -12,7 +15,7 @@ const PropertiesPanel = (props) => {
   const { children, tip, title } = props;
 
   const emptySectionPlaceholder = (
-    <p style={{ textAlign: 'center', padding: '20px' }}>
+    <p className='propertiesPanelEmptySectionPlaceholder'>
       Selecione uma tarefa para visualizar ou editar os parâmetros.
     </p>
   );
