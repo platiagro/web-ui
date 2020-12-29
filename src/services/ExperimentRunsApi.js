@@ -60,7 +60,7 @@ const createExperimentRun = (projectId, experimentId) => {
  */
 const deleteExperimentRun = (projectId, experimentId) => {
   return projectsApi.delete(
-    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}`
+    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/latest`
   );
 };
 

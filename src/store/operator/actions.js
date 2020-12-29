@@ -527,12 +527,12 @@ const setOperatorParametersFail = (error) => (dispatch) => {
 /**
  * set operator params request action
  *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {object} operator
- * @param {string} parameterName
- * @param {any} parameterValue
- * @returns {Function}
+ * @param {string} projectId The project uuid
+ * @param {string} experimentId The experiment uuid
+ * @param {object} operator The operator
+ * @param {string} parameterName Parameter name
+ * @param {any} parameterValue Parameter value
+ * @returns {Function} The dispatch function
  */
 export const setOperatorParametersRequest = (
   projectId,
