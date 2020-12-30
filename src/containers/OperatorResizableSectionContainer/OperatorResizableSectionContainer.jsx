@@ -17,6 +17,9 @@ import ResultsButtonBar from 'components/Content/ExperimentsContent/Experiment/D
 import { getExperimentById } from 'store/experiments/experimentsReducer';
 import { showOperatorResults } from 'store/ui/actions';
 
+// STYLES
+import './OperatorResizableSectionContainer.less';
+
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -70,21 +73,12 @@ const OperatorResizableSectionContainer = (props) => {
       {/* rendering data set drawer */}
       {operatorIsDataset && <DatasetDrawerContainer />}
 
-      <div
-        style={{
-          overflowY: 'auto',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.09)',
-        }}
-      >
+      <div className='operatorResizableSectionDrawer'>
         {/* rendering generic drawer */}
         {!operatorIsDataset && <GenericDrawerContainer />}
       </div>
 
-      <div
-        style={{
-          borderTop: '1px solid rgba(0, 0, 0, 0.09)',
-        }}
-      >
+      <div className='operatorResizableSectionLogs'>
         {/* rendering operator's notebook logger */}
         {!operatorIsDataset && operatorStatus === 'Failed' && (
           <InputBlockContainer
