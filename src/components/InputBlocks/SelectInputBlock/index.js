@@ -7,7 +7,7 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Tooltip, Select, Skeleton } from 'antd';
 
 // COMPONENTS
-import { InputBlockContainer } from 'components';
+import { PropertyBlock } from 'components';
 
 // SELECT COMPONENTS
 const { Option } = Select;
@@ -32,7 +32,7 @@ const SelectInputBlock = (props) => {
 
   // rendering component
   return (
-    <InputBlockContainer tip={tip} title={title}>
+    <PropertyBlock tip={tip} title={title}>
       {isLoading ? (
         /* loading */
         <Skeleton
@@ -83,7 +83,7 @@ const SelectInputBlock = (props) => {
           ) : null}
         </>
       )}
-    </InputBlockContainer>
+    </PropertyBlock>
   );
 };
 

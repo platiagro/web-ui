@@ -3,13 +3,12 @@ import CompareResultItem from './CompareResultItem';
 
 import DatasetColumnsTable from './DatasetColumnsTable';
 
-import InputBlockContainer from './InputBlockContainer';
-
 import LogsDrawer from './LogsDrawer';
 
-import OperatorResizableSection from './OperatorResizableSection';
-
+import ParameterGroup from './ParameterGroup';
 import PopoverTip from './PopoverTip';
+import PropertiesPanel from './PropertiesPanel';
+import PropertyBlock from './PropertyBlock';
 
 import ResizableSection from './ResizableSection';
 
@@ -19,10 +18,11 @@ export {
   CommonTable,
   CompareResultItem,
   DatasetColumnsTable,
-  InputBlockContainer,
   LogsDrawer,
-  OperatorResizableSection,
+  ParameterGroup,
   PopoverTip,
+  PropertiesPanel,
+  PropertyBlock,
   ResizableSection,
   TooltipTip,
 };

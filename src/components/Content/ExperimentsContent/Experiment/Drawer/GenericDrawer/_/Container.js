@@ -3,22 +3,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+// UI LIBS
+import { Empty } from 'antd';
+
 // COMPONENTS
-import GenericDrawer from './index';
+import { ParameterGroup, PropertyBlock } from 'components';
 
 // ACTIONS
-import {
-  removeOperatorRequest,
-  setOperatorParametersRequest,
-} from '../../../../../../../store/operator/actions';
+import { setOperatorParametersRequest } from 'store/operator/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    // remove operator
-    handleRemoveOperator: (projectId, experimentId, operator) =>
-      dispatch(removeOperatorRequest(projectId, experimentId, operator)),
-    // set operator parameter
     handleSetOperatorParameter: (
       projectId,
       experimentId,
@@ -44,7 +40,6 @@ const mapStateToProps = (state) => {
     operator: state.operatorReducer,
     parameters: state.operatorReducer.parameters,
     parametersLatestTraining: state.operatorReducer.parametersLatestTraining,
-    loading: state.uiReducer.experimentOperators.loading,
     parameterLoading: state.uiReducer.operatorParameter.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
   };
@@ -56,17 +51,17 @@ const mapStateToProps = (state) => {
  * redux.
  */
 const GenericDrawerContainer = (props) => {
-  // CONSTANTS
-  const { operator, parameters, parametersLatestTraining } = props;
-  const { loading, parameterLoading, trainingLoading } = props;
-  const { handleRemoveOperator, handleSetOperatorParameter } = props;
+  const {
+    handleSetOperatorParameter,
+    operator,
+    parameters,
+    parametersLatestTraining,
+    parameterLoading,
+    trainingLoading,
+  } = props;
   const { projectId, experimentId } = useParams();
 
   // HANDLERS
-  // remove operator
-  const removeOperatorHandler = () =>
-    handleRemoveOperator(projectId, experimentId, operator);
-  // set operator parameter
   const setOperatorParameterHandler = (parameterName, parameterValue) =>
     handleSetOperatorParameter(
       projectId,
@@ -76,17 +71,38 @@ const GenericDrawerContainer = (props) => {
       parameterValue
     );
 
-  // RENDER
+  if (parameters && parameters.length === 0) {
+    return (
+      <PropertyBlock>
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description='Não há parâmetros para configuração'
+        />
+      </PropertyBlock>
+    );
+  }
+
+  // rendering parameters
   return (
-    <GenericDrawer
-      drawerInputs={parameters}
-      loading={loading}
-      trainingLoading={trainingLoading}
-      parameterLoading={parameterLoading}
-      parametersLatestTraining={parametersLatestTraining}
-      handleChangeParameter={setOperatorParameterHandler}
-      handleRemoveOperatorClick={removeOperatorHandler}
-    />
+    <>
+      {parameters.map((parameter) => {
+        let valueLatestTraining = parametersLatestTraining
+          ? parametersLatestTraining[parameter.name]
+          : null;
+        if (valueLatestTraining === undefined || valueLatestTraining === null) {
+          valueLatestTraining = parameter.value;
+        }
+        return (
+          <ParameterGroup
+            loading={parameterLoading}
+            onChange={setOperatorParameterHandler}
+            parameter={parameter}
+            trainingLoading={trainingLoading}
+            valueLatestTraining={valueLatestTraining}
+          />
+        );
+      })}
+    </>
   );
 };
 
