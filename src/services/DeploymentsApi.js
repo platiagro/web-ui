@@ -29,13 +29,13 @@ const listDeployments = (projectId) => {
  * Create Deployment
  *
  * @param {string} projectId Project UUID
- * @param {object} deploymentObj Deployment object
+ * @param {object} body Deployment object
  * @returns {Promise} Request Promise
  */
-const createDeployment = (projectId, deploymentObj) => {
+const createDeployment = (projectId, body) => {
   return projectsApi.post(
     `${projectId}/${deploymentsPath}`,
-    deploymentObj
+    body
   );
 };
 
@@ -46,7 +46,7 @@ const createDeployment = (projectId, deploymentObj) => {
  * @param {string} deploymentId Deployment UUID
  * @returns {Promise} Request Promise
  */
-const detailDeployment = (projectId, deploymentId) => {
+const geDeployment = (projectId, deploymentId) => {
   return projectsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}`
   );
@@ -99,13 +99,13 @@ const updateDeploymentOperator = (projectId, deploymentId, operatorId, operatorO
 /**
  * Test deployment
  *
- * @param {string} id
- * @param {string} body
+ * @param {string} deploymentId Deployment UUID
+ * @param {object} body Body to be sent
  * @returns {Promise} Request Promise
  */
-const testDeployment = (id, body) => {
+const testDeployment = (deploymentId, body) => {
   return seldonApi.post(
-    `/deployments/${id}/api/v1.0/predictions`,
+    `/deployments/${deploymentId}/api/v1.0/predictions`,
     body
   );
 };
@@ -114,7 +114,7 @@ const testDeployment = (id, body) => {
 export default {
   listDeployments,
   createDeployment,
-  detailDeployment,
+  geDeployment,
   updateDeployment,
   deleteDeployment,
   updateDeploymentOperator,

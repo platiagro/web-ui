@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 
@@ -7,25 +7,12 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentButtons from './index';
 
 // ACTIONS
-import { fetchOperatorsRequest } from 'store/operators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
-import { createDeploymentRequest} from 'store/deployments/actions'
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleFetchOperators: (projectId, experimentId) =>
-      dispatch(fetchOperatorsRequest(projectId, experimentId)),
-    handleCreateDeploymentRequest: (experiment, project) =>
-      dispatch(
-        createDeploymentRequest(
-          experiment.uuid,
-          experiment.name,
-          project.uuid,
-          project.name,
-        )
-      ),
     handleFetchDeploymentStatus: (projectId, experimentId) =>
       dispatch(
         deploymentRunsActions.fetchDeploymentRunsRequest(projectId, experimentId)
@@ -56,13 +43,10 @@ const ExperimentButtonsContainer = ({
   experiments,
   loading,
   operators,
-  project,
   trainingLoading,
   handleCompareResultsClick,
-  handleFetchOperators,
-  handleCreateDeploymentRequest,
 }) => {
-  const { projectId, experimentId } = useParams();
+  const { experimentId } = useParams();
   let deployStatus = false;
   
   const experiment = experiments.find((experiment_) => {
@@ -82,16 +66,9 @@ const ExperimentButtonsContainer = ({
     return operator.status === 'Failed';
   });
 
-  // HOOKS
-  useEffect(() => {
-    if (experimentId) {
-      handleFetchOperators(projectId, experimentId);
-    }
-  }, [projectId, experimentId, handleFetchOperators]);
-
   // HANDLERS
   const handleDeploymentClick = () =>
-    handleCreateDeploymentRequest(experiment, project);
+    console.log("Not Ready!")
 
   // RENDER
   return (

@@ -6,7 +6,6 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import operatorsApi from '../../services/OperatorsApi';
-import datasetsApi from '../../services/DatasetsApi';
 import experimentRunsApi from '../../services/ExperimentRunsApi';
 import tasksApi from '../../services/TasksApi';
 
@@ -91,7 +90,8 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  * @returns {Function}
  */
 export const fetchOperatorsRequest = (projectId, experimentId) => async (
-  dispatch
+  dispatch,
+  getState
 ) => {
   // dispatching request action
   dispatch({
@@ -109,23 +109,15 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     const tasksResponse = await tasksApi.getAllTasks();
     const tasks = tasksResponse.data.tasks;
 
+    const { datasetReducer } = getState();
+
     // getting operators
     const operatorsResponse = await operatorsApi.listOperators(
       projectId,
       experimentId
     );
     const operators = operatorsResponse.data;
-
-    // get dataset name
-    const datasetName = utils.getDatasetName(tasks, operators);
-
-    // getting dataset columns
-    let datasetColumns = [];
-    if (datasetName) {
-      const response = await datasetsApi.listDatasetColumns(datasetName);
-      datasetColumns = response.data;
-    }
-
+    
     // gettins pipelines status
     const pipelinesResponse = await experimentRunsApi.fetchExperimentRuns(
       projectId,
@@ -137,7 +129,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     let configuredOperators = utils.configureOperators(
       tasks,
       operators,
-      datasetColumns,
+      datasetReducer.columns,
       pipelinesResponse.data
     );
 

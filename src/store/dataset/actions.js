@@ -497,7 +497,7 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
   if (datasetName) {
     // fetching dataset
     datasetsApi
-      .getDataset(datasetName, 1, 10)
+      .getDataset(datasetName)
       .then((response) => dispatch(getDatasetSuccess(response)))
       .catch((error) => dispatch(getDatasetFail(error)));
 
@@ -543,7 +543,7 @@ export const selectDataset = (datasetName, projectId, experimentId) => (
 
   // fetching dataset
   datasetsApi
-    .getDataset(datasetName, 1, 10)
+    .getDataset(datasetName)
     .then((response) => {
       // get dataset from response
       const dataset = response.data;
