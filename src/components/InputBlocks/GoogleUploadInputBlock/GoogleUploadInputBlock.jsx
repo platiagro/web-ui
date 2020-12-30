@@ -10,7 +10,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button } from 'antd';
 
 // COMPONENTS
-import { InputBlockContainer } from 'components';
+import { PropertyBlock } from 'components';
 
 // GOOGLE CREDENTIALS
 const CLIENT_ID =
@@ -83,7 +83,7 @@ const GoogleUploadInputBlock = (props) => {
   // rendering component
   return (
     <>
-      <InputBlockContainer tip={tip} title={title}>
+      <PropertyBlock tip={tip} title={title}>
         <GooglePicker
           disabled={isDisabled || isLoading}
           clientId={CLIENT_ID}
@@ -103,7 +103,7 @@ const GoogleUploadInputBlock = (props) => {
           )}
         </GooglePicker>
         <Upload {...uploadProps} disabled={isDisabled} />
-      </InputBlockContainer>
+      </PropertyBlock>
     </>
   );
 };

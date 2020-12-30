@@ -6,11 +6,11 @@ import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import { PropertiesPanel } from 'components';
-import InputBlockContainer from 'components/InputBlockContainer';
 import OperatorLogBlock from 'components/LogBlock';
 import DatasetDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/DatasetDrawer/_/Container';
 import GenericDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/GenericDrawer/_/Container';
 import NotebookOutputsContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/NotebookOutputs/_/Container';
+import PropertyBlock from 'components/PropertyBlock';
 import ResultsButtonBar from 'components/Content/ExperimentsContent/Experiment/Drawer/ResultsButtonBar';
 
 // ACTIONS
@@ -81,17 +81,17 @@ const OperatorResizableSectionContainer = (props) => {
       <div className='operatorResizableSectionLogs'>
         {/* rendering operator's notebook logger */}
         {!operatorIsDataset && operatorStatus === 'Failed' && (
-          <InputBlockContainer
+          <PropertyBlock
             title='Erro na execução'
             tip='Veja o código no Jupyter para mais detalhes sobre a execução'
             error='true'
             status={operatorStatus}
           >
             <OperatorLogBlock logContent={operatorLogs} />
-          </InputBlockContainer>
+          </PropertyBlock>
         )}
 
-        <InputBlockContainer>
+        <PropertyBlock>
           {/* rendering results button bar */}
           {!operatorIsDataset && (
             <ResultsButtonBar
@@ -105,7 +105,7 @@ const OperatorResizableSectionContainer = (props) => {
 
           {/* rendering link to Jupyter */}
           {!operatorIsDataset && <NotebookOutputsContainer />}
-        </InputBlockContainer>
+        </PropertyBlock>
       </div>
     </>
   ) : undefined;
