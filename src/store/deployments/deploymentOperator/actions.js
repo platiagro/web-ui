@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 

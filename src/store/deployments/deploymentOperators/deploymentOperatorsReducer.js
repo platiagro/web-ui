@@ -2,9 +2,6 @@
 import actionTypes from './actionTypes';
 import deploymentOperatorActionTypes from 'store/deployments/deploymentOperator/actionTypes';
 
-// UTILS
-import utils from 'utils';
-
 // INITIAL STATE
 const initialState = [];
 
