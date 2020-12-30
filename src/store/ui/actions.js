@@ -958,3 +958,17 @@ export const dependenciesOperatorLoaded = (dependencyId) => {
     uuid: dependencyId,
   };
 };
+
+export const showNewDeploymentModal = () => {
+  return {
+    type: actionTypes.SHOW_DEPLOYMENT_MODAL,
+    visible: true,
+  };
+};
+
+export const hideNewDeploymentModal = () => {
+  return {
+    type: actionTypes.HIDE_DEPLOYMENT_MODAL,
+    visible: false,
+  };
+};

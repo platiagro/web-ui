@@ -96,12 +96,13 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    visible: state.uiReducer.newDeploymentsModal.visible,
+    visible: state.uiReducer.usingDeploymentsModal.visible,
   };
 };
 
 /**
  * Container to display using deployments modal.
+ *
  * @param {object} props Container props
  * @returns {UsingDeploymentsModalContainer} Container
  */
