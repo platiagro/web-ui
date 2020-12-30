@@ -5,10 +5,9 @@ import DatasetColumnsTable from './DatasetColumnsTable';
 
 import LogsDrawer from './LogsDrawer';
 
-import OperatorResizableSection from './OperatorResizableSection';
-
 import ParameterGroup from './ParameterGroup';
 import PopoverTip from './PopoverTip';
+import PropertiesPanel from './PropertiesPanel';
 import PropertyBlock from './PropertyBlock';
 
 import ResizableSection from './ResizableSection';
@@ -20,9 +19,9 @@ export {
   CompareResultItem,
   DatasetColumnsTable,
   LogsDrawer,
-  OperatorResizableSection,
   ParameterGroup,
   PopoverTip,
+  PropertiesPanel,
   PropertyBlock,
   ResizableSection,
   TooltipTip,

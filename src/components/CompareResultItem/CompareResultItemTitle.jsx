@@ -67,14 +67,14 @@ const CompareResultItemTitle = (props) => {
             };
             if (value.length === 0) {
               updatedCompareResult.experimentId = null;
-              updatedCompareResult.operatorId = null;
               updatedCompareResult.runId = null;
             } else {
               updatedCompareResult.experimentId = value[0];
-              updatedCompareResult.operatorId = null;
               updatedCompareResult.runId = value[1];
             }
-            onUpdate(updatedCompareResult, false);
+            updatedCompareResult.activeTab = '1';
+            updatedCompareResult.operatorId = null;
+            onUpdate(updatedCompareResult, true);
           }}
           options={experimentsOptions}
           placeholder={'Selecione o experimento'}

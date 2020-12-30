@@ -212,7 +212,14 @@ export const getCompareResultDatasetPaginated = (
 
   const { projectId, experimentId, operatorId, runId } = compareResult;
   experimentRunsApi
-    .listOperatorDatasets(projectId, experimentId, runId, operatorId, page, pageSize)
+    .listOperatorDatasets(
+      projectId,
+      experimentId,
+      runId,
+      operatorId,
+      page,
+      pageSize
+    )
     .then((response) => {
       let newDatasetResult = null;
       if (response) {
@@ -292,20 +299,21 @@ export const fetchTrainingHistory = (projectId, experimentId) => {
  * Function to update compare result and dispatch to reducer
  *
  * @param {object} compareResult
- * @param {boolean} changedPosition
+ * @param {boolean} isToDispachAction
  */
-export const updateCompareResult = (compareResult, changedPosition) => {
+export const updateCompareResult = (compareResult, isToDispachAction) => {
   return (dispatch) => {
     const body = {
       experimentId: compareResult.experimentId,
       operatorId: compareResult.operatorId,
+      activeTab: compareResult.activeTab,
       runId: compareResult.runId,
       layout: compareResult.layout,
     };
     compareResultsApi
       .updateCompareResult(compareResult.projectId, compareResult.uuid, body)
       .then((response) => {
-        if (!changedPosition) {
+        if (isToDispachAction) {
           dispatch({
             type: actionTypes.UPDATE_COMPARE_RESULT,
             compareResult: response.data,
