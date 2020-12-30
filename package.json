@@ -23,7 +23,7 @@
     "react-resize-detector": "^5.2.0",
     "react-resize-panel": "^0.3.5",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.4",
+    "react-scripts": "4.0.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "universal-cookie": "^4.0.2",
