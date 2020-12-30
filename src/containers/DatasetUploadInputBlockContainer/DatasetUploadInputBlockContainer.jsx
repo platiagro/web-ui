@@ -1,5 +1,5 @@
 // REACT LIBS
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -18,7 +18,6 @@ import {
   startGoogleDatasetUpload,
   deleteDatasetRequest,
 } from 'store/dataset/actions';
-import { fetchDatasetsRequest } from 'store/datasets/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -26,10 +25,9 @@ const mapDispatchToProps = (dispatch) => {
     // start dataset upload
     handleSelectDataset: (dataset, projectId, experimentId) =>
       dispatch(selectDataset(dataset, projectId, experimentId)),
-    handleFetchDatasets: () => dispatch(fetchDatasetsRequest()),
     handleCreateGoogleDataset: (file) =>
       dispatch(startGoogleDatasetUpload(file)),
-    handleUploadStart: (file) => dispatch(startFileDatasetUpload(file)),
+    handleUploadStart: (file, experimentId) => dispatch(startFileDatasetUpload(file, experimentId)),
     handleDeleteDataset: (projectId, experimentId) =>
       dispatch(deleteDatasetRequest(projectId, experimentId)),
     handleUploadCancel: () => dispatch(cancelDatasetUpload()),
@@ -59,7 +57,6 @@ const DatasetUploadInputBlockContainer = (props) => {
     datasetStatus,
     handleCreateGoogleDataset,
     handleSelectDataset,
-    handleFetchDatasets,
     handleUploadCancel,
     handleDeleteDataset,
     handleUploadStart,
@@ -113,13 +110,6 @@ const DatasetUploadInputBlockContainer = (props) => {
   // check if is google drive dataset
   const isGoogleDrive = operatorName === 'Google Drive';
 
-  // hooks
-  // did mount hook
-  useEffect(() => {
-    // fetching datasets
-    handleFetchDatasets();
-  }, [handleFetchDatasets]);
-
   const containerHandleUploadCancel = () =>
     isUploading
       ? handleUploadCancel()
@@ -128,7 +118,7 @@ const DatasetUploadInputBlockContainer = (props) => {
   const containerHandleSelectDataset = (dataset) =>
     handleSelectDataset(dataset, projectId, experimentId);
 
-  const customUploadHandler = (data) => handleUploadStart(data.file);
+  const customUploadHandler = (data) => handleUploadStart(data.file, experimentId);
 
   // rendering component
   return isGoogleDrive ? (

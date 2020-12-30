@@ -5,7 +5,7 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import projectsDeploymentsApi from 'services/ProjectsDeploymentsApi';
+import DeploymentsApi from 'services/DeploymentsApi';
 
 // UI ACTIONS
 import {
@@ -18,10 +18,10 @@ import {
 /**
  * Create deployment
  *
- * @param {string} projectId
- * @param {string} experimentName
- * @param {object} routerProps
- * @returns {Function}
+ * @param {string} projectId Project uuid
+ * @param {string} experimentId Experiment uuid
+ * @param {string} name Deployment name
+ * @returns {Function} Dispatch function
  */
 export const createProjectDeployment = (projectId, experimentId, name) => (
   dispatch
@@ -30,8 +30,8 @@ export const createProjectDeployment = (projectId, experimentId, name) => (
     type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
   });
   dispatch(deploymentsTabsLoadingData());
-  projectsDeploymentsApi
-    .createProjectDeployment(projectId, experimentId, name)
+  DeploymentsApi
+    .createDeployment(projectId, {experimentId, name})
     .then((response) => {
       dispatch(deploymentsTabsDataLoaded());
       dispatch(deploymentsTabsHideModal());
@@ -64,6 +64,10 @@ export const createProjectDeployment = (projectId, experimentId, name) => (
 
 /**
  * Delete deployment
+ * 
+ * @param {string} projectId Project uuid
+ * @param {string} deploymentId Deployment uuid
+ * @returns {Function} Dispatch function
  */
 export const deleteProjectDeployment = (projectId, deploymentId) => (
   dispatch
@@ -72,8 +76,8 @@ export const deleteProjectDeployment = (projectId, deploymentId) => (
     type: actionTypes.DELETE_DEPLOYMENT_REQUEST,
   });
   dispatch(deploymentsTabsLoadingData());
-  projectsDeploymentsApi
-    .deleteProjectDeployment(projectId, deploymentId)
+  DeploymentsApi
+    .deleteDeployment(projectId, deploymentId)
     .then(() => {
       dispatch(deploymentsTabsDataLoaded());
       dispatch({
@@ -95,14 +99,17 @@ export const deleteProjectDeployment = (projectId, deploymentId) => (
 
 /**
  * Fetch deployments
+ * 
+ * @param {string} projectId Project uuid
+ * @returns {Function} Dispatch function
  */
 export const fetchProjectDeployments = (projectId) => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_DEPLOYMENT_REQUEST,
   });
   dispatch(deploymentsTabsLoadingData());
-  projectsDeploymentsApi
-    .listProjectDeployments(projectId)
+  DeploymentsApi
+    .listDeployments(projectId)
     .then((response) => {
       dispatch(deploymentsTabsDataLoaded());
       const deployments = response.data;
@@ -124,6 +131,12 @@ export const fetchProjectDeployments = (projectId) => (dispatch) => {
 
 /**
  * Update deployment position
+ * 
+ * @param {string} projectId Project uuid
+ * @param {string} dragId Drag uuid
+ * @param {string} hoverId Hover uuid
+ * @param {number} newPosition Deployment new position index
+ * @returns {Function} Dispatch function
  */
 export const updateDeploymentPosition = (
   projectId,
@@ -135,8 +148,8 @@ export const updateDeploymentPosition = (
     type: actionTypes.UPDATE_DEPLOYMENT_POSITION_SUCCESS,
   });
   dispatch(deploymentsTabsLoadingData());
-  projectsDeploymentsApi
-    .updateProjectDeployment(projectId, dragId, { position: newPosition })
+  DeploymentsApi
+    .updateDeployment(projectId, dragId, { position: newPosition })
     .then(() => {
       dispatch(deploymentsTabsDataLoaded());
       dispatch({
