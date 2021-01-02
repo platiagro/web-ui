@@ -73,18 +73,14 @@ const experimentsReducer = (state = initialState, action = undefined) => {
 /**
  * Select experiment by id
  *
- * @param {object} state state
+ * @param {object} state
  * @param {string} experimentId Experiment UUID
- * @returns {object} The specified experiment, or an empty object
+ * @returns {Array}
  */
 export const getExperimentById = (state, experimentId) => {
-  if (state.experimentsReducer.includes(experimentId)) {
-    return state.experimentsReducer.find((experiment) => 
-      experiment.uuid === experimentId
-    );
-  } else {
-    return {};
-  }
+  return state.experimentsReducer.find((experiment) => 
+    experiment.uuid === experimentId
+  );
 };
 
 // EXPORT

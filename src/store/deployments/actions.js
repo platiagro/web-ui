@@ -35,7 +35,7 @@ const fetchDeploymentsSuccess = (response) => (dispatch) => {
 /**
  * fetch deployments fail action
  *
- * @param {object} error Response error
+ * @param {object} error
  * @returns {object} { type, errorMessage }
  */
 const fetchDeploymentsFail = (error) => (dispatch) => {
@@ -54,6 +54,7 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
 /**
  * fetch deployments request action
  *
+ * @param {string} projectId Project UUID
  * @param {boolean} isToShowLoader
  * @returns {Function}
  */
@@ -91,13 +92,13 @@ const createDeploymentSuccess = (response) => (dispatch) => {
 /**
  * create deployment fail action
  *
- * @param {object} error Response error
+ * @param {object} error
+ * @param routerProps
  * @returns {object} { type, errorMessage }
  */
-const createDeploymentFail = (error) => (dispatch) => {
+const createDeploymentFail = (error, routerProps) => (dispatch) => {
   // getting error message
-  const errorMessage =
-    error.response === undefined ? error.message : error.response.data.message;
+  const errorMessage = error.message;
 
   // dispatching create deployment fail action response
   dispatch({
@@ -117,30 +118,46 @@ const createDeploymentFail = (error) => (dispatch) => {
 /**
  * create deployment request action
  *
- * @param {string} experimentId The experiment Id
- * @param {string} projectId The project Id
- * @returns {Function} dispatch function
+ * @param {object} project
+ * @param {object} experiment
+ * @param {object} operators
+ * @param {object} routerProps
+ * @returns {Function}
  */
-export const createDeploymentRequest = (experimentId, projectId) => (
-  dispatch
-) => {
+export const createDeploymentRequest = (
+  project,
+  experiment,
+  operators,
+  routerProps
+) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
   });
 
+  const projectId = project.uuid;
+
   // creating deployment object
   const deploymentObj = {
-    experiments: [experimentId],
+    name: `${project.name}/${experiment.name}`,
+    dataset: experiment.dataset,
   };
+
+  // getting operators
+  deploymentObj.operators = operators.map((operator) => ({
+    image: operator.image,
+    commands: operator.commands,
+    arguments: operator.args,
+    dependencies: operator.dependencies,
+    notebookPath: operator.deploymentNotebookPath,
+    operatorId: operator.uuid,
+  }));
 
   // creating deployment
   deploymentsApi
     .createDeployment(projectId, deploymentObj)
-    .then((response) => {
-      dispatch(createDeploymentSuccess(response));
-    })
-    .catch((error) => dispatch(createDeploymentFail(error)));
+    .then((response) => dispatch(createDeploymentSuccess(response)))
+    .catch((error) => dispatch(createDeploymentFail(error, routerProps)));
 };
 
 // // // // // // // // // //
@@ -149,7 +166,7 @@ export const createDeploymentRequest = (experimentId, projectId) => (
 /**
  * update deployment success action
  *
- * @param {object} response Response object
+ * @param {object} response
  * @returns {object} { type, experiment }
  */
 const updateDeploymentSuccess = (response) => (dispatch, getState) => {
@@ -322,7 +339,7 @@ export const fetchAllDeploymentsRuns = (
         .then((response) => {
           deployments.push(response.data);
         })
-        .catch(() => {});
+        .catch((error) => {});
     }
   }
   dispatch(implantedExperimentsDataLoaded());

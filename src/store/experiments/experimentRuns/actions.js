@@ -13,9 +13,7 @@ import {
   experimentDeleteTrainingLoadingData,
   experimentTrainingDataLoaded,
   experimentTrainingLoadingData,
-  implantedExperimentsLoadingData,
-  experimentNameLoadingData,
-  experimentNameDataLoaded
+  implantedExperimentsLoadingData
 } from 'store/ui/actions';
 
 // ACTIONS
@@ -99,14 +97,14 @@ const fetchExperimentRunsRequest = (
  * Create experiment run success action
  *
  * @param {string} projectId Project UUID
- * @param {object} routerProps Router
- * @param {object} response Response
+ * @param routerProps
+ * @param response
  * @returns {object} { type }
  */
 const createExperimentRunSuccess = (projectId, routerProps, response) => (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_EXPERIMENT_RUN_SUCCESS,
-    runId: response.data.uuid
+    runId: response.runId
   });
 
   routerProps.history.push(`/projetos/${projectId}/experimentos`);
@@ -162,12 +160,20 @@ const createExperimentRunRequest = (projectId, experimentId, routerProps) => (di
  * @param response
  * @returns {object} { type }
  */
-const deleteExperimentRunSuccess = (response) => (dispatch) => {
+const deleteExperimentRunSuccess = (response) => (dispatch, getState) => {
   dispatch(implantedExperimentsLoadingData())
+
+  const currentState = getState();
+  const experimentRuns = currentState.experimentRunsReducer;
+
+  const runs = experimentRuns.filter((run) => {
+    return run.runId !== response.data.runId
+  })
+  
   
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_RUN_SUCCESS,
-    runs: []
+    runs
   });
 
   message.loading('Interrompendo execução...', 5);
@@ -218,42 +224,36 @@ const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
 /**
  * fetch train experiment status success action
  *
- * @param {object} response Response object
- * @param {string} experimentId The experiment id
+ * @param {object} response
+ * @param experimentId
  * @returns {object} { type }
  */
 const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, getState) => {
   // getting operators from response
   const { operators } = response.data;
 
-  const isSucceeded = Object.values(operators).every((operator) => {
-    return operator.status === 'Succeeded';
+  // experiment run  is running?
+  let isRunning = false;
+
+  // experiment run is succeeded
+  let isSucceeded = true;
+
+  // checking status operators to verify if training is running, pending or succeeded
+  Object.values(operators).forEach((operator) => {
+    const status = operator.status;
+    if (status === 'Pending' || status === 'Running') {
+      isRunning = true;
+      isSucceeded = false;
+    } else if (
+      status === '' ||
+      status === 'Failed' ||
+      status === 'Terminated'
+    ) {
+      isSucceeded = false;
+    }
   });
 
-  const isAStoppedOperator = (operator) => {
-    return operator.status === '' || operator.status === 'Failed' || operator.status === 'Terminated';
-  };
-
-  // TODO: se todos os operadores estiverem com status `pending` por muito tempo, pode ser devido a algum
-  // erro no cluster e caso fique assim pra sempre, não dará pra utilizar o experimento.
-  // Uma solução viável seria depois de algum tempo com o status `pending`, forçar a finalização da tarefa.  
-  const isAllPending = Object.values(operators).every((operator) => {
-    return operator.status === 'Pending';
-  });
-
-  if (isAllPending) {
-    // block "Interromper" button since there's any kfp pod running yet
-    dispatch(experimentNameLoadingData());
-  } else {
-    dispatch(experimentNameDataLoaded());
-  }
-
-  // checking operators status to verify if training is running, pending or succeeded
-  const isRunning = Object.values(operators).some((operator) => {
-      return ((operator.status === 'Pending' || operator.status === 'Running') && !isAStoppedOperator(operator));
-  });
-
-  // experiment run is succeeded finished
+  // experiment run is succeeded
   if (isSucceeded) {
     const currentState = getState();
     const experimentsState = currentState.experimentsReducer;
@@ -264,21 +264,22 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
         : { ...experiment, succeded: true };
     });
 
+
     dispatch({
       type: actionTypes.EXPERIMENT_RUN_SUCCEEDED,
       experiments
     });
   }
+    
 
   // get deleteLoading state
   const { uiReducer } = getState();
   let deleteLoading = uiReducer.experimentTraining.deleteLoading;
 
-  // experiment run has stopped
+  // experiment run not is running
   if (!isRunning) {
     dispatch(experimentTrainingDataLoaded());
-
-    // check if was manual interrupted
+    // check if is interrupting flow
     if (deleteLoading) {
       dispatch(experimentDeleteTrainingDataLoaded());
       message.success('Treinamento interrompido!');
@@ -304,9 +305,10 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
  * @returns {object} { type, errorMessage }
  */
 const fetchExperimentRunStatusFail = (error, experimentId) => (dispatch, getState) => {
+  // getting error message
   const errorMessage = error.message;
 
-  // experiment training isn't running
+  // experiment training not is running
   if (errorMessage !== 'Network Error') {
     const currentState = getState();
     const experimentsState = currentState.experimentsReducer;
@@ -340,10 +342,9 @@ export const fetchExperimentRunStatusRequest = (projectId, experimentId) => (
     type: actionTypes.GET_EXPERIMENT_RUN_STATUS_REQUEST,
   });
 
-  // get experiment run status
-  // Note: always get for the latest one
+  // experiment run status
   experimentRunsApi
-    .fetchExperimentRunStatus(projectId, experimentId, 'latest')
+    .fetchExperimentRunStatus(projectId, experimentId, experimentId)
     .then((response) => dispatch(fetchExperimentRunStatusSuccess(response, experimentId)))
     .catch((error) => dispatch(fetchExperimentRunStatusFail(error, experimentId)));
 };

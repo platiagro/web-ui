@@ -43,6 +43,8 @@ const fetchDeploymentRunsFail = (error) => (
     type: actionTypes.FETCH_DEPLOYMENT_RUNS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage, 5);
 };
 
 /**
@@ -83,10 +85,10 @@ const fetchDeploymentRunsRequest = (
  * @param response
  * @returns {object} { type }
  */
-const createDeploymentRunSuccess = (projectId, response, routerProps) => (dispatch) => {
+const createDeploymentRunSuccess = (projectId, routerProps, response) => (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_RUN_SUCCESS,
-    runId: response.data.uuid
+    runId: response.runId
   });
 
   routerProps.history.push(`/projetos/${projectId}/pre-implantacao`);
@@ -105,7 +107,7 @@ const createDeploymentRunFail = (error) => (dispatch) => {
   });
 
   const errorMessage = error.message;
-  message.error(errorMessage, 5);
+  message.error(errorMessage);
 };
 
 /**
@@ -123,7 +125,7 @@ const createDeploymentRunRequest = (projectId, deploymentId, routerProps) => (di
 
   deploymentRunsApi
     .createDeploymentRun(projectId, deploymentId)
-    .then((response) => dispatch(createDeploymentRunSuccess(projectId, response, routerProps)))
+    .then((response) => dispatch(createDeploymentRunSuccess(projectId, routerProps, response)))
     .catch((error) => dispatch(createDeploymentRunFail(error)));
 };
 
