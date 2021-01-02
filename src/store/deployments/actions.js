@@ -47,14 +47,15 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_DEPLOYMENTS_FAIL,
     errorMessage,
   });
+
+  message.error(errorMessage);
 };
 
 /**
  * fetch deployments request action
  *
- * @param {string} projectId Project UUID
- * @param {boolean} isToShowLoader Whenever is to show loader or not
- * @returns {Function} The `disptach` function
+ * @param {boolean} isToShowLoader
+ * @returns {Function}
  */
 export const fetchDeploymentsRequest = (projectId, isToShowLoader) => (
   dispatch
@@ -105,6 +106,12 @@ const createDeploymentFail = (error) => (dispatch) => {
   });
 
   message.error(errorMessage, 5);
+
+  // check if error is 404
+  if (error.response?.status === 404) {
+    // redirect to error page
+    routerProps.history.replace('/erro-404');
+  }
 };
 
 /**
@@ -112,7 +119,6 @@ const createDeploymentFail = (error) => (dispatch) => {
  *
  * @param {string} experimentId The experiment Id
  * @param {string} projectId The project Id
- * @param {object} routerProps Router
  * @returns {Function} dispatch function
  */
 export const createDeploymentRequest = (experimentId, projectId) => (
@@ -166,8 +172,8 @@ const updateDeploymentSuccess = (response) => (dispatch, getState) => {
 /**
  * update deployment fail action
  *
- * @param {object} error Response error
- * @param {object} routerProps Router object
+ * @param {object} error
+ * @param routerProps
  * @returns {object} { type, errorMessage }
  */
 const updateDeploymentFail = (error, routerProps) => (dispatch) => {
@@ -195,7 +201,7 @@ const updateDeploymentFail = (error, routerProps) => (dispatch) => {
  * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
  * @param {object} deploymentObj Deployment object updated
- * @returns {Function} The `disptach` function
+ * @returns {Function}
  */
 export const updateDeploymentRequest = (
   projectId,
@@ -241,7 +247,7 @@ const deleteDeploymentSuccess = (deploymentId) => (dispatch, getState) => {
 /**
  * delete deployment fail action
  *
- * @param {object} error Responde error
+ * @param {object} error
  * @returns {object} { type, errorMessage }
  */
 const deleteDeploymentFail = (error) => (dispatch) => {
@@ -262,7 +268,7 @@ const deleteDeploymentFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
- * @returns {Function} The `disptach` function
+ * @returns {Function}
  */
 export const deleteDeploymentRequest = (projectId, deploymentId) => (
   dispatch
@@ -284,7 +290,7 @@ export const deleteDeploymentRequest = (projectId, deploymentId) => (
 /**
  * clear all deployments action
  *
- * @returns {Function} The `disptach` function
+ * @returns {Function}
  */
 export const clearAllDeployments = () => (dispatch) => {
   dispatch({
@@ -332,7 +338,7 @@ export const fetchAllDeploymentsRuns = (
  * @param routerProps
  * @returns {Function} dispatch function
  */
-export const prepareForDeployment = (experimentId, projectId, routerProps) => (
+export const prepareDeployments = (experimentId, projectId, routerProps) => (
   dispatch
 ) => {
   // TODO
@@ -370,5 +376,5 @@ export default {
   createDeploymentRequest,
   updateDeploymentRequest,
   deleteDeploymentRequest,
-  prepareForDeployment,
+  prepareDeployments,
 };

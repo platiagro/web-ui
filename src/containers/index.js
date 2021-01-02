@@ -10,7 +10,7 @@ import DeploymentsTabsContainer from './DeploymentsTabsContainer';
 import DeploymentToolbarContainer from './DeploymentToolbarContainer';
 import DownloadOperatorDatasetContainer from './DownloadOperatorDatasetContainer';
 
-import HeaderExperimentsContentContainer from './HeaderExperimentsContentContainer';
+import ExperimentsHeaderContainer from './ExperimentsHeaderContainer';
 
 import InferenceTestResultModalContainer from './InferenceTestResultModalContainer';
 
@@ -35,7 +35,7 @@ export {
   DeploymentsTabsContainer,
   DeploymentToolbarContainer,
   DownloadOperatorDatasetContainer,
-  HeaderExperimentsContentContainer,
+  ExperimentsHeaderContainer,
   InferenceTestResultModalContainer,
   LogsDrawerContainer,
   NewDeploymentModalContainer,
