@@ -30,13 +30,19 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    experimentIsFinished: (experimentId) => {
-      return getExperimentById(state, experimentId).succeeded;
-    },
     operatorDescription: state.operatorReducer.description,
     operatorIsDataset: state.operatorReducer.tags
       ? state.operatorReducer.tags.includes('DATASETS')
       : false,
+    // show operator experiment results
+    showExperimentResults: state.uiReducer.operatorResults.showOperatorResults,
+    // operator parent experiment is finished
+    experimentIsFinished: (experimentId) => {
+      const experiment = getExperimentById(state, experimentId);
+      if ('succeeded' in experiment) return experiment.succeeded;
+      return false;
+    },
+    // operator logs
     operatorLogs: state.operatorReducer.logs,
     operatorName: state.operatorReducer.name,
     operatorStatus: state.operatorReducer.status,

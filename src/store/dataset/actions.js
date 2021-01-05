@@ -239,7 +239,7 @@ export const updateDatasetUpload = (uploadProgress) => (dispatch) => {
  *
  * @returns {Function} Dispatch function
  */
-export const startFileDatasetUpload = (file) => (dispatch) => {
+export const startFileDatasetUpload = (file, experimentId) => (dispatch) => {
   // create cancel token
   const cancelToken = CancelToken.source();
 
@@ -256,7 +256,7 @@ export const startFileDatasetUpload = (file) => (dispatch) => {
   // append dataset file
   fileFormData.append('file', file);
 
-  dispatch(startDatasetUpload(fileFormData, cancelToken));
+  dispatch(startDatasetUpload(fileFormData, cancelToken, experimentId));
 };
 
 /**
@@ -287,23 +287,18 @@ export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
  *
  * @param {object} file Dataset file
  * @param {object} cancelToken Cancel request token
+ * @param {string} experimentId The experiment id
  * @returns {Function} Dispatch function
  */
-export const startDatasetUpload = (file, cancelToken) => async (
+export const startDatasetUpload = (file, cancelToken, experimentId) => async (
   dispatch,
   getState
 ) => {
   // get reducers from store
-  const { projectReducer, experimentsReducer, operatorReducer } = getState();
+  const { projectReducer, operatorReducer } = getState();
 
   // get project id
   const { uuid: projectId } = projectReducer;
-
-  // get experiment id
-  const experiment = experimentsReducer.find((ex) => {
-    return ex.isActive;
-  });
-  const { uuid: experimentId } = experiment;
 
   // save dataset operator
   const datasetOperator = { ...operatorReducer };
@@ -502,7 +497,7 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
   if (datasetName) {
     // fetching dataset
     datasetsApi
-      .getDataset(datasetName, 1, 10)
+      .getDataset(datasetName)
       .then((response) => dispatch(getDatasetSuccess(response)))
       .catch((error) => dispatch(getDatasetFail(error)));
 
@@ -548,7 +543,7 @@ export const selectDataset = (datasetName, projectId, experimentId) => (
 
   // fetching dataset
   datasetsApi
-    .getDataset(datasetName, 1, 10)
+    .getDataset(datasetName)
     .then((response) => {
       // get dataset from response
       const dataset = response.data;
