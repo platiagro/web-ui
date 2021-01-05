@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 // CONSTANTS
-const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
-const pipelinesApi = axios.create({
+const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
+const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
 
@@ -19,7 +19,7 @@ const runsPath = 'runs';
  * @returns {Promise} Request Promise
  */
 const fetchDeploymentRuns = (projectId, deploymentId) => {
-  return pipelinesApi.get(`${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`);
+  return projectsApi.get(`${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`);
 };
 
 /**
@@ -30,9 +30,8 @@ const fetchDeploymentRuns = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const createDeploymentRun = (projectId, deploymentId) => {
-  return pipelinesApi.post(
-    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}?experimentDeploy=true`
-  );
+  return projectsApi.post(
+    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`);
 };
 
 /**
@@ -43,7 +42,7 @@ const createDeploymentRun = (projectId, deploymentId) => {
  * @returns {Promise} //
  */
 const deleteDeploymentRun = (projectId, deploymentId) => {
-  return pipelinesApi.delete(
+  return projectsApi.delete(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`
   );
 };
@@ -57,7 +56,7 @@ const deleteDeploymentRun = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const fetchDeploymentRunLogs = (projectId, deploymentId, runId) => {
-  return pipelinesApi.get(
+  return projectsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}/logs`
   );
 };
@@ -71,7 +70,7 @@ const fetchDeploymentRunLogs = (projectId, deploymentId, runId) => {
  * @returns {Promise} Request Promise
  */
 const retryDeploymentRun = (projectId, deploymentId, runId) => {
-  return pipelinesApi.put(
+  return projectsApi.put(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}/retry`
   );
 }

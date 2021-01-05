@@ -118,6 +118,9 @@ const OperatorResultsModalContainer = (props) => {
     >
       <ResultsDrawer
         dataset={operatorDataset}
+        datasetScroll={{
+          x: operatorDataset ? operatorDataset.columns.length * 100 : undefined,
+        }}
         figures={operatorFigures}
         isToShowDownloadButtons={true}
         loading={operatorResultsLoading}

@@ -7,7 +7,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Dropdown, Empty, Menu, Upload } from 'antd';
 
 // COMPONENTS
-import { InputBlockContainer } from 'components';
+import { PropertyBlock } from 'components';
 
 /**
  * A input block with upload input
@@ -134,7 +134,7 @@ const UploadInputBlock = (props) => {
 
   // rendering component
   return (
-    <InputBlockContainer tip={tip} title={title}>
+    <PropertyBlock tip={tip} title={title}>
       <Upload {...uploadProps} disabled={isDisabled || datasetsLoading}>
         <Dropdown.Button
           overlay={datasetsMenu}
@@ -153,7 +153,7 @@ const UploadInputBlock = (props) => {
       </Upload>
       {/* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */}
       {/*fileList.length === 0 && fileExtensions*/}
-    </InputBlockContainer>
+    </PropertyBlock>
   );
 };
 

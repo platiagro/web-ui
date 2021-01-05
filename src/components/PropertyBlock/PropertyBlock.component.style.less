@@ -1,0 +1,30 @@
+.propertyBlock {
+  width: 100%;
+  padding: 16px;
+
+  // when property block not is last child, render a bottom border
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  }
+}
+
+.propertyBlockHeader {
+  display: inline-block;
+  width: 100%;
+}
+
+.propertyBlockTitle {
+  float: left;
+  width: auto;
+}
+
+.propertyBlockTip {
+  float: right;
+  padding: 0;
+  margin: 0;
+  width: auto;
+}
+
+.propertyBlockInput {
+  display: block;
+}

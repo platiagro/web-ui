@@ -14,6 +14,7 @@ const templatesPath = '/templates';
 // API METHODS
 /**
  * List Templates
+ *
  * @returns {Promise}
  */
 const listTemplates = () => {
@@ -22,8 +23,10 @@ const listTemplates = () => {
 
 /**
  * Create Template
- * @param {string} templateName
- * @param {string} experimentId
+ * 
+ * @param {string} templateName Template name
+ * @param {string} experimentId Experiment UUID
+ * 
  * @returns {Promise}
  */
 const createTemplate = (templateName, experimentId) => {
@@ -35,8 +38,25 @@ const createTemplate = (templateName, experimentId) => {
 };
 
 /**
+ * Update Template
+ * 
+ * @param {string} templateId Template UUID
+ * @param {string} templateName Template new name
+ * 
+ * @returns {Promise}
+ */
+const updateTemplate = (templateId, templateName) => {
+  const body = {
+    name: templateName,
+  };
+  return templatesApi.patch(`${templatesPath}/${templateId}`, body);
+};
+
+/**
  * Delete Template
- * @param {string} templateId
+ * 
+ * @param {string} templateId Template UUID
+ * 
  * @returns {Promise}
  */
 const deleteTemplate = (templateId) => {
@@ -47,5 +67,6 @@ const deleteTemplate = (templateId) => {
 export default {
   listTemplates,
   createTemplate,
+  updateTemplate,
   deleteTemplate,
 };

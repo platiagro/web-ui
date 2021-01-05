@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
@@ -46,47 +46,14 @@ const mapStateToProps = (state) => {
  */
 const DeploymentsTableContainer = (props) => {
   const {
-    handleFetchDeploymentsRuns,
     handleDeleteDeployment,
     handleGetDeployExperimentLogs,
     handleTestImplantedExperimentInference,
     loading,
-    project,
   } = props;
   const { projectId } = useParams();
 
-  // get project experiments
-  const memoizedExperiments = useMemo(() => {
-    if (projectId === project.uuid) {
-      return project.experiments;
-    }
-  }, [projectId, project]);
-
-  const [deployments, setDeployments] = useState([]);
-
-  // HOOKS
-  useEffect(() => {
-    const handleFetchAllDeploymentsRuns = async (isToShowLoader) => {
-      const deploymentsRuns = await handleFetchDeploymentsRuns(
-        projectId,
-        memoizedExperiments,
-        isToShowLoader
-      );
-  
-      setDeployments(deploymentsRuns);
-    }
-
-    // fetching deployed experiments
-    handleFetchAllDeploymentsRuns(true);
-
-    // polling deployed experiments
-    const polling = setInterval(
-      () =>
-      handleFetchAllDeploymentsRuns(false),
-      30000
-    );
-    return () => clearInterval(polling);
-  }, [projectId, memoizedExperiments, handleFetchDeploymentsRuns]);
+  const [deployments] = useState([]);
 
   const deleteDeployment = (deployId) => {
     handleDeleteDeployment(projectId, deployId);

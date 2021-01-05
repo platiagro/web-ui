@@ -79,6 +79,7 @@ const CompareResultItem = (props) => {
         compareResult={compareResult}
         height={height}
         onResultDatasetPageChange={onResultDatasetPageChange}
+        onUpdate={onUpdate}
         tasks={tasks}
         trainingDetail={trainingDetail}
       />

@@ -2,10 +2,10 @@
 import axios from 'axios';
 
 // CONSTANTS
-const URL = process.env.REACT_APP_PIPELINES_API || 'http://localhost:8080';
+const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 const URL_SELDON = process.env.REACT_APP_SELDON_API;
 
-const pipelinesApi = axios.create({
+const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
 const seldonApi = axios.create({
@@ -22,20 +22,20 @@ const deploymentsPath = 'deployments';
  * @returns {Promise} Request Promise
  */
 const listDeployments = (projectId) => {
-  return pipelinesApi.get(`${projectId}/${deploymentsPath}`);
+  return projectsApi.get(`${projectId}/${deploymentsPath}`);
 };
 
 /**
  * Create Deployment
  *
  * @param {string} projectId Project UUID
- * @param {object} deploymentObj Deployment object
+ * @param {object} body Deployment object
  * @returns {Promise} Request Promise
  */
-const createDeployment = (projectId, deploymentObj) => {
-  return pipelinesApi.post(
+const createDeployment = (projectId, body) => {
+  return projectsApi.post(
     `${projectId}/${deploymentsPath}`,
-    deploymentObj
+    body
   );
 };
 
@@ -46,8 +46,8 @@ const createDeployment = (projectId, deploymentObj) => {
  * @param {string} deploymentId Deployment UUID
  * @returns {Promise} Request Promise
  */
-const detailDeployment = (projectId, deploymentId) => {
-  return pipelinesApi.get(
+const geDeployment = (projectId, deploymentId) => {
+  return projectsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}`
   );
 };
@@ -61,7 +61,7 @@ const detailDeployment = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const updateDeployment = (projectId, deploymentId, deploymentObj) => {
-  return pipelinesApi.patch(
+  return projectsApi.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}`,
     deploymentObj
   );
@@ -75,7 +75,7 @@ const updateDeployment = (projectId, deploymentId, deploymentObj) => {
  * @returns {Promise} Request Promise
  */
 const deleteDeployment = (projectId, deploymentId) => {
-  return pipelinesApi.delete(
+  return projectsApi.delete(
     `${projectId}/${deploymentsPath}/${deploymentId}`
   );
 };
@@ -90,7 +90,7 @@ const deleteDeployment = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const updateDeploymentOperator = (projectId, deploymentId, operatorId, operatorObj) => {
-  return pipelinesApi.patch(
+  return projectsApi.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}/operators/${operatorId}`,
     operatorObj
   );
@@ -99,13 +99,13 @@ const updateDeploymentOperator = (projectId, deploymentId, operatorId, operatorO
 /**
  * Test deployment
  *
- * @param {string} id
- * @param {string} body
+ * @param {string} deploymentId Deployment UUID
+ * @param {object} body Body to be sent
  * @returns {Promise} Request Promise
  */
-const testDeployment = (id, body) => {
+const testDeployment = (deploymentId, body) => {
   return seldonApi.post(
-    `/deployments/${id}/api/v1.0/predictions`,
+    `/deployments/${deploymentId}/api/v1.0/predictions`,
     body
   );
 };
@@ -114,7 +114,7 @@ const testDeployment = (id, body) => {
 export default {
   listDeployments,
   createDeployment,
-  detailDeployment,
+  geDeployment,
   updateDeployment,
   deleteDeployment,
   updateDeploymentOperator,

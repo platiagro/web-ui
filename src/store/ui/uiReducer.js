@@ -1,7 +1,8 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import projectActionTypes from '../project/actionTypes';
-import experimentActionTypes from '../experiments/actionTypes';
+import experimentsActionTypes from 'store/experiments/actionTypes';
+import projectActionTypes from 'store/project/actionTypes';
+import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE
 const initialState = {
@@ -24,7 +25,8 @@ const initialState = {
     errorMessage: null,
   },
   newTemplateModal: { visible: false },
-  newDeploymentsModal: { visible: false },
+  newDeploymentModal: { visible: false },
+  usingDeploymentsModal: { visible: false },
   operatorDrawer: {
     visible: false,
     isDataset: false,
@@ -41,6 +43,7 @@ const initialState = {
   projectsTable: { loading: false },
   projectName: { loading: false },
   tasksMenu: { loading: false },
+  deploymentsTabs: { loading: false, modalVisible: false },
   experimentsTabs: { loading: false },
   experimentName: { loading: false },
   experimentOperators: { loading: false },
@@ -147,7 +150,7 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     // NEW EXPERIMENT MODAL
-    case experimentActionTypes.CREATE_EXPERIMENT_FAIL:
+    case experimentsActionTypes.CREATE_EXPERIMENT_FAIL:
       return {
         ...state,
         newExperimentModal: {
@@ -181,8 +184,8 @@ const uiReducer = (state = initialState, action = undefined) => {
     case actionTypes.SHOW_USING_DEPLOYMENTS_MODAL:
       return {
         ...state,
-        newDeploymentsModal: {
-          ...state.newDeploymentsModal,
+        usingDeploymentsModal: {
+          ...state.usingDeploymentsModal,
           visible: true,
         },
       };
@@ -190,8 +193,8 @@ const uiReducer = (state = initialState, action = undefined) => {
     case actionTypes.HIDE_USING_DEPLOYMENTS_MODAL:
       return {
         ...state,
-        newDeploymentsModal: {
-          ...state.newDeploymentsModal,
+        usingDeploymentsModal: {
+          ...state.usingDeploymentsModal,
           visible: false,
         },
       };
@@ -289,6 +292,37 @@ const uiReducer = (state = initialState, action = undefined) => {
         tasksMenu: {
           ...state.tasksMenu,
           loading: action.tasksMenuLoading,
+        },
+      };
+
+    // DEPLOYMENTS TABS
+    case actionTypes.DEPLOYMENTS_TABS_LOADING_DATA:
+    case actionTypes.DEPLOYMENTS_TABS_DATA_LOADED:
+      return {
+        ...state,
+        deploymentsTabs: {
+          ...state.deploymentsTabs,
+          loading: action.loading,
+        },
+      };
+    case actionTypes.DEPLOYMENTS_TABS_HIDE_MODAL:
+    case actionTypes.DEPLOYMENTS_TABS_SHOW_MODAL:
+      return {
+        ...state,
+        deploymentsTabs: {
+          ...state.deploymentsTabs,
+          modalVisible: action.visible,
+          modalErrorMessage: null,
+          modalValidateStatus: null,
+        },
+      };
+    case projectDeploymentstActionTypes.CREATE_DEPLOYMENT_FAILURE:
+      return {
+        ...state,
+        deploymentsTabs: {
+          ...state.deploymentsTabs,
+          modalErrorMessage: action.errorMessage,
+          modalValidateStatus: 'error',
         },
       };
 
@@ -539,6 +573,7 @@ const uiReducer = (state = initialState, action = undefined) => {
           uuid: action.uuid,
         },
       };
+<<<<<<< HEAD
           // show pre experiment modal
     case actionTypes.SHOW_PRE_IMPLANTATION_MODAL:
       return {
@@ -557,6 +592,19 @@ const uiReducer = (state = initialState, action = undefined) => {
           visible: action.preImplantationModalVisible,
         },
       };
+=======
+
+    case actionTypes.SHOW_DEPLOYMENT_MODAL:
+    case actionTypes.HIDE_DEPLOYMENT_MODAL:
+      return {
+        ...state,
+        newDeploymentModal: {
+          ...state.newDeploymentModal,
+          visible: action.visible,
+        },
+      };
+
+>>>>>>> e0e060b2b93cfce7a259c1e69ceb0316b6fe7d2e
     // DEFAULT
     default:
       return state;

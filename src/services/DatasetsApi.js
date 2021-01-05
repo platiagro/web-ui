@@ -16,7 +16,7 @@ const datasetsPath = '/datasets';
 /**
  * List all datasets
  *
- * @returns {Promise}
+ * @returns {Promise} Request Promise
  */
 const listDatasets = () => {
   return datasetsApi.get(datasetsPath);
@@ -25,10 +25,10 @@ const listDatasets = () => {
 /**
  * Get Dataset
  *
- * @param {string} datasetName
- * @param {int} page
- * @param {int} pageSize
- * @returns {Promise}
+ * @param {string} datasetName The dataset name
+ * @param {number} page Number of pages
+ * @param {number} pageSize Data per page
+ * @returns {Promise} Request Promise
  */
 const getDataset = (datasetName, page, pageSize) => {
   if (page && pageSize)
@@ -41,8 +41,8 @@ const getDataset = (datasetName, page, pageSize) => {
 /**
  * List Dataset Columns
  *
- * @param {string} datasetName
- * @returns {Promise}
+ * @param {string} datasetName The dataset name
+ * @returns {Promise} Request Promise
  */
 const listDatasetColumns = (datasetName) => {
   return datasetsApi.get(`${datasetsPath}/${datasetName}/columns`);
@@ -51,8 +51,7 @@ const listDatasetColumns = (datasetName) => {
 /**
  * Create Dataset
  *
- * @param {File} datasetFile Dataset file
- * @param file
+ * @param {File} file Dataset file
  * @param {object} cancelToken Cancel token
  * @param {Function} progressHandler Upload progress handler
  * @returns {Promise} Request Promise
@@ -68,10 +67,10 @@ const createDataset = (file, cancelToken, progressHandler) => {
 /**
  * Update Dataset Column
  *
- * @param {string} datasetName
- * @param {string} columnName
- * @param {string} columnNewType
- * @returns {Promise}
+ * @param {string} datasetName The dataset name
+ * @param {string} columnName Column name
+ * @param {string} columnNewType The new type of the column
+ * @returns {Promise} Request Promise
  */
 const updateDatasetColumn = (datasetName, columnName, columnNewType) => {
   // creating body object
@@ -89,8 +88,8 @@ const updateDatasetColumn = (datasetName, columnName, columnNewType) => {
 /**
  * Get featuretypes of a Dataset
  *
- * @param {string} datasetName
- * @returns {Promise}
+ * @param {string} datasetName The dataset name
+ * @returns {Promise} Request Promise
  */
 const getDatasetFeaturetypes = (datasetName) => {
   return datasetsApi.get(`${datasetsPath}/${datasetName}/featuretypes`);

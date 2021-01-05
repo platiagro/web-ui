@@ -30,7 +30,7 @@ const CompareResultItemTasks = (props) => {
             ...compareResult,
             operatorId: value,
           };
-          onUpdate(updatedCompareResult, false);
+          onUpdate(updatedCompareResult, true);
         }}
         optionLabelProp='label'
         placeholder={'Selecione a tarefa'}

@@ -23,7 +23,7 @@ export const testImplantedExperimentInferenceAction = (deployId, file) => (
   dispatch(inferenceTestResultModalLoadingData());
   dispatch(showInferenceTestResultModal());
   deploymentsApi
-    .testDeployedExperiments(deployId, file)
+    .testDeployment(deployId, file)
     .then((response) => {
       const seldonResponse =
         'data' in response.data ? response.data.data : response.data;

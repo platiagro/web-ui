@@ -11,7 +11,7 @@ import {
 import { Tooltip, Switch, Skeleton } from 'antd';
 
 // COMPONENTS
-import { InputBlockContainer } from 'components';
+import { PropertyBlock } from 'components';
 
 /**
  * A input block with toggle input
@@ -26,7 +26,7 @@ const ToggleInputBlock = (props) => {
 
   // rendering component
   return (
-    <InputBlockContainer tip={tip} title={title}>
+    <PropertyBlock tip={tip} title={title}>
       {isLoading ? (
         /* loading */
         <Skeleton
@@ -59,7 +59,7 @@ const ToggleInputBlock = (props) => {
           ) : null}
         </>
       )}
-    </InputBlockContainer>
+    </PropertyBlock>
   );
 };
 
