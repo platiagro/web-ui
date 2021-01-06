@@ -66,6 +66,7 @@ const initialState = {
   operatorsDependencies: {
     loading: false,
   },
+  prepareDeployments: { loading: false },
 };
 
 const uiReducer = (state = initialState, action = undefined) => {
@@ -573,8 +574,8 @@ const uiReducer = (state = initialState, action = undefined) => {
           uuid: action.uuid,
         },
       };
-<<<<<<< HEAD
-          // show pre experiment modal
+
+    // show pre experiment modal
     case actionTypes.SHOW_PRE_IMPLANTATION_MODAL:
       return {
         ...state,
@@ -592,8 +593,6 @@ const uiReducer = (state = initialState, action = undefined) => {
           visible: action.preImplantationModalVisible,
         },
       };
-=======
-
     case actionTypes.SHOW_DEPLOYMENT_MODAL:
     case actionTypes.HIDE_DEPLOYMENT_MODAL:
       return {
@@ -604,7 +603,18 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
->>>>>>> e0e060b2b93cfce7a259c1e69ceb0316b6fe7d2e
+
+    // PREPARE DEPLOYMENTS
+    case actionTypes.PREPARE_DEPLOYMENTS_LOADING_DATA:
+    case actionTypes.PREPARE_DEPLOYMENTS_DATA_LOADED:
+      return {
+        ...state,
+        prepareDeployments: {
+          ...state.prepareDeployments,
+          loading: action.prepareDeploymentsLoading,
+        },
+      };
+
     // DEFAULT
     default:
       return state;

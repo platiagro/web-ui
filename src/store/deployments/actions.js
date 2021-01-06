@@ -12,6 +12,8 @@ import deploymentsRunsApi from 'services/DeploymentRunsApi';
 import {
   implantedExperimentsLoadingData,
   implantedExperimentsDataLoaded,
+  prepareDeploymentsLoadingData,
+  prepareDeploymentsDataLoaded,
 } from 'store/ui/actions';
 
 // ACTIONS
@@ -54,7 +56,9 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
  * @param {boolean} isToShowLoader Whenever is to show loader or not
  * @returns {Function} The `disptach` function
  */
-export const fetchDeploymentsRequest = (projectId, isToShowLoader) => (dispatch) => {
+export const fetchDeploymentsRequest = (projectId, isToShowLoader) => (
+  dispatch
+) => {
   if (isToShowLoader) {
     dispatch(implantedExperimentsLoadingData());
   }
@@ -75,13 +79,11 @@ export const fetchDeploymentsRequest = (projectId, isToShowLoader) => (dispatch)
  * @param {object} response Response body
  * @returns {object} { type, experiment }
  */
-const createDeploymentSuccess = (response) => (
-  dispatch
-) => {
+const createDeploymentSuccess = (response) => (dispatch) => {
   // dispatching create deployment success
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_SUCCESS,
-    deployment: response.data
+    deployment: response.data,
   });
 };
 
@@ -106,7 +108,7 @@ const createDeploymentFail = (error) => (dispatch) => {
 
 /**
  * create deployment request action
- * 
+ *
  * @param {string} experimentId The experiment Id
  * @param {string} experimentName The experiment Name
  * @param {string} projectId The project Id
@@ -142,7 +144,7 @@ export const createDeploymentRequest = (
     );
   };
 
-  // // // // // // // // // //
+// // // // // // // // // //
 
 // ** UPDATE DEPLOYMENT
 /**
@@ -151,9 +153,7 @@ export const createDeploymentRequest = (
  * @param {object} response Response object
  * @returns {object} { type, experiment }
  */
-const updateDeploymentSuccess = (response) => (
-  dispatch, getState
-) => {
+const updateDeploymentSuccess = (response) => (dispatch, getState) => {
   const currentState = getState();
   const deploymentsState = currentState.deploymentsReducer;
 
@@ -219,7 +219,7 @@ export const updateDeploymentRequest = (
     .updateDeployment(projectId, deploymentId, deploymentObj)
     .then((response) => dispatch(updateDeploymentSuccess(response)))
     .catch((error) => dispatch(updateDeploymentFail(error)));
-  };
+};
 
 // // // // // // // // // //
 
@@ -230,9 +230,7 @@ export const updateDeploymentRequest = (
  * @param {string} deploymentId Deployment UUID
  * @returns {object} { type }
  */
-const deleteDeploymentSuccess = (deploymentId) => (
-  dispatch, getState
-) => {
+const deleteDeploymentSuccess = (deploymentId) => (dispatch, getState) => {
   const currentState = getState();
   const deploymentsState = currentState.deploymentsReducer;
 
@@ -273,10 +271,9 @@ const deleteDeploymentFail = (error) => (dispatch) => {
  * @param {string} deploymentId Deployment UUID
  * @returns {Function} The `disptach` function
  */
-export const deleteDeploymentRequest = (
-  projectId,
-  deploymentId,
-) => (dispatch) => {
+export const deleteDeploymentRequest = (projectId, deploymentId) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DELETE_DEPLOYMENT_REQUEST,
@@ -285,11 +282,9 @@ export const deleteDeploymentRequest = (
   // deleting deployment
   deploymentsApi
     .deleteDeployment(projectId, deploymentId)
-    .then(() =>
-      dispatch(deleteDeploymentSuccess(deploymentId))
-    )
+    .then(() => dispatch(deleteDeploymentSuccess(deploymentId)))
     .catch((error) => dispatch(deleteDeploymentFail(error)));
-  };
+};
 
 // // // // // // // // // //
 
@@ -305,9 +300,9 @@ export const clearAllDeployments = () => (dispatch) => {
 };
 
 /** FIXME: Temporary solution to get all deployments runs
- * 
+ *
  * On future need to be substituted by data normalization
- * on deployment reducer 
+ * on deployment reducer
  */
 
 export const fetchAllDeploymentsRuns = (
@@ -334,4 +329,53 @@ export const fetchAllDeploymentsRuns = (
   dispatch(implantedExperimentsDataLoaded());
 
   return deployments;
+};
+
+/**
+ * prepare deployment request action
+ *
+ * @param {string} experimentId The experiment Id
+ * @param {string} projectId The project Id
+ * @param routerProps
+ * @returns {Function} dispatch function
+ */
+export const prepareDeployments = (experimentId, projectId, routerProps) => (
+  dispatch
+) => {
+  // TODO
+  // replace all the code below by the action
+  // showPrepareDeploymentModal once it's implemented
+
+  // dispatching request action
+  dispatch(prepareDeploymentsLoadingData());
+
+  // creating deployment object
+  const deploymentObj = {
+    experiments: [experimentId],
+  };
+
+  // creating deployment
+  deploymentsApi
+    .createDeployment(projectId, deploymentObj)
+    .then((response) => {
+      dispatch(prepareDeploymentsDataLoaded());
+
+      routerProps.history.push(`/projetos/${projectId}`);
+      message.success('Experimento implantado!');
+    })
+    .catch((error) => {
+      dispatch(prepareDeploymentsDataLoaded());
+
+      // getting error message
+      const errorMessage = error.message;
+      message.error(errorMessage, 5);
+    });
+};
+
+export default {
+  fetchDeploymentsRequest,
+  createDeploymentRequest,
+  updateDeploymentRequest,
+  deleteDeploymentRequest,
+  prepareDeployments,
 };

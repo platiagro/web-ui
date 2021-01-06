@@ -15,7 +15,7 @@ import {
   ChangeRoutePromptContainer,
   CompareResultsModalContainer,
   DataViewModalContainer,
-  HeaderExperimentsContentContainer,
+  ExperimentsHeaderContainer,
   OperatorResizableSectionContainer,
   OperatorResultsModalContainer,
 } from 'containers';
@@ -61,7 +61,7 @@ const ExperimentsContent = () => {
         <PreImplantationModal />
         <DataViewModalContainer />
         <OperatorResultsModalContainer />
-        <HeaderExperimentsContentContainer />
+        <ExperimentsHeaderContainer />
         {renderFlowContent()}
         <ChangeRoutePromptContainer />
       </DndProvider>
