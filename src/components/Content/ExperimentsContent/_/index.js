@@ -9,7 +9,6 @@ import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
-import PreImplantationModal from 'components/PreImplantationModal'
 
 import {
   ChangeRoutePromptContainer,
@@ -58,7 +57,6 @@ const ExperimentsContent = () => {
     <>
       <DndProvider backend={HTML5Backend}>
         <CompareResultsModalContainer />
-        <PreImplantationModal />
         <DataViewModalContainer />
         <OperatorResultsModalContainer />
         <ExperimentsHeaderContainer />

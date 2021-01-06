@@ -959,19 +959,19 @@ export const dependenciesOperatorLoaded = (dependencyId) => {
   };
 };
 
-export const hidePreImplantationModal = () =>{
-  return{
-    type: actionTypes.HIDE_PRE_IMPLANTATION_MODAL,
-    preImplantationModalVisible: false,
-  }
-}
+export const hidePrepareDeploymentsModal = () => {
+  return {
+    type: actionTypes.HIDE_PREPARE_DEPLOYMENTS_MODAL,
+    prepareDeploymentsModalVisible: false,
+  };
+};
 
-export const showPreImplantationModal = () =>{
-  return{
-    type: actionTypes.SHOW_PRE_IMPLANTATION_MODAL,
-    preImplantationModalVisible: true,
-  }
-}
+export const showPrepareDeploymentsModal = () => {
+  return {
+    type: actionTypes.SHOW_PREPARE_DEPLOYMENTS_MODAL,
+    prepareDeploymentsModalVisible: true,
+  };
+};
 
 export const showNewDeploymentModal = () => {
   return {
@@ -1010,4 +1010,3 @@ export const prepareDeploymentsDataLoaded = () => {
     prepareDeploymentsLoading: false,
   };
 };
-
