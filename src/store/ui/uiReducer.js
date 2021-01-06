@@ -65,6 +65,7 @@ const initialState = {
   operatorsDependencies: {
     loading: false,
   },
+  prepareDeployments: { loading: false },
 };
 
 const uiReducer = (state = initialState, action = undefined) => {
@@ -580,6 +581,17 @@ const uiReducer = (state = initialState, action = undefined) => {
         newDeploymentModal: {
           ...state.newDeploymentModal,
           visible: action.visible,
+        },
+      };
+
+    // PREPARE DEPLOYMENTS
+    case actionTypes.PREPARE_DEPLOYMENTS_LOADING_DATA:
+    case actionTypes.PREPARE_DEPLOYMENTS_DATA_LOADED:
+      return {
+        ...state,
+        prepareDeployments: {
+          ...state.prepareDeployments,
+          loading: action.prepareDeploymentsLoading,
         },
       };
 
