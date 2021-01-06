@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "4.6.4",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "istextorbinary": "^5.11.0",
     "react": "^16.13.1",
     "react-contextmenu": "^2.14.0",
