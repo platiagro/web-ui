@@ -1,7 +1,7 @@
 **Exemplo:**
 
 ```js
-const input = {
+const parameter = {
   default: 1,
   description: 'Desc',
   label: 'Label',
@@ -16,7 +16,7 @@ const onChange = (name, currentValue) => {
 const trainingLoading = false;
 const valueLatestTraining = 1;
 <ParameterGroup
-  input={input}
+  parameter={parameter}
   loading={loading}
   onChange={onChange}
   trainingLoading={trainingLoading}
