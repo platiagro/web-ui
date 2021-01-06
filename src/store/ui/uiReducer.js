@@ -59,6 +59,7 @@ const initialState = {
   operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
   inferenceTestResultModal: { loading: false, visible: false },
+  prepareDeploymentsModal: { loading: false, visible: false },
   projectEditName: { loading: false },
   dataViewModal: { isVisible: false, loading: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
@@ -574,6 +575,17 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
+    // show pre experiment modal
+    // hide pre experiment modal
+    case actionTypes.HIDE_PREPARE_DEPLOYMENTS_MODAL:
+    case actionTypes.SHOW_PREPARE_DEPLOYMENTS_MODAL:
+      return {
+        ...state,
+        prepareDeploymentsModal: {
+          ...state.prepareDeploymentsModal,
+          visible: action.prepareDeploymentsModalVisible,
+        },
+      };
     case actionTypes.SHOW_DEPLOYMENT_MODAL:
     case actionTypes.HIDE_DEPLOYMENT_MODAL:
       return {

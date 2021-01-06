@@ -959,6 +959,20 @@ export const dependenciesOperatorLoaded = (dependencyId) => {
   };
 };
 
+export const hidePrepareDeploymentsModal = () => {
+  return {
+    type: actionTypes.HIDE_PREPARE_DEPLOYMENTS_MODAL,
+    prepareDeploymentsModalVisible: false,
+  };
+};
+
+export const showPrepareDeploymentsModal = () => {
+  return {
+    type: actionTypes.SHOW_PREPARE_DEPLOYMENTS_MODAL,
+    prepareDeploymentsModalVisible: true,
+  };
+};
+
 export const showNewDeploymentModal = () => {
   return {
     type: actionTypes.SHOW_DEPLOYMENT_MODAL,
