@@ -230,10 +230,6 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
     return operator.status === 'Succeeded';
   });
 
-  const isAStoppedOperator = (operator) => {
-    return operator.status === '' || operator.status === 'Failed' || operator.status === 'Terminated';
-  };
-
   // TODO: se todos os operadores estiverem com status `pending` por muito tempo, pode ser devido a algum
   // erro no cluster e caso fique assim pra sempre, não dará pra utilizar o experimento.
   // Uma solução viável seria depois de algum tempo com o status `pending`, forçar a finalização da tarefa.  
@@ -248,12 +244,18 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
     dispatch(experimentNameDataLoaded());
   }
 
+  const operatorHasStopped = (operator) => {
+    return operator.status === '' ||
+           operator.status === 'Failed' ||
+           operator.status === 'Terminated';
+  };
+
   // checking operators status to verify if training is running, pending or succeeded
-  const isRunning = Object.values(operators).some((operator) => {
-      return ((operator.status === 'Pending' || operator.status === 'Running') && !isAStoppedOperator(operator));
+  const isRunning = Object.values(operators).every((operator) => {
+      return (operator.status === 'Running' && !operatorHasStopped(operator));
   });
 
-  // experiment run is succeeded finished
+  // experiment run finished successfully
   if (isSucceeded) {
     const currentState = getState();
     const experimentsState = currentState.experimentsReducer;
@@ -272,17 +274,17 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
 
   // get deleteLoading state
   const { uiReducer } = getState();
-  let deleteLoading = uiReducer.experimentTraining.deleteLoading;
+  let interruptExperiment = uiReducer.experimentTraining.deleteLoading;
 
   // experiment run has stopped
   if (!isRunning) {
     dispatch(experimentTrainingDataLoaded());
 
     // check if was manual interrupted
-    if (deleteLoading) {
+    if (interruptExperiment) {
       dispatch(experimentDeleteTrainingDataLoaded());
       message.success('Treinamento interrompido!');
-      deleteLoading = false;
+      interruptExperiment = false;
     }
   } else {
     dispatch(experimentTrainingLoadingData());
@@ -292,7 +294,7 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
     type: actionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS,
     operatorsLatestTraining: operators,
     experimentIsRunning: isRunning,
-    interruptIsRunning: deleteLoading,
+    interruptIsRunning: interruptExperiment ? true : false,
   });
 };
 

@@ -6,7 +6,7 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import deploymentRunsApi from '../../../services/DeploymentRunsApi';
-import { implantedExperimentsLoadingData } from 'store/ui/actions';
+import { implantedExperimentsLoadingData, implantedExperimentsDataLoaded } from 'store/ui/actions';
 
 // ACTIONS
 // ** FETCH DEPLOYMENT RUNS
@@ -50,12 +50,18 @@ const fetchDeploymentRunsFail = (error) => (
  *
  * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
- * @returns {Function}
+ * @param {boolean} isToShowLoader Whenever is to show loader
+ * @returns {Function} `Dispatch function`
  */
-const fetchDeploymentRunsRequest = (
+export const fetchDeploymentRunsRequest = (
   projectId,
   deploymentId,
+  isToShowLoader
 ) => (dispatch) => {
+  if (isToShowLoader) {
+    dispatch(implantedExperimentsLoadingData());
+  }
+
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_DEPLOYMENT_RUNS_REQUEST,
@@ -69,7 +75,9 @@ const fetchDeploymentRunsRequest = (
     })
     .catch((error) => {
       dispatch(fetchDeploymentRunsFail(error));
-    })
+    });
+
+  dispatch(implantedExperimentsDataLoaded());
   };
 
 // // // // // // // // // //

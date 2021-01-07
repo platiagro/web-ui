@@ -61,7 +61,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
 
     // pipelines
     // get experiment run status
-    case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS:
+    case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS: {
       let isTerminated = false;
       return state.map((operator) => {
         const operatorLatestTraining =
@@ -93,6 +93,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
           interruptIsRunning: action.interruptIsRunning,
         };
       });
+    }
     // train experiment success
     case experimentRunsActionTypes.CREATE_EXPERIMENT_RUN_SUCCESS:
       return state.map((operator) => ({

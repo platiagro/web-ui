@@ -35,7 +35,7 @@ export const fetchPaginatedProjects = (name, page, pageSize) => {
             let flagDeployed = false;
             for (const experiment of project.experiments) {
               const deploymentRuns = await deploymentRunsApi
-                .fetchDeploymentRuns(project.uuid, experiment.uuid)
+                .listDeploymentRuns(project.uuid, experiment.uuid)
                 .catch((error) => {});
               if (deploymentRuns) {
                 flagDeployed = true;
