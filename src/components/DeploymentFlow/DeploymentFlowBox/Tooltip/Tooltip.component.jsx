@@ -12,34 +12,41 @@ import {
 
 import './Tooltip.style.less';
 
-const tooltipConfig = {
-  Running: {
-    title: 'Tarefa em execução',
-    icon: <LoadingOutlined className='icon running' spin />,
-  },
-  Pending: {
-    title: 'Tarefa pendente',
-    icon: <ClockCircleFilled className='icon pending' />,
-  },
-  Succeeded: {
-    title: 'Tarefa executada com sucesso',
-    icon: <CheckCircleFilled className='icon succeeded' />,
-  },
-  Failed: {
-    title: 'Tarefa executada com falha',
-    icon: <ExclamationCircleFilled className='icon failed' />,
-  },
-  default: {
-    title: 'Tarefa interrompida',
-    icon: <StopOutlined className='icon default' />,
-  },
-};
-
 /**
  * DeploymentFlowBox tooltip
  */
 function Tooltip(props) {
   const { status } = props;
+
+  const statusClass = status?.toLowerCase() || '';
+  const tooltipIconClassName = `icon ${statusClass}`;
+
+  const tooltipConfig = {
+    Running: {
+      title: 'Tarefa em execução',
+      icon: <LoadingOutlined className={tooltipIconClassName} spin />,
+    },
+    Pending: {
+      title: 'Tarefa pendente',
+      icon: <ClockCircleFilled className={tooltipIconClassName} />,
+    },
+    Succeeded: {
+      title: 'Tarefa executada com sucesso',
+      icon: <CheckCircleFilled className={tooltipIconClassName} />,
+    },
+    Failed: {
+      title: 'Tarefa executada com falha',
+      icon: <ExclamationCircleFilled className={tooltipIconClassName} />,
+    },
+    Interrupted: {
+      title: 'Tarefa interrompida',
+      icon: <StopOutlined className={tooltipIconClassName} />,
+    },
+    default: {
+      title: '',
+      icon: undefined,
+    },
+  };
 
   const { title, icon } = tooltipConfig[status] || tooltipConfig['default'];
 
@@ -53,7 +60,14 @@ function Tooltip(props) {
 }
 
 Tooltip.propTypes = {
-  status: PropTypes.oneOf(['', 'Running', 'Pending', 'Succeeded', 'Failed']),
+  status: PropTypes.oneOf([
+    '',
+    'Running',
+    'Pending',
+    'Succeeded',
+    'Failed',
+    'Interrupted',
+  ]),
 };
 
 Tooltip.defaultProps = {
