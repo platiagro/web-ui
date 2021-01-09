@@ -116,13 +116,12 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
       projectId,
       experimentId
     );
+
     const operators = operatorsResponse.data;
-    
-    // gettins pipelines status
-    const pipelinesResponse = await experimentRunsApi.fetchExperimentRuns(
+    const experimentRun = await experimentRunsApi.fetchExperimentRunStatus(
       projectId,
       experimentId,
-      experimentId
+      'latest'
     );
 
     // configuring operators
@@ -130,7 +129,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
       tasks,
       operators,
       datasetReducer.columns,
-      pipelinesResponse.data
+      experimentRun.data
     );
 
     dispatch(

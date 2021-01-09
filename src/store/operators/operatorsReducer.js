@@ -59,13 +59,14 @@ const operatorsReducer = (state = initialState, action = undefined) => {
           : { ...operator }
       );
 
-    // pipelines
     // get experiment run status
     case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS: {
       let isTerminated = false;
       return state.map((operator) => {
         const operatorLatestTraining =
-          action.operatorsLatestTraining[operator.uuid];
+          action.operatorsLatestTraining.find((operator_) => {
+            return operator_.uuid === operator.uuid;
+          });
 
         // get the operator status
         let status = '';

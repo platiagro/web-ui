@@ -5,7 +5,7 @@ import { useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
 import DeploymentsTable from 'components/Content/ProjectDetailsContent/DeploymentsTable';
-import deploymentsRunsApi from 'services/DeploymentRunsApi';
+import deploymentApi from 'services/DeploymentsApi';
 
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
@@ -50,7 +50,6 @@ const DeploymentsTableContainer = (props) => {
     handleGetDeployExperimentLogs,
     handleTestImplantedExperimentInference,
     handleFetchDeploymentsRequest,
-    handleFetchDeploymentsRuns,
     loading,
     deployments
   } = props;
@@ -58,36 +57,41 @@ const DeploymentsTableContainer = (props) => {
   const [deploymentsRuns, setDeploymentsRuns] = useState([]);
 
   useEffect(() => {
+    // first get: when component has mounted
     handleFetchDeploymentsRequest(projectId);
-  }, [handleFetchDeploymentsRequest, projectId]);
-
-  useEffect(() => {
-    const deploymentRunsList = (deployments) => {
-      const deploymentRuns = deployments.map((deployment) => {
-        return deploymentsRunsApi.fetchDeploymentRun(
-          projectId,
-          deployment.uuid,
-          'latest'
-        );
-      });
-
-      Promise.all(deploymentRuns)
-      .then((respose) => {
-        const runs = respose.map((deployment) => {
-          return deployment.data;
-        })
-
-        setDeploymentsRuns(runs);
-      })
-      .catch(() => {});
-    };
 
     const polling = setInterval(
-      () => deploymentRunsList(deployments),
+      () => handleFetchDeploymentsRequest(projectId),
       5000
     );
     return () => clearInterval(polling);
-  }, [deployments, handleFetchDeploymentsRuns, projectId]);
+  }, [projectId, handleFetchDeploymentsRequest]);
+
+  useEffect(() => {
+    const deployments_ = deployments.map((deployment) => {
+      return deploymentApi.getDeployment(projectId, deployment.uuid);
+    });  
+
+    Promise.all(deployments_)
+    .then((respose) => {
+      const runs = respose.map((deployment) => {
+        // get only the properties that matter to the deployment runs table
+        const {
+          experimentId,
+          createdAt,
+          status,
+          runId,
+          uuid,
+          name,
+          url
+        } = deployment.data;
+        return { createdAt, uuid, experimentId, name, runId, status, url };
+      });
+
+      setDeploymentsRuns(runs);
+    })
+    .catch(() => {});
+  }, [deployments, projectId]);
 
   const deleteDeployment = (deployId) => {
     handleDeleteDeployment(projectId, deployId);

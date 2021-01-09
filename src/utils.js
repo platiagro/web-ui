@@ -423,15 +423,14 @@ const transformColumnsInParameterOptions = (datasetColumns) => {
  * @param {object[]} tasks tasks list
  * @param {object[]} operators operators list
  * @param {object[]} datasetColumns dataset columns list
- * @param {object} pipelineStatus pipeline status object
+ * @param {object} experimentRun experiment run object
  * @returns {object[]} configured operators
- * @param {boolean} isDataset
  */
 const configureOperators = (
   tasks,
   operators,
   datasetColumns,
-  pipelineStatus
+  experimentRun
 ) => {
   // transforming dataset columns to feature parameter options
   const featureOptions = transformColumnsInParameterOptions(datasetColumns);
@@ -459,8 +458,8 @@ const configureOperators = (
     const settedUp = checkOperatorSettedUp(operator);
 
     let status = '';
-    if (pipelineStatus.status && pipelineStatus.status[operator]) {
-      status = pipelineStatus.status[operator];
+    if (experimentRun.operators) {
+      status = experimentRun.operators[operator.uuid].status;
     }
 
     return {

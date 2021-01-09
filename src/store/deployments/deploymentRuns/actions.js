@@ -53,7 +53,7 @@ const fetchDeploymentRunsFail = (error) => (
  * @param {boolean} isToShowLoader Whenever is to show loader
  * @returns {Function} `Dispatch function`
  */
-export const fetchDeploymentRunsRequest = (
+const fetchDeploymentRunsRequest = (
   projectId,
   deploymentId,
   isToShowLoader

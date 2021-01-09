@@ -6,6 +6,7 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import experimentRunsApi from '../../../services/ExperimentRunsApi';
+import operatorsApi from '../../../services/OperatorsApi';
 
 // UI ACTIONS
 import {
@@ -224,16 +225,16 @@ const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
  */
 const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, getState) => {
   // getting operators from response
-  const { operators } = response.data;
+  const operators = response.data;
 
-  const isSucceeded = Object.values(operators).every((operator) => {
+  const isSucceeded = operators.every((operator) => {
     return operator.status === 'Succeeded';
   });
 
   // TODO: se todos os operadores estiverem com status `pending` por muito tempo, pode ser devido a algum
   // erro no cluster e caso fique assim pra sempre, não dará pra utilizar o experimento.
   // Uma solução viável seria depois de algum tempo com o status `pending`, forçar a finalização da tarefa.  
-  const isAllPending = Object.values(operators).every((operator) => {
+  const isAllPending = operators.every((operator) => {
     return operator.status === 'Pending';
   });
 
@@ -251,7 +252,7 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
   };
 
   // checking operators status to verify if training is running, pending or succeeded
-  const isRunning = Object.values(operators).every((operator) => {
+  const isRunning = operators.every((operator) => {
       return (operator.status === 'Running' && !operatorHasStopped(operator));
   });
 
@@ -343,9 +344,9 @@ export const fetchExperimentRunStatusRequest = (projectId, experimentId) => (
   });
 
   // get experiment run status
-  // Note: always get for the latest one
-  experimentRunsApi
-    .fetchExperimentRunStatus(projectId, experimentId, 'latest')
+  // the experiment status is defined by the operators who belong to it
+  operatorsApi
+    .listOperators(projectId, experimentId)
     .then((response) => dispatch(fetchExperimentRunStatusSuccess(response, experimentId)))
     .catch((error) => dispatch(fetchExperimentRunStatusFail(error, experimentId)));
 };

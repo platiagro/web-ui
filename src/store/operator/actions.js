@@ -256,7 +256,7 @@ export const selectOperator = (projectId, experimentId, operator) => (
     operator,
   });
 
-  // is operator dataset?
+  // is operator a dataset?
   const isDataset = operator.tags.includes('DATASETS');
 
   // get dataset reducer from store
