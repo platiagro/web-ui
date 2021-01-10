@@ -120,7 +120,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     );
 
     dispatch(
-      fetchOperatorsSuccess(configuredOperators, projectId, experimentId)
+      fetchOperatorsSuccess(configuredOperators)
     );
   } catch (e) {
     dispatch(fetchOperatorsFail(e));
