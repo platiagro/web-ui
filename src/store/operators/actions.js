@@ -6,7 +6,6 @@ import actionTypes from './actionTypes';
 
 // SERVICES
 import operatorsApi from '../../services/OperatorsApi';
-import experimentRunsApi from '../../services/ExperimentRunsApi';
 import tasksApi from '../../services/TasksApi';
 
 // UI ACTIONS
@@ -18,9 +17,6 @@ import {
   experimentsTabsLoadingData,
   experimentsTabsDataLoaded,
 } from '../ui/actions';
-
-// EXPERIMENT RUNS ACTIONS
-import { fetchExperimentRunStatusRequest } from '../experiments/experimentRuns/actions';
 
 // UTILS
 import utils from 'utils';
@@ -38,7 +34,7 @@ import utils from 'utils';
  * @param experimentId
  * @returns {object} { type, operators }
  */
-const fetchOperatorsSuccess = (operators, projectId, experimentId) => (
+const fetchOperatorsSuccess = (operators) => (
   dispatch
 ) => {
   // dispatching experiment operators data loaded action
@@ -46,9 +42,6 @@ const fetchOperatorsSuccess = (operators, projectId, experimentId) => (
 
   // dispatching experiment tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
-
-  // dispatching get training experiment status request action
-  dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
 
   // dispatching fetch operators success action
   dispatch({
@@ -118,18 +111,12 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     );
 
     const operators = operatorsResponse.data;
-    const experimentRun = await experimentRunsApi.fetchExperimentRunStatus(
-      projectId,
-      experimentId,
-      'latest'
-    );
 
     // configuring operators
     let configuredOperators = utils.configureOperators(
       tasks,
       operators,
       datasetReducer.columns,
-      experimentRun.data
     );
 
     dispatch(

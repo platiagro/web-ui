@@ -56,10 +56,12 @@ const toolTipConfigs = (status, interruptIsRunning) => {
       config.title = 'Tarefa executada com falha';
       config.iconType = <ExclamationCircleFilled style={style} />;
       break;
-    default:
+    case 'Terminated':
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa interrompida';
       config.iconType = <StopOutlined style={style} />;
+      break;
+    default:
       break;
   }
   return config;

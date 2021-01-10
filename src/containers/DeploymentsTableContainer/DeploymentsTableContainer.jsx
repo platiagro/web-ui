@@ -70,7 +70,7 @@ const DeploymentsTableContainer = (props) => {
   useEffect(() => {
     const deployments_ = deployments.map((deployment) => {
       return deploymentApi.getDeployment(projectId, deployment.uuid);
-    });  
+    });
 
     Promise.all(deployments_)
     .then((respose) => {
