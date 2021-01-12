@@ -226,17 +226,19 @@ const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
 const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, getState) => {
   const { uiReducer } = getState();
   const operators = response.data;
+
   let isRunning = false;
   let interruptExperiment = uiReducer.experimentTraining.deleteLoading;
 
   if (operators.length > 0) {
-    const isSucceeded = operators.every((operator) => {
+    const succeededRun = operators.every((operator) => {
       return operator.status === 'Succeeded';
     });
-  
-    // TODO: se todos os operadores estiverem com status `pending` por muito tempo, pode ser devido a algum
-    // erro no cluster e caso fique assim pra sempre, não dará pra utilizar o experimento.
-    // Uma solução viável seria depois de algum tempo com o status `pending`, forçar a finalização da tarefa.  
+
+    const stoppedRun = operators.some((operator) => {
+      return operator.status === 'Failed' || operator.status === 'Terminated';
+    });
+    
     const isAllPending = operators.every((operator) => {
       return operator.status === 'Pending';
     });
@@ -247,13 +249,15 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
       dispatch(experimentNameDataLoaded());
     }
 
-    operators.forEach((operator) => {
-      if (operator.status === 'Running' || operator.status === 'Pending')
-        isRunning = true;
-    });
+    if (!stoppedRun) {
+      operators.forEach((operator) => {
+        if (operator.status === 'Running' || operator.status === 'Pending')
+          isRunning = true;
+      });
+    }
 
     // experiment run finished successfully
-    if (isSucceeded) {
+    if (succeededRun) {
       isRunning = false;
       const currentState = getState();
       const experimentsState = currentState.experimentsReducer;
@@ -269,7 +273,7 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
         experiments
       });
     }
-  
+
     // experiment run has stopped
     if (!isRunning) {
       dispatch(experimentTrainingDataLoaded());
