@@ -959,6 +959,20 @@ export const dependenciesOperatorLoaded = (dependencyId) => {
   };
 };
 
+export const hidePrepareDeploymentsModal = () => {
+  return {
+    type: actionTypes.HIDE_PREPARE_DEPLOYMENTS_MODAL,
+    prepareDeploymentsModalVisible: false,
+  };
+};
+
+export const showPrepareDeploymentsModal = () => {
+  return {
+    type: actionTypes.SHOW_PREPARE_DEPLOYMENTS_MODAL,
+    prepareDeploymentsModalVisible: true,
+  };
+};
+
 export const showNewDeploymentModal = () => {
   return {
     type: actionTypes.SHOW_DEPLOYMENT_MODAL,
@@ -970,5 +984,29 @@ export const hideNewDeploymentModal = () => {
   return {
     type: actionTypes.HIDE_DEPLOYMENT_MODAL,
     visible: false,
+  };
+};
+
+/**
+ * Prepare deployments loading data
+ *
+ * @returns {object} { type, prepareDeploymentsLoading }
+ */
+export const prepareDeploymentsLoadingData = () => {
+  return {
+    type: actionTypes.PREPARE_DEPLOYMENTS_LOADING_DATA,
+    prepareDeploymentsLoading: true,
+  };
+};
+
+/**
+ * Prepare deployments data loaded
+ *
+ * @returns {object} { type, prepareDeploymentsLoading }
+ */
+export const prepareDeploymentsDataLoaded = () => {
+  return {
+    type: actionTypes.PREPARE_DEPLOYMENTS_DATA_LOADED,
+    prepareDeploymentsLoading: false,
   };
 };

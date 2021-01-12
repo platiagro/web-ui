@@ -5,7 +5,6 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import deploymentRunsApi from 'services/DeploymentRunsApi';
 import projectsApi from 'services/ProjectsApi';
 
 // UI ACTIONS
@@ -17,57 +16,42 @@ import {
 /**
  * Function to fetch pagineted projects and dispatch to reducer
  *
- * @param name
- * @param page
- * @param pageSize
+ * @param {string} name Name to be fetch
+ * @param {number} page Pagination page parameter
+ * @param {number} pageSize Pagination page size parameter
+ * @returns {Function} The `disptach` function
  */
-export const fetchPaginatedProjects = (name, page, pageSize) => {
-  return (dispatch) => {
-    dispatch(projectsTableLoadingData());
-    if (name === undefined) {
-      name = '';
-    }
-    return projectsApi
-      .getPaginatedProjects(name, page, pageSize)
-      .then(async (response) => {
-        const projectsTagged = await Promise.all(
-          response.data.projects.map(async (project) => {
-            let flagDeployed = false;
-            for (const experiment of project.experiments) {
-              const deploymentRuns = await deploymentRunsApi
-                .fetchDeploymentRuns(project.uuid, experiment.uuid)
-                .catch((error) => {});
-              if (deploymentRuns) {
-                flagDeployed = true;
-                break;
-              }
-            }
-            return {
-              ...project,
-              deployed: flagDeployed,
-            };
-          })
-        );
-        dispatch(projectsTableDataLoaded());
-        dispatch({
-          type: actionTypes.FETCH_PAGINATED_PROJECTS,
-          projects: projectsTagged,
-          searchText: name,
-          currentPage: page,
-          pageSize: pageSize,
-          total: response.data.total,
-        });
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        dispatch(projectsTableDataLoaded());
-        message.error(errorMessage, 5);
+export const fetchPaginatedProjects = (name, page, pageSize) => (dispatch) => {
+  dispatch(projectsTableLoadingData());
+
+  if (name === undefined) {
+    name = '';
+  }
+
+  projectsApi
+    .getPaginatedProjects(name, page, pageSize)
+    .then(async (response) => {
+      dispatch(projectsTableDataLoaded());
+      dispatch({
+        type: actionTypes.FETCH_PAGINATED_PROJECTS,
+        projects: response.data.projects,
+        searchText: name,
+        currentPage: page,
+        pageSize: pageSize,
+        total: response.data.total,
       });
-  };
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      dispatch(projectsTableDataLoaded());
+      message.error(errorMessage, 5);
+    });
 };
 
 /**
  * Function to fetch all projects and dispatch to reducer
+ * 
+ * @returns {Function} The `disptach` function
  */
 export const fetchProjects = () => (dispatch) => {
   dispatch(projectsTableLoadingData());
@@ -91,7 +75,8 @@ export const fetchProjects = () => (dispatch) => {
 /**
  * Function to dispatch select projects to reducer
  *
- * @param projects
+ * @param {string} projects The project name
+ * @returns {Function} The `disptach` function
  */
 export const selectProjects = (projects) => {
   return (dispatch) => {
@@ -105,8 +90,9 @@ export const selectProjects = (projects) => {
 /**
  * Function to delete selected projects and dispatch to reducer
  *
- * @param searchText
- * @param projects
+ * @param {string} searchText The text to be search
+ * @param {Array} projects An array of projects to be deleted
+ * @returns {Function} The `disptach` function
  */
 export const deleteSelectedProjects = (searchText, projects) => {
   return (dispatch) => {
@@ -134,8 +120,8 @@ export const deleteSelectedProjects = (searchText, projects) => {
 /**
  * Function to delete selected projects and dispatch to reducer
  *
- * @param searchText
- * @param uuid
+ * @param {string} searchText The text to be search
+ * @param {string} uuid The project uuid
  */
 export const deleteProject = (searchText, uuid) => {
   return (dispatch) => {

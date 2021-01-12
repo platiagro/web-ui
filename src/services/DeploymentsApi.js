@@ -46,7 +46,7 @@ const createDeployment = (projectId, body) => {
  * @param {string} deploymentId Deployment UUID
  * @returns {Promise} Request Promise
  */
-const geDeployment = (projectId, deploymentId) => {
+const getDeployment = (projectId, deploymentId) => {
   return projectsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}`
   );
@@ -114,7 +114,7 @@ const testDeployment = (deploymentId, body) => {
 export default {
   listDeployments,
   createDeployment,
-  geDeployment,
+  getDeployment,
   updateDeployment,
   deleteDeployment,
   updateDeploymentOperator,

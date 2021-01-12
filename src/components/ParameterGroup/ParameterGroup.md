@@ -10,6 +10,7 @@ const parameter = {
   value: 1,
 };
 const loading = false;
+const parameter = { type: 'string' };
 const onChange = (name, currentValue) => {
   console.log(name, currentValue);
 };

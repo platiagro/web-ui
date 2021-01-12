@@ -7,13 +7,18 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 import ContentHeader from 'components/Content/ContentHeader/_/index';
 import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/Content/ContentHeader/PageHeaderDropdown';
-import ExperimentButtonsContainer from 'components/Content/ContentHeader/ExperimentButtons/Container';
+import {
+  CompareResultsButton,
+  PrepareDeploymentsButton,
+} from 'components/Buttons';
 
 // ACTIONS
 import {
   editProjectNameRequest,
   fetchProjectRequest,
 } from 'store/project/actions';
+import { prepareDeployments } from 'store/deployments/actions';
+import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -22,6 +27,12 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(editProjectNameRequest(projectId, newName)),
     handleFetchProject: (projectId) =>
       dispatch(fetchProjectRequest(projectId, routerProps)),
+    handleCompareResultsClick: () => {
+      dispatch(changeVisibilityCompareResultsModal(true));
+    },
+    handlePrepareDeployments: (experimentId, projectId) => {
+      dispatch(prepareDeployments(experimentId, projectId, routerProps));
+    },
   };
 };
 
@@ -30,25 +41,36 @@ const mapStateToProps = (state) => {
   return {
     project: state.projectReducer,
     loading: state.uiReducer.projectName.loading,
+    prepareDeploymentsLoading: state.uiReducer.prepareDeployments.loading,
   };
 };
 
 /**
- * Content Header Experiments Content Container.
+ * Experiments Header Container.
  * This component is responsible for create a logic container for experiments content
  * header with route control.
  *
  * @param props
  */
-const HeaderExperimentsContentContainer = (props) => {
-  const { project, handleEditProjectName, handleFetchProject } = props;
-  const { projectId } = useParams();
+const ExperimentsHeaderContainer = (props) => {
+  const {
+    project,
+    loading,
+    prepareDeploymentsLoading,
+    handleEditProjectName,
+    handleFetchProject,
+    handleCompareResultsClick,
+    handlePrepareDeployments,
+  } = props;
+  const { projectId, experimentId } = useParams();
   const history = useHistory();
 
   // HANDLERS
   const goBackHandler = () => history.push(`/projetos/${projectId}`);
   const editProjectNameHandler = (newProjectName) =>
     handleEditProjectName(projectId, newProjectName);
+  const handlePrepareDeploymentsClick = () =>
+    handlePrepareDeployments(experimentId, projectId);
 
   // HOOKS
   useEffect(() => {
@@ -59,7 +81,7 @@ const HeaderExperimentsContentContainer = (props) => {
   }, [handleFetchProject, project, projectId]);
 
   // SET TARGET ROUTE FOR PAGE HEADER DROPDOWN
-  const target = `/projetos/${projectId}/pre-implantacao`
+  const target = `/projetos/${projectId}/pre-implantacao`;
 
   // RENDER
   return (
@@ -75,7 +97,17 @@ const HeaderExperimentsContentContainer = (props) => {
       handleSubmit={editProjectNameHandler}
       extra={
         <>
-          <ExperimentButtonsContainer />
+          <div className='headerButtons'>
+            <CompareResultsButton
+              disabled={loading}
+              onClick={handleCompareResultsClick}
+            />
+            <PrepareDeploymentsButton
+              disabled={loading}
+              loading={prepareDeploymentsLoading}
+              onClick={handlePrepareDeploymentsClick}
+            />
+          </div>
           <AccountInfo />
         </>
       }
@@ -85,8 +117,5 @@ const HeaderExperimentsContentContainer = (props) => {
 
 // EXPORT
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(HeaderExperimentsContentContainer)
+  connect(mapStateToProps, mapDispatchToProps)(ExperimentsHeaderContainer)
 );
