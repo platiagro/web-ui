@@ -372,7 +372,7 @@ const configureOperatorParameters = (
        *  to parameter multiple we need to split string by ','
        *  because the multiple values are in this format 'value1,value2,value3'
        */
-      if (parameter.multiple) {
+      if (parameter.multiple && parameter.length) {
         value = operatorParameters[parameter.name].split(',').filter((el) => {
           return el !== '';
         });
