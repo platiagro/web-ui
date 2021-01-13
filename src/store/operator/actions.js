@@ -256,7 +256,7 @@ export const selectOperator = (projectId, experimentId, operator) => (
     operator,
   });
 
-  // is operator dataset?
+  // is operator a dataset?
   const isDataset = operator.tags.includes('DATASETS');
 
   // get dataset reducer from store
@@ -399,6 +399,13 @@ export const createOperatorRequest = (
     datasetColumns
   );
 
+  const body = {
+    taskId,
+    dependencies: [],
+    positionX: position.x,
+    positionY: position.y,
+  }
+
   // configuring parameters
   // necessary to check if dataset because dataset param is removed on getTaskData
   let configuredParameters;
@@ -407,6 +414,11 @@ export const createOperatorRequest = (
       { name: 'dataset', value: '' },
       { name: 'target', value: '' },
     ];
+
+    body["parameters"] = {
+      dataset: '',
+      value: ''
+    }
   } else {
     configuredParameters = utils.configureOperatorParameters(
       parameters,
@@ -415,12 +427,9 @@ export const createOperatorRequest = (
     );
   }
 
-  // creating empty dependencies
-  const dependencies = [];
-
   // creating operator
   operatorsApi
-    .createOperator(projectId, experimentId, taskId, dependencies, position)
+    .createOperator(projectId, experimentId, body)
     .then((response) => {
       // getting operator from response
       const operator = response.data;

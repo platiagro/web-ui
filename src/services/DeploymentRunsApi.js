@@ -12,14 +12,26 @@ const runsPath = 'runs';
 
 // API METHODS
 /**
- * Fetch Deployment Runs
+ * List Deployment Runs
  *
  * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
  * @returns {Promise} Request Promise
  */
-const fetchDeploymentRuns = (projectId, deploymentId) => {
+const listDeploymentRuns = (projectId, deploymentId) => {
   return projectsApi.get(`${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`);
+};
+
+/**
+ * Fetch Deployment Run
+ * 
+ * @param {string} projectId Project UUID
+ * @param {string} deploymentId Deployment UUID
+ * @param {string} runId The run UUID
+ * @returns {Promise} Request Promise
+ */
+const fetchDeploymentRun = (projectId, deploymentId, runId) => {
+  return projectsApi.get(`${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}`);
 };
 
 /**
@@ -77,9 +89,10 @@ const retryDeploymentRun = (projectId, deploymentId, runId) => {
 
 // EXPORT DEFAULT
 export default {
-  fetchDeploymentRuns,
+  fetchDeploymentRun,
   createDeploymentRun,
   deleteDeploymentRun,
   fetchDeploymentRunLogs,
+  listDeploymentRuns,
   retryDeploymentRun
 }

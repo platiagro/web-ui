@@ -1,5 +1,5 @@
 // REACT LIBS
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -19,6 +19,8 @@ import {
   deleteDatasetRequest,
 } from 'store/dataset/actions';
 
+import { fetchDatasetsRequest } from 'store/datasets/actions';
+
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -31,6 +33,7 @@ const mapDispatchToProps = (dispatch) => {
     handleDeleteDataset: (projectId, experimentId) =>
       dispatch(deleteDatasetRequest(projectId, experimentId)),
     handleUploadCancel: () => dispatch(cancelDatasetUpload()),
+    handleFetchDatasets: () => dispatch(fetchDatasetsRequest()),
   };
 };
 
@@ -65,6 +68,7 @@ const DatasetUploadInputBlockContainer = (props) => {
     uploadProgress,
     trainingLoading,
     isUploading,
+    handleFetchDatasets,
   } = props;
 
   // CONSTANTS
@@ -109,6 +113,13 @@ const DatasetUploadInputBlockContainer = (props) => {
 
   // check if is google drive dataset
   const isGoogleDrive = operatorName === 'Google Drive';
+
+  // hooks
+  // did mount hook
+  useEffect(() => {
+    // fetching datasets
+    handleFetchDatasets();
+  }, [handleFetchDatasets]);
 
   const containerHandleUploadCancel = () =>
     isUploading

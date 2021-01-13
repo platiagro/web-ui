@@ -95,7 +95,8 @@ const createDeploymentSuccess = (response) => (dispatch) => {
  */
 const createDeploymentFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.response === undefined ? error.message : error.response.data.message;
+  const errorMessage =
+    error.response === undefined ? error.message : error.response.data.message;
 
   // dispatching create deployment fail action response
   dispatch({
@@ -107,42 +108,37 @@ const createDeploymentFail = (error) => (dispatch) => {
 };
 
 /**
- * create deployment request action
+ * Create deployment request action
  *
- * @param {string} experimentId The experiment Id
- * @param {string} experimentName The experiment Name
- * @param {string} projectId The project Id
- * @param {string} projectName The project Name
- * @param {object} routerProps Router
- * @returns {Function} dispatch function
+ * @param {string} projectId Project ID
+ * @param {string=} experimentId Experiment ID
+ * @param {string=} templateId Template ID
+ *
+ * @returns {Function} Async action
  */
 export const createDeploymentRequest = (
-  experimentId,
-  experimentName,
   projectId,
-  projectName,
-) => (dispatch) => {
+  experimentId,
+  templateId
+) => async (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
   });
 
-  // creating deployment object
-  const deploymentObj = {
-    name: `${projectName}/${experimentName}`,
-    experimentId,
-  };
+  try {
+    let createObject = {};
 
-  // creating deployment
-  deploymentsApi
-    .createDeployment(projectId, deploymentObj)
-    .then((response) => {
-      dispatch(createDeploymentSuccess(response));
-    })
-    .catch((error) =>
-      dispatch(createDeploymentFail(error))
-    );
-  };
+    if (experimentId) createObject = { experiments: [experimentId] };
+    if (templateId) createObject = { templateId };
+
+    const response = await deploymentsApi.createDeployment(projectId, createObject);
+
+    dispatch(createDeploymentSuccess(response));
+  } catch (error) {
+    dispatch(createDeploymentFail(error));
+  }
+};
 
 // // // // // // // // // //
 
