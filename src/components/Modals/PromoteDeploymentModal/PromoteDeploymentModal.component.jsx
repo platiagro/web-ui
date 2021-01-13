@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 // UI LIBS
-import { Modal, Button, Input, notification } from "antd";
+import { Modal, Button, Input } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
 import "./style.less";
 
