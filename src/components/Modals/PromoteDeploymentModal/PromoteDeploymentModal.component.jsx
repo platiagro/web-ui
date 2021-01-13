@@ -2,27 +2,21 @@
 // CORE LIBS
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 // UI LIBS
 import { Modal, Button, Input } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
 import "./style.less";
 
-const PromoteDeploymentModal = ({
-  props,
-  visible,
-  onClose,
-  onConfirm,
-  urlPrefix,
-  urlSuffix,
-}) => {
+const PromoteDeploymentModal = (props) => {
+  const { visible, onClose, onConfirm, urlPrefix, urlSuffix } = props;
 
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
-  }
+  };
 
   const selectBefore = (
     <div className="modal-text-color" disabled>
@@ -35,13 +29,12 @@ const PromoteDeploymentModal = ({
     </div>
   );
 
-
   return (
     <Modal
       visible={visible}
       title={<strong>Implantar fluxo</strong>}
       onCancel={onClose}
-      onCk={onConfirm}
+      onOk={onConfirm}
       okText="Implantar"
       cancelText="Cancelar"
       width="600px"
@@ -53,16 +46,12 @@ const PromoteDeploymentModal = ({
           id="implantation-input"
           addonBefore={selectBefore}
           addonAfter={selectAfter}
-          onChange = {handleInputChange}
+          onChange={handleInputChange}
         ></Input>
         <CopyToClipboard text={`${urlPrefix}${inputValue}${urlSuffix}`}>
-        <Button
-          className="ant-button"
-          type="default"
-          icon={<CopyOutlined />}
-        >
-          Copiar
-        </Button>
+          <Button className="ant-btn-primary-inverse" type="default" icon={<CopyOutlined />}>
+            Copiar
+          </Button>
         </CopyToClipboard>
       </div>
     </Modal>
