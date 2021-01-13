@@ -1,6 +1,8 @@
+/* eslint-disable */
 // CORE LIBS
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 // UI LIBS
 import { Modal, Button, Input, notification } from "antd";
@@ -12,10 +14,16 @@ const PromoteDeploymentModal = ({
   visible,
   onClose,
   onConfirm,
-  textToCopy,
   urlPrefix,
   urlSuffix,
 }) => {
+
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  }
+
   const selectBefore = (
     <div className="modal-text-color" disabled>
       {urlPrefix}
@@ -26,36 +34,6 @@ const PromoteDeploymentModal = ({
       {urlSuffix}
     </div>
   );
-
-  // const toRawText = (strEncoded) => {
-  //   const { binData, names, ndarray, strData } = strEncoded;
-  //   if (names && ndarray) {
-  //     const columns = names.join(",");
-  //     return columns + "\n" + ndarray.join("\n");
-  //   } else if (binData) {
-  //     return binData;
-  //   } else {
-  //     return strData;
-  //   }
-  // };
-
-  // const copyToClipboard = (text) => {
-  //   navigator.clipboard
-  //     .writeText(text)
-  //     .then(() =>
-  //       notification['success']({
-  //         message: 'Texto Copiado',
-  //         description:
-  //           'O resultado do modelo foi copiado para sua área de transferência!',
-  //       })
-  //     )
-  //     .catch(() =>
-  //       notification['error']({
-  //         message: 'Erro ao Copiar Texto',
-  //         description: 'Pode ser que o retorno do modelo esteja corrompido.',
-  //       })
-  //     );
-  // };
 
 
   return (
@@ -75,7 +53,9 @@ const PromoteDeploymentModal = ({
           id="implantation-input"
           addonBefore={selectBefore}
           addonAfter={selectAfter}
+          onChange = {handleInputChange}
         ></Input>
+        <CopyToClipboard text={`${urlPrefix}${inputValue}${urlSuffix}`}>
         <Button
           className="ant-button"
           type="default"
@@ -83,6 +63,7 @@ const PromoteDeploymentModal = ({
         >
           Copiar
         </Button>
+        </CopyToClipboard>
       </div>
     </Modal>
   );

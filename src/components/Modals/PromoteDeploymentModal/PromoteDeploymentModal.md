@@ -13,6 +13,8 @@ const onConfirm = () => {
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
   <PromoteDeploymentModal
+    urlPrefix = "teste"
+    urlSuffix = "teste6"
     visible={visible}
     loading={loading}
     onClose={onClose}
