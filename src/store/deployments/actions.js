@@ -239,6 +239,8 @@ const deleteDeploymentSuccess = (deploymentId) => (dispatch, getState) => {
     type: actionTypes.DELETE_DEPLOYMENT_SUCCESS,
     deployments,
   });
+
+  message.success('Fluxo excluído!');
 };
 
 /**
