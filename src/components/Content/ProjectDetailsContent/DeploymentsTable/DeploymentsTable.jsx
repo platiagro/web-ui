@@ -97,13 +97,13 @@ const DeploymentsTable = (props) => {
         <>
           <UploadInferenceTestButton
             disabled={record.status === 'Failed' || record.status === 'Running'}
-            handleUpload={(file) => onTestInference(record.experimentId, file)}
+            handleUpload={(file) => onTestInference(record.uuid, file)}
           />{' '}
           <Divider type='vertical' />
           <Tooltip placement='bottom' title='Ver logs'>
             <Button
               disabled={record.status === 'Running'}
-              onClick={() => onOpenLog(record.deploymentId)}
+              onClick={() => onOpenLog(record.uuid)}
               size='large'
               style={{ padding: 0 }}
               type='link'
@@ -117,7 +117,7 @@ const DeploymentsTable = (props) => {
             title='Você tem certeza que deseja excluir essa implantação?'
             okText='Sim'
             cancelText='Não'
-            onConfirm={() => onDeleteDeployment(record.deploymentId)}
+            onConfirm={() => onDeleteDeployment(record.uuid)}
           >
             <Tooltip placement='bottom' title='Excluir'>
               <Button size='large' style={{ padding: 0 }} type='link'>
