@@ -3,15 +3,10 @@ import axios from 'axios';
 
 // CONSTANTS
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
-const URL_SELDON = process.env.REACT_APP_SELDON_API;
 
 const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
-const seldonApi = axios.create({
-  baseURL: `${URL_SELDON}`,
-});
-
 const deploymentsPath = 'deployments';
 
 // API METHODS
@@ -99,14 +94,17 @@ const updateDeploymentOperator = (projectId, deploymentId, operatorId, operatorO
 /**
  * Test deployment
  *
+ * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
- * @param {object} body Body to be sent
+ * @param {object} file File to be sent
  * @returns {Promise} Request Promise
  */
-const testDeployment = (deploymentId, body) => {
-  return seldonApi.post(
-    `/deployments/${deploymentId}/api/v1.0/predictions`,
-    body
+const testDeployment = (projectId, deploymentId, file) => {
+  const form = new FormData();
+  form.append('file', file);
+  return projectsApi.post(
+    `${projectId}/${deploymentsPath}/${deploymentId}/predictions`,
+    form
   );
 };
 

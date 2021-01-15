@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch) => {
     handleCloseModal: () => dispatch(hideInferenceTestResultModal()),
     handleGetDeployExperimentLogs: (projectId, deployId) =>
       dispatch(getDeployExperimentLogs(projectId, deployId)),
-    handleTestImplantedExperimentInference: (deployId, file) =>
-      dispatch(testImplantedExperimentInferenceAction(deployId, file)),
+    handleTestImplantedExperimentInference: (projectId, deployId, file) =>
+      dispatch(testImplantedExperimentInferenceAction(projectId, deployId, file)),
   };
 };
 
@@ -56,7 +56,7 @@ const InferenceTestResultModalContainer = (props) => {
   };
 
   const handleRetryTest = () => {
-    handleTestImplantedExperimentInference(deployId, file);
+    handleTestImplantedExperimentInference(projectId, deployId, file);
   };
 
   return (
