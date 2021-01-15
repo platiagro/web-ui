@@ -14,16 +14,17 @@ import deploymentsApi from 'services/DeploymentsApi';
 /**
  * Test implanted experiment inference action
  *
+ * @param {string} projectId
  * @param {string} deployId
  * @param {object} file
  */
-export const testImplantedExperimentInferenceAction = (deployId, file) => (
+export const testImplantedExperimentInferenceAction = (projectId, deployId, file) => (
   dispatch
 ) => {
   dispatch(inferenceTestResultModalLoadingData());
   dispatch(showInferenceTestResultModal());
   deploymentsApi
-    .testDeployment(deployId, file)
+    .testDeployment(projectId, deployId, file)
     .then((response) => {
       const seldonResponse =
         'data' in response.data ? response.data.data : response.data;

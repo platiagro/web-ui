@@ -16,15 +16,15 @@ import { testImplantedExperimentInferenceAction } from 'store/testExperimentInfe
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleFetchDeploymentsRuns: (projectId, deploymentId) => 
+    handleFetchDeploymentsRuns: (projectId, deploymentId) =>
       dispatch(fetchAllDeploymentsRuns(projectId, deploymentId, true)),
     handleDeleteDeployment: (projectId, deploymentId) =>
       dispatch(deleteDeploymentRequest(projectId, deploymentId)),
     handleGetDeployExperimentLogs: (projectId, deployId) =>
       dispatch(getDeployExperimentLogs(projectId, deployId)),
-    handleTestImplantedExperimentInference: (deployId, file) =>
-      dispatch(testImplantedExperimentInferenceAction(deployId, file)),
-    handleFetchDeploymentsRequest: (projectId) => 
+    handleTestImplantedExperimentInference: (projectId, deployId, file) =>
+      dispatch(testImplantedExperimentInferenceAction(projectId, deployId, file)),
+    handleFetchDeploymentsRequest: (projectId) =>
       dispatch(fetchDeploymentsRequest(projectId, false)),
   };
 };
