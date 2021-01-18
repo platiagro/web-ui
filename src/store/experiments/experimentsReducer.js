@@ -17,7 +17,7 @@ const experimentsReducer = (state = initialState, action = undefined) => {
     //reset initial fetch of experiments
     case actionTypes.CLEAR_ALL_EXPERIMENTS:
       return [];
-    
+
     // SUCCESS
     // fetch experiments success
     case actionTypes.FETCH_EXPERIMENTS_SUCCESS:
@@ -53,7 +53,7 @@ const experimentsReducer = (state = initialState, action = undefined) => {
     // organize experiments fail
     case actionTypes.ORGANIZE_EXPERIMENTS_FAIL:
       return [...state];
-    
+
     // // // // // // //
 
     // EXPERIMENT RUNS
@@ -78,13 +78,10 @@ const experimentsReducer = (state = initialState, action = undefined) => {
  * @returns {object} The specified experiment, or an empty object
  */
 export const getExperimentById = (state, experimentId) => {
-  if (state.experimentsReducer.includes(experimentId)) {
-    return state.experimentsReducer.find((experiment) => 
-      experiment.uuid === experimentId
-    );
-  } else {
-    return {};
-  }
+  const experiment = state.experimentsReducer.find(
+    (exp) => exp.uuid === experimentId
+  );
+  return experiment ? experiment : {};
 };
 
 // EXPORT

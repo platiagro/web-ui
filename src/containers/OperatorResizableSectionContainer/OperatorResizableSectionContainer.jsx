@@ -1,6 +1,6 @@
 // REACT LIBS
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -30,19 +30,16 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
+    checkExperimentIsFinished: (experimentId) => {
+      const experiment = getExperimentById(state, experimentId);
+      if ('succeded' in experiment) return experiment.succeded;
+      return false;
+    },
     operatorDescription: state.operatorReducer.description,
     operatorIsDataset: state.operatorReducer.tags
       ? state.operatorReducer.tags.includes('DATASETS')
       : false,
-    // show operator experiment results
     showExperimentResults: state.uiReducer.operatorResults.showOperatorResults,
-    // operator parent experiment is finished
-    experimentIsFinished: (experimentId) => {
-      const experiment = getExperimentById(state, experimentId);
-      if ('succeeded' in experiment) return experiment.succeeded;
-      return false;
-    },
-    // operator logs
     operatorLogs: state.operatorReducer.logs,
     operatorName: state.operatorReducer.name,
     operatorStatus: state.operatorReducer.status,
@@ -58,7 +55,7 @@ const mapStateToProps = (state) => {
  */
 const OperatorResizableSectionContainer = (props) => {
   const {
-    experimentIsFinished,
+    checkExperimentIsFinished,
     handleShowResultsClick,
     operatorDescription,
     operatorIsDataset,
@@ -67,12 +64,13 @@ const OperatorResizableSectionContainer = (props) => {
     operatorStatus,
   } = props;
   const { projectId, experimentId } = useParams();
+  const [experimentIsFinished, setExperimentIsFinished] = useState(false);
 
   useEffect(() => {
     if (experimentId) {
-      experimentIsFinished(experimentId);
+      setExperimentIsFinished(checkExperimentIsFinished(experimentId));
     }
-  }, [projectId, experimentId, experimentIsFinished]);
+  }, [projectId, experimentId, checkExperimentIsFinished]);
 
   const propertiesContent = operatorName ? (
     <>
