@@ -5,8 +5,9 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import operatorsApi from '../../services/OperatorsApi';
-import tasksApi from '../../services/TasksApi';
+import datasetsApi from 'services/DatasetsApi';
+import operatorsApi from 'services/OperatorsApi';
+import tasksApi from 'services/TasksApi';
 
 // UI ACTIONS
 import {
@@ -16,7 +17,7 @@ import {
   operatorParameterDataLoaded,
   experimentsTabsLoadingData,
   experimentsTabsDataLoaded,
-} from '../ui/actions';
+} from 'store/ui/actions';
 
 // UTILS
 import utils from 'utils';
@@ -34,9 +35,7 @@ import utils from 'utils';
  * @param experimentId
  * @returns {object} { type, operators }
  */
-const fetchOperatorsSuccess = (operators) => (
-  dispatch
-) => {
+const fetchOperatorsSuccess = (operators) => (dispatch) => {
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
 
@@ -83,18 +82,12 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  * @returns {Function}
  */
 export const fetchOperatorsRequest = (projectId, experimentId) => async (
-  dispatch,
-  getState
+  dispatch
 ) => {
-  // dispatching request action
   dispatch({
     type: actionTypes.FETCH_OPERATORS_REQUEST,
   });
-
-  // dispatching experiment operators loading data action
   dispatch(experimentOperatorsLoadingData());
-
-  // dispatching experiment tabs loading data action
   dispatch(experimentsTabsLoadingData());
 
   try {
@@ -102,26 +95,28 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     const tasksResponse = await tasksApi.getAllTasks();
     const tasks = tasksResponse.data.tasks;
 
-    const { datasetReducer } = getState();
-
     // getting operators
     const operatorsResponse = await operatorsApi.listOperators(
       projectId,
       experimentId
     );
-
     const operators = operatorsResponse.data;
+
+    // getting dataset columns
+    const datasetName = utils.getDatasetName(tasks, operators);
+    let datasetColumns = [];
+    if (datasetName) {
+      const response = await datasetsApi.listDatasetColumns(datasetName);
+      datasetColumns = response.data;
+    }
 
     // configuring operators
     let configuredOperators = utils.configureOperators(
       tasks,
       operators,
-      datasetReducer.columns,
+      datasetColumns
     );
-
-    dispatch(
-      fetchOperatorsSuccess(configuredOperators)
-    );
+    dispatch(fetchOperatorsSuccess(configuredOperators));
   } catch (e) {
     dispatch(fetchOperatorsFail(e));
   }
