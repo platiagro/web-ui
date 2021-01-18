@@ -1,0 +1,35 @@
+.deploymentFlowBox__tooltip {
+  .icon {
+    font-size: 18px;
+
+    &.running,
+    &.pending,
+    &.interrupted {
+      color: #666666;
+    }
+
+    &.succeeded {
+      color: #389e0d;
+    }
+
+    &.failed {
+      color: #cf1322;
+    }
+
+    &.customIcon {
+      height: 6px;
+      width: 6px;
+      border-radius: 50%;
+      margin: 0;
+      padding: 0;
+    }
+
+    &.waiting {
+      background-color: #bfbfbf;
+    }
+
+    &.ready {
+      background-color: #1890ff;
+    }
+  }
+}
