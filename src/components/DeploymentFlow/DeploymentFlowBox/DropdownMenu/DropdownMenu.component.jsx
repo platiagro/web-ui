@@ -40,8 +40,6 @@ DropdownMenu.propTypes = {
 };
 
 DropdownMenu.defaultProps = {
-  experimentIsRunning: false,
-  interruptIsRunning: false,
   status: '',
   disabled: false,
 };
