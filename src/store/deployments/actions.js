@@ -16,6 +16,8 @@ import {
   prepareDeploymentsDataLoaded,
 } from 'store/ui/actions';
 
+const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
+
 // ACTIONS
 // ** FETCH DEPLOYMENTS
 /**
@@ -432,7 +434,9 @@ function renameDeploymentSuccess(updatedDeployments) {
  * @returns {Function} Async action
  */
 function renameDeploymentFail(error) {
-  const errorMessage = error.message;
+  const errorMessage = error.message.includes('name already exist')
+    ? ALREADY_EXIST_MESSAGE
+    : error.message;
 
   message.error(errorMessage, 5);
 
