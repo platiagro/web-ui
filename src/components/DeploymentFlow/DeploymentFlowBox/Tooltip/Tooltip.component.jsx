@@ -42,6 +42,14 @@ function Tooltip(props) {
       title: 'Tarefa interrompida',
       icon: <StopOutlined className={tooltipIconClassName} />,
     },
+    Waiting: {
+      title: 'Tarefa aguardando dados',
+      icon: <div className={`${tooltipIconClassName} customIcon`} />,
+    },
+    Ready: {
+      title: 'Tarefa com dados recebidos',
+      icon: <div className={`${tooltipIconClassName} customIcon`} />,
+    },
     default: {
       title: '',
       icon: undefined,
@@ -67,6 +75,8 @@ Tooltip.propTypes = {
     'Succeeded',
     'Failed',
     'Interrupted',
+    'Waiting',
+    'Ready',
   ]),
 };
 
