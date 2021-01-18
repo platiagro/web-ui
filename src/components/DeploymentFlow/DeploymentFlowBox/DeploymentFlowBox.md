@@ -335,6 +335,104 @@ const onEdit = (operator) => {
 ```
 
 
+**Ready**
+```js
+import { useState } from 'react';
+import { DatabaseOutlined } from '@ant-design/icons';
+
+const [selected, setSelected] = useState(false);
+
+const title = 'Teste';
+const icon = <DatabaseOutlined />;
+const settedUp = true;
+const status = 'Ready';
+
+const operator = {
+  uuid: 'operator0001',
+};
+
+const onSelect = (operator) => {
+  setSelected(true);
+  alert(`Selected: ${operator.uuid}`);
+};
+
+const onDeselect = (operator) => {
+  setSelected(false);
+  alert(`Deselected: ${operator.uuid}`);
+};
+
+const onRemove = (operator) => {
+  alert(`Removed: ${operator.uuid}`);
+};
+
+const onEdit = (operator) => {
+  alert(`Edited: ${operator.uuid}`);
+};
+
+<DeploymentFlowBox 
+  status={status} 
+  settedUp={settedUp} 
+  title={title} 
+  icon={icon}
+  selected={selected}
+  onSelect={onSelect}
+  onDeselect={onDeselect}
+  onEdit={onEdit}
+  onRemove={onRemove}
+  operator={operator}
+/>
+```
+
+
+**Waiting**
+```js
+import { useState } from 'react';
+import { DatabaseOutlined } from '@ant-design/icons';
+
+const [selected, setSelected] = useState(false);
+
+const title = 'Teste';
+const icon = <DatabaseOutlined />;
+const settedUp = true;
+const status = 'Waiting';
+
+const operator = {
+  uuid: 'operator0001',
+};
+
+const onSelect = (operator) => {
+  setSelected(true);
+  alert(`Selected: ${operator.uuid}`);
+};
+
+const onDeselect = (operator) => {
+  setSelected(false);
+  alert(`Deselected: ${operator.uuid}`);
+};
+
+const onRemove = (operator) => {
+  alert(`Removed: ${operator.uuid}`);
+};
+
+const onEdit = (operator) => {
+  alert(`Edited: ${operator.uuid}`);
+};
+
+<DeploymentFlowBox 
+  status={status} 
+  settedUp={settedUp} 
+  title={title} 
+  icon={icon}
+  selected={selected}
+  onSelect={onSelect}
+  onDeselect={onDeselect}
+  onEdit={onEdit}
+  onRemove={onRemove}
+  operator={operator}
+/>
+```
+
+
 **Selected**
 ```js
 import { useState } from 'react';
