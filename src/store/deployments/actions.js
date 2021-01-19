@@ -16,6 +16,8 @@ import {
   prepareDeploymentsDataLoaded,
 } from 'store/ui/actions';
 
+const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
+
 // ACTIONS
 // ** FETCH DEPLOYMENTS
 /**
@@ -132,7 +134,10 @@ export const createDeploymentRequest = (
     if (experimentId) createObject = { experiments: [experimentId] };
     if (templateId) createObject = { templateId };
 
-    const response = await deploymentsApi.createDeployment(projectId, createObject);
+    const response = await deploymentsApi.createDeployment(
+      projectId,
+      createObject
+    );
 
     dispatch(createDeploymentSuccess(response));
   } catch (error) {
@@ -370,10 +375,79 @@ export const prepareDeployments = (experimentId, projectId, routerProps) => (
     });
 };
 
+/**
+ * Action (async) to rename deployment
+ *
+ * @param {object[]} deployments Deployments list
+ * @param {string} projectId Project ID
+ * @param {string} deploymentId Deployment ID
+ * @param {string} newName New name
+ * @returns {Function} Async action
+ */
+function renameDeploymentRequest(
+  deployments,
+  projectId,
+  deploymentId,
+  newName
+) {
+  return async (dispatch) => {
+    dispatch({ type: actionTypes.RENAME_DEPLOYMENT_REQUEST });
+
+    try {
+      const updateObject = { name: newName };
+
+      const response = await deploymentsApi.updateDeployment(
+        projectId,
+        deploymentId,
+        updateObject
+      );
+
+      const updatedDeployments = deployments.map((deployment) =>
+        deployment.uuid === deploymentId ? response.data[0] : deployment
+      );
+
+      dispatch(renameDeploymentSuccess(updatedDeployments));
+    } catch (error) {
+      dispatch(renameDeploymentFail(error));
+    }
+  };
+}
+
+/**
+ * Action to rename deployment success
+ *
+ * @param {object[]} updatedDeployments Updated deployments list
+ *
+ * @returns {object} Action payload
+ */
+function renameDeploymentSuccess(updatedDeployments) {
+  return {
+    type: actionTypes.RENAME_DEPLOYMENT_SUCCESS,
+    deployments: updatedDeployments,
+  };
+}
+
+/**
+ * Action to rename deployment fail
+ *
+ * @param {object} error Error object
+ * @returns {Function} Async action
+ */
+function renameDeploymentFail(error) {
+  const errorMessage = error.message.includes('name already exist')
+    ? ALREADY_EXIST_MESSAGE
+    : error.message;
+
+  message.error(errorMessage, 5);
+
+  return { type: actionTypes.RENAME_DEPLOYMENT_FAIL };
+}
+
 export default {
   fetchDeploymentsRequest,
   createDeploymentRequest,
   updateDeploymentRequest,
   deleteDeploymentRequest,
+  renameDeploymentRequest,
   prepareDeployments,
 };

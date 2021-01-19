@@ -16,7 +16,7 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
     // reset initial fetch of deployments
     case actionTypes.CLEAR_ALL_DEPLOYMENTS:
       return [];
-    
+
     // SUCCESS
     // fetch deployments success
     case actionTypes.FETCH_DEPLOYMENTS_SUCCESS:
@@ -29,8 +29,9 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
       return [...action.deployments];
     // delete deployment success
     case actionTypes.DELETE_DEPLOYMENT_SUCCESS:
+    case actionTypes.RENAME_DEPLOYMENT_SUCCESS:
       return [...action.deployments];
-    
+
     // // // // // // //
 
     // FAIL
@@ -46,7 +47,7 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
     // delete deployment fail
     case actionTypes.DELETE_DEPLOYMENT_FAIL:
       return [...state];
-    
+
     // // // // // // //
 
     // DEFAULT
@@ -65,8 +66,8 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
  * @returns {Array}
  */
 export const getDeploymentById = (state, deploymentId) => {
-  return state.deploymentsReducer.find((deployment) => 
-    deployment.uuid === deploymentId
+  return state.deploymentsReducer.find(
+    (deployment) => deployment.uuid === deploymentId
   );
 };
 
