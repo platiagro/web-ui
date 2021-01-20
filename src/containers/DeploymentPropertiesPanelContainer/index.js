@@ -1,0 +1,3 @@
+import DeploymentPropertiesPanelContainer from './DeploymentPropertiesPanelContainer';
+
+export default DeploymentPropertiesPanelContainer;
