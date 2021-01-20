@@ -14,6 +14,8 @@ import ResizableSection from './ResizableSection';
 
 import TooltipTip from './TooltipTip';
 
+import NewDeploymentModal from './NewDeploymentModal';
+
 export {
   CommonTable,
   CompareResultItem,
@@ -25,4 +27,5 @@ export {
   PropertyBlock,
   ResizableSection,
   TooltipTip,
+  NewDeploymentModal,
 };
