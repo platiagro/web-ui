@@ -18,21 +18,25 @@ import "./style.less";
 
 const LogsButton = () => {
 
-  const  [ title, setTitle ] = useState(false);
+  const [ active, setActive ] = useState(true);
+  const [ title, setTitle ] = useState(false);
+  const [ count, setCount ] = useState(6);
 
     const content = title?"Ocultar histórico de erros":"Exibir histórico de erros";
     
-  
+    const errorCount = count;
+
   // rendering component LogsButton
   return (
-    <Badge count={3}>
+    <Badge count={errorCount}>
       <Tooltip
         title={content}
         placement="left"
         color="black"
-        className="button-config"
+        className={active?"black":"white"}
       >
-        <button onClick={()=>setTitle(!title)}>
+        <button onClick={()=>{{setTitle(!title) 
+        setActive(!active)}}}>
           <AlertOutlined/>
         </button>
       </Tooltip>
@@ -42,8 +46,12 @@ const LogsButton = () => {
 
 // PROP TYPES
 LogsButton.propTypes = {
-  /** click function */
+  /* click function */
   onClick: PropTypes.func.isRequired,
+  /*error count function */
+  errorCount: PropTypes.number.isRequired,
+  /*button activated state */
+  active: PropTypes.bool.isRequired,
 };
 
 // EXPORT DEFAULT
