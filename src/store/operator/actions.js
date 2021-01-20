@@ -139,10 +139,13 @@ export const getOperatorFigures = (
     })
     .catch((error) => {
       dispatch(operatorResultsDataLoaded());
-      dispatch({
-        type: actionTypes.GET_OPERATOR_FIGURES_FAIL,
-      });
-      message.error(error.message);
+      // allowed to fail silently for 404
+      if (error.response.status !== 404) {
+        dispatch({
+          type: actionTypes.GET_OPERATOR_FIGURES_FAIL,
+        });
+        message.error(error.message);
+      }
     });
 };
 

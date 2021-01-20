@@ -100,7 +100,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
       projectId,
       experimentId
     );
-    const operators = operatorsResponse.data;
+    const operators = operatorsResponse.data.operators;
 
     // getting dataset columns
     const datasetName = utils.getDatasetName(tasks, operators);

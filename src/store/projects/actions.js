@@ -50,7 +50,7 @@ export const fetchPaginatedProjects = (name, page, pageSize) => (dispatch) => {
 
 /**
  * Function to fetch all projects and dispatch to reducer
- * 
+ *
  * @returns {Function} The `disptach` function
  */
 export const fetchProjects = () => (dispatch) => {
@@ -58,7 +58,7 @@ export const fetchProjects = () => (dispatch) => {
   projectsApi
     .listProjects()
     .then((response) => {
-      const projects = response.data;
+      const projects = response.data.projects;
       dispatch(projectsTableDataLoaded());
       dispatch({
         type: actionTypes.FETCH_PROJECTS,

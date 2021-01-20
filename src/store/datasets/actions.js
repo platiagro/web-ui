@@ -71,7 +71,14 @@ export const fetchDatasetsRequest = () => (dispatch) => {
   datasetsApi
     .listDatasets()
     .then((response) => dispatch(fetchDatasetsSuccess(response)))
-    .catch((error) => dispatch(fetchDatasetsFail(error)));
+    .catch((error) => {
+      // allow to fail silently for 404
+      if (error.response.status === 404) {
+        dispatch(datasetsListDataLoaded());
+      } else {
+        dispatch(fetchDatasetsFail(error));
+      }
+    });
 };
 
 /**
