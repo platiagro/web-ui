@@ -116,8 +116,8 @@ const createExperimentRunSuccess = (projectId, routerProps, response) => (dispat
 
 /**
  * Create experiment run fail action
- * 
- * @param {object} error 
+ *
+ * @param {object} error
  * @returns {object} { type }
  */
 const createExperimentRunFail = (error) => (dispatch) => {
@@ -165,7 +165,7 @@ const createExperimentRunRequest = (projectId, experimentId, routerProps) => (di
  */
 const deleteExperimentRunSuccess = (response) => (dispatch) => {
   dispatch(implantedExperimentsLoadingData())
-  
+
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_RUN_SUCCESS,
     runs: []
@@ -176,8 +176,8 @@ const deleteExperimentRunSuccess = (response) => (dispatch) => {
 
 /**
  * Delete experiment run fail action
- * 
- * @param {object} error 
+ *
+ * @param {object} error
  * @returns {object} { type }
  */
 const deleteExperimentRunFail = (error) => (dispatch) => {
@@ -225,7 +225,7 @@ const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
  */
 const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, getState) => {
   const { uiReducer } = getState();
-  const operators = response.data;
+  const operators = response.data.operators;
 
   let isRunning = false;
   let interruptExperiment = uiReducer.experimentTraining.deleteLoading;
@@ -238,11 +238,11 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
     const stoppedRun = operators.some((operator) => {
       return operator.status === 'Failed' || operator.status === 'Terminated';
     });
-    
+
     const isAllPending = operators.every((operator) => {
       return operator.status === 'Pending';
     });
-  
+
     if (isAllPending) {
       dispatch(experimentNameLoadingData());
     } else {
@@ -261,13 +261,13 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
       isRunning = false;
       const currentState = getState();
       const experimentsState = currentState.experimentsReducer;
-  
+
       const experiments = experimentsState.map((experiment) => {
         return experiment.uuid !== experimentId
           ? experiment
           : { ...experiment, succeded: true };
       });
-  
+
       dispatch({
         type: actionTypes.EXPERIMENT_RUN_SUCCEEDED,
         experiments
@@ -277,7 +277,7 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
     // experiment run has stopped
     if (!isRunning) {
       dispatch(experimentTrainingDataLoaded());
-  
+
       // check if was manual interrupted
       if (interruptExperiment) {
         dispatch(experimentDeleteTrainingDataLoaded());

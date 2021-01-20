@@ -30,7 +30,7 @@ const fetchDeploymentsSuccess = (response) => (dispatch) => {
   // dispatching fetch deployments success action
   dispatch({
     type: actionTypes.FETCH_DEPLOYMENTS_SUCCESS,
-    deployments: response.data,
+    deployments: response.data.deployments,
   });
 };
 

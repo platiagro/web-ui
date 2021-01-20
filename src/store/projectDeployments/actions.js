@@ -64,7 +64,7 @@ export const createProjectDeployment = (projectId, experimentId, name) => (
 
 /**
  * Delete deployment
- * 
+ *
  * @param {string} projectId Project uuid
  * @param {string} deploymentId Deployment uuid
  * @returns {Function} Dispatch function
@@ -99,7 +99,7 @@ export const deleteProjectDeployment = (projectId, deploymentId) => (
 
 /**
  * Fetch deployments
- * 
+ *
  * @param {string} projectId Project uuid
  * @returns {Function} Dispatch function
  */
@@ -112,7 +112,7 @@ export const fetchProjectDeployments = (projectId) => (dispatch) => {
     .listDeployments(projectId)
     .then((response) => {
       dispatch(deploymentsTabsDataLoaded());
-      const deployments = response.data;
+      const deployments = response.data.deployments;
       dispatch({
         type: actionTypes.FETCH_DEPLOYMENT_SUCCESS,
         deployments: deployments,
@@ -131,7 +131,7 @@ export const fetchProjectDeployments = (projectId) => (dispatch) => {
 
 /**
  * Update deployment position
- * 
+ *
  * @param {string} projectId Project uuid
  * @param {string} dragId Drag uuid
  * @param {string} hoverId Hover uuid
