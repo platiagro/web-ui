@@ -76,8 +76,8 @@ export const fetchTasksMenuRequest = () => async (dispatch) => {
     let tasksMenu = {};
 
     // adding templates to menu
-    if (templatesResponse.data && templatesResponse.data.length > 0)
-      tasksMenu.TEMPLATES = templatesResponse.data;
+    if (templatesResponse.data.templates && templatesResponse.data.templates.length > 0)
+      tasksMenu.TEMPLATES = templatesResponse.data.templates;
 
     // adding tasks to menu
     tasksMenu = {

@@ -16,7 +16,10 @@ module.exports = {
       name: 'Components',
       description: 'Application components.',
       components: ['src/components/**/*.component.jsx'],
-      ignore: ['src/components/NewDeploymentModal/**/*.component.jsx'],
+      ignore: [
+        'src/components/NewDeploymentModal/**/*.component.jsx',
+        'src/components/DeploymentFlow/**/*.component.jsx',
+      ],
       sections: [
         {
           name: 'NewDeploymentModal',
@@ -31,6 +34,23 @@ module.exports = {
               description: 'TemplatesTable components.',
               components: [
                 'src/components/NewDeploymentModal/TemplatesTable/**/*.component.jsx',
+              ],
+            },
+          ],
+        },
+        {
+          name: 'DeploymentFlow',
+          description: 'DeploymentFlow components.',
+          components: ['src/components/DeploymentFlow/**/*.component.jsx'],
+          ignore: [
+            'src/components/DeploymentFlow/DeploymentFlowBox/**/*.component.jsx',
+          ],
+          sections: [
+            {
+              name: 'DeploymentFlowBox',
+              description: 'DeploymentFlowBox components.',
+              components: [
+                'src/components/DeploymentFlow/DeploymentFlowBox/**/*.component.jsx',
               ],
             },
           ],

@@ -37,7 +37,7 @@ const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';
  */
 const fetchExperimentsSuccess = (response) => (dispatch) => {
   // getting experiments from response
-  const experiments = response.data;
+  const experiments = response.data.experiments;
 
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());

@@ -29,14 +29,14 @@ import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 // ** FETCH TEMPLATES
 /**
  * fetch templates success action
- * 
+ *
  * @param {Object} response Request response
  * @returns {Object} { type, templates }
  */
 const fetchTemplatesSuccess = (response) => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_TEMPLATES_SUCCESS,
-    templates: response.data,
+    templates: response.data.templates,
   });
 };
 
@@ -80,7 +80,7 @@ export const fetchTemplatesRequest = () => (dispatch) => {
 // ** CREATE TEMPLATE
 /**
  * create template success action
- * 
+ *
  * @param {Object} response
  * @returns {Object} { type, templates }
  */
@@ -103,7 +103,7 @@ const createTemplateSuccess = (response) => (dispatch) => {
 
 /**
  * create template fail action
- * 
+ *
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
@@ -125,7 +125,7 @@ const createTemplateFail = (error) => (dispatch) => {
 
 /**
  * create template request action
- * 
+ *
  * @param {string} templateName
  * @param {string} experimentId
  * @returns {Function}
@@ -153,7 +153,7 @@ export const createTemplateRequest = (templateName, experimentId) => (
 // ** UPDATE TEMPLATE
 /**
  * update template success action
- * 
+ *
  * @param {object} response Request response
  * @returns {object} {type, experiment}
  */
@@ -178,9 +178,9 @@ const updateTemplateSuccess = (response) => (
 
 /**
  * update template fail action
- * 
- * @param {object} error 
- * @returns {object} { type, errorMessage } 
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const updateTemplateFail = (error) => (dispatch) => {
   // getting error message
@@ -197,9 +197,9 @@ const updateTemplateFail = (error) => (dispatch) => {
 
 /**
  * update template request action
- * 
+ *
  * @param {string} templateId Template UUID
- * @param {string} templateName Template name 
+ * @param {string} templateName Template name
  * @returns {Function}
  */
 export const updateTemplateRequest = (
@@ -234,11 +234,11 @@ const deleteTemplateSuccess = (templateId, allTasks) => (
   const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
     (template) => template.uuid !== templateId
   );
-    
+
   const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
     (template) => template.uuid !== templateId
   );
-      
+
   const tasks = {
     unfiltered: {
       ...allTasks.unfiltered,
@@ -249,15 +249,15 @@ const deleteTemplateSuccess = (templateId, allTasks) => (
       TEMPLATES: filteredTemplates,
     },
   };
-      
+
   if (tasks.unfiltered.TEMPLATES.length === 0) {
     delete tasks.unfiltered.TEMPLATES;
   }
-  
+
   if (tasks.filtered.TEMPLATES.length === 0) {
     delete tasks.filtered.TEMPLATES;
   }
-      
+
   dispatch(tasksMenuDataLoaded());
 
   const currentState = getState();
@@ -266,42 +266,42 @@ const deleteTemplateSuccess = (templateId, allTasks) => (
   const templates = templatesState.filter((template) => {
     return template.uuid !== templateId;
   });
-  
+
   // dispatching delete template success action
   dispatch({
     type: actionTypes.DELETE_TEMPLATE_SUCCESS,
     payload: tasks,
     templates,
   });
-  
+
   message.success('Template excluído!');
 };
-    
+
 /**
  * delete template fail action
- * 
+ *
  * @param {Object} error
  * @returns {Object} { type, errorMessage }
  */
 const deleteTemplateFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
-  
+
   // dispatching projects table data loaded action
   dispatch(tasksMenuDataLoaded());
-  
+
   // dispatching delete projects fail action
   dispatch({
     type: actionTypes.DELETE_TEMPLATE_FAIL,
     errorMessage,
   });
-  
+
   message.error(errorMessage);
 };
 
 /**
  * delete template request action
- * 
+ *
  * @param {string} templateId Template UUID
  * @param {*} allTasks
  * @returns {Function}
@@ -327,7 +327,7 @@ export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
 // ** SET TEMPLATE
 /**
  * set template success action
- * 
+ *
  * @param {object} response Request response
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment UUID
@@ -351,7 +351,7 @@ const setTemplateSuccess = (response, projectId, experimentId) => (
 
 /**
  * set template fail action
- * 
+ *
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
@@ -372,7 +372,7 @@ const setTemplateFail = (error) => (dispatch) => {
 
 /**
  * set template request action
- * 
+ *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment UUID
  * @param {string} templateId Template UUID

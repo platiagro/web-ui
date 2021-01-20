@@ -97,7 +97,7 @@ export const fetchCompareResults = (projectId, experiments) => {
     compareResultsApi
       .listCompareResult(projectId)
       .then(async (response) => {
-        const compareResults = response.data;
+        const compareResults = response.data.comparisons;
         dispatch(changeLoadingCompareResultsModal(false));
         dispatch({
           type: actionTypes.FETCH_COMPARE_RESULTS,

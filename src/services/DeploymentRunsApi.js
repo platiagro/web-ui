@@ -19,19 +19,23 @@ const runsPath = 'runs';
  * @returns {Promise} Request Promise
  */
 const listDeploymentRuns = (projectId, deploymentId) => {
-  return projectsApi.get(`${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`);
+  return projectsApi.get(
+    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`
+  );
 };
 
 /**
  * Fetch Deployment Run
- * 
+ *
  * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
  * @param {string} runId The run UUID
  * @returns {Promise} Request Promise
  */
 const fetchDeploymentRun = (projectId, deploymentId, runId) => {
-  return projectsApi.get(`${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}`);
+  return projectsApi.get(
+    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}`
+  );
 };
 
 /**
@@ -43,7 +47,8 @@ const fetchDeploymentRun = (projectId, deploymentId, runId) => {
  */
 const createDeploymentRun = (projectId, deploymentId) => {
   return projectsApi.post(
-    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`);
+    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`
+  );
 };
 
 /**
@@ -53,9 +58,9 @@ const createDeploymentRun = (projectId, deploymentId) => {
  * @param {string} deploymentId Deployment UUID
  * @returns {Promise} //
  */
-const deleteDeploymentRun = (projectId, deploymentId) => {
+const deleteDeploymentRun = (projectId, deploymentId, runId) => {
   return projectsApi.delete(
-    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`
+    `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}`
   );
 };
 
@@ -85,7 +90,7 @@ const retryDeploymentRun = (projectId, deploymentId, runId) => {
   return projectsApi.put(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}/retry`
   );
-}
+};
 
 // EXPORT DEFAULT
 export default {
@@ -94,5 +99,5 @@ export default {
   deleteDeploymentRun,
   fetchDeploymentRunLogs,
   listDeploymentRuns,
-  retryDeploymentRun
-}
+  retryDeploymentRun,
+};

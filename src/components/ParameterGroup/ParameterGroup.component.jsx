@@ -47,9 +47,11 @@ const parameterTypes = {
         placeholder='Selecionar'
         options={options}
         tip={description}
-        value={value}
+        value={value ? value : undefined}
         title={label || name}
-        valueLatestTraining={valueLatestTraining}
+        valueLatestTraining={
+          valueLatestTraining ? valueLatestTraining : undefined
+        }
       />
     );
   },

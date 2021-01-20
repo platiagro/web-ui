@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import { useParams } from 'react-router-dom';
 
 // UI LIBS
 import { DeleteOutlined, ProfileOutlined } from '@ant-design/icons';
@@ -33,6 +34,8 @@ const DeploymentsTable = (props) => {
     onTestInference,
     selectedExperiment,
   } = props;
+
+  const { projectId } = useParams();
 
   // convert status to badge icon
   const statusToBadge = {
@@ -97,13 +100,13 @@ const DeploymentsTable = (props) => {
         <>
           <UploadInferenceTestButton
             disabled={record.status === 'Failed' || record.status === 'Running'}
-            handleUpload={(file) => onTestInference(record.experimentId, file)}
+            handleUpload={(file) => onTestInference(projectId, record.uuid, file)}
           />{' '}
           <Divider type='vertical' />
           <Tooltip placement='bottom' title='Ver logs'>
             <Button
               disabled={record.status === 'Running'}
-              onClick={() => onOpenLog(record.deploymentId)}
+              onClick={() => onOpenLog(record.uuid)}
               size='large'
               style={{ padding: 0 }}
               type='link'
@@ -117,7 +120,7 @@ const DeploymentsTable = (props) => {
             title='Você tem certeza que deseja excluir essa implantação?'
             okText='Sim'
             cancelText='Não'
-            onConfirm={() => onDeleteDeployment(record.deploymentId)}
+            onConfirm={() => onDeleteDeployment(record.uuid)}
           >
             <Tooltip placement='bottom' title='Excluir'>
               <Button size='large' style={{ padding: 0 }} type='link'>
