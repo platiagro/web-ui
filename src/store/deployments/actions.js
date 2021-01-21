@@ -384,7 +384,7 @@ export const prepareDeployments = (experimentId, projectId, routerProps) => (
  * @param {string} newName New name
  * @returns {Function} Async action
  */
-function renameDeploymentRequest(
+export function renameDeploymentRequest(
   deployments,
   projectId,
   deploymentId,

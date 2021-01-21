@@ -16,6 +16,7 @@ import {
   updateDeploymentPosition,
 } from 'store/projectDeployments/actions';
 import { deploymentsTabsShowModal } from 'store/ui/actions';
+import { renameDeploymentRequest } from 'store/deployments/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -29,6 +30,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
         updateDeploymentPosition(projectId, dragId, hoverId, newPosition)
       ),
     handleShowModal: () => dispatch(deploymentsTabsShowModal()),
+    handleRenameDeployment: (deployments, projectId, deploymentId, newName) =>
+      dispatch(
+        renameDeploymentRequest(deployments, projectId, deploymentId, newName)
+      ),
   };
 };
 
@@ -51,6 +56,7 @@ const DeploymentsTabsContainer = (props) => {
     handleDeleteProjectDeployment,
     handleFetchProjectDeployments,
     handleUpdateDeploymentPosition,
+    handleRenameDeployment,
     handleShowModal,
     loading,
   } = props;
@@ -72,6 +78,9 @@ const DeploymentsTabsContainer = (props) => {
     handleUpdateDeploymentPosition(projectId, dragId, hoverId, newPosition);
   };
 
+  const handleRename = (deploymentId, newName) =>
+    handleRenameDeployment(deployments, projectId, deploymentId, newName);
+
   // RENDER
   return (
     <>
@@ -81,6 +90,7 @@ const DeploymentsTabsContainer = (props) => {
         onClick={handleShowModal}
         onDelete={handleDelete}
         onMoveTab={handleMoveTab}
+        onRename={handleRename}
         tabs={deployments}
       />
       <NewDeploymentModalContainer />
