@@ -3,7 +3,21 @@
 
 const handleRename = (newName) => alert(`New name: ${newName}`);
 
-<NewNamePopover onRename={handleRename}>
+const isDuplicate = false;
+
+<NewNamePopover isDuplicate={isDuplicate} onRename={handleRename}>
+  <button>Click to show!</button>
+</NewNamePopover>
+```
+
+**Duplicate**
+```js
+
+const handleRename = (newName) => alert(`New name: ${newName}`);
+
+const isDuplicate = true;
+
+<NewNamePopover isDuplicate={isDuplicate} onRename={handleRename}>
   <button>Click to show!</button>
 </NewNamePopover>
 ```
@@ -14,7 +28,9 @@ const currentName = 'My current name!';
 
 const handleRename = (newName) => alert(`New name: ${newName}`);
 
-<NewNamePopover currentName={currentName} onRename={handleRename}>
+const isDuplicate = false;
+
+<NewNamePopover isDuplicate={isDuplicate} currentName={currentName} onRename={handleRename}>
   <button>Click to show!</button>
 </NewNamePopover>
 ```
@@ -25,7 +41,9 @@ const loading = true;
 
 const handleRename = (newName) => alert(`New name: ${newName}`);
 
-<NewNamePopover loading={loading} onRename={handleRename}>
+const isDuplicate = false;
+
+<NewNamePopover isDuplicate={isDuplicate} loading={loading} onRename={handleRename}>
   <button>Click to show!</button>
 </NewNamePopover>
 ```
