@@ -6,6 +6,10 @@ import RunDeploymentButton from './RunDeploymentButton';
 import SaveTemplateButton from './SaveTemplateButton';
 import UploadButton from './UploadButton';
 import UsingDeploymentsButton from './UsingDeploymentsButton';
+import LogsButton from './LogsButton';
+import DebugButton from './DebugButton'
+import ErrorButton from './ErrorButton'
+import InfoButton from './InfoButton'
 
 export {
   CompareResultsButton,
@@ -16,4 +20,8 @@ export {
   SaveTemplateButton,
   UploadButton,
   UsingDeploymentsButton,
+  LogsButton,
+  DebugButton,
+  ErrorButton,
+  InfoButton,
 };
