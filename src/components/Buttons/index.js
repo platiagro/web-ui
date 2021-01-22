@@ -8,6 +8,8 @@ import UploadButton from './UploadButton';
 import UsingDeploymentsButton from './UsingDeploymentsButton';
 import LogsButton from './LogsButton';
 import DebugButton from './DebugButton'
+import ErrorButton from './ErrorButton'
+import InfoButton from './InfoButton'
 
 export {
   CompareResultsButton,
@@ -20,4 +22,6 @@ export {
   UsingDeploymentsButton,
   LogsButton,
   DebugButton,
+  ErrorButton,
+  InfoButton,
 };

@@ -16,9 +16,13 @@ import "./style.less";
  */
 
 const DebugButton = (props) => {
-  const { onClick } = props;
+  const { onClick, active, disabled } = props;
   return (
-    <button className="debug-button-config" onClick={onClick}>
+    <button
+      disabled={disabled}
+      className={disabled?"debug-button-disabled":active ? "debug-button" : "debug-button-active"}
+      onClick={onClick}
+    >
       <CodeOutlined />
       Debug
     </button>

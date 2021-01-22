@@ -16,15 +16,15 @@ import "./style.less";
  * @component
  */
 
-const LogsButton = () => {
+const LogsButton = (props) => {
+  const { active, disabled, count } = props;
+  const [title, setTitle] = useState(false);
 
-  const [ active, setActive ] = useState(true);
-  const [ title, setTitle ] = useState(false);
-  const [ count, setCount ] = useState(6);
+  const content = title
+    ? "Ocultar histórico de erros"
+    : "Exibir histórico de erros";
 
-    const content = title?"Ocultar histórico de erros":"Exibir histórico de erros";
-    
-    const errorCount = count;
+  const errorCount = count;
 
   // rendering component LogsButton
   return (
@@ -33,11 +33,22 @@ const LogsButton = () => {
         title={content}
         placement="left"
         color="black"
-        className={active?"black":"white"}
+        overlayStyle={disabled?{'display':'none'}:{}}
+        disabled={disabled}
       >
-        <button onClick={()=>{{setTitle(!title) 
-        setActive(!active)}}}>
-          <AlertOutlined/>
+        <button
+        className={
+          disabled
+            ? "logs-button-disabled"
+            : active
+            ? "logs-button-active"
+            : "logs-button"
+        }
+          onClick={() => {
+            setTitle(!title);
+          }}
+        >
+          <AlertOutlined />
         </button>
       </Tooltip>
     </Badge>
@@ -52,6 +63,8 @@ LogsButton.propTypes = {
   errorCount: PropTypes.number.isRequired,
   /*button activated state */
   active: PropTypes.bool.isRequired,
+  /*button disable state */
+  disabled: PropTypes.bool.isRequired,
 };
 
 // EXPORT DEFAULT
