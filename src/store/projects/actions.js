@@ -97,13 +97,8 @@ export const selectProjects = (projects) => {
 export const deleteSelectedProjects = (searchText, projects) => {
   return (dispatch) => {
     dispatch(projectsTableLoadingData());
-
-    const formatedProjects = projects.map((uuid) => {
-      return { uuid };
-    });
-
     return projectsApi
-      .deleteProjects(formatedProjects)
+      .deleteProjects(projects)
       .then(() => {
         dispatch(projectsTableDataLoaded());
         message.success('Projetos excluídos!');

@@ -6,14 +6,16 @@ import { Popover, Input } from 'antd';
  * Popover to rename or duplicate a experiment or deployment.
  */
 function NewNamePopover(props) {
-  const { children, loading, currentName, onRename } = props;
+  const { children, loading, currentName, onSubmit, isDuplicate } = props;
 
   const [visible, setVisible] = useState(false);
 
-  const handleRename = (name) => {
+  const popoverTitle = isDuplicate ? 'Duplicar' : 'Renomear';
+
+  const handleSubmit = (name) => {
     // Only send rename if has a name and new name is different from current name
     if (name.length > 0 && name !== currentName) {
-      onRename(name);
+      onSubmit(name);
     }
 
     if (name.length > 0) {
@@ -28,7 +30,7 @@ function NewNamePopover(props) {
   const popoverContent = (
     <div>
       <div>
-        <strong>Renomear</strong>
+        <strong>{popoverTitle}</strong>
       </div>
       <div>
         {
@@ -41,7 +43,7 @@ function NewNamePopover(props) {
           defaultValue={currentName}
           loading={loading}
           disabled={loading}
-          onSearch={handleRename}
+          onSearch={handleSubmit}
         />
       </div>
     </div>
@@ -63,7 +65,8 @@ NewNamePopover.propTypes = {
   children: PropTypes.node.isRequired,
   currentName: PropTypes.string,
   loading: PropTypes.bool,
-  onRename: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isDuplicate: PropTypes.bool.isRequired,
 };
 
 NewNamePopover.defaultProps = {
