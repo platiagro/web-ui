@@ -17,7 +17,6 @@ function Deployment() {
   return (
     <ReactFlowProvider>
       <div className='deploymentPage'>
-        <div className='menu'>menu</div>
         <div className='contentBlock'>
           <DeploymentsHeaderContainer />
           <div className='deploymentContent'>
