@@ -38,14 +38,14 @@ const { Text } = Typography;
  * @returns {TasksTable} React component
  */
 const TasksTable = (props) => {
-  // destructuring props
   const {
-    tasks,
+    containerState,
     handleClickTask,
     handleClickEdit,
     handleClickDelete,
-    loading,
     handleCopyTaskRequest,
+    loading,
+    tasks,
   } = props;
 
   const searchInputRef = useRef(null);
@@ -217,8 +217,9 @@ const TasksTable = (props) => {
         <Space size={8}>
           <Button
             className='btnTaskActions'
-            type='link'
+            disabled={!containerState}
             onClick={() => handleClickTask(record.name)}
+            type='link'
           >
             Ver código-fonte
           </Button>
@@ -283,16 +284,18 @@ const TasksTable = (props) => {
 
 // PROP TYPES
 TasksTable.propTypes = {
-  /** tasks list */
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** tasks table is loading */
-  loading: PropTypes.bool.isRequired,
+  /** notebook server container state */
+  containerState: PropTypes.bool.isRequired,
   /** tasks table click task handle */
   handleClickTask: PropTypes.func.isRequired,
   /** tasks table click edit handle */
   handleClickEdit: PropTypes.func.isRequired,
   /** tasks table click delete handle */
   handleClickDelete: PropTypes.func.isRequired,
+  /** tasks table is loading */
+  loading: PropTypes.bool.isRequired,
+  /** tasks list */
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // EXPORT

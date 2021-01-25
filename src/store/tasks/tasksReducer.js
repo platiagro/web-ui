@@ -3,13 +3,14 @@ import actionTypes from './actionTypes';
 import uiActionTypes from '../ui/actionTypes';
 
 const initialState = {
-  tasks: [],
-  newTaskRecord: {},
-  modalIsVisible: false,
+  containerState: false,
   editModalIsVisible: false,
-  modalValidateStatus: null,
   errorMessage: null,
+  modalIsVisible: false,
+  modalValidateStatus: null,
+  newTaskRecord: {},
   pageSize: null,
+  tasks: [],
   totalTasks: null,
 };
 
@@ -61,6 +62,7 @@ const tasksReducer = (state = initialState, action = undefined) => {
     case actionTypes.FETCH_TASK:
       return {
         ...state,
+        containerState: action.containerState,
         tasks: action.tasks,
       };
     case actionTypes.UPDATE_TASK_SUCCESS:
