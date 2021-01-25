@@ -162,16 +162,16 @@ export const fetchPaginatedTasks = (page, pageSize) => {
  */
 export const fetchTasks = () => {
   return (dispatch) => {
-    // showing loading
     dispatch(tasksTableLoadingData());
-
     return tasksApi
       .getAllTasks()
       .then((response) => {
         dispatch(tasksTableDataLoaded());
+        const data = response.data;
         dispatch({
           type: actionTypes.FETCH_TASK,
-          tasks: response.data.tasks,
+          containerState: data.containerState,
+          tasks: data.tasks,
         });
       })
       .catch((error) => {
