@@ -14,6 +14,10 @@ import ResizableSection from './ResizableSection';
 
 import TooltipTip from './TooltipTip';
 
+import ErrorRow from './ErrorRow';
+import DebugRow from './DebugRow';
+import InfoRow from './InfoRow'
+
 export {
   CommonTable,
   CompareResultItem,
@@ -25,4 +29,7 @@ export {
   PropertyBlock,
   ResizableSection,
   TooltipTip,
+  ErrorRow,
+  DebugRow,
+  InfoRow,
 };
