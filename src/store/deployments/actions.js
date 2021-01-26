@@ -443,11 +443,80 @@ function renameDeploymentFail(error) {
   return { type: actionTypes.RENAME_DEPLOYMENT_FAIL };
 }
 
+/**
+ * Action (async) to duplicate deployment
+ *
+ * @param {string} projectId Project ID
+ * @param {string} duplicatedDeploymentId Duplicated deployment ID
+ * @param {string} newDeploymentName New deployment name
+ * @returns {Function} Async action
+ */
+function duplicateDeploymentRequest(
+  projectId,
+  duplicatedDeploymentId,
+  newDeploymentName
+) {
+  return async (dispatch) => {
+    dispatch({ type: actionTypes.DUPLICATE_DEPLOYMENT_REQUEST });
+
+    try {
+      // FIXME: Objeto temporário, aguardar implementação/ajuste do serviço
+      // aparentemente no serviço está faltando apenas a capacidade de criar um deployment com o nome
+      let createObject = {
+        newDeploymentName,
+        experiments: [duplicatedDeploymentId],
+      };
+
+      const response = await deploymentsApi.createDeployment(
+        projectId,
+        createObject
+      );
+
+      const createdDeployment = response.data[0];
+
+      dispatch(duplicateDeploymentSuccess(createdDeployment));
+    } catch (error) {
+      dispatch(duplicateDeploymentFail(error));
+    }
+  };
+}
+
+/**
+ * Action to duplicate deployment success
+ *
+ * @param {object[]} duplicatedDeployment Duplicated deployment
+ *
+ * @returns {object} Action payload
+ */
+function duplicateDeploymentSuccess(duplicatedDeployment) {
+  return {
+    type: actionTypes.DUPLICATE_DEPLOYMENT_SUCCESS,
+    deployment: duplicatedDeployment,
+  };
+}
+
+/**
+ * Action to duplicate deployment fail
+ *
+ * @param {object} error Error object
+ * @returns {Function} Async action
+ */
+function duplicateDeploymentFail(error) {
+  const errorMessage = error.message.includes('name already exist')
+    ? ALREADY_EXIST_MESSAGE
+    : error.message;
+
+  message.error(errorMessage, 5);
+
+  return { type: actionTypes.DUPLICATE_DEPLOYMENT_FAIL };
+}
+
 export default {
   fetchDeploymentsRequest,
   createDeploymentRequest,
   updateDeploymentRequest,
   deleteDeploymentRequest,
   renameDeploymentRequest,
+  duplicateDeploymentRequest,
   prepareDeployments,
 };
