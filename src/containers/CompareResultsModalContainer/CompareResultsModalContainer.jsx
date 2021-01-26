@@ -46,8 +46,8 @@ const mapDispatchToProps = (dispatch) => {
     handleDeleteCompareResult: (projectId, id) => {
       dispatch(deleteCompareResult(projectId, id));
     },
-    handleFetchCompareResults: (projectId, experiments) => {
-      dispatch(fetchCompareResults(projectId, experiments));
+    handleFetchCompareResults: (projectId) => {
+      dispatch(fetchCompareResults(projectId));
     },
     handleFetchCompareResultsResults: (compareResult) => {
       dispatch(fetchCompareResultsResults(compareResult));
@@ -112,9 +112,9 @@ const CompareResultsModalContainer = (props) => {
 
   useEffect(() => {
     if (isVisible) {
-      handleFetchCompareResults(projectId, experiments);
+      handleFetchCompareResults(projectId);
     }
-  }, [experiments, handleFetchCompareResults, isVisible, projectId]);
+  }, [handleFetchCompareResults, isVisible, projectId]);
 
   const title = (
     <>
