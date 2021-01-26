@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import { CodeOutlined } from "@ant-design/icons";
 
@@ -28,5 +29,16 @@ const DebugRow = (props) => {
     </div>
   );
 };
+
+// PROP TYPES
+DebugRow.propTypes = {
+  /** */
+  title: PropTypes.string.isRequired,
+  /** */
+  dateTime: PropTypes.string.isRequired,
+  /** */
+  message: PropTypes.string.isRequired,
+};
+
 
 export default DebugRow;

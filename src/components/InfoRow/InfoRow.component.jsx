@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import { InfoCircleOutlined } from "@ant-design/icons";
 
@@ -27,6 +28,16 @@ const InfoRow = (props) => {
       <div className="InfoRow-Content">{message}</div>
     </div>
   );
+};
+
+// PROP TYPES
+InfoRow.propTypes = {
+  /** */
+  title: PropTypes.string.isRequired,
+  /** */
+  dateTime: PropTypes.string.isRequired,
+  /** */
+  message: PropTypes.string.isRequired,
 };
 
 export default InfoRow;
