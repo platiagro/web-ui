@@ -21,7 +21,7 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
     // fetch deployments success
     case actionTypes.FETCH_DEPLOYMENTS_SUCCESS:
       return [...action.deployments];
-    // create deployment success
+    case actionTypes.DUPLICATE_DEPLOYMENT_SUCCESS:
     case actionTypes.CREATE_DEPLOYMENT_SUCCESS:
       return [...state, action.deployment];
     // update deployment success
