@@ -50,7 +50,7 @@ const CompareResultItem = (props) => {
     const trainingHistory = experimentsTrainingHistory[experimentId];
     if (trainingHistory) {
       trainingDetail = trainingHistory.find(
-        (x) => x.runId === compareResult.runId
+        (x) => x.uuid === compareResult.runId
       );
     }
   }
