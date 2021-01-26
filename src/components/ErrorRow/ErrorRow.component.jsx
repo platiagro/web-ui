@@ -2,8 +2,6 @@ import React from "react";
 
 import { BugOutlined } from "@ant-design/icons";
 
-import moment from "moment";
-
 import "./style.less";
 
 /**
@@ -17,14 +15,14 @@ import "./style.less";
  */
 
 const ErrorRow = (props) => {
-
-const { message } = props;
+  const { title, dateTime, message } = props;
 
   return (
     <div className="ErrorRow-Body">
       <div className="ErrorRow-Header">
         <BugOutlined className="ErrorRow-Icon" />
-        Filtro de atributos - {moment(moment().toDate()).format("h:mm:ss, DD/MM/YYYY ")}{" "}
+        {title}
+        {dateTime}
       </div>
       <div className="ErrorRow-Content">{message}</div>
     </div>

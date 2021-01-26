@@ -2,8 +2,6 @@ import React from "react";
 
 import { CodeOutlined } from "@ant-design/icons";
 
-import moment from "moment";
-
 import "./style.less";
 
 /**
@@ -17,14 +15,14 @@ import "./style.less";
  */
 
 const DebugRow = (props) => {
-
-const { message } = props;
+  const { title, dateTime, message } = props;
 
   return (
     <div className="DebugRow-Body">
       <div className="DebugRow-Header">
         <CodeOutlined className="DebugRow-Icon" />
-        Filtro de atributos - {moment(moment().toDate()).format("h:mm:ss, DD/MM/YYYY ")}{" "}
+        {title}
+        {dateTime}
       </div>
       <div className="DebugRow-Content">{message}</div>
     </div>

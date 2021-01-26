@@ -2,8 +2,6 @@ import React from "react";
 
 import { InfoCircleOutlined } from "@ant-design/icons";
 
-import moment from "moment";
-
 import "./style.less";
 
 /**
@@ -17,14 +15,14 @@ import "./style.less";
  */
 
 const InfoRow = (props) => {
-
-const { message } = props;
+  const { title, dateTime, message } = props;
 
   return (
     <div className="InfoRow-Body">
       <div className="InfoRow-Header">
         <InfoCircleOutlined className="InfoRow-Icon" />
-        Filtro de atributos - {moment(moment().toDate()).format("h:mm:ss, DD/MM/YYYY ")}{" "}
+        {title}
+        {dateTime}
       </div>
       <div className="InfoRow-Content">{message}</div>
     </div>
