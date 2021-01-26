@@ -36,13 +36,14 @@ const CompareResultItemTasks = (props) => {
         placeholder={'Selecione a tarefa'}
         style={{ width: '100%' }}
       >
-        {trainingDetail.operators.map((operator) => {
+        {Object.keys(trainingDetail.operators).map((operatorId) => {
+          const operator = trainingDetail.operators[operatorId];
           const task = tasks.find((x) => x.uuid === operator.taskId);
           return (
             <Option
               key={operator.taskId}
               label={task ? task.name : operator.taskId}
-              value={operator.operatorId}
+              value={operatorId}
             >
               {task ? task.name : operator.taskId}
             </Option>

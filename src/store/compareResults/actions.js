@@ -91,43 +91,42 @@ export const deleteCompareResult = (projectId, id) => {
  * @param {string} projectId
  * @param {object[]} experiments
  */
-export const fetchCompareResults = (projectId, experiments) => {
-  return (dispatch) => {
-    dispatch(changeLoadingCompareResultsModal(true));
-    compareResultsApi
-      .listCompareResult(projectId)
-      .then(async (response) => {
-        const compareResults = response.data.comparisons;
-        dispatch(changeLoadingCompareResultsModal(false));
-        dispatch({
-          type: actionTypes.FETCH_COMPARE_RESULTS,
-          compareResults: compareResults,
-          experimentsOptions: experiments.map((experiment) => {
-            return {
-              isLeaf: false,
-              label: experiment.name,
-              value: experiment.uuid,
-            };
-          }),
-        });
-
-        for (const compareResult of compareResults) {
-          if (compareResult.experimentId) {
-            await dispatch(
-              fetchTrainingHistory(
-                compareResult.projectId,
-                compareResult.experimentId
-              )
-            );
-          }
-        }
-      })
-      .catch((error) => {
-        dispatch(changeLoadingCompareResultsModal(false));
-        let errorMessage = error.message;
-        message.error(errorMessage, 5);
+export const fetchCompareResults = (projectId) => (dispatch, getState) => {
+  dispatch(changeLoadingCompareResultsModal(true));
+  const { experimentsReducer: experiments } = getState();
+  compareResultsApi
+    .listCompareResult(projectId)
+    .then(async (response) => {
+      const compareResults = response.data.comparisons;
+      dispatch(changeLoadingCompareResultsModal(false));
+      dispatch({
+        type: actionTypes.FETCH_COMPARE_RESULTS,
+        compareResults: compareResults,
+        experimentsOptions: experiments.map((experiment) => {
+          return {
+            isLeaf: false,
+            label: experiment.name,
+            value: experiment.uuid,
+          };
+        }),
       });
-  };
+
+      for (const compareResult of compareResults) {
+        if (compareResult.experimentId) {
+          await dispatch(
+            fetchTrainingHistory(
+              compareResult.projectId,
+              compareResult.experimentId
+            )
+          );
+        }
+      }
+    })
+    .catch((error) => {
+      dispatch(changeLoadingCompareResultsModal(false));
+      let errorMessage = error.message;
+      message.error(errorMessage, 5);
+    });
 };
 
 /**
@@ -273,15 +272,15 @@ export const fetchTrainingHistory = (projectId, experimentId) => {
       return experimentRunsApi
         .fetchExperimentRuns(projectId, experimentId)
         .then((response) => {
-          trainingHistory[experimentId] = response.data;
+          trainingHistory[experimentId] = response.data.runs;
           dispatch({
             type: actionTypes.FETCH_EXPERIMENTS_TRAINING_HISTORY,
             experimentsTrainingHistory: trainingHistory,
           });
-          const children = response.data.map((history) => {
+          const children = response.data.runs.map((history) => {
             return {
               label: utils.formatCompareResultDate(history.createdAt),
-              value: history.runId,
+              value: history.uuid,
             };
           });
           dispatch(updateExperimentsOptions(experimentId, children, false));

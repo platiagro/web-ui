@@ -19,6 +19,7 @@ import {
 import { duplicateDeploymentRequest } from 'store/deployments/actions';
 
 import { deploymentsTabsShowModal } from 'store/ui/actions';
+import { renameDeploymentRequest } from 'store/deployments/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -36,6 +37,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
         updateDeploymentPosition(projectId, dragId, hoverId, newPosition)
       ),
     handleShowModal: () => dispatch(deploymentsTabsShowModal()),
+    handleRenameDeployment: (deployments, projectId, deploymentId, newName) =>
+      dispatch(
+        renameDeploymentRequest(deployments, projectId, deploymentId, newName)
+      ),
   };
 };
 
@@ -59,6 +64,7 @@ const DeploymentsTabsContainer = (props) => {
     handleFetchProjectDeployments,
     handleUpdateDeploymentPosition,
     handleDuplicateDeployment,
+    handleRenameDeployment,
     handleShowModal,
     loading,
   } = props;
@@ -84,6 +90,9 @@ const DeploymentsTabsContainer = (props) => {
     handleUpdateDeploymentPosition(projectId, dragId, hoverId, newPosition);
   };
 
+  const handleRename = (deploymentId, newName) =>
+    handleRenameDeployment(deployments, projectId, deploymentId, newName);
+
   // RENDER
   return (
     <>
@@ -94,6 +103,7 @@ const DeploymentsTabsContainer = (props) => {
         onDelete={handleDelete}
         onMoveTab={handleMoveTab}
         onDuplicate={handleDuplicate}
+        onRename={handleRename}
         tabs={deployments}
       />
       <NewDeploymentModalContainer />

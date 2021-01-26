@@ -1,4 +1,3 @@
-/* eslint-disable */
 // CORE LIBS
 import PropTypes from "prop-types";
 import React, { useState } from "react";
