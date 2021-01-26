@@ -15,6 +15,9 @@ import {
   fetchProjectDeployments,
   updateDeploymentPosition,
 } from 'store/projectDeployments/actions';
+
+import { duplicateDeploymentRequest } from 'store/deployments/actions';
+
 import { deploymentsTabsShowModal } from 'store/ui/actions';
 
 // DISPATCHS
@@ -24,6 +27,10 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchProjectDeployments(projectId)),
     handleDeleteProjectDeployment: (projectId, experimentId) =>
       dispatch(deleteProjectDeployment(projectId, experimentId, routerProps)),
+    handleDuplicateDeployment: (projectId, duplicatedDeploymentId, newName) =>
+      dispatch(
+        duplicateDeploymentRequest(projectId, duplicatedDeploymentId, newName)
+      ),
     handleUpdateDeploymentPosition: (projectId, dragId, hoverId, newPosition) =>
       dispatch(
         updateDeploymentPosition(projectId, dragId, hoverId, newPosition)
@@ -51,6 +58,7 @@ const DeploymentsTabsContainer = (props) => {
     handleDeleteProjectDeployment,
     handleFetchProjectDeployments,
     handleUpdateDeploymentPosition,
+    handleDuplicateDeployment,
     handleShowModal,
     loading,
   } = props;
@@ -64,6 +72,10 @@ const DeploymentsTabsContainer = (props) => {
   // HANDLERS
   const handleDelete = (deploymentId) => {
     handleDeleteProjectDeployment(projectId, deploymentId);
+  };
+
+  const handleDuplicate = (deploymentId, newName) => {
+    handleDuplicateDeployment(projectId, deploymentId, newName);
   };
 
   const handleMoveTab = (dragId, hoverId) => {
@@ -81,6 +93,7 @@ const DeploymentsTabsContainer = (props) => {
         onClick={handleShowModal}
         onDelete={handleDelete}
         onMoveTab={handleMoveTab}
+        onDuplicate={handleDuplicate}
         tabs={deployments}
       />
       <NewDeploymentModalContainer />
