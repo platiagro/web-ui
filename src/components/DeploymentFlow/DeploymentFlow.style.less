@@ -1,0 +1,37 @@
+.react-flow__edge {
+  .react-flow__edge-path {
+    stroke-width: 2.5;
+
+    &:hover {
+      stroke: #595959;
+      marker-end: url('#react-flow__arrowend-hovered');
+      marker-start: url('#react-flow__circle-hovered');
+      cursor: pointer;
+    }
+  }
+  &.selected {
+    .react-flow__edge-path {
+      stroke: #1890ff !important;
+      marker-end: url('#react-flow__arrowend-selected');
+      marker-start: url('#react-flow__circle-selected');
+    }
+  }
+}
+
+//Style for vector created when is connecting
+.react-flow__connection {
+  .react-flow__connection-path {
+    stroke: #1890ff;
+    stroke-width: 2.5;
+  }
+}
+
+.react-flow__handle-connecting {
+  border-color: #ff6060 !important;
+  background-color: #ff6060 !important;
+}
+
+.react-flow__handle-valid {
+  border-color: #1890ff !important;
+  background-color: #1890ff !important;
+}

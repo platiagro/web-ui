@@ -8,7 +8,7 @@ import {
   deleteTask,
   fetchTasks,
   showTasksModal,
-} from '../../../../store/tasks/actions';
+} from 'store/tasks/actions';
 
 // COMPONENTS
 import TasksTable from './index';
@@ -32,8 +32,9 @@ const mapDispatchToProps = (dispatch) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasksReducer.tasks,
+    containerState: state.tasksReducer.containerState,
     loading: state.uiReducer.tasksTable.loading,
+    tasks: state.tasksReducer.tasks,
   };
 };
 
@@ -41,18 +42,16 @@ const mapStateToProps = (state) => {
  * Tasks Table Container.
  * This component is responsible for create a logic container for tasks table
  * with redux.
- *
- * @param props
  */
 const TasksTableContainer = (props) => {
-  // states
-  const { tasks, loading } = props;
-  // dispatchs
   const {
-    handleFetchTasks,
-    handleDeleteTask,
-    handleShowTasksModal,
+    containerState,
     handleCopyTaskRequest,
+    handleDeleteTask,
+    handleFetchTasks,
+    handleShowTasksModal,
+    loading,
+    tasks,
   } = props;
 
   // Fetch tasks on component did mount
@@ -81,6 +80,7 @@ const TasksTableContainer = (props) => {
   return loading || (tasks && tasks.length > 0) ? (
     <div className='tasksContainer'>
       <TasksTable
+        containerState={containerState}
         tasks={filteredTasks}
         handleClickTask={taskClickHandler}
         handleClickEdit={handleShowTasksModal}

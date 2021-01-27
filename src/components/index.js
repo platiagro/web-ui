@@ -16,6 +16,10 @@ import TooltipTip from './TooltipTip';
 
 import NewDeploymentModal from './NewDeploymentModal';
 
+import ErrorRow from './ErrorRow';
+import DebugRow from './DebugRow';
+import InfoRow from './InfoRow';
+
 export {
   CommonTable,
   CompareResultItem,
@@ -28,4 +32,7 @@ export {
   ResizableSection,
   TooltipTip,
   NewDeploymentModal,
+  ErrorRow,
+  DebugRow,
+  InfoRow,
 };

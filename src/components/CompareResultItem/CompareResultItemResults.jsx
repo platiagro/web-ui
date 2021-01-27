@@ -51,9 +51,10 @@ const CompareResultItemResults = (props) => {
     );
   }
 
-  const operator = trainingDetail.operators.find(
-    (op) => op.operatorId === compareResult.operatorId
+  const operatorId = Object.keys(trainingDetail.operators).find(
+    (opId) => opId === compareResult.operatorId
   );
+  const operator = trainingDetail.operators[operatorId];
   const task = tasks.find((x) => x.uuid === operator.taskId);
   let resultsParameters;
   if (task) {

@@ -6,7 +6,7 @@ import actionTypes from './actionTypes';
 // SERVICES
 import DatasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
-import experimentRunsApi from 'services/ExperimentRunsApi'
+import experimentRunsApi from 'services/ExperimentRunsApi';
 
 // UI LIB
 import { message } from 'antd';
@@ -407,7 +407,7 @@ export const createOperatorRequest = (
     dependencies: [],
     positionX: position.x,
     positionY: position.y,
-  }
+  };
 
   // configuring parameters
   // necessary to check if dataset because dataset param is removed on getTaskData
@@ -418,10 +418,10 @@ export const createOperatorRequest = (
       { name: 'target', value: '' },
     ];
 
-    body["parameters"] = {
+    body['parameters'] = {
       dataset: '',
-      value: ''
-    }
+      value: '',
+    };
   } else {
     configuredParameters = utils.configureOperatorParameters(
       parameters,
@@ -553,18 +553,10 @@ export const setOperatorParametersRequest = (
   parameterName,
   parameterValue
 ) => (dispatch) => {
-  // dispatching request action
   dispatch({
     type: actionTypes.SET_OPERATOR_PARAMETERS_REQUEST,
   });
-
-  // dispatching operator parameter loading data action
   dispatch(operatorParameterLoadingData());
-
-  // formating parameter value
-  const formatedValue = Array.isArray(parameterValue)
-    ? parameterValue.join(',')
-    : parameterValue;
 
   // filtering parameters with value
   const parametersWithValue = operator.parameters.filter((parameter) => {
@@ -577,30 +569,14 @@ export const setOperatorParametersRequest = (
     }
   });
 
-  // creating parameter object to update
   const parameters = {};
   parametersWithValue.forEach(({ name, value }) => {
-    parameters[name] =
-      name === parameterName
-        ? formatedValue !== null
-          ? formatedValue
-          : undefined
-        : Array.isArray(value)
-        ? value.join(',')
-        : value;
+    parameters[name] = name === parameterName ? parameterValue : value;
   });
-
-  // creating operator object
-  const operatorWithParameters = { parameters };
 
   // update operator
   operatorsApi
-    .updateOperator(
-      projectId,
-      experimentId,
-      operator.uuid,
-      operatorWithParameters
-    )
+    .updateOperator(projectId, experimentId, operator.uuid, { parameters })
     .then((response) => {
       // getting operator data
       const successOperator = { ...operator };
