@@ -7,7 +7,7 @@ import { Modal, Checkbox } from 'antd';
 import './style.less';
 
 const PrepareDeploymentsModal = (props) => {
-  const { visible, experiments, onClose, onConfirm } = props;
+  const { visible, experiments = [], onClose, onConfirm } = props;
   return (
     <Modal
       visible={visible}

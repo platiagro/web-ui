@@ -12,8 +12,6 @@ import deploymentsRunsApi from 'services/DeploymentRunsApi';
 import {
   implantedExperimentsLoadingData,
   implantedExperimentsDataLoaded,
-  prepareDeploymentsLoadingData,
-  prepareDeploymentsDataLoaded,
 } from 'store/ui/actions';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
@@ -347,8 +345,11 @@ export const prepareDeployments = (experimentId, projectId, routerProps) => (
 ) => {
   // TODO
   // replace all the code below by the action
-  // showPrepareDeploymentModal once it's implemented
+  // by the service of preparation and remove Preparing log
 
+  console.log('Preparing', experimentId, projectId);
+
+  /*
   // dispatching request action
   dispatch(prepareDeploymentsLoadingData());
 
@@ -372,7 +373,7 @@ export const prepareDeployments = (experimentId, projectId, routerProps) => (
       // getting error message
       const errorMessage = error.message;
       message.error(errorMessage, 5);
-    });
+    });*/
 };
 
 /**

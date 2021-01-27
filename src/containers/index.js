@@ -24,6 +24,8 @@ import OperatorResultsModalContainer from './OperatorResultsModalContainer';
 import UsingDeploymentsButtonContainer from './UsingDeploymentsButtonContainer';
 import UsingDeploymentsModalContainer from './UsingDeploymentsModalContainer';
 
+import PrepareDeploymentsModalContainer from './PrepareDeploymentsModalContainer';
+
 export {
   ChangeRoutePromptContainer,
   CompareResultsModalContainer,
@@ -43,4 +45,5 @@ export {
   OperatorResultsModalContainer,
   UsingDeploymentsButtonContainer,
   UsingDeploymentsModalContainer,
+  PrepareDeploymentsModalContainer,
 };

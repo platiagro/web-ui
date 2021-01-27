@@ -17,6 +17,7 @@ import {
   ExperimentsHeaderContainer,
   OperatorResizableSectionContainer,
   OperatorResultsModalContainer,
+  PrepareDeploymentsModalContainer,
 } from 'containers';
 
 import FlowDrop from './FlowDrop';
@@ -56,6 +57,7 @@ const ExperimentsContent = () => {
   return (
     <>
       <DndProvider backend={HTML5Backend}>
+        <PrepareDeploymentsModalContainer />
         <CompareResultsModalContainer />
         <DataViewModalContainer />
         <OperatorResultsModalContainer />

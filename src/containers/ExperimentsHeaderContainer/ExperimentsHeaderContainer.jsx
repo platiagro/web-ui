@@ -17,8 +17,11 @@ import {
   editProjectNameRequest,
   fetchProjectRequest,
 } from 'store/project/actions';
-import { prepareDeployments } from 'store/deployments/actions';
-import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
+
+import {
+  changeVisibilityCompareResultsModal,
+  showPrepareDeploymentsModal,
+} from 'store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -30,8 +33,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleCompareResultsClick: () => {
       dispatch(changeVisibilityCompareResultsModal(true));
     },
-    handlePrepareDeployments: (experimentId, projectId) => {
-      dispatch(prepareDeployments(experimentId, projectId, routerProps));
+    handlePrepareDeploymentsModalOpen: () => {
+      dispatch(showPrepareDeploymentsModal());
     },
   };
 };
@@ -60,9 +63,9 @@ const ExperimentsHeaderContainer = (props) => {
     handleEditProjectName,
     handleFetchProject,
     handleCompareResultsClick,
-    handlePrepareDeployments,
+    handlePrepareDeploymentsModalOpen,
   } = props;
-  const { projectId, experimentId } = useParams();
+  const { projectId } = useParams();
   const history = useHistory();
 
   // HANDLERS
@@ -70,7 +73,7 @@ const ExperimentsHeaderContainer = (props) => {
   const editProjectNameHandler = (newProjectName) =>
     handleEditProjectName(projectId, newProjectName);
   const handlePrepareDeploymentsClick = () =>
-    handlePrepareDeployments(experimentId, projectId);
+    handlePrepareDeploymentsModalOpen();
 
   // HOOKS
   useEffect(() => {
