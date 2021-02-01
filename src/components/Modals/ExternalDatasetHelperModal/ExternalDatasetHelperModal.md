@@ -25,9 +25,9 @@ const disabled= true;
   <button onClick={() => setVisible(true)}>Open modal</button>
   <ExternalDatasetHelperModal
     onClose={onClose}
-    url={url}
     visible={visible}
-    disabled={disabled}
+	disabled={disabled}
+	url={url}
   />
 </div>;
 ```
