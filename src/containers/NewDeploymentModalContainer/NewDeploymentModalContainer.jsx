@@ -1,77 +1,81 @@
-// CORE LIBS
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
-// COMPONENTS
-// import { NewDeploymentModal } from 'components/Modals';
+import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 
-// ACTIONS
-import { createProjectDeployment } from 'store/projectDeployments/actions';
-import { deploymentsTabsHideModal } from 'store/ui/actions';
+import { hideNewDeploymentModal } from 'store/ui/actions';
+import { createDeploymentRequest } from 'store/deployments/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleCreateProjectDeployment: (projectId, experimentId, name) =>
-      dispatch(createProjectDeployment(projectId, experimentId, name)),
-    handleHideModal: () => dispatch(deploymentsTabsHideModal()),
-  };
+const mapDispatchToProps = {
+  onCancel: hideNewDeploymentModal,
+  onConfirm: createDeploymentRequest,
 };
 
-// STATES
 const mapStateToProps = (state) => {
   return {
-    loading: state.uiReducer.deploymentsTabs.loading,
-    errorMessage: state.uiReducer.deploymentsTabs.modalErrorMessage,
-    validateStatus: state.uiReducer.deploymentsTabs.modalValidateStatus,
-    visible: state.uiReducer.deploymentsTabs.modalVisible,
+    visible: state.uiReducer.newDeploymentModal.visible,
+    experimentsData: state.experimentsReducer,
+    templatesData: state.templatesReducer,
   };
 };
 
 /**
- * New Deployments modal container.
- * This component is responsible for create a logic container for new deployments modal
- * with redux.
+ * New deployment modal container
  */
-const NewDeploymentModalContainer = (props) => {
-  // const {
-  //   errorMessage,
-  //   handleCreateProjectDeployment,
-  //   handleHideModal,
-  //   loading,
-  //   validateStatus,
-  //   visible,
-  // } = props;
+function NewDeploymentModal(props) {
+  const {
+    visible,
+    experimentsData,
+    templatesData,
+    onCancel,
+    onConfirm,
+  } = props;
+
   const { projectId } = useParams();
 
-  // HANDLERS
-  // Verificar como escolher o experimento
-  // const onConfirm = (name) => {
-  //   handleCreateProjectDeployment(
-  //     projectId,
-  //     'f6d3019a-a739-4ee4-9c2a-eefd17f21148',
-  //     name
-  //   );
-  // };
+  const handleConfirm = (selectedType, selectedUuid) => {
+    let experimentId = selectedType === 'experiment' ? selectedUuid : undefined;
+    let templateId = selectedType === 'template' ? selectedUuid : undefined;
 
-  // RENDER
+    onConfirm(projectId, experimentId, templateId);
+  };
+
   return (
-    <>
-      `TODO ${projectId}`
-    </>
-    // <NewDeploymentModal
-    //   errorMessage={errorMessage}
-    //   loading={loading}
-    //   onClose={handleHideModal}
-    //   onConfirm={onConfirm}
-    //   validateStatus={validateStatus}
-    //   visible={visible}
-    // />
+    <NewDeploymentModalComponent
+      visible={visible}
+      experimentsData={experimentsData}
+      templatesData={templatesData}
+      onCancel={onCancel}
+      onConfirm={handleConfirm}
+    />
   );
+}
+
+NewDeploymentModal.propTypes = {
+  experimentsData: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
+  onCancel: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+  templatesData: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      user: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        avatarColor: PropTypes.string.isRequired,
+      }).isRequired,
+    })
+  ),
+  visible: PropTypes.bool.isRequired,
 };
 
-// EXPORT
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(NewDeploymentModalContainer)
+  connect(mapStateToProps, mapDispatchToProps)(NewDeploymentModal)
 );

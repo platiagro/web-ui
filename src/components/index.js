@@ -14,9 +14,11 @@ import ResizableSection from './ResizableSection';
 
 import TooltipTip from './TooltipTip';
 
+import NewDeploymentModal from './NewDeploymentModal';
+
 import ErrorRow from './ErrorRow';
 import DebugRow from './DebugRow';
-import InfoRow from './InfoRow'
+import InfoRow from './InfoRow';
 
 export {
   CommonTable,
@@ -29,6 +31,7 @@ export {
   PropertyBlock,
   ResizableSection,
   TooltipTip,
+  NewDeploymentModal,
   ErrorRow,
   DebugRow,
   InfoRow,
