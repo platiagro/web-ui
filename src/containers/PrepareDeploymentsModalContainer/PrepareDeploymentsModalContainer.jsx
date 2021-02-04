@@ -1,6 +1,7 @@
 // CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import { PrepareDeploymentsModal } from 'components/Modals';
@@ -13,8 +14,8 @@ import { prepareDeployments } from 'store/deployments/actions';
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleCloseModal: () => dispatch(hidePrepareDeploymentsModal()),
-    handlePrepareDeployments: (experimentId, projectId) => {
-      dispatch(prepareDeployments(experimentId, projectId, routerProps));
+    handlePrepareDeployments: (experiments, projectId) => {
+      dispatch(prepareDeployments(experiments, projectId, routerProps));
     },
   };
 };
@@ -41,13 +42,24 @@ const PrepareDeploymentsModalContainer = (props) => {
     visible,
   } = props;
 
+  const { projectId } = useParams();
+
+  const handleConfirm = (values) => {
+    const experimentsArray = Object.keys(values).filter(
+      (el) => values[el] === true
+    );
+    if (experimentsArray.length > 0) {
+      handlePrepareDeployments(experimentsArray, projectId);
+    }
+  };
+
   return (
     <PrepareDeploymentsModal
       visible={visible}
       loading={false}
       experiments={experiments}
       onClose={handleCloseModal}
-      onConfirm={handlePrepareDeployments}
+      onConfirm={handleConfirm}
     />
   );
 };
