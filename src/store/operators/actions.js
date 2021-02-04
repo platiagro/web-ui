@@ -127,6 +127,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
  *
  * @param {string} projectId
  * @param {string} experimentId
+ * @param dataset
  */
 export const clearOperatorsFeatureParametersRequest = (
   projectId,
@@ -194,9 +195,28 @@ export const clearOperatorsFeatureParametersRequest = (
 
 // // // // // // // // // //
 
-export const upadteOperatorDependencies = (operators) => (dispatch) => {
+export const upadteOperatorDependencies = (operators) => async (dispatch) => {
+  // getting tasks
+  const tasksResponse = await tasksApi.getAllTasks();
+  const tasks = tasksResponse.data.tasks;
+
+  // getting dataset columns
+  const datasetName = utils.getDatasetName(tasks, operators);
+  let datasetColumns = [];
+  if (datasetName) {
+    const response = await datasetsApi.listDatasetColumns(datasetName);
+    datasetColumns = response.data;
+  }
+
+  // configuring operators
+  let configuredOperators = utils.configureOperators(
+    tasks,
+    operators,
+    datasetColumns
+  );
+
   dispatch({
     type: actionTypes.UPDATE_OPERATOR_DEPENDENCIES,
-    operators,
+    operators: configuredOperators,
   });
 };
