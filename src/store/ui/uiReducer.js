@@ -1,6 +1,7 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import experimentsActionTypes from 'store/experiments/actionTypes';
+import experimentRunsActionTypes from 'store/experiments/experimentRuns/actionTypes';
 import projectActionTypes from 'store/project/actionTypes';
 import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
@@ -340,6 +341,15 @@ const uiReducer = (state = initialState, action = undefined) => {
         experimentsTabs: {
           ...state.experimentsTabs,
           loading: action.experimentsTabsLoading,
+        },
+      };
+
+    case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS:
+      return {
+        ...state,
+        experimentTraining: {
+          ...state.experimentTraining,
+          loading: action.experimentIsRunning,
         },
       };
 

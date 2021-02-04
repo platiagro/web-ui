@@ -42,7 +42,7 @@ const fetchProjectSuccess = (response) => (dispatch) => {
   // dispatching fetch project success action
   dispatch({
     type: actionTypes.FETCH_PROJECT_SUCCESS,
-    project,
+    payload: { ...project, loading: false },
   });
 };
 
@@ -63,7 +63,7 @@ const fetchProjectFail = (error, routerProps) => (dispatch) => {
   // dispatching fetch project fail action
   dispatch({
     type: actionTypes.FETCH_PROJECT_FAIL,
-    errorMessage,
+    payload: { loading: false },
   });
 
   message.error(errorMessage, 5);
@@ -88,6 +88,7 @@ export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_PROJECT_REQUEST,
+    payload: { loading: true },
   });
 
   // dispatching project name loading data action

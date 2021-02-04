@@ -452,7 +452,7 @@ function renameDeploymentFail(error) {
  * @param {string} newDeploymentName New deployment name
  * @returns {Function} Async action
  */
-function duplicateDeploymentRequest(
+export function duplicateDeploymentRequest(
   projectId,
   duplicatedDeploymentId,
   newDeploymentName

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Image } from 'antd';
+import { Image, Skeleton } from 'antd';
 
 // CONTAINER
 import NewExperimentModalContainer from 'components/Content/ExperimentsContent/NewExperimentModal/Container';
@@ -50,6 +50,10 @@ const mapStateToProps = (state) => {
 const ProjectDetailContainer = (props) => {
   const { project, handleNewExperimentModal } = props;
 
+  const { loading: projectLoading } = project;
+
+  const cardsClass = projectLoading ? 'cards' : 'cards active';
+
   let experimentsLength = 0;
   let fluxoLength = 0;
 
@@ -58,7 +62,9 @@ const ProjectDetailContainer = (props) => {
   }
 
   const redirectExperiment = () => {
-    history.push('/projetos/' + project.uuid + '/experimentos');
+    if (!projectLoading) {
+      history.push('/projetos/' + project.uuid + '/experimentos');
+    }
   };
 
   const history = useHistory();
@@ -81,13 +87,19 @@ const ProjectDetailContainer = (props) => {
               Novo Experimento
             </Button>
           </div>
-          <div className='cards' onClick={redirectExperiment}>
+          <div className={cardsClass} onClick={redirectExperiment}>
             <div className='experimentacaoImage'>
               <Image width={50} src={experimentacao} />
             </div>
 
             <div className='cardsText'>
-              <span>{experimentsLength}</span> experimento(s)
+              {projectLoading ? (
+                <Skeleton active />
+              ) : (
+                <>
+                  <span>{experimentsLength}</span> experimento(s)
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -106,13 +118,19 @@ const ProjectDetailContainer = (props) => {
               Escolher fluxo
             </Button>
           </div>
-          <div className='cards'>
+          <div className={cardsClass}>
             <div className='fluxoImage'>
               <Image width={50} src={fluxo} />
             </div>
 
             <div className='cardsText'>
-              <span>{fluxoLength}</span>fluxo(s)
+              {projectLoading ? (
+                <Skeleton active />
+              ) : (
+                <>
+                  <span>{fluxoLength}</span>fluxo(s)
+                </>
+              )}
             </div>
           </div>
         </div>

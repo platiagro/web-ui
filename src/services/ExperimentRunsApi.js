@@ -87,16 +87,20 @@ const retryExperimentRun = (projectId, experimentId, runId) => {
  * @param {string} experimentId Experiment UUID
  * @param {string} runId Run UUID
  * @param {string} operatorId Operator UUID
+ * @param {int} page Dataset Page
+ * @param {int} pageSize Dataset Page Size
  * @returns {Promise} Request Promise
  */
 const listOperatorDatasets = (
   projectId,
   experimentId,
   runId,
-  operatorId
+  operatorId,
+  page = 1,
+  pageSize = 10,
 ) => {
   return projectsApi.get(
-    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/datasets`
+    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=${pageSize}`,
   );
 };
 
@@ -146,7 +150,7 @@ const fetchOperatorLogs = (projectId, experimentId, runId, operatorId) => {
 };
 
 // EXPORT DEFAULT
-export default{ 
+export default {
   fetchExperimentRuns,
   fetchExperimentRunStatus,
   createExperimentRun,

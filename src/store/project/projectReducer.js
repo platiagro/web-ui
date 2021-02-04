@@ -9,10 +9,14 @@ const initialState = {
   description: null,
   updatedAt: null,
   uuid: null,
+  loading: false,
 };
 
 /**
  * project reducer
+ *
+ * @param state
+ * @param action
  */
 const projectReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
@@ -20,7 +24,7 @@ const projectReducer = (state = initialState, action = undefined) => {
     // project
     // fetch project success
     case actionTypes.FETCH_PROJECT_SUCCESS:
-      return { ...action.project };
+      return { ...action.project, ...action.payload };
     // create project success
     case actionTypes.CREATE_PROJECT_SUCCESS:
       return { ...action.project };
@@ -35,9 +39,13 @@ const projectReducer = (state = initialState, action = undefined) => {
     // FAIL
     // project
     case actionTypes.FETCH_PROJECT_FAIL:
+      return { ...state, ...action.payload };
     case actionTypes.DELETE_PROJECT_FAIL:
     case actionTypes.EDIT_PROJECT_NAME_FAIL:
       return { ...state };
+
+    case actionTypes.FETCH_PROJECT_REQUEST:
+      return { ...state, ...action.payload };
 
     // DEFAULT
     default:
