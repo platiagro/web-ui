@@ -17,8 +17,6 @@ const initialState = {
  *
  * @param state
  * @param action
- * @param state
- * @param action
  */
 const projectReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
