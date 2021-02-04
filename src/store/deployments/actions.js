@@ -14,6 +14,7 @@ import {
   implantedExperimentsDataLoaded,
   prepareDeploymentsLoadingData,
   prepareDeploymentsDataLoaded,
+  hidePrepareDeploymentsModal,
 } from 'store/ui/actions';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
@@ -345,10 +346,8 @@ export const fetchAllDeploymentsRuns = (
 export const prepareDeployments = (experiments, projectId, routerProps) => (
   dispatch
 ) => {
-  // TODO
-  // replace all the code below by the action
-  // by the service of preparation and remove Preparing log
-
+  // close prepare deployment modal
+  dispatch(hidePrepareDeploymentsModal());
   // dispatching request action
   dispatch(prepareDeploymentsLoadingData());
 

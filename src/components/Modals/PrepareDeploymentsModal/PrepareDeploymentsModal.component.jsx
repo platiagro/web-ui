@@ -13,6 +13,7 @@ const PrepareDeploymentsModal = (props) => {
   const handleConfirm = () => {
     form.validateFields().then((values) => {
       onConfirm(values);
+      form.resetFields();
     });
   };
 
