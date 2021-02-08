@@ -3,25 +3,38 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // UI LIBS
-import { Modal, Checkbox } from 'antd';
+import { Modal, Checkbox, Form } from 'antd';
 import './style.less';
 
 const PrepareDeploymentsModal = (props) => {
   const { visible, experiments, onClose, onConfirm } = props;
+  const [form] = Form.useForm();
+
+  const handleConfirm = () => {
+    form.validateFields().then((values) => {
+      onConfirm(values);
+      form.resetFields();
+    });
+  };
+
   return (
     <Modal
       visible={visible}
       title='Preparar para a implantação'
-      onOk={onConfirm}
+      onOk={handleConfirm}
       onCancel={onClose}
     >
       <p>Selecione os fluxos:</p>
 
-      {experiments.map((e) => (
-        <Checkbox key={e.uuid} className='ant-checkbox-group-item'>
-          {e.name}
-        </Checkbox>
-      ))}
+      <Form form={form} name='form_in_modal'>
+        {experiments.map((e) => (
+          <Form.Item name={e.uuid} valuePropName='checked'>
+            <Checkbox key={e.uuid} className='ant-checkbox-group-item'>
+              {e.name}
+            </Checkbox>
+          </Form.Item>
+        ))}
+      </Form>
     </Modal>
   );
 };
@@ -38,6 +51,12 @@ PrepareDeploymentsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   /** modal confirm handler */
   onConfirm: PropTypes.func.isRequired,
+};
+
+// DEFAULT PROPS
+PrepareDeploymentsModal.defaultProps = {
+  experiments: [],
+  onConfirm: () => console.log('on Confirm!'),
 };
 
 export default PrepareDeploymentsModal;
