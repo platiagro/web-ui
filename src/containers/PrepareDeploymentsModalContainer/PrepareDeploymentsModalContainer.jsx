@@ -1,7 +1,7 @@
 // CORE LIBS
 import React from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
 import { PrepareDeploymentsModal } from 'components/Modals';
@@ -64,7 +64,6 @@ const PrepareDeploymentsModalContainer = (props) => {
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PrepareDeploymentsModalContainer);
+export default withRouter(
+  connect(mapStateToProps,mapDispatchToProps)(PrepareDeploymentsModalContainer)
+);
