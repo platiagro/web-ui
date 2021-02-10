@@ -425,11 +425,7 @@ const transformColumnsInParameterOptions = (datasetColumns) => {
  * @param {object[]} datasetColumns dataset columns list
  * @returns {object[]} configured operators
  */
-const configureOperators = (
-  tasks,
-  operators,
-  datasetColumns
-) => {
+const configureOperators = (tasks, operators, datasetColumns) => {
   // transforming dataset columns to feature parameter options
   const featureOptions = transformColumnsInParameterOptions(datasetColumns);
 
@@ -546,7 +542,7 @@ const getDatasetName = (tasks, operators) => {
   if (datasetOperator) {
     const parameters = datasetOperator.parameters;
     if (parameters instanceof Array) {
-      datasetName = parameters[0]?.value;
+      datasetName = parameters.find((i) => i.name === 'dataset')?.value;
     } else {
       datasetName = parameters.dataset;
     }
