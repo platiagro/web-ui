@@ -52,6 +52,7 @@ const Button = (props) => {
     shape,
     type,
     handleClick,
+    color,
   } = props;
 
   // rendering component
@@ -63,6 +64,7 @@ const Button = (props) => {
       shape={shape}
       type={type}
       onClick={handleClick}
+      style={color ? { backgroundColor: color, borderColor: color } : {}}
     >
       {children}
     </AntButton>
@@ -85,6 +87,8 @@ Button.propTypes = {
   type: PropTypes.string.isRequired,
   /** Button shape */
   shape: PropTypes.string,
+  /** Button custom color */
+  color: PropTypes.string,
 };
 
 // DEFAULT PROPS
@@ -93,6 +97,8 @@ Button.defaultProps = {
   icon: undefined,
   /** Button shape */
   shape: undefined,
+  /** Button custom color */
+  color: undefined,
 };
 
 // EXPORT DEFAULT
