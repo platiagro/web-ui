@@ -1,7 +1,6 @@
 **Exemplo:**
 
 ```js
-import PropertiesPanel from 'components/PropertiesPanel';
 const handleChange = (e) => {
   console.log(e);
 };
@@ -11,9 +10,8 @@ const handleChange = (e) => {
   propertyTitle='Tipo da fonte de dados'
   propertyTip='Dica'
   handleChange={handleChange}
-  urlText='url copiada'
+  urlText='Url para cópia'
   knowMoreUrl='/'
   description='Um texto falando sobre como uma aplicação pode enviar dados para o fluxo (através de uma URL) a fim de testá-lo antes da implantação.'
 />;
-// </PropertiesPanel>;
 ```

@@ -5,8 +5,9 @@ import React from 'react';
 // COMPONENTS
 import { PropertyBlock } from 'components';
 import { SelectInputBlock } from 'components/InputBlocks';
-import { Button } from 'uiComponents';
 import { CopyOutlined } from '@ant-design/icons';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Button } from 'antd';
 
 // STYLES
 import './ExternalDatasetDrawer.component.style.less';
@@ -43,14 +44,16 @@ const ExternalDatasetDrawer = (props) => {
             Saiba mais
           </a>
         </p>
-        <Button
-          type='primary'
-          shape='round'
-          color='#237804'
-          handleClick={() => alert(urlText)}
-        >
-          <CopyOutlined /> Copiar URL
-        </Button>
+        <CopyToClipboard text={urlText}>
+          <Button
+            style={{ backgroundColor: '#237804', borderColor: '#237804' }}
+            icon={<CopyOutlined />}
+            shape='round'
+            type='primary'
+          >
+            Copiar URL
+          </Button>
+        </CopyToClipboard>
       </div>
     </div>
   );
