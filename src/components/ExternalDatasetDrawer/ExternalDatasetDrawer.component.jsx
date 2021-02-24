@@ -17,11 +17,11 @@ import './ExternalDatasetDrawer.component.style.less';
  */
 const ExternalDatasetDrawer = (props) => {
   const {
-    handleChange,
+    onChange,
     urlText,
     propertyTip,
     propertyTitle,
-    knowMoreUrl,
+    onClickLearnMore,
     description,
   } = props;
 
@@ -32,7 +32,7 @@ const ExternalDatasetDrawer = (props) => {
           key='externalDataset'
           placeholder='Selecionar'
           options={['Arquivo local', 'Aplicação externa']}
-          handleChange={(newValue) => handleChange(newValue)}
+          handleChange={(newValue) => onChange(newValue)}
           value='Aplicação externa'
           valueLatestTraining='Aplicação externa'
         />
@@ -40,7 +40,7 @@ const ExternalDatasetDrawer = (props) => {
       <div className='externalDatasetDrawerUrl'>
         <p>{description}</p>
         <p>
-          <a href={knowMoreUrl} target='_blank' rel='noopener noreferrer'>
+          <a onClick={onClickLearnMore}>
             Saiba mais
           </a>
         </p>
@@ -68,11 +68,11 @@ ExternalDatasetDrawer.propTypes = {
   /** Property tip on first block*/
   propertyTip: PropTypes.string.isRequired,
   /** Function to change selector */
-  handleChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   /** Description text */
   description: PropTypes.string.isRequired,
-  /** Url on anchor link */
-  knowMoreUrl: PropTypes.string,
+  /** Function to click on anchor link */
+  onClickLearnMore: PropTypes.func.isRequired,
 };
 
 // EXPORT DEFAULT
