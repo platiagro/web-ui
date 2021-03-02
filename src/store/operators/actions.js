@@ -195,18 +195,18 @@ export const clearOperatorsFeatureParametersRequest = (
 
 // // // // // // // // // //
 
-export const upadteOperatorDependencies = (operators) => async (dispatch) => {
+export const upadteOperatorDependencies = (operators) => async (
+  dispatch,
+  getState
+) => {
+  // getting store data
+  const { tasksReducer, datasetReducer } = getState();
+
   // getting tasks
-  const tasksResponse = await tasksApi.getAllTasks();
-  const tasks = tasksResponse.data.tasks;
+  const { tasks } = tasksReducer;
 
   // getting dataset columns
-  const datasetName = utils.getDatasetName(tasks, operators);
-  let datasetColumns = [];
-  if (datasetName) {
-    const response = await datasetsApi.listDatasetColumns(datasetName);
-    datasetColumns = response.data;
-  }
+  const { datasetColumns } = datasetReducer;
 
   // configuring operators
   let configuredOperators = utils.configureOperators(
@@ -215,6 +215,7 @@ export const upadteOperatorDependencies = (operators) => async (dispatch) => {
     datasetColumns
   );
 
+  // create/dispatch action
   dispatch({
     type: actionTypes.UPDATE_OPERATOR_DEPENDENCIES,
     operators: configuredOperators,
