@@ -203,8 +203,8 @@ const ExperimentFlowDrop = DropTarget(
     },
     drop: (props, monitor) => {
       const delta = monitor.getClientOffset();
-
-      // const offset = props.flowTransform;
+      delta.x = delta.x ?? 435;
+      delta.y = delta.y ?? 189;
 
       const offset = {
         x: props.transformations[0],
