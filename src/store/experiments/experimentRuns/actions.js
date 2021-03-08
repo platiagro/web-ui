@@ -110,7 +110,6 @@ const createExperimentRunSuccess = (projectId, routerProps, response) => (dispat
     runId: response.data.uuid
   });
 
-  routerProps.history.push(`/projetos/${projectId}/experimentos`);
   message.success('Treinamento iniciado!');
 };
 
