@@ -68,6 +68,12 @@ const ProjectDetailContainer = (props) => {
     }
   };
 
+  const redirectDeployments = () => {
+    if (!projectLoading) {
+      history.push('/projetos/' + project.uuid + '/pre-implantacao');
+    }
+  };
+
   const history = useHistory();
 
   return (
@@ -119,7 +125,7 @@ const ProjectDetailContainer = (props) => {
               Escolher fluxo
             </Button>
           </div>
-          <div className={cardsClass}>
+          <div className={cardsClass} onClick={redirectDeployments}>
             <div className='fluxoImage'>
               <Image width={50} src={fluxo} />
             </div>
