@@ -59,6 +59,7 @@ const ProjectDetailContainer = (props) => {
 
   if (project.uuid != null) {
     experimentsLength = project.experiments.length;
+    fluxoLength = project.deployments.length;
   }
 
   const redirectExperiment = () => {
