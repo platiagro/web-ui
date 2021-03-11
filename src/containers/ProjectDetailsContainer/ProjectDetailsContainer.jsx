@@ -59,11 +59,18 @@ const ProjectDetailContainer = (props) => {
 
   if (project.uuid != null) {
     experimentsLength = project.experiments.length;
+    fluxoLength = project.deployments.length;
   }
 
   const redirectExperiment = () => {
     if (!projectLoading) {
       history.push('/projetos/' + project.uuid + '/experimentos');
+    }
+  };
+
+  const redirectDeployments = () => {
+    if (!projectLoading) {
+      history.push('/projetos/' + project.uuid + '/pre-implantacao');
     }
   };
 
@@ -118,7 +125,7 @@ const ProjectDetailContainer = (props) => {
               Escolher fluxo
             </Button>
           </div>
-          <div className={cardsClass}>
+          <div className={cardsClass} onClick={redirectDeployments}>
             <div className='fluxoImage'>
               <Image width={50} src={fluxo} />
             </div>
