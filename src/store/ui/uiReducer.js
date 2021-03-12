@@ -68,6 +68,7 @@ const initialState = {
     loading: false,
   },
   prepareDeployments: { loading: false },
+  externalDatasetHelperModal: { visible: false },
 };
 
 const uiReducer = (state = initialState, action = undefined) => {
@@ -602,6 +603,16 @@ const uiReducer = (state = initialState, action = undefined) => {
         ...state,
         newDeploymentModal: {
           ...state.newDeploymentModal,
+          visible: action.visible,
+        },
+      };
+
+    case actionTypes.SHOW_EXTERNAL_DATASET_HELPER_MODAL:
+    case actionTypes.HIDE_EXTERNAL_DATASET_HELPER_MODAL:
+      return {
+        ...state,
+        externalDatasetHelperModal: {
+          ...state.externalDatasetHelperModal,
           visible: action.visible,
         },
       };
