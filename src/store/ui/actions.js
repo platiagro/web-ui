@@ -1010,3 +1010,17 @@ export const prepareDeploymentsDataLoaded = () => {
     prepareDeploymentsLoading: false,
   };
 };
+
+export const showExternalDatasetHelperModal = () => {
+  return {
+    type: actionTypes.SHOW_EXTERNAL_DATASET_HELPER_MODAL,
+    visible: true,
+  };
+};
+
+export const hideExternalDatasetHelperModal = () => {
+  return {
+    type: actionTypes.HIDE_EXTERNAL_DATASET_HELPER_MODAL,
+    visible: false,
+  };
+};
