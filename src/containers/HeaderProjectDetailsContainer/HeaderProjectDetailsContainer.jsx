@@ -52,6 +52,7 @@ const ContentHeaderProjectDetailsContainer = (props) => {
   // destructuring props
   const {
     project,
+    loading,
     handleFetchProject,
     handleEditProjectName,
     handleDeleteProject,
@@ -87,6 +88,7 @@ const ContentHeaderProjectDetailsContainer = (props) => {
   return (
     <ContentHeader
       title={project.name}
+      loading={loading}
       customSubTitle='Meus projetos'
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
