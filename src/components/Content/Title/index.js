@@ -41,7 +41,9 @@ const Title = (props) => {
       {/* if loading */}
       {loading ? (
         // loading
-        <Spin indicator={<LoadingOutlined />} />
+        <div>
+          <Spin indicator={<LoadingOutlined />} />
+        </div>
       ) : (
         <EditTitle
           level={level}
