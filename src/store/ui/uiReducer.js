@@ -1,3 +1,5 @@
+// TODO: Simplificar
+
 // ACTION TYPES
 import actionTypes from './actionTypes';
 import experimentsActionTypes from 'store/experiments/actionTypes';
