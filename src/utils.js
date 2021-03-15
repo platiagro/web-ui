@@ -268,7 +268,11 @@ const getTagConfig = (tag) => {
     TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: <FileOutlined /> },
   };
 
-  return tagsConfig[tag];
+  if (tagsConfig[tag] !== undefined) {
+    return tagsConfig[tag];
+  }
+
+  return tagsConfig['DEFAULT'];
 };
 
 /**
