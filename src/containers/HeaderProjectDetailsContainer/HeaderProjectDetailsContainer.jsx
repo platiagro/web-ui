@@ -21,7 +21,6 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 import './style.less';
 
-
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
@@ -100,10 +99,7 @@ const ContentHeaderProjectDetailsContainer = (props) => {
               okText='Sim'
               cancelText='Não'
             >
-              <Button
-                icon={<DeleteOutlined />}
-                className='buttonDelete'
-              />
+              <Button icon={<DeleteOutlined />} className='buttonDelete' />
             </Popconfirm>
           </Tooltip>
           <AccountInfo />
