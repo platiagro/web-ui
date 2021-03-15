@@ -21,6 +21,9 @@ import {
 // OPERATORS ACTIONS
 import { fetchOperatorsRequest } from '../operators/actions';
 
+// RUNS ACTIONS
+import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
+
 // UTILS
 import utils from '../../utils';
 
@@ -324,6 +327,8 @@ const updateExperimentName = (projectId, experimentId, newName) => (
  */
 const activeExperiment = (projectId, experimentId) => (dispatch) => {
   dispatch({ type: actionTypes.ACTIVE_EXPERIMENT });
+
+  dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
 
   // dispatching experiment name loading data action
   dispatch(experimentNameLoadingData());
