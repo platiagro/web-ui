@@ -206,13 +206,13 @@ export const upadteOperatorDependencies = (operators) => async (
   const { tasks } = tasksReducer;
 
   // getting dataset columns
-  const { datasetColumns } = datasetReducer;
+  const { columns } = datasetReducer;
 
   // configuring operators
   let configuredOperators = utils.configureOperators(
     tasks,
     operators,
-    datasetColumns
+    columns
   );
 
   // create/dispatch action
