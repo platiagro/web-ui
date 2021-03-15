@@ -3,9 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // UI LIBS
-import { LoadingOutlined } from '@ant-design/icons';
-import { Spin } from 'antd';
+import { Skeleton } from 'antd';
 import EditTitle from './EditTitle/Container';
+
+import './style.less';
 
 /**
  * Title.
@@ -37,13 +38,16 @@ const Title = (props) => {
   // RENDER
   return (
     // fragment container
-    <>
+    <div className='Title'>
       {/* if loading */}
       {loading ? (
         // loading
-        <div>
-          <Spin indicator={<LoadingOutlined />} />
-        </div>
+        <Skeleton
+          className='skeleton-title'
+          title={{ width: 150 }}
+          paragraph={false}
+          active
+        />
       ) : (
         <EditTitle
           level={level}
@@ -52,7 +56,7 @@ const Title = (props) => {
           beforeSubmit={beforeSubmit}
         />
       )}
-    </>
+    </div>
   );
 };
 
