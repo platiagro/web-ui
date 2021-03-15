@@ -323,6 +323,7 @@ const updateExperimentName = (projectId, experimentId, newName) => (
  * @returns {Function}
  */
 const activeExperiment = (projectId, experimentId) => (dispatch) => {
+  dispatch({ type: actionTypes.ACTIVE_EXPERIMENT });
 
   // dispatching experiment name loading data action
   dispatch(experimentNameLoadingData());
