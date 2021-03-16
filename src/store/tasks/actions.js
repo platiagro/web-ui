@@ -106,11 +106,14 @@ export const deleteTask = (id) => {
     return tasksApi
       .deleteTask(id)
       .then(() => {
+        const successMessage = 'Tarefa excluída';
+
         dispatch(tasksTableDataLoaded());
         dispatch({
           type: actionTypes.DELETE_TASK,
           id,
         });
+        message.success(successMessage, 5);
       })
       .catch((error) => {
         let errorMessage;
