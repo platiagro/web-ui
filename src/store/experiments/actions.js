@@ -21,6 +21,9 @@ import {
 // OPERATORS ACTIONS
 import { fetchOperatorsRequest } from '../operators/actions';
 
+// RUNS ACTIONS
+import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
+
 // UTILS
 import utils from '../../utils';
 
@@ -131,7 +134,9 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
   message.success(`Experimento ${experiment.name} criado!`);
 
   // go to new experiment
-  routerProps.history.push(`/projetos/${projectId}/experimentos/${experiment.uuid}`);
+  routerProps.history.push(
+    `/projetos/${projectId}/experimentos/${experiment.uuid}`
+  );
 };
 
 /**
@@ -206,7 +211,7 @@ const createExperimentRequest = (
       dispatch(createExperimentSuccess(response, projectId, routerProps))
     )
     .catch((error) => dispatch(createExperimentFail(error, duplicate)));
-  };
+};
 
 // // // // // // // // // //
 
@@ -227,13 +232,13 @@ const updateExperimentSuccess = (response) => (dispatch, getState) => {
   dispatch(experimentNameDataLoaded());
 
   const currentState = getState();
-  const experimentsState = currentState.experimentsReducer
+  const experimentsState = currentState.experimentsReducer;
 
   const experiments = experimentsState.map((experiment) => {
     return experiment.uuid !== updatedExperiment.uuid
       ? experiment
-      : { ...experiment, ...updatedExperiment }
-  })
+      : { ...experiment, ...updatedExperiment };
+  });
 
   // dispatching update experiment success
   dispatch({
@@ -278,9 +283,11 @@ const updateExperimentFail = (error) => (dispatch) => {
  * @param {object} experimentUpdated
  * @returns {Function}
  */
-const updateExperimentRequest = (projectId, experimentId, experimentUpdated) => (
-  dispatch
-) => {
+const updateExperimentRequest = (
+  projectId,
+  experimentId,
+  experimentUpdated
+) => (dispatch) => {
   // dispatching experiments tabs loading data action
   dispatch(experimentsTabsLoadingData());
 
@@ -318,9 +325,11 @@ const updateExperimentName = (projectId, experimentId, newName) => (
  * @param {string} experimentId Experiment UUID
  * @returns {Function}
  */
-const activeExperiment = (projectId, experimentId) => (
-  dispatch
-) => {
+const activeExperiment = (projectId, experimentId) => (dispatch) => {
+  dispatch({ type: actionTypes.ACTIVE_EXPERIMENT });
+
+  dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
+
   // dispatching experiment name loading data action
   dispatch(experimentNameLoadingData());
 
@@ -342,7 +351,8 @@ const activeExperiment = (projectId, experimentId) => (
  * @returns {object} { type, experiments }
  */
 const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
-  dispatch, getState
+  dispatch,
+  getState
 ) => {
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
@@ -355,14 +365,14 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
 
   // get current state
   const currentState = getState();
-  const experimentsState = currentState.experimentsReducer
+  const experimentsState = currentState.experimentsReducer;
   // get list of experiments without the deleted one
   const experiments = utils.deleteExperiment(experimentsState, experimentId);
 
   // dispatching delete experiment success
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_SUCCESS,
-    experiments
+    experiments,
   });
 
   message.success(`Experimento excluído!`);
@@ -405,11 +415,9 @@ const deleteExperimentFail = (error) => (dispatch) => {
  * @param {object} routerProps
  * @returns {Function}
  */
-const deleteExperimentRequest = (
-  projectId,
-  experimentId,
-  routerProps
-) => (dispatch) => {
+const deleteExperimentRequest = (projectId, experimentId, routerProps) => (
+  dispatch
+) => {
   // dispatching experiments tabs loading data action
   dispatch(experimentsTabsLoadingData());
 
@@ -440,20 +448,25 @@ const deleteExperimentRequest = (
  * @returns {object} { type, experiments }
  */
 const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
-  dispatch, getState
+  dispatch,
+  getState
 ) => {
   // dispatching experiments tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
   const currentState = getState();
-  const experimentsState = currentState.experimentsReducer
+  const experimentsState = currentState.experimentsReducer;
 
-  const experiments = utils.organizeExperiments(experimentsState, dragExperimentId, hoverExperimentId);
+  const experiments = utils.organizeExperiments(
+    experimentsState,
+    dragExperimentId,
+    hoverExperimentId
+  );
 
   // dispatching organize experiments success action
   dispatch({
     type: actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS,
-    experiments
+    experiments,
   });
 };
 
@@ -512,7 +525,7 @@ const organizeExperimentsRequest = (
       dispatch(organizeExperimentsSuccess(dragExperimentId, hoverExperimentId))
     )
     .catch((error) => dispatch(organizeExperimentsFail(error)));
-  };
+};
 
 /**
  * clear all experiments action
