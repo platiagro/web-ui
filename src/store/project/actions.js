@@ -92,7 +92,7 @@ export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
   });
 
   // dispatching project name loading data action
-  dispatch(projectNameLoadingData({}));
+  dispatch(projectNameLoadingData());
 
   // fetching project
   projectsApi
