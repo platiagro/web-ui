@@ -15,8 +15,6 @@ import {
   experimentTrainingDataLoaded,
   experimentTrainingLoadingData,
   implantedExperimentsLoadingData,
-  experimentNameLoadingData,
-  experimentNameDataLoaded
 } from 'store/ui/actions';
 
 // ACTIONS
@@ -27,12 +25,10 @@ import {
  * @param {object} response Response body
  * @returns {object} { type, experiment }
  */
-const fetchExperimentRunsSuccess = (response) => (
-  dispatch
-) => {
+const fetchExperimentRunsSuccess = (response) => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_RUNS_SUCCESS,
-    runs: response.data
+    runs: response.data,
   });
 };
 
@@ -43,9 +39,7 @@ const fetchExperimentRunsSuccess = (response) => (
  * @param routerProps
  * @returns {object} { type, errorMessage }
  */
-const fetchExperimentRunsFail = (error, routerProps) => (
-  dispatch
-) => {
+const fetchExperimentRunsFail = (error, routerProps) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -72,11 +66,9 @@ const fetchExperimentRunsFail = (error, routerProps) => (
  * @param routerProps
  * @returns {Function}
  */
-const fetchExperimentRunsRequest = (
-  projectId,
-  experimentId,
-  routerProps
-) => (dispatch) => {
+const fetchExperimentRunsRequest = (projectId, experimentId, routerProps) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_EXPERIMENT_RUNS_REQUEST,
@@ -90,8 +82,8 @@ const fetchExperimentRunsRequest = (
     })
     .catch((error) => {
       dispatch(fetchExperimentRunsFail(error, routerProps));
-    })
-  };
+    });
+};
 
 // // // // // // // // // //
 
@@ -104,10 +96,12 @@ const fetchExperimentRunsRequest = (
  * @param {object} response Response
  * @returns {object} { type }
  */
-const createExperimentRunSuccess = (projectId, routerProps, response) => (dispatch) => {
+const createExperimentRunSuccess = (projectId, routerProps, response) => (
+  dispatch
+) => {
   dispatch({
     type: actionTypes.CREATE_EXPERIMENT_RUN_SUCCESS,
-    runId: response.data.uuid
+    runId: response.data.uuid,
   });
 
   message.success('Treinamento iniciado!');
@@ -121,7 +115,7 @@ const createExperimentRunSuccess = (projectId, routerProps, response) => (dispat
  */
 const createExperimentRunFail = (error) => (dispatch) => {
   dispatch({
-    type: actionTypes.CREATE_EXPERIMENT_RUN_FAIL
+    type: actionTypes.CREATE_EXPERIMENT_RUN_FAIL,
   });
 
   // dispatching experiment training data loaded
@@ -139,17 +133,21 @@ const createExperimentRunFail = (error) => (dispatch) => {
  * @param routerProps
  * @returns {Function}
  */
-const createExperimentRunRequest = (projectId, experimentId, routerProps) => (dispatch) => {
+const createExperimentRunRequest = (projectId, experimentId, routerProps) => (
+  dispatch
+) => {
   dispatch({
     type: actionTypes.CREATE_EXPERIMENT_RUN_REQUEST,
   });
 
   // dispatching experiment training loading data action
-  dispatch(experimentTrainingLoadingData())
+  dispatch(experimentTrainingLoadingData());
 
   experimentRunsApi
     .createExperimentRun(projectId, experimentId)
-    .then((response) => dispatch(createExperimentRunSuccess(projectId, routerProps, response)))
+    .then((response) =>
+      dispatch(createExperimentRunSuccess(projectId, routerProps, response))
+    )
     .catch((error) => dispatch(createExperimentRunFail(error)));
 };
 
@@ -163,11 +161,11 @@ const createExperimentRunRequest = (projectId, experimentId, routerProps) => (di
  * @returns {object} { type }
  */
 const deleteExperimentRunSuccess = (response) => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData())
+  dispatch(implantedExperimentsLoadingData());
 
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_RUN_SUCCESS,
-    runs: []
+    runs: [],
   });
 
   message.loading('Interrompendo execução...', 5);
@@ -183,7 +181,7 @@ const deleteExperimentRunFail = (error) => (dispatch) => {
   dispatch(experimentDeleteTrainingDataLoaded());
 
   dispatch({
-    type: actionTypes.DELETE_EXPERIMENT_RUN_FAIL
+    type: actionTypes.DELETE_EXPERIMENT_RUN_FAIL,
   });
 
   const errorMessage = error.message;
@@ -200,7 +198,7 @@ const deleteExperimentRunFail = (error) => (dispatch) => {
 const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_RUN_REQUEST,
-  })
+  });
 
   dispatch(experimentDeleteTrainingLoadingData());
 
@@ -222,7 +220,10 @@ const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
  * @param {string} experimentId The experiment id
  * @returns {object} { type }
  */
-const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, getState) => {
+const fetchExperimentRunStatusSuccess = (response, experimentId) => (
+  dispatch,
+  getState
+) => {
   const { uiReducer } = getState();
   const operators = response.data.operators;
 
@@ -243,9 +244,9 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
     });
 
     if (isAllPending) {
-      dispatch(experimentNameLoadingData());
+      dispatch(experimentTrainingLoadingData());
     } else {
-      dispatch(experimentNameDataLoaded());
+      dispatch(experimentTrainingDataLoaded());
     }
 
     if (!stoppedRun) {
@@ -269,7 +270,7 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
 
       dispatch({
         type: actionTypes.EXPERIMENT_RUN_SUCCEEDED,
-        experiments
+        experiments,
       });
     }
 
@@ -303,7 +304,10 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (dispatch, g
  * @param experimentId
  * @returns {object} { type, errorMessage }
  */
-const fetchExperimentRunStatusFail = (error, experimentId) => (dispatch, getState) => {
+const fetchExperimentRunStatusFail = (error, experimentId) => (
+  dispatch,
+  getState
+) => {
   const errorMessage = error.message;
 
   // experiment training isn't running
@@ -320,7 +324,7 @@ const fetchExperimentRunStatusFail = (error, experimentId) => (dispatch, getStat
     dispatch(experimentTrainingDataLoaded());
     dispatch({
       type: actionTypes.EXPERIMENT_RUN_NOT_SUCCEEDED,
-      experiments
+      experiments,
     });
   }
 };
@@ -344,8 +348,12 @@ export const fetchExperimentRunStatusRequest = (projectId, experimentId) => (
   // the status of the experiment is defined by the status of its operators
   operatorsApi
     .listOperators(projectId, experimentId)
-    .then((response) => dispatch(fetchExperimentRunStatusSuccess(response, experimentId)))
-    .catch((error) => dispatch(fetchExperimentRunStatusFail(error, experimentId)));
+    .then((response) =>
+      dispatch(fetchExperimentRunStatusSuccess(response, experimentId))
+    )
+    .catch((error) =>
+      dispatch(fetchExperimentRunStatusFail(error, experimentId))
+    );
 };
 
 // EXPORT DEFAUL
@@ -354,4 +362,4 @@ export default {
   createExperimentRunRequest,
   deleteExperimentRunRequest,
   fetchExperimentRunStatusRequest,
-}
+};
