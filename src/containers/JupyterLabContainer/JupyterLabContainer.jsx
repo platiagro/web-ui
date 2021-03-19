@@ -35,6 +35,8 @@ const JupyterLabContainer = (props) => {
 
   const { healthy, handleFetchJupyterLabHealth } = props;
 
+  const qs = props.location.search;
+
   // HOOKS
   // did mount hook
   useEffect(() => {
@@ -42,6 +44,9 @@ const JupyterLabContainer = (props) => {
       let url = '/notebook/anonymous/server/lab';
       if (path !== undefined) {
         url = `${url}/${path}`;
+      }
+      if (qs !== undefined) {
+        url = `${url}${qs}`;
       }
       window.location.href = url;
     }
@@ -51,7 +56,7 @@ const JupyterLabContainer = (props) => {
     // polling experiment status
     const polling = setInterval(() => handleFetchJupyterLabHealth(), 5000);
     return () => clearInterval(polling);
-  }, [path, healthy, handleFetchJupyterLabHealth]);
+  }, [path, qs, healthy, handleFetchJupyterLabHealth]);
 
   return <PreloadAnimation />;
 };
