@@ -42,6 +42,7 @@ const Routes = [
   },
   {
     path: '/jupyterlab',
+    exact: true,
     component: JupyterLab,
   },
   {
