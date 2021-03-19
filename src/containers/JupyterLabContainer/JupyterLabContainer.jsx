@@ -41,7 +41,7 @@ const JupyterLabContainer = (props) => {
     if (healthy) {
       let url = '/notebook/anonymous/server/lab';
       if (path !== undefined) {
-        url += `${url}/${path}`;
+        url = `${url}/${path}`;
       }
       window.location.href = url;
     }
