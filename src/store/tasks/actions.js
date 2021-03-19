@@ -63,12 +63,8 @@ export const addTask = (task) => {
         dispatch(closeTasksModal());
         message.success(`Tarefa adicionada com sucesso.`);
         await sleep(1000);
-        const jupyterDomain =
-          process.env.NODE_ENV === 'development'
-            ? process.env.REACT_APP_MAIN_DOMAIN
-            : '';
         window.open(
-          `${jupyterDomain}/notebook/anonymous/server/lab/tree/tasks/${responseTask.name}/?reset&open=Experiment.ipynb,Deployment.ipynb`
+          `/jupyterlab/lab/tree/tasks/${responseTask.name}/?reset&open=Experiment.ipynb,Deployment.ipynb`
         );
       })
       .catch((error) => {
