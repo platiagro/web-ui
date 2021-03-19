@@ -5,8 +5,6 @@ import React from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Result, Spin } from 'antd';
 
-import './PreloadAnimation.less';
-
 /**
  * Renders an animation while some content is loading.
  */
