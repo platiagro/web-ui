@@ -14,6 +14,7 @@ import './NewDeploymentModal.style.less';
 function NewDeploymentModal(props) {
   const {
     visible,
+    loading,
     experimentsData,
     templatesData,
     onCancel,
@@ -78,6 +79,7 @@ function NewDeploymentModal(props) {
       cancelText='Cancelar'
       okText='Confirmar'
       className='newDeploymentModal'
+      confirmLoading={loading}
     >
       <div>
         <Input
@@ -125,6 +127,7 @@ NewDeploymentModal.propTypes = {
     })
   ),
   visible: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default NewDeploymentModal;
