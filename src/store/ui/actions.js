@@ -1024,3 +1024,17 @@ export const hideExternalDatasetHelperModal = () => {
     visible: false,
   };
 };
+
+export const newDeploymentModalStartLoading = () => {
+  return {
+    type: actionTypes.DEPLOYMENT_MODAL_START_LOADING,
+    payload: true,
+  };
+};
+
+export const newDeploymentModalEndLoading = () => {
+  return {
+    type: actionTypes.DEPLOYMENT_MODAL_START_LOADING,
+    payload: false,
+  };
+};

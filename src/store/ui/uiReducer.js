@@ -28,7 +28,7 @@ const initialState = {
     errorMessage: null,
   },
   newTemplateModal: { visible: false },
-  newDeploymentModal: { visible: false },
+  newDeploymentModal: { visible: false, loading: false },
   usingDeploymentsModal: { visible: false },
   operatorDrawer: {
     visible: false,
@@ -606,6 +606,16 @@ const uiReducer = (state = initialState, action = undefined) => {
         newDeploymentModal: {
           ...state.newDeploymentModal,
           visible: action.visible,
+        },
+      };
+
+    case actionTypes.DEPLOYMENT_MODAL_START_LOADING:
+    case actionTypes.DEPLOYMENT_MODAL_END_LOADING:
+      return {
+        ...state,
+        newDeploymentModal: {
+          ...state.newDeploymentModal,
+          loading: action.payload,
         },
       };
 
