@@ -41,12 +41,7 @@ const Routes = [
     component: TaskContent,
   },
   {
-    path: '/jupyterlab',
-    exact: true,
-    component: JupyterLab,
-  },
-  {
-    path: '/jupyterlab/:path+',
+    path: '/jupyterlab/:path*',
     component: JupyterLab,
   },
   {
