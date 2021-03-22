@@ -23,14 +23,14 @@ function NewDeploymentModal(props) {
   const [filteredExperiments, setFilteredExperiments] = useState(
     experimentsData
   );
-
   const [filteredTemplates, setFilteredTemplates] = useState(templatesData);
   const [selectedUuid, setSelectedUuid] = useState(undefined);
   const [selectedType, setSelectedType] = useState(undefined);
 
   useEffect(() => {
     setFilteredExperiments(experimentsData);
-  }, [experimentsData]);
+    setFilteredTemplates(templatesData);
+  }, [experimentsData, templatesData]);
 
   const handleSearch = (e) => {
     const filterValue = e.target.value.toLowerCase();
