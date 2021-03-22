@@ -14,13 +14,21 @@ function TemplatesTable(props) {
 
   const renderName = (text) => <strong>{text}</strong>;
 
-  const renderUser = (user, index) => (
-    <UserAvatar
-      userName={user.username}
-      key={user.name + index}
-      avatarColor={user.avatarColor}
-    />
-  );
+  const renderUser = (user, index) => {
+    /*
+      TODO: Backend ainda não retorna os dados do usuário, quando retornar é só
+      remover o bloco abaixo.
+    */
+    user = user || { userName: 'Anônimo', avatarColor: 'grey' };
+
+    return (
+      <UserAvatar
+        userName={user.userName}
+        key={user.userName + index}
+        avatarColor={user.avatarColor}
+      />
+    );
+  };
 
   const columns = [
     {
