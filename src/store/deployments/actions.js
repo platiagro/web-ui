@@ -15,6 +15,9 @@ import {
   prepareDeploymentsLoadingData,
   prepareDeploymentsDataLoaded,
   hidePrepareDeploymentsModal,
+  newDeploymentModalStartLoading,
+  newDeploymentModalEndLoading,
+  hideNewDeploymentModal,
 } from 'store/ui/actions';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
@@ -88,6 +91,9 @@ const createDeploymentSuccess = (response) => (dispatch) => {
     type: actionTypes.CREATE_DEPLOYMENT_SUCCESS,
     deployment: response.data,
   });
+
+  dispatch(newDeploymentModalEndLoading());
+  dispatch(hideNewDeploymentModal());
 };
 
 /**
@@ -106,6 +112,8 @@ const createDeploymentFail = (error) => (dispatch) => {
     type: actionTypes.CREATE_DEPLOYMENT_FAIL,
     errorMessage,
   });
+
+  dispatch(newDeploymentModalEndLoading());
 
   message.error(errorMessage, 5);
 };
@@ -128,6 +136,8 @@ export const createDeploymentRequest = (
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
   });
+
+  dispatch(newDeploymentModalStartLoading());
 
   try {
     let createObject = {};
@@ -339,6 +349,7 @@ export const fetchAllDeploymentsRuns = (
  * prepare deployment request action
  *
  * @param {string} experimentId The experiment Id
+ * @param experiments
  * @param {string} projectId The project Id
  * @param routerProps
  * @returns {Function} dispatch function
