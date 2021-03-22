@@ -47,7 +47,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const ProjectDetailContainer = (props) => {
+const ProjectDetailsContainer = (props) => {
   const { project, handleNewExperimentModal } = props;
 
   const { loading: projectLoading } = project;
@@ -164,4 +164,4 @@ const ProjectDetailContainer = (props) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProjectDetailContainer);
+)(ProjectDetailsContainer);

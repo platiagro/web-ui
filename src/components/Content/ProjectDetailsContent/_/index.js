@@ -5,7 +5,7 @@ import { Layout } from 'antd';
 // CONTAINERS
 import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer/index';
 import TasksMenuDetailsContainer from 'containers/TasksMenuDetailsContainer/index';
-import ProjectDetailContainer from 'containers/ProjectDetailsContainer/index';
+import ProjectDetailsContainer from 'containers/ProjectDetailsContainer/index';
 
 import './style.less';
 
@@ -20,7 +20,7 @@ const ProjectsDetailsContent = () => (
       </Sider>
       <Content>
         <Layout style={{ height: '100%' }} className='content'>
-          <ProjectDetailContainer />
+          <ProjectDetailsContainer />
         </Layout>
       </Content>
     </Layout>
