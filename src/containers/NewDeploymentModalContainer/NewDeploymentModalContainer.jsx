@@ -22,6 +22,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return {
     visible: state.uiReducer.newDeploymentModal.visible,
+    loading: state.uiReducer.newDeploymentModal.loading,
     experimentsData: state.experimentsReducer,
     templatesData: state.templatesReducer,
   };
@@ -33,6 +34,7 @@ const mapStateToProps = (state) => {
 function NewDeploymentModal(props) {
   const {
     visible,
+    loading,
     experimentsData,
     templatesData,
     onCancel,
@@ -59,6 +61,7 @@ function NewDeploymentModal(props) {
   return (
     <NewDeploymentModalComponent
       visible={visible}
+      loading={loading}
       experimentsData={experimentsData}
       templatesData={templatesData}
       onCancel={onCancel}
@@ -88,6 +91,7 @@ NewDeploymentModal.propTypes = {
     })
   ),
   visible: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
   fetchExperiments: PropTypes.func.isRequired,
   fetchTemplates: PropTypes.func.isRequired,
 };
