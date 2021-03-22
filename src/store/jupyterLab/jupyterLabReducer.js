@@ -16,10 +16,14 @@ const jupyterLabReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // JUPYTER LAB
     case actionTypes.JUPYTER_LAB_HEALTHY:
+      return {
+        ...state,
+        healthy: true,
+      };
     case actionTypes.JUPYTER_LAB_UNHEALTHY:
       return {
         ...state,
-        healthy: action.healthy,
+        healthy: false,
       };
 
     // DEFAULT

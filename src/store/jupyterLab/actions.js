@@ -5,7 +5,7 @@ import actionTypes from './actionTypes';
 import JupyterLabApi from 'services/JupyterLabApi';
 
 /**
- * JupyterLab is healthy
+ * Check whether Jupyter is healthy.
  *
  * @returns {object} { type, healthy }
  */
@@ -26,8 +26,7 @@ export const fetchJupyterLabHealth = () => (dispatch) => {
  */
 export const jupyterLabHealthy = () => {
   return {
-    type: actionTypes.JUPYTER_LAB_UNHEALTHY,
-    healthy: true,
+    type: actionTypes.JUPYTER_LAB_HEALTHY,
   };
 };
 
@@ -39,6 +38,5 @@ export const jupyterLabHealthy = () => {
 export const jupyterLabUnhealthy = () => {
   return {
     type: actionTypes.JUPYTER_LAB_UNHEALTHY,
-    healthy: false,
   };
 };
