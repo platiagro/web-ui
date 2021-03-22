@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
@@ -8,7 +8,11 @@ import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { hideNewDeploymentModal } from 'store/ui/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 
+import { Actions as experimentsActions } from 'store/experiments';
+const { fetchExperimentsRequest } = experimentsActions;
+
 const mapDispatchToProps = {
+  fetchExperiments: fetchExperimentsRequest,
   onCancel: hideNewDeploymentModal,
   onConfirm: createDeploymentRequest,
 };
@@ -31,9 +35,16 @@ function NewDeploymentModal(props) {
     templatesData,
     onCancel,
     onConfirm,
+    fetchExperiments,
   } = props;
 
   const { projectId } = useParams();
+
+  // did mount hook
+  useEffect(() => {
+    // fetching projects
+    fetchExperiments(projectId);
+  }, [fetchExperiments, projectId]);
 
   const handleConfirm = (selectedType, selectedUuid) => {
     let experimentId = selectedType === 'experiment' ? selectedUuid : undefined;
@@ -74,6 +85,7 @@ NewDeploymentModal.propTypes = {
     })
   ),
   visible: PropTypes.bool.isRequired,
+  fetchExperiments: PropTypes.func.isRequired,
 };
 
 export default withRouter(
