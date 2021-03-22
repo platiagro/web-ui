@@ -9,10 +9,12 @@ import { hideNewDeploymentModal } from 'store/ui/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 
 import { Actions as experimentsActions } from 'store/experiments';
+import { fetchTemplatesRequest } from 'store/templates/actions';
 const { fetchExperimentsRequest } = experimentsActions;
 
 const mapDispatchToProps = {
   fetchExperiments: fetchExperimentsRequest,
+  fetchTemplates: fetchTemplatesRequest,
   onCancel: hideNewDeploymentModal,
   onConfirm: createDeploymentRequest,
 };
@@ -36,15 +38,16 @@ function NewDeploymentModal(props) {
     onCancel,
     onConfirm,
     fetchExperiments,
+    fetchTemplates,
   } = props;
 
   const { projectId } = useParams();
 
   // did mount hook
   useEffect(() => {
-    // fetching projects
     fetchExperiments(projectId);
-  }, [fetchExperiments, projectId]);
+    fetchTemplates(projectId);
+  }, [fetchExperiments, fetchTemplates, projectId]);
 
   const handleConfirm = (selectedType, selectedUuid) => {
     let experimentId = selectedType === 'experiment' ? selectedUuid : undefined;
@@ -86,6 +89,7 @@ NewDeploymentModal.propTypes = {
   ),
   visible: PropTypes.bool.isRequired,
   fetchExperiments: PropTypes.func.isRequired,
+  fetchTemplates: PropTypes.func.isRequired,
 };
 
 export default withRouter(
