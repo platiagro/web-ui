@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -23,9 +23,14 @@ function NewDeploymentModal(props) {
   const [filteredExperiments, setFilteredExperiments] = useState(
     experimentsData
   );
+
   const [filteredTemplates, setFilteredTemplates] = useState(templatesData);
   const [selectedUuid, setSelectedUuid] = useState(undefined);
   const [selectedType, setSelectedType] = useState(undefined);
+
+  useEffect(() => {
+    setFilteredExperiments(experimentsData);
+  }, [experimentsData]);
 
   const handleSearch = (e) => {
     const filterValue = e.target.value.toLowerCase();
