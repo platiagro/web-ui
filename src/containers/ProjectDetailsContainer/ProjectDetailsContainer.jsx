@@ -23,7 +23,7 @@ import Button from 'uiComponents/Button/index';
 // ACTIONS
 import {
   showNewExperimentModal,
-  showNewDeploymentModal,
+  showNewDeploymentModal as showNewDeploymentModalAction,
 } from 'store/ui/actions';
 
 //IMAGES SVG
@@ -35,7 +35,7 @@ import './style.less';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
-    showNewDeploymentModal: () => dispatch(showNewDeploymentModal()),
+    showNewDeploymentModal: () => dispatch(showNewDeploymentModalAction()),
     handleNewExperimentModal: () => dispatch(showNewExperimentModal()),
   };
 };

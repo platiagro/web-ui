@@ -15,15 +15,15 @@ const { fetchExperimentsRequest } = experimentsActions;
 /**
  * New deployment modal container
  */
-function NewDeploymentModal() {
-  const dispatch = useDispatch();
+function NewDeploymentModalContainer() {
+  const dispatchHook = useDispatch();
   const { projectId } = useParams();
 
   // did mount hook
   useEffect(() => {
-    dispatch(fetchExperimentsRequest(projectId));
-    dispatch(fetchTemplatesRequest(projectId));
-  }, [dispatch, projectId]);
+    dispatchHook(fetchExperimentsRequest(projectId));
+    dispatchHook(fetchTemplatesRequest(projectId));
+  }, [dispatchHook, projectId]);
 
   const handleConfirm = (selectedType, selectedUuid, dispatch) => {
     let experimentId = selectedType === 'experiment' ? selectedUuid : undefined;
@@ -49,11 +49,11 @@ function NewDeploymentModal() {
     };
   };
 
-  const NewDeploymentModalContainer = withRouter(
+  const Container = withRouter(
     connect(mapStateToProps, mapDispatchToProps)(NewDeploymentModalComponent)
   );
 
-  return <NewDeploymentModalContainer />;
+  return <Container />;
 }
 
-export default NewDeploymentModal;
+export default NewDeploymentModalContainer;
