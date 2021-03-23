@@ -1,4 +1,13 @@
+import { message } from 'antd';
+
 import MonitoringsApi from 'services/MonitoringsApi';
+
+import {
+  setLoadingMonitorings,
+  setCreatingMonitoring,
+  setDeletingMonitoring
+} from '../ui/actions';
+
 import actionTypes from './actionTypes';
 
 /**
@@ -10,6 +19,8 @@ import actionTypes from './actionTypes';
  */
 export const fetchMonitorings = (projectId, deploymentId) => async (dispatch) => {
   try {
+    dispatch(setLoadingMonitorings(true))
+
     const response = await MonitoringsApi.fetchMonitorings(
       projectId, deploymentId
     )
@@ -17,6 +28,9 @@ export const fetchMonitorings = (projectId, deploymentId) => async (dispatch) =>
     dispatch(fetchMonitoringsSuccess(response.data))
   } catch (e) {
     dispatch(fetchMonitoringsFail())
+    message.error(e.message, 5)
+  } finally {
+    dispatch(setLoadingMonitorings(false))
   }
 };
 
@@ -57,6 +71,8 @@ export const createMonitoring = ({
   taskId
 }) => async (dispatch) => {
   try {
+    dispatch(setCreatingMonitoring(true))
+
     await MonitoringsApi.createMonitoring({
       projectId,
       deploymentId,
@@ -66,6 +82,9 @@ export const createMonitoring = ({
     dispatch(createMonitoringsSuccess())
   } catch (e) {
     dispatch(createMonitoringsFail())
+    message.error(e.message, 5)
+  } finally {
+    dispatch(setCreatingMonitoring(false))
   }
 };
 
@@ -102,6 +121,8 @@ export const deleteMonitoring = ({
   monitoringId
 }) => async (dispatch) => {
   try {
+    dispatch(setDeletingMonitoring(true))
+
     await MonitoringsApi.deleteMonitoring({
       projectId,
       deploymentId,
@@ -111,6 +132,9 @@ export const deleteMonitoring = ({
     dispatch(deleteMonitoringsSuccess())
   } catch (e) {
     dispatch(deleteMonitoringsFail())
+    message.error(e.message, 5)
+  } finally {
+    dispatch(setDeletingMonitoring(false))
   }
 };
 

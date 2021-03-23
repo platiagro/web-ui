@@ -1024,3 +1024,26 @@ export const hideExternalDatasetHelperModal = () => {
     visible: false,
   };
 };
+
+// // // // // // // // // // // // // //
+
+export const setLoadingMonitorings = (loading = false) => {
+  return {
+    type: actionTypes.SET_LOADING_MONITORINGS,
+    loading,
+  };
+};
+
+export const setCreatingMonitoring = (creating = false) => {
+  return {
+    type: actionTypes.SET_CREATING_MONITORING,
+    creating,
+  };
+};
+
+export const setDeletingMonitoring = (deleting = false) => {
+  return {
+    type: actionTypes.SET_DELETING_MONITORING,
+    deleting,
+  };
+};
