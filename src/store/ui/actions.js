@@ -1034,7 +1034,7 @@ export const newDeploymentModalStartLoading = () => {
 
 export const newDeploymentModalEndLoading = () => {
   return {
-    type: actionTypes.DEPLOYMENT_MODAL_START_LOADING,
+    type: actionTypes.DEPLOYMENT_MODAL_END_LOADING,
     payload: false,
   };
 };
