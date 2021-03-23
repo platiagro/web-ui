@@ -8,6 +8,7 @@ import {
   ReadOutlined,
   ShareAltOutlined,
   SolutionOutlined,
+  VideoCameraOutlined,
 } from '@ant-design/icons';
 
 /**
@@ -266,13 +267,19 @@ const getTagConfig = (tag) => {
     },
     // templates
     TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: <FileOutlined /> },
+    // monitoring
+    MONITORING: {
+      title: 'Monitoramento',
+      key: 'MONITORING',
+      icon: <VideoCameraOutlined />,
+    }
   };
 
   if (tagsConfig[tag] !== undefined) {
     return tagsConfig[tag];
   }
 
-  return tagsConfig['DEFAULT'];
+  return null
 };
 
 /**
@@ -352,9 +359,9 @@ const configureOperatorParameters = (
   const datasetParameters =
     isDataset && operatorParameters
       ? Object.keys(operatorParameters).map((key) => ({
-          name: key,
-          value: operatorParameters[key],
-        }))
+        name: key,
+        value: operatorParameters[key],
+      }))
       : undefined;
 
   const configuredOperatorParameters = taskParameters.map((parameter) => {
@@ -656,6 +663,11 @@ const formatCompareResultDate = (date) => {
 
 /**
  * Format results parameters to use label from parameter and value from training
+ *
+ * @param parameters
+ * @param parametersTraining
+ * @param parameters
+ * @param parametersTraining
  */
 const formatResultsParameters = (parameters, parametersTraining) => {
   const resultsParameters = [];
