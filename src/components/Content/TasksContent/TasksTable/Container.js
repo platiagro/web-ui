@@ -61,13 +61,8 @@ const TasksTableContainer = (props) => {
 
   // HANDLERS
   const taskClickHandler = (taskName) => {
-    const jupyterDomain =
-      process.env.NODE_ENV === 'development'
-        ? process.env.REACT_APP_MAIN_DOMAIN
-        : '';
-
     window.open(
-      `${jupyterDomain}/notebook/anonymous/server/lab/tree/tasks/${taskName}/?reset&open=Experiment.ipynb,Deployment.ipynb`
+      `/jupyterlab/tree/tasks/${taskName}/?reset&open=Experiment.ipynb,Deployment.ipynb`
     );
   };
 

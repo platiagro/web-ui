@@ -3,7 +3,7 @@ import ProjectsDetailsContent from 'components/Content/ProjectDetailsContent/_';
 import ExperimentsContent from 'components/Content/ExperimentsContent/_';
 import TaskContent from 'components/Content/TasksContent/_';
 import Error404Content from 'components/Content/Error404Content';
-import { Deployment } from 'Pages';
+import { Deployment, JupyterLab } from 'Pages';
 
 /**
  * @type {Routes}
@@ -39,6 +39,10 @@ const Routes = [
     path: '/tarefas',
     exact: true,
     component: TaskContent,
+  },
+  {
+    path: '/jupyterlab/:path*',
+    component: JupyterLab,
   },
   {
     path: '*',

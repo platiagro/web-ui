@@ -27,18 +27,13 @@ const NotebookOutputsContainer = ({ operatorId, taskName, status }) => {
 
   // HANDLERS
   const openNotebook = () => {
-    const jupyterDomain =
-      process.env.NODE_ENV === 'development'
-        ? process.env.REACT_APP_MAIN_DOMAIN
-        : '';
-
     if (status) {
       window.open(
-        `${jupyterDomain}/notebook/anonymous/server/lab/tree/experiments/${experimentId}/operators/${operatorId}/?reset&open=Experiment.ipynb`
+        `/jupyterlab/tree/experiments/${experimentId}/operators/${operatorId}/?reset&open=Experiment.ipynb`
       );
     } else {
       window.open(
-        `${jupyterDomain}/notebook/anonymous/server/lab/tree/tasks/${taskName}/?reset&open=Experiment.ipynb`
+        `/jupyterlab/tree/tasks/${taskName}/?reset&open=Experiment.ipynb`
       );
     }
   };
