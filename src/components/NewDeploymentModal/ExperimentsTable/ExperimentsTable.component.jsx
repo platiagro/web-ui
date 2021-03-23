@@ -27,6 +27,16 @@ function ExperimentsTable(props) {
     },
   };
 
+  const onRow = (record) => {
+    return {
+      onClick: (event) => {
+        event.stopPropagation();
+
+        onSelect([record.uuid]);
+      },
+    };
+  };
+
   return (
     <div className='experimentsTable'>
       <div className='title'>
@@ -36,6 +46,7 @@ function ExperimentsTable(props) {
       <div>
         <Table
           rowSelection={rowSelection}
+          onRow={onRow}
           rowKey='uuid'
           showHeader={false}
           pagination={false}

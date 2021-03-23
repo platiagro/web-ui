@@ -52,6 +52,16 @@ function TemplatesTable(props) {
     },
   };
 
+  const onRow = (record) => {
+    return {
+      onClick: (event) => {
+        event.stopPropagation();
+
+        onSelect([record.uuid]);
+      },
+    };
+  };
+
   return (
     <div className='templatesTable'>
       <div className='title'>
@@ -62,6 +72,7 @@ function TemplatesTable(props) {
         <Table
           rowSelection={rowSelection}
           rowKey='uuid'
+          onRow={onRow}
           showHeader={false}
           pagination={false}
           columns={columns}
