@@ -27,7 +27,10 @@
     "emmet.includeLanguages": {
       "javascript": "javascriptreact"
     },
-    "cSpell.words": ["monitorings"]
+    "cSpell.words": [
+      "antd",
+      "monitorings"
+    ]
   },
   "extensions": {
     "recommendations": [
