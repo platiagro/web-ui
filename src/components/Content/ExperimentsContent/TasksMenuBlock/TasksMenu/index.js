@@ -97,8 +97,12 @@ const TasksMenu = ({
   // sub menu
   const renderSubMenu = (submenu, items) => {
     // getting submenu config
-    const { icon, title, key } = utils.getTagConfig(submenu);
+    const tagConfig = utils.getTagConfig(submenu);
+    if (!tagConfig) return null
+
+    const { icon, title, key } = tagConfig
     templateValue = title;
+
     return (
       // sub menu component
       <SubMenu
