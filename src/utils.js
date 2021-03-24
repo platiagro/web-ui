@@ -8,7 +8,6 @@ import {
   ReadOutlined,
   ShareAltOutlined,
   SolutionOutlined,
-  VideoCameraOutlined,
 } from '@ant-design/icons';
 
 /**
@@ -267,12 +266,6 @@ const getTagConfig = (tag) => {
     },
     // templates
     TEMPLATES: { title: 'Templates', key: 'TEMPLATES', icon: <FileOutlined /> },
-    // monitoring
-    MONITORING: {
-      title: 'Monitoramento',
-      key: 'MONITORING',
-      icon: <VideoCameraOutlined />,
-    }
   };
 
   if (tagsConfig[tag] !== undefined) {
@@ -664,8 +657,6 @@ const formatCompareResultDate = (date) => {
 /**
  * Format results parameters to use label from parameter and value from training
  *
- * @param parameters
- * @param parametersTraining
  * @param parameters
  * @param parametersTraining
  */
