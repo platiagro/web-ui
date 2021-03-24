@@ -11,30 +11,6 @@ import {
 import actionTypes from './actionTypes';
 
 /**
- * Fetch monitorings from the API
- * 
- * @param {string} projectId Project ID
- * @param {string} deploymentId Deployment ID
- * @returns {Promise} Request
- */
-export const fetchMonitorings = (projectId, deploymentId) => async (dispatch) => {
-  try {
-    dispatch(setLoadingMonitorings(true))
-
-    const response = await MonitoringsApi.fetchMonitorings(
-      projectId, deploymentId
-    )
-
-    dispatch(fetchMonitoringsSuccess(response.data))
-  } catch (e) {
-    dispatch(fetchMonitoringsFail())
-    message.error(e.message, 5)
-  } finally {
-    dispatch(setLoadingMonitorings(false))
-  }
-};
-
-/**
  * Fetch monitorings success
  * 
  * @param {Array} monitorings Monitorings list
@@ -57,6 +33,53 @@ export const fetchMonitoringsFail = () => ({
 });
 
 /**
+ * Fetch monitorings from the API
+ * 
+ * @param {string} projectId Project ID
+ * @param {string} deploymentId Deployment ID
+ * @returns {Promise} Request
+ */
+export const fetchMonitorings = (projectId, deploymentId) => async (dispatch) => {
+  try {
+    dispatch(setLoadingMonitorings(true))
+
+    const response = await MonitoringsApi.fetchMonitorings(
+      projectId, deploymentId
+    )
+
+    const monitorings = response.data.monitorings || []
+    dispatch(fetchMonitoringsSuccess(monitorings))
+  } catch (e) {
+    dispatch(fetchMonitoringsFail())
+    message.error(e.message, 5)
+  } finally {
+    dispatch(setLoadingMonitorings(false))
+  }
+};
+
+/**
+ * Create monitoring success
+ * 
+ * @param {object} monitoring Monitoring created
+ * @returns {object} { type }
+ */
+export const createMonitoringsSuccess = (monitoring) => ({
+  type: actionTypes.CREATE_MONITORINGS_SUCCESS,
+  payload: {
+    monitoring
+  }
+});
+
+/**
+ * Create monitoring fail
+ * 
+ * @returns {object} { type }
+ */
+export const createMonitoringsFail = () => ({
+  type: actionTypes.CREATE_MONITORINGS_FAIL,
+});
+
+/**
  * Create a new monitoring
  * 
  * @param {object} requestData Request data
@@ -73,13 +96,14 @@ export const createMonitoring = ({
   try {
     dispatch(setCreatingMonitoring(true))
 
-    await MonitoringsApi.createMonitoring({
+    const response = await MonitoringsApi.createMonitoring({
       projectId,
       deploymentId,
       taskId
     })
 
-    dispatch(createMonitoringsSuccess())
+    const monitoring = response.data
+    dispatch(createMonitoringsSuccess(monitoring))
   } catch (e) {
     dispatch(createMonitoringsFail())
     message.error(e.message, 5)
@@ -89,21 +113,25 @@ export const createMonitoring = ({
 };
 
 /**
- * Create monitoring success
- * 
+ * Delete monitoring success
+ *
+ * @param {string} monitoringId Monitoring ID to remove from monitorings array
  * @returns {object} { type }
  */
-export const createMonitoringsSuccess = () => ({
-  type: actionTypes.CREATE_MONITORINGS_SUCCESS,
+export const deleteMonitoringsSuccess = (monitoringId) => ({
+  type: actionTypes.DELETE_MONITORINGS_SUCCESS,
+  payload: {
+    monitoringId,
+  }
 });
 
 /**
- * Create monitoring fail
+ * Delete monitoring fail
  * 
  * @returns {object} { type }
  */
-export const createMonitoringsFail = () => ({
-  type: actionTypes.CREATE_MONITORINGS_FAIL,
+export const deleteMonitoringsFail = () => ({
+  type: actionTypes.DELETE_MONITORINGS_FAIL,
 });
 
 /**
@@ -129,7 +157,7 @@ export const deleteMonitoring = ({
       monitoringId
     })
 
-    dispatch(deleteMonitoringsSuccess())
+    dispatch(deleteMonitoringsSuccess(monitoringId))
   } catch (e) {
     dispatch(deleteMonitoringsFail())
     message.error(e.message, 5)
@@ -137,21 +165,3 @@ export const deleteMonitoring = ({
     dispatch(setDeletingMonitoring(false))
   }
 };
-
-/**
- * Delete monitoring success
- * 
- * @returns {object} { type }
- */
-export const deleteMonitoringsSuccess = () => ({
-  type: actionTypes.DELETE_MONITORINGS_SUCCESS,
-});
-
-/**
- * Delete monitoring fail
- * 
- * @returns {object} { type }
- */
-export const deleteMonitoringsFail = () => ({
-  type: actionTypes.DELETE_MONITORINGS_FAIL,
-});

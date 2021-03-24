@@ -29,6 +29,28 @@ const monitoringsReducer = (state = initialState, action = {}) => {
       }
     }
 
+    case actionTypes.CREATE_MONITORINGS_SUCCESS: {
+      return {
+        ...state,
+        monitorings: [...state.monitorings, payload.monitoring],
+      }
+    }
+
+    case actionTypes.DELETE_MONITORINGS_SUCCESS: {
+      const monitoringsClone = [...state.monitorings]
+      const indexToDelete = monitoringsClone.findIndex((monitoring) => {
+        return monitoring.uuid === payload.monitoringId
+      })
+
+      // Remove item from array
+      monitoringsClone.splice(indexToDelete, 1)
+
+      return {
+        ...state,
+        monitorings: monitoringsClone,
+      }
+    }
+
     default:
       return state;
   }
