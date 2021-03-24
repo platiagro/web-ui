@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from "react-router-dom";
@@ -45,6 +45,7 @@ const DeploymentsHeaderContainer = (props) => {
 
   const { projectId } = useParams();
   const history = useHistory();
+  const isFirstRender = useRef(true)
 
   // HANDLERS
   const goBackHandler = () => history.push(`/projetos/${projectId}`);
@@ -54,8 +55,9 @@ const DeploymentsHeaderContainer = (props) => {
   // HOOKS
   useEffect(() => {
     // fetch project if project details is null
-    if (!project.uuid) {
+    if (!project.uuid && isFirstRender.current) {
       handleFetchProject(projectId);
+      isFirstRender.current = false
     }
   }, [handleFetchProject, project, projectId]);
 
@@ -72,8 +74,8 @@ const DeploymentsHeaderContainer = (props) => {
         </>
       }
       customSubTitle='Meus projetos'
-      handleGoBack={ goBackHandler }
-      handleSubmit={ editProjectNameHandler }
+      handleGoBack={goBackHandler}
+      handleSubmit={editProjectNameHandler}
       extra={
         <>
           {/* FIXME: missing deployment buttons */}
