@@ -12,6 +12,10 @@ const monitoringsLoadingSelector = ({ uiReducer }) => {
   return uiReducer.monitorings.loading
 }
 
+const monitoringsDeletingSelector = ({ uiReducer }) => {
+  return uiReducer.monitorings.deleting
+}
+
 const monitoringsSelector = ({ monitoringsReducer }) => {
   return monitoringsReducer.monitorings
 }
@@ -20,6 +24,7 @@ const MonitoringPanelContainer = () => {
   const { projectId, deploymentId } = useParams()
   const dispatch = useDispatch()
 
+  const isDeletingMonitoring = useSelector(monitoringsDeletingSelector)
   const isLoadingMonitorings = useSelector(monitoringsLoadingSelector)
   const monitorings = useSelector(monitoringsSelector)
 
@@ -30,8 +35,8 @@ const MonitoringPanelContainer = () => {
   }
 
   const handleDeleteMonitoring = () => {
-    if (!selectedMonitoring) return
-    const { monitoringId } = selectedMonitoring
+    if (!selectedMonitoring || isDeletingMonitoring) return
+    const { uuid: monitoringId } = selectedMonitoring
     dispatch(deleteMonitoring({ projectId, deploymentId, monitoringId }))
   }
 
@@ -48,6 +53,19 @@ const MonitoringPanelContainer = () => {
     dispatch(fetchMonitorings(projectId, deploymentId))
   }, [deploymentId, dispatch, projectId])
 
+  // Clear the selected monitoring when the monitorings list changes
+  useEffect(() => {
+    if (!selectedMonitoring) return
+
+    const selectedMonitoringIndex = monitorings.findIndex((monitoring) => {
+      return monitoring.uuid === selectedMonitoring.uuid
+    })
+
+    if (selectedMonitoringIndex === -1) {
+      setSelectedMonitoring(null)
+    }
+  }, [monitorings, selectedMonitoring])
+
   return (
     <div className="monitoring-panel-container">
       <MonitoringToolbar
@@ -62,6 +80,7 @@ const MonitoringPanelContainer = () => {
       <MonitoringPanel
         monitorings={monitorings}
         isLoading={isLoadingMonitorings}
+        isDeleting={isDeletingMonitoring}
         selectedMonitoring={selectedMonitoring}
         handleSelectMonitoring={handleSelectMonitoring}
       />

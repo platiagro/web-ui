@@ -1,6 +1,6 @@
 .monitoring-panel {
   .monitoring-panel-skeleton {
-    height: 90px;
+    height: 85px;
     width: 200px;
     margin-right: 16px;
     border-radius: 5px;
@@ -21,10 +21,12 @@
 
   .monitoring-panel-list {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    padding: 16px 0;
 
     > * {
-      margin-right: 16px;
+      margin: 8px 16px 8px 0;
     }
   }
 }

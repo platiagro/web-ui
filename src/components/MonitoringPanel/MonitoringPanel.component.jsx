@@ -17,7 +17,7 @@ const MonitoringPanel = ({
 }) => {
   const getMonitoringFFlowBoxStatus = (isSelected, isDeleting) => {
     if (isSelected) return isDeleting ? 'pending' : 'success'
-    return 'default'
+    return isDeleting ? 'disable' : 'default'
   }
 
   return (
@@ -30,22 +30,24 @@ const MonitoringPanel = ({
         </>
       ) : (
         <>
-          {monitorings && monitorings.length > 0 ? (
+          {!!monitorings && monitorings.length > 0 ? (
             <div className="monitoring-panel-list">
               {monitorings.map((monitoring, index) => {
-                const handleSelectThisItem = () => {
-                  if (handleSelectMonitoring) handleSelectMonitoring(monitoring)
-                }
-
                 const isSelected =
                   !!selectedMonitoring &&
-                  selectedMonitoring.monitoringId === monitoring.monitoringId
+                  selectedMonitoring.uuid === monitoring.uuid
 
                 const status = getMonitoringFFlowBoxStatus(isSelected, isDeleting)
 
+                const handleSelectThisItem = () => {
+                  if (handleSelectMonitoring && !isDeleting) {
+                    handleSelectMonitoring(isSelected ? null : monitoring)
+                  }
+                }
+
                 return (
                   <MonitoringFlowBox
-                    key={monitoring.monitoringId}
+                    key={monitoring.uuid}
                     onClick={handleSelectThisItem}
                     title={monitoring.title || `Monitoramento ${index + 1}`}
                     status={status}
@@ -70,7 +72,10 @@ const MonitoringPanel = ({
 }
 
 const monitoringShape = {
-  monitoringId: PropTypes.string
+  createdAt: PropTypes.string,
+  deploymentId: PropTypes.string,
+  taskId: PropTypes.string,
+  uuid: PropTypes.string,
 }
 
 MonitoringPanel.propTypes = {
