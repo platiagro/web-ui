@@ -3,8 +3,9 @@ import { Skeleton } from 'antd'
 import PropTypes from 'prop-types'
 import { FundOutlined } from '@ant-design/icons'
 
+import MonitoringFlowBox from 'components/MonitoringFlowBox'
+
 import './styles.less'
-import MonitoringFlowBox from 'components/MonitoringFlowBox/MonitoringFlowBox.component'
 
 const MonitoringPanel = ({
   className,
@@ -31,7 +32,7 @@ const MonitoringPanel = ({
         <>
           {monitorings && monitorings.length > 0 ? (
             <div className="monitoring-panel-list">
-              {monitorings.map((monitoring) => {
+              {monitorings.map((monitoring, index) => {
                 const handleSelectThisItem = () => {
                   if (handleSelectMonitoring) handleSelectMonitoring(monitoring)
                 }
@@ -46,7 +47,7 @@ const MonitoringPanel = ({
                   <MonitoringFlowBox
                     key={monitoring.monitoringId}
                     onClick={handleSelectThisItem}
-                    title="Monitoring"
+                    title={monitoring.title || `Monitoramento ${index + 1}`}
                     status={status}
                   />
                 )
