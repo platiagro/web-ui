@@ -15,7 +15,7 @@ const MonitoringPanel = ({
   selectedMonitoring,
   handleSelectMonitoring
 }) => {
-  const getMonitoringFFlowBoxStatus = (isSelected, isDeleting) => {
+  const getMonitoringFlowBoxStatus = (isSelected) => {
     if (isSelected) return isDeleting ? 'pending' : 'success'
     return isDeleting ? 'disable' : 'default'
   }
@@ -37,7 +37,7 @@ const MonitoringPanel = ({
                   !!selectedMonitoring &&
                   selectedMonitoring.uuid === monitoring.uuid
 
-                const status = getMonitoringFFlowBoxStatus(isSelected, isDeleting)
+                const status = getMonitoringFlowBoxStatus(isSelected, isDeleting)
 
                 const handleSelectThisItem = () => {
                   if (handleSelectMonitoring && !isDeleting) {
