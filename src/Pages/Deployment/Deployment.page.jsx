@@ -1,10 +1,13 @@
 import React from 'react';
 import { ReactFlowProvider } from 'react-flow-renderer';
 
-import DeploymentsHeaderContainer from 'containers/DeploymentsHeaderContainer';
-import DeploymentsTabsContainer from 'containers/DeploymentsTabsContainer';
-import DeploymentToolbarContainer from 'containers/DeploymentToolbarContainer';
-import DeploymentFlowContainer from 'containers/DeploymentFlowContainer';
+import {
+  MonitoringPanelContainer,
+  DeploymentsHeaderContainer,
+  DeploymentsTabsContainer,
+  DeploymentToolbarContainer,
+  DeploymentFlowContainer,
+} from 'containers';
 
 import './Deployment.style.less';
 
@@ -27,7 +30,9 @@ function Deployment() {
               <div className='flow'>
                 <DeploymentFlowContainer />
               </div>
-              <div className='monitoring'>monitoramento</div>
+              <div className='monitoring'>
+                <MonitoringPanelContainer />
+              </div>
               <div className='parameters'>parametros</div>
             </div>
             <DeploymentsTabsContainer />
