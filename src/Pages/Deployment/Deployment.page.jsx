@@ -19,25 +19,31 @@ function Deployment() {
   // FIXME: Criar Layout
   return (
     <ReactFlowProvider>
-      <div className='deploymentPage'>
-        <div className='contentBlock'>
-          <DeploymentsHeaderContainer />
-          <div className='deploymentContent'>
-            <div className='flowContent'>
-              <div className='options'>
-                <DeploymentToolbarContainer />
-              </div>
-              <div className='flow'>
-                <DeploymentFlowContainer />
-              </div>
-              <div className='monitoring'>
-                <MonitoringPanelContainer />
-              </div>
-              <div className='parameters'>parametros</div>
+      <div className='deployment-page'>
+        <DeploymentsHeaderContainer />
+
+        <div className='deployment-page-body'>
+          <div className="deployment-page-body-left">
+            <div className='deployment-page-body-options'>
+              <DeploymentToolbarContainer />
             </div>
-            <DeploymentsTabsContainer />
+
+            <div className='deployment-page-body-flow'>
+              <DeploymentFlowContainer />
+            </div>
+
+            <div className='deployment-page-body-monitoring'>
+              <MonitoringPanelContainer />
+            </div>
+          </div>
+
+          <div className='deployment-page-body-right'>
+            {/* TODO: Aqui fica o container de parâmetros */}
+            Parameters
           </div>
         </div>
+
+        <DeploymentsTabsContainer />
       </div>
     </ReactFlowProvider>
   );
