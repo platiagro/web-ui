@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const monitoringsApi = axios.create({
-  baseURL: process.env.REACT_APP_MONITORINGS_API || 'http://localhost:8080',
+  baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080',
 });
 
 /**
