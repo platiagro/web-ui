@@ -34,6 +34,8 @@ import { fetchTasksMenuRequest } from '../tasksMenu/actions';
  * @returns {Object} { type, templates }
  */
 const fetchTemplatesSuccess = (response) => (dispatch) => {
+  dispatch(templateDataLoaded());
+
   dispatch({
     type: actionTypes.FETCH_TEMPLATES_SUCCESS,
     templates: response.data.templates,
@@ -56,6 +58,8 @@ const fetchTemplatesFail = (error) => (dispatch) => {
   });
 
   message.error(errorMessage);
+
+  dispatch(templateDataLoaded());
 };
 
 /**
@@ -67,6 +71,8 @@ export const fetchTemplatesRequest = () => (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_TEMPLATES_REQUEST,
   });
+
+  dispatch(templateLoadingData());
 
   // fetching templates
   templatesApi
