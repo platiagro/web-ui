@@ -54,7 +54,7 @@ MonitoringPanel.defaultProps = {
   isDeleting: false,
   monitorings: [],
   selectedMonitoring: null,
-  handleSelectMonitoring: () => { }
+  handleSelectMonitoring: undefined
 }
 
 export default MonitoringPanel

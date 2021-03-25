@@ -131,14 +131,14 @@ MonitoringToolbar.propTypes = {
 
 MonitoringToolbar.defaultProps = {
   className: '',
-  handleAddMonitoring: () => { },
-  handleSeeMonitoring: () => { },
-  handleDeleteMonitoring: () => { },
+  handleAddMonitoring: undefined,
+  handleSeeMonitoring: undefined,
+  handleDeleteMonitoring: undefined,
   showAddButton: true,
   showSeeButton: false,
   showDeleteButton: false,
   isShowingPanel: true,
-  handleTogglePanel: () => { },
+  handleTogglePanel: undefined,
   isDeleting: false
 }
 
