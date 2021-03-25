@@ -44,6 +44,8 @@ function NewDeploymentModalContainer() {
     return {
       visible: state.uiReducer.newDeploymentModal.visible,
       loading: state.uiReducer.newDeploymentModal.loading,
+      templatesLoading: state.uiReducer.template.loading,
+      experimentsLoading: state.uiReducer.experimentsTabs.loading,
       experimentsData: state.experimentsReducer,
       templatesData: state.templatesReducer,
     };

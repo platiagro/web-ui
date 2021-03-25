@@ -9,7 +9,7 @@ import './ExperimentsTable.style.less';
  * Componente de tabela de experimentos
  */
 function ExperimentsTable(props) {
-  const { onSelect, experimentsData, selectedRowKey } = props;
+  const { onSelect, loading, experimentsData, selectedRowKey } = props;
 
   const columns = [
     {
@@ -52,6 +52,7 @@ function ExperimentsTable(props) {
           pagination={false}
           columns={columns}
           dataSource={experimentsData}
+          loading={loading}
         />
       </div>
     </div>
@@ -67,6 +68,7 @@ ExperimentsTable.propTypes = {
   ),
   onSelect: PropTypes.func.isRequired,
   selectedRowKey: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
 };
 
 ExperimentsTable.defaultProps = {

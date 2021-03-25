@@ -15,6 +15,8 @@ function NewDeploymentModal(props) {
   const {
     visible,
     loading,
+    experimentsLoading,
+    templatesLoading,
     experimentsData,
     templatesData,
     onCancel,
@@ -79,7 +81,7 @@ function NewDeploymentModal(props) {
       cancelText='Cancelar'
       okText='Confirmar'
       className='newDeploymentModal'
-      confirmLoading={loading}
+      confirmLoading={loading || experimentsLoading || templatesLoading}
     >
       <div>
         <Input
@@ -93,6 +95,7 @@ function NewDeploymentModal(props) {
           onSelect={handleExperimentSelect}
           experimentsData={filteredExperiments}
           selectedRowKey={experimentsSelectedRow}
+          loading={experimentsLoading}
         />
       </div>
       <div className='section'>
@@ -100,6 +103,7 @@ function NewDeploymentModal(props) {
           onSelect={handleTemplateSelect}
           templatesData={filteredTemplates}
           selectedRowKey={templatesSelectedRow}
+          loading={templatesLoading}
         />
       </div>
     </Modal>
@@ -128,6 +132,8 @@ NewDeploymentModal.propTypes = {
   ),
   visible: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  experimentsLoading: PropTypes.bool.isRequired,
+  templatesLoading: PropTypes.bool.isRequired,
 };
 
 export default NewDeploymentModal;

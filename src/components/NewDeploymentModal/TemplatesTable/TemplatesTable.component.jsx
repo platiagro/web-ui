@@ -10,7 +10,7 @@ import './TemplatesTable.style.less';
  * Componente de tabela de templates
  */
 function TemplatesTable(props) {
-  const { onSelect, templatesData, selectedRowKey } = props;
+  const { onSelect, templatesData, selectedRowKey, loading } = props;
 
   const renderName = (text) => <strong>{text}</strong>;
 
@@ -77,6 +77,7 @@ function TemplatesTable(props) {
           pagination={false}
           columns={columns}
           dataSource={templatesData}
+          loading={loading}
         />
       </div>
     </div>
@@ -97,6 +98,7 @@ TemplatesTable.propTypes = {
   ),
   onSelect: PropTypes.func.isRequired,
   selectedRowKey: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
 };
 
 TemplatesTable.defaultProps = {
