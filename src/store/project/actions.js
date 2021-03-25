@@ -18,9 +18,6 @@ import {
   projectEditNameDataLoaded,
 } from '../ui/actions';
 
-// TASKS ACTIONS
-import { fetchTasks } from '../tasks/actions';
-
 // ACTIONS
 // ** FETCH PROJECT
 /**
@@ -32,9 +29,6 @@ import { fetchTasks } from '../tasks/actions';
 const fetchProjectSuccess = (response) => (dispatch) => {
   // getting project from response
   const project = response.data;
-
-  // dispatching fetch tasks action
-  dispatch(fetchTasks());
 
   // dispatching project name data loaded action
   dispatch(projectNameDataLoaded());
