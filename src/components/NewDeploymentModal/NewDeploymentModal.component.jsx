@@ -82,6 +82,7 @@ function NewDeploymentModal(props) {
       okText='Confirmar'
       className='newDeploymentModal'
       confirmLoading={loading || experimentsLoading || templatesLoading}
+      okButtonProps={{ disabled: !selectedType }}
     >
       <div>
         <Input
