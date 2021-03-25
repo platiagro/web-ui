@@ -88,7 +88,7 @@ MonitoringPanel.propTypes = {
 }
 
 MonitoringPanel.defaultProps = {
-  className: undefined,
+  className: '',
   isLoading: false,
   isDeleting: false,
   monitorings: [],

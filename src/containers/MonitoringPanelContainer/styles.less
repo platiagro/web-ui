@@ -1,11 +1,16 @@
 .monitoring-panel-container {
-  padding: 16px 16px 0 16px;
   display: flex;
   flex-direction: column;
 
-  .monitoring-panel {
+  .monitoring-panel-content {
     flex: 1;
     display: flex;
     align-items: center;
+    transition: height 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    overflow: hidden;
+  }
+
+  .monitoring-panel-content-hidden {
+    height: 0 !important;
   }
 }

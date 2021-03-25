@@ -4,7 +4,9 @@ import { Divider, Typography } from 'antd'
 import {
   PlusOutlined,
   FundOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  DownOutlined,
+  UpOutlined,
 } from '@ant-design/icons'
 
 import { Button } from 'uiComponents'
@@ -19,6 +21,8 @@ const MonitoringToolbar = ({
   showAddButton,
   showSeeButton,
   showDeleteButton,
+  isShowingPanel,
+  handleTogglePanel,
 }) => {
   return (
     <div className={`monitoring-toolbar ${className}`}>
@@ -63,6 +67,14 @@ const MonitoringToolbar = ({
           </Button>
         </>
       )}
+
+      <Button
+        className="toolbar-toggle-button"
+        shape="circle"
+        type="ghost"
+        icon={isShowingPanel ? <UpOutlined /> : <DownOutlined />}
+        handleClick={handleTogglePanel}>
+      </Button>
     </div>
   )
 }
@@ -75,16 +87,20 @@ MonitoringToolbar.propTypes = {
   showAddButton: PropTypes.bool,
   showSeeButton: PropTypes.bool,
   showDeleteButton: PropTypes.bool,
+  isShowingPanel: PropTypes.bool,
+  handleTogglePanel: PropTypes.bool,
 }
 
 MonitoringToolbar.defaultProps = {
-  className: undefined,
+  className: '',
   handleAddMonitoring: () => { },
   handleSeeMonitoring: () => { },
   handleDeleteMonitoring: () => { },
   showAddButton: true,
   showSeeButton: false,
   showDeleteButton: false,
+  isShowingPanel: true,
+  handleTogglePanel: () => { }
 }
 
 export default MonitoringToolbar

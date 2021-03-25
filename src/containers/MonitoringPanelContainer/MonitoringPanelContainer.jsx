@@ -29,9 +29,14 @@ const MonitoringPanelContainer = () => {
   const monitorings = useSelector(monitoringsSelector)
 
   const [selectedMonitoring, setSelectedMonitoring] = useState(null)
+  const [isShowingPanel, setIsShowingPanel] = useState(true)
 
   const handleSelectMonitoring = (monitoring) => {
     setSelectedMonitoring(monitoring)
+  }
+
+  const handleTogglePanel = () => {
+    setIsShowingPanel((isShowing) => !isShowing)
   }
 
   const handleDeleteMonitoring = () => {
@@ -72,18 +77,23 @@ const MonitoringPanelContainer = () => {
         handleDeleteMonitoring={handleDeleteMonitoring}
         handleSeeMonitoring={handleSeeMonitoring}
         handleAddMonitoring={handleAddMonitoring}
+        handleTogglePanel={handleTogglePanel}
         showDeleteButton={!!selectedMonitoring}
         showSeeButton={!!selectedMonitoring}
+        isShowingPanel={isShowingPanel}
         showAddButton
       />
 
-      <MonitoringPanel
-        monitorings={monitorings}
-        isLoading={isLoadingMonitorings}
-        isDeleting={isDeletingMonitoring}
-        selectedMonitoring={selectedMonitoring}
-        handleSelectMonitoring={handleSelectMonitoring}
-      />
+      {isShowingPanel && (
+        <MonitoringPanel
+          className="monitoring-panel-content"
+          monitorings={monitorings}
+          isLoading={isLoadingMonitorings}
+          isDeleting={isDeletingMonitoring}
+          selectedMonitoring={selectedMonitoring}
+          handleSelectMonitoring={handleSelectMonitoring}
+        />
+      )}
     </div>
   )
 }
