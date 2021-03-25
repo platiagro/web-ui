@@ -1,11 +1,12 @@
 import React from 'react'
-import { Skeleton } from 'antd'
 import PropTypes from 'prop-types'
-import { FundOutlined } from '@ant-design/icons'
 
-import MonitoringFlowBox from 'components/MonitoringFlowBox'
+import MonitoringPanelSkeleton from './MonitoringPanelSkeleton'
+import MonitoringPanelList from './MonitoringPanelList'
+import { monitoringShape } from './propTypes'
 
 import './styles.less'
+import MonitoringPanelPlaceholder from './MonitoringPanelPlaceholder'
 
 const MonitoringPanel = ({
   className,
@@ -15,67 +16,27 @@ const MonitoringPanel = ({
   selectedMonitoring,
   handleSelectMonitoring
 }) => {
-  const getMonitoringFlowBoxStatus = (isSelected) => {
-    if (isSelected) return isDeleting ? 'pending' : 'success'
-    return isDeleting ? 'disable' : 'default'
+  const renderMonitoringPanel = () => {
+    if (isLoading) return <MonitoringPanelSkeleton />
+
+    const hasNoMonitorings = !monitorings || monitorings.length === 0
+    if (hasNoMonitorings) return <MonitoringPanelPlaceholder />
+
+    return (
+      <MonitoringPanelList
+        isDeleting={isDeleting}
+        monitorings={monitorings}
+        selectedMonitoring={selectedMonitoring}
+        handleSelectMonitoring={handleSelectMonitoring}
+      />
+    )
   }
 
   return (
     <div className={`monitoring-panel ${className}`}>
-      {isLoading ? (
-        <div className="monitoring-panel-skeletons">
-          <Skeleton.Button className="monitoring-panel-skeleton" size="large" active />
-          <Skeleton.Button className="monitoring-panel-skeleton" size="large" active />
-          <Skeleton.Button className="monitoring-panel-skeleton" size="large" active />
-        </div>
-      ) : (
-        <>
-          {!!monitorings && monitorings.length > 0 ? (
-            <div className="monitoring-panel-list">
-              {monitorings.map((monitoring, index) => {
-                const isSelected =
-                  !!selectedMonitoring &&
-                  selectedMonitoring.uuid === monitoring.uuid
-
-                const status = getMonitoringFlowBoxStatus(isSelected)
-
-                const handleSelectThisItem = () => {
-                  if (handleSelectMonitoring && !isDeleting) {
-                    handleSelectMonitoring(isSelected ? null : monitoring)
-                  }
-                }
-
-                return (
-                  <MonitoringFlowBox
-                    key={monitoring.uuid}
-                    onClick={handleSelectThisItem}
-                    title={monitoring.title || `Monitoramento ${index + 1}`}
-                    status={status}
-                  />
-                )
-              })}
-            </div>
-          ) : (
-            <div className="monitoring-panel-placeholder">
-              <div className="monitoring-panel-placeholder-icon">
-                <FundOutlined />
-              </div>
-
-              <div>Nenhum Monitoramento Adicionado</div>
-            </div>
-          )}
-        </>
-      )
-      }
+      {renderMonitoringPanel()}
     </div>
   )
-}
-
-const monitoringShape = {
-  createdAt: PropTypes.string,
-  deploymentId: PropTypes.string,
-  taskId: PropTypes.string,
-  uuid: PropTypes.string,
 }
 
 MonitoringPanel.propTypes = {
@@ -92,6 +53,7 @@ MonitoringPanel.defaultProps = {
   isLoading: false,
   isDeleting: false,
   monitorings: [],
+  selectedMonitoring: null,
   handleSelectMonitoring: () => { }
 }
 
