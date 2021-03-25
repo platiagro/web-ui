@@ -80,6 +80,7 @@ const MonitoringPanelContainer = () => {
         handleTogglePanel={handleTogglePanel}
         showDeleteButton={!!selectedMonitoring}
         showSeeButton={!!selectedMonitoring}
+        isDeleting={isDeletingMonitoring}
         isShowingPanel={isShowingPanel}
         showAddButton
       />
