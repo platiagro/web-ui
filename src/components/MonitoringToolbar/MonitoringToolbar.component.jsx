@@ -30,7 +30,7 @@ const MonitoringToolbar = ({
     setIsShowingDeleteConfirmation
   ] = useState(false)
 
-  const handleToggleDeleteConformation = () => {
+  const handleToggleDeleteConfirmation = () => {
     setIsShowingDeleteConfirmation((isShowing) => !isShowing)
   }
 
@@ -83,7 +83,7 @@ const MonitoringToolbar = ({
 
           <Popconfirm
             onConfirm={handleDeleteMonitoringAndHideConfirmation}
-            onCancel={handleToggleDeleteConformation}
+            onCancel={handleToggleDeleteConfirmation}
             visible={isShowingDeleteConfirmation}
             title="Excluir o Monitoramento Selecionado?"
             placement="topLeft"
@@ -95,7 +95,7 @@ const MonitoringToolbar = ({
               shape="round"
               type="primary-inverse"
               icon={<DeleteOutlined />}
-              handleClick={handleToggleDeleteConformation}
+              handleClick={handleToggleDeleteConfirmation}
               isLoading={isDeleting}
             >
               Excluir
