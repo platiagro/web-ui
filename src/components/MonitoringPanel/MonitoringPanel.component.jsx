@@ -37,7 +37,7 @@ const MonitoringPanel = ({
                   !!selectedMonitoring &&
                   selectedMonitoring.uuid === monitoring.uuid
 
-                const status = getMonitoringFlowBoxStatus(isSelected, isDeleting)
+                const status = getMonitoringFlowBoxStatus(isSelected)
 
                 const handleSelectThisItem = () => {
                   if (handleSelectMonitoring && !isDeleting) {
