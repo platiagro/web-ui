@@ -17,6 +17,8 @@ import {
   operatorParameterDataLoaded,
   experimentsTabsLoadingData,
   experimentsTabsDataLoaded,
+  resultsButtonBarLoadingData,
+  resultsButtonBarDataLoaded,
 } from 'store/ui/actions';
 
 // UTILS
@@ -42,6 +44,8 @@ const fetchOperatorsSuccess = (operators) => (dispatch) => {
   // dispatching experiment tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
 
+  dispatch(resultsButtonBarDataLoaded());
+
   // dispatching fetch operators success action
   dispatch({
     type: actionTypes.FETCH_OPERATORS_SUCCESS,
@@ -64,6 +68,8 @@ const fetchOperatorsFail = (error) => (dispatch) => {
 
   // dispatching experiment tabs data loaded action
   dispatch(experimentsTabsDataLoaded());
+
+  dispatch(resultsButtonBarDataLoaded());
 
   // dispatching fetch operators fail
   dispatch({
@@ -89,6 +95,7 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
   });
   dispatch(experimentOperatorsLoadingData());
   dispatch(experimentsTabsLoadingData());
+  dispatch(resultsButtonBarLoadingData());
 
   try {
     // getting tasks
@@ -209,11 +216,7 @@ export const upadteOperatorDependencies = (operators) => async (
   const { columns } = datasetReducer;
 
   // configuring operators
-  let configuredOperators = utils.configureOperators(
-    tasks,
-    operators,
-    columns
-  );
+  let configuredOperators = utils.configureOperators(tasks, operators, columns);
 
   // create/dispatch action
   dispatch({

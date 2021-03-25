@@ -15,6 +15,8 @@ import {
   experimentTrainingDataLoaded,
   experimentTrainingLoadingData,
   implantedExperimentsLoadingData,
+  resultsButtonBarLoadingData,
+  resultsButtonBarDataLoaded,
 } from 'store/ui/actions';
 
 // ACTIONS
@@ -245,8 +247,10 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (
 
     if (isAllPending) {
       dispatch(experimentTrainingLoadingData());
+      dispatch(resultsButtonBarLoadingData());
     } else {
       dispatch(experimentTrainingDataLoaded());
+      dispatch(resultsButtonBarDataLoaded());
     }
 
     if (!stoppedRun) {

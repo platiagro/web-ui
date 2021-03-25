@@ -736,6 +736,34 @@ export const operatorResultsDataLoaded = () => {
   };
 };
 
+// ** OPERATOR RESULTS BUTTON LOADING DATA
+/**
+ * operator parameter loading data
+ *
+ * @returns {object} { type, resultsButtonBarLoading }
+ */
+export const resultsButtonBarLoadingData = () => {
+  return {
+    type: actionTypes.OPERATOR_RESULTS_BUTTON_LOADING_DATA,
+    resultsButtonBarLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** OPERATOR RESULTS BUTTON DATA LOADED
+/**
+ * operator parameter data loaded
+ *
+ * @returns {object} { type, resultsButtonBarLoading }
+ */
+export const resultsButtonBarDataLoaded = () => {
+  return {
+    type: actionTypes.OPERATOR_RESULTS_BUTTON_DATA_LOADED,
+    resultsButtonBarLoading: false,
+  };
+};
+
 // ** OPERATOR RESULTS LOADING DATA
 /**
  * operator parameter loading data
