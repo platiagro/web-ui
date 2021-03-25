@@ -103,8 +103,10 @@ const createDeploymentSuccess = (response) => (dispatch) => {
  * @returns {object} { type, errorMessage }
  */
 const createDeploymentFail = (error) => (dispatch) => {
+  const customErrorMessage = 'Selecione um experimento ou fluxo de tarefas';
+
   // getting error message
-  const errorMessage =
+  let errorMessage =
     error.response === undefined ? error.message : error.response.data.message;
 
   // dispatching create deployment fail action response
@@ -114,6 +116,12 @@ const createDeploymentFail = (error) => (dispatch) => {
   });
 
   dispatch(newDeploymentModalEndLoading());
+
+  console.log(errorMessage);
+
+  errorMessage = errorMessage.includes('either')
+    ? customErrorMessage
+    : errorMessage;
 
   message.error(errorMessage, 5);
 };
