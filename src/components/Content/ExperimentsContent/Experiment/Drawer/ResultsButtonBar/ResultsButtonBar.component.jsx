@@ -1,12 +1,12 @@
 // CORE LIBS
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // UI LIBS
-import { Button } from "antd";
+import { Button } from 'antd';
 
 // ANTD ICON
-import { TableOutlined } from "@ant-design/icons";
+import { TableOutlined } from '@ant-design/icons';
 
 // button shape
 const icon = <TableOutlined />;
@@ -27,11 +27,16 @@ const ResultsButtonBar = (props) => {
     loading,
   } = props;
 
+  const disabledTitle = () =>
+    disabled
+      ? 'Para visualizar os resultados, primeiro execute o treinamento.'
+      : '';
+
   // rendering component
   return showingResults ? (
     /* rendering edit or results button */
     // edit button
-    <Button onClick={handleEditClick} shape="round" type="primary">
+    <Button onClick={handleEditClick} shape='round' type='primary'>
       Visualizar parâmetros
     </Button>
   ) : (
@@ -39,17 +44,13 @@ const ResultsButtonBar = (props) => {
       {/* results button */}
       <Button
         onClick={handleResultsClick}
-        shape="round"
-        type="primary"
+        shape='round'
+        type='primary'
         disabled={disabled}
         loading={loading}
         icon={icon}
-        title={
-          disabled
-            ? "Para visualizar os resultados, primeiro execute o treinamento."
-            : ""
-        }
-        style={{ marginBottom: "14px", marginRight: "8px" }}
+        title={disabledTitle()}
+        style={{ marginBottom: '14px', marginRight: '8px' }}
       >
         Visualizar resultados
       </Button>
