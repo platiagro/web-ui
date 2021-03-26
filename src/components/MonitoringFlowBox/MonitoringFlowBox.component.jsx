@@ -22,8 +22,8 @@ const statusFlowBox = {
   pending: <ClockCircleFilled />,
   loading: <LoadingOutlined />,
   success: <CheckCircleFilled style={{ color: '#389E0D' }} />,
-  active: <div className='statusIcon active' />,
-  disable: <div className='statusIcon disable' />,
+  active: <div className='monitoring-flow-box-status-icon active' />,
+  disable: <div className='monitoring-flow-box-status-icon disable' />,
   default: null,
 };
 
@@ -31,21 +31,21 @@ const statusFlowBox = {
  * Componente de caixa (operador) de monitoramento.
  */
 function MonitoringFlowBox(props) {
-  const { title, status } = props;
+  const { title, status, onClick } = props;
 
   const statusIcon = statusFlowBox[status];
 
   // RENDER
   return (
-    <div className='monitoringFlowBox'>
-      <div className='circleDetail' />
-      <div className='lineDetail' />
-      <div className='box'>
-        <div className='icon'>
+    <div className='monitoring-flow-box' onClick={onClick}>
+      <div className='monitoring-flow-box-circle' />
+      <div className='monitoring-flow-box-line' />
+      <div className='monitoring-flow-box-content'>
+        <div className='monitoring-flow-box-icon'>
           <FundOutlined />
         </div>
-        <div className='title'>{title}</div>
-        <div className='status'>{statusIcon}</div>
+        <div className='monitoring-flow-box-title'>{title}</div>
+        <div className='monitoring-flow-box-status'>{statusIcon}</div>
       </div>
     </div>
   );
@@ -63,10 +63,13 @@ MonitoringFlowBox.propTypes = {
     'active',
     'disable',
   ]),
+  /** Evento de click */
+  onClick: PropTypes.func
 };
 
 MonitoringFlowBox.defaultProps = {
   status: undefined,
+  onClick: undefined,
 };
 
 // EXPORT

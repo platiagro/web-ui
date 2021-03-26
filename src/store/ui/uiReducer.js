@@ -71,6 +71,7 @@ const initialState = {
   },
   prepareDeployments: { loading: false },
   externalDatasetHelperModal: { visible: false },
+  monitorings: { loading: false, creating: false, deleting: false }
 };
 
 const uiReducer = (state = initialState, action = undefined) => {
@@ -639,6 +640,33 @@ const uiReducer = (state = initialState, action = undefined) => {
           loading: action.prepareDeploymentsLoading,
         },
       };
+
+    case actionTypes.SET_LOADING_MONITORINGS:
+      return {
+        ...state,
+        monitorings: {
+          ...state.monitorings,
+          loading: action.loading
+        }
+      }
+
+    case actionTypes.SET_CREATING_MONITORING:
+      return {
+        ...state,
+        monitorings: {
+          ...state.monitorings,
+          creating: action.creating
+        }
+      }
+
+    case actionTypes.SET_DELETING_MONITORING:
+      return {
+        ...state,
+        monitorings: {
+          ...state.monitorings,
+          deleting: action.deleting
+        }
+      }
 
     // DEFAULT
     default:

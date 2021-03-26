@@ -78,6 +78,10 @@ jobs:
         run: |
           yarn
 
+      - name: Uses .env.production
+        run: |
+          mv .env.production .env
+
       - name: Perform tests
         run: |
           yarn build

@@ -1,0 +1,5 @@
+**Exemplo:**
+
+```js
+<PreloadAnimation />
+```
