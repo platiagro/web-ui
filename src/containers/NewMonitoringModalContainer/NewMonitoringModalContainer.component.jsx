@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { fetchTasks } from 'store/tasks/actions'
 import NewMonitoringModal from 'components/NewMonitoringModal'
-import { createMonitoring } from 'store/monitorings/actions'
+import { createMultipleMonitorings } from 'store/monitorings/actions'
 
-const addingMonitoringSelector = ({ uiReducer }) => {
-  return uiReducer.monitorings.adding
+const creatingMonitoringSelector = ({ uiReducer }) => {
+  return uiReducer.monitorings.creating
 }
 
 const tasksLoadingSelector = ({ uiReducer }) => {
@@ -26,7 +26,7 @@ const NewMonitoringModalContainer = ({
 }) => {
   const dispatch = useDispatch()
 
-  const isAddingMonitorings = useSelector(addingMonitoringSelector)
+  const isCreatingMonitorings = useSelector(creatingMonitoringSelector)
   const isLoadingTasks = useSelector(tasksLoadingSelector)
   const tasks = useSelector(tasksSelector)
 
@@ -36,13 +36,13 @@ const NewMonitoringModalContainer = ({
     const hasNoSelectedTasks = !selectedTasks || selectedTasks.length === 0
     if (hasNoSelectedTasks) return
 
-    selectedTasks.forEach((task) => {
-      dispatch(createMonitoring({
-        taskId: task.uuid,
-        projectId,
-        deploymentId,
-      }))
-    })
+    const requestDataArray = selectedTasks.map((task) => ({
+      taskId: task.uuid,
+      projectId,
+      deploymentId,
+    }))
+
+    dispatch(createMultipleMonitorings(requestDataArray))
   }
 
   // Always fetch tasks when open the modal 
@@ -52,7 +52,7 @@ const NewMonitoringModalContainer = ({
 
   return (
     <NewMonitoringModal
-      isAddingMonitorings={isAddingMonitorings}
+      isCreatingMonitorings={isCreatingMonitorings}
       isLoadingTasks={isLoadingTasks}
       isShowing={isShowing}
       handleAddMonitorings={handleAddMonitorings}

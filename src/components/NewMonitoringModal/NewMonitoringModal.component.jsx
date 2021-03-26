@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Modal } from 'antd'
 
@@ -8,8 +8,8 @@ import { taskShape } from './propTypes'
 
 import './styles.less'
 
-const NewMonitoringModalContainer = ({
-  isAddingMonitorings,
+const NewMonitoringModal = ({
+  isCreatingMonitorings,
   isLoadingTasks,
   isShowing,
   handleAddMonitorings,
@@ -17,10 +17,17 @@ const NewMonitoringModalContainer = ({
   tasks,
 }) => {
   const [selectedTasks, setSelectedTasks] = useState([])
+  const [wasOkButtonClicked, setWasOkButtonClicked] = useState(false)
 
   const hasNoSelectedTasks = useMemo(() => {
     return selectedTasks.length === 0
   }, [selectedTasks])
+
+  const okButtonText = useMemo(() => {
+    const numberOfMonitorings = selectedTasks.length
+    if (numberOfMonitorings < 2) return 'Adicionar Monitoramento'
+    return `Adicionar Monitoramentos (${numberOfMonitorings})`
+  }, [selectedTasks.length])
 
   const handleUnselectTask = (monitoringType) => {
     setSelectedTasks((currentSelectedArray) => {
@@ -39,14 +46,29 @@ const NewMonitoringModalContainer = ({
 
   const handleClickOkButton = () => {
     handleAddMonitorings(selectedTasks)
-    handleHideModal()
+    setWasOkButtonClicked(true)
   }
+
+  // Clear internal state when closes the modal
+  useEffect(() => {
+    if (!isShowing) {
+      setSelectedTasks([])
+      setWasOkButtonClicked(false)
+    }
+  }, [isShowing])
+
+  // Hides the modal after clicking the OK button 
+  // and the API creates the monitorings 
+  useEffect(() => {
+    const canHideModal = wasOkButtonClicked && !isCreatingMonitorings
+    if (canHideModal) handleHideModal()
+  }, [handleHideModal, isCreatingMonitorings, wasOkButtonClicked])
 
   return (
     <Modal
       wrapClassName="new-monitoring-modal"
       title="Escolha um ou mais Tipos de Monitoramento"
-      okText="Adicionar Monitoramento"
+      okText={okButtonText}
       bodyStyle={{ padding: '16px' }}
       cancelText="Cancelar"
       width={1000}
@@ -55,7 +77,7 @@ const NewMonitoringModalContainer = ({
       visible={isShowing}
       okButtonProps={{
         disabled: isLoadingTasks || hasNoSelectedTasks,
-        loading: isAddingMonitorings,
+        loading: isCreatingMonitorings,
       }}
       centered
     >
@@ -73,8 +95,8 @@ const NewMonitoringModalContainer = ({
   )
 }
 
-NewMonitoringModalContainer.propTypes = {
-  isAddingMonitorings: PropTypes.bool,
+NewMonitoringModal.propTypes = {
+  isCreatingMonitorings: PropTypes.bool,
   isLoadingTasks: PropTypes.bool,
   isShowing: PropTypes.bool,
   handleAddMonitorings: PropTypes.func,
@@ -82,8 +104,8 @@ NewMonitoringModalContainer.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape(taskShape)),
 }
 
-NewMonitoringModalContainer.defaultProps = {
-  isAddingMonitorings: false,
+NewMonitoringModal.defaultProps = {
+  isCreatingMonitorings: false,
   isLoadingTasks: false,
   isShowing: false,
   handleAddMonitorings: undefined,
@@ -91,4 +113,4 @@ NewMonitoringModalContainer.defaultProps = {
   tasks: []
 }
 
-export default NewMonitoringModalContainer
+export default NewMonitoringModal

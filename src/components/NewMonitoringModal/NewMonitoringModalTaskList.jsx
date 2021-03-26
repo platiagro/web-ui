@@ -5,7 +5,7 @@ import MonitoringTaskCard from 'components/MonitoringTaskCard'
 
 import { taskShape } from './propTypes'
 
-const NewMonitoringModalList = ({
+const NewMonitoringModalTaskList = ({
   handleUnselectTask,
   handleSelectTask,
   selectedTasks,
@@ -35,18 +35,18 @@ const NewMonitoringModalList = ({
   )
 }
 
-NewMonitoringModalList.propTypes = {
+NewMonitoringModalTaskList.propTypes = {
   handleUnselectTask: PropTypes.func,
   handleSelectTask: PropTypes.func,
   selectedTasks: PropTypes.arrayOf(taskShape),
   tasks: PropTypes.arrayOf(taskShape),
 }
 
-NewMonitoringModalList.defaultProps = {
+NewMonitoringModalTaskList.defaultProps = {
   handleUnselectTask: undefined,
   handleSelectTask: undefined,
   selectedTasks: [],
   tasks: [],
 }
 
-export default NewMonitoringModalList
+export default NewMonitoringModalTaskList
