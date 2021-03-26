@@ -1,0 +1,38 @@
+.new-monitoring-modal {
+  padding-top: 24px;
+
+  .new-monitoring-modal-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      width: 100%;
+      max-width: 300px;
+      margin: 8px;
+
+      @media only screen and (max-width: 768px) {
+        max-width: unset;
+      }
+    }
+  }
+
+  .new-monitoring-modal-skeletons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    * {
+      margin: 0;
+    }
+
+    .new-monitoring-modal-skeleton {
+      width: 300px;
+      height: 150px;
+      margin: 8px;
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
+  }
+}
