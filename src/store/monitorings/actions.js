@@ -115,7 +115,7 @@ export const createMonitoring = ({
 /**
  * Create multiple monitorings
  * 
- * @param {object} requestDataArray Request data array
+ * @param {Array} requestDataArray Request data array
  * @returns {Promise} Request
  */
 export const createMultipleMonitorings = (requestDataArray) => async (dispatch) => {
@@ -167,7 +167,7 @@ export const deleteMonitoringsFail = () => ({
 });
 
 /**
- * Create a new monitoring
+ * Delete a monitoring
  * 
  * @param {object} requestData Request data
  * @param {string} requestData.projectId Project ID
