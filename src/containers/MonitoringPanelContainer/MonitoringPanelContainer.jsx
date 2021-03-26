@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MonitoringPanel from 'components/MonitoringPanel'
 import MonitoringToolbar from 'components/MonitoringToolbar'
 import { deleteMonitoring, fetchMonitorings } from 'store/monitorings/actions'
+import NewMonitoringModalContainer from 'containers/NewMonitoringModalContainer'
 
 import './styles.less'
 
@@ -29,6 +30,7 @@ const MonitoringPanelContainer = () => {
   const monitorings = useSelector(monitoringsSelector)
 
   const [selectedMonitoring, setSelectedMonitoring] = useState(null)
+  const [isShowingAddModal, setIsShowingAddModal] = useState(false)
   const [isShowingPanel, setIsShowingPanel] = useState(true)
 
   const handleSelectMonitoring = (monitoring) => {
@@ -45,8 +47,12 @@ const MonitoringPanelContainer = () => {
     dispatch(deleteMonitoring({ projectId, deploymentId, monitoringId }))
   }
 
+  const handleHideAddMonitoringModal = () => {
+    setIsShowingAddModal(false)
+  }
+
   const handleAddMonitoring = () => {
-    // TODO: Implementar
+    setIsShowingAddModal(true)
   }
 
   const handleSeeMonitoring = () => {
@@ -95,6 +101,13 @@ const MonitoringPanelContainer = () => {
           handleSelectMonitoring={handleSelectMonitoring}
         />
       )}
+
+      <NewMonitoringModalContainer
+        projectId={projectId}
+        deploymentId={deploymentId}
+        isShowing={isShowingAddModal}
+        handleHideModal={handleHideAddMonitoringModal}
+      />
     </div>
   )
 }
