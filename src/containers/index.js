@@ -6,8 +6,10 @@ import DatasetUploadInputBlockContainer from './DatasetUploadInputBlockContainer
 import DataViewButtonContainer from './DataViewButtonContainer';
 import DataViewModalContainer from './DataViewModalContainer';
 import DeploymentsTableContainer from './DeploymentsTableContainer';
+import DeploymentsHeaderContainer from './DeploymentsHeaderContainer';
 import DeploymentsTabsContainer from './DeploymentsTabsContainer';
 import DeploymentToolbarContainer from './DeploymentToolbarContainer';
+import DeploymentFlowContainer from './DeploymentFlowContainer';
 import DownloadOperatorDatasetContainer from './DownloadOperatorDatasetContainer';
 
 import ExperimentsHeaderContainer from './ExperimentsHeaderContainer';
@@ -26,6 +28,8 @@ import UsingDeploymentsModalContainer from './UsingDeploymentsModalContainer';
 
 import PrepareDeploymentsModalContainer from './PrepareDeploymentsModalContainer';
 
+import MonitoringPanelContainer from './MonitoringPanelContainer';
+
 export {
   ChangeRoutePromptContainer,
   CompareResultsModalContainer,
@@ -35,7 +39,9 @@ export {
   DataViewModalContainer,
   DeploymentsTableContainer,
   DeploymentsTabsContainer,
+  DeploymentsHeaderContainer,
   DeploymentToolbarContainer,
+  DeploymentFlowContainer,
   DownloadOperatorDatasetContainer,
   ExperimentsHeaderContainer,
   InferenceTestResultModalContainer,
@@ -46,4 +52,5 @@ export {
   UsingDeploymentsButtonContainer,
   UsingDeploymentsModalContainer,
   PrepareDeploymentsModalContainer,
+  MonitoringPanelContainer,
 };

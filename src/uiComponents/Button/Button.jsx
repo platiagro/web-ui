@@ -8,8 +8,6 @@ import { Button as AntButton } from 'antd';
 /**
  * Simple button based in Ant Design button.
  *
- * @component
- *
  * @param {object} props Component props
  *
  * @returns {Button} Component
@@ -53,11 +51,13 @@ const Button = (props) => {
     type,
     handleClick,
     color,
+    className,
   } = props;
 
   // rendering component
   return (
     <AntButton
+      className={className}
       disabled={isDisabled}
       icon={icon}
       loading={isLoading}
@@ -89,6 +89,8 @@ Button.propTypes = {
   shape: PropTypes.string,
   /** Button custom color */
   color: PropTypes.string,
+  /** Button class name */
+  className: PropTypes.string,
 };
 
 // DEFAULT PROPS
@@ -99,6 +101,8 @@ Button.defaultProps = {
   shape: undefined,
   /** Button custom color */
   color: undefined,
+  /** Button class name */
+  className: undefined,
 };
 
 // EXPORT DEFAULT
