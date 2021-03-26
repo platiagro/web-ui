@@ -1,8 +1,7 @@
 // REACT LIBS
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import { PropertiesPanel } from 'components';
@@ -43,6 +42,8 @@ const mapStateToProps = (state) => {
     operatorLogs: state.operatorReducer.logs,
     operatorName: state.operatorReducer.name,
     operatorStatus: state.operatorReducer.status,
+    resultsButtonBarLoading:
+      state.uiReducer.operatorResults.resultsButtonBarLoading,
   };
 };
 
@@ -55,22 +56,14 @@ const mapStateToProps = (state) => {
  */
 const OperatorResizableSectionContainer = (props) => {
   const {
-    checkExperimentIsFinished,
     handleShowResultsClick,
     operatorDescription,
     operatorIsDataset,
     operatorLogs,
     operatorName,
     operatorStatus,
+    resultsButtonBarLoading,
   } = props;
-  const { projectId, experimentId } = useParams();
-  const [experimentIsFinished, setExperimentIsFinished] = useState(false);
-
-  useEffect(() => {
-    if (experimentId) {
-      setExperimentIsFinished(checkExperimentIsFinished(experimentId));
-    }
-  }, [projectId, experimentId, checkExperimentIsFinished]);
 
   const propertiesContent = operatorName ? (
     <>
@@ -103,7 +96,7 @@ const OperatorResizableSectionContainer = (props) => {
               handleResultsClick={handleShowResultsClick}
               // always show results button
               showingResults={false}
-              disabled={!experimentIsFinished}
+              loading={resultsButtonBarLoading}
             />
           )}
 

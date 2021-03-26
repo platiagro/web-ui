@@ -70,7 +70,6 @@ export const fetchOperatorsRequest = (projectId, deploymentId) => async (
     // dispatch(experimentOperatorsDataLoaded());
     // dispatch(experimentsTabsDataLoaded());
     // dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
-
     dispatch({
       type: actionTypes.FETCH_DEPLOYMENT_OPERATORS_SUCCESS,
       configuredOperators,
