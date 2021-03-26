@@ -32,7 +32,7 @@ const monitoringsReducer = (state = initialState, action = {}) => {
     case actionTypes.CREATE_MONITORINGS_SUCCESS: {
       return {
         ...state,
-        monitorings: [...state.monitorings, payload.monitoring],
+        monitorings: [...state.monitorings, ...payload.monitorings],
       }
     }
 

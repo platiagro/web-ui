@@ -60,13 +60,13 @@ export const fetchMonitorings = (projectId, deploymentId) => async (dispatch) =>
 /**
  * Create monitoring success
  * 
- * @param {object} monitoring Monitoring created
+ * @param {Array} monitorings Created monitorings
  * @returns {object} { type }
  */
-export const createMonitoringsSuccess = (monitoring) => ({
+export const createMonitoringsSuccess = (monitorings = []) => ({
   type: actionTypes.CREATE_MONITORINGS_SUCCESS,
   payload: {
-    monitoring
+    monitorings
   }
 });
 
@@ -103,7 +103,39 @@ export const createMonitoring = ({
     })
 
     const monitoring = response.data
-    dispatch(createMonitoringsSuccess(monitoring))
+    dispatch(createMonitoringsSuccess([monitoring]))
+  } catch (e) {
+    dispatch(createMonitoringsFail())
+    message.error(e.message, 5)
+  } finally {
+    dispatch(setCreatingMonitoring(false))
+  }
+};
+
+/**
+ * Create multiple monitorings
+ * 
+ * @param {object} requestDataArray Request data array
+ * @returns {Promise} Request
+ */
+export const createMultipleMonitorings = (requestDataArray) => async (dispatch) => {
+  try {
+    dispatch(setCreatingMonitoring(true))
+
+    const responses = await Promise.all(
+      requestDataArray.map((requestData) => {
+        const { projectId, deploymentId, taskId } = requestData
+
+        return MonitoringsApi.createMonitoring({
+          projectId,
+          deploymentId,
+          taskId
+        })
+      })
+    )
+
+    const createdMonitorings = responses.map((response) => response.data)
+    dispatch(createMonitoringsSuccess(createdMonitorings))
   } catch (e) {
     dispatch(createMonitoringsFail())
     message.error(e.message, 5)
