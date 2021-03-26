@@ -19,9 +19,10 @@ const NewMonitoringModal = ({
   const [selectedTasks, setSelectedTasks] = useState([])
   const [wasOkButtonClicked, setWasOkButtonClicked] = useState(false)
 
-  const hasNoSelectedTasks = useMemo(() => {
-    return selectedTasks.length === 0
-  }, [selectedTasks])
+  const isOkButtonDisabled = useMemo(() => {
+    const hasNoSelectedTasks = selectedTasks.length === 0
+    return isLoadingTasks || isCreatingMonitorings || hasNoSelectedTasks
+  }, [isCreatingMonitorings, isLoadingTasks, selectedTasks.length])
 
   const okButtonText = useMemo(() => {
     const numberOfMonitorings = selectedTasks.length
@@ -30,6 +31,7 @@ const NewMonitoringModal = ({
   }, [selectedTasks.length])
 
   const handleUnselectTask = (monitoringType) => {
+    if (isCreatingMonitorings) return
     setSelectedTasks((currentSelectedArray) => {
       const indexToRemove = currentSelectedArray.indexOf(monitoringType)
       const selectedArrayClone = [...currentSelectedArray]
@@ -39,6 +41,7 @@ const NewMonitoringModal = ({
   }
 
   const handleSelectTask = (monitoringType) => {
+    if (isCreatingMonitorings) return
     setSelectedTasks((currentSelectedArray) => {
       return [...currentSelectedArray, monitoringType]
     })
@@ -76,7 +79,7 @@ const NewMonitoringModal = ({
       onOk={handleClickOkButton}
       visible={isShowing}
       okButtonProps={{
-        disabled: isLoadingTasks || hasNoSelectedTasks,
+        disabled: isOkButtonDisabled,
         loading: isCreatingMonitorings,
       }}
       centered
