@@ -10,17 +10,25 @@ import './TemplatesTable.style.less';
  * Componente de tabela de templates
  */
 function TemplatesTable(props) {
-  const { onSelect, templatesData, selectedRowKey } = props;
+  const { onSelect, templatesData, selectedRowKey, loading } = props;
 
   const renderName = (text) => <strong>{text}</strong>;
 
-  const renderUser = (user, index) => (
-    <UserAvatar
-      userName={user.username}
-      key={user.name + index}
-      avatarColor={user.avatarColor}
-    />
-  );
+  const renderUser = (user, index) => {
+    /*
+      TODO: Backend ainda não retorna os dados do usuário, quando retornar é só
+      remover o bloco abaixo.
+    */
+    user = user || { userName: 'Anônimo', avatarColor: 'grey' };
+
+    return (
+      <UserAvatar
+        userName={user.userName}
+        key={user.userName + index}
+        avatarColor={user.avatarColor}
+      />
+    );
+  };
 
   const columns = [
     {
@@ -44,6 +52,16 @@ function TemplatesTable(props) {
     },
   };
 
+  const onRow = (record) => {
+    return {
+      onClick: (event) => {
+        event.stopPropagation();
+
+        onSelect([record.uuid]);
+      },
+    };
+  };
+
   return (
     <div className='templatesTable'>
       <div className='title'>
@@ -54,10 +72,12 @@ function TemplatesTable(props) {
         <Table
           rowSelection={rowSelection}
           rowKey='uuid'
+          onRow={onRow}
           showHeader={false}
           pagination={false}
           columns={columns}
           dataSource={templatesData}
+          loading={loading}
         />
       </div>
     </div>
@@ -78,6 +98,7 @@ TemplatesTable.propTypes = {
   ),
   onSelect: PropTypes.func.isRequired,
   selectedRowKey: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
 };
 
 TemplatesTable.defaultProps = {

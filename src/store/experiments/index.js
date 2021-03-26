@@ -4,7 +4,4 @@ import Reducer from './experimentsReducer';
 
 export default Reducer;
 
-import experimentReducer from './experiment';
-
-export { experimentReducer, Actions, ActionTypes}
-
+export { Actions, ActionTypes };

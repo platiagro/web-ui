@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -14,6 +14,9 @@ import './NewDeploymentModal.style.less';
 function NewDeploymentModal(props) {
   const {
     visible,
+    loading,
+    experimentsLoading,
+    templatesLoading,
     experimentsData,
     templatesData,
     onCancel,
@@ -26,6 +29,11 @@ function NewDeploymentModal(props) {
   const [filteredTemplates, setFilteredTemplates] = useState(templatesData);
   const [selectedUuid, setSelectedUuid] = useState(undefined);
   const [selectedType, setSelectedType] = useState(undefined);
+
+  useEffect(() => {
+    setFilteredExperiments(experimentsData);
+    setFilteredTemplates(templatesData);
+  }, [experimentsData, templatesData]);
 
   const handleSearch = (e) => {
     const filterValue = e.target.value.toLowerCase();
@@ -73,6 +81,8 @@ function NewDeploymentModal(props) {
       cancelText='Cancelar'
       okText='Confirmar'
       className='newDeploymentModal'
+      confirmLoading={loading || experimentsLoading || templatesLoading}
+      okButtonProps={{ disabled: !selectedType }}
     >
       <div>
         <Input
@@ -86,6 +96,7 @@ function NewDeploymentModal(props) {
           onSelect={handleExperimentSelect}
           experimentsData={filteredExperiments}
           selectedRowKey={experimentsSelectedRow}
+          loading={experimentsLoading}
         />
       </div>
       <div className='section'>
@@ -93,6 +104,7 @@ function NewDeploymentModal(props) {
           onSelect={handleTemplateSelect}
           templatesData={filteredTemplates}
           selectedRowKey={templatesSelectedRow}
+          loading={templatesLoading}
         />
       </div>
     </Modal>
@@ -120,6 +132,9 @@ NewDeploymentModal.propTypes = {
     })
   ),
   visible: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  experimentsLoading: PropTypes.bool.isRequired,
+  templatesLoading: PropTypes.bool.isRequired,
 };
 
 export default NewDeploymentModal;

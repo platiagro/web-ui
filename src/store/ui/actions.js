@@ -1053,6 +1053,20 @@ export const hideExternalDatasetHelperModal = () => {
   };
 };
 
+export const newDeploymentModalStartLoading = () => {
+  return {
+    type: actionTypes.DEPLOYMENT_MODAL_START_LOADING,
+    payload: true,
+  };
+};
+
+export const newDeploymentModalEndLoading = () => {
+  return {
+    type: actionTypes.DEPLOYMENT_MODAL_END_LOADING,
+    payload: false,
+  };
+};
+
 // // // // // // // // // // // // // //
 
 export const setLoadingMonitorings = (loading = false) => {
@@ -1075,3 +1089,4 @@ export const setDeletingMonitoring = (deleting = false) => {
     deleting,
   };
 };
+

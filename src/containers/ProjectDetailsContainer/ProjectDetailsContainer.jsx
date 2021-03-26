@@ -15,12 +15,16 @@ import {
   LogsDrawerContainer,
   UsingDeploymentsButtonContainer,
   UsingDeploymentsModalContainer,
+  NewDeploymentModalContainer,
 } from 'containers';
 
 import Button from 'uiComponents/Button/index';
 
 // ACTIONS
-import { showNewExperimentModal } from 'store/ui/actions';
+import {
+  showNewExperimentModal,
+  showNewDeploymentModal as showNewDeploymentModalAction,
+} from 'store/ui/actions';
 
 //IMAGES SVG
 import experimentacao from 'assets/experimentacao.svg';
@@ -31,6 +35,7 @@ import './style.less';
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
+    showNewDeploymentModal: () => dispatch(showNewDeploymentModalAction()),
     handleNewExperimentModal: () => dispatch(showNewExperimentModal()),
   };
 };
@@ -47,8 +52,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const ProjectDetailContainer = (props) => {
-  const { project, handleNewExperimentModal } = props;
+const ProjectDetailsContainer = (props) => {
+  const { project, handleNewExperimentModal, showNewDeploymentModal } = props;
 
   const { loading: projectLoading } = project;
 
@@ -121,6 +126,7 @@ const ProjectDetailContainer = (props) => {
               icon={<PlusOutlined />}
               shape='round'
               type='primary-inverse'
+              handleClick={showNewDeploymentModal}
             >
               Escolher fluxo
             </Button>
@@ -142,7 +148,6 @@ const ProjectDetailContainer = (props) => {
           </div>
         </div>
       </div>
-
       <div className='tableContent'>
         <div className='tableTitle'>
           <span>
@@ -152,11 +157,11 @@ const ProjectDetailContainer = (props) => {
         </div>
         <DeploymentsTableContainer />
       </div>
-
       <InferenceTestResultModalContainer />
       <LogsDrawerContainer />
       <NewExperimentModalContainer />
       <UsingDeploymentsModalContainer />
+      <NewDeploymentModalContainer />
     </>
   );
 };
@@ -164,4 +169,4 @@ const ProjectDetailContainer = (props) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProjectDetailContainer);
+)(ProjectDetailsContainer);

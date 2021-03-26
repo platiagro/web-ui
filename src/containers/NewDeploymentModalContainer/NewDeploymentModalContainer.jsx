@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
 import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
@@ -8,74 +7,55 @@ import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { hideNewDeploymentModal } from 'store/ui/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 
-const mapDispatchToProps = {
-  onCancel: hideNewDeploymentModal,
-  onConfirm: createDeploymentRequest,
-};
+import { Actions as experimentsActions } from 'store/experiments';
+import { fetchTemplatesRequest } from 'store/templates/actions';
 
-const mapStateToProps = (state) => {
-  return {
-    visible: state.uiReducer.newDeploymentModal.visible,
-    experimentsData: state.experimentsReducer,
-    templatesData: state.templatesReducer,
-  };
-};
+const { fetchExperimentsRequest } = experimentsActions;
 
 /**
  * New deployment modal container
  */
-function NewDeploymentModal(props) {
-  const {
-    visible,
-    experimentsData,
-    templatesData,
-    onCancel,
-    onConfirm,
-  } = props;
-
+function NewDeploymentModalContainer() {
+  const dispatchHook = useDispatch();
   const { projectId } = useParams();
 
-  const handleConfirm = (selectedType, selectedUuid) => {
+  // did mount hook
+  useEffect(() => {
+    dispatchHook(fetchExperimentsRequest(projectId));
+    dispatchHook(fetchTemplatesRequest(projectId));
+  }, [dispatchHook, projectId]);
+
+  const handleConfirm = (selectedType, selectedUuid, dispatch) => {
     let experimentId = selectedType === 'experiment' ? selectedUuid : undefined;
     let templateId = selectedType === 'template' ? selectedUuid : undefined;
 
-    onConfirm(projectId, experimentId, templateId);
+    return dispatch(
+      createDeploymentRequest(projectId, experimentId, templateId)
+    );
   };
 
-  return (
-    <NewDeploymentModalComponent
-      visible={visible}
-      experimentsData={experimentsData}
-      templatesData={templatesData}
-      onCancel={onCancel}
-      onConfirm={handleConfirm}
-    />
+  const mapDispatchToProps = (dispatch) => ({
+    onCancel: () => dispatch(hideNewDeploymentModal()),
+    onConfirm: (selectedType, selectedUuid) =>
+      handleConfirm(selectedType, selectedUuid, dispatch),
+  });
+
+  const mapStateToProps = (state) => {
+    return {
+      visible: state.uiReducer.newDeploymentModal.visible,
+      loading: state.uiReducer.newDeploymentModal.loading,
+      templatesLoading: state.uiReducer.template.loading,
+      experimentsLoading: state.uiReducer.experimentsTabs.loading,
+      experimentsData: state.experimentsReducer,
+      templatesData: state.templatesReducer,
+    };
+  };
+
+  const Container = withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(NewDeploymentModalComponent)
   );
+
+  return <Container />;
 }
 
-NewDeploymentModal.propTypes = {
-  experimentsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
-  onCancel: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-  templatesData: PropTypes.arrayOf(
-    PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      user: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        avatarColor: PropTypes.string.isRequired,
-      }).isRequired,
-    })
-  ),
-  visible: PropTypes.bool.isRequired,
-};
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(NewDeploymentModal)
-);
+export default NewDeploymentModalContainer;
