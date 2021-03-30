@@ -272,7 +272,7 @@ const getTagConfig = (tag) => {
     return tagsConfig[tag];
   }
 
-  return null
+  return null;
 };
 
 /**
