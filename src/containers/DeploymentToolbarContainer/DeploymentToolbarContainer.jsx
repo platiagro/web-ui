@@ -16,7 +16,7 @@ import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleFetchOperators: (projectId, deploymentId) =>
-      dispatch(fetchOperatorsRequest(projectId + deploymentId)),
+      dispatch(fetchOperatorsRequest(projectId, deploymentId)),
     handleRunDeployment: (projectId, deploymentId) =>
       dispatch(
         deploymentRunsActions.createDeploymentRunRequest(
