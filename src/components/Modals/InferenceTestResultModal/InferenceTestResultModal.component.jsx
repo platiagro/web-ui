@@ -139,13 +139,13 @@ const InferenceTestResultModal = ({
                   {utils.isSupportedBinaryData(experimentInference) ? (
                     utils.isImage(experimentInference) ? (
                       <img
-                        src={experimentInference.strData}
+                        src={utils.formatBase64(experimentInference)}
                         alt='predict-response'
                         className='image-difference'
                         style={{ maxWidth: '100%' }}
                       />
                     ) : (
-                      <video src={experimentInference.strData} controls>
+                      <video src={experimentInference.binData} controls>
                         <track default kind='captions' />
                       </video>
                     )
