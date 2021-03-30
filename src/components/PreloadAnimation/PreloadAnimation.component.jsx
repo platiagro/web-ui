@@ -1,29 +1,43 @@
 // REACT LIBS
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import './styles.less';
 
 // UI LIBS
-import { LoadingOutlined } from '@ant-design/icons';
-import { Result, Spin } from 'antd';
+import { Result } from 'antd';
+
+import loadingImage from 'assets/loading_jupyter.gif';
 
 /**
  * Renders an animation while some content is loading.
  */
-const PreloadAnimation = () => {
+const PreloadAnimation = (props) => {
+  const { remainingSeconds } = props;
+  let message = '';
+  if (remainingSeconds === 0) {
+    message = 'Verificando se já está pronto...';
+  } else {
+    message = 'Aguarde, o JupyterLab está sendo preparado...';
+  }
   return (
     <div className='contentPage'>
       <Result
         icon={
-          <Spin
-            indicator={
-              <LoadingOutlined style={{ fontSize: '72px', color: '#004e66' }} />
-            }
+          <img
+            src={loadingImage}
+            alt='Animação de carregamento. Um desenho de trator passando pelo campo, enquanto ao fundo aparecem estrelas e nuvens'
           />
         }
         title={
           <>
-            Preparando o JupyterLab.
+            {message}
             <br />
-            Aguarde um instante...
+            {remainingSeconds > 0 && (
+              <span className='preload-description'>
+                Próxima verificação em {remainingSeconds} segundos
+              </span>
+            )}
           </>
         }
       />
@@ -32,7 +46,9 @@ const PreloadAnimation = () => {
 };
 
 // PROP TYPES
-PreloadAnimation.propTypes = {};
+PreloadAnimation.propTypes = {
+  remainingSeconds: PropTypes.number.isRequired,
+};
 
 // EXPORT DEFAULT
 export default PreloadAnimation;
