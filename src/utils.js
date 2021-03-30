@@ -611,7 +611,7 @@ const isSupportedBinaryData = (response) => {
 
   if (isExpectedResponse) {
     const base = `data:${response?.meta?.tags?.['content-type']};base64`;
-    const content = response.binData;
+    const content = response?.binData;
 
     const mimeType = base.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/);
     if (mimeType != null) {

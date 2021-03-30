@@ -122,7 +122,10 @@ const InferenceTestResultModal = ({
                 >
                   Copiar
                 </Button>
-                <a href={utils.downloadFile()} download='predict-file'>
+                <a
+                  href={utils.downloadFile(experimentInference)}
+                  download='predict-file'
+                >
                   <Button
                     icon={<DownloadOutlined />}
                     type='primary'
