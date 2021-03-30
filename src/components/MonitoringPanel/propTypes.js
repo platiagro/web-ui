@@ -5,4 +5,8 @@ export const monitoringShape = {
   deploymentId: PropTypes.string,
   taskId: PropTypes.string,
   uuid: PropTypes.string,
+  task: PropTypes.shape({
+    name: PropTypes.string,
+    tags: PropTypes.arrayOf(PropTypes.string)
+  })
 }
