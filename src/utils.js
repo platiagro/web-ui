@@ -607,11 +607,6 @@ const getFeaturetypes = (dataset) => {
  */
 const isSupportedBinaryData = (response) => {
   const isExpectedResponse = Object.keys(response).includes('binData');
-  // const isExpectedResponse = Object.keys(response).some((key) =>
-  //   ['binData'].includes(key)
-  // )
-  //   ? true
-  //   : false;
 
   if (isExpectedResponse) {
     const base = `data:${response?.meta?.tags?.['content-type']};base64`;
