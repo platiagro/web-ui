@@ -9,7 +9,7 @@ import SaveTemplateContainer from 'containers/SaveTemplateContainer';
 import ToolbarConfig from 'components/Content/ExperimentsContent/Experiment/ExperimentHeader/ToolbarConfig/index';
 
 // ACTIONS
-import { fetchOperatorsRequest } from 'store/operators/actions';
+import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
 
 // DISPATCHS
