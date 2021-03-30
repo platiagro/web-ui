@@ -1,5 +1,6 @@
 import React from 'react';
 import { ReactFlowProvider } from 'react-flow-renderer';
+import { PropertiesPanel } from 'components';
 
 import {
   MonitoringPanelContainer,
@@ -23,7 +24,7 @@ function Deployment() {
         <DeploymentsHeaderContainer />
 
         <div className='deployment-page-body'>
-          <div className="deployment-page-body-left">
+          <div className='deployment-page-body-left'>
             <div className='deployment-page-body-options'>
               <DeploymentToolbarContainer />
             </div>
@@ -36,11 +37,9 @@ function Deployment() {
               <MonitoringPanelContainer />
             </div>
           </div>
-
-          <div className='deployment-page-body-right'>
-            {/* TODO: Aqui fica o container de parâmetros */}
-            Parameters
-          </div>
+          <PropertiesPanel>
+            {/* TODO: Colocar container de propriedades */}
+          </PropertiesPanel>
         </div>
 
         <DeploymentsTabsContainer />
