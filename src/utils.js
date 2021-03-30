@@ -272,7 +272,7 @@ const getTagConfig = (tag) => {
     return tagsConfig[tag];
   }
 
-  return null
+  return null;
 };
 
 /**
@@ -352,9 +352,9 @@ const configureOperatorParameters = (
   const datasetParameters =
     isDataset && operatorParameters
       ? Object.keys(operatorParameters).map((key) => ({
-        name: key,
-        value: operatorParameters[key],
-      }))
+          name: key,
+          value: operatorParameters[key],
+        }))
       : undefined;
 
   const configuredOperatorParameters = taskParameters.map((parameter) => {
@@ -606,14 +606,17 @@ const getFeaturetypes = (dataset) => {
  * @returns {boolean} if a response includes a encoded base64 string or not
  */
 const isSupportedBinaryData = (response) => {
-  const isExpectedResponse = Object.keys(response).some((key) =>
-    ['strData'].includes(key)
-  )
-    ? true
-    : false;
+  const isExpectedResponse = Object.keys(response).includes('binData');
+  // const isExpectedResponse = Object.keys(response).some((key) =>
+  //   ['binData'].includes(key)
+  // )
+  //   ? true
+  //   : false;
 
   if (isExpectedResponse) {
-    const [base, content] = response.strData.split(',');
+    const base = `data:${response?.meta?.tags?.['content-type']};base64`;
+    const content = response.binData;
+
     const mimeType = base.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/);
     if (mimeType != null) {
       const pattern = /[A-Za-z0-9+/=]/;
@@ -632,10 +635,17 @@ const isSupportedBinaryData = (response) => {
  * @returns {boolean} is a response includes a encoded base64 image or not
  */
 const isImage = (response) => {
-  const [base] = response.strData.split(',');
+  const contentType = response.meta?.tags?.['content-type'];
 
-  if (base.includes('image/')) return true;
-  return false;
+  if (Boolean(contentType) && contentType.includes('image/')) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const formatBase64 = (response) => {
+  return `data:${response.meta.tags['content-type']};base64,${response.binData}`;
 };
 
 const formatCompareResultDate = (date) => {
@@ -705,6 +715,7 @@ export default {
   getFeaturetypes,
   isSupportedBinaryData,
   isImage,
+  formatBase64,
   formatCompareResultDate,
   formatResultsParameters,
 };
