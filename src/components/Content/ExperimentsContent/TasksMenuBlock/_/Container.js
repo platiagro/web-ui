@@ -16,10 +16,12 @@ import {
   setTemplateRequest,
   deleteTemplateRequest,
 } from '../../../../../store/templates/actions';
+import { fetchTasks } from 'store/tasks/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
   return {
+    handleFetchTasks: () => dispatch(fetchTasks()),
     handleFetchTasksMenu: () => dispatch(fetchTasksMenuRequest()),
     handleFilterTasksMenu: (filter) => dispatch(filterTasksMenu(filter)),
     handleCreateOperator: (
@@ -69,6 +71,7 @@ const TasksMenuBlockContainer = ({
   trainingLoading,
   trainingSucceeded,
   tasksMenu,
+  handleFetchTasks,
   handleFetchTasksMenu,
   handleFilterTasksMenu,
   handleCreateOperator,
@@ -85,8 +88,9 @@ const TasksMenuBlockContainer = ({
   // did mount hook
   useEffect(() => {
     // fetching menu tasks
+    handleFetchTasks()
     handleFetchTasksMenu();
-  }, [handleFetchTasksMenu]);
+  }, [handleFetchTasks, handleFetchTasksMenu]);
 
   // HANDLERS
   const createOperatorHandler = (taskId, taskType, position) => {
