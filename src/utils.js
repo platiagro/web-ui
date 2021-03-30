@@ -349,13 +349,18 @@ const configureOperatorParameters = (
   isDataset
 ) => {
   // Returns the operator key and value
-  const datasetParameters =
-    isDataset && operatorParameters
-      ? Object.keys(operatorParameters).map((key) => ({
+  let datasetParameters = undefined;
+
+  if (isDataset && operatorParameters) {
+    if (Array.isArray(operatorParameters)) {
+      datasetParameters = operatorParameters;
+    } else {
+      datasetParameters = Object.keys(operatorParameters).map((key) => ({
         name: key,
         value: operatorParameters[key],
-      }))
-      : undefined;
+      }));
+    }
+  }
 
   const configuredOperatorParameters = taskParameters.map((parameter) => {
     let options;
