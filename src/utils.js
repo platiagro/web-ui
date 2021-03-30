@@ -632,11 +632,7 @@ const isSupportedBinaryData = (response) => {
 const isImage = (response) => {
   const contentType = response.meta?.tags?.['content-type'];
 
-  if (Boolean(contentType) && contentType.includes('image/')) {
-    return true;
-  } else {
-    return false;
-  }
+  return Boolean(contentType) && contentType.includes('image/');
 };
 
 const formatBase64 = (response) => {
