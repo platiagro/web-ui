@@ -9,6 +9,7 @@ import {
   ShareAltOutlined,
   SolutionOutlined,
 } from '@ant-design/icons';
+import { notification } from 'antd';
 
 /**
  * Delete Experiment
@@ -635,8 +636,65 @@ const isImage = (response) => {
   return Boolean(contentType) && contentType.includes('image/');
 };
 
-const formatBase64 = (response) => {
-  return `data:${response.meta.tags['content-type']};base64,${response.binData}`;
+/**
+ * Transform a string into base64 format.
+ *
+ * @param {string} data String
+ * @returns {string} a string with in base64 format
+ */
+const formatBase64 = (data) => {
+  return `data:${data.meta.tags['content-type']};base64,${data.binData}`;
+};
+
+/**
+ * Transform a tabular data or a binary data to a plain text.
+ *
+ * @param {object} strEncoded Seldon object response
+ * @returns {string} a string with Seldon response
+ */
+const toRawText = (strEncoded) => {
+  const { binData, names, ndarray, strData } = strEncoded;
+  if (names && ndarray) {
+    const columns = names.join(',');
+    return columns + '\n' + ndarray.join('\n');
+  } else if (binData) {
+    return binData;
+  } else {
+    return strData;
+  }
+};
+
+/**
+ * Copy Seldon response to clipboard.
+ */
+const copyToClipboard = (experimentInference) => {
+  const text = toRawText(experimentInference);
+  navigator.clipboard
+    .writeText(text)
+    .then(() =>
+      notification['success']({
+        message: 'Texto Copiado',
+        description:
+          'O resultado do modelo foi copiado para sua área de transferência!',
+      })
+    )
+    .catch(() =>
+      notification['error']({
+        message: 'Erro ao Copiar Texto',
+        description: 'Pode ser que o retorno do modelo esteja corrompido.',
+      })
+    );
+};
+
+/**
+ * Download a response content as file
+ *
+ * @returns {string} content as base64
+ */
+const downloadFile = (experimentInference) => {
+  return isSupportedBinaryData(experimentInference)
+    ? experimentInference.strData
+    : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
 };
 
 const formatCompareResultDate = (date) => {
@@ -707,6 +765,9 @@ export default {
   isSupportedBinaryData,
   isImage,
   formatBase64,
+  toRawText,
   formatCompareResultDate,
   formatResultsParameters,
+  copyToClipboard,
+  downloadFile,
 };

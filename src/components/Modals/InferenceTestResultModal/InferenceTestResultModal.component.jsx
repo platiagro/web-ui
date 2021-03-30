@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
-import { Button, Input, Modal, notification, Result } from 'antd';
+import { Button, Input, Modal, Result } from 'antd';
 import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 
 // COMPONENTS
@@ -24,57 +24,6 @@ const InferenceTestResultModal = ({
   retryTest,
   visible,
 }) => {
-  /**
-   * Transform a tabular data or a binary data to a plain text.
-   *
-   * @param {object} strEncoded Seldon object response
-   * @returns {string} a string with Seldon response
-   */
-  const toRawText = (strEncoded) => {
-    const { binData, names, ndarray, strData } = strEncoded;
-    if (names && ndarray) {
-      const columns = names.join(',');
-      return columns + '\n' + ndarray.join('\n');
-    } else if (binData) {
-      return binData;
-    } else {
-      return strData;
-    }
-  };
-
-  /**
-   * Copy Seldon response to clipboard.
-   */
-  const copyToClipboard = () => {
-    const text = toRawText(experimentInference);
-    navigator.clipboard
-      .writeText(text)
-      .then(() =>
-        notification['success']({
-          message: 'Texto Copiado',
-          description:
-            'O resultado do modelo foi copiado para sua área de transferência!',
-        })
-      )
-      .catch(() =>
-        notification['error']({
-          message: 'Erro ao Copiar Texto',
-          description: 'Pode ser que o retorno do modelo esteja corrompido.',
-        })
-      );
-  };
-
-  /**
-   * Download a response content as file
-   *
-   * @returns {string} content as base64
-   */
-  const downloadFile = () => {
-    return utils.isSupportedBinaryData(experimentInference)
-      ? experimentInference.strData
-      : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
-  };
-
   return (
     <Modal
       title={<strong>Visualizar resultados</strong>}
@@ -169,11 +118,11 @@ const InferenceTestResultModal = ({
                   icon={<CopyOutlined />}
                   type='primary'
                   style={{ margin: '6px 6px 0px 0px' }}
-                  onClick={() => copyToClipboard()}
+                  onClick={() => utils.copyToClipboard()}
                 >
                   Copiar
                 </Button>
-                <a href={downloadFile()} download='predict-file'>
+                <a href={utils.downloadFile()} download='predict-file'>
                   <Button
                     icon={<DownloadOutlined />}
                     type='primary'
