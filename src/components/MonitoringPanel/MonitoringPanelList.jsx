@@ -21,7 +21,7 @@ const MonitoringPanelList = ({
       {monitorings.map((monitoring, index) => {
         const isSelected = selectedMonitoring?.uuid === monitoring.uuid
         const status = getMonitoringFlowBoxStatus(isSelected)
-        const title = monitoring.title || `Monitoramento ${index + 1}`
+        const title = monitoring.task?.name || `Monitoramento ${index + 1}`
 
         const handleSelectThisItem = () => {
           const isThisItemNotSelectable = !handleSelectMonitoring || isDeleting
