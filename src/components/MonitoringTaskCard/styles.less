@@ -1,0 +1,49 @@
+.monitoring-task-card {
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f5f5f5;
+  width: 100%;
+  min-height: 130px;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+
+  &.monitoring-task-card-selected {
+    background: #e6f7ff !important;
+    border-color: #1890ff !important;
+  }
+
+  &:hover {
+    background: #f1f1f1;
+  }
+
+  .monitoring-task-card-selected-icon {
+    color: #1890ff;
+    position: absolute;
+    font-size: 18px;
+    top: 8px;
+    right: 8px;
+  }
+
+  .monitoring-task-card-content {
+    border-left: 16px solid #b7eb8f;
+    padding: 16px;
+    text-align: left;
+    flex: 1;
+    width: 100%;
+
+    .monitoring-task-card-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .monitoring-task-card-description {
+      font-weight: normal;
+    }
+  }
+}

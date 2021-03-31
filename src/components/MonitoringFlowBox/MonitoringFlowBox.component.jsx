@@ -2,10 +2,7 @@
 
 // CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
-import { Handle } from 'react-flow-renderer';
 
 // UI LIBS
 import {
@@ -62,9 +59,10 @@ MonitoringFlowBox.propTypes = {
     'success',
     'active',
     'disable',
+    'default',
   ]),
   /** Evento de click */
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 MonitoringFlowBox.defaultProps = {
