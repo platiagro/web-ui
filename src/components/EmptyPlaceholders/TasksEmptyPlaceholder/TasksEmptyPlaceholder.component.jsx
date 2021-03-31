@@ -2,7 +2,7 @@
 import React from 'react';
 
 // STYLES
-import './TasksEmptyPlaceholder.less';
+import './styles.less';
 
 /**
  * Tasks empty placeholder.

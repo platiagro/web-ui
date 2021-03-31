@@ -1,3 +1,3 @@
-import ImplantedExperimentsEmptyPlaceholder from './ImplantedExperimentsEmptyPlaceholder';
+import ImplantedExperimentsEmptyPlaceholder from './ImplantedExperimentsEmptyPlaceholder.component';
 
 export default ImplantedExperimentsEmptyPlaceholder;

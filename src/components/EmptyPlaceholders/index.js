@@ -1,18 +1,4 @@
-// MY PROJECTS EMPTY PLACEHOLDER
-import MyProjectsEmptyPlaceholder from './MyProjectsEmptyPlaceholder';
-
-// PROJECT EMPTY PLACEHOLDER
-import ProjectEmptyPlaceholder from './ProjectEmptyPlaceholder';
-
-// IMPLANTED EXPERIMENT EMPTY PLACEHOLDER
-import ImplantedExperimentsEmptyPlaceholder from './ImplantedExperimentsEmptyPlaceholder';
-
-// TASKS EMPTY PLACEHOLDER
-import TasksEmptyPlaceholder from './TasksEmptyPlaceholder';
-
-export {
-  MyProjectsEmptyPlaceholder,
-  ProjectEmptyPlaceholder,
-  ImplantedExperimentsEmptyPlaceholder,
-  TasksEmptyPlaceholder,
-};
+export { default as MyProjectsEmptyPlaceholder } from './MyProjectsEmptyPlaceholder';
+export { default as ProjectEmptyPlaceholder } from './ProjectEmptyPlaceholder';
+export { default as ImplantedExperimentsEmptyPlaceholder } from './ImplantedExperimentsEmptyPlaceholder';
+export { default as TasksEmptyPlaceholder } from './TasksEmptyPlaceholder';
