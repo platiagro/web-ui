@@ -1,3 +1,3 @@
-import CommonTable from './CommonTable';
+import CommonTable from './CommonTable.component';
 
 export default CommonTable;
