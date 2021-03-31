@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import MonitoringTaskCard from 'components/MonitoringTaskCard'
+import MonitoringTaskCard from 'components/MonitoringTaskCard';
 
-import { taskShape } from './propTypes'
+import { taskShape } from './propTypes';
 
 const NewMonitoringModalTaskList = ({
   handleUnselectTask,
@@ -12,14 +12,14 @@ const NewMonitoringModalTaskList = ({
   tasks,
 }) => {
   return (
-    <div className="new-monitoring-modal-list">
+    <div className='new-monitoring-modal-list'>
       {tasks.map((task) => {
-        const isSelected = selectedTasks.includes(task)
+        const isSelected = selectedTasks.includes(task);
 
         const handleTaskCardClick = () => {
-          if (isSelected) handleUnselectTask(task)
-          else handleSelectTask(task)
-        }
+          if (isSelected) handleUnselectTask(task);
+          else handleSelectTask(task);
+        };
 
         return (
           <MonitoringTaskCard
@@ -29,24 +29,24 @@ const NewMonitoringModalTaskList = ({
             onClick={handleTaskCardClick}
             isSelected={isSelected}
           />
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
 NewMonitoringModalTaskList.propTypes = {
   handleUnselectTask: PropTypes.func,
   handleSelectTask: PropTypes.func,
   selectedTasks: PropTypes.arrayOf(taskShape),
   tasks: PropTypes.arrayOf(taskShape),
-}
+};
 
 NewMonitoringModalTaskList.defaultProps = {
   handleUnselectTask: undefined,
   handleSelectTask: undefined,
   selectedTasks: [],
   tasks: [],
-}
+};
 
-export default NewMonitoringModalTaskList
+export default NewMonitoringModalTaskList;

@@ -1,84 +1,84 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 
-import MonitoringPanel from 'components/MonitoringPanel'
-import MonitoringToolbar from 'components/MonitoringToolbar'
-import { deleteMonitoring, fetchMonitorings } from 'store/monitorings/actions'
-import NewMonitoringModalContainer from 'containers/NewMonitoringModalContainer'
+import MonitoringPanel from 'components/MonitoringPanel';
+import MonitoringToolbar from 'components/MonitoringToolbar';
+import { deleteMonitoring, fetchMonitorings } from 'store/monitorings/actions';
+import NewMonitoringModalContainer from 'containers/NewMonitoringModalContainer';
 
-import './styles.less'
+import './styles.less';
 
 const monitoringsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.monitorings.loading
-}
+  return uiReducer.monitorings.loading;
+};
 
 const monitoringsDeletingSelector = ({ uiReducer }) => {
-  return uiReducer.monitorings.deleting
-}
+  return uiReducer.monitorings.deleting;
+};
 
 const monitoringsSelector = ({ monitoringsReducer }) => {
-  return monitoringsReducer.monitorings
-}
+  return monitoringsReducer.monitorings;
+};
 
 const MonitoringPanelContainer = () => {
-  const { projectId, deploymentId } = useParams()
-  const dispatch = useDispatch()
+  const { projectId, deploymentId } = useParams();
+  const dispatch = useDispatch();
 
-  const isDeletingMonitoring = useSelector(monitoringsDeletingSelector)
-  const isLoadingMonitorings = useSelector(monitoringsLoadingSelector)
-  const monitorings = useSelector(monitoringsSelector)
+  const isDeletingMonitoring = useSelector(monitoringsDeletingSelector);
+  const isLoadingMonitorings = useSelector(monitoringsLoadingSelector);
+  const monitorings = useSelector(monitoringsSelector);
 
-  const [selectedMonitoring, setSelectedMonitoring] = useState(null)
-  const [isShowingAddModal, setIsShowingAddModal] = useState(false)
-  const [isShowingPanel, setIsShowingPanel] = useState(true)
+  const [selectedMonitoring, setSelectedMonitoring] = useState(null);
+  const [isShowingAddModal, setIsShowingAddModal] = useState(false);
+  const [isShowingPanel, setIsShowingPanel] = useState(true);
 
   const handleSelectMonitoring = (monitoring) => {
-    setSelectedMonitoring(monitoring)
-  }
+    setSelectedMonitoring(monitoring);
+  };
 
   const handleTogglePanel = () => {
-    setIsShowingPanel((isShowing) => !isShowing)
-  }
+    setIsShowingPanel((isShowing) => !isShowing);
+  };
 
   const handleDeleteMonitoring = () => {
-    if (!selectedMonitoring || isDeletingMonitoring) return
-    const { uuid: monitoringId } = selectedMonitoring
-    dispatch(deleteMonitoring({ projectId, deploymentId, monitoringId }))
-  }
+    if (!selectedMonitoring || isDeletingMonitoring) return;
+    const { uuid: monitoringId } = selectedMonitoring;
+    dispatch(deleteMonitoring({ projectId, deploymentId, monitoringId }));
+  };
 
   const handleHideAddMonitoringModal = () => {
-    setIsShowingAddModal(false)
-  }
+    setIsShowingAddModal(false);
+  };
 
   const handleAddMonitoring = () => {
-    setIsShowingAddModal(true)
-  }
+    setIsShowingAddModal(true);
+  };
 
   const handleSeeMonitoring = () => {
     // TODO: Implementar
-  }
+  };
 
   useEffect(() => {
-    if (!projectId || !deploymentId) return
-    dispatch(fetchMonitorings(projectId, deploymentId))
-  }, [deploymentId, dispatch, projectId])
+    if (!projectId || !deploymentId) return;
+    dispatch(fetchMonitorings(projectId, deploymentId));
+  }, [deploymentId, dispatch, projectId]);
 
   // Clear the selected monitoring when the monitorings list changes
   useEffect(() => {
-    if (!selectedMonitoring) return
+    if (!selectedMonitoring) return;
 
     const selectedMonitoringIndex = monitorings.findIndex((monitoring) => {
-      return monitoring.uuid === selectedMonitoring.uuid
-    })
+      return monitoring.uuid === selectedMonitoring.uuid;
+    });
 
     if (selectedMonitoringIndex === -1) {
-      setSelectedMonitoring(null)
+      setSelectedMonitoring(null);
     }
-  }, [monitorings, selectedMonitoring])
+  }, [monitorings, selectedMonitoring]);
 
   return (
-    <div className="monitoring-panel-container">
+    <div className='monitoring-panel-container'>
       <MonitoringToolbar
         handleDeleteMonitoring={handleDeleteMonitoring}
         handleSeeMonitoring={handleSeeMonitoring}
@@ -93,7 +93,7 @@ const MonitoringPanelContainer = () => {
 
       {isShowingPanel && (
         <MonitoringPanel
-          className="monitoring-panel-content"
+          className='monitoring-panel-content'
           monitorings={monitorings}
           isLoading={isLoadingMonitorings}
           isDeleting={isDeletingMonitoring}
@@ -109,7 +109,7 @@ const MonitoringPanelContainer = () => {
         handleHideModal={handleHideAddMonitoringModal}
       />
     </div>
-  )
-}
+  );
+};
 
-export default MonitoringPanelContainer
+export default MonitoringPanelContainer;

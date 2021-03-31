@@ -5,14 +5,14 @@ import MonitoringsApi from 'services/MonitoringsApi';
 import {
   setLoadingMonitorings,
   setCreatingMonitoring,
-  setDeletingMonitoring
+  setDeletingMonitoring,
 } from '../ui/actions';
 
 import actionTypes from './actionTypes';
 
 /**
  * Fetch monitorings success
- * 
+ *
  * @param {Array} monitorings Monitorings list
  * @returns {object} { type, payload }
  */
@@ -20,12 +20,12 @@ export const fetchMonitoringsSuccess = (monitorings = []) => ({
   type: actionTypes.FETCH_MONITORINGS_SUCCESS,
   payload: {
     monitorings,
-  }
+  },
 });
 
 /**
  * Fetch monitorings fail
- * 
+ *
  * @returns {object} { type }
  */
 export const fetchMonitoringsFail = () => ({
@@ -34,45 +34,48 @@ export const fetchMonitoringsFail = () => ({
 
 /**
  * Fetch monitorings from the API
- * 
+ *
  * @param {string} projectId Project ID
  * @param {string} deploymentId Deployment ID
  * @returns {Promise} Request
  */
-export const fetchMonitorings = (projectId, deploymentId) => async (dispatch) => {
+export const fetchMonitorings = (projectId, deploymentId) => async (
+  dispatch
+) => {
   try {
-    dispatch(setLoadingMonitorings(true))
+    dispatch(setLoadingMonitorings(true));
 
     const response = await MonitoringsApi.fetchMonitorings(
-      projectId, deploymentId
-    )
+      projectId,
+      deploymentId
+    );
 
-    const monitorings = response.data.monitorings || []
-    dispatch(fetchMonitoringsSuccess(monitorings))
+    const monitorings = response.data.monitorings || [];
+    dispatch(fetchMonitoringsSuccess(monitorings));
   } catch (e) {
-    dispatch(fetchMonitoringsFail())
-    message.error(e.message, 5)
+    dispatch(fetchMonitoringsFail());
+    message.error(e.message, 5);
   } finally {
-    dispatch(setLoadingMonitorings(false))
+    dispatch(setLoadingMonitorings(false));
   }
 };
 
 /**
  * Create monitoring success
- * 
+ *
  * @param {Array} monitorings Created monitorings
  * @returns {object} { type }
  */
 export const createMonitoringsSuccess = (monitorings = []) => ({
   type: actionTypes.CREATE_MONITORINGS_SUCCESS,
   payload: {
-    monitorings
-  }
+    monitorings,
+  },
 });
 
 /**
  * Create monitoring fail
- * 
+ *
  * @returns {object} { type }
  */
 export const createMonitoringsFail = () => ({
@@ -81,66 +84,66 @@ export const createMonitoringsFail = () => ({
 
 /**
  * Create a new monitoring
- * 
+ *
  * @param {object} requestData Request data
  * @param {string} requestData.projectId Project ID
  * @param {string} requestData.deploymentId Deployment ID
  * @param {string} requestData.taskId Task ID
  * @returns {Promise} Request
  */
-export const createMonitoring = ({
-  projectId,
-  deploymentId,
-  taskId
-}) => async (dispatch) => {
+export const createMonitoring = ({ projectId, deploymentId, taskId }) => async (
+  dispatch
+) => {
   try {
-    dispatch(setCreatingMonitoring(true))
+    dispatch(setCreatingMonitoring(true));
 
     const response = await MonitoringsApi.createMonitoring({
       projectId,
       deploymentId,
-      taskId
-    })
+      taskId,
+    });
 
-    const monitoring = response.data
-    dispatch(createMonitoringsSuccess([monitoring]))
+    const monitoring = response.data;
+    dispatch(createMonitoringsSuccess([monitoring]));
   } catch (e) {
-    dispatch(createMonitoringsFail())
-    message.error(e.message, 5)
+    dispatch(createMonitoringsFail());
+    message.error(e.message, 5);
   } finally {
-    dispatch(setCreatingMonitoring(false))
+    dispatch(setCreatingMonitoring(false));
   }
 };
 
 /**
  * Create multiple monitorings
- * 
+ *
  * @param {Array} requestDataArray Request data array
  * @returns {Promise} Request
  */
-export const createMultipleMonitorings = (requestDataArray) => async (dispatch) => {
+export const createMultipleMonitorings = (requestDataArray) => async (
+  dispatch
+) => {
   try {
-    dispatch(setCreatingMonitoring(true))
+    dispatch(setCreatingMonitoring(true));
 
     const responses = await Promise.all(
       requestDataArray.map((requestData) => {
-        const { projectId, deploymentId, taskId } = requestData
+        const { projectId, deploymentId, taskId } = requestData;
 
         return MonitoringsApi.createMonitoring({
           projectId,
           deploymentId,
-          taskId
-        })
+          taskId,
+        });
       })
-    )
+    );
 
-    const createdMonitorings = responses.map((response) => response.data)
-    dispatch(createMonitoringsSuccess(createdMonitorings))
+    const createdMonitorings = responses.map((response) => response.data);
+    dispatch(createMonitoringsSuccess(createdMonitorings));
   } catch (e) {
-    dispatch(createMonitoringsFail())
-    message.error(e.message, 5)
+    dispatch(createMonitoringsFail());
+    message.error(e.message, 5);
   } finally {
-    dispatch(setCreatingMonitoring(false))
+    dispatch(setCreatingMonitoring(false));
   }
 };
 
@@ -154,12 +157,12 @@ export const deleteMonitoringsSuccess = (monitoringId) => ({
   type: actionTypes.DELETE_MONITORINGS_SUCCESS,
   payload: {
     monitoringId,
-  }
+  },
 });
 
 /**
  * Delete monitoring fail
- * 
+ *
  * @returns {object} { type }
  */
 export const deleteMonitoringsFail = () => ({
@@ -168,7 +171,7 @@ export const deleteMonitoringsFail = () => ({
 
 /**
  * Delete a monitoring
- * 
+ *
  * @param {object} requestData Request data
  * @param {string} requestData.projectId Project ID
  * @param {string} requestData.deploymentId Deployment ID
@@ -178,22 +181,22 @@ export const deleteMonitoringsFail = () => ({
 export const deleteMonitoring = ({
   projectId,
   deploymentId,
-  monitoringId
+  monitoringId,
 }) => async (dispatch) => {
   try {
-    dispatch(setDeletingMonitoring(true))
+    dispatch(setDeletingMonitoring(true));
 
     await MonitoringsApi.deleteMonitoring({
       projectId,
       deploymentId,
-      monitoringId
-    })
+      monitoringId,
+    });
 
-    dispatch(deleteMonitoringsSuccess(monitoringId))
+    dispatch(deleteMonitoringsSuccess(monitoringId));
   } catch (e) {
-    dispatch(deleteMonitoringsFail())
-    message.error(e.message, 5)
+    dispatch(deleteMonitoringsFail());
+    message.error(e.message, 5);
   } finally {
-    dispatch(setDeletingMonitoring(false))
+    dispatch(setDeletingMonitoring(false));
   }
 };

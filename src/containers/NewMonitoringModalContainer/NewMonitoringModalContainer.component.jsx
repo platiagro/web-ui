@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchTasks } from 'store/tasks/actions'
-import NewMonitoringModal from 'components/NewMonitoringModal'
-import { createMultipleMonitorings } from 'store/monitorings/actions'
+import { fetchTasks } from 'store/tasks/actions';
+import NewMonitoringModal from 'components/NewMonitoringModal';
+import { createMultipleMonitorings } from 'store/monitorings/actions';
 
 const creatingMonitoringSelector = ({ uiReducer }) => {
-  return uiReducer.monitorings.creating
-}
+  return uiReducer.monitorings.creating;
+};
 
 const tasksLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.tasksTable.loading
-}
+  return uiReducer.tasksTable.loading;
+};
 
 const tasksSelector = ({ tasksReducer }) => {
-  return tasksReducer.tasks
-}
+  return tasksReducer.tasks;
+};
 
 const NewMonitoringModalContainer = ({
   projectId,
@@ -24,31 +24,31 @@ const NewMonitoringModalContainer = ({
   isShowing,
   handleHideModal,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const isCreatingMonitorings = useSelector(creatingMonitoringSelector)
-  const isLoadingTasks = useSelector(tasksLoadingSelector)
-  const tasks = useSelector(tasksSelector)
+  const isCreatingMonitorings = useSelector(creatingMonitoringSelector);
+  const isLoadingTasks = useSelector(tasksLoadingSelector);
+  const tasks = useSelector(tasksSelector);
 
   const handleAddMonitorings = (selectedTasks) => {
-    if (!projectId || !deploymentId) return
+    if (!projectId || !deploymentId) return;
 
-    const hasNoSelectedTasks = !selectedTasks || selectedTasks.length === 0
-    if (hasNoSelectedTasks) return
+    const hasNoSelectedTasks = !selectedTasks || selectedTasks.length === 0;
+    if (hasNoSelectedTasks) return;
 
     const requestDataArray = selectedTasks.map((task) => ({
       taskId: task.uuid,
       projectId,
       deploymentId,
-    }))
+    }));
 
-    dispatch(createMultipleMonitorings(requestDataArray))
-  }
+    dispatch(createMultipleMonitorings(requestDataArray));
+  };
 
-  // Always fetch tasks when open the modal 
+  // Always fetch tasks when open the modal
   useEffect(() => {
-    if (isShowing) dispatch(fetchTasks())
-  }, [dispatch, isShowing])
+    if (isShowing) dispatch(fetchTasks());
+  }, [dispatch, isShowing]);
 
   return (
     <NewMonitoringModal
@@ -59,21 +59,21 @@ const NewMonitoringModalContainer = ({
       handleHideModal={handleHideModal}
       tasks={tasks}
     />
-  )
-}
+  );
+};
 
 NewMonitoringModalContainer.propTypes = {
   isShowing: PropTypes.bool,
   handleHideModal: PropTypes.bool,
   projectId: PropTypes.string,
   deploymentId: PropTypes.string,
-}
+};
 
 NewMonitoringModalContainer.defaultProps = {
   isShowing: false,
   handleHideModal: undefined,
   projectId: undefined,
   deploymentId: undefined,
-}
+};
 
-export default NewMonitoringModalContainer
+export default NewMonitoringModalContainer;

@@ -1,3 +1,3 @@
-import NewMonitoringModal from './NewMonitoringModal.component'
+import NewMonitoringModal from './NewMonitoringModal.component';
 
-export default NewMonitoringModal
+export default NewMonitoringModal;

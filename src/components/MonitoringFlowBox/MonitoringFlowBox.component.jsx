@@ -62,7 +62,7 @@ MonitoringFlowBox.propTypes = {
     'default',
   ]),
   /** Evento de click */
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 MonitoringFlowBox.defaultProps = {

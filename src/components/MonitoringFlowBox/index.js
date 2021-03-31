@@ -1,3 +1,3 @@
-import MonitoringFlowBox from './MonitoringFlowBox.component'
+import MonitoringFlowBox from './MonitoringFlowBox.component';
 
-export default MonitoringFlowBox
+export default MonitoringFlowBox;

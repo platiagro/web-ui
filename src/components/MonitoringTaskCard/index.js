@@ -1,3 +1,3 @@
-import MonitoringTaskCard from './MonitoringTaskCard.component'
+import MonitoringTaskCard from './MonitoringTaskCard.component';
 
-export default MonitoringTaskCard
+export default MonitoringTaskCard;

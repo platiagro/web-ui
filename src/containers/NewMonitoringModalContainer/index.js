@@ -1,3 +1,3 @@
-import NewMonitoringModalContainer from './NewMonitoringModalContainer.component'
+import NewMonitoringModalContainer from './NewMonitoringModalContainer.component';
 
-export default NewMonitoringModalContainer
+export default NewMonitoringModalContainer;

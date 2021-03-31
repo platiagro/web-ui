@@ -30,7 +30,10 @@
     "cSpell.words": [
       "antd",
       "monitorings"
-    ]
+    ],
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
   },
   "extensions": {
     "recommendations": [

@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
-import { Modal } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Modal } from 'antd';
 
-import NewMonitoringModalSkeleton from './NewMonitoringModalSkeleton'
-import NewMonitoringModalList from './NewMonitoringModalTaskList'
-import { taskShape } from './propTypes'
+import NewMonitoringModalSkeleton from './NewMonitoringModalSkeleton';
+import NewMonitoringModalList from './NewMonitoringModalTaskList';
+import { taskShape } from './propTypes';
 
-import './styles.less'
+import './styles.less';
 
 const NewMonitoringModal = ({
   isCreatingMonitorings,
@@ -16,64 +16,64 @@ const NewMonitoringModal = ({
   handleHideModal,
   tasks,
 }) => {
-  const [selectedTasks, setSelectedTasks] = useState([])
-  const [wasOkButtonClicked, setWasOkButtonClicked] = useState(false)
+  const [selectedTasks, setSelectedTasks] = useState([]);
+  const [wasOkButtonClicked, setWasOkButtonClicked] = useState(false);
 
   const isOkButtonDisabled = useMemo(() => {
-    const hasNoSelectedTasks = selectedTasks.length === 0
-    return isLoadingTasks || isCreatingMonitorings || hasNoSelectedTasks
-  }, [isCreatingMonitorings, isLoadingTasks, selectedTasks.length])
+    const hasNoSelectedTasks = selectedTasks.length === 0;
+    return isLoadingTasks || isCreatingMonitorings || hasNoSelectedTasks;
+  }, [isCreatingMonitorings, isLoadingTasks, selectedTasks.length]);
 
   const okButtonText = useMemo(() => {
-    const numberOfMonitorings = selectedTasks.length
-    if (numberOfMonitorings < 2) return 'Adicionar Monitoramento'
-    return `Adicionar Monitoramentos (${numberOfMonitorings})`
-  }, [selectedTasks.length])
+    const numberOfMonitorings = selectedTasks.length;
+    if (numberOfMonitorings < 2) return 'Adicionar Monitoramento';
+    return `Adicionar Monitoramentos (${numberOfMonitorings})`;
+  }, [selectedTasks.length]);
 
   const handleUnselectTask = (monitoringType) => {
-    if (isCreatingMonitorings) return
+    if (isCreatingMonitorings) return;
     setSelectedTasks((currentSelectedArray) => {
-      const indexToRemove = currentSelectedArray.indexOf(monitoringType)
-      const selectedArrayClone = [...currentSelectedArray]
-      selectedArrayClone.splice(indexToRemove, 1)
-      return selectedArrayClone
-    })
-  }
+      const indexToRemove = currentSelectedArray.indexOf(monitoringType);
+      const selectedArrayClone = [...currentSelectedArray];
+      selectedArrayClone.splice(indexToRemove, 1);
+      return selectedArrayClone;
+    });
+  };
 
   const handleSelectTask = (monitoringType) => {
-    if (isCreatingMonitorings) return
+    if (isCreatingMonitorings) return;
     setSelectedTasks((currentSelectedArray) => {
-      return [...currentSelectedArray, monitoringType]
-    })
-  }
+      return [...currentSelectedArray, monitoringType];
+    });
+  };
 
   const handleClickOkButton = () => {
-    handleAddMonitorings(selectedTasks)
-    setWasOkButtonClicked(true)
-  }
+    handleAddMonitorings(selectedTasks);
+    setWasOkButtonClicked(true);
+  };
 
   // Clear internal state when closes the modal
   useEffect(() => {
     if (!isShowing) {
-      setSelectedTasks([])
-      setWasOkButtonClicked(false)
+      setSelectedTasks([]);
+      setWasOkButtonClicked(false);
     }
-  }, [isShowing])
+  }, [isShowing]);
 
-  // Hides the modal after clicking the OK button 
-  // and the API creates the monitorings 
+  // Hides the modal after clicking the OK button
+  // and the API creates the monitorings
   useEffect(() => {
-    const canHideModal = wasOkButtonClicked && !isCreatingMonitorings
-    if (canHideModal) handleHideModal()
-  }, [handleHideModal, isCreatingMonitorings, wasOkButtonClicked])
+    const canHideModal = wasOkButtonClicked && !isCreatingMonitorings;
+    if (canHideModal) handleHideModal();
+  }, [handleHideModal, isCreatingMonitorings, wasOkButtonClicked]);
 
   return (
     <Modal
-      wrapClassName="new-monitoring-modal"
-      title="Escolha um ou mais Tipos de Monitoramento"
+      wrapClassName='new-monitoring-modal'
+      title='Escolha um ou mais Tipos de Monitoramento'
       okText={okButtonText}
       bodyStyle={{ padding: '16px' }}
-      cancelText="Cancelar"
+      cancelText='Cancelar'
       width={1000}
       onCancel={handleHideModal}
       onOk={handleClickOkButton}
@@ -95,8 +95,8 @@ const NewMonitoringModal = ({
         />
       )}
     </Modal>
-  )
-}
+  );
+};
 
 NewMonitoringModal.propTypes = {
   isCreatingMonitorings: PropTypes.bool,
@@ -105,7 +105,7 @@ NewMonitoringModal.propTypes = {
   handleAddMonitorings: PropTypes.func,
   handleHideModal: PropTypes.func,
   tasks: PropTypes.arrayOf(PropTypes.shape(taskShape)),
-}
+};
 
 NewMonitoringModal.defaultProps = {
   isCreatingMonitorings: false,
@@ -113,7 +113,7 @@ NewMonitoringModal.defaultProps = {
   isShowing: false,
   handleAddMonitorings: undefined,
   handleHideModal: undefined,
-  tasks: []
-}
+  tasks: [],
+};
 
-export default NewMonitoringModal
+export default NewMonitoringModal;
