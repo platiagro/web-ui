@@ -693,7 +693,7 @@ const copyToClipboard = (experimentInference) => {
  */
 const downloadFile = (experimentInference) => {
   return isSupportedBinaryData(experimentInference)
-    ? experimentInference.strData
+    ? formatBase64(experimentInference)
     : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
 };
 

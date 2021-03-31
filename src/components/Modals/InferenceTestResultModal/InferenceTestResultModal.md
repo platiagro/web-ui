@@ -86,3 +86,25 @@ const onConfirm = () => {
   />
 </div>;
 ```
+
+**Error:**
+
+```js
+const [visible, setVisible] = React.useState(false);
+
+const onClose = () => {
+  setVisible(false);
+};
+const onConfirm = () => {
+  alert('onConfirm');
+};
+
+<div>
+  <button onClick={() => setVisible(true)}>Open modal</button>
+  <InferenceTestResultModal
+    visible={visible}
+    experimentInference={null}
+    closeModal={onClose}
+  />
+</div>;
+```
