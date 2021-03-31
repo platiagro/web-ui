@@ -9,7 +9,7 @@ import './UserAvatar.style.less';
 function UserAvatar(props) {
   const { userName, avatarColor } = props;
 
-  const avatarLetter = userName.substr(0, 1).toUpperCase();
+  const avatarLetter = userName?.substr(0, 1).toUpperCase();
 
   return (
     <div className='userAvatar'>

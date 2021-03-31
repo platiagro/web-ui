@@ -9,6 +9,7 @@ import {
   ShareAltOutlined,
   SolutionOutlined,
 } from '@ant-design/icons';
+import { notification } from 'antd';
 
 /**
  * Delete Experiment
@@ -611,14 +612,12 @@ const getFeaturetypes = (dataset) => {
  * @returns {boolean} if a response includes a encoded base64 string or not
  */
 const isSupportedBinaryData = (response) => {
-  const isExpectedResponse = Object.keys(response).some((key) =>
-    ['strData'].includes(key)
-  )
-    ? true
-    : false;
+  const isExpectedResponse = Object.keys(response).includes('binData');
 
   if (isExpectedResponse) {
-    const [base, content] = response.strData.split(',');
+    const base = `data:${response?.meta?.tags?.['content-type']};base64`;
+    const content = response?.binData;
+
     const mimeType = base.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/);
     if (mimeType != null) {
       const pattern = /[A-Za-z0-9+/=]/;
@@ -637,10 +636,70 @@ const isSupportedBinaryData = (response) => {
  * @returns {boolean} is a response includes a encoded base64 image or not
  */
 const isImage = (response) => {
-  const [base] = response.strData.split(',');
+  const contentType = response.meta?.tags?.['content-type'];
 
-  if (base.includes('image/')) return true;
-  return false;
+  return Boolean(contentType) && contentType.includes('image/');
+};
+
+/**
+ * Transform a string into base64 format.
+ *
+ * @param {string} data String
+ * @returns {string} a string with in base64 format
+ */
+const formatBase64 = (data) => {
+  return `data:${data.meta.tags['content-type']};base64,${data.binData}`;
+};
+
+/**
+ * Transform a tabular data or a binary data to a plain text.
+ *
+ * @param {object} strEncoded Seldon object response
+ * @returns {string} a string with Seldon response
+ */
+const toRawText = (strEncoded) => {
+  const { binData, names, ndarray, strData } = strEncoded;
+  if (names && ndarray) {
+    const columns = names.join(',');
+    return columns + '\n' + ndarray.join('\n');
+  } else if (binData) {
+    return binData;
+  } else {
+    return strData;
+  }
+};
+
+/**
+ * Copy Seldon response to clipboard.
+ */
+const copyToClipboard = (experimentInference) => {
+  const text = toRawText(experimentInference);
+  navigator.clipboard
+    .writeText(text)
+    .then(() =>
+      notification['success']({
+        message: 'Texto Copiado',
+        description:
+          'O resultado do modelo foi copiado para sua área de transferência!',
+      })
+    )
+    .catch(() =>
+      notification['error']({
+        message: 'Erro ao Copiar Texto',
+        description: 'Pode ser que o retorno do modelo esteja corrompido.',
+      })
+    );
+};
+
+/**
+ * Download a response content as file
+ *
+ * @returns {string} content as base64
+ */
+const downloadFile = (experimentInference) => {
+  return isSupportedBinaryData(experimentInference)
+    ? formatBase64(experimentInference)
+    : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
 };
 
 const formatCompareResultDate = (date) => {
@@ -710,6 +769,10 @@ export default {
   getFeaturetypes,
   isSupportedBinaryData,
   isImage,
+  formatBase64,
+  toRawText,
   formatCompareResultDate,
   formatResultsParameters,
+  copyToClipboard,
+  downloadFile,
 };
