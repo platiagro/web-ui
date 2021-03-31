@@ -420,7 +420,7 @@ export const createOperatorRequest = (
 
     body['parameters'] = {
       dataset: '',
-      value: '',
+      target: '',
     };
   } else {
     configuredParameters = utils.configureOperatorParameters(
