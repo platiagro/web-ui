@@ -1,3 +1,3 @@
-import CompareResultItem from './CompareResultItem';
+import CompareResultItem from './CompareResultItem.component';
 
 export default CompareResultItem;
