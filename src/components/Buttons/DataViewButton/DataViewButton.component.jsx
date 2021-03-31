@@ -28,8 +28,8 @@ import { Button } from 'uiComponents';
  * // rendering component
  * return (
  *   <DataViewButton
- *     disabled={isDisabled}
- *     loading={isLoading}
+ *     isDisabled={isDisabled}
+ *     isLoading={isLoading}
  *     handleClick={handleClick}
  *   />
  * );

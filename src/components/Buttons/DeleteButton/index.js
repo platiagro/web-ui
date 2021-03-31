@@ -1,3 +1,3 @@
-import DeleteButton from './DeleteButton';
+import DeleteButton from './DeleteButton.component';
 
 export default DeleteButton;

@@ -1,27 +1,12 @@
-import CompareResultsButton from './CompareResultsButton';
-import DataViewButton from './DataViewButton';
-import DeleteButton from './DeleteButton';
-import PrepareDeploymentsButton from './PrepareDeploymentsButton';
-import RunDeploymentButton from './RunDeploymentButton';
-import SaveTemplateButton from './SaveTemplateButton';
-import UploadButton from './UploadButton';
-import UsingDeploymentsButton from './UsingDeploymentsButton';
-import LogsButton from './LogsButton';
-import DebugButton from './DebugButton'
-import ErrorButton from './ErrorButton'
-import InfoButton from './InfoButton'
-
-export {
-  CompareResultsButton,
-  DataViewButton,
-  DeleteButton,
-  PrepareDeploymentsButton,
-  RunDeploymentButton,
-  SaveTemplateButton,
-  UploadButton,
-  UsingDeploymentsButton,
-  LogsButton,
-  DebugButton,
-  ErrorButton,
-  InfoButton,
-};
+export { default as CompareResultsButton } from './CompareResultsButton'
+export { default as DataViewButton } from './DataViewButton'
+export { default as DebugButton } from './DebugButton'
+export { default as DeleteButton } from './DeleteButton'
+export { default as ErrorButton } from './ErrorButton'
+export { default as InfoButton } from './InfoButton'
+export { default as LogsButton } from './LogsButton'
+export { default as PrepareDeploymentsButton } from './PrepareDeploymentsButton'
+export { default as RunDeploymentButton } from './RunDeploymentButton'
+export { default as SaveTemplateButton } from './SaveTemplateButton'
+export { default as UploadButton } from './UploadButton'
+export { default as UsingDeploymentsButton } from './UsingDeploymentsButton'
