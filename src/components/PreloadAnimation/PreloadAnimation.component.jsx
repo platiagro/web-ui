@@ -14,12 +14,6 @@ import loadingImage from 'assets/loading_jupyter.gif';
  */
 const PreloadAnimation = (props) => {
   const { remainingSeconds } = props;
-  let message = '';
-  if (remainingSeconds === 0) {
-    message = 'Verificando se já está pronto...';
-  } else {
-    message = 'Aguarde, o JupyterLab está sendo preparado...';
-  }
   return (
     <div className='contentPage'>
       <Result
@@ -31,7 +25,9 @@ const PreloadAnimation = (props) => {
         }
         title={
           <>
-            {message}
+            {remainingSeconds === 0
+              ? 'Verificando se já está pronto...'
+              : 'Aguarde, o JupyterLab está sendo preparado...'}
             <br />
             {remainingSeconds > 0 && (
               <span className='preload-description'>
