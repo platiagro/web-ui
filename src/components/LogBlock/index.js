@@ -1,3 +1,3 @@
-import OperatorLogBlock from './OperatorLogBlock';
+import LogBlock from './LogBlock.component';
 
-export default OperatorLogBlock;
+export default LogBlock;

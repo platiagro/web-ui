@@ -1,13 +1,7 @@
-import InferenceTestResultModal from './InferenceTestResultModal';
-import NewMonitoringModal from './NewMonitoringModal';
-import UsingDeploymentsModal from './UsingDeploymentsModal';
-import PrepareDeploymentsModal from './PrepareDeploymentsModal';
-import ExternalDatasetHelperModal from './ExternalDatasetHelperModal';
-
-export {
-  InferenceTestResultModal,
-  NewMonitoringModal,
-  UsingDeploymentsModal,
-  PrepareDeploymentsModal,
-  ExternalDatasetHelperModal,
-};
+export { default as ExternalDatasetHelperModal } from './ExternalDatasetHelperModal';
+export { default as InferenceTestResultModal } from './InferenceTestResultModal';
+export { default as NewMonitoringModal } from './NewMonitoringModal';
+export { default as PrepareDeploymentsModal } from './PrepareDeploymentsModal';
+export { default as PromoteDeploymentModal } from './PromoteDeploymentModal';
+export { default as SaveTemplateModal } from './SaveTemplateModal';
+export { default as UsingDeploymentsModal } from './UsingDeploymentsModal';
