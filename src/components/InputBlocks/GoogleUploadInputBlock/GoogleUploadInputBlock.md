@@ -4,7 +4,7 @@
 <GoogleUploadInputBlock
   defaultFileList={[
     {
-      uid: 'File Name',
+      uid: '1',
       name: 'File Name',
       status: 'done',
       percent: '100%',
@@ -23,7 +23,7 @@
 <GoogleUploadInputBlock
   defaultFileList={[
     {
-      uid: 'File Name',
+      uid: '1',
       name: 'File Name',
       status: 'done',
       percent: '100%',
@@ -43,7 +43,7 @@
 <GoogleUploadInputBlock
   defaultFileList={[
     {
-      uid: 'File Name',
+      uid: '1',
       name: 'File Name',
       status: 'done',
       percent: '100%',
