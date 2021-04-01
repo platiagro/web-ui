@@ -1,3 +1,3 @@
-import TooltipTip from './TooltipTip';
+import TooltipTip from './TooltipTip.component';
 
 export default TooltipTip;

@@ -6,40 +6,6 @@ import PropTypes from 'prop-types';
 import { InfoCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Popover, Button } from 'antd';
 
-/**
- * That displays an icon that when hovered displays information (popover).
- *
- * The icon can be question type or info type.
- *
- * The popover information can be placed above (default) or below icon.
- *
- * The popover information has a title and text.
- *
- * @param {object} props Component props
- * @returns {PopoverTip} Component
- * @component
- * @example
- * // popover title
- * const popoverTitle = 'This is a tip title!';
- * // popover text
- * const popoverText = 'This is a tip text!';
- * // icon type
- * const iconType = 'question';
- * // popover below the icon
- * const isPopoverBelow = false;
- *
- * return (
- *  <div style={{ backgroundColor: "#333", display: "flex", width: '100%', height: '300px'}}>
- *    <PopoverTip
- *      popoverTitle={popoverTitle}
- *      popoverText={popoverText}
- *      iconType={iconType}
- *      isPopoverBelow={isPopoverBelow}
- *    />
- *  </div>
- * );
- *
- */
 const PopoverTip = (props) => {
   // destructuring props
   const { isPopoverBelow, popoverTitle, popoverText, iconType } = props;

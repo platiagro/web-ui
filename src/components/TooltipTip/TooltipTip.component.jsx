@@ -6,37 +6,6 @@ import PropTypes from 'prop-types';
 import { InfoCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 
-/**
- * That displays an icon that when hovered displays information (tooltip).
- *
- * The icon can be question type or info type.
- *
- * The tooltip information can be placed above (default) or below icon.
- *
- * The tooltip information is a text.
- *
- * @param {object} props Component props
- * @returns {TooltipTip} Component
- * @component
- * @example
- * // tooltip text
- * const tooltipText = 'This is a tip text!';
- * // icon type
- * const iconType = 'question';
- * // tooltip below the icon
- * const isTooltipBelow = false;
- *
- * return (
- *  <div style={{ backgroundColor: "#333", display: "flex", width: '100%', height: '300px'}}>
- *    <TooltipTip
- *      tooltipText={tooltipText}
- *      iconType={iconType}
- *      isTooltipBelow={isTooltipBelow}
- *    />
- *  </div>
- * );
- *
- */
 const TooltipTip = (props) => {
   // destructuring props
   const { isTooltipBelow, tooltipText, iconType } = props;
