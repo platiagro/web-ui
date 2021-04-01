@@ -54,7 +54,9 @@ const JupyterLabContainer = (props) => {
       }
       window.location.href = url;
     }
+  }, [path, qs, healthy]);
 
+  useEffect(() => {
     async function updateRemainingSeconds() {
       await utils.sleep(1000);
       if (remainingSeconds > 0) {
@@ -70,14 +72,7 @@ const JupyterLabContainer = (props) => {
     }
 
     updateRemainingSeconds();
-  }, [
-    path,
-    qs,
-    healthy,
-    handleFetchJupyterLabHealth,
-    remainingSeconds,
-    setRemainingSeconds,
-  ]);
+  }, [handleFetchJupyterLabHealth, remainingSeconds, setRemainingSeconds]);
 
   return <PreloadAnimation remainingSeconds={remainingSeconds} />;
 };
