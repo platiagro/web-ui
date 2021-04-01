@@ -1,3 +1,3 @@
-import GoogleUploadInputBlock from './GoogleUploadInputBlock';
+import GoogleUploadInputBlock from './GoogleUploadInputBlock.component';
 
 export default GoogleUploadInputBlock;

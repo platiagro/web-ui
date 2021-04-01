@@ -1,3 +1,3 @@
-import UploadInputBlock from './UploadInputBlock';
+import UploadInputBlock from './UploadInputBlock.component';
 
 export default UploadInputBlock;
