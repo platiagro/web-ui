@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // ACTIONS
-import projectsActions from 'store/Projects/Actions';
+import { Actions as projectsActions } from 'store/Projects';
 
 // COMPONENTS
 import ProjectsTablePagination from './index';

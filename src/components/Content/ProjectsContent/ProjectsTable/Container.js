@@ -9,7 +9,7 @@ import ProjectsTable from './index';
 import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
-import projectsActions from 'store/Projects/Actions';
+import { Actions as projectsActions } from 'store/Projects';
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
 // ACTIONS
