@@ -3,13 +3,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // ACTIONS
-import { fetchPaginatedProjects } from '../../../../store/Projects/actions';
+import projectsActions from 'store/Projects/Actions';
 
 // COMPONENTS
 import ProjectsTablePagination from './index';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
+  const { fetchPaginatedProjects } = projectsActions;
+
   return {
     handleFetchPaginatedProjects: (searchText, page, pageSize) => {
       dispatch(fetchPaginatedProjects(searchText, page, pageSize));

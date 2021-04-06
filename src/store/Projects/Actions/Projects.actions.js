@@ -2,7 +2,7 @@
 import { message } from 'antd';
 
 // ACTION TYPES
-import { actionTypes } from './Actions';
+import { actionTypes } from '.';
 
 // SERVICES
 import projectsApi from 'services/ProjectsApi';

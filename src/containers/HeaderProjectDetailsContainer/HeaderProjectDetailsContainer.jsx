@@ -13,7 +13,7 @@ import {
   editProjectNameRequest,
 } from 'store/project/actions';
 
-import { deleteProject } from 'store/Projects/actions';
+import projectsActions from 'store/Projects/Actions';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
 
@@ -23,6 +23,8 @@ import './style.less';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
+  const { deleteProject } = projectsActions;
+
   return {
     handleFetchProject: (projectId) =>
       dispatch(fetchProjectRequest(projectId, routerProps)),

@@ -9,10 +9,7 @@ import ProjectsTable from './index';
 import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
-import {
-  fetchPaginatedProjects,
-  selectProjects,
-} from '../../../../store/Projects/actions';
+import projectsActions from 'store/Projects/Actions';
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
 // ACTIONS
@@ -20,6 +17,8 @@ import { showNewProjectModal } from '../../../../store/ui/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
+  const { fetchPaginatedProjects, selectProjects } = projectsActions;
+
   return {
     handleFetchPaginatedProjects: (name) =>
       dispatch(fetchPaginatedProjects(name, 1, 10)),
