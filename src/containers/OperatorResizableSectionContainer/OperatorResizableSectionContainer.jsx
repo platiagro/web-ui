@@ -10,7 +10,7 @@ import DatasetDrawerContainer from 'components/Content/ExperimentsContent/Experi
 import GenericDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/GenericDrawer/_/Container';
 import NotebookOutputsContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/NotebookOutputs/_/Container';
 import PropertyBlock from 'components/PropertyBlock';
-import ResultsButtonBar from 'components/Content/ExperimentsContent/Experiment/Drawer/ResultsButtonBar';
+import { ResultsButtonBar } from 'components/Buttons';
 
 // ACTIONS
 import { getExperimentById } from 'store/experiments/experimentsReducer';

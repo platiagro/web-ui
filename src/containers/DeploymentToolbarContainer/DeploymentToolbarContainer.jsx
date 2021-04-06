@@ -6,7 +6,7 @@ import { withRouter, useParams } from 'react-router-dom';
 // COMPONENTS
 import { RunDeploymentButton } from 'components/Buttons';
 import SaveTemplateContainer from 'containers/SaveTemplateContainer';
-import ToolbarConfig from 'components/Content/ExperimentsContent/Experiment/ExperimentHeader/ToolbarConfig/index';
+import ToolbarConfig from 'components/ToolbarConfig';
 
 // ACTIONS
 import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';

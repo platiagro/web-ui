@@ -10,7 +10,7 @@ import { Badge, Button, Divider, Popconfirm, Tooltip, Typography } from 'antd';
 
 // COMPONENTS
 import { CommonTable } from 'components';
-import UploadInferenceTestButton from './UploadInferenceTestButton';
+import { UploadInferenceTestButton } from 'components/Buttons';
 
 // STYLES
 import './style.less';
@@ -100,7 +100,9 @@ const DeploymentsTable = (props) => {
         <>
           <UploadInferenceTestButton
             disabled={record.status === 'Failed' || record.status === 'Running'}
-            handleUpload={(file) => onTestInference(projectId, record.uuid, file)}
+            handleUpload={(file) =>
+              onTestInference(projectId, record.uuid, file)
+            }
           />{' '}
           <Divider type='vertical' />
           <Tooltip placement='bottom' title='Ver logs'>

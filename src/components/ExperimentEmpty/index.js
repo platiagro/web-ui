@@ -5,7 +5,7 @@ import React from 'react';
 import { Empty } from 'antd';
 
 // IMAGES
-import emptyImage from '../../../../../assets/emptyPlaceholder.png';
+import emptyImage from 'assets/emptyPlaceholder.png';
 
 /**
  * Experiment Empty.

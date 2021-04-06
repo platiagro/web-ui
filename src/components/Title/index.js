@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // UI LIBS
 import { Skeleton } from 'antd';
-import EditTitle from './EditTitle/Container';
+import EditTitle from 'containers/EditTitleContainer';
 
 import './style.less';
 

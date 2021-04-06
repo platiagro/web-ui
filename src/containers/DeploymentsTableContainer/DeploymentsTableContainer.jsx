@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import DeploymentsTable from 'components/Content/ProjectDetailsContent/DeploymentsTable';
+import DeploymentsTable from 'components/DeploymentsTable';
 
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';

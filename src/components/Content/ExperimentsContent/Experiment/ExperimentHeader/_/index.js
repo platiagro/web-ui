@@ -3,11 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import InterruptTrainExperimentButton from '../InterruptTrainExperimentButton';
+import {
+  InterruptTrainExperimentButton,
+  TrainExperimentButton,
+} from 'components/Buttons';
 import NewTemplateButton from '../NewTemplateButton/Container';
 import NewTemplateModal from '../NewTemplateModal/Container';
-import TrainExperimentButton from '../TrainExperimentButton';
-import ToolbarConfig from '../ToolbarConfig';
+import ToolbarConfig from 'components/ToolbarConfig';
 
 import './styles.less';
 
@@ -22,6 +24,10 @@ import './styles.less';
  * @param props.handleTrainExperiment
  * @param props.handleDeleteTrainExperiment
  * @param props.empty
+ * @param props.handleRemoveOperator
+ * @param props.operator
+ * @param props.handleRemoveOperator
+ * @param props.operator
  * @param {object} props Component props
  * @returns {ExperimentHeader} React component
  */

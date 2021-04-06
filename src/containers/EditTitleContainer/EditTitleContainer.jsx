@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // COMPONENTS
-import EditTitle from './index';
-import NewProjectModal from '../../Content/ProjectsContent/NewProjectModal/Container';
+import EditTitle from 'components/EditTitle';
+import NewProjectModal from 'components/Content/ProjectsContent/NewProjectModal/Container';
 
 // ACTIONS
 import { showNewProjectModal } from 'store/ui/actions';

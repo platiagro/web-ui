@@ -8,7 +8,7 @@ import { DropTarget } from 'react-dnd';
 import ReactFlow, { Background } from 'react-flow-renderer';
 
 // COMPONENTS
-import TaskBox from '../TaskBox';
+import TaskBox from 'components/TaskBox';
 import LoadingBox from 'components/LoadingBox';
 import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
 
@@ -31,6 +31,11 @@ import './style.less';
  * @param props.handleTaskBoxClick
  * @param props.handleDeselectOperator
  * @param props.handleSavePosition
+ * @param props.arrowConfigs
+ * @param props.handleSaveDependencies
+ * @param props.canDrop
+ * @param props.isOver
+ * @param props.connectDropTarget
  * @param {object} props Component props
  * @returns {ExperimentFlow} React component
  */
