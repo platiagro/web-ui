@@ -1,23 +1,18 @@
+/* global ProjectsStore */
+
 // ACTION TYPES
 import { actionTypes } from '../Actions';
+import { initialState } from '.';
 import projectActionTypes from '../../project/actionTypes';
-
-// INITIAL STATE
-const initialState = {
-  projects: [],
-  selectedProjects: [],
-  searchText: '',
-  currentPage: null,
-  pageSize: null,
-  total: null,
-};
 
 /**
  * Projects Reducer
  *
- * @param {object} state Reducer initial state
+ * @param {ProjectsStore} state Reducer initial state
  * @param {object} action Reducer action
- * @returns {object} New state
+ * @param {object} action.payload Action payload (data)
+ * @param {string} action.type Action type
+ * @returns {ProjectsStore} New state
  */
 const projectsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
