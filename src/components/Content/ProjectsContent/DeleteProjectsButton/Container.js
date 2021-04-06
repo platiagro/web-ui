@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import DeleteProjectsButton from './index';
 
 // ACTIONS
-import { deleteSelectedProjects } from '../../../../store/projects/actions';
+import { deleteSelectedProjects } from '../../../../store/Projects/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {

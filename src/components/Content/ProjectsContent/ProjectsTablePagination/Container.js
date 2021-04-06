@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // ACTIONS
-import { fetchPaginatedProjects } from '../../../../store/projects/actions';
+import { fetchPaginatedProjects } from '../../../../store/Projects/actions';
 
 // COMPONENTS
 import ProjectsTablePagination from './index';
@@ -32,6 +32,8 @@ const mapStateToProps = (state) => {
  * Projects Table Pagination Container.
  * This component is responsible for create a logic container for projects table pagination
  * with redux.
+ *
+ * @param props
  */
 const ProjectsTablePaginationContainer = (props) => {
   // states

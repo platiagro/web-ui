@@ -13,7 +13,7 @@ import {
   editProjectNameRequest,
 } from 'store/project/actions';
 
-import { deleteProject } from 'store/projects/actions';
+import { deleteProject } from 'store/Projects/actions';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
 

@@ -12,7 +12,7 @@ import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import {
   fetchPaginatedProjects,
   selectProjects,
-} from '../../../../store/projects/actions';
+} from '../../../../store/Projects/actions';
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
 // ACTIONS
