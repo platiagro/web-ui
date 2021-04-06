@@ -25,8 +25,12 @@ const tarefas = [
   },
 ];
 
+const handleClick = (e) => {
+  alert('Clicou em ' + e.name);
+};
+
 <div style={{ width: '100%', height: '350px' }}>
-  <DeploymentFlow operators={tarefas} />
+  <DeploymentFlow onClickCard={handleClick} operators={tarefas} />
 </div>;
 ```
 
