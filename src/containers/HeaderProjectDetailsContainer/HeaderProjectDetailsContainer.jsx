@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import ContentHeader from 'components/Content/ContentHeader/_';
-import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
+import ContentHeader from 'components/ContentHeader/_';
+import AccountInfo from 'components/ContentHeader/AccountInfo';
 
 // ACTIONS
 import {

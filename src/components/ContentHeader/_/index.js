@@ -7,7 +7,7 @@ import { PageHeader } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
 // COMPONENTS
-import Title from 'components/Content/Title';
+import Title from 'components/Title';
 
 // STYLES
 import './style.less';

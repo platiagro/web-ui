@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import ContentHeader from 'components/Content/ContentHeader/_/index';
-import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
-import PageHeaderDropdown from 'components/Content/ContentHeader/PageHeaderDropdown';
+import ContentHeader from 'components/ContentHeader/_/index';
+import AccountInfo from 'components/ContentHeader/AccountInfo';
+import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 import {
   CompareResultsButton,
   PrepareDeploymentsButton,
