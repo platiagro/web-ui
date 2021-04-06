@@ -66,7 +66,7 @@ const JupyterLabContainer = (props) => {
         handleFetchJupyterLabHealth();
 
         // gives 3 seconds of reading time for users
-        await utils.sleep(1000);
+        await utils.sleep(3000);
         setRemainingSeconds(9);
       }
     }
