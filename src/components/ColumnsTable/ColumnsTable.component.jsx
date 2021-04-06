@@ -11,14 +11,6 @@ import './style.less';
 
 const { Option } = Select;
 
-/**
- * Columns Table.
- * This component is responsible for displaying dataset columns table
- *
- * @component
- * @param {object} props Component props
- * @returns {ColumnsTable} React component
- */
 const ColumnsTable = (props) => {
   // destructuring props
   const {
