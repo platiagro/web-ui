@@ -14,7 +14,7 @@ import projectActionTypes from '../../project/actionTypes';
  * @param {string} action.type Action type
  * @returns {ProjectsStore} New state
  */
-const projectsReducer = (state = initialState, action = undefined) => {
+const reducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     case actionTypes.FETCH_PAGINATED_PROJECTS:
       return {
@@ -61,4 +61,4 @@ const projectsReducer = (state = initialState, action = undefined) => {
 };
 
 // EXPORT
-export default projectsReducer;
+export default reducer;
