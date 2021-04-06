@@ -1,6 +1,6 @@
 // ACTION TYPES
-import { actionTypes } from './Actions';
-import projectActionTypes from '../project/actionTypes';
+import { actionTypes } from '../Actions';
+import projectActionTypes from '../../project/actionTypes';
 
 // INITIAL STATE
 const initialState = {
