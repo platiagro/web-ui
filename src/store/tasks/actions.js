@@ -64,7 +64,7 @@ export const addTask = (task) => {
         message.success(`Tarefa adicionada com sucesso.`);
         await sleep(1000);
         window.open(
-          `/jupyterlab/lab/tree/tasks/${responseTask.name}/?reset&open=Experiment.ipynb,Deployment.ipynb`
+          `/jupyterlab/tree/tasks/${responseTask.name}/?reset&open=Experiment.ipynb,Deployment.ipynb`
         );
       })
       .catch((error) => {
