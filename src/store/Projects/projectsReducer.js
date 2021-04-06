@@ -1,5 +1,5 @@
 // ACTION TYPES
-import actionTypes from './actionTypes';
+import { actionTypes } from './Actions';
 import projectActionTypes from '../project/actionTypes';
 
 // INITIAL STATE
@@ -13,7 +13,11 @@ const initialState = {
 };
 
 /**
- * projects reducer
+ * Projects Reducer
+ *
+ * @param {object} state Reducer initial state
+ * @param {object} action Reducer action
+ * @returns {object} New state
  */
 const projectsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
