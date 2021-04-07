@@ -67,7 +67,7 @@ export const fetchPaginatedProjectsSuccess = (
  * @param {number} pageSize Pagination page size parameter
  * @returns {Function} The `disptach` function
  */
-export const fetchPaginatedProjectsRequest = (name, page, pageSize) => (
+export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
   dispatch
 ) => {
   dispatch({
@@ -80,7 +80,11 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => (
   }
 
   try {
-    const response = projectsApi.getPaginatedProjects(name, page, pageSize);
+    const response = await projectsApi.getPaginatedProjects(
+      name,
+      page,
+      pageSize
+    );
 
     dispatch(fetchPaginatedProjectsSuccess(name, page, pageSize, response));
   } catch (error) {
