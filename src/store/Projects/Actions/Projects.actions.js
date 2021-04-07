@@ -9,6 +9,7 @@ import { actionTypes } from '.';
 // SERVICES
 import projectsApi from 'services/ProjectsApi';
 
+// TODO: Criar store para mensagens
 /**
  * Function to fetch paginated projects request fail
  *
@@ -40,14 +41,16 @@ export const fetchPaginatedProjectsSuccess = (
   pageSize,
   response
 ) => {
+  const { projects } = response.data;
+
   return {
     type: actionTypes.FETCH_PROJECTS_SUCCESS,
-    projects: response.data.projects,
-    searchText: name,
-    currentPage: page,
-    pageSize: pageSize,
-    total: response.data.total,
     payload: {
+      projects,
+      searchText: name,
+      currentPage: page,
+      pageSize: pageSize,
+      total: response.data.total,
       isLoading: false,
     },
   };
@@ -96,7 +99,7 @@ export const selectProjects = (projects) => {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SELECTED_PROJECTS,
-      selectedProjects: projects,
+      payload: { selectedProjects: projects },
     });
   };
 };
