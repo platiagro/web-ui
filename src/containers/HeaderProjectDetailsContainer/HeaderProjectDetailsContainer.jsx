@@ -23,15 +23,15 @@ import './style.less';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
-  const { deleteProject } = projectsActions;
+  const { deleteProjectsRequest } = projectsActions;
 
   return {
     handleFetchProject: (projectId) =>
       dispatch(fetchProjectRequest(projectId, routerProps)),
     handleEditProjectName: (projectId, newName) =>
       dispatch(editProjectNameRequest(projectId, newName)),
-    handleDeleteProject: (searchText, selectedProjects) =>
-      dispatch(deleteProject(searchText, selectedProjects)),
+    handleDeleteProject: (projectName, projectId) =>
+      dispatch(deleteProjectsRequest(projectName, [projectId])),
   };
 };
 
