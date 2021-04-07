@@ -66,12 +66,12 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
  * @param {boolean} isToShowLoader Whenever is to show loader or not
  * @returns {Function} The `disptach` function
  */
-export const fetchDeploymentsRequest = (projectId, isToShowLoader) => (
+export const fetchDeploymentsRequest = (projectId, isToShowLoader) => async (
   dispatch
 ) => {
   if (isToShowLoader) {
+    await dispatch(clearAllDeployments());
     dispatch(implantedExperimentsLoadingData());
-    dispatch(clearAllDeployments());
   }
 
   // fetching deployments
