@@ -4,7 +4,7 @@
 import actionTypes from './actionTypes';
 import experimentsActionTypes from 'store/experiments/actionTypes';
 import experimentRunsActionTypes from 'store/experiments/experimentRuns/actionTypes';
-import projectActionTypes from 'store/project/actionTypes';
+import { actionTypes as projectsActionTypes } from 'store/Projects/Actions';
 import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE
@@ -117,8 +117,8 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     // NEW PROJECT MODAL
-    case projectActionTypes.CREATE_PROJECT_FAIL:
-    case projectActionTypes.EDIT_PROJECT_NAME_FAIL:
+    case projectsActionTypes.CREATE_PROJECT_FAIL:
+    case projectsActionTypes.EDIT_PROJECT_NAME_FAIL:
       return {
         ...state,
         newProjectModal: {
