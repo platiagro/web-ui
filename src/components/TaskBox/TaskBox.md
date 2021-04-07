@@ -42,7 +42,7 @@ const handleToggleSelection = () => {
         icon={<i>I</i>}
         status={statusList[statusIndex]}
         onConnectingClass='Connecting Class'
-        settedUp='setted-up'
+        settedUp={true}
         handleClick={handleToggleSelection}
         handleRemoveOperator={() => alert('Operator Removed')}
         operator={null}

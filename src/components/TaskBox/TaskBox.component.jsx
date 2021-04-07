@@ -1,11 +1,9 @@
-// CORE LIBS
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Handle } from 'react-flow-renderer';
-
-// UI LIBS
+import { Tooltip, Menu, Dropdown } from 'antd';
 import {
   CheckCircleFilled,
   ClockCircleFilled,
@@ -13,69 +11,76 @@ import {
   StopOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
-import { Tooltip, Menu, Dropdown } from 'antd';
 
-// STYLES
-import './style.less';
-
-// ACTIONS
 import { removeOperatorRequest } from 'store/operator/actions';
 
-// DISPATCHS
+import './style.less';
+
+const TASK_BOX_STATUS = {
+  RUNNING: 'Running',
+  PENDING: 'Pending',
+  SUCCEEDED: 'Succeeded',
+  FAILED: 'Failed',
+  TERMINATED: 'Terminated',
+  LOADING: 'Loading',
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    // remove operator
-    handleRemoveOperator: (projectId, experimentId, operatorId) =>
-      dispatch(removeOperatorRequest(projectId, experimentId, operatorId)),
+    handleRemoveOperator: (projectId, experimentId, operatorId) => {
+      dispatch(removeOperatorRequest(projectId, experimentId, operatorId));
+    },
   };
 };
 
-// tooltip configs
-const toolTipConfigs = (status, interruptIsRunning) => {
-  let style = { fontSize: '18px' };
+const getToolTipConfig = (status, interruptIsRunning) => {
+  const style = { fontSize: '18px' };
   const config = { title: '', iconType: '' };
+
   switch (status) {
-    case 'Running':
+    case TASK_BOX_STATUS.RUNNING: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa em execução';
       config.iconType = <LoadingOutlined style={style} spin />;
-
       break;
-    case 'Pending':
+    }
+
+    case TASK_BOX_STATUS.PENDING: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa pendente';
       config.iconType = <ClockCircleFilled style={style} />;
       break;
-    case 'Succeeded':
+    }
+
+    case TASK_BOX_STATUS.SUCCEEDED: {
       style.color = interruptIsRunning ? '' : '#389E0D';
       config.title = 'Tarefa executada com sucesso';
       config.iconType = <CheckCircleFilled style={style} />;
       break;
-    case 'Failed':
+    }
+
+    case TASK_BOX_STATUS.FAILED: {
       style.color = interruptIsRunning ? '' : '#CF1322';
       config.title = 'Tarefa executada com falha';
       config.iconType = <ExclamationCircleFilled style={style} />;
       break;
-    case 'Terminated':
+    }
+
+    case TASK_BOX_STATUS.TERMINATED: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa interrompida';
       config.iconType = <StopOutlined style={style} />;
       break;
+    }
+
     default:
       break;
   }
+
   return config;
 };
 
-/**
- * Task Box.
- * This component is responsible for displaying experiment flow.
- *
- * @param {object} props Component props
- * @returns {TaskBox} React component
- */
 const TaskBox = (props) => {
-  // destructuring props
   const {
     name,
     icon,
@@ -91,54 +96,107 @@ const TaskBox = (props) => {
     dependenciesGraph,
   } = props;
 
-  // CONSTANTS
-  // class name
-  const cssClass = `card ${settedUp && 'setted-up'} ${
-    interruptIsRunning ? 'Interrupting' : status
-  } ${selected && 'selected'} ${onConnectingClass}`;
-
-  // getting experiment uuid
   const { projectId, experimentId } = useParams();
 
-  // HANDLERS
-  // box click
+  const { isPending, isRunning, isLoading } = useMemo(
+    () => ({
+      isPending: status === TASK_BOX_STATUS.PENDING,
+      isRunning: status === TASK_BOX_STATUS.RUNNING,
+      isLoading: status === TASK_BOX_STATUS.LOADING,
+    }),
+    [status]
+  );
+
+  const cssClass = useMemo(() => {
+    const settedUpClass = settedUp ? 'setted-up' : '';
+    const statusClass = interruptIsRunning ? 'Interrupting' : status;
+    const selectedClass = selected ? 'selected' : '';
+
+    const classArray = [
+      'card',
+      settedUpClass,
+      statusClass,
+      selectedClass,
+      onConnectingClass,
+    ];
+
+    return classArray.join(' ');
+  }, [interruptIsRunning, onConnectingClass, selected, settedUp, status]);
+
   const handleBoxClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (status !== 'Pending' && status !== 'Running') handleClick(operator);
+    if (!isPending && !isRunning) handleClick(operator);
   };
 
-  // remove on right click menu
-  const removeOperator = () => {
-    handleRemoveOperator(projectId, experimentId, operator);
-  };
-
-  // box right click
   const handleRightButtonClick = (e) => {
-    if (experimentIsRunning || interruptIsRunning) {
-      return;
+    if (experimentIsRunning || interruptIsRunning) return;
+    const isEditKey = e.key === 'edit';
+    const isRemoveKey = e.key === 'remove';
+
+    if (!isPending && !isRunning && isEditKey) {
+      handleClick(operator);
     }
 
-    if (status !== 'Pending' && status !== 'Running' && e.key === 'edit')
-      handleClick(operator);
-
-    if (status !== 'Pending' && status !== 'Running' && e.key === 'remove')
-      removeOperator();
+    if (!isPending && !isRunning && isRemoveKey) {
+      handleRemoveOperator(projectId, experimentId, operator);
+    }
   };
 
-  // RENDERS
-  //dropdown menu
-  const menu = (
-    <Menu onClick={handleRightButtonClick}>
-      <Menu.Item key='edit'>Editar</Menu.Item>
-      <Menu.Item key='remove'>Remover</Menu.Item>
-    </Menu>
-  );
+  const handleDetectCycle = (adjList) => {
+    const graphNodes = Object.keys(adjList);
+    const visited = {};
+    const recStack = {};
 
-  // tooltip
+    const _detectCycleUtil = (vertex, _visited, _recStack) => {
+      if (!_visited[vertex]) {
+        _visited[vertex] = true;
+        _recStack[vertex] = true;
+        const nodeNeighbors = adjList[vertex];
+
+        for (const currentNode of nodeNeighbors) {
+          if (
+            (!_visited[currentNode] &&
+              _detectCycleUtil(currentNode, _visited, _recStack)) ||
+            _recStack[currentNode]
+          ) {
+            return true;
+          }
+        }
+      }
+
+      _recStack[vertex] = false;
+      return false;
+    };
+
+    for (const node of graphNodes) {
+      if (_detectCycleUtil(node, visited, recStack)) return false;
+    }
+
+    return true;
+  };
+
+  const handleCheckIfConnectionIsValid = (connection) => {
+    const isNotIncluded = !dependenciesGraph[connection.target].includes(
+      operator.uuid
+    );
+
+    const graphClone = { ...dependenciesGraph };
+    const futureGraph = {
+      ...graphClone,
+      [connection.target]: [
+        ...graphClone[connection.target],
+        connection.source,
+      ],
+    };
+
+    return handleDetectCycle(futureGraph) && isNotIncluded;
+  };
+
   const renderTooltip = () => {
-    if (!status || status === 'Loading') return null;
-    const toolTipConfig = toolTipConfigs(status, interruptIsRunning);
+    if (!status || isLoading) return null;
+    const toolTipConfig = getToolTipConfig(status, interruptIsRunning);
+
     return (
       <Tooltip
         placement='right'
@@ -150,43 +208,16 @@ const TaskBox = (props) => {
     );
   };
 
-  const detectCycle = (adjList) => {
-    const graphNodes = Object.keys(adjList);
-    const visited = {};
-    const recStack = {};
-
-    const _detectCycleUtil = (vertex, _visited, _recStack) => {
-      if (!_visited[vertex]) {
-        _visited[vertex] = true;
-        _recStack[vertex] = true;
-        const nodeNeighbors = adjList[vertex];
-        for (let i = 0; i < nodeNeighbors.length; i++) {
-          const currentNode = nodeNeighbors[i];
-          if (
-            (!_visited[currentNode] &&
-              _detectCycleUtil(currentNode, _visited, _recStack)) ||
-            _recStack[currentNode]
-          ) {
-            return true;
-          }
-        }
-      }
-      _recStack[vertex] = false;
-      return false;
-    };
-
-    for (let i = 0; i < graphNodes.length; i++) {
-      const node = graphNodes[i];
-      if (_detectCycleUtil(node, visited, recStack)) return false;
-    }
-    return true;
-  };
-
-  // RENDER
   return (
-    // Right click menu
-    <Dropdown overlay={menu} trigger={['contextMenu']}>
-      {/* div container */}
+    <Dropdown
+      trigger={['contextMenu']}
+      overlay={
+        <Menu onClick={handleRightButtonClick}>
+          <Menu.Item key='edit'>Editar</Menu.Item>
+          <Menu.Item key='remove'>Remover</Menu.Item>
+        </Menu>
+      }
+    >
       <div className={cssClass} onClick={handleBoxClick} role='presentation'>
         <div className='siders'>
           <Handle
@@ -197,31 +228,19 @@ const TaskBox = (props) => {
           />
           <div style={{ fontSize: '18px' }}>{icon}</div>
         </div>
+
         <div className='middle'>
           <div className='ellipsis'>{name}</div>
         </div>
+
         <div className='siders'>
           {renderTooltip()}
+
           <Handle
             type='source'
             position='right'
             className='arrow-handler right'
-            isValidConnection={(connection) => {
-              const hasNot = !dependenciesGraph[connection.target].includes(
-                operator.uuid
-              );
-
-              const cloneGraph = { ...dependenciesGraph };
-              const futureGraph = {
-                ...cloneGraph,
-                [connection.target]: [
-                  ...cloneGraph[connection.target],
-                  connection.source,
-                ],
-              };
-
-              return detectCycle(futureGraph) && hasNot;
-            }}
+            isValidConnection={handleCheckIfConnectionIsValid}
           />
         </div>
       </div>
@@ -229,7 +248,6 @@ const TaskBox = (props) => {
   );
 };
 
-// PROP TYPES
 TaskBox.propTypes = {
   /** task title string */
   name: PropTypes.string.isRequired,
@@ -245,7 +263,16 @@ TaskBox.propTypes = {
   handleClick: PropTypes.func.isRequired,
   /** task remove handler */
   handleRemoveOperator: PropTypes.func.isRequired,
+  /** connection class  */
+  onConnectingClass: PropTypes.string,
+  /** operator  */
+  operator: PropTypes.object,
+  /** experiment is running  */
+  experimentIsRunning: PropTypes.bool,
+  /** is being interrupted  */
+  interruptIsRunning: PropTypes.bool,
+  /** dependencies graph  */
+  dependenciesGraph: PropTypes.object,
 };
 
-// EXPORT
 export default connect(null, mapDispatchToProps)(TaskBox);
