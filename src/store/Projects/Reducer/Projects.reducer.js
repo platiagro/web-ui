@@ -56,14 +56,6 @@ const reducer = (state = initialState, action = undefined) => {
         ...state,
         projects: action.projects,
       };
-    case actionTypes.DELETE_PROJECT_SUCCESS:
-      return {
-        ...state,
-        projects: state.projects.filter(
-          (project) => project.uuid !== action.projectId
-        ),
-        isLoading: action.payload.isLoading,
-      };
     case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
       const updatedProject = action.project;
       const projectsAux = [...state.projects];
