@@ -15,7 +15,7 @@ import { initialState } from '.';
  */
 const reducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    case actionTypes.FETCH_PAGINATED_PROJECTS:
+    case actionTypes.FETCH_PROJECTS_SUCCESS:
       return {
         ...state,
         projects: action.projects,
