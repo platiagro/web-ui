@@ -9,14 +9,14 @@ import SaveTemplateContainer from 'containers/SaveTemplateContainer';
 import ToolbarConfig from 'components/Content/ExperimentsContent/Experiment/ExperimentHeader/ToolbarConfig/index';
 
 // ACTIONS
-import { fetchOperatorsRequest } from 'store/operators/actions';
+import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     handleFetchOperators: (projectId, deploymentId) =>
-      dispatch(fetchOperatorsRequest(projectId + deploymentId)),
+      dispatch(fetchOperatorsRequest(projectId, deploymentId)),
     handleRunDeployment: (projectId, deploymentId) =>
       dispatch(
         deploymentRunsActions.createDeploymentRunRequest(
