@@ -17,7 +17,7 @@ import './DeploymentFlow.style.less';
  * Fluxo de pré-implantação/implantação.
  */
 function DeploymentFlow(props) {
-  const { operators, loading } = props;
+  const { operators, loading, onClickCard } = props;
 
   const cardsElements = operators.map((component) => {
     const arrows = component.dependencies.map((arrow) => {
@@ -46,7 +46,6 @@ function DeploymentFlow(props) {
             className='task-elements'
           >
             <DeploymentFlowBox
-              handleClick={() => {}}
               operator={component}
               dependenciesGraph={operators
                 .map((el) => ({
@@ -58,7 +57,7 @@ function DeploymentFlow(props) {
                   {}
                 )}
               title={component.name}
-              onSelect={() => {}}
+              onSelect={onClickCard}
               leftFlowHandle={
                 <Handle
                   type='target'
@@ -119,6 +118,7 @@ function DeploymentFlow(props) {
 DeploymentFlow.propTypes = {
   operators: PropTypes.array,
   loading: PropTypes.bool,
+  onClickCard: PropTypes.func,
 };
 
 export default DeploymentFlow;
