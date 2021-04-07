@@ -3,7 +3,6 @@
 // ACTION TYPES
 import { actionTypes } from '../Actions';
 import { initialState } from '.';
-import projectActionTypes from '../../project/actionTypes';
 
 /**
  * Projects Reducer
@@ -31,14 +30,14 @@ const reducer = (state = initialState, action = undefined) => {
         ...state,
         projects: action.projects,
       };
-    case projectActionTypes.DELETE_PROJECT_SUCCESS:
+    case actionTypes.DELETE_PROJECT_SUCCESS:
       return {
         ...state,
         projects: state.projects.filter(
           (project) => project.uuid !== action.projectId
         ),
       };
-    case projectActionTypes.EDIT_PROJECT_NAME_SUCCESS:
+    case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
       const updatedProject = action.project;
       const projectsAux = [...state.projects];
       const projectIndex = projectsAux.findIndex(
