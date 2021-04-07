@@ -26,6 +26,14 @@ const getSelectedProjects = (state) => state.Projects.selectedProjects;
 const getProject = (projectId, state) =>
   state.Projects.projects.find((project) => project.uuid === projectId);
 
+/**
+ * Get is loading state
+ *
+ * @param {AppStore} state Redux store state
+ * @returns {boolean} Store data is loading
+ */
+const getIsLoading = (state) => state.Projects.isLoading;
+
 // TODO: Remover essa lógica da store
 /**
  * Get search filter text
@@ -70,4 +78,5 @@ export {
   getCurrentPage,
   getTotalProjects,
   getPageSize,
+  getIsLoading,
 };
