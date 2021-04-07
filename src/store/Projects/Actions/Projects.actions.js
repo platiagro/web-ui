@@ -14,38 +14,76 @@ import {
 } from 'store/ui/actions';
 
 /**
- * Function to fetch pagineted projects and dispatch to reducer
+ * Function to fetch paginated projects request fail
+ *
+ * @param {object} error Error object
+ * @returns {Function} The `disptach` function
+ */
+export const fetchPaginatedProjectsFail = (error) => {
+  const errorMessage = error.message;
+  message.error(errorMessage, 5);
+
+  return {
+    type: actionTypes.FETCH_PAGINATED_PROJECTS_FAIL,
+    payload: { isLoading: false },
+  };
+};
+
+/**
+ * Function to fetch paginated projects request success
+ *
+ * @param {string} name Name to be fetch
+ * @param {number} page Pagination page parameter
+ * @param {number} pageSize Pagination page size parameter
+ * @param {object} response Request success response
+ * @returns {object} Action creator
+ */
+export const fetchPaginatedProjectsSuccess = (
+  name,
+  page,
+  pageSize,
+  response
+) => {
+  return {
+    type: actionTypes.FETCH_PAGINATED_PROJECTS_SUCCESS,
+    projects: response.data.projects,
+    searchText: name,
+    currentPage: page,
+    pageSize: pageSize,
+    total: response.data.total,
+    payload: {
+      isLoading: false,
+    },
+  };
+};
+
+/**
+ * Function to request fetch paginated projects
  *
  * @param {string} name Name to be fetch
  * @param {number} page Pagination page parameter
  * @param {number} pageSize Pagination page size parameter
  * @returns {Function} The `disptach` function
  */
-export const fetchPaginatedProjects = (name, page, pageSize) => (dispatch) => {
-  dispatch(projectsTableLoadingData());
+export const fetchPaginatedProjectsRequest = (name, page, pageSize) => (
+  dispatch
+) => {
+  dispatch({
+    type: actionTypes.FETCH_PAGINATED_PROJECTS_REQUEST,
+    payload: { isLoading: true },
+  });
 
   if (name === undefined) {
     name = '';
   }
 
-  projectsApi
-    .getPaginatedProjects(name, page, pageSize)
-    .then(async (response) => {
-      dispatch(projectsTableDataLoaded());
-      dispatch({
-        type: actionTypes.FETCH_PAGINATED_PROJECTS,
-        projects: response.data.projects,
-        searchText: name,
-        currentPage: page,
-        pageSize: pageSize,
-        total: response.data.total,
-      });
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      dispatch(projectsTableDataLoaded());
-      message.error(errorMessage, 5);
-    });
+  try {
+    const response = projectsApi.getPaginatedProjects(name, page, pageSize);
+
+    dispatch(fetchPaginatedProjectsSuccess(name, page, pageSize, response));
+  } catch (error) {
+    dispatch(fetchPaginatedProjectsFail(error));
+  }
 };
 
 /**
@@ -102,7 +140,7 @@ export const deleteSelectedProjects = (searchText, projects) => {
       .then(() => {
         dispatch(projectsTableDataLoaded());
         message.success('Projetos excluídos!');
-        dispatch(fetchPaginatedProjects(searchText, 1, 10));
+        dispatch(fetchPaginatedProjectsRequest(searchText, 1, 10));
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -127,7 +165,7 @@ export const deleteProject = (searchText, uuid) => {
       .then(() => {
         dispatch(projectsTableDataLoaded());
         message.success('Projeto excluído com sucesso.');
-        dispatch(fetchPaginatedProjects(searchText, 1, 10));
+        dispatch(fetchPaginatedProjectsRequest(searchText, 1, 10));
       })
       .catch((error) => {
         const errorMessage = error.message;

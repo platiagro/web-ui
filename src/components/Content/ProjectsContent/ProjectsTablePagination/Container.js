@@ -13,11 +13,11 @@ import ProjectsTablePagination from './index';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
-  const { fetchPaginatedProjects } = projectsActions;
+  const { fetchPaginatedProjectsRequest } = projectsActions;
 
   return {
     handleFetchPaginatedProjects: (searchText, page, pageSize) => {
-      dispatch(fetchPaginatedProjects(searchText, page, pageSize));
+      dispatch(fetchPaginatedProjectsRequest(searchText, page, pageSize));
     },
   };
 };
