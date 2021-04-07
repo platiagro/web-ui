@@ -8,6 +8,7 @@ const initialState = {
   currentPage: null,
   pageSize: null,
   total: null,
+  isLoading: false,
 };
 
 export default initialState;
