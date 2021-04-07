@@ -9,12 +9,6 @@ import { actionTypes } from '.';
 // SERVICES
 import projectsApi from 'services/ProjectsApi';
 
-// UI ACTIONS
-import {
-  projectsTableLoadingData,
-  projectsTableDataLoaded,
-} from 'store/ui/actions';
-
 /**
  * Function to fetch paginated projects request fail
  *
