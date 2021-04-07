@@ -92,7 +92,7 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
 /**
  * Function to dispatch select projects to reducer
  *
- * @param {string} projects The project name
+ * @param {Projects} projects Selected projects list
  * @returns {Function} The `disptach` function
  */
 export const selectProjects = (projects) => {
