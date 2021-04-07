@@ -24,7 +24,7 @@ export const fetchPaginatedProjectsFail = (error) => {
   message.error(errorMessage, 5);
 
   return {
-    type: actionTypes.FETCH_PAGINATED_PROJECTS_FAIL,
+    type: actionTypes.FETCH_PROJECTS_FAIL,
     payload: { isLoading: false },
   };
 };
@@ -45,7 +45,7 @@ export const fetchPaginatedProjectsSuccess = (
   response
 ) => {
   return {
-    type: actionTypes.FETCH_PAGINATED_PROJECTS_SUCCESS,
+    type: actionTypes.FETCH_PROJECTS_SUCCESS,
     projects: response.data.projects,
     searchText: name,
     currentPage: page,
@@ -69,7 +69,7 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => (
   dispatch
 ) => {
   dispatch({
-    type: actionTypes.FETCH_PAGINATED_PROJECTS_REQUEST,
+    type: actionTypes.FETCH_PROJECTS_REQUEST,
     payload: { isLoading: true },
   });
 
@@ -84,30 +84,6 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => (
   } catch (error) {
     dispatch(fetchPaginatedProjectsFail(error));
   }
-};
-
-/**
- * Function to fetch all projects and dispatch to reducer
- *
- * @returns {Function} The `disptach` function
- */
-export const fetchProjects = () => (dispatch) => {
-  dispatch(projectsTableLoadingData());
-  projectsApi
-    .listProjects()
-    .then((response) => {
-      const projects = response.data.projects;
-      dispatch(projectsTableDataLoaded());
-      dispatch({
-        type: actionTypes.FETCH_PROJECTS,
-        projects,
-      });
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      dispatch(projectsTableDataLoaded());
-      message.error(errorMessage, 5);
-    });
 };
 
 /**
