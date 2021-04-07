@@ -15,6 +15,31 @@ import { initialState } from '.';
  */
 const reducer = (state = initialState, action = undefined) => {
   switch (action.type) {
+    case actionTypes.FETCH_PROJECTS_REQUEST:
+    case actionTypes.FETCH_PROJECT_REQUEST:
+    case actionTypes.DELETE_PROJECTS_REQUEST:
+    case actionTypes.EDIT_PROJECT_NAME_REQUEST:
+      return {
+        ...state,
+        isLoading: action.payload.isLoading,
+      };
+
+    case actionTypes.FETCH_PROJECT_SUCCESS:
+    case actionTypes.DELETE_PROJECTS_SUCCESS:
+      return {
+        ...state,
+        isLoading: action.payload.isLoading,
+      };
+
+    case actionTypes.FETCH_PROJECTS_FAIL:
+    case actionTypes.FETCH_PROJECT_FAIL:
+    case actionTypes.DELETE_PROJECTS_FAIL:
+    case actionTypes.EDIT_PROJECT_NAME_FAIL:
+      return {
+        ...state,
+        isLoading: action.payload.isLoading,
+      };
+
     case actionTypes.FETCH_PROJECTS_SUCCESS:
       return {
         ...state,
@@ -24,6 +49,7 @@ const reducer = (state = initialState, action = undefined) => {
         currentPage: action.currentPage,
         pageSize: action.pageSize,
         total: action.total,
+        isLoading: action.payload.isLoading,
       };
     case actionTypes.FETCH_PROJECTS:
       return {
@@ -36,6 +62,7 @@ const reducer = (state = initialState, action = undefined) => {
         projects: state.projects.filter(
           (project) => project.uuid !== action.projectId
         ),
+        isLoading: action.payload.isLoading,
       };
     case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
       const updatedProject = action.project;
@@ -48,6 +75,7 @@ const reducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         projects: projectsAux,
+        isLoading: action.payload.isLoading,
       };
     case actionTypes.SELECTED_PROJECTS:
       return {
