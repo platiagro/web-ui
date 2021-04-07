@@ -29,10 +29,11 @@ const mapStateToProps = (state) => {
     getCurrentPage,
     getTotalProjects,
     getSearchText,
+    getIsLoading,
   } = projectsSelectors;
 
   return {
-    loading: state.uiReducer.projectsTable.loading,
+    loading: getIsLoading(state),
     searchText: getSearchText(state),
     currentPage: getCurrentPage(state),
     pageSize: getPageSize(state),

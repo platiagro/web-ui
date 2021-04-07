@@ -7,6 +7,7 @@ import NewProjectButton from './index';
 
 // ACTIONS
 import { showNewProjectModal } from '../../../../store/ui/actions';
+import { Selectors as projectsSelectors } from 'store/Projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -18,8 +19,10 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
+  const { getIsLoading } = projectsSelectors;
+
   return {
-    loading: state.uiReducer.projectsTable.loading,
+    loading: getIsLoading(state),
   };
 };
 

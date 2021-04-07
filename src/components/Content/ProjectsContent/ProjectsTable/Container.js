@@ -35,10 +35,15 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
-  const { getProjects, getSelectedProjects, getSearchText } = projectsSelectors;
+  const {
+    getProjects,
+    getSelectedProjects,
+    getSearchText,
+    getIsLoading,
+  } = projectsSelectors;
 
   return {
-    loading: state.uiReducer.projectsTable.loading,
+    loading: getIsLoading(state),
     projects: getProjects(state),
     searchText: getSearchText(state),
     selectedProjects: getSelectedProjects(state),
