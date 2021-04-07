@@ -43,12 +43,12 @@ const reducer = (state = initialState, action = undefined) => {
     case actionTypes.FETCH_PROJECTS_SUCCESS:
       return {
         ...state,
-        projects: action.projects,
+        projects: action.payload.projects,
         selectedProjects: [],
-        searchText: action.searchText,
-        currentPage: action.currentPage,
-        pageSize: action.pageSize,
-        total: action.total,
+        searchText: action.payload.searchText,
+        currentPage: action.payload.currentPage,
+        pageSize: action.payload.pageSize,
+        total: action.payload.total,
         isLoading: action.payload.isLoading,
       };
     case actionTypes.FETCH_PROJECTS:
@@ -72,7 +72,7 @@ const reducer = (state = initialState, action = undefined) => {
     case actionTypes.SELECTED_PROJECTS:
       return {
         ...state,
-        selectedProjects: action.selectedProjects,
+        selectedProjects: action.payload.selectedProjects,
       };
     default:
       return state;
