@@ -36,6 +36,8 @@ const fetchDeploymentsSuccess = (response) => (dispatch) => {
     type: actionTypes.FETCH_DEPLOYMENTS_SUCCESS,
     deployments: response.data.deployments,
   });
+
+  dispatch(implantedExperimentsDataLoaded());
 };
 
 /**
@@ -53,6 +55,8 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_DEPLOYMENTS_FAIL,
     errorMessage,
   });
+
+  dispatch(implantedExperimentsDataLoaded());
 };
 
 /**
@@ -67,6 +71,7 @@ export const fetchDeploymentsRequest = (projectId, isToShowLoader) => (
 ) => {
   if (isToShowLoader) {
     dispatch(implantedExperimentsLoadingData());
+    dispatch(clearAllDeployments());
   }
 
   // fetching deployments

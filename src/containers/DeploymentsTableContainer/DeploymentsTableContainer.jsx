@@ -8,7 +8,11 @@ import DeploymentsTable from 'components/Content/ProjectDetailsContent/Deploymen
 
 // ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
-import { deleteDeploymentRequest, fetchDeploymentsRequest, fetchAllDeploymentsRuns } from 'store/deployments/actions';
+import {
+  deleteDeploymentRequest,
+  fetchDeploymentsRequest,
+  fetchAllDeploymentsRuns,
+} from 'store/deployments/actions';
 
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 
@@ -22,9 +26,11 @@ const mapDispatchToProps = (dispatch) => {
     handleGetDeployExperimentLogs: (projectId, deployId) =>
       dispatch(getDeployExperimentLogs(projectId, deployId)),
     handleTestImplantedExperimentInference: (projectId, deployId, file) =>
-      dispatch(testImplantedExperimentInferenceAction(projectId, deployId, file)),
-    handleFetchDeploymentsRequest: (projectId) =>
-      dispatch(fetchDeploymentsRequest(projectId, false)),
+      dispatch(
+        testImplantedExperimentInferenceAction(projectId, deployId, file)
+      ),
+    handleFetchDeploymentsRequest: (projectId, loader) =>
+      dispatch(fetchDeploymentsRequest(projectId, loader)),
   };
 };
 
@@ -50,16 +56,16 @@ const DeploymentsTableContainer = (props) => {
     handleTestImplantedExperimentInference,
     handleFetchDeploymentsRequest,
     loading,
-    deployments
+    deployments,
   } = props;
   const { projectId } = useParams();
 
   useEffect(() => {
     // first get: when component has mounted
-    handleFetchDeploymentsRequest(projectId);
+    handleFetchDeploymentsRequest(projectId, true);
 
     const polling = setInterval(
-      () => handleFetchDeploymentsRequest(projectId),
+      () => handleFetchDeploymentsRequest(projectId, false),
       5000
     );
     return () => clearInterval(polling);
