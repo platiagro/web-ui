@@ -10,8 +10,6 @@ import projectsApi from '../../services/ProjectsApi';
 // UI ACTIONS
 import {
   hideNewProjectModal,
-  projectsTableLoadingData,
-  projectsTableDataLoaded,
   projectNameLoadingData,
   projectNameDataLoaded,
   projectEditNameLoadingData,
@@ -109,9 +107,6 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
   // getting project from response
   const project = response.data;
 
-  // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
-
   // dispatching hide modal
   dispatch(hideNewProjectModal());
 
@@ -119,6 +114,9 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_PROJECT_SUCCESS,
     project,
+    payload: {
+      isLoading: false,
+    },
   });
 
   message.success(`Projeto ${project.name} criado!`);
@@ -134,9 +132,6 @@ const createProjectSuccess = (response, routerProps) => (dispatch) => {
  * @returns {object} { type, errorMessage }
  */
 const createProjectFail = (error) => (dispatch) => {
-  // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
-
   // getting error message
   let errorMessage;
   if (error.response.status === 500) {
@@ -151,6 +146,9 @@ const createProjectFail = (error) => (dispatch) => {
       dispatch({
         type: actionTypes.CREATE_PROJECT_FAIL,
         errorMessage,
+        payload: {
+          isLoading: false,
+        },
       });
     } else {
       message.error(errorMessage, 5);
@@ -180,10 +178,10 @@ export const createProjectRequest = (
   // dispatching request action
   dispatch({
     type: actionTypes.CREATE_PROJECT_REQUEST,
+    payload: {
+      isLoading: true,
+    },
   });
-
-  // dispatching projects table loading data action
-  dispatch(projectsTableLoadingData());
 
   // creating project
   projectsApi
@@ -290,13 +288,13 @@ export const editProjectNameRequest = (
  * @returns {object} { type }
  */
 const deleteProjectSuccess = (projectId) => (dispatch) => {
-  // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
-
   // dispatching delete projects success action
   dispatch({
     type: actionTypes.DELETE_PROJECT_SUCCESS,
     projectId,
+    payload: {
+      isLoading: false,
+    },
   });
 
   message.success(`Projeto excluído!`);
@@ -312,13 +310,13 @@ const deleteProjectFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  // dispatching projects table data loaded action
-  dispatch(projectsTableDataLoaded());
-
   // dispatching delete projects fail action
   dispatch({
     type: actionTypes.DELETE_PROJECT_FAIL,
     errorMessage,
+    payload: {
+      isLoading: false,
+    },
   });
 
   message.error(errorMessage, 5);
@@ -334,10 +332,10 @@ export const deleteProjectRequest = (projectId) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.DELETE_PROJECT_REQUEST,
+    payload: {
+      isLoading: true,
+    },
   });
-
-  // dispatching projects table loading data action
-  dispatch(projectsTableLoadingData());
 
   // deleting project
   projectsApi
