@@ -43,7 +43,6 @@ const initialState = {
   },
   template: { loading: false },
   tasksTable: { loading: false },
-  projectsTable: { loading: false },
   projectName: { loading: false },
   tasksMenu: { loading: false },
   deploymentsTabs: {
@@ -270,18 +269,13 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     // PROJECTS TABLE
-    case actionTypes.PROJECTS_TABLE_LOADING_DATA: // loading data
-    case actionTypes.PROJECTS_TABLE_DATA_LOADED: // data loaded
+    case projectsActionTypes.CREATE_PROJECT_REQUEST: // loading data
       return {
         ...state,
         newProjectModal: {
           ...state.newProjectModal,
           modalValidateStatus: null,
           errorMessage: null,
-        },
-        projectsTable: {
-          ...state.projectsTable,
-          loading: action.projectsTableLoading,
         },
       };
 
