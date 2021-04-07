@@ -13,11 +13,11 @@ import {
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
-  const { deleteSelectedProjects } = projectsActions;
+  const { deleteProjectsRequest } = projectsActions;
 
   return {
     handleDeleteSelectedProjects: (searchText, selectedProjects) =>
-      dispatch(deleteSelectedProjects(searchText, selectedProjects)),
+      dispatch(deleteProjectsRequest(searchText, selectedProjects)),
   };
 };
 
