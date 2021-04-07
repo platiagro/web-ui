@@ -1,3 +1,5 @@
+/* globals Projects */
+
 // UI LIBS
 import { message } from 'antd';
 
@@ -102,27 +104,58 @@ export const selectProjects = (projects) => {
 };
 
 /**
- * Function to delete selected projects and dispatch to reducer
+ * Function to delete projects request fail
+ *
+ * @param {object} error Error object
+ * @returns {object} Action
+ */
+export const deleteProjectsFail = (error) => {
+  const errorMessage = error.message;
+  message.error(errorMessage, 5);
+
+  return {
+    type: actionTypes.DELETE_PROJECTS_FAIL,
+    payload: { isLoading: false },
+  };
+};
+
+/**
+ * Function to delete projects request success
  *
  * @param {string} searchText The text to be search
- * @param {Array} projects An array of projects to be deleted
  * @returns {Function} The `disptach` function
  */
-export const deleteSelectedProjects = (searchText, projects) => {
-  return (dispatch) => {
-    dispatch(projectsTableLoadingData());
-    return projectsApi
-      .deleteProjects(projects)
-      .then(() => {
-        dispatch(projectsTableDataLoaded());
-        message.success('Projetos excluídos!');
-        dispatch(fetchPaginatedProjectsRequest(searchText, 1, 10));
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        dispatch(projectsTableDataLoaded());
-        message.error(errorMessage, 5);
-      });
+export const deleteProjectsSuccess = (searchText) => (dispatch) => {
+  message.success('Projetos excluídos!');
+  dispatch(fetchPaginatedProjectsRequest(searchText, 1, 10));
+
+  dispatch({
+    type: actionTypes.DELETE_PROJECTS_SUCCESS,
+    payload: { isLoading: false },
+  });
+};
+
+/**
+ * Function to request delete projects
+ *
+ * @param {string} searchText The text to be search
+ * @param {Projects} projects An array of projects to be deleted
+ * @returns {Function} The `disptach` function
+ */
+export const deleteProjectsRequest = (searchText, projects) => {
+  return async (dispatch) => {
+    dispatch({
+      type: actionTypes.DELETE_PROJECTS_REQUEST,
+      payload: { isLoading: true },
+    });
+
+    try {
+      await projectsApi.deleteProjects(projects);
+
+      dispatch(deleteProjectsSuccess(searchText));
+    } catch (error) {
+      dispatch(deleteProjectsFail(error));
+    }
   };
 };
 
