@@ -6,7 +6,10 @@ import { connect } from 'react-redux';
 import DeleteProjectsButton from './index';
 
 // ACTIONS
-import { Actions as projectsActions} from 'store/Projects';
+import {
+  Actions as projectsActions,
+  Selectors as projectsSelectors,
+} from 'store/Projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -20,10 +23,12 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
+  const { getSelectedProjects, getSearchText } = projectsSelectors;
+
   return {
     loading: state.uiReducer.projectsTable.loading,
-    selectedProjects: state.projectsReducer.selectedProjects,
-    searchText: state.projectsReducer.searchText,
+    selectedProjects: getSelectedProjects(state),
+    searchText: getSearchText(state),
   };
 };
 

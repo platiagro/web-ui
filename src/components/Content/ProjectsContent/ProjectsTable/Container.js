@@ -9,7 +9,10 @@ import ProjectsTable from './index';
 import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 // ACTIONS
-import { Actions as projectsActions } from 'store/Projects';
+import {
+  Actions as projectsActions,
+  Selectors as projectsSelectors,
+} from 'store/Projects';
 import { deleteProjectRequest } from '../../../../store/project/actions';
 
 // ACTIONS
@@ -32,11 +35,13 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
+  const { getProjects, getSelectedProjects, getSearchText } = projectsSelectors;
+
   return {
     loading: state.uiReducer.projectsTable.loading,
-    projects: state.projectsReducer.projects,
-    searchText: state.projectsReducer.searchText,
-    selectedProjects: state.projectsReducer.selectedProjects,
+    projects: getProjects(state),
+    searchText: getSearchText(state),
+    selectedProjects: getSelectedProjects(state),
   };
 };
 

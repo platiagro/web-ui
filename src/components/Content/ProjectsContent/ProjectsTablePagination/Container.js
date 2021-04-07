@@ -3,7 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // ACTIONS
-import { Actions as projectsActions } from 'store/Projects';
+import {
+  Actions as projectsActions,
+  Selectors as projectsSelectors,
+} from 'store/Projects';
 
 // COMPONENTS
 import ProjectsTablePagination from './index';
@@ -21,12 +24,19 @@ const mapDispatchToProps = (dispatch) => {
 
 // STATES
 const mapStateToProps = (state) => {
+  const {
+    getPageSize,
+    getCurrentPage,
+    getTotalProjects,
+    getSearchText,
+  } = projectsSelectors;
+
   return {
     loading: state.uiReducer.projectsTable.loading,
-    searchText: state.projectsReducer.searchText,
-    currentPage: state.projectsReducer.currentPage,
-    pageSize: state.projectsReducer.pageSize,
-    total: state.projectsReducer.total,
+    searchText: getSearchText(state),
+    currentPage: getCurrentPage(state),
+    pageSize: getPageSize(state),
+    total: getTotalProjects(state),
   };
 };
 
