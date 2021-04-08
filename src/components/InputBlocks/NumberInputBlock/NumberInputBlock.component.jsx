@@ -32,11 +32,11 @@ const NumberInputBlock = (props) => {
 
   // FUNCTIONS
   // handle key press
-  const handleKeyPress = async (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();
     } else if (e.key === 'Escape') {
-      await setCurrentValue(value);
+      setCurrentValue(value);
       inputRef.current.blur();
     }
   };
@@ -73,12 +73,12 @@ const NumberInputBlock = (props) => {
             disabled={isLoading || isDisabled}
             onKeyUp={handleKeyPress}
             onBlur={beforeSubmit}
-            style={
-              modifiedSinceLastExecution ? { width: '80%' } : { width: '100%' }
-            }
+            style={{
+              width: modifiedSinceLastExecution ? '80%' : '100%'
+            }}
           />
           {/* rendering tooltip */}
-          {modifiedSinceLastExecution ? (
+          {modifiedSinceLastExecution && (
             <Tooltip
               placement='bottomRight'
               title='Valor modificado desde a última execução.'
@@ -87,7 +87,7 @@ const NumberInputBlock = (props) => {
                 style={{ color: '#FAAD14', marginLeft: 5 }}
               />
             </Tooltip>
-          ) : null}
+          )}
         </>
       )}
     </PropertyBlock>

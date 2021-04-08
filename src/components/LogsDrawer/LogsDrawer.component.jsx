@@ -27,11 +27,8 @@ const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
       width: 175,
       render: (value) => {
         //The value of timestamp is missformated, so we need to split the string to get the right timestamp
-        const formattedDate = value
-          ? //then transform into date string
-            new Date(value.split(' ')[0]).toLocaleString()
-          : '-';
-        return formattedDate;
+        if (value) return new Date(value.split(' ')[0]).toLocaleString()
+        return '-';
       },
       //this is the arrow function to make header sorter of date column
       sorter: (a, b) =>

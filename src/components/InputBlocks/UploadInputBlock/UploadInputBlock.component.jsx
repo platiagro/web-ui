@@ -81,12 +81,6 @@ const UploadInputBlock = (props) => {
     </Menu>
   );
 
-  /* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */
-  // file extensions
-  /*const fileExtensions = (
-    <div style={{ marginTop: '10px' }}>Arquivos aceitos: .csv</div>
-  );*/
-
   // rendering component
   return (
     <PropertyBlock tip={tip} title={title}>
@@ -106,8 +100,6 @@ const UploadInputBlock = (props) => {
           {buttonText}
         </Dropdown.Button>
       </Upload>
-      {/* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */}
-      {/*fileList.length === 0 && fileExtensions*/}
     </PropertyBlock>
   );
 };

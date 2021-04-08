@@ -32,11 +32,11 @@ const TextInputBlock = (props) => {
 
   // FUNCTIONS
   // handle key press
-  const handleKeyPress = async (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();
     } else if (e.key === 'Escape') {
-      await setCurrentValue(value);
+      setCurrentValue(value);
       inputRef.current.blur();
     }
   };
@@ -72,12 +72,12 @@ const TextInputBlock = (props) => {
             onKeyUp={handleKeyPress}
             placeholder={placeholder}
             disabled={isLoading || isDisabled}
-            style={
-              modifiedSinceLastExecution ? { width: '80%' } : { width: '100%' }
-            }
+            style={{
+              width: modifiedSinceLastExecution ? '80%' : '100%'
+            }}
           />
           {/* rendering tooltip */}
-          {modifiedSinceLastExecution ? (
+          {modifiedSinceLastExecution && (
             <Tooltip
               placement='bottomRight'
               title='Valor modificado desde a última execução.'
@@ -86,7 +86,7 @@ const TextInputBlock = (props) => {
                 style={{ color: '#FAAD14', marginLeft: 5 }}
               />
             </Tooltip>
-          ) : null}
+          )}
         </>
       )}
     </PropertyBlock>

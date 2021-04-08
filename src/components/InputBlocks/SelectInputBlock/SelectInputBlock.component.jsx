@@ -30,6 +30,11 @@ const SelectInputBlock = (props) => {
   const modifiedSinceLastExecution =
     JSON.stringify(inputValue) !== JSON.stringify(executionValue);
 
+  const getSelectMode = () => {
+    if (isMultiple) return 'multiple'
+    return null
+  }
+
   // rendering component
   return (
     <PropertyBlock tip={tip} title={title}>
@@ -50,14 +55,14 @@ const SelectInputBlock = (props) => {
               selectRef.current.blur();
               handleChange(values);
             }}
-            mode={isMultiple ? 'multiple' : null}
+            mode={getSelectMode()}
             placeholder={placeholder}
             value={value}
             loading={isLoading}
             disabled={isLoading || isDisabled}
-            style={
-              modifiedSinceLastExecution ? { width: '90%' } : { width: '100%' }
-            }
+            style={{
+              width: modifiedSinceLastExecution ? '90%' : '100%'
+            }}
           >
             {/* rendering select options */}
             {options &&
@@ -71,7 +76,7 @@ const SelectInputBlock = (props) => {
               })}
           </Select>
           {/* rendering tooltip */}
-          {modifiedSinceLastExecution ? (
+          {modifiedSinceLastExecution && (
             <Tooltip
               placement='bottomRight'
               title='Valor modificado desde a última execução.'
@@ -80,7 +85,7 @@ const SelectInputBlock = (props) => {
                 style={{ color: '#FAAD14', marginLeft: 5 }}
               />
             </Tooltip>
-          ) : null}
+          )}
         </>
       )}
     </PropertyBlock>

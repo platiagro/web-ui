@@ -47,7 +47,7 @@ const ToggleInputBlock = (props) => {
             loading={isLoading}
           />
           {/* rendering tooltip */}
-          {modifiedSinceLastExecution ? (
+          {modifiedSinceLastExecution && (
             <Tooltip
               placement='bottomRight'
               title='Valor modificado desde a última execução.'
@@ -56,7 +56,7 @@ const ToggleInputBlock = (props) => {
                 style={{ color: '#FAAD14', marginLeft: 5 }}
               />
             </Tooltip>
-          ) : null}
+          )}
         </>
       )}
     </PropertyBlock>

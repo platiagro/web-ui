@@ -53,7 +53,7 @@ const RadioInput = (props) => {
             ))}
           </Group>
           {/* rendering tooltip */}
-          {modifiedSinceLastExecution ? (
+          {modifiedSinceLastExecution && (
             <Tooltip
               placement='bottomRight'
               title='Valor modificado desde a última execução.'
@@ -62,7 +62,7 @@ const RadioInput = (props) => {
                 style={{ color: '#FAAD14', marginLeft: 5 }}
               />
             </Tooltip>
-          ) : null}
+          )}
         </>
       )}
     </PropertyBlock>
