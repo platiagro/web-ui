@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 
@@ -8,6 +8,9 @@ import PreloadAnimation from 'components/PreloadAnimation';
 
 // ACTIONS
 import { fetchJupyterLabHealth } from 'store/jupyterLab/actions';
+
+// UTILS
+import utils from 'utils';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -32,6 +35,7 @@ const mapStateToProps = (state) => {
  */
 const JupyterLabContainer = (props) => {
   const { path } = useParams();
+  const [remainingSeconds, setRemainingSeconds] = useState(-1);
 
   const { healthy, handleFetchJupyterLabHealth } = props;
 
@@ -50,15 +54,27 @@ const JupyterLabContainer = (props) => {
       }
       window.location.href = url;
     }
+  }, [path, qs, healthy]);
 
-    handleFetchJupyterLabHealth();
+  useEffect(() => {
+    async function updateRemainingSeconds() {
+      await utils.sleep(1000);
+      if (remainingSeconds > 0) {
+        setRemainingSeconds(remainingSeconds - 1);
+      } else {
+        // polling jupyterlab health status
+        handleFetchJupyterLabHealth();
 
-    // polling experiment status
-    const polling = setInterval(() => handleFetchJupyterLabHealth(), 5000);
-    return () => clearInterval(polling);
-  }, [path, qs, healthy, handleFetchJupyterLabHealth]);
+        // gives 3 seconds of reading time for users
+        await utils.sleep(3000);
+        setRemainingSeconds(9);
+      }
+    }
 
-  return <PreloadAnimation />;
+    updateRemainingSeconds();
+  }, [handleFetchJupyterLabHealth, remainingSeconds, setRemainingSeconds]);
+
+  return <PreloadAnimation remainingSeconds={remainingSeconds} />;
 };
 
 export default withRouter(
