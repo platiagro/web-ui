@@ -10,7 +10,7 @@
 <RemoveOperatorButton handleClick={() => alert('Clicked')} loading />
 ```
 
-**Loading**
+**Disabled**
 
 ```js
 <RemoveOperatorButton handleClick={() => alert('Clicked')} disabled />

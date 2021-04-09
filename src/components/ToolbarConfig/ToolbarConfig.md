@@ -8,7 +8,7 @@ import { ReactFlowProvider } from 'react-flow-renderer';
 </ReactFlowProvider>;
 ```
 
-**With Operator and Delete Button**
+**Fit Button and Delete Button**
 
 ```js
 import { ReactFlowProvider } from 'react-flow-renderer';
