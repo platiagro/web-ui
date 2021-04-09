@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import ColumnsTable from 'components/Content/ExperimentsContent/Experiment/Drawer/DatasetDrawer/ColumnsTable/_';
+import ColumnsTable from 'components/ColumnsTable';
 
 /**
  * Component to display dataset columns in a ant design table.

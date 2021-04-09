@@ -2,7 +2,7 @@
 import React from 'react';
 
 // COMPONENTS
-import ContentHeaderContainer from '../../ContentHeader/_/ContentHeaderContainer';
+import ContentHeaderContainer from 'components/ContentHeader/_/ContentHeaderContainer';
 import ProjectsTable from '../ProjectsTable/Container';
 import NewProjectModal from '../NewProjectModal/Container';
 

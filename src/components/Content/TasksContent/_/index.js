@@ -2,7 +2,7 @@
 import React from 'react';
 
 // COMPONENTS
-import ContentHeaderContainer from '../../ContentHeader/_/ContentHeaderContainer';
+import ContentHeaderContainer from 'components/ContentHeader/_/ContentHeaderContainer';
 import NewTaskButton from '../NewTaskButton/Container';
 import NewTaskModal from '../NewTaskModal/Container';
 import EditTaskModal from '../EditTaskModal/Container';

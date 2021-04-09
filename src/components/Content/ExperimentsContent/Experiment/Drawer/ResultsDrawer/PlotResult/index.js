@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 //COMPONENTS
-import ImageLightbox from './ImageLightbox';
+import ImageLightbox from 'components/ImageLightbox';
 
 /**
  * Plot Result.

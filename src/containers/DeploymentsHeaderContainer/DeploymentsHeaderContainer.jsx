@@ -2,16 +2,17 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useHistory, useParams, withRouter } from "react-router-dom";
+import { useHistory, useParams, withRouter } from 'react-router-dom';
 
 // COMPONENTS
-import ContentHeader from 'components/Content/ContentHeader/_';
-import AccountInfo from 'components/Content/ContentHeader/AccountInfo';
-import PageHeaderDropdown from 'components/Content/ContentHeader/PageHeaderDropdown';
+import ContentHeader from 'components/ContentHeader/_';
+import AccountInfo from 'components/ContentHeader/AccountInfo';
+import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 
 // ACTIONS
 import {
-  editProjectNameRequest, fetchProjectRequest,
+  editProjectNameRequest,
+  fetchProjectRequest,
 } from 'store/project/actions';
 
 // DISPATCHS
@@ -37,7 +38,7 @@ const mapStateToProps = (state) => {
  * for deployments header with route control.
  *
  * @param {*} props Container props
- * 
+ *
  * @returns {DeploymentsHeaderContainer} Container
  */
 const DeploymentsHeaderContainer = (props) => {
@@ -45,7 +46,7 @@ const DeploymentsHeaderContainer = (props) => {
 
   const { projectId } = useParams();
   const history = useHistory();
-  const isFirstRender = useRef(true)
+  const isFirstRender = useRef(true);
 
   // HANDLERS
   const goBackHandler = () => history.push(`/projetos/${projectId}`);
@@ -57,7 +58,7 @@ const DeploymentsHeaderContainer = (props) => {
     // fetch project if project details is null
     if (!project.uuid && isFirstRender.current) {
       handleFetchProject(projectId);
-      isFirstRender.current = false
+      isFirstRender.current = false;
     }
   }, [handleFetchProject, project, projectId]);
 
@@ -95,11 +96,7 @@ DeploymentsHeaderContainer.propTypes = {
   handleFetchProject: PropTypes.func.isRequired,
 };
 
-
 // EXPORT DEFAULT
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DeploymentsHeaderContainer)
-)
+  connect(mapStateToProps, mapDispatchToProps)(DeploymentsHeaderContainer)
+);

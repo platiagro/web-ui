@@ -5,7 +5,7 @@ import React from 'react';
 import { Result } from 'antd';
 
 // COMPONENTS
-import ContentHeaderContainer from '../ContentHeader/_/ContentHeaderContainer';
+import ContentHeaderContainer from 'components/ContentHeader/_/ContentHeaderContainer';
 
 /**
  * Error 404 Content.
