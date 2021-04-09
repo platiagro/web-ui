@@ -46,7 +46,11 @@ const initialState = {
   projectsTable: { loading: false },
   projectName: { loading: false },
   tasksMenu: { loading: false },
-  deploymentsTabs: { loading: false, modalVisible: false },
+  deploymentsTabs: {
+    loading: false,
+    modalVisible: false,
+    deploymentOperatorsLoading: false,
+  },
   experimentsTabs: { loading: false },
   experimentName: { loading: false },
   experimentOperators: { loading: false },
@@ -72,7 +76,7 @@ const initialState = {
   },
   prepareDeployments: { loading: false },
   externalDatasetHelperModal: { visible: false },
-  monitorings: { loading: false, creating: false, deleting: false }
+  monitorings: { loading: false, creating: false, deleting: false },
 };
 
 const uiReducer = (state = initialState, action = undefined) => {
@@ -321,6 +325,15 @@ const uiReducer = (state = initialState, action = undefined) => {
         deploymentsTabs: {
           ...state.deploymentsTabs,
           loading: action.loading,
+        },
+      };
+    case actionTypes.DEPLOYMENT_OPERATORS_LOADING_DATA:
+    case actionTypes.DEPLOYMENT_OPERATORS_DATA_LOADED:
+      return {
+        ...state,
+        deploymentsTabs: {
+          ...state.deploymentsTabs,
+          deploymentOperatorsLoading: action.deploymentOperatorsLoading,
         },
       };
     case actionTypes.DEPLOYMENTS_TABS_HIDE_MODAL:
@@ -658,27 +671,27 @@ const uiReducer = (state = initialState, action = undefined) => {
         ...state,
         monitorings: {
           ...state.monitorings,
-          loading: action.loading
-        }
-      }
+          loading: action.loading,
+        },
+      };
 
     case actionTypes.SET_CREATING_MONITORING:
       return {
         ...state,
         monitorings: {
           ...state.monitorings,
-          creating: action.creating
-        }
-      }
+          creating: action.creating,
+        },
+      };
 
     case actionTypes.SET_DELETING_MONITORING:
       return {
         ...state,
         monitorings: {
           ...state.monitorings,
-          deleting: action.deleting
-        }
-      }
+          deleting: action.deleting,
+        },
+      };
 
     // DEFAULT
     default:

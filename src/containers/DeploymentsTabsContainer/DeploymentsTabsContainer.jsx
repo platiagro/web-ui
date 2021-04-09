@@ -1,117 +1,90 @@
-// CORE LIBS
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
-// COMPONENTS
 import TabsBar from 'components/TabsBar';
-
-// CONTAINERS
+import { showNewDeploymentModal } from 'store/ui/actions';
 import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer';
-
-// ACTIONS
 import {
   deleteProjectDeployment,
   fetchProjectDeployments,
   updateDeploymentPosition,
 } from 'store/projectDeployments/actions';
+import {
+  duplicateDeploymentRequest,
+  renameDeploymentRequest,
+} from 'store/deployments/actions';
 
-import { duplicateDeploymentRequest } from 'store/deployments/actions';
-
-import { deploymentsTabsShowModal } from 'store/ui/actions';
-import { renameDeploymentRequest } from 'store/deployments/actions';
-
-// DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  return {
-    handleFetchProjectDeployments: (projectId) =>
-      dispatch(fetchProjectDeployments(projectId)),
-    handleDeleteProjectDeployment: (projectId, experimentId) =>
-      dispatch(deleteProjectDeployment(projectId, experimentId, routerProps)),
-    handleDuplicateDeployment: (projectId, duplicatedDeploymentId, newName) =>
-      dispatch(
-        duplicateDeploymentRequest(projectId, duplicatedDeploymentId, newName)
-      ),
-    handleUpdateDeploymentPosition: (projectId, dragId, hoverId, newPosition) =>
-      dispatch(
-        updateDeploymentPosition(projectId, dragId, hoverId, newPosition)
-      ),
-    handleShowModal: () => dispatch(deploymentsTabsShowModal()),
-    handleRenameDeployment: (deployments, projectId, deploymentId, newName) =>
-      dispatch(
-        renameDeploymentRequest(deployments, projectId, deploymentId, newName)
-      ),
-  };
+const loadingSelector = ({ uiReducer }) => {
+  return uiReducer.deploymentsTabs.loading;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    deployments: state.projectDeploymentsReducer,
-    loading: state.uiReducer.deploymentsTabs.loading,
-  };
+const deploymentsSelector = ({ projectDeploymentsReducer }) => {
+  return projectDeploymentsReducer;
 };
 
-/**
- * Deployments Tabs Container.
- * This component is responsible for create a logic container for deploymenys tabs
- * with redux.
- */
-const DeploymentsTabsContainer = (props) => {
-  const {
-    deployments,
-    handleDeleteProjectDeployment,
-    handleFetchProjectDeployments,
-    handleUpdateDeploymentPosition,
-    handleDuplicateDeployment,
-    handleRenameDeployment,
-    handleShowModal,
-    loading,
-  } = props;
-  const { projectId } = useParams();
+const DeploymentsTabsContainer = () => {
+  const { projectId, deploymentId } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  // HOOKS
-  useEffect(() => {
-    handleFetchProjectDeployments(projectId);
-  }, [handleFetchProjectDeployments, projectId]);
+  const isLoading = useSelector(loadingSelector);
+  const deployments = useSelector(deploymentsSelector);
 
-  // HANDLERS
   const handleDelete = (deploymentId) => {
-    handleDeleteProjectDeployment(projectId, deploymentId);
+    dispatch(deleteProjectDeployment(projectId, deploymentId));
   };
 
   const handleDuplicate = (deploymentId, newName) => {
-    handleDuplicateDeployment(projectId, deploymentId, newName);
+    dispatch(duplicateDeploymentRequest(projectId, deploymentId, newName));
   };
 
   const handleMoveTab = (dragId, hoverId) => {
     const hoverDeploy = deployments.find((deploy) => deploy.uuid === hoverId);
     const newPosition = hoverDeploy.position;
-    handleUpdateDeploymentPosition(projectId, dragId, hoverId, newPosition);
+    dispatch(updateDeploymentPosition(projectId, dragId, hoverId, newPosition));
   };
 
-  const handleRename = (deploymentId, newName) =>
-    handleRenameDeployment(deployments, projectId, deploymentId, newName);
+  const handleRename = (deploymentId, newName) => {
+    dispatch(
+      renameDeploymentRequest(deployments, projectId, deploymentId, newName)
+    );
+  };
 
-  // RENDER
+  const handleChangeTab = (targetDeploymentId) => {
+    if (targetDeploymentId !== deploymentId) {
+      history.push(
+        `/projetos/${projectId}/pre-implantacao/${targetDeploymentId}`
+      );
+    }
+  };
+
+  const handleShowModal = () => {
+    dispatch(showNewDeploymentModal());
+  };
+
+  useEffect(() => {
+    dispatch(fetchProjectDeployments(projectId));
+  }, [dispatch, projectId]);
+
   return (
     <>
       <TabsBar
-        deleteTitle={'Excluir monitoramento?'}
-        loading={loading}
+        activeTab={deploymentId}
+        deleteTitle='Excluir Este Fluxo?'
+        loading={isLoading}
         onClick={handleShowModal}
         onDelete={handleDelete}
         onMoveTab={handleMoveTab}
         onDuplicate={handleDuplicate}
         onRename={handleRename}
+        onChange={handleChangeTab}
         tabs={deployments}
       />
+
       <NewDeploymentModalContainer />
     </>
   );
 };
 
-// EXPORT
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DeploymentsTabsContainer)
-);
+export default DeploymentsTabsContainer;

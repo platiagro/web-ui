@@ -13,6 +13,10 @@ import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/act
 
 // UTILS
 import utils from 'utils';
+import {
+  deploymentOperatorsDataLoaded,
+  deploymentOperatorsLoadingData,
+} from 'store/ui/actions';
 
 // ACTIONS
 /**
@@ -22,6 +26,7 @@ import utils from 'utils';
  * @param {string} deploymentId
  * @param {object} taskId
  * @param {object[]} tasks,
+ * @param tasks
  * @param {object} position
  */
 export const createOperatorRequest = (
@@ -135,8 +140,7 @@ export const removeOperatorRequest = (projectId, deploymentId, operator) => (
     type: actionTypes.REMOVE_DEPLOYMENT_OPERATOR_REQUEST,
   });
 
-  //TODO:
-  // dispatch(experimentOperatorsLoadingData());
+  dispatch(deploymentOperatorsLoadingData());
 
   deploymentsOperatorsApi
     .deleteOperator(projectId, deploymentId, operator.uuid)
@@ -156,8 +160,7 @@ export const removeOperatorRequest = (projectId, deploymentId, operator) => (
       message.success('Operador removido com sucesso!');
     })
     .catch((error) => {
-      //TODO:
-      // dispatch(experimentOperatorsDataLoaded());
+      dispatch(deploymentOperatorsDataLoaded());
       const errorMessage = error.message;
       dispatch({
         type: actionTypes.REMOVE_DEPLOYMENT_OPERATOR_FAIL,

@@ -886,6 +886,36 @@ export const loadingOffDataViewModal = () => {
 
 // // // // // // // // // //
 
+// ** DEPLOYMENT OPERATORS LOADING DATA
+/**
+ * deployment operators loading data
+ *
+ * @returns {object} { type, deploymentOperatorsLoading }
+ */
+export const deploymentOperatorsLoadingData = () => {
+  return {
+    type: actionTypes.DEPLOYMENT_OPERATORS_LOADING_DATA,
+    deploymentOperatorsLoading: true,
+  };
+};
+
+// // // // // // // // // //
+
+// ** DEPLOYMENT OPERATORS DATA LOADED
+/**
+ * deployment operators loading data
+ *
+ * @returns {object} { type, deploymentOperatorsLoading }
+ */
+export const deploymentOperatorsDataLoaded = () => {
+  return {
+    type: actionTypes.DEPLOYMENT_OPERATORS_DATA_LOADED,
+    deploymentOperatorsLoading: false,
+  };
+};
+
+// // // // // // // // // //
+
 // DATA VIEW MODAL
 
 /**
@@ -1089,4 +1119,3 @@ export const setDeletingMonitoring = (deleting = false) => {
     deleting,
   };
 };
-
