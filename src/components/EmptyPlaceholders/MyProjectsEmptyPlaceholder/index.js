@@ -1,3 +1,3 @@
-import MyProjectsEmptyPlaceholder from './MyProjectsEmptyPlaceholder';
+import MyProjectsEmptyPlaceholder from './MyProjectsEmptyPlaceholder.component';
 
 export default MyProjectsEmptyPlaceholder;

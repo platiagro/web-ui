@@ -1,3 +1,3 @@
-import UsingDeploymentsModal from './UsingDeploymentsModal';
+import UsingDeploymentsModal from './UsingDeploymentsModal.component';
 
 export default UsingDeploymentsModal;

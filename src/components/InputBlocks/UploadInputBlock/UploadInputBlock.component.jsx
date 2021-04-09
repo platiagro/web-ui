@@ -9,51 +9,6 @@ import { Dropdown, Empty, Menu, Upload } from 'antd';
 // COMPONENTS
 import { PropertyBlock } from 'components';
 
-/**
- * A input block with upload input
- *
- * @param {object} props Component props
- * @returns {UploadInputBlock} Component
- * @component
- * @example
- * // Upload action url
- * const actionUrl = 'https://www.mocky.io/v2/5cc8019d300000980a055e76';
- * // Upload button text
- * const buttonText = 'Upload Button';
- * // Upload cancel handler
- * const handleUploadCancel = () => alert('handleUploadCancel');
- * // Upload fail handler
- * const handleUploadFail = () => alert('handleUploadFail');
- * // Upload start handler
- * const handleUploadStart = () => alert('handleUploadStart');
- * // Upload success handler
- * const handleUploadSuccess = () => alert('handleUploadSuccess');
- * // Upload is disabled
- * const isDisabled = false;
- * // Upload is loading
- * const isLoading = false;
- * // Upload tip text
- * const tip = 'This is a tip!';
- * // Upload title
- * const title = 'Upload';
- *
- * return (
- *  <div>
- *    <UploadInputBlock
- *      actionUrl={actionUrl}
- *      buttonText={buttonText}
- *      handleUploadCancel={handleUploadCancel}
- *      handleUploadFail={handleUploadFail}
- *      handleUploadStart={handleUploadStart}
- *      handleUploadSuccess={handleUploadSuccess}
- *      isDisabled={isDisabled}
- *      isLoading={isLoading}
- *      tip={tip}
- *      title={title}
- *    />
- *  </div>
- * );
- */
 const UploadInputBlock = (props) => {
   // destructuring props
   const {
@@ -126,12 +81,6 @@ const UploadInputBlock = (props) => {
     </Menu>
   );
 
-  /* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */
-  // file extensions
-  /*const fileExtensions = (
-    <div style={{ marginTop: '10px' }}>Arquivos aceitos: .csv</div>
-  );*/
-
   // rendering component
   return (
     <PropertyBlock tip={tip} title={title}>
@@ -151,8 +100,6 @@ const UploadInputBlock = (props) => {
           {buttonText}
         </Dropdown.Button>
       </Upload>
-      {/* TODO: Liberar quando os tipos de arquivos aceitos forem limitados */}
-      {/*fileList.length === 0 && fileExtensions*/}
     </PropertyBlock>
   );
 };

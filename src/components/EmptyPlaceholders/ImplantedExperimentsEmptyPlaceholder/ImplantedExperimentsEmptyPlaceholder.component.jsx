@@ -2,7 +2,7 @@
 import React from 'react';
 
 // STYLES
-import './ImplantedExperimentsEmptyPlaceholder.less';
+import './styles.less';
 
 /**
  * Implanted experiments empty placeholder.

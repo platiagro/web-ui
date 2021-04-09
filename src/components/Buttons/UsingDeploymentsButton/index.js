@@ -1,3 +1,3 @@
-import UsingDeploymentsButton from './UsingDeploymentsButton';
+import UsingDeploymentsButton from './UsingDeploymentsButton.component';
 
 export default UsingDeploymentsButton;

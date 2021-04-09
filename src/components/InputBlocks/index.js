@@ -1,19 +1,7 @@
-import GoogleUploadInputBlock from './GoogleUploadInputBlock';
-import NumberInputBlock from './NumberInputBlock';
-import OperatorLogBlock from '../LogBlock';
-import RadioInput from './RadioInput';
-import SelectInputBlock from './SelectInputBlock';
-import TextInputBlock from './TextInputBlock';
-import ToggleInputBlock from './ToggleInputBlock';
-import UploadInputBlock from './UploadInputBlock';
-
-export {
-  GoogleUploadInputBlock,
-  NumberInputBlock,
-  OperatorLogBlock,
-  RadioInput,
-  SelectInputBlock,
-  TextInputBlock,
-  ToggleInputBlock,
-  UploadInputBlock,
-};
+export { default as GoogleUploadInputBlock } from './GoogleUploadInputBlock';
+export { default as NumberInputBlock } from './NumberInputBlock';
+export { default as RadioInput } from './RadioInput';
+export { default as SelectInputBlock } from './SelectInputBlock';
+export { default as TextInputBlock } from './TextInputBlock';
+export { default as ToggleInputBlock } from './ToggleInputBlock';
+export { default as UploadInputBlock } from './UploadInputBlock';
