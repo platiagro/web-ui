@@ -3,6 +3,8 @@
 /**
  * Projeto (Project).
  *
+ * https://platiagro.github.io/projects/#model-Project
+ *
  * @typedef {object} Project
  *
  * @property {string} uuid Project id
