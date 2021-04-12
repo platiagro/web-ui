@@ -28,6 +28,8 @@ const reducer = (state = initialState, action = undefined) => {
     case actionTypes.DELETE_PROJECTS_SUCCESS:
       return {
         ...state,
+        projects: action.payload.projects,
+        selectedProjects: action.payload.selectedProjects,
         isLoading: action.payload.isLoading,
       };
 
