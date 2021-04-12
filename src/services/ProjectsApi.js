@@ -1,3 +1,5 @@
+/* API REFERENCE: https://platiagro.github.io/projects/#/Projects */
+
 // CORE LIBS
 import axios from 'axios';
 
