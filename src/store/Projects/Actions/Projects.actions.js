@@ -16,7 +16,7 @@ import projectsApi from 'services/ProjectsApi';
  * @param {object} error Error object
  * @returns {Function} The `disptach` function
  */
-export const fetchPaginatedProjectsFail = (error) => {
+const fetchPaginatedProjectsFail = (error) => {
   const errorMessage = error.message;
   message.error(errorMessage, 5);
 
@@ -35,12 +35,7 @@ export const fetchPaginatedProjectsFail = (error) => {
  * @param {object} response Request success response
  * @returns {object} Action creator
  */
-export const fetchPaginatedProjectsSuccess = (
-  name,
-  page,
-  pageSize,
-  response
-) => {
+const fetchPaginatedProjectsSuccess = (name, page, pageSize, response) => {
   const { projects } = response.data;
 
   return {
@@ -110,7 +105,7 @@ export const selectProjects = (projects) => {
  * @param {object} error Error object
  * @returns {object} Action
  */
-export const deleteProjectsFail = (error) => {
+const deleteProjectsFail = (error) => {
   const errorMessage = error.message;
   message.error(errorMessage, 5);
 
@@ -126,10 +121,7 @@ export const deleteProjectsFail = (error) => {
  * @param {Projects} deletedProjects An array of deleted projects
  * @returns {Function} The `disptach` function
  */
-export const deleteProjectsSuccess = (deletedProjects) => (
-  dispatch,
-  getState
-) => {
+const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
   const { Projects } = getState();
   const { projects: storeProjects } = Projects;
 
