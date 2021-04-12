@@ -13,15 +13,8 @@ const projectsPath = '/projects';
 
 // API METHODS
 /**
- * List Projects
- * @returns {Promise}
- */
-const listProjects = () => {
-  return projectsApi.get(projectsPath);
-};
-
-/**
  * Detail Project
+ *
  * @param {string} projectId
  * @returns {Promise}
  */
@@ -31,6 +24,7 @@ const detailProject = (projectId) => {
 
 /**
  * Create Project
+ *
  * @param {string} projectName
  * @param {string} projectDescription
  * @returns {Promise}
@@ -45,6 +39,7 @@ const createProject = (projectName, projectDescription) => {
 
 /**
  * Update Project
+ *
  * @param {string} projectId
  * @param {string} projectName
  * @param {string} projectDescription
@@ -64,16 +59,8 @@ const updateProject = (projectId, projectName, projectDescription) => {
 };
 
 /**
- * Delete Project
- * @param {string} projectId
- * @returns {Promise}
- */
-const deleteProject = (projectId) => {
-  return projectsApi.delete(`${projectsPath}/${projectId}`);
-};
-
-/**
  * Delete Projects
+ *
  * @param {Array} projects
  * @returns {Promise}
  */
@@ -83,9 +70,10 @@ const deleteProjects = (projects) => {
 
 /**
  * Get paginated projects
- * @param {String} name
- * @param {Number} page
- * @param {Number} pageSize
+ *
+ * @param {string} name
+ * @param {number} page
+ * @param {number} pageSize
  * @returns {Promise}
  */
 const getPaginatedProjects = (name, page, pageSize) => {
@@ -96,11 +84,9 @@ const getPaginatedProjects = (name, page, pageSize) => {
 
 // EXPORT DEFAULT
 export default {
-  listProjects,
   detailProject,
   createProject,
   updateProject,
-  deleteProject,
   deleteProjects,
   getPaginatedProjects,
 };
