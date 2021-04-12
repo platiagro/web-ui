@@ -748,6 +748,17 @@ const formatResultsParameters = (parameters, parametersTraining) => {
   return resultsParameters;
 };
 
+const retrieveStatusMessageFromOperators = (operators) => {
+  operators.map(
+    (operator) =>
+      operator.statusMessage &&
+      notification.open({
+        message: operator?.task?.name,
+        description: operator.statusMessage,
+      })
+  );
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -775,4 +786,5 @@ export default {
   formatResultsParameters,
   copyToClipboard,
   downloadFile,
+  retrieveStatusMessageFromOperators,
 };

@@ -19,6 +19,9 @@ import {
   resultsButtonBarDataLoaded,
 } from 'store/ui/actions';
 
+// UTILS
+import utils from 'utils';
+
 // ACTIONS
 // ** FETCH EXPERIMENT RUNS
 /**
@@ -293,6 +296,7 @@ const fetchExperimentRunStatusSuccess = (response, experimentId) => (
     }
   }
 
+  utils.retrieveStatusMessageFromOperators(operators);
   dispatch({
     type: actionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS,
     operatorsLatestTraining: operators,

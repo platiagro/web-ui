@@ -46,6 +46,8 @@ const fetchOperatorsSuccess = (operators) => (dispatch) => {
 
   dispatch(resultsButtonBarDataLoaded());
 
+  utils.retrieveStatusMessageFromOperators(operators);
+
   // dispatching fetch operators success action
   dispatch({
     type: actionTypes.FETCH_OPERATORS_SUCCESS,
@@ -101,7 +103,6 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     // getting tasks
     const tasksResponse = await tasksApi.getAllTasks();
     const tasks = tasksResponse.data.tasks;
-
     // getting operators
     const operatorsResponse = await operatorsApi.listOperators(
       projectId,
