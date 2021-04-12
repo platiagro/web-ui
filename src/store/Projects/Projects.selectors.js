@@ -1,9 +1,9 @@
-/* globals Projects, AppStore */
+/* globals Projects, AppStores */
 
 /**
  * Get all projects from store
  *
- * @param {AppStore} state Redux store state
+ * @param {AppStores} state Redux store state
  * @returns {Projects} Projects list
  */
 const getProjects = (state) => state.Projects.projects;
@@ -11,7 +11,7 @@ const getProjects = (state) => state.Projects.projects;
 /**
  * Get all selected projects from store
  *
- * @param {AppStore} state Redux store state
+ * @param {AppStores} state Redux store state
  * @returns {Projects} Projects list
  */
 const getSelectedProjects = (state) => state.Projects.selectedProjects;
@@ -20,7 +20,7 @@ const getSelectedProjects = (state) => state.Projects.selectedProjects;
  * Get project from store
  *
  * @param {string} projectId Project id
- * @param {AppStore} state Redux store state
+ * @param {AppStores} state Redux store state
  * @returns {Projects} Projects list
  */
 const getProject = (projectId, state) =>
@@ -29,7 +29,7 @@ const getProject = (projectId, state) =>
 /**
  * Get is loading state
  *
- * @param {AppStore} state Redux store state
+ * @param {AppStores} state Redux store state
  * @returns {boolean} Store data is loading
  */
 const getIsLoading = (state) => state.Projects.isLoading;
@@ -38,7 +38,7 @@ const getIsLoading = (state) => state.Projects.isLoading;
 /**
  * Get search filter text
  *
- * @param {AppStore} state Redux store state
+ * @param {AppStores} state Redux store state
  * @returns {string} Search filter text
  */
 const getSearchText = (state) => state.Projects.searchText;
@@ -47,7 +47,7 @@ const getSearchText = (state) => state.Projects.searchText;
 /**
  * Get table current page
  *
- * @param {AppStore} state Redux store state
+ * @param {AppStores} state Redux store state
  * @returns {number} Table current page
  */
 const getCurrentPage = (state) => state.Projects.currentPage;
@@ -56,7 +56,7 @@ const getCurrentPage = (state) => state.Projects.currentPage;
 /**
  * Get total projects entries
  *
- * @param {AppStore} state Redux store state
+ * @param {AppStores} state Redux store state
  * @returns {number} Table total entries
  */
 const getTotalProjects = (state) => state.Projects.total;
@@ -65,7 +65,7 @@ const getTotalProjects = (state) => state.Projects.total;
 /**
  * Get table page size
  *
- * @param {AppStore} state Redux store state
+ * @param {AppStores} state Redux store state
  * @returns {number} Table page size
  */
 const getPageSize = (state) => state.Projects.pageSize;
