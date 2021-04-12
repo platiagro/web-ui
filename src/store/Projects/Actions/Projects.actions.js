@@ -140,7 +140,8 @@ export const deleteProjectsSuccess = (deletedProjects) => (
       !deletedProjects.find((deletedProject) => project.uuid === deletedProject)
   );
 
-  message.success('Projetos excluídos!');
+  // TODO: Utilizar internacionalização e chave de plural
+  message.success('Projeto(s) excluído(s)!');
 
   dispatch({
     type: actionTypes.DELETE_PROJECTS_SUCCESS,
