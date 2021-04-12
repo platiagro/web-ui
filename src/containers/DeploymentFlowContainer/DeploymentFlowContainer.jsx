@@ -3,7 +3,12 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import DeploymentFlow from 'components/DeploymentFlow';
-import { saveOperatorPosition, selectOperator } from 'store/operator/actions';
+import {
+  selectOperator,
+  deselectOperator,
+  saveOperatorPosition,
+  saveOperatorDependencies,
+} from 'store/operator/actions';
 
 const operatorsSelector = ({ deploymentOperatorsReducer }) => {
   return deploymentOperatorsReducer;
@@ -13,12 +18,19 @@ const loadingSelector = ({ uiReducer }) => {
   return uiReducer.deploymentsTabs.deploymentOperatorsLoading;
 };
 
+const selectedOperatorIdSelector = ({ operatorReducer }) => {
+  return operatorReducer.uuid;
+};
+
 const DeploymentFlowContainer = () => {
   const { projectId, deploymentId } = useParams();
   const dispatch = useDispatch();
 
-  const operators = useSelector(operatorsSelector);
   const loading = useSelector(loadingSelector);
+  const operators = useSelector(operatorsSelector);
+  const selectedOperatorId = useSelector(selectedOperatorIdSelector);
+
+  console.log(selectedOperatorId);
 
   const handleSavePosition = (operatorId, position) => {
     dispatch(
@@ -26,16 +38,35 @@ const DeploymentFlowContainer = () => {
     );
   };
 
-  const handleClickCard = (operator) => {
-    dispatch(selectOperator(projectId, deploymentId, operator));
+  const handleSelectOperator = (operator) => {
+    dispatch(selectOperator(operator));
+  };
+
+  const handleSaveDependencies = (operatorId, dependencies) => {
+    dispatch(
+      saveOperatorDependencies(
+        projectId,
+        deploymentId,
+        operatorId,
+        dependencies,
+        operators
+      )
+    );
+  };
+
+  const handleDeselectOperator = () => {
+    dispatch(deselectOperator());
   };
 
   return (
     <DeploymentFlow
-      operators={operators}
       loading={loading}
+      operators={operators}
+      selectedOperatorId={selectedOperatorId}
       handleSavePosition={handleSavePosition}
-      handleClickCard={handleClickCard}
+      handleSelectOperator={handleSelectOperator}
+      handleDeselectOperator={handleDeselectOperator}
+      handleSaveDependencies={handleSaveDependencies}
     />
   );
 };

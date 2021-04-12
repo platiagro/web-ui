@@ -9,10 +9,10 @@ import ExperimentFlow from './index';
 // ACTIONS
 
 import {
-  selectOperator,
+  selectOperatorAndGetData,
   deselectOperator,
   saveOperatorPosition,
-  saveOperatorDependencies
+  saveOperatorDependencies,
 } from 'store/operator/actions';
 
 import { useStoreState } from 'react-flow-renderer';
@@ -22,7 +22,7 @@ import { fetchExperimentRunStatusRequest } from 'store/experiments/experimentRun
 const mapDispatchToProps = (dispatch) => {
   return {
     handleShowOperatorDetails: (projectId, experimentId, operator) =>
-      dispatch(selectOperator(projectId, experimentId, operator)),
+      dispatch(selectOperatorAndGetData(projectId, experimentId, operator)),
     handleFetchExperimentRunStatus: (projectId, experimentId) =>
       dispatch(fetchExperimentRunStatusRequest(projectId, experimentId)),
     handleDeselectOperator: () => dispatch(deselectOperator()),

@@ -36,9 +36,9 @@ const DeploymentFlowBox = (props) => {
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!disabled)
-      if (selected) onDeselect(operator);
-      else onSelect(operator);
+    if (disabled) return;
+    if (selected) onDeselect(operator);
+    else onSelect(operator);
   };
 
   const handleRemove = () => {

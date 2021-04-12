@@ -42,6 +42,7 @@ import utils from 'utils';
 /**
  * Download operator result dataset
  *
+ * @param projectId
  * @param experimentId
  * @param operatorId
  */
@@ -116,6 +117,23 @@ export const getOperatorLogs = (projectId, experimentId, operatorId) => async (
 
 /**
  * Get operator figures
+ *
+ * @param projectId
+ * @param experimentId
+ * @param runId
+ * @param operatorId
+ * @param projectId
+ * @param experimentId
+ * @param runId
+ * @param operatorId
+ * @param projectId
+ * @param experimentId
+ * @param runId
+ * @param operatorId
+ * @param projectId
+ * @param experimentId
+ * @param runId
+ * @param operatorId
  */
 export const getOperatorFigures = (
   projectId,
@@ -152,6 +170,7 @@ export const getOperatorFigures = (
 /**
  * Get operator result dataset
  *
+ * @param projectId
  * @param experimentId
  * @param operatorId
  * @param page
@@ -249,7 +268,7 @@ export const getOperatorMetricsRequest = (
  * @param {object} operator
  * @param page
  */
-export const selectOperator = (projectId, experimentId, operator) => (
+export const selectOperatorAndGetData = (projectId, experimentId, operator) => (
   dispatch,
   getState
 ) => {
@@ -303,6 +322,18 @@ export const selectOperator = (projectId, experimentId, operator) => (
 };
 
 // // // // // // // // // //
+/**
+ * Select operator action
+ *
+ * @param operator
+ */
+export const selectOperator = (operator) => (dispatch) => {
+  dispatch({
+    type: actionTypes.SELECT_OPERATOR,
+    operator,
+  });
+};
+
 /**
  * Deselect operator action
  */
@@ -664,11 +695,10 @@ export const saveOperatorDependencies = (
     });
 };
 
-export const saveTargetAttribute = (
-  projectId,
-  experimentId,
-  parameters
-) => async (dispatch, getState) => {
+export const saveTargetAttribute = (projectId, experimentId, parameters) => (
+  dispatch,
+  getState
+) => {
   const { operatorReducer: datasetOperator } = getState();
 
   dispatch(

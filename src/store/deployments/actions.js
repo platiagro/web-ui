@@ -122,8 +122,6 @@ const createDeploymentFail = (error) => (dispatch) => {
 
   dispatch(newDeploymentModalEndLoading());
 
-  console.log(errorMessage);
-
   errorMessage = errorMessage.includes('either')
     ? customErrorMessage
     : errorMessage;
