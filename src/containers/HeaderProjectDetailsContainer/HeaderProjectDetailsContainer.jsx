@@ -30,8 +30,8 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchProjectRequest(projectId, routerProps)),
     handleEditProjectName: (projectId, newName) =>
       dispatch(editProjectNameRequest(projectId, newName)),
-    handleDeleteProject: (projectName, projectId) =>
-      dispatch(deleteProjectsRequest(projectName, [projectId])),
+    handleDeleteProject: (projectId) =>
+      dispatch(deleteProjectsRequest([projectId])),
   };
 };
 
@@ -81,9 +81,8 @@ const ContentHeaderProjectDetailsContainer = (props) => {
     handleEditProjectName(projectId, newProjectName);
 
   const handleClick = () => {
-    handleDeleteProject(project.name, projectId);
+    handleDeleteProject(projectId);
     goBackHandler();
-    window.location.reload();
   };
 
   // RENDER
