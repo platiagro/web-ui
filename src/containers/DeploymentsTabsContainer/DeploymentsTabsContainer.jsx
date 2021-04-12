@@ -23,6 +23,10 @@ const deploymentsSelector = ({ projectDeploymentsReducer }) => {
   return projectDeploymentsReducer;
 };
 
+const getCurrentRoutePath = (projectId, deploymentId) => {
+  return `/projetos/${projectId}/pre-implantacao/${deploymentId}`;
+};
+
 const DeploymentsTabsContainer = () => {
   const { projectId, deploymentId } = useParams();
   const dispatch = useDispatch();
@@ -53,9 +57,8 @@ const DeploymentsTabsContainer = () => {
 
   const handleChangeTab = (targetDeploymentId) => {
     if (targetDeploymentId !== deploymentId) {
-      history.push(
-        `/projetos/${projectId}/pre-implantacao/${targetDeploymentId}`
-      );
+      const path = getCurrentRoutePath(projectId, targetDeploymentId);
+      history.push(path);
     }
   };
 
@@ -66,6 +69,18 @@ const DeploymentsTabsContainer = () => {
   useEffect(() => {
     dispatch(fetchProjectDeployments(projectId));
   }, [dispatch, projectId]);
+
+  // This useEffect selects the first deployment when the component renders
+  useEffect(() => {
+    if (!deploymentId && !!deployments && deployments.length) {
+      const [firstDeployment] = deployments;
+      const firstDeploymentId = firstDeployment.uuid;
+      if (deploymentId === firstDeploymentId) return;
+
+      const path = getCurrentRoutePath(projectId, firstDeploymentId);
+      history.push(path);
+    }
+  }, [deploymentId, deployments, history, projectId]);
 
   return (
     <>

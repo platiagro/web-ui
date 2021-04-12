@@ -1,25 +1,43 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import DeploymentFlowComponent from 'components/DeploymentFlow';
+import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 
-/**
- * Container do Fluxo de pré-implantação/implantação.
- */
-function DeploymentFlow(props) {
-  return <DeploymentFlowComponent {...props} />;
-}
+import DeploymentFlow from 'components/DeploymentFlow';
+import { saveOperatorPosition, selectOperator } from 'store/operator/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {};
+const operatorsSelector = ({ deploymentOperatorsReducer }) => {
+  return deploymentOperatorsReducer;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    operators: state.operatorsReducer,
-    loading: state.uiReducer.experimentOperators.loading,
+const loadingSelector = ({ uiReducer }) => {
+  return uiReducer.deploymentsTabs.deploymentOperatorsLoading;
+};
+
+const DeploymentFlowContainer = () => {
+  const { projectId, deploymentId } = useParams();
+  const dispatch = useDispatch();
+
+  const operators = useSelector(operatorsSelector);
+  const loading = useSelector(loadingSelector);
+
+  const handleSavePosition = (operatorId, position) => {
+    dispatch(
+      saveOperatorPosition(projectId, deploymentId, operatorId, position)
+    );
   };
+
+  const handleClickCard = (operator) => {
+    dispatch(selectOperator(projectId, deploymentId, operator));
+  };
+
+  return (
+    <DeploymentFlow
+      operators={operators}
+      loading={loading}
+      handleSavePosition={handleSavePosition}
+      handleClickCard={handleClickCard}
+    />
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeploymentFlow);
+export default DeploymentFlowContainer;

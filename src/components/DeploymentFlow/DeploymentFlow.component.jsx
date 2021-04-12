@@ -17,7 +17,7 @@ import './DeploymentFlow.style.less';
  * Fluxo de pré-implantação/implantação.
  */
 function DeploymentFlow(props) {
-  const { operators, loading, onClickCard } = props;
+  const { operators, loading, handleClickCard, handleSavePosition } = props;
 
   const cardsElements = operators.map((component) => {
     const arrows = component.dependencies.map((arrow) => {
@@ -57,7 +57,7 @@ function DeploymentFlow(props) {
                   {}
                 )}
               title={component.name}
-              onSelect={onClickCard}
+              onSelect={handleClickCard}
               leftFlowHandle={
                 <Handle
                   type='target'
@@ -92,8 +92,9 @@ function DeploymentFlow(props) {
     }, 0);
   };
 
-  //TODO: Trocar log por salvar posição do card
-  const handleDragStop = (event, task) => console.log(task.id, task.position);
+  const handleDragStop = (_, task) => {
+    handleSavePosition(task.id, task.position);
+  };
 
   return loading ? (
     <LoadingBox siderColor='#FFF2E8' />
@@ -118,7 +119,8 @@ function DeploymentFlow(props) {
 DeploymentFlow.propTypes = {
   operators: PropTypes.array,
   loading: PropTypes.bool,
-  onClickCard: PropTypes.func,
+  handleClickCard: PropTypes.func,
+  handleSavePosition: PropTypes.func,
 };
 
 export default DeploymentFlow;
