@@ -123,27 +123,38 @@ export const deleteProjectsFail = (error) => {
 /**
  * Function to delete projects request success
  *
- * @param {string} searchText The text to be search
+ * @param {Projects} deletedProjects An array of deleted projects
  * @returns {Function} The `disptach` function
  */
-export const deleteProjectsSuccess = (searchText) => (dispatch) => {
+export const deleteProjectsSuccess = (deletedProjects) => (
+  dispatch,
+  getState
+) => {
+  const { Projects } = getState();
+  const { projects: storeProjects } = Projects;
+
+  const selectedProjects = [];
+
+  const projects = storeProjects.filter(
+    (project) =>
+      !deletedProjects.find((deletedProject) => project.uuid === deletedProject)
+  );
+
   message.success('Projetos excluídos!');
-  dispatch(fetchPaginatedProjectsRequest(searchText, 1, 10));
 
   dispatch({
     type: actionTypes.DELETE_PROJECTS_SUCCESS,
-    payload: { isLoading: false },
+    payload: { isLoading: false, projects, selectedProjects },
   });
 };
 
 /**
  * Function to request delete projects
  *
- * @param {string} searchText The text to be search
  * @param {Projects} projects An array of projects to be deleted
  * @returns {Function} The `disptach` function
  */
-export const deleteProjectsRequest = (searchText, projects) => {
+export const deleteProjectsRequest = (projects) => {
   return async (dispatch) => {
     dispatch({
       type: actionTypes.DELETE_PROJECTS_REQUEST,
@@ -153,7 +164,7 @@ export const deleteProjectsRequest = (searchText, projects) => {
     try {
       await projectsApi.deleteProjects(projects);
 
-      dispatch(deleteProjectsSuccess(searchText));
+      dispatch(deleteProjectsSuccess(projects));
     } catch (error) {
       dispatch(deleteProjectsFail(error));
     }

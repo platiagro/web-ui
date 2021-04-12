@@ -11,28 +11,20 @@ import {
   Selectors as projectsSelectors,
 } from 'store/Projects';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  const { deleteProjectsRequest } = projectsActions;
+const { deleteProjectsRequest } = projectsActions;
 
-  return {
-    handleDeleteSelectedProjects: (searchText, selectedProjects) =>
-      dispatch(deleteProjectsRequest(searchText, selectedProjects)),
-  };
+// DISPATCHS
+const mapDispatchToProps = {
+  handleDeleteSelectedProjects: deleteProjectsRequest,
 };
 
 // STATES
 const mapStateToProps = (state) => {
-  const {
-    getSelectedProjects,
-    getSearchText,
-    getIsLoading,
-  } = projectsSelectors;
+  const { getSelectedProjects, getIsLoading } = projectsSelectors;
 
   return {
     loading: getIsLoading(state),
     selectedProjects: getSelectedProjects(state),
-    searchText: getSearchText(state),
   };
 };
 
@@ -44,21 +36,16 @@ const mapStateToProps = (state) => {
 const DeleteProjectsButtonContainer = ({
   loading,
   selectedProjects,
-  searchText,
   handleDeleteSelectedProjects,
 }) => {
-  const handleClick = (projects) => {
-    handleDeleteSelectedProjects(searchText, projects);
-  };
-
   // RENDER
   return (
     <>
-      {selectedProjects.length > 0 ? (
+      {selectedProjects?.length > 0 ? (
         <DeleteProjectsButton
           disabled={loading}
           selectedProjects={selectedProjects}
-          handleClick={handleClick}
+          handleClick={handleDeleteSelectedProjects}
         />
       ) : null}
     </>
