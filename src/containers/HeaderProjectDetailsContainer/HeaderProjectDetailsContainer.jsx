@@ -8,10 +8,7 @@ import ContentHeader from 'components/ContentHeader/_';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
 // ACTIONS
-import {
-  fetchProjectRequest,
-  editProjectNameRequest,
-} from 'store/project/actions';
+import { fetchProjectRequest } from 'store/project/actions';
 
 import { Actions as projectsActions } from 'store/Projects';
 
@@ -23,13 +20,13 @@ import './style.less';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
-  const { deleteProjectsRequest } = projectsActions;
+  const { deleteProjectsRequest, updateProjectRequest } = projectsActions;
 
   return {
     handleFetchProject: (projectId) =>
       dispatch(fetchProjectRequest(projectId, routerProps)),
     handleEditProjectName: (projectId, newName) =>
-      dispatch(editProjectNameRequest(projectId, newName)),
+      dispatch(updateProjectRequest(projectId, { name: newName })),
     handleDeleteProject: (projectId) =>
       dispatch(deleteProjectsRequest([projectId])),
   };
