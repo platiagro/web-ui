@@ -1,4 +1,4 @@
-/* globals Projects */
+/* globals Projects, ProjectUpdatable */
 
 // UI LIBS
 import { message } from 'antd';
@@ -8,6 +8,8 @@ import { actionTypes } from '.';
 
 // SERVICES
 import projectsApi from 'services/ProjectsApi';
+
+import { hideNewProjectModal } from 'store/ui/actions';
 
 // TODO: Criar store para mensagens
 /**
@@ -162,4 +164,88 @@ export const deleteProjectsRequest = (projects) => {
       dispatch(deleteProjectsFail(error));
     }
   };
+};
+
+/**
+ * Update project fail action
+ *
+ * @param {object} error Error object
+ * @returns {object} { type, errorMessage }
+ */
+const updateProjectFail = (error) => {
+  // getting error message
+  let errorMessage;
+
+  if (error?.response.status === 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+
+    if (errorMessage.includes('name already exist')) {
+      errorMessage = 'Já existe um projeto com este nome!';
+    }
+  }
+
+  message.error(errorMessage, 5);
+
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAIL,
+    payload: { isLoading: false, errorMessage },
+  };
+};
+
+/**
+ * Update project success action
+ *
+ * @param {object} response Request response
+ * @returns {object} { type, project }
+ */
+const updateProjectSuccess = (response) => (dispatch, getState) => {
+  const { Projects } = getState();
+  const { projects: storeProjects } = Projects;
+
+  const project = response.data;
+
+  let projects;
+
+  if (storeProjects?.length > 0) {
+    projects = storeProjects.map((storeProject) =>
+      storeProject.uuid === project.uuid ? project : storeProject
+    );
+  } else {
+    projects = [project];
+  }
+
+  dispatch({
+    type: actionTypes.UPDATE_PROJECT_SUCCESS,
+    payload: { projects, isLoading: false },
+  });
+
+  dispatch(hideNewProjectModal());
+
+  message.success('Projeto salvo!');
+};
+
+/**
+ * Update project request action
+ *
+ * @param {string} projectId Project id to update
+ * @param {ProjectUpdatable} projectUpdate New project data
+ * @returns {Function} Dispatch
+ */
+export const updateProjectRequest = (projectId, projectUpdate) => async (
+  dispatch
+) => {
+  dispatch({
+    type: actionTypes.UPDATE_PROJECT_REQUEST,
+    payload: { isLoading: true },
+  });
+
+  try {
+    const response = await projectsApi.updateProject(projectId, projectUpdate);
+
+    dispatch(updateProjectSuccess(response));
+  } catch (error) {
+    dispatch(updateProjectFail(error));
+  }
 };
