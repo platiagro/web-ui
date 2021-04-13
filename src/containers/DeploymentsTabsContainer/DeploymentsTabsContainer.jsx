@@ -33,12 +33,14 @@ const DeploymentsTabsContainer = () => {
   const isLoading = useSelector(loadingSelector);
   const deployments = useSelector(deploymentsSelector);
 
-  const handleDelete = (deploymentId) => {
-    dispatch(deleteDeploymentRequest(projectId, deploymentId));
+  const handleDelete = (deploymentIdToDelete) => {
+    dispatch(deleteDeploymentRequest(projectId, deploymentIdToDelete));
   };
 
-  const handleDuplicate = (deploymentId, newName) => {
-    dispatch(duplicateDeploymentRequest(projectId, deploymentId, newName));
+  const handleDuplicate = (deploymentIdToDuplicate, newName) => {
+    dispatch(
+      duplicateDeploymentRequest(projectId, deploymentIdToDuplicate, newName)
+    );
   };
 
   const handleMoveTab = (draggedDeploymentId, hoveredDeploymentId) => {
@@ -60,9 +62,14 @@ const DeploymentsTabsContainer = () => {
     );
   };
 
-  const handleRename = (deploymentId, newName) => {
+  const handleRename = (deploymentIdToRename, newName) => {
     dispatch(
-      renameDeploymentRequest(deployments, projectId, deploymentId, newName)
+      renameDeploymentRequest(
+        deployments,
+        projectId,
+        deploymentIdToRename,
+        newName
+      )
     );
   };
 

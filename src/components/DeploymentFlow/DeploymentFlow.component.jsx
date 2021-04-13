@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import _ from 'lodash';
+import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import LoadingBox from 'components/LoadingBox';
 import ReactFlow, { Background, Handle } from 'react-flow-renderer';
@@ -121,7 +121,7 @@ const DeploymentFlow = ({
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
         nodesConnectable={false}
-        elements={_.flattenDeep(cardsElements)}
+        elements={lodash.flattenDeep(cardsElements)}
         onLoad={handleLoad}
         onNodeDragStop={handleDragStop}
         onPaneClick={handleDeselectOperator}

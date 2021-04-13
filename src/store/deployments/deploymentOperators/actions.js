@@ -25,6 +25,7 @@ import {
  *
  * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
+ * @returns {Function} Dispatch function
  */
 export const fetchOperatorsRequest = (projectId, deploymentId) => async (
   dispatch
@@ -73,7 +74,6 @@ export const fetchOperatorsRequest = (projectId, deploymentId) => async (
       pipelinesResponse.data
     );
 
-    // dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
     dispatch({
       type: actionTypes.FETCH_DEPLOYMENT_OPERATORS_SUCCESS,
       operators: configuredOperators,
