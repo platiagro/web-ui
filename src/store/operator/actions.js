@@ -37,6 +37,7 @@ import {
 
 // UTILS
 import utils from 'utils';
+import DeploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 
 // ACTIONS
 /**
@@ -641,17 +642,22 @@ export const saveOperatorPosition = (
   experimentId,
   operatorId,
   position
-) => async (dispatch) => {
-  const body = {
-    positionX: position.x,
-    positionY: position.y,
-  };
+) => async () => {
+  try {
+    const body = {
+      positionX: position.x,
+      positionY: position.y,
+    };
 
-  await operatorsApi
-    .updateOperator(projectId, experimentId, operatorId, body)
-    .catch((error) => {
-      console.log(error);
-    });
+    await operatorsApi.updateOperator(
+      projectId,
+      experimentId,
+      operatorId,
+      body
+    );
+  } catch (e) {
+    message.error(e.message);
+  }
 };
 
 export const saveOperatorDependencies = (
@@ -710,4 +716,29 @@ export const saveTargetAttribute = (projectId, experimentId, parameters) => (
       parameters[0]
     )
   );
+};
+
+// // // // // // // // // //
+
+export const saveDeploymentOperatorPosition = (
+  projectId,
+  deploymentId,
+  operatorId,
+  position
+) => async () => {
+  try {
+    const operatorDataToUpdate = {
+      positionX: position.x,
+      positionY: position.y,
+    };
+
+    await DeploymentsOperatorsApi.updateOperator(
+      projectId,
+      deploymentId,
+      operatorId,
+      operatorDataToUpdate
+    );
+  } catch (e) {
+    message.error(e.message);
+  }
 };

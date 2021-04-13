@@ -6,8 +6,7 @@ import DeploymentFlow from 'components/DeploymentFlow';
 import {
   selectOperator,
   deselectOperator,
-  saveOperatorPosition,
-  saveOperatorDependencies,
+  saveDeploymentOperatorPosition,
 } from 'store/operator/actions';
 
 const operatorsSelector = ({ deploymentOperatorsReducer }) => {
@@ -30,32 +29,23 @@ const DeploymentFlowContainer = () => {
   const operators = useSelector(operatorsSelector);
   const selectedOperatorId = useSelector(selectedOperatorIdSelector);
 
-  console.log(selectedOperatorId);
-
-  const handleSavePosition = (operatorId, position) => {
-    dispatch(
-      saveOperatorPosition(projectId, deploymentId, operatorId, position)
-    );
-  };
-
   const handleSelectOperator = (operator) => {
     dispatch(selectOperator(operator));
   };
 
-  const handleSaveDependencies = (operatorId, dependencies) => {
+  const handleDeselectOperator = () => {
+    dispatch(deselectOperator());
+  };
+
+  const handleSavePosition = (operatorId, position) => {
     dispatch(
-      saveOperatorDependencies(
+      saveDeploymentOperatorPosition(
         projectId,
         deploymentId,
         operatorId,
-        dependencies,
-        operators
+        position
       )
     );
-  };
-
-  const handleDeselectOperator = () => {
-    dispatch(deselectOperator());
   };
 
   return (
@@ -66,7 +56,6 @@ const DeploymentFlowContainer = () => {
       handleSavePosition={handleSavePosition}
       handleSelectOperator={handleSelectOperator}
       handleDeselectOperator={handleDeselectOperator}
-      handleSaveDependencies={handleSaveDependencies}
     />
   );
 };

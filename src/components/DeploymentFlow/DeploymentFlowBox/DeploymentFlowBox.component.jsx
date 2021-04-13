@@ -21,7 +21,6 @@ const DeploymentFlowBox = (props) => {
     operator,
     leftFlowHandle,
     rightFlowHandle,
-    onRemove,
     onEdit,
   } = props;
 
@@ -41,20 +40,12 @@ const DeploymentFlowBox = (props) => {
     else onSelect(operator);
   };
 
-  const handleRemove = () => {
-    onRemove(operator);
-  };
-
   const handleEdit = () => {
     onEdit(operator);
   };
 
   return (
-    <DropdownMenu
-      disabled={disabled}
-      onEdit={handleEdit}
-      onRemove={handleRemove}
-    >
+    <DropdownMenu disabled={disabled} onEdit={handleEdit}>
       <div className='deploymentFlowBox'>
         <div
           className={mainClassName}
@@ -63,15 +54,15 @@ const DeploymentFlowBox = (props) => {
         >
           <div className='siders'>
             {leftFlowHandle}
-
             <div className='icon'>{icon}</div>
           </div>
+
           <div className='middle'>
             <div className='ellipsis'>{title}</div>
           </div>
+
           <div className='siders'>
             <Tooltip status={status} />
-
             {rightFlowHandle}
           </div>
         </div>
@@ -85,7 +76,6 @@ DeploymentFlowBox.propTypes = {
   leftFlowHandle: PropTypes.node,
   onDeselect: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   operator: PropTypes.object.isRequired,
   rightFlowHandle: PropTypes.node,

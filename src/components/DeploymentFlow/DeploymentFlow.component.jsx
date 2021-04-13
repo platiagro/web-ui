@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import _ from 'lodash';
-import ReactFlow, { Background, Handle } from 'react-flow-renderer';
-import LoadingBox from 'components/LoadingBox';
 import PropTypes from 'prop-types';
+import LoadingBox from 'components/LoadingBox';
+import ReactFlow, { Background, Handle } from 'react-flow-renderer';
 
 import DeploymentFlowBox from './DeploymentFlowBox/DeploymentFlowBox.component';
 
@@ -18,10 +18,29 @@ const DeploymentFlow = ({
   loading,
   handleSelectOperator,
   handleSavePosition,
-  handleSaveDependencies,
   handleDeselectOperator,
   selectedOperatorId,
 }) => {
+  const handleLoad = (reactFlowInstance) => {
+    setTimeout(() => {
+      reactFlowInstance.fitView();
+      reactFlowInstance.zoomTo(1);
+    }, 0);
+  };
+
+  const handleDragStop = (_, task) => {
+    handleSavePosition(task.id, task.position);
+  };
+
+  const dependencyGraph = useMemo(() => {
+    return operators
+      .map((el) => ({
+        id: el.uuid,
+        dep: el.dependencies,
+      }))
+      .reduce((obj, item) => Object.assign(obj, { [item.id]: item.dep }), {});
+  }, [operators]);
+
   const cardsElements = useMemo(() => {
     return operators.map((component) => {
       const arrows = component.dependencies.map((arrow) => {
@@ -31,9 +50,6 @@ const DeploymentFlow = ({
           target: component.uuid,
           source: arrow,
           type: 'customEdge',
-          data: {
-            onDelete: null,
-          },
         };
       });
 
@@ -52,18 +68,14 @@ const DeploymentFlow = ({
               <DeploymentFlowBox
                 operator={component}
                 title={component.name}
+                status={component.status}
+                icon={component.icon}
+                settedUp={component.settedUp}
+                selected={selectedOperatorId === component.uuid}
+                onEdit={handleSelectOperator}
                 onSelect={handleSelectOperator}
                 onDeselect={handleDeselectOperator}
-                selected={selectedOperatorId === component.uuid}
-                dependenciesGraph={operators
-                  .map((el) => ({
-                    id: el.uuid,
-                    dep: el.dependencies,
-                  }))
-                  .reduce(
-                    (obj, item) => Object.assign(obj, { [item.id]: item.dep }),
-                    {}
-                  )}
+                dependenciesGraph={dependencyGraph}
                 leftFlowHandle={
                   <Handle
                     type='target'
@@ -80,7 +92,6 @@ const DeploymentFlow = ({
                     isValidConnection={() => false}
                   />
                 }
-                {...component}
               />
             </div>
           ),
@@ -94,31 +105,12 @@ const DeploymentFlow = ({
       return [card, ...arrows];
     });
   }, [
+    dependencyGraph,
     handleDeselectOperator,
     handleSelectOperator,
     operators,
     selectedOperatorId,
   ]);
-
-  const handleLoad = (reactFlowInstance) => {
-    setTimeout(() => {
-      reactFlowInstance.fitView();
-      reactFlowInstance.zoomTo(1);
-    }, 0);
-  };
-
-  const handleDragStop = (_, task) => {
-    handleSavePosition(task.id, task.position);
-  };
-
-  const handleConnect = (params) => {
-    const targetOperator = operators.find(({ uuid }) => uuid === params.target);
-    const targetOperatorDependencies = targetOperator?.dependencies || [];
-    handleSaveDependencies(params.target, [
-      ...targetOperatorDependencies,
-      params.source,
-    ]);
-  };
 
   return loading ? (
     <LoadingBox siderColor='#FFF2E8' />
@@ -131,7 +123,6 @@ const DeploymentFlow = ({
         nodesConnectable={true}
         elements={_.flattenDeep(cardsElements)}
         onLoad={handleLoad}
-        onConnect={handleConnect}
         onNodeDragStop={handleDragStop}
         onPaneClick={handleDeselectOperator}
         onSelectionChange={handleDeselectOperator}
@@ -156,7 +147,6 @@ DeploymentFlow.propTypes = {
   selectedOperatorId: PropTypes.string,
   handleSavePosition: PropTypes.func,
   handleSelectOperator: PropTypes.func,
-  handleSaveDependencies: PropTypes.func,
   handleDeselectOperator: PropTypes.func,
 };
 
