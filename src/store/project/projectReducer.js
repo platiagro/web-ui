@@ -22,9 +22,6 @@ const projectReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     // SUCCESS
     // project
-    // fetch project success
-    case actionTypes.FETCH_PROJECT_SUCCESS:
-      return { ...action.project, ...action.payload };
     // create project success
     case actionTypes.CREATE_PROJECT_SUCCESS:
       return { ...action.project };
@@ -32,9 +29,6 @@ const projectReducer = (state = initialState, action = undefined) => {
     // FAIL
     // project
     case actionTypes.FETCH_PROJECT_FAIL:
-      return { ...state, ...action.payload };
-
-    case actionTypes.FETCH_PROJECT_REQUEST:
       return { ...state, ...action.payload };
 
     // DEFAULT
