@@ -383,7 +383,7 @@ export const prepareDeployments = (experiments, projectId, routerProps) => (
   // creating deployment
   deploymentsApi
     .createDeployment(projectId, deploymentObj)
-    .then((response) => {
+    .then(() => {
       dispatch(prepareDeploymentsDataLoaded());
 
       routerProps.history.push(`/projetos/${projectId}`);
@@ -534,6 +534,37 @@ function duplicateDeploymentFail(error) {
   return { type: actionTypes.DUPLICATE_DEPLOYMENT_FAIL };
 }
 
+/**
+ * Update Deployment Position
+ *
+ * @param {string} projectId Project uuid
+ * @param {string} draggedDeploymentId Dragged Deployment ID
+ * @param {number} currentPosition Deployment current position index
+ * @param {number} newPosition Deployment new position index
+ * @returns {Function} Dispatch function
+ */
+export const updateDeploymentPositionRequest = (
+  projectId,
+  draggedDeploymentId,
+  currentPosition,
+  newPosition
+) => async (dispatch) => {
+  try {
+    await deploymentsApi.updateDeployment(projectId, draggedDeploymentId, {
+      position: newPosition,
+    });
+
+    dispatch({
+      type: actionTypes.UPDATE_DEPLOYMENT_POSITION_SUCCESS,
+      currentPosition,
+      newPosition,
+    });
+  } catch (e) {
+    message.error(e.message);
+    dispatch({ type: actionTypes.UPDATE_DEPLOYMENT_POSITION_FAIL });
+  }
+};
+
 export default {
   fetchDeploymentsRequest,
   createDeploymentRequest,
@@ -541,5 +572,6 @@ export default {
   deleteDeploymentRequest,
   renameDeploymentRequest,
   duplicateDeploymentRequest,
+  updateDeploymentPositionRequest,
   prepareDeployments,
 };

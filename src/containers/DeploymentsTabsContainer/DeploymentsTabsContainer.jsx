@@ -6,21 +6,19 @@ import TabsBar from 'components/TabsBar';
 import { showNewDeploymentModal } from 'store/ui/actions';
 import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer';
 import {
-  deleteProjectDeployment,
-  fetchProjectDeployments,
-  updateDeploymentPosition,
-} from 'store/projectDeployments/actions';
-import {
+  fetchDeploymentsRequest,
   duplicateDeploymentRequest,
   renameDeploymentRequest,
+  deleteDeploymentRequest,
+  updateDeploymentPositionRequest,
 } from 'store/deployments/actions';
 
 const loadingSelector = ({ uiReducer }) => {
   return uiReducer.deploymentsTabs.loading;
 };
 
-const deploymentsSelector = ({ projectDeploymentsReducer }) => {
-  return projectDeploymentsReducer;
+const deploymentsSelector = ({ deploymentsReducer }) => {
+  return deploymentsReducer;
 };
 
 const getCurrentRoutePath = (projectId, deploymentId) => {
@@ -36,17 +34,30 @@ const DeploymentsTabsContainer = () => {
   const deployments = useSelector(deploymentsSelector);
 
   const handleDelete = (deploymentId) => {
-    dispatch(deleteProjectDeployment(projectId, deploymentId));
+    dispatch(deleteDeploymentRequest(projectId, deploymentId));
   };
 
   const handleDuplicate = (deploymentId, newName) => {
     dispatch(duplicateDeploymentRequest(projectId, deploymentId, newName));
   };
 
-  const handleMoveTab = (dragId, hoverId) => {
-    const hoverDeploy = deployments.find((deploy) => deploy.uuid === hoverId);
-    const newPosition = hoverDeploy.position;
-    dispatch(updateDeploymentPosition(projectId, dragId, hoverId, newPosition));
+  const handleMoveTab = (draggedDeploymentId, hoveredDeploymentId) => {
+    const draggedDeployment = deployments.find(
+      ({ uuid }) => uuid === draggedDeploymentId
+    );
+
+    const hoveredDeployment = deployments.find(
+      ({ uuid }) => uuid === hoveredDeploymentId
+    );
+
+    dispatch(
+      updateDeploymentPositionRequest(
+        projectId,
+        draggedDeploymentId,
+        draggedDeployment.position,
+        hoveredDeployment.position
+      )
+    );
   };
 
   const handleRename = (deploymentId, newName) => {
@@ -67,7 +78,7 @@ const DeploymentsTabsContainer = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchProjectDeployments(projectId));
+    dispatch(fetchDeploymentsRequest(projectId, true));
   }, [dispatch, projectId]);
 
   // This useEffect selects the first deployment when the component renders
