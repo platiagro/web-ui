@@ -117,13 +117,13 @@ const uiReducer = (state = initialState, action = undefined) => {
 
     // NEW PROJECT MODAL
     case projectsActionTypes.CREATE_PROJECT_FAIL:
-    case projectsActionTypes.EDIT_PROJECT_NAME_FAIL:
+    case projectsActionTypes.UPDATE_PROJECT_FAIL:
       return {
         ...state,
         newProjectModal: {
           ...state.newProjectModal,
           modalValidateStatus: 'error',
-          errorMessage: action.errorMessage,
+          errorMessage: action.payload.errorMessage,
         },
       };
     // show new project modal
