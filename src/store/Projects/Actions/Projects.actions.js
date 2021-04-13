@@ -249,3 +249,80 @@ export const updateProjectRequest = (projectId, projectUpdate) => async (
     dispatch(updateProjectFail(error));
   }
 };
+
+// ACTIONS
+// ** FETCH PROJECT
+/**
+ * fetch project success action
+ *
+ * @param {object} response
+ * @returns {object} { type, project }
+ */
+const fetchProjectSuccess = (response) => (dispatch) => {
+  // getting project from response
+  const project = response.data;
+
+  // dispatching project name data loaded action
+  dispatch(projectNameDataLoaded());
+
+  // dispatching fetch project success action
+  dispatch({
+    type: actionTypes.FETCH_PROJECT_SUCCESS,
+    payload: { ...project, loading: false },
+  });
+};
+
+/**
+ * fetch project fail action
+ *
+ * @param {object} error
+ * @param routerProps
+ * @returns {object} { type, errorMessage }
+ */
+const fetchProjectFail = (error, routerProps) => (dispatch) => {
+  // getting error message
+  const errorMessage = error.message;
+
+  // dispatching project name data loaded action
+  dispatch(projectNameDataLoaded());
+
+  // dispatching fetch project fail action
+  dispatch({
+    type: actionTypes.FETCH_PROJECT_FAIL,
+    payload: { loading: false },
+  });
+
+  message.error(errorMessage, 5);
+
+  // check if error is 404
+  if (error.response?.status === 404) {
+    // redirect to error page
+    routerProps.history.replace('/erro-404');
+  }
+};
+
+/**
+ * fetch project request action
+ *
+ * @param projectId
+ * @param routerProps
+ * @param projectId
+ * @param routerProps
+ * @returns {Function}
+ */
+export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.FETCH_PROJECT_REQUEST,
+    payload: { loading: true },
+  });
+
+  // dispatching project name loading data action
+  dispatch(projectNameLoadingData());
+
+  // fetching project
+  projectsApi
+    .detailProject(projectId)
+    .then((response) => dispatch(fetchProjectSuccess(response)))
+    .catch((error) => dispatch(fetchProjectFail(error, routerProps)));
+};
