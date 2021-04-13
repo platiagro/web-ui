@@ -17,7 +17,6 @@ const reducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     case actionTypes.FETCH_PROJECTS_REQUEST:
     case actionTypes.FETCH_PROJECT_REQUEST:
-    case actionTypes.FETCH_PROJECT_SUCCESS:
     case actionTypes.DELETE_PROJECTS_REQUEST:
       return {
         ...state,
@@ -32,6 +31,7 @@ const reducer = (state = initialState, action = undefined) => {
         isLoading: action.payload.isLoading,
       };
 
+    case actionTypes.FETCH_PROJECT_SUCCESS:
     case actionTypes.UPDATE_PROJECT_SUCCESS:
       return {
         ...state,
