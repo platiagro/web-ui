@@ -250,79 +250,81 @@ export const updateProjectRequest = (projectId, projectUpdate) => async (
   }
 };
 
-// ACTIONS
-// ** FETCH PROJECT
 /**
- * fetch project success action
+ * Fetch project success action
  *
- * @param {object} response
- * @returns {object} { type, project }
+ * @param {object} response Request response
+ * @returns {object} Action object
  */
-const fetchProjectSuccess = (response) => (dispatch) => {
+const fetchProjectSuccess = (response) => (dispatch, getState) => {
+  const { Projects } = getState();
+  const { projects: storeProjects } = Projects;
+
   // getting project from response
   const project = response.data;
 
-  // dispatching project name data loaded action
-  dispatch(projectNameDataLoaded());
+  let projects;
+
+  if (storeProjects?.length > 0) {
+    projects = storeProjects.map((storeProject) =>
+      storeProject.uuid === project.uuid ? project : storeProject
+    );
+  } else {
+    projects = [project];
+  }
 
   // dispatching fetch project success action
   dispatch({
     type: actionTypes.FETCH_PROJECT_SUCCESS,
-    payload: { ...project, loading: false },
+    payload: { projects, isLoading: false },
   });
 };
 
 /**
- * fetch project fail action
+ * Fetch project fail action
  *
- * @param {object} error
- * @param routerProps
- * @returns {object} { type, errorMessage }
+ * @param {object} error Error object
+ * @param {object} routerProps Router props object
+ * @returns {object} Action object
  */
-const fetchProjectFail = (error, routerProps) => (dispatch) => {
+const fetchProjectFail = (error, routerProps) => {
   // getting error message
   const errorMessage = error.message;
-
-  // dispatching project name data loaded action
-  dispatch(projectNameDataLoaded());
-
-  // dispatching fetch project fail action
-  dispatch({
-    type: actionTypes.FETCH_PROJECT_FAIL,
-    payload: { loading: false },
-  });
-
-  message.error(errorMessage, 5);
 
   // check if error is 404
   if (error.response?.status === 404) {
     // redirect to error page
     routerProps.history.replace('/erro-404');
   }
+
+  message.error(errorMessage, 5);
+
+  // dispatching fetch project fail action
+  return {
+    type: actionTypes.FETCH_PROJECT_FAIL,
+    payload: { isLoading: false },
+  };
 };
 
 /**
- * fetch project request action
+ * Fetch project request action
  *
- * @param projectId
- * @param routerProps
- * @param projectId
- * @param routerProps
- * @returns {Function}
+ * @param {string} projectId Project id to fetch
+ * @param {object} routerProps Router props object
+ * @returns {Function} Dispatch function
  */
 export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_PROJECT_REQUEST,
-    payload: { loading: true },
+    payload: { isLoading: true },
   });
 
-  // dispatching project name loading data action
-  dispatch(projectNameLoadingData());
+  try {
+    const response = projectsApi.detailProject(projectId);
 
-  // fetching project
-  projectsApi
-    .detailProject(projectId)
-    .then((response) => dispatch(fetchProjectSuccess(response)))
-    .catch((error) => dispatch(fetchProjectFail(error, routerProps)));
+    dispatch(fetchProjectSuccess(response));
+  } catch (error) {
+    dispatch(fetchProjectFail(error, routerProps));
+  }
 };
