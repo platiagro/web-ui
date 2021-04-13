@@ -28,17 +28,11 @@ const projectReducer = (state = initialState, action = undefined) => {
     // create project success
     case actionTypes.CREATE_PROJECT_SUCCESS:
       return { ...action.project };
-    // edit project name success
-    case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
-      return { ...action.project };
-    // // // // // // //
 
     // FAIL
     // project
     case actionTypes.FETCH_PROJECT_FAIL:
       return { ...state, ...action.payload };
-    case actionTypes.EDIT_PROJECT_NAME_FAIL:
-      return { ...state };
 
     case actionTypes.FETCH_PROJECT_REQUEST:
       return { ...state, ...action.payload };
