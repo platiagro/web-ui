@@ -18,6 +18,8 @@ import {
   newDeploymentModalStartLoading,
   newDeploymentModalEndLoading,
   hideNewDeploymentModal,
+  deploymentsTabsDataLoaded,
+  deploymentsTabsLoadingData,
 } from 'store/ui/actions';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
@@ -296,19 +298,19 @@ const deleteDeploymentFail = (error) => (dispatch) => {
  * @param {string} deploymentId Deployment UUID
  * @returns {Function} The `disptach` function
  */
-export const deleteDeploymentRequest = (projectId, deploymentId) => (
+export const deleteDeploymentRequest = (projectId, deploymentId) => async (
   dispatch
 ) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.DELETE_DEPLOYMENT_REQUEST,
-  });
-
-  // deleting deployment
-  deploymentsApi
-    .deleteDeployment(projectId, deploymentId)
-    .then(() => dispatch(deleteDeploymentSuccess(deploymentId)))
-    .catch((error) => dispatch(deleteDeploymentFail(error)));
+  try {
+    dispatch({ type: actionTypes.DELETE_DEPLOYMENT_REQUEST });
+    dispatch(deploymentsTabsLoadingData());
+    await deploymentsApi.deleteDeployment(projectId, deploymentId);
+    dispatch(deleteDeploymentSuccess(deploymentId));
+  } catch (e) {
+    dispatch(deleteDeploymentFail(e));
+  } finally {
+    dispatch(deploymentsTabsDataLoaded());
+  }
 };
 
 // // // // // // // // // //
@@ -414,6 +416,7 @@ export function renameDeploymentRequest(
   return async (dispatch) => {
     try {
       dispatch({ type: actionTypes.RENAME_DEPLOYMENT_REQUEST });
+      dispatch(deploymentsTabsLoadingData());
 
       const response = await deploymentsApi.updateDeployment(
         projectId,
@@ -428,6 +431,8 @@ export function renameDeploymentRequest(
       dispatch(renameDeploymentSuccess(updatedDeployments));
     } catch (error) {
       dispatch(renameDeploymentFail(error));
+    } finally {
+      dispatch(deploymentsTabsDataLoaded());
     }
   };
 }
