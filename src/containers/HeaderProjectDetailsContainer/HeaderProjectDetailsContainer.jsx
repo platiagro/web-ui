@@ -7,9 +7,6 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 import ContentHeader from 'components/ContentHeader/_';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
-// ACTIONS
-import { fetchProjectRequest } from 'store/project/actions';
-
 import { Actions as projectsActions } from 'store/Projects';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
@@ -20,7 +17,11 @@ import './style.less';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
-  const { deleteProjectsRequest, updateProjectRequest } = projectsActions;
+  const {
+    deleteProjectsRequest,
+    updateProjectRequest,
+    fetchProjectRequest,
+  } = projectsActions;
 
   return {
     handleFetchProject: (projectId) =>

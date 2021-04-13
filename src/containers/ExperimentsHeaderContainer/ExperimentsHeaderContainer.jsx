@@ -12,9 +12,6 @@ import {
   PrepareDeploymentsButton,
 } from 'components/Buttons';
 
-// ACTIONS
-import { fetchProjectRequest } from 'store/project/actions';
-
 import {
   changeVisibilityCompareResultsModal,
   showPrepareDeploymentsModal,
@@ -24,7 +21,7 @@ import { Actions as projectsActions } from 'store/Projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
-  const { updateProjectRequest } = projectsActions;
+  const { updateProjectRequest, fetchProjectRequest } = projectsActions;
 
   return {
     handleEditProjectName: (projectId, newName) =>

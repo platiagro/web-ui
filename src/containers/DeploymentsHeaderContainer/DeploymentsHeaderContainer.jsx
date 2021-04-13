@@ -10,12 +10,11 @@ import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 
 // ACTIONS
-import { fetchProjectRequest } from 'store/project/actions';
 import { Actions as projectsActions } from 'store/Projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
-  const { updateProjectRequest } = projectsActions;
+  const { updateProjectRequest, fetchProjectRequest } = projectsActions;
 
   return {
     handleEditProjectName: (projectId, newName) =>
