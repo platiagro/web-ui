@@ -33,6 +33,7 @@ const getProject = (projectId, state) => {
     name: '',
     description: '',
     experiments: [],
+    deployments: [],
     createdAt: '',
     updatedAt: '',
     hasExperiment: '',
