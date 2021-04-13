@@ -753,6 +753,8 @@ const retrieveStatusMessageFromOperators = (operators) => {
     (operator) =>
       operator.statusMessage &&
       notification.open({
+        key: `${operator?.task?.name}_${operator.statusMessage}`,
+        duration: 0,
         message: operator?.task?.name,
         description: operator.statusMessage,
       })
