@@ -28,9 +28,6 @@ const projectReducer = (state = initialState, action = undefined) => {
     // create project success
     case actionTypes.CREATE_PROJECT_SUCCESS:
       return { ...action.project };
-    // delete project success
-    case actionTypes.DELETE_PROJECT_SUCCESS:
-      return initialState;
     // edit project name success
     case actionTypes.EDIT_PROJECT_NAME_SUCCESS:
       return { ...action.project };
@@ -40,7 +37,6 @@ const projectReducer = (state = initialState, action = undefined) => {
     // project
     case actionTypes.FETCH_PROJECT_FAIL:
       return { ...state, ...action.payload };
-    case actionTypes.DELETE_PROJECT_FAIL:
     case actionTypes.EDIT_PROJECT_NAME_FAIL:
       return { ...state };
 
