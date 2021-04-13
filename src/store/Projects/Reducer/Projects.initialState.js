@@ -5,9 +5,9 @@ const initialState = {
   projects: [],
   selectedProjects: [],
   searchText: '',
-  currentPage: null,
-  pageSize: null,
-  total: null,
+  currentPage: 0,
+  pageSize: 0,
+  total: 0,
   isLoading: false,
 };
 
