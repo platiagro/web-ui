@@ -1,4 +1,4 @@
-/* globals Projects, AppStores */
+/* globals Project, Projects, AppStores */
 
 /**
  * Get all projects from store
@@ -23,8 +23,28 @@ const getSelectedProjects = (state) => state.Projects.selectedProjects;
  * @param {AppStores} state Redux store state
  * @returns {Projects} Projects list
  */
-const getProject = (projectId, state) =>
-  state.Projects.projects.find((project) => project.uuid === projectId);
+const getProject = (projectId, state) => {
+  const { Projects: ProjectsStore } = state;
+  const { projects } = ProjectsStore;
+
+  /** @type {Project}  */
+  let project = {
+    uuid: '',
+    name: '',
+    description: '',
+    experiments: [],
+    createdAt: '',
+    updatedAt: '',
+    hasExperiment: '',
+    hasDeployment: '',
+    hasPreDeployment: '',
+  };
+
+  if (projects?.length > 0)
+    project = projects.find((project) => project.uuid === projectId);
+
+  return project;
+};
 
 /**
  * Get is loading state
