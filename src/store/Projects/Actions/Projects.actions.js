@@ -313,7 +313,9 @@ const fetchProjectFail = (error, routerProps) => {
  * @param {object} routerProps Router props object
  * @returns {Function} Dispatch function
  */
-export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
+export const fetchProjectRequest = (projectId, routerProps) => async (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_PROJECT_REQUEST,
@@ -321,7 +323,7 @@ export const fetchProjectRequest = (projectId, routerProps) => (dispatch) => {
   });
 
   try {
-    const response = projectsApi.detailProject(projectId);
+    const response = await projectsApi.detailProject(projectId);
 
     dispatch(fetchProjectSuccess(response));
   } catch (error) {
