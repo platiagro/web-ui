@@ -24,3 +24,12 @@
  *
  * @typedef {Project[]} Projects
  */
+
+/**
+ * Propriedades atualizáveis do projeto (ProjectUpdatable).
+ *
+ * @typedef {object} ProjectUpdatable
+ *
+ * @property {string=} name Project name
+ * @property {string=} description	Project description
+ */
