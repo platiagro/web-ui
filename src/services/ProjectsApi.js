@@ -1,3 +1,5 @@
+/* globals ProjectUpdatable */
+
 /* API REFERENCE: https://platiagro.github.io/projects/#/Projects */
 
 // CORE LIBS
@@ -42,22 +44,12 @@ const createProject = (projectName, projectDescription) => {
 /**
  * Update Project
  *
- * @param {string} projectId
- * @param {string} projectName
- * @param {string} projectDescription
- * @returns {Promise}
+ * @param {string} projectId Project id to update
+ * @param {ProjectUpdatable} projectUpdate New project data
+ * @returns {Promise} Update project request
  */
-const updateProject = (projectId, projectName, projectDescription) => {
-  const body = {
-    name: projectName,
-    description: projectDescription,
-  };
-
-  if (projectDescription === undefined) {
-    delete body.description;
-  }
-
-  return projectsApi.patch(`${projectsPath}/${projectId}`, body);
+const updateProject = (projectId, projectUpdate) => {
+  return projectsApi.patch(`${projectsPath}/${projectId}`, projectUpdate);
 };
 
 /**
