@@ -12,8 +12,6 @@ import {
   hideNewProjectModal,
   projectNameLoadingData,
   projectNameDataLoaded,
-  projectEditNameLoadingData,
-  projectEditNameDataLoaded,
 } from '../ui/actions';
 
 // ACTIONS
@@ -188,92 +186,4 @@ export const createProjectRequest = (
     .createProject(projectName, projectDescription)
     .then((response) => dispatch(createProjectSuccess(response, routerProps)))
     .catch((error) => dispatch(createProjectFail(error)));
-};
-
-// // // // // // // // // //
-
-// ** EDIT PROJECT NAME
-/**
- * edit project name success action
- *
- * @param {object} response
- * @returns {object} { type, project }
- */
-const editProjectNameSuccess = (response) => (dispatch) => {
-  // getting project from response
-  const project = response.data;
-
-  // dispatching project name data loaded action
-  dispatch(projectEditNameDataLoaded());
-
-  // dispatching edit project name success
-  dispatch({
-    type: actionTypes.EDIT_PROJECT_NAME_SUCCESS,
-    project,
-  });
-  dispatch(hideNewProjectModal());
-};
-
-/**
- * edit project name fail action
- *
- * @param {object} error
- * @param isModal
- * @returns {object} { type, errorMessage }
- */
-const editProjectNameFail = (error, isModal) => (dispatch) => {
-  // dispatching project name data loaded action
-  dispatch(projectEditNameDataLoaded());
-
-  // getting error message
-  let errorMessage;
-  if (error.response.status === 500) {
-    errorMessage = error.message;
-    message.error(errorMessage, 5);
-  } else {
-    errorMessage = error.response.data.message;
-    if (errorMessage.includes('name already exist')) {
-      errorMessage = 'Já existe um projeto com este nome!';
-      if (isModal) {
-        dispatch({
-          type: actionTypes.EDIT_PROJECT_NAME_FAIL,
-          errorMessage,
-        });
-      } else {
-        message.error(errorMessage, 5);
-      }
-    } else {
-      message.error(errorMessage, 5);
-    }
-  }
-};
-
-/**
- * edit project name request action
- *
- * @param {string} projectId
- * @param {string} newProjectName
- * @param {string} newProjectDescription
- * @param isModal
- * @returns {Function}
- */
-export const editProjectNameRequest = (
-  projectId,
-  newProjectName,
-  newProjectDescription,
-  isModal
-) => (dispatch) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.EDIT_PROJECT_NAME_REQUEST,
-  });
-
-  // dispatching project name loading data action
-  dispatch(projectEditNameLoadingData());
-
-  // creating project
-  projectsApi
-    .updateProject(projectId, newProjectName, newProjectDescription)
-    .then((response) => dispatch(editProjectNameSuccess(response)))
-    .catch((error) => dispatch(editProjectNameFail(error, isModal)));
 };
