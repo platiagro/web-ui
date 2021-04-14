@@ -3,7 +3,7 @@ import { Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-import Logo from 'assets/logo-vazado.png';
+import Logo from 'assets/logo-icon-name-below.png';
 
 import './Login.style.less';
 
