@@ -79,8 +79,9 @@ const ExperimentsHeaderContainer = (props) => {
 
   // HOOKS
   useEffect(() => {
+    // TODO: Mover essa lógica de requisição para a página Projects
     // fetch project if project details is null
-    if (!project.uuid) {
+    if (project.uuid === '') {
       handleFetchProject(projectId);
     }
   }, [handleFetchProject, project, projectId]);

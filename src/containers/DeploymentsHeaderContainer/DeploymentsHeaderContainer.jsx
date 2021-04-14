@@ -58,8 +58,10 @@ const DeploymentsHeaderContainer = (props) => {
 
   // HOOKS
   useEffect(() => {
+    // TODO: Mover essa lógica de requisição para a página Projects
+
     // fetch project if project details is null
-    if (!project.uuid && isFirstRender.current) {
+    if (project.uuid === '' && isFirstRender.current) {
       handleFetchProject(projectId);
       isFirstRender.current = false;
     }

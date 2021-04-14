@@ -71,9 +71,11 @@ const ContentHeaderProjectDetailsContainer = (props) => {
   // HOOKS
   // did mount hook
   useEffect(() => {
-    // fetching projects
-    handleFetchProject(projectId);
-  }, [handleFetchProject, projectId]);
+    // TODO: Mover essa lógica de requisição para a página Projects
+    if (project.uuid === '') {
+      handleFetchProject(projectId);
+    }
+  }, [handleFetchProject, projectId, project]);
 
   // HANDLERS
   // go back
