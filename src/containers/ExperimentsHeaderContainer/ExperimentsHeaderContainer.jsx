@@ -17,7 +17,7 @@ import {
   showPrepareDeploymentsModal,
 } from 'store/ui/actions';
 
-import { Actions as projectsActions } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/Projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -38,9 +38,13 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 };
 
 // STATES
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const { getProject } = Selectors;
+
+  const { projectId } = ownProps.match.params;
+
   return {
-    project: state.projectReducer,
+    project: getProject(projectId, state),
     loading: state.uiReducer.projectName.loading,
     prepareDeploymentsLoading: state.uiReducer.prepareDeployments.loading,
   };

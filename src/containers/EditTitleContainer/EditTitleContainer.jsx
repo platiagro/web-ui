@@ -1,5 +1,6 @@
 // CORE LIBS
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // COMPONENTS
@@ -8,6 +9,7 @@ import NewProjectModal from 'components/Content/ProjectsContent/NewProjectModal/
 
 // ACTIONS
 import { showNewProjectModal } from 'store/ui/actions';
+import { Selectors } from 'store/Projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -19,9 +21,13 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // STATES
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const { getProject } = Selectors;
+
+  const { projectId } = ownProps.match.params;
+
   return {
-    project: state.projectReducer,
+    project: getProject(projectId, state),
   };
 };
 
@@ -36,7 +42,7 @@ const mapStateToProps = (state) => {
  */
 const EditTitleContainer = (props) => {
   // destructuring props
-  const { handleShowNewProjectModal, project, ...restProps } = props;
+  const { handleShowNewProjectModal, project, title, ...restProps } = props;
 
   // RENDER
   const handleEditModal = () => {
@@ -51,10 +57,16 @@ const EditTitleContainer = (props) => {
   return (
     <>
       <NewProjectModal />
-      <EditTitle handleClick={handleEditModal} {...restProps} />
+      <EditTitle
+        {...restProps}
+        handleClick={handleEditModal}
+        title={title || project.name}
+      />
     </>
   );
 };
 
 // EXPORT
-export default connect(mapStateToProps, mapDispatchToProps)(EditTitleContainer);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(EditTitleContainer)
+);

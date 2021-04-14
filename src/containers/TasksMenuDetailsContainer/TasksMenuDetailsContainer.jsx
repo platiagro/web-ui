@@ -1,18 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Skeleton } from 'antd';
+import { withRouter } from 'react-router-dom';
 
 //STYLE
 import './style.less';
+import { Selectors } from 'store/Projects';
 
 // STATES
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const { getProject } = Selectors;
+
+  const { projectId } = ownProps.match.params;
+
   return {
-    project: state.projectReducer,
+    project: getProject(projectId, state),
     loading: state.uiReducer.projectName.loading,
   };
 };
 
+// FIXME: Componente com nome incoerente
 const TasksMenuDetailsContainer = (props) => {
   const { project, loading } = props;
   const formatedDate = new Date(project.updatedAt).toLocaleString();
@@ -57,4 +64,4 @@ const TasksMenuDetailsContainer = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(TasksMenuDetailsContainer);
+export default withRouter(connect(mapStateToProps)(TasksMenuDetailsContainer));

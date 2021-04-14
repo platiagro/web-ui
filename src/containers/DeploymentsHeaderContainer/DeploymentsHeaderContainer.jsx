@@ -10,7 +10,7 @@ import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 
 // ACTIONS
-import { Actions as projectsActions } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/Projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -25,9 +25,13 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 };
 
 // STATE
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const { getProject } = Selectors;
+
+  const { projectId } = ownProps.match.params;
+
   return {
-    project: state.projectReducer,
+    project: getProject(projectId, state),
   };
 };
 

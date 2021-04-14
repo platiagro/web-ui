@@ -7,7 +7,7 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 import ContentHeader from 'components/ContentHeader/_';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
-import { Actions as projectsActions } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/Projects';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
 
@@ -34,9 +34,13 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 };
 
 // STATES
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const { getProject } = Selectors;
+
+  const { projectId } = ownProps.match.params;
+
   return {
-    project: state.projectReducer,
+    project: getProject(projectId, state),
     loading: state.uiReducer.projectName.loading,
   };
 };
