@@ -9,13 +9,13 @@ import { Selectors } from 'store/Projects';
 
 // STATES
 const mapStateToProps = (state, ownProps) => {
-  const { getProject } = Selectors;
+  const { getProject, getIsLoading } = Selectors;
 
   const { projectId } = ownProps.match.params;
 
   return {
     project: getProject(projectId, state),
-    loading: state.uiReducer.projectName.loading,
+    loading: getIsLoading(state),
   };
 };
 
