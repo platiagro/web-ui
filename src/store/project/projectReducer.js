@@ -26,11 +26,6 @@ const projectReducer = (state = initialState, action = undefined) => {
     case actionTypes.CREATE_PROJECT_SUCCESS:
       return { ...action.project };
 
-    // FAIL
-    // project
-    case actionTypes.FETCH_PROJECT_FAIL:
-      return { ...state, ...action.payload };
-
     // DEFAULT
     default:
       return state;
