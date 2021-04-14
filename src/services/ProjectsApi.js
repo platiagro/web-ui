@@ -1,4 +1,4 @@
-/* globals ProjectUpdatable */
+/* globals ProjectUpdatable, ProjectCreatable, Projects */
 
 /* API REFERENCE: https://platiagro.github.io/projects/#/Projects */
 
@@ -17,28 +17,23 @@ const projectsPath = '/projects';
 
 // API METHODS
 /**
- * Detail Project
+ * Fetch Project
  *
- * @param {string} projectId
- * @returns {Promise}
+ * @param {string} projectId Project id to fetch
+ * @returns {Promise} Fetch project request
  */
-const detailProject = (projectId) => {
+const fetchProject = (projectId) => {
   return projectsApi.get(`${projectsPath}/${projectId}`);
 };
 
 /**
  * Create Project
  *
- * @param {string} projectName
- * @param {string} projectDescription
- * @returns {Promise}
+ * @param {ProjectCreatable} project Objeto de criação do projeto
+ * @returns {Promise} Create project request
  */
-const createProject = (projectName, projectDescription) => {
-  const body = {
-    name: projectName,
-    description: projectDescription,
-  };
-  return projectsApi.post(projectsPath, body);
+const createProject = (project) => {
+  return projectsApi.post(projectsPath, project);
 };
 
 /**
@@ -55,22 +50,22 @@ const updateProject = (projectId, projectUpdate) => {
 /**
  * Delete Projects
  *
- * @param {Array} projects
- * @returns {Promise}
+ * @param {Projects} projects Projects to delete
+ * @returns {Promise} Delete projects request
  */
 const deleteProjects = (projects) => {
   return projectsApi.post(`${projectsPath}/deleteprojects`, projects);
 };
 
 /**
- * Get paginated projects
+ * Fetch paginated projects
  *
- * @param {string} name
- * @param {number} page
- * @param {number} pageSize
- * @returns {Promise}
+ * @param {string} name Project filter name
+ * @param {number} page Projects table current page
+ * @param {number} pageSize Projects table page size
+ * @returns {Promise} Fetch paginated projects request
  */
-const getPaginatedProjects = (name, page, pageSize) => {
+const fetchPaginatedProjects = (name, page, pageSize) => {
   return projectsApi.get(
     `${projectsPath}?name=${name}&page=${page}&page_size=${pageSize}`
   );
@@ -78,9 +73,9 @@ const getPaginatedProjects = (name, page, pageSize) => {
 
 // EXPORT DEFAULT
 export default {
-  detailProject,
+  fetchProject,
   createProject,
   updateProject,
   deleteProjects,
-  getPaginatedProjects,
+  fetchPaginatedProjects,
 };

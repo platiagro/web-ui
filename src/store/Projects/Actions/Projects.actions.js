@@ -74,7 +74,7 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
   }
 
   try {
-    const response = await projectsApi.getPaginatedProjects(
+    const response = await projectsApi.fetchPaginatedProjects(
       name,
       page,
       pageSize
@@ -317,7 +317,7 @@ export const fetchProjectRequest = (projectId, routerProps) => async (
   });
 
   try {
-    const response = await projectsApi.detailProject(projectId);
+    const response = await projectsApi.fetchProject(projectId);
 
     dispatch(fetchProjectSuccess(response));
   } catch (error) {
