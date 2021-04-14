@@ -15,9 +15,15 @@ import { initialState } from '.';
  */
 const reducer = (state = initialState, action = undefined) => {
   switch (action.type) {
+    case actionTypes.CREATE_PROJECT_REQUEST:
     case actionTypes.FETCH_PROJECTS_REQUEST:
     case actionTypes.FETCH_PROJECT_REQUEST:
     case actionTypes.DELETE_PROJECTS_REQUEST:
+    case actionTypes.FETCH_PROJECTS_FAIL:
+    case actionTypes.FETCH_PROJECT_FAIL:
+    case actionTypes.DELETE_PROJECTS_FAIL:
+    case actionTypes.UPDATE_PROJECT_FAIL:
+    case actionTypes.CREATE_PROJECT_FAIL:
       return {
         ...state,
         isLoading: action.payload.isLoading,
@@ -31,20 +37,12 @@ const reducer = (state = initialState, action = undefined) => {
         isLoading: action.payload.isLoading,
       };
 
+    case actionTypes.CREATE_PROJECT_SUCCESS:
     case actionTypes.FETCH_PROJECT_SUCCESS:
     case actionTypes.UPDATE_PROJECT_SUCCESS:
       return {
         ...state,
         projects: action.payload.projects,
-        isLoading: action.payload.isLoading,
-      };
-
-    case actionTypes.FETCH_PROJECTS_FAIL:
-    case actionTypes.FETCH_PROJECT_FAIL:
-    case actionTypes.DELETE_PROJECTS_FAIL:
-    case actionTypes.UPDATE_PROJECT_FAIL:
-      return {
-        ...state,
         isLoading: action.payload.isLoading,
       };
 
