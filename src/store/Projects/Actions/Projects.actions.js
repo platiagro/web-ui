@@ -1,4 +1,4 @@
-/* globals Projects, ProjectUpdatable */
+/* globals Projects, ProjectUpdatable, ProjectCreatable */
 
 // UI LIBS
 import { message } from 'antd';
@@ -322,5 +322,101 @@ export const fetchProjectRequest = (projectId, routerProps) => async (
     dispatch(fetchProjectSuccess(response));
   } catch (error) {
     dispatch(fetchProjectFail(error, routerProps));
+  }
+};
+
+/**
+ * Create project success action
+ *
+ * @param {object} response Request response
+ * @param {object} routerProps Router props object
+ * @returns {object} Action object
+ */
+const createProjectSuccess = (response, routerProps) => (
+  dispatch,
+  getState
+) => {
+  const { Projects } = getState();
+  const { projects: storeProjects } = Projects;
+
+  // getting project from response
+  const project = response.data;
+
+  const projects = [...storeProjects];
+
+  projects.push(project);
+
+  projects.sort((projectA, projectB) =>
+    projectA.name.localeCompare(projectB.name)
+  );
+
+  // dispatching create project success
+  dispatch({
+    type: actionTypes.CREATE_PROJECT_SUCCESS,
+    projects,
+    payload: {
+      isLoading: false,
+    },
+  });
+
+  dispatch(hideNewProjectModal());
+
+  message.success(`Projeto ${project.name} criado!`);
+
+  // go to new project
+  routerProps.history.push(`/projetos/${project.uuid}`);
+};
+
+/**
+ * Create project fail action
+ *
+ * @param {object} error Error object
+ * @returns {object} Action object
+ */
+const createProjectFail = (error) => {
+  let errorMessage;
+
+  if (error?.response.status === 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+
+    if (errorMessage.includes('name already exist')) {
+      errorMessage = 'Já existe um projeto com este nome!';
+    }
+  }
+
+  message.error(errorMessage, 5);
+
+  return {
+    type: actionTypes.CREATE_PROJECT_FAIL,
+    payload: { isLoading: false, errorMessage },
+  };
+};
+
+/**
+ * Create project request action
+ *
+ * @param {ProjectCreatable} project New project
+ * @param {object} routerProps Router props object
+ * @returns {Function} Dispatch function
+ */
+export const createProjectRequest = (project, routerProps) => async (
+  dispatch
+) => {
+  // dispatching request action
+  dispatch({
+    type: actionTypes.CREATE_PROJECT_REQUEST,
+    payload: {
+      isLoading: true,
+    },
+  });
+
+  try {
+    const response = await projectsApi.createProject(project);
+
+    dispatch(createProjectSuccess(response, routerProps));
+  } catch (error) {
+    dispatch(createProjectFail(error));
   }
 };
