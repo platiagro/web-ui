@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
@@ -13,14 +13,12 @@ import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 import { Actions as projectsActions, Selectors } from 'store/Projects';
 
 // DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  const { updateProjectRequest, fetchProjectRequest } = projectsActions;
+const mapDispatchToProps = (dispatch) => {
+  const { updateProjectRequest } = projectsActions;
 
   return {
     handleEditProjectName: (projectId, newName) =>
       dispatch(updateProjectRequest(projectId, { name: newName })),
-    handleFetchProject: (projectId) =>
-      dispatch(fetchProjectRequest(projectId, routerProps)),
   };
 };
 
@@ -45,27 +43,15 @@ const mapStateToProps = (state, ownProps) => {
  * @returns {DeploymentsHeaderContainer} Container
  */
 const DeploymentsHeaderContainer = (props) => {
-  const { project, handleEditProjectName, handleFetchProject } = props;
+  const { project, handleEditProjectName } = props;
 
   const { projectId } = useParams();
   const history = useHistory();
-  const isFirstRender = useRef(true);
 
   // HANDLERS
   const goBackHandler = () => history.push(`/projetos/${projectId}`);
   const editProjectNameHandler = (newProjectname) =>
     handleEditProjectName(projectId, newProjectname);
-
-  // HOOKS
-  useEffect(() => {
-    // TODO: Mover essa lógica de requisição para a página Projects
-
-    // fetch project if project details is null
-    if (project.uuid === '' && isFirstRender.current) {
-      handleFetchProject(projectId);
-      isFirstRender.current = false;
-    }
-  }, [handleFetchProject, project, projectId]);
 
   // SET TARGET ROUTE FOR PAGE HEADER DROPDOWN
   const target = `/projetos/${projectId}/experimentos`;

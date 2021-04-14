@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
 
@@ -16,16 +16,10 @@ import { DeleteOutlined } from '@ant-design/icons';
 import './style.less';
 
 // DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  const {
-    deleteProjectsRequest,
-    updateProjectRequest,
-    fetchProjectRequest,
-  } = projectsActions;
+const mapDispatchToProps = (dispatch) => {
+  const { deleteProjectsRequest, updateProjectRequest } = projectsActions;
 
   return {
-    handleFetchProject: (projectId) =>
-      dispatch(fetchProjectRequest(projectId, routerProps)),
     handleEditProjectName: (projectId, newName) =>
       dispatch(updateProjectRequest(projectId, { name: newName })),
     handleDeleteProject: (projectId) =>
@@ -57,7 +51,6 @@ const ContentHeaderProjectDetailsContainer = (props) => {
   const {
     project,
     loading,
-    handleFetchProject,
     handleEditProjectName,
     handleDeleteProject,
   } = props;
@@ -67,15 +60,6 @@ const ContentHeaderProjectDetailsContainer = (props) => {
   const history = useHistory();
   // getting project uuid
   const { projectId } = useParams();
-
-  // HOOKS
-  // did mount hook
-  useEffect(() => {
-    // TODO: Mover essa lógica de requisição para a página Projects
-    if (project.uuid === '') {
-      handleFetchProject(projectId);
-    }
-  }, [handleFetchProject, projectId, project]);
 
   // HANDLERS
   // go back
