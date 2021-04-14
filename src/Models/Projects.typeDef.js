@@ -34,3 +34,12 @@
  * @property {string=} name Project name
  * @property {string=} description	Project description
  */
+
+/**
+ * Propriedades de criação do projeto (ProjectCreatable).
+ *
+ * @typedef {object} ProjectCreatable
+ *
+ * @property {string} name Project name
+ * @property {string} description	Project description
+ */
