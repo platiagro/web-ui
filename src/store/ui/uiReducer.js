@@ -43,7 +43,6 @@ const initialState = {
   },
   template: { loading: false },
   tasksTable: { loading: false },
-  projectName: { loading: false },
   tasksMenu: { loading: false },
   deploymentsTabs: {
     loading: false,
@@ -276,17 +275,6 @@ const uiReducer = (state = initialState, action = undefined) => {
           ...state.newProjectModal,
           modalValidateStatus: null,
           errorMessage: null,
-        },
-      };
-
-    // PROJECT NAME
-    case actionTypes.PROJECT_NAME_LOADING_DATA: // loading data
-    case actionTypes.PROJECT_NAME_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        projectName: {
-          ...state.projectName,
-          loading: action.projectNameLoading,
         },
       };
 
