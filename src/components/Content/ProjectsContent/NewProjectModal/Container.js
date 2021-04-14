@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // ACTIONS
-import { createProjectRequest } from '../../../../store/project/actions';
 import { hideNewProjectModal } from '../../../../store/ui/actions';
 
 import { Actions as projectsActions } from 'store/Projects';
@@ -13,14 +12,17 @@ import { Actions as projectsActions } from 'store/Projects';
 import NewProjectModal from './index';
 
 // DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  const { updateProjectRequest } = projectsActions;
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { updateProjectRequest, createProjectRequest } = projectsActions;
 
   return {
     // create project action
     handleCreateProject: (projectName, projectDescription) =>
       dispatch(
-        createProjectRequest(projectName, projectDescription, routerProps)
+        createProjectRequest(
+          { name: projectName, description: projectDescription },
+          ownProps
+        )
       ),
     // close modal action
     handleCloseModal: () => dispatch(hideNewProjectModal()),
