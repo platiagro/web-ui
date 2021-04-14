@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 // ACTIONS
 import { hideNewProjectModal } from '../../../../store/ui/actions';
 
-import { Actions as projectsActions } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/Projects';
 
 // COMPONENTS
 import NewProjectModal from './index';
@@ -38,10 +38,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 // STATES
 const mapStateToProps = (state) => {
+  const { getIsLoading } = Selectors;
+
   // new project modal visible
   return {
     modalVisible: state.uiReducer.newProjectModal.visible,
-    loading: state.uiReducer.projectEditName.loading,
+    loading: getIsLoading(state),
     title: state.uiReducer.newProjectModal.title,
     record: state.uiReducer.newProjectModal.record,
     modalValidateStatus: state.uiReducer.newProjectModal.modalValidateStatus,
