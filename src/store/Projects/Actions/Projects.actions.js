@@ -206,15 +206,9 @@ const updateProjectSuccess = (response) => (dispatch, getState) => {
 
   const project = response.data;
 
-  let projects;
-
-  if (storeProjects?.length > 0) {
-    projects = storeProjects.map((storeProject) =>
-      storeProject.uuid === project.uuid ? project : storeProject
-    );
-  } else {
-    projects = [project];
-  }
+  const projects = storeProjects.map((storeProject) =>
+    storeProject.uuid === project.uuid ? project : storeProject
+  );
 
   dispatch({
     type: actionTypes.UPDATE_PROJECT_SUCCESS,
