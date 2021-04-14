@@ -66,7 +66,6 @@ const initialState = {
   implantedExperiments: { loading: false },
   inferenceTestResultModal: { loading: false, visible: false },
   prepareDeploymentsModal: { loading: false, visible: false },
-  projectEditName: { loading: false },
   dataViewModal: { isVisible: false, loading: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
   operatorsDependencies: {
@@ -275,17 +274,6 @@ const uiReducer = (state = initialState, action = undefined) => {
           ...state.newProjectModal,
           modalValidateStatus: null,
           errorMessage: null,
-        },
-      };
-
-    // PROJECT EDIT NAME
-    case actionTypes.PROJECT_EDIT_NAME_LOADING_DATA: // loading data
-    case actionTypes.PROJECT_EDIT_NAME_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        projectEditName: {
-          ...state.projectEditName,
-          loading: action.projectEditNameLoading,
         },
       };
 
