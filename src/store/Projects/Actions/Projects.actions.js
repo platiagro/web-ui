@@ -141,6 +141,9 @@ const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
     type: actionTypes.DELETE_PROJECTS_SUCCESS,
     payload: { isLoading: false, projects, selectedProjects },
   });
+
+  // FIXME: Remover essa requisição após corrigir paginação
+  dispatch(fetchPaginatedProjectsRequest('', 1, 10));
 };
 
 /**
