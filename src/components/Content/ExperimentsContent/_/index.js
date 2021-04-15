@@ -1,14 +1,15 @@
 // CORE LIBS
 import React from 'react';
+import { Layout } from 'antd';
 import { useParams } from 'react-router-dom';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // COMPONENTS
 import TasksMenuBlock from '../TasksMenuBlock/_/Container';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
+import CustomDndProvider from 'components/CustomDndProvider';
+import FlowDrop from './FlowDrop';
 
 import {
   ChangeRoutePromptContainer,
@@ -20,9 +21,6 @@ import {
   PrepareDeploymentsModalContainer,
 } from 'containers';
 
-import FlowDrop from './FlowDrop';
-
-import { Layout } from 'antd';
 import './style.less';
 
 const { Footer, Sider, Content } = Layout;
@@ -56,7 +54,7 @@ const ExperimentsContent = () => {
   // RENDER
   return (
     <>
-      <DndProvider backend={HTML5Backend}>
+      <CustomDndProvider>
         <PrepareDeploymentsModalContainer />
         <CompareResultsModalContainer />
         <DataViewModalContainer />
@@ -64,7 +62,7 @@ const ExperimentsContent = () => {
         <ExperimentsHeaderContainer />
         {renderFlowContent()}
         <ChangeRoutePromptContainer />
-      </DndProvider>
+      </CustomDndProvider>
     </>
   );
 };
