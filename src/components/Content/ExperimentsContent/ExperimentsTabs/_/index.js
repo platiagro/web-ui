@@ -30,15 +30,15 @@ const ExperimentsTabs = ({
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [selectedExperimentId, setSelectedExperimentId] = useState(null);
 
-  const handleShowRenamingPopover = (experimentId, experimentName) => {
-    setSelectedExperimentId(experimentId);
-    setExperimentName(experimentName);
+  const handleShowRenamingPopover = (id, name) => {
+    setSelectedExperimentId(id);
+    setExperimentName(name);
     setIsRenaming(true);
   };
 
-  const handleShowDuplicatingPopover = (experimentId, experimentName) => {
-    setSelectedExperimentId(experimentId);
-    setExperimentName(experimentName);
+  const handleShowDuplicatingPopover = (id, name) => {
+    setSelectedExperimentId(id);
+    setExperimentName(name);
     setIsDuplicating(true);
   };
 
