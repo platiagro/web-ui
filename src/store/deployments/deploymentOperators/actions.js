@@ -5,13 +5,19 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
+import tasksApi from 'services/TasksApi';
 import datasetsApi from 'services/DatasetsApi';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
 import deploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
-import tasksApi from 'services/TasksApi';
 
 // UTILS
 import utils from 'utils';
+import {
+  deploymentOperatorsDataLoaded,
+  deploymentOperatorsLoadingData,
+  deploymentsTabsDataLoaded,
+  deploymentsTabsLoadingData,
+} from 'store/ui/actions';
 
 // ACTIONS
 /**
@@ -19,6 +25,7 @@ import utils from 'utils';
  *
  * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
+ * @returns {Function} Dispatch function
  */
 export const fetchOperatorsRequest = (projectId, deploymentId) => async (
   dispatch
@@ -26,9 +33,9 @@ export const fetchOperatorsRequest = (projectId, deploymentId) => async (
   dispatch({
     type: actionTypes.FETCH_DEPLOYMENT_OPERATORS_REQUEST,
   });
-  //TODO:
-  // dispatch(experimentOperatorsLoadingData());
-  // dispatch(experimentsTabsLoadingData());
+
+  dispatch(deploymentOperatorsLoadingData());
+  dispatch(deploymentsTabsLoadingData());
 
   try {
     // getting tasks
@@ -40,7 +47,8 @@ export const fetchOperatorsRequest = (projectId, deploymentId) => async (
       projectId,
       deploymentId
     );
-    const operators = operatorsResponse.data;
+
+    const operators = operatorsResponse.data.operators;
 
     // get dataset name
     const datasetName = utils.getDatasetName(tasks, operators);
@@ -53,7 +61,7 @@ export const fetchOperatorsRequest = (projectId, deploymentId) => async (
     }
 
     // gettins pipelines status
-    const pipelinesResponse = await deploymentRunsApi.fetchDeploymentRuns(
+    const pipelinesResponse = await deploymentRunsApi.listDeploymentRuns(
       projectId,
       deploymentId
     );
@@ -66,23 +74,18 @@ export const fetchOperatorsRequest = (projectId, deploymentId) => async (
       pipelinesResponse.data
     );
 
-    //TODO:
-    // dispatch(experimentOperatorsDataLoaded());
-    // dispatch(experimentsTabsDataLoaded());
-    // dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
     dispatch({
       type: actionTypes.FETCH_DEPLOYMENT_OPERATORS_SUCCESS,
-      configuredOperators,
+      operators: configuredOperators,
     });
-  } catch (error) {
-    //TODO:
-    // dispatch(experimentOperatorsDataLoaded());
-    // dispatch(experimentsTabsDataLoaded());
-    const errorMessage = error.message;
+  } catch (e) {
     dispatch({
       type: actionTypes.FETCH_DEPLOYMENT_OPERATORS_FAIL,
-      errorMessage,
+      errorMessage: e.message,
     });
-    message.error(errorMessage);
+    message.error(e.message);
+  } finally {
+    dispatch(deploymentOperatorsDataLoaded());
+    dispatch(deploymentsTabsDataLoaded());
   }
 };

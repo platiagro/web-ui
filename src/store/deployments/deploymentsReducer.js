@@ -7,8 +7,8 @@ const initialState = [];
 /**
  * deployments reducer
  *
- * @param state
- * @param action
+ * @param {Array} state The State
+ * @param {object} action The Action
  * @returns {Array} Deployments list
  */
 const deploymentsReducer = (state = initialState, action = undefined) => {
@@ -20,35 +20,49 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
     // SUCCESS
     // fetch deployments success
     case actionTypes.FETCH_DEPLOYMENTS_SUCCESS:
-      return [...action.deployments];
+      return action.deployments;
     case actionTypes.DUPLICATE_DEPLOYMENT_SUCCESS:
     case actionTypes.CREATE_DEPLOYMENT_SUCCESS:
       return [...state, action.deployment];
     // update deployment success
     case actionTypes.UPDATE_DEPLOYMENT_SUCCESS:
-      return [...action.deployments];
+      return action.deployments;
     // delete deployment success
     case actionTypes.DELETE_DEPLOYMENT_SUCCESS:
     case actionTypes.RENAME_DEPLOYMENT_SUCCESS:
-      return [...action.deployments];
+      return action.deployments;
 
     // // // // // // //
 
     // FAIL
     // fetch deployments fail
     case actionTypes.FETCH_DEPLOYMENTS_FAIL:
-      return [...state];
+      return state;
     // create deployment fail
     case actionTypes.CREATE_DEPLOYMENT_FAIL:
-      return [...state];
+      return state;
     // update deployment fail
-    case actionTypes.deploymentLOYMENT_FAIL:
-      return [...state];
+    case actionTypes.UPDATE_DEPLOYMENT_FAIL:
+      return state;
     // delete deployment fail
     case actionTypes.DELETE_DEPLOYMENT_FAIL:
-      return [...state];
+      return state;
 
     // // // // // // //
+
+    case actionTypes.UPDATE_DEPLOYMENT_POSITION_SUCCESS: {
+      const deploymentsClone = [...state];
+      const [deploymentToMove] = deploymentsClone.splice(
+        action.currentPosition,
+        1
+      );
+
+      deploymentsClone.splice(action.newPosition, 0, deploymentToMove);
+      return deploymentsClone.map((deployment, index) => ({
+        ...deployment,
+        position: index,
+      }));
+    }
 
     // DEFAULT
     default:
@@ -61,9 +75,9 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
 /**
  * Select deployment by id
  *
- * @param {Array} state
+ * @param {Array} state The State
  * @param {string} deploymentId Deployment UUID
- * @returns {Array}
+ * @returns {Array} Deployments list
  */
 export const getDeploymentById = (state, deploymentId) => {
   return state.deploymentsReducer.find(

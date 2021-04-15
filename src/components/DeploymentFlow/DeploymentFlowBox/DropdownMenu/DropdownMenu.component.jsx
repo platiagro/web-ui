@@ -7,20 +7,16 @@ import { Menu, Dropdown } from 'antd';
  * DeploymentFlowBox dropdown menu
  */
 function DropdownMenu(props) {
-  const { disabled, onEdit, onRemove, children } = props;
+  const { disabled, onEdit, children } = props;
 
   const handleClick = (e) => {
     if (e.key === 'edit') onEdit();
-    else if (e.key === 'remove') onRemove();
   };
 
   const menuOverlay = (
     <Menu onClick={handleClick}>
       <Menu.Item disabled={disabled} key='edit'>
         Editar
-      </Menu.Item>
-      <Menu.Item disabled={disabled} key='remove'>
-        Remover
       </Menu.Item>
     </Menu>
   );
@@ -36,7 +32,6 @@ DropdownMenu.propTypes = {
   children: PropTypes.any,
   disabled: PropTypes.bool,
   onEdit: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
 };
 
 DropdownMenu.defaultProps = {

@@ -671,6 +671,8 @@ const toRawText = (strEncoded) => {
 
 /**
  * Copy Seldon response to clipboard.
+ *
+ * @param experimentInference
  */
 const copyToClipboard = (experimentInference) => {
   const text = toRawText(experimentInference);
@@ -694,6 +696,7 @@ const copyToClipboard = (experimentInference) => {
 /**
  * Download a response content as file
  *
+ * @param experimentInference
  * @returns {string} content as base64
  */
 const downloadFile = (experimentInference) => {

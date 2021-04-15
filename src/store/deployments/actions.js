@@ -18,6 +18,8 @@ import {
   newDeploymentModalStartLoading,
   newDeploymentModalEndLoading,
   hideNewDeploymentModal,
+  deploymentsTabsDataLoaded,
+  deploymentsTabsLoadingData,
 } from 'store/ui/actions';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
@@ -121,8 +123,6 @@ const createDeploymentFail = (error) => (dispatch) => {
   });
 
   dispatch(newDeploymentModalEndLoading());
-
-  console.log(errorMessage);
 
   errorMessage = errorMessage.includes('either')
     ? customErrorMessage
@@ -298,19 +298,19 @@ const deleteDeploymentFail = (error) => (dispatch) => {
  * @param {string} deploymentId Deployment UUID
  * @returns {Function} The `disptach` function
  */
-export const deleteDeploymentRequest = (projectId, deploymentId) => (
+export const deleteDeploymentRequest = (projectId, deploymentId) => async (
   dispatch
 ) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.DELETE_DEPLOYMENT_REQUEST,
-  });
-
-  // deleting deployment
-  deploymentsApi
-    .deleteDeployment(projectId, deploymentId)
-    .then(() => dispatch(deleteDeploymentSuccess(deploymentId)))
-    .catch((error) => dispatch(deleteDeploymentFail(error)));
+  try {
+    dispatch({ type: actionTypes.DELETE_DEPLOYMENT_REQUEST });
+    dispatch(deploymentsTabsLoadingData());
+    await deploymentsApi.deleteDeployment(projectId, deploymentId);
+    dispatch(deleteDeploymentSuccess(deploymentId));
+  } catch (e) {
+    dispatch(deleteDeploymentFail(e));
+  } finally {
+    dispatch(deploymentsTabsDataLoaded());
+  }
 };
 
 // // // // // // // // // //
@@ -380,12 +380,10 @@ export const prepareDeployments = (experiments, projectId, routerProps) => (
     experiments: experiments,
   };
 
-  console.log(deploymentObj);
-
   // creating deployment
   deploymentsApi
     .createDeployment(projectId, deploymentObj)
-    .then((response) => {
+    .then(() => {
       dispatch(prepareDeploymentsDataLoaded());
 
       routerProps.history.push(`/projetos/${projectId}`);
@@ -416,24 +414,25 @@ export function renameDeploymentRequest(
   newName
 ) {
   return async (dispatch) => {
-    dispatch({ type: actionTypes.RENAME_DEPLOYMENT_REQUEST });
-
     try {
-      const updateObject = { name: newName };
+      dispatch({ type: actionTypes.RENAME_DEPLOYMENT_REQUEST });
+      dispatch(deploymentsTabsLoadingData());
 
       const response = await deploymentsApi.updateDeployment(
         projectId,
         deploymentId,
-        updateObject
+        { name: newName }
       );
 
       const updatedDeployments = deployments.map((deployment) =>
-        deployment.uuid === deploymentId ? response.data[0] : deployment
+        deployment.uuid === deploymentId ? response.data : deployment
       );
 
       dispatch(renameDeploymentSuccess(updatedDeployments));
     } catch (error) {
       dispatch(renameDeploymentFail(error));
+    } finally {
+      dispatch(deploymentsTabsDataLoaded());
     }
   };
 }
@@ -482,23 +481,20 @@ export function duplicateDeploymentRequest(
   newDeploymentName
 ) {
   return async (dispatch) => {
-    dispatch({ type: actionTypes.DUPLICATE_DEPLOYMENT_REQUEST });
-
     try {
-      // FIXME: Objeto temporário, aguardar implementação/ajuste do serviço
-      // aparentemente no serviço está faltando apenas a capacidade de criar um deployment com o nome
-      let createObject = {
+      dispatch({ type: actionTypes.DUPLICATE_DEPLOYMENT_REQUEST });
+
+      // TODO ------------------------------------------------------------------
+      // Isso não vai funcionar porque está passando ID de deployment ao
+      // invés de um ID de experiment. Para funcionar tem que fazer um outro
+      // endpoint na API.
+      // Esse novo endpoint tem também que receber um novo nome para o deployment.
+      const response = await deploymentsApi.createDeployment(projectId, {
         newDeploymentName,
         experiments: [duplicatedDeploymentId],
-      };
+      });
 
-      const response = await deploymentsApi.createDeployment(
-        projectId,
-        createObject
-      );
-
-      const createdDeployment = response.data[0];
-
+      const [createdDeployment] = response.data;
       dispatch(duplicateDeploymentSuccess(createdDeployment));
     } catch (error) {
       dispatch(duplicateDeploymentFail(error));
@@ -536,6 +532,37 @@ function duplicateDeploymentFail(error) {
   return { type: actionTypes.DUPLICATE_DEPLOYMENT_FAIL };
 }
 
+/**
+ * Update Deployment Position
+ *
+ * @param {string} projectId Project uuid
+ * @param {string} draggedDeploymentId Dragged Deployment ID
+ * @param {number} currentPosition Deployment current position index
+ * @param {number} newPosition Deployment new position index
+ * @returns {Function} Dispatch function
+ */
+export const updateDeploymentPositionRequest = (
+  projectId,
+  draggedDeploymentId,
+  currentPosition,
+  newPosition
+) => async (dispatch) => {
+  try {
+    await deploymentsApi.updateDeployment(projectId, draggedDeploymentId, {
+      position: newPosition,
+    });
+
+    dispatch({
+      type: actionTypes.UPDATE_DEPLOYMENT_POSITION_SUCCESS,
+      currentPosition,
+      newPosition,
+    });
+  } catch (e) {
+    message.error(e.message);
+    dispatch({ type: actionTypes.UPDATE_DEPLOYMENT_POSITION_FAIL });
+  }
+};
+
 export default {
   fetchDeploymentsRequest,
   createDeploymentRequest,
@@ -543,5 +570,6 @@ export default {
   deleteDeploymentRequest,
   renameDeploymentRequest,
   duplicateDeploymentRequest,
+  updateDeploymentPositionRequest,
   prepareDeployments,
 };
