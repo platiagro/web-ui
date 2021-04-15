@@ -42,8 +42,8 @@ const TextInputBlock = (props) => {
   };
   // before submit
   const beforeSubmit = () => {
-    const trimmedValue = value?.trim();
-    const trimmedCurrentValue = currentValue?.trim();
+    const trimmedValue = value?.toString()?.trim();
+    const trimmedCurrentValue = currentValue?.toString()?.trim();
 
     // new value is different from old
     if (trimmedValue !== trimmedCurrentValue)
@@ -73,7 +73,7 @@ const TextInputBlock = (props) => {
             placeholder={placeholder}
             disabled={isLoading || isDisabled}
             style={{
-              width: modifiedSinceLastExecution ? '80%' : '100%'
+              width: modifiedSinceLastExecution ? '80%' : '100%',
             }}
           />
           {/* rendering tooltip */}

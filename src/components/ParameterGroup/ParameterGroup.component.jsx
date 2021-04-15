@@ -11,6 +11,16 @@ import {
   ToggleInputBlock,
 } from 'components/InputBlocks';
 
+function getParameterTypes(object, parameter, defaultType) {
+  if (object.hasOwnProperty(parameter.type)) return object[parameter.type];
+  else {
+    console.warn(
+      `Não foi declarado o tipo para o parâmetro '${parameter?.name}'`
+    );
+    return object[defaultType];
+  }
+}
+
 // PARAMETER TYPES
 const parameterTypes = {
   // BOOLEAN / TOGGLE
@@ -244,7 +254,7 @@ const ParameterGroup = (props) => {
     valueLatestTraining,
   } = props;
 
-  return parameterTypes[parameter.type](
+  return getParameterTypes(parameterTypes, parameter, 'string')(
     parameter,
     loading,
     onChange,
