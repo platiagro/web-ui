@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // UI LIBS
 import {
@@ -17,6 +15,7 @@ import { Tabs as antdTabs, Popconfirm, Popover, Input } from 'antd';
 
 // COMPONENTS
 import DraggableTabs from '../DraggableTabs';
+import CustomDndProvider from 'components/CustomDndProvider';
 
 // TABS COMPONENTS
 const { TabPane } = antdTabs;
@@ -200,7 +199,7 @@ const Tabs = (props) => {
 
   return (
     <>
-      <DndProvider backend={HTML5Backend}>
+      <CustomDndProvider>
         <DraggableTabs
           activeTab={activeTab}
           onChange={onChange}
@@ -266,7 +265,7 @@ const Tabs = (props) => {
             </MenuItem>
           </Popconfirm>
         </ContextMenu>
-      </DndProvider>
+      </CustomDndProvider>
     </>
   );
 };
