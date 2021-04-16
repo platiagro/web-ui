@@ -158,12 +158,15 @@ export const fetchPaginatedTasks = (page, pageSize) => {
 
 /**
  * Function to fetch tasks and dispatch to reducer
+ *
+ * @param {object} filters Filters
+ * @returns {Function} DIspatch function
  */
-export const fetchTasks = () => {
+export const fetchTasks = (filters) => {
   return (dispatch) => {
     dispatch(tasksTableLoadingData());
     return tasksApi
-      .getAllTasks()
+      .getAllTasks(filters)
       .then((response) => {
         dispatch(tasksTableDataLoaded());
         const data = response.data;

@@ -12,7 +12,8 @@ const taskPath = '/tasks';
 
 /**
  * Create task
- * @param {Object} task
+ *
+ * @param {object} task
  * @returns {Promise}
  */
 const createTask = (task) => {
@@ -26,7 +27,8 @@ const createTask = (task) => {
 
 /**
  * Delete task
- * @param {String} id
+ *
+ * @param {string} id
  * @returns {Promise}
  */
 const deleteTask = (id) => {
@@ -35,16 +37,21 @@ const deleteTask = (id) => {
 
 /**
  * Get all tasks
+ *
+ * @param filters
  * @returns {Promise}
  */
-const getAllTasks = () => {
-  return taskApi.get(taskPath);
+const getAllTasks = (filters) => {
+  const tags = filters?.tags || [];
+  const queryParams = tags.length ? `?tags=${tags.join(',')}` : '';
+  return taskApi.get(`${taskPath}${queryParams}`);
 };
 
 /**
  * Get paginated tasks
- * @param {Number} page
- * @param {Number} pageSize
+ *
+ * @param {number} page
+ * @param {number} pageSize
  * @returns {Promise}
  */
 const getPaginatedTasks = (page, pageSize) => {
@@ -53,8 +60,9 @@ const getPaginatedTasks = (page, pageSize) => {
 
 /**
  * Update task
- * @param {String} uuid
- * @param {Object} task
+ *
+ * @param {string} uuid
+ * @param {object} task
  * @returns {Promise}
  */
 const updateTask = (uuid, task) => {
