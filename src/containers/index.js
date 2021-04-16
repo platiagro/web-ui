@@ -30,6 +30,8 @@ import PrepareDeploymentsModalContainer from './PrepareDeploymentsModalContainer
 
 import MonitoringPanelContainer from './MonitoringPanelContainer';
 
+import PropertiesResizableContainer from './PropertiesResizableContainer';
+
 export {
   ChangeRoutePromptContainer,
   CompareResultsModalContainer,
@@ -53,4 +55,5 @@ export {
   UsingDeploymentsModalContainer,
   PrepareDeploymentsModalContainer,
   MonitoringPanelContainer,
+  PropertiesResizableContainer,
 };
