@@ -47,7 +47,13 @@ const NewMonitoringModalContainer = ({
 
   // Always fetch tasks when open the modal
   useEffect(() => {
-    if (isShowing) dispatch(fetchTasks());
+    if (isShowing) {
+      dispatch(
+        fetchTasks({
+          tags: ['MONITORING'],
+        })
+      );
+    }
   }, [dispatch, isShowing]);
 
   return (
