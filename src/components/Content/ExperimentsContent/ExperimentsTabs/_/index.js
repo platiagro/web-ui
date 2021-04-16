@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Popconfirm, Popover, Input } from 'antd';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
@@ -30,6 +30,9 @@ const ExperimentsTabs = ({
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [selectedExperimentId, setSelectedExperimentId] = useState(null);
 
+  const renamingInputRef = useRef(null);
+  const duplicatingInputRef = useRef(null);
+
   const handleShowRenamingPopover = (id, name) => {
     setSelectedExperimentId(id);
     setExperimentName(name);
@@ -53,6 +56,18 @@ const ExperimentsTabs = ({
     if (name.length > 0) {
       setIsRenaming(false);
       renameHandler(selectedExperimentId, name);
+    }
+  };
+
+  const handleFocusRenamingPopover = (isVisible) => {
+    if (renamingInputRef.current && isVisible) {
+      renamingInputRef.current.focus();
+    }
+  };
+
+  const handleFocusDuplicatingPopover = (isVisible) => {
+    if (duplicatingInputRef.current && isVisible) {
+      duplicatingInputRef.current.focus();
     }
   };
 
@@ -132,10 +147,12 @@ const ExperimentsTabs = ({
           trigger='click'
           visible={isRenaming}
           onVisibleChange={setIsRenaming}
+          afterVisibleChange={handleFocusRenamingPopover}
           content={
             <>
               <p>Renomear</p>
               <Input.Search
+                ref={renamingInputRef}
                 enterButton='Ok'
                 onSearch={handleConfirmRenaming}
                 placeholder='Digite o novo nome'
@@ -168,10 +185,12 @@ const ExperimentsTabs = ({
           trigger='click'
           visible={isDuplicating}
           onVisibleChange={setIsDuplicating}
+          afterVisibleChange={handleFocusDuplicatingPopover}
           content={
             <>
               <p>Duplicar</p>
               <Input.Search
+                ref={duplicatingInputRef}
                 enterButton='Ok'
                 placeholder='Digite o novo nome'
                 loading={loading}
