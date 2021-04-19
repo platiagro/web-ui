@@ -1,0 +1,43 @@
+.log-list-item {
+  display: flex;
+  padding: 8px 24px;
+  overflow: hidden;
+
+  .log-list-item-icon {
+    padding-right: 8px;
+  }
+
+  .log-list-item-content {
+    .log-list-item-content-title {
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+  }
+
+  &.error-log {
+    background: #fff1f0;
+    border-bottom: 1px solid #ffccc7;
+
+    .log-list-item-icon {
+      color: #cf1322;
+    }
+  }
+
+  &.info-log {
+    background: #fafafa;
+    border-bottom: 1px solid #d9d9d9;
+
+    .log-list-item-icon {
+      color: #262626;
+    }
+  }
+
+  &.debug-log {
+    background: #f9f0ff;
+    border-bottom: 1px solid #efdbff;
+
+    .log-list-item-icon {
+      color: #22075e;
+    }
+  }
+}
