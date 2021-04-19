@@ -1,56 +1,32 @@
-import ChangeRoutePromptContainer from './ChangeRoutePromptContainer';
-import CompareResultsModalContainer from './CompareResultsModalContainer';
-import CustomConfirmRouterContainer from './CustomConfirmRouterContainer';
-
-import DatasetUploadInputBlockContainer from './DatasetUploadInputBlockContainer';
-import DataViewButtonContainer from './DataViewButtonContainer';
-import DataViewModalContainer from './DataViewModalContainer';
-import DeploymentsTableContainer from './DeploymentsTableContainer';
-import DeploymentsHeaderContainer from './DeploymentsHeaderContainer';
-import DeploymentsTabsContainer from './DeploymentsTabsContainer';
-import DeploymentToolbarContainer from './DeploymentToolbarContainer';
-import DeploymentFlowContainer from './DeploymentFlowContainer';
-import DownloadOperatorDatasetContainer from './DownloadOperatorDatasetContainer';
-
-import ExperimentsHeaderContainer from './ExperimentsHeaderContainer';
-
-import InferenceTestResultModalContainer from './InferenceTestResultModalContainer';
-
-import LogsDrawerContainer from './LogsDrawerContainer';
-
-import NewDeploymentModalContainer from './NewDeploymentModalContainer';
-
-import OperatorResizableSectionContainer from './OperatorResizableSectionContainer';
-import OperatorResultsModalContainer from './OperatorResultsModalContainer';
-
-import UsingDeploymentsButtonContainer from './UsingDeploymentsButtonContainer';
-import UsingDeploymentsModalContainer from './UsingDeploymentsModalContainer';
-
-import PrepareDeploymentsModalContainer from './PrepareDeploymentsModalContainer';
-
-import MonitoringPanelContainer from './MonitoringPanelContainer';
-
-export {
-  ChangeRoutePromptContainer,
-  CompareResultsModalContainer,
-  CustomConfirmRouterContainer,
-  DatasetUploadInputBlockContainer,
-  DataViewButtonContainer,
-  DataViewModalContainer,
-  DeploymentsTableContainer,
-  DeploymentsTabsContainer,
-  DeploymentsHeaderContainer,
-  DeploymentToolbarContainer,
-  DeploymentFlowContainer,
-  DownloadOperatorDatasetContainer,
-  ExperimentsHeaderContainer,
-  InferenceTestResultModalContainer,
-  LogsDrawerContainer,
-  NewDeploymentModalContainer,
-  OperatorResizableSectionContainer,
-  OperatorResultsModalContainer,
-  UsingDeploymentsButtonContainer,
-  UsingDeploymentsModalContainer,
-  PrepareDeploymentsModalContainer,
-  MonitoringPanelContainer,
-};
+export { default as ChangeRoutePromptContainer } from './ChangeRoutePromptContainer';
+export { default as CompareResultsModalContainer } from './CompareResultsModalContainer';
+export { default as CustomConfirmRouterContainer } from './CustomConfirmRouterContainer';
+export { default as DataViewButtonContainer } from './DataViewButtonContainer';
+export { default as DataViewModalContainer } from './DataViewModalContainer';
+export { default as DatasetUploadInputBlockContainer } from './DatasetUploadInputBlockContainer';
+export { default as DeploymentFlowContainer } from './DeploymentFlowContainer';
+// export { default as DeploymentPropertiesPanelContainer } from './DeploymentPropertiesPanelContainer';
+export { default as DeploymentToolbarContainer } from './DeploymentToolbarContainer';
+export { default as DeploymentsHeaderContainer } from './DeploymentsHeaderContainer';
+export { default as DeploymentsTableContainer } from './DeploymentsTableContainer';
+export { default as DeploymentsTabsContainer } from './DeploymentsTabsContainer';
+export { default as DownloadOperatorDatasetContainer } from './DownloadOperatorDatasetContainer';
+export { default as EditTitleContainer } from './EditTitleContainer';
+export { default as ExperimentsHeaderContainer } from './ExperimentsHeaderContainer';
+export { default as ExternalDatasetHelperModalContainer } from './ExternalDatasetHelperModalContainer';
+export { default as HeaderProjectDetailsContainer } from './HeaderProjectDetailsContainer';
+export { default as InferenceTestResultModalContainer } from './InferenceTestResultModalContainer';
+export { default as JupyterLabContainer } from './JupyterLabContainer';
+export { default as LogsDrawerContainer } from './LogsDrawerContainer';
+export { default as LogsPanelContainer } from './LogsPanelContainer';
+export { default as MonitoringPanelContainer } from './MonitoringPanelContainer';
+export { default as NewDeploymentModalContainer } from './NewDeploymentModalContainer';
+export { default as NewMonitoringModalContainer } from './NewMonitoringModalContainer';
+export { default as OperatorResizableSectionContainer } from './OperatorResizableSectionContainer';
+export { default as OperatorResultsModalContainer } from './OperatorResultsModalContainer';
+export { default as PrepareDeploymentsModalContainer } from './PrepareDeploymentsModalContainer';
+export { default as ProjectDetailsContainer } from './ProjectDetailsContainer';
+export { default as SaveTemplateContainer } from './SaveTemplateContainer';
+export { default as TasksMenuDetailsContainer } from './TasksMenuDetailsContainer';
+export { default as UsingDeploymentsButtonContainer } from './UsingDeploymentsButtonContainer';
+export { default as UsingDeploymentsModalContainer } from './UsingDeploymentsModalContainer';

@@ -10,9 +10,9 @@ import {
   saveOperatorDependencies,
 } from 'store/operator/actions';
 import { fetchExperimentRunStatusRequest } from 'store/experiments/experimentRuns/actions';
+import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
 
 import ExperimentFlow from './index';
-import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
 
 const operatorsSelector = ({ operatorsReducer }) => {
   return operatorsReducer;
