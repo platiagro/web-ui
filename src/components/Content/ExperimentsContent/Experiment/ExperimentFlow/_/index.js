@@ -1,44 +1,18 @@
 // CORE LIBS
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
-
-// UI LIBS
 import ReactFlow, { Background } from 'react-flow-renderer';
 
-// COMPONENTS
 import TaskBox from 'components/TaskBox';
 import LoadingBox from 'components/LoadingBox';
+import { LogsButton } from 'components/Buttons';
+
 import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
 
-// STYLES
 import './style.less';
 
-/**
- * Experiment Flow.
- * This component is responsible for displaying experiment flow grid.
- *
- * @component
- * @param props.tasks
- * @param props.loading
- * @param props.handleTaskBoxClick
- * @param props.tasks
- * @param props.loading
- * @param props.handleTaskBoxClick
- * @param props.tasks
- * @param props.loading
- * @param props.handleTaskBoxClick
- * @param props.handleDeselectOperator
- * @param props.handleSavePosition
- * @param props.arrowConfigs
- * @param props.handleSaveDependencies
- * @param props.canDrop
- * @param props.isOver
- * @param props.connectDropTarget
- * @param {object} props Component props
- * @returns {ExperimentFlow} React component
- */
 const ExperimentFlow = ({
   tasks,
   loading,
@@ -50,6 +24,9 @@ const ExperimentFlow = ({
   canDrop,
   isOver,
   connectDropTarget,
+  handleToggleLogsPanel,
+  isLogsPanelSelected,
+  numberOfLogs,
 }) => {
   const [connectClass, setConnectClass] = useState('');
 
@@ -138,7 +115,10 @@ const ExperimentFlow = ({
           </div>
         ),
       },
-      position: { x: component.positionX, y: component.positionY },
+      position: {
+        x: component.positionX,
+        y: component.positionY,
+      },
     };
 
     return [card, ...arrows];
@@ -147,7 +127,7 @@ const ExperimentFlow = ({
   return loading ? (
     <LoadingBox />
   ) : (
-    <div style={{ height: '100%' }} ref={connectDropTarget}>
+    <div className='experiment-flow' ref={connectDropTarget}>
       <ReactFlow
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
@@ -160,6 +140,7 @@ const ExperimentFlow = ({
         onNodeDragStop={handleDragStop}
         onConnectEnd={() => setConnectClass('')}
         onConnectStart={() => setConnectClass('Connecting')}
+        onPaneContextMenu={(e) => e.preventDefault()}
         deleteKeyCode={46}
         onElementsRemove={(e) => {
           const line = e[0];
@@ -167,7 +148,6 @@ const ExperimentFlow = ({
             handleDeleteConnection(line.target, line.source);
           }
         }}
-        onPaneContextMenu={(e) => e.preventDefault()}
       >
         <Background
           variant='dots'
@@ -176,13 +156,20 @@ const ExperimentFlow = ({
           color={'#58585850'}
           style={{ backgroundColor }}
         />
+
+        <LogsButton
+          className='experiment-flow-logs-button'
+          errorCount={numberOfLogs}
+          isActive={isLogsPanelSelected}
+          onClick={handleToggleLogsPanel}
+        />
+
         <Vectors />
       </ReactFlow>
     </div>
   );
 };
 
-// PROP TYPES
 ExperimentFlow.propTypes = {
   /** experiment flow tasks list */
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -237,5 +224,4 @@ const ExperimentFlowDrop = DropTarget(
   })
 )(ExperimentFlow);
 
-// EXPORT
 export default ExperimentFlowDrop;

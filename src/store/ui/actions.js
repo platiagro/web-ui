@@ -1119,3 +1119,19 @@ export const setDeletingMonitoring = (deleting = false) => {
     deleting,
   };
 };
+
+// // // // // // // // // // // // // //
+
+export const showLogsPanel = () => {
+  return {
+    type: actionTypes.SHOW_LOGS_PANEL,
+    isShowing: true,
+  };
+};
+
+export const hideLogsPanel = () => {
+  return {
+    type: actionTypes.SHOW_LOGS_PANEL,
+    isShowing: false,
+  };
+};

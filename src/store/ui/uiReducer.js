@@ -77,6 +77,7 @@ const initialState = {
   prepareDeployments: { loading: false },
   externalDatasetHelperModal: { visible: false },
   monitorings: { loading: false, creating: false, deleting: false },
+  logsPanel: { isShowing: false },
 };
 
 const uiReducer = (state = initialState, action = undefined) => {
@@ -690,6 +691,16 @@ const uiReducer = (state = initialState, action = undefined) => {
         monitorings: {
           ...state.monitorings,
           deleting: action.deleting,
+        },
+      };
+
+    case actionTypes.SHOW_LOGS_PANEL:
+    case actionTypes.HIDE_LOGS_PANEL:
+      return {
+        ...state,
+        logsPanel: {
+          ...state.logsPanel,
+          isShowing: action.isShowing,
         },
       };
 

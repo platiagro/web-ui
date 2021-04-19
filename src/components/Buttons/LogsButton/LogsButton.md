@@ -1,26 +1,17 @@
 **Default**
+
 ```js
-
-const active = false;
-
-const count = 6;
-
-<LogsButton count={count} active={active}/>;
+<LogsButton onClick={() => alert('Clicked')} errorCount={5} active />
 ```
 
-**Selected**
-```js 
+**Active**
 
-const active = true;
-
-const count = 6;
-
-<LogsButton  count={count} active={active}/>;
+```js
+<LogsButton errorCount={5} active />
 ```
 
 **Disabled**
-```js 
-const disabled = true;
 
-<LogsButton disabled={disabled}/>;
+```js
+<LogsButton disabled />
 ```

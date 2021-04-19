@@ -1,12 +1,7 @@
-// CORE LIBS
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-// COMPONENTS
-import ExperimentFlow from './index';
-
-// ACTIONS
+import { useStoreState } from 'react-flow-renderer';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   selectOperatorAndGetData,
@@ -14,118 +9,91 @@ import {
   saveOperatorPosition,
   saveOperatorDependencies,
 } from 'store/operator/actions';
-
-import { useStoreState } from 'react-flow-renderer';
 import { fetchExperimentRunStatusRequest } from 'store/experiments/experimentRuns/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleShowOperatorDetails: (projectId, experimentId, operator) =>
-      dispatch(selectOperatorAndGetData(projectId, experimentId, operator)),
-    handleFetchExperimentRunStatus: (projectId, experimentId) =>
-      dispatch(fetchExperimentRunStatusRequest(projectId, experimentId)),
-    handleDeselectOperator: () => dispatch(deselectOperator()),
-    handleSaveOperatorPosition: (
-      projectId,
-      experimentId,
-      operatorId,
-      position
-    ) =>
-      dispatch(
-        saveOperatorPosition(projectId, experimentId, operatorId, position)
-      ),
-    handleSaveOperatorDependencies: (
-      projectId,
-      experimentId,
-      operatorId,
-      dependencies,
-      operators
-    ) =>
-      dispatch(
-        saveOperatorDependencies(
-          projectId,
-          experimentId,
-          operatorId,
-          dependencies,
-          operators
-        )
-      ),
-  };
+import ExperimentFlow from './index';
+import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
+
+const operatorsSelector = ({ operatorsReducer }) => {
+  return operatorsReducer;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    operators: state.operatorsReducer,
-    loading: state.uiReducer.experimentOperators.loading,
-    arrowConfigs: state.uiReducer.operatorsDependencies,
-  };
+const loadingSelector = ({ uiReducer }) => {
+  return uiReducer.experimentOperators.loading;
 };
 
-/**
- * Experiment Flow Container.
- * This component is responsible for create a logic container for experiment flow
- * with redux.
- */
-const ExperimentFlowContainer = ({
-  operators,
-  loading,
-  arrowConfigs,
-  handleShowOperatorDetails,
-  handleFetchExperimentRunStatus,
-  handleDeselectOperator,
-  handleSaveOperatorPosition,
-  handleSaveOperatorDependencies,
-}) => {
+const arrowConfigsSelector = ({ uiReducer }) => {
+  return uiReducer.operatorsDependencies;
+};
+
+const isShowingLogsPanelSelector = ({ uiReducer }) => {
+  return uiReducer.logsPanel.isShowing;
+};
+
+const ExperimentFlowContainer = () => {
+  const dispatch = useDispatch();
   const { projectId, experimentId } = useParams();
+
+  const loading = useSelector(loadingSelector);
+  const operators = useSelector(operatorsSelector);
+  const arrowConfigs = useSelector(arrowConfigsSelector);
+  const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
   const transformations = useStoreState((flowStore) => flowStore.transform);
 
-  // HOOKS
-  // did mount hook
-  useEffect(() => {
-    // polling experiment status
-    const polling = setInterval(
-      () => handleFetchExperimentRunStatus(projectId, experimentId),
-      5000
-    );
-    return () => clearInterval(polling);
-  });
-
-  const selectOperatorHandler = (operator) =>
-    handleShowOperatorDetails(projectId, experimentId, operator);
+  const selectOperatorHandler = (operator) => {
+    dispatch(selectOperatorAndGetData(projectId, experimentId, operator));
+  };
 
   const handleSavePosition = (operatorId, position) => {
-    handleSaveOperatorPosition(projectId, experimentId, operatorId, position);
+    dispatch(
+      saveOperatorPosition(projectId, experimentId, operatorId, position)
+    );
   };
 
   const handleSaveDependencies = (operatorId, dependencies) => {
-    handleSaveOperatorDependencies(
-      projectId,
-      experimentId,
-      operatorId,
-      dependencies,
-      operators
+    dispatch(
+      saveOperatorDependencies(
+        projectId,
+        experimentId,
+        operatorId,
+        dependencies,
+        operators
+      )
     );
   };
 
-  // RENDER
+  const handleDeselectOperator = () => {
+    dispatch(deselectOperator());
+  };
+
+  const handleToggleLogsPanel = () => {
+    if (isShowingLogsPanel) dispatch(hideLogsPanel());
+    else dispatch(showLogsPanel());
+  };
+
+  useEffect(() => {
+    const polling = setInterval(() => {
+      dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
+    }, 5000);
+
+    return () => clearInterval(polling);
+  });
+
   return (
     <ExperimentFlow
+      numberOfLogs={0}
       tasks={operators}
       loading={loading}
-      handleTaskBoxClick={selectOperatorHandler}
-      handleDeselectOperator={handleDeselectOperator}
-      handleSavePosition={handleSavePosition}
-      handleSaveDependencies={handleSaveDependencies}
-      transformations={transformations}
       arrowConfigs={arrowConfigs}
+      transformations={transformations}
+      isLogsPanelSelected={isShowingLogsPanel}
+      handleSavePosition={handleSavePosition}
+      handleTaskBoxClick={selectOperatorHandler}
+      handleToggleLogsPanel={handleToggleLogsPanel}
+      handleSaveDependencies={handleSaveDependencies}
+      handleDeselectOperator={handleDeselectOperator}
     />
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExperimentFlowContainer);
+export default ExperimentFlowContainer;
