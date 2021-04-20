@@ -77,9 +77,9 @@ const LogsPanel = ({ logs, handleHideLogsPanel, handleOpenLogsModal }) => {
             return (
               <LogListItem
                 key={log.uuid}
-                type={log.type}
                 title={log.title}
                 text={log.message}
+                type={log.type || undefined}
               />
             );
           })}
@@ -98,7 +98,14 @@ const LogsPanel = ({ logs, handleHideLogsPanel, handleOpenLogsModal }) => {
 };
 
 LogsPanel.propTypes = {
-  logs: PropTypes.arrayOf(PropTypes.shape({})),
+  logs: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.string,
+      type: PropTypes.string,
+      title: PropTypes.string,
+      message: PropTypes.string,
+    })
+  ),
   handleHideLogsPanel: PropTypes.func.isRequired,
   handleOpenLogsModal: PropTypes.func,
 };

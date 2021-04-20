@@ -16,4 +16,8 @@
 <LogListItem type='DEBUG' title='Log Title' text='Log Text' />
 ```
 
-r
+**Log With No Title**
+
+```js
+<LogListItem type='INFO' text='Log Text' />
+```

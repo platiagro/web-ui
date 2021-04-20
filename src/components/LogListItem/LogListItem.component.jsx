@@ -23,15 +23,16 @@ const LogListItem = ({ className, style, type, title, text }) => {
     return '';
   };
 
+  const getClassName = () => {
+    return `log-list-item ${getLogTypeClass()} ${className}`;
+  };
+
   return (
-    <div
-      style={style}
-      className={`log-list-item ${getLogTypeClass()} ${className}`}
-    >
+    <div style={style} className={getClassName()}>
       <div className='log-list-item-icon'>{renderIcon()}</div>
 
       <div className='log-list-item-content'>
-        <div className='log-list-item-content-title'>{title}</div>
+        {!!title && <div className='log-list-item-content-title'>{title}</div>}
         <div className='log-list-item-content-text'>{text}</div>
       </div>
     </div>
@@ -41,14 +42,17 @@ const LogListItem = ({ className, style, type, title, text }) => {
 LogListItem.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  type: PropTypes.oneOf(['ERROR', 'INFO', 'DEBUG']).isRequired,
-  title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['ERROR', 'INFO', 'DEBUG']),
+  title: PropTypes.string,
+  text: PropTypes.string,
 };
 
 LogListItem.defaultProps = {
   className: '',
   style: undefined,
+  title: undefined,
+  type: 'INFO',
+  text: '',
 };
 
 export default LogListItem;

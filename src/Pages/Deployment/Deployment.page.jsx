@@ -3,6 +3,7 @@ import { ReactFlowProvider } from 'react-flow-renderer';
 import { PropertiesPanel } from 'components';
 
 import {
+  DeploymentLogsPanelContainer,
   MonitoringPanelContainer,
   DeploymentsHeaderContainer,
   DeploymentsTabsContainer,
@@ -33,10 +34,12 @@ function Deployment() {
               <DeploymentFlowContainer />
             </div>
 
-            <div className='deployment-page-body-monitoring'>
+            <div className='deployment-page-body-bottom'>
               <MonitoringPanelContainer />
+              <DeploymentLogsPanelContainer />
             </div>
           </div>
+
           <PropertiesPanel>
             {/* TODO: Colocar container de propriedades */}
           </PropertiesPanel>

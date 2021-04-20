@@ -5,6 +5,7 @@ export { default as DataViewButtonContainer } from './DataViewButtonContainer';
 export { default as DataViewModalContainer } from './DataViewModalContainer';
 export { default as DatasetUploadInputBlockContainer } from './DatasetUploadInputBlockContainer';
 export { default as DeploymentFlowContainer } from './DeploymentFlowContainer';
+export { default as DeploymentLogsPanelContainer } from './DeploymentLogsPanelContainer';
 // export { default as DeploymentPropertiesPanelContainer } from './DeploymentPropertiesPanelContainer';
 export { default as DeploymentToolbarContainer } from './DeploymentToolbarContainer';
 export { default as DeploymentsHeaderContainer } from './DeploymentsHeaderContainer';
@@ -18,7 +19,7 @@ export { default as HeaderProjectDetailsContainer } from './HeaderProjectDetails
 export { default as InferenceTestResultModalContainer } from './InferenceTestResultModalContainer';
 export { default as JupyterLabContainer } from './JupyterLabContainer';
 export { default as LogsDrawerContainer } from './LogsDrawerContainer';
-export { default as LogsPanelContainer } from './LogsPanelContainer';
+export { default as ExperimentLogsPanelContainer } from './ExperimentLogsPanelContainer';
 export { default as MonitoringPanelContainer } from './MonitoringPanelContainer';
 export { default as NewDeploymentModalContainer } from './NewDeploymentModalContainer';
 export { default as NewMonitoringModalContainer } from './NewMonitoringModalContainer';

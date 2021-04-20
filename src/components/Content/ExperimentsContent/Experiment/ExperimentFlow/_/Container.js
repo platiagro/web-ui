@@ -30,6 +30,10 @@ const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
 };
 
+const numberOfLogsSelector = ({ operatorReducer }) => {
+  return operatorReducer.logs.length;
+};
+
 const ExperimentFlowContainer = () => {
   const dispatch = useDispatch();
   const { projectId, experimentId } = useParams();
@@ -37,6 +41,7 @@ const ExperimentFlowContainer = () => {
   const loading = useSelector(loadingSelector);
   const operators = useSelector(operatorsSelector);
   const arrowConfigs = useSelector(arrowConfigsSelector);
+  const numberOfLogs = useSelector(numberOfLogsSelector);
   const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
   const transformations = useStoreState((flowStore) => flowStore.transform);
 
@@ -81,9 +86,9 @@ const ExperimentFlowContainer = () => {
 
   return (
     <ExperimentFlow
-      numberOfLogs={0}
       tasks={operators}
       loading={loading}
+      numberOfLogs={numberOfLogs}
       arrowConfigs={arrowConfigs}
       transformations={transformations}
       isLogsPanelSelected={isShowingLogsPanel}
