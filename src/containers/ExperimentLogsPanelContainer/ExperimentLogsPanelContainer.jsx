@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import LogsPanel from 'components/LogsPanel';
+import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
@@ -22,6 +23,8 @@ const ExperimentLogsPanelContainer = () => {
   const dispatch = useDispatch();
   const { projectId, experimentId } = useParams();
 
+  const [isShowingModal, setIsShowingModal] = useState(false);
+
   const logs = useSelector(logsSelector);
   const isLoading = useSelector(isLoadingSelector);
   const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
@@ -30,8 +33,12 @@ const ExperimentLogsPanelContainer = () => {
     dispatch(hideLogsPanel());
   };
 
-  const handleOpenLogsModal = () => {
-    console.log('OPEN LOGS MODAL');
+  const handleShowLogsModal = () => {
+    setIsShowingModal(true);
+  };
+
+  const handleHideLogsModal = () => {
+    setIsShowingModal(false);
   };
 
   useEffect(() => {
@@ -40,13 +47,21 @@ const ExperimentLogsPanelContainer = () => {
   }, [dispatch, experimentId, projectId]);
 
   return (
-    <LogsPanel
-      logs={logs}
-      isLoading={isLoading}
-      handleHideLogsPanel={handleHideLogsPanel}
-      handleOpenLogsModal={handleOpenLogsModal}
-      style={{ display: isShowingLogsPanel ? undefined : 'none' }}
-    />
+    <>
+      <LogsModal
+        logs={logs}
+        isShowing={isShowingModal}
+        handleHideModal={handleHideLogsModal}
+      />
+
+      <LogsPanel
+        logs={logs}
+        isLoading={isLoading}
+        handleHideLogsPanel={handleHideLogsPanel}
+        handleShowLogsModal={handleShowLogsModal}
+        style={{ display: isShowingLogsPanel ? undefined : 'none' }}
+      />
+    </>
   );
 };
 

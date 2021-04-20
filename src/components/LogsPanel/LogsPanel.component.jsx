@@ -22,7 +22,7 @@ const LogsPanel = ({
   logs,
   isLoading,
   handleHideLogsPanel,
-  handleOpenLogsModal,
+  handleShowLogsModal,
 }) => {
   const [isErrorTagSelected, handleToggleErrorTag] = useToggleState(true);
   const [isInfoTagSelected, handleToggleInfoTag] = useToggleState(true);
@@ -64,12 +64,13 @@ const LogsPanel = ({
 
         <Divider className='logs-panel-toolbar-divider' type='vertical' />
 
-        {!!handleOpenLogsModal && (
+        {!!handleShowLogsModal && (
           <Tooltip color='black' placement='bottom' title='Maximizar'>
             <Button
               className='logs-panel-toolbar-button'
-              onClick={handleOpenLogsModal}
+              onClick={handleShowLogsModal}
               icon={<ExpandOutlined />}
+              disabled={isLoading}
               shape='circle'
               type='ghost'
             />
@@ -127,7 +128,7 @@ LogsPanel.propTypes = {
   ),
   isLoading: PropTypes.bool,
   handleHideLogsPanel: PropTypes.func.isRequired,
-  handleOpenLogsModal: PropTypes.func,
+  handleShowLogsModal: PropTypes.func,
 };
 
 LogsPanel.defaultProps = {
