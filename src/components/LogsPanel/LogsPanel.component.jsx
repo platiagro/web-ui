@@ -11,9 +11,16 @@ import LogTypeTags from 'components/LogTypeTags';
 import LogListItem from 'components/LogListItem';
 import Placeholder from 'components/Placeholder';
 
+import LogsPanelSkeleton from './LogsPanelSkeleton';
+
 import './styles.less';
 
-const LogsPanel = ({ logs, handleHideLogsPanel, handleOpenLogsModal }) => {
+const LogsPanel = ({
+  logs,
+  handleHideLogsPanel,
+  handleOpenLogsModal,
+  isLoading,
+}) => {
   const [isErrorTagSelected, setIsErrorTagSelected] = useState(true);
   const [isInfoTagSelected, setIsInfoTagSelected] = useState(true);
   const [isDebugTagSelected, setIsDebugTagSelected] = useState(true);
@@ -83,7 +90,7 @@ const LogsPanel = ({ logs, handleHideLogsPanel, handleOpenLogsModal }) => {
         </Tooltip>
       </div>
 
-      {filteredLogs.length > 0 && (
+      {!isLoading && filteredLogs.length > 0 && (
         <div className='logs-panel-logs'>
           {filteredLogs.map((log) => {
             return (
@@ -98,13 +105,15 @@ const LogsPanel = ({ logs, handleHideLogsPanel, handleOpenLogsModal }) => {
         </div>
       )}
 
-      {filteredLogs.length === 0 && (
+      {!isLoading && filteredLogs.length === 0 && (
         <Placeholder
           className='logs-panel-placeholder'
           iconComponent={<AlertOutlined />}
           message='Não Há Nada Para Exibir'
         />
       )}
+
+      {isLoading && <LogsPanelSkeleton />}
     </div>
   );
 };
@@ -120,11 +129,13 @@ LogsPanel.propTypes = {
   ),
   handleHideLogsPanel: PropTypes.func.isRequired,
   handleOpenLogsModal: PropTypes.func,
+  isLoading: PropTypes.bool,
 };
 
 LogsPanel.defaultProps = {
   logs: [],
   handleOpenLogsModal: undefined,
+  isLoading: false,
 };
 
 export default LogsPanel;

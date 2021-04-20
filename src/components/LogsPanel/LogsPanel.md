@@ -11,3 +11,13 @@
   ]}
 />
 ```
+
+**Loading**
+
+```js
+<LogsPanel
+  handleHideLogsPanel={() => alert('Close This Panel')}
+  handleOpenLogsModal={() => alert('Open The Logs Modal')}
+  isLoading
+/>
+```

@@ -11,6 +11,10 @@ const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
 };
 
+const isLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.inferenceLogsDrawer.loading;
+};
+
 const logsSelector = ({ deploymentLogsReducer }) => {
   // * Map the array to pass as a prop to LogsPanel
 
@@ -42,6 +46,7 @@ const DeploymentLogsPanelContainer = () => {
   const { projectId, deploymentId } = useParams();
 
   const logs = useSelector(logsSelector);
+  const isLoading = useSelector(isLoadingSelector);
   const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
 
   const handleHideLogsPanel = () => {
@@ -59,6 +64,7 @@ const DeploymentLogsPanelContainer = () => {
   return isShowingLogsPanel ? (
     <LogsPanel
       logs={logs}
+      isLoading={isLoading}
       handleHideLogsPanel={handleHideLogsPanel}
       handleOpenLogsModal={handleOpenLogsModal}
     />

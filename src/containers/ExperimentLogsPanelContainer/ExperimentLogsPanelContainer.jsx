@@ -9,6 +9,11 @@ const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
 };
 
+const isLoadingSelector = () => {
+  // Substituir o que tem abaixo pelo loading dos logs da tela de experimentos
+  return false;
+};
+
 const logsSelector = ({ operatorReducer }) => {
   return operatorReducer.logs;
 };
@@ -18,6 +23,7 @@ const ExperimentLogsPanelContainer = () => {
   const { projectId, experimentId } = useParams();
 
   const logs = useSelector(logsSelector);
+  const isLoading = useSelector(isLoadingSelector);
   const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
 
   const handleHideLogsPanel = () => {
@@ -36,6 +42,7 @@ const ExperimentLogsPanelContainer = () => {
   return isShowingLogsPanel ? (
     <LogsPanel
       logs={logs}
+      isLoading={isLoading}
       handleHideLogsPanel={handleHideLogsPanel}
       handleOpenLogsModal={handleOpenLogsModal}
     />
