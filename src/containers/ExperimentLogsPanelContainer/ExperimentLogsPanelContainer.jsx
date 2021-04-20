@@ -41,11 +41,11 @@ const ExperimentLogsPanelContainer = () => {
 
   return (
     <LogsPanel
-      style={{ display: isShowingLogsPanel ? undefined : 'none' }}
       logs={logs}
       isLoading={isLoading}
       handleHideLogsPanel={handleHideLogsPanel}
       handleOpenLogsModal={handleOpenLogsModal}
+      style={{ display: isShowingLogsPanel ? undefined : 'none' }}
     />
   );
 };

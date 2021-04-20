@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { LOG_TYPES } from 'configs';
 import LogsPanel from 'components/LogsPanel';
 import { hideLogsPanel } from 'store/ui/actions';
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
@@ -29,7 +30,7 @@ const logsSelector = ({ deploymentLogsReducer }) => {
 
       return {
         uuid: log.timestamp,
-        type: log.level || 'INFO',
+        type: log.level || LOG_TYPES.INFO,
         title: `${operatorLog.containerName} - ${formattedDate}`,
         message: log.message,
       };
@@ -63,11 +64,11 @@ const DeploymentLogsPanelContainer = () => {
 
   return (
     <LogsPanel
-      style={{ display: isShowingLogsPanel ? undefined : 'none' }}
       logs={logs}
       isLoading={isLoading}
       handleHideLogsPanel={handleHideLogsPanel}
       handleOpenLogsModal={handleOpenLogsModal}
+      style={{ display: isShowingLogsPanel ? undefined : 'none' }}
     />
   );
 };

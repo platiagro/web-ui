@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Button, Divider, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import {
@@ -7,6 +7,8 @@ import {
   AlertOutlined,
 } from '@ant-design/icons';
 
+import { LOG_TYPES } from 'configs';
+import { useToggleState } from 'hooks';
 import LogTypeTags from 'components/LogTypeTags';
 import LogListItem from 'components/LogListItem';
 import Placeholder from 'components/Placeholder';
@@ -22,33 +24,27 @@ const LogsPanel = ({
   handleHideLogsPanel,
   handleOpenLogsModal,
 }) => {
-  const [isErrorTagSelected, setIsErrorTagSelected] = useState(true);
-  const [isInfoTagSelected, setIsInfoTagSelected] = useState(true);
-  const [isDebugTagSelected, setIsDebugTagSelected] = useState(true);
+  const [isErrorTagSelected, handleToggleErrorTag] = useToggleState(true);
+  const [isInfoTagSelected, handleToggleInfoTag] = useToggleState(true);
+  const [isDebugTagSelected, handleToggleDebugTag] = useToggleState(true);
 
   const filteredLogs = useMemo(() => {
     return logs.filter(({ type }) => {
-      const isErrorAndCanShowError = isErrorTagSelected && type === 'ERROR';
-      const isInfoAndCanShowInfo = isInfoTagSelected && type === 'INFO';
-      const isDebugAndCanShowDebug = isDebugTagSelected && type === 'DEBUG';
+      const isErrorLog = type === LOG_TYPES.ERROR;
+      const isInfoLog = type === LOG_TYPES.INFO;
+      const isDebugLog = type === LOG_TYPES.DEBUG;
+
+      const isErrorAndCanShowErrorLogs = isErrorTagSelected && isErrorLog;
+      const isInfoAndCanShowInfoLogs = isInfoTagSelected && isInfoLog;
+      const isDebugAndCanShowDebugLogs = isDebugTagSelected && isDebugLog;
 
       return (
-        isErrorAndCanShowError || isInfoAndCanShowInfo || isDebugAndCanShowDebug
+        isErrorAndCanShowErrorLogs ||
+        isInfoAndCanShowInfoLogs ||
+        isDebugAndCanShowDebugLogs
       );
     });
   }, [isDebugTagSelected, isErrorTagSelected, isInfoTagSelected, logs]);
-
-  const handleToggleErrorTag = () => {
-    setIsErrorTagSelected((isSelected) => !isSelected);
-  };
-
-  const handleToggleInfoTag = () => {
-    setIsInfoTagSelected((isSelected) => !isSelected);
-  };
-
-  const handleToggleDebugTag = () => {
-    setIsDebugTagSelected((isSelected) => !isSelected);
-  };
 
   return (
     <div style={style} className='logs-panel'>

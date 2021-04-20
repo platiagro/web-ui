@@ -6,20 +6,22 @@ import {
   CodeOutlined,
 } from '@ant-design/icons';
 
+import { LOG_TYPES } from 'configs';
+
 import './styles.less';
 
 const LogListItem = ({ className, style, type, title, text }) => {
   const renderIcon = () => {
-    if (type === 'ERROR') return <BugOutlined />;
-    else if (type === 'INFO') return <InfoCircleOutlined />;
-    else if (type === 'DEBUG') return <CodeOutlined />;
+    if (type === LOG_TYPES.ERROR) return <BugOutlined />;
+    else if (type === LOG_TYPES.INFO) return <InfoCircleOutlined />;
+    else if (type === LOG_TYPES.DEBUG) return <CodeOutlined />;
     return null;
   };
 
   const getLogTypeClass = () => {
-    if (type === 'ERROR') return 'error-log';
-    else if (type === 'INFO') return 'info-log';
-    else if (type === 'DEBUG') return 'debug-log';
+    if (type === LOG_TYPES.ERROR) return 'error-log';
+    else if (type === LOG_TYPES.INFO) return 'info-log';
+    else if (type === LOG_TYPES.DEBUG) return 'debug-log';
     return '';
   };
 
@@ -42,7 +44,7 @@ const LogListItem = ({ className, style, type, title, text }) => {
 LogListItem.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  type: PropTypes.oneOf(['ERROR', 'INFO', 'DEBUG']),
+  type: PropTypes.oneOf(Object.values(LOG_TYPES)),
   title: PropTypes.string,
   text: PropTypes.string,
 };
@@ -51,7 +53,7 @@ LogListItem.defaultProps = {
   className: '',
   style: undefined,
   title: undefined,
-  type: 'INFO',
+  type: LOG_TYPES.INFO,
   text: '',
 };
 
