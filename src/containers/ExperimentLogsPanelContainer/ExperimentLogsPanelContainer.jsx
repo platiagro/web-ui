@@ -39,14 +39,15 @@ const ExperimentLogsPanelContainer = () => {
     dispatch({ type: '@TEMP/FETCH_EXPERIMENT_LOGS' });
   }, [dispatch, experimentId, projectId]);
 
-  return isShowingLogsPanel ? (
+  return (
     <LogsPanel
+      style={{ display: isShowingLogsPanel ? undefined : 'none' }}
       logs={logs}
       isLoading={isLoading}
       handleHideLogsPanel={handleHideLogsPanel}
       handleOpenLogsModal={handleOpenLogsModal}
     />
-  ) : null;
+  );
 };
 
 export default ExperimentLogsPanelContainer;

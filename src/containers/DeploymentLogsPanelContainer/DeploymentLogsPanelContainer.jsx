@@ -61,14 +61,15 @@ const DeploymentLogsPanelContainer = () => {
     dispatch(getDeployExperimentLogs(projectId, deploymentId));
   }, [dispatch, deploymentId, projectId]);
 
-  return isShowingLogsPanel ? (
+  return (
     <LogsPanel
+      style={{ display: isShowingLogsPanel ? undefined : 'none' }}
       logs={logs}
       isLoading={isLoading}
       handleHideLogsPanel={handleHideLogsPanel}
       handleOpenLogsModal={handleOpenLogsModal}
     />
-  ) : null;
+  );
 };
 
 export default DeploymentLogsPanelContainer;

@@ -16,10 +16,11 @@ import LogsPanelSkeleton from './LogsPanelSkeleton';
 import './styles.less';
 
 const LogsPanel = ({
+  style,
   logs,
+  isLoading,
   handleHideLogsPanel,
   handleOpenLogsModal,
-  isLoading,
 }) => {
   const [isErrorTagSelected, setIsErrorTagSelected] = useState(true);
   const [isInfoTagSelected, setIsInfoTagSelected] = useState(true);
@@ -50,7 +51,7 @@ const LogsPanel = ({
   };
 
   return (
-    <div className='logs-panel'>
+    <div style={style} className='logs-panel'>
       <div className='logs-panel-toolbar'>
         <div className='logs-panel-toolbar-title'>
           Histórico de Erros e Mensagens
@@ -119,6 +120,7 @@ const LogsPanel = ({
 };
 
 LogsPanel.propTypes = {
+  style: PropTypes.object,
   logs: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string,
@@ -127,15 +129,16 @@ LogsPanel.propTypes = {
       message: PropTypes.string,
     })
   ),
+  isLoading: PropTypes.bool,
   handleHideLogsPanel: PropTypes.func.isRequired,
   handleOpenLogsModal: PropTypes.func,
-  isLoading: PropTypes.bool,
 };
 
 LogsPanel.defaultProps = {
+  style: undefined,
   logs: [],
-  handleOpenLogsModal: undefined,
   isLoading: false,
+  handleOpenLogsModal: undefined,
 };
 
 export default LogsPanel;
