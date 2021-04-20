@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo, useState } from 'react';
 import { Button, Divider, Tooltip } from 'antd';
+import PropTypes from 'prop-types';
 import {
   CloseOutlined,
   ExpandOutlined,
@@ -17,6 +17,18 @@ const LogsPanel = ({ logs, handleHideLogsPanel, handleOpenLogsModal }) => {
   const [isErrorTagSelected, setIsErrorTagSelected] = useState(true);
   const [isInfoTagSelected, setIsInfoTagSelected] = useState(true);
   const [isDebugTagSelected, setIsDebugTagSelected] = useState(true);
+
+  const filteredLogs = useMemo(() => {
+    return logs.filter(({ type }) => {
+      const isErrorAndCanShowError = isErrorTagSelected && type === 'ERROR';
+      const isInfoAndCanShowInfo = isInfoTagSelected && type === 'INFO';
+      const isDebugAndCanShowDebug = isDebugTagSelected && type === 'DEBUG';
+
+      return (
+        isErrorAndCanShowError || isInfoAndCanShowInfo || isDebugAndCanShowDebug
+      );
+    });
+  }, [isDebugTagSelected, isErrorTagSelected, isInfoTagSelected, logs]);
 
   const handleToggleErrorTag = () => {
     setIsErrorTagSelected((isSelected) => !isSelected);
@@ -71,9 +83,9 @@ const LogsPanel = ({ logs, handleHideLogsPanel, handleOpenLogsModal }) => {
         </Tooltip>
       </div>
 
-      {logs.length > 0 && (
+      {filteredLogs.length > 0 && (
         <div className='logs-panel-logs'>
-          {logs.map((log) => {
+          {filteredLogs.map((log) => {
             return (
               <LogListItem
                 key={log.uuid}
@@ -86,11 +98,11 @@ const LogsPanel = ({ logs, handleHideLogsPanel, handleOpenLogsModal }) => {
         </div>
       )}
 
-      {logs.length === 0 && (
+      {filteredLogs.length === 0 && (
         <Placeholder
           className='logs-panel-placeholder'
           iconComponent={<AlertOutlined />}
-          message='Não Existem Erros ou Mensagens'
+          message='Não Há Nada Para Exibir'
         />
       )}
     </div>
