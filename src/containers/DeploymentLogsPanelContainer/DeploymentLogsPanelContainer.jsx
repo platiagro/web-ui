@@ -20,7 +20,7 @@ const logsSelector = ({ deploymentLogsReducer }) => {
     const transformedLogs = operatorLog.logs.map((log) => {
       const formattedDate = format(
         new Date(log.timestamp.trim()),
-        'dd/MM/yyyy hh:mm:ss'
+        'hh:mm:ss dd/MM/yyyy'
       );
 
       return {
