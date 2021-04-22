@@ -20,14 +20,21 @@ import utils from 'utils';
 const { getErrorMessage } = utils;
 
 /**
- * Get logs of implanted experiments
+ * Get logs of implanted experiments (deployment logs)
  *
- * @param projectId
- * @param {string} deployId
+ * @param {string} projectId Project ID
+ * @param {string} deployId Deployment ID
+ * @param {boolean} shouldShowLogsDrawer Should open the logs drawer?
+ * @returns {Function} Dispatch function
  */
-export const getDeployExperimentLogs = (projectId, deployId) => (dispatch) => {
-  dispatch(showInferenceLogsDrawer('Logs'));
+export const getDeployExperimentLogs = (
+  projectId,
+  deployId,
+  shouldShowLogsDrawer = true
+) => (dispatch) => {
+  if (shouldShowLogsDrawer) dispatch(showInferenceLogsDrawer('Logs'));
   dispatch(inferenceLogsDrawerLoadingData());
+
   deploymentsApi
     .fetchDeploymentRunLogs(projectId, deployId, 'latest')
     .then((response) => {

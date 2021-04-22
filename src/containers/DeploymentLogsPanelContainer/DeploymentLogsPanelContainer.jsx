@@ -66,7 +66,7 @@ const DeploymentLogsPanelContainer = () => {
   };
 
   useEffect(() => {
-    dispatch(getDeployExperimentLogs(projectId, deploymentId));
+    dispatch(getDeployExperimentLogs(projectId, deploymentId, false));
   }, [dispatch, deploymentId, projectId]);
 
   return (
