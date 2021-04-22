@@ -12,11 +12,9 @@ const operatorDescriptionSelector = ({ operatorReducer }) => {
 };
 
 const isOperatorDatasetSelector = ({ operatorReducer }) => {
-  const isDataset = operatorReducer.tags
+  return operatorReducer.tags
     ? operatorReducer.tags.includes('DATASETS')
     : false;
-
-  return isDataset;
 };
 
 const operatorNameSelector = ({ operatorReducer }) => {

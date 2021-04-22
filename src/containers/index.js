@@ -6,7 +6,6 @@ export { default as DataViewModalContainer } from './DataViewModalContainer';
 export { default as DatasetUploadInputBlockContainer } from './DatasetUploadInputBlockContainer';
 export { default as DeploymentFlowContainer } from './DeploymentFlowContainer';
 export { default as DeploymentLogsPanelContainer } from './DeploymentLogsPanelContainer';
-// export { default as DeploymentPropertiesPanelContainer } from './DeploymentPropertiesPanelContainer';
 export { default as DeploymentToolbarContainer } from './DeploymentToolbarContainer';
 export { default as DeploymentsHeaderContainer } from './DeploymentsHeaderContainer';
 export { default as DeploymentsTableContainer } from './DeploymentsTableContainer';
