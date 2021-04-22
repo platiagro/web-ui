@@ -14,16 +14,30 @@ import { deselectOperator } from 'store/operator/actions';
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleClearAllExperiments: () => dispatch(experimentsActions.clearAllExperiments()),
+    handleClearAllExperiments: () =>
+      dispatch(experimentsActions.clearAllExperiments()),
     handleFetchExperiments: (projectId) =>
-      dispatch(experimentsActions.fetchExperimentsRequest(projectId, routerProps)),
+      dispatch(
+        experimentsActions.fetchExperimentsRequest(projectId, routerProps)
+      ),
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(experimentsActions.activeExperiment(projectId, experimentId)),
     handleDeleteExperiment: (projectId, experimentId) =>
-      dispatch(experimentsActions.deleteExperimentRequest(projectId, experimentId, routerProps)),
+      dispatch(
+        experimentsActions.deleteExperimentRequest(
+          projectId,
+          experimentId,
+          routerProps
+        )
+      ),
     handleRenameExperiment: (projectId, experimentId, newName) =>
       dispatch(
-        experimentsActions.updateExperimentName(projectId, experimentId, newName, routerProps)
+        experimentsActions.updateExperimentName(
+          projectId,
+          experimentId,
+          newName,
+          routerProps
+        )
       ),
     handleDuplicateExperiment: (projectId, experimentId, newName) =>
       dispatch(
@@ -98,7 +112,7 @@ const ExperimentTabsContainer = (props) => {
   useEffect(() => {
     // fetching projects
     handleFetchExperiments(projectId);
-  }, [handleFetchExperiments, projectId, handleClearAllExperiments]);
+  }, [handleFetchExperiments, projectId]);
 
   useEffect(() => {
     return () => {

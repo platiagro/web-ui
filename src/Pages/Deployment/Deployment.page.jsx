@@ -1,6 +1,5 @@
 import React from 'react';
 import { ReactFlowProvider } from 'react-flow-renderer';
-import { PropertiesPanel } from 'components';
 
 import {
   DeploymentLogsPanelContainer,
@@ -9,6 +8,7 @@ import {
   DeploymentsTabsContainer,
   DeploymentToolbarContainer,
   DeploymentFlowContainer,
+  PropertiesResizableContainer,
 } from 'containers';
 
 import './Deployment.style.less';
@@ -40,9 +40,7 @@ function Deployment() {
             </div>
           </div>
 
-          <PropertiesPanel>
-            {/* TODO: Colocar container de propriedades */}
-          </PropertiesPanel>
+          <PropertiesResizableContainer />
         </div>
 
         <DeploymentsTabsContainer />

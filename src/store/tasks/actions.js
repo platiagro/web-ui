@@ -44,7 +44,8 @@ const sleep = (milliseconds) => {
 /**
  * Function to add task and dispatch to reducer
  *
- * @param {object} task
+ * @param {object} task A Task
+ * @returns {Function} Dispatch function
  */
 export const addTask = (task) => {
   return (dispatch) => {
@@ -92,7 +93,8 @@ export const addTask = (task) => {
 /**
  * Function to delete task and dispatch to reducer
  *
- * @param {string} id
+ * @param {string} id Task id
+ * @returns {Function} Dispatch function
  */
 export const deleteTask = (id) => {
   return (dispatch) => {
@@ -126,12 +128,11 @@ export const deleteTask = (id) => {
 };
 
 /**
- * Function to fetch pagineted tasks and dispatch to reducer
+ * Function to fetch paginated tasks and dispatch to reducer
  *
- * @param page
- * @param pageSize
- * @param page
- * @param pageSize
+ * @param {number} page Page number
+ * @param {number} pageSize Page size
+ * @returns {Function} Dispatch function
  */
 export const fetchPaginatedTasks = (page, pageSize) => {
   return (dispatch) => {
@@ -158,12 +159,15 @@ export const fetchPaginatedTasks = (page, pageSize) => {
 
 /**
  * Function to fetch tasks and dispatch to reducer
+ *
+ * @param {object} filters Filters
+ * @returns {Function} Dispatch function
  */
-export const fetchTasks = () => {
+export const fetchTasks = (filters) => {
   return (dispatch) => {
     dispatch(tasksTableLoadingData());
     return tasksApi
-      .getAllTasks()
+      .getAllTasks(filters)
       .then((response) => {
         dispatch(tasksTableDataLoaded());
         const data = response.data;
@@ -184,8 +188,9 @@ export const fetchTasks = () => {
 /**
  * Function to update task and dispatch to reducer
  *
- * @param uuid
- * @param {object} task
+ * @param {string} uuid The ID
+ * @param {object} task The task
+ * @returns {Function} Dispatch function
  */
 export const updateTask = (uuid, task) => {
   return (dispatch) => {

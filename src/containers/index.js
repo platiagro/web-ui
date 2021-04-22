@@ -27,6 +27,7 @@ export { default as OperatorResizableSectionContainer } from './OperatorResizabl
 export { default as OperatorResultsModalContainer } from './OperatorResultsModalContainer';
 export { default as PrepareDeploymentsModalContainer } from './PrepareDeploymentsModalContainer';
 export { default as ProjectDetailsContainer } from './ProjectDetailsContainer';
+export { default as PropertiesResizableContainer } from './PropertiesResizableContainer';
 export { default as SaveTemplateContainer } from './SaveTemplateContainer';
 export { default as TasksMenuDetailsContainer } from './TasksMenuDetailsContainer';
 export { default as UsingDeploymentsButtonContainer } from './UsingDeploymentsButtonContainer';
