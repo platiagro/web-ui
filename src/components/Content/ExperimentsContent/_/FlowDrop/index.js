@@ -2,12 +2,12 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { ReactFlowProvider } from 'react-flow-renderer';
 
-//COMPONENTS
-import { ExperimentLogsPanelContainer } from 'containers';
 import ExperimentEmpty from 'components/ExperimentEmpty';
-import ExperimentHeader from '../../Experiment/ExperimentHeader/_/Container';
-import ExperimentFlow from '../../Experiment/ExperimentFlow/_/Container';
+import { ExperimentLogsPanelContainer } from 'containers';
+
 import CustomDragLayer from '../CustomDragLayer';
+import ExperimentHeader from '../../Experiment/ExperimentHeader/_/Container';
+import ExperimentFlowContainer from '../../Experiment/ExperimentFlow/_/ExperimentFlowContainer';
 
 import './style.less';
 
@@ -18,7 +18,7 @@ const FlowDrop = () => {
     <div className='custom-flow'>
       <ReactFlowProvider>
         <ExperimentHeader />
-        {experimentId ? <ExperimentFlow /> : <ExperimentEmpty />}
+        {experimentId ? <ExperimentFlowContainer /> : <ExperimentEmpty />}
         <CustomDragLayer />
         <ExperimentLogsPanelContainer />
       </ReactFlowProvider>

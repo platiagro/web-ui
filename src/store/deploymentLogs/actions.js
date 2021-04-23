@@ -38,10 +38,9 @@ export const getDeployExperimentLogs = (
   deploymentsApi
     .fetchDeploymentRunLogs(projectId, deployId, 'latest')
     .then((response) => {
-      const logs = response.data;
       dispatch({
         type: actionTypes.GET_DEPLOYMENT_LOGS,
-        payload: logs,
+        payload: response.data?.logs || [],
       });
       dispatch(inferenceLogsDrawerDataLoaded());
     })

@@ -36,7 +36,11 @@ const LogsButton = ({
         disabled={isDisabled}
         overlayStyle={{ display: isDisabled ? 'none' : undefined }}
       >
-        <button className={composedButtonClassName} onClick={onClick}>
+        <button
+          className={composedButtonClassName}
+          onClick={onClick}
+          disabled={isDisabled}
+        >
           <AlertOutlined />
         </button>
       </Tooltip>
