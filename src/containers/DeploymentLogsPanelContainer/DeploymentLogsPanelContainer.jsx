@@ -18,8 +18,6 @@ const isLoadingSelector = ({ uiReducer }) => {
 };
 
 const logsSelector = ({ deploymentLogsReducer }) => {
-  // * Map the array to pass as a prop to LogsPanel
-
   let logsArray = [];
 
   deploymentLogsReducer.logs.forEach((operatorLog) => {

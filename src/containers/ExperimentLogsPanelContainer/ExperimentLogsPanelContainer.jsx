@@ -1,22 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { LOG_TYPES } from 'configs';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
+import { getExperimentLogs } from 'store/experimentLogs/actions';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
 };
 
-const isLoadingSelector = () => {
-  // Substituir o que tem abaixo pelo loading dos logs da tela de experimentos
-  return false;
+const isLoadingSelector = ({ experimentLogsReducer }) => {
+  return experimentLogsReducer.isLoading;
 };
 
-const logsSelector = ({ operatorReducer }) => {
-  return operatorReducer.logs;
+const logsSelector = ({ experimentLogsReducer }) => {
+  return experimentLogsReducer.logs.map((log) => {
+    const formattedDate = format(
+      new Date(log.createdAt.trim()),
+      'hh:mm:ss dd/MM/yyyy'
+    );
+
+    return {
+      uuid: log.createdAt,
+      type: log.level || LOG_TYPES.INFO,
+      title: `${log.title} - ${formattedDate}`,
+      message: log.message,
+    };
+  });
 };
 
 const ExperimentLogsPanelContainer = () => {
@@ -42,8 +56,7 @@ const ExperimentLogsPanelContainer = () => {
   };
 
   useEffect(() => {
-    // Substituir o código abaixo pela action que realmente busca os logs
-    dispatch({ type: '@TEMP/FETCH_EXPERIMENT_LOGS' });
+    dispatch(getExperimentLogs(projectId, experimentId));
   }, [dispatch, experimentId, projectId]);
 
   return (

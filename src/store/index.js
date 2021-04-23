@@ -25,6 +25,7 @@ import deploymentLogsReducer from './deploymentLogs/deploymentLogsReducer';
 import testExperimentInferenceReducer from './testExperimentInference/testExperimentInferenceReducer';
 import jupyterLabReducer from './jupyterLab/jupyterLabReducer';
 import monitoringsReducer from './monitorings/monitoringsReducer';
+import experimentLogsReducer from './experimentLogs/experimentLogsReducer';
 
 // REDUX DEV TOOLS CONFIG
 const composeEnhancers =
@@ -59,6 +60,7 @@ const reducers = combineReducers({
   testExperimentInferenceReducer,
   jupyterLabReducer,
   monitoringsReducer,
+  experimentLogsReducer,
 });
 
 // STORE

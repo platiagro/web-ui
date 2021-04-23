@@ -30,8 +30,8 @@ const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
 };
 
-const numberOfLogsSelector = ({ operatorReducer }) => {
-  return operatorReducer.logs.length;
+const numberOfLogsSelector = ({ experimentLogsReducer }) => {
+  return experimentLogsReducer.logs.length;
 };
 
 const ExperimentFlowContainer = () => {
