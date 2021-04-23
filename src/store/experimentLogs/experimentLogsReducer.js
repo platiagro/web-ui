@@ -5,7 +5,7 @@ const initialState = {
   isLoading: false,
 };
 
-const experimentLogsReducer = (state = initialState, action) => {
+const experimentLogsReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case actionTypes.GET_EXPERIMENT_LOGS_SUCCESS:
       return { ...state, logs: action.payload.logs };
