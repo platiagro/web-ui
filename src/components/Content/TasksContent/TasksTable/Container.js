@@ -1,87 +1,69 @@
-// CORE LIBS
 import React, { useLayoutEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-// ACTIONS
+import { useIsLoading } from 'hooks';
+import { TasksEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import {
-  showCopyTaksModal,
+  FETCH_TASK,
   deleteTask,
   fetchTasks,
-  showTasksModal,
-} from 'store/tasks/actions';
+  showEditTaskModal,
+  showCopyTasksModal,
+} from 'store/tasks';
 
-// COMPONENTS
 import TasksTable from './index';
 
-import { TasksEmptyPlaceholder } from 'components/EmptyPlaceholders';
-
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleFetchTasks: () => {
-      dispatch(fetchTasks());
-    },
-    handleDeleteTask: (id) => {
-      dispatch(deleteTask(id));
-    },
-    handleShowTasksModal: (record) => dispatch(showTasksModal(record)),
-    handleCopyTaskRequest: (record) => dispatch(showCopyTaksModal(record)),
-  };
+const containerStateSelector = ({ tasksReducer }) => {
+  return tasksReducer.containerState;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    containerState: state.tasksReducer.containerState,
-    loading: state.uiReducer.tasksTable.loading,
-    tasks: state.tasksReducer.tasks,
-  };
+const tasksSelector = ({ tasksReducer }) => {
+  const tasks = tasksReducer.tasks || [];
+  return tasks.filter((task) => {
+    return task.tags.indexOf('DATASETS') <= -1;
+  });
 };
 
-/**
- * Tasks Table Container.
- * This component is responsible for create a logic container for tasks table
- * with redux.
- */
-const TasksTableContainer = (props) => {
-  const {
-    containerState,
-    handleCopyTaskRequest,
-    handleDeleteTask,
-    handleFetchTasks,
-    handleShowTasksModal,
-    loading,
-    tasks,
-  } = props;
+const TasksTableContainer = () => {
+  const dispatch = useDispatch();
 
-  // Fetch tasks on component did mount
-  useLayoutEffect(() => {
-    handleFetchTasks();
-  }, [handleFetchTasks]);
+  const containerState = useSelector(containerStateSelector);
+  const tasks = useSelector(tasksSelector);
 
-  // HANDLERS
-  const taskClickHandler = (taskName) => {
+  const isLoadingTasks = useIsLoading(FETCH_TASK);
+
+  const handleClickTask = (taskName) => {
     window.open(
       `/jupyterlab/tree/tasks/${taskName}/?reset&open=Experiment.ipynb,Deployment.ipynb`
     );
   };
 
-  // Remove the dataset task
-  const filteredTasks = tasks.filter((task) => {
-    return task.tags.indexOf('DATASETS') <= -1;
-  });
+  const handleDeleteTask = (id) => {
+    dispatch(deleteTask(id));
+  };
 
-  // RENDER
-  return loading || (tasks && tasks.length > 0) ? (
+  const handleCopyTaskRequest = (record) => {
+    dispatch(showCopyTasksModal(record));
+  };
+
+  const handleShowEditTaskModal = (record) => {
+    dispatch(showEditTaskModal(record));
+  };
+
+  useLayoutEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  return isLoadingTasks || tasks.length > 0 ? (
     <div className='tasksContainer'>
       <TasksTable
+        tasks={tasks}
+        loading={isLoadingTasks}
         containerState={containerState}
-        tasks={filteredTasks}
-        handleClickTask={taskClickHandler}
-        handleClickEdit={handleShowTasksModal}
+        handleClickTask={handleClickTask}
         handleClickDelete={handleDeleteTask}
+        handleClickEdit={handleShowEditTaskModal}
         handleCopyTaskRequest={handleCopyTaskRequest}
-        loading={loading}
       />
     </div>
   ) : (
@@ -89,8 +71,4 @@ const TasksTableContainer = (props) => {
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TasksTableContainer);
+export default TasksTableContainer;

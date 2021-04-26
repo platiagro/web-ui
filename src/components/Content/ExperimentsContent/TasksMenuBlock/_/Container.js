@@ -1,105 +1,88 @@
-// CORE LIBS
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-// COMPONENTS
-import TasksMenuBlock from './index';
-
-// ACTIONS
-import { createOperatorRequest } from '../../../../../store/operator/actions';
+import { createOperatorRequest } from 'store/operator/actions';
 import {
   fetchTasksMenuRequest,
   filterTasksMenu,
-} from '../../../../../store/tasksMenu/actions';
+} from 'store/tasksMenu/actions';
 import {
   setTemplateRequest,
   deleteTemplateRequest,
-} from '../../../../../store/templates/actions';
-import { fetchTasks } from 'store/tasks/actions';
+} from 'store/templates/actions';
+import { fetchTasks } from 'store/tasks';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleFetchTasks: () => dispatch(fetchTasks()),
-    handleFetchTasksMenu: () => dispatch(fetchTasksMenuRequest()),
-    handleFilterTasksMenu: (filter) => dispatch(filterTasksMenu(filter)),
-    handleCreateOperator: (
-      projectId,
-      experimentId,
-      taskId,
-      tasks,
-      isTemplate,
-      position
-    ) =>
-      dispatch(
-        createOperatorRequest(
-          projectId,
-          experimentId,
-          taskId,
-          tasks,
-          isTemplate,
-          position
-        )
-      ),
-    handleSetTemplate: (projectId, experimentId, templateId) =>
-      dispatch(setTemplateRequest(projectId, experimentId, templateId)),
-    handleDeleteTemplate: (templateId, allTasks) =>
-      dispatch(deleteTemplateRequest(templateId, allTasks)),
-  };
+import TasksMenuBlock from './index';
+
+const loadingSelector = ({ uiReducer }) => {
+  return uiReducer.tasksMenu.loading;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    loading: state.uiReducer.tasksMenu.loading,
-    tasks: state.tasksReducer.tasks,
-    tasksMenu: state.tasksMenuReducer.filtered,
-    trainingLoading: state.uiReducer.experimentTraining.loading,
-    allTasks: state.tasksMenuReducer,
-  };
+const tasksSelector = ({ tasksReducer }) => {
+  return tasksReducer.tasks;
 };
 
-/**
- * Tasks Menu Block Container.
- * This component is responsible for create a logic container for
- * tasks menu block with redux.
- */
-const TasksMenuBlockContainer = ({
-  tasks,
-  loading,
-  trainingLoading,
-  trainingSucceeded,
-  tasksMenu,
-  handleFetchTasks,
-  handleFetchTasksMenu,
-  handleFilterTasksMenu,
-  handleCreateOperator,
-  handleSetTemplate,
-  disabled,
-  handleDeleteTemplate,
-  allTasks,
-}) => {
-  // CONSTANTS
-  // getting experiment uuid
+const tasksMenuSelector = ({ tasksMenuReducer }) => {
+  return tasksMenuReducer.filtered;
+};
+
+const trainingLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.experimentTraining.loading;
+};
+
+const allTasksSelector = ({ tasksMenuReducer }) => {
+  return tasksMenuReducer;
+};
+
+const TasksMenuBlockContainer = ({ disabled }) => {
   const { projectId, experimentId } = useParams();
+  const dispatch = useDispatch();
 
-  // HOOKS
-  // did mount hook
-  useEffect(() => {
-    // fetching menu tasks
-    handleFetchTasks()
-    handleFetchTasksMenu();
-  }, [handleFetchTasks, handleFetchTasksMenu]);
+  const loading = useSelector(loadingSelector);
+  const tasks = useSelector(tasksSelector);
+  const tasksMenu = useSelector(tasksMenuSelector);
+  const trainingLoading = useSelector(trainingLoadingSelector);
+  const allTasks = useSelector(allTasksSelector);
 
-  // HANDLERS
-  const createOperatorHandler = (taskId, taskType, position) => {
-    // is template
+  const handleDeleteTemplate = (templateId) => {
+    dispatch(deleteTemplateRequest(templateId, allTasks));
+  };
+
+  const handleFilterTasksMenu = (filter) => {
+    dispatch(filterTasksMenu(filter));
+  };
+
+  const handleSetTemplate = (projectId, experimentId, templateId) => {
+    dispatch(setTemplateRequest(projectId, experimentId, templateId));
+  };
+
+  const handleCreateOperator = (
+    projectId,
+    experimentId,
+    taskId,
+    tasks,
+    isTemplate,
+    position
+  ) => {
+    dispatch(
+      createOperatorRequest(
+        projectId,
+        experimentId,
+        taskId,
+        tasks,
+        isTemplate,
+        position
+      )
+    );
+  };
+
+  const handleTaskCLick = (taskId, taskType, position) => {
     const isTemplate = taskType === 'TEMPLATES';
-    // is template
-    if (isTemplate) handleSetTemplate(projectId, experimentId, taskId);
-    // not is template
-    else
+    if (isTemplate) {
+      handleSetTemplate(projectId, experimentId, taskId);
+    } else {
       handleCreateOperator(
         projectId,
         experimentId,
@@ -108,27 +91,32 @@ const TasksMenuBlockContainer = ({
         isTemplate,
         position
       );
+    }
   };
 
-  const deleteTemplateHandler = (templateId) => {
-    handleDeleteTemplate(templateId, allTasks);
-  };
+  useEffect(() => {
+    dispatch(fetchTasks());
+    dispatch(fetchTasksMenuRequest());
+  }, [dispatch]);
 
-  // RENDER
   return (
     <TasksMenuBlock
-      handleTaskClick={createOperatorHandler}
-      handleFilter={handleFilterTasksMenu}
-      handleDeleteTemplate={deleteTemplateHandler}
       menu={tasksMenu}
-      disabled={disabled || trainingLoading}
       loading={loading}
+      disabled={disabled || trainingLoading}
+      handleFilter={handleFilterTasksMenu}
+      handleTaskClick={handleTaskCLick}
+      handleDeleteTemplate={handleDeleteTemplate}
     />
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TasksMenuBlockContainer);
+TasksMenuBlockContainer.propTypes = {
+  disabled: PropTypes.bool,
+};
+
+TasksMenuBlockContainer.defaultProps = {
+  disabled: false,
+};
+
+export default TasksMenuBlockContainer;

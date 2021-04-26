@@ -1,68 +1,56 @@
-// CORE LIBS
+import { useIsLoading } from 'hooks';
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-// ACTIONS
-import { updateTask, closeTasksModal } from '../../../../store/tasks/actions';
+import { updateTask, closeTasksModal, UPDATE_TASK } from 'store/tasks';
 
-// COMPONENTS
 import EditTaskModal from './index';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleUpdateTask: (uuid, taskValues) => {
-      return dispatch(updateTask(uuid, taskValues));
-    },
-    handleCloseTasksModal: () => {
-      return dispatch(closeTasksModal());
-    },
-  };
+const visibleSelector = ({ tasksReducer }) => {
+  return tasksReducer.editModalIsVisible;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    visible: state.tasksReducer.editModalIsVisible,
-    loading: state.uiReducer.tasksTable.loading,
-    newTaskRecord: state.tasksReducer.newTaskRecord,
-    modalValidateStatus: state.tasksReducer.modalValidateStatus,
-    errorMessage: state.tasksReducer.errorMessage,
-  };
+const errorMessageSelector = ({ tasksReducer }) => {
+  return tasksReducer.errorMessage;
 };
 
-/**
- * Edit Task Modal Container.
- * This component is responsible for create a logic container for edit task modal
- * with redux.
- */
-const EditTaskModalContainer = (props) => {
-  // states
-  const {
-    visible,
-    loading,
-    newTaskRecord,
-    modalValidateStatus,
-    errorMessage,
-  } = props;
-  const { handleUpdateTask, handleCloseTasksModal } = props;
+const newTaskRecordSelector = ({ tasksReducer }) => {
+  return tasksReducer.newTaskRecord;
+};
 
-  // RENDER
+const modalValidateStatusSelector = ({ tasksReducer }) => {
+  return tasksReducer.modalValidateStatus;
+};
+
+const EditTaskModalContainer = () => {
+  const dispatch = useDispatch();
+
+  const visible = useSelector(visibleSelector);
+  const errorMessage = useSelector(errorMessageSelector);
+  const newTaskRecord = useSelector(newTaskRecordSelector);
+  const modalValidateStatus = useSelector(modalValidateStatusSelector);
+
+  const isUpdating = useIsLoading(UPDATE_TASK);
+
+  const handleUpdateTask = (uuid, taskValues) => {
+    dispatch(updateTask(uuid, taskValues));
+  };
+
+  const handleCloseTasksModal = () => {
+    dispatch(closeTasksModal());
+  };
+
   return (
     <EditTaskModal
       visible={visible}
-      initialValues={newTaskRecord}
-      handleCloseModal={handleCloseTasksModal}
-      handleEditTask={handleUpdateTask}
-      loading={loading}
-      modalValidateStatus={modalValidateStatus}
+      loading={isUpdating}
       errorMessage={errorMessage}
+      initialValues={newTaskRecord}
+      modalValidateStatus={modalValidateStatus}
+      handleEditTask={handleUpdateTask}
+      handleCloseModal={handleCloseTasksModal}
     />
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditTaskModalContainer);
+export default EditTaskModalContainer;

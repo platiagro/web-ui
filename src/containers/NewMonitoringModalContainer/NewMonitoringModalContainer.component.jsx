@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchTasks } from 'store/tasks/actions';
+import { fetchTasks } from 'store/tasks';
 import NewMonitoringModal from 'components/NewMonitoringModal';
 import { createMultipleMonitorings } from 'store/monitorings/actions';
 

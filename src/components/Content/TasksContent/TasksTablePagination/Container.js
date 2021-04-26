@@ -1,58 +1,35 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-// ACTIONS
-import { fetchPaginatedTasks } from '../../../../store/tasks/actions';
+import { fetchPaginatedTasks } from 'store/tasks';
 
-// COMPONENTS
 import TasksTablePagination from './index';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleFetchPaginatedTasks: (page, pageSize) => {
-      dispatch(fetchPaginatedTasks(page, pageSize));
-    },
+const pageSizeSelector = ({ tasksReducer }) => {
+  return tasksReducer.pageSize;
+};
+
+const totalTasksSelector = ({ tasksReducer }) => {
+  return tasksReducer.totalTasks;
+};
+
+const TasksTablePaginationContainer = () => {
+  const dispatch = useDispatch();
+
+  const pageSize = useSelector(pageSizeSelector);
+  const totalTasks = useSelector(totalTasksSelector);
+
+  const handleFetchPaginatedTasks = (page, pageSize) => {
+    dispatch(fetchPaginatedTasks(page, pageSize));
   };
+
+  return totalTasks > pageSize ? (
+    <TasksTablePagination
+      pageSize={pageSize}
+      total={totalTasks}
+      onChange={handleFetchPaginatedTasks}
+    />
+  ) : null;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    currentPage: state.tasksReducer.currentPage,
-    pageSize: state.tasksReducer.pageSize,
-    totalTasks: state.tasksReducer.totalTasks,
-  };
-};
-
-/**
- * Tasks Table Pagination Container.
- * This component is responsible for create a logic container for tasks table pagination
- * with redux.
- */
-const TasksTablePaginationContainer = (props) => {
-  // states
-  const { pageSize, totalTasks } = props;
-  // dispatchs
-  const { handleFetchPaginatedTasks } = props;
-
-  // RENDER
-  return (
-    <>
-      {totalTasks > pageSize ? (
-        <TasksTablePagination
-          pageSize={pageSize}
-          total={totalTasks}
-          onChange={handleFetchPaginatedTasks}
-        />
-      ) : null}
-    </>
-  );
-};
-
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TasksTablePaginationContainer);
+export default TasksTablePaginationContainer;

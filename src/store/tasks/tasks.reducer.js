@@ -1,8 +1,21 @@
-// ACTION TYPES
-import actionTypes from './actionTypes';
+import {
+  ADD_TASK_SUCCESS,
+  ADD_TASK_FAIL,
+  DELETE_TASK,
+  FETCH_PAGINATED_TASK,
+  FETCH_TASK,
+  UPDATE_TASK_SUCCESS,
+  UPDATE_TASK_FAIL,
+  SHOW_EDIT_TASK_MODAL,
+  SHOW_NEW_TASK_MODAL,
+  CLOSE_TASKS_MODAL,
+  COPY_TASK_REQUEST,
+  COPY_TASK_SUCCESS,
+  COPY_TASK_FAIL,
+} from './tasks.actionTypes';
 import uiActionTypes from '../ui/actionTypes';
 
-const initialState = {
+export const initialState = {
   containerState: false,
   editModalIsVisible: false,
   errorMessage: null,
@@ -14,8 +27,7 @@ const initialState = {
   totalTasks: null,
 };
 
-// tasks reducer
-const tasksReducer = (state = initialState, action = undefined) => {
+export const tasksReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     case uiActionTypes.TASKS_TABLE_LOADING_DATA:
       return {
@@ -23,11 +35,10 @@ const tasksReducer = (state = initialState, action = undefined) => {
         modalValidateStatus: null,
         errorMessage: null,
       };
-    case actionTypes.ADD_TASK_SUCCESS:
-    case actionTypes.COPY_TASK_SUCCESS:
-      // creating task aux list with new task and olders
+
+    case ADD_TASK_SUCCESS:
+    case COPY_TASK_SUCCESS: {
       const tasksListAux = [action.task, ...state.tasks];
-      // sorting aux task list
       const sortedTasks = [...tasksListAux].sort((taskA, taskB) =>
         taskA.name.localeCompare(taskB.name, undefined, {
           numeric: true,
@@ -38,7 +49,9 @@ const tasksReducer = (state = initialState, action = undefined) => {
         ...state,
         tasks: sortedTasks,
       };
-    case actionTypes.CLOSE_TASKS_MODAL:
+    }
+
+    case CLOSE_TASKS_MODAL:
       return {
         ...state,
         newTaskRecord: {},
@@ -47,25 +60,29 @@ const tasksReducer = (state = initialState, action = undefined) => {
         modalValidateStatus: null,
         errorMessage: null,
       };
-    case actionTypes.DELETE_TASK:
+
+    case DELETE_TASK:
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.uuid !== action.id),
       };
-    case actionTypes.FETCH_PAGINATED_TASK:
+
+    case FETCH_PAGINATED_TASK:
       return {
         ...state,
         tasks: action.tasks,
         totalTasks: action.tasks.length,
         pageSize: action.pageSize,
       };
-    case actionTypes.FETCH_TASK:
+
+    case FETCH_TASK:
       return {
         ...state,
         containerState: action.containerState,
         tasks: action.tasks,
       };
-    case actionTypes.UPDATE_TASK_SUCCESS:
+
+    case UPDATE_TASK_SUCCESS: {
       const updatedTask = action.task;
       const tasksAux = [...state.tasks];
       const taskIndex = tasksAux.findIndex(
@@ -73,39 +90,43 @@ const tasksReducer = (state = initialState, action = undefined) => {
       );
       tasksAux[taskIndex] = updatedTask;
       tasksAux.sort((a, b) => a.name.localeCompare(b.name));
+
       return {
         ...state,
         tasks: tasksAux,
       };
-    case actionTypes.COPY_TASK_REQUEST:
+    }
+
+    case COPY_TASK_REQUEST:
       return {
         ...state,
         modalIsVisible: true,
         newTaskRecord: action.newTaskRecord,
       };
-    case actionTypes.SHOW_EDIT_TASK_MODAL:
+
+    case SHOW_EDIT_TASK_MODAL:
       return {
         ...state,
         editModalIsVisible: true,
         newTaskRecord: action.newTaskRecord,
       };
-    case actionTypes.SHOW_NEW_TASK_MODAL:
+
+    case SHOW_NEW_TASK_MODAL:
       return {
         ...state,
         modalIsVisible: true,
       };
-    case actionTypes.ADD_TASK_FAIL:
-    case actionTypes.UPDATE_TASK_FAIL:
-    case actionTypes.COPY_TASK_FAIL:
+
+    case ADD_TASK_FAIL:
+    case UPDATE_TASK_FAIL:
+    case COPY_TASK_FAIL:
       return {
         ...state,
         modalValidateStatus: 'error',
         errorMessage: action.errorMessage,
       };
+
     default:
       return state;
   }
 };
-
-// EXPORT
-export default tasksReducer;
