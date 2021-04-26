@@ -12,7 +12,7 @@ import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import {
   Actions as projectsActions,
   Selectors as projectsSelectors,
-} from 'store/Projects';
+} from 'store/projects';
 
 // ACTIONS
 import { showNewProjectModal } from '../../../../store/ui/actions';

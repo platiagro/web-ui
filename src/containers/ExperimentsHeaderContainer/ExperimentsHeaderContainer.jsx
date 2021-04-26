@@ -17,7 +17,7 @@ import {
   showPrepareDeploymentsModal,
 } from 'store/ui/actions';
 
-import { Actions as projectsActions, Selectors } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {

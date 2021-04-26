@@ -10,7 +10,7 @@ import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 
 // ACTIONS
-import { Actions as projectsActions, Selectors } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {

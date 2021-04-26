@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 //STYLE
 import './style.less';
-import { Selectors } from 'store/Projects';
+import { Selectors } from 'store/projects';
 
 // STATES
 const mapStateToProps = (state, ownProps) => {

@@ -9,7 +9,7 @@ import NewProjectModal from 'components/Content/ProjectsContent/NewProjectModal/
 
 // ACTIONS
 import { showNewProjectModal } from 'store/ui/actions';
-import { Selectors } from 'store/Projects';
+import { Selectors } from 'store/projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Actions as projectsActions, Selectors } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/projects';
 
 // CONTAINERS
 import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer/index';

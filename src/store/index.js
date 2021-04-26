@@ -6,7 +6,7 @@ import deploymentsReducer from './deployments/deploymentsReducer';
 import deploymentOperatorReducer from './deployments/deploymentOperator/deploymentOperatorReducer';
 import deploymentOperatorsReducer from './deployments/deploymentOperators/deploymentOperatorsReducer';
 import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsReducer';
-import Projects from './Projects';
+import Projects from './projects';
 import projectDeploymentsReducer from './projectDeployments/projectDeploymentsReducer';
 import experimentsReducer from './experiments/experimentsReducer';
 import experimentRunReducer from './experiments/experimentRuns/experimentRunsReducer';

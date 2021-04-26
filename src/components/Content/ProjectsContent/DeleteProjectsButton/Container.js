@@ -9,7 +9,7 @@ import DeleteProjectsButton from './index';
 import {
   Actions as projectsActions,
   Selectors as projectsSelectors,
-} from 'store/Projects';
+} from 'store/projects';
 
 const { deleteProjectsRequest } = projectsActions;
 

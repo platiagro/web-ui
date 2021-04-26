@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {
   Actions as projectsActions,
   Selectors as projectsSelectors,
-} from 'store/Projects';
+} from 'store/projects';
 
 // COMPONENTS
 import ProjectsTablePagination from './index';

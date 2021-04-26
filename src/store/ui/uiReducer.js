@@ -4,7 +4,7 @@
 import actionTypes from './actionTypes';
 import experimentsActionTypes from 'store/experiments/actionTypes';
 import experimentRunsActionTypes from 'store/experiments/experimentRuns/actionTypes';
-import { actionTypes as projectsActionTypes } from 'store/Projects/Actions';
+import { actionTypes as projectsActionTypes } from 'store/projects/Actions';
 import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE

@@ -7,7 +7,7 @@ import NewProjectButton from './index';
 
 // ACTIONS
 import { showNewProjectModal } from '../../../../store/ui/actions';
-import { Selectors as projectsSelectors } from 'store/Projects';
+import { Selectors as projectsSelectors } from 'store/projects';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {

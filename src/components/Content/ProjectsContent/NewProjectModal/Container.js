@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 // ACTIONS
 import { hideNewProjectModal } from '../../../../store/ui/actions';
 
-import { Actions as projectsActions, Selectors } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/projects';
 
 // COMPONENTS
 import NewProjectModal from './index';

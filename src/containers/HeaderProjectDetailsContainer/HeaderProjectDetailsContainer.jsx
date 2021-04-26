@@ -7,7 +7,7 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 import ContentHeader from 'components/ContentHeader/_';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
-import { Actions as projectsActions, Selectors } from 'store/Projects';
+import { Actions as projectsActions, Selectors } from 'store/projects';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
 
