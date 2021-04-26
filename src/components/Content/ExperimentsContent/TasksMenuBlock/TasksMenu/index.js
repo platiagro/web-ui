@@ -1,141 +1,116 @@
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// UI LIBS
 import { Tooltip, Menu, Dropdown, Skeleton } from 'antd';
 
-//COMPONENTS
+import utils from 'utils';
+
 import DraggableItem from './DraggableItem';
 
-//STYLE
 import './style.less';
 
-// UTILS
-import utils from '../../../../../utils';
-
-// MENU COMPONENTS
-const { Item, SubMenu } = Menu;
-let templateValue;
-
-/**
- * Tasks Menu.
- * This component is responsible for displaying tasks menu.
- */
 const TasksMenu = ({
   menu,
-  handleClick,
-  disabled,
-  handleDeleteTemplate,
   loading,
+  disabled,
+  handleClick,
+  handleDeleteTemplate,
 }) => {
-  //DRAG
   const handleSelect = (taskId, taskType, position) => {
     handleClick(taskId, taskType, position);
   };
-  // HANDLERS
-  // box click
+
   const handleBoxClick = (uuid) => {
     handleDeleteTemplate(uuid);
   };
-  const renderTooltip = (name, description, uuid) => {
+
+  const renderTooltip = (name, description, uuid, title) => {
     const DropDownMenu = (
-      <div>
-        <Menu onSelect={() => handleBoxClick(uuid)}>
-          <Menu.Item key='removeTemplate'>Remover</Menu.Item>
-        </Menu>
-      </div>
+      <Menu onSelect={() => handleBoxClick(uuid)}>
+        <Menu.Item key='removeTemplate'>Remover</Menu.Item>
+      </Menu>
     );
 
-    if ('Templates' === templateValue) {
+    const tooltip = (
+      <Tooltip
+        title={() => {
+          return (
+            <>
+              <div
+                style={{ color: 'white', fontWeight: '900', fontSize: '16px' }}
+              >
+                {name}
+              </div>
+              {!!description && <div>{description}</div>}
+            </>
+          );
+        }}
+      >
+        {name}
+      </Tooltip>
+    );
+
+    if ('Templates' === title) {
       return (
-        <div>
-          <Dropdown overlay={DropDownMenu} trigger={['contextMenu']}>
-            <div>
-              {description ? (
-                <Tooltip title={description} text>
-                  {name}
-                </Tooltip>
-              ) : (
-                name
-              )}
-            </div>
-          </Dropdown>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          {description ? (
-            <Tooltip title={description} text>
-              {name}
-            </Tooltip>
-          ) : (
-            name
-          )}
-        </div>
+        <Dropdown overlay={DropDownMenu} trigger={['contextMenu']}>
+          {tooltip}
+        </Dropdown>
       );
     }
+
+    return tooltip;
   };
-  // COMPONENTS RENDERS
-  // menu item
-  const renderMenuItem = ({ name, uuid, description }, taskType, icon) => (
-    <Item disabled={disabled} key={uuid} className='draggable-item'>
+
+  const renderMenuItem = (
+    { name, uuid, description },
+    taskType,
+    icon,
+    title
+  ) => (
+    <Menu.Item disabled={disabled} key={uuid} className='draggable-item'>
       <DraggableItem
-        taskId={uuid}
-        taskType={taskType}
         name={name}
         icon={icon}
-        handleSelect={handleSelect}
+        taskId={uuid}
         disabled={disabled}
+        taskType={taskType}
+        handleSelect={handleSelect}
       >
-        {renderTooltip(name, description, uuid)}
+        {renderTooltip(name, description, uuid, title)}
       </DraggableItem>
-    </Item>
+    </Menu.Item>
   );
 
-  // sub menu
   const renderSubMenu = (submenu, items) => {
-    // getting submenu config
     const tagConfig = utils.getTagConfig(submenu);
-    if (!tagConfig) return null
+    if (!tagConfig) return null;
 
-    const { icon, title, key } = tagConfig
-    templateValue = title;
+    const { icon, title, key } = tagConfig;
 
     return (
-      // sub menu component
-      <SubMenu
+      <Menu.SubMenu
         key={key}
         title={
-          // span container
           <span>
-            {/* sub menu icon */}
             {icon}
-            {/* sub menu title */}
             <span>{title}</span>
           </span>
         }
       >
-        {/* rendering items */}
-        {items.map((item) => renderMenuItem(item, submenu, icon))}
-      </SubMenu>
+        {items.map((item) => renderMenuItem(item, submenu, icon, title))}
+      </Menu.SubMenu>
     );
   };
 
-  // RENDER
   return (
-    // menu component
     <Menu mode='inline' className='task-menu-items' selectedKeys={[]}>
-      {/* rendering sub menus */}
       {loading ? (
-        <SubMenu
+        <Menu.SubMenu
           title={
             <Skeleton
               active
-              paragraph={{ rows: 1, width: 450 }}
               size='large'
               title={true}
+              paragraph={{ rows: 1, width: 450 }}
             />
           }
           disabled
@@ -149,15 +124,12 @@ const TasksMenu = ({
   );
 };
 
-// PROP TYPES
 TasksMenu.propTypes = {
-  /** tasks menu click handler */
-  handleClick: PropTypes.func.isRequired,
-  /** menu object */
   menu: PropTypes.objectOf(PropTypes.any).isRequired,
-  /** tasks menu is disabled */
+  loading: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  handleDeleteTemplate: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default TasksMenu;
