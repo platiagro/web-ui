@@ -1,4 +1,6 @@
-/* globals Projects, ProjectUpdatable, ProjectCreatable */
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global Projects, ProjectUpdatable, ProjectCreatable */
 
 // UI LIBS
 import { message } from 'antd';

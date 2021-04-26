@@ -1,4 +1,6 @@
-/* globals Project, Projects, AppStores */
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global Project, Projects, AppStores */
 
 /**
  * Get all projects from store
