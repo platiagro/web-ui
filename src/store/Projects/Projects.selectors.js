@@ -42,7 +42,7 @@ const getProject = (projectId, state) => {
   };
 
   if (projects?.length > 0)
-    project = projects.find((project) => project.uuid === projectId);
+    project = projects.find((projectItem) => projectItem.uuid === projectId);
 
   return project;
 };

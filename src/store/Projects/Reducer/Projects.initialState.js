@@ -1,7 +1,7 @@
 /* global ProjectsStore */
 
 /** @type {ProjectsStore} */
-const initialState = {
+export default {
   projects: [],
   selectedProjects: [],
   searchText: '',
@@ -10,5 +10,3 @@ const initialState = {
   total: 0,
   isLoading: false,
 };
-
-export default initialState;
