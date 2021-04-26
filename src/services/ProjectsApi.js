@@ -1,4 +1,6 @@
-/* globals ProjectUpdatable, ProjectCreatable, Projects */
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global ProjectUpdatable, ProjectCreatable, Projects */
 
 /* API REFERENCE: https://platiagro.github.io/projects/#/Projects */
 

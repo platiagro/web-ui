@@ -44,6 +44,8 @@ const ProjectsDetailsContent = (props) => {
     if (project.uuid === '') {
       fetchProject();
     }
+    // component did mount
+    /* eslint-disable-next-line */
   }, []);
 
   return (

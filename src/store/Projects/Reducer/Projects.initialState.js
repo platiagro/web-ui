@@ -1,3 +1,5 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
 /* global ProjectsStore */
 
 /** @type {ProjectsStore} */
