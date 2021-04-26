@@ -11,6 +11,7 @@
  * @property {number} currentPage Current page of projects list table
  * @property {number} pageSize Page size of projects list table
  * @property {number} total Total entries of projects list table
+ * @property {boolean} isLoading Projects store is loading
  */
 
 /**

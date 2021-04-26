@@ -1,7 +1,6 @@
-import Reducer from './projects.reducer';
-import * as Selectors from './projects.selectors';
-import * as Actions from './projects.actions';
-import * as PROJECTS_TYPES from './projects.actionTypes';
+import * as Reducer from './Reducer';
+import * as Selectors from './Projects.selectors';
+import Actions from './Actions';
 
-export { Reducer, Actions, PROJECTS_TYPES, Selectors };
-export default Reducer;
+export { Reducer, Actions, Selectors };
+export default Reducer.default;
