@@ -1,5 +1,5 @@
 // CORE LIBS
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';

@@ -13,7 +13,7 @@ import { initialState } from '.';
  * @param {string} action.type Action type
  * @returns {ProjectsStore} New state
  */
-const reducer = (state = initialState, action = undefined) => {
+export default (state = initialState, action = undefined) => {
   switch (action.type) {
     case actionTypes.CREATE_PROJECT_REQUEST:
     case actionTypes.FETCH_PROJECTS_REQUEST:
@@ -66,6 +66,3 @@ const reducer = (state = initialState, action = undefined) => {
       return state;
   }
 };
-
-// EXPORT
-export default reducer;
