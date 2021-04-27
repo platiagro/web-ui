@@ -5,7 +5,7 @@ import { showNewTaskModal } from 'store/tasks';
 
 import NewTaskButton from './index';
 
-const NewProjectButtonContainer = () => {
+const NewTaskButtonContainer = () => {
   const dispatch = useDispatch();
 
   const handleShowNewTaskModal = () => {
@@ -17,4 +17,4 @@ const NewProjectButtonContainer = () => {
   );
 };
 
-export default NewProjectButtonContainer;
+export default NewTaskButtonContainer;
