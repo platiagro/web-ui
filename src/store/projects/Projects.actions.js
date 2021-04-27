@@ -327,13 +327,10 @@ export const fetchProjectRequest = (projectId, history) => async (dispatch) => {
  * Create project success action
  *
  * @param {object} response Request response
- * @param {object} routerProps Router props object
+ * @param {object} history Router props object
  * @returns {object} Action object
  */
-const createProjectSuccess = (response, routerProps) => (
-  dispatch,
-  getState
-) => {
+const createProjectSuccess = (response, history) => (dispatch, getState) => {
   const { Projects } = getState();
   const { projects: storeProjects } = Projects;
 
@@ -360,7 +357,7 @@ const createProjectSuccess = (response, routerProps) => (
   message.success(`Projeto ${project.name} criado!`);
 
   // go to new project
-  routerProps.history.push(`/projetos/${project.uuid}`);
+  history.push(`/projetos/${project.uuid}`);
 };
 
 /**
@@ -394,12 +391,10 @@ const createProjectFail = (error) => {
  * Create project request action
  *
  * @param {ProjectCreatable} project New project
- * @param {object} routerProps Router props object
+ * @param {object} history Router history object
  * @returns {Function} Dispatch function
  */
-export const createProjectRequest = (project, routerProps) => async (
-  dispatch
-) => {
+export const createProjectRequest = (project, history) => async (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_PROJECT_REQUEST,
     payload: {
@@ -410,7 +405,7 @@ export const createProjectRequest = (project, routerProps) => async (
   try {
     const response = await projectsApi.createProject(project);
 
-    dispatch(createProjectSuccess(response, routerProps));
+    dispatch(createProjectSuccess(response, history));
   } catch (error) {
     dispatch(createProjectFail(error));
   }
