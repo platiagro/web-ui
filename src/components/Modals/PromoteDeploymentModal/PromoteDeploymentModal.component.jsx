@@ -1,29 +1,42 @@
 // CORE LIBS
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // UI LIBS
-import { Modal, Button, Input } from "antd";
-import { CopyOutlined } from "@ant-design/icons";
-import "./style.less";
+import { Modal, Button, Input } from 'antd';
+import { CopyOutlined } from '@ant-design/icons';
+import './style.less';
 
 const PromoteDeploymentModal = (props) => {
-  const { visible, onClose, onConfirm, urlPrefix, urlSuffix } = props;
+  const {
+    visible,
+    onClose,
+    onConfirm,
+    urlPrefix,
+    urlSuffix,
+    inputDisabled,
+    loading,
+    initialInputValue,
+  } = props;
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(initialInputValue);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
+  const handleConfirm = () => {
+    onConfirm(inputValue);
+  };
+
   const selectBefore = (
-    <div className="modal-text-color" disabled>
+    <div className='modal-text-color' disabled>
       {urlPrefix}
     </div>
   );
   const selectAfter = (
-    <div className="modal-text-color" disabled>
+    <div className='modal-text-color' disabled>
       {urlSuffix}
     </div>
   );
@@ -33,22 +46,29 @@ const PromoteDeploymentModal = (props) => {
       visible={visible}
       title={<strong>Implantar fluxo</strong>}
       onCancel={onClose}
-      onOk={onConfirm}
-      okText="Implantar"
-      cancelText="Cancelar"
-      width="600px"
+      onOk={handleConfirm}
+      okText='Implantar'
+      cancelText='Cancelar'
+      width='600px'
       destroyOnClose
+      loading={loading}
     >
       <p>URL de implantação</p>
-      <div className="modal-components-configuration">
+      <div className='modal-components-configuration'>
         <Input
-          id="implantation-input"
+          id='implantation-input'
           addonBefore={selectBefore}
           addonAfter={selectAfter}
           onChange={handleInputChange}
+          value={inputValue}
+          disabled={inputDisabled}
         ></Input>
         <CopyToClipboard text={`${urlPrefix}${inputValue}${urlSuffix}`}>
-          <Button className="ant-btn-primary-inverse" type="default" icon={<CopyOutlined />}>
+          <Button
+            className='ant-btn-primary-inverse'
+            type='default'
+            icon={<CopyOutlined />}
+          >
             Copiar
           </Button>
         </CopyToClipboard>
@@ -57,7 +77,6 @@ const PromoteDeploymentModal = (props) => {
   );
 };
 
-// PROP TYPES
 PromoteDeploymentModal.propTypes = {
   /** modal visible */
   visible: PropTypes.bool.isRequired,
@@ -67,6 +86,16 @@ PromoteDeploymentModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   /** modal confirm handler */
   onConfirm: PropTypes.func.isRequired,
+  inputDisabled: PropTypes.bool,
+  urlPrefix: PropTypes.string.isRequired,
+  urlSuffix: PropTypes.string.isRequired,
+  initialInputValue: PropTypes.string,
+};
+
+PromoteDeploymentModal.defaultProps = {
+  loading: false,
+  inputDisabled: false,
+  initialInputValue: 'valor inicial',
 };
 
 export default PromoteDeploymentModal;
