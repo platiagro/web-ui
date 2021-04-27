@@ -259,7 +259,6 @@ const fetchProjectSuccess = (response) => (dispatch, getState) => {
   const { Projects } = getState();
   const { projects: storeProjects } = Projects;
 
-  // getting project from response
   const project = response.data;
 
   let projects;
@@ -272,7 +271,6 @@ const fetchProjectSuccess = (response) => (dispatch, getState) => {
     projects = [project];
   }
 
-  // dispatching fetch project success action
   dispatch({
     type: actionTypes.FETCH_PROJECT_SUCCESS,
     payload: { projects, isLoading: false },
@@ -287,18 +285,15 @@ const fetchProjectSuccess = (response) => (dispatch, getState) => {
  * @returns {object} Action object
  */
 const fetchProjectFail = (error, routerProps) => {
-  // getting error message
   const errorMessage = error.message;
 
-  // check if error is 404
   if (error.response?.status === 404) {
-    // redirect to error page
+    // replace current route with error route
     routerProps.history.replace('/erro-404');
   }
 
   message.error(errorMessage, 5);
 
-  // dispatching fetch project fail action
   return {
     type: actionTypes.FETCH_PROJECT_FAIL,
     payload: { isLoading: false },
@@ -344,7 +339,6 @@ const createProjectSuccess = (response, routerProps) => (
   const { Projects } = getState();
   const { projects: storeProjects } = Projects;
 
-  // getting project from response
   const project = response.data;
 
   const projects = [...storeProjects];
@@ -355,7 +349,6 @@ const createProjectSuccess = (response, routerProps) => (
     projectA.name.localeCompare(projectB.name)
   );
 
-  // dispatching create project success
   dispatch({
     type: actionTypes.CREATE_PROJECT_SUCCESS,
     projects,
@@ -409,7 +402,6 @@ const createProjectFail = (error) => {
 export const createProjectRequest = (project, routerProps) => async (
   dispatch
 ) => {
-  // dispatching request action
   dispatch({
     type: actionTypes.CREATE_PROJECT_REQUEST,
     payload: {
