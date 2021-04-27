@@ -12,7 +12,7 @@ export const initialState = {
   totalTasks: null,
 };
 
-export const tasksReducer = (state = initialState, action = undefined) => {
+export const tasksReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case TASKS_TYPES.ADD_TASK_SUCCESS:
     case TASKS_TYPES.COPY_TASK_SUCCESS: {

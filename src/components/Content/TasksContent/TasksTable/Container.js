@@ -30,7 +30,10 @@ const TasksTableContainer = () => {
   const containerState = useSelector(containerStateSelector);
   const tasks = useSelector(tasksSelector);
 
-  const isLoadingTasks = useIsLoading(TASKS_TYPES.FETCH_TASKS_REQUEST);
+  const isLoadingOrDeleting = useIsLoading(
+    TASKS_TYPES.FETCH_TASKS_REQUEST,
+    TASKS_TYPES.DELETE_TASK_REQUEST
+  );
 
   const handleClickTask = (taskName) => {
     window.open(
@@ -54,11 +57,11 @@ const TasksTableContainer = () => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
-  return isLoadingTasks || tasks.length > 0 ? (
+  return isLoadingOrDeleting || tasks.length > 0 ? (
     <div className='tasksContainer'>
       <TasksTable
         tasks={tasks}
-        loading={isLoadingTasks}
+        loading={isLoadingOrDeleting}
         containerState={containerState}
         handleClickTask={handleClickTask}
         handleClickDelete={handleDeleteTask}

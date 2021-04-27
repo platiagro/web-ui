@@ -16,12 +16,16 @@ import { fetchTasks } from 'store/tasks';
 
 import TasksMenuBlock from './index';
 
+const tasksSelector = ({ tasksReducer }) => {
+  return tasksReducer.tasks;
+};
+
 const loadingSelector = ({ uiReducer }) => {
   return uiReducer.tasksMenu.loading;
 };
 
-const tasksSelector = ({ tasksReducer }) => {
-  return tasksReducer.tasks;
+const allTasksSelector = ({ tasksMenuReducer }) => {
+  return tasksMenuReducer;
 };
 
 const tasksMenuSelector = ({ tasksMenuReducer }) => {
@@ -32,19 +36,15 @@ const trainingLoadingSelector = ({ uiReducer }) => {
   return uiReducer.experimentTraining.loading;
 };
 
-const allTasksSelector = ({ tasksMenuReducer }) => {
-  return tasksMenuReducer;
-};
-
 const TasksMenuBlockContainer = ({ disabled }) => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
-  const loading = useSelector(loadingSelector);
   const tasks = useSelector(tasksSelector);
+  const loading = useSelector(loadingSelector);
+  const allTasks = useSelector(allTasksSelector);
   const tasksMenu = useSelector(tasksMenuSelector);
   const trainingLoading = useSelector(trainingLoadingSelector);
-  const allTasks = useSelector(allTasksSelector);
 
   const handleDeleteTemplate = (templateId) => {
     dispatch(deleteTemplateRequest(templateId, allTasks));
@@ -78,7 +78,7 @@ const TasksMenuBlockContainer = ({ disabled }) => {
     );
   };
 
-  const handleTaskCLick = (taskId, taskType, position) => {
+  const handleTaskClick = (taskId, taskType, position) => {
     const isTemplate = taskType === 'TEMPLATES';
     if (isTemplate) {
       handleSetTemplate(projectId, experimentId, taskId);
@@ -104,8 +104,8 @@ const TasksMenuBlockContainer = ({ disabled }) => {
       menu={tasksMenu}
       loading={loading}
       disabled={disabled || trainingLoading}
+      handleTaskClick={handleTaskClick}
       handleFilter={handleFilterTasksMenu}
-      handleTaskClick={handleTaskCLick}
       handleDeleteTemplate={handleDeleteTemplate}
     />
   );

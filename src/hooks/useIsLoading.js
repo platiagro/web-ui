@@ -20,6 +20,6 @@ const loadingSelector = (...keys) => ({ loadingReducer }) => {
 };
 
 export const useIsLoading = (...keys) => {
-  const isLoading = useSelector(loadingSelector(keys));
+  const isLoading = useSelector(loadingSelector(...keys));
   return isLoading;
 };
