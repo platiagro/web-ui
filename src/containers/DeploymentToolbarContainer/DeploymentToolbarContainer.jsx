@@ -30,7 +30,7 @@ const DeploymentToolbarContainer = () => {
     dispatch(fetchOperatorsRequest(projectId, deploymentId));
   }, [projectId, deploymentId, dispatch]);
 
-  const handleRunDeployment = (projectId, deploymentId) =>
+  const handleRunDeployment = () =>
     dispatch(
       deploymentRunsActions.createDeploymentRunRequest(
         projectId,
@@ -52,7 +52,7 @@ const DeploymentToolbarContainer = () => {
   const runDeploymentHandler = (inputValue) => {
     //TODO: Estou mostrando o valor do input no modal para quando for usar
     console.log(inputValue);
-    handleRunDeployment(projectId, deploymentId);
+    handleRunDeployment();
   };
 
   const handleHidePromoteModal = () => {
@@ -66,7 +66,7 @@ const DeploymentToolbarContainer = () => {
   return (
     <div className='buttons-config'>
       <PromoteDeploymentModal
-        urlPrefix='http://10.50.11.116/'
+        urlPrefix='https://10.50.11.116/'
         urlSuffix='/prediction'
         visible={isShowingPromoteModal}
         loading={loading}
