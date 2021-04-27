@@ -87,7 +87,7 @@ const DeploymentToolbarContainer = () => {
         <RunDeploymentButton
           className='deployment-buttons'
           onClick={handleShowPromoteModal}
-          // disabled={loading || empty}
+          disabled={loading || empty}
         />
       </div>
     </div>
