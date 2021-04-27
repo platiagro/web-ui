@@ -2,7 +2,7 @@ import { useIsLoading } from 'hooks';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateTask, closeTasksModal, UPDATE_TASK } from 'store/tasks';
+import { updateTask, closeTasksModal, TASKS_TYPES } from 'store/tasks';
 
 import EditTaskModal from './index';
 
@@ -30,7 +30,7 @@ const EditTaskModalContainer = () => {
   const newTaskRecord = useSelector(newTaskRecordSelector);
   const modalValidateStatus = useSelector(modalValidateStatusSelector);
 
-  const isUpdating = useIsLoading(UPDATE_TASK);
+  const isUpdating = useIsLoading(TASKS_TYPES.UPDATE_TASK_REQUEST);
 
   const handleUpdateTask = (uuid, taskValues) => {
     dispatch(updateTask(uuid, taskValues));

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
-import { ADD_TASK, addTask, closeTasksModal } from 'store/tasks';
+import { TASKS_TYPES, addTask, closeTasksModal } from 'store/tasks';
 
 import NewTaskModal from './index';
 
@@ -46,7 +46,7 @@ const NewTaskModalContainer = () => {
   const copyTaskRecord = useSelector(copyTaskRecordSelector);
   const modalValidateStatus = useSelector(modalValidateStatusSelector);
 
-  const isAddingTask = useIsLoading(ADD_TASK);
+  const isAddingTask = useIsLoading(TASKS_TYPES.ADD_TASK_REQUEST);
 
   const handleAddTask = (task) => {
     dispatch(addTask(task));

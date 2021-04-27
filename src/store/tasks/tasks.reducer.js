@@ -1,19 +1,4 @@
-import {
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAIL,
-  DELETE_TASK,
-  FETCH_PAGINATED_TASK,
-  FETCH_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAIL,
-  SHOW_EDIT_TASK_MODAL,
-  SHOW_NEW_TASK_MODAL,
-  CLOSE_TASKS_MODAL,
-  COPY_TASK_REQUEST,
-  COPY_TASK_SUCCESS,
-  COPY_TASK_FAIL,
-} from './tasks.actionTypes';
-import uiActionTypes from '../ui/actionTypes';
+import * as TASKS_TYPES from './tasks.actionTypes';
 
 export const initialState = {
   containerState: false,
@@ -29,15 +14,8 @@ export const initialState = {
 
 export const tasksReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    case uiActionTypes.TASKS_TABLE_LOADING_DATA:
-      return {
-        ...state,
-        modalValidateStatus: null,
-        errorMessage: null,
-      };
-
-    case ADD_TASK_SUCCESS:
-    case COPY_TASK_SUCCESS: {
+    case TASKS_TYPES.ADD_TASK_SUCCESS:
+    case TASKS_TYPES.COPY_TASK_SUCCESS: {
       const tasksListAux = [action.task, ...state.tasks];
       const sortedTasks = [...tasksListAux].sort((taskA, taskB) =>
         taskA.name.localeCompare(taskB.name, undefined, {
@@ -51,7 +29,7 @@ export const tasksReducer = (state = initialState, action = undefined) => {
       };
     }
 
-    case CLOSE_TASKS_MODAL:
+    case TASKS_TYPES.CLOSE_TASKS_MODAL: {
       return {
         ...state,
         newTaskRecord: {},
@@ -60,29 +38,33 @@ export const tasksReducer = (state = initialState, action = undefined) => {
         modalValidateStatus: null,
         errorMessage: null,
       };
+    }
 
-    case DELETE_TASK:
+    case TASKS_TYPES.DELETE_TASK_SUCCESS: {
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.uuid !== action.id),
       };
+    }
 
-    case FETCH_PAGINATED_TASK:
+    case TASKS_TYPES.FETCH_TASKS_PAGE_SUCCESS: {
       return {
         ...state,
         tasks: action.tasks,
         totalTasks: action.tasks.length,
         pageSize: action.pageSize,
       };
+    }
 
-    case FETCH_TASK:
+    case TASKS_TYPES.FETCH_TASKS_SUCCESS: {
       return {
         ...state,
         containerState: action.containerState,
         tasks: action.tasks,
       };
+    }
 
-    case UPDATE_TASK_SUCCESS: {
+    case TASKS_TYPES.UPDATE_TASK_SUCCESS: {
       const updatedTask = action.task;
       const tasksAux = [...state.tasks];
       const taskIndex = tasksAux.findIndex(
@@ -97,34 +79,38 @@ export const tasksReducer = (state = initialState, action = undefined) => {
       };
     }
 
-    case COPY_TASK_REQUEST:
+    case TASKS_TYPES.COPY_TASK_REQUEST: {
       return {
         ...state,
         modalIsVisible: true,
         newTaskRecord: action.newTaskRecord,
       };
+    }
 
-    case SHOW_EDIT_TASK_MODAL:
+    case TASKS_TYPES.SHOW_EDIT_TASK_MODAL: {
       return {
         ...state,
         editModalIsVisible: true,
         newTaskRecord: action.newTaskRecord,
       };
+    }
 
-    case SHOW_NEW_TASK_MODAL:
+    case TASKS_TYPES.SHOW_NEW_TASK_MODAL: {
       return {
         ...state,
         modalIsVisible: true,
       };
+    }
 
-    case ADD_TASK_FAIL:
-    case UPDATE_TASK_FAIL:
-    case COPY_TASK_FAIL:
+    case TASKS_TYPES.ADD_TASK_FAIL:
+    case TASKS_TYPES.UPDATE_TASK_FAIL:
+    case TASKS_TYPES.COPY_TASK_FAIL: {
       return {
         ...state,
         modalValidateStatus: 'error',
         errorMessage: action.errorMessage,
       };
+    }
 
     default:
       return state;

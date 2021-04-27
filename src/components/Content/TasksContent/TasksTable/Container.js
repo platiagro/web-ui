@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIsLoading } from 'hooks';
 import { TasksEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import {
-  FETCH_TASK,
+  TASKS_TYPES,
   deleteTask,
   fetchTasks,
   showEditTaskModal,
@@ -30,7 +30,7 @@ const TasksTableContainer = () => {
   const containerState = useSelector(containerStateSelector);
   const tasks = useSelector(tasksSelector);
 
-  const isLoadingTasks = useIsLoading(FETCH_TASK);
+  const isLoadingTasks = useIsLoading(TASKS_TYPES.FETCH_TASKS_REQUEST);
 
   const handleClickTask = (taskName) => {
     window.open(
