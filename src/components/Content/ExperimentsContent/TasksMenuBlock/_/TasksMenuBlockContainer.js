@@ -54,24 +54,34 @@ const TasksMenuBlockContainer = ({ disabled }) => {
     dispatch(filterTasksMenu(filter));
   };
 
-  const handleSetTemplate = (projectId, experimentId, templateId) => {
-    dispatch(setTemplateRequest(projectId, experimentId, templateId));
+  const handleSetTemplate = (
+    currentProjectId,
+    currentExperimentId,
+    selectedTemplateId
+  ) => {
+    dispatch(
+      setTemplateRequest(
+        currentProjectId,
+        currentExperimentId,
+        selectedTemplateId
+      )
+    );
   };
 
   const handleCreateOperator = (
-    projectId,
-    experimentId,
+    currentProjectId,
+    currentExperimentId,
     taskId,
-    tasks,
+    taskList,
     isTemplate,
     position
   ) => {
     dispatch(
       createOperatorRequest(
-        projectId,
-        experimentId,
+        currentProjectId,
+        currentExperimentId,
         taskId,
-        tasks,
+        taskList,
         isTemplate,
         position
       )
