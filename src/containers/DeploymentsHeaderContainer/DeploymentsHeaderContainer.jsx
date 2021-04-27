@@ -1,62 +1,46 @@
-// CORE LIBS
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { useHistory, useParams, withRouter } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
-// COMPONENTS
 import ContentHeader from 'components/ContentHeader/_';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 
-// ACTIONS
 import { Actions as projectsActions, Selectors } from 'store/projects';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  const { updateProjectRequest } = projectsActions;
-
-  return {
-    handleEditProjectName: (projectId, newName) =>
-      dispatch(updateProjectRequest(projectId, { name: newName })),
-  };
-};
-
-// STATE
-const mapStateToProps = (state, ownProps) => {
-  const { getProject } = Selectors;
-
-  const { projectId } = ownProps.match.params;
-
-  return {
-    project: getProject(projectId, state),
-  };
-};
+const { getProject } = Selectors;
+const { updateProjectRequest, fetchProjectRequest } = projectsActions;
 
 /**
  * Deployments Header Container.
+ *
  * This components is responsible for create a logic container
  * for deployments header with route control.
- *
- * @param {*} props Container props
- *
- * @returns {DeploymentsHeaderContainer} Container
  */
-const DeploymentsHeaderContainer = (props) => {
-  const { project, handleEditProjectName } = props;
-
+const DeploymentsHeaderContainer = () => {
   const { projectId } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  // HANDLERS
-  const goBackHandler = () => history.push(`/projetos/${projectId}`);
-  const editProjectNameHandler = (newProjectname) =>
-    handleEditProjectName(projectId, newProjectname);
-
-  // SET TARGET ROUTE FOR PAGE HEADER DROPDOWN
   const target = `/projetos/${projectId}/experimentos`;
 
-  // RENDER
+  // TODO: Criar seletores com reselect -> Otimização
+  /* eslint-disable-next-line */
+  const project = useSelector((state) => getProject(projectId, state));
+
+  const goBackHandler = () => history.push(`/projetos/${projectId}`);
+  const editProjectNameHandler = (newProjectName) =>
+    dispatch(updateProjectRequest(projectId, { name: newProjectName }));
+
+  useEffect(() => {
+    if (project.uuid === '') {
+      dispatch(fetchProjectRequest(projectId, history));
+    }
+
+    // component did mount
+    /* eslint-disable-next-line */
+  }, []);
+
   return (
     <ContentHeader
       title={project.name}
@@ -78,16 +62,4 @@ const DeploymentsHeaderContainer = (props) => {
   );
 };
 
-DeploymentsHeaderContainer.propTypes = {
-  /** Project object */
-  project: PropTypes.object.isRequired,
-  /** Action to edit project name */
-  handleEditProjectName: PropTypes.func.isRequired,
-  /** Action to fetch project */
-  handleFetchProject: PropTypes.func.isRequired,
-};
-
-// EXPORT DEFAULT
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DeploymentsHeaderContainer)
-);
+export default DeploymentsHeaderContainer;

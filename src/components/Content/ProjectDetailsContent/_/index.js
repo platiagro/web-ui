@@ -1,11 +1,9 @@
-// CORE LIBS
 import React, { useEffect } from 'react';
 import { Layout } from 'antd';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import { Actions as projectsActions, Selectors } from 'store/projects';
 
-// CONTAINERS
 import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer/index';
 import TasksMenuDetailsContainer from 'containers/TasksMenuDetailsContainer/index';
 import ProjectDetailsContainer from 'containers/ProjectDetailsContainer/index';
@@ -14,35 +12,21 @@ import './style.less';
 
 const { Sider, Content } = Layout;
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { fetchProjectRequest } = projectsActions;
-
-  const { projectId } = ownProps.match.params;
-
-  return {
-    fetchProject: () => dispatch(fetchProjectRequest(projectId, ownProps)),
-  };
-};
-
-// STATES
-const mapStateToProps = (state, ownProps) => {
-  const { getProject } = Selectors;
-
-  const { projectId } = ownProps.match.params;
-
-  return {
-    project: getProject(projectId, state),
-  };
-};
+const { getProject } = Selectors;
+const { fetchProjectRequest } = projectsActions;
 
 // TODO: Transformar em page
-const ProjectsDetailsContent = (props) => {
-  const { fetchProject, project } = props;
+const ProjectsDetailsContent = () => {
+  const { projectId } = useParams();
+  // TODO: Criar seletores com reselect -> Otimização
+  /* eslint-disable-next-line */
+  const project = useSelector((state) => getProject(projectId, state));
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (project.uuid === '') {
-      fetchProject();
+      dispatch(fetchProjectRequest(projectId, history));
     }
     // component did mount
     /* eslint-disable-next-line */
@@ -65,6 +49,4 @@ const ProjectsDetailsContent = (props) => {
   );
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProjectsDetailsContent)
-);
+export default ProjectsDetailsContent;
