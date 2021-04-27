@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
@@ -10,8 +10,8 @@ import ToolbarConfig from 'components/ToolbarConfig';
 import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
 
-const operatorsSelector = ({ operatorsReducer }) => {
-  return operatorsReducer;
+const operatorsSelector = ({ deploymentOperatorsReducer }) => {
+  return deploymentOperatorsReducer;
 };
 
 const loadingSelector = ({ uiReducer }) => {
@@ -20,11 +20,14 @@ const loadingSelector = ({ uiReducer }) => {
 
 const DeploymentToolbarContainer = () => {
   const history = useHistory();
-  const { projectId, deploymentId } = useParams();
   const dispatch = useDispatch();
+  const { projectId, deploymentId } = useParams();
+  const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
 
   const loading = useSelector(loadingSelector);
   const operators = useSelector(operatorsSelector);
+
+  const empty = useMemo(() => operators.length <= 0, [operators]);
 
   const handleFetchOperators = useCallback(() => {
     dispatch(fetchOperatorsRequest(projectId, deploymentId));
@@ -38,10 +41,6 @@ const DeploymentToolbarContainer = () => {
         history
       )
     );
-
-  const empty = operators.length <= 0;
-
-  const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
 
   useEffect(() => {
     if (deploymentId) {
