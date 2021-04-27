@@ -2,31 +2,23 @@ import { useIsLoading } from 'hooks';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateTask, closeTasksModal, TASKS_TYPES } from 'store/tasks';
+import {
+  TASKS_TYPES,
+  updateTask,
+  closeTasksModal,
+  errorMessageSelector,
+  newTaskRecordSelector,
+  editModalIsVisibleSelector,
+  modalValidateStatusSelector,
+} from 'store/tasks';
 
 import EditTaskModal from './index';
-
-const visibleSelector = ({ tasksReducer }) => {
-  return tasksReducer.editModalIsVisible;
-};
-
-const errorMessageSelector = ({ tasksReducer }) => {
-  return tasksReducer.errorMessage;
-};
-
-const newTaskRecordSelector = ({ tasksReducer }) => {
-  return tasksReducer.newTaskRecord;
-};
-
-const modalValidateStatusSelector = ({ tasksReducer }) => {
-  return tasksReducer.modalValidateStatus;
-};
 
 const EditTaskModalContainer = () => {
   const dispatch = useDispatch();
 
-  const visible = useSelector(visibleSelector);
   const errorMessage = useSelector(errorMessageSelector);
+  const visible = useSelector(editModalIsVisibleSelector);
   const newTaskRecord = useSelector(newTaskRecordSelector);
   const modalValidateStatus = useSelector(modalValidateStatusSelector);
 

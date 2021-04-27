@@ -2,7 +2,15 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
-import { TASKS_TYPES, addTask, closeTasksModal } from 'store/tasks';
+import {
+  TASKS_TYPES,
+  addTask,
+  closeTasksModal,
+  errorMessageSelector,
+  newTaskRecordSelector,
+  modalIsVisibleSelector,
+  modalValidateStatusSelector,
+} from 'store/tasks';
 
 import NewTaskModal from './index';
 
@@ -21,29 +29,13 @@ const tasksSelector = ({ tasksReducer }) => {
   return filteredTasks;
 };
 
-const visibleSelector = ({ tasksReducer }) => {
-  return tasksReducer.modalIsVisible;
-};
-
-const errorMessageSelector = ({ tasksReducer }) => {
-  return tasksReducer.errorMessage;
-};
-
-const copyTaskRecordSelector = ({ tasksReducer }) => {
-  return tasksReducer.newTaskRecord;
-};
-
-const modalValidateStatusSelector = ({ tasksReducer }) => {
-  return tasksReducer.modalValidateStatus;
-};
-
 const NewTaskModalContainer = () => {
   const dispatch = useDispatch();
 
   const tasks = useSelector(tasksSelector);
-  const visible = useSelector(visibleSelector);
+  const visible = useSelector(modalIsVisibleSelector);
   const errorMessage = useSelector(errorMessageSelector);
-  const copyTaskRecord = useSelector(copyTaskRecordSelector);
+  const copyTaskRecord = useSelector(newTaskRecordSelector);
   const modalValidateStatus = useSelector(modalValidateStatusSelector);
 
   const isAddingTask = useIsLoading(TASKS_TYPES.ADD_TASK_REQUEST);

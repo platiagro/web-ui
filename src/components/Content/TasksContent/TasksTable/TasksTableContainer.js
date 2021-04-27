@@ -9,13 +9,10 @@ import {
   fetchTasks,
   showEditTaskModal,
   showCopyTasksModal,
+  containerStateSelector,
 } from 'store/tasks';
 
 import TasksTable from './index';
-
-const containerStateSelector = ({ tasksReducer }) => {
-  return tasksReducer.containerState;
-};
 
 const tasksSelector = ({ tasksReducer }) => {
   const tasks = tasksReducer.tasks || [];

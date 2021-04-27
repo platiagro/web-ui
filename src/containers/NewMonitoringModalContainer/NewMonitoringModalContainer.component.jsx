@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
-import { fetchTasks, TASKS_TYPES } from 'store/tasks';
+import { TASKS_TYPES, fetchTasks, tasksSelector } from 'store/tasks';
 import NewMonitoringModal from 'components/NewMonitoringModal';
 import { createMultipleMonitorings } from 'store/monitorings/actions';
 
 const creatingMonitoringSelector = ({ uiReducer }) => {
   return uiReducer.monitorings.creating;
-};
-
-const tasksSelector = ({ tasksReducer }) => {
-  return tasksReducer.tasks;
 };
 
 const NewMonitoringModalContainer = ({

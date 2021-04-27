@@ -1,17 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchPaginatedTasks } from 'store/tasks';
+import {
+  fetchPaginatedTasks,
+  pageSizeSelector,
+  totalTasksSelector,
+} from 'store/tasks';
 
 import TasksTablePagination from './index';
-
-const pageSizeSelector = ({ tasksReducer }) => {
-  return tasksReducer.pageSize;
-};
-
-const totalTasksSelector = ({ tasksReducer }) => {
-  return tasksReducer.totalTasks;
-};
 
 const TasksTablePaginationContainer = () => {
   const dispatch = useDispatch();

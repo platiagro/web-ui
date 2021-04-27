@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createOperatorRequest } from 'store/operator/actions';
+import { fetchTasks, tasksSelector } from 'store/tasks';
 import {
   fetchTasksMenuRequest,
   filterTasksMenu,
@@ -12,13 +13,8 @@ import {
   setTemplateRequest,
   deleteTemplateRequest,
 } from 'store/templates/actions';
-import { fetchTasks } from 'store/tasks';
 
 import TasksMenuBlock from './index';
-
-const tasksSelector = ({ tasksReducer }) => {
-  return tasksReducer.tasks;
-};
 
 const loadingSelector = ({ uiReducer }) => {
   return uiReducer.tasksMenu.loading;
