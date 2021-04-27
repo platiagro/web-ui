@@ -3,8 +3,18 @@
 /* global ProjectsStore */
 
 // ACTION TYPES
-import { actionTypes } from '../Actions';
-import { initialState } from '.';
+import actionTypes from './Projects.actionTypes';
+
+/** @type {ProjectsStore} */
+export const initialState = {
+  projects: [],
+  selectedProjects: [],
+  searchText: '',
+  currentPage: 0,
+  pageSize: 0,
+  total: 0,
+  isLoading: false,
+};
 
 /**
  * Projects Reducer

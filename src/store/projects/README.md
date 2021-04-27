@@ -1,7 +1,7 @@
 # Projects Store
 Módulo de store dos projetos.
 
-- [Type Defs / Models](Projects.typeDef.js)
 - [Selectors](Projects.selectors.js)
-- [Actions](Actions/README.md)
-- [Reducer](Reducer/README.md)
+- [Action Types](Projects.actionTypes.js)
+- [Actions](Projects.actions.js)
+- [Initial State / Reducer](Projects.reducer.js)
