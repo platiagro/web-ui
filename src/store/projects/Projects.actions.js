@@ -281,15 +281,15 @@ const fetchProjectSuccess = (response) => (dispatch, getState) => {
  * Fetch project fail action
  *
  * @param {object} error Error object
- * @param {object} routerProps Router props object
+ * @param {object} history Router history object
  * @returns {object} Action object
  */
-const fetchProjectFail = (error, routerProps) => {
+const fetchProjectFail = (error, history) => {
   const errorMessage = error.message;
 
   if (error.response?.status === 404) {
     // replace current route with error route
-    routerProps.history.replace('/erro-404');
+    history.replace('/erro-404');
   }
 
   message.error(errorMessage, 5);
@@ -304,12 +304,10 @@ const fetchProjectFail = (error, routerProps) => {
  * Fetch project request action
  *
  * @param {string} projectId Project id to fetch
- * @param {object} routerProps Router props object
+ * @param {object} history Router history object
  * @returns {Function} Dispatch function
  */
-export const fetchProjectRequest = (projectId, routerProps) => async (
-  dispatch
-) => {
+export const fetchProjectRequest = (projectId, history) => async (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_PROJECT_REQUEST,
@@ -321,7 +319,7 @@ export const fetchProjectRequest = (projectId, routerProps) => async (
 
     dispatch(fetchProjectSuccess(response));
   } catch (error) {
-    dispatch(fetchProjectFail(error, routerProps));
+    dispatch(fetchProjectFail(error, history));
   }
 };
 
