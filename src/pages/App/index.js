@@ -1,19 +1,29 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Provider } from 'react-redux';
+import PT_BR from 'antd/es/locale/pt_BR';
+import { Layout, ConfigProvider } from 'antd';
 
+import Store from 'store';
 import { MainRoutes } from 'routes';
 import MainSider from 'components/MainSider/_';
+import { CustomConfirmRouterContainer } from 'containers';
 
 import './style.less';
 
 const App = () => (
-  <Layout className='main-layout'>
-    <MainSider />
+  <Provider store={Store}>
+    <CustomConfirmRouterContainer>
+      <ConfigProvider locale={PT_BR}>
+        <Layout className='main-layout'>
+          <MainSider />
 
-    <Layout>
-      <MainRoutes />
-    </Layout>
-  </Layout>
+          <Layout>
+            <MainRoutes />
+          </Layout>
+        </Layout>
+      </ConfigProvider>
+    </CustomConfirmRouterContainer>
+  </Provider>
 );
 
 export default App;
