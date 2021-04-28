@@ -1,52 +1,45 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { Tooltip, Badge } from 'antd';
+import { AlertOutlined } from '@ant-design/icons';
 
-import { Tooltip, Badge } from "antd";
-import { AlertOutlined } from "@ant-design/icons";
+import './style.less';
 
-import "./style.less";
+const LogsButton = ({
+  className,
+  buttonClassName,
+  onClick,
+  errorCount = 0,
+  isActive = false,
+  isDisabled = false,
+}) => {
+  const tooltipTitle = useMemo(() => {
+    return isActive
+      ? 'Ocultar histórico de erros'
+      : 'Exibir histórico de erros';
+  }, [isActive]);
 
-/**
- * A button to hide error history
- *
- * @param {*} props Component props
- *
- * @returns {LogsButton} Component
- *
- * @component
- */
+  const composedButtonClassName = useMemo(() => {
+    const classNamesArray = ['logs-button'];
+    if (isDisabled) classNamesArray.push('logs-button-disabled');
+    else if (isActive) classNamesArray.push('logs-button logs-button-active');
+    classNamesArray.push(buttonClassName);
+    return classNamesArray.join(' ');
+  }, [isActive, buttonClassName, isDisabled]);
 
-const LogsButton = (props) => {
-  const { active, disabled, count } = props;
-  const [title, setTitle] = useState(false);
-
-  const content = title
-    ? "Ocultar histórico de erros"
-    : "Exibir histórico de erros";
-
-  const errorCount = count;
-
-  // rendering component LogsButton
   return (
-    <Badge count={errorCount}>
+    <Badge className={className} count={errorCount}>
       <Tooltip
-        title={content}
-        placement="left"
-        color="black"
-        overlayStyle={disabled?{'display':'none'}:{}}
-        disabled={disabled}
+        color='black'
+        placement='left'
+        title={tooltipTitle}
+        disabled={isDisabled}
+        overlayStyle={{ display: isDisabled ? 'none' : undefined }}
       >
         <button
-        className={
-          disabled
-            ? "logs-button-disabled"
-            : active
-            ? "logs-button-active"
-            : "logs-button"
-        }
-          onClick={() => {
-            setTitle(!title);
-          }}
+          className={composedButtonClassName}
+          onClick={onClick}
+          disabled={isDisabled}
         >
           <AlertOutlined />
         </button>
@@ -55,17 +48,13 @@ const LogsButton = (props) => {
   );
 };
 
-// PROP TYPES
 LogsButton.propTypes = {
-  /* click function */
-  onClick: PropTypes.func.isRequired,
-  /*error count function */
-  errorCount: PropTypes.number.isRequired,
-  /*button activated state */
-  active: PropTypes.bool.isRequired,
-  /*button disable state */
-  disabled: PropTypes.bool.isRequired,
+  className: PropTypes.string,
+  buttonClassName: PropTypes.string,
+  onClick: PropTypes.func,
+  errorCount: PropTypes.number,
+  isActive: PropTypes.bool,
+  isDisabled: PropTypes.bool,
 };
 
-// EXPORT DEFAULT
 export default LogsButton;

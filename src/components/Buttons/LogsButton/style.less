@@ -1,25 +1,25 @@
-.logs-button{
-    width: 48px;
-    height: 48px;
-    border-radius: 100%;
-    border-style: none;
-}
+.logs-button {
+  width: 48px;
+  height: 48px;
+  border: none;
+  outline: none;
+  border-radius: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 
+  &:hover {
+    transform: scale(1.05);
+  }
 
-.logs-button-active{
-    width: 48px;
-    height: 48px;
-    border-radius: 100%;
-    border-style: none;
+  &.logs-button-active {
     background-color: #434343;
     color: white;
-}
+  }
 
-.logs-button-disabled{
-    width: 48px;
-    height: 48px;
-    border-radius: 100%;
-    border-style: none;
+  &.logs-button-disabled {
     cursor: not-allowed;
     opacity: 0.5;
+  }
 }

@@ -22,6 +22,7 @@ import deploymentLogsReducer from './deploymentLogs/deploymentLogsReducer';
 import testExperimentInferenceReducer from './testExperimentInference/testExperimentInferenceReducer';
 import jupyterLabReducer from './jupyterLab/jupyterLabReducer';
 import monitoringsReducer from './monitorings/monitoringsReducer';
+import experimentLogsReducer from './experimentLogs/experimentLogsReducer';
 import { tasksReducer } from './tasks';
 import { loadingReducer } from './loading';
 
@@ -47,6 +48,7 @@ const reducers = combineReducers({
   testExperimentInferenceReducer,
   jupyterLabReducer,
   monitoringsReducer,
+  experimentLogsReducer,
   tasksReducer,
   loadingReducer,
 });

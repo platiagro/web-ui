@@ -76,7 +76,7 @@ const retryExperimentRun = (projectId, experimentId, runId) => {
   return projectsApi.put(
     `${projectId}/${experimentsPath}/${experimentId}/${runsPath}${runId}/retry`
   );
-}
+};
 
 // EXPERIMENT RUN OPERATORS METHODS
 
@@ -97,10 +97,10 @@ const listOperatorDatasets = (
   runId,
   operatorId,
   page = 1,
-  pageSize = 10,
+  pageSize = 10
 ) => {
   return projectsApi.get(
-    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=${pageSize}`,
+    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/datasets?page=${page}&page_size=${pageSize}`
   );
 };
 
@@ -149,6 +149,20 @@ const fetchOperatorLogs = (projectId, experimentId, runId, operatorId) => {
   );
 };
 
+/**
+ * Fetch Experiment Logs
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentId Experiment UUID
+ * @param {string} runId Run UUID
+ * @returns {Promise} Request Promise
+ */
+const fetchExperimentLogs = (projectId, experimentId, runId) => {
+  return projectsApi.get(
+    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/logs`
+  );
+};
+
 // EXPORT DEFAULT
 export default {
   fetchExperimentRuns,
@@ -159,5 +173,6 @@ export default {
   listOperatorDatasets,
   listOperatorFigures,
   listOperatorMetrics,
-  fetchOperatorLogs
-}
+  fetchOperatorLogs,
+  fetchExperimentLogs,
+};

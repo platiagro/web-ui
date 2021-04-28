@@ -1,0 +1,23 @@
+.log-type-tags {
+  display: flex;
+  align-items: center;
+
+  > * {
+    height: 28px;
+
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    background: transparent;
+    color: rgba(0, 0, 0, 0.8);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  > *:not(:last-child) {
+    margin-right: 8px;
+  }
+}

@@ -1,15 +1,16 @@
 import React, { useMemo } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
-import LoadingBox from 'components/LoadingBox';
 import ReactFlow, { Background, Handle } from 'react-flow-renderer';
 
-import DeploymentFlowBox from './DeploymentFlowBox/DeploymentFlowBox.component';
-
+import LoadingBox from 'components/LoadingBox';
+import { LogsButton } from 'components/Buttons';
 import Vectors, {
   nodeTypes,
   edgeTypes,
 } from 'components/Content/ExperimentsContent/Experiment/ExperimentFlow/_/CustomNodes';
+
+import DeploymentFlowBox from './DeploymentFlowBox/DeploymentFlowBox.component';
 
 import './DeploymentFlow.style.less';
 
@@ -20,6 +21,9 @@ const DeploymentFlow = ({
   handleSavePosition,
   handleDeselectOperator,
   selectedOperatorId,
+  numberOfLogs,
+  isLogsPanelSelected,
+  handleToggleLogsPanel,
 }) => {
   const handleLoad = (reactFlowInstance) => {
     setTimeout(() => {
@@ -42,36 +46,36 @@ const DeploymentFlow = ({
   }, [operators]);
 
   const cardsElements = useMemo(() => {
-    return operators.map((component) => {
-      const arrows = component.dependencies.map((arrow) => {
-        const arrowId = `${component.uuid}/${arrow}`;
+    return operators.map((operator) => {
+      const arrows = operator.dependencies.map((arrow) => {
+        const arrowId = `${operator.uuid}/${arrow}`;
         return {
           id: arrowId,
-          target: component.uuid,
+          target: operator.uuid,
           source: arrow,
           type: 'customEdge',
         };
       });
 
       const card = {
-        id: component.uuid,
+        id: operator.uuid,
         sourcePosition: 'right',
         targetPosition: 'left',
         type: 'cardNode',
         data: {
           label: (
             <div
-              id={component.uuid}
+              id={operator.uuid}
               style={{ width: 200 }}
               className='task-elements'
             >
               <DeploymentFlowBox
-                operator={component}
-                title={component.name}
-                status={component.status}
-                icon={component.icon}
-                settedUp={component.settedUp}
-                selected={selectedOperatorId === component.uuid}
+                operator={operator}
+                title={operator.name}
+                status={operator.status}
+                icon={operator.icon}
+                settedUp={operator.settedUp}
+                selected={selectedOperatorId === operator.uuid}
                 onEdit={handleSelectOperator}
                 onSelect={handleSelectOperator}
                 onDeselect={handleDeselectOperator}
@@ -97,8 +101,8 @@ const DeploymentFlow = ({
           ),
         },
         position: {
-          x: component.positionX,
-          y: component.positionY,
+          x: operator.positionX,
+          y: operator.positionY,
         },
       };
 
@@ -115,7 +119,7 @@ const DeploymentFlow = ({
   return loading ? (
     <LoadingBox siderColor='#FFF2E8' />
   ) : (
-    <div style={{ height: '100%' }}>
+    <div className='deployment-flow' style={{ height: '100%' }}>
       <ReactFlow
         deleteKeyCode={46}
         edgeTypes={edgeTypes}
@@ -135,6 +139,14 @@ const DeploymentFlow = ({
           color={'#58585850'}
           style={{ backgroundColor: 'white' }}
         />
+
+        <LogsButton
+          className='deployment-flow-logs-button'
+          errorCount={numberOfLogs}
+          isActive={isLogsPanelSelected}
+          onClick={handleToggleLogsPanel}
+        />
+
         <Vectors />
       </ReactFlow>
     </div>
@@ -148,6 +160,9 @@ DeploymentFlow.propTypes = {
   handleSavePosition: PropTypes.func,
   handleSelectOperator: PropTypes.func,
   handleDeselectOperator: PropTypes.func,
+  numberOfLogs: PropTypes.number,
+  isLogsPanelSelected: PropTypes.bool,
+  handleToggleLogsPanel: PropTypes.func,
 };
 
 export default DeploymentFlow;

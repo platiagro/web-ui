@@ -2,6 +2,7 @@ import React from 'react';
 import { ReactFlowProvider } from 'react-flow-renderer';
 
 import {
+  DeploymentLogsPanelContainer,
   MonitoringPanelContainer,
   DeploymentsHeaderContainer,
   DeploymentsTabsContainer,
@@ -33,10 +34,12 @@ function Deployment() {
               <DeploymentFlowContainer />
             </div>
 
-            <div className='deployment-page-body-monitoring'>
+            <div className='deployment-page-body-bottom'>
               <MonitoringPanelContainer />
+              <DeploymentLogsPanelContainer />
             </div>
           </div>
+
           <PropertiesResizableContainer />
         </div>
 

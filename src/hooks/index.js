@@ -1,1 +1,2 @@
-export * from './useIsLoading';
+export { useToggleState } from './useToggleState';
+export { useIsLoading } from './useIsLoading';
