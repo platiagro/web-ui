@@ -13,10 +13,10 @@ import {
   PrepareDeploymentsModalContainer,
 } from 'containers';
 
-import TasksMenuBlock from '../TasksMenuBlock/_/Container';
-import ExperimentsTabs from '../ExperimentsTabs/_/Container';
+import TasksMenuBlock from '../TasksMenuBlock/_/TasksMenuBlockContainer';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
+import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import FlowDrop from './FlowDrop';
 
 import './style.less';

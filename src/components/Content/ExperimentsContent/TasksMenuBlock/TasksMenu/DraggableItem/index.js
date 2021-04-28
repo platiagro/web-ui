@@ -39,6 +39,7 @@ const MenuItem = ({
       style={{
         opacity,
         display: 'flex',
+        alignItems: 'center',
       }}
     >
       <div
@@ -49,7 +50,16 @@ const MenuItem = ({
       >
         <Icon component={DragIndicator} />
       </div>
-      <div style={{ cursor: 'default' }}>{children}</div>
+      <div
+        style={{
+          cursor: 'default',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 };

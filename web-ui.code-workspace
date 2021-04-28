@@ -29,8 +29,15 @@
     },
     "cSpell.words": [
       "antd",
+      "ipynb",
+      "jupyterlab",
       "monitorings",
-      "sider"
+      "sider",
+      "esbenp",
+      "dbaeumer",
+      "mgmcdermott",
+      "suming",
+      "parens"
     ],
     "[javascript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"

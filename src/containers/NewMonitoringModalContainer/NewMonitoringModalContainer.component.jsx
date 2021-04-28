@@ -2,20 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchTasks } from 'store/tasks/actions';
+import { useIsLoading } from 'hooks';
+import { TASKS_TYPES, fetchTasks, tasksSelector } from 'store/tasks';
 import NewMonitoringModal from 'components/NewMonitoringModal';
 import { createMultipleMonitorings } from 'store/monitorings/actions';
 
 const creatingMonitoringSelector = ({ uiReducer }) => {
   return uiReducer.monitorings.creating;
-};
-
-const tasksLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.tasksTable.loading;
-};
-
-const tasksSelector = ({ tasksReducer }) => {
-  return tasksReducer.tasks;
 };
 
 const NewMonitoringModalContainer = ({
@@ -27,8 +20,9 @@ const NewMonitoringModalContainer = ({
   const dispatch = useDispatch();
 
   const isCreatingMonitorings = useSelector(creatingMonitoringSelector);
-  const isLoadingTasks = useSelector(tasksLoadingSelector);
   const tasks = useSelector(tasksSelector);
+
+  const isLoadingTasks = useIsLoading(TASKS_TYPES.FETCH_TASKS_REQUEST);
 
   const handleAddMonitorings = (selectedTasks) => {
     if (!projectId || !deploymentId) return;
