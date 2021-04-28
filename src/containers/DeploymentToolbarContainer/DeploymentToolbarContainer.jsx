@@ -65,8 +65,8 @@ const DeploymentToolbarContainer = () => {
   return (
     <div className='buttons-config'>
       <PromoteDeploymentModal
-        urlPrefix='https://10.50.11.116/'
-        urlSuffix='/prediction'
+        urlPrefix={`${window.location.origin.toString()}/seldon/anonymous/`}
+        urlSuffix='/api/v1.0/predictions'
         visible={isShowingPromoteModal}
         loading={loading}
         onClose={handleHidePromoteModal}

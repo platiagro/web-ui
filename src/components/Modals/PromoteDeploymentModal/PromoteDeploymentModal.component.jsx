@@ -49,7 +49,7 @@ const PromoteDeploymentModal = (props) => {
       onOk={handleConfirm}
       okText='Implantar'
       cancelText='Cancelar'
-      width='600px'
+      width='875px'
       destroyOnClose
       loading={loading}
     >
@@ -95,7 +95,7 @@ PromoteDeploymentModal.propTypes = {
 PromoteDeploymentModal.defaultProps = {
   loading: false,
   inputDisabled: false,
-  initialInputValue: 'valor inicial',
+  initialInputValue: 'initial value',
 };
 
 export default PromoteDeploymentModal;
