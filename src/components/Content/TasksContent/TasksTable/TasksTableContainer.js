@@ -9,7 +9,7 @@ import {
   fetchTasks,
   showEditTaskModal,
   showCopyTasksModal,
-  containerStateSelector,
+  getContainerState,
 } from 'store/tasks';
 
 import TasksTable from './index';
@@ -24,7 +24,7 @@ const tasksSelector = ({ tasksReducer }) => {
 const TasksTableContainer = () => {
   const dispatch = useDispatch();
 
-  const containerState = useSelector(containerStateSelector);
+  const containerState = useSelector(getContainerState);
   const tasks = useSelector(tasksSelector);
 
   const isLoadingOrDeleting = useIsLoading(

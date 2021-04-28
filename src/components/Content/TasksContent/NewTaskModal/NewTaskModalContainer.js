@@ -6,10 +6,10 @@ import {
   TASKS_TYPES,
   addTask,
   closeTasksModal,
-  errorMessageSelector,
-  newTaskRecordSelector,
-  modalIsVisibleSelector,
-  modalValidateStatusSelector,
+  getErrorMessage,
+  getNewTaskRecord,
+  getModalIsVisible,
+  getModalValidateStatus,
 } from 'store/tasks';
 
 import NewTaskModal from './index';
@@ -33,10 +33,10 @@ const NewTaskModalContainer = () => {
   const dispatch = useDispatch();
 
   const tasks = useSelector(tasksSelector);
-  const visible = useSelector(modalIsVisibleSelector);
-  const errorMessage = useSelector(errorMessageSelector);
-  const copyTaskRecord = useSelector(newTaskRecordSelector);
-  const modalValidateStatus = useSelector(modalValidateStatusSelector);
+  const visible = useSelector(getModalIsVisible);
+  const errorMessage = useSelector(getErrorMessage);
+  const copyTaskRecord = useSelector(getNewTaskRecord);
+  const modalValidateStatus = useSelector(getModalValidateStatus);
 
   const isAddingTask = useIsLoading(TASKS_TYPES.ADD_TASK_REQUEST);
 

@@ -1,35 +1,35 @@
-export const containerStateSelector = ({ tasksReducer }) => {
+export const getContainerState = ({ tasksReducer }) => {
   return tasksReducer.containerState;
 };
 
-export const editModalIsVisibleSelector = ({ tasksReducer }) => {
+export const getEditModalIsVisible = ({ tasksReducer }) => {
   return tasksReducer.editModalIsVisible;
 };
 
-export const errorMessageSelector = ({ tasksReducer }) => {
+export const getErrorMessage = ({ tasksReducer }) => {
   return tasksReducer.errorMessage;
 };
 
-export const modalIsVisibleSelector = ({ tasksReducer }) => {
+export const getModalIsVisible = ({ tasksReducer }) => {
   return tasksReducer.modalIsVisible;
 };
 
-export const modalValidateStatusSelector = ({ tasksReducer }) => {
+export const getModalValidateStatus = ({ tasksReducer }) => {
   return tasksReducer.modalValidateStatus;
 };
 
-export const newTaskRecordSelector = ({ tasksReducer }) => {
+export const getNewTaskRecord = ({ tasksReducer }) => {
   return tasksReducer.newTaskRecord;
 };
 
-export const pageSizeSelector = ({ tasksReducer }) => {
+export const getPageSize = ({ tasksReducer }) => {
   return tasksReducer.pageSize;
 };
 
-export const tasksSelector = ({ tasksReducer }) => {
+export const getTasks = ({ tasksReducer }) => {
   return tasksReducer.tasks;
 };
 
-export const totalTasksSelector = ({ tasksReducer }) => {
+export const getTotalTasks = ({ tasksReducer }) => {
   return tasksReducer.totalTasks;
 };
