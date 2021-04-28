@@ -3,7 +3,7 @@
 /* global ProjectsStore */
 
 // ACTION TYPES
-import * as actionTypes from './Projects.actionTypes';
+import * as actionTypes from './projects.actionTypes';
 
 /** @type {ProjectsStore} */
 export const initialState = {
