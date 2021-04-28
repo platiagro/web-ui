@@ -8,7 +8,7 @@ import { LogsButton } from 'components/Buttons';
 import Vectors, {
   nodeTypes,
   edgeTypes,
-} from 'components/Content/ExperimentsContent/Experiment/ExperimentFlow/_/CustomNodes';
+} from 'pages/Experiments/Experiment/ExperimentFlow/_/CustomNodes';
 
 import DeploymentFlowBox from './DeploymentFlowBox/DeploymentFlowBox.component';
 

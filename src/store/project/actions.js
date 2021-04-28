@@ -5,7 +5,7 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import projectsApi from '../../services/ProjectsApi';
+import projectsApi from 'services/ProjectsApi';
 
 // UI ACTIONS
 import {

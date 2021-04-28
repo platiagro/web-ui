@@ -5,8 +5,8 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import experimentRunsApi from '../../../services/ExperimentRunsApi';
-import operatorsApi from '../../../services/OperatorsApi';
+import experimentRunsApi from 'services/ExperimentRunsApi';
+import operatorsApi from 'services/OperatorsApi';
 
 // UI ACTIONS
 import {

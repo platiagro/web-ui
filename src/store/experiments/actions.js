@@ -5,7 +5,7 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import experimentsApi from '../../services/ExperimentsApi';
+import experimentsApi from 'services/ExperimentsApi';
 
 // UI ACTIONS
 import {
@@ -25,7 +25,7 @@ import { fetchOperatorsRequest } from '../operators/actions';
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
 
 // UTILS
-import utils from '../../utils';
+import utils from 'utils';
 
 // MESSAGES
 const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';

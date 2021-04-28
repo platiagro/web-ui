@@ -5,8 +5,8 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import templatesApi from '../../services/TemplatesApi';
-import experimentsApi from '../../services/ExperimentsApi';
+import templatesApi from 'services/TemplatesApi';
+import experimentsApi from 'services/ExperimentsApi';
 
 // UI ACTIONS
 import {
@@ -30,8 +30,8 @@ import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 /**
  * fetch templates success action
  *
- * @param {Object} response Request response
- * @returns {Object} { type, templates }
+ * @param {object} response Request response
+ * @returns {object} { type, templates }
  */
 const fetchTemplatesSuccess = (response) => (dispatch) => {
   dispatch(templateDataLoaded());
@@ -44,8 +44,9 @@ const fetchTemplatesSuccess = (response) => (dispatch) => {
 
 /**
  * fetch templates fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const fetchTemplatesFail = (error) => (dispatch) => {
   // getting error message
@@ -64,6 +65,7 @@ const fetchTemplatesFail = (error) => (dispatch) => {
 
 /**
  * fetch templates request action
+ *
  * @returns {Function}
  */
 export const fetchTemplatesRequest = () => (dispatch) => {
@@ -87,8 +89,8 @@ export const fetchTemplatesRequest = () => (dispatch) => {
 /**
  * create template success action
  *
- * @param {Object} response
- * @returns {Object} { type, templates }
+ * @param {object} response
+ * @returns {object} { type, templates }
  */
 const createTemplateSuccess = (response) => (dispatch) => {
   // dispatching template data loaded action
@@ -110,8 +112,8 @@ const createTemplateSuccess = (response) => (dispatch) => {
 /**
  * create template fail action
  *
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const createTemplateFail = (error) => (dispatch) => {
   // getting error message
@@ -163,9 +165,7 @@ export const createTemplateRequest = (templateName, experimentId) => (
  * @param {object} response Request response
  * @returns {object} {type, experiment}
  */
-const updateTemplateSuccess = (response) => (
-  dispatch, getState
-) => {
+const updateTemplateSuccess = (response) => (dispatch, getState) => {
   const currentState = getState();
   const templatesState = currentState.templatesReducer;
 
@@ -208,10 +208,9 @@ const updateTemplateFail = (error) => (dispatch) => {
  * @param {string} templateName Template name
  * @returns {Function}
  */
-export const updateTemplateRequest = (
-  templateId,
-  templateName
-) => (dispatch) => {
+export const updateTemplateRequest = (templateId, templateName) => (
+  dispatch
+) => {
   // dispatching request action
   dispatch({
     type: actionTypes.UPDATE_TEMPLATE_REQUEST,
@@ -235,7 +234,8 @@ export const updateTemplateRequest = (
  * @returns {object} { type }
  */
 const deleteTemplateSuccess = (templateId, allTasks) => (
-  dispatch, getState
+  dispatch,
+  getState
 ) => {
   const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
     (template) => template.uuid !== templateId
@@ -286,8 +286,8 @@ const deleteTemplateSuccess = (templateId, allTasks) => (
 /**
  * delete template fail action
  *
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const deleteTemplateFail = (error) => (dispatch) => {
   // getting error message

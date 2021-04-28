@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 // COMPONENTS
 import EditTitle from 'components/EditTitle';
-import NewProjectModal from 'components/Content/ProjectsContent/NewProjectModal/Container';
+import NewProjectModal from 'pages/Projects/NewProjectModal/Container';
 
 // ACTIONS
 import { showNewProjectModal } from 'store/ui/actions';

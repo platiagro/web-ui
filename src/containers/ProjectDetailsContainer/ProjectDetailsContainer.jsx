@@ -8,7 +8,7 @@ import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Image, Skeleton } from 'antd';
 
 // CONTAINER
-import NewExperimentModalContainer from 'components/Content/ExperimentsContent/NewExperimentModal/Container';
+import NewExperimentModalContainer from 'pages/Experiments/NewExperimentModal/Container';
 import {
   DeploymentsTableContainer,
   InferenceTestResultModalContainer,

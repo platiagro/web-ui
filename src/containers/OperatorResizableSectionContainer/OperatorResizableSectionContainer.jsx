@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { PropertiesPanel } from 'components';
-import DatasetDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/DatasetDrawer/_/Container';
-import GenericDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/GenericDrawer/_/Container';
+import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/_/Container';
+import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/_/Container';
 
 import './OperatorResizableSectionContainer.less';
 
