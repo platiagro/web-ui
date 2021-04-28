@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { fetchTasks, getTasks } from 'store/tasks';
 import { createOperatorRequest } from 'store/operator/actions';
-import { fetchTasks, tasksSelector } from 'store/tasks';
 import {
   fetchTasksMenuRequest,
   filterTasksMenu,
@@ -36,7 +36,7 @@ const TasksMenuBlockContainer = ({ disabled }) => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
-  const tasks = useSelector(tasksSelector);
+  const tasks = useSelector(getTasks);
   const loading = useSelector(loadingSelector);
   const allTasks = useSelector(allTasksSelector);
   const tasksMenu = useSelector(tasksMenuSelector);

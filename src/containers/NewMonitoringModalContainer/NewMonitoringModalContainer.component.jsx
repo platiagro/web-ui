@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
-import { TASKS_TYPES, fetchTasks, tasksSelector } from 'store/tasks';
 import NewMonitoringModal from 'components/NewMonitoringModal';
+import { TASKS_TYPES, fetchTasks, getTasks } from 'store/tasks';
 import { createMultipleMonitorings } from 'store/monitorings/actions';
 
 const creatingMonitoringSelector = ({ uiReducer }) => {
@@ -20,7 +20,7 @@ const NewMonitoringModalContainer = ({
   const dispatch = useDispatch();
 
   const isCreatingMonitorings = useSelector(creatingMonitoringSelector);
-  const tasks = useSelector(tasksSelector);
+  const tasks = useSelector(getTasks);
 
   const isLoadingTasks = useIsLoading(TASKS_TYPES.FETCH_TASKS_REQUEST);
 
