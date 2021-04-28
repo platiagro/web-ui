@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import TasksMenuBlock from '../TasksMenuBlock/_/Container';
+import TasksMenuBlockContainer from '../TasksMenuBlock/_/TasksMenuBlockContainer';
 import ExperimentsTabs from '../ExperimentsTabs/_/Container';
 import NewExperimentButton from '../NewExperimentButton/Container';
 import NewExperimentModal from '../NewExperimentModal/Container';
@@ -31,7 +31,7 @@ const ExperimentsContent = () => {
   const renderFlowContent = () => (
     <Layout style={{ overflow: 'hidden' }}>
       <Sider width={250}>
-        <TasksMenuBlock disabled={!experimentId} />
+        <TasksMenuBlockContainer disabled={!experimentId} />
       </Sider>
       <Content>
         <Layout style={{ height: '100%' }}>
