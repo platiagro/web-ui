@@ -20,6 +20,8 @@ import ErrorRow from './ErrorRow';
 import DebugRow from './DebugRow';
 import InfoRow from './InfoRow';
 
+import ExternalDatasetDrawer from './ExternalDatasetDrawer';
+
 export {
   CommonTable,
   CompareResultItem,
@@ -35,4 +37,5 @@ export {
   ErrorRow,
   DebugRow,
   InfoRow,
+  ExternalDatasetDrawer,
 };
