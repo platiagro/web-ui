@@ -3,7 +3,7 @@
 /* global ProjectsStore */
 
 // ACTION TYPES
-import * as PROJECTS_TYPES from './projects.actionTypes';
+import * as actionTypes from './projects.actionTypes';
 
 /** @type {ProjectsStore} */
 export const initialState = {
@@ -13,6 +13,7 @@ export const initialState = {
   currentPage: 0,
   pageSize: 0,
   total: 0,
+  isLoading: false,
 };
 
 /**
@@ -26,22 +27,38 @@ export const initialState = {
  */
 export default (state = initialState, action = undefined) => {
   switch (action.type) {
-    case PROJECTS_TYPES.DELETE_PROJECTS_SUCCESS:
+    case actionTypes.CREATE_PROJECT_REQUEST:
+    case actionTypes.FETCH_PROJECTS_REQUEST:
+    case actionTypes.FETCH_PROJECT_REQUEST:
+    case actionTypes.DELETE_PROJECTS_REQUEST:
+    case actionTypes.FETCH_PROJECTS_FAIL:
+    case actionTypes.FETCH_PROJECT_FAIL:
+    case actionTypes.DELETE_PROJECTS_FAIL:
+    case actionTypes.UPDATE_PROJECT_FAIL:
+    case actionTypes.CREATE_PROJECT_FAIL:
+      return {
+        ...state,
+        isLoading: action.payload.isLoading,
+      };
+
+    case actionTypes.DELETE_PROJECTS_SUCCESS:
       return {
         ...state,
         projects: action.payload.projects,
         selectedProjects: action.payload.selectedProjects,
+        isLoading: action.payload.isLoading,
       };
 
-    case PROJECTS_TYPES.CREATE_PROJECT_SUCCESS:
-    case PROJECTS_TYPES.FETCH_PROJECT_SUCCESS:
-    case PROJECTS_TYPES.UPDATE_PROJECT_SUCCESS:
+    case actionTypes.CREATE_PROJECT_SUCCESS:
+    case actionTypes.FETCH_PROJECT_SUCCESS:
+    case actionTypes.UPDATE_PROJECT_SUCCESS:
       return {
         ...state,
         projects: action.payload.projects,
+        isLoading: action.payload.isLoading,
       };
 
-    case PROJECTS_TYPES.FETCH_PROJECTS_SUCCESS:
+    case actionTypes.FETCH_PROJECTS_SUCCESS:
       return {
         ...state,
         projects: action.payload.projects,
@@ -50,8 +67,9 @@ export default (state = initialState, action = undefined) => {
         currentPage: action.payload.currentPage,
         pageSize: action.payload.pageSize,
         total: action.payload.total,
+        isLoading: action.payload.isLoading,
       };
-    case PROJECTS_TYPES.SELECTED_PROJECTS:
+    case actionTypes.SELECTED_PROJECTS:
       return {
         ...state,
         selectedProjects: action.payload.selectedProjects,

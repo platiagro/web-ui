@@ -2,15 +2,16 @@
 /* eslint-disable-next-line */
 /* global Projects, ProjectUpdatable, ProjectCreatable */
 
-import { showError, showSuccess } from 'store/message';
+// UI LIBS
+import { message } from 'antd';
 
-import * as PROJECTS_TYPES from './projects.actionTypes';
+// ACTION TYPES
+import * as actionTypes from './Projects.actionTypes';
 
+// SERVICES
 import projectsApi from 'services/ProjectsApi';
 
 import { hideNewProjectModal } from 'store/ui/actions';
-
-import { addLoading, removeLoading } from 'store/loading';
 
 // TODO: Criar store para mensagens
 /**
@@ -19,15 +20,14 @@ import { addLoading, removeLoading } from 'store/loading';
  * @param {object} error Error object
  * @returns {Function} The `disptach` function
  */
-const fetchPaginatedProjectsFail = (error) => (dispatch) => {
+const fetchPaginatedProjectsFail = (error) => {
   const errorMessage = error.message;
-  dispatch(showError(errorMessage, 5));
+  message.error(errorMessage, 5);
 
-  dispatch(removeLoading(PROJECTS_TYPES.FETCH_PROJECTS_REQUEST));
-
-  dispatch({
-    type: PROJECTS_TYPES.FETCH_PROJECTS_FAIL,
-  });
+  return {
+    type: actionTypes.FETCH_PROJECTS_FAIL,
+    payload: { isLoading: false },
+  };
 };
 
 /**
@@ -39,23 +39,20 @@ const fetchPaginatedProjectsFail = (error) => (dispatch) => {
  * @param {object} response Request success response
  * @returns {object} Action creator
  */
-const fetchPaginatedProjectsSuccess = (name, page, pageSize, response) => (
-  dispatch
-) => {
+const fetchPaginatedProjectsSuccess = (name, page, pageSize, response) => {
   const { projects } = response.data;
 
-  dispatch({
-    type: PROJECTS_TYPES.FETCH_PROJECTS_SUCCESS,
+  return {
+    type: actionTypes.FETCH_PROJECTS_SUCCESS,
     payload: {
       projects,
       searchText: name,
       currentPage: page,
       pageSize: pageSize,
       total: response.data.total,
+      isLoading: false,
     },
-  });
-
-  dispatch(removeLoading(PROJECTS_TYPES.FETCH_PROJECTS_REQUEST));
+  };
 };
 
 /**
@@ -69,13 +66,10 @@ const fetchPaginatedProjectsSuccess = (name, page, pageSize, response) => (
 export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
   dispatch
 ) => {
-  const actionType = PROJECTS_TYPES.FETCH_PROJECTS_REQUEST;
-
   dispatch({
-    type: actionType,
+    type: actionTypes.FETCH_PROJECTS_REQUEST,
+    payload: { isLoading: true },
   });
-
-  dispatch(addLoading(actionType));
 
   if (name === undefined) {
     name = '';
@@ -103,7 +97,7 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
 export const selectProjects = (projects) => {
   return (dispatch) => {
     dispatch({
-      type: PROJECTS_TYPES.SELECTED_PROJECTS,
+      type: actionTypes.SELECTED_PROJECTS,
       payload: { selectedProjects: projects },
     });
   };
@@ -115,15 +109,14 @@ export const selectProjects = (projects) => {
  * @param {object} error Error object
  * @returns {object} Action
  */
-const deleteProjectsFail = (error) => (dispatch) => {
+const deleteProjectsFail = (error) => {
   const errorMessage = error.message;
-  dispatch(showError(errorMessage, 5));
+  message.error(errorMessage, 5);
 
-  dispatch(removeLoading(PROJECTS_TYPES.DELETE_PROJECTS_REQUEST));
-
-  dispatch({
-    type: PROJECTS_TYPES.DELETE_PROJECTS_FAIL,
-  });
+  return {
+    type: actionTypes.DELETE_PROJECTS_FAIL,
+    payload: { isLoading: false },
+  };
 };
 
 /**
@@ -144,17 +137,15 @@ const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
   );
 
   // TODO: Utilizar internacionalização e chave de plural
-  dispatch(showSuccess('Projeto(s) excluído(s)!'));
+  message.success('Projeto(s) excluído(s)!');
 
   dispatch({
-    type: PROJECTS_TYPES.DELETE_PROJECTS_SUCCESS,
-    payload: { projects, selectedProjects },
+    type: actionTypes.DELETE_PROJECTS_SUCCESS,
+    payload: { isLoading: false, projects, selectedProjects },
   });
 
-  // TODO: Remover essa requisição após corrigir paginação
+  // FIXME: Remover essa requisição após corrigir paginação
   dispatch(fetchPaginatedProjectsRequest('', 1, 10));
-
-  dispatch(removeLoading(PROJECTS_TYPES.DELETE_PROJECTS_REQUEST));
 };
 
 /**
@@ -165,13 +156,10 @@ const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
  */
 export const deleteProjectsRequest = (projects) => {
   return async (dispatch) => {
-    const actionType = PROJECTS_TYPES.DELETE_PROJECTS_REQUEST;
-
     dispatch({
-      type: actionType,
+      type: actionTypes.DELETE_PROJECTS_REQUEST,
+      payload: { isLoading: true },
     });
-
-    dispatch(addLoading(actionType));
 
     try {
       await projectsApi.deleteProjects(projects);
@@ -189,7 +177,7 @@ export const deleteProjectsRequest = (projects) => {
  * @param {object} error Error object
  * @returns {object} { type, errorMessage }
  */
-const updateProjectFail = (error) => (dispatch) => {
+const updateProjectFail = (error) => {
   // getting error message
   let errorMessage;
 
@@ -203,14 +191,12 @@ const updateProjectFail = (error) => (dispatch) => {
     }
   }
 
-  dispatch(showError(errorMessage, 5));
+  message.error(errorMessage, 5);
 
-  dispatch({
-    type: PROJECTS_TYPES.UPDATE_PROJECT_FAIL,
-    payload: { errorMessage },
-  });
-
-  dispatch(removeLoading(PROJECTS_TYPES.UPDATE_PROJECT_REQUEST));
+  return {
+    type: actionTypes.UPDATE_PROJECT_FAIL,
+    payload: { isLoading: false, errorMessage },
+  };
 };
 
 /**
@@ -230,15 +216,13 @@ const updateProjectSuccess = (response) => (dispatch, getState) => {
   );
 
   dispatch({
-    type: PROJECTS_TYPES.UPDATE_PROJECT_SUCCESS,
-    payload: { projects },
+    type: actionTypes.UPDATE_PROJECT_SUCCESS,
+    payload: { projects, isLoading: false },
   });
 
   dispatch(hideNewProjectModal());
 
-  dispatch(removeLoading(PROJECTS_TYPES.UPDATE_PROJECT_REQUEST));
-
-  dispatch(showSuccess('Projeto salvo!'));
+  message.success('Projeto salvo!');
 };
 
 /**
@@ -251,13 +235,10 @@ const updateProjectSuccess = (response) => (dispatch, getState) => {
 export const updateProjectRequest = (projectId, projectUpdate) => async (
   dispatch
 ) => {
-  const actionType = PROJECTS_TYPES.UPDATE_PROJECT_REQUEST;
-
   dispatch({
-    type: actionType,
+    type: actionTypes.UPDATE_PROJECT_REQUEST,
+    payload: { isLoading: true },
   });
-
-  dispatch(addLoading(actionType));
 
   try {
     const response = await projectsApi.updateProject(projectId, projectUpdate);
@@ -291,11 +272,9 @@ const fetchProjectSuccess = (response) => (dispatch, getState) => {
   }
 
   dispatch({
-    type: PROJECTS_TYPES.FETCH_PROJECT_SUCCESS,
-    payload: { projects },
+    type: actionTypes.FETCH_PROJECT_SUCCESS,
+    payload: { projects, isLoading: false },
   });
-
-  dispatch(removeLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST));
 };
 
 /**
@@ -305,7 +284,7 @@ const fetchProjectSuccess = (response) => (dispatch, getState) => {
  * @param {object} history Router history object
  * @returns {object} Action object
  */
-const fetchProjectFail = (error, history) => (dispatch) => {
+const fetchProjectFail = (error, history) => {
   const errorMessage = error.message;
 
   if (error.response?.status === 404) {
@@ -313,13 +292,12 @@ const fetchProjectFail = (error, history) => (dispatch) => {
     history.replace('/erro-404');
   }
 
-  dispatch(showError(errorMessage, 5));
+  message.error(errorMessage, 5);
 
-  dispatch(removeLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST));
-
-  dispatch({
-    type: PROJECTS_TYPES.FETCH_PROJECT_FAIL,
-  });
+  return {
+    type: actionTypes.FETCH_PROJECT_FAIL,
+    payload: { isLoading: false },
+  };
 };
 
 /**
@@ -330,14 +308,11 @@ const fetchProjectFail = (error, history) => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const fetchProjectRequest = (projectId, history) => async (dispatch) => {
-  const actionType = PROJECTS_TYPES.FETCH_PROJECT_REQUEST;
-
   // dispatching request action
   dispatch({
-    type: actionType,
+    type: actionTypes.FETCH_PROJECT_REQUEST,
+    payload: { isLoading: true },
   });
-
-  dispatch(addLoading(actionType));
 
   try {
     const response = await projectsApi.fetchProject(projectId);
@@ -370,15 +345,16 @@ const createProjectSuccess = (response, history) => (dispatch, getState) => {
   );
 
   dispatch({
-    type: PROJECTS_TYPES.CREATE_PROJECT_SUCCESS,
-    payload: { projects },
+    type: actionTypes.CREATE_PROJECT_SUCCESS,
+    projects,
+    payload: {
+      isLoading: false,
+    },
   });
 
   dispatch(hideNewProjectModal());
 
-  dispatch(removeLoading(PROJECTS_TYPES.CREATE_PROJECT_REQUEST));
-
-  dispatch(showSuccess(`Projeto ${project.name} criado!`));
+  message.success(`Projeto ${project.name} criado!`);
 
   // go to new project
   history.push(`/projetos/${project.uuid}`);
@@ -390,7 +366,7 @@ const createProjectSuccess = (response, history) => (dispatch, getState) => {
  * @param {object} error Error object
  * @returns {object} Action object
  */
-const createProjectFail = (error) => (dispatch) => {
+const createProjectFail = (error) => {
   let errorMessage;
 
   if (error?.response.status === 500) {
@@ -403,14 +379,12 @@ const createProjectFail = (error) => (dispatch) => {
     }
   }
 
-  dispatch(showError(errorMessage, 5));
+  message.error(errorMessage, 5);
 
-  dispatch({
-    type: PROJECTS_TYPES.CREATE_PROJECT_FAIL,
-    payload: { errorMessage },
-  });
-
-  dispatch(removeLoading(PROJECTS_TYPES.CREATE_PROJECT_REQUEST));
+  return {
+    type: actionTypes.CREATE_PROJECT_FAIL,
+    payload: { isLoading: false, errorMessage },
+  };
 };
 
 /**
@@ -421,13 +395,12 @@ const createProjectFail = (error) => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const createProjectRequest = (project, history) => async (dispatch) => {
-  const actionType = PROJECTS_TYPES.CREATE_PROJECT_REQUEST;
-
   dispatch({
-    type: actionType,
+    type: actionTypes.CREATE_PROJECT_REQUEST,
+    payload: {
+      isLoading: true,
+    },
   });
-
-  dispatch(addLoading(actionType));
 
   try {
     const response = await projectsApi.createProject(project);

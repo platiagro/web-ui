@@ -23,7 +23,7 @@ const getSelectedProjects = (state) => state.Projects.selectedProjects;
  *
  * @param {string} projectId Project id
  * @param {AppStores} state Redux store state
- * @returns {Project} Projects list
+ * @returns {Projects} Projects list
  */
 const getProject = (projectId, state) => {
   const { Projects: ProjectsStore } = state;
@@ -48,6 +48,14 @@ const getProject = (projectId, state) => {
 
   return project;
 };
+
+/**
+ * Get is loading state
+ *
+ * @param {AppStores} state Redux store state
+ * @returns {boolean} Store data is loading
+ */
+const getIsLoading = (state) => state.Projects.isLoading;
 
 // TODO: Remover essa lógica da store
 /**
@@ -93,4 +101,5 @@ export {
   getCurrentPage,
   getTotalProjects,
   getPageSize,
+  getIsLoading,
 };
