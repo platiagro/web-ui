@@ -56,6 +56,7 @@ const ExperimentLogsPanelContainer = () => {
   };
 
   useEffect(() => {
+    if (!projectId || !experimentId) return;
     dispatch(getExperimentLogs(projectId, experimentId));
   }, [dispatch, experimentId, projectId]);
 
