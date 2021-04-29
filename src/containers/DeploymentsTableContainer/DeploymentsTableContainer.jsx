@@ -19,7 +19,7 @@ const deploymentsSelector = ({ deploymentsReducer }) => {
   const deployments = deploymentsReducer || [];
   // filters by deployments that have an URL
   // ensures only items that are actually deployed are shown
-  return deployments.filter((deployment) => deployment.url != null);
+  return deployments.filter((deployment) => !!deployment.url);
 };
 
 const isLoadingSelector = ({ uiReducer }) => {
