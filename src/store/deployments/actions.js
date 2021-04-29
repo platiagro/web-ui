@@ -386,7 +386,7 @@ export const prepareDeployments = (experiments, projectId, routerProps) => (
     .then(() => {
       dispatch(prepareDeploymentsDataLoaded());
 
-      routerProps.history.push(`/projetos/${projectId}`);
+      routerProps.history.push(`/projetos/${projectId}/pre-implantacao`);
       message.success('Experimento implantado!');
     })
     .catch((error) => {
