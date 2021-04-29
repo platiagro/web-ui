@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
 // UI LIBS
@@ -17,6 +18,7 @@ const { TextArea } = Input;
 /**
  * Component to render error placeholder or result information
  * based on status of experimentInference.
+ *
  * @returns {Component} Error placeholder, Table or a adaptable component
  */
 
@@ -96,7 +98,7 @@ const InferenceTestResultModalContent = (props) => {
           icon={<CopyOutlined />}
           type='primary'
           style={{ margin: '6px 6px 0px 0px' }}
-          onClick={() => utils.copyToClipboard()}
+          onClick={() => utils.copyToClipboard(experimentInference)}
         >
           Copiar
         </Button>
@@ -128,6 +130,12 @@ const InferenceTestResultModalContent = (props) => {
       )}
     </>
   );
+};
+
+InferenceTestResultModalContent.propTypes = {
+  experimentInference: PropTypes.any,
+  getDeployExperimentLogs: PropTypes.func.isRequired,
+  retryTest: PropTypes.func.isRequired,
 };
 
 export default InferenceTestResultModalContent;
