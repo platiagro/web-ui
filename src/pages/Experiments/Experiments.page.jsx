@@ -21,7 +21,7 @@ import FlowDrop from './FlowDrop';
 
 import './Experiments.style.less';
 
-const ExperimentsContent = () => {
+const Experiments = () => {
   const { experimentId } = useParams();
 
   return (
@@ -60,4 +60,4 @@ const ExperimentsContent = () => {
   );
 };
 
-export default ExperimentsContent;
+export default Experiments;

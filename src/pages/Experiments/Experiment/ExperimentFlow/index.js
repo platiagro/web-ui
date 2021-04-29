@@ -190,8 +190,7 @@ const ExperimentFlowDrop = DropTarget(
   'TASK',
   {
     canDrop(props) {
-      const canDrop = !props.loading;
-      return canDrop;
+      return !props.loading;
     },
     drop: (props, monitor) => {
       const delta = monitor.getClientOffset();

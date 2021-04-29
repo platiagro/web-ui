@@ -34,28 +34,24 @@ const NewProjectModal = (props) => {
 
   // did mount hook
   useEffect(() => {
-    if (visible) {
-      setTimeout(() => inputNameRef.current.select());
-    } else {
-      setButtonDisabled(false);
-    }
+    if (visible) setTimeout(() => inputNameRef.current.select());
+    else setButtonDisabled(false);
+
     setStatus(modalValidateStatus);
   }, [modalValidateStatus, visible]);
 
   // FUNCTIONS
   // function to enable or disable submit button
   const onValuesChangeForm = (changedValues, allValues) => {
-    if (allValues.name === '') {
-      setButtonDisabled(true);
-    } else {
-      setButtonDisabled(false);
-    }
+    const isNameEmpty = allValues.name === '';
+    setButtonDisabled(isNameEmpty);
   };
+
   // Function to handle form submit
   const handleSubmit = () => {
     form.validateFields().then((values) => {
       // handling create new project
-      if (record !== undefined) {
+      if (record) {
         handleUpdateProject(record.uuid, values.name, values.description, true);
       } else {
         handleNewProject(values.name, values.description);
@@ -65,11 +61,8 @@ const NewProjectModal = (props) => {
 
   // FUNCTION KEYS
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSubmit();
-    } else if (e.key === 'Escape') {
-      handleCloseModal();
-    }
+    if (e.key === 'Enter') handleSubmit();
+    else if (e.key === 'Escape') handleCloseModal();
   };
 
   // RENDER

@@ -7,7 +7,7 @@ import NewProjectModal from './NewProjectModal/NewProjectModalContainer';
 import NewProjectButtonContainer from './NewProjectButton/NewProjectButtonContainer';
 import DeleteProjectsButtonContainer from './DeleteProjectsButton/DeleteProjectsButtonContainer';
 
-const ProjectsContent = () => {
+const Projects = () => {
   return (
     <>
       <ContentHeaderContainer
@@ -26,4 +26,4 @@ const ProjectsContent = () => {
   );
 };
 
-export default ProjectsContent;
+export default Projects;

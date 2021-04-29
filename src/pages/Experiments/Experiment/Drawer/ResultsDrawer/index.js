@@ -78,12 +78,11 @@ const ResultsDrawer = (props) => {
   const metricsDataSource = metrics.map((element, i) => {
     const objectKey = Object.keys(element)[0];
     const objectValor = element[objectKey];
-    const obj = {
+    return {
       key: i,
       metrica: objectKey,
       valor: JSON.stringify(objectValor),
     };
-    return obj;
   });
 
   const hasResult =
@@ -92,87 +91,90 @@ const ResultsDrawer = (props) => {
     parameters.length > 0 ||
     dataset;
 
+  if (loading) {
+    return (
+      <div className='resultsDrawer'>
+        <Spin indicator={<LoadingOutlined />} />
+      </div>
+    );
+  }
+
   return (
     <div className='resultsDrawer'>
-      {loading ? (
-        <Spin indicator={<LoadingOutlined />} />
-      ) : hasResult ? (
-        <>
-          <Tabs defaultActiveKey={activeKey} onChange={onTabChange}>
-            {/* figures */}
-            {figures.map((result, i) => {
-              const index = i + 1;
-              return (
-                <TabPane tab={`Figura ${index}`} key={index}>
-                  <div style={resultsTabStyle}>
-                    <div className='tab-content'>
-                      <PlotResult key={result.uuid} plotUrl={result.plotUrl} />
-                    </div>
+      {hasResult ? (
+        <Tabs defaultActiveKey={activeKey} onChange={onTabChange}>
+          {/* figures */}
+          {figures.map((result, i) => {
+            const index = i + 1;
+            return (
+              <TabPane tab={`Figura ${index}`} key={index}>
+                <div style={resultsTabStyle}>
+                  <div className='tab-content'>
+                    <PlotResult key={result.uuid} plotUrl={result.plotUrl} />
                   </div>
-                </TabPane>
-              );
-            })}
+                </div>
+              </TabPane>
+            );
+          })}
 
-            {/* dataset */}
-            <TabPane
-              tab={<span>Dataset</span>}
-              key={figures.length + 1}
-              disabled={dataset ? false : true}
-            >
-              {dataset ? (
-                <TableResult
-                  columns={dataset.columns}
-                  currentPage={dataset.currentPage}
-                  key={dataset.uuid}
-                  onPageChange={onDatasetPageChange}
-                  pageSize={dataset.pageSize}
-                  rows={dataset.rows}
-                  scroll={datasetScroll}
-                  total={dataset.total}
-                />
-              ) : null}
-              {isToShowDownloadButtons ? (
-                <DownloadOperatorDatasetContainer />
-              ) : null}
-            </TabPane>
-
-            {/* metrics */}
-            <TabPane
-              tab={<MetricsTitle loading={metricsLoading} />}
-              key={figures.length + 2}
-              disabled={metrics.length <= 0}
-            >
-              <CommonTable
-                bordered
-                columns={metricsColumns}
-                dataSource={metricsDataSource}
-                isLoading={false}
-                rowKey={() => {
-                  return uuidv4();
-                }}
-                scroll={scroll}
+          {/* dataset */}
+          <TabPane
+            tab={<span>Dataset</span>}
+            key={figures.length + 1}
+            disabled={!dataset}
+          >
+            {!!dataset && (
+              <TableResult
+                columns={dataset.columns}
+                currentPage={dataset.currentPage}
+                key={dataset.uuid}
+                onPageChange={onDatasetPageChange}
+                pageSize={dataset.pageSize}
+                rows={dataset.rows}
+                scroll={datasetScroll}
+                total={dataset.total}
               />
-            </TabPane>
+            )}
 
-            {/* parameters */}
-            <TabPane
-              tab={<span>Parâmetros</span>}
-              key={figures.length + 3}
-              disabled={parameters.length <= 0}
-            >
-              <CommonTable
-                bordered
-                columns={parametersColumns}
-                dataSource={parameters}
-                isLoading={false}
-                rowKey={() => {
-                  return uuidv4();
-                }}
-                scroll={scroll}
-              />
-            </TabPane>
-          </Tabs>
-        </>
+            {isToShowDownloadButtons && <DownloadOperatorDatasetContainer />}
+          </TabPane>
+
+          {/* metrics */}
+          <TabPane
+            tab={<MetricsTitle loading={metricsLoading} />}
+            key={figures.length + 2}
+            disabled={metrics.length <= 0}
+          >
+            <CommonTable
+              bordered
+              columns={metricsColumns}
+              dataSource={metricsDataSource}
+              isLoading={false}
+              rowKey={() => {
+                return uuidv4();
+              }}
+              scroll={scroll}
+            />
+          </TabPane>
+
+          {/* parameters */}
+          <TabPane
+            tab={<span>Parâmetros</span>}
+            key={figures.length + 3}
+            disabled={parameters.length <= 0}
+          >
+            <CommonTable
+              bordered
+              columns={parametersColumns}
+              dataSource={parameters}
+              isLoading={false}
+              rowKey={() => {
+                return uuidv4();
+              }}
+              scroll={scroll}
+            />
+          </TabPane>
+        </Tabs>
       ) : (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}

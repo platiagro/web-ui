@@ -13,12 +13,7 @@ import {
 
 import './Deployment.style.less';
 
-/**
- * Pagina de pré-implantação/implantação.
- */
-function Deployment() {
-  // FIXME: Adicionar containers
-  // FIXME: Criar Layout
+const Deployment = () => {
   return (
     <ReactFlowProvider>
       <div className='deployment-page'>
@@ -47,6 +42,6 @@ function Deployment() {
       </div>
     </ReactFlowProvider>
   );
-}
+};
 
 export default Deployment;
