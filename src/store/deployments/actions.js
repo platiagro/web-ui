@@ -6,7 +6,6 @@ import actionTypes from './actionTypes';
 
 // SERVICE
 import deploymentsApi from 'services/DeploymentsApi';
-import deploymentsRunsApi from 'services/DeploymentRunsApi';
 
 // UI ACTIONS
 import {
@@ -324,38 +323,6 @@ export const clearAllDeployments = () => (dispatch) => {
   dispatch({
     type: actionTypes.CLEAR_ALL_DEPLOYMENTS,
   });
-};
-
-/** FIXME: Temporary solution to get all deployments runs
- *
- * On future need to be substituted by data normalization
- * on deployment reducer
- */
-
-export const fetchAllDeploymentsRuns = (
-  projectId,
-  experiments,
-  isToShowLoader
-) => async (dispatch) => {
-  if (isToShowLoader) {
-    dispatch(implantedExperimentsLoadingData());
-  }
-
-  const deployments = [];
-
-  if (experiments && experiments.length > 0) {
-    for (const experiment of experiments) {
-      await deploymentsRunsApi
-        .fetchDeploymentRuns(projectId, experiment.uuid)
-        .then((response) => {
-          deployments.push(response.data);
-        })
-        .catch(() => {});
-    }
-  }
-  dispatch(implantedExperimentsDataLoaded());
-
-  return deployments;
 };
 
 /**

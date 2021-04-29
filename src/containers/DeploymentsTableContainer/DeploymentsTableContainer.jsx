@@ -1,7 +1,7 @@
 // CORE LIBS
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import React, { useLayoutEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import DeploymentsTable from 'components/DeploymentsTable';
@@ -11,80 +11,67 @@ import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
   deleteDeploymentRequest,
   fetchDeploymentsRequest,
-  fetchAllDeploymentsRuns,
 } from 'store/deployments/actions';
 
 import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleFetchDeploymentsRuns: (projectId, deploymentId) =>
-      dispatch(fetchAllDeploymentsRuns(projectId, deploymentId, true)),
-    handleDeleteDeployment: (projectId, deploymentId) =>
-      dispatch(deleteDeploymentRequest(projectId, deploymentId)),
-    handleGetDeployExperimentLogs: (projectId, deployId) =>
-      dispatch(getDeployExperimentLogs(projectId, deployId)),
-    handleTestImplantedExperimentInference: (projectId, deployId, file) =>
-      dispatch(
-        testImplantedExperimentInferenceAction(projectId, deployId, file)
-      ),
-    handleFetchDeploymentsRequest: (projectId, loader) =>
-      dispatch(fetchDeploymentsRequest(projectId, loader)),
-  };
+const deploymentsSelector = ({ deploymentsReducer }) => {
+  const deployments = deploymentsReducer || [];
+  // filters by deployments that have an URL
+  // ensures only items that are actually deployed are shown
+  return deployments.filter((deployment) => deployment.url != null);
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    loading: state.uiReducer.implantedExperiments.loading,
-    project: state.projectReducer,
-    deployments: state.deploymentsReducer,
-  };
+const isLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.implantedExperiments.loading;
 };
 
-/**
- * Container to display deployments table.
- *
- * @param {object} props Container props
- * @returns {DeploymentsTableContainer} Container
- */
-const DeploymentsTableContainer = (props) => {
-  const {
-    handleDeleteDeployment,
-    handleGetDeployExperimentLogs,
-    handleTestImplantedExperimentInference,
-    handleFetchDeploymentsRequest,
-    loading,
-    deployments,
-  } = props;
+const DeploymentsTableContainer = () => {
   const { projectId } = useParams();
 
-  useEffect(() => {
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
     // first get: when component has mounted
-    handleFetchDeploymentsRequest(projectId, true);
+    // show loading effect (skeleton)
+    dispatch(fetchDeploymentsRequest(projectId, true));
 
     const polling = setInterval(
-      () => handleFetchDeploymentsRequest(projectId, false),
+      // the following requests, there is no need to show skeleton
+      () => dispatch(fetchDeploymentsRequest(projectId, false)),
       5000
     );
     return () => clearInterval(polling);
-  }, [projectId, handleFetchDeploymentsRequest]);
+  }, [dispatch, projectId]);
 
-  const deleteDeployment = (deployId) => {
-    handleDeleteDeployment(projectId, deployId);
+  const handleDeleteDeployment = (deploymentId) => {
+    dispatch(deleteDeploymentRequest(projectId, deploymentId));
   };
 
-  const handleOpenLog = (deployId) => {
-    handleGetDeployExperimentLogs(projectId, deployId);
+  const handleOpenLog = (deploymentId) => {
+    dispatch(getDeployExperimentLogs(projectId, deploymentId));
   };
+
+  const handleTestImplantedExperimentInference = (
+    projectId,
+    deploymentId,
+    file
+  ) => {
+    dispatch(
+      testImplantedExperimentInferenceAction(projectId, deploymentId, file)
+    );
+  };
+
+  const deployments = useSelector(deploymentsSelector);
+
+  const isLoading = useSelector(isLoadingSelector);
 
   return (
     <div className='deploymentsTableContainer'>
       <DeploymentsTable
         deployments={deployments}
-        loading={loading}
-        onDeleteDeployment={deleteDeployment}
+        loading={isLoading}
+        onDeleteDeployment={handleDeleteDeployment}
         onOpenLog={handleOpenLog}
         onTestInference={handleTestImplantedExperimentInference}
       />
@@ -92,6 +79,4 @@ const DeploymentsTableContainer = (props) => {
   );
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DeploymentsTableContainer)
-);
+export default DeploymentsTableContainer;
