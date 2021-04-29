@@ -6,7 +6,6 @@ import actionTypes from './actionTypes';
 
 // SERVICE
 import deploymentsApi from 'services/DeploymentsApi';
-import deploymentsRunsApi from 'services/DeploymentRunsApi';
 
 // UI ACTIONS
 import {
@@ -96,7 +95,7 @@ const createDeploymentSuccess = (response) => (dispatch) => {
   // dispatching create deployment success
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_SUCCESS,
-    deployment: response.data,
+    deployments: response.data.deployments,
   });
 
   dispatch(newDeploymentModalEndLoading());
@@ -326,38 +325,6 @@ export const clearAllDeployments = () => (dispatch) => {
   });
 };
 
-/** FIXME: Temporary solution to get all deployments runs
- *
- * On future need to be substituted by data normalization
- * on deployment reducer
- */
-
-export const fetchAllDeploymentsRuns = (
-  projectId,
-  experiments,
-  isToShowLoader
-) => async (dispatch) => {
-  if (isToShowLoader) {
-    dispatch(implantedExperimentsLoadingData());
-  }
-
-  const deployments = [];
-
-  if (experiments && experiments.length > 0) {
-    for (const experiment of experiments) {
-      await deploymentsRunsApi
-        .fetchDeploymentRuns(projectId, experiment.uuid)
-        .then((response) => {
-          deployments.push(response.data);
-        })
-        .catch(() => {});
-    }
-  }
-  dispatch(implantedExperimentsDataLoaded());
-
-  return deployments;
-};
-
 /**
  * prepare deployment request action
  *
@@ -386,7 +353,7 @@ export const prepareDeployments = (experiments, projectId, routerProps) => (
     .then(() => {
       dispatch(prepareDeploymentsDataLoaded());
 
-      routerProps.history.push(`/projetos/${projectId}`);
+      routerProps.history.push(`/projetos/${projectId}/pre-implantacao`);
       message.success('Experimento implantado!');
     })
     .catch((error) => {
@@ -484,18 +451,13 @@ export function duplicateDeploymentRequest(
     try {
       dispatch({ type: actionTypes.DUPLICATE_DEPLOYMENT_REQUEST });
 
-      // TODO ------------------------------------------------------------------
-      // Isso não vai funcionar porque está passando ID de deployment ao
-      // invés de um ID de experiment. Para funcionar tem que fazer um outro
-      // endpoint na API.
-      // Esse novo endpoint tem também que receber um novo nome para o deployment.
       const response = await deploymentsApi.createDeployment(projectId, {
-        newDeploymentName,
-        experiments: [duplicatedDeploymentId],
+        name: newDeploymentName,
+        copyFrom: duplicatedDeploymentId,
       });
 
-      const [createdDeployment] = response.data;
-      dispatch(duplicateDeploymentSuccess(createdDeployment));
+      const deployments = response.data.deployments;
+      dispatch(duplicateDeploymentSuccess(deployments));
     } catch (error) {
       dispatch(duplicateDeploymentFail(error));
     }
@@ -505,14 +467,14 @@ export function duplicateDeploymentRequest(
 /**
  * Action to duplicate deployment success
  *
- * @param {object[]} duplicatedDeployment Duplicated deployment
+ * @param {object[]} deployments Duplicated deployment
  *
  * @returns {object} Action payload
  */
-function duplicateDeploymentSuccess(duplicatedDeployment) {
+function duplicateDeploymentSuccess(deployments) {
   return {
     type: actionTypes.DUPLICATE_DEPLOYMENT_SUCCESS,
-    deployment: duplicatedDeployment,
+    deployments: deployments,
   };
 }
 
