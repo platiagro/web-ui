@@ -72,7 +72,7 @@ const DeploymentToolbarContainer = () => {
         onClose={handleHidePromoteModal}
         onConfirm={runDeploymentHandler}
         initialInputValue={deploymentId}
-        inputDisabled={true}
+        isInputDisabled={true}
       />
       <div>
         {/** FIXME: missing toolbar config */}

@@ -1,10 +1,7 @@
-// CORE LIBS
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-
-// UI LIBS
 import { Modal, Button, Input } from 'antd';
+import { CopyToClipboard } from 'components';
 import { CopyOutlined } from '@ant-design/icons';
 import './style.less';
 
@@ -15,7 +12,7 @@ const PromoteDeploymentModal = (props) => {
     onConfirm,
     urlPrefix,
     urlSuffix,
-    inputDisabled,
+    isInputDisabled,
     loading,
     initialInputValue,
   } = props;
@@ -61,7 +58,7 @@ const PromoteDeploymentModal = (props) => {
           addonAfter={selectAfter}
           onChange={handleInputChange}
           value={inputValue}
-          disabled={inputDisabled}
+          disabled={isInputDisabled}
         ></Input>
         <CopyToClipboard text={`${urlPrefix}${inputValue}${urlSuffix}`}>
           <Button
@@ -86,15 +83,19 @@ PromoteDeploymentModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   /** modal confirm handler */
   onConfirm: PropTypes.func.isRequired,
-  inputDisabled: PropTypes.bool,
+  /** boolean to disable input */
+  isInputDisabled: PropTypes.bool,
+  /** Prefix for url input */
   urlPrefix: PropTypes.string.isRequired,
+  /** Suffix for url input */
   urlSuffix: PropTypes.string.isRequired,
+  /** Initial value on input */
   initialInputValue: PropTypes.string,
 };
 
 PromoteDeploymentModal.defaultProps = {
   loading: false,
-  inputDisabled: false,
+  isInputDisabled: false,
   initialInputValue: 'initial value',
 };
 
