@@ -1,18 +1,19 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import { CopyToClipboard } from 'components';
 
-import { Modal, Button, Input, Typography } from "antd";
-import { CopyOutlined } from "@ant-design/icons";
+import { CopyOutlined } from '@ant-design/icons';
+import { Modal, Button, Input, Typography } from 'antd';
 
-import "./style.less";
+import './style.less';
 
 const ExternalDatasetHelperModal = (props) => {
   const { Link } = Typography;
 
   const { TextArea } = Input;
 
-  const { url, onClose, visible, disabled } = props;
+  const { url, onClose, visible, disabled, exampleBody } = props;
 
   return (
     <Modal
@@ -20,8 +21,9 @@ const ExternalDatasetHelperModal = (props) => {
       title={<strong>Como usar uma aplicação como fonte de dados</strong>}
       destroyOnClose
       width={605}
+      onCancel={onClose}
       footer={[
-        <Button type="primary" key="back" onClick={onClose}>
+        <Button type='primary' key='back' onClick={onClose}>
           Fechar
         </Button>,
       ]}
@@ -36,26 +38,54 @@ const ExternalDatasetHelperModal = (props) => {
       </p>
       <CopyToClipboard text={url}>
         <Button
-          style={{ color: "#0050B3" }}
+          style={{ color: '#0050B3' }}
           icon={<CopyOutlined />}
-          shape="round"
+          shape='round'
         >
           Copiar URL
         </Button>
       </CopyToClipboard>
       <TextArea
-        className="input-settings"
-        size="large"
+        className='input-settings'
+        size='large'
         disabled={disabled}
-        value={url}
+        value={exampleBody}
         rows={12}
       />
       <p>
         Caso o usuário queira saber mais detalhes, poderia
-        <Link href=""> ver a documentação do projeto</Link>.
+        <Link href=''> ver a documentação do projeto</Link>.
       </p>
     </Modal>
   );
+};
+
+ExternalDatasetHelperModal.propTypes = {
+  /** Function to close modal */
+  onClose: PropTypes.func.isRequired,
+  /** Url to be copied */
+  url: PropTypes.string.isRequired,
+  /** Boolean to show */
+  visible: PropTypes.bool.isRequired,
+  /** Example texto to show on modal */
+  exampleBody: PropTypes.any,
+  /** Boolean to disable text area */
+  disabled: PropTypes.bool,
+};
+
+ExternalDatasetHelperModal.defaultProps = {
+  exampleBody: `{
+  	"meta":{
+  		"puid": "pqvaab0ej28n89sr4ffjni1ie7",
+  		"tags":{},
+  		"routing":{},
+  		"requestPath":{
+  			"e65e85-a056-40b7-9e4b-4db49ee3b915": "platiagro/platiagro-deployment-image:0.1.0"
+  		},
+  		"metrics":[]
+  	}
+  }`,
+  disabled: true,
 };
 
 export default ExternalDatasetHelperModal;

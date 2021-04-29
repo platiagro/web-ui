@@ -20,9 +20,14 @@ import ErrorRow from './ErrorRow';
 import DebugRow from './DebugRow';
 import InfoRow from './InfoRow';
 
+import ExternalDatasetDrawer from './ExternalDatasetDrawer';
+
+import CopyToClipboard from './CopyToClipboard';
+
 export {
   CommonTable,
   CompareResultItem,
+  CopyToClipboard,
   DatasetColumnsTable,
   LogsDrawer,
   ParameterGroup,
@@ -35,4 +40,5 @@ export {
   ErrorRow,
   DebugRow,
   InfoRow,
+  ExternalDatasetDrawer,
 };
