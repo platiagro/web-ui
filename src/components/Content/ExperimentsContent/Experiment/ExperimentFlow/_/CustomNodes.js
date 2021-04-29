@@ -37,19 +37,20 @@ const Vectors = () => (
     <defs>
       {ARROWS.map((arrow) => (
         <marker
-          class='react-flow__arrowhead'
+          className='react-flow__arrowhead'
           id={arrow.id}
           markerWidth='12.5'
           markerHeight='12.5'
           viewBox='-10 -10 20 20'
           refX='-5'
           refY='0'
+          key={arrow.id}
         >
           <polyline
             stroke={arrow.color}
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            stroke-width='1'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth='1'
             fill={arrow.color}
             points='-5,-4 0,0 -5,4 -5,-4'
           ></polyline>
@@ -58,13 +59,14 @@ const Vectors = () => (
 
       {CIRCLES.map((circle) => (
         <marker
-          class='react-flow__edge'
+          className='react-flow__edge'
           id={circle.id}
           markerWidth='12.5'
           markerHeight='12.5'
           viewBox='-10 -10 20 20'
           refX='3'
           refY='0'
+          key={circle.id}
         >
           <circle r='3' fill={circle.color} />
         </marker>
@@ -91,7 +93,7 @@ export const edgeTypes = {
     sourcePosition,
     targetPosition,
     style = {},
-    data: { onDelete },
+    data: { onDelete } = {},
   }) => {
     const edgePath = getSmoothStepPath({
       sourceX,
@@ -105,7 +107,7 @@ export const edgeTypes = {
 
     const menu = (
       <Menu onClick={() => onDelete(target, source)}>
-        <Menu.Item key='remove'>Remover</Menu.Item>
+        {onDelete && <Menu.Item key='remove'>Remover</Menu.Item>}
       </Menu>
     );
 
