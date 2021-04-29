@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // UI LIBS
 import { Button, Result } from 'antd';
@@ -6,6 +7,7 @@ import { Button, Result } from 'antd';
 /**
  * Component to render error placeholder or result information
  * based on status of experimentInference.
+ *
  * @returns {Component} Error placeholder, Table or a adaptable component
  */
 
@@ -27,6 +29,11 @@ const InferenceTestResultModalError = (props) => {
       ]}
     />
   );
+};
+
+InferenceTestResultModalError.propTypes = {
+  getDeployExperimentLogs: PropTypes.func.isRequired,
+  retryTest: PropTypes.func.isRequired,
 };
 
 export default InferenceTestResultModalError;

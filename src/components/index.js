@@ -22,9 +22,12 @@ import InfoRow from './InfoRow';
 
 import ExternalDatasetDrawer from './ExternalDatasetDrawer';
 
+import CopyToClipboard from './CopyToClipboard';
+
 export {
   CommonTable,
   CompareResultItem,
+  CopyToClipboard,
   DatasetColumnsTable,
   LogsDrawer,
   ParameterGroup,

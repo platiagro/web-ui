@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 // COMPONENTS
-import { PropertyBlock } from 'components';
+import { PropertyBlock, CopyToClipboard } from 'components';
 import { SelectInputBlock } from 'components/InputBlocks';
 import { CopyOutlined } from '@ant-design/icons';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button } from 'antd';
 
 // STYLES
