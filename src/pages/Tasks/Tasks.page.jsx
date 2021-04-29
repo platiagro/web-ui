@@ -7,7 +7,7 @@ import EditTaskModalContainer from './EditTaskModal/EditTaskModalContainer';
 import NewTaskModalContainer from './NewTaskModal/NewTaskModalContainer';
 import TasksTableContainer from './TasksTable/TasksTableContainer';
 
-const Task = () => {
+const Tasks = () => {
   return (
     <>
       <ContentHeaderContainer
@@ -26,4 +26,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default Tasks;
