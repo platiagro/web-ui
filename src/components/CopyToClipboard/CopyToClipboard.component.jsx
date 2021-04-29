@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { CopyToClipboard as ReactCopyToClipboard } from 'react-copy-to-clipboard';
 
 const CopyToClipboard = ({ children, text, onCopy, showMessageOnCopy }) => {
-  const handleOnCopy = (text, result) => {
-    onCopy && onCopy(text, result);
+  const handleOnCopy = (textCopied, result) => {
+    onCopy && onCopy(textCopied, result);
     showMessageOnCopy && message.success(`Copiado para área de transferência!`);
   };
 
