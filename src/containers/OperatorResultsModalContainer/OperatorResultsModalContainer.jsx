@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { Modal } from 'uiComponents';
 
 // COMPONENTS
-import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer/_';
+import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer';
 
 // ACTIONS
 import { getOperatorResultDataset } from 'store/operator/actions';

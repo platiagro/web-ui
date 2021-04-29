@@ -5,7 +5,7 @@ import { Layout, ConfigProvider } from 'antd';
 
 import Store from 'store';
 import { MainRoutes } from 'routes';
-import MainSider from 'components/MainSider/_';
+import MainSider from 'components/MainSider';
 import { CustomConfirmRouterContainer } from 'containers';
 
 import './style.less';
