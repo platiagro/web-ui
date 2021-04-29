@@ -10,7 +10,6 @@ import { CommonTable } from 'components';
 // UI LIBS
 import {
   DownOutlined,
-  LockOutlined,
   SearchOutlined,
   ShoppingOutlined,
   TeamOutlined,
@@ -106,7 +105,6 @@ const TasksTable = (props) => {
         }
       },
       render: (value, record) => {
-        const random = Math.round(Math.random());
         return (
           <div>
             <Button
@@ -119,17 +117,8 @@ const TasksTable = (props) => {
               </Text>
             </Button>
             <Space style={{ width: '25%' }}>
-              {random === 0 ? (
-                <Button
-                  className='btnTaskLockTeam'
-                  icon={<TeamOutlined />}
-                ></Button>
-              ) : (
-                <Button
-                  className='btnTaskLockTeam'
-                  icon={<LockOutlined />}
-                ></Button>
-              )}
+              <Button className='btnTaskLockTeam' icon={<TeamOutlined />} />
+
               <Button
                 icon={<ShoppingOutlined style={{ color: 'white' }} />}
                 shape='circle'
