@@ -7,8 +7,8 @@ import {
   InterruptTrainExperimentButton,
   TrainExperimentButton,
 } from 'components/Buttons';
-import NewTemplateButton from './NewTemplateButton/Container';
-import NewTemplateModal from './NewTemplateModal/Container';
+import NewTemplateButton from './NewTemplateButton/NewTemplateButtonContainer';
+import NewTemplateModal from './NewTemplateModal/NewTemplateModalContainer';
 import ToolbarConfig from 'components/ToolbarConfig';
 
 import './styles.less';

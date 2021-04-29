@@ -6,7 +6,7 @@ import ExperimentEmpty from 'components/ExperimentEmpty';
 import { ExperimentLogsPanelContainer } from 'containers';
 
 import CustomDragLayer from '../CustomDragLayer';
-import ExperimentHeader from '../Experiment/ExperimentHeader/Container';
+import ExperimentHeader from '../Experiment/ExperimentHeader/ExperimentHeaderContainer';
 import ExperimentFlowContainer from '../Experiment/ExperimentFlow/ExperimentFlowContainer';
 
 import './style.less';
