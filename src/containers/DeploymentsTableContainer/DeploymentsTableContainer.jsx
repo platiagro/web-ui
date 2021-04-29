@@ -53,12 +53,16 @@ const DeploymentsTableContainer = () => {
   };
 
   const handleTestImplantedExperimentInference = (
-    projectId,
+    currentProjectId,
     deploymentId,
     file
   ) => {
     dispatch(
-      testImplantedExperimentInferenceAction(projectId, deploymentId, file)
+      testImplantedExperimentInferenceAction(
+        currentProjectId,
+        deploymentId,
+        file
+      )
     );
   };
 
