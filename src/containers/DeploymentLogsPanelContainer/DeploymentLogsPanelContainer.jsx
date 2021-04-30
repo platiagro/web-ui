@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { LOG_TYPES } from 'configs';
 import LogsPanel from 'components/LogsPanel';
+import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
-import LogsModal from 'components/LogsModal';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
@@ -18,27 +18,19 @@ const isLoadingSelector = ({ uiReducer }) => {
 };
 
 const logsSelector = ({ deploymentLogsReducer }) => {
-  let logsArray = [];
+  return deploymentLogsReducer.logs.map((log) => {
+    const formattedDate = format(
+      new Date(log.createdAt.trim()),
+      'hh:mm:ss dd/MM/yyyy'
+    );
 
-  deploymentLogsReducer.logs.forEach((operatorLog) => {
-    const transformedLogs = operatorLog.logs.map((log) => {
-      const formattedDate = format(
-        new Date(log.timestamp.trim()),
-        'hh:mm:ss dd/MM/yyyy'
-      );
-
-      return {
-        uuid: log.timestamp,
-        type: log.level || LOG_TYPES.INFO,
-        title: `${operatorLog.containerName} - ${formattedDate}`,
-        message: log.message,
-      };
-    });
-
-    logsArray = [...logsArray, ...transformedLogs];
+    return {
+      uuid: log.createdAt,
+      type: log.level || LOG_TYPES.INFO,
+      title: `${log.title} - ${formattedDate}`,
+      message: log.message,
+    };
   });
-
-  return logsArray;
 };
 
 const DeploymentLogsPanelContainer = () => {
