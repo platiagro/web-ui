@@ -34,8 +34,8 @@ const ProjectsTablePaginationContainer = () => {
   const pageSize = useSelector(getPageSize);
   const total = useSelector(getTotalProjects);
 
-  const handleChange = (page, pageSize) => {
-    dispatch(fetchPaginatedProjectsRequest(searchText, page, pageSize));
+  const handleChange = (page, newPageSize) => {
+    dispatch(fetchPaginatedProjectsRequest(searchText, page, newPageSize));
   };
 
   return (
