@@ -26,7 +26,6 @@ const fetchPaginatedProjectsFail = (error) => {
 
   return {
     type: actionTypes.FETCH_PROJECTS_FAIL,
-    payload: { isLoading: false },
   };
 };
 
@@ -50,7 +49,6 @@ const fetchPaginatedProjectsSuccess = (name, page, pageSize, response) => {
       currentPage: page,
       pageSize: pageSize,
       total: response.data.total,
-      isLoading: false,
     },
   };
 };
@@ -68,7 +66,6 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
 ) => {
   dispatch({
     type: actionTypes.FETCH_PROJECTS_REQUEST,
-    payload: { isLoading: true },
   });
 
   if (name === undefined) {
@@ -115,7 +112,6 @@ const deleteProjectsFail = (error) => {
 
   return {
     type: actionTypes.DELETE_PROJECTS_FAIL,
-    payload: { isLoading: false },
   };
 };
 
@@ -141,7 +137,7 @@ const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
 
   dispatch({
     type: actionTypes.DELETE_PROJECTS_SUCCESS,
-    payload: { isLoading: false, projects, selectedProjects },
+    payload: { projects, selectedProjects },
   });
 
   // FIXME: Remover essa requisição após corrigir paginação
@@ -158,7 +154,6 @@ export const deleteProjectsRequest = (projects) => {
   return async (dispatch) => {
     dispatch({
       type: actionTypes.DELETE_PROJECTS_REQUEST,
-      payload: { isLoading: true },
     });
 
     try {
@@ -195,7 +190,7 @@ const updateProjectFail = (error) => {
 
   return {
     type: actionTypes.UPDATE_PROJECT_FAIL,
-    payload: { isLoading: false, errorMessage },
+    payload: { errorMessage },
   };
 };
 
@@ -217,7 +212,7 @@ const updateProjectSuccess = (response) => (dispatch, getState) => {
 
   dispatch({
     type: actionTypes.UPDATE_PROJECT_SUCCESS,
-    payload: { projects, isLoading: false },
+    payload: { projects },
   });
 
   dispatch(hideNewProjectModal());
@@ -237,7 +232,6 @@ export const updateProjectRequest = (projectId, projectUpdate) => async (
 ) => {
   dispatch({
     type: actionTypes.UPDATE_PROJECT_REQUEST,
-    payload: { isLoading: true },
   });
 
   try {
@@ -273,7 +267,7 @@ const fetchProjectSuccess = (response) => (dispatch, getState) => {
 
   dispatch({
     type: actionTypes.FETCH_PROJECT_SUCCESS,
-    payload: { projects, isLoading: false },
+    payload: { projects },
   });
 };
 
@@ -296,7 +290,6 @@ const fetchProjectFail = (error, history) => {
 
   return {
     type: actionTypes.FETCH_PROJECT_FAIL,
-    payload: { isLoading: false },
   };
 };
 
@@ -311,7 +304,6 @@ export const fetchProjectRequest = (projectId, history) => async (dispatch) => {
   // dispatching request action
   dispatch({
     type: actionTypes.FETCH_PROJECT_REQUEST,
-    payload: { isLoading: true },
   });
 
   try {
@@ -347,9 +339,6 @@ const createProjectSuccess = (response, history) => (dispatch, getState) => {
   dispatch({
     type: actionTypes.CREATE_PROJECT_SUCCESS,
     projects,
-    payload: {
-      isLoading: false,
-    },
   });
 
   dispatch(hideNewProjectModal());
@@ -383,7 +372,7 @@ const createProjectFail = (error) => {
 
   return {
     type: actionTypes.CREATE_PROJECT_FAIL,
-    payload: { isLoading: false, errorMessage },
+    payload: { errorMessage },
   };
 };
 
@@ -397,9 +386,6 @@ const createProjectFail = (error) => {
 export const createProjectRequest = (project, history) => async (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_PROJECT_REQUEST,
-    payload: {
-      isLoading: true,
-    },
   });
 
   try {
