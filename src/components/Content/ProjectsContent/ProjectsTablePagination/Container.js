@@ -1,62 +1,39 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-// ACTIONS
 import {
   Actions as projectsActions,
   Selectors as projectsSelectors,
 } from 'store/projects';
 
-// COMPONENTS
 import ProjectsTablePagination from './index';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  const { fetchPaginatedProjectsRequest } = projectsActions;
-
-  return {
-    handleFetchPaginatedProjects: (searchText, page, pageSize) => {
-      dispatch(fetchPaginatedProjectsRequest(searchText, page, pageSize));
-    },
-  };
-};
-
-// STATES
-const mapStateToProps = (state) => {
-  const {
-    getPageSize,
-    getCurrentPage,
-    getTotalProjects,
-    getSearchText,
-    getIsLoading,
-  } = projectsSelectors;
-
-  return {
-    loading: getIsLoading(state),
-    searchText: getSearchText(state),
-    currentPage: getCurrentPage(state),
-    pageSize: getPageSize(state),
-    total: getTotalProjects(state),
-  };
-};
+const {
+  getPageSize,
+  getCurrentPage,
+  getTotalProjects,
+  getSearchText,
+  getIsLoading,
+} = projectsSelectors;
+const { fetchPaginatedProjectsRequest } = projectsActions;
 
 /**
  * Projects Table Pagination Container.
+ *
  * This component is responsible for create a logic container for projects table pagination
  * with redux.
- *
- * @param props
  */
-const ProjectsTablePaginationContainer = (props) => {
-  // states
-  const { loading, searchText, currentPage, pageSize, total } = props;
+const ProjectsTablePaginationContainer = () => {
+  const dispatch = useDispatch();
 
-  // dispatchs
-  const { handleFetchPaginatedProjects } = props;
+  const loading = useSelector(getIsLoading);
+  const searchText = useSelector(getSearchText);
+  const currentPage = useSelector(getCurrentPage);
+  const pageSize = useSelector(getPageSize);
+  const total = useSelector(getTotalProjects);
 
-  const onChange = (page, size) => {
-    handleFetchPaginatedProjects(searchText, page, size);
+  const handleChange = (page, pageSize) => {
+    dispatch(fetchPaginatedProjectsRequest(searchText, page, pageSize));
   };
 
   return (
@@ -67,15 +44,11 @@ const ProjectsTablePaginationContainer = (props) => {
           currentPage={currentPage}
           pageSize={pageSize}
           total={total}
-          onChange={onChange}
+          onChange={handleChange}
         />
       ) : null}
     </>
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectsTablePaginationContainer);
+export default ProjectsTablePaginationContainer;

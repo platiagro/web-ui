@@ -1,11 +1,10 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-// CORE LIBS
+// TODO: Corrigir esses erros (acessibilidade)
+/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-// CONTAINER
 import NewExperimentModalContainer from 'components/Content/ExperimentsContent/NewExperimentModal/Container';
 import {
   DeploymentsTableContainer,
@@ -20,27 +19,27 @@ import {
 import Button from 'uiComponents/Button/index';
 import { DetailsCardButton } from 'components/Buttons';
 
-// ACTIONS
 import {
   showNewExperimentModal,
   showNewDeploymentModal as showNewDeploymentModalAction,
 } from 'store/ui/actions';
 
+import { Selectors } from 'store/projects';
+
 import './style.less';
 
-const projectSelector = ({ projectReducer }) => {
-  return projectReducer;
-};
-
-const projectLoadingSelector = ({ projectReducer }) => {
-  return projectReducer.loading;
-};
+const { getProject, getIsLoading } = Selectors;
 
 const ProjectDetailsContainer = () => {
+  const { projectId } = useParams();
+
+  const history = useHistory();
   const dispatch = useDispatch();
 
-  const project = useSelector(projectSelector);
-  const projectLoading = useSelector(projectLoadingSelector);
+  // TODO: Criar seletores com reselect -> Otimização
+  /* eslint-disable-next-line */
+  const project = useSelector((state) => getProject(projectId, state));
+  const projectLoading = useSelector(getIsLoading);
 
   let experimentsLength = 0;
   let fluxoLength = 0;
@@ -69,8 +68,6 @@ const ProjectDetailsContainer = () => {
       history.push('/projetos/' + project.uuid + '/pre-implantacao');
     }
   };
-
-  const history = useHistory();
 
   return (
     <>

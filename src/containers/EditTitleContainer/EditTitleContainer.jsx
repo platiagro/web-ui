@@ -1,57 +1,40 @@
-// CORE LIBS
+import PropTypes from 'prop-types';
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-// COMPONENTS
 import EditTitle from 'components/EditTitle';
 import NewProjectModal from 'components/Content/ProjectsContent/NewProjectModal/Container';
 
-// ACTIONS
 import { showNewProjectModal } from 'store/ui/actions';
 import { Selectors } from 'store/projects';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    // show new project modal
-    handleShowNewProjectModal: (record) =>
-      dispatch(showNewProjectModal(record)),
-  };
-};
-
-// STATES
-const mapStateToProps = (state, ownProps) => {
-  const { getProject } = Selectors;
-
-  const { projectId } = ownProps.match.params;
-
-  return {
-    project: getProject(projectId, state),
-  };
-};
+const { getProject } = Selectors;
 
 /**
  * New Project Button Container.
+ *
  * This component is responsible for create a logic container for new project
  * button with redux.
- *
- * @component
- * @param {object} props Component props
- * @returns {EditTitleContainer} React component
  */
 const EditTitleContainer = (props) => {
-  // destructuring props
-  const { handleShowNewProjectModal, project, title, ...restProps } = props;
+  const { title, ...restProps } = props;
 
-  // RENDER
+  const { projectId } = useParams();
+  const dispatch = useDispatch();
+
+  // TODO: Criar seletores com reselect -> Otimização
+  /* eslint-disable-next-line */
+  const project = useSelector((state) => getProject(projectId, state));
+
   const handleEditModal = () => {
     const record = {
       name: project.name,
       description: project.description,
       uuid: project.uuid,
     };
-    handleShowNewProjectModal(record);
+
+    dispatch(showNewProjectModal(record));
   };
 
   return (
@@ -66,7 +49,12 @@ const EditTitleContainer = (props) => {
   );
 };
 
-// EXPORT
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(EditTitleContainer)
-);
+EditTitleContainer.propTypes = {
+  title: PropTypes.string,
+};
+
+EditTitleContainer.defaultProps = {
+  title: undefined,
+};
+
+export default EditTitleContainer;

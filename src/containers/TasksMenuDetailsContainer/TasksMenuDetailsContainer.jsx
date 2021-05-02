@@ -1,27 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Skeleton } from 'antd';
-import { withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-//STYLE
 import './style.less';
 import { Selectors } from 'store/projects';
 
-// STATES
-const mapStateToProps = (state, ownProps) => {
-  const { getProject, getIsLoading } = Selectors;
+const { getProject, getIsLoading } = Selectors;
 
-  const { projectId } = ownProps.match.params;
+// TODO: Componente com nome incoerente, renomear
+const TasksMenuDetailsContainer = () => {
+  const { projectId } = useParams();
 
-  return {
-    project: getProject(projectId, state),
-    loading: getIsLoading(state),
-  };
-};
+  // TODO: Criar seletores com reselect -> Otimização
+  /* eslint-disable-next-line */
+  const project = useSelector((state) => getProject(projectId, state));
+  const loading = useSelector(getIsLoading);
 
-// FIXME: Componente com nome incoerente
-const TasksMenuDetailsContainer = (props) => {
-  const { project, loading } = props;
   const formatedDate = new Date(project.updatedAt).toLocaleString();
   const projectDescription =
     project.description || 'Não há descrição disponível';
@@ -64,4 +59,4 @@ const TasksMenuDetailsContainer = (props) => {
   );
 };
 
-export default withRouter(connect(mapStateToProps)(TasksMenuDetailsContainer));
+export default TasksMenuDetailsContainer;

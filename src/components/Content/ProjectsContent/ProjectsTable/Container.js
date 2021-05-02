@@ -1,94 +1,67 @@
-// CORE LIBS
 import React, { useLayoutEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-// COMPONENTS
 import ProjectsTablePagination from '../ProjectsTablePagination/Container';
 import ProjectsTable from './index';
 import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
-// ACTIONS
 import {
   Actions as projectsActions,
   Selectors as projectsSelectors,
 } from 'store/projects';
 
-// ACTIONS
 import { showNewProjectModal } from '../../../../store/ui/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  const {
-    fetchPaginatedProjectsRequest,
-    selectProjects,
-    deleteProjectsRequest,
-  } = projectsActions;
+const {
+  getProjects,
+  getSelectedProjects,
+  getSearchText,
+  getIsLoading,
+} = projectsSelectors;
 
-  return {
-    handleFetchPaginatedProjects: (name) =>
-      dispatch(fetchPaginatedProjectsRequest(name, 1, 10)),
-    handleDeleteProject: (projectUuid) =>
-      dispatch(deleteProjectsRequest([projectUuid])),
-    handleShowNewProjectModal: (record) =>
-      dispatch(showNewProjectModal(record)),
-    handleSelectProjects: (record) => dispatch(selectProjects(record)),
-  };
-};
-
-// STATES
-const mapStateToProps = (state) => {
-  const {
-    getProjects,
-    getSelectedProjects,
-    getSearchText,
-    getIsLoading,
-  } = projectsSelectors;
-
-  return {
-    loading: getIsLoading(state),
-    projects: getProjects(state),
-    searchText: getSearchText(state),
-    selectedProjects: getSelectedProjects(state),
-  };
-};
+const {
+  fetchPaginatedProjectsRequest,
+  selectProjects,
+  deleteProjectsRequest,
+} = projectsActions;
 
 /**
  * Projects Table Container.
+ *
  * This component is responsible for create a logic container for projects table
  * with redux.
- *
- * @param props
  */
-const ProjectsTableContainer = (props) => {
-  // destructuring props
-  const {
-    loading,
-    projects,
-    searchText,
-    selectedProjects,
-    handleFetchPaginatedProjects,
-    handleDeleteProject,
-    handleShowNewProjectModal,
-    handleSelectProjects,
-  } = props;
-
-  // CONSTANTS
-  // getting history
+const ProjectsTableContainer = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  // HOOKS
-  // did mount hook
+  const loading = useSelector(getIsLoading);
+  const projects = useSelector(getProjects);
+  const searchText = useSelector(getSearchText);
+  const selectedProjects = useSelector(getSelectedProjects);
+
   useLayoutEffect(() => {
-    handleFetchPaginatedProjects();
-  }, [handleFetchPaginatedProjects]);
+    dispatch(fetchPaginatedProjectsRequest(undefined, 1, 10));
 
-  // HANDLERS
-  // project click
+    // did mount
+    /* eslint-disable-next-line */
+  }, []);
+
   const handleClickProject = (projectUuid) =>
     history.push(`/projetos/${projectUuid}`);
 
-  // RENDER
+  const handleFetchPaginatedProjects = (name) =>
+    dispatch(fetchPaginatedProjectsRequest(name, 1, 10));
+
+  const handleDeleteProject = (projectUuid) =>
+    dispatch(deleteProjectsRequest([projectUuid]));
+
+  const handleShowNewProjectModal = (record) =>
+    dispatch(showNewProjectModal(record));
+
+  const handleSelectProjects = (record) => dispatch(selectProjects(record));
+
   return loading || searchText || (projects && projects.length > 0) ? (
     <div className='myProjectsTableContainer'>
       <ProjectsTable
@@ -109,8 +82,4 @@ const ProjectsTableContainer = (props) => {
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectsTableContainer);
+export default ProjectsTableContainer;
