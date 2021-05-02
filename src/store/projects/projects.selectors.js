@@ -49,14 +49,6 @@ const getProject = (projectId, state) => {
   return project;
 };
 
-/**
- * Get is loading state
- *
- * @param {AppStores} state Redux store state
- * @returns {boolean} Store data is loading
- */
-const getIsLoading = (state) => state.Projects.isLoading;
-
 // TODO: Remover essa lógica da store
 /**
  * Get search filter text
@@ -101,5 +93,4 @@ export {
   getCurrentPage,
   getTotalProjects,
   getPageSize,
-  getIsLoading,
 };
