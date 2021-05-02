@@ -27,30 +27,6 @@ const DeploymentsTableContainer = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
-  // TODO: Criar seletores com reselect -> Otimização
-  /* eslint-disable-next-line */
-  const project = useSelector((state) => getProject(projectId, state));
-
-  // TODO: Criar seletores
-  /* eslint-disable */
-  const loading = useSelector(
-    (state) => state.uiReducer.implantedExperiments.loading
-  );
-  const deployments = useSelector((state) => state.deploymentsReducer);
-  /* eslint-enable */
-
-  const handleTestImplantedExperimentInference = (projectId, deployId, file) =>
-    dispatch(testImplantedExperimentInferenceAction(projectId, deployId, file));
-
-  const deleteDeployment = (deployId) => {
-    dispatch(deleteDeploymentRequest(projectId, deployId));
-  };
-  const handleOpenLog = (deployId) => {
-    dispatch(getDeployExperimentLogs(projectId, deployId));
-  };
-
-  const dispatch = useDispatch();
-
   useLayoutEffect(() => {
     // first get: when component has mounted
     // show loading effect (skeleton)
