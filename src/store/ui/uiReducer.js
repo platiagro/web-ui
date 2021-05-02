@@ -4,7 +4,7 @@
 import actionTypes from './actionTypes';
 import experimentsActionTypes from 'store/experiments/actionTypes';
 import experimentRunsActionTypes from 'store/experiments/experimentRuns/actionTypes';
-import { ActionTypes as projectsActionTypes } from 'store/projects';
+import { PROJECTS_TYPES } from 'store/projects';
 import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE
@@ -114,8 +114,8 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     // NEW PROJECT MODAL
-    case projectsActionTypes.CREATE_PROJECT_FAIL:
-    case projectsActionTypes.UPDATE_PROJECT_FAIL:
+    case PROJECTS_TYPES.CREATE_PROJECT_FAIL:
+    case PROJECTS_TYPES.UPDATE_PROJECT_FAIL:
       return {
         ...state,
         newProjectModal: {
@@ -267,7 +267,7 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     // PROJECTS TABLE
-    case projectsActionTypes.CREATE_PROJECT_REQUEST: // loading data
+    case PROJECTS_TYPES.CREATE_PROJECT_REQUEST: // loading data
       return {
         ...state,
         newProjectModal: {

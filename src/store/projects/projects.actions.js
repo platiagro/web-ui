@@ -2,13 +2,10 @@
 /* eslint-disable-next-line */
 /* global Projects, ProjectUpdatable, ProjectCreatable */
 
-// UI LIBS
 import { message } from 'antd';
 
-// ACTION TYPES
-import * as actionTypes from './projects.actionTypes';
+import * as PROJECTS_TYPES from './projects.actionTypes';
 
-// SERVICES
 import projectsApi from 'services/ProjectsApi';
 
 import { hideNewProjectModal } from 'store/ui/actions';
@@ -25,7 +22,7 @@ const fetchPaginatedProjectsFail = (error) => {
   message.error(errorMessage, 5);
 
   return {
-    type: actionTypes.FETCH_PROJECTS_FAIL,
+    type: PROJECTS_TYPES.FETCH_PROJECTS_FAIL,
   };
 };
 
@@ -42,7 +39,7 @@ const fetchPaginatedProjectsSuccess = (name, page, pageSize, response) => {
   const { projects } = response.data;
 
   return {
-    type: actionTypes.FETCH_PROJECTS_SUCCESS,
+    type: PROJECTS_TYPES.FETCH_PROJECTS_SUCCESS,
     payload: {
       projects,
       searchText: name,
@@ -65,7 +62,7 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
   dispatch
 ) => {
   dispatch({
-    type: actionTypes.FETCH_PROJECTS_REQUEST,
+    type: PROJECTS_TYPES.FETCH_PROJECTS_REQUEST,
   });
 
   if (name === undefined) {
@@ -94,7 +91,7 @@ export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
 export const selectProjects = (projects) => {
   return (dispatch) => {
     dispatch({
-      type: actionTypes.SELECTED_PROJECTS,
+      type: PROJECTS_TYPES.SELECTED_PROJECTS,
       payload: { selectedProjects: projects },
     });
   };
@@ -111,7 +108,7 @@ const deleteProjectsFail = (error) => {
   message.error(errorMessage, 5);
 
   return {
-    type: actionTypes.DELETE_PROJECTS_FAIL,
+    type: PROJECTS_TYPES.DELETE_PROJECTS_FAIL,
   };
 };
 
@@ -136,7 +133,7 @@ const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
   message.success('Projeto(s) excluído(s)!');
 
   dispatch({
-    type: actionTypes.DELETE_PROJECTS_SUCCESS,
+    type: PROJECTS_TYPES.DELETE_PROJECTS_SUCCESS,
     payload: { projects, selectedProjects },
   });
 
@@ -153,7 +150,7 @@ const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
 export const deleteProjectsRequest = (projects) => {
   return async (dispatch) => {
     dispatch({
-      type: actionTypes.DELETE_PROJECTS_REQUEST,
+      type: PROJECTS_TYPES.DELETE_PROJECTS_REQUEST,
     });
 
     try {
@@ -189,7 +186,7 @@ const updateProjectFail = (error) => {
   message.error(errorMessage, 5);
 
   return {
-    type: actionTypes.UPDATE_PROJECT_FAIL,
+    type: PROJECTS_TYPES.UPDATE_PROJECT_FAIL,
     payload: { errorMessage },
   };
 };
@@ -211,7 +208,7 @@ const updateProjectSuccess = (response) => (dispatch, getState) => {
   );
 
   dispatch({
-    type: actionTypes.UPDATE_PROJECT_SUCCESS,
+    type: PROJECTS_TYPES.UPDATE_PROJECT_SUCCESS,
     payload: { projects },
   });
 
@@ -231,7 +228,7 @@ export const updateProjectRequest = (projectId, projectUpdate) => async (
   dispatch
 ) => {
   dispatch({
-    type: actionTypes.UPDATE_PROJECT_REQUEST,
+    type: PROJECTS_TYPES.UPDATE_PROJECT_REQUEST,
   });
 
   try {
@@ -266,7 +263,7 @@ const fetchProjectSuccess = (response) => (dispatch, getState) => {
   }
 
   dispatch({
-    type: actionTypes.FETCH_PROJECT_SUCCESS,
+    type: PROJECTS_TYPES.FETCH_PROJECT_SUCCESS,
     payload: { projects },
   });
 };
@@ -289,7 +286,7 @@ const fetchProjectFail = (error, history) => {
   message.error(errorMessage, 5);
 
   return {
-    type: actionTypes.FETCH_PROJECT_FAIL,
+    type: PROJECTS_TYPES.FETCH_PROJECT_FAIL,
   };
 };
 
@@ -303,7 +300,7 @@ const fetchProjectFail = (error, history) => {
 export const fetchProjectRequest = (projectId, history) => async (dispatch) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.FETCH_PROJECT_REQUEST,
+    type: PROJECTS_TYPES.FETCH_PROJECT_REQUEST,
   });
 
   try {
@@ -337,7 +334,7 @@ const createProjectSuccess = (response, history) => (dispatch, getState) => {
   );
 
   dispatch({
-    type: actionTypes.CREATE_PROJECT_SUCCESS,
+    type: PROJECTS_TYPES.CREATE_PROJECT_SUCCESS,
     projects,
   });
 
@@ -371,7 +368,7 @@ const createProjectFail = (error) => {
   message.error(errorMessage, 5);
 
   return {
-    type: actionTypes.CREATE_PROJECT_FAIL,
+    type: PROJECTS_TYPES.CREATE_PROJECT_FAIL,
     payload: { errorMessage },
   };
 };
@@ -385,7 +382,7 @@ const createProjectFail = (error) => {
  */
 export const createProjectRequest = (project, history) => async (dispatch) => {
   dispatch({
-    type: actionTypes.CREATE_PROJECT_REQUEST,
+    type: PROJECTS_TYPES.CREATE_PROJECT_REQUEST,
   });
 
   try {
