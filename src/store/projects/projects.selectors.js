@@ -23,7 +23,7 @@ const getSelectedProjects = (state) => state.Projects.selectedProjects;
  *
  * @param {string} projectId Project id
  * @param {AppStores} state Redux store state
- * @returns {Projects} Projects list
+ * @returns {Project} Projects list
  */
 const getProject = (projectId, state) => {
   const { Projects: ProjectsStore } = state;
