@@ -151,7 +151,7 @@ const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
     payload: { projects, selectedProjects },
   });
 
-  // FIXME: Remover essa requisição após corrigir paginação
+  // TODO: Remover essa requisição após corrigir paginação
   dispatch(fetchPaginatedProjectsRequest('', 1, 10));
 
   dispatch(removeLoading(PROJECTS_TYPES.DELETE_PROJECTS_REQUEST));
