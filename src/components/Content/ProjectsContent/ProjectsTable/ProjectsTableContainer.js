@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import ProjectsTablePagination from '../ProjectsTablePagination/Container';
+import ProjectsTablePagination from '../ProjectsTablePagination/ProjectsTablePaginationContainer';
 import ProjectsTable from './index';
 import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 

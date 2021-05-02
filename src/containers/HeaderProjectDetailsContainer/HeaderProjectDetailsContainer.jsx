@@ -28,7 +28,7 @@ const { deleteProjectsRequest, updateProjectRequest } = projectsActions;
  * This component is responsible for create a logic container for project content
  * header with route control.
  */
-const ContentHeaderProjectDetailsContainer = () => {
+const HeaderProjectDetailsContainer = () => {
   const history = useHistory();
   const { projectId } = useParams();
   const dispatch = useDispatch();
@@ -77,4 +77,4 @@ const ContentHeaderProjectDetailsContainer = () => {
   );
 };
 
-export default ContentHeaderProjectDetailsContainer;
+export default HeaderProjectDetailsContainer;

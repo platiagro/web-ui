@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import EditTitle from 'components/EditTitle';
-import NewProjectModal from 'components/Content/ProjectsContent/NewProjectModal/Container';
+import NewProjectModal from 'components/Content/ProjectsContent/NewProjectModal/NewProjectModalContainer';
 
 import { showNewProjectModal } from 'store/ui/actions';
 import { Selectors } from 'store/projects';
