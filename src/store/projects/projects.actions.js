@@ -371,7 +371,7 @@ const createProjectSuccess = (response, history) => (dispatch, getState) => {
 
   dispatch({
     type: PROJECTS_TYPES.CREATE_PROJECT_SUCCESS,
-    projects,
+    payload: { projects },
   });
 
   dispatch(hideNewProjectModal());
