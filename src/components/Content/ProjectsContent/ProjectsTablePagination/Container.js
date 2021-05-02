@@ -4,16 +4,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Actions as projectsActions,
   Selectors as projectsSelectors,
+  PROJECTS_TYPES,
 } from 'store/projects';
 
 import ProjectsTablePagination from './index';
+
+import { useIsLoading } from 'hooks';
 
 const {
   getPageSize,
   getCurrentPage,
   getTotalProjects,
   getSearchText,
-  getIsLoading,
 } = projectsSelectors;
 const { fetchPaginatedProjectsRequest } = projectsActions;
 
@@ -26,7 +28,7 @@ const { fetchPaginatedProjectsRequest } = projectsActions;
 const ProjectsTablePaginationContainer = () => {
   const dispatch = useDispatch();
 
-  const loading = useSelector(getIsLoading);
+  const loading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECTS_REQUEST);
   const searchText = useSelector(getSearchText);
   const currentPage = useSelector(getCurrentPage);
   const pageSize = useSelector(getPageSize);

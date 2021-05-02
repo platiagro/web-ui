@@ -4,11 +4,12 @@ import { useHistory } from 'react-router-dom';
 
 import { hideNewProjectModal } from '../../../../store/ui/actions';
 
-import { Actions as projectsActions, Selectors } from 'store/projects';
+import { Actions as projectsActions, PROJECTS_TYPES } from 'store/projects';
 
 import NewProjectModal from './index';
 
-const { getIsLoading } = Selectors;
+import { useIsLoading } from 'hooks';
+
 const { updateProjectRequest, createProjectRequest } = projectsActions;
 
 /**
@@ -20,7 +21,10 @@ const { updateProjectRequest, createProjectRequest } = projectsActions;
 const NewProjectModalContainer = () => {
   const history = useHistory();
 
-  const loading = useSelector(getIsLoading);
+  const loading = useIsLoading(
+    PROJECTS_TYPES.UPDATE_PROJECT_REQUEST,
+    PROJECTS_TYPES.CREATE_PROJECT_REQUEST
+  );
 
   // TODO: Criar seletores
   /* eslint-disable */

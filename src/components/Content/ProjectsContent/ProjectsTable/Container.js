@@ -9,16 +9,14 @@ import { MyProjectsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import {
   Actions as projectsActions,
   Selectors as projectsSelectors,
+  PROJECTS_TYPES,
 } from 'store/projects';
 
 import { showNewProjectModal } from '../../../../store/ui/actions';
 
-const {
-  getProjects,
-  getSelectedProjects,
-  getSearchText,
-  getIsLoading,
-} = projectsSelectors;
+import { useIsLoading } from 'hooks';
+
+const { getProjects, getSelectedProjects, getSearchText } = projectsSelectors;
 
 const {
   fetchPaginatedProjectsRequest,
@@ -36,7 +34,10 @@ const ProjectsTableContainer = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const loading = useSelector(getIsLoading);
+  const loading = useIsLoading(
+    PROJECTS_TYPES.FETCH_PROJECTS_REQUEST,
+    PROJECTS_TYPES.DELETE_PROJECTS_REQUEST
+  );
   const projects = useSelector(getProjects);
   const searchText = useSelector(getSearchText);
   const selectedProjects = useSelector(getSelectedProjects);

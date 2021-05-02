@@ -1,12 +1,12 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import NewProjectButton from './index';
 
 import { showNewProjectModal } from '../../../../store/ui/actions';
-import { Selectors as projectsSelectors } from 'store/projects';
+import { PROJECTS_TYPES } from 'store/projects';
 
-const { getIsLoading } = projectsSelectors;
+import { useIsLoading } from 'hooks';
 
 /**
  * New Project Button Container.
@@ -17,7 +17,7 @@ const { getIsLoading } = projectsSelectors;
 const NewProjectButtonContainer = () => {
   const dispatch = useDispatch();
 
-  const loading = useSelector(getIsLoading);
+  const loading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECTS_REQUEST);
 
   const handleShowNewProjectModal = () => dispatch(showNewProjectModal());
 

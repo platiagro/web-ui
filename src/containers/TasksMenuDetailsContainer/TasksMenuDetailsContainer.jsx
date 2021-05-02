@@ -4,9 +4,10 @@ import { Skeleton } from 'antd';
 import { useParams } from 'react-router-dom';
 
 import './style.less';
-import { Selectors } from 'store/projects';
+import { Selectors, PROJECTS_TYPES } from 'store/projects';
+import { useIsLoading } from 'hooks';
 
-const { getProject, getIsLoading } = Selectors;
+const { getProject } = Selectors;
 
 // TODO: Componente com nome incoerente, renomear
 const TasksMenuDetailsContainer = () => {
@@ -15,7 +16,7 @@ const TasksMenuDetailsContainer = () => {
   // TODO: Criar seletores com reselect -> Otimização
   /* eslint-disable-next-line */
   const project = useSelector((state) => getProject(projectId, state));
-  const loading = useSelector(getIsLoading);
+  const loading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
   const formatedDate = new Date(project.updatedAt).toLocaleString();
   const projectDescription =

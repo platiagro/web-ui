@@ -5,7 +5,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import ContentHeader from 'components/ContentHeader/_';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
-import { Actions as projectsActions, Selectors } from 'store/projects';
+import {
+  Actions as projectsActions,
+  Selectors,
+  PROJECTS_TYPES,
+} from 'store/projects';
 
 import { Button, Tooltip, Popconfirm } from 'antd';
 
@@ -13,7 +17,9 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 import './style.less';
 
-const { getProject, getIsLoading } = Selectors;
+import { useIsLoading } from 'hooks';
+
+const { getProject } = Selectors;
 const { deleteProjectsRequest, updateProjectRequest } = projectsActions;
 
 /**
@@ -27,7 +33,10 @@ const ContentHeaderProjectDetailsContainer = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
-  const loading = useSelector(getIsLoading);
+  const loading = useIsLoading(
+    PROJECTS_TYPES.DELETE_PROJECTS_REQUEST,
+    PROJECTS_TYPES.UPDATE_PROJECT_REQUEST
+  );
 
   // TODO: Criar seletores com reselect -> Otimização
   /* eslint-disable-next-line */

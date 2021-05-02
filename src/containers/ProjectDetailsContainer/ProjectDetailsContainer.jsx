@@ -24,11 +24,13 @@ import {
   showNewDeploymentModal as showNewDeploymentModalAction,
 } from 'store/ui/actions';
 
-import { Selectors } from 'store/projects';
+import { Selectors, PROJECTS_TYPES } from 'store/projects';
+
+import { useIsLoading } from 'hooks';
 
 import './style.less';
 
-const { getProject, getIsLoading } = Selectors;
+const { getProject } = Selectors;
 
 const ProjectDetailsContainer = () => {
   const { projectId } = useParams();
@@ -39,7 +41,7 @@ const ProjectDetailsContainer = () => {
   // TODO: Criar seletores com reselect -> Otimização
   /* eslint-disable-next-line */
   const project = useSelector((state) => getProject(projectId, state));
-  const projectLoading = useSelector(getIsLoading);
+  const projectLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
   let experimentsLength = 0;
   let fluxoLength = 0;

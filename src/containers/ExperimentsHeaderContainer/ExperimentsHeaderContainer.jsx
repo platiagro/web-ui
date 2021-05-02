@@ -15,9 +15,15 @@ import {
   showPrepareDeploymentsModal,
 } from 'store/ui/actions';
 
-import { Actions as projectsActions, Selectors } from 'store/projects';
+import {
+  Actions as projectsActions,
+  Selectors,
+  PROJECTS_TYPES,
+} from 'store/projects';
 
-const { getProject, getIsLoading } = Selectors;
+import { useIsLoading } from 'hooks';
+
+const { getProject } = Selectors;
 const { updateProjectRequest, fetchProjectRequest } = projectsActions;
 
 /**
@@ -33,7 +39,10 @@ const ExperimentsHeaderContainer = () => {
 
   const target = `/projetos/${projectId}/pre-implantacao`;
 
-  const loading = useSelector(getIsLoading);
+  const loading = useIsLoading(
+    PROJECTS_TYPES.FETCH_PROJECT_REQUEST,
+    PROJECTS_TYPES.UPDATE_PROJECT_REQUEST
+  );
 
   // TODO: Criar seletores com reselect -> Otimização
   /* eslint-disable-next-line */

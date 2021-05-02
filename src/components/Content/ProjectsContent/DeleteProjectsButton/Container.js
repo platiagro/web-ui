@@ -6,11 +6,14 @@ import DeleteProjectsButton from './index';
 import {
   Actions as projectsActions,
   Selectors as projectsSelectors,
+  PROJECTS_TYPES,
 } from 'store/projects';
+
+import { useIsLoading } from 'hooks';
 
 const { deleteProjectsRequest } = projectsActions;
 
-const { getSelectedProjects, getIsLoading } = projectsSelectors;
+const { getSelectedProjects } = projectsSelectors;
 
 /**
  * Delete Projects Button Container.
@@ -23,7 +26,7 @@ const { getSelectedProjects, getIsLoading } = projectsSelectors;
 const DeleteProjectsButtonContainer = () => {
   const dispatch = useDispatch();
 
-  const loading = useSelector(getIsLoading);
+  const loading = useIsLoading(PROJECTS_TYPES.DELETE_PROJECTS_REQUEST);
   const selectedProjects = useSelector(getSelectedProjects);
 
   const handleDeleteSelectedProjects = (projects) =>
