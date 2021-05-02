@@ -27,9 +27,10 @@ const mapDispatchToProps = (dispatch) => {
     // start dataset upload
     handleSelectDataset: (dataset, projectId, experimentId) =>
       dispatch(selectDataset(dataset, projectId, experimentId)),
-    handleCreateGoogleDataset: (file) =>
-      dispatch(startGoogleDatasetUpload(file)),
-    handleUploadStart: (file, experimentId) => dispatch(startFileDatasetUpload(file, experimentId)),
+    handleCreateGoogleDataset: (file, projectId, experimentId) =>
+      dispatch(startGoogleDatasetUpload(file, projectId, experimentId)),
+    handleUploadStart: (file, projectId, experimentId) =>
+      dispatch(startFileDatasetUpload(file, projectId, experimentId)),
     handleDeleteDataset: (projectId, experimentId) =>
       dispatch(deleteDatasetRequest(projectId, experimentId)),
     handleUploadCancel: () => dispatch(cancelDatasetUpload()),
@@ -129,13 +130,17 @@ const DatasetUploadInputBlockContainer = (props) => {
   const containerHandleSelectDataset = (dataset) =>
     handleSelectDataset(dataset, projectId, experimentId);
 
-  const customUploadHandler = (data) => handleUploadStart(data.file, experimentId);
+  const customUploadHandler = (data) =>
+    handleUploadStart(data.file, projectId, experimentId);
+
+  const handleGoogleDataset = (file) =>
+    handleCreateGoogleDataset(file, projectId, experimentId);
 
   // rendering component
   return isGoogleDrive ? (
     <GoogleUploadInputBlock
       defaultFileList={defaultFileList}
-      handleCreateGoogleDataset={handleCreateGoogleDataset}
+      handleCreateGoogleDataset={handleGoogleDataset}
       handleUploadCancel={containerHandleUploadCancel}
       isDisabled={isDisabled}
       isLoading={isLoading}
