@@ -1,238 +1,190 @@
-// UI LIBS
-import { message } from 'antd';
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global ExperimentCreatable, ExperimentUpdatable */
 
-// ACTION TYPES
-import EXPERIMENTS_TYPES from './experiments.actionTypes';
+import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 
-// SERVICES
 import experimentsApi from 'services/ExperimentsApi';
 
-// UI ACTIONS
-import {
-  hideNewExperimentModal,
-  experimentsTabsDataLoaded,
-  experimentsTabsLoadingData,
-  experimentNameDataLoaded,
-  experimentNameLoadingData,
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
-} from '../../ui/actions';
+import { hideNewExperimentModal } from 'store/ui/actions';
 
-// OPERATORS ACTIONS
-import { fetchOperatorsRequest } from '../../operators/actions';
+import { fetchOperatorsRequest } from 'store/operators/actions';
 
-// RUNS ACTIONS
-import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
+import { showError, showSuccess } from 'store/message';
 
-// UTILS
+import { addLoading, removeLoading } from 'store/loading';
+
 import utils from 'utils';
 
-// MESSAGES
 const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';
 
-// ACTIONS
-// ** FETCH EXPERIMENTS
 /**
  * fetch experiments success action
  *
- * @param {object} response
- * @returns {object} { type, experiments }
+ * @param {object} response Request response
+ * @returns {Function} Dispatch
  */
 const fetchExperimentsSuccess = (response) => (dispatch) => {
-  // getting experiments from response
   const experiments = response.data.experiments;
 
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
-  // dispatching fetch experiments success action
   dispatch({
     type: EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_SUCCESS,
-    experiments,
+    payload: { experiments },
   });
+
+  dispatch(removeLoading(EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST));
 };
 
 /**
- * fetch experiments fail action
+ * Fetch experiments fail action
  *
- * @param {object} error
- * @returns {object} { type, errorMessage }
+ * @param {object} error Error object
+ * @returns {Function} Dispatch
  */
 const fetchExperimentsFail = (error) => (dispatch) => {
-  // getting error message
   const errorMessage = error.message;
 
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
+  dispatch(removeLoading(EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST));
 
-  // dispatching fetch experiments fail action
   dispatch({
     type: EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_FAIL,
-    errorMessage,
+    payload: { errorMessage },
   });
 
-  message.error(errorMessage);
+  dispatch(showError(errorMessage));
 };
 
 /**
- * fetch experiments request action
+ * Fetch experiments request action
  *
- * @param {string} projectId
- * @returns {Function}
+ * @param {string} projectId Project id
+ * @returns {Function} Dispatch
  */
-const fetchExperimentsRequest = (projectId) => (dispatch) => {
-  // dispatching request action
+export const fetchExperimentsRequest = (projectId) => async (dispatch) => {
+  const actionType = EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST;
+
   dispatch({
-    type: EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST,
+    type: actionType,
   });
 
-  // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(addLoading(actionType));
 
-  // fetching experiments
-  experimentsApi
-    .listExperiments(projectId)
-    .then((response) => dispatch(fetchExperimentsSuccess(response)))
-    .catch((error) => dispatch(fetchExperimentsFail(error)));
-};
+  try {
+    const response = await experimentsApi.listExperiments(projectId);
 
-// // // // // // // // // //
-
-// ** CREATE EXPERIMENT
-/**
- * create experiment success action
- *
- * @param {object} response
- * @param {string} projectId
- * @param {object} routerProps
- * @returns {object} { type, experiment }
- */
-const createExperimentSuccess = (response, projectId, routerProps) => (
-  dispatch
-) => {
-  // getting experiment from response
-  const experiment = response.data;
-
-  // dispatching hide new experiment modal action
-  dispatch(hideNewExperimentModal());
-
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
-  // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
-
-  // fetching operators
-  dispatch(fetchOperatorsRequest(projectId, experiment.uuid));
-
-  // dispatching experiment success
-  dispatch({
-    type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_SUCCESS,
-    experiment,
-  });
-
-  message.success(`Experimento ${experiment.name} criado!`);
-
-  // go to new experiment
-  routerProps.history.push(
-    `/projetos/${projectId}/experimentos/${experiment.uuid}`
-  );
-};
-
-/**
- * create experiment fail action
- *
- * @param {object} error
- * @param {string} duplicate
- * @returns {object} { type, errorMessage }
- */
-const createExperimentFail = (error, duplicate) => (dispatch) => {
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
-  // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
-
-  // getting error message
-  let errorMessage;
-  if (error.response.status === 500) {
-    errorMessage = error.message;
-    message.error(errorMessage, 5);
-  } else {
-    errorMessage = error.response.data.message;
-    if (errorMessage.includes('name already exist') && !duplicate) {
-      errorMessage = ALREADY_EXIST_MESSAGE;
-      dispatch({
-        type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_FAIL,
-        errorMessage,
-      });
-    } else if (errorMessage.includes('name already exist') && duplicate) {
-      errorMessage = ALREADY_EXIST_MESSAGE;
-      dispatch({
-        type: EXPERIMENTS_TYPES.DUPLICATE_EXPERIMENT_FAIL,
-        errorMessage,
-      });
-      message.error(errorMessage, 5);
-    } else {
-      message.error(errorMessage, 5);
-    }
+    dispatch(fetchExperimentsSuccess(response));
+  } catch (error) {
+    dispatch(fetchExperimentsFail(error));
   }
 };
 
 /**
- * create experiment request action
+ * create experiment success action
  *
- * @param {string} projectId
- * @param {string} experimentName
- * @param {string} copyFrom
- * @param {string} duplicate
- * @param {object} routerProps
- * @returns {Function}
+ * @param {object} response Request response
+ * @param {string} projectId Project id
+ * @param {object} history Router history object
+ * @returns {Function} Dispatch
  */
-const createExperimentRequest = (
-  projectId,
-  experimentName,
-  copyFrom,
-  duplicate,
-  routerProps
-) => (dispatch) => {
-  // dispatching request action
+const createExperimentSuccess = (response, projectId, history) => (
+  dispatch
+) => {
+  const experiment = response.data;
+
+  dispatch(hideNewExperimentModal());
+
+  dispatch(fetchOperatorsRequest(projectId, experiment.uuid));
+
   dispatch({
-    type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST,
+    type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_SUCCESS,
+    payload: { experiment },
   });
 
-  // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(removeLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST));
 
-  // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
+  // go to new experiment
+  history.push(`/projetos/${projectId}/experimentos/${experiment.uuid}`);
 
-  // creating experiment
-  experimentsApi
-    .createExperiment(projectId, experimentName, copyFrom)
-    .then((response) =>
-      dispatch(createExperimentSuccess(response, projectId, routerProps))
-    )
-    .catch((error) => dispatch(createExperimentFail(error, duplicate)));
+  dispatch(showSuccess(`Experimento ${experiment.name} criado!`));
 };
 
-// // // // // // // // // //
-
-// ** UPDATE EXPERIMENT
 /**
- * update experiment success action
+ * Create experiment fail action
  *
- * @param {object} response
- * @returns {object} { type, experiments }
+ * @param {object} error Error object
+ * @param {string} duplicate Duplicating experiment
+ * @returns {Function} Dispatch
+ */
+const createExperimentFail = (error, duplicate) => (dispatch) => {
+  let errorMessage;
+  let actionType;
+
+  if (error?.response.status === 500) {
+    errorMessage = error.message;
+  } else {
+    errorMessage = error.response.data.message;
+
+    if (errorMessage.includes('name already exist')) {
+      errorMessage = ALREADY_EXIST_MESSAGE;
+      if (!duplicate) {
+        actionType = EXPERIMENTS_TYPES.CREATE_EXPERIMENT_FAIL;
+      } else {
+        actionType = EXPERIMENTS_TYPES.DUPLICATE_EXPERIMENT_FAIL;
+      }
+    }
+  }
+
+  dispatch({
+    type: actionType,
+    payload: { errorMessage },
+  });
+
+  dispatch(showError(errorMessage));
+};
+
+/**
+ * Create experiment request action
+ *
+ * @param {string} projectId Project id
+ * @param {ExperimentCreatable} experiment Experiment
+ * @param {string} duplicate Duplicating experiment
+ * @param {object} history Router history
+ * @returns {Function} Dispatch
+ */
+export const createExperimentRequest = (
+  projectId,
+  experiment,
+  duplicate,
+  history
+) => async (dispatch) => {
+  const actionType = EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST;
+
+  dispatch({
+    type: actionType,
+  });
+
+  dispatch(addLoading(actionType));
+
+  try {
+    const response = await experimentsApi.createExperiment(
+      projectId,
+      experiment
+    );
+
+    dispatch(createExperimentSuccess(response, projectId, history));
+  } catch (error) {
+    dispatch(createExperimentFail(error, duplicate));
+  }
+};
+
+/**
+ * Update experiment success action
+ *
+ * @param {object} response Request response
+ * @returns {Function} Dispatch
  */
 const updateExperimentSuccess = (response) => (dispatch, getState) => {
   const updatedExperiment = response.data;
-
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
-  // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
 
   const currentState = getState();
   const experimentsState = currentState.experimentsReducer;
@@ -243,25 +195,23 @@ const updateExperimentSuccess = (response) => (dispatch, getState) => {
       : { ...experiment, ...updatedExperiment };
   });
 
-  // dispatching update experiment success
   dispatch({
     type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_SUCCESS,
-    experiments,
+    payload: { experiments },
   });
+
+  dispatch(removeLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST));
 };
 
 /**
- * update experiment fail action
+ * Update experiment fail action
  *
- * @param {object} error
- * @returns {object} { type, errorMessage }
+ * @param {object} error Error object
+ * @returns {Function} Dispatch
  */
 const updateExperimentFail = (error) => (dispatch) => {
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
-  // getting error message
   let errorMessage;
+
   if (error.response.status === 500) {
     errorMessage = error.message;
   } else {
@@ -270,203 +220,141 @@ const updateExperimentFail = (error) => (dispatch) => {
       errorMessage = 'Já existe um experimento com este nome!';
     }
   }
-  message.error(errorMessage, 5);
 
-  // dispatching update experiment fail
+  dispatch(removeLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST));
+
+  dispatch(showError(errorMessage, 5));
+
   dispatch({
     type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_FAIL,
   });
 };
 
 /**
- * update experiment request action
+ * Update experiment request action
  *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {object} experimentUpdated
- * @returns {Function}
+ * @param {string} projectId Project id
+ * @param {string} experimentId Experiment id
+ * @param {ExperimentUpdatable} experimentUpdate Experiment update
+ * @returns {Function} Dispatch
  */
-const updateExperimentRequest = (
+export const updateExperimentRequest = (
   projectId,
   experimentId,
-  experimentUpdated
-) => (dispatch) => {
-  // dispatching update experiment fail
+  experimentUpdate
+) => async (dispatch) => {
+  const actionType = EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST;
+
   dispatch({
-    type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST,
+    type: actionType,
   });
 
-  // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(addLoading(actionType));
 
-  // creating experiment
-  experimentsApi
-    .updateExperiment(projectId, experimentId, experimentUpdated)
-    .then((response) => dispatch(updateExperimentSuccess(response)))
-    .catch((error) => dispatch(updateExperimentFail(error)));
+  try {
+    const response = await experimentsApi.updateExperiment(
+      projectId,
+      experimentId,
+      experimentUpdate
+    );
+
+    dispatch(updateExperimentSuccess(response));
+  } catch (error) {
+    dispatch(updateExperimentFail(error));
+  }
 };
 
 /**
- * edit experiment name action
+ * Delete experiment success action
  *
- * @param {string} projectId Project UUID
- * @param {string} experimentId Experiment UUID
- * @param {string} newName Experiment new name
- * @returns {Function}
+ * @param {string} projectId Project id
+ * @param {string} experimentId Experiment id
+ * @param {object} history Router history object
+ * @returns {Function} Dispatch
  */
-const updateExperimentName = (projectId, experimentId, newName) => (
-  dispatch
-) => {
-  // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
-
-  // creating experiment object
-  const experiment = { name: newName };
-
-  dispatch(updateExperimentRequest(projectId, experimentId, experiment));
-};
-
-/**
- * active experiment action
- *
- * @param {string} projectId Project UUID
- * @param {string} experimentId Experiment UUID
- * @returns {Function}
- */
-const activeExperiment = (projectId, experimentId) => (dispatch) => {
-  dispatch({ type: EXPERIMENTS_TYPES.ACTIVE_EXPERIMENT });
-
-  dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
-
-  // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
-
-  // constant
-  const experiment = { isActive: true };
-
-  dispatch(updateExperimentRequest(projectId, experimentId, experiment));
-};
-
-// // // // // // // // // //
-
-// ** DELETE EXPERIMENT
-/**
- * delete experiment success action
- *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {object} routerProps
- * @returns {object} { type, experiments }
- */
-const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
+const deleteExperimentSuccess = (projectId, experimentId, history) => (
   dispatch,
   getState
 ) => {
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
-  // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
-
-  // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
-
-  // get current state
   const currentState = getState();
+
   const experimentsState = currentState.experimentsReducer;
+
   // get list of experiments without the deleted one
   const experiments = utils.deleteExperiment(experimentsState, experimentId);
 
-  // dispatching delete experiment success
   dispatch({
     type: EXPERIMENTS_TYPES.DELETE_EXPERIMENT_SUCCESS,
-    experiments,
+    payload: { experiments },
   });
 
-  message.success(`Experimento excluído!`);
-  routerProps.history.push(`/projetos/${projectId}/experimentos`);
+  dispatch(removeLoading(EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST));
+
+  dispatch(showSuccess(`Experimento excluído!`));
+
+  history.push(`/projetos/${projectId}/experimentos`);
 };
 
 /**
- * delete experiment fail action
+ * Delete experiment fail action
  *
- * @param {object} error
- * @returns {object} { type, errorMessage }
+ * @param {object} error Error object
+ * @returns {Function}  Dispatch
  */
 const deleteExperimentFail = (error) => (dispatch) => {
-  // getting error message
   const errorMessage = error.message;
 
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
-  // dispatching experiment name data loaded action
-  dispatch(experimentNameDataLoaded());
-
-  // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
-
-  // dispatching delete experiment fail
   dispatch({
     type: EXPERIMENTS_TYPES.DELETE_EXPERIMENT_FAIL,
-    errorMessage,
+    payload: { errorMessage },
   });
 
-  message.error(errorMessage, 5);
+  dispatch(removeLoading(EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST));
+
+  dispatch(showError(errorMessage, 5));
 };
 
 /**
- * delete experiment request action
+ * Delete experiment request action
  *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {object} routerProps
- * @returns {Function}
+ * @param {string} projectId Project id
+ * @param {string} experimentId Experiment id
+ * @param {object} history Router history object
+ * @returns {Function} Dispatch
  */
-const deleteExperimentRequest = (projectId, experimentId, routerProps) => (
-  dispatch
-) => {
-  // dispatching delete experiment fail
+export const deleteExperimentRequest = (
+  projectId,
+  experimentId,
+  history
+) => async (dispatch) => {
+  const actionType = EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST;
+
   dispatch({
-    type: EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST,
+    type: actionType,
   });
 
-  // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(addLoading(actionType));
 
-  // dispatching experiment name loading data action
-  dispatch(experimentNameLoadingData());
+  try {
+    await experimentsApi.deleteExperiment(projectId, experimentId);
 
-  // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
-
-  // deleting experiment
-  experimentsApi
-    .deleteExperiment(projectId, experimentId)
-    .then(() =>
-      dispatch(deleteExperimentSuccess(projectId, experimentId, routerProps))
-    )
-    .catch((error) => dispatch(deleteExperimentFail(error)));
+    dispatch(deleteExperimentSuccess(projectId, experimentId, history));
+  } catch (error) {
+    dispatch(deleteExperimentFail(error));
+  }
 };
 
-// // // // // // // // // //
-
-// ** ORGANIZE EXPERIMENTS
 /**
- * organize experiments success action
+ * Organize experiments success action
  *
- * @param {object} response
- * @param {string} dragExperimentId
- * @param {string} hoverExperimentId
- * @returns {object} { type, experiments }
+ * @param {string} dragExperimentId Drag experiment id
+ * @param {string} hoverExperimentId hover experiment id
+ * @returns {Function} Dispatch
  */
 const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
   dispatch,
   getState
 ) => {
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
   const currentState = getState();
   const experimentsState = currentState.experimentsReducer;
 
@@ -476,88 +364,79 @@ const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
     hoverExperimentId
   );
 
-  // dispatching organize experiments success action
   dispatch({
     type: EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_SUCCESS,
-    experiments,
+    payload: { experiments },
   });
+
+  dispatch(removeLoading(EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST));
 };
 
 /**
- * organize experiments fail action
+ * Organize experiments fail action
  *
- * @param {object} error
- * @returns {object} { type, errorMessage }
+ * @param {object} error Error object
+ * @returns {Function} Dispatch
  */
 const organizeExperimentsFail = (error) => (dispatch) => {
-  // getting error message
   const errorMessage = error.message;
-
-  // dispatching experiments tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
 
   // dispatching organize experiments fail action
   dispatch({
     type: EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_FAIL,
-    errorMessage,
+    payload: { errorMessage },
   });
 
-  message.error(errorMessage);
+  dispatch(removeLoading(EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST));
+
+  dispatch(showError(errorMessage));
 };
 
 /**
- * organize experiments request action
+ * Organize experiments request action
  *
- * @param {string} projectId
- * @param {string} dragExperimentId
- * @param {string} hoverExperimentId
- * @param newPosition
- * @returns {Function}
+ * @param {string} projectId Project id
+ * @param {string} dragExperimentId Drag experiment id
+ * @param {string} hoverExperimentId Hover experiment id
+ * @param {number} newPosition New experiment position
+ * @returns {Function} Dispatch
  */
-const organizeExperimentsRequest = (
+export const organizeExperimentsRequest = (
   projectId,
   dragExperimentId,
   hoverExperimentId,
   newPosition
-) => (dispatch) => {
-  // dispatching request action
+) => async (dispatch) => {
+  const actionType = EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST;
+
   dispatch({
-    type: EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST,
+    type: actionType,
   });
 
-  // dispatching experiments tabs loading data action
-  dispatch(experimentsTabsLoadingData());
+  dispatch(addLoading(actionType));
 
-  // constructing experiment object
   const experiment = { position: newPosition };
 
-  // organizeing experiments
-  experimentsApi
-    .updateExperiment(projectId, dragExperimentId, experiment)
-    .then(() =>
-      dispatch(organizeExperimentsSuccess(dragExperimentId, hoverExperimentId))
-    )
-    .catch((error) => dispatch(organizeExperimentsFail(error)));
+  try {
+    await experimentsApi.updateExperiment(
+      projectId,
+      dragExperimentId,
+      experiment
+    );
+
+    dispatch(organizeExperimentsSuccess(dragExperimentId, hoverExperimentId));
+  } catch (error) {
+    dispatch(organizeExperimentsFail(error));
+  }
 };
 
 /**
- * clear all experiments action
+ * Clear all experiments action
  *
- * @returns {Function}
+ * @returns {Function} Dispatch
  */
-const clearAllExperiments = () => (dispatch) => {
+export const clearAllExperiments = () => (dispatch) => {
   dispatch({
     type: EXPERIMENTS_TYPES.CLEAR_ALL_EXPERIMENTS,
   });
-};
-
-export default {
-  fetchExperimentsRequest,
-  createExperimentRequest,
-  updateExperimentRequest,
-  updateExperimentName,
-  activeExperiment,
-  deleteExperimentRequest,
-  organizeExperimentsRequest,
-  clearAllExperiments,
 };
