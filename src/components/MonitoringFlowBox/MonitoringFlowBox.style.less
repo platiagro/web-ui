@@ -1,6 +1,16 @@
 .monitoring-flow-box {
   display: flex;
   align-items: center;
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    .monitoring-flow-box-content {
+      border: 2px dashed #747474;
+    }
+  }
 
   .monitoring-flow-box-circle {
     height: 16px;

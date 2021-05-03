@@ -1,10 +1,5 @@
-/* eslint-disable */
-
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// UI LIBS
 import {
   CheckCircleFilled,
   ClockCircleFilled,
@@ -12,7 +7,6 @@ import {
   FundOutlined,
 } from '@ant-design/icons';
 
-// STYLES
 import './MonitoringFlowBox.style.less';
 
 const statusFlowBox = {
@@ -24,17 +18,12 @@ const statusFlowBox = {
   default: null,
 };
 
-/**
- * Componente de caixa (operador) de monitoramento.
- */
-function MonitoringFlowBox(props) {
+const MonitoringFlowBox = (props) => {
   const { title, status, onClick } = props;
-
   const statusIcon = statusFlowBox[status];
 
-  // RENDER
   return (
-    <div className='monitoring-flow-box' onClick={onClick}>
+    <button className='monitoring-flow-box' onClick={onClick}>
       <div className='monitoring-flow-box-circle' />
       <div className='monitoring-flow-box-line' />
       <div className='monitoring-flow-box-content'>
@@ -44,14 +33,12 @@ function MonitoringFlowBox(props) {
         <div className='monitoring-flow-box-title'>{title}</div>
         <div className='monitoring-flow-box-status'>{statusIcon}</div>
       </div>
-    </div>
+    </button>
   );
-}
+};
 
 MonitoringFlowBox.propTypes = {
-  /** Título do operador (caixa) */
   title: PropTypes.string.isRequired,
-  /** Estado do operador */
   status: PropTypes.oneOf([
     undefined,
     'pending',
@@ -61,7 +48,6 @@ MonitoringFlowBox.propTypes = {
     'disable',
     'default',
   ]),
-  /** Evento de click */
   onClick: PropTypes.func,
 };
 
@@ -70,5 +56,4 @@ MonitoringFlowBox.defaultProps = {
   onClick: undefined,
 };
 
-// EXPORT
 export default MonitoringFlowBox;
