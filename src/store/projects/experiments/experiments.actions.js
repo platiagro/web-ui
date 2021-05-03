@@ -112,7 +112,7 @@ const createExperimentSuccess = (response, projectId, history) => (
  * Create experiment fail action
  *
  * @param {object} error Error object
- * @param {string} duplicate Duplicating experiment
+ * @param {boolean} duplicate Duplicating experiment
  * @returns {Function} Dispatch
  */
 const createExperimentFail = (error, duplicate) => (dispatch) => {
@@ -147,7 +147,7 @@ const createExperimentFail = (error, duplicate) => (dispatch) => {
  *
  * @param {string} projectId Project id
  * @param {ExperimentCreatable} experiment Experiment
- * @param {string} duplicate Duplicating experiment
+ * @param {boolean} duplicate Duplicating experiment
  * @param {object} history Router history
  * @returns {Function} Dispatch
  */
