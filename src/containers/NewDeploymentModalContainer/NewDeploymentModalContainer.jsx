@@ -7,7 +7,7 @@ import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { hideNewDeploymentModal } from 'store/ui/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 
-import { Actions as experimentsActions } from 'store/experiments';
+import { Actions as experimentsActions } from 'store/projects/experiments';
 import { fetchTemplatesRequest } from 'store/templates/actions';
 
 const { fetchExperimentsRequest } = experimentsActions;

@@ -7,11 +7,11 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentHeader from './index';
 
 // ACTIONS
-import experimentsActions from 'store/experiments/actions';
+import experimentsActions from 'store/projects/experiments/actions';
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import { removeOperatorRequest } from 'store/operator/actions';
-import experimentRunsActions from 'store/experiments/experimentRuns/actions';
-import { getExperimentById } from 'store/experiments/experimentsReducer';
+import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
+import { getExperimentById } from 'store/projects/experiments/experimentsReducer';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -19,11 +19,28 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleFetchOperators: (projectId, experimentId) =>
       dispatch(fetchOperatorsRequest(projectId, experimentId)),
     handleEditExperimentName: (projectId, experimentId, newName) =>
-      dispatch(experimentsActions.updateExperimentName(projectId, experimentId, newName)),
+      dispatch(
+        experimentsActions.updateExperimentName(
+          projectId,
+          experimentId,
+          newName
+        )
+      ),
     handleCreateExperimentRun: (projectId, experimentId) =>
-      dispatch(experimentRunsActions.createExperimentRunRequest(projectId, experimentId, routerProps)),
+      dispatch(
+        experimentRunsActions.createExperimentRunRequest(
+          projectId,
+          experimentId,
+          routerProps
+        )
+      ),
     handleDeleteExperimentRun: (projectId, experimentId) =>
-      dispatch(experimentRunsActions.deleteExperimentRunRequest(projectId, experimentId)),
+      dispatch(
+        experimentRunsActions.deleteExperimentRunRequest(
+          projectId,
+          experimentId
+        )
+      ),
     handleRemoveOperator: (projectId, experimentId, operator) =>
       dispatch(removeOperatorRequest(projectId, experimentId, operator)),
   };

@@ -7,7 +7,7 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 import ExperimentsTabs from './index';
 
 // ACTIONS
-import experimentsActions from 'store/experiments/actions';
+import experimentsActions from 'store/projects/experiments/actions';
 
 import { deselectOperator } from 'store/operator/actions';
 

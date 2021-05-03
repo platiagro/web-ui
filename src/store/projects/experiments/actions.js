@@ -16,10 +16,10 @@ import {
   experimentNameLoadingData,
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
-} from '../ui/actions';
+} from '../../ui/actions';
 
 // OPERATORS ACTIONS
-import { fetchOperatorsRequest } from '../operators/actions';
+import { fetchOperatorsRequest } from '../../operators/actions';
 
 // RUNS ACTIONS
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';

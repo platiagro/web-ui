@@ -2,8 +2,8 @@
 
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import experimentsActionTypes from 'store/experiments/actionTypes';
-import experimentRunsActionTypes from 'store/experiments/experimentRuns/actionTypes';
+import experimentsActionTypes from 'store/projects/experiments/actionTypes';
+import experimentRunsActionTypes from 'store/projects/experiments/experimentRuns/actionTypes';
 import { PROJECTS_TYPES } from 'store/projects';
 import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
