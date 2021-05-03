@@ -91,8 +91,8 @@ const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
             </span>
           </div>
           <Tabs>
-            {Object.entries(logsPerTitle).map(([title, logsList], i) => (
-              <TabPane tab={title} key={i}>
+            {Object.entries(logsPerTitle).map(([logTitle, logsList], i) => (
+              <TabPane tab={logTitle} key={i}>
                 <ConfigProvider renderEmpty={renderEmpty}>
                   <CommonTable
                     bordered={true}
