@@ -1,5 +1,5 @@
 // ACTION TYPES
-import EXPERIMENTS_TYPES from './experiments.actionTypes';
+import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 import experimentRunsActionTypes from './experimentRuns/actionTypes';
 
 // INITIAL STATE
