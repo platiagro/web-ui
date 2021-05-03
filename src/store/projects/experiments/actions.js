@@ -423,6 +423,11 @@ const deleteExperimentFail = (error) => (dispatch) => {
 const deleteExperimentRequest = (projectId, experimentId, routerProps) => (
   dispatch
 ) => {
+  // dispatching delete experiment fail
+  dispatch({
+    type: actionTypes.DELETE_EXPERIMENT_REQUEST,
+  });
+
   // dispatching experiments tabs loading data action
   dispatch(experimentsTabsLoadingData());
 
