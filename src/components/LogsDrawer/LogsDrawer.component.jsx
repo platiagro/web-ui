@@ -18,16 +18,25 @@ const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
   // EMPTY COMPONENT
   const renderEmpty = () => <span>Não há dados.</span>;
 
+  // Joins logs per title so we show one tab for each title
+  const logsPerTitle = {};
+  logs.forEach((element) => {
+    if (logsPerTitle[element.title] === undefined) {
+      logsPerTitle[element.title] = [];
+    }
+    logsPerTitle[element.title].push(element);
+  });
+
   // COLUMNS OF LOG TABLE
   const logsTableColumns = [
     {
       title: 'Data',
-      dataIndex: 'timestamp',
-      key: 'timestamp',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
       width: 175,
       render: (value) => {
         //The value of timestamp is missformated, so we need to split the string to get the right timestamp
-        if (value) return new Date(value.split(' ')[0]).toLocaleString()
+        if (value) return new Date(value.split(' ')[0]).toLocaleString();
         return '-';
       },
       //this is the arrow function to make header sorter of date column
@@ -78,17 +87,17 @@ const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
           <div>
             <span style={{ fontSize: '12px' }}>CONTAINERS EM EXECUÇÃO: </span>
             <span style={{ color: '#262626', fontSize: '14px' }}>
-              {logs.length}
+              {Object.keys(logsPerTitle).length}
             </span>
           </div>
           <Tabs>
-            {logs.map((container, i) => (
-              <TabPane tab={container.containerName} key={i}>
+            {Object.entries(logsPerTitle).map(([title, logsList], i) => (
+              <TabPane tab={title} key={i}>
                 <ConfigProvider renderEmpty={renderEmpty}>
                   <CommonTable
                     bordered={true}
                     columns={logsTableColumns}
-                    dataSource={container.logs}
+                    dataSource={logsList}
                     isLoading={false}
                     pagination={{
                       defaultPageSize: 10,

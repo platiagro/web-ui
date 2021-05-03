@@ -41,6 +41,7 @@ const DeploymentsTable = (props) => {
   const statusToBadge = {
     Failed: 'error',
     Running: 'processing',
+    Pending: 'processing',
     Succeeded: 'success',
   };
 
@@ -48,6 +49,7 @@ const DeploymentsTable = (props) => {
   const statusTextToPortuguese = {
     Failed: 'Falhou',
     Running: 'Em implantação',
+    Pending: 'Em implantação',
     Succeeded: 'Sucesso',
   };
 
