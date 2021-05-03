@@ -65,3 +65,23 @@
  *
  * @typedef {Experiment[]} Experiments
  */
+
+/**
+ * Propriedades de criação do experimento (ExperimentCreatable).
+ *
+ * @typedef {object} ExperimentCreatable
+ *
+ * @property {string} name Experiment name
+ * @property {string} copyFrom	Copy experiment from (experiment id)
+ */
+
+/**
+ * Propriedades atualizáveis do experimento (ExperimentUpdatable).
+ *
+ * @typedef {object} ExperimentUpdatable
+ *
+ * @property {string=} name Experiment name
+ * @property {number=} position	Experiment position
+ * @property {boolean=} isActive	Experiment is active
+ * @property {string=} templateId Template id
+ */
