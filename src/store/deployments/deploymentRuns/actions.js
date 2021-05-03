@@ -98,7 +98,7 @@ const createDeploymentRunSuccess = (projectId, response, history) => (
     runId: response.data.uuid,
   });
 
-  history.push(`/projetos/${projectId}/pre-implantacao`);
+  history.push(`/projetos/${projectId}`);
   message.success('Experimento implantado!');
 };
 
