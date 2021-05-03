@@ -21,7 +21,7 @@ import { addLoading, removeLoading } from 'store/loading';
  */
 const fetchPaginatedProjectsFail = (error) => (dispatch) => {
   const errorMessage = error.message;
-  showError(errorMessage, 5);
+  dispatch(showError(errorMessage, 5));
 
   dispatch(removeLoading(PROJECTS_TYPES.FETCH_PROJECTS_REQUEST));
 
@@ -117,7 +117,7 @@ export const selectProjects = (projects) => {
  */
 const deleteProjectsFail = (error) => (dispatch) => {
   const errorMessage = error.message;
-  showError(errorMessage, 5);
+  dispatch(showError(errorMessage, 5));
 
   dispatch(removeLoading(PROJECTS_TYPES.DELETE_PROJECTS_REQUEST));
 
@@ -144,7 +144,7 @@ const deleteProjectsSuccess = (deletedProjects) => (dispatch, getState) => {
   );
 
   // TODO: Utilizar internacionalização e chave de plural
-  showSuccess('Projeto(s) excluído(s)!');
+  dispatch(showSuccess('Projeto(s) excluído(s)!'));
 
   dispatch({
     type: PROJECTS_TYPES.DELETE_PROJECTS_SUCCESS,
@@ -203,7 +203,7 @@ const updateProjectFail = (error) => (dispatch) => {
     }
   }
 
-  showError(errorMessage, 5);
+  dispatch(showError(errorMessage, 5));
 
   dispatch({
     type: PROJECTS_TYPES.UPDATE_PROJECT_FAIL,
@@ -238,7 +238,7 @@ const updateProjectSuccess = (response) => (dispatch, getState) => {
 
   dispatch(removeLoading(PROJECTS_TYPES.UPDATE_PROJECT_REQUEST));
 
-  showSuccess('Projeto salvo!');
+  dispatch(showSuccess('Projeto salvo!'));
 };
 
 /**
@@ -313,7 +313,7 @@ const fetchProjectFail = (error, history) => (dispatch) => {
     history.replace('/erro-404');
   }
 
-  showError(errorMessage, 5);
+  dispatch(showError(errorMessage, 5));
 
   dispatch(removeLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST));
 
@@ -378,7 +378,7 @@ const createProjectSuccess = (response, history) => (dispatch, getState) => {
 
   dispatch(removeLoading(PROJECTS_TYPES.CREATE_PROJECT_REQUEST));
 
-  showSuccess(`Projeto ${project.name} criado!`);
+  dispatch(showSuccess(`Projeto ${project.name} criado!`));
 
   // go to new project
   history.push(`/projetos/${project.uuid}`);
@@ -403,7 +403,7 @@ const createProjectFail = (error) => (dispatch) => {
     }
   }
 
-  showError(errorMessage, 5);
+  dispatch(showError(errorMessage, 5));
 
   dispatch({
     type: PROJECTS_TYPES.CREATE_PROJECT_FAIL,
