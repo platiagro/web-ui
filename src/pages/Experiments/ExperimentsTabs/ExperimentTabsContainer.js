@@ -7,7 +7,7 @@ import { useHistory, useParams, withRouter } from 'react-router-dom';
 import ExperimentsTabs from './index';
 
 // ACTIONS
-import experimentsActions from 'store/projects/experiments/actions';
+import { Actions as experimentsActions } from 'store/projects/experiments';
 
 import { deselectOperator } from 'store/operator/actions';
 
@@ -17,9 +17,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
     handleClearAllExperiments: () =>
       dispatch(experimentsActions.clearAllExperiments()),
     handleFetchExperiments: (projectId) =>
-      dispatch(
-        experimentsActions.fetchExperimentsRequest(projectId, routerProps)
-      ),
+      dispatch(experimentsActions.fetchExperimentsRequest(projectId)),
     handleFetchExperiment: (projectId, experimentId) =>
       dispatch(experimentsActions.activeExperiment(projectId, experimentId)),
     handleDeleteExperiment: (projectId, experimentId) =>
@@ -27,26 +25,22 @@ const mapDispatchToProps = (dispatch, routerProps) => {
         experimentsActions.deleteExperimentRequest(
           projectId,
           experimentId,
-          routerProps
+          routerProps.history
         )
       ),
     handleRenameExperiment: (projectId, experimentId, newName) =>
       dispatch(
-        experimentsActions.updateExperimentName(
-          projectId,
-          experimentId,
-          newName,
-          routerProps
-        )
+        experimentsActions.updateExperimentRequest(projectId, experimentId, {
+          name: newName,
+        })
       ),
     handleDuplicateExperiment: (projectId, experimentId, newName) =>
       dispatch(
         experimentsActions.createExperimentRequest(
           projectId,
-          newName,
-          experimentId,
+          { name: newName, copyFrom: experimentId },
           true,
-          routerProps
+          routerProps.history
         )
       ),
     handleOrganizeExperiments: (

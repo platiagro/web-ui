@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 
 // ACTIONS
-import experimentsActions from 'store/projects/experiments/actions';
+import { Actions as experimentsActions } from 'store/projects/experiments';
 import { hideNewExperimentModal } from 'store/ui/actions';
 
 // COMPONENTS
@@ -18,10 +18,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(
         experimentsActions.createExperimentRequest(
           projectId,
-          experimentName,
-          copyFrom,
+          { name: experimentName, copyFrom },
           duplicate,
-          routerProps
+          routerProps.history
         )
       ),
     // hide modal action

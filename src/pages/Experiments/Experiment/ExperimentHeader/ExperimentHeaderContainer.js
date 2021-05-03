@@ -7,7 +7,7 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentHeader from './index';
 
 // ACTIONS
-import experimentsActions from 'store/projects/experiments/experiments.actions';
+import { Actions as experimentsActions } from 'store/projects/experiments';
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import { removeOperatorRequest } from 'store/operator/actions';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
@@ -20,11 +20,9 @@ const mapDispatchToProps = (dispatch, routerProps) => {
       dispatch(fetchOperatorsRequest(projectId, experimentId)),
     handleEditExperimentName: (projectId, experimentId, newName) =>
       dispatch(
-        experimentsActions.updateExperimentName(
-          projectId,
-          experimentId,
-          newName
-        )
+        experimentsActions.updateExperimentRequest(projectId, experimentId, {
+          name: newName,
+        })
       ),
     handleCreateExperimentRun: (projectId, experimentId) =>
       dispatch(
