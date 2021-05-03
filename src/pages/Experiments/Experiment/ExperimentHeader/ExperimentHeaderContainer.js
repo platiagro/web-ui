@@ -7,7 +7,7 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentHeader from './index';
 
 // ACTIONS
-import experimentsActions from 'store/projects/experiments/actions';
+import experimentsActions from 'store/projects/experiments/experiments.actions';
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import { removeOperatorRequest } from 'store/operator/actions';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
