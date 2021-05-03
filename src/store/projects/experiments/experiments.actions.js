@@ -10,6 +10,8 @@ import { hideNewExperimentModal } from 'store/ui/actions';
 
 import { fetchOperatorsRequest } from 'store/operators/actions';
 
+import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
+
 import { showError, showSuccess } from 'store/message';
 
 import { addLoading, removeLoading } from 'store/loading';
@@ -439,4 +441,21 @@ export const clearAllExperiments = () => (dispatch) => {
   dispatch({
     type: EXPERIMENTS_TYPES.CLEAR_ALL_EXPERIMENTS,
   });
+};
+
+/**
+ * Active experiment action
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentId Experiment UUID
+ * @returns {Function} Dispatch
+ */
+export const activeExperiment = (projectId, experimentId) => (dispatch) => {
+  const experiment = { isActive: true };
+
+  dispatch({ type: EXPERIMENTS_TYPES.ACTIVE_EXPERIMENT });
+
+  dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
+
+  dispatch(updateExperimentRequest(projectId, experimentId, experiment));
 };
