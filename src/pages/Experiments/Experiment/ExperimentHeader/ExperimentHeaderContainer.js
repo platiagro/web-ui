@@ -7,11 +7,15 @@ import { withRouter, useParams } from 'react-router-dom';
 import ExperimentHeader from './index';
 
 // ACTIONS
-import { Actions as experimentsActions } from 'store/projects/experiments';
+import {
+  Actions as experimentsActions,
+  EXPERIMENTS_TYPES,
+} from 'store/projects/experiments';
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import { removeOperatorRequest } from 'store/operator/actions';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
 import { getExperimentById } from 'store/projects/experiments/experimentsReducer';
+import { useIsLoading } from 'hooks';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -52,7 +56,6 @@ const mapStateToProps = (state) => {
     },
     operators: state.operatorsReducer,
     operator: state.operatorReducer,
-    loading: state.uiReducer.experimentName.loading,
     trainingLoading: state.uiReducer.experimentTraining.loading,
     deleteTrainingLoading: state.uiReducer.experimentTraining.deleteLoading,
   };
@@ -67,7 +70,6 @@ const ExperimentHeaderContainer = ({
   experiment,
   operators,
   operator,
-  loading,
   trainingLoading,
   deleteTrainingLoading,
   handleRemoveOperator,
@@ -88,6 +90,8 @@ const ExperimentHeaderContainer = ({
       handleFetchOperators(projectId, experimentId);
     }
   }, [projectId, experimentId, handleFetchOperators]);
+
+  const loading = useIsLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST);
 
   // HANDLERS
   const editExperimentNameHandler = (newName) =>

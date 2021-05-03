@@ -7,8 +7,12 @@ import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { hideNewDeploymentModal } from 'store/ui/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 
-import { Actions as experimentsActions } from 'store/projects/experiments';
+import {
+  Actions as experimentsActions,
+  EXPERIMENTS_TYPES,
+} from 'store/projects/experiments';
 import { fetchTemplatesRequest } from 'store/templates/actions';
+import { useIsLoading } from 'hooks';
 
 const { fetchExperimentsRequest } = experimentsActions;
 
@@ -18,6 +22,10 @@ const { fetchExperimentsRequest } = experimentsActions;
 function NewDeploymentModalContainer() {
   const dispatch = useDispatch();
   const { projectId } = useParams();
+
+  const experimentsLoading = useIsLoading(
+    EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST
+  );
 
   // TODO: Criar seletores
   /* eslint-disable */
@@ -29,9 +37,6 @@ function NewDeploymentModalContainer() {
   );
   const templatesLoading = useSelector(
     (state) => state.uiReducer.template.loading
-  );
-  const experimentsLoading = useSelector(
-    (state) => state.uiReducer.experimentsTabs.loading
   );
   const experimentsData = useSelector((state) => state.experimentsReducer);
   const templatesData = useSelector((state) => state.templatesReducer);

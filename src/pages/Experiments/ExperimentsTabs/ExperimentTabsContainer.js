@@ -2,12 +2,16 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
+import { useIsLoading } from 'hooks';
 
 // COMPONENTS
 import ExperimentsTabs from './index';
 
 // ACTIONS
-import { Actions as experimentsActions } from 'store/projects/experiments';
+import {
+  Actions as experimentsActions,
+  EXPERIMENTS_TYPES,
+} from 'store/projects/experiments';
 
 import { deselectOperator } from 'store/operator/actions';
 
@@ -65,7 +69,6 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 const mapStateToProps = (state) => {
   return {
     experiments: state.experimentsReducer,
-    experimentDetailsLoading: state.uiReducer.experimentsTabs.loading,
     experimentOperatorsLoading: state.uiReducer.experimentOperators.loading,
   };
 };
@@ -83,7 +86,6 @@ const ExperimentTabsContainer = (props) => {
   // destructuring props
   const {
     experiments,
-    experimentDetailsLoading,
     experimentOperatorsLoading,
     handleFetchExperiments,
     handleOrganizeExperiments,
@@ -100,6 +102,14 @@ const ExperimentTabsContainer = (props) => {
   const history = useHistory();
   // getting project uuid
   const { projectId, experimentId } = useParams();
+
+  const experimentDetailsLoading = useIsLoading(
+    EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST,
+    EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST,
+    EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST,
+    EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST,
+    EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST
+  );
 
   // HOOKS
   // did mount hook

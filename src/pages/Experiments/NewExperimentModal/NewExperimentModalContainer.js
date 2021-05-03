@@ -4,8 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 
 // ACTIONS
-import { Actions as experimentsActions } from 'store/projects/experiments';
+import {
+  Actions as experimentsActions,
+  EXPERIMENTS_TYPES,
+} from 'store/projects/experiments';
 import { hideNewExperimentModal } from 'store/ui/actions';
+
+import { useIsLoading } from 'hooks';
 
 // COMPONENTS
 import NewExperimentModal from './index';
@@ -31,7 +36,6 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    loading: state.uiReducer.experimentsTabs.loading,
     modalVisible: state.uiReducer.newExperimentModal.visible,
     modalValidateStatus: state.uiReducer.newExperimentModal.modalValidateStatus,
     errorMessage: state.uiReducer.newExperimentModal.errorMessage,
@@ -44,7 +48,6 @@ const mapStateToProps = (state) => {
  * modal with redux.
  */
 const NewExperimentModalContainer = ({
-  loading,
   modalVisible,
   modalValidateStatus,
   errorMessage,
@@ -58,6 +61,8 @@ const NewExperimentModalContainer = ({
   const newExperimentHandler = (experimentName, copyFrom) => {
     handleCreateExperiment(projectId, experimentName, copyFrom, false);
   };
+
+  const loading = useIsLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST);
 
   // RENDER
   return (

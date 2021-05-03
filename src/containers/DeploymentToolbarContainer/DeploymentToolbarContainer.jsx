@@ -17,17 +17,14 @@ const operatorsSelector = ({ deploymentOperatorsReducer }) => {
   return deploymentOperatorsReducer;
 };
 
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.experimentName.loading;
-};
-
 const DeploymentToolbarContainer = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { projectId, deploymentId } = useParams();
   const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
 
-  const loading = useSelector(loadingSelector);
+  // TODO: adicionar loading de operadores
+  // const loading = useSelector(loadingSelector);
   const operators = useSelector(operatorsSelector);
 
   const confirmButtonIsLoading = useIsLoading(
