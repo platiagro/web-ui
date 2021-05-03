@@ -288,6 +288,11 @@ const updateExperimentRequest = (
   experimentId,
   experimentUpdated
 ) => (dispatch) => {
+  // dispatching update experiment fail
+  dispatch({
+    type: actionTypes.UPDATE_EXPERIMENT_REQUEST,
+  });
+
   // dispatching experiments tabs loading data action
   dispatch(experimentsTabsLoadingData());
 
