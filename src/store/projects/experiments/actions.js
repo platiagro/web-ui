@@ -2,7 +2,7 @@
 import { message } from 'antd';
 
 // ACTION TYPES
-import actionTypes from './experiments.actionTypes';
+import EXPERIMENTS_TYPES from './experiments.actionTypes';
 
 // SERVICES
 import experimentsApi from 'services/ExperimentsApi';
@@ -47,7 +47,7 @@ const fetchExperimentsSuccess = (response) => (dispatch) => {
 
   // dispatching fetch experiments success action
   dispatch({
-    type: actionTypes.FETCH_EXPERIMENTS_SUCCESS,
+    type: EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_SUCCESS,
     experiments,
   });
 };
@@ -67,7 +67,7 @@ const fetchExperimentsFail = (error) => (dispatch) => {
 
   // dispatching fetch experiments fail action
   dispatch({
-    type: actionTypes.FETCH_EXPERIMENTS_FAIL,
+    type: EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_FAIL,
     errorMessage,
   });
 
@@ -83,7 +83,7 @@ const fetchExperimentsFail = (error) => (dispatch) => {
 const fetchExperimentsRequest = (projectId) => (dispatch) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.FETCH_EXPERIMENTS_REQUEST,
+    type: EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST,
   });
 
   // dispatching experiments tabs loading data action
@@ -127,7 +127,7 @@ const createExperimentSuccess = (response, projectId, routerProps) => (
 
   // dispatching experiment success
   dispatch({
-    type: actionTypes.CREATE_EXPERIMENT_SUCCESS,
+    type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_SUCCESS,
     experiment,
   });
 
@@ -163,12 +163,15 @@ const createExperimentFail = (error, duplicate) => (dispatch) => {
     if (errorMessage.includes('name already exist') && !duplicate) {
       errorMessage = ALREADY_EXIST_MESSAGE;
       dispatch({
-        type: actionTypes.CREATE_EXPERIMENT_FAIL,
+        type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_FAIL,
         errorMessage,
       });
     } else if (errorMessage.includes('name already exist') && duplicate) {
       errorMessage = ALREADY_EXIST_MESSAGE;
-      dispatch({ type: actionTypes.DUPLICATE_EXPERIMENT_FAIL, errorMessage });
+      dispatch({
+        type: EXPERIMENTS_TYPES.DUPLICATE_EXPERIMENT_FAIL,
+        errorMessage,
+      });
       message.error(errorMessage, 5);
     } else {
       message.error(errorMessage, 5);
@@ -195,7 +198,7 @@ const createExperimentRequest = (
 ) => (dispatch) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.CREATE_EXPERIMENT_REQUEST,
+    type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST,
   });
 
   // dispatching experiments tabs loading data action
@@ -242,7 +245,7 @@ const updateExperimentSuccess = (response) => (dispatch, getState) => {
 
   // dispatching update experiment success
   dispatch({
-    type: actionTypes.UPDATE_EXPERIMENT_SUCCESS,
+    type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_SUCCESS,
     experiments,
   });
 };
@@ -271,7 +274,7 @@ const updateExperimentFail = (error) => (dispatch) => {
 
   // dispatching update experiment fail
   dispatch({
-    type: actionTypes.UPDATE_EXPERIMENT_FAIL,
+    type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_FAIL,
   });
 };
 
@@ -290,7 +293,7 @@ const updateExperimentRequest = (
 ) => (dispatch) => {
   // dispatching update experiment fail
   dispatch({
-    type: actionTypes.UPDATE_EXPERIMENT_REQUEST,
+    type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST,
   });
 
   // dispatching experiments tabs loading data action
@@ -331,7 +334,7 @@ const updateExperimentName = (projectId, experimentId, newName) => (
  * @returns {Function}
  */
 const activeExperiment = (projectId, experimentId) => (dispatch) => {
-  dispatch({ type: actionTypes.ACTIVE_EXPERIMENT });
+  dispatch({ type: EXPERIMENTS_TYPES.ACTIVE_EXPERIMENT });
 
   dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
 
@@ -376,7 +379,7 @@ const deleteExperimentSuccess = (projectId, experimentId, routerProps) => (
 
   // dispatching delete experiment success
   dispatch({
-    type: actionTypes.DELETE_EXPERIMENT_SUCCESS,
+    type: EXPERIMENTS_TYPES.DELETE_EXPERIMENT_SUCCESS,
     experiments,
   });
 
@@ -405,7 +408,7 @@ const deleteExperimentFail = (error) => (dispatch) => {
 
   // dispatching delete experiment fail
   dispatch({
-    type: actionTypes.DELETE_EXPERIMENT_FAIL,
+    type: EXPERIMENTS_TYPES.DELETE_EXPERIMENT_FAIL,
     errorMessage,
   });
 
@@ -425,7 +428,7 @@ const deleteExperimentRequest = (projectId, experimentId, routerProps) => (
 ) => {
   // dispatching delete experiment fail
   dispatch({
-    type: actionTypes.DELETE_EXPERIMENT_REQUEST,
+    type: EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST,
   });
 
   // dispatching experiments tabs loading data action
@@ -475,7 +478,7 @@ const organizeExperimentsSuccess = (dragExperimentId, hoverExperimentId) => (
 
   // dispatching organize experiments success action
   dispatch({
-    type: actionTypes.ORGANIZE_EXPERIMENTS_SUCCESS,
+    type: EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_SUCCESS,
     experiments,
   });
 };
@@ -495,7 +498,7 @@ const organizeExperimentsFail = (error) => (dispatch) => {
 
   // dispatching organize experiments fail action
   dispatch({
-    type: actionTypes.ORGANIZE_EXPERIMENTS_FAIL,
+    type: EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_FAIL,
     errorMessage,
   });
 
@@ -519,7 +522,7 @@ const organizeExperimentsRequest = (
 ) => (dispatch) => {
   // dispatching request action
   dispatch({
-    type: actionTypes.ORGANIZE_EXPERIMENTS_REQUEST,
+    type: EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST,
   });
 
   // dispatching experiments tabs loading data action
@@ -544,7 +547,7 @@ const organizeExperimentsRequest = (
  */
 const clearAllExperiments = () => (dispatch) => {
   dispatch({
-    type: actionTypes.CLEAR_ALL_EXPERIMENTS,
+    type: EXPERIMENTS_TYPES.CLEAR_ALL_EXPERIMENTS,
   });
 };
 

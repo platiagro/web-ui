@@ -1,7 +1,7 @@
 import Actions from './actions';
-import ActionTypes from './experiments.actionTypes';
+import EXPERIMENTS_TYPES from './experiments.actionTypes';
 import Reducer from './experimentsReducer';
 
 export default Reducer;
 
-export { Actions, ActionTypes };
+export { Actions, EXPERIMENTS_TYPES };
