@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Input } from 'antd';
 import { CopyToClipboard } from 'components';
 import { CopyOutlined } from '@ant-design/icons';
@@ -18,6 +18,10 @@ const PromoteDeploymentModal = (props) => {
   } = props;
 
   const [inputValue, setInputValue] = useState(initialInputValue);
+
+  useEffect(() => {
+    setInputValue(initialInputValue);
+  }, [initialInputValue]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
