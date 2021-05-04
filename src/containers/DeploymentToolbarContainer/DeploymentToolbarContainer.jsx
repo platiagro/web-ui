@@ -9,6 +9,9 @@ import ToolbarConfig from 'components/ToolbarConfig';
 
 import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
+import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
+
+import { useIsLoading } from 'hooks';
 
 const operatorsSelector = ({ deploymentOperatorsReducer }) => {
   return deploymentOperatorsReducer;
@@ -26,6 +29,10 @@ const DeploymentToolbarContainer = () => {
 
   const loading = useSelector(loadingSelector);
   const operators = useSelector(operatorsSelector);
+
+  const confirmButtonIsLoading = useIsLoading(
+    DEPLOYMENT_TYPES.CREATE_DEPLOYMENT_RUN_REQUEST
+  );
 
   const empty = useMemo(() => operators.length <= 0, [operators]);
 
@@ -68,7 +75,7 @@ const DeploymentToolbarContainer = () => {
         urlPrefix={`${window.location.origin.toString()}/seldon/anonymous/`}
         urlSuffix='/api/v1.0/predictions'
         visible={isShowingPromoteModal}
-        loading={loading}
+        confirmButtonIsLoading={confirmButtonIsLoading}
         onClose={handleHidePromoteModal}
         onConfirm={runDeploymentHandler}
         initialInputValue={deploymentId}

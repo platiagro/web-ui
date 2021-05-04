@@ -11,6 +11,8 @@ import {
   implantedExperimentsDataLoaded,
 } from 'store/ui/actions';
 
+import { addLoading, removeLoading } from 'store/loading';
+
 // ACTIONS
 // ** FETCH DEPLOYMENT RUNS
 /**
@@ -128,6 +130,8 @@ const createDeploymentRunFail = (error) => (dispatch) => {
 const createDeploymentRunRequest = (projectId, deploymentId, history) => (
   dispatch
 ) => {
+  dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST,
   });
@@ -137,7 +141,10 @@ const createDeploymentRunRequest = (projectId, deploymentId, history) => (
     .then((response) =>
       dispatch(createDeploymentRunSuccess(projectId, response, history))
     )
-    .catch((error) => dispatch(createDeploymentRunFail(error)));
+    .catch((error) => dispatch(createDeploymentRunFail(error)))
+    .finally(() => {
+      dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+    });
 };
 
 // // // // // // // // // //
