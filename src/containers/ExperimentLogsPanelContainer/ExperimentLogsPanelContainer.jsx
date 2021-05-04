@@ -4,11 +4,11 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LOG_TYPES } from 'configs';
+import { useLogsLongPolling } from 'hooks';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
 import { getExperimentLogs } from 'store/experimentLogs/actions';
-import useLogsLongPolling from './useLogsLongPolling';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
