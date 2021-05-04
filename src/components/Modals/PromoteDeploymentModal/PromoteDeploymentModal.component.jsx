@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Input } from 'antd';
 import { CopyToClipboard } from 'components';
 import { CopyOutlined } from '@ant-design/icons';
@@ -13,11 +13,15 @@ const PromoteDeploymentModal = (props) => {
     urlPrefix,
     urlSuffix,
     isInputDisabled,
-    loading,
+    confirmButtonIsLoading,
     initialInputValue,
   } = props;
 
   const [inputValue, setInputValue] = useState(initialInputValue);
+
+  useEffect(() => {
+    setInputValue(initialInputValue);
+  }, [initialInputValue]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -48,7 +52,7 @@ const PromoteDeploymentModal = (props) => {
       cancelText='Cancelar'
       width='875px'
       destroyOnClose
-      loading={loading}
+      okButtonProps={{ loading: confirmButtonIsLoading }}
     >
       <p>URL de implantação</p>
       <div className='modal-components-configuration'>
@@ -78,7 +82,7 @@ PromoteDeploymentModal.propTypes = {
   /** modal visible */
   visible: PropTypes.bool.isRequired,
   /** is loading */
-  loading: PropTypes.string,
+  confirmButtonIsLoading: PropTypes.string,
   /** modal close handler */
   onClose: PropTypes.func.isRequired,
   /** modal confirm handler */
