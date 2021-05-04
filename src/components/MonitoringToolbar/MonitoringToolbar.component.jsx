@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { Divider, Popconfirm, Typography } from 'antd'
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Divider, Popconfirm, Typography } from 'antd';
 import {
   PlusOutlined,
   FundOutlined,
   DeleteOutlined,
   DownOutlined,
   UpOutlined,
-} from '@ant-design/icons'
+} from '@ant-design/icons';
 
-import { Button } from 'uiComponents'
+import { Button } from 'uiComponents';
 
-import './styles.less'
+import './styles.less';
 
 const MonitoringToolbar = ({
   className,
@@ -27,94 +27,100 @@ const MonitoringToolbar = ({
 }) => {
   const [
     isShowingDeleteConfirmation,
-    setIsShowingDeleteConfirmation
-  ] = useState(false)
+    setIsShowingDeleteConfirmation,
+  ] = useState(false);
 
   const handleToggleDeleteConfirmation = () => {
-    setIsShowingDeleteConfirmation((isShowing) => !isShowing)
-  }
+    setIsShowingDeleteConfirmation((isShowing) => !isShowing);
+  };
 
   const handleDeleteMonitoringAndHideConfirmation = () => {
-    setIsShowingDeleteConfirmation(false)
-    if (handleDeleteMonitoring) handleDeleteMonitoring()
-  }
+    setIsShowingDeleteConfirmation(false);
+    if (handleDeleteMonitoring) handleDeleteMonitoring();
+  };
 
   useEffect(() => {
-    // Hides the delete confirmation modal if the delete button 
+    // Hides the delete confirmation modal if the delete button
     // or the panel is hidden
     if (!showDeleteButton || !isShowingPanel) {
-      setIsShowingDeleteConfirmation(false)
+      setIsShowingDeleteConfirmation(false);
     }
-  }, [isShowingPanel, showDeleteButton])
+  }, [isShowingPanel, showDeleteButton]);
 
   return (
     <div className={`monitoring-toolbar ${className}`}>
-      <Typography.Title className="toolbar-title" level={4}>
+      <Typography.Title className='monitoring-toolbar-title' level={4}>
         Monitoramentos
       </Typography.Title>
 
       {showAddButton && (
         <Button
-          shape="round"
-          type="primary-inverse"
+          className='monitoring-toolbar-add-button'
+          shape='round'
+          type='primary-inverse'
           icon={<PlusOutlined />}
-          handleClick={handleAddMonitoring}>
-          Adicionar
+          handleClick={handleAddMonitoring}
+        >
+          <span className='monitoring-toolbar-button-text'>Adicionar</span>
         </Button>
       )}
 
       {showSeeButton && (
         <>
-          <Divider className="toolbar-divider" type="vertical" />
+          <Divider className='monitoring-toolbar-divider' type='vertical' />
 
           <Button
-            shape="round"
-            type="primary-inverse"
+            className='monitoring-toolbar-see-button'
+            shape='round'
+            type='primary-inverse'
             icon={<FundOutlined />}
-            handleClick={handleSeeMonitoring}>
-            Ver Monitoramento
+            handleClick={handleSeeMonitoring}
+          >
+            <span className='monitoring-toolbar-button-text'>
+              Ver Monitoramento
+            </span>
           </Button>
         </>
       )}
 
       {showDeleteButton && (
         <>
-          <Divider className="toolbar-divider" type="vertical" />
+          <Divider className='monitoring-toolbar-divider' type='vertical' />
 
           <Popconfirm
             onConfirm={handleDeleteMonitoringAndHideConfirmation}
             onCancel={handleToggleDeleteConfirmation}
             visible={isShowingDeleteConfirmation}
-            title="Excluir o Monitoramento Selecionado?"
-            placement="topLeft"
-            cancelText="Cancelar"
-            okText="Excluir"
-            okType="danger"
+            title='Excluir o Monitoramento Selecionado?'
+            placement='topLeft'
+            cancelText='Cancelar'
+            okText='Excluir'
+            okType='danger'
           >
             <Button
-              shape="round"
-              type="primary-inverse"
+              className='monitoring-toolbar-delete-button'
+              shape='round'
+              type='primary-inverse'
               icon={<DeleteOutlined />}
               handleClick={handleToggleDeleteConfirmation}
               isLoading={isDeleting}
             >
-              Excluir
+              <span className='monitoring-toolbar-button-text'>Excluir</span>
             </Button>
           </Popconfirm>
         </>
-      )
-      }
+      )}
 
       <Button
-        className="toolbar-toggle-button"
-        shape="circle"
-        type="ghost"
+        className='monitoring-toolbar-toggle-button'
+        shape='circle'
+        type='ghost'
         icon={isShowingPanel ? <UpOutlined /> : <DownOutlined />}
-        handleClick={handleTogglePanel}>
-      </Button>
+        handleClick={handleTogglePanel}
+      ></Button>
     </div>
-  )
-}
+  );
+};
 
 MonitoringToolbar.propTypes = {
   className: PropTypes.string,
@@ -127,7 +133,7 @@ MonitoringToolbar.propTypes = {
   isShowingPanel: PropTypes.bool,
   handleTogglePanel: PropTypes.func,
   isDeleting: PropTypes.bool,
-}
+};
 
 MonitoringToolbar.defaultProps = {
   className: '',
@@ -139,7 +145,7 @@ MonitoringToolbar.defaultProps = {
   showDeleteButton: false,
   isShowingPanel: true,
   handleTogglePanel: undefined,
-  isDeleting: false
-}
+  isDeleting: false,
+};
 
-export default MonitoringToolbar
+export default MonitoringToolbar;

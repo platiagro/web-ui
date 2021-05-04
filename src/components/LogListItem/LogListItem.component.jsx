@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import {
   BugOutlined,
@@ -57,4 +57,4 @@ LogListItem.defaultProps = {
   text: '',
 };
 
-export default LogListItem;
+export default memo(LogListItem);
