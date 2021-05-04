@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
+import { useLogsLongPolling } from 'hooks';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
@@ -15,6 +16,10 @@ const isShowingLogsPanelSelector = ({ uiReducer }) => {
 
 const isLoadingSelector = ({ uiReducer }) => {
   return uiReducer.inferenceLogsDrawer.loading;
+};
+
+const operatorsSelector = ({ deploymentOperatorsReducer }) => {
+  return deploymentOperatorsReducer;
 };
 
 const logsSelector = ({ deploymentLogsReducer }) => {
@@ -40,6 +45,7 @@ const DeploymentLogsPanelContainer = () => {
   const [isShowingModal, setIsShowingModal] = useState(false);
 
   const logs = useSelector(logsSelector);
+  const operators = useSelector(operatorsSelector);
   const isLoading = useSelector(isLoadingSelector);
   const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
 
@@ -55,10 +61,17 @@ const DeploymentLogsPanelContainer = () => {
     setIsShowingModal(false);
   };
 
-  useEffect(() => {
+  const handleFetchLogs = useCallback(() => {
     if (!projectId || !deploymentId) return;
     dispatch(getDeployExperimentLogs(projectId, deploymentId, false));
   }, [dispatch, deploymentId, projectId]);
+
+  useEffect(handleFetchLogs, [handleFetchLogs]);
+
+  useLogsLongPolling({
+    handleFetchLogs,
+    operators,
+  });
 
   return (
     <>
