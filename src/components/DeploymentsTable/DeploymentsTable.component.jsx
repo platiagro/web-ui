@@ -101,7 +101,11 @@ const DeploymentsTable = (props) => {
       render: (value, record) => (
         <>
           <UploadInferenceTestButton
-            disabled={record.status === 'Failed' || record.status === 'Running'}
+            disabled={
+              record.status === 'Failed' ||
+              record.status === 'Running' ||
+              record.status === 'Pending'
+            }
             handleUpload={(file) =>
               onTestInference(projectId, record.uuid, file)
             }
