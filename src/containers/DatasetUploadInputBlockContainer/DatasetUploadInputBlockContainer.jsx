@@ -76,7 +76,7 @@ const DatasetUploadInputBlockContainer = () => {
     dispatch(selectDataset(dataset, projectId, experimentId));
 
   const customUploadHandler = (data) =>
-    dispatch(startFileDatasetUpload(data, projectId, experimentId));
+    dispatch(startFileDatasetUpload(data.file, projectId, experimentId));
 
   const handleGoogleDataset = (file) =>
     dispatch(startGoogleDatasetUpload(file, projectId, experimentId));
