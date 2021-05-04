@@ -11,6 +11,8 @@ import {
   implantedExperimentsDataLoaded,
 } from 'store/ui/actions';
 
+import { addLoading, removeLoading } from 'store/loading';
+
 // ACTIONS
 // ** FETCH DEPLOYMENT RUNS
 /**
@@ -86,11 +88,11 @@ const fetchDeploymentRunsRequest = (
  * Create deployment run success action
  *
  * @param {string} projectId Project UUID
- * @param routerProps
+ * @param history
  * @param response
  * @returns {object} { type }
  */
-const createDeploymentRunSuccess = (projectId, response, routerProps) => (
+const createDeploymentRunSuccess = (projectId, response, history) => (
   dispatch
 ) => {
   dispatch({
@@ -98,7 +100,7 @@ const createDeploymentRunSuccess = (projectId, response, routerProps) => (
     runId: response.data.uuid,
   });
 
-  routerProps.history.push(`/projetos/${projectId}/pre-implantacao`);
+  history.push(`/projetos/${projectId}`);
   message.success('Experimento implantado!');
 };
 
@@ -122,12 +124,14 @@ const createDeploymentRunFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param deploymentId
- * @param routerProps
+ * @param history
  * @returns {Function}
  */
-const createDeploymentRunRequest = (projectId, deploymentId, routerProps) => (
+const createDeploymentRunRequest = (projectId, deploymentId, history) => (
   dispatch
 ) => {
+  dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+
   dispatch({
     type: actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST,
   });
@@ -135,9 +139,12 @@ const createDeploymentRunRequest = (projectId, deploymentId, routerProps) => (
   deploymentRunsApi
     .createDeploymentRun(projectId, deploymentId)
     .then((response) =>
-      dispatch(createDeploymentRunSuccess(projectId, response, routerProps))
+      dispatch(createDeploymentRunSuccess(projectId, response, history))
     )
-    .catch((error) => dispatch(createDeploymentRunFail(error)));
+    .catch((error) => dispatch(createDeploymentRunFail(error)))
+    .finally(() => {
+      dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+    });
 };
 
 // // // // // // // // // //

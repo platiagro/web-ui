@@ -1,76 +1,86 @@
-// CORE LIBS
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
 
-// COMPONENTS
 import { RunDeploymentButton } from 'components/Buttons';
+import { PromoteDeploymentModal } from 'components/Modals';
 import SaveTemplateContainer from 'containers/SaveTemplateContainer';
 import ToolbarConfig from 'components/ToolbarConfig';
 
-// ACTIONS
 import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
+import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  return {
-    handleFetchOperators: (projectId, deploymentId) =>
-      dispatch(fetchOperatorsRequest(projectId, deploymentId)),
-    handleRunDeployment: (projectId, deploymentId) =>
-      dispatch(
-        deploymentRunsActions.createDeploymentRunRequest(
-          projectId,
-          deploymentId,
-          routerProps
-        )
-      ),
-  };
+import { useIsLoading } from 'hooks';
+
+const operatorsSelector = ({ deploymentOperatorsReducer }) => {
+  return deploymentOperatorsReducer;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    operators: state.operatorsReducer,
-    loading: state.uiReducer.experimentName.loading,
-  };
+const loadingSelector = ({ uiReducer }) => {
+  return uiReducer.experimentName.loading;
 };
 
-/**
- * Deployment Toolbar Container.
- * This component is responsible for create a logic container
- * for deployment toolbar.
- *
- * @param {*} props Container props
- *
- * @returns {DeploymentToolbarContainer} Container
- */
-const DeploymentToolbarContainer = (props) => {
-  const {
-    loading,
-    handleFetchOperators,
-    handleRunDeployment,
-    operators,
-  } = props;
-
-  const empty = operators.length <= 0;
-
+const DeploymentToolbarContainer = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { projectId, deploymentId } = useParams();
+  const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
 
-  // HOOKS
-  // did mount hook
+  const loading = useSelector(loadingSelector);
+  const operators = useSelector(operatorsSelector);
+
+  const confirmButtonIsLoading = useIsLoading(
+    DEPLOYMENT_TYPES.CREATE_DEPLOYMENT_RUN_REQUEST
+  );
+
+  const empty = useMemo(() => operators.length <= 0, [operators]);
+
+  const handleFetchOperators = useCallback(() => {
+    dispatch(fetchOperatorsRequest(projectId, deploymentId));
+  }, [projectId, deploymentId, dispatch]);
+
+  const handleRunDeployment = () =>
+    dispatch(
+      deploymentRunsActions.createDeploymentRunRequest(
+        projectId,
+        deploymentId,
+        history
+      )
+    );
+
   useEffect(() => {
     if (deploymentId) {
       handleFetchOperators(projectId, deploymentId);
     }
   }, [projectId, deploymentId, handleFetchOperators]);
 
-  // HANDLERS
-  const runDeploymentHandler = () =>
-    handleRunDeployment(projectId, deploymentId);
+  const runDeploymentHandler = (inputValue) => {
+    //TODO: Estou mostrando o valor do input no modal para quando for usar
+    console.log(inputValue);
+    handleRunDeployment();
+  };
+
+  const handleHidePromoteModal = () => {
+    setIsShowingPromoteModal(false);
+  };
+
+  const handleShowPromoteModal = () => {
+    setIsShowingPromoteModal(true);
+  };
 
   return (
     <div className='buttons-config'>
+      <PromoteDeploymentModal
+        urlPrefix={`${window.location.origin.toString()}/seldon/anonymous/`}
+        urlSuffix='/api/v1.0/predictions'
+        visible={isShowingPromoteModal}
+        confirmButtonIsLoading={confirmButtonIsLoading}
+        onClose={handleHidePromoteModal}
+        onConfirm={runDeploymentHandler}
+        initialInputValue={deploymentId}
+        isInputDisabled={true}
+      />
       <div>
         {/** FIXME: missing toolbar config */}
         <ToolbarConfig deployment />
@@ -82,7 +92,7 @@ const DeploymentToolbarContainer = (props) => {
         />
         <RunDeploymentButton
           className='deployment-buttons'
-          onClick={runDeploymentHandler}
+          onClick={handleShowPromoteModal}
           disabled={loading || empty}
         />
       </div>
@@ -91,6 +101,4 @@ const DeploymentToolbarContainer = (props) => {
 };
 
 // EXPORT
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DeploymentToolbarContainer)
-);
+export default DeploymentToolbarContainer;

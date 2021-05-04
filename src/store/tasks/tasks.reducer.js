@@ -1,7 +1,6 @@
 import * as TASKS_TYPES from './tasks.actionTypes';
 
 export const initialState = {
-  containerState: false,
   editModalIsVisible: false,
   errorMessage: null,
   modalIsVisible: false,
@@ -59,7 +58,6 @@ export const tasksReducer = (state = initialState, action = {}) => {
     case TASKS_TYPES.FETCH_TASKS_SUCCESS: {
       return {
         ...state,
-        containerState: action.containerState,
         tasks: action.tasks,
       };
     }

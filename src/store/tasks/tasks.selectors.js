@@ -1,7 +1,3 @@
-export const getContainerState = ({ tasksReducer }) => {
-  return tasksReducer.containerState;
-};
-
 export const getEditModalIsVisible = ({ tasksReducer }) => {
   return tasksReducer.editModalIsVisible;
 };

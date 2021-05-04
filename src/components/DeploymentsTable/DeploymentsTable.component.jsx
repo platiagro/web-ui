@@ -41,6 +41,7 @@ const DeploymentsTable = (props) => {
   const statusToBadge = {
     Failed: 'error',
     Running: 'processing',
+    Pending: 'processing',
     Succeeded: 'success',
   };
 
@@ -48,6 +49,7 @@ const DeploymentsTable = (props) => {
   const statusTextToPortuguese = {
     Failed: 'Falhou',
     Running: 'Em implantação',
+    Pending: 'Em implantação',
     Succeeded: 'Sucesso',
   };
 
@@ -99,7 +101,11 @@ const DeploymentsTable = (props) => {
       render: (value, record) => (
         <>
           <UploadInferenceTestButton
-            disabled={record.status === 'Failed' || record.status === 'Running'}
+            disabled={
+              record.status === 'Failed' ||
+              record.status === 'Running' ||
+              record.status === 'Pending'
+            }
             handleUpload={(file) =>
               onTestInference(projectId, record.uuid, file)
             }
