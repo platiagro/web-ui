@@ -1,6 +1,6 @@
 // CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // COMPONENTS
 import { LogsDrawer } from 'components';
@@ -8,41 +8,44 @@ import { LogsDrawer } from 'components';
 // ACTIONS
 import { hideInferenceLogsDrawer } from 'store/ui/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleHideDrawer: () => dispatch(hideInferenceLogsDrawer()),
-  };
+const logsSelector = ({ deploymentLogsReducer }) => {
+  return deploymentLogsReducer.logs || [];
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    drawer: state.uiReducer.inferenceLogsDrawer,
-    logs: state.deploymentLogsReducer.logs,
-  };
+const isLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.inferenceLogsDrawer.loading;
 };
 
-/**
- * Container to display logs drawer.
- * @param {object} props Container props
- * @returns {LogsDrawerContainer} Container
- */
-const LogsDrawerContainer = (props) => {
-  const { drawer, handleHideDrawer, logs } = props;
+const isVisibleSelector = ({ uiReducer }) => {
+  return uiReducer.inferenceLogsDrawer.visible;
+};
+
+const titleSelector = ({ uiReducer }) => {
+  return uiReducer.inferenceLogsDrawer.title;
+};
+
+const LogsDrawerContainer = () => {
+  const dispatch = useDispatch();
+
+  const handleHideDrawer = () => {
+    dispatch(hideInferenceLogsDrawer());
+  };
+
+  const isLoading = useSelector(isLoadingSelector);
+  const isVisible = useSelector(isVisibleSelector);
+  const title = useSelector(titleSelector);
+  const logs = useSelector(logsSelector);
+
   return (
     <LogsDrawer
       handleClose={handleHideDrawer}
-      isLoading={drawer.loading}
-      isVisible={drawer.visible}
+      isLoading={isLoading}
+      isVisible={isVisible}
       logs={logs}
-      title={drawer.title}
+      title={title}
     />
   );
 };
 
 // EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LogsDrawerContainer);
+export default LogsDrawerContainer;
