@@ -4,18 +4,46 @@
   align-items: center;
   padding: 8px 16px;
 
-  .toolbar-title {
+  .monitoring-toolbar-title {
     margin: 0;
     margin-right: 16px;
   }
 
-  .toolbar-divider {
+  .monitoring-toolbar-divider {
     margin: 0 8px;
   }
 
-  .toolbar-toggle-button {
+  .monitoring-toolbar-toggle-button {
     margin-left: auto;
     height: 40px;
     width: 40px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .monitoring-toolbar-add-button,
+    .monitoring-toolbar-see-button,
+    .monitoring-toolbar-delete-button {
+      height: 40px;
+      width: 40px;
+      padding: 0;
+
+      .monitoring-toolbar-button-text {
+        display: none;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .monitoring-toolbar-divider {
+      display: none;
+    }
+
+    .monitoring-toolbar-toggle-button,
+    .monitoring-toolbar-add-button,
+    .monitoring-toolbar-see-button,
+    .monitoring-toolbar-delete-button {
+      margin-right: 8px;
+      margin-left: unset;
+    }
   }
 }

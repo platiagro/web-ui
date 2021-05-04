@@ -7,14 +7,17 @@ import MonitoringToolbar from 'components/MonitoringToolbar';
 import { deleteMonitoring, fetchMonitorings } from 'store/monitorings/actions';
 import NewMonitoringModalContainer from 'containers/NewMonitoringModalContainer';
 
-import './styles.less';
+import useControlPanelVisibilities from './useControlPanelVisibilities';
+import useUnselectDeletedMonitoring from './useUnselectDeletedMonitoring';
 
-const monitoringsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.monitorings.loading;
-};
+import './styles.less';
 
 const monitoringsDeletingSelector = ({ uiReducer }) => {
   return uiReducer.monitorings.deleting;
+};
+
+const monitoringsLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.monitorings.loading;
 };
 
 const monitoringsSelector = ({ monitoringsReducer }) => {
@@ -64,18 +67,16 @@ const MonitoringPanelContainer = () => {
     dispatch(fetchMonitorings(projectId, deploymentId));
   }, [deploymentId, dispatch, projectId]);
 
-  // Clear the selected monitoring when the monitorings list changes
-  useEffect(() => {
-    if (!selectedMonitoring) return;
+  useUnselectDeletedMonitoring({
+    monitorings,
+    selectedMonitoring,
+    setSelectedMonitoring,
+  });
 
-    const selectedMonitoringIndex = monitorings.findIndex((monitoring) => {
-      return monitoring.uuid === selectedMonitoring.uuid;
-    });
-
-    if (selectedMonitoringIndex === -1) {
-      setSelectedMonitoring(null);
-    }
-  }, [monitorings, selectedMonitoring]);
+  useControlPanelVisibilities({
+    isShowingPanel,
+    setIsShowingPanel,
+  });
 
   return (
     <div className='monitoring-panel-container'>
