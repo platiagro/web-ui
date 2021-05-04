@@ -208,14 +208,12 @@ export const fetchPaginatedTasks = (page, pageSize) => async (dispatch) => {
 /**
  * Fetch tasks success action creator
  *
- * @param {string} containerState Container state
  * @param {Array} tasks Tasks array
  * @returns {object} Action
  */
-export const fetchTasksSuccess = (containerState, tasks) => {
+export const fetchTasksSuccess = (tasks) => {
   return {
     type: TASKS_TYPES.FETCH_TASKS_SUCCESS,
-    containerState,
     tasks,
   };
 };
@@ -241,8 +239,8 @@ export const fetchTasks = (filters) => async (dispatch) => {
   try {
     dispatch(addLoading(TASKS_TYPES.FETCH_TASKS_REQUEST));
     const response = await tasksApi.getAllTasks(filters);
-    const { containerState, tasks } = response.data;
-    dispatch(fetchTasksSuccess(containerState, tasks));
+    const { tasks } = response.data;
+    dispatch(fetchTasksSuccess(tasks));
   } catch (e) {
     dispatch(fetchTasksFail());
     dispatch(showError(e.message));

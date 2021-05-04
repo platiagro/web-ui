@@ -39,7 +39,6 @@ const { Text } = Typography;
  */
 const TasksTable = (props) => {
   const {
-    containerState,
     handleClickTask,
     handleClickEdit,
     handleClickDelete,
@@ -217,7 +216,6 @@ const TasksTable = (props) => {
         <Space size={8}>
           <Button
             className='btnTaskActions'
-            disabled={!containerState}
             onClick={() => handleClickTask(record.name)}
             type='link'
           >
@@ -284,8 +282,6 @@ const TasksTable = (props) => {
 
 // PROP TYPES
 TasksTable.propTypes = {
-  /** notebook server container state */
-  containerState: PropTypes.bool.isRequired,
   /** tasks table click task handle */
   handleClickTask: PropTypes.func.isRequired,
   /** tasks table click edit handle */
