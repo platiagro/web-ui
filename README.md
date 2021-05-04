@@ -24,6 +24,7 @@
       - [Start Jest - Unit Tests (Dev)](#start-jest---unit-tests-dev)
       - [Start Styleguidist - Development Playground (Dev)](#start-styleguidist---development-playground-dev)
       - [Start Project (Dev)](#start-project-dev)
+  - [Regras do projeto](#regras-do-projeto)
 
 # PlatIA - WEB-UI
 
@@ -471,3 +472,13 @@ yarn start
 # start project with npm
 npm start
 ```
+
+## Regras do projeto
+- Pasta de módulos devem ser escritas em lower case;
+- Pasta de componentes devem ser escritas em camel case;
+- Nunca utilizar spread em retorno de reducer sem alteração;
+- Sempre utilizar hooks ao invés de HOCs;
+- Itens em uma lista devem ser renderizados com uma chave única (preferir uuid);
+- Comentar apenas códigos que não estão muito claros;
+- Não utilizar comentários para blocos;
+- Action types devem conter @;

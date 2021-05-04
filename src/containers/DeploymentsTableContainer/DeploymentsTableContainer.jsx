@@ -1,12 +1,9 @@
-// CORE LIBS
 import React, { useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-// COMPONENTS
 import DeploymentsTable from 'components/DeploymentsTable';
 
-// ACTIONS
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
   deleteDeploymentRequest,
@@ -28,7 +25,6 @@ const isLoadingSelector = ({ uiReducer }) => {
 
 const DeploymentsTableContainer = () => {
   const { projectId } = useParams();
-
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {

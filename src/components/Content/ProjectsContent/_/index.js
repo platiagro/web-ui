@@ -3,12 +3,12 @@ import React from 'react';
 
 // COMPONENTS
 import ContentHeaderContainer from 'components/ContentHeader/_/ContentHeaderContainer';
-import ProjectsTable from '../ProjectsTable/Container';
-import NewProjectModal from '../NewProjectModal/Container';
+import ProjectsTable from '../ProjectsTable/ProjectsTableContainer';
+import NewProjectModal from '../NewProjectModal/NewProjectModalContainer';
 
 // CONTAINERS
-import NewProjectButtonContainer from '../NewProjectButton/Container';
-import DeleteProjectsButtonContainer from '../DeleteProjectsButton/Container';
+import NewProjectButtonContainer from '../NewProjectButton/NewProjectButtonContainer';
+import DeleteProjectsButtonContainer from '../DeleteProjectsButton/DeleteProjectsButtonContainer';
 
 /**
  * Projects Content.
