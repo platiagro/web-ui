@@ -1,3 +1,9 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global ProjectUpdatable, ProjectCreatable, Projects */
+
+/* API REFERENCE: https://platiagro.github.io/projects/#/Projects */
+
 // CORE LIBS
 import axios from 'axios';
 
@@ -13,82 +19,55 @@ const projectsPath = '/projects';
 
 // API METHODS
 /**
- * List Projects
- * @returns {Promise}
+ * Fetch Project
+ *
+ * @param {string} projectId Project id to fetch
+ * @returns {Promise} Fetch project request
  */
-const listProjects = () => {
-  return projectsApi.get(projectsPath);
-};
-
-/**
- * Detail Project
- * @param {string} projectId
- * @returns {Promise}
- */
-const detailProject = (projectId) => {
+const fetchProject = (projectId) => {
   return projectsApi.get(`${projectsPath}/${projectId}`);
 };
 
 /**
  * Create Project
- * @param {string} projectName
- * @param {string} projectDescription
- * @returns {Promise}
+ *
+ * @param {ProjectCreatable} project Objeto de criação do projeto
+ * @returns {Promise} Create project request
  */
-const createProject = (projectName, projectDescription) => {
-  const body = {
-    name: projectName,
-    description: projectDescription,
-  };
-  return projectsApi.post(projectsPath, body);
+const createProject = (project) => {
+  return projectsApi.post(projectsPath, project);
 };
 
 /**
  * Update Project
- * @param {string} projectId
- * @param {string} projectName
- * @param {string} projectDescription
- * @returns {Promise}
+ *
+ * @param {string} projectId Project id to update
+ * @param {ProjectUpdatable} projectUpdate New project data
+ * @returns {Promise} Update project request
  */
-const updateProject = (projectId, projectName, projectDescription) => {
-  const body = {
-    name: projectName,
-    description: projectDescription,
-  };
-
-  if (projectDescription === undefined) {
-    delete body.description;
-  }
-
-  return projectsApi.patch(`${projectsPath}/${projectId}`, body);
-};
-
-/**
- * Delete Project
- * @param {string} projectId
- * @returns {Promise}
- */
-const deleteProject = (projectId) => {
-  return projectsApi.delete(`${projectsPath}/${projectId}`);
+const updateProject = (projectId, projectUpdate) => {
+  return projectsApi.patch(`${projectsPath}/${projectId}`, projectUpdate);
 };
 
 /**
  * Delete Projects
- * @param {Array} projects
- * @returns {Promise}
+ *
+ * @param {Projects} projects Projects to delete
+ * @returns {Promise} Delete projects request
  */
 const deleteProjects = (projects) => {
   return projectsApi.post(`${projectsPath}/deleteprojects`, projects);
 };
 
 /**
- * Get paginated projects
- * @param {String} name
- * @param {Number} page
- * @param {Number} pageSize
- * @returns {Promise}
+ * Fetch paginated projects
+ *
+ * @param {string} name Project filter name
+ * @param {number} page Projects table current page
+ * @param {number} pageSize Projects table page size
+ * @returns {Promise} Fetch paginated projects request
  */
-const getPaginatedProjects = (name, page, pageSize) => {
+const fetchPaginatedProjects = (name, page, pageSize) => {
   return projectsApi.get(
     `${projectsPath}?name=${name}&page=${page}&page_size=${pageSize}`
   );
@@ -96,11 +75,9 @@ const getPaginatedProjects = (name, page, pageSize) => {
 
 // EXPORT DEFAULT
 export default {
-  listProjects,
-  detailProject,
+  fetchProject,
   createProject,
   updateProject,
-  deleteProject,
   deleteProjects,
-  getPaginatedProjects,
+  fetchPaginatedProjects,
 };

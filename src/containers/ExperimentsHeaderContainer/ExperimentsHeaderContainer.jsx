@@ -1,10 +1,9 @@
-// CORE LIBS
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useHistory, useParams, withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 // COMPONENTS
-import ContentHeader from 'components/ContentHeader/index';
+import ContentHeader from 'components/ContentHeader';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 import {
@@ -12,81 +11,66 @@ import {
   PrepareDeploymentsButton,
 } from 'components/Buttons';
 
-// ACTIONS
-import {
-  editProjectNameRequest,
-  fetchProjectRequest,
-} from 'store/project/actions';
-
 import {
   changeVisibilityCompareResultsModal,
   showPrepareDeploymentsModal,
 } from 'store/ui/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  return {
-    handleEditProjectName: (projectId, newName) =>
-      dispatch(editProjectNameRequest(projectId, newName)),
-    handleFetchProject: (projectId) =>
-      dispatch(fetchProjectRequest(projectId, routerProps)),
-    handleCompareResultsClick: () => {
-      dispatch(changeVisibilityCompareResultsModal(true));
-    },
-    handlePrepareDeploymentsModalOpen: () => {
-      dispatch(showPrepareDeploymentsModal());
-    },
-  };
-};
+import {
+  Actions as projectsActions,
+  Selectors,
+  PROJECTS_TYPES,
+} from 'store/projects';
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    project: state.projectReducer,
-    loading: state.uiReducer.projectName.loading,
-    prepareDeploymentsLoading: state.uiReducer.prepareDeployments.loading,
-  };
-};
+import { useIsLoading } from 'hooks';
+
+const { getProject } = Selectors;
+const { updateProjectRequest, fetchProjectRequest } = projectsActions;
 
 /**
  * Experiments Header Container.
+ *
  * This component is responsible for create a logic container for experiments content
  * header with route control.
- *
- * @param props
  */
-const ExperimentsHeaderContainer = (props) => {
-  const {
-    project,
-    loading,
-    prepareDeploymentsLoading,
-    handleEditProjectName,
-    handleFetchProject,
-    handleCompareResultsClick,
-    handlePrepareDeploymentsModalOpen,
-  } = props;
+const ExperimentsHeaderContainer = () => {
   const { projectId } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  // HANDLERS
-  const goBackHandler = () => history.push(`/projetos/${projectId}`);
-  const editProjectNameHandler = (newProjectName) =>
-    handleEditProjectName(projectId, newProjectName);
-  const handlePrepareDeploymentsClick = () =>
-    handlePrepareDeploymentsModalOpen();
-
-  // HOOKS
-  useEffect(() => {
-    // fetch project if project details is null
-    if (!project.uuid) {
-      handleFetchProject(projectId);
-    }
-  }, [handleFetchProject, project, projectId]);
-
-  // SET TARGET ROUTE FOR PAGE HEADER DROPDOWN
   const target = `/projetos/${projectId}/pre-implantacao`;
 
-  // RENDER
+  const loading = useIsLoading(
+    PROJECTS_TYPES.FETCH_PROJECT_REQUEST,
+    PROJECTS_TYPES.UPDATE_PROJECT_REQUEST
+  );
+
+  // TODO: Criar seletores com reselect -> Otimização
+  /* eslint-disable-next-line */
+  const project = useSelector((state) => getProject(projectId, state));
+  // TODO: Criar seletores
+  /* eslint-disable-next-line */
+  const prepareDeploymentsLoading = useSelector(
+    (state) => state.uiReducer.prepareDeployments.loading
+  );
+
+  const goBackHandler = () => history.push(`/projetos/${projectId}`);
+  const editProjectNameHandler = (newProjectName) =>
+    dispatch(updateProjectRequest(projectId, { name: newProjectName }));
+  const handlePrepareDeploymentsClick = () =>
+    dispatch(showPrepareDeploymentsModal());
+  const handleCompareResultsClick = () =>
+    dispatch(changeVisibilityCompareResultsModal(true));
+
+  useEffect(() => {
+    if (project.uuid === '') {
+      dispatch(fetchProjectRequest(projectId, history));
+    }
+
+    // component did mount
+    /* eslint-disable-next-line */
+  }, []);
+
   return (
     <ContentHeader
       title={project.name}
@@ -98,6 +82,7 @@ const ExperimentsHeaderContainer = (props) => {
       customSubTitle='Meus projetos'
       handleGoBack={goBackHandler}
       handleSubmit={editProjectNameHandler}
+      loading={loading}
       extra={
         <>
           <div className='headerButtons'>
@@ -118,7 +103,4 @@ const ExperimentsHeaderContainer = (props) => {
   );
 };
 
-// EXPORT
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ExperimentsHeaderContainer)
-);
+export default ExperimentsHeaderContainer;

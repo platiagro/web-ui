@@ -1,20 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Skeleton } from 'antd';
+import { useParams } from 'react-router-dom';
 
-//STYLE
 import './style.less';
+import { Selectors, PROJECTS_TYPES } from 'store/projects';
+import { useIsLoading } from 'hooks';
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    project: state.projectReducer,
-    loading: state.uiReducer.projectName.loading,
-  };
-};
+const { getProject } = Selectors;
 
-const TasksMenuDetailsContainer = (props) => {
-  const { project, loading } = props;
+// TODO: Componente com nome incoerente, renomear
+const TasksMenuDetailsContainer = () => {
+  const { projectId } = useParams();
+
+  // TODO: Criar seletores com reselect -> Otimização
+  /* eslint-disable-next-line */
+  const project = useSelector((state) => getProject(projectId, state));
+  const loading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
+
   const formatedDate = new Date(project.updatedAt).toLocaleString();
   const projectDescription =
     project.description || 'Não há descrição disponível';
@@ -57,4 +60,4 @@ const TasksMenuDetailsContainer = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(TasksMenuDetailsContainer);
+export default TasksMenuDetailsContainer;

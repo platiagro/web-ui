@@ -1,35 +1,26 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-// COMPONENTS
 import NewProjectButton from './index';
 
-// ACTIONS
 import { showNewProjectModal } from 'store/ui/actions';
+import { PROJECTS_TYPES } from 'store/projects';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    // show new project modal
-    handleShowNewProjectModal: () => dispatch(showNewProjectModal()),
-  };
-};
-
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    loading: state.uiReducer.projectsTable.loading,
-  };
-};
+import { useIsLoading } from 'hooks';
 
 /**
  * New Project Button Container.
+ *
  * This component is responsible for create a logic container for new project
  * button with redux.
  */
-const NewProjectButtonContainer = ({ loading, handleShowNewProjectModal }) => {
-  // RENDER
+const NewProjectButtonContainer = () => {
+  const dispatch = useDispatch();
+
+  const loading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECTS_REQUEST);
+
+  const handleShowNewProjectModal = () => dispatch(showNewProjectModal());
+
   return (
     <NewProjectButton
       disabled={loading}
@@ -38,8 +29,4 @@ const NewProjectButtonContainer = ({ loading, handleShowNewProjectModal }) => {
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NewProjectButtonContainer);
+export default NewProjectButtonContainer;

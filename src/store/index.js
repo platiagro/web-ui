@@ -6,8 +6,7 @@ import deploymentsReducer from './deployments/deploymentsReducer';
 import deploymentOperatorReducer from './deployments/deploymentOperator/deploymentOperatorReducer';
 import deploymentOperatorsReducer from './deployments/deploymentOperators/deploymentOperatorsReducer';
 import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsReducer';
-import projectsReducer from './projects/projectsReducer';
-import projectReducer from './project/projectReducer';
+import Projects from './projects';
 import projectDeploymentsReducer from './projectDeployments/projectDeploymentsReducer';
 import experimentsReducer from './experiments/experimentsReducer';
 import experimentRunReducer from './experiments/experimentRuns/experimentRunsReducer';
@@ -32,8 +31,7 @@ const reducers = combineReducers({
   deploymentOperatorReducer,
   deploymentOperatorsReducer,
   deploymentRunsReducer,
-  projectsReducer,
-  projectReducer,
+  Projects,
   projectDeploymentsReducer,
   experimentsReducer,
   experimentRunReducer,

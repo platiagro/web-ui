@@ -4,7 +4,7 @@
 import actionTypes from './actionTypes';
 import experimentsActionTypes from 'store/experiments/actionTypes';
 import experimentRunsActionTypes from 'store/experiments/experimentRuns/actionTypes';
-import projectActionTypes from 'store/project/actionTypes';
+import { PROJECTS_TYPES } from 'store/projects';
 import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE
@@ -43,8 +43,6 @@ const initialState = {
   },
   template: { loading: false },
   tasksTable: { loading: false },
-  projectsTable: { loading: false },
-  projectName: { loading: false },
   tasksMenu: { loading: false },
   deploymentsTabs: {
     loading: false,
@@ -68,7 +66,6 @@ const initialState = {
   implantedExperiments: { loading: false },
   inferenceTestResultModal: { loading: false, visible: false },
   prepareDeploymentsModal: { loading: false, visible: false },
-  projectEditName: { loading: false },
   dataViewModal: { isVisible: false, loading: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
   operatorsDependencies: {
@@ -117,14 +114,14 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     // NEW PROJECT MODAL
-    case projectActionTypes.CREATE_PROJECT_FAIL:
-    case projectActionTypes.EDIT_PROJECT_NAME_FAIL:
+    case PROJECTS_TYPES.CREATE_PROJECT_FAIL:
+    case PROJECTS_TYPES.UPDATE_PROJECT_FAIL:
       return {
         ...state,
         newProjectModal: {
           ...state.newProjectModal,
           modalValidateStatus: 'error',
-          errorMessage: action.errorMessage,
+          errorMessage: action.payload.errorMessage,
         },
       };
     // show new project modal
@@ -270,40 +267,13 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     // PROJECTS TABLE
-    case actionTypes.PROJECTS_TABLE_LOADING_DATA: // loading data
-    case actionTypes.PROJECTS_TABLE_DATA_LOADED: // data loaded
+    case PROJECTS_TYPES.CREATE_PROJECT_REQUEST: // loading data
       return {
         ...state,
         newProjectModal: {
           ...state.newProjectModal,
           modalValidateStatus: null,
           errorMessage: null,
-        },
-        projectsTable: {
-          ...state.projectsTable,
-          loading: action.projectsTableLoading,
-        },
-      };
-
-    // PROJECT NAME
-    case actionTypes.PROJECT_NAME_LOADING_DATA: // loading data
-    case actionTypes.PROJECT_NAME_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        projectName: {
-          ...state.projectName,
-          loading: action.projectNameLoading,
-        },
-      };
-
-    // PROJECT EDIT NAME
-    case actionTypes.PROJECT_EDIT_NAME_LOADING_DATA: // loading data
-    case actionTypes.PROJECT_EDIT_NAME_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        projectEditName: {
-          ...state.projectEditName,
-          loading: action.projectEditNameLoading,
         },
       };
 

@@ -1,28 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import {
+  Actions as projectsActions,
+  Selectors as projectsSelectors,
+} from 'store/projects';
 
-import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer/index';
-import TasksMenuDetailsContainer from 'containers/TasksMenuDetailsContainer/index';
-import ProjectDetailsContainer from 'containers/ProjectDetailsContainer/index';
+import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer';
+import TasksMenuDetailsContainer from 'containers/TasksMenuDetailsContainer';
+import ProjectDetailsContainer from 'containers/ProjectDetailsContainer';
 
 import './ProjectDetails.style.less';
 
-const ProjectDetails = () => (
-  <>
-    <HeaderProjectDetailsContainer />
+const projectSelector = (projectId) => (state) => {
+  return projectsSelectors.getProject(projectId, state);
+};
 
-    <Layout style={{ overflow: 'hidden' }}>
-      <Layout.Sider width='20%'>
-        <TasksMenuDetailsContainer />
-      </Layout.Sider>
+const ProjectDetails = () => {
+  const { projectId } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-      <Layout.Content>
-        <Layout style={{ height: '100%' }} className='content'>
-          <ProjectDetailsContainer />
-        </Layout>
-      </Layout.Content>
-    </Layout>
-  </>
-);
+  const project = useSelector(projectSelector(projectId));
+
+  useEffect(() => {
+    if (project.uuid === '') {
+      dispatch(projectsActions.fetchProjectRequest(projectId, history));
+    }
+  }, [dispatch, history, project.uuid, projectId]);
+
+  return (
+    <>
+      <HeaderProjectDetailsContainer />
+
+      <Layout style={{ overflow: 'hidden' }}>
+        <Layout.Sider width='20%'>
+          <TasksMenuDetailsContainer />
+        </Layout.Sider>
+
+        <Layout.Content>
+          <Layout style={{ height: '100%' }} className='content'>
+            <ProjectDetailsContainer />
+          </Layout>
+        </Layout.Content>
+      </Layout>
+    </>
+  );
+};
 
 export default ProjectDetails;

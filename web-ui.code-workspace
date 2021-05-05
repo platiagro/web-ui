@@ -30,10 +30,10 @@
     "cSpell.words": [
       "antd",
       "callout",
-      "dbaeumer",
       "draggable",
-      "esbenp",
       "implantacao",
+      "dbaeumer",
+      "esbenp",
       "ipynb",
       "jupyterlab",
       "mgmcdermott",
@@ -41,6 +41,7 @@
       "parens",
       "sider",
       "siders",
+      "setted",
       "suming"
     ],
     "[javascript]": {

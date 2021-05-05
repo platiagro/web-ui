@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-// CORE LIBS
+// TODO: Corrigir esses erros (acessibilidade)
+/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Image, Skeleton } from 'antd';
 
 // CONTAINER
 import NewExperimentModalContainer from 'pages/Experiments/NewExperimentModal/NewExperimentModalContainer';
@@ -18,46 +16,33 @@ import {
   NewDeploymentModalContainer,
 } from 'containers';
 
+//COMPONENTS
 import Button from 'uiComponents/Button/index';
+import { DetailsCardButton } from 'components/Buttons';
 
-// ACTIONS
 import {
   showNewExperimentModal,
   showNewDeploymentModal as showNewDeploymentModalAction,
 } from 'store/ui/actions';
 
-//IMAGES SVG
-import experimentacao from 'assets/experimentacao.svg';
-import fluxo from 'assets/fluxo.svg';
+import { Selectors, PROJECTS_TYPES } from 'store/projects';
+
+import { useIsLoading } from 'hooks';
 
 import './style.less';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showNewDeploymentModal: () => dispatch(showNewDeploymentModalAction()),
-    handleNewExperimentModal: () => dispatch(showNewExperimentModal()),
-  };
-};
+const { getProject } = Selectors;
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    loading: state.uiReducer.tasksMenu.loading,
-    tasks: state.tasksReducer.tasks,
-    project: state.projectReducer,
-    tasksMenu: state.tasksMenuReducer.filtered,
-    trainingLoading: state.uiReducer.experimentTraining.loading,
-    allTasks: state.tasksMenuReducer,
-  };
-};
+const ProjectDetailsContainer = () => {
+  const { projectId } = useParams();
 
-const ProjectDetailsContainer = (props) => {
-  const { project, handleNewExperimentModal, showNewDeploymentModal } = props;
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const { loading: projectLoading } = project;
-
-  const cardsClass = projectLoading ? 'cards' : 'cards active';
+  // TODO: Criar seletores com reselect -> Otimização
+  /* eslint-disable-next-line */
+  const project = useSelector((state) => getProject(projectId, state));
+  const projectLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
   let experimentsLength = 0;
   let fluxoLength = 0;
@@ -66,6 +51,14 @@ const ProjectDetailsContainer = (props) => {
     experimentsLength = project.experiments.length;
     fluxoLength = project.deployments.length;
   }
+
+  const showNewDeploymentModal = () => {
+    dispatch(showNewDeploymentModalAction());
+  };
+
+  const handleNewExperimentModal = () => {
+    dispatch(showNewExperimentModal());
+  };
 
   const redirectExperiment = () => {
     if (!projectLoading) {
@@ -78,8 +71,6 @@ const ProjectDetailsContainer = (props) => {
       history.push('/projetos/' + project.uuid + '/pre-implantacao');
     }
   };
-
-  const history = useHistory();
 
   return (
     <>
@@ -99,21 +90,12 @@ const ProjectDetailsContainer = (props) => {
               Novo Experimento
             </Button>
           </div>
-          <div className={cardsClass} onClick={redirectExperiment}>
-            <div className='experimentacaoImage'>
-              <Image width={50} src={experimentacao} />
-            </div>
-
-            <div className='cardsText'>
-              {projectLoading ? (
-                <Skeleton active />
-              ) : (
-                <>
-                  <span>{experimentsLength}</span> experimento(s)
-                </>
-              )}
-            </div>
-          </div>
+          <DetailsCardButton
+            projectLoading={projectLoading}
+            numberText={experimentsLength}
+            onClick={redirectExperiment}
+            type='experiment'
+          />
         </div>
 
         <div className='projectDetails'>
@@ -131,21 +113,12 @@ const ProjectDetailsContainer = (props) => {
               Escolher fluxo
             </Button>
           </div>
-          <div className={cardsClass} onClick={redirectDeployments}>
-            <div className='fluxoImage'>
-              <Image width={50} src={fluxo} />
-            </div>
-
-            <div className='cardsText'>
-              {projectLoading ? (
-                <Skeleton active />
-              ) : (
-                <>
-                  <span>{fluxoLength}</span>fluxo(s)
-                </>
-              )}
-            </div>
-          </div>
+          <DetailsCardButton
+            projectLoading={projectLoading}
+            numberText={fluxoLength}
+            onClick={redirectDeployments}
+            type='deployment'
+          />
         </div>
       </div>
       <div className='tableContent'>
@@ -166,7 +139,4 @@ const ProjectDetailsContainer = (props) => {
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectDetailsContainer);
+export default ProjectDetailsContainer;

@@ -236,10 +236,13 @@ export const updateDatasetUpload = (uploadProgress) => (dispatch) => {
  * Start a file upload
  *
  * @param {object} file Dataset file
- *
+ * @param {string} projectId Project id
+ * @param {string} experimentId Experiment id
  * @returns {Function} Dispatch function
  */
-export const startFileDatasetUpload = (file, experimentId) => (dispatch) => {
+export const startFileDatasetUpload = (file, projectId, experimentId) => (
+  dispatch
+) => {
   // create cancel token
   const cancelToken = CancelToken.source();
 
@@ -256,17 +259,22 @@ export const startFileDatasetUpload = (file, experimentId) => (dispatch) => {
   // append dataset file
   fileFormData.append('file', file);
 
-  dispatch(startDatasetUpload(fileFormData, cancelToken, experimentId));
+  dispatch(
+    startDatasetUpload(fileFormData, cancelToken, projectId, experimentId)
+  );
 };
 
 /**
  * Start a Google upload
  *
  * @param {object} gfile Google file
- *
+ * @param {string} projectId Project id
+ * @param {string} experimentId Experiment id
  * @returns {Function} Dispatch function
  */
-export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
+export const startGoogleDatasetUpload = (gfile, projectId, experimentId) => (
+  dispatch
+) => {
   // create cancel token
   const cancelToken = CancelToken.source();
 
@@ -279,7 +287,7 @@ export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
 
   const file = { gfile };
 
-  dispatch(startDatasetUpload(file, cancelToken));
+  dispatch(startDatasetUpload(file, cancelToken, projectId, experimentId));
 };
 
 /**
@@ -287,18 +295,18 @@ export const startGoogleDatasetUpload = (gfile) => (dispatch) => {
  *
  * @param {object} file Dataset file
  * @param {object} cancelToken Cancel request token
+ * @param {string} projectId Project id
  * @param {string} experimentId The experiment id
  * @returns {Function} Dispatch function
  */
-export const startDatasetUpload = (file, cancelToken, experimentId) => async (
-  dispatch,
-  getState
-) => {
+export const startDatasetUpload = (
+  file,
+  cancelToken,
+  projectId,
+  experimentId
+) => async (dispatch, getState) => {
   // get reducers from store
-  const { projectReducer, operatorReducer } = getState();
-
-  // get project id
-  const { uuid: projectId } = projectReducer;
+  const { operatorReducer } = getState();
 
   // save dataset operator
   const datasetOperator = { ...operatorReducer };

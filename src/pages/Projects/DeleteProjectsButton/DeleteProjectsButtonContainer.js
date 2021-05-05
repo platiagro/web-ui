@@ -1,61 +1,48 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-// COMPONENTS
 import DeleteProjectsButton from './index';
 
-// ACTIONS
-import { deleteSelectedProjects } from 'store/projects/actions';
+import {
+  Actions as projectsActions,
+  Selectors as projectsSelectors,
+  PROJECTS_TYPES,
+} from 'store/projects';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleDeleteSelectedProjects: (searchText, selectedProjects) =>
-      dispatch(deleteSelectedProjects(searchText, selectedProjects)),
-  };
-};
+import { useIsLoading } from 'hooks';
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    loading: state.uiReducer.projectsTable.loading,
-    selectedProjects: state.projectsReducer.selectedProjects,
-    searchText: state.projectsReducer.searchText,
-  };
-};
+const { deleteProjectsRequest } = projectsActions;
+
+const { getSelectedProjects } = projectsSelectors;
 
 /**
  * Delete Projects Button Container.
+ *
  * This component is responsible for create a logic container for delete projects
  * button with redux.
  */
-const DeleteProjectsButtonContainer = ({
-  loading,
-  selectedProjects,
-  searchText,
-  handleDeleteSelectedProjects,
-}) => {
-  const handleClick = (projects) => {
-    handleDeleteSelectedProjects(searchText, projects);
-  };
+// TODO: Aparentemente não existe a necessidade de passar os projetos selecionados
+// para o componente.
+const DeleteProjectsButtonContainer = () => {
+  const dispatch = useDispatch();
 
-  // RENDER
+  const loading = useIsLoading(PROJECTS_TYPES.DELETE_PROJECTS_REQUEST);
+  const selectedProjects = useSelector(getSelectedProjects);
+
+  const handleDeleteSelectedProjects = (projects) =>
+    dispatch(deleteProjectsRequest(projects));
+
   return (
     <>
-      {selectedProjects.length > 0 ? (
+      {selectedProjects?.length > 0 ? (
         <DeleteProjectsButton
           disabled={loading}
           selectedProjects={selectedProjects}
-          handleClick={handleClick}
+          handleClick={handleDeleteSelectedProjects}
         />
       ) : null}
     </>
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeleteProjectsButtonContainer);
+export default DeleteProjectsButtonContainer;
