@@ -62,7 +62,7 @@ const OperatorResizableSectionContainer = () => {
             {!isDatasetOperator && <GenericDrawerContainer />}
           </div>
 
-          {isDatasetOperator && (
+          {!isDatasetOperator && (
             <PropertyBlock>
               <ResultsButtonBar
                 showingResults={false}
