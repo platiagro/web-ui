@@ -73,12 +73,10 @@ const createExperimentSuccess = (response, projectId, history) => (
  * Create experiment fail action
  *
  * @param {object} error Error object
- * @param {boolean} duplicate Duplicating experiment
  * @returns {Function} Dispatch
  */
-const createExperimentFail = (error, duplicate) => (dispatch) => {
+const createExperimentFail = (error) => (dispatch) => {
   let errorMessage;
-  let actionType;
 
   if (error?.response.status === 500) {
     errorMessage = error.message;
@@ -87,17 +85,11 @@ const createExperimentFail = (error, duplicate) => (dispatch) => {
 
     if (errorMessage.includes('name already exist')) {
       errorMessage = ALREADY_EXIST_MESSAGE;
-      if (!duplicate) {
-        actionType = EXPERIMENTS_TYPES.CREATE_EXPERIMENT_FAIL;
-      } else {
-        actionType = EXPERIMENTS_TYPES.DUPLICATE_EXPERIMENT_FAIL;
-      }
     }
   }
 
   dispatch({
-    type: actionType,
-    payload: { errorMessage },
+    type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_FAIL,
   });
 
   dispatch(showError(errorMessage));
@@ -115,7 +107,6 @@ const createExperimentFail = (error, duplicate) => (dispatch) => {
 export const createExperimentRequest = (
   projectId,
   experiment,
-  duplicate,
   history
 ) => async (dispatch) => {
   const actionType = EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST;
@@ -134,7 +125,7 @@ export const createExperimentRequest = (
 
     dispatch(createExperimentSuccess(response, projectId, history));
   } catch (error) {
-    dispatch(createExperimentFail(error, duplicate));
+    dispatch(createExperimentFail(error));
   }
 };
 

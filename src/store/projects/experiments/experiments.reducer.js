@@ -15,7 +15,6 @@ import EXPERIMENTS_RUNS_TYPES from './experimentRuns/actionTypes';
  */
 export default (state, action) => {
   switch (action.type) {
-    case EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_SUCCESS:
     case EXPERIMENTS_TYPES.CREATE_EXPERIMENT_SUCCESS:
     case EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_SUCCESS:
     case EXPERIMENTS_TYPES.DELETE_EXPERIMENT_SUCCESS:
