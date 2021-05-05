@@ -3,6 +3,7 @@
 /* global ProjectsStore */
 
 // ACTION TYPES
+import experimentsReducer from './experiments';
 import * as PROJECTS_TYPES from './projects.actionTypes';
 
 /** @type {ProjectsStore} */
@@ -24,7 +25,7 @@ export const initialState = {
  * @param {string} action.type Action type
  * @returns {ProjectsStore} New state
  */
-export default (state = initialState, action = undefined) => {
+const projectsReducer = (state, action) => {
   switch (action.type) {
     case PROJECTS_TYPES.DELETE_PROJECTS_SUCCESS:
       return {
@@ -59,4 +60,22 @@ export default (state = initialState, action = undefined) => {
     default:
       return state;
   }
+};
+
+/**
+ * Projects Module Reducer (Projects + Experiments)
+ *
+ * @param {ProjectsStore} state Reducer initial state
+ * @param {object} action Reducer action
+ * @param {object} action.payload Action payload (data)
+ * @param {string} action.type Action type
+ * @returns {ProjectsStore} New state
+ */
+export default (state = initialState, action = undefined) => {
+  let newState = state;
+
+  newState = projectsReducer(state, action);
+  newState = experimentsReducer(state, action);
+
+  return newState;
 };
