@@ -30,6 +30,10 @@ import {
 } from 'store/compareResults/actions';
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
+import { Selectors } from 'store/projects/experiments';
+
+const { getExperiments } = Selectors;
+
 // STYLES
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -69,7 +73,7 @@ const mapStateToProps = (state) => {
     addIsLoading: state.uiReducer.compareResultsModal.addIsLoading,
     compareResults: state.compareResultsReducer.compareResults,
     deleteIsLoading: state.uiReducer.compareResultsModal.deleteIsLoading,
-    experiments: state.experimentsReducer,
+    experiments: getExperiments(state),
     experimentsOptions: state.compareResultsReducer.experimentsOptions,
     experimentsTrainingHistory:
       state.compareResultsReducer.experimentsTrainingHistory,
