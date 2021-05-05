@@ -19,12 +19,11 @@ import NewExperimentModal from './index';
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
     // create experiment action
-    handleCreateExperiment: (projectId, experimentName, copyFrom, duplicate) =>
+    handleCreateExperiment: (projectId, experimentName, copyFrom) =>
       dispatch(
         experimentsActions.createExperimentRequest(
           projectId,
           { name: experimentName, copyFrom },
-          duplicate,
           routerProps.history
         )
       ),
@@ -59,7 +58,7 @@ const NewExperimentModalContainer = ({
 
   // HANDLERS
   const newExperimentHandler = (experimentName, copyFrom) => {
-    handleCreateExperiment(projectId, experimentName, copyFrom, false);
+    handleCreateExperiment(projectId, experimentName, copyFrom);
   };
 
   const loading = useIsLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST);

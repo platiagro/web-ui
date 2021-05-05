@@ -11,18 +11,21 @@ import ExperimentsTabs from './index';
 import {
   Actions as experimentsActions,
   EXPERIMENTS_TYPES,
+  Selectors,
 } from 'store/projects/experiments';
 
+import { Actions as projectsActions, PROJECTS_TYPES } from 'store/projects';
+
 import { deselectOperator } from 'store/operator/actions';
+
+const { getExperiments } = Selectors;
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
-    handleClearAllExperiments: () =>
-      dispatch(experimentsActions.clearAllExperiments()),
-    handleFetchExperiments: (projectId) =>
-      dispatch(experimentsActions.fetchExperimentsRequest(projectId)),
-    handleFetchExperiment: (projectId, experimentId) =>
+    handleFetchProject: (projectId) =>
+      dispatch(projectsActions.fetchProjectRequest(projectId)),
+    handleActiveExperiment: (projectId, experimentId) =>
       dispatch(experimentsActions.activeExperiment(projectId, experimentId)),
     handleDeleteExperiment: (projectId, experimentId) =>
       dispatch(
@@ -43,7 +46,6 @@ const mapDispatchToProps = (dispatch, routerProps) => {
         experimentsActions.createExperimentRequest(
           projectId,
           { name: newName, copyFrom: experimentId },
-          true,
           routerProps.history
         )
       ),
@@ -68,7 +70,7 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 // STATES
 const mapStateToProps = (state) => {
   return {
-    experiments: state.experimentsReducer,
+    experiments: getExperiments(state),
     experimentOperatorsLoading: state.uiReducer.experimentOperators.loading,
   };
 };
@@ -87,10 +89,9 @@ const ExperimentTabsContainer = (props) => {
   const {
     experiments,
     experimentOperatorsLoading,
-    handleFetchExperiments,
+    handleFetchProject,
     handleOrganizeExperiments,
-    handleFetchExperiment,
-    handleClearAllExperiments,
+    handleActiveExperiment,
     handleDeleteExperiment,
     handleRenameExperiment,
     handleDuplicateExperiment,
@@ -105,26 +106,18 @@ const ExperimentTabsContainer = (props) => {
 
   const experimentDetailsLoading = useIsLoading(
     EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST,
-    EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST,
     EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST,
     EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST,
-    EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST
+    EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST,
+    PROJECTS_TYPES.FETCH_PROJECT_REQUEST
   );
 
   // HOOKS
   // did mount hook
   useEffect(() => {
-    // fetching projects
-    handleFetchExperiments(projectId);
-  }, [handleFetchExperiments, projectId]);
-
-  useEffect(() => {
-    return () => {
-      // clear all experiments of redux when dismount
-      handleClearAllExperiments();
-    };
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // fetch project
+    handleFetchProject(projectId);
+  }, [handleFetchProject, projectId]);
 
   // listen experiments to redirect to active
   useEffect(() => {
@@ -154,7 +147,7 @@ const ExperimentTabsContainer = (props) => {
   const handleChangeTab = (targetId) => {
     // fetching experiment
     if (targetId !== experimentId) {
-      handleFetchExperiment(projectId, targetId);
+      handleActiveExperiment(projectId, targetId);
       // routing
       history.push(`/projetos/${projectId}/experimentos/${targetId}`);
     }

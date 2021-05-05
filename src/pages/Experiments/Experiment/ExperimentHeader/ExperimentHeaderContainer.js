@@ -10,12 +10,14 @@ import ExperimentHeader from './index';
 import {
   Actions as experimentsActions,
   EXPERIMENTS_TYPES,
+  Selectors,
 } from 'store/projects/experiments';
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import { removeOperatorRequest } from 'store/operator/actions';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
-import { getExperimentById } from 'store/projects/experiments/experimentsReducer';
 import { useIsLoading } from 'hooks';
+
+const { getExperiment } = Selectors;
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
@@ -49,11 +51,11 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 };
 
 // STATES
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const { projectId, experimentId } = ownProps.match.params;
+
   return {
-    experiment: (experimentId) => {
-      return getExperimentById(state, experimentId);
-    },
+    experiment: getExperiment(state, projectId, experimentId),
     operators: state.operatorsReducer,
     operator: state.operatorReducer,
     trainingLoading: state.uiReducer.experimentTraining.loading,
@@ -79,10 +81,6 @@ const ExperimentHeaderContainer = ({
   handleDeleteExperimentRun,
 }) => {
   const { projectId, experimentId } = useParams();
-
-  // select experiment
-  experiment(experimentId);
-
   // HOOKS
   // did mount hook
   useEffect(() => {

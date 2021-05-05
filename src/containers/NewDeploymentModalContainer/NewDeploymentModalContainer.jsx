@@ -7,15 +7,9 @@ import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { hideNewDeploymentModal } from 'store/ui/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 
-import {
-  Actions as experimentsActions,
-  EXPERIMENTS_TYPES,
-  Selectors,
-} from 'store/projects/experiments';
+import { Selectors } from 'store/projects/experiments';
 import { fetchTemplatesRequest } from 'store/templates/actions';
-import { useIsLoading } from 'hooks';
 
-const { fetchExperimentsRequest } = experimentsActions;
 const { getExperiments } = Selectors;
 
 /**
@@ -24,10 +18,6 @@ const { getExperiments } = Selectors;
 function NewDeploymentModalContainer() {
   const dispatch = useDispatch();
   const { projectId } = useParams();
-
-  const experimentsLoading = useIsLoading(
-    EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST
-  );
 
   // TODO: Criar seletor com reselect
   /* eslint-disable-next-line */
@@ -59,7 +49,6 @@ function NewDeploymentModalContainer() {
 
   // did mount hook
   useEffect(() => {
-    dispatch(fetchExperimentsRequest(projectId));
     dispatch(fetchTemplatesRequest(projectId));
   }, [dispatch, projectId]);
 
@@ -68,7 +57,6 @@ function NewDeploymentModalContainer() {
       visible={visible}
       loading={loading}
       templatesLoading={templatesLoading}
-      experimentsLoading={experimentsLoading}
       experimentsData={experimentsData}
       templatesData={templatesData}
       onCancel={handleCancel}
