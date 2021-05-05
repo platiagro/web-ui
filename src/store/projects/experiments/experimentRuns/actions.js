@@ -8,9 +8,12 @@ import actionTypes from './actionTypes';
 import experimentRunsApi from 'services/ExperimentRunsApi';
 import operatorsApi from 'services/OperatorsApi';
 
-import { Selectors } from 'store/projects/experiments';
+import { Selectors as ExperimentsSelectors } from 'store/projects/experiments';
+import { Selectors as ProjectsSelectors } from 'store/projects';
+import { showError, showSuccess } from 'store/message';
 
-const { getExperiments } = Selectors;
+const { getExperiments } = ExperimentsSelectors;
+const { getProjects } = ProjectsSelectors;
 
 // UI ACTIONS
 import {
@@ -235,6 +238,11 @@ const fetchExperimentRunStatusSuccess = (response, projectId, experimentId) => (
   getState
 ) => {
   const { uiReducer } = getState();
+  const state = getState();
+
+  const oldExperiments = getExperiments(state, projectId);
+  const projects = getProjects(state);
+
   const operators = response.data.operators;
 
   let isRunning = false;
@@ -271,8 +279,6 @@ const fetchExperimentRunStatusSuccess = (response, projectId, experimentId) => (
     // experiment run finished successfully
     if (succeededRun) {
       isRunning = false;
-      const state = getState();
-      const oldExperiments = getExperiments(state, projectId);
 
       const experiments = oldExperiments.map((experiment) => {
         return experiment.uuid !== experimentId
@@ -280,9 +286,17 @@ const fetchExperimentRunStatusSuccess = (response, projectId, experimentId) => (
           : { ...experiment, succeded: true };
       });
 
+      const newProjects = projects.map((projectItem) =>
+        projectItem.uuid === projectId
+          ? { ...projectItem, experiments: experiments }
+          : projectItem
+      );
+
+      dispatch(showSuccess('Treinamento concluído'));
+
       dispatch({
         type: actionTypes.EXPERIMENT_RUN_SUCCEEDED,
-        experiments,
+        payload: { projects: newProjects },
       });
     }
 
@@ -293,7 +307,7 @@ const fetchExperimentRunStatusSuccess = (response, projectId, experimentId) => (
       // check if was manual interrupted
       if (interruptExperiment) {
         dispatch(experimentDeleteTrainingDataLoaded());
-        message.success('Treinamento interrompido!');
+        dispatch(showSuccess('Treinamento interrompido!'));
         interruptExperiment = false;
       }
     } else {
@@ -322,25 +336,35 @@ const fetchExperimentRunStatusFail = (error, projectId, experimentId) => (
   dispatch,
   getState
 ) => {
+  const state = getState();
+  const projects = getProjects(state);
+  const oldExperiments = getExperiments(state, projectId);
+  let experiments;
+
   const errorMessage = error.message;
 
   // experiment training isn't running
   if (errorMessage !== 'Network Error') {
-    const state = getState();
-    const oldExperiments = getExperiments(state, projectId);
-
-    const experiments = oldExperiments.map((experiment) => {
+    experiments = oldExperiments.map((experiment) => {
       return experiment.uuid !== experimentId
         ? experiment
         : { ...experiment, succeded: true };
     });
-
-    dispatch(experimentTrainingDataLoaded());
-    dispatch({
-      type: actionTypes.EXPERIMENT_RUN_NOT_SUCCEEDED,
-      experiments,
-    });
   }
+
+  const newProjects = projects.map((projectItem) =>
+    projectItem.uuid === projectId
+      ? { ...projectItem, experiments: experiments || oldExperiments }
+      : projectItem
+  );
+
+  dispatch(showError(errorMessage));
+
+  dispatch(experimentTrainingDataLoaded());
+  dispatch({
+    type: actionTypes.EXPERIMENT_RUN_NOT_SUCCEEDED,
+    payload: { projects: newProjects },
+  });
 };
 
 /**
