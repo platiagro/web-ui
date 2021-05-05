@@ -10,13 +10,28 @@ import NewProjectModal from './index';
 
 const { updateProjectRequest, createProjectRequest } = projectsActions;
 
-/**
- * New Project Modal Container.
- *
- * This component is responsible for create a logic container for new project
- * modal with redux.
- */
+const titleSelector = ({ uiReducer }) => {
+  return uiReducer.newProjectModal.title;
+};
+
+const recordSelector = ({ uiReducer }) => {
+  return uiReducer.newProjectModal.record;
+};
+
+const modalVisibleSelector = ({ uiReducer }) => {
+  return uiReducer.newProjectModal.visible;
+};
+
+const errorMessageSelector = ({ uiReducer }) => {
+  return uiReducer.newProjectModal.errorMessage;
+};
+
+const modalValidateStatusSelector = ({ uiReducer }) => {
+  return uiReducer.newProjectModal.modalValidateStatus;
+};
+
 const NewProjectModalContainer = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const loading = useIsLoading(
@@ -24,52 +39,45 @@ const NewProjectModalContainer = () => {
     PROJECTS_TYPES.CREATE_PROJECT_REQUEST
   );
 
-  // TODO: Criar seletores
-  /* eslint-disable */
-  const modalVisible = useSelector(
-    (state) => state.uiReducer.newProjectModal.visible
-  );
-  const title = useSelector((state) => state.uiReducer.newProjectModal.title);
-  const record = useSelector((state) => state.uiReducer.newProjectModal.record);
-  const modalValidateStatus = useSelector(
-    (state) => state.uiReducer.newProjectModal.modalValidateStatus
-  );
-  const errorMessage = useSelector(
-    (state) => state.uiReducer.newProjectModal.errorMessage
-  );
-  /* eslint-enable */
+  const title = useSelector(titleSelector);
+  const record = useSelector(recordSelector);
+  const modalVisible = useSelector(modalVisibleSelector);
+  const errorMessage = useSelector(errorMessageSelector);
+  const modalValidateStatus = useSelector(modalValidateStatusSelector);
 
-  const dispatch = useDispatch();
+  const handleCloseModal = () => {
+    dispatch(hideNewProjectModal());
+  };
 
-  const handleCloseModal = () => dispatch(hideNewProjectModal());
-
-  const handleCreateProject = (projectName, projectDescription) =>
+  const handleCreateProject = (projectName, projectDescription) => {
     dispatch(
       createProjectRequest(
         { name: projectName, description: projectDescription },
         history
       )
     );
+  };
 
-  const handleUpdateProject = (projectId, projectName, projectDescription) =>
+  const handleUpdateProject = (projectId, projectName, projectDescription) => {
     dispatch(
       updateProjectRequest(projectId, {
         name: projectName,
         description: projectDescription,
       })
     );
+  };
 
   return (
     <NewProjectModal
+      title={title}
+      record={record}
+      loading={loading}
       visible={modalVisible}
+      errorMessage={errorMessage}
+      modalValidateStatus={modalValidateStatus}
       handleCloseModal={handleCloseModal}
       handleNewProject={handleCreateProject}
       handleUpdateProject={handleUpdateProject}
-      loading={loading}
-      title={title}
-      record={record}
-      modalValidateStatus={modalValidateStatus}
-      errorMessage={errorMessage}
     />
   );
 };

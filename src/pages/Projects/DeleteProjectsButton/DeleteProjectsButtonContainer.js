@@ -15,22 +15,15 @@ const { deleteProjectsRequest } = projectsActions;
 
 const { getSelectedProjects } = projectsSelectors;
 
-/**
- * Delete Projects Button Container.
- *
- * This component is responsible for create a logic container for delete projects
- * button with redux.
- */
-// TODO: Aparentemente não existe a necessidade de passar os projetos selecionados
-// para o componente.
 const DeleteProjectsButtonContainer = () => {
   const dispatch = useDispatch();
 
   const loading = useIsLoading(PROJECTS_TYPES.DELETE_PROJECTS_REQUEST);
   const selectedProjects = useSelector(getSelectedProjects);
 
-  const handleDeleteSelectedProjects = (projects) =>
+  const handleDeleteSelectedProjects = (projects) => {
     dispatch(deleteProjectsRequest(projects));
+  };
 
   return (
     <>
