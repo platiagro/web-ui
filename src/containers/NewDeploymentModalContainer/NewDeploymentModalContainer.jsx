@@ -10,11 +10,13 @@ import { createDeploymentRequest } from 'store/deployments/actions';
 import {
   Actions as experimentsActions,
   EXPERIMENTS_TYPES,
+  Selectors,
 } from 'store/projects/experiments';
 import { fetchTemplatesRequest } from 'store/templates/actions';
 import { useIsLoading } from 'hooks';
 
 const { fetchExperimentsRequest } = experimentsActions;
+const { getExperiments } = Selectors;
 
 /**
  * New deployment modal container
@@ -25,6 +27,12 @@ function NewDeploymentModalContainer() {
 
   const experimentsLoading = useIsLoading(
     EXPERIMENTS_TYPES.FETCH_EXPERIMENTS_REQUEST
+  );
+
+  // TODO: Criar seletor com reselect
+  /* eslint-disable-next-line */
+  const experimentsData = useSelector((state) =>
+    getExperiments(state, projectId)
   );
 
   // TODO: Criar seletores
@@ -38,7 +46,6 @@ function NewDeploymentModalContainer() {
   const templatesLoading = useSelector(
     (state) => state.uiReducer.template.loading
   );
-  const experimentsData = useSelector((state) => state.experimentsReducer);
   const templatesData = useSelector((state) => state.templatesReducer);
   /* eslint-enable */
 

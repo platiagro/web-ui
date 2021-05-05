@@ -10,6 +10,10 @@ import { PrepareDeploymentsModal } from 'components/Modals';
 import { hidePrepareDeploymentsModal } from 'store/ui/actions';
 import { prepareDeployments } from 'store/deployments/actions';
 
+import { Selectors } from 'store/projects/experiments';
+
+const { getExperiments } = Selectors;
+
 // DISPATCHS
 const mapDispatchToProps = (dispatch, routerProps) => {
   return {
@@ -21,10 +25,12 @@ const mapDispatchToProps = (dispatch, routerProps) => {
 };
 
 // STATES
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const { projectId } = ownProps.match.params;
+
   return {
     visible: state.uiReducer.prepareDeploymentsModal.visible,
-    experiments: state.experimentsReducer,
+    experiments: getExperiments(state, projectId),
   };
 };
 
@@ -65,5 +71,5 @@ const PrepareDeploymentsModalContainer = (props) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps,mapDispatchToProps)(PrepareDeploymentsModalContainer)
+  connect(mapStateToProps, mapDispatchToProps)(PrepareDeploymentsModalContainer)
 );
