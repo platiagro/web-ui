@@ -104,13 +104,10 @@ const fetchExperimentRunsRequest = (projectId, experimentId, routerProps) => (
  * Create experiment run success action
  *
  * @param {string} projectId Project UUID
- * @param {object} routerProps Router
  * @param {object} response Response
  * @returns {object} { type }
  */
-const createExperimentRunSuccess = (projectId, routerProps, response) => (
-  dispatch
-) => {
+const createExperimentRunSuccess = (projectId, response) => (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_EXPERIMENT_RUN_SUCCESS,
     runId: response.data.uuid,
@@ -141,13 +138,11 @@ const createExperimentRunFail = (error) => (dispatch) => {
  * Create experiment run request
  *
  * @param {string} projectId Project UUID
- * @param experimentId
- * @param routerProps
- * @returns {Function}
+ * @param {string} experimentId Experiment id
+ * @param {object} history Router history
+ * @returns {Function} Disapatch
  */
-const createExperimentRunRequest = (projectId, experimentId, routerProps) => (
-  dispatch
-) => {
+const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
   dispatch({
     type: actionTypes.CREATE_EXPERIMENT_RUN_REQUEST,
   });
@@ -158,7 +153,7 @@ const createExperimentRunRequest = (projectId, experimentId, routerProps) => (
   experimentRunsApi
     .createExperimentRun(projectId, experimentId)
     .then((response) =>
-      dispatch(createExperimentRunSuccess(projectId, routerProps, response))
+      dispatch(createExperimentRunSuccess(projectId, response))
     )
     .catch((error) => dispatch(createExperimentRunFail(error)));
 };
