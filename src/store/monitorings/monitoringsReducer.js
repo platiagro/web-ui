@@ -22,6 +22,7 @@ const monitoringsReducer = (state = initialState, action = {}) => {
       };
     }
 
+    case actionTypes.CLEAR_ALL_MONITORINGS:
     case actionTypes.FETCH_MONITORINGS_FAIL: {
       return {
         ...state,
@@ -48,13 +49,6 @@ const monitoringsReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         monitorings: monitoringsClone,
-      };
-    }
-
-    case actionTypes.CLEAR_ALL_MONITORINGS: {
-      return {
-        ...state,
-        monitorings: [],
       };
     }
 

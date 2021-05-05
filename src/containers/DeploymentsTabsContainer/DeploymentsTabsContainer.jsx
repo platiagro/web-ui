@@ -37,10 +37,10 @@ const DeploymentsTabsContainer = () => {
   const isLoading = useSelector(loadingSelector);
   const deployments = useSelector(deploymentsSelector);
 
-  const hasDeletedRecently = useRef(false);
+  const isDeletingDeployment = useRef(false);
 
   const handleDelete = (deploymentIdToDelete) => {
-    hasDeletedRecently.current = true;
+    isDeletingDeployment.current = true;
     dispatch(deleteDeploymentRequest(projectId, deploymentIdToDelete));
   };
 
@@ -108,8 +108,15 @@ const DeploymentsTabsContainer = () => {
   }, [deploymentId, deployments, history, projectId]);
 
   useEffect(() => {
-    if (hasDeletedRecently.current) {
-      hasDeletedRecently.current = false;
+    if (isDeletingDeployment.current) {
+      isDeletingDeployment.current = false;
+
+      const deleteFailed = deployments.find(
+        ({ uuid }) => uuid === deploymentId
+      );
+
+      if (deleteFailed) return;
+
       const deploymentIdToUse = deployments.length
         ? deployments[deployments.length - 1].uuid
         : '';
@@ -123,7 +130,7 @@ const DeploymentsTabsContainer = () => {
       const path = getCurrentRoutePath(projectId, deploymentIdToUse);
       history.push(path);
     }
-  }, [deployments, dispatch, history, projectId]);
+  }, [deploymentId, deployments, dispatch, history, projectId]);
 
   useEffect(() => {
     return () => {
