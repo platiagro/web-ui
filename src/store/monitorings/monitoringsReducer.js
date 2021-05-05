@@ -51,6 +51,13 @@ const monitoringsReducer = (state = initialState, action = {}) => {
       };
     }
 
+    case actionTypes.CLEAR_ALL_MONITORINGS: {
+      return {
+        ...state,
+        monitorings: [],
+      };
+    }
+
     default:
       return state;
   }

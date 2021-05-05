@@ -73,6 +73,12 @@ const ExperimentLogsPanelContainer = () => {
     handleFetchLogs,
   });
 
+  useEffect(() => {
+    return () => {
+      dispatch(hideLogsPanel());
+    };
+  }, [dispatch]);
+
   return (
     <>
       <LogsModal

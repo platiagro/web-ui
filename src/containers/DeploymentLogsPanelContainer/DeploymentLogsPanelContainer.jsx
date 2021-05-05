@@ -73,6 +73,12 @@ const DeploymentLogsPanelContainer = () => {
     operators,
   });
 
+  useEffect(() => {
+    return () => {
+      dispatch(hideLogsPanel());
+    };
+  }, [dispatch]);
+
   return (
     <>
       <LogsModal

@@ -34,7 +34,7 @@ const MonitoringPanelContainer = () => {
 
   const [selectedMonitoring, setSelectedMonitoring] = useState(null);
   const [isShowingAddModal, setIsShowingAddModal] = useState(false);
-  const [isShowingPanel, setIsShowingPanel] = useState(true);
+  const [isShowingPanel, setIsShowingPanel] = useState(false);
 
   const handleSelectMonitoring = (monitoring) => {
     setSelectedMonitoring(monitoring);
@@ -89,7 +89,7 @@ const MonitoringPanelContainer = () => {
         showSeeButton={!!selectedMonitoring}
         isDeleting={isDeletingMonitoring}
         isShowingPanel={isShowingPanel}
-        showAddButton
+        showAddButton={!!deploymentId}
       />
 
       {isShowingPanel && (
