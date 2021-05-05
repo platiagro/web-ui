@@ -100,7 +100,6 @@ const createExperimentFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project id
  * @param {ExperimentCreatable} experiment Experiment
- * @param {boolean} duplicate Duplicating experiment
  * @param {object} history Router history
  * @returns {Function} Dispatch
  */
