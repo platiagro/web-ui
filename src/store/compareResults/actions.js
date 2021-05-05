@@ -18,6 +18,10 @@ import {
 // UTILS
 import utils from 'utils';
 
+import { Selectors } from 'store/projects/experiments';
+
+const { getExperiments } = Selectors;
+
 /**
  * Function to update experiments options data
  *
@@ -93,7 +97,9 @@ export const deleteCompareResult = (projectId, id) => {
  */
 export const fetchCompareResults = (projectId) => (dispatch, getState) => {
   dispatch(changeLoadingCompareResultsModal(true));
-  const { experimentsReducer: experiments } = getState();
+  const state = getState();
+  const experiments = getExperiments(state, projectId);
+
   compareResultsApi
     .listCompareResult(projectId)
     .then(async (response) => {
