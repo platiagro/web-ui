@@ -39,7 +39,7 @@ const getExperiment = (state, projectId, experimentId) => {
     updatedAt: '',
   };
 
-  if (experiments?.length > 0)
+  if (experiments?.length > 0 && experimentId)
     experiment = experiments.find(
       (experimentItem) => experimentItem.uuid === experimentId
     );
