@@ -3,7 +3,8 @@
 /* global ProjectsStore */
 
 // ACTION TYPES
-import experimentsReducer from './experiments';
+import { EXPERIMENTS_TYPES } from './experiments';
+import EXPERIMENTS_RUNS_TYPES from './experiments/experimentRuns/actionTypes';
 import * as PROJECTS_TYPES from './projects.actionTypes';
 
 /** @type {ProjectsStore} */
@@ -17,7 +18,7 @@ export const initialState = {
 };
 
 /**
- * Projects Reducer
+ * Projects Module Reducer (Projects + Experiments)
  *
  * @param {ProjectsStore} state Reducer initial state
  * @param {object} action Reducer action
@@ -25,7 +26,7 @@ export const initialState = {
  * @param {string} action.type Action type
  * @returns {ProjectsStore} New state
  */
-const projectsReducer = (state, action) => {
+export default (state = initialState, action = undefined) => {
   switch (action.type) {
     case PROJECTS_TYPES.DELETE_PROJECTS_SUCCESS:
       return {
@@ -37,6 +38,12 @@ const projectsReducer = (state, action) => {
     case PROJECTS_TYPES.CREATE_PROJECT_SUCCESS:
     case PROJECTS_TYPES.FETCH_PROJECT_SUCCESS:
     case PROJECTS_TYPES.UPDATE_PROJECT_SUCCESS:
+    case EXPERIMENTS_TYPES.CREATE_EXPERIMENT_SUCCESS:
+    case EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_SUCCESS:
+    case EXPERIMENTS_TYPES.DELETE_EXPERIMENT_SUCCESS:
+    case EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_SUCCESS:
+    case EXPERIMENTS_RUNS_TYPES.EXPERIMENT_RUN_NOT_SUCCEEDED: // TODO: Acho que não é uma boa prática um reducer filtrar ações de outras stores
+    case EXPERIMENTS_RUNS_TYPES.EXPERIMENT_RUN_SUCCEEDED:
       return {
         ...state,
         projects: action.payload.projects,
@@ -52,30 +59,14 @@ const projectsReducer = (state, action) => {
         pageSize: action.payload.pageSize,
         total: action.payload.total,
       };
+
     case PROJECTS_TYPES.SELECTED_PROJECTS:
       return {
         ...state,
         selectedProjects: action.payload.selectedProjects,
       };
+
     default:
       return state;
   }
-};
-
-/**
- * Projects Module Reducer (Projects + Experiments)
- *
- * @param {ProjectsStore} state Reducer initial state
- * @param {object} action Reducer action
- * @param {object} action.payload Action payload (data)
- * @param {string} action.type Action type
- * @returns {ProjectsStore} New state
- */
-export default (state = initialState, action = undefined) => {
-  let newState = state;
-
-  newState = projectsReducer(state, action);
-  newState = experimentsReducer(state, action);
-
-  return newState;
 };
