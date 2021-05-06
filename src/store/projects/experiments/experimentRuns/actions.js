@@ -8,12 +8,9 @@ import actionTypes from './actionTypes';
 import experimentRunsApi from 'services/ExperimentRunsApi';
 import operatorsApi from 'services/OperatorsApi';
 
-import { Selectors as ExperimentsSelectors } from 'store/projects/experiments';
-import { Selectors as ProjectsSelectors } from 'store/projects';
+import { getExperiments } from 'store/projects/experiments/experiments.selectors';
+import { getProjects } from 'store/projects/projects.selectors';
 import { showError, showSuccess } from 'store/message';
-
-const { getExperiments } = ExperimentsSelectors;
-const { getProjects } = ProjectsSelectors;
 
 // UI ACTIONS
 import {

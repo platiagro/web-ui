@@ -25,9 +25,7 @@ import {
 } from 'store/compareResults/actions';
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
-import { Selectors } from 'store/projects/experiments';
-
-const { getExperiments } = Selectors;
+import { getExperiments } from 'store/projects/experiments/experiments.selectors';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';

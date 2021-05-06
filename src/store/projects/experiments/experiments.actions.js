@@ -10,16 +10,13 @@ import { hideNewExperimentModal } from 'store/ui/actions';
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
 
-import { Selectors as ProjectSelectors } from 'store/projects';
-import { Selectors as ExperimentsSelectors } from './';
+import { getProjects } from 'store/projects/projects.selectors';
+import { getExperiments } from './experiments.selectors';
 
 import { showError, showSuccess } from 'store/message';
 import { addLoading, removeLoading } from 'store/loading';
 
 import utils from 'utils';
-
-const { getProjects } = ProjectSelectors;
-const { getExperiments } = ExperimentsSelectors;
 
 const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';
 
