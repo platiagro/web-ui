@@ -2,7 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-import ContentHeader from 'components/ContentHeader/_';
+// COMPONENTS
+import ContentHeader from 'components/ContentHeader';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
 import {

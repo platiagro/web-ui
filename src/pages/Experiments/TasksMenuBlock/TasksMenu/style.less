@@ -1,0 +1,48 @@
+.draggable-item {
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  padding-left: 24px !important;
+
+  &:active {
+    background-color: transparent;
+  }
+
+  &:hover {
+    .draggable-item-content-icon {
+      svg {
+        transition: fill 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        fill: #0050b3;
+      }
+    }
+  }
+
+  .draggable-item-content {
+    cursor: move;
+    display: flex;
+    align-items: center;
+
+    &.draggable-item-content-disabled {
+      opacity: 0.6;
+    }
+
+    .draggable-item-content-icon {
+      padding-right: 16px;
+
+      svg {
+        fill: rgba(0, 0, 0, 0.65);
+      }
+    }
+
+    .draggable-item-content-text {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}

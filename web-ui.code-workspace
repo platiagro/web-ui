@@ -29,6 +29,9 @@
     },
     "cSpell.words": [
       "antd",
+      "callout",
+      "draggable",
+      "implantacao",
       "dbaeumer",
       "esbenp",
       "ipynb",
@@ -36,8 +39,9 @@
       "mgmcdermott",
       "monitorings",
       "parens",
-      "setted",
       "sider",
+      "siders",
+      "setted",
       "suming"
     ],
     "[javascript]": {

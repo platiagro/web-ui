@@ -5,7 +5,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-import NewExperimentModalContainer from 'components/Content/ExperimentsContent/NewExperimentModal/Container';
+// CONTAINER
+import NewExperimentModalContainer from 'pages/Experiments/NewExperimentModal/NewExperimentModalContainer';
 import {
   DeploymentsTableContainer,
   InferenceTestResultModalContainer,

@@ -4,13 +4,18 @@ import actionTypes from './actionTypes';
 import templatesActionTypes from '../templates/actionTypes';
 
 // UTILS
-import utils from '../../utils';
+import utils from 'utils';
 
 // INITIAL STATE
 const initialState = { filtered: {}, unfiltered: {} };
 
 /**
  * tasks menu reducer
+ *
+ * @param state
+ * @param action
+ * @param state
+ * @param action
  */
 const tasksMenuReducer = (state = initialState, action = undefined) => {
   switch (action.type) {

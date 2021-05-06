@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ResultsButtonBar } from 'components/Buttons';
 import { showOperatorResults } from 'store/ui/actions';
 import { PropertiesPanel, PropertyBlock } from 'components';
-import DatasetDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/DatasetDrawer/_/Container';
-import GenericDrawerContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/GenericDrawer/_/Container';
-import NotebookOutputsContainer from 'components/Content/ExperimentsContent/Experiment/Drawer/NotebookOutputs/_/NotebookOutputsContainer';
+import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/DatasetDrawerContainer';
+import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/GenericDrawerContainer';
+import NotebookOutputsContainer from 'pages/Experiments/Experiment/Drawer/NotebookOutputs/NotebookOutputsContainer';
 
 import './OperatorResizableSectionContainer.less';
 
