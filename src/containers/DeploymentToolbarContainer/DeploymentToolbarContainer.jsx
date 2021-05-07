@@ -12,6 +12,7 @@ import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
 import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
 
 import { useIsLoading } from 'hooks';
+import { PROJECTS_TYPES } from 'store/projects';
 
 const operatorsSelector = ({ deploymentOperatorsReducer }) => {
   return deploymentOperatorsReducer;
@@ -23,8 +24,7 @@ const DeploymentToolbarContainer = () => {
   const { projectId, deploymentId } = useParams();
   const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
 
-  // TODO: adicionar loading de operadores
-  // const loading = useSelector(loadingSelector);
+  const loading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
   const operators = useSelector(operatorsSelector);
 
   const confirmButtonIsLoading = useIsLoading(
