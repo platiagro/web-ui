@@ -5,21 +5,22 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import tasksApi from '../../services/TasksApi';
-import templatesApi from '../../services/TemplatesApi';
+import tasksApi from 'services/TasksApi';
+import templatesApi from 'services/TemplatesApi';
 
 // UI ACTIONS
 import { tasksMenuLoadingData, tasksMenuDataLoaded } from '../ui/actions';
 
 // UTILS
-import utils from '../../utils';
+import utils from 'utils';
 
 // ACTIONS
 // ** FETCH TASKS MENU
 /**
  * fetch tasks menu success action
- * @param {Object} tasksMenu
- * @returns {Object} { type, tasksMenu }
+ *
+ * @param {object} tasksMenu
+ * @returns {object} { type, tasksMenu }
  */
 const fetchTasksMenuSuccess = (tasksMenu) => (dispatch) => {
   // dispatching tasks menu data loaded action
@@ -34,8 +35,9 @@ const fetchTasksMenuSuccess = (tasksMenu) => (dispatch) => {
 
 /**
  * fetch tasks menu fail action
- * @param {Object} error
- * @returns {Object} { type, errorMessage }
+ *
+ * @param {object} error
+ * @returns {object} { type, errorMessage }
  */
 const fetchTasksMenuFail = (error) => (dispatch) => {
   // getting error message
@@ -55,6 +57,7 @@ const fetchTasksMenuFail = (error) => (dispatch) => {
 
 /**
  * fetch tasks menu request action
+ *
  * @returns {Function}
  */
 export const fetchTasksMenuRequest = () => async (dispatch) => {
@@ -76,7 +79,10 @@ export const fetchTasksMenuRequest = () => async (dispatch) => {
     let tasksMenu = {};
 
     // adding templates to menu
-    if (templatesResponse.data.templates && templatesResponse.data.templates.length > 0)
+    if (
+      templatesResponse.data.templates &&
+      templatesResponse.data.templates.length > 0
+    )
       tasksMenu.TEMPLATES = templatesResponse.data.templates;
 
     // adding tasks to menu
@@ -96,6 +102,7 @@ export const fetchTasksMenuRequest = () => async (dispatch) => {
 // ** FILTER TASKS MENU
 /**
  * filter experiment tasks menu action
+ *
  * @param {string} filter
  * @returns {type, filter}
  */

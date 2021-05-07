@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Page E404 should renders html correctly 1`] = `
-<Result
-  status="404"
-  subTitle="Desculpe, a página que você visitou não existe."
-  title="404"
-/>
-`;

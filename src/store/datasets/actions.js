@@ -5,7 +5,7 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import datasetsApi from '../../services/DatasetsApi';
+import datasetsApi from 'services/DatasetsApi';
 
 // UI ACTIONS
 import { datasetsListLoadingData, datasetsListDataLoaded } from '../ui/actions';

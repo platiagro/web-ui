@@ -5,7 +5,7 @@ import { message } from 'antd';
 import actionTypes from './actionTypes';
 
 // SERVICES
-import deploymentRunsApi from '../../../services/DeploymentRunsApi';
+import deploymentRunsApi from 'services/DeploymentRunsApi';
 import {
   implantedExperimentsLoadingData,
   implantedExperimentsDataLoaded,

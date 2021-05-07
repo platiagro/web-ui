@@ -61,7 +61,7 @@ const ResultsButtonBar = (props) => {
 // PROP TYPES
 ResultsButtonBar.propTypes = {
   /** results button bar edit button click handler */
-  handleEditClick: PropTypes.func.isRequired,
+  handleEditClick: PropTypes.func,
   /** results button bar results button click handler */
   handleResultsClick: PropTypes.func.isRequired,
   /** showing results drawer */
