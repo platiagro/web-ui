@@ -8,7 +8,10 @@ import { useLogsLongPolling } from 'hooks';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
-import { getExperimentLogs } from 'store/experimentLogs/actions';
+import {
+  clearAllExperimentLogs,
+  getExperimentLogs,
+} from 'store/experimentLogs/actions';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
@@ -76,6 +79,7 @@ const ExperimentLogsPanelContainer = () => {
   useEffect(() => {
     return () => {
       dispatch(hideLogsPanel());
+      dispatch(clearAllExperimentLogs());
     };
   }, [dispatch]);
 

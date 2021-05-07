@@ -4,11 +4,14 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LOG_TYPES } from 'configs';
+import { useLogsLongPolling } from 'hooks';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
-import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
-import { useLogsLongPolling } from 'hooks';
+import {
+  clearAllDeploymentLogs,
+  getDeployExperimentLogs,
+} from 'store/deploymentLogs/actions';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
@@ -76,6 +79,7 @@ const DeploymentLogsPanelContainer = () => {
   useEffect(() => {
     return () => {
       dispatch(hideLogsPanel());
+      dispatch(clearAllDeploymentLogs());
     };
   }, [dispatch]);
 

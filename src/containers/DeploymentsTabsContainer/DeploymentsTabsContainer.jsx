@@ -6,6 +6,7 @@ import TabsBar from 'components/TabsBar';
 import { showNewDeploymentModal } from 'store/ui/actions';
 import { deselectOperator } from 'store/operator/actions';
 import { clearAllMonitorings } from 'store/monitorings/actions';
+import { clearAllDeploymentLogs } from 'store/deploymentLogs/actions';
 import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer';
 import { clearAllDeploymentOperators } from 'store/deployments/deploymentOperators/actions';
 import {
@@ -124,6 +125,7 @@ const DeploymentsTabsContainer = () => {
       if (deployments.length === 0) {
         dispatch(deselectOperator());
         dispatch(clearAllMonitorings());
+        dispatch(clearAllDeploymentLogs());
         dispatch(clearAllDeploymentOperators());
       }
 
