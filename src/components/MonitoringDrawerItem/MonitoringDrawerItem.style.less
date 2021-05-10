@@ -1,0 +1,38 @@
+.monitoring-drawer-item {
+  margin: 16px !important;
+
+  .monitoring-drawer-item-header {
+    display: flex;
+    align-items: center;
+
+    .monitoring-drawer-item-drag-indicator {
+      margin-right: 24px;
+      font-size: 16px;
+
+      svg {
+        fill: #595959;
+      }
+    }
+
+    .monitoring-drawer-item-select {
+      min-width: 250px;
+    }
+
+    .monitoring-drawer-item-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .monitoring-drawer-item-filter-button,
+      .monitoring-drawer-item-more-button {
+        margin-left: 8px;
+        border: none;
+      }
+
+      .monitoring-drawer-item-more-button {
+        margin-right: 4px;
+      }
+    }
+  }
+}

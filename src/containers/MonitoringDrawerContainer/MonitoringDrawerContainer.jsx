@@ -8,10 +8,6 @@ const deploymentSelector = (deploymentId) => ({ deploymentsReducer }) => {
   return deploymentsReducer.find(({ uuid }) => uuid === deploymentId);
 };
 
-const monitoringTasksSelector = () => {
-  return [];
-};
-
 const loadingSelector = () => {
   return false;
 };
@@ -21,12 +17,12 @@ const addingSelector = () => {
 };
 
 const MonitoringDrawerContainer = ({
+  monitorings,
   deploymentId,
   isShowingDrawer,
   handleToggleDrawer,
 }) => {
   const deployment = useSelector(deploymentSelector(deploymentId));
-  const monitoringTasks = useSelector(monitoringTasksSelector);
   const isLoading = useSelector(loadingSelector);
   const isAdding = useSelector(addingSelector);
 
@@ -39,7 +35,7 @@ const MonitoringDrawerContainer = ({
   return (
     <MonitoringDrawer
       deploymentName={deployment?.name}
-      monitoringTasks={monitoringTasks}
+      monitorings={monitorings}
       isAdding={isAdding}
       isLoading={isLoading}
       isShowing={isShowingDrawer}
@@ -52,6 +48,7 @@ const MonitoringDrawerContainer = ({
 };
 
 MonitoringDrawerContainer.propTypes = {
+  monitorings: PropTypes.array.isRequired,
   deploymentId: PropTypes.string.isRequired,
   isShowingDrawer: PropTypes.bool.isRequired,
   handleToggleDrawer: PropTypes.func.isRequired,

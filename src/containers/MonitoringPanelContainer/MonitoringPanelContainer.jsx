@@ -95,6 +95,7 @@ const MonitoringPanelContainer = () => {
       )}
 
       <MonitoringDrawerContainer
+        monitorings={monitorings}
         deploymentId={deploymentId}
         isShowingDrawer={isShowingDrawer}
         handleToggleDrawer={handleToggleDrawer}

@@ -3,6 +3,8 @@ import { Drawer } from 'antd';
 import PropTypes from 'prop-types';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
+import { MonitoringDrawerItem } from 'components';
+
 import MonitoringDrawerTitle from './MonitoringDrawerTitle';
 import MonitoringDrawerAddCard from './MonitoringDrawerAddCard';
 import MonitoringDrawerSkeleton from './MonitoringDrawerSkeleton';
@@ -23,13 +25,14 @@ const MonitoringDrawer = ({
   handleUpdateLayout,
   handleAddMonitoringTask,
   deploymentName,
-  monitoringTasks,
+  monitorings,
 }) => {
   const generateGridLayout = useCallback(() => {
     let totalW = 0;
 
-    const gridLayout = monitoringTasks.map((item) => {
+    const gridLayout = monitorings.map((item) => {
       let itemLayout = item.layout;
+
       if (!itemLayout) {
         itemLayout = {
           x: (Math.floor(totalW / 6) % 2) * 6,
@@ -38,10 +41,12 @@ const MonitoringDrawer = ({
           h: 12,
         };
       }
+
       totalW += itemLayout.w;
       itemLayout.i = item.uuid;
       itemLayout.minW = 6;
       itemLayout.minH = 12;
+
       return itemLayout;
     });
 
@@ -57,7 +62,7 @@ const MonitoringDrawer = ({
     });
 
     return gridLayout;
-  }, [monitoringTasks]);
+  }, [monitorings]);
 
   const handleMoveOrResize = useCallback(
     (layout, _, newItem) => {
@@ -65,9 +70,7 @@ const MonitoringDrawer = ({
 
       for (const layoutItem of layout) {
         if (layoutItem.i !== ADD_CARD_KEY) {
-          let compareResult = monitoringTasks.find(
-            (e) => e.uuid === layoutItem.i
-          );
+          let compareResult = monitorings.find((e) => e.uuid === layoutItem.i);
 
           compareResult.layout = {
             x: layoutItem.x,
@@ -80,7 +83,7 @@ const MonitoringDrawer = ({
         }
       }
     },
-    [handleUpdateLayout, monitoringTasks]
+    [handleUpdateLayout, monitorings]
   );
 
   return (
@@ -111,6 +114,17 @@ const MonitoringDrawer = ({
             onDragStop={handleMoveOrResize}
             onResizeStop={handleMoveOrResize}
           >
+            {monitorings.map((monitoring) => {
+              return (
+                <MonitoringDrawerItem
+                  key={monitoring.uuid}
+                  handleChangeSelectedTask={() => {}}
+                  handleDownload={() => {}}
+                  handleRemove={() => {}}
+                />
+              );
+            })}
+
             <MonitoringDrawerAddCard
               key={ADD_CARD_KEY}
               isAdding={isAdding}
@@ -132,12 +146,12 @@ MonitoringDrawer.propTypes = {
   handleUpdateLayout: PropTypes.func.isRequired,
   handleAddMonitoringTask: PropTypes.func.isRequired,
   deploymentName: PropTypes.string,
-  monitoringTasks: PropTypes.array,
+  monitorings: PropTypes.array,
 };
 
 MonitoringDrawer.defaultProps = {
   deploymentName: '',
-  monitoringTasks: [],
+  monitorings: [],
 };
 
 export default MonitoringDrawer;

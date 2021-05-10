@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { Button } from 'antd';
 import PropTypes from 'prop-types';
+import { Button, Tooltip } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
 const MonitoringDrawerTitle = ({ deploymentName, handleDownload }) => {
@@ -13,17 +13,19 @@ const MonitoringDrawerTitle = ({ deploymentName, handleDownload }) => {
     <div className='monitoring-drawer-header'>
       <div className='monitoring-drawer-header-title'>{getDrawerTitle()}</div>
 
-      <Button
-        className='monitoring-drawer-header-download-button'
-        shape='round'
-        type='primary-inverse'
-        icon={<DownloadOutlined />}
-        handleClick={handleDownload}
-      >
-        <span className='monitoring-drawer-header-download-text'>
-          Fazer Download
-        </span>
-      </Button>
+      <Tooltip title='Faz download dos resultados exibidos'>
+        <Button
+          className='monitoring-drawer-header-download-button'
+          shape='round'
+          type='primary-inverse'
+          icon={<DownloadOutlined />}
+          handleClick={handleDownload}
+        >
+          <span className='monitoring-drawer-header-download-text'>
+            Fazer Download
+          </span>
+        </Button>
+      </Tooltip>
     </div>
   );
 };
