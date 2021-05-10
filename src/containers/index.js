@@ -19,6 +19,7 @@ export { default as InferenceTestResultModalContainer } from './InferenceTestRes
 export { default as JupyterLabContainer } from './JupyterLabContainer';
 export { default as LogsDrawerContainer } from './LogsDrawerContainer';
 export { default as ExperimentLogsPanelContainer } from './ExperimentLogsPanelContainer';
+export { default as MonitoringDrawerContainer } from './MonitoringDrawerContainer';
 export { default as MonitoringPanelContainer } from './MonitoringPanelContainer';
 export { default as NewDeploymentModalContainer } from './NewDeploymentModalContainer';
 export { default as NewMonitoringModalContainer } from './NewMonitoringModalContainer';

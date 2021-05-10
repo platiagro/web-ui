@@ -115,7 +115,7 @@ const MonitoringToolbar = ({
         className='monitoring-toolbar-toggle-button'
         shape='circle'
         type='ghost'
-        icon={isShowingPanel ? <UpOutlined /> : <DownOutlined />}
+        icon={isShowingPanel ? <DownOutlined /> : <UpOutlined />}
         handleClick={handleTogglePanel}
       ></Button>
     </div>

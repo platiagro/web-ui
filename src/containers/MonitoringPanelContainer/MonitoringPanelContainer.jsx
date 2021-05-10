@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
-import MonitoringPanel from 'components/MonitoringPanel';
-import MonitoringToolbar from 'components/MonitoringToolbar';
+import {
+  NewMonitoringModalContainer,
+  MonitoringDrawerContainer,
+} from 'containers';
+import { useToggleState } from 'hooks';
+import { MonitoringPanel, MonitoringToolbar } from 'components';
 import { deleteMonitoring, fetchMonitorings } from 'store/monitorings/actions';
-import NewMonitoringModalContainer from 'containers/NewMonitoringModalContainer';
 
 import useControlPanelVisibilities from './useControlPanelVisibilities';
 import useUnselectDeletedMonitoring from './useUnselectDeletedMonitoring';
@@ -33,33 +36,21 @@ const MonitoringPanelContainer = () => {
   const monitorings = useSelector(monitoringsSelector);
 
   const [selectedMonitoring, setSelectedMonitoring] = useState(null);
-  const [isShowingAddModal, setIsShowingAddModal] = useState(false);
-  const [isShowingPanel, setIsShowingPanel] = useState(true);
+
+  const [isShowingDrawer, handleToggleDrawer] = useToggleState(true);
+  const [isShowingAddModal, handleToggleAddModal] = useToggleState(false);
+  const [isShowingPanel, handleTogglePanel, setIsShowingPanel] = useToggleState(
+    true
+  );
 
   const handleSelectMonitoring = (monitoring) => {
     setSelectedMonitoring(monitoring);
-  };
-
-  const handleTogglePanel = () => {
-    setIsShowingPanel((isShowing) => !isShowing);
   };
 
   const handleDeleteMonitoring = () => {
     if (!selectedMonitoring || isDeletingMonitoring) return;
     const { uuid: monitoringId } = selectedMonitoring;
     dispatch(deleteMonitoring({ projectId, deploymentId, monitoringId }));
-  };
-
-  const handleHideAddMonitoringModal = () => {
-    setIsShowingAddModal(false);
-  };
-
-  const handleAddMonitoring = () => {
-    setIsShowingAddModal(true);
-  };
-
-  const handleSeeMonitoring = () => {
-    // TODO: Implementar
   };
 
   useEffect(() => {
@@ -82,8 +73,8 @@ const MonitoringPanelContainer = () => {
     <div className='monitoring-panel-container'>
       <MonitoringToolbar
         handleDeleteMonitoring={handleDeleteMonitoring}
-        handleSeeMonitoring={handleSeeMonitoring}
-        handleAddMonitoring={handleAddMonitoring}
+        handleAddMonitoring={handleToggleAddModal}
+        handleSeeMonitoring={handleToggleDrawer}
         handleTogglePanel={handleTogglePanel}
         showDeleteButton={!!selectedMonitoring}
         showSeeButton={!!selectedMonitoring}
@@ -103,11 +94,17 @@ const MonitoringPanelContainer = () => {
         />
       )}
 
+      <MonitoringDrawerContainer
+        deploymentId={deploymentId}
+        isShowingDrawer={isShowingDrawer}
+        handleToggleDrawer={handleToggleDrawer}
+      />
+
       <NewMonitoringModalContainer
         projectId={projectId}
         deploymentId={deploymentId}
         isShowing={isShowingAddModal}
-        handleHideModal={handleHideAddMonitoringModal}
+        handleHideModal={handleToggleAddModal}
       />
     </div>
   );
