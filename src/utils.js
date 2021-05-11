@@ -1,3 +1,7 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global Experiments */
+
 import React from 'react';
 import {
   AreaChartOutlined,
@@ -442,10 +446,11 @@ const configureOperators = (tasks, operators, datasetColumns) => {
   // creating configured operators
   const configuredOperators = operators.map((operator) => {
     // getting task data
-    const { parameters: taskParameters, tags, ...restTaskData } = getTaskData(
-      tasks,
-      operator.taskId
-    );
+    const {
+      parameters: taskParameters,
+      tags,
+      ...restTaskData
+    } = getTaskData(tasks, operator.taskId);
 
     // check if operator is dataset
     const isDataset = tags.includes('DATASETS');
@@ -764,6 +769,28 @@ const retrieveStatusMessageFromOperators = (operators) => {
   );
 };
 
+/**
+ * Change succeeded status of experiment
+ *
+ * @param {Experiments} experiments Experiments list
+ * @param {string} experimentId Experiment id
+ * @param {boolean} succeeded Is succeeded?
+ * @returns {Experiments} New experiments list
+ */
+const changeExperimentSucceededStatus = (
+  experiments,
+  experimentId,
+  succeeded
+) => {
+  const newExperiments = experiments.map((experiment) => {
+    return experiment.uuid !== experimentId
+      ? experiment
+      : { ...experiment, succeded: succeeded };
+  });
+
+  return newExperiments;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -792,4 +819,5 @@ export default {
   copyToClipboard,
   downloadFile,
   retrieveStatusMessageFromOperators,
+  changeExperimentSucceededStatus,
 };
