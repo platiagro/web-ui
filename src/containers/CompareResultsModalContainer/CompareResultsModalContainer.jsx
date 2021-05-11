@@ -130,19 +130,19 @@ const CompareResultsModalContainer = () => {
             onDelete={(id) => {
               dispatch(deleteCompareResult(projectId, id));
             }}
-            onFetchResults={(compareResult) =>
-              dispatch(fetchCompareResultsResults(compareResult))
+            onFetchResults={(results) =>
+              dispatch(fetchCompareResultsResults(results))
             }
-            onResultDatasetPageChange={(compareResult, page, pageSize) =>
+            onResultDatasetPageChange={(results, page, pageSize) =>
               dispatch(
-                getCompareResultDatasetPaginated(compareResult, page, pageSize)
+                getCompareResultDatasetPaginated(results, page, pageSize)
               )
             }
             onLoadTrainingHistory={(experimentId) => {
               dispatch(fetchTrainingHistory(projectId, experimentId));
             }}
-            onUpdate={(compareResult, isToDispatchAction) =>
-              dispatch(updateCompareResult(compareResult, isToDispatchAction))
+            onUpdate={(results, isToDispatchAction) =>
+              dispatch(updateCompareResult(results, isToDispatchAction))
             }
             tasks={tasks}
           />
@@ -153,7 +153,7 @@ const CompareResultsModalContainer = () => {
 
   const generateGridLayout = () => {
     let totalW = 0;
-    const gridLayout = compareResults.map((item, i) => {
+    const gridLayout = compareResults.map((item) => {
       let itemLayout = item.layout;
       if (!itemLayout) {
         itemLayout = {
