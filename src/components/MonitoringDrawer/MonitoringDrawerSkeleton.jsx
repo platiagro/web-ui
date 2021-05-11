@@ -5,6 +5,7 @@ const MonitoringDrawerSkeleton = () => {
   const skeletonColumn = (
     <Col span={12}>
       <Card
+        className='monitoring-drawer-skeleton-card'
         title={
           <div style={{ width: '100%', display: 'flex' }}>
             <Skeleton.Button
@@ -19,6 +20,7 @@ const MonitoringDrawerSkeleton = () => {
                 style={{ width: '32px', marginRight: '8px' }}
                 active
               />
+
               <Skeleton.Button style={{ width: '32px' }} active />
             </div>
           </div>

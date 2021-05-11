@@ -11,6 +11,7 @@ import MonitoringDrawerItemTitle from './MonitoringDrawerItemTitle';
 import './MonitoringDrawerItem.style.less';
 
 const MonitoringDrawerItem = ({
+  className,
   handleDownload,
   handleRemove,
   figures,
@@ -22,8 +23,8 @@ const MonitoringDrawerItem = ({
 
   return (
     <Card
-      className='monitoring-drawer-item'
-      bodyStyle={{ padding: '8px 24px 16px 24px', overflowX: 'auto' }}
+      className={`monitoring-drawer-item ${className}`}
+      bodyStyle={{ padding: '8px 24px 16px 24px', height: '100%' }}
       title={
         <MonitoringDrawerItemTitle
           hasFilters={hasFilters}
@@ -35,16 +36,19 @@ const MonitoringDrawerItem = ({
         />
       }
     >
-      <MonitoringDrawerItemTabs
-        figures={figures}
-        selectedTabKey={selectedTabKey}
-        handleSelectTab={setSelectedTabKey}
-      />
+      <div className='monitoring-drawer-item-content'>
+        <MonitoringDrawerItemTabs
+          figures={figures}
+          selectedTabKey={selectedTabKey}
+          handleSelectTab={setSelectedTabKey}
+        />
+      </div>
     </Card>
   );
 };
 
 MonitoringDrawerItem.propTypes = {
+  className: PropTypes.string,
   handleDownload: PropTypes.func,
   handleRemove: PropTypes.func,
   figures: PropTypes.array,
@@ -53,6 +57,7 @@ MonitoringDrawerItem.propTypes = {
 };
 
 MonitoringDrawerItem.defaultProps = {
+  className: '',
   handleDownload: undefined,
   handleRemove: undefined,
   figures: [],

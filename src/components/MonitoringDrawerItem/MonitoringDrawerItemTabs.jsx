@@ -3,7 +3,7 @@ import { Tabs } from 'antd';
 import PropTypes from 'prop-types';
 import { BarChartOutlined } from '@ant-design/icons';
 
-import { Placeholder } from 'components';
+import { ImageLightbox, Placeholder } from 'components';
 
 const MonitoringDrawerItemTabs = ({
   figures,
@@ -31,10 +31,25 @@ const MonitoringDrawerItemTabs = ({
       activeKey={selectedTabKey}
       onChange={handleSelectTab}
     >
-      {figures.map((figure) => {
+      {figures.map((figure, index) => {
+        const isHtmlFigure = figure.includes('text/html');
+
         return (
-          <Tabs.TabPane key={figure.uuid} tab={figure.name}>
-            {figure.data}
+          <Tabs.TabPane key={`figure-${index}`} tab={`Gráfico ${index + 1}`}>
+            {isHtmlFigure ? (
+              <div className='monitoring-drawer-item-iframe-container'>
+                <iframe
+                  title={`Gráfico ${index + 1}`}
+                  frameBorder='0'
+                  scrolling='no'
+                  height='100%'
+                  width='100%'
+                  src={figure}
+                />
+              </div>
+            ) : (
+              <ImageLightbox plotUrl={figure} />
+            )}
           </Tabs.TabPane>
         );
       })}

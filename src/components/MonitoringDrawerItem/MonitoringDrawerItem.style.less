@@ -1,5 +1,7 @@
 .monitoring-drawer-item {
-  margin: 16px !important;
+  margin: 0;
+  height: 100%;
+  width: 100%;
 
   .monitoring-drawer-item-header {
     display: flex;
@@ -57,9 +59,27 @@
     }
   }
 
-  .monitoring-drawer-item-chart-image {
-    width: 100%;
-    min-height: 180px;
-    max-height: 250px;
+  .monitoring-drawer-item-content {
+    height: 100%;
+    overflow: hidden;
+
+    .ant-tabs,
+    .ant-tabs-content-holder,
+    .ant-tabs-content {
+      height: 100%;
+    }
+
+    .monitoring-drawer-item-iframe-container {
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      iframe {
+        border: none;
+        display: block;
+        width: 100%;
+        overflow: hidden;
+      }
+    }
   }
 }

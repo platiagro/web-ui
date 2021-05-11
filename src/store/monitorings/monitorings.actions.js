@@ -237,9 +237,9 @@ export const fetchMonitoringFigures =
       });
 
       const figures = response.data || [];
-      dispatch(fetchMonitoringsSuccess(monitoringId, figures));
+      dispatch(fetchMonitoringFiguresSuccess(monitoringId, figures));
     } catch (e) {
-      dispatch(fetchMonitoringsFail());
+      dispatch(fetchMonitoringFiguresFail());
       dispatch(showError(e.message));
     } finally {
       dispatch(

@@ -5,7 +5,6 @@ import RGL, { WidthProvider } from 'react-grid-layout';
 
 import { CustomDndProvider, MonitoringDrawerItem } from 'components';
 
-import { ADD_CARD_KEY } from './constants';
 import useGridLayout from './useGridLayout';
 import useMoveOrResize from './useMoveOrResize';
 import MonitoringDrawerTitle from './MonitoringDrawerTitle';
@@ -15,6 +14,7 @@ import MonitoringDrawerSkeleton from './MonitoringDrawerSkeleton';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './MonitoringDrawer.style.less';
+import { ADD_CARD_KEY } from './constants';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -36,10 +36,10 @@ const MonitoringDrawer = ({
   return (
     <Drawer
       className='monitoring-drawer'
-      bodyStyle={{ padding: 0 }}
+      bodyStyle={{ padding: 0, overflow: 'hidden' }}
       onClose={handleHideDrawer}
       visible={isShowing}
-      width={'85vw'}
+      width={'90vw'}
       title={
         <MonitoringDrawerTitle
           deploymentName={deploymentName}
@@ -55,7 +55,6 @@ const MonitoringDrawer = ({
         ) : (
           <CustomDndProvider>
             <ReactGridLayout
-              className={'layout'}
               layout={gridLayout}
               rowHeight={35}
               cols={12}
@@ -70,22 +69,24 @@ const MonitoringDrawer = ({
                 const handleRemoveThisMonitoring = () => {};
 
                 return (
-                  <MonitoringDrawerItem
-                    key={monitoring.uuid}
-                    hasFilters={hasFilters}
-                    figures={monitoringFigures}
-                    monitoringName={monitoring.task?.name}
-                    handleRemove={handleRemoveThisMonitoring}
-                    handleDownload={handleDownloadMonitoringChart}
-                  />
+                  <div key={monitoring.uuid}>
+                    <MonitoringDrawerItem
+                      hasFilters={hasFilters}
+                      figures={monitoringFigures}
+                      monitoringName={monitoring.task?.name}
+                      handleRemove={handleRemoveThisMonitoring}
+                      handleDownload={handleDownloadMonitoringChart}
+                    />
+                  </div>
                 );
               })}
 
-              <MonitoringDrawerAddCard
-                key={ADD_CARD_KEY}
-                isAdding={isAdding}
-                handleAddMonitoring={handleAddMonitoring}
-              />
+              <div key={ADD_CARD_KEY}>
+                <MonitoringDrawerAddCard
+                  isAdding={isAdding}
+                  handleAddMonitoring={handleAddMonitoring}
+                />
+              </div>
             </ReactGridLayout>
           </CustomDndProvider>
         )}

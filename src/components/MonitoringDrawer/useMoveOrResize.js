@@ -9,6 +9,7 @@ export default (monitorings, handleUpdateLayout) => {
       for (const layoutItem of layout) {
         if (layoutItem.i !== ADD_CARD_KEY) {
           let compareResult = monitorings.find((e) => e.uuid === layoutItem.i);
+          if (!compareResult) continue;
 
           compareResult.layout = {
             x: layoutItem.x,
