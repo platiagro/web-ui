@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { Button, Tooltip } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
-const MonitoringDrawerTitle = ({ deploymentName, handleDownload }) => {
+const MonitoringDrawerTitle = ({
+  deploymentName,
+  handleDownloadAllFigures,
+}) => {
   const getDrawerTitle = useCallback(() => {
     const trimmedDeploymentName = deploymentName?.trim() || '';
     return ['Teste do Monitoramento', '|', trimmedDeploymentName].join(' ');
@@ -19,7 +22,7 @@ const MonitoringDrawerTitle = ({ deploymentName, handleDownload }) => {
           shape='round'
           type='primary-inverse'
           icon={<DownloadOutlined />}
-          handleClick={handleDownload}
+          handleClick={handleDownloadAllFigures}
         >
           <span className='monitoring-drawer-header-download-text'>
             Fazer Download
@@ -32,12 +35,12 @@ const MonitoringDrawerTitle = ({ deploymentName, handleDownload }) => {
 
 MonitoringDrawerTitle.propTypes = {
   deploymentName: PropTypes.string,
-  handleDownload: PropTypes.func,
+  handleDownloadAllFigures: PropTypes.func,
 };
 
 MonitoringDrawerTitle.defaultProps = {
   deploymentName: '',
-  handleDownload: undefined,
+  handleDownloadAllFigures: undefined,
 };
 
 export default MonitoringDrawerTitle;

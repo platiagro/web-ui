@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
@@ -11,12 +12,8 @@ const creatingMonitoringSelector = ({ uiReducer }) => {
   return uiReducer.monitorings.creating;
 };
 
-const NewMonitoringModalContainer = ({
-  projectId,
-  deploymentId,
-  isShowing,
-  handleHideModal,
-}) => {
+const NewMonitoringModalContainer = ({ isShowing, handleHideModal }) => {
+  const { projectId, deploymentId } = useParams();
   const dispatch = useDispatch();
 
   const isCreatingMonitorings = useSelector(creatingMonitoringSelector);
@@ -65,15 +62,11 @@ const NewMonitoringModalContainer = ({
 NewMonitoringModalContainer.propTypes = {
   isShowing: PropTypes.bool,
   handleHideModal: PropTypes.bool,
-  projectId: PropTypes.string,
-  deploymentId: PropTypes.string,
 };
 
 NewMonitoringModalContainer.defaultProps = {
   isShowing: false,
   handleHideModal: undefined,
-  projectId: undefined,
-  deploymentId: undefined,
 };
 
 export default NewMonitoringModalContainer;

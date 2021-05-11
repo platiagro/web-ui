@@ -39,9 +39,8 @@ const MonitoringPanelContainer = () => {
 
   const [isShowingDrawer, handleToggleDrawer] = useToggleState(true);
   const [isShowingAddModal, handleToggleAddModal] = useToggleState(false);
-  const [isShowingPanel, handleTogglePanel, setIsShowingPanel] = useToggleState(
-    true
-  );
+  const [isShowingPanel, handleTogglePanel, setIsShowingPanel] =
+    useToggleState(true);
 
   const handleSelectMonitoring = (monitoring) => {
     setSelectedMonitoring(monitoring);
@@ -77,7 +76,7 @@ const MonitoringPanelContainer = () => {
         handleSeeMonitoring={handleToggleDrawer}
         handleTogglePanel={handleTogglePanel}
         showDeleteButton={!!selectedMonitoring}
-        showSeeButton={!!selectedMonitoring}
+        showSeeButton={!!monitorings?.length}
         isDeleting={isDeletingMonitoring}
         isShowingPanel={isShowingPanel}
         showAddButton
@@ -95,15 +94,11 @@ const MonitoringPanelContainer = () => {
       )}
 
       <MonitoringDrawerContainer
-        monitorings={monitorings}
-        deploymentId={deploymentId}
         isShowingDrawer={isShowingDrawer}
         handleToggleDrawer={handleToggleDrawer}
       />
 
       <NewMonitoringModalContainer
-        projectId={projectId}
-        deploymentId={deploymentId}
         isShowing={isShowingAddModal}
         handleHideModal={handleToggleAddModal}
       />

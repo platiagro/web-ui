@@ -1,10 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Drawer } from 'antd';
 import PropTypes from 'prop-types';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
-import { MonitoringDrawerItem } from 'components';
+import { CustomDndProvider, MonitoringDrawerItem } from 'components';
 
+import { ADD_CARD_KEY } from './constants';
+import useGridLayout from './useGridLayout';
+import useMoveOrResize from './useMoveOrResize';
 import MonitoringDrawerTitle from './MonitoringDrawerTitle';
 import MonitoringDrawerAddCard from './MonitoringDrawerAddCard';
 import MonitoringDrawerSkeleton from './MonitoringDrawerSkeleton';
@@ -14,77 +17,21 @@ import 'react-resizable/css/styles.css';
 import './MonitoringDrawer.style.less';
 
 const ReactGridLayout = WidthProvider(RGL);
-const ADD_CARD_KEY = '@MONITORING_DRAWER/ADD_CARD_KEY';
 
 const MonitoringDrawer = ({
   isShowing,
   isLoading,
   isAdding,
-  handleDownload,
+  figures,
+  monitorings,
+  deploymentName,
   handleHideDrawer,
   handleUpdateLayout,
-  handleAddMonitoringTask,
-  deploymentName,
-  monitorings,
+  handleAddMonitoring,
+  handleDownloadAllFigures,
 }) => {
-  const generateGridLayout = useCallback(() => {
-    let totalW = 0;
-
-    const gridLayout = monitorings.map((item) => {
-      let itemLayout = item.layout;
-
-      if (!itemLayout) {
-        itemLayout = {
-          x: (Math.floor(totalW / 6) % 2) * 6,
-          y: 9999,
-          w: 6,
-          h: 12,
-        };
-      }
-
-      totalW += itemLayout.w;
-      itemLayout.i = item.uuid;
-      itemLayout.minW = 6;
-      itemLayout.minH = 12;
-
-      return itemLayout;
-    });
-
-    gridLayout.push({
-      i: ADD_CARD_KEY,
-      x: (Math.floor(totalW / 6) % 2) * 6,
-      y: 99999,
-      w: 6,
-      h: 2,
-      isBounded: true,
-      isDraggable: true,
-      isResizable: false,
-    });
-
-    return gridLayout;
-  }, [monitorings]);
-
-  const handleMoveOrResize = useCallback(
-    (layout, _, newItem) => {
-      if (newItem.i === ADD_CARD_KEY) return;
-
-      for (const layoutItem of layout) {
-        if (layoutItem.i !== ADD_CARD_KEY) {
-          let compareResult = monitorings.find((e) => e.uuid === layoutItem.i);
-
-          compareResult.layout = {
-            x: layoutItem.x,
-            y: layoutItem.y,
-            w: layoutItem.w,
-            h: layoutItem.h,
-          };
-
-          handleUpdateLayout(compareResult, false);
-        }
-      }
-    },
-    [handleUpdateLayout, monitorings]
-  );
+  const gridLayout = useGridLayout(monitorings);
+  const handleMoveOrResize = useMoveOrResize(monitorings, handleUpdateLayout);
 
   return (
     <Drawer
@@ -96,7 +43,7 @@ const MonitoringDrawer = ({
       title={
         <MonitoringDrawerTitle
           deploymentName={deploymentName}
-          handleDownload={handleDownload}
+          handleDownloadAllFigures={handleDownloadAllFigures}
         />
       }
       closable
@@ -106,31 +53,41 @@ const MonitoringDrawer = ({
         {isLoading ? (
           <MonitoringDrawerSkeleton />
         ) : (
-          <ReactGridLayout
-            cols={12}
-            rowHeight={35}
-            className={'layout'}
-            layout={generateGridLayout()}
-            onDragStop={handleMoveOrResize}
-            onResizeStop={handleMoveOrResize}
-          >
-            {monitorings.map((monitoring) => {
-              return (
-                <MonitoringDrawerItem
-                  key={monitoring.uuid}
-                  handleChangeSelectedTask={() => {}}
-                  handleDownload={() => {}}
-                  handleRemove={() => {}}
-                />
-              );
-            })}
+          <CustomDndProvider>
+            <ReactGridLayout
+              className={'layout'}
+              layout={gridLayout}
+              rowHeight={35}
+              cols={12}
+              onDragStop={handleMoveOrResize}
+              onResizeStop={handleMoveOrResize}
+            >
+              {monitorings.map((monitoring) => {
+                const hasFilters = !!monitoring.filters?.length;
+                const monitoringFigures = figures[monitoring.uuid] || [];
 
-            <MonitoringDrawerAddCard
-              key={ADD_CARD_KEY}
-              isAdding={isAdding}
-              handleAddMonitoringTask={handleAddMonitoringTask}
-            />
-          </ReactGridLayout>
+                const handleDownloadMonitoringChart = () => {};
+                const handleRemoveThisMonitoring = () => {};
+
+                return (
+                  <MonitoringDrawerItem
+                    key={monitoring.uuid}
+                    hasFilters={hasFilters}
+                    figures={monitoringFigures}
+                    monitoringName={monitoring.task?.name}
+                    handleRemove={handleRemoveThisMonitoring}
+                    handleDownload={handleDownloadMonitoringChart}
+                  />
+                );
+              })}
+
+              <MonitoringDrawerAddCard
+                key={ADD_CARD_KEY}
+                isAdding={isAdding}
+                handleAddMonitoring={handleAddMonitoring}
+              />
+            </ReactGridLayout>
+          </CustomDndProvider>
         )}
       </div>
     </Drawer>
@@ -138,20 +95,29 @@ const MonitoringDrawer = ({
 };
 
 MonitoringDrawer.propTypes = {
-  isShowing: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isAdding: PropTypes.bool.isRequired,
-  handleDownload: PropTypes.func.isRequired,
-  handleHideDrawer: PropTypes.func.isRequired,
-  handleUpdateLayout: PropTypes.func.isRequired,
-  handleAddMonitoringTask: PropTypes.func.isRequired,
-  deploymentName: PropTypes.string,
+  isAdding: PropTypes.bool,
+  isShowing: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  figures: PropTypes.object,
   monitorings: PropTypes.array,
+  deploymentName: PropTypes.string,
+  handleHideDrawer: PropTypes.func,
+  handleUpdateLayout: PropTypes.func,
+  handleAddMonitoring: PropTypes.func,
+  handleDownloadAllFigures: PropTypes.func,
 };
 
 MonitoringDrawer.defaultProps = {
-  deploymentName: '',
+  isAdding: false,
+  isShowing: false,
+  isLoading: false,
+  figures: {},
   monitorings: [],
+  deploymentName: '',
+  handleHideDrawer: undefined,
+  handleUpdateLayout: undefined,
+  handleAddMonitoring: undefined,
+  handleDownloadAllFigures: undefined,
 };
 
 export default MonitoringDrawer;

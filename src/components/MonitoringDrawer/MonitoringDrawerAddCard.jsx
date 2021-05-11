@@ -8,7 +8,7 @@ const MonitoringDrawerAddCard = ({ isAdding, handleAddMonitoringTask }) => {
     <Card className='monitoring-drawer-content-add-card'>
       <Button
         shape='round'
-        disabled={isAdding}
+        disabled={true || isAdding} // * Disabled now
         type='primary-inverse'
         onClick={handleAddMonitoringTask}
         icon={isAdding ? <LoadingOutlined /> : <PlusOutlined />}

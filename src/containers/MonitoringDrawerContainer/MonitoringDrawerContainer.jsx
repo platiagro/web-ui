@@ -1,55 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
 import { MonitoringDrawer } from 'components';
+import { useIsLoading } from 'hooks';
 
-const deploymentSelector = (deploymentId) => ({ deploymentsReducer }) => {
-  return deploymentsReducer.find(({ uuid }) => uuid === deploymentId);
+const deploymentSelector =
+  (deploymentId) =>
+  ({ deploymentsReducer }) => {
+    return deploymentsReducer.find(({ uuid }) => uuid === deploymentId);
+  };
+
+const monitoringsSelector = ({ monitoringsReducer }) => {
+  return monitoringsReducer.monitorings;
 };
 
-const loadingSelector = () => {
-  return false;
+const figuresSelector = ({ monitoringsReducer }) => {
+  return monitoringsReducer.figures;
 };
 
-const addingSelector = () => {
-  return false;
-};
+const MonitoringDrawerContainer = ({ isShowingDrawer, handleToggleDrawer }) => {
+  const { deploymentId } = useParams();
 
-const MonitoringDrawerContainer = ({
-  monitorings,
-  deploymentId,
-  isShowingDrawer,
-  handleToggleDrawer,
-}) => {
   const deployment = useSelector(deploymentSelector(deploymentId));
-  const isLoading = useSelector(loadingSelector);
-  const isAdding = useSelector(addingSelector);
+  const monitorings = useSelector(monitoringsSelector);
+  const figures = useSelector(figuresSelector);
 
-  const handleDownload = () => {};
+  const isLoading = useIsLoading('LOADING_FIGURES');
+  const isAdding = useIsLoading('ADDING_MONITORING');
+
+  const handleDownloadAllFigures = () => {};
 
   const handleUpdateLayout = () => {};
 
-  const handleAddMonitoringTask = () => {};
+  const handleAddMonitoring = () => {};
 
   return (
     <MonitoringDrawer
-      deploymentName={deployment?.name}
-      monitorings={monitorings}
       isAdding={isAdding}
       isLoading={isLoading}
       isShowing={isShowingDrawer}
-      handleDownload={handleDownload}
+      figures={figures}
+      monitorings={monitorings}
+      deploymentName={deployment?.name}
       handleHideDrawer={handleToggleDrawer}
       handleUpdateLayout={handleUpdateLayout}
-      handleAddMonitoringTask={handleAddMonitoringTask}
+      handleAddMonitoring={handleAddMonitoring}
+      handleDownloadAllFigures={handleDownloadAllFigures}
     />
   );
 };
 
 MonitoringDrawerContainer.propTypes = {
-  monitorings: PropTypes.array.isRequired,
-  deploymentId: PropTypes.string.isRequired,
   isShowingDrawer: PropTypes.bool.isRequired,
   handleToggleDrawer: PropTypes.func.isRequired,
 };

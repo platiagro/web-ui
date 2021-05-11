@@ -1,94 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Card } from 'antd';
 import PropTypes from 'prop-types';
-import {
-  FilterOutlined,
-  MoreOutlined,
-  DeleteOutlined,
-  DownloadOutlined,
-} from '@ant-design/icons';
-import { Card, Select, Button, Tooltip, Dropdown, Menu } from 'antd';
+import { withResizeDetector } from 'react-resize-detector';
 
 import { useToggleState } from 'hooks';
-import { ReactComponent as DragIndicator } from 'assets/dragIndicator.svg';
+
+import MonitoringDrawerItemTabs from './MonitoringDrawerItemTabs';
+import MonitoringDrawerItemTitle from './MonitoringDrawerItemTitle';
 
 import './MonitoringDrawerItem.style.less';
 
 const MonitoringDrawerItem = ({
-  handleChangeSelectedTask,
   handleDownload,
   handleRemove,
+  figures,
+  hasFilters,
+  monitoringName,
 }) => {
   const [isShowingFilters, handleToggleFilters] = useToggleState(false);
+  const [selectedTabKey, setSelectedTabKey] = useState(undefined);
 
   return (
     <Card
       className='monitoring-drawer-item'
+      bodyStyle={{ padding: '8px 24px 16px 24px', overflowX: 'auto' }}
       title={
-        <div className='monitoring-drawer-item-header'>
-          <div className='monitoring-drawer-item-drag-indicator'>
-            <DragIndicator />
-          </div>
-
-          <Select
-            className='monitoring-drawer-item-select'
-            onChange={handleChangeSelectedTask}
-            placeholder='Selecione a Tarefa'
-            optionLabelProp='label'
-            size='large'
-          />
-
-          <div className='monitoring-drawer-item-right'>
-            <Tooltip title='A tarefa não possui filtros'>
-              <Button
-                className='monitoring-drawer-item-filter-button'
-                shape='circle'
-                type='ghost'
-                icon={<FilterOutlined />}
-                handleClick={handleToggleFilters}
-              />
-            </Tooltip>
-
-            <Dropdown
-              trigger='click'
-              overlay={
-                <Menu>
-                  <Menu.Item onClick={handleDownload}>
-                    <DownloadOutlined />
-                    <span>Download</span>
-                  </Menu.Item>
-
-                  <Menu.Item onClick={handleRemove}>
-                    <DeleteOutlined />
-                    <span>Remover</span>
-                  </Menu.Item>
-                </Menu>
-              }
-            >
-              <Button
-                className='monitoring-drawer-item-more-button'
-                shape='circle'
-                type='ghost'
-                icon={<MoreOutlined />}
-                handleClick={(e) => e.preventDefault()}
-              />
-            </Dropdown>
-          </div>
-        </div>
+        <MonitoringDrawerItemTitle
+          hasFilters={hasFilters}
+          monitoringName={monitoringName}
+          isShowingFilters={isShowingFilters}
+          handleRemove={handleRemove}
+          handleDownload={handleDownload}
+          handleToggleFilters={handleToggleFilters}
+        />
       }
-    ></Card>
+    >
+      <MonitoringDrawerItemTabs
+        figures={figures}
+        selectedTabKey={selectedTabKey}
+        handleSelectTab={setSelectedTabKey}
+      />
+    </Card>
   );
 };
 
 MonitoringDrawerItem.propTypes = {
-  handleChangeSelectedTask: PropTypes.func,
   handleDownload: PropTypes.func,
   handleRemove: PropTypes.func,
+  figures: PropTypes.array,
+  hasFilters: PropTypes.bool,
+  monitoringName: PropTypes.string,
 };
 
 MonitoringDrawerItem.defaultProps = {
-  handleChangeSelectedTask: undefined,
   handleDownload: undefined,
   handleRemove: undefined,
+  figures: [],
+  hasFilters: false,
+  monitoringName: '',
 };
 
-export default MonitoringDrawerItem;
+export default withResizeDetector(MonitoringDrawerItem);

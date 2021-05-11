@@ -8,14 +8,16 @@
     .monitoring-drawer-item-drag-indicator {
       margin-right: 24px;
       font-size: 16px;
+      cursor: grabbing;
 
       svg {
         fill: #595959;
       }
     }
 
-    .monitoring-drawer-item-select {
-      min-width: 250px;
+    .monitoring-drawer-item-title {
+      font-weight: bold;
+      font-size: 16px;
     }
 
     .monitoring-drawer-item-right {
@@ -33,6 +35,31 @@
       .monitoring-drawer-item-more-button {
         margin-right: 4px;
       }
+
+      .monitoring-drawer-item-filter-button-selected {
+        color: #1890ff;
+        background: rgba(24, 144, 255, 0.1);
+      }
+
+      .monitoring-drawer-item-has-filters {
+        position: relative;
+
+        .blue-dot {
+          position: absolute;
+          top: 1.5px;
+          right: 1.5px;
+          width: 6px;
+          height: 6px;
+          border-radius: 100%;
+          background: #1890ff;
+        }
+      }
     }
+  }
+
+  .monitoring-drawer-item-chart-image {
+    width: 100%;
+    min-height: 180px;
+    max-height: 250px;
   }
 }
