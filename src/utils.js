@@ -782,13 +782,11 @@ const changeExperimentSucceededStatus = (
   experimentId,
   succeeded
 ) => {
-  const newExperiments = experiments.map((experiment) => {
-    return experiment.uuid !== experimentId
-      ? experiment
-      : { ...experiment, succeded: succeeded };
+  return experiments.map((experiment) => {
+    return experiment.uuid === experimentId
+      ? { ...experiment, succeded: succeeded }
+      : experiment;
   });
-
-  return newExperiments;
 };
 
 /**
@@ -800,13 +798,11 @@ const changeExperimentSucceededStatus = (
  * @returns {Projects} New projects list
  */
 const changeProjectExperiments = (projects, projectId, newExperiments) => {
-  const newProjects = projects.map((projectItem) =>
+  return projects.map((projectItem) =>
     projectItem.uuid === projectId
       ? { ...projectItem, experiments: newExperiments }
       : projectItem
   );
-
-  return newProjects;
 };
 
 // EXPORT DEFAULT
