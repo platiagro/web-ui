@@ -637,33 +637,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
-    case actionTypes.SET_LOADING_MONITORINGS:
-      return {
-        ...state,
-        monitorings: {
-          ...state.monitorings,
-          loading: action.loading,
-        },
-      };
-
-    case actionTypes.SET_CREATING_MONITORING:
-      return {
-        ...state,
-        monitorings: {
-          ...state.monitorings,
-          creating: action.creating,
-        },
-      };
-
-    case actionTypes.SET_DELETING_MONITORING:
-      return {
-        ...state,
-        monitorings: {
-          ...state.monitorings,
-          deleting: action.deleting,
-        },
-      };
-
     case actionTypes.SHOW_LOGS_PANEL:
     case actionTypes.HIDE_LOGS_PANEL:
       return {

@@ -6,34 +6,33 @@ import {
   NewMonitoringModalContainer,
   MonitoringDrawerContainer,
 } from 'containers';
-import { useToggleState } from 'hooks';
+import { useIsLoading, useToggleState } from 'hooks';
 import { MonitoringPanel, MonitoringToolbar } from 'components';
-import { deleteMonitoring, fetchMonitorings } from 'store/monitorings/actions';
+import {
+  deleteMonitoring,
+  fetchMonitorings,
+  getMonitorings,
+  MONITORINGS_TYPES,
+} from 'store/monitorings';
 
 import useControlPanelVisibilities from './useControlPanelVisibilities';
 import useUnselectDeletedMonitoring from './useUnselectDeletedMonitoring';
 
 import './styles.less';
 
-const monitoringsDeletingSelector = ({ uiReducer }) => {
-  return uiReducer.monitorings.deleting;
-};
-
-const monitoringsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.monitorings.loading;
-};
-
-const monitoringsSelector = ({ monitoringsReducer }) => {
-  return monitoringsReducer.monitorings;
-};
-
 const MonitoringPanelContainer = () => {
   const { projectId, deploymentId } = useParams();
   const dispatch = useDispatch();
 
-  const isDeletingMonitoring = useSelector(monitoringsDeletingSelector);
-  const isLoadingMonitorings = useSelector(monitoringsLoadingSelector);
-  const monitorings = useSelector(monitoringsSelector);
+  const monitorings = useSelector(getMonitorings);
+
+  const isDeletingMonitoring = useIsLoading(
+    MONITORINGS_TYPES.DELETE_MONITORINGS_REQUEST
+  );
+
+  const isLoadingMonitorings = useIsLoading(
+    MONITORINGS_TYPES.FETCH_MONITORINGS_REQUEST
+  );
 
   const [selectedMonitoring, setSelectedMonitoring] = useState(null);
 

@@ -20,10 +20,10 @@ import datasetsReducer from './datasets/datasetsReducer';
 import deploymentLogsReducer from './deploymentLogs/deploymentLogsReducer';
 import testExperimentInferenceReducer from './testExperimentInference/testExperimentInferenceReducer';
 import jupyterLabReducer from './jupyterLab/jupyterLabReducer';
-import monitoringsReducer from './monitorings/monitoringsReducer';
 import experimentLogsReducer from './experimentLogs/experimentLogsReducer';
 import { tasksReducer } from './tasks';
 import { loadingReducer } from './loading';
+import { monitoringsReducer } from './monitorings';
 
 const reducers = combineReducers({
   compareResultsReducer,

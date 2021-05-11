@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
-import { MonitoringDrawer } from 'components';
+import {
+  getMonitorings,
+  getMonitoringsFigures,
+  MONITORINGS_TYPES,
+} from 'store/monitorings';
 import { useIsLoading } from 'hooks';
+import { MonitoringDrawer } from 'components';
 
 const deploymentSelector =
   (deploymentId) =>
@@ -12,23 +17,15 @@ const deploymentSelector =
     return deploymentsReducer.find(({ uuid }) => uuid === deploymentId);
   };
 
-const monitoringsSelector = ({ monitoringsReducer }) => {
-  return monitoringsReducer.monitorings;
-};
-
-const figuresSelector = ({ monitoringsReducer }) => {
-  return monitoringsReducer.figures;
-};
-
 const MonitoringDrawerContainer = ({ isShowingDrawer, handleToggleDrawer }) => {
   const { deploymentId } = useParams();
 
   const deployment = useSelector(deploymentSelector(deploymentId));
-  const monitorings = useSelector(monitoringsSelector);
-  const figures = useSelector(figuresSelector);
+  const figures = useSelector(getMonitoringsFigures);
+  const monitorings = useSelector(getMonitorings);
 
-  const isLoading = useIsLoading('LOADING_FIGURES');
-  const isAdding = useIsLoading('ADDING_MONITORING');
+  const isLoading = useIsLoading(MONITORINGS_TYPES.FETCH_MONITORINGS_REQUEST);
+  const isAdding = useIsLoading(MONITORINGS_TYPES.CREATE_MONITORINGS_REQUEST);
 
   const handleDownloadAllFigures = () => {};
 
