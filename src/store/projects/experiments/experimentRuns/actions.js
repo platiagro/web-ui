@@ -232,20 +232,25 @@ const fetchExperimentRunStatusSuccess =
     const oldExperiments = getExperiments(state, projectId);
     const projects = getProjects(state);
 
-    const { changeExperimentSucceededStatus } = utils;
+    const { changeExperimentSucceededStatus, changeProjectExperiments } = utils;
 
     const operators = response.data.operators;
+
+    const emptyOperators = operators.length > 0;
 
     let isRunning = false;
     let interruptExperiment = uiReducer.experimentTraining.deleteLoading;
 
-    if (operators.length > 0) {
+    if (emptyOperators) {
       const succeededRun = operators.every((operator) => {
         return operator.status === 'Succeeded';
       });
 
       const stoppedRun = operators.some((operator) => {
-        return operator.status === 'Failed' || operator.status === 'Terminated';
+        const operatorNotRunning =
+          operator.status === 'Failed' || operator.status === 'Terminated';
+
+        return operatorNotRunning;
       });
 
       const isAllPending = operators.every((operator) => {
@@ -262,8 +267,10 @@ const fetchExperimentRunStatusSuccess =
 
       if (!stoppedRun) {
         operators.forEach((operator) => {
-          if (operator.status === 'Running' || operator.status === 'Pending')
-            isRunning = true;
+          const operatorIsRunning =
+            operator.status === 'Running' || operator.status === 'Pending';
+
+          if (operatorIsRunning) isRunning = true;
         });
       }
 
@@ -277,10 +284,10 @@ const fetchExperimentRunStatusSuccess =
           true
         );
 
-        const newProjects = projects.map((projectItem) =>
-          projectItem.uuid === projectId
-            ? { ...projectItem, experiments: experiments }
-            : projectItem
+        const newProjects = changeProjectExperiments(
+          projects,
+          projectId,
+          experiments
         );
 
         dispatch(showSuccess('Treinamento concluído'));

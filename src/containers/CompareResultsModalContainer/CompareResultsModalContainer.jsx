@@ -70,6 +70,8 @@ const CompareResultsModalContainer = () => {
   const tasks = useSelector((state) => state.tasksReducer.tasks);
   /* eslint-enable */
 
+  const hasLoading = isLoading || deleteIsLoading;
+
   useEffect(() => {
     if (isVisible) {
       dispatch(fetchCompareResults(projectId));
@@ -201,6 +203,48 @@ const CompareResultsModalContainer = () => {
     }
   };
 
+  const modalBody = () => {
+    if (hasLoading) {
+      return <Row gutter={[8, 8]}>{renderLoadingCard()}</Row>;
+    }
+
+    return (
+      <ReactGridLayout
+        className={'layout'}
+        cols={12}
+        layout={generateGridLayout()}
+        rowHeight={35}
+        onDragStop={handleUpdateCompareResultLayout}
+        onResizeStop={handleUpdateCompareResultLayout}
+      >
+        {renderCompareResultItem()}
+        <div key={ADD_COMPARE_RESULT_GRID_KEY}>
+          <Card
+            style={{
+              border: '2px dashed #D9D9D9',
+              margin: 0,
+              textAlign: 'center',
+            }}
+          >
+            <Button
+              shape='round'
+              type='default'
+              disabled={addIsLoading}
+              onClick={() => {
+                dispatch(addCompareResult(projectId));
+              }}
+            >
+              <Space style={{ color: '#0050B3' }}>
+                {addIsLoading ? <LoadingOutlined /> : <PlusOutlined />}
+                Adicionar resultado
+              </Space>
+            </Button>
+          </Card>
+        </div>
+      </ReactGridLayout>
+    );
+  };
+
   return (
     <Modal
       bodyStyle={{
@@ -215,43 +259,7 @@ const CompareResultsModalContainer = () => {
       title={title}
       width={'90%'}
     >
-      {isLoading || deleteIsLoading ? (
-        <Row gutter={[8, 8]}>{renderLoadingCard()}</Row>
-      ) : (
-        <ReactGridLayout
-          className={'layout'}
-          cols={12}
-          layout={generateGridLayout()}
-          rowHeight={35}
-          onDragStop={handleUpdateCompareResultLayout}
-          onResizeStop={handleUpdateCompareResultLayout}
-        >
-          {renderCompareResultItem()}
-          <div key={ADD_COMPARE_RESULT_GRID_KEY}>
-            <Card
-              style={{
-                border: '2px dashed #D9D9D9',
-                margin: 0,
-                textAlign: 'center',
-              }}
-            >
-              <Button
-                shape='round'
-                type='default'
-                disabled={addIsLoading}
-                onClick={() => {
-                  dispatch(addCompareResult(projectId));
-                }}
-              >
-                <Space style={{ color: '#0050B3' }}>
-                  {addIsLoading ? <LoadingOutlined /> : <PlusOutlined />}
-                  Adicionar resultado
-                </Space>
-              </Button>
-            </Card>
-          </div>
-        </ReactGridLayout>
-      )}
+      <modalBody />
     </Modal>
   );
 };
