@@ -236,81 +236,84 @@ const fetchExperimentRunStatusSuccess =
 
     const operators = response.data.operators;
 
-    const emptyOperators = operators.length > 0;
+    const hasOperators = operators.length > 0;
 
     let isRunning = false;
+    let succeededRun = false;
+    let stoppedRun = true;
+    let isAllPending = false;
     let interruptExperiment = uiReducer.experimentTraining.deleteLoading;
 
-    if (emptyOperators) {
-      const succeededRun = operators.every((operator) => {
+    if (hasOperators) {
+      succeededRun = operators.every((operator) => {
         return operator.status === 'Succeeded';
       });
 
-      const stoppedRun = operators.some((operator) => {
+      stoppedRun = operators.some((operator) => {
         const operatorNotRunning =
           operator.status === 'Failed' || operator.status === 'Terminated';
 
         return operatorNotRunning;
       });
 
-      const isAllPending = operators.every((operator) => {
+      isAllPending = operators.every((operator) => {
         return operator.status === 'Pending';
       });
+    }
 
-      if (isAllPending) {
-        dispatch(experimentTrainingLoadingData());
-        dispatch(resultsButtonBarLoadingData());
-      } else {
-        dispatch(experimentTrainingDataLoaded());
-        dispatch(resultsButtonBarDataLoaded());
+    if (isAllPending) {
+      dispatch(experimentTrainingLoadingData());
+      dispatch(resultsButtonBarLoadingData());
+    } else {
+      dispatch(experimentTrainingDataLoaded());
+      dispatch(resultsButtonBarDataLoaded());
+    }
+
+    if (!stoppedRun) {
+      operators.forEach((operator) => {
+        const operatorIsRunning =
+          operator.status === 'Running' || operator.status === 'Pending';
+
+        if (operatorIsRunning) isRunning = true;
+      });
+    }
+
+    // experiment run finished successfully
+    if (succeededRun) {
+      isRunning = false;
+
+      const experiments = changeExperimentSucceededStatus(
+        oldExperiments,
+        experimentId,
+        true
+      );
+
+      const newProjects = changeProjectExperiments(
+        projects,
+        projectId,
+        experiments
+      );
+
+      dispatch(showSuccess('Treinamento concluído'));
+
+      dispatch({
+        type: actionTypes.EXPERIMENT_RUN_SUCCEEDED,
+        payload: { projects: newProjects },
+      });
+    }
+
+    // experiment run has stopped
+    if (!isRunning) {
+      dispatch(experimentTrainingDataLoaded());
+
+      // check if was manual interrupted
+      if (interruptExperiment) {
+        dispatch(experimentDeleteTrainingDataLoaded());
+        dispatch(showSuccess('Treinamento interrompido!'));
+        interruptExperiment = false;
       }
-
-      if (!stoppedRun) {
-        operators.forEach((operator) => {
-          const operatorIsRunning =
-            operator.status === 'Running' || operator.status === 'Pending';
-
-          if (operatorIsRunning) isRunning = true;
-        });
-      }
-
-      // experiment run finished successfully
-      if (succeededRun) {
-        isRunning = false;
-
-        const experiments = changeExperimentSucceededStatus(
-          oldExperiments,
-          experimentId,
-          true
-        );
-
-        const newProjects = changeProjectExperiments(
-          projects,
-          projectId,
-          experiments
-        );
-
-        dispatch(showSuccess('Treinamento concluído'));
-
-        dispatch({
-          type: actionTypes.EXPERIMENT_RUN_SUCCEEDED,
-          payload: { projects: newProjects },
-        });
-      }
-
-      // experiment run has stopped
-      if (!isRunning) {
-        dispatch(experimentTrainingDataLoaded());
-
-        // check if was manual interrupted
-        if (interruptExperiment) {
-          dispatch(experimentDeleteTrainingDataLoaded());
-          dispatch(showSuccess('Treinamento interrompido!'));
-          interruptExperiment = false;
-        }
-      } else {
-        dispatch(experimentTrainingLoadingData());
-      }
+    } else {
+      dispatch(experimentTrainingLoadingData());
     }
 
     utils.retrieveStatusMessageFromOperators(operators);
