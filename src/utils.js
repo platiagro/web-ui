@@ -1,6 +1,6 @@
 // correção de bug do eslint/jsdoc
 /* eslint-disable-next-line */
-/* global Experiments */
+/* global Experiments, Projects */
 
 import React from 'react';
 import {
@@ -791,6 +791,24 @@ const changeExperimentSucceededStatus = (
   return newExperiments;
 };
 
+/**
+ * Change project experiments
+ *
+ * @param {Projects} projects Projects list
+ * @param {string} projectId Project Id
+ * @param {Experiments} newExperiments New experiments list
+ * @returns {Projects} New projects list
+ */
+const changeProjectExperiments = (projects, projectId, newExperiments) => {
+  const newProjects = projects.map((projectItem) =>
+    projectItem.uuid === projectId
+      ? { ...projectItem, experiments: newExperiments }
+      : projectItem
+  );
+
+  return newProjects;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -820,4 +838,5 @@ export default {
   downloadFile,
   retrieveStatusMessageFromOperators,
   changeExperimentSucceededStatus,
+  changeProjectExperiments,
 };

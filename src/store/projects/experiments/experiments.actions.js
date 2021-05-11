@@ -28,43 +28,43 @@ const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';
  * @param {object} history Router history object
  * @returns {Function} Dispatch
  */
-const createExperimentSuccess = (response, projectId, history) => (
-  dispatch,
-  getState
-) => {
-  // TODO: tentar remover todos os geState (PERIGO DE CONFLITOS SE FOR MAL UTILIZADO)
-  const state = getState();
-  const projects = getProjects(state);
-  const experiments = getExperiments(state, projectId);
+const createExperimentSuccess =
+  (response, projectId, history) => (dispatch, getState) => {
+    // TODO: tentar remover todos os geState (PERIGO DE CONFLITOS SE FOR MAL UTILIZADO)
+    const state = getState();
+    const projects = getProjects(state);
+    const experiments = getExperiments(state, projectId);
 
-  const newExperiments = [...experiments];
+    const { changeProjectExperiments } = utils;
 
-  const experiment = response.data;
-  newExperiments.push(experiment);
+    const newExperiments = [...experiments];
 
-  const newProjects = projects.map((projectItem) =>
-    projectItem.uuid === projectId
-      ? { ...projectItem, experiments: newExperiments }
-      : projectItem
-  );
+    const experiment = response.data;
+    newExperiments.push(experiment);
 
-  dispatch(hideNewExperimentModal());
+    const newProjects = changeProjectExperiments(
+      projects,
+      projectId,
+      newExperiments
+    );
 
-  // TODO: Utilizar operadores do experimento, remover redundância
-  dispatch(fetchOperatorsRequest(projectId, experiment.uuid));
+    dispatch(hideNewExperimentModal());
 
-  dispatch({
-    type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_SUCCESS,
-    payload: { projects: newProjects },
-  });
+    // TODO: Utilizar operadores do experimento, remover redundância
+    dispatch(fetchOperatorsRequest(projectId, experiment.uuid));
 
-  dispatch(removeLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST));
+    dispatch({
+      type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_SUCCESS,
+      payload: { projects: newProjects },
+    });
 
-  // go to new experiment
-  history.push(`/projetos/${projectId}/experimentos/${experiment.uuid}`);
+    dispatch(removeLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST));
 
-  dispatch(showSuccess(`Experimento ${experiment.name} criado!`));
-};
+    // go to new experiment
+    history.push(`/projetos/${projectId}/experimentos/${experiment.uuid}`);
+
+    dispatch(showSuccess(`Experimento ${experiment.name} criado!`));
+  };
 
 /**
  * Create experiment fail action
@@ -100,30 +100,27 @@ const createExperimentFail = (error) => (dispatch) => {
  * @param {object} history Router history
  * @returns {Function} Dispatch
  */
-export const createExperimentRequest = (
-  projectId,
-  experiment,
-  history
-) => async (dispatch) => {
-  const actionType = EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST;
+export const createExperimentRequest =
+  (projectId, experiment, history) => async (dispatch) => {
+    const actionType = EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST;
 
-  dispatch({
-    type: actionType,
-  });
+    dispatch({
+      type: actionType,
+    });
 
-  dispatch(addLoading(actionType));
+    dispatch(addLoading(actionType));
 
-  try {
-    const response = await experimentsApi.createExperiment(
-      projectId,
-      experiment
-    );
+    try {
+      const response = await experimentsApi.createExperiment(
+        projectId,
+        experiment
+      );
 
-    dispatch(createExperimentSuccess(response, projectId, history));
-  } catch (error) {
-    dispatch(createExperimentFail(error));
-  }
-};
+      dispatch(createExperimentSuccess(response, projectId, history));
+    } catch (error) {
+      dispatch(createExperimentFail(error));
+    }
+  };
 
 /**
  * Update experiment success action
@@ -132,35 +129,35 @@ export const createExperimentRequest = (
  * @param {string} projectId Project id
  * @returns {Function} Dispatch
  */
-const updateExperimentSuccess = (response, projectId) => (
-  dispatch,
-  getState
-) => {
-  // TODO: tentar remover todos os geState (PERIGO DE CONFLITOS SE FOR MAL UTILIZADO)
-  const state = getState();
-  const projects = getProjects(state);
-  const experiments = getExperiments(state, projectId);
+const updateExperimentSuccess =
+  (response, projectId) => (dispatch, getState) => {
+    // TODO: tentar remover todos os geState (PERIGO DE CONFLITOS SE FOR MAL UTILIZADO)
+    const state = getState();
+    const projects = getProjects(state);
+    const experiments = getExperiments(state, projectId);
 
-  const updatedExperiment = response.data;
-  const newExperiments = experiments.map((experimentItem) =>
-    experimentItem.uuid === updatedExperiment.uuid
-      ? updatedExperiment
-      : experimentItem
-  );
+    const { changeProjectExperiments } = utils;
 
-  const newProjects = projects.map((projectItem) =>
-    projectItem.uuid === projectId
-      ? { ...projectItem, experiments: newExperiments }
-      : projectItem
-  );
+    const updatedExperiment = response.data;
+    const newExperiments = experiments.map((experimentItem) =>
+      experimentItem.uuid === updatedExperiment.uuid
+        ? updatedExperiment
+        : experimentItem
+    );
 
-  dispatch({
-    type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_SUCCESS,
-    payload: { projects: newProjects },
-  });
+    const newProjects = changeProjectExperiments(
+      projects,
+      projectId,
+      newExperiments
+    );
 
-  dispatch(removeLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST));
-};
+    dispatch({
+      type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_SUCCESS,
+      payload: { projects: newProjects },
+    });
+
+    dispatch(removeLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST));
+  };
 
 /**
  * Update experiment fail action
@@ -197,31 +194,28 @@ const updateExperimentFail = (error) => (dispatch) => {
  * @param {ExperimentUpdatable} experimentUpdate Experiment update
  * @returns {Function} Dispatch
  */
-export const updateExperimentRequest = (
-  projectId,
-  experimentId,
-  experimentUpdate
-) => async (dispatch) => {
-  const actionType = EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST;
+export const updateExperimentRequest =
+  (projectId, experimentId, experimentUpdate) => async (dispatch) => {
+    const actionType = EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST;
 
-  dispatch({
-    type: actionType,
-  });
+    dispatch({
+      type: actionType,
+    });
 
-  dispatch(addLoading(actionType));
+    dispatch(addLoading(actionType));
 
-  try {
-    const response = await experimentsApi.updateExperiment(
-      projectId,
-      experimentId,
-      experimentUpdate
-    );
+    try {
+      const response = await experimentsApi.updateExperiment(
+        projectId,
+        experimentId,
+        experimentUpdate
+      );
 
-    dispatch(updateExperimentSuccess(response, projectId));
-  } catch (error) {
-    dispatch(updateExperimentFail(error));
-  }
-};
+      dispatch(updateExperimentSuccess(response, projectId));
+    } catch (error) {
+      dispatch(updateExperimentFail(error));
+    }
+  };
 
 /**
  * Delete experiment success action
@@ -231,35 +225,35 @@ export const updateExperimentRequest = (
  * @param {object} history Router history object
  * @returns {Function} Dispatch
  */
-const deleteExperimentSuccess = (projectId, experimentId, history) => (
-  dispatch,
-  getState
-) => {
-  // TODO: tentar remover todos os geState (PERIGO DE CONFLITOS SE FOR MAL UTILIZADO)
-  const state = getState();
-  const projects = getProjects(state);
-  const experiments = getExperiments(state, projectId);
+const deleteExperimentSuccess =
+  (projectId, experimentId, history) => (dispatch, getState) => {
+    // TODO: tentar remover todos os geState (PERIGO DE CONFLITOS SE FOR MAL UTILIZADO)
+    const state = getState();
+    const projects = getProjects(state);
+    const experiments = getExperiments(state, projectId);
 
-  // get list of experiments without the deleted one
-  const newExperiments = utils.deleteExperiment(experiments, experimentId);
+    const { changeProjectExperiments } = utils;
 
-  const newProjects = projects.map((projectItem) =>
-    projectItem.uuid === projectId
-      ? { ...projectItem, experiments: newExperiments }
-      : projectItem
-  );
+    // get list of experiments without the deleted one
+    const newExperiments = utils.deleteExperiment(experiments, experimentId);
 
-  dispatch({
-    type: EXPERIMENTS_TYPES.DELETE_EXPERIMENT_SUCCESS,
-    payload: { projects: newProjects },
-  });
+    const newProjects = changeProjectExperiments(
+      projects,
+      projectId,
+      newExperiments
+    );
 
-  dispatch(removeLoading(EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST));
+    dispatch({
+      type: EXPERIMENTS_TYPES.DELETE_EXPERIMENT_SUCCESS,
+      payload: { projects: newProjects },
+    });
 
-  dispatch(showSuccess(`Experimento excluído!`));
+    dispatch(removeLoading(EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST));
 
-  history.push(`/projetos/${projectId}/experimentos`);
-};
+    dispatch(showSuccess(`Experimento excluído!`));
+
+    history.push(`/projetos/${projectId}/experimentos`);
+  };
 
 /**
  * Delete experiment fail action
@@ -287,27 +281,24 @@ const deleteExperimentFail = (error) => (dispatch) => {
  * @param {object} history Router history object
  * @returns {Function} Dispatch
  */
-export const deleteExperimentRequest = (
-  projectId,
-  experimentId,
-  history
-) => async (dispatch) => {
-  const actionType = EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST;
+export const deleteExperimentRequest =
+  (projectId, experimentId, history) => async (dispatch) => {
+    const actionType = EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST;
 
-  dispatch({
-    type: actionType,
-  });
+    dispatch({
+      type: actionType,
+    });
 
-  dispatch(addLoading(actionType));
+    dispatch(addLoading(actionType));
 
-  try {
-    await experimentsApi.deleteExperiment(projectId, experimentId);
+    try {
+      await experimentsApi.deleteExperiment(projectId, experimentId);
 
-    dispatch(deleteExperimentSuccess(projectId, experimentId, history));
-  } catch (error) {
-    dispatch(deleteExperimentFail(error));
-  }
-};
+      dispatch(deleteExperimentSuccess(projectId, experimentId, history));
+    } catch (error) {
+      dispatch(deleteExperimentFail(error));
+    }
+  };
 
 /**
  * Organize experiments success action
@@ -317,35 +308,34 @@ export const deleteExperimentRequest = (
  * @param {string} projectId Project id
  * @returns {Function} Dispatch
  */
-const organizeExperimentsSuccess = (
-  dragExperimentId,
-  hoverExperimentId,
-  projectId
-) => (dispatch, getState) => {
-  // TODO: tentar remover todos os geState (PERIGO DE CONFLITOS SE FOR MAL UTILIZADO)
-  const state = getState();
-  const projects = getProjects(state);
-  const experiments = getExperiments(state, projectId);
+const organizeExperimentsSuccess =
+  (dragExperimentId, hoverExperimentId, projectId) => (dispatch, getState) => {
+    // TODO: tentar remover todos os geState (PERIGO DE CONFLITOS SE FOR MAL UTILIZADO)
+    const state = getState();
+    const projects = getProjects(state);
+    const experiments = getExperiments(state, projectId);
 
-  const newExperiments = utils.organizeExperiments(
-    experiments,
-    dragExperimentId,
-    hoverExperimentId
-  );
+    const { changeProjectExperiments } = utils;
 
-  const newProjects = projects.map((projectItem) =>
-    projectItem.uuid === projectId
-      ? { ...projectItem, experiments: newExperiments }
-      : projectItem
-  );
+    const newExperiments = utils.organizeExperiments(
+      experiments,
+      dragExperimentId,
+      hoverExperimentId
+    );
 
-  dispatch({
-    type: EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_SUCCESS,
-    payload: { projects: newProjects },
-  });
+    const newProjects = changeProjectExperiments(
+      projects,
+      projectId,
+      newExperiments
+    );
 
-  dispatch(removeLoading(EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST));
-};
+    dispatch({
+      type: EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_SUCCESS,
+      payload: { projects: newProjects },
+    });
+
+    dispatch(removeLoading(EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST));
+  };
 
 /**
  * Organize experiments fail action
@@ -374,36 +364,37 @@ const organizeExperimentsFail = (error) => (dispatch) => {
  * @param {number} newPosition New experiment position
  * @returns {Function} Dispatch
  */
-export const organizeExperimentsRequest = (
-  projectId,
-  dragExperimentId,
-  hoverExperimentId,
-  newPosition
-) => async (dispatch) => {
-  const actionType = EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST;
+export const organizeExperimentsRequest =
+  (projectId, dragExperimentId, hoverExperimentId, newPosition) =>
+  async (dispatch) => {
+    const actionType = EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST;
 
-  dispatch({
-    type: actionType,
-  });
+    dispatch({
+      type: actionType,
+    });
 
-  dispatch(addLoading(actionType));
+    dispatch(addLoading(actionType));
 
-  const experiment = { position: newPosition };
+    const experiment = { position: newPosition };
 
-  try {
-    await experimentsApi.updateExperiment(
-      projectId,
-      dragExperimentId,
-      experiment
-    );
+    try {
+      await experimentsApi.updateExperiment(
+        projectId,
+        dragExperimentId,
+        experiment
+      );
 
-    dispatch(
-      organizeExperimentsSuccess(dragExperimentId, hoverExperimentId, projectId)
-    );
-  } catch (error) {
-    dispatch(organizeExperimentsFail(error));
-  }
-};
+      dispatch(
+        organizeExperimentsSuccess(
+          dragExperimentId,
+          hoverExperimentId,
+          projectId
+        )
+      );
+    } catch (error) {
+      dispatch(organizeExperimentsFail(error));
+    }
+  };
 
 /**
  * Active experiment action
