@@ -1,3 +1,9 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global ExperimentUpdatable, ExperimentCreatable */
+
+/* API REFERENCE: https://platiagro.github.io/projects/#/Experiments */
+
 // CORE LIBS
 import axios from 'axios';
 
@@ -39,16 +45,11 @@ const detailExperiment = (projectId, experimentId) => {
  * Create Experiment
  *
  * @param {string} projectId Project UUID
- * @param {string} experimentName Experiment name
- * @param {string} copyFrom Reference to copy (optional)
+ * @param {ExperimentCreatable} experiment New experiment data
  * @returns {Promise} Request Promise
  */
-const createExperiment = (projectId, experimentName, copyFrom) => {
-  const body = {
-    name: experimentName,
-    copyFrom: copyFrom,
-  };
-  return experimentsApi.post(`/${projectId}${experimentsPath}`, body);
+const createExperiment = (projectId, experiment) => {
+  return experimentsApi.post(`/${projectId}${experimentsPath}`, experiment);
 };
 
 /**
@@ -56,7 +57,7 @@ const createExperiment = (projectId, experimentName, copyFrom) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment UUID
- * @param {object} experiment Experiment object updated
+ * @param {ExperimentUpdatable} experiment Experiment object updated
  * @returns {Promise} Request Promise
  */
 const updateExperiment = (projectId, experimentId, experiment) => {

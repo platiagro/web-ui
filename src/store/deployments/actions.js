@@ -1,3 +1,7 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global Experiments */
+
 // UI LIB
 import { message } from 'antd';
 
@@ -328,13 +332,12 @@ export const clearAllDeployments = () => (dispatch) => {
 /**
  * prepare deployment request action
  *
- * @param {string} experimentId The experiment Id
- * @param experiments
+ * @param {Experiments} experiments Experiments
  * @param {string} projectId The project Id
- * @param routerProps
- * @returns {Function} dispatch function
+ * @param {object} history Router history
+ * @returns {Function} Dispatch function
  */
-export const prepareDeployments = (experiments, projectId, routerProps) => (
+export const prepareDeployments = (experiments, projectId, history) => (
   dispatch
 ) => {
   // close prepare deployment modal
@@ -353,7 +356,7 @@ export const prepareDeployments = (experiments, projectId, routerProps) => (
     .then(() => {
       dispatch(prepareDeploymentsDataLoaded());
 
-      routerProps.history.push(`/projetos/${projectId}/pre-implantacao`);
+      history.push(`/projetos/${projectId}/pre-implantacao`);
       message.success('Experimento implantado!');
     })
     .catch((error) => {

@@ -1,5 +1,4 @@
-/* globals Experiments, Deployments */
-// TODO: Criar Experiments type def (model)
+// TODO: Criar Operators e Deployments type def (model)
 
 /**
  * Projeto (Project).
@@ -42,4 +41,47 @@
  *
  * @property {string} name Project name
  * @property {string} description	Project description
+ */
+
+/**
+ * Experimento (Experiment).
+ *
+ * https://platiagro.github.io/projects/#model-Experiment
+ *
+ * @typedef {object} Experiment
+ *
+ * @property {string} uuid Experiment id
+ * @property {string} name Experiment name
+ * @property {string} position Experiment position
+ * @property {boolean} isActive	Experiment is active
+ * @property {string} projectId Project id
+ * @property {Operators} operators Experiment operators
+ * @property {string} createdAt	Project creation date
+ * @property {string} updatedAt	Project last update date
+ */
+
+/**
+ * Experimentos (Experiments).
+ *
+ * @typedef {Experiment[]} Experiments
+ */
+
+/**
+ * Propriedades de criação do experimento (ExperimentCreatable).
+ *
+ * @typedef {object} ExperimentCreatable
+ *
+ * @property {string} name Experiment name
+ * @property {string} copyFrom	Copy experiment from (experiment id)
+ */
+
+/**
+ * Propriedades atualizáveis do experimento (ExperimentUpdatable).
+ *
+ * @typedef {object} ExperimentUpdatable
+ *
+ * @property {string=} name Experiment name
+ * @property {number=} position	Experiment position
+ * @property {boolean=} isActive	Experiment is active
+ * @property {string=} templateId Template id
  */
