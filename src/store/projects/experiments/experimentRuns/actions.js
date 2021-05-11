@@ -249,12 +249,10 @@ const fetchExperimentRunStatusSuccess =
         return operator.status === 'Succeeded';
       });
 
-      stoppedRun = operators.some((operator) => {
-        const operatorNotRunning =
-          operator.status === 'Failed' || operator.status === 'Terminated';
-
-        return operatorNotRunning;
-      });
+      stoppedRun = operators.some(
+        (operator) =>
+          operator.status === 'Failed' || operator.status === 'Terminated'
+      );
 
       isAllPending = operators.every((operator) => {
         return operator.status === 'Pending';
