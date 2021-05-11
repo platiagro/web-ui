@@ -785,7 +785,7 @@ const changeExperimentSucceededStatus = (
   return experiments.map((experiment) => {
     return experiment.uuid === experimentId
       ? { ...experiment, succeded: succeeded }
-      : experiment;
+      : { ...experiment };
   });
 };
 
