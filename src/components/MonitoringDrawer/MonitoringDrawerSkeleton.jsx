@@ -32,7 +32,7 @@ const MonitoringDrawerSkeleton = () => {
   );
 
   return (
-    <Row gutter={[8, 8]}>
+    <Row gutter={[30, 30]} className='monitoring-drawer-skeletons'>
       {skeletonColumn}
       {skeletonColumn}
       {skeletonColumn}

@@ -19,6 +19,7 @@ const MonitoringDrawerItemTabs = ({
   if (figures.length === 0) {
     return (
       <Placeholder
+        className='monitoring-drawer-item-placeholder'
         iconComponent={<BarChartOutlined />}
         message='Não há dados de monitoramento para exibir'
       />
@@ -27,6 +28,7 @@ const MonitoringDrawerItemTabs = ({
 
   return (
     <Tabs
+      className='monitoring-drawer-item-tabs'
       defaultActiveKey={defaultActiveKey}
       activeKey={selectedTabKey}
       onChange={handleSelectTab}
@@ -41,9 +43,6 @@ const MonitoringDrawerItemTabs = ({
                 <iframe
                   title={`Gráfico ${index + 1}`}
                   frameBorder='0'
-                  scrolling='no'
-                  height='100%'
-                  width='100%'
                   src={figure}
                 />
               </div>

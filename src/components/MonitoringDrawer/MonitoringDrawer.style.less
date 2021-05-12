@@ -14,17 +14,23 @@
   }
 
   .monitoring-drawer-content {
-    background: #eceff1;
-    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
     border-top: 1px solid rgba(0, 0, 0, 0.09);
 
-    .monitoring-drawer-skeleton-card {
-      width: 100%;
-      height: 100%;
-      margin: 24px;
+    .monitoring-drawer-skeletons {
+      padding: 30px;
+      overflow: hidden;
+
+      .monitoring-drawer-skeleton-card {
+        margin: 0 !important;
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .monitoring-drawer-content-add-card {
+      margin: 0 !important;
       height: 100%;
       width: 100%;
       display: flex;

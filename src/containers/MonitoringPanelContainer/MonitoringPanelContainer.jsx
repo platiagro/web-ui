@@ -36,7 +36,7 @@ const MonitoringPanelContainer = () => {
 
   const [selectedMonitoring, setSelectedMonitoring] = useState(null);
 
-  const [isShowingDrawer, handleToggleDrawer] = useToggleState(true);
+  const [isShowingDrawer, handleToggleDrawer] = useToggleState(false);
   const [isShowingAddModal, handleToggleAddModal] = useToggleState(false);
   const [isShowingPanel, handleTogglePanel, setIsShowingPanel] =
     useToggleState(true);

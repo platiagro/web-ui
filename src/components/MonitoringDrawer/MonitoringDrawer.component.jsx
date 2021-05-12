@@ -36,10 +36,11 @@ const MonitoringDrawer = ({
   return (
     <Drawer
       className='monitoring-drawer'
-      bodyStyle={{ padding: 0, overflow: 'hidden' }}
+      bodyStyle={{ padding: 0, background: '#eceff1' }}
       onClose={handleHideDrawer}
       visible={isShowing}
       width={'90vw'}
+      push={false}
       title={
         <MonitoringDrawerTitle
           deploymentName={deploymentName}
@@ -60,10 +61,13 @@ const MonitoringDrawer = ({
               cols={12}
               onDragStop={handleMoveOrResize}
               onResizeStop={handleMoveOrResize}
+              containerPadding={[30, 30]}
             >
               {monitorings.map((monitoring) => {
-                const hasFilters = !!monitoring.filters?.length;
                 const monitoringFigures = figures[monitoring.uuid] || [];
+
+                const hasFigures = monitoringFigures.length > 0;
+                const hasFilters = !!monitoring.filters?.length && hasFigures;
 
                 const handleDownloadMonitoringChart = () => {};
                 const handleRemoveThisMonitoring = () => {};

@@ -1,5 +1,5 @@
 .monitoring-drawer-item {
-  margin: 0;
+  margin: 0 !important;
   height: 100%;
   width: 100%;
 
@@ -10,7 +10,6 @@
     .monitoring-drawer-item-drag-indicator {
       margin-right: 24px;
       font-size: 16px;
-      cursor: grabbing;
 
       svg {
         fill: #595959;
@@ -60,25 +59,81 @@
   }
 
   .monitoring-drawer-item-content {
-    height: 100%;
     overflow: hidden;
+    position: relative;
 
-    .ant-tabs,
-    .ant-tabs-content-holder,
-    .ant-tabs-content {
-      height: 100%;
+    .monitoring-drawer-item-placeholder {
+      padding: 16px;
     }
 
-    .monitoring-drawer-item-iframe-container {
-      height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
+    .monitoring-drawer-item-tabs {
+      .ant-tabs-nav {
+        padding: 0 24px;
+        margin-bottom: 0;
+      }
 
-      iframe {
-        border: none;
-        display: block;
+      .monitoring-drawer-item-iframe-container {
+        border-bottom: 1px solid #f0f0f0;
+
+        iframe {
+          border: none;
+          display: block;
+          width: 100%;
+          height: 384px;
+        }
+      }
+    }
+
+    .monitoring-drawer-item-filters {
+      position: absolute;
+
+      .ant-drawer-content-wrapper {
+        box-shadow: none;
+      }
+
+      .ant-drawer-close {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .monitoring-drawer-item-filters-title {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+
+        > *:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
+
+      .monitoring-drawer-item-filters-content {
+        height: 100%;
+      }
+
+      .monitoring-drawer-item-filters-footer {
+        display: flex;
+        align-items: center;
+        height: 100%;
         width: 100%;
-        overflow: hidden;
+        padding: 8px 16px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: color 0.2s ease-in-out;
+        background: white;
+        text-decoration: underline;
+
+        > *:not(:last-child) {
+          margin-right: 8px;
+        }
+
+        &:hover,
+        &:focus {
+          color: #1890ff;
+        }
       }
     }
   }

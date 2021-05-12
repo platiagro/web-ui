@@ -12,7 +12,7 @@ export default (monitorings = []) => {
         itemLayout = {
           x: (Math.floor(totalW / 6) % 2) * 6,
           y: 99999,
-          w: 6,
+          w: 12,
           h: 12,
         };
       }

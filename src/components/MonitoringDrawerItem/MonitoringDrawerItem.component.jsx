@@ -7,6 +7,7 @@ import { useToggleState } from 'hooks';
 
 import MonitoringDrawerItemTabs from './MonitoringDrawerItemTabs';
 import MonitoringDrawerItemTitle from './MonitoringDrawerItemTitle';
+import MonitoringDrawerItemFilters from './MonitoringDrawerItemFilters';
 
 import './MonitoringDrawerItem.style.less';
 
@@ -20,11 +21,18 @@ const MonitoringDrawerItem = ({
 }) => {
   const [isShowingFilters, handleToggleFilters] = useToggleState(false);
   const [selectedTabKey, setSelectedTabKey] = useState(undefined);
+  const [filters, setFilters] = useState(undefined);
+
+  const handleClearFilters = () => {
+    setFilters(undefined);
+    handleToggleFilters();
+  };
 
   return (
     <Card
       className={`monitoring-drawer-item ${className}`}
-      bodyStyle={{ padding: '8px 24px 16px 24px', height: '100%' }}
+      bodyStyle={{ padding: '0', height: '100%' }}
+      headStyle={{ cursor: 'grabbing' }}
       title={
         <MonitoringDrawerItemTitle
           hasFilters={hasFilters}
@@ -41,6 +49,14 @@ const MonitoringDrawerItem = ({
           figures={figures}
           selectedTabKey={selectedTabKey}
           handleSelectTab={setSelectedTabKey}
+        />
+
+        <MonitoringDrawerItemFilters
+          filters={filters}
+          hasFilters={hasFilters}
+          isShowingFilters={isShowingFilters}
+          handleClearFilters={handleClearFilters}
+          handleToggleFilters={handleToggleFilters}
         />
       </div>
     </Card>
