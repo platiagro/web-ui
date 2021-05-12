@@ -69,8 +69,13 @@ const MonitoringDrawer = ({
                 const hasFigures = monitoringFigures.length > 0;
                 const hasFilters = !!monitoring.filters?.length && hasFigures;
 
-                const handleDownloadMonitoringChart = () => {};
-                const handleRemoveThisMonitoring = () => {};
+                const handleDownloadMonitoringChart = () => {
+                  // TODO: Fazer o download do gráfico
+                };
+
+                const handleRemoveThisMonitoring = () => {
+                  // TODO: Fazer a remoção do <MonitoringDrawerItem /> do grid
+                };
 
                 return (
                   <div key={monitoring.uuid}>

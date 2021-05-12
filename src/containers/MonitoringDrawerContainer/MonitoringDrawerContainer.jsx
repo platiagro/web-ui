@@ -33,11 +33,17 @@ const MonitoringDrawerContainer = ({ isShowingDrawer, handleToggleDrawer }) => {
 
   const isAdding = useIsLoading(MONITORINGS_TYPES.CREATE_MONITORINGS_REQUEST);
 
-  const handleDownloadAllFigures = () => {};
+  const handleDownloadAllFigures = () => {
+    // TODO: Fazer o download de todos os gráficos
+  };
 
-  const handleUpdateLayout = () => {};
+  const handleUpdateLayout = () => {
+    // TODO: Salvar a posição dos cards no grid
+  };
 
-  const handleAddMonitoring = () => {};
+  const handleAddMonitoring = () => {
+    // TODO: Adicionar novo card no grid
+  };
 
   useEffect(() => {
     if (isShowingDrawer) {
