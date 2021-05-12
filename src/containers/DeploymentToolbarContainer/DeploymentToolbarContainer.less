@@ -1,12 +1,28 @@
-.buttons-config {
+.deployment-toolbar-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-right: 8px;
-  padding: 12px;
   align-items: center;
-  color: white;
-  .ant-btn {
-    margin-left: 8px;
+  background: white;
+  padding: 12px;
+  height: 50px;
+  border-bottom: 1px solid #e8e8e8;
+
+  .deployment-toolbar-container-buttons {
+    > * {
+      margin-left: 12px;
+    }
+
+    .deployment-toolbar-container-divider {
+      height: 24px;
+      background: #e8e8e8;
+      margin-right: 0;
+    }
+
+    .deployment-toolbar-container-test-button {
+      background: #237804;
+      color: white;
+      border: none;
+    }
   }
 }
