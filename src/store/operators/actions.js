@@ -15,8 +15,6 @@ import {
   experimentOperatorsLoadingData,
   operatorParameterLoadingData,
   operatorParameterDataLoaded,
-  experimentsTabsLoadingData,
-  experimentsTabsDataLoaded,
   resultsButtonBarLoadingData,
   resultsButtonBarDataLoaded,
 } from 'store/ui/actions';
@@ -41,9 +39,6 @@ const fetchOperatorsSuccess = (operators) => (dispatch) => {
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
 
-  // dispatching experiment tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
-
   dispatch(resultsButtonBarDataLoaded());
 
   utils.retrieveStatusMessageFromOperators(operators);
@@ -67,9 +62,6 @@ const fetchOperatorsFail = (error) => (dispatch) => {
 
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
-
-  // dispatching experiment tabs data loaded action
-  dispatch(experimentsTabsDataLoaded());
 
   dispatch(resultsButtonBarDataLoaded());
 
@@ -96,7 +88,6 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
     type: actionTypes.FETCH_OPERATORS_REQUEST,
   });
   dispatch(experimentOperatorsLoadingData());
-  dispatch(experimentsTabsLoadingData());
   dispatch(resultsButtonBarLoadingData());
 
   try {

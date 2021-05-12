@@ -2,7 +2,7 @@
 import actionTypes from './actionTypes';
 import operatorActionTypes from '../operator/actionTypes';
 import uiActionTypes from '../ui/actionTypes';
-import experimentRunsActionTypes from '../experiments/experimentRuns/actionTypes';
+import experimentRunsActionTypes from '../projects/experiments/experimentRuns/actionTypes';
 
 // UTILS
 import utils from 'utils';
@@ -63,10 +63,11 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS: {
       let isTerminated = false;
       return state.map((operator) => {
-        const operatorLatestTraining =
-          action.operatorsLatestTraining.find((operator_) => {
+        const operatorLatestTraining = action.operatorsLatestTraining.find(
+          (operator_) => {
             return operator_.uuid === operator.uuid;
-          });
+          }
+        );
 
         // get the operator status
         let status = '';

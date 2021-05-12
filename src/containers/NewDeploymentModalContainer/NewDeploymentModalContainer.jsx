@@ -7,10 +7,10 @@ import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { hideNewDeploymentModal } from 'store/ui/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 
-import { Actions as experimentsActions } from 'store/experiments';
+import { Selectors } from 'store/projects/experiments';
 import { fetchTemplatesRequest } from 'store/templates/actions';
 
-const { fetchExperimentsRequest } = experimentsActions;
+const { getExperiments } = Selectors;
 
 /**
  * New deployment modal container
@@ -18,6 +18,12 @@ const { fetchExperimentsRequest } = experimentsActions;
 function NewDeploymentModalContainer() {
   const dispatch = useDispatch();
   const { projectId } = useParams();
+
+  // TODO: Criar seletor com reselect
+  /* eslint-disable-next-line */
+  const experimentsData = useSelector((state) =>
+    getExperiments(state, projectId)
+  );
 
   // TODO: Criar seletores
   /* eslint-disable */
@@ -30,10 +36,6 @@ function NewDeploymentModalContainer() {
   const templatesLoading = useSelector(
     (state) => state.uiReducer.template.loading
   );
-  const experimentsLoading = useSelector(
-    (state) => state.uiReducer.experimentsTabs.loading
-  );
-  const experimentsData = useSelector((state) => state.experimentsReducer);
   const templatesData = useSelector((state) => state.templatesReducer);
   /* eslint-enable */
 
@@ -47,7 +49,6 @@ function NewDeploymentModalContainer() {
 
   // did mount hook
   useEffect(() => {
-    dispatch(fetchExperimentsRequest(projectId));
     dispatch(fetchTemplatesRequest(projectId));
   }, [dispatch, projectId]);
 
@@ -56,7 +57,6 @@ function NewDeploymentModalContainer() {
       visible={visible}
       loading={loading}
       templatesLoading={templatesLoading}
-      experimentsLoading={experimentsLoading}
       experimentsData={experimentsData}
       templatesData={templatesData}
       onCancel={handleCancel}

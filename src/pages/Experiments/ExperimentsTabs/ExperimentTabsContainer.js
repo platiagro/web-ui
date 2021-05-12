@@ -1,126 +1,109 @@
-// CORE LIBS
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useHistory, useParams, withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { useIsLoading } from 'hooks';
 
-// COMPONENTS
 import ExperimentsTabs from './index';
 
-// ACTIONS
-import experimentsActions from 'store/experiments/actions';
+import {
+  Actions as experimentsActions,
+  EXPERIMENTS_TYPES,
+  Selectors,
+} from 'store/projects/experiments';
+
+import { Actions as projectsActions, PROJECTS_TYPES } from 'store/projects';
 
 import { deselectOperator } from 'store/operator/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  return {
-    handleClearAllExperiments: () =>
-      dispatch(experimentsActions.clearAllExperiments()),
-    handleFetchExperiments: (projectId) =>
-      dispatch(
-        experimentsActions.fetchExperimentsRequest(projectId, routerProps)
-      ),
-    handleFetchExperiment: (projectId, experimentId) =>
-      dispatch(experimentsActions.activeExperiment(projectId, experimentId)),
-    handleDeleteExperiment: (projectId, experimentId) =>
-      dispatch(
-        experimentsActions.deleteExperimentRequest(
-          projectId,
-          experimentId,
-          routerProps
-        )
-      ),
-    handleRenameExperiment: (projectId, experimentId, newName) =>
-      dispatch(
-        experimentsActions.updateExperimentName(
-          projectId,
-          experimentId,
-          newName,
-          routerProps
-        )
-      ),
-    handleDuplicateExperiment: (projectId, experimentId, newName) =>
-      dispatch(
-        experimentsActions.createExperimentRequest(
-          projectId,
-          newName,
-          experimentId,
-          true,
-          routerProps
-        )
-      ),
-    handleOrganizeExperiments: (
-      projectId,
-      dragExperimentId,
-      hoverExperimentId,
-      newPosition
-    ) =>
-      dispatch(
-        experimentsActions.organizeExperimentsRequest(
-          projectId,
-          dragExperimentId,
-          hoverExperimentId,
-          newPosition
-        )
-      ),
-    handleDeselectOperator: () => dispatch(deselectOperator()),
-  };
-};
-
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    experiments: state.experimentsReducer,
-    experimentDetailsLoading: state.uiReducer.experimentsTabs.loading,
-    experimentOperatorsLoading: state.uiReducer.experimentOperators.loading,
-  };
-};
+const { getExperiments } = Selectors;
 
 /**
  * Experiment Tabs Container.
+ *
  * This component is responsible for create a logic container for experiment tabs
  * with redux.
- *
- * @component
- * @param {object} props Component props
- * @returns {ExperimentTabsContainer} React component
  */
-const ExperimentTabsContainer = (props) => {
-  // destructuring props
-  const {
-    experiments,
-    experimentDetailsLoading,
-    experimentOperatorsLoading,
-    handleFetchExperiments,
-    handleOrganizeExperiments,
-    handleFetchExperiment,
-    handleClearAllExperiments,
-    handleDeleteExperiment,
-    handleRenameExperiment,
-    handleDuplicateExperiment,
-    handleDeselectOperator,
-  } = props;
-
-  // CONSTANTS
-  // getting history
+const ExperimentTabsContainer = () => {
   const history = useHistory();
-  // getting project uuid
   const { projectId, experimentId } = useParams();
+  const dispatch = useDispatch();
 
-  // HOOKS
-  // did mount hook
-  useEffect(() => {
-    // fetching projects
-    handleFetchExperiments(projectId);
-  }, [handleFetchExperiments, projectId]);
+  const experimentDetailsLoading = useIsLoading(
+    EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST,
+    EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST,
+    EXPERIMENTS_TYPES.DELETE_EXPERIMENT_REQUEST,
+    EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_REQUEST,
+    PROJECTS_TYPES.FETCH_PROJECT_REQUEST
+  );
+
+  // TODO: Criar seletor com reselect
+  /* eslint-disable-next-line */
+  const experiments = useSelector((state) => getExperiments(state, projectId));
+  // TODO: Criar seletor
+  /* eslint-disable-next-line */
+  const experimentOperatorsLoading = useSelector(
+    (state) => state.uiReducer.experimentOperators.loading
+  );
+
+  const deleteHandler = (deleteExperimentId) => {
+    dispatch(
+      experimentsActions.deleteExperimentRequest(
+        projectId,
+        deleteExperimentId,
+        history
+      )
+    );
+  };
+
+  const renameHandler = (renameExperimentId, newName) => {
+    dispatch(
+      experimentsActions.updateExperimentRequest(
+        projectId,
+        renameExperimentId,
+        {
+          name: newName,
+        }
+      )
+    );
+  };
+  const duplicateHandler = (copyExperimentId, newName) => {
+    dispatch(
+      experimentsActions.createExperimentRequest(
+        projectId,
+        { name: newName, copyFrom: copyExperimentId },
+        history
+      )
+    );
+  };
+  const handleChangeTab = (targetId) => {
+    if (targetId !== experimentId) {
+      dispatch(experimentsActions.activeExperiment(projectId, targetId));
+
+      history.push(`/projetos/${projectId}/experimentos/${targetId}`);
+    }
+
+    dispatch(deselectOperator());
+  };
+  const handleOrganizeTabs = (dragExperimentId, hoverExperimentId) => {
+    const hoverExperiment = experiments.find(
+      (experiment) => experiment.uuid === hoverExperimentId
+    );
+
+    const newPosition = hoverExperiment.position;
+
+    dispatch(
+      experimentsActions.organizeExperimentsRequest(
+        projectId,
+        dragExperimentId,
+        hoverExperimentId,
+        newPosition
+      )
+    );
+  };
 
   useEffect(() => {
-    return () => {
-      // clear all experiments of redux when dismount
-      handleClearAllExperiments();
-    };
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(projectsActions.fetchProjectRequest(projectId));
+  }, [projectId, dispatch]);
 
   // listen experiments to redirect to active
   useEffect(() => {
@@ -135,46 +118,6 @@ const ExperimentTabsContainer = (props) => {
     }
   }, [experiments, history, projectId, experimentId]);
 
-  // HANDLERS
-  const deleteHandler = (deleteExperimentId) => {
-    handleDeleteExperiment(projectId, deleteExperimentId);
-  };
-
-  const renameHandler = (renameExperimentId, newName) => {
-    handleRenameExperiment(projectId, renameExperimentId, newName);
-  };
-  const duplicateHandler = (copyExperimentId, newName) => {
-    handleDuplicateExperiment(projectId, copyExperimentId, newName);
-  };
-  // change tab
-  const handleChangeTab = (targetId) => {
-    // fetching experiment
-    if (targetId !== experimentId) {
-      handleFetchExperiment(projectId, targetId);
-      // routing
-      history.push(`/projetos/${projectId}/experimentos/${targetId}`);
-    }
-    handleDeselectOperator();
-  };
-  // organizing tabs
-  const handleOrganizeTabs = (dragExperimentId, hoverExperimentId) => {
-    // getting hover experiment
-    const hoverExperiment = experiments.find(
-      (experiment) => experiment.uuid === hoverExperimentId
-    );
-
-    // getting new position
-    const newPosition = hoverExperiment.position;
-
-    handleOrganizeExperiments(
-      projectId,
-      dragExperimentId,
-      hoverExperimentId,
-      newPosition
-    );
-  };
-
-  // RENDER
   return (
     <ExperimentsTabs
       activeExperiment={experimentId}
@@ -189,7 +132,4 @@ const ExperimentTabsContainer = (props) => {
   );
 };
 
-// EXPORT
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ExperimentTabsContainer)
-);
+export default ExperimentTabsContainer;
