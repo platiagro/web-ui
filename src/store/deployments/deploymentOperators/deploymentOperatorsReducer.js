@@ -1,8 +1,6 @@
-// ACTION TYPES
 import actionTypes from './actionTypes';
 import deploymentOperatorActionTypes from 'store/deployments/deploymentOperator/actionTypes';
 
-// INITIAL STATE
 const initialState = [];
 
 const deploymentOperatorsReducer = (
@@ -12,12 +10,13 @@ const deploymentOperatorsReducer = (
   switch (action.type) {
     case actionTypes.FETCH_DEPLOYMENT_OPERATORS_REQUEST:
       return [...initialState];
+
     case actionTypes.FETCH_DEPLOYMENT_OPERATORS_SUCCESS:
       return [...action.operators];
 
-    // operator
     case deploymentOperatorActionTypes.CREATE_DEPLOYMENT_OPERATOR_SUCCESS:
       return [...state, action.operator];
+
     case deploymentOperatorActionTypes.SET_DEPLOYMENT_OPERATOR_PARAMETERS_SUCCESS:
       return state.map((operator) =>
         operator.uuid === action.operator.uuid
@@ -25,11 +24,12 @@ const deploymentOperatorsReducer = (
           : { ...operator }
       );
 
-    // DEFAULT
+    case actionTypes.CLEAR_ALL_DEPLOYMENT_OPERATORS:
+      return [];
+
     default:
       return state;
   }
 };
 
-// EXPORT
 export default deploymentOperatorsReducer;

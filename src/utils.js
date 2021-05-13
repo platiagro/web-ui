@@ -1,3 +1,7 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global Experiments, Projects */
+
 import React from 'react';
 import {
   AreaChartOutlined,
@@ -442,10 +446,11 @@ const configureOperators = (tasks, operators, datasetColumns) => {
   // creating configured operators
   const configuredOperators = operators.map((operator) => {
     // getting task data
-    const { parameters: taskParameters, tags, ...restTaskData } = getTaskData(
-      tasks,
-      operator.taskId
-    );
+    const {
+      parameters: taskParameters,
+      tags,
+      ...restTaskData
+    } = getTaskData(tasks, operator.taskId);
 
     // check if operator is dataset
     const isDataset = tags.includes('DATASETS');
@@ -764,6 +769,42 @@ const retrieveStatusMessageFromOperators = (operators) => {
   );
 };
 
+/**
+ * Change succeeded status of experiment
+ *
+ * @param {Experiments} experiments Experiments list
+ * @param {string} experimentId Experiment id
+ * @param {boolean} succeeded Is succeeded?
+ * @returns {Experiments} New experiments list
+ */
+const changeExperimentSucceededStatus = (
+  experiments,
+  experimentId,
+  succeeded
+) => {
+  return experiments.map((experiment) => {
+    return experiment.uuid === experimentId
+      ? { ...experiment, succeded: succeeded }
+      : { ...experiment };
+  });
+};
+
+/**
+ * Change project experiments
+ *
+ * @param {Projects} projects Projects list
+ * @param {string} projectId Project Id
+ * @param {Experiments} newExperiments New experiments list
+ * @returns {Projects} New projects list
+ */
+const changeProjectExperiments = (projects, projectId, newExperiments) => {
+  return projects.map((projectItem) =>
+    projectItem.uuid === projectId
+      ? { ...projectItem, experiments: newExperiments }
+      : projectItem
+  );
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -792,4 +833,6 @@ export default {
   copyToClipboard,
   downloadFile,
   retrieveStatusMessageFromOperators,
+  changeExperimentSucceededStatus,
+  changeProjectExperiments,
 };

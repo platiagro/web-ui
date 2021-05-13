@@ -1,12 +1,9 @@
-// REACT LIBS
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-// UI LIBS
 import {
   DownloadOutlined,
   LoadingOutlined,
@@ -14,11 +11,9 @@ import {
 } from '@ant-design/icons';
 import { Button, Card, Col, Divider, Row, Space } from 'antd';
 
-// COMPONENTS
 import { CommonTable, CompareResultItem } from 'components';
 import { Modal, Skeleton } from 'uiComponents';
 
-// ACTIONS
 import {
   addCompareResult,
   deleteCompareResult,
@@ -30,54 +25,10 @@ import {
 } from 'store/compareResults/actions';
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
-// STYLES
+import { getExperiments } from 'store/projects/experiments/experiments.selectors';
+
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleAddCompareResult: (projectId) => {
-      dispatch(addCompareResult(projectId));
-    },
-    handleChangeVisibilityCompareResultsModal: () => {
-      dispatch(changeVisibilityCompareResultsModal(false));
-    },
-    handleDeleteCompareResult: (projectId, id) => {
-      dispatch(deleteCompareResult(projectId, id));
-    },
-    handleFetchCompareResults: (projectId) => {
-      dispatch(fetchCompareResults(projectId));
-    },
-    handleFetchCompareResultsResults: (compareResult) => {
-      dispatch(fetchCompareResultsResults(compareResult));
-    },
-    handleFetchTrainingHistory: (projectId, experimentId) => {
-      dispatch(fetchTrainingHistory(projectId, experimentId));
-    },
-    handleGetCompareResultDatasetPaginated: (compareResult, page, pageSize) =>
-      dispatch(getCompareResultDatasetPaginated(compareResult, page, pageSize)),
-    handleUpdateCompareResult: (compareResult, isToDispachAction) => {
-      dispatch(updateCompareResult(compareResult, isToDispachAction));
-    },
-  };
-};
-
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    addIsLoading: state.uiReducer.compareResultsModal.addIsLoading,
-    compareResults: state.compareResultsReducer.compareResults,
-    deleteIsLoading: state.uiReducer.compareResultsModal.deleteIsLoading,
-    experiments: state.experimentsReducer,
-    experimentsOptions: state.compareResultsReducer.experimentsOptions,
-    experimentsTrainingHistory:
-      state.compareResultsReducer.experimentsTrainingHistory,
-    isLoading: state.uiReducer.compareResultsModal.loading,
-    isVisible: state.uiReducer.compareResultsModal.isVisible,
-    tasks: state.tasksReducer.tasks,
-  };
-};
 
 const ADD_COMPARE_RESULT_GRID_KEY = 'add-compare-result-grid-key';
 const ReactGridLayout = WidthProvider(RGL);
@@ -85,36 +36,47 @@ const ReactGridLayout = WidthProvider(RGL);
 /**
  * Container to display operator experiment results modal.
  */
-const CompareResultsModalContainer = (props) => {
-  const {
-    addIsLoading,
-    compareResults,
-    deleteIsLoading,
-    experiments,
-    experimentsOptions,
-    experimentsTrainingHistory,
-    isLoading,
-    isVisible,
-    tasks,
-  } = props;
-  const {
-    handleAddCompareResult,
-    handleChangeVisibilityCompareResultsModal,
-    handleDeleteCompareResult,
-    handleFetchCompareResults,
-    handleFetchCompareResultsResults,
-    handleFetchTrainingHistory,
-    handleGetCompareResultDatasetPaginated,
-    handleUpdateCompareResult,
-  } = props;
-
+const CompareResultsModalContainer = () => {
   const { projectId } = useParams();
+  const dispatch = useDispatch();
+
+  // TODO: Criar seletor com reselect
+  /* eslint-disable-next-line */
+  const experiments = useSelector((state) => getExperiments(state, projectId));
+
+  // TODO: Criar seletores
+  /* eslint-disable */
+  const addIsLoading = useSelector(
+    (state) => state.uiReducer.compareResultsModal.addIsLoading
+  );
+  const compareResults = useSelector(
+    (state) => state.compareResultsReducer.compareResults
+  );
+  const deleteIsLoading = useSelector(
+    (state) => state.uiReducer.compareResultsModal.deleteIsLoading
+  );
+  const experimentsOptions = useSelector(
+    (state) => state.compareResultsReducer.experimentsOptions
+  );
+  const experimentsTrainingHistory = useSelector(
+    (state) => state.compareResultsReducer.experimentsTrainingHistory
+  );
+  const isLoading = useSelector(
+    (state) => state.uiReducer.compareResultsModal.loading
+  );
+  const isVisible = useSelector(
+    (state) => state.uiReducer.compareResultsModal.isVisible
+  );
+  const tasks = useSelector((state) => state.tasksReducer.tasks);
+  /* eslint-enable */
+
+  const hasLoading = isLoading || deleteIsLoading;
 
   useEffect(() => {
     if (isVisible) {
-      handleFetchCompareResults(projectId);
+      dispatch(fetchCompareResults(projectId));
     }
-  }, [handleFetchCompareResults, isVisible, projectId]);
+  }, [dispatch, isVisible, projectId]);
 
   const title = (
     <>
@@ -168,14 +130,22 @@ const CompareResultsModalContainer = (props) => {
             experimentsOptions={experimentsOptions}
             experimentsTrainingHistory={experimentsTrainingHistory}
             onDelete={(id) => {
-              handleDeleteCompareResult(projectId, id);
+              dispatch(deleteCompareResult(projectId, id));
             }}
-            onFetchResults={handleFetchCompareResultsResults}
-            onResultDatasetPageChange={handleGetCompareResultDatasetPaginated}
+            onFetchResults={(results) =>
+              dispatch(fetchCompareResultsResults(results))
+            }
+            onResultDatasetPageChange={(results, page, pageSize) =>
+              dispatch(
+                getCompareResultDatasetPaginated(results, page, pageSize)
+              )
+            }
             onLoadTrainingHistory={(experimentId) => {
-              handleFetchTrainingHistory(projectId, experimentId);
+              dispatch(fetchTrainingHistory(projectId, experimentId));
             }}
-            onUpdate={handleUpdateCompareResult}
+            onUpdate={(results, isToDispatchAction) =>
+              dispatch(updateCompareResult(results, isToDispatchAction))
+            }
             tasks={tasks}
           />
         </div>
@@ -185,7 +155,7 @@ const CompareResultsModalContainer = (props) => {
 
   const generateGridLayout = () => {
     let totalW = 0;
-    const gridLayout = compareResults.map((item, i) => {
+    const gridLayout = compareResults.map((item) => {
       let itemLayout = item.layout;
       if (!itemLayout) {
         itemLayout = {
@@ -227,10 +197,52 @@ const CompareResultsModalContainer = (props) => {
             w: layoutItem.w,
             h: layoutItem.h,
           };
-          handleUpdateCompareResult(compareResult, false);
+          dispatch(updateCompareResult(compareResult, false));
         }
       }
     }
+  };
+
+  const modalBody = () => {
+    if (hasLoading) {
+      return <Row gutter={[8, 8]}>{renderLoadingCard()}</Row>;
+    }
+
+    return (
+      <ReactGridLayout
+        className={'layout'}
+        cols={12}
+        layout={generateGridLayout()}
+        rowHeight={35}
+        onDragStop={handleUpdateCompareResultLayout}
+        onResizeStop={handleUpdateCompareResultLayout}
+      >
+        {renderCompareResultItem()}
+        <div key={ADD_COMPARE_RESULT_GRID_KEY}>
+          <Card
+            style={{
+              border: '2px dashed #D9D9D9',
+              margin: 0,
+              textAlign: 'center',
+            }}
+          >
+            <Button
+              shape='round'
+              type='default'
+              disabled={addIsLoading}
+              onClick={() => {
+                dispatch(addCompareResult(projectId));
+              }}
+            >
+              <Space style={{ color: '#0050B3' }}>
+                {addIsLoading ? <LoadingOutlined /> : <PlusOutlined />}
+                Adicionar resultado
+              </Space>
+            </Button>
+          </Card>
+        </div>
+      </ReactGridLayout>
+    );
   };
 
   return (
@@ -241,90 +253,15 @@ const CompareResultsModalContainer = (props) => {
         overflowX: 'scroll',
       }}
       footer={null}
-      handleClose={handleChangeVisibilityCompareResultsModal}
+      handleClose={() => dispatch(changeVisibilityCompareResultsModal(false))}
       isFullScreen={false}
       isVisible={isVisible}
       title={title}
       width={'90%'}
     >
-      {isLoading || deleteIsLoading ? (
-        <Row gutter={[8, 8]}>{renderLoadingCard()}</Row>
-      ) : (
-        <ReactGridLayout
-          className={'layout'}
-          cols={12}
-          layout={generateGridLayout()}
-          rowHeight={35}
-          onDragStop={handleUpdateCompareResultLayout}
-          onResizeStop={handleUpdateCompareResultLayout}
-        >
-          {renderCompareResultItem()}
-          <div key={ADD_COMPARE_RESULT_GRID_KEY}>
-            <Card
-              style={{
-                border: '2px dashed #D9D9D9',
-                margin: 0,
-                textAlign: 'center',
-              }}
-            >
-              <Button
-                shape='round'
-                type='default'
-                disabled={addIsLoading}
-                onClick={() => {
-                  handleAddCompareResult(projectId);
-                }}
-              >
-                <Space style={{ color: '#0050B3' }}>
-                  {addIsLoading ? <LoadingOutlined /> : <PlusOutlined />}
-                  Adicionar resultado
-                </Space>
-              </Button>
-            </Card>
-          </div>
-        </ReactGridLayout>
-      )}
+      <modalBody />
     </Modal>
   );
 };
 
-CompareResultsModalContainer.propTypes = {
-  /** Compare result add is loading */
-  addIsLoading: PropTypes.bool.isRequired,
-  /** The compare results */
-  compareResults: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Compare result delete is loading */
-  deleteIsLoading: PropTypes.bool.isRequired,
-  /** The expriment options to use on Cascader */
-  experimentsOptions: PropTypes.arrayOf(PropTypes.object),
-  /** The expriments training history */
-  experimentsTrainingHistory: PropTypes.object.isRequired,
-  /** Function to handle add compare result */
-  handleAddCompareResult: PropTypes.func.isRequired,
-  /** Function to handle change visibility compare result modal */
-  handleChangeVisibilityCompareResultsModal: PropTypes.func.isRequired,
-  /** Function to handle delete compare result */
-  handleDeleteCompareResult: PropTypes.func.isRequired,
-  /** Function to handle fetch compare results */
-  handleFetchCompareResults: PropTypes.func.isRequired,
-  /** Function to handle fetch compare results results */
-  handleFetchCompareResultsResults: PropTypes.func.isRequired,
-  /** Function to handle fetch training history */
-  handleFetchTrainingHistory: PropTypes.func.isRequired,
-  /** Function to handle get compare result dataset paginated */
-  handleGetCompareResultDatasetPaginated: PropTypes.func.isRequired,
-  /** Function to handle update compare result */
-  handleUpdateCompareResult: PropTypes.func.isRequired,
-  /** Modal is loading */
-  isLoading: PropTypes.bool.isRequired,
-  /** Modal is visible */
-  isVisible: PropTypes.bool.isRequired,
-  /** Tasks list */
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-// EXPORT DEFAULT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CompareResultsModalContainer);
+export default CompareResultsModalContainer;

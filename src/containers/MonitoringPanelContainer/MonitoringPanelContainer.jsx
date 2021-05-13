@@ -78,7 +78,7 @@ const MonitoringPanelContainer = () => {
         showSeeButton={!!monitorings?.length}
         isDeleting={isDeletingMonitoring}
         isShowingPanel={isShowingPanel}
-        showAddButton
+        showAddButton={!!deploymentId}
       />
 
       {isShowingPanel && (

@@ -1,66 +1,54 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
 
-// ACTIONS
-import experimentsActions from 'store/experiments/actions';
+import {
+  Actions as experimentsActions,
+  EXPERIMENTS_TYPES,
+} from 'store/projects/experiments';
 import { hideNewExperimentModal } from 'store/ui/actions';
 
-// COMPONENTS
+import { useIsLoading } from 'hooks';
+
 import NewExperimentModal from './index';
-
-// DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  return {
-    // create experiment action
-    handleCreateExperiment: (projectId, experimentName, copyFrom, duplicate) =>
-      dispatch(
-        experimentsActions.createExperimentRequest(
-          projectId,
-          experimentName,
-          copyFrom,
-          duplicate,
-          routerProps
-        )
-      ),
-    // hide modal action
-    handleHideExperimentModal: () => dispatch(hideNewExperimentModal()),
-  };
-};
-
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    loading: state.uiReducer.experimentsTabs.loading,
-    modalVisible: state.uiReducer.newExperimentModal.visible,
-    modalValidateStatus: state.uiReducer.newExperimentModal.modalValidateStatus,
-    errorMessage: state.uiReducer.newExperimentModal.errorMessage,
-  };
-};
 
 /**
  * New Experiment Modal Container.
+ *
  * This component is responsible for create a logic container for new experiment
  * modal with redux.
  */
-const NewExperimentModalContainer = ({
-  loading,
-  modalVisible,
-  modalValidateStatus,
-  errorMessage,
-  handleHideExperimentModal,
-  handleCreateExperiment,
-}) => {
-  // CONSTANTS
+const NewExperimentModalContainer = () => {
   const { projectId } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  // HANDLERS
+  const loading = useIsLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST);
+
+  // TODO: Criar seletores
+  /* eslint-disable */
+  const modalVisible = useSelector(
+    (state) => state.uiReducer.newExperimentModal.visible
+  );
+  const modalValidateStatus = useSelector(
+    (state) => state.uiReducer.newExperimentModal.modalValidateStatus
+  );
+  const errorMessage = useSelector(
+    (state) => state.uiReducer.newExperimentModal.errorMessage
+  );
+  /* eslint-enable */
+
+  const handleHideExperimentModal = () => dispatch(hideNewExperimentModal());
   const newExperimentHandler = (experimentName, copyFrom) => {
-    handleCreateExperiment(projectId, experimentName, copyFrom, false);
+    dispatch(
+      experimentsActions.createExperimentRequest(
+        projectId,
+        { name: experimentName, copyFrom },
+        history
+      )
+    );
   };
 
-  // RENDER
   return (
     <NewExperimentModal
       visible={modalVisible}
@@ -73,7 +61,4 @@ const NewExperimentModalContainer = ({
   );
 };
 
-// EXPORT
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(NewExperimentModalContainer)
-);
+export default NewExperimentModalContainer;

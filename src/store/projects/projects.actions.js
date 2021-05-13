@@ -39,24 +39,23 @@ const fetchPaginatedProjectsFail = (error) => (dispatch) => {
  * @param {object} response Request success response
  * @returns {object} Action creator
  */
-const fetchPaginatedProjectsSuccess = (name, page, pageSize, response) => (
-  dispatch
-) => {
-  const { projects } = response.data;
+const fetchPaginatedProjectsSuccess =
+  (name, page, pageSize, response) => (dispatch) => {
+    const { projects } = response.data;
 
-  dispatch({
-    type: PROJECTS_TYPES.FETCH_PROJECTS_SUCCESS,
-    payload: {
-      projects,
-      searchText: name,
-      currentPage: page,
-      pageSize: pageSize,
-      total: response.data.total,
-    },
-  });
+    dispatch({
+      type: PROJECTS_TYPES.FETCH_PROJECTS_SUCCESS,
+      payload: {
+        projects,
+        searchText: name,
+        currentPage: page,
+        pageSize: pageSize,
+        total: response.data.total,
+      },
+    });
 
-  dispatch(removeLoading(PROJECTS_TYPES.FETCH_PROJECTS_REQUEST));
-};
+    dispatch(removeLoading(PROJECTS_TYPES.FETCH_PROJECTS_REQUEST));
+  };
 
 /**
  * Function to request fetch paginated projects
@@ -66,33 +65,32 @@ const fetchPaginatedProjectsSuccess = (name, page, pageSize, response) => (
  * @param {number} pageSize Pagination page size parameter
  * @returns {Function} The `disptach` function
  */
-export const fetchPaginatedProjectsRequest = (name, page, pageSize) => async (
-  dispatch
-) => {
-  const actionType = PROJECTS_TYPES.FETCH_PROJECTS_REQUEST;
+export const fetchPaginatedProjectsRequest =
+  (name, page, pageSize) => async (dispatch) => {
+    const actionType = PROJECTS_TYPES.FETCH_PROJECTS_REQUEST;
 
-  dispatch({
-    type: actionType,
-  });
+    dispatch({
+      type: actionType,
+    });
 
-  dispatch(addLoading(actionType));
+    dispatch(addLoading(actionType));
 
-  if (name === undefined) {
-    name = '';
-  }
+    if (name === undefined) {
+      name = '';
+    }
 
-  try {
-    const response = await projectsApi.fetchPaginatedProjects(
-      name,
-      page,
-      pageSize
-    );
+    try {
+      const response = await projectsApi.fetchPaginatedProjects(
+        name,
+        page,
+        pageSize
+      );
 
-    dispatch(fetchPaginatedProjectsSuccess(name, page, pageSize, response));
-  } catch (error) {
-    dispatch(fetchPaginatedProjectsFail(error));
-  }
-};
+      dispatch(fetchPaginatedProjectsSuccess(name, page, pageSize, response));
+    } catch (error) {
+      dispatch(fetchPaginatedProjectsFail(error));
+    }
+  };
 
 /**
  * Function to dispatch select projects to reducer
@@ -248,25 +246,27 @@ const updateProjectSuccess = (response) => (dispatch, getState) => {
  * @param {ProjectUpdatable} projectUpdate New project data
  * @returns {Function} Dispatch
  */
-export const updateProjectRequest = (projectId, projectUpdate) => async (
-  dispatch
-) => {
-  const actionType = PROJECTS_TYPES.UPDATE_PROJECT_REQUEST;
+export const updateProjectRequest =
+  (projectId, projectUpdate) => async (dispatch) => {
+    const actionType = PROJECTS_TYPES.UPDATE_PROJECT_REQUEST;
 
-  dispatch({
-    type: actionType,
-  });
+    dispatch({
+      type: actionType,
+    });
 
-  dispatch(addLoading(actionType));
+    dispatch(addLoading(actionType));
 
-  try {
-    const response = await projectsApi.updateProject(projectId, projectUpdate);
+    try {
+      const response = await projectsApi.updateProject(
+        projectId,
+        projectUpdate
+      );
 
-    dispatch(updateProjectSuccess(response));
-  } catch (error) {
-    dispatch(updateProjectFail(error));
-  }
-};
+      dispatch(updateProjectSuccess(response));
+    } catch (error) {
+      dispatch(updateProjectFail(error));
+    }
+  };
 
 /**
  * Fetch project success action

@@ -360,36 +360,6 @@ export const deploymentsTabsShowModal = () => {
 
 // // // // // // // // // //
 
-// ** EXPERIMENTS TABS LOADING DATA
-/**
- * experiments tabs loading data
- *
- * @returns {object} { type, experimentsTabsLoading }
- */
-export const experimentsTabsLoadingData = () => {
-  return {
-    type: actionTypes.EXPERIMENTS_TABS_LOADING_DATA,
-    experimentsTabsLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** EXPERIMENTS TABS DATA LOADED
-/**
- * experiments tabs loading data
- *
- * @returns {object} { type, experimentsTabsLoading }
- */
-export const experimentsTabsDataLoaded = () => {
-  return {
-    type: actionTypes.EXPERIMENTS_TABS_DATA_LOADED,
-    experimentsTabsLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
 // ** EXPERIMENT TRAINING LOADING DATA
 /**
  * experiment training loading data
@@ -445,36 +415,6 @@ export const experimentDeleteTrainingDataLoaded = () => {
   return {
     type: actionTypes.EXPERIMENT_DELETE_TRAINING_DATA_LOADED,
     experimentDeleteTrainingLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** EXPERIMENT NAME LOADING DATA
-/**
- * experiment name loading data
- *
- * @returns {object} { type, experimentNameLoading }
- */
-export const experimentNameLoadingData = () => {
-  return {
-    type: actionTypes.EXPERIMENT_NAME_LOADING_DATA,
-    experimentNameLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** EXPERIMENT NAME DATA LOADED
-/**
- * experiment name loading data
- *
- * @returns {object} { type, experimentNameLoading }
- */
-export const experimentNameDataLoaded = () => {
-  return {
-    type: actionTypes.EXPERIMENT_NAME_DATA_LOADED,
-    experimentNameLoading: false,
   };
 };
 

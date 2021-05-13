@@ -23,6 +23,7 @@ export const monitoringsReducer = (state = initialState, action = {}) => {
       };
     }
 
+    case MONITORINGS_TYPES.CLEAR_ALL_MONITORINGS:
     case MONITORINGS_TYPES.FETCH_MONITORINGS_FAIL: {
       return {
         ...state,

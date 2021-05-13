@@ -1,93 +1,77 @@
-// CORE LIBS
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-// COMPONENTS
 import ExperimentHeader from './index';
 
-// ACTIONS
-import experimentsActions from 'store/experiments/actions';
+import {
+  Actions as experimentsActions,
+  EXPERIMENTS_TYPES,
+  Selectors,
+} from 'store/projects/experiments';
 import { fetchOperatorsRequest } from 'store/operators/actions';
 import { removeOperatorRequest } from 'store/operator/actions';
-import experimentRunsActions from 'store/experiments/experimentRuns/actions';
-import { getExperimentById } from 'store/experiments/experimentsReducer';
+import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
+import { useIsLoading } from 'hooks';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch, routerProps) => {
-  return {
-    handleFetchOperators: (projectId, experimentId) =>
-      dispatch(fetchOperatorsRequest(projectId, experimentId)),
-    handleEditExperimentName: (projectId, experimentId, newName) =>
-      dispatch(experimentsActions.updateExperimentName(projectId, experimentId, newName)),
-    handleCreateExperimentRun: (projectId, experimentId) =>
-      dispatch(experimentRunsActions.createExperimentRunRequest(projectId, experimentId, routerProps)),
-    handleDeleteExperimentRun: (projectId, experimentId) =>
-      dispatch(experimentRunsActions.deleteExperimentRunRequest(projectId, experimentId)),
-    handleRemoveOperator: (projectId, experimentId, operator) =>
-      dispatch(removeOperatorRequest(projectId, experimentId, operator)),
-  };
-};
-
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    experiment: (experimentId) => {
-      return getExperimentById(state, experimentId);
-    },
-    operators: state.operatorsReducer,
-    operator: state.operatorReducer,
-    loading: state.uiReducer.experimentName.loading,
-    trainingLoading: state.uiReducer.experimentTraining.loading,
-    deleteTrainingLoading: state.uiReducer.experimentTraining.deleteLoading,
-  };
-};
+const { getExperiment } = Selectors;
 
 /**
  * Experiment Header Container.
+ *
  * This component is responsible for create a logic container for experiment
  * header with redux.
  */
-const ExperimentHeaderContainer = ({
-  experiment,
-  operators,
-  operator,
-  loading,
-  trainingLoading,
-  deleteTrainingLoading,
-  handleRemoveOperator,
-  handleEditExperimentName,
-  handleFetchOperators,
-  handleCreateExperimentRun,
-  handleDeleteExperimentRun,
-}) => {
+const ExperimentHeaderContainer = () => {
   const { projectId, experimentId } = useParams();
+  const dispatch = useDispatch();
 
-  // select experiment
-  experiment(experimentId);
+  const loading = useIsLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST);
 
-  // HOOKS
-  // did mount hook
+  // TODO: Criar seletor com reselect
+  /* eslint-disable-next-line */
+  const experiment = useSelector((state) =>
+    getExperiment(state, projectId, experimentId)
+  );
+
+  // TODO: Criar seletores
+  /* eslint-disable */
+  const operators = useSelector((state) => state.operatorsReducer);
+  const operator = useSelector((state) => state.operatorReducer);
+  const trainingLoading = useSelector(
+    (state) => state.uiReducer.experimentTraining.loading
+  );
+  const deleteTrainingLoading = useSelector(
+    (state) => state.uiReducer.experimentTraining.deleteLoading
+  );
+  /* eslint-enable */
+
+  const editExperimentNameHandler = (newName) =>
+    dispatch(
+      experimentsActions.updateExperimentRequest(projectId, experimentId, {
+        name: newName,
+      })
+    );
+  const trainExperimentHandler = () =>
+    dispatch(
+      experimentRunsActions.createExperimentRunRequest(projectId, experimentId)
+    );
+  const deleteTrainExperimentHandler = () =>
+    dispatch(
+      experimentRunsActions.deleteExperimentRunRequest(projectId, experimentId)
+    );
+  const removeOperatorHandler = () =>
+    dispatch(removeOperatorRequest(projectId, experimentId, operator));
+
   useEffect(() => {
     if (experimentId) {
-      handleFetchOperators(projectId, experimentId);
+      dispatch(fetchOperatorsRequest(projectId, experimentId));
     }
-  }, [projectId, experimentId, handleFetchOperators]);
+  }, [dispatch, projectId, experimentId]);
 
-  // HANDLERS
-  const editExperimentNameHandler = (newName) =>
-    handleEditExperimentName(projectId, experimentId, newName);
-  const trainExperimentHandler = () =>
-    handleCreateExperimentRun(projectId, experimentId);
-  const deleteTrainExperimentHandler = () =>
-    handleDeleteExperimentRun(projectId, experimentId);
-  const removeOperatorHandler = () =>
-    handleRemoveOperator(projectId, experimentId, operator);
-
-  // RENDER
   return (
     <ExperimentHeader
-      title={experiment.name}
+      title={experiment?.name}
       empty={operators.length <= 0}
       loading={loading}
       operator={operator}
@@ -101,7 +85,4 @@ const ExperimentHeaderContainer = ({
   );
 };
 
-// EXPORT
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ExperimentHeaderContainer)
-);
+export default ExperimentHeaderContainer;

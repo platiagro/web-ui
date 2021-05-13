@@ -2,10 +2,9 @@
 
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import experimentsActionTypes from 'store/experiments/actionTypes';
-import experimentRunsActionTypes from 'store/experiments/experimentRuns/actionTypes';
+import { Actions as experimentsActionTypes } from 'store/projects/experiments';
+import experimentRunsActionTypes from 'store/projects/experiments/experimentRuns/actionTypes';
 import { PROJECTS_TYPES } from 'store/projects';
-import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE
 const initialState = {
@@ -49,8 +48,6 @@ const initialState = {
     modalVisible: false,
     deploymentOperatorsLoading: false,
   },
-  experimentsTabs: { loading: false },
-  experimentName: { loading: false },
   experimentOperators: { loading: false },
   experimentTraining: { loading: false },
   datasetsList: { loading: false },
@@ -73,7 +70,6 @@ const initialState = {
   },
   prepareDeployments: { loading: false },
   externalDatasetHelperModal: { visible: false },
-  monitorings: { loading: false, creating: false, deleting: false },
   logsPanel: { isShowing: false },
 };
 
@@ -318,31 +314,6 @@ const uiReducer = (state = initialState, action = undefined) => {
           modalValidateStatus: null,
         },
       };
-    case projectDeploymentstActionTypes.CREATE_DEPLOYMENT_FAILURE:
-      return {
-        ...state,
-        deploymentsTabs: {
-          ...state.deploymentsTabs,
-          modalErrorMessage: action.errorMessage,
-          modalValidateStatus: 'error',
-        },
-      };
-
-    // EXPERIMENTS TABS
-    case actionTypes.EXPERIMENTS_TABS_LOADING_DATA: // loading data
-    case actionTypes.EXPERIMENTS_TABS_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        newExperimentModal: {
-          ...state.newExperimentModal,
-          modalValidateStatus: null,
-          errorMessage: null,
-        },
-        experimentsTabs: {
-          ...state.experimentsTabs,
-          loading: action.experimentsTabsLoading,
-        },
-      };
 
     case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS:
       return {
@@ -372,17 +343,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         experimentTraining: {
           ...state.experimentTraining,
           deleteLoading: action.experimentDeleteTrainingLoading,
-        },
-      };
-
-    // EXPERIMENT NAME
-    case actionTypes.EXPERIMENT_NAME_LOADING_DATA: // loading data
-    case actionTypes.EXPERIMENT_NAME_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        experimentName: {
-          ...state.experimentName,
-          loading: action.experimentNameLoading,
         },
       };
 

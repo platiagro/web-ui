@@ -247,3 +247,14 @@ export const fetchMonitoringFigures =
       );
     }
   };
+
+/**
+ * Clear all monitorings
+ *
+ * @returns {object} Action
+ */
+export const clearAllMonitorings = () => {
+  return {
+    type: MONITORING_TYPES.CLEAR_ALL_MONITORINGS,
+  };
+};

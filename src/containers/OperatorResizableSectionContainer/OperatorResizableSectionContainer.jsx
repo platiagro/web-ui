@@ -8,15 +8,11 @@ import { PropertiesPanel, PropertyBlock } from 'components';
 import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/DatasetDrawerContainer';
 import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/GenericDrawerContainer';
 import NotebookOutputsContainer from 'pages/Experiments/Experiment/Drawer/NotebookOutputs/NotebookOutputsContainer';
-
+import { getExperiment } from 'store/projects/experiments/experiments.selectors';
 import './OperatorResizableSectionContainer.less';
 
 const operatorDescriptionSelector = ({ operatorReducer }) => {
   return operatorReducer.description;
-};
-
-const experimentSelector = (experimentId) => ({ experimentsReducer }) => {
-  return experimentsReducer.find(({ uuid }) => uuid === experimentId);
 };
 
 const isDatasetOperatorSelector = ({ operatorReducer }) => {
@@ -30,13 +26,18 @@ const operatorNameSelector = ({ operatorReducer }) => {
 };
 
 const OperatorResizableSectionContainer = () => {
-  const { experimentId } = useParams();
+  const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
   const [HasExperimentFinished, setHasExperimentFinished] = useState(false);
 
+  // TODO: Criar seletor com reselect
+  /* eslint-disable-next-line */
+  const experiment = useSelector((state) =>
+    getExperiment(state, projectId, experimentId)
+  );
+
   const operatorDescription = useSelector(operatorDescriptionSelector);
-  const experiment = useSelector(experimentSelector(experimentId));
   const isDatasetOperator = useSelector(isDatasetOperatorSelector);
   const operatorName = useSelector(operatorNameSelector);
 
