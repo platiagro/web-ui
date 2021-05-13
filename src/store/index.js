@@ -17,12 +17,12 @@ import uiReducer from './ui/uiReducer';
 import datasetReducer from './dataset/datasetReducer';
 import datasetsReducer from './datasets/datasetsReducer';
 import deploymentLogsReducer from './deploymentLogs/deploymentLogsReducer';
-import testExperimentInferenceReducer from './testExperimentInference/testExperimentInferenceReducer';
 import jupyterLabReducer from './jupyterLab/jupyterLabReducer';
 import monitoringsReducer from './monitorings/monitoringsReducer';
 import experimentLogsReducer from './experimentLogs/experimentLogsReducer';
 import { tasksReducer } from './tasks';
 import { loadingReducer } from './loading';
+import { testDeploymentReducer } from './testDeployment';
 
 const reducers = combineReducers({
   compareResultsReducer,
@@ -41,7 +41,7 @@ const reducers = combineReducers({
   datasetReducer,
   datasetsReducer,
   deploymentLogsReducer,
-  testExperimentInferenceReducer,
+  testDeploymentReducer,
   jupyterLabReducer,
   monitoringsReducer,
   experimentLogsReducer,

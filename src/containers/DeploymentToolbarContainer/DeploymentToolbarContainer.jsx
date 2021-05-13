@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Button, Divider } from 'antd';
+import { Button, Divider, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { PlayCircleFilled, StopOutlined } from '@ant-design/icons';
@@ -16,13 +16,27 @@ import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
 import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
 
 import './DeploymentToolbarContainer.less';
+import {
+  testDeploymentWithDataset,
+  TEST_DEPLOYMENT_TYPES,
+} from 'store/testDeployment';
 
 const operatorsSelector = ({ deploymentOperatorsReducer }) => {
   return deploymentOperatorsReducer;
 };
 
-const testingFlowSelector = () => {
-  return true;
+const datasetOperatorUploadedFileNameSelector = ({
+  deploymentOperatorsReducer,
+}) => {
+  const datasetOperator = deploymentOperatorsReducer.find((operator) => {
+    return operator.tags.includes('DATASETS');
+  });
+
+  const datasetParameter = datasetOperator?.parameters?.find((parameter) => {
+    return parameter.name === 'dataset';
+  });
+
+  return datasetParameter?.value || '';
 };
 
 const DeploymentToolbarContainer = () => {
@@ -33,7 +47,13 @@ const DeploymentToolbarContainer = () => {
   const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
 
   const operators = useSelector(operatorsSelector);
-  const isTestingFlow = useSelector(testingFlowSelector);
+  const datasetOperatorUploadedFileName = useSelector(
+    datasetOperatorUploadedFileNameSelector
+  );
+
+  const isTestingFlow = useIsLoading(
+    TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_REQUEST
+  );
 
   const isLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
@@ -74,7 +94,15 @@ const DeploymentToolbarContainer = () => {
   };
 
   const handleTestDeploymentFlow = () => {
-    dispatch({ type: 'TEST_FLOW' });
+    if (datasetOperatorUploadedFileName) {
+      dispatch(
+        testDeploymentWithDataset(
+          projectId,
+          deploymentId,
+          datasetOperatorUploadedFileName
+        )
+      );
+    }
   };
 
   const handleInterruptFlowTesting = () => {
@@ -86,6 +114,17 @@ const DeploymentToolbarContainer = () => {
       handleFetchOperators(projectId, deploymentId);
     }
   }, [projectId, deploymentId, handleFetchOperators]);
+
+  useEffect(() => {
+    if (isTestingFlow) {
+      message.loading({
+        key: 'isTestingFlow',
+        content: 'Testando o Fluxo',
+      });
+    } else {
+      message.destroy('isTestingFlow');
+    }
+  }, [isTestingFlow]);
 
   return (
     <div className='deployment-toolbar-container'>

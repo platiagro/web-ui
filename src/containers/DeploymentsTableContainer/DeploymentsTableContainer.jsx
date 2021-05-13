@@ -10,7 +10,7 @@ import {
   fetchDeploymentsRequest,
 } from 'store/deployments/actions';
 
-import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
+import { testDeploymentWithFile } from 'store/testDeployment';
 
 const deploymentsSelector = ({ deploymentsReducer }) => {
   const deployments = deploymentsReducer || [];
@@ -53,13 +53,7 @@ const DeploymentsTableContainer = () => {
     deploymentId,
     file
   ) => {
-    dispatch(
-      testImplantedExperimentInferenceAction(
-        currentProjectId,
-        deploymentId,
-        file
-      )
-    );
+    dispatch(testDeploymentWithFile(currentProjectId, deploymentId, file));
   };
 
   const deployments = useSelector(deploymentsSelector);
