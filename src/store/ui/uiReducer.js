@@ -5,7 +5,6 @@ import actionTypes from './actionTypes';
 import { Actions as experimentsActionTypes } from 'store/projects/experiments';
 import experimentRunsActionTypes from 'store/projects/experiments/experimentRuns/actionTypes';
 import { PROJECTS_TYPES } from 'store/projects';
-import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE
 const initialState = {
@@ -314,15 +313,6 @@ const uiReducer = (state = initialState, action = undefined) => {
           modalVisible: action.visible,
           modalErrorMessage: null,
           modalValidateStatus: null,
-        },
-      };
-    case projectDeploymentstActionTypes.CREATE_DEPLOYMENT_FAILURE:
-      return {
-        ...state,
-        deploymentsTabs: {
-          ...state.deploymentsTabs,
-          modalErrorMessage: action.errorMessage,
-          modalValidateStatus: 'error',
         },
       };
 

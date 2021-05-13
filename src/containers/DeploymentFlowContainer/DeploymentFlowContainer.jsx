@@ -3,12 +3,12 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import DeploymentFlow from 'components/DeploymentFlow';
+import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
 import {
   selectOperator,
   deselectOperator,
   saveDeploymentOperatorPosition,
 } from 'store/operator/actions';
-import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
 
 const operatorsSelector = ({ deploymentOperatorsReducer }) => {
   return deploymentOperatorsReducer;

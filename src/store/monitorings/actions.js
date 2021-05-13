@@ -200,3 +200,14 @@ export const deleteMonitoring = ({
     dispatch(setDeletingMonitoring(false));
   }
 };
+
+/**
+ * Clear all monitorings
+ *
+ * @returns {object} Action
+ */
+export const clearAllMonitorings = () => {
+  return {
+    type: actionTypes.CLEAR_ALL_MONITORINGS,
+  };
+};
