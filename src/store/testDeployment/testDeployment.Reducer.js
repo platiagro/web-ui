@@ -32,6 +32,7 @@ export const testDeploymentReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         dataset: payload.dataset,
+        inferenceResult: null,
       };
     }
 
