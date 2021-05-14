@@ -156,7 +156,12 @@ const DeploymentToolbarContainer = () => {
           </Button>
         ) : (
           <Button
-            className='deployment-toolbar-container-test-button'
+            className={
+              datasetOperatorUploadedFileName
+                ? 'deployment-toolbar-container-test-button'
+                : ''
+            }
+            disabled={!datasetOperatorUploadedFileName}
             onClick={handleTestDeploymentFlow}
             icon={<PlayCircleFilled />}
             shape='round'
