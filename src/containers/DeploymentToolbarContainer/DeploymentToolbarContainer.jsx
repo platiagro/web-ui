@@ -66,6 +66,12 @@ const DeploymentToolbarContainer = () => {
     return operators.length <= 0;
   }, [operators]);
 
+  const testDeploymentFlowClassName = useMemo(() => {
+    return datasetOperatorUploadedFileName
+      ? 'deployment-toolbar-container-test-button'
+      : '';
+  }, [datasetOperatorUploadedFileName]);
+
   const handleFetchOperators = useCallback(() => {
     dispatch(fetchOperatorsRequest(projectId, deploymentId));
   }, [projectId, deploymentId, dispatch]);
@@ -156,12 +162,8 @@ const DeploymentToolbarContainer = () => {
           </Button>
         ) : (
           <Button
-            className={
-              datasetOperatorUploadedFileName
-                ? 'deployment-toolbar-container-test-button'
-                : ''
-            }
             disabled={!datasetOperatorUploadedFileName}
+            className={testDeploymentFlowClassName}
             onClick={handleTestDeploymentFlow}
             icon={<PlayCircleFilled />}
             shape='round'
