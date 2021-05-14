@@ -17,6 +17,7 @@ import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/act
 
 import './DeploymentToolbarContainer.less';
 import {
+  interruptDeploymentTest,
   testDeploymentWithDataset,
   TEST_DEPLOYMENT_TYPES,
 } from 'store/testDeployment';
@@ -106,7 +107,7 @@ const DeploymentToolbarContainer = () => {
   };
 
   const handleInterruptFlowTesting = () => {
-    dispatch({ type: 'INTERRUPT_FLOW_TESTING' });
+    dispatch(interruptDeploymentTest(projectId, deploymentId));
   };
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import {
 
 import deploymentsApi from 'services/DeploymentsApi';
 import { addLoading, removeLoading } from 'store/loading';
+import { showError } from 'store/message';
 
 /**
  * Test deployment with a file
@@ -93,6 +94,51 @@ export const testDeploymentWithDataset =
         removeLoading(
           TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_REQUEST
         )
+      );
+    }
+  };
+
+/**
+ * Interrupt deployment test
+ *
+ * @param {string} projectId Project Id
+ * @param {string} deploymentId Deployment Id
+ * @returns {Function} Dispatch function
+ */
+export const interruptDeploymentTest =
+  (projectId, deploymentId) => async (dispatch) => {
+    try {
+      dispatch(
+        addLoading(TEST_DEPLOYMENT_TYPES.INTERRUPT_DEPLOYMENT_TEST_REQUEST)
+      );
+
+      console.log(
+        'testDeployment.actions.js',
+        'interruptDeploymentTest',
+        projectId,
+        deploymentId
+      );
+
+      /* 
+      Quando a action testDeploymentWithDataset não for mais síncrona é possível
+      usar o dispatch(addLoading(...)) para guardar se está testando o fluxo.
+      Então na action de teste vocẽ adiciona o addLoading e na action que 
+      interrompe o teste você chama o removeLoading, só decida qual 
+      actionType usar para isso.
+      */
+
+      // TODO: Fazer o request
+      await new Promise.resolve({});
+
+      dispatch({
+        type: TEST_DEPLOYMENT_TYPES.INTERRUPT_DEPLOYMENT_TEST_SUCCESS,
+      });
+    } catch (e) {
+      dispatch(showError(e.message));
+      dispatch({ type: TEST_DEPLOYMENT_TYPES.INTERRUPT_DEPLOYMENT_TEST_FAIL });
+    } finally {
+      dispatch(
+        removeLoading(TEST_DEPLOYMENT_TYPES.INTERRUPT_DEPLOYMENT_TEST_REQUEST)
       );
     }
   };
