@@ -27,6 +27,20 @@ export const testDeploymentReducer = (state = initialState, action = {}) => {
       };
     }
 
+    case TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_SUCCESS: {
+      return {
+        ...state,
+        dataset: payload.dataset,
+      };
+    }
+
+    case TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_FAIL: {
+      return {
+        ...state,
+        dataset: null,
+      };
+    }
+
     default:
       return state;
   }

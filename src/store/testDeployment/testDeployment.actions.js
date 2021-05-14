@@ -77,14 +77,14 @@ export const testDeploymentWithDataset =
       const inferenceResult = hasData ? response.data.data : response.data;
 
       dispatch({
-        type: TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_SUCCESS,
+        type: TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_SUCCESS,
         payload: {
           inferenceResult,
         },
       });
     } catch (e) {
       dispatch({
-        type: TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_FAIL,
+        type: TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_FAIL,
         payload: {
           dataset,
         },
