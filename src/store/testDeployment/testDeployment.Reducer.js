@@ -11,6 +11,7 @@ export const testDeploymentReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
 
   switch (type) {
+    case TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_SUCCESS:
     case TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_SUCCESS: {
       return {
         ...state,
@@ -24,6 +25,13 @@ export const testDeploymentReducer = (state = initialState, action = {}) => {
         deployId: payload.deployId,
         file: payload.file,
         inferenceResult: null,
+      };
+    }
+
+    case TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_FAIL: {
+      return {
+        ...state,
+        dataset: payload.dataset,
       };
     }
 
