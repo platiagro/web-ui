@@ -1,156 +1,46 @@
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
-import { useParams } from 'react-router-dom';
-
-// UI LIBS
-import { DeleteOutlined, ProfileOutlined } from '@ant-design/icons';
 import { Badge, Button, Divider, Popconfirm, Tooltip, Typography } from 'antd';
+import {
+  FundOutlined,
+  DeleteOutlined,
+  ProfileOutlined,
+} from '@ant-design/icons';
 
-// COMPONENTS
 import { CommonTable } from 'components';
-import { UploadInferenceTestButton } from 'components/Buttons';
+import { DEPLOYMENT_STATUS } from 'configs';
 
-// STYLES
-import './style.less';
+const statusToBadge = {
+  [DEPLOYMENT_STATUS.FAILED]: 'error',
+  [DEPLOYMENT_STATUS.RUNNING]: 'processing',
+  [DEPLOYMENT_STATUS.PENDING]: 'processing',
+  [DEPLOYMENT_STATUS.SUCCEEDED]: 'success',
+};
 
-// TYPOGRAPHY COMPONENTS
-const { Paragraph } = Typography;
+const statusTextToPortuguese = {
+  [DEPLOYMENT_STATUS.FAILED]: 'Falhou',
+  [DEPLOYMENT_STATUS.RUNNING]: 'Em implantação',
+  [DEPLOYMENT_STATUS.PENDING]: 'Em implantação',
+  [DEPLOYMENT_STATUS.SUCCEEDED]: 'Sucesso',
+};
 
-/**
- * Deployments Table.
- * This component is responsible for displaying deployments table.
- *
- * @param {object} props Component props
- * @returns {DeploymentsTable} React Component
- */
-const DeploymentsTable = (props) => {
-  const {
-    deployments,
-    loading,
-    onDeleteDeployment,
-    onOpenLog,
-    onTestInference,
-    selectedExperiment,
-  } = props;
-
-  const { projectId } = useParams();
-
-  // convert status to badge icon
-  const statusToBadge = {
-    Failed: 'error',
-    Running: 'processing',
-    Pending: 'processing',
-    Succeeded: 'success',
-  };
-
-  // convert status text to portuguese
-  const statusTextToPortuguese = {
-    Failed: 'Falhou',
-    Running: 'Em implantação',
-    Pending: 'Em implantação',
-    Succeeded: 'Sucesso',
-  };
-
-  // table columns config
-  const columnsConfig = [
-    {
-      title: <strong>Status</strong>,
-      dataIndex: 'status',
-      key: 'status',
-      width: '12%',
-      render: (value) => (
-        <Badge
-          status={statusToBadge[value]}
-          text={statusTextToPortuguese[value]}
-        />
-      ),
-    },
-    {
-      title: <strong>Nome</strong>,
-      dataIndex: 'name',
-      key: 'name',
-      width: '18%',
-    },
-    {
-      title: <strong>URL</strong>,
-      dataIndex: 'url',
-      key: 'url',
-      width: '35%',
-      render: (value) => (
-        <Tooltip title={value}>
-          <Paragraph copyable ellipsis>
-            {value}
-          </Paragraph>
-        </Tooltip>
-      ),
-    },
-    {
-      title: <strong>Data de criação</strong>,
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      width: '20%',
-      render: (value) => new Date(value).toLocaleString(),
-    },
-    {
-      title: <strong>Ações</strong>,
-      dataIndex: 'action',
-      key: 'action',
-      width: '15%',
-      render: (value, record) => (
-        <>
-          <UploadInferenceTestButton
-            disabled={
-              record.status === 'Failed' ||
-              record.status === 'Running' ||
-              record.status === 'Pending'
-            }
-            handleUpload={(file) =>
-              onTestInference(projectId, record.uuid, file)
-            }
-          />{' '}
-          <Divider type='vertical' />
-          <Tooltip placement='bottom' title='Ver logs'>
-            <Button
-              disabled={record.status === 'Running'}
-              onClick={() => onOpenLog(record.uuid)}
-              size='large'
-              style={{ padding: 0 }}
-              type='link'
-            >
-              <ProfileOutlined />
-            </Button>
-          </Tooltip>
-          <Divider type='vertical' />
-          <Popconfirm
-            placement='left'
-            title='Você tem certeza que deseja excluir essa implantação?'
-            okText='Sim'
-            cancelText='Não'
-            onConfirm={() => onDeleteDeployment(record.uuid)}
-          >
-            <Tooltip placement='bottom' title='Excluir'>
-              <Button size='large' style={{ padding: 0 }} type='link'>
-                <DeleteOutlined />
-              </Button>
-            </Tooltip>
-          </Popconfirm>
-        </>
-      ),
-    },
-  ];
-
-  // RENDER
+const DeploymentsTable = ({
+  loading,
+  deployments,
+  selectedExperiment,
+  onOpenLog,
+  onDeleteDeployment,
+  handleShowMonitoringDrawer,
+}) => {
   return (
     <CommonTable
-      columns={columnsConfig}
-      dataSource={deployments}
+      rowKey={(uuid) => uuid}
       isLoading={loading}
-      locale={{
-        emptyText: 'Nenhum fluxo implantado',
-      }}
+      dataSource={deployments}
       pagination={{ pageSize: 10 }}
+      locale={{
+        emptyText: 'Nenhum Fluxo Implantado',
+      }}
       rowClassName={(record) => {
         if (selectedExperiment) {
           return record.experimentId === selectedExperiment
@@ -160,32 +50,113 @@ const DeploymentsTable = (props) => {
           return '';
         }
       }}
-      rowKey={(record) => {
-        if (record.experimentId) {
-          return record.experimentId;
-        } else {
-          return uuidv4();
-        }
-      }}
+      columns={[
+        {
+          title: <strong>Status</strong>,
+          dataIndex: 'status',
+          key: 'status',
+          width: '12%',
+          render(value) {
+            return (
+              <Badge
+                status={statusToBadge[value]}
+                text={statusTextToPortuguese[value]}
+              />
+            );
+          },
+        },
+        {
+          title: <strong>Nome</strong>,
+          dataIndex: 'name',
+          key: 'name',
+          width: '18%',
+        },
+        {
+          title: <strong>URL</strong>,
+          dataIndex: 'url',
+          key: 'url',
+          width: '35%',
+          render(value) {
+            return (
+              <Tooltip title={value}>
+                <Typography.Paragraph style={{ margin: 0 }} copyable ellipsis>
+                  {value}
+                </Typography.Paragraph>
+              </Tooltip>
+            );
+          },
+        },
+        {
+          title: <strong>Data de criação</strong>,
+          dataIndex: 'createdAt',
+          key: 'createdAt',
+          width: '20%',
+          render: (value) => new Date(value).toLocaleString(),
+        },
+        {
+          title: <strong>Ações</strong>,
+          dataIndex: 'action',
+          key: 'action',
+          width: '15%',
+          render(_, record) {
+            return (
+              <>
+                <Tooltip placement='bottom' title='Ver Monitoramentos'>
+                  <Button
+                    onClick={handleShowMonitoringDrawer}
+                    style={{ padding: 0 }}
+                    size='large'
+                    type='link'
+                  >
+                    <FundOutlined />
+                  </Button>
+                </Tooltip>
+
+                <Divider type='vertical' />
+
+                <Tooltip placement='bottom' title='Ver Logs'>
+                  <Button
+                    disabled={record.status === DEPLOYMENT_STATUS.RUNNING}
+                    onClick={() => onOpenLog(record.uuid)}
+                    style={{ padding: 0 }}
+                    size='large'
+                    type='link'
+                  >
+                    <ProfileOutlined />
+                  </Button>
+                </Tooltip>
+
+                <Divider type='vertical' />
+
+                <Popconfirm
+                  okText='Sim'
+                  cancelText='Não'
+                  placement='left'
+                  onConfirm={() => onDeleteDeployment(record.uuid)}
+                  title='Você tem certeza que deseja excluir esta implantação?'
+                >
+                  <Tooltip placement='bottom' title='Excluir'>
+                    <Button style={{ padding: 0 }} size='large' type='link'>
+                      <DeleteOutlined />
+                    </Button>
+                  </Tooltip>
+                </Popconfirm>
+              </>
+            );
+          },
+        },
+      ]}
     />
   );
 };
 
-// PROP TYPES
 DeploymentsTable.propTypes = {
-  /** delete deployment handle */
-  onDeleteDeployment: PropTypes.func.isRequired,
-  /** open log handle */
-  onOpenLog: PropTypes.func.isRequired,
-  /** test inference handle */
-  onTestInference: PropTypes.func.isRequired,
-  /** deployments list */
-  deployments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** table is loading */
   loading: PropTypes.bool.isRequired,
-  /** selected experiment */
   selectedExperiment: PropTypes.string,
+  deployments: PropTypes.array.isRequired,
+  onOpenLog: PropTypes.func.isRequired,
+  onDeleteDeployment: PropTypes.func.isRequired,
+  handleShowMonitoringDrawer: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default DeploymentsTable;

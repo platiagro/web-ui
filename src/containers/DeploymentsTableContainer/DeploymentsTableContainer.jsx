@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import DeploymentsTable from 'components/DeploymentsTable';
 
@@ -9,8 +9,6 @@ import {
   deleteDeploymentRequest,
   fetchDeploymentsRequest,
 } from 'store/deployments/actions';
-
-import { testDeploymentWithFile } from 'store/testDeployment';
 
 const deploymentsSelector = ({ deploymentsReducer }) => {
   const deployments = deploymentsReducer || [];
@@ -27,18 +25,8 @@ const DeploymentsTableContainer = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
-    // first get: when component has mounted
-    // show loading effect (skeleton)
-    dispatch(fetchDeploymentsRequest(projectId, true));
-
-    const polling = setInterval(
-      // the following requests, there is no need to show skeleton
-      () => dispatch(fetchDeploymentsRequest(projectId, false)),
-      5000
-    );
-    return () => clearInterval(polling);
-  }, [dispatch, projectId]);
+  const deployments = useSelector(deploymentsSelector);
+  const isLoading = useSelector(isLoadingSelector);
 
   const handleDeleteDeployment = (deploymentId) => {
     dispatch(deleteDeploymentRequest(projectId, deploymentId));
@@ -48,28 +36,25 @@ const DeploymentsTableContainer = () => {
     dispatch(getDeployExperimentLogs(projectId, deploymentId));
   };
 
-  const handleTestImplantedExperimentInference = (
-    currentProjectId,
-    deploymentId,
-    file
-  ) => {
-    dispatch(testDeploymentWithFile(currentProjectId, deploymentId, file));
-  };
+  useLayoutEffect(() => {
+    dispatch(fetchDeploymentsRequest(projectId, true));
 
-  const deployments = useSelector(deploymentsSelector);
+    const polling = setInterval(
+      () => dispatch(fetchDeploymentsRequest(projectId, false)),
+      5000
+    );
 
-  const isLoading = useSelector(isLoadingSelector);
+    return () => clearInterval(polling);
+  }, [dispatch, projectId]);
 
   return (
-    <div className='deploymentsTableContainer'>
-      <DeploymentsTable
-        deployments={deployments}
-        loading={isLoading}
-        onDeleteDeployment={handleDeleteDeployment}
-        onOpenLog={handleOpenLog}
-        onTestInference={handleTestImplantedExperimentInference}
-      />
-    </div>
+    <DeploymentsTable
+      loading={isLoading}
+      deployments={deployments}
+      onOpenLog={handleOpenLog}
+      handleShowMonitoringDrawer={() => {}}
+      onDeleteDeployment={handleDeleteDeployment}
+    />
   );
 };
 
