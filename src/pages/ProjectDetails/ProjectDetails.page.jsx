@@ -7,9 +7,11 @@ import {
   Selectors as projectsSelectors,
 } from 'store/projects';
 
-import HeaderProjectDetailsContainer from 'containers/HeaderProjectDetailsContainer';
-import TasksMenuDetailsContainer from 'containers/TasksMenuDetailsContainer';
-import ProjectDetailsContainer from 'containers/ProjectDetailsContainer';
+import {
+  HeaderProjectDetailsContainer,
+  TasksMenuDetailsContainer,
+  ProjectDetailsContainer,
+} from 'containers';
 
 import './ProjectDetails.style.less';
 

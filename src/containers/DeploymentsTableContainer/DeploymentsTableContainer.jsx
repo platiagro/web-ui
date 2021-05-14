@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,7 +22,7 @@ const isLoadingSelector = ({ uiReducer }) => {
   return uiReducer.implantedExperiments.loading;
 };
 
-const DeploymentsTableContainer = () => {
+const DeploymentsTableContainer = ({ handleShowMonitoringDrawer }) => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
@@ -52,10 +53,14 @@ const DeploymentsTableContainer = () => {
       loading={isLoading}
       deployments={deployments}
       onOpenLog={handleOpenLog}
-      handleShowMonitoringDrawer={() => {}}
       onDeleteDeployment={handleDeleteDeployment}
+      handleShowMonitoringDrawer={handleShowMonitoringDrawer}
     />
   );
+};
+
+DeploymentsTableContainer.propTypes = {
+  handleShowMonitoringDrawer: PropTypes.func.isRequired,
 };
 
 export default DeploymentsTableContainer;

@@ -93,8 +93,10 @@ const MonitoringPanelContainer = () => {
       )}
 
       <MonitoringDrawerContainer
+        projectId={projectId}
+        deploymentId={deploymentId}
         isShowingDrawer={isShowingDrawer}
-        handleToggleDrawer={handleToggleDrawer}
+        handleHideDrawer={handleToggleDrawer}
       />
 
       <NewMonitoringModalContainer

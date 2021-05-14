@@ -34,7 +34,7 @@ const DeploymentsTable = ({
 }) => {
   return (
     <CommonTable
-      rowKey={(uuid) => uuid}
+      rowKey={({ uuid }) => uuid}
       isLoading={loading}
       dataSource={deployments}
       pagination={{ pageSize: 10 }}
@@ -103,7 +103,7 @@ const DeploymentsTable = ({
               <>
                 <Tooltip placement='bottom' title='Ver Monitoramentos'>
                   <Button
-                    onClick={handleShowMonitoringDrawer}
+                    onClick={() => handleShowMonitoringDrawer(record.uuid)}
                     style={{ padding: 0 }}
                     size='large'
                     type='link'

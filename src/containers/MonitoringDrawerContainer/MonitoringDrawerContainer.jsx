@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -18,8 +17,12 @@ const deploymentSelector =
     return deploymentsReducer.find(({ uuid }) => uuid === deploymentId);
   };
 
-const MonitoringDrawerContainer = ({ isShowingDrawer, handleToggleDrawer }) => {
-  const { projectId, deploymentId } = useParams();
+const MonitoringDrawerContainer = ({
+  projectId,
+  deploymentId,
+  isShowingDrawer,
+  handleToggleDrawer,
+}) => {
   const dispatch = useDispatch();
 
   const deployment = useSelector(deploymentSelector(deploymentId));
@@ -76,6 +79,8 @@ const MonitoringDrawerContainer = ({ isShowingDrawer, handleToggleDrawer }) => {
 };
 
 MonitoringDrawerContainer.propTypes = {
+  projectId: PropTypes.string.isRequired,
+  deploymentId: PropTypes.string.isRequired,
   isShowingDrawer: PropTypes.bool.isRequired,
   handleToggleDrawer: PropTypes.func.isRequired,
 };
