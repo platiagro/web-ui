@@ -1,7 +1,8 @@
-import actionTypes from './actionTypes';
+import * as MONITORINGS_TYPES from './monitorings.actionTypes';
 
-const initialState = {
+export const initialState = {
   monitorings: [],
+  figures: {},
 };
 
 /**
@@ -11,39 +12,38 @@ const initialState = {
  * @param {object} action Action
  * @returns {object} New state
  */
-const monitoringsReducer = (state = initialState, action = {}) => {
+export const monitoringsReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
 
   switch (type) {
-    case actionTypes.FETCH_MONITORINGS_SUCCESS: {
+    case MONITORINGS_TYPES.FETCH_MONITORINGS_SUCCESS: {
       return {
         ...state,
         monitorings: payload.monitorings,
       };
     }
 
-    case actionTypes.CLEAR_ALL_MONITORINGS:
-    case actionTypes.FETCH_MONITORINGS_FAIL: {
+    case MONITORINGS_TYPES.CLEAR_ALL_MONITORINGS:
+    case MONITORINGS_TYPES.FETCH_MONITORINGS_FAIL: {
       return {
         ...state,
         monitorings: [],
       };
     }
 
-    case actionTypes.CREATE_MONITORINGS_SUCCESS: {
+    case MONITORINGS_TYPES.CREATE_MONITORINGS_SUCCESS: {
       return {
         ...state,
         monitorings: [...state.monitorings, ...payload.monitorings],
       };
     }
 
-    case actionTypes.DELETE_MONITORINGS_SUCCESS: {
+    case MONITORINGS_TYPES.DELETE_MONITORINGS_SUCCESS: {
       const monitoringsClone = [...state.monitorings];
       const indexToDelete = monitoringsClone.findIndex((monitoring) => {
         return monitoring.uuid === payload.monitoringId;
       });
 
-      // Remove item from array
       monitoringsClone.splice(indexToDelete, 1);
 
       return {
@@ -52,9 +52,17 @@ const monitoringsReducer = (state = initialState, action = {}) => {
       };
     }
 
+    case MONITORINGS_TYPES.FETCH_MONITORING_FIGURES_SUCCESS: {
+      return {
+        ...state,
+        figures: {
+          ...state.figures,
+          [payload.monitoringId]: payload.figures,
+        },
+      };
+    }
+
     default:
       return state;
   }
 };
-
-export default monitoringsReducer;

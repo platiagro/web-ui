@@ -1,0 +1,1 @@
+export const ADD_CARD_KEY = '@MONITORING_DRAWER/ADD_CARD_KEY';

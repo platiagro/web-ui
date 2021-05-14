@@ -949,29 +949,6 @@ export const newDeploymentModalEndLoading = () => {
 
 // // // // // // // // // // // // // //
 
-export const setLoadingMonitorings = (loading = false) => {
-  return {
-    type: actionTypes.SET_LOADING_MONITORINGS,
-    loading,
-  };
-};
-
-export const setCreatingMonitoring = (creating = false) => {
-  return {
-    type: actionTypes.SET_CREATING_MONITORING,
-    creating,
-  };
-};
-
-export const setDeletingMonitoring = (deleting = false) => {
-  return {
-    type: actionTypes.SET_DELETING_MONITORING,
-    deleting,
-  };
-};
-
-// // // // // // // // // // // // // //
-
 export const showLogsPanel = () => {
   return {
     type: actionTypes.SHOW_LOGS_PANEL,

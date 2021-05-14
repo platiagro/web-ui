@@ -1,0 +1,142 @@
+.monitoring-drawer-item {
+  margin: 0 !important;
+  height: 100%;
+  width: 100%;
+
+  .monitoring-drawer-item-header {
+    display: flex;
+    align-items: center;
+
+    .monitoring-drawer-item-drag-indicator {
+      margin-right: 24px;
+      font-size: 16px;
+
+      svg {
+        fill: #595959;
+      }
+    }
+
+    .monitoring-drawer-item-title {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .monitoring-drawer-item-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .monitoring-drawer-item-filter-button,
+      .monitoring-drawer-item-more-button {
+        margin-left: 8px;
+        border: none;
+      }
+
+      .monitoring-drawer-item-more-button {
+        margin-right: 4px;
+      }
+
+      .monitoring-drawer-item-filter-button-selected {
+        color: #1890ff;
+        background: rgba(24, 144, 255, 0.1);
+      }
+
+      .monitoring-drawer-item-has-filters {
+        position: relative;
+
+        .blue-dot {
+          position: absolute;
+          top: 1.5px;
+          right: 1.5px;
+          width: 6px;
+          height: 6px;
+          border-radius: 100%;
+          background: #1890ff;
+        }
+      }
+    }
+  }
+
+  .monitoring-drawer-item-content {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+
+    .monitoring-drawer-item-placeholder {
+      padding: 16px;
+      height: 100%;
+    }
+
+    .monitoring-drawer-item-tabs {
+      .ant-tabs-nav {
+        padding: 0 24px;
+        margin-bottom: 0;
+      }
+
+      .monitoring-drawer-item-iframe-container {
+        border-bottom: 1px solid #f0f0f0;
+
+        iframe {
+          border: none;
+          display: block;
+          width: 100%;
+          height: 384px;
+        }
+      }
+    }
+
+    .monitoring-drawer-item-filters {
+      position: absolute;
+
+      .ant-drawer-content-wrapper {
+        box-shadow: none;
+      }
+
+      .ant-drawer-close {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .monitoring-drawer-item-filters-title {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+
+        > *:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
+
+      .monitoring-drawer-item-filters-content {
+        height: 100%;
+      }
+
+      .monitoring-drawer-item-filters-footer {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        padding: 8px 16px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: color 0.2s ease-in-out;
+        background: white;
+        text-decoration: underline;
+
+        > *:not(:last-child) {
+          margin-right: 8px;
+        }
+
+        &:hover,
+        &:focus {
+          color: #1890ff;
+        }
+      }
+    }
+  }
+}
