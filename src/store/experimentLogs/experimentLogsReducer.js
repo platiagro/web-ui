@@ -10,6 +10,7 @@ const experimentLogsReducer = (state = initialState, action = {}) => {
     case actionTypes.GET_EXPERIMENT_LOGS_SUCCESS:
       return { ...state, logs: action.payload.logs };
 
+    case actionTypes.CLEAR_ALL_EXPERIMENT_LOGS:
     case actionTypes.GET_EXPERIMENT_LOGS_FAIL:
       return { ...state, logs: [] };
 

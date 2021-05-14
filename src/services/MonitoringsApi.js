@@ -4,6 +4,10 @@ export const monitoringsApi = axios.create({
   baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080',
 });
 
+const getBaseUrl = (projectId, deploymentId) => {
+  return `projects/${projectId}/deployments/${deploymentId}/monitorings`;
+};
+
 /**
  * Returns monitorings from the API
  *
@@ -12,7 +16,7 @@ export const monitoringsApi = axios.create({
  * @returns {Promise} Get Request
  */
 const fetchMonitorings = (projectId, deploymentId) => {
-  const url = `projects/${projectId}/deployments/${deploymentId}/monitorings`
+  const url = getBaseUrl(projectId, deploymentId);
   return monitoringsApi.get(url);
 };
 
@@ -26,9 +30,9 @@ const fetchMonitorings = (projectId, deploymentId) => {
  * @returns {Promise} Post Request
  */
 const createMonitoring = ({ projectId, deploymentId, taskId }) => {
-  const url = `projects/${projectId}/deployments/${deploymentId}/monitorings`
+  const url = getBaseUrl(projectId, deploymentId);
   return monitoringsApi.post(url, {
-    taskId
+    taskId,
   });
 };
 
@@ -42,12 +46,29 @@ const createMonitoring = ({ projectId, deploymentId, taskId }) => {
  * @returns {Promise} Delete Request
  */
 const deleteMonitoring = ({ projectId, deploymentId, monitoringId }) => {
-  const url = `projects/${projectId}/deployments/${deploymentId}/monitorings/${monitoringId}`
+  const baseUrl = getBaseUrl(projectId, deploymentId);
+  const url = `${baseUrl}/${monitoringId}`;
   return monitoringsApi.delete(url);
+};
+
+/**
+ * Fetch monitoring figures
+ *
+ * @param {object} requestData Request data
+ * @param {string} requestData.projectId Project ID
+ * @param {string} requestData.deploymentId Deployment ID
+ * @param {string} requestData.monitoringId Monitoring ID
+ * @returns {Promise} API Request
+ */
+const fetchMonitoringFigures = ({ projectId, deploymentId, monitoringId }) => {
+  const baseUrl = getBaseUrl(projectId, deploymentId);
+  const url = `${baseUrl}/${monitoringId}/figures`;
+  return monitoringsApi.get(url);
 };
 
 export default {
   fetchMonitorings,
   createMonitoring,
   deleteMonitoring,
+  fetchMonitoringFigures,
 };

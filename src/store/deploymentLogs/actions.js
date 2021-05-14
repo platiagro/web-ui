@@ -1,23 +1,13 @@
-// UI LIB
-import { message } from 'antd';
-
-// ACTION TYPES
-import actionTypes from './actionTypes';
-
-// ACTIONS
 import {
   showInferenceLogsDrawer,
   inferenceLogsDrawerLoadingData,
   inferenceLogsDrawerDataLoaded,
-} from '../ui/actions';
-
-// SERVICES
+} from 'store/ui/actions';
 import deploymentsApi from 'services/DeploymentRunsApi';
-
-// UTILS
 import utils from 'utils';
 
-const { getErrorMessage } = utils;
+import actionTypes from './actionTypes';
+import { showError } from 'store/message';
 
 /**
  * Get logs of implanted experiments (deployment logs)
@@ -31,24 +21,36 @@ export const getDeployExperimentLogs = (
   projectId,
   deployId,
   shouldShowLogsDrawer = true
-) => (dispatch) => {
-  if (shouldShowLogsDrawer) dispatch(showInferenceLogsDrawer('Logs'));
-  dispatch(inferenceLogsDrawerLoadingData());
+) => async (dispatch) => {
+  try {
+    if (shouldShowLogsDrawer) dispatch(showInferenceLogsDrawer('Logs'));
+    dispatch(inferenceLogsDrawerLoadingData());
 
-  deploymentsApi
-    .fetchDeploymentRunLogs(projectId, deployId, 'latest')
-    .then((response) => {
-      dispatch({
-        type: actionTypes.GET_DEPLOYMENT_LOGS,
-        payload: response.data?.logs || [],
-      });
-      dispatch(inferenceLogsDrawerDataLoaded());
-    })
-    .catch((error) => {
-      dispatch({
-        type: actionTypes.GET_DEPLOYMENT_LOGS_FAIL,
-      });
-      message.error(getErrorMessage(error));
-      dispatch(inferenceLogsDrawerDataLoaded());
+    const response = await deploymentsApi.fetchDeploymentRunLogs(
+      projectId,
+      deployId,
+      'latest'
+    );
+
+    dispatch({
+      type: actionTypes.GET_DEPLOYMENT_LOGS,
+      payload: response.data?.logs || [],
     });
+  } catch (e) {
+    dispatch({ type: actionTypes.GET_DEPLOYMENT_LOGS_FAIL });
+    dispatch(showError(utils.etErrorMessage(e)));
+  } finally {
+    dispatch(inferenceLogsDrawerDataLoaded());
+  }
+};
+
+/**
+ * CLear all deployment logs
+ *
+ * @returns {object} Action
+ */
+export const clearAllDeploymentLogs = () => {
+  return {
+    type: actionTypes.CLEAR_ALL_DEPLOYMENT_LOGS,
+  };
 };

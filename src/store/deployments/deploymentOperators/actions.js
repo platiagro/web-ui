@@ -89,3 +89,14 @@ export const fetchOperatorsRequest = (projectId, deploymentId) => async (
     dispatch(deploymentsTabsDataLoaded());
   }
 };
+
+/**
+ * CLear all deployment operators from DeploymentOperators reducer
+ *
+ * @returns {object} Action
+ */
+export const clearAllDeploymentOperators = () => {
+  return {
+    type: actionTypes.CLEAR_ALL_DEPLOYMENT_OPERATORS,
+  };
+};
