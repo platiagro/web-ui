@@ -71,7 +71,7 @@ const ExperimentHeaderContainer = () => {
 
   return (
     <ExperimentHeader
-      title={experiment.name}
+      title={experiment?.name}
       empty={operators.length <= 0}
       loading={loading}
       operator={operator}

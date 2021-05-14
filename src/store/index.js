@@ -7,7 +7,6 @@ import deploymentOperatorReducer from './deployments/deploymentOperator/deployme
 import deploymentOperatorsReducer from './deployments/deploymentOperators/deploymentOperatorsReducer';
 import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsReducer';
 import Projects from './projects';
-import projectDeploymentsReducer from './projectDeployments/projectDeploymentsReducer';
 import experimentRunReducer from './projects/experiments/experimentRuns/experimentRunsReducer';
 import operatorsReducer from './operators/operatorsReducer';
 import operatorReducer from './operator/operatorReducer';
@@ -18,11 +17,11 @@ import datasetReducer from './dataset/datasetReducer';
 import datasetsReducer from './datasets/datasetsReducer';
 import deploymentLogsReducer from './deploymentLogs/deploymentLogsReducer';
 import jupyterLabReducer from './jupyterLab/jupyterLabReducer';
-import monitoringsReducer from './monitorings/monitoringsReducer';
 import experimentLogsReducer from './experimentLogs/experimentLogsReducer';
 import { tasksReducer } from './tasks';
 import { loadingReducer } from './loading';
 import { testDeploymentReducer } from './testDeployment';
+import { monitoringsReducer } from './monitorings';
 
 const reducers = combineReducers({
   compareResultsReducer,
@@ -31,7 +30,6 @@ const reducers = combineReducers({
   deploymentOperatorsReducer,
   deploymentRunsReducer,
   Projects,
-  projectDeploymentsReducer,
   experimentRunReducer,
   operatorsReducer,
   operatorReducer,

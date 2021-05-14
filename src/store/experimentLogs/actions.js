@@ -68,3 +68,12 @@ export const getExperimentLogs = (projectId, experimentId) => async (
     dispatch(setIsLoadingLogs(false));
   }
 };
+
+/**
+ * Clear all experiment logs
+ *
+ * @returns {object} Action
+ */
+export const clearAllExperimentLogs = () => ({
+  type: actionTypes.CLEAR_ALL_EXPERIMENT_LOGS,
+});

@@ -25,10 +25,8 @@ const MonitoringToolbar = ({
   handleTogglePanel,
   isDeleting,
 }) => {
-  const [
-    isShowingDeleteConfirmation,
-    setIsShowingDeleteConfirmation,
-  ] = useState(false);
+  const [isShowingDeleteConfirmation, setIsShowingDeleteConfirmation] =
+    useState(false);
 
   const handleToggleDeleteConfirmation = () => {
     setIsShowingDeleteConfirmation((isShowing) => !isShowing);
@@ -77,7 +75,7 @@ const MonitoringToolbar = ({
             handleClick={handleSeeMonitoring}
           >
             <span className='monitoring-toolbar-button-text'>
-              Ver Monitoramento
+              Ver Monitoramentos
             </span>
           </Button>
         </>
@@ -115,7 +113,7 @@ const MonitoringToolbar = ({
         className='monitoring-toolbar-toggle-button'
         shape='circle'
         type='ghost'
-        icon={isShowingPanel ? <UpOutlined /> : <DownOutlined />}
+        icon={isShowingPanel ? <DownOutlined /> : <UpOutlined />}
         handleClick={handleTogglePanel}
       ></Button>
     </div>

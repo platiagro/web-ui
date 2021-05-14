@@ -5,7 +5,6 @@ import actionTypes from './actionTypes';
 import { Actions as experimentsActionTypes } from 'store/projects/experiments';
 import experimentRunsActionTypes from 'store/projects/experiments/experimentRuns/actionTypes';
 import { PROJECTS_TYPES } from 'store/projects';
-import projectDeploymentstActionTypes from 'store/projectDeployments/actionTypes';
 
 // INITIAL STATE
 const initialState = {
@@ -71,7 +70,6 @@ const initialState = {
   },
   prepareDeployments: { loading: false },
   externalDatasetHelperModal: { visible: false },
-  monitorings: { loading: false, creating: false, deleting: false },
   logsPanel: { isShowing: false },
 };
 
@@ -314,15 +312,6 @@ const uiReducer = (state = initialState, action = undefined) => {
           modalVisible: action.visible,
           modalErrorMessage: null,
           modalValidateStatus: null,
-        },
-      };
-    case projectDeploymentstActionTypes.CREATE_DEPLOYMENT_FAILURE:
-      return {
-        ...state,
-        deploymentsTabs: {
-          ...state.deploymentsTabs,
-          modalErrorMessage: action.errorMessage,
-          modalValidateStatus: 'error',
         },
       };
 
@@ -605,33 +594,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         prepareDeployments: {
           ...state.prepareDeployments,
           loading: action.prepareDeploymentsLoading,
-        },
-      };
-
-    case actionTypes.SET_LOADING_MONITORINGS:
-      return {
-        ...state,
-        monitorings: {
-          ...state.monitorings,
-          loading: action.loading,
-        },
-      };
-
-    case actionTypes.SET_CREATING_MONITORING:
-      return {
-        ...state,
-        monitorings: {
-          ...state.monitorings,
-          creating: action.creating,
-        },
-      };
-
-    case actionTypes.SET_DELETING_MONITORING:
-      return {
-        ...state,
-        monitorings: {
-          ...state.monitorings,
-          deleting: action.deleting,
         },
       };
 

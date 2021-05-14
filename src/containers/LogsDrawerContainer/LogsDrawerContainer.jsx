@@ -1,11 +1,7 @@
-// CORE LIBS
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// COMPONENTS
 import { LogsDrawer } from 'components';
-
-// ACTIONS
 import { hideInferenceLogsDrawer } from 'store/ui/actions';
 
 const logsSelector = ({ deploymentLogsReducer }) => {
@@ -47,5 +43,4 @@ const LogsDrawerContainer = () => {
   );
 };
 
-// EXPORT
 export default LogsDrawerContainer;
