@@ -8,10 +8,7 @@ import actionTypes from './actionTypes';
 import experimentRunsApi from 'services/ExperimentRunsApi';
 import operatorsApi from 'services/OperatorsApi';
 
-import {
-  getExperiments,
-  getExperiment,
-} from 'store/projects/experiments/experiments.selectors';
+import { getExperiments } from 'store/projects/experiments/experiments.selectors';
 import { getProjects } from 'store/projects/projects.selectors';
 import { showError, showSuccess } from 'store/message';
 
@@ -286,7 +283,7 @@ const fetchExperimentRunStatusSuccess =
         const operatorIsRunning =
           operator.status === 'Running' ||
           operator.status === 'Pending' ||
-          oldOperators[0].experimentIsRunning;
+          oldOperators[0]?.experimentIsRunning;
 
         if (operatorIsRunning) {
           isRunning = true;
