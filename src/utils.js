@@ -488,12 +488,11 @@ const configureOperators = (tasks, operators, datasetColumns) => {
     const settedUp = checkOperatorSettedUp(operator);
 
     return {
-      ...operator,
       ...restTaskData,
+      ...operator,
       parameters,
       settedUp,
       selected: false,
-      status: operator.status,
       tags,
     };
   });
