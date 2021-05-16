@@ -295,7 +295,7 @@ const getTaskData = (tasks, taskId, task = undefined) => {
 
   if (tasks && tasks.length > 0 && taskId) {
     // getting tasks data
-    const taskData = tasks.find((task) => task.uuid === taskId);
+    const taskData = tasks.find((taskItem) => taskItem.uuid === taskId);
     const {
       name,
       tags,
