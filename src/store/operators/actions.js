@@ -7,7 +7,6 @@ import actionTypes from './actionTypes';
 // SERVICES
 import datasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
-import tasksApi from 'services/TasksApi';
 
 // UI ACTIONS
 import {
@@ -90,9 +89,6 @@ export const fetchOperatorsRequest =
     dispatch(resultsButtonBarLoadingData());
 
     try {
-      // getting tasks
-      const tasksResponse = await tasksApi.getAllTasks();
-      const tasks = tasksResponse.data.tasks;
       // getting operators
       const operatorsResponse = await operatorsApi.listOperators(
         projectId,
@@ -101,7 +97,7 @@ export const fetchOperatorsRequest =
       const operators = operatorsResponse.data.operators;
 
       // getting dataset columns
-      const datasetName = utils.getDatasetName(tasks, operators);
+      const datasetName = utils.getDatasetName(undefined, operators);
       let datasetColumns = [];
       if (datasetName) {
         const response = await datasetsApi.listDatasetColumns(datasetName);
@@ -110,7 +106,7 @@ export const fetchOperatorsRequest =
 
       // configuring operators
       let configuredOperators = utils.configureOperators(
-        tasks,
+        undefined,
         operators,
         datasetColumns
       );
