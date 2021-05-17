@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
+import { Button } from 'antd';
 import PropTypes from 'prop-types';
-import { Button, Input } from 'antd';
 import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 
 import utils from 'utils';
 import { CommonTable } from 'components';
 
+import DeploymentTestResultModalData from './DeploymentTestResultModalData';
 import InferenceTestResultModalError from './DeploymentTestResultModalError';
 
 const DeploymentTestResultModalContent = ({
@@ -54,8 +55,8 @@ const DeploymentTestResultModalContent = ({
           isLoading={false}
           columns={columns}
           dataSource={dataSource}
+          rowKey={({ key }) => key}
           scroll={{ x: 800, y: 250 }}
-          rowKey={() => `${Math.random()}`}
           pagination={{
             defaultPageSize: 10,
             showSizeChanger: true,
@@ -64,38 +65,14 @@ const DeploymentTestResultModalContent = ({
         />
       ) : (
         <div className='container-difference'>
-          {utils.isSupportedBinaryData(testResult) ? (
-            <>
-              {utils.isImage(testResult) ? (
-                <img
-                  src={utils.formatBase64(testResult)}
-                  alt='predict-response'
-                  className='image-difference'
-                  style={{ maxWidth: '100%' }}
-                />
-              ) : (
-                <video src={testResult.binData} controls>
-                  <track default kind='captions' />
-                </video>
-              )}
-            </>
-          ) : (
-            <div className='iterative-prediction'>
-              <h3>Resposta do Modelo</h3>
-
-              <Input.TextArea
-                disabled={true}
-                defaultValue={testResult.binData ?? testResult.strData}
-              />
-            </div>
-          )}
+          <DeploymentTestResultModalData testResult={testResult} />
         </div>
       )}
 
       <div className='predict-options-buttons'>
         <Button
-          icon={<CopyOutlined />}
           type='primary'
+          icon={<CopyOutlined />}
           style={{ margin: '6px 6px 0px 0px' }}
           onClick={() => utils.copyToClipboard(testResult)}
         >
