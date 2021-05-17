@@ -235,6 +235,7 @@ const fetchExperimentRunStatusSuccess =
     const { changeExperimentSucceededStatus, changeProjectExperiments } = utils;
 
     const operators = response.data.operators;
+    const { operatorsReducer: oldOperators } = state;
 
     const hasOperators = operators.length > 0;
 
@@ -269,15 +270,29 @@ const fetchExperimentRunStatusSuccess =
 
     if (!stoppedRun) {
       operators.forEach((operator) => {
+        /**
+         * Verificamos também se algum operador da store possuí o atributo
+         * experimentIsRunning como positivo.
+         *
+         * Esse atributo serve para validar que um experimento foi bem sucedido,
+         * e o último estado dele era running.
+         *
+         * Dessa forma conseguimos exibir a mensagem de treinamento concluído
+         * apenas uma vez, quando o experimento for concluído.
+         */
         const operatorIsRunning =
-          operator.status === 'Running' || operator.status === 'Pending';
+          operator.status === 'Running' ||
+          operator.status === 'Pending' ||
+          oldOperators[0]?.experimentIsRunning;
 
-        if (operatorIsRunning) isRunning = true;
+        if (operatorIsRunning) {
+          isRunning = true;
+        }
       });
     }
 
     // experiment run finished successfully
-    if (succeededRun) {
+    if (succeededRun && isRunning) {
       isRunning = false;
 
       const experiments = changeExperimentSucceededStatus(

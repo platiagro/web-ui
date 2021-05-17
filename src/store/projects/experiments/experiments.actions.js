@@ -58,10 +58,12 @@ const createExperimentSuccess =
       payload: { projects: newProjects },
     });
 
-    dispatch(removeLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST));
+    dispatch(activeExperiment(projectId, experiment.uuid));
 
     // go to new experiment
     history.push(`/projetos/${projectId}/experimentos/${experiment.uuid}`);
+
+    dispatch(removeLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST));
 
     dispatch(showSuccess(`Experimento ${experiment.name} criado!`));
   };
