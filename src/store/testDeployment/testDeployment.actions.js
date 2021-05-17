@@ -1,54 +1,51 @@
 import * as TEST_DEPLOYMENT_TYPES from './testDeployment.actionTypes';
 
-import {
-  inferenceTestResultModalLoadingData,
-  inferenceTestResultModalDataLoaded,
-  showInferenceTestResultModal,
-} from 'store/ui/actions';
-
+import { showError } from 'store/message';
 import deploymentsApi from 'services/DeploymentsApi';
 import { addLoading, removeLoading } from 'store/loading';
-import { showError } from 'store/message';
 
 /**
  * Test deployment with a file
  *
  * @param {string} projectId Project Id
- * @param {string} deployId Deployment Id
+ * @param {string} deploymentId Deployment Id
  * @param {object} file File class instance
  * @returns {Function} Dispatch function
  */
 export const testDeploymentWithFile =
-  (projectId, deployId, file) => async (dispatch) => {
+  (projectId, deploymentId, file) => async (dispatch) => {
     try {
-      dispatch(inferenceTestResultModalLoadingData());
-      dispatch(showInferenceTestResultModal());
+      dispatch(
+        addLoading(TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_REQUEST)
+      );
 
       const response = await deploymentsApi.testDeploymentWithFile(
         projectId,
-        deployId,
+        deploymentId,
         file
       );
 
       const hasData = 'data' in response.data;
-      const inferenceResult = hasData ? response.data.data : response.data;
+      const testResult = hasData ? response.data.data : response.data;
 
       dispatch({
         type: TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_SUCCESS,
         payload: {
-          inferenceResult,
+          testResult,
         },
       });
     } catch (e) {
       dispatch({
         type: TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_FAIL,
         payload: {
-          deployId,
+          deploymentId,
           file,
         },
       });
     } finally {
-      dispatch(inferenceTestResultModalDataLoaded());
+      dispatch(
+        removeLoading(TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_REQUEST)
+      );
     }
   };
 
@@ -74,12 +71,12 @@ export const testDeploymentWithDataset =
       );
 
       const hasData = 'data' in response.data;
-      const inferenceResult = hasData ? response.data.data : response.data;
+      const testResult = hasData ? response.data.data : response.data;
 
       dispatch({
         type: TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_SUCCESS,
         payload: {
-          inferenceResult,
+          testResult,
         },
       });
     } catch (e) {

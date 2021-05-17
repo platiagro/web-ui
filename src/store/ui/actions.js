@@ -793,55 +793,6 @@ export const hideDataViewModal = () => {
 };
 
 // // // // // // // // // // // // // //
-//
-//  INFERENCE TEST RESULT MODAL
-/**
- * Show inference test result modal
- *
- * @returns {object} { type, newTemplateModalVisible }
- */
-export const showInferenceTestResultModal = () => {
-  return {
-    type: actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL,
-  };
-};
-
-/**
- * Hide inference test result modal
- *
- * @returns {object} { type, newTemplateModalVisible }
- */
-export const hideInferenceTestResultModal = () => {
-  return {
-    type: actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL,
-  };
-};
-
-/**
- * Inference test result modal loading data
- *
- * @returns {object} { type, inferenceLogsDrawerLoading }
- */
-export const inferenceTestResultModalLoadingData = () => {
-  return {
-    type: actionTypes.EXPERIMENT_INFERENCE_MODAL_LOADING_DATA,
-    inferenceTestResultModalLoading: true,
-  };
-};
-
-/**
- * Inference test result modal data loaded
- *
- * @returns {object} { type, inferenceLogsDrawerLoading }
- */
-export const inferenceTestResultModalDataLoaded = () => {
-  return {
-    type: actionTypes.EXPERIMENT_INFERENCE_MODAL_DATA_LOADED,
-    inferenceTestResultModalLoading: false,
-  };
-};
-
-// // // // // // // // // // // // // //
 // // // // // // // // // //
 
 export const saveFlowTransform = (transform) => {

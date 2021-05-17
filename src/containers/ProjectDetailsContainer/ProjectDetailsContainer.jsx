@@ -1,5 +1,3 @@
-// TODO: Corrigir esses erros (acessibilidade)
-/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -12,11 +10,10 @@ import {
   NewDeploymentModalContainer,
   UsingDeploymentsModalContainer,
   UsingDeploymentsButtonContainer,
-  InferenceTestResultModalContainer,
 } from 'containers';
 import {
   showNewExperimentModal,
-  showNewDeploymentModal as showNewDeploymentModalAction,
+  showNewDeploymentModal,
 } from 'store/ui/actions';
 import { useIsLoading } from 'hooks';
 import Button from 'uiComponents/Button';
@@ -37,7 +34,7 @@ const ProjectDetailsContainer = () => {
   const history = useHistory();
 
   const project = useSelector(projectSelector(projectId));
-  const [clickedDeploymentId, setClickedDeploymentId] = useState('');
+  const [selectedDeploymentId, setSelectedDeploymentId] = useState('');
   const isLoadingProject = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
   const experimentsLength = useMemo(() => {
@@ -50,15 +47,15 @@ const ProjectDetailsContainer = () => {
 
   const handleShowMonitorings = (deploymentId) => {
     dispatch(fetchMonitorings(projectId, deploymentId));
-    setClickedDeploymentId(deploymentId);
+    setSelectedDeploymentId(deploymentId);
   };
 
   const handleHideMonitorings = () => {
-    setClickedDeploymentId('');
+    setSelectedDeploymentId('');
   };
 
   const handleShowNewDeploymentModal = () => {
-    dispatch(showNewDeploymentModalAction());
+    dispatch(showNewDeploymentModal());
   };
 
   const handleNewExperimentModal = () => {
@@ -146,13 +143,12 @@ const ProjectDetailsContainer = () => {
       <NewExperimentModalContainer />
       <NewDeploymentModalContainer />
       <UsingDeploymentsModalContainer />
-      <InferenceTestResultModalContainer />
 
       <MonitoringDrawerContainer
         projectId={projectId}
-        deploymentId={clickedDeploymentId}
-        isShowingDrawer={!!clickedDeploymentId}
-        handleToggleDrawer={handleHideMonitorings}
+        deploymentId={selectedDeploymentId}
+        isShowingDrawer={!!selectedDeploymentId}
+        handleHideDrawer={handleHideMonitorings}
       />
     </>
   );

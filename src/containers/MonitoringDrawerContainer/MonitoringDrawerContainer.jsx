@@ -21,7 +21,7 @@ const MonitoringDrawerContainer = ({
   projectId,
   deploymentId,
   isShowingDrawer,
-  handleToggleDrawer,
+  handleHideDrawer,
 }) => {
   const dispatch = useDispatch();
 
@@ -70,7 +70,7 @@ const MonitoringDrawerContainer = ({
       figures={figures}
       monitorings={monitorings}
       deploymentName={deployment?.name}
-      handleHideDrawer={handleToggleDrawer}
+      handleHideDrawer={handleHideDrawer}
       handleUpdateLayout={handleUpdateLayout}
       handleAddMonitoring={handleAddMonitoring}
       handleDownloadAllFigures={handleDownloadAllFigures}
@@ -82,7 +82,7 @@ MonitoringDrawerContainer.propTypes = {
   projectId: PropTypes.string.isRequired,
   deploymentId: PropTypes.string.isRequired,
   isShowingDrawer: PropTypes.bool.isRequired,
-  handleToggleDrawer: PropTypes.func.isRequired,
+  handleHideDrawer: PropTypes.func.isRequired,
 };
 
 export default MonitoringDrawerContainer;
