@@ -7,6 +7,7 @@ import {
   getTestResult,
   testDeploymentWithDataset,
 } from 'store/testDeployment';
+import { showLogsPanel } from 'store/ui/actions';
 import { DeploymentTestResultModal } from 'components/Modals';
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 
@@ -23,7 +24,9 @@ const DeploymentTestResultModalContainer = ({
   const testResult = useSelector(getTestResult);
 
   const handleShowLogs = () => {
-    dispatch(getDeployExperimentLogs(projectId, deploymentId));
+    dispatch(getDeployExperimentLogs(projectId, deploymentId, false));
+    dispatch(showLogsPanel());
+    if (handleHideModal) handleHideModal();
   };
 
   const handleTryAgain = () => {
