@@ -170,6 +170,7 @@ const DeploymentToolbarContainer = () => {
             icon={<StopOutlined />}
             type='primary-inverse'
             shape='round'
+            disabled // TODO: Habilitar botão quando o "Interromper" funcionar
           >
             Interromper
           </Button>
