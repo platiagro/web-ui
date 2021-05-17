@@ -7,9 +7,9 @@ import { withRouter } from 'react-router-dom';
 import { InferenceTestResultModal } from 'components/Modals';
 
 // ACTIONS
-import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
-import { testImplantedExperimentInferenceAction } from 'store/testExperimentInference/actions';
+import { testDeploymentWithFile } from 'store/testDeployment';
 import { hideInferenceTestResultModal } from 'store/ui/actions';
+import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -18,9 +18,7 @@ const mapDispatchToProps = (dispatch) => {
     handleGetDeployExperimentLogs: (projectId, deployId) =>
       dispatch(getDeployExperimentLogs(projectId, deployId)),
     handleTestImplantedExperimentInference: (projectId, deployId, file) =>
-      dispatch(
-        testImplantedExperimentInferenceAction(projectId, deployId, file)
-      ),
+      dispatch(testDeploymentWithFile(projectId, deployId, file)),
   };
 };
 
@@ -29,9 +27,9 @@ const mapStateToProps = (state, ownProps) => {
   const { projectId } = ownProps.match.params;
 
   return {
-    deployId: state.testExperimentInferenceReducer.deployId,
-    file: state.testExperimentInferenceReducer.file,
-    inferenceResult: state.testExperimentInferenceReducer.inferenceResult,
+    deployId: state.testDeploymentReducer.deployId,
+    file: state.testDeploymentReducer.file,
+    inferenceResult: state.testDeploymentReducer.inferenceResult,
     loading: state.uiReducer.inferenceTestResultModal.loading,
     projectId,
     visible: state.uiReducer.inferenceTestResultModal.visible,
