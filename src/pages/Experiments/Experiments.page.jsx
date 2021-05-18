@@ -1,5 +1,5 @@
-import React from 'react';
-import { Layout } from 'antd';
+import React, { useEffect } from 'react';
+import { Layout, notification } from 'antd';
 import { useParams } from 'react-router-dom';
 
 import CustomDndProvider from 'components/CustomDndProvider';
@@ -23,6 +23,13 @@ import './Experiments.style.less';
 
 const Experiments = () => {
   const { experimentId } = useParams();
+
+  useEffect(() => {
+    return () => {
+      // Destroy operator status notifications when leave experiment page
+      notification.destroy();
+    };
+  }, []);
 
   return (
     <CustomDndProvider>

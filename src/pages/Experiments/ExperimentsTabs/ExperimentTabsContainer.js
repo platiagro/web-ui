@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { notification } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -8,12 +9,12 @@ import {
   Actions as experimentsActions,
 } from 'store/projects/experiments';
 import { useIsLoading } from 'hooks';
+import { hideLogsPanel } from 'store/ui/actions';
 import { deselectOperator } from 'store/operator/actions';
 import { clearAllExperimentLogs } from 'store/experimentLogs/actions';
 import { Actions as projectsActions, PROJECTS_TYPES } from 'store/projects';
 
 import ExperimentsTabs from './index';
-import { hideLogsPanel } from 'store/ui/actions';
 
 const { getExperiments } = Selectors;
 
@@ -89,6 +90,9 @@ const ExperimentTabsContainer = () => {
       history.push(getCurrentRoutePath(projectId, targetId));
       dispatch(clearAllExperimentLogs());
       dispatch(deselectOperator());
+
+      // Destroy operator status notifications when change experiment
+      notification.destroy();
     }
   };
 
