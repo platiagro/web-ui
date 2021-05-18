@@ -125,7 +125,7 @@ export const interruptDeploymentTest =
       */
 
       // TODO: Fazer o request
-      await new Promise.resolve({});
+      await new Promise((resolve) => resolve());
 
       dispatch({
         type: TEST_DEPLOYMENT_TYPES.INTERRUPT_DEPLOYMENT_TEST_SUCCESS,
