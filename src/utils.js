@@ -757,16 +757,18 @@ const formatResultsParameters = (parameters, parametersTraining) => {
 };
 
 const retrieveStatusMessageFromOperators = (operators) => {
-  operators.map(
-    (operator) =>
-      operator.statusMessage &&
+  if (!operators) return;
+
+  operators.forEach((operator) => {
+    if (operator.statusMessage) {
       notification.open({
-        key: `${operator?.task?.name}_${operator.statusMessage}`,
+        key: `${operator.uuid}-${operator.statusMessage}`,
         duration: 0,
-        message: operator?.task?.name,
+        message: operator.task?.name,
         description: operator.statusMessage,
-      })
-  );
+      });
+    }
+  });
 };
 
 /**
