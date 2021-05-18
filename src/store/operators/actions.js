@@ -7,7 +7,6 @@ import actionTypes from './actionTypes';
 // SERVICES
 import datasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
-import tasksApi from 'services/TasksApi';
 
 // UI ACTIONS
 import {
@@ -81,45 +80,41 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  * @param {string} experimentId
  * @returns {Function}
  */
-export const fetchOperatorsRequest = (projectId, experimentId) => async (
-  dispatch
-) => {
-  dispatch({
-    type: actionTypes.FETCH_OPERATORS_REQUEST,
-  });
-  dispatch(experimentOperatorsLoadingData());
-  dispatch(resultsButtonBarLoadingData());
+export const fetchOperatorsRequest =
+  (projectId, experimentId) => async (dispatch) => {
+    dispatch({
+      type: actionTypes.FETCH_OPERATORS_REQUEST,
+    });
+    dispatch(experimentOperatorsLoadingData());
+    dispatch(resultsButtonBarLoadingData());
 
-  try {
-    // getting tasks
-    const tasksResponse = await tasksApi.getAllTasks();
-    const tasks = tasksResponse.data.tasks;
-    // getting operators
-    const operatorsResponse = await operatorsApi.listOperators(
-      projectId,
-      experimentId
-    );
-    const operators = operatorsResponse.data.operators;
+    try {
+      // getting operators
+      const operatorsResponse = await operatorsApi.listOperators(
+        projectId,
+        experimentId
+      );
+      const operators = operatorsResponse.data.operators;
 
-    // getting dataset columns
-    const datasetName = utils.getDatasetName(tasks, operators);
-    let datasetColumns = [];
-    if (datasetName) {
-      const response = await datasetsApi.listDatasetColumns(datasetName);
-      datasetColumns = response.data;
+      // getting dataset columns
+      const datasetName = utils.getDatasetName(undefined, operators);
+      let datasetColumns = [];
+      if (datasetName) {
+        const response = await datasetsApi.listDatasetColumns(datasetName);
+        datasetColumns = response.data;
+      }
+
+      // configuring operators
+      let configuredOperators = utils.configureOperators(
+        undefined,
+        operators,
+        datasetColumns
+      );
+      dispatch(fetchOperatorsSuccess(configuredOperators));
+    } catch (e) {
+      dispatch(fetchOperatorsFail(e));
     }
-
-    // configuring operators
-    let configuredOperators = utils.configureOperators(
-      tasks,
-      operators,
-      datasetColumns
-    );
-    dispatch(fetchOperatorsSuccess(configuredOperators));
-  } catch (e) {
-    dispatch(fetchOperatorsFail(e));
-  }
-};
+  };
 
 /**
  * Clear operators feature parameters
@@ -128,91 +123,90 @@ export const fetchOperatorsRequest = (projectId, experimentId) => async (
  * @param {string} experimentId
  * @param dataset
  */
-export const clearOperatorsFeatureParametersRequest = (
-  projectId,
-  experimentId,
-  dataset
-) => async (dispatch, getState) => {
-  const { operatorsReducer: operators } = getState();
-
-  dispatch({
-    type: actionTypes.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
-  });
-
-  dispatch(operatorParameterLoadingData());
-
-  try {
-    // getting all operators with feature parameter
-    const operatorsWithFeatureParameter = [];
-    operators.forEach((operator) => {
-      const newOperator = { ...operator };
-
-      // getting operator feature parameters
-      const operatorFeatureParameters = operator.parameters.filter(
-        (parameter) => {
-          if (parameter.type === 'feature') {
-            return true;
-          }
-          return false;
-        }
-      );
-
-      // adding operator to list if it has feature parameters
-      if (operatorFeatureParameters.length > 0) {
-        operatorsWithFeatureParameter.push(newOperator);
-      }
-    });
-
-    // clear operators feature parameters
-    for (const operator of operatorsWithFeatureParameter) {
-      // creating parameter object to update without the feature parameter
-      const parameters = {};
-      operator.parameters.forEach(({ name, type, value }) => {
-        if (type !== 'feature') {
-          parameters[name] = value;
-        }
-      });
-      const body = { parameters };
-      await operatorsApi
-        .updateOperator(projectId, experimentId, operator.uuid, body)
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+export const clearOperatorsFeatureParametersRequest =
+  (projectId, experimentId, dataset) => async (dispatch, getState) => {
+    const { operatorsReducer: operators } = getState();
 
     dispatch({
-      type: actionTypes.UPDATE_OPERATORS_OPTIONS,
-      columns: dataset ? dataset.columns : [],
+      type: actionTypes.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
     });
 
-    dispatch(operatorParameterDataLoaded());
-  } catch (e) {
-    dispatch(operatorParameterDataLoaded());
-    console.log(e);
-  }
-};
+    dispatch(operatorParameterLoadingData());
+
+    try {
+      // getting all operators with feature parameter
+      const operatorsWithFeatureParameter = [];
+      operators.forEach((operator) => {
+        const newOperator = { ...operator };
+
+        // getting operator feature parameters
+        const operatorFeatureParameters = operator.parameters.filter(
+          (parameter) => {
+            if (parameter.type === 'feature') {
+              return true;
+            }
+            return false;
+          }
+        );
+
+        // adding operator to list if it has feature parameters
+        if (operatorFeatureParameters.length > 0) {
+          operatorsWithFeatureParameter.push(newOperator);
+        }
+      });
+
+      // clear operators feature parameters
+      for (const operator of operatorsWithFeatureParameter) {
+        // creating parameter object to update without the feature parameter
+        const parameters = {};
+        operator.parameters.forEach(({ name, type, value }) => {
+          if (type !== 'feature') {
+            parameters[name] = value;
+          }
+        });
+        const body = { parameters };
+        await operatorsApi
+          .updateOperator(projectId, experimentId, operator.uuid, body)
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+
+      dispatch({
+        type: actionTypes.UPDATE_OPERATORS_OPTIONS,
+        columns: dataset ? dataset.columns : [],
+      });
+
+      dispatch(operatorParameterDataLoaded());
+    } catch (e) {
+      dispatch(operatorParameterDataLoaded());
+      console.log(e);
+    }
+  };
 
 // // // // // // // // // //
 
-export const upadteOperatorDependencies = (operators) => async (
-  dispatch,
-  getState
-) => {
-  // getting store data
-  const { tasksReducer, datasetReducer } = getState();
+export const upadteOperatorDependencies =
+  (operators) => async (dispatch, getState) => {
+    // getting store data
+    const { tasksReducer, datasetReducer } = getState();
 
-  // getting tasks
-  const { tasks } = tasksReducer;
+    // getting tasks
+    const { tasks } = tasksReducer;
 
-  // getting dataset columns
-  const { columns } = datasetReducer;
+    // getting dataset columns
+    const { columns } = datasetReducer;
 
-  // configuring operators
-  let configuredOperators = utils.configureOperators(tasks, operators, columns);
+    // configuring operators
+    let configuredOperators = utils.configureOperators(
+      tasks,
+      operators,
+      columns
+    );
 
-  // create/dispatch action
-  dispatch({
-    type: actionTypes.UPDATE_OPERATOR_DEPENDENCIES,
-    operators: configuredOperators,
-  });
-};
+    // create/dispatch action
+    dispatch({
+      type: actionTypes.UPDATE_OPERATOR_DEPENDENCIES,
+      operators: configuredOperators,
+    });
+  };

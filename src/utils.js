@@ -286,15 +286,16 @@ const getTagConfig = (tag) => {
  *
  * @param {object[]} tasks tasks list
  * @param {string} taskId task id
+ * @param {object=} task task object
  * @returns {object} task data
  */
-const getTaskData = (tasks, taskId) => {
+const getTaskData = (tasks, taskId, task = undefined) => {
   // params to filter constant
   const parametersToFilter = ['dataset'];
 
-  if (tasks.length > 0 && taskId) {
+  if (tasks && tasks.length > 0 && taskId) {
     // getting tasks data
-    const taskData = tasks.find((task) => task.uuid === taskId);
+    const taskData = tasks.find((taskItem) => taskItem.uuid === taskId);
     const {
       name,
       tags,
@@ -330,6 +331,26 @@ const getTaskData = (tasks, taskId) => {
       deploymentNotebookPath,
       parameters: filteredParams,
       description,
+    };
+  }
+
+  if (task) {
+    const { name, tags, parameters } = task;
+
+    const { icon } = getTagConfig(tags[0]);
+
+    let filteredParams;
+    if (parameters) {
+      filteredParams = parameters.filter(
+        (parameter) => !parametersToFilter.includes(parameter.name)
+      );
+    }
+
+    return {
+      name,
+      icon,
+      tags,
+      parameters: filteredParams,
     };
   }
 
@@ -450,7 +471,7 @@ const configureOperators = (tasks, operators, datasetColumns) => {
       parameters: taskParameters,
       tags,
       ...restTaskData
-    } = getTaskData(tasks, operator.taskId);
+    } = getTaskData(tasks, operator.taskId, operator.task);
 
     // check if operator is dataset
     const isDataset = tags.includes('DATASETS');
@@ -467,12 +488,11 @@ const configureOperators = (tasks, operators, datasetColumns) => {
     const settedUp = checkOperatorSettedUp(operator);
 
     return {
-      ...operator,
       ...restTaskData,
+      ...operator,
       parameters,
       settedUp,
       selected: false,
-      status: operator.status,
       tags,
     };
   });
@@ -545,23 +565,33 @@ const getErrorMessage = (error) => {
  * @returns {string} dataset name
  */
 const getDatasetName = (tasks, operators) => {
-  const datasetTasks = tasks
-    .filter((i) => {
-      return i.tags.includes('DATASETS');
-    })
-    .map((task) => task.uuid);
-  const datasetOperator = operators.find((i) => {
-    return datasetTasks.includes(i.taskId);
-  });
   let datasetName = undefined;
-  if (datasetOperator) {
-    const parameters = datasetOperator.parameters;
-    if (parameters instanceof Array) {
-      datasetName = parameters.find((i) => i.name === 'dataset')?.value;
-    } else {
-      datasetName = parameters.dataset;
+
+  if (tasks) {
+    const datasetTasks = tasks
+      .filter((i) => {
+        return i.tags.includes('DATASETS');
+      })
+      .map((task) => task.uuid);
+    const datasetOperator = operators.find((i) => {
+      return datasetTasks.includes(i.taskId);
+    });
+    if (datasetOperator) {
+      const parameters = datasetOperator.parameters;
+      if (parameters instanceof Array) {
+        datasetName = parameters.find((i) => i.name === 'dataset')?.value;
+      } else {
+        datasetName = parameters.dataset;
+      }
     }
+  } else {
+    operators.forEach((operator) => {
+      if (operator.task.tags.includes('DATASETS')) {
+        datasetName = operator.parameters.dataset;
+      }
+    });
   }
+
   return datasetName;
 };
 
