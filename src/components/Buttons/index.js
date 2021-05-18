@@ -13,6 +13,5 @@ export { default as RunDeploymentButton } from './RunDeploymentButton';
 export { default as SaveTemplateButton } from './SaveTemplateButton';
 export { default as TrainExperimentButton } from './TrainExperimentButton';
 export { default as UploadButton } from './UploadButton';
-export { default as UploadInferenceTestButton } from './UploadInferenceTestButton';
 export { default as UsingDeploymentsButton } from './UsingDeploymentsButton';
 export { default as DetailsCardButton } from './DetailsCardButton';

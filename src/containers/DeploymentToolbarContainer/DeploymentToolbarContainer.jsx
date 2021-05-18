@@ -9,7 +9,7 @@ import { RunDeploymentButton } from 'components/Buttons';
 import { PromoteDeploymentModal } from 'components/Modals';
 import SaveTemplateContainer from 'containers/SaveTemplateContainer';
 
-import { useIsLoading } from 'hooks';
+import { useIsLoading, useToggleState } from 'hooks';
 import { PROJECTS_TYPES } from 'store/projects';
 import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
@@ -21,6 +21,7 @@ import {
   testDeploymentWithDataset,
   TEST_DEPLOYMENT_TYPES,
 } from 'store/testDeployment';
+import { DeploymentTestResultModalContainer } from 'containers';
 
 const operatorsSelector = ({ deploymentOperatorsReducer }) => {
   return deploymentOperatorsReducer;
@@ -46,6 +47,8 @@ const DeploymentToolbarContainer = () => {
   const history = useHistory();
 
   const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
+  const [isShowingDeploymentTestModal, handleToggleDeploymentTestModal] =
+    useToggleState(false);
 
   const operators = useSelector(operatorsSelector);
   const datasetOperatorUploadedFileName = useSelector(
@@ -102,6 +105,8 @@ const DeploymentToolbarContainer = () => {
 
   const handleTestDeploymentFlow = () => {
     if (datasetOperatorUploadedFileName) {
+      handleToggleDeploymentTestModal();
+
       dispatch(
         testDeploymentWithDataset(
           projectId,
@@ -146,6 +151,14 @@ const DeploymentToolbarContainer = () => {
         urlPrefix={`${window.location.origin.toString()}/seldon/anonymous/`}
       />
 
+      <DeploymentTestResultModalContainer
+        projectId={projectId}
+        deploymentId={deploymentId}
+        isTestingFlow={isTestingFlow}
+        isShowingModal={isShowingDeploymentTestModal}
+        handleHideModal={handleToggleDeploymentTestModal}
+      />
+
       <div>
         <ToolbarConfig deployment />
       </div>
@@ -157,6 +170,7 @@ const DeploymentToolbarContainer = () => {
             icon={<StopOutlined />}
             type='primary-inverse'
             shape='round'
+            disabled // TODO: Habilitar botão quando o "Interromper" funcionar
           >
             Interromper
           </Button>

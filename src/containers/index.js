@@ -10,12 +10,12 @@ export { default as DeploymentToolbarContainer } from './DeploymentToolbarContai
 export { default as DeploymentsHeaderContainer } from './DeploymentsHeaderContainer';
 export { default as DeploymentsTableContainer } from './DeploymentsTableContainer';
 export { default as DeploymentsTabsContainer } from './DeploymentsTabsContainer';
+export { default as DeploymentTestResultModalContainer } from './DeploymentTestResultModalContainer';
 export { default as DownloadOperatorDatasetContainer } from './DownloadOperatorDatasetContainer';
 export { default as EditTitleContainer } from './EditTitleContainer';
 export { default as ExperimentsHeaderContainer } from './ExperimentsHeaderContainer';
 export { default as ExternalDatasetHelperModalContainer } from './ExternalDatasetHelperModalContainer';
 export { default as HeaderProjectDetailsContainer } from './HeaderProjectDetailsContainer';
-export { default as InferenceTestResultModalContainer } from './InferenceTestResultModalContainer';
 export { default as JupyterLabContainer } from './JupyterLabContainer';
 export { default as LogsDrawerContainer } from './LogsDrawerContainer';
 export { default as ExperimentLogsPanelContainer } from './ExperimentLogsPanelContainer';

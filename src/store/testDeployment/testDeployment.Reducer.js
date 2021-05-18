@@ -3,8 +3,8 @@ import * as TEST_DEPLOYMENT_TYPES from './testDeployment.actionTypes';
 const initialState = {
   file: null,
   dataset: null,
-  deployId: null,
-  inferenceResult: null,
+  deploymentId: null,
+  testResult: null,
 };
 
 export const testDeploymentReducer = (state = initialState, action = {}) => {
@@ -15,16 +15,16 @@ export const testDeploymentReducer = (state = initialState, action = {}) => {
     case TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_SUCCESS: {
       return {
         ...state,
-        inferenceResult: payload.inferenceResult,
+        testResult: payload.testResult,
       };
     }
 
     case TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_FILE_FAIL: {
       return {
         ...state,
-        deployId: payload.deployId,
+        deploymentId: payload.deploymentId,
         file: payload.file,
-        inferenceResult: null,
+        testResult: null,
       };
     }
 
@@ -32,7 +32,7 @@ export const testDeploymentReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         dataset: payload.dataset,
-        inferenceResult: null,
+        testResult: null,
       };
     }
 

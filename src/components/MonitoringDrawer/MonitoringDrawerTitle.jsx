@@ -22,7 +22,7 @@ const MonitoringDrawerTitle = ({
           shape='round'
           type='primary-inverse'
           icon={<DownloadOutlined />}
-          handleClick={handleDownloadAllFigures}
+          onClick={handleDownloadAllFigures}
         >
           <span className='monitoring-drawer-header-download-text'>
             Fazer Download
