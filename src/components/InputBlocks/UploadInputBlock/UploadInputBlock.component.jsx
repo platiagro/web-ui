@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 
 // UI LIB COMPONENTS
 import { UploadOutlined } from '@ant-design/icons';
-import { Dropdown, Empty, Menu, Upload } from 'antd';
+import { Dropdown, Empty, Menu, Upload, Typography } from 'antd';
 
 // COMPONENTS
 import { PropertyBlock } from 'components';
+
+const { Text } = Typography;
 
 const UploadInputBlock = (props) => {
   // destructuring props
@@ -23,7 +25,11 @@ const UploadInputBlock = (props) => {
     handleUploadCancel,
     tip,
     title,
+    experimentIsSucceeded,
   } = props;
+
+  const showDangerMessage =
+    experimentIsSucceeded && defaultFileList?.length > 0;
 
   //
   const [fileList, setFileList] = useState([]);
@@ -100,6 +106,12 @@ const UploadInputBlock = (props) => {
           {buttonText}
         </Dropdown.Button>
       </Upload>
+      {showDangerMessage && (
+        <Text type='danger'>
+          <br />
+          Ao alterar o arquivo todo fluxo treinado será perdido!
+        </Text>
+      )}
     </PropertyBlock>
   );
 };
@@ -150,6 +162,9 @@ UploadInputBlock.propTypes = {
 
   /** Custom request function */
   customRequest: PropTypes.func,
+
+  /** Experiment training is succeed */
+  experimentIsSucceeded: PropTypes.bool.isRequired,
 };
 
 // DEFAULT PROPS

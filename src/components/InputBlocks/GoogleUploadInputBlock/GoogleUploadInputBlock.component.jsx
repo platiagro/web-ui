@@ -7,10 +7,12 @@ import GooglePicker from 'react-google-picker';
 
 // UI LIB COMPONENTS
 import { UploadOutlined } from '@ant-design/icons';
-import { Upload, Button } from 'antd';
+import { Upload, Button, Typography } from 'antd';
 
 // COMPONENTS
 import { PropertyBlock } from 'components';
+
+const { Text } = Typography;
 
 // GOOGLE CREDENTIALS
 const CLIENT_ID =
@@ -25,10 +27,20 @@ const SCOPE = ['https://www.googleapis.com/auth/drive.readonly'];
  * @returns {GoogleUploadInputBlock} Component
  */
 const GoogleUploadInputBlock = (props) => {
-  const { defaultFileList, isDisabled, isLoading, tip, title } = props;
+  const {
+    defaultFileList,
+    isDisabled,
+    isLoading,
+    tip,
+    title,
+    experimentIsSucceeded,
+  } = props;
   const { handleCreateGoogleDataset, handleUploadCancel } = props;
   const [fileList, setFileList] = useState([]);
   const [googleToken, setGoogleToken] = useState(null);
+
+  const showDangerMessage =
+    experimentIsSucceeded && defaultFileList?.length > 0;
 
   useEffect(() => {
     // set the google token if user already logged
@@ -103,6 +115,12 @@ const GoogleUploadInputBlock = (props) => {
           )}
         </GooglePicker>
         <Upload {...uploadProps} disabled={isDisabled} />
+        {showDangerMessage && (
+          <Text type='danger'>
+            <br />
+            Ao alterar o arquivo todo fluxo treinado será perdido!
+          </Text>
+        )}
       </PropertyBlock>
     </>
   );
@@ -130,6 +148,9 @@ GoogleUploadInputBlock.propTypes = {
 
   /** Upload title */
   title: PropTypes.string.isRequired,
+
+  /** Experiment training is succeed */
+  experimentIsSucceeded: PropTypes.bool.isRequired,
 };
 
 // DEFAULT PROPS
