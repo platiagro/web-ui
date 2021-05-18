@@ -28,22 +28,27 @@ const projectSelector = (projectId) => (state) => {
   return Selectors.getProject(projectId, state);
 };
 
+const deploymentsSelector = ({ deploymentsReducer }) => {
+  return deploymentsReducer;
+};
+
 const ProjectDetailsContainer = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const project = useSelector(projectSelector(projectId));
+  const deployments = useSelector(deploymentsSelector);
   const [selectedDeploymentId, setSelectedDeploymentId] = useState('');
   const isLoadingProject = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
   const experimentsLength = useMemo(() => {
     return project?.experiments?.length || 0;
-  }, [project.experiments.length]);
+  }, [project]);
 
   const fluxoLength = useMemo(() => {
-    return project?.deployments?.length || 0;
-  }, [project.deployments.length]);
+    return deployments?.length || 0;
+  }, [deployments]);
 
   const handleShowMonitorings = (deploymentId) => {
     dispatch(fetchMonitorings(projectId, deploymentId));
