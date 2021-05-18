@@ -75,13 +75,14 @@ const ProjectDetailsContainer = () => {
   };
 
   return (
-    <>
-      <div className='container'>
-        <div className='projectDetails'>
-          <div className='projectDetailsHeader'>
-            <span>
-              Experimentação <QuestionCircleOutlined />
-            </span>
+    <div className='project-details'>
+      <div className='project-details-cards'>
+        <div className='project-details-card'>
+          <div className='project-details-card-header'>
+            <div>
+              <span className='text-with-icon-right'>Experimentação</span>
+              <QuestionCircleOutlined />
+            </div>
 
             <Button
               shape='round'
@@ -102,10 +103,12 @@ const ProjectDetailsContainer = () => {
           />
         </div>
 
-        <div className='projectDetails'>
-          <div className='projectDetailsHeader'>
-            <span>Pré-implantação</span>
-            <QuestionCircleOutlined />
+        <div className='project-details-card'>
+          <div className='project-details-card-header'>
+            <div>
+              <span className='text-with-icon-right'>Pré-implantação</span>
+              <QuestionCircleOutlined />
+            </div>
 
             <Button
               shape='round'
@@ -127,10 +130,13 @@ const ProjectDetailsContainer = () => {
         </div>
       </div>
 
-      <div className='tableContent'>
-        <div className='tableTitle'>
-          <span>Fluxos implantados</span>
-          <QuestionCircleOutlined />
+      <div className='project-details-table-content'>
+        <div className='project-details-table-title'>
+          <div>
+            <span className='text-with-icon-right'>Fluxos implantados</span>
+            <QuestionCircleOutlined />
+          </div>
+
           <UsingDeploymentsButtonContainer />
         </div>
 
@@ -150,7 +156,7 @@ const ProjectDetailsContainer = () => {
         isShowingDrawer={!!selectedDeploymentId}
         handleHideDrawer={handleHideMonitorings}
       />
-    </>
+    </div>
   );
 };
 
