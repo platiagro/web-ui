@@ -43,6 +43,7 @@ const DatasetUploadInputBlockContainer = () => {
   const isDisabled = useSelector(
     (state) => state.uiReducer.experimentTraining.loading
   );
+  const operators = useSelector((state) => state.operatorsReducer);
   /* eslint-enable */
 
   const defaultFileList = isUploading
@@ -62,6 +63,10 @@ const DatasetUploadInputBlockContainer = () => {
         },
       ];
   const isGoogleDrive = operatorName === 'Google Drive';
+
+  const experimentIsSucceeded = operators.every((operator) => {
+    return operator.status === 'Succeeded';
+  });
 
   useEffect(() => {
     dispatch(fetchDatasetsRequest());
@@ -91,6 +96,7 @@ const DatasetUploadInputBlockContainer = () => {
       isLoading={isLoading}
       tip={tip}
       title={title}
+      experimentIsSucceeded={experimentIsSucceeded}
     />
   ) : (
     <UploadInputBlock
@@ -106,6 +112,7 @@ const DatasetUploadInputBlockContainer = () => {
       tip={tip}
       title={title}
       defaultFileList={defaultFileList}
+      experimentIsSucceeded={experimentIsSucceeded}
     />
   );
 };
