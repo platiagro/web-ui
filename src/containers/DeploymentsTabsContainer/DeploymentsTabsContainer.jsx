@@ -137,6 +137,9 @@ const DeploymentsTabsContainer = () => {
   useEffect(() => {
     return () => {
       dispatch(clearAllDeployments());
+      dispatch(deselectOperator());
+      dispatch(clearAllMonitorings());
+      dispatch(clearAllDeploymentOperators());
     };
   }, [dispatch]);
 
