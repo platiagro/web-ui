@@ -18,6 +18,12 @@ export const showInfo =
     Message.info(message, duration);
   };
 
+export const showWarning =
+  (message, duration = 5) =>
+  () => {
+    Message.warning(message, duration);
+  };
+
 export const showLoading =
   (message, duration = 5) =>
   () => {
