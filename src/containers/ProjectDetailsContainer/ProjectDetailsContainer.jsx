@@ -33,6 +33,10 @@ import './style.less';
 
 const { getProject } = Selectors;
 
+const deploymentsSelector = ({ deploymentsReducer }) => {
+  return deploymentsReducer;
+};
+
 const ProjectDetailsContainer = () => {
   const { projectId } = useParams();
 
@@ -44,12 +48,14 @@ const ProjectDetailsContainer = () => {
   const project = useSelector((state) => getProject(projectId, state));
   const projectLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
+  const deployments = useSelector(deploymentsSelector);
+
   let experimentsLength = 0;
   let fluxoLength = 0;
 
   if (project.uuid != null) {
     experimentsLength = project.experiments.length;
-    fluxoLength = project.deployments.length;
+    fluxoLength = deployments.length;
   }
 
   const showNewDeploymentModal = () => {
