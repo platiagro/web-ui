@@ -21,6 +21,8 @@ import {
 import utils from 'utils';
 import { CancelToken, isCancel } from 'axios';
 
+import { showWarning } from 'store/message';
+
 // ACTIONS
 // ** FETCH DATASET COLUMNS
 /**
@@ -131,10 +133,12 @@ export const cancelDatasetUpload = () => (dispatch, getState) => {
  * @param {string} projectId Current Project id
  * @param {string} experimentId Current Experiment id
  * @param {object} datasetOperator Dataset operator
+ * @param experimentIsSucceeded
  * @returns {Function} Dispatch function
  */
 export const datasetUploadSuccess =
-  (dataset, projectId, experimentId, datasetOperator) => (dispatch) => {
+  (dataset, projectId, experimentId, datasetOperator, experimentIsSucceeded) =>
+  (dispatch) => {
     const featuretypes = utils.getFeaturetypes(dataset);
 
     // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
@@ -186,6 +190,14 @@ export const datasetUploadSuccess =
     });
 
     message.success('Dados de entrada importados', 5);
+
+    if (experimentIsSucceeded) {
+      dispatch(
+        showWarning(
+          'Fluxo perdido! Reconfigure as tarefas e reexecute o treinamento.'
+        )
+      );
+    }
   };
 
 /**
@@ -297,10 +309,14 @@ export const startDatasetUpload =
   (file, cancelToken, projectId, experimentId) =>
   async (dispatch, getState) => {
     // get reducers from store
-    const { operatorReducer } = getState();
+    const { operatorReducer, operatorsReducer: operators } = getState();
 
     // save dataset operator
     const datasetOperator = { ...operatorReducer };
+
+    const experimentIsSucceeded = operators.every((operator) => {
+      return operator.status === 'Succeeded';
+    });
 
     // dispatching dataset operator loading data action
     dispatch(datasetOperatorLoadingData());
@@ -336,7 +352,13 @@ export const startDatasetUpload =
 
       // dispatch success action
       dispatch(
-        datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
+        datasetUploadSuccess(
+          dataset,
+          projectId,
+          experimentId,
+          datasetOperator,
+          experimentIsSucceeded
+        )
       );
       // on error
     } catch (error) {
@@ -531,10 +553,14 @@ export const selectDataset =
     });
 
     // get operator reducer from store
-    const { operatorReducer } = getState();
+    const { operatorReducer, operatorsReducer: operators } = getState();
 
     // save dataset operator
     const datasetOperator = { ...operatorReducer };
+
+    const experimentIsSucceeded = operators.every((operator) => {
+      return operator.status === 'Succeeded';
+    });
 
     // fetching dataset
     datasetsApi
@@ -549,7 +575,8 @@ export const selectDataset =
             dataset,
             projectId,
             experimentId,
-            datasetOperator
+            datasetOperator,
+            experimentIsSucceeded
           )
         );
       })
@@ -563,9 +590,10 @@ export const selectDataset =
 /**
  * delete dataset success action
  *
+ * @param experimentIsSucceeded
  * @returns {Function} Dispatch function
  */
-export const deleteDatasetSuccess = () => (dispatch) => {
+export const deleteDatasetSuccess = (experimentIsSucceeded) => (dispatch) => {
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
@@ -583,6 +611,14 @@ export const deleteDatasetSuccess = () => (dispatch) => {
       isUploading: false,
     },
   });
+
+  if (experimentIsSucceeded) {
+    dispatch(
+      showWarning(
+        'Fluxo perdido! Reconfigure as tarefas e reexecute o treinamento.'
+      )
+    );
+  }
 };
 
 /**
@@ -622,7 +658,12 @@ export const deleteDatasetRequest =
     });
 
     // get select operator from store
-    const { operatorReducer: operator } = getState();
+    const { operatorReducer: operator, operatorsReducer: operators } =
+      getState();
+
+    const experimentIsSucceeded = operators.every((operator) => {
+      return operator.status === 'Succeeded';
+    });
 
     // dispatching dataset operator loading data action
     dispatch(datasetOperatorLoadingData());
@@ -644,7 +685,7 @@ export const deleteDatasetRequest =
         clearOperatorsFeatureParametersRequest(projectId, experimentId, null)
       );
 
-      dispatch(deleteDatasetSuccess());
+      dispatch(deleteDatasetSuccess(experimentIsSucceeded));
     } catch (e) {
       dispatch(deleteDatasetFail());
     }
