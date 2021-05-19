@@ -1,141 +1,167 @@
-// TODO: Corrigir esses erros (acessibilidade)
-/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-// CONTAINER
-import NewExperimentModalContainer from 'pages/Experiments/NewExperimentModal/NewExperimentModalContainer';
 import {
-  DeploymentsTableContainer,
-  InferenceTestResultModalContainer,
   LogsDrawerContainer,
-  UsingDeploymentsButtonContainer,
-  UsingDeploymentsModalContainer,
+  MonitoringDrawerContainer,
+  DeploymentsTableContainer,
   NewDeploymentModalContainer,
+  UsingDeploymentsModalContainer,
+  UsingDeploymentsButtonContainer,
 } from 'containers';
-
-//COMPONENTS
-import Button from 'uiComponents/Button/index';
-import { DetailsCardButton } from 'components/Buttons';
-
 import {
   showNewExperimentModal,
-  showNewDeploymentModal as showNewDeploymentModalAction,
+  showNewDeploymentModal,
 } from 'store/ui/actions';
-
-import { Selectors, PROJECTS_TYPES } from 'store/projects';
-
 import { useIsLoading } from 'hooks';
+import Button from 'uiComponents/Button';
+import { fetchMonitorings } from 'store/monitorings';
+import { DetailsCardButton } from 'components/Buttons';
+import { Selectors, PROJECTS_TYPES } from 'store/projects';
+import NewExperimentModalContainer from 'pages/Experiments/NewExperimentModal/NewExperimentModalContainer';
 
 import './style.less';
 
-const { getProject } = Selectors;
+const projectSelector = (projectId) => (state) => {
+  return Selectors.getProject(projectId, state);
+};
+
+const deploymentsSelector = ({ deploymentsReducer }) => {
+  return deploymentsReducer;
+};
 
 const ProjectDetailsContainer = () => {
   const { projectId } = useParams();
-
-  const history = useHistory();
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  // TODO: Criar seletores com reselect -> Otimização
-  /* eslint-disable-next-line */
-  const project = useSelector((state) => getProject(projectId, state));
-  const projectLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
+  const project = useSelector(projectSelector(projectId));
+  const deployments = useSelector(deploymentsSelector);
+  const [selectedDeploymentId, setSelectedDeploymentId] = useState('');
+  const isLoadingProject = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
-  let experimentsLength = 0;
-  let fluxoLength = 0;
+  const experimentsLength = useMemo(() => {
+    return project?.experiments?.length || 0;
+  }, [project]);
 
-  if (project.uuid != null) {
-    experimentsLength = project.experiments.length;
-    fluxoLength = project.deployments.length;
-  }
+  const fluxoLength = useMemo(() => {
+    return deployments?.length || 0;
+  }, [deployments]);
 
-  const showNewDeploymentModal = () => {
-    dispatch(showNewDeploymentModalAction());
+  const handleShowMonitorings = (deploymentId) => {
+    dispatch(fetchMonitorings(projectId, deploymentId));
+    setSelectedDeploymentId(deploymentId);
+  };
+
+  const handleHideMonitorings = () => {
+    setSelectedDeploymentId('');
+  };
+
+  const handleShowNewDeploymentModal = () => {
+    dispatch(showNewDeploymentModal());
   };
 
   const handleNewExperimentModal = () => {
     dispatch(showNewExperimentModal());
   };
 
-  const redirectExperiment = () => {
-    if (!projectLoading) {
+  const handleGoToExperimentsPage = () => {
+    if (!isLoadingProject) {
       history.push('/projetos/' + project.uuid + '/experimentos');
     }
   };
 
-  const redirectDeployments = () => {
-    if (!projectLoading) {
+  const handleGoToDeploymentPage = () => {
+    if (!isLoadingProject) {
       history.push('/projetos/' + project.uuid + '/pre-implantacao');
     }
   };
 
   return (
-    <>
-      <div className='container'>
-        <div className='projectDetails'>
-          <div className='projectDetailsHeader'>
-            <span>
-              Experimentação <QuestionCircleOutlined />
-            </span>
+    <div className='project-details'>
+      <div className='project-details-cards'>
+        <div className='project-details-card'>
+          <div className='project-details-card-header'>
+            <div>
+              <span className='text-with-icon-right'>Experimentação</span>
+              <QuestionCircleOutlined />
+            </div>
+
             <Button
-              disabled={false}
               shape='round'
-              icon={<PlusOutlined />}
+              disabled={false}
               type='primary-inverse'
+              icon={<PlusOutlined />}
               handleClick={handleNewExperimentModal}
             >
               Novo Experimento
             </Button>
           </div>
+
           <DetailsCardButton
-            projectLoading={projectLoading}
-            numberText={experimentsLength}
-            onClick={redirectExperiment}
             type='experiment'
+            numberText={experimentsLength}
+            projectLoading={isLoadingProject}
+            onClick={handleGoToExperimentsPage}
           />
         </div>
 
-        <div className='projectDetails'>
-          <div className='projectDetailsHeader'>
-            <span>
-              Pré-implantação <QuestionCircleOutlined />
-            </span>
+        <div className='project-details-card'>
+          <div className='project-details-card-header'>
+            <div>
+              <span className='text-with-icon-right'>Pré-implantação</span>
+              <QuestionCircleOutlined />
+            </div>
+
             <Button
-              disabled={false}
-              icon={<PlusOutlined />}
               shape='round'
+              disabled={false}
               type='primary-inverse'
-              handleClick={showNewDeploymentModal}
+              icon={<PlusOutlined />}
+              handleClick={handleShowNewDeploymentModal}
             >
               Escolher fluxo
             </Button>
           </div>
+
           <DetailsCardButton
-            projectLoading={projectLoading}
-            numberText={fluxoLength}
-            onClick={redirectDeployments}
             type='deployment'
+            numberText={fluxoLength}
+            projectLoading={isLoadingProject}
+            onClick={handleGoToDeploymentPage}
           />
         </div>
       </div>
-      <div className='tableContent'>
-        <div className='tableTitle'>
-          <span>
-            Fluxos implantados <QuestionCircleOutlined />
-          </span>
+
+      <div className='project-details-table-content'>
+        <div className='project-details-table-title'>
+          <div>
+            <span className='text-with-icon-right'>Fluxos implantados</span>
+            <QuestionCircleOutlined />
+          </div>
+
           <UsingDeploymentsButtonContainer />
         </div>
-        <DeploymentsTableContainer />
+
+        <DeploymentsTableContainer
+          handleShowMonitoringDrawer={handleShowMonitorings}
+        />
       </div>
-      <InferenceTestResultModalContainer />
+
       <LogsDrawerContainer />
       <NewExperimentModalContainer />
-      <UsingDeploymentsModalContainer />
       <NewDeploymentModalContainer />
-    </>
+      <UsingDeploymentsModalContainer />
+
+      <MonitoringDrawerContainer
+        projectId={projectId}
+        deploymentId={selectedDeploymentId}
+        isShowingDrawer={!!selectedDeploymentId}
+        handleHideDrawer={handleHideMonitorings}
+      />
+    </div>
   );
 };
 

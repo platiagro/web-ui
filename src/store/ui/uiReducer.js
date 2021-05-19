@@ -61,7 +61,6 @@ const initialState = {
   },
   operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
-  inferenceTestResultModal: { loading: false, visible: false },
   prepareDeploymentsModal: { loading: false, visible: false },
   dataViewModal: { isVisible: false, loading: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
@@ -472,33 +471,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         dataViewModal: {
           ...state.dataViewModal,
           loading: action.loading,
-        },
-      };
-
-    // EXPERIMENT INFERENCE MODAL
-    case actionTypes.SHOW_EXPERIMENT_INFERENCE_MODAL:
-      return {
-        ...state,
-        inferenceTestResultModal: {
-          ...state.inferenceTestResultModal,
-          visible: true,
-        },
-      };
-    case actionTypes.HIDE_EXPERIMENT_INFERENCE_MODAL:
-      return {
-        ...state,
-        inferenceTestResultModal: {
-          ...state.inferenceTestResultModal,
-          visible: false,
-        },
-      };
-    case actionTypes.EXPERIMENT_INFERENCE_MODAL_LOADING_DATA:
-    case actionTypes.EXPERIMENT_INFERENCE_MODAL_DATA_LOADED:
-      return {
-        ...state,
-        inferenceTestResultModal: {
-          ...state.inferenceTestResultModal,
-          loading: action.inferenceTestResultModalLoading,
         },
       };
 

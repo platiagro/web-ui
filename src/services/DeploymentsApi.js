@@ -28,10 +28,7 @@ const listDeployments = (projectId) => {
  * @returns {Promise} Request Promise
  */
 const createDeployment = (projectId, body) => {
-  return projectsApi.post(
-    `${projectId}/${deploymentsPath}`,
-    body
-  );
+  return projectsApi.post(`${projectId}/${deploymentsPath}`, body);
 };
 
 /**
@@ -42,9 +39,7 @@ const createDeployment = (projectId, body) => {
  * @returns {Promise} Request Promise
  */
 const getDeployment = (projectId, deploymentId) => {
-  return projectsApi.get(
-    `${projectId}/${deploymentsPath}/${deploymentId}`
-  );
+  return projectsApi.get(`${projectId}/${deploymentsPath}/${deploymentId}`);
 };
 
 /**
@@ -70,9 +65,7 @@ const updateDeployment = (projectId, deploymentId, deploymentObj) => {
  * @returns {Promise} Request Promise
  */
 const deleteDeployment = (projectId, deploymentId) => {
-  return projectsApi.delete(
-    `${projectId}/${deploymentsPath}/${deploymentId}`
-  );
+  return projectsApi.delete(`${projectId}/${deploymentsPath}/${deploymentId}`);
 };
 
 /**
@@ -84,7 +77,12 @@ const deleteDeployment = (projectId, deploymentId) => {
  * @param {object} operatorObj Operator object updated
  * @returns {Promise} Request Promise
  */
-const updateDeploymentOperator = (projectId, deploymentId, operatorId, operatorObj) => {
+const updateDeploymentOperator = (
+  projectId,
+  deploymentId,
+  operatorId,
+  operatorObj
+) => {
   return projectsApi.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}/operators/${operatorId}`,
     operatorObj
@@ -99,12 +97,27 @@ const updateDeploymentOperator = (projectId, deploymentId, operatorId, operatorO
  * @param {object} file File to be sent
  * @returns {Promise} Request Promise
  */
-const testDeployment = (projectId, deploymentId, file) => {
+const testDeploymentWithFile = (projectId, deploymentId, file) => {
   const form = new FormData();
   form.append('file', file);
   return projectsApi.post(
     `${projectId}/${deploymentsPath}/${deploymentId}/predictions`,
     form
+  );
+};
+
+/**
+ * Test deployment with the dataset uploaded
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} deploymentId Deployment UUID
+ * @param {string} dataset File name that was already uploaded
+ * @returns {Promise} Request Promise
+ */
+const testDeploymentWithDataset = (projectId, deploymentId, dataset) => {
+  return projectsApi.post(
+    `${projectId}/${deploymentsPath}/${deploymentId}/predictions`,
+    { dataset }
   );
 };
 
@@ -116,5 +129,6 @@ export default {
   updateDeployment,
   deleteDeployment,
   updateDeploymentOperator,
-  testDeployment
+  testDeploymentWithFile,
+  testDeploymentWithDataset,
 };

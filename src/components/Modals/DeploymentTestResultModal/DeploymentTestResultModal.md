@@ -22,7 +22,8 @@ const onConfirm = () => {
 
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
-  <InferenceTestResultModal
+
+  <DeploymentTestResultModal
     visible={visible}
     experimentInference={experiments}
     closeModal={onClose}
@@ -49,7 +50,8 @@ const onConfirm = () => {
 
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
-  <InferenceTestResultModal
+
+  <DeploymentTestResultModal
     visible={visible}
     experimentInference={experiments}
     closeModal={onClose}
@@ -79,7 +81,7 @@ const onConfirm = () => {
 
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
-  <InferenceTestResultModal
+  <DeploymentTestResultModal
     visible={visible}
     experimentInference={experiments.data}
     closeModal={onClose}
@@ -101,7 +103,8 @@ const onConfirm = () => {
 
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
-  <InferenceTestResultModal
+
+  <DeploymentTestResultModal
     visible={visible}
     experimentInference={null}
     closeModal={onClose}

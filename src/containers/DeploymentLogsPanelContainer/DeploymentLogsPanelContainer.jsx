@@ -26,14 +26,14 @@ const operatorsSelector = ({ deploymentOperatorsReducer }) => {
 };
 
 const logsSelector = ({ deploymentLogsReducer }) => {
-  return deploymentLogsReducer.logs.map((log) => {
+  return deploymentLogsReducer.logs.map((log, index) => {
     const formattedDate = format(
       new Date(log.createdAt.trim()),
       'hh:mm:ss dd/MM/yyyy'
     );
 
     return {
-      uuid: log.createdAt,
+      uuid: `${index} - ${log.createdAt}`,
       type: log.level || LOG_TYPES.INFO,
       title: `${log.title} - ${formattedDate}`,
       message: log.message,

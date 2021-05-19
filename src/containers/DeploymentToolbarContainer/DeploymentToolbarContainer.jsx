@@ -1,43 +1,85 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Button, Divider, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
+import { PlayCircleFilled, StopOutlined } from '@ant-design/icons';
 
+import ToolbarConfig from 'components/ToolbarConfig';
 import { RunDeploymentButton } from 'components/Buttons';
 import { PromoteDeploymentModal } from 'components/Modals';
 import SaveTemplateContainer from 'containers/SaveTemplateContainer';
-import ToolbarConfig from 'components/ToolbarConfig';
 
-import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
-import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
-import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
-
-import { useIsLoading } from 'hooks';
+import { useIsLoading, useToggleState } from 'hooks';
 import { PROJECTS_TYPES } from 'store/projects';
+import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
+import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
+import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
+
+import './DeploymentToolbarContainer.less';
+import {
+  interruptDeploymentTest,
+  testDeploymentWithDataset,
+  TEST_DEPLOYMENT_TYPES,
+} from 'store/testDeployment';
+import { DeploymentTestResultModalContainer } from 'containers';
 
 const operatorsSelector = ({ deploymentOperatorsReducer }) => {
   return deploymentOperatorsReducer;
 };
 
-const DeploymentToolbarContainer = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const { projectId, deploymentId } = useParams();
-  const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
+const datasetOperatorUploadedFileNameSelector = ({
+  deploymentOperatorsReducer,
+}) => {
+  const datasetOperator = deploymentOperatorsReducer.find((operator) => {
+    return operator.tags.includes('DATASETS');
+  });
 
-  const loading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
+  const datasetParameter = datasetOperator?.parameters?.find((parameter) => {
+    return parameter.name === 'dataset';
+  });
+
+  return datasetParameter?.value || '';
+};
+
+const DeploymentToolbarContainer = () => {
+  const { projectId, deploymentId } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
+  const [isShowingDeploymentTestModal, handleToggleDeploymentTestModal] =
+    useToggleState(false);
+
   const operators = useSelector(operatorsSelector);
+  const datasetOperatorUploadedFileName = useSelector(
+    datasetOperatorUploadedFileNameSelector
+  );
+
+  const isTestingFlow = useIsLoading(
+    TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_REQUEST
+  );
+
+  const isLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
   const confirmButtonIsLoading = useIsLoading(
     DEPLOYMENT_TYPES.CREATE_DEPLOYMENT_RUN_REQUEST
   );
 
-  const empty = useMemo(() => operators.length <= 0, [operators]);
+  const isEmpty = useMemo(() => {
+    return operators.length <= 0;
+  }, [operators]);
+
+  const testDeploymentFlowClassName = useMemo(() => {
+    return datasetOperatorUploadedFileName
+      ? 'deployment-toolbar-container-test-button'
+      : '';
+  }, [datasetOperatorUploadedFileName]);
 
   const handleFetchOperators = useCallback(() => {
     dispatch(fetchOperatorsRequest(projectId, deploymentId));
   }, [projectId, deploymentId, dispatch]);
 
-  const handleRunDeployment = () =>
+  const handleRunDeployment = () => {
     dispatch(
       deploymentRunsActions.createDeploymentRunRequest(
         projectId,
@@ -45,12 +87,7 @@ const DeploymentToolbarContainer = () => {
         history
       )
     );
-
-  useEffect(() => {
-    if (deploymentId) {
-      handleFetchOperators(projectId, deploymentId);
-    }
-  }, [projectId, deploymentId, handleFetchOperators]);
+  };
 
   const runDeploymentHandler = (inputValue) => {
     //TODO: Estou mostrando o valor do input no modal para quando for usar
@@ -66,36 +103,103 @@ const DeploymentToolbarContainer = () => {
     setIsShowingPromoteModal(true);
   };
 
+  const handleTestDeploymentFlow = () => {
+    if (datasetOperatorUploadedFileName) {
+      handleToggleDeploymentTestModal();
+
+      dispatch(
+        testDeploymentWithDataset(
+          projectId,
+          deploymentId,
+          datasetOperatorUploadedFileName
+        )
+      );
+    }
+  };
+
+  const handleInterruptFlowTesting = () => {
+    dispatch(interruptDeploymentTest(projectId, deploymentId));
+  };
+
+  useEffect(() => {
+    if (deploymentId) {
+      handleFetchOperators(projectId, deploymentId);
+    }
+  }, [projectId, deploymentId, handleFetchOperators]);
+
+  useEffect(() => {
+    if (isTestingFlow) {
+      message.loading({
+        key: 'isTestingFlow',
+        content: 'Testando o Fluxo',
+      });
+    } else {
+      message.destroy('isTestingFlow');
+    }
+  }, [isTestingFlow]);
+
   return (
-    <div className='buttons-config'>
+    <div className='deployment-toolbar-container'>
       <PromoteDeploymentModal
-        urlPrefix={`${window.location.origin.toString()}/seldon/anonymous/`}
-        urlSuffix='/api/v1.0/predictions'
-        visible={isShowingPromoteModal}
-        confirmButtonIsLoading={confirmButtonIsLoading}
-        onClose={handleHidePromoteModal}
-        onConfirm={runDeploymentHandler}
-        initialInputValue={deploymentId}
         isInputDisabled={true}
+        visible={isShowingPromoteModal}
+        initialInputValue={deploymentId}
+        onConfirm={runDeploymentHandler}
+        onClose={handleHidePromoteModal}
+        urlSuffix='/api/v1.0/predictions'
+        confirmButtonIsLoading={confirmButtonIsLoading}
+        urlPrefix={`${window.location.origin.toString()}/seldon/anonymous/`}
       />
+
+      <DeploymentTestResultModalContainer
+        projectId={projectId}
+        deploymentId={deploymentId}
+        isTestingFlow={isTestingFlow}
+        isShowingModal={isShowingDeploymentTestModal}
+        handleHideModal={handleToggleDeploymentTestModal}
+      />
+
       <div>
-        {/** FIXME: missing toolbar config */}
         <ToolbarConfig deployment />
       </div>
-      <div>
-        <SaveTemplateContainer
-          className='deployment-buttons'
-          disabled={loading || empty}
+
+      <div className='deployment-toolbar-container-buttons'>
+        {isTestingFlow ? (
+          <Button
+            onClick={handleInterruptFlowTesting}
+            icon={<StopOutlined />}
+            type='primary-inverse'
+            shape='round'
+            disabled // TODO: Habilitar botão quando o "Interromper" funcionar
+          >
+            Interromper
+          </Button>
+        ) : (
+          <Button
+            disabled={!datasetOperatorUploadedFileName}
+            className={testDeploymentFlowClassName}
+            onClick={handleTestDeploymentFlow}
+            icon={<PlayCircleFilled />}
+            shape='round'
+          >
+            Testar Fluxo
+          </Button>
+        )}
+
+        <Divider
+          className='deployment-toolbar-container-divider'
+          type='vertical'
         />
+
+        <SaveTemplateContainer disabled={isLoading || isEmpty} />
+
         <RunDeploymentButton
-          className='deployment-buttons'
           onClick={handleShowPromoteModal}
-          disabled={loading || empty}
+          disabled={isLoading || isEmpty}
         />
       </div>
     </div>
   );
 };
 
-// EXPORT
 export default DeploymentToolbarContainer;
