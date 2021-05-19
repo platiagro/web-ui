@@ -1,32 +1,16 @@
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// UI LIBS
-import { FundOutlined } from '@ant-design/icons';
 import { Button, Tooltip, Upload } from 'antd';
+import { FundOutlined } from '@ant-design/icons';
 
-/**
- * Upload Inference Test Button.
- * This component is responsible for displaying upload inference test button.
- */
 const UploadInferenceTestButton = ({ disabled, handleUpload }) => {
-  // upload props
-  const props = {
-    name: 'file',
-    showUploadList: false,
-    accept: '*',
-  };
-
-  // RENDER
   return (
-    // upload component
     <Upload
-      beforeUpload={(file) => {
-        handleUpload(file);
-      }}
+      accept='*'
+      name='file'
       disabled={disabled}
-      {...props}
+      showUploadList={false}
+      beforeUpload={handleUpload}
     >
       <Tooltip placement='bottom' title='Testar o fluxo'>
         <Button
@@ -42,11 +26,9 @@ const UploadInferenceTestButton = ({ disabled, handleUpload }) => {
   );
 };
 
-// PROP TYPES
 UploadInferenceTestButton.propTypes = {
-  /** upload inference test button upload handle */
   handleUpload: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
-// EXPORT
 export default UploadInferenceTestButton;

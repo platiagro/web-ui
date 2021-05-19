@@ -1,38 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { CodeOutlined } from '@ant-design/icons';
 
-import { CodeOutlined } from "@ant-design/icons";
+import './style.less';
 
-import "./style.less";
+const DebugButton = ({ onClick, active, disabled }) => {
+  const getClassName = () => {
+    if (disabled) return 'debug-button-disabled';
+    else if (active) 'debug-button';
+    return 'debug-button-active';
+  };
 
-/**
- * A debug button
- *
- * @param {*} props Component props
- *
- * @returns {DebugButton} Component
- *
- * @component
- */
-
-const DebugButton = (props) => {
-  const { onClick, active, disabled } = props;
   return (
-    <button
-      disabled={disabled}
-      className={disabled?"debug-button-disabled":active ? "debug-button" : "debug-button-active"}
-      onClick={onClick}
-    >
+    <button className={getClassName()} onClick={onClick} disabled={disabled}>
       <CodeOutlined />
       Debug
     </button>
   );
 };
 
-// PROP TYPES
 DebugButton.propTypes = {
-  /** click function */
   onClick: PropTypes.func.isRequired,
+  active: PropTypes.boolean,
+  disabled: PropTypes.boolean,
+};
+
+DebugButton.defaultProps = {
+  active: false,
+  disabled: false,
 };
 
 export default DebugButton;
