@@ -2,7 +2,7 @@
 
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import { Actions as experimentsActionTypes } from 'store/projects/experiments';
+import { EXPERIMENTS_TYPES } from 'store/projects/experiments';
 import experimentRunsActionTypes from 'store/projects/experiments/experimentRuns/actionTypes';
 import { PROJECTS_TYPES } from 'store/projects';
 
@@ -154,7 +154,7 @@ const uiReducer = (state = initialState, action = undefined) => {
       };
 
     // NEW EXPERIMENT MODAL
-    case experimentsActionTypes.CREATE_EXPERIMENT_FAIL:
+    case EXPERIMENTS_TYPES.CREATE_EXPERIMENT_FAIL:
       return {
         ...state,
         newExperimentModal: {

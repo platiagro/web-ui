@@ -163,7 +163,7 @@ const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
  * @param response
  * @returns {object} { type }
  */
-const deleteExperimentRunSuccess = (response) => (dispatch) => {
+const deleteExperimentRunSuccess = () => (dispatch) => {
   dispatch(implantedExperimentsLoadingData());
 
   dispatch({

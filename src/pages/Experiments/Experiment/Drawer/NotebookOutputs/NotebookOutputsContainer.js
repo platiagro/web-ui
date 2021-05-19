@@ -1,31 +1,28 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-// COMPONENTS
 import NotebookOutputs from './index';
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    operatorId: state.operatorReducer.uuid,
-    taskName: state.operatorReducer.name,
-    status: state.operatorReducer.status,
-  };
+const operatorIdSelector = ({ operatorReducer }) => {
+  return operatorReducer.uuid;
 };
 
-/**
- * Notebook Outputs Container.
- * This component is responsible for create a logic container for notebook button
- * with redux.
- */
-const NotebookOutputsContainer = ({ operatorId, taskName, status }) => {
-  // CONSTANTS
-  // getting experiment uuid
+const taskNameSelector = ({ operatorReducer }) => {
+  return operatorReducer.name;
+};
+
+const statusSelector = ({ operatorReducer }) => {
+  return operatorReducer.status;
+};
+
+const NotebookOutputsContainer = () => {
   const { experimentId } = useParams();
 
-  // HANDLERS
+  const operatorId = useSelector(operatorIdSelector);
+  const taskName = useSelector(taskNameSelector);
+  const status = useSelector(statusSelector);
+
   const openNotebook = () => {
     if (status) {
       window.open(
@@ -38,9 +35,7 @@ const NotebookOutputsContainer = ({ operatorId, taskName, status }) => {
     }
   };
 
-  // RENDER
   return <NotebookOutputs handleOpenNotebookClick={openNotebook} />;
 };
 
-// EXPORT
-export default connect(mapStateToProps)(NotebookOutputsContainer);
+export default NotebookOutputsContainer;
