@@ -1,75 +1,52 @@
-// CORE LIBS
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-// COMPONENTS
+import utils from 'utils';
 import PreloadAnimation from 'components/PreloadAnimation';
-
-// ACTIONS
 import { fetchJupyterLabHealth } from 'store/jupyterLab/actions';
 
-// UTILS
-import utils from 'utils';
-
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleFetchJupyterLabHealth: () => dispatch(fetchJupyterLabHealth()),
-  };
+const healthySelector = ({ jupyterLabReducer }) => {
+  return jupyterLabReducer.healthy;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    healthy: state.jupyterLabReducer.healthy,
-  };
-};
-
-/**
- * Container that handles redirect to JupyterLab.
- *
- * When JupyterLab is unavailable it shows a preload animation.
- * @param {object} props Container props
- * @returns {JupyterLabContainer} Container
- */
-const JupyterLabContainer = (props) => {
+const JupyterLabContainer = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
   const { path } = useParams();
+
   const [remainingSeconds, setRemainingSeconds] = useState(-1);
+  const healthy = useSelector(healthySelector);
 
-  const { healthy, handleFetchJupyterLabHealth } = props;
+  const handleFetchJupyterLabHealth = useCallback(() => {
+    dispatch(fetchJupyterLabHealth());
+  }, [dispatch]);
 
-  const qs = props.location.search;
-
-  // HOOKS
-  // did mount hook
   useEffect(() => {
     if (healthy) {
+      const search = location.search;
+
       let url = '/notebook/anonymous/server/lab';
-      if (path !== undefined) {
-        url = `${url}/${path}`;
-      }
-      if (qs !== undefined) {
-        url = `${url}${qs}`;
-      }
+      if (path) url = `${url}/${path}`;
+      if (search) url = `${url}${search}`;
+
       window.location.href = url;
     }
-  }, [path, qs, healthy]);
+  }, [path, healthy, location.search]);
 
+  // Polling jupyterlab health status
   useEffect(() => {
-    async function updateRemainingSeconds() {
+    const updateRemainingSeconds = async () => {
       await utils.sleep(1000);
       if (remainingSeconds > 0) {
         setRemainingSeconds(remainingSeconds - 1);
       } else {
-        // polling jupyterlab health status
         handleFetchJupyterLabHealth();
-
-        // gives 3 seconds of reading time for users
+        // 3 seconds of reading time
         await utils.sleep(3000);
         setRemainingSeconds(9);
       }
-    }
+    };
 
     updateRemainingSeconds();
   }, [handleFetchJupyterLabHealth, remainingSeconds, setRemainingSeconds]);
@@ -77,6 +54,4 @@ const JupyterLabContainer = (props) => {
   return <PreloadAnimation remainingSeconds={remainingSeconds} />;
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(JupyterLabContainer)
-);
+export default JupyterLabContainer;

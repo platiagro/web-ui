@@ -1,8 +1,7 @@
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// ANTD LIBS
+import { Button, Popconfirm } from 'antd';
+import { useZoomPanHelper } from 'react-flow-renderer';
 import {
   RedoOutlined,
   UndoOutlined,
@@ -12,11 +11,7 @@ import {
   ExpandOutlined,
 } from '@ant-design/icons';
 
-import { Button, Popconfirm } from 'antd';
-
-import { useZoomPanHelper } from 'react-flow-renderer';
-
-const ToolbarConfig = ({ handleDeleteClick, operator, deployment = false }) => {
+const ToolbarConfig = ({ handleDeleteClick, operator, deployment }) => {
   const { fitView, zoomTo, zoomIn, zoomOut } = useZoomPanHelper();
 
   const handleFitView = () => {
@@ -30,6 +25,7 @@ const ToolbarConfig = ({ handleDeleteClick, operator, deployment = false }) => {
       <Button icon={<RedoOutlined />} type='text' disabled />
       <Button icon={<ZoomInOutlined />} type='text' onClick={zoomIn} />
       <Button icon={<ZoomOutOutlined />} type='text' onClick={zoomOut} />
+
       {!deployment && (
         <>
           <Button
@@ -37,6 +33,7 @@ const ToolbarConfig = ({ handleDeleteClick, operator, deployment = false }) => {
             type='text'
             onClick={handleFitView}
           />
+
           <Popconfirm
             title='Você tem certeza que deseja excluir esta tarefa?'
             onConfirm={handleDeleteClick}
@@ -56,15 +53,16 @@ const ToolbarConfig = ({ handleDeleteClick, operator, deployment = false }) => {
   );
 };
 
-// PROP TYPES
 ToolbarConfig.propTypes = {
-  /** remove operator button is disabled */
-  disabled: PropTypes.bool,
-  /** remove operator button click function */
-  handleClick: PropTypes.func,
-  /** is loading */
-  loading: PropTypes.bool,
+  handleDeleteClick: PropTypes.func,
+  operator: PropTypes.object,
+  deployment: PropTypes.bool,
 };
 
-// EXPORT
+ToolbarConfig.defaultProps = {
+  handleDeleteClick: undefined,
+  operator: undefined,
+  deployment: false,
+};
+
 export default ToolbarConfig;

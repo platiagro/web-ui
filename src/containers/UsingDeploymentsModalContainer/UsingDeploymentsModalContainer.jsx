@@ -1,11 +1,7 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-// COMPONENTS
 import { UsingDeploymentsModal } from 'components/Modals';
-
-// ACTIONS
 import { hideUsingDeploymentsModal } from 'store/ui/actions';
 
 const ContentInfo = () => {
@@ -64,11 +60,15 @@ const ContentInfo = () => {
       <pre style={styles}>{request}</pre>
       <p></p>
       <p>
-        <b>"names":[...] </b>- nome das colunas do conjunto de dados, sem o nome
-        do atributo alvo.
+        <b>
+          <q>names</q>:[...]{' '}
+        </b>
+        - nome das colunas do conjunto de dados, sem o nome do atributo alvo.
         <br />
-        <b>"ndarray":[...]</b> - amostras para predição, sem o valor atributo
-        alvo.
+        <b>
+          <q>ndarray</q>:[...]
+        </b>{' '}
+        - amostras para predição, sem o valor atributo alvo.
       </p>
 
       <h3>Response Body:</h3>
@@ -76,38 +76,34 @@ const ContentInfo = () => {
       <pre style={styles}>{response}</pre>
 
       <p>
-        <b>"names":[...] </b>- nome das colunas retornadas pelo último passo do
-        fluxo de experimentos.
+        <b>
+          <q>names</q>:[...]{' '}
+        </b>
+        - nome das colunas retornadas pelo último passo do fluxo de
+        experimentos.
         <br />
-        <b>"ndarray":[...]</b> - valores retornados pelo último passo do fluxo
-        de experimentos.
+        <b>
+          <q>ndarray</q>:[...]
+        </b>{' '}
+        - valores retornados pelo último passo do fluxo de experimentos.
       </p>
     </div>
   );
 };
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleCloseModal: () => dispatch(hideUsingDeploymentsModal()),
-  };
+const visibleSelector = ({ uiReducer }) => {
+  return uiReducer.usingDeploymentsModal.visible;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    visible: state.uiReducer.usingDeploymentsModal.visible,
-  };
-};
+const UsingDeploymentsModalContainer = () => {
+  const dispatch = useDispatch();
 
-/**
- * Container to display using deployments modal.
- *
- * @param {object} props Container props
- * @returns {UsingDeploymentsModalContainer} Container
- */
-const UsingDeploymentsModalContainer = (props) => {
-  const { handleCloseModal, visible } = props;
+  const visible = useSelector(visibleSelector);
+
+  const handleCloseModal = () => {
+    dispatch(hideUsingDeploymentsModal());
+  };
+
   return (
     <UsingDeploymentsModal
       visible={visible}
@@ -119,7 +115,4 @@ const UsingDeploymentsModalContainer = (props) => {
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UsingDeploymentsModalContainer);
+export default UsingDeploymentsModalContainer;

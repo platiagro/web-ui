@@ -1,44 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ExternalDatasetHelperModal } from 'components/Modals';
-
-// ACTIONS
 import { hideExternalDatasetHelperModal } from 'store/ui/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    // close modal
-    handleClose: () => dispatch(hideExternalDatasetHelperModal()),
-  };
+const visibleSelector = ({ uiReducer }) => {
+  return uiReducer.externalDatasetHelperModal.visible;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    // external dataset helper is visible
-    visible: state.uiReducer.externalDatasetHelperModal.visible,
-  };
-};
+const ExternalDatasetHelperModalContainer = ({ disabled, url }) => {
+  const dispatch = useDispatch();
 
-const ExternalDatasetHelperModalContainer = (props) => {
-  const { handleClose, visible, disabled, url } = props;
+  const visible = useSelector(visibleSelector);
+
+  const handleClose = () => {
+    dispatch(hideExternalDatasetHelperModal());
+  };
+
   return (
     <ExternalDatasetHelperModal
       onClose={handleClose}
-      visible={visible}
       disabled={disabled}
+      visible={visible}
       url={url}
     />
   );
 };
 
 ExternalDatasetHelperModalContainer.propTypes = {
-  /** Data view modal close handler */
-  handleClose: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired,
   url: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
 };
@@ -48,7 +38,4 @@ ExternalDatasetHelperModalContainer.defaultProps = {
   url: '',
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExternalDatasetHelperModalContainer);
+export default ExternalDatasetHelperModalContainer;
