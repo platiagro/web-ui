@@ -41,7 +41,6 @@ const PrepareDeploymentsModalContainer = () => {
   return (
     <PrepareDeploymentsModal
       visible={visible}
-      loading={false}
       experiments={experiments}
       onClose={() => dispatch(hidePrepareDeploymentsModal())}
       onConfirm={handleConfirm}
