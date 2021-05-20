@@ -21,6 +21,8 @@ import {
 import utils from 'utils';
 import { CancelToken, isCancel } from 'axios';
 
+import { showWarning } from 'store/message';
+
 // ACTIONS
 // ** FETCH DATASET COLUMNS
 /**
@@ -131,18 +133,16 @@ export const cancelDatasetUpload = () => (dispatch, getState) => {
  * @param {string} projectId Current Project id
  * @param {string} experimentId Current Experiment id
  * @param {object} datasetOperator Dataset operator
+ * @param experimentIsSucceeded
  * @returns {Function} Dispatch function
  */
-export const datasetUploadSuccess = (
-  dataset,
-  projectId,
-  experimentId,
-  datasetOperator
-) => (dispatch) => {
-  const featuretypes = utils.getFeaturetypes(dataset);
+export const datasetUploadSuccess =
+  (dataset, projectId, experimentId, datasetOperator, experimentIsSucceeded) =>
+  (dispatch) => {
+    const featuretypes = utils.getFeaturetypes(dataset);
 
-  // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
-  /*   const { operatorsReducer } = getState();
+    // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
+    /*   const { operatorsReducer } = getState();
 
   const operators = operatorsReducer.map((operatorItem) =>
     operatorItem.uuid === operator.uuid
@@ -156,41 +156,49 @@ export const datasetUploadSuccess = (
     operators,
   }); */
 
-  // update dataset parameter
-  dispatch(
-    setOperatorParametersRequest(
-      projectId,
-      experimentId,
-      datasetOperator,
-      'dataset',
-      dataset.name
-    )
-  );
+    // update dataset parameter
+    dispatch(
+      setOperatorParametersRequest(
+        projectId,
+        experimentId,
+        datasetOperator,
+        'dataset',
+        dataset.name
+      )
+    );
 
-  // dispatching clear operator feature parameters
-  dispatch(
-    clearOperatorsFeatureParametersRequest(projectId, experimentId, dataset)
-  );
+    // dispatching clear operator feature parameters
+    dispatch(
+      clearOperatorsFeatureParametersRequest(projectId, experimentId, dataset)
+    );
 
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
+    // dispatching dataset operator data loaded action
+    dispatch(datasetOperatorDataLoaded());
 
-  // dispatch action
-  dispatch({
-    type: actionTypes.CREATE_DATASET_SUCCESS,
-    payload: {
-      filename: dataset.filename || '',
-      name: dataset.name || '',
-      columns: dataset.columns || [],
-      status: dataset && dataset.name ? 'done' : null,
-      featuretypes: featuretypes || '',
-      isUploading: false,
-      cancelToken: null,
-    },
-  });
+    // dispatch action
+    dispatch({
+      type: actionTypes.CREATE_DATASET_SUCCESS,
+      payload: {
+        filename: dataset.filename || '',
+        name: dataset.name || '',
+        columns: dataset.columns || [],
+        status: dataset && dataset.name ? 'done' : null,
+        featuretypes: featuretypes || '',
+        isUploading: false,
+        cancelToken: null,
+      },
+    });
 
-  message.success('Dados de entrada importados', 5);
-};
+    message.success('Dados de entrada importados', 5);
+
+    if (experimentIsSucceeded) {
+      dispatch(
+        showWarning(
+          'Arquivo atualizado! Algumas tarefas precisam ser reconfiguradas.'
+        )
+      );
+    }
+  };
 
 /**
  * Dataset upload fail action
@@ -240,29 +248,28 @@ export const updateDatasetUpload = (uploadProgress) => (dispatch) => {
  * @param {string} experimentId Experiment id
  * @returns {Function} Dispatch function
  */
-export const startFileDatasetUpload = (file, projectId, experimentId) => (
-  dispatch
-) => {
-  // create cancel token
-  const cancelToken = CancelToken.source();
+export const startFileDatasetUpload =
+  (file, projectId, experimentId) => (dispatch) => {
+    // create cancel token
+    const cancelToken = CancelToken.source();
 
-  // dispatching request action
-  dispatch({
-    type: actionTypes.CREATE_DATASET_REQUEST,
-    file: file,
-    cancelToken: cancelToken,
-  });
+    // dispatching request action
+    dispatch({
+      type: actionTypes.CREATE_DATASET_REQUEST,
+      file: file,
+      cancelToken: cancelToken,
+    });
 
-  // create new form data
-  const fileFormData = new FormData();
+    // create new form data
+    const fileFormData = new FormData();
 
-  // append dataset file
-  fileFormData.append('file', file);
+    // append dataset file
+    fileFormData.append('file', file);
 
-  dispatch(
-    startDatasetUpload(fileFormData, cancelToken, projectId, experimentId)
-  );
-};
+    dispatch(
+      startDatasetUpload(fileFormData, cancelToken, projectId, experimentId)
+    );
+  };
 
 /**
  * Start a Google upload
@@ -272,23 +279,22 @@ export const startFileDatasetUpload = (file, projectId, experimentId) => (
  * @param {string} experimentId Experiment id
  * @returns {Function} Dispatch function
  */
-export const startGoogleDatasetUpload = (gfile, projectId, experimentId) => (
-  dispatch
-) => {
-  // create cancel token
-  const cancelToken = CancelToken.source();
+export const startGoogleDatasetUpload =
+  (gfile, projectId, experimentId) => (dispatch) => {
+    // create cancel token
+    const cancelToken = CancelToken.source();
 
-  // dispatching request action
-  dispatch({
-    type: actionTypes.CREATE_DATASET_REQUEST,
-    file: gfile,
-    cancelToken: cancelToken,
-  });
+    // dispatching request action
+    dispatch({
+      type: actionTypes.CREATE_DATASET_REQUEST,
+      file: gfile,
+      cancelToken: cancelToken,
+    });
 
-  const file = { gfile };
+    const file = { gfile };
 
-  dispatch(startDatasetUpload(file, cancelToken, projectId, experimentId));
-};
+    dispatch(startDatasetUpload(file, cancelToken, projectId, experimentId));
+  };
 
 /**
  * Start dataset upload action
@@ -299,23 +305,24 @@ export const startGoogleDatasetUpload = (gfile, projectId, experimentId) => (
  * @param {string} experimentId The experiment id
  * @returns {Function} Dispatch function
  */
-export const startDatasetUpload = (
-  file,
-  cancelToken,
-  projectId,
-  experimentId
-) => async (dispatch, getState) => {
-  // get reducers from store
-  const { operatorReducer } = getState();
+export const startDatasetUpload =
+  (file, cancelToken, projectId, experimentId) =>
+  async (dispatch, getState) => {
+    // get reducers from store
+    const { operatorReducer, operatorsReducer: operators } = getState();
 
-  // save dataset operator
-  const datasetOperator = { ...operatorReducer };
+    // save dataset operator
+    const datasetOperator = { ...operatorReducer };
 
-  // dispatching dataset operator loading data action
-  dispatch(datasetOperatorLoadingData());
+    const experimentIsSucceeded = operators.every((operator) => {
+      return operator.status === 'Succeeded';
+    });
 
-  // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
-  /* 
+    // dispatching dataset operator loading data action
+    dispatch(datasetOperatorLoadingData());
+
+    // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
+    /* 
   const {
     operatorsReducer,
   } = getState();
@@ -331,31 +338,37 @@ export const startDatasetUpload = (
     operators,
   }); */
 
-  // upload file block
-  try {
-    // call api
-    const response = await datasetsApi.createDataset(
-      file,
-      cancelToken,
-      (progress) => dispatch(updateDatasetUpload(progress))
-    );
+    // upload file block
+    try {
+      // call api
+      const response = await datasetsApi.createDataset(
+        file,
+        cancelToken,
+        (progress) => dispatch(updateDatasetUpload(progress))
+      );
 
-    // get dataset from response
-    const dataset = response.data;
+      // get dataset from response
+      const dataset = response.data;
 
-    // dispatch success action
-    dispatch(
-      datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
-    );
-    // on error
-  } catch (error) {
-    // error not is cancel action
-    if (!isCancel(error)) {
-      // dispatch fail action
-      dispatch(datasetUploadFail());
+      // dispatch success action
+      dispatch(
+        datasetUploadSuccess(
+          dataset,
+          projectId,
+          experimentId,
+          datasetOperator,
+          experimentIsSucceeded
+        )
+      );
+      // on error
+    } catch (error) {
+      // error not is cancel action
+      if (!isCancel(error)) {
+        // dispatch fail action
+        dispatch(datasetUploadFail());
+      }
     }
-  }
-};
+  };
 
 // // // // // // // // // //
 
@@ -410,31 +423,29 @@ const updateDatasetColumnFail = (error) => (dispatch) => {
  * @param {string} columnNewType
  * @returns {Function}
  */
-export const updateDatasetColumnRequest = (columnName, columnNewType) => (
-  dispatch,
-  getState
-) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.UPDATE_DATASET_COLUMN_REQUEST,
-  });
+export const updateDatasetColumnRequest =
+  (columnName, columnNewType) => (dispatch, getState) => {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.UPDATE_DATASET_COLUMN_REQUEST,
+    });
 
-  // dispatching dataset operator loading data action
-  dispatch(datasetOperatorLoadingData());
+    // dispatching dataset operator loading data action
+    dispatch(datasetOperatorLoadingData());
 
-  // getting operators and tasks from store
-  const { operatorsReducer, tasksReducer } = getState();
-  const tasks = tasksReducer.tasks;
+    // getting operators and tasks from store
+    const { operatorsReducer, tasksReducer } = getState();
+    const tasks = tasksReducer.tasks;
 
-  // get dataset name
-  const datasetName = utils.getDatasetName(tasks, operatorsReducer);
+    // get dataset name
+    const datasetName = utils.getDatasetName(tasks, operatorsReducer);
 
-  // updating dataset columns
-  datasetsApi
-    .updateDatasetColumn(datasetName, columnName, columnNewType)
-    .then((response) => dispatch(updateDatasetColumnSuccess(response)))
-    .catch((error) => dispatch(updateDatasetColumnFail(error)));
-};
+    // updating dataset columns
+    datasetsApi
+      .updateDatasetColumn(datasetName, columnName, columnNewType)
+      .then((response) => dispatch(updateDatasetColumnSuccess(response)))
+      .catch((error) => dispatch(updateDatasetColumnFail(error)));
+  };
 
 // // // // // // // // // //
 
@@ -534,35 +545,43 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
  * @param {string} experimentId Experiment id
  * @returns {Function} Action
  */
-export const selectDataset = (datasetName, projectId, experimentId) => (
-  dispatch,
-  getState
-) => {
-  // dispatch action
-  dispatch({
-    type: actionTypes.SELECT_DATASET,
-  });
+export const selectDataset =
+  (datasetName, projectId, experimentId) => (dispatch, getState) => {
+    // dispatch action
+    dispatch({
+      type: actionTypes.SELECT_DATASET,
+    });
 
-  // get operator reducer from store
-  const { operatorReducer } = getState();
+    // get operator reducer from store
+    const { operatorReducer, operatorsReducer: operators } = getState();
 
-  // save dataset operator
-  const datasetOperator = { ...operatorReducer };
+    // save dataset operator
+    const datasetOperator = { ...operatorReducer };
 
-  // fetching dataset
-  datasetsApi
-    .getDataset(datasetName)
-    .then((response) => {
-      // get dataset from response
-      const dataset = response.data;
+    const experimentIsSucceeded = operators.every((operator) => {
+      return operator.status === 'Succeeded';
+    });
 
-      // dispatch action to save dataset
-      dispatch(
-        datasetUploadSuccess(dataset, projectId, experimentId, datasetOperator)
-      );
-    })
-    .catch((error) => dispatch(getDatasetFail(error)));
-};
+    // fetching dataset
+    datasetsApi
+      .getDataset(datasetName)
+      .then((response) => {
+        // get dataset from response
+        const dataset = response.data;
+
+        // dispatch action to save dataset
+        dispatch(
+          datasetUploadSuccess(
+            dataset,
+            projectId,
+            experimentId,
+            datasetOperator,
+            experimentIsSucceeded
+          )
+        );
+      })
+      .catch((error) => dispatch(getDatasetFail(error)));
+  };
 
 // // // // // // // // // //
 
@@ -571,9 +590,10 @@ export const selectDataset = (datasetName, projectId, experimentId) => (
 /**
  * delete dataset success action
  *
+ * @param experimentIsSucceeded
  * @returns {Function} Dispatch function
  */
-export const deleteDatasetSuccess = () => (dispatch) => {
+export const deleteDatasetSuccess = (experimentIsSucceeded) => (dispatch) => {
   // dispatching dataset operator data loaded action
   dispatch(datasetOperatorDataLoaded());
 
@@ -591,6 +611,14 @@ export const deleteDatasetSuccess = () => (dispatch) => {
       isUploading: false,
     },
   });
+
+  if (experimentIsSucceeded) {
+    dispatch(
+      showWarning(
+        'Arquivo atualizado! Algumas tarefas precisam ser reconfiguradas.'
+      )
+    );
+  }
 };
 
 /**
@@ -622,43 +650,46 @@ export const deleteDatasetFail = () => (dispatch) => {
  * @param experimentId
  * @returns {Function} Dispatch function
  */
-export const deleteDatasetRequest = (projectId, experimentId) => (
-  dispatch,
-  getState
-) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.DELETE_DATASET_REQUEST,
-  });
+export const deleteDatasetRequest =
+  (projectId, experimentId) => (dispatch, getState) => {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.DELETE_DATASET_REQUEST,
+    });
 
-  // get select operator from store
-  const { operatorReducer: operator } = getState();
+    // get select operator from store
+    const { operatorReducer: operator, operatorsReducer: operators } =
+      getState();
 
-  // dispatching dataset operator loading data action
-  dispatch(datasetOperatorLoadingData());
+    const experimentIsSucceeded = operators.every((operatorItem) => {
+      return operatorItem.status === 'Succeeded';
+    });
 
-  try {
-    // update dataset parameter
-    dispatch(
-      setOperatorParametersRequest(
-        projectId,
-        experimentId,
-        operator,
-        'dataset',
-        ''
-      )
-    );
+    // dispatching dataset operator loading data action
+    dispatch(datasetOperatorLoadingData());
 
-    // dispatching clear operator feature parameters
-    dispatch(
-      clearOperatorsFeatureParametersRequest(projectId, experimentId, null)
-    );
+    try {
+      // update dataset parameter
+      dispatch(
+        setOperatorParametersRequest(
+          projectId,
+          experimentId,
+          operator,
+          'dataset',
+          ''
+        )
+      );
 
-    dispatch(deleteDatasetSuccess());
-  } catch (e) {
-    dispatch(deleteDatasetFail());
-  }
-};
+      // dispatching clear operator feature parameters
+      dispatch(
+        clearOperatorsFeatureParametersRequest(projectId, experimentId, null)
+      );
+
+      dispatch(deleteDatasetSuccess(experimentIsSucceeded));
+    } catch (e) {
+      dispatch(deleteDatasetFail());
+    }
+  };
 
 export const updateAllDatasetColumnStart = () => (dispatch) => {
   // dispatching update dataset column success
