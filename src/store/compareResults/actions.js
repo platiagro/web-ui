@@ -74,7 +74,7 @@ export const deleteCompareResult = (projectId, id) => {
     dispatch(setDeleteLoaderCompareResultsModal(true));
     compareResultsApi
       .deleteCompareResult(projectId, id)
-      .then((response) => {
+      .then(() => {
         dispatch(setDeleteLoaderCompareResultsModal(false));
         dispatch({
           type: actionTypes.DELETE_COMPARE_RESULT,
@@ -140,64 +140,63 @@ export const fetchCompareResults = (projectId) => (dispatch, getState) => {
  *
  * @param {object} compareResult
  */
-export const fetchCompareResultsResults = (compareResult) => async (
-  dispatch
-) => {
-  const { projectId, experimentId, operatorId, runId } = compareResult;
-  const figures = await experimentRunsApi
-    .listOperatorFigures(projectId, experimentId, runId, operatorId)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {});
+export const fetchCompareResultsResults =
+  (compareResult) => async (dispatch) => {
+    const { projectId, experimentId, operatorId, runId } = compareResult;
+    const figures = await experimentRunsApi
+      .listOperatorFigures(projectId, experimentId, runId, operatorId)
+      .then((response) => {
+        return response.data;
+      })
+      .catch(() => {});
 
-  const dataset = await experimentRunsApi
-    .listOperatorDatasets(projectId, experimentId, runId, operatorId, 1)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {});
+    const dataset = await experimentRunsApi
+      .listOperatorDatasets(projectId, experimentId, runId, operatorId, 1)
+      .then((response) => {
+        return response.data;
+      })
+      .catch(() => {});
 
-  const metrics = await experimentRunsApi
-    .listOperatorMetrics(projectId, experimentId, runId, operatorId)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {});
+    const metrics = await experimentRunsApi
+      .listOperatorMetrics(projectId, experimentId, runId, operatorId)
+      .then((response) => {
+        return response.data;
+      })
+      .catch(() => {});
 
-  const figureResults = utils.transformResults(operatorId, figures);
-  let datasetResult = null;
-  if (dataset) {
-    // create columns in antd format
-    let tableColumns = [];
-    let index = 0;
-    for (let column of dataset.columns) {
-      let tableColumn = {
-        title: column,
-        dataIndex: index,
+    const figureResults = utils.transformResults(operatorId, figures);
+    let datasetResult = null;
+    if (dataset) {
+      // create columns in antd format
+      let tableColumns = [];
+      let index = 0;
+      for (let column of dataset.columns) {
+        let tableColumn = {
+          title: column,
+          dataIndex: index,
+        };
+        tableColumns.push(tableColumn);
+        index++;
+      }
+      datasetResult = {
+        uuid: `table-${operatorId}`,
+        columns: tableColumns,
+        currentPage: 1,
+        pageSize: 10,
+        rows: dataset.data,
+        total: dataset.total,
       };
-      tableColumns.push(tableColumn);
-      index++;
     }
-    datasetResult = {
-      uuid: `table-${operatorId}`,
-      columns: tableColumns,
-      currentPage: 1,
-      pageSize: 10,
-      rows: dataset.data,
-      total: dataset.total,
-    };
-  }
 
-  const compareResultsAux = { ...compareResult };
-  compareResultsAux.dataset = datasetResult ? datasetResult : null;
-  compareResultsAux.figures = figureResults ? figureResults : [];
-  compareResultsAux.metrics = metrics ? metrics : [];
-  dispatch({
-    type: actionTypes.UPDATE_COMPARE_RESULT,
-    compareResult: compareResultsAux,
-  });
-};
+    const compareResultsAux = { ...compareResult };
+    compareResultsAux.dataset = datasetResult ? datasetResult : null;
+    compareResultsAux.figures = figureResults ? figureResults : [];
+    compareResultsAux.metrics = metrics ? metrics : [];
+    dispatch({
+      type: actionTypes.UPDATE_COMPARE_RESULT,
+      compareResult: compareResultsAux,
+    });
+  };
 
 /**
  * Get compare result dataset paginated
@@ -206,62 +205,59 @@ export const fetchCompareResultsResults = (compareResult) => async (
  * @param page
  * @param pageSize
  */
-export const getCompareResultDatasetPaginated = (
-  compareResult,
-  page,
-  pageSize
-) => (dispatch) => {
-  dispatch({
-    type: actionTypes.GET_COMPARE_RESULT_DATASET_PAGINATED_REQUEST,
-  });
-
-  const { projectId, experimentId, operatorId, runId } = compareResult;
-  experimentRunsApi
-    .listOperatorDatasets(
-      projectId,
-      experimentId,
-      runId,
-      operatorId,
-      page,
-      pageSize
-    )
-    .then((response) => {
-      let newDatasetResult = null;
-      if (response) {
-        const responseData = response.data;
-        // create columns in antd format
-        let tableColumns = [];
-        let index = 0;
-        for (let column of responseData.columns) {
-          let tableColumn = {
-            title: column,
-            dataIndex: index,
-          };
-          tableColumns.push(tableColumn);
-          index++;
-        }
-        newDatasetResult = {
-          uuid: `table-${operatorId}`,
-          columns: tableColumns,
-          currentPage: page,
-          pageSize: pageSize,
-          rows: responseData.data,
-          total: responseData.total,
-        };
-        const compareResultsAux = { ...compareResult };
-        compareResultsAux.dataset = newDatasetResult;
-        dispatch({
-          type: actionTypes.UPDATE_COMPARE_RESULT,
-          compareResult: compareResultsAux,
-        });
-      }
-    })
-    .catch((error) => {
-      dispatch({
-        type: actionTypes.GET_COMPARE_RESULT_DATASET_PAGINATED_FAIL,
-      });
+export const getCompareResultDatasetPaginated =
+  (compareResult, page, pageSize) => (dispatch) => {
+    dispatch({
+      type: actionTypes.GET_COMPARE_RESULT_DATASET_PAGINATED_REQUEST,
     });
-};
+
+    const { projectId, experimentId, operatorId, runId } = compareResult;
+    experimentRunsApi
+      .listOperatorDatasets(
+        projectId,
+        experimentId,
+        runId,
+        operatorId,
+        page,
+        pageSize
+      )
+      .then((response) => {
+        let newDatasetResult = null;
+        if (response) {
+          const responseData = response.data;
+          // create columns in antd format
+          let tableColumns = [];
+          let index = 0;
+          for (let column of responseData.columns) {
+            let tableColumn = {
+              title: column,
+              dataIndex: index,
+            };
+            tableColumns.push(tableColumn);
+            index++;
+          }
+          newDatasetResult = {
+            uuid: `table-${operatorId}`,
+            columns: tableColumns,
+            currentPage: page,
+            pageSize: pageSize,
+            rows: responseData.data,
+            total: responseData.total,
+          };
+          const compareResultsAux = { ...compareResult };
+          compareResultsAux.dataset = newDatasetResult;
+          dispatch({
+            type: actionTypes.UPDATE_COMPARE_RESULT,
+            compareResult: compareResultsAux,
+          });
+        }
+      })
+      .catch(() => {
+        dispatch({
+          type: actionTypes.GET_COMPARE_RESULT_DATASET_PAGINATED_FAIL,
+        });
+      });
+  };
 
 /**
  * Function to fetch the training history and dispatch to reducer
@@ -273,6 +269,7 @@ export const fetchTrainingHistory = (projectId, experimentId) => {
   return (dispatch, getState) => {
     const { compareResultsReducer } = getState();
     const trainingHistory = compareResultsReducer.experimentsTrainingHistory;
+    // eslint-disable-next-line no-prototype-builtins
     if (!trainingHistory.hasOwnProperty(experimentId)) {
       dispatch(updateExperimentsOptions(experimentId, null, true));
       return experimentRunsApi

@@ -1,34 +1,28 @@
-// CORE LIBS
+/* eslint-disable jsx-a11y/no-autofocus */
+
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-// UI LIBS
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Form, Input, Modal, Select } from 'antd';
 
-// SELECT COMPONENTS
 const { Option } = Select;
 
-/**
- * New Task Modal.
- * This component is responsible for displaying a new task modal.
- */
 const NewTaskModal = ({
   visible,
-  templates,
   loading,
-  modalValidateStatus,
+  templates,
   errorMessage,
-  handleCloseModal,
-  handleNewTask,
   copyTaskRecord,
+  modalValidateStatus,
+  handleNewTask,
+  handleCloseModal,
 }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
   const [form] = Form.useForm();
   const inputNameRef = useRef();
 
-  // did mount hook
   useEffect(() => {
     if (visible) {
       setTimeout(() => inputNameRef.current.select());
@@ -38,8 +32,6 @@ const NewTaskModal = ({
     setStatus(modalValidateStatus);
   }, [form, modalValidateStatus, visible]);
 
-  // FUNCTIONS
-  // function to enable or disable submit button
   const onValuesChangeForm = (changedValues, allValues) => {
     if (allValues.name === '') {
       setButtonDisabled(true);
@@ -47,16 +39,14 @@ const NewTaskModal = ({
       setButtonDisabled(false);
     }
   };
-  // Function to handle form submit
+
   const handleSubmit = () => {
     form.validateFields().then((values) => {
       handleNewTask(values);
     });
   };
 
-  // RENDER
   return (
-    // modal component
     <Modal
       visible={visible}
       title='Nova Tarefa'
@@ -73,7 +63,6 @@ const NewTaskModal = ({
       }}
       destroyOnClose
     >
-      {/* form details */}
       <Form
         id='newTaskForm'
         layout='vertical'
@@ -81,11 +70,10 @@ const NewTaskModal = ({
         preserve={false}
         onValuesChange={onValuesChangeForm}
       >
-        {/* templates */}
         <Form.Item
-          label='Escolha um exemplo ou template para começar:'
           name='template'
           initialValue={copyTaskRecord.uuid || 'uuid'}
+          label='Escolha um exemplo ou template para começar:'
           rules={[
             {
               required: true,
@@ -94,9 +82,7 @@ const NewTaskModal = ({
             },
           ]}
         >
-          {/*template dropdown select */}
           <Select>
-            {/* template options */}
             {templates.map((template) => (
               <Option key={template.uuid} value={template.uuid}>
                 {template.name}
@@ -104,10 +90,12 @@ const NewTaskModal = ({
             ))}
           </Select>
         </Form.Item>
-        {/* name */}
+
         <Form.Item
-          label='Qual o nome da sua tarefa?'
           name='name'
+          label='Qual o nome da sua tarefa?'
+          help={status ? errorMessage : undefined}
+          validateStatus={status ? modalValidateStatus : undefined}
           initialValue={
             copyTaskRecord.name === undefined
               ? copyTaskRecord.name
@@ -119,34 +107,29 @@ const NewTaskModal = ({
               message: 'Por favor insira um nome para a tarefa!',
             },
           ]}
-          validateStatus={status ? modalValidateStatus : undefined}
-          help={status ? errorMessage : undefined}
           autoFocus
         >
           <Input
-            allowClear
-            autoFocus
             ref={inputNameRef}
             onChange={() => {
-              // remove current status
               setStatus(null);
             }}
+            allowClear
+            autoFocus
           />
         </Form.Item>
-        {/* description */}
+
         <Form.Item
           label='Descrição (opcional):'
           name='description'
           initialValue={copyTaskRecord.description}
         >
-          {/* description text area */}
           <Input.TextArea />
         </Form.Item>
-        {/* warning */}
+
         <p style={{ marginTop: -5 }}>
-          {/* warning icon */}
           <ExclamationCircleOutlined />
-          {/* warning description */}
+
           <span style={{ marginLeft: 10 }}>
             Será aberta uma nova aba contendo dois notebooks para edição,
             experimentação e implantação.
@@ -157,19 +140,15 @@ const NewTaskModal = ({
   );
 };
 
-// PROP TYPES
 NewTaskModal.propTypes = {
-  /** new task modal visible */
   visible: PropTypes.bool.isRequired,
-  /**  new task modal templates list */
-  templates: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** new task modal close handler */
-  handleCloseModal: PropTypes.func.isRequired,
-  /** new task modal new task handler */
-  handleNewTask: PropTypes.func.isRequired,
-  /** is loading */
   loading: PropTypes.bool.isRequired,
+  templates: PropTypes.array.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+  copyTaskRecord: PropTypes.object.isRequired,
+  modalValidateStatus: PropTypes.string.isRequired,
+  handleNewTask: PropTypes.func.isRequired,
+  handleCloseModal: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default NewTaskModal;

@@ -1,17 +1,18 @@
-// REACT LIBS
-import PropTypes from 'prop-types';
-import React from 'react';
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable react/prop-types */
 
-// COMPONENTS
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
-  NumberInputBlock,
   RadioInput,
-  SelectInputBlock,
   TextInputBlock,
+  SelectInputBlock,
   ToggleInputBlock,
+  NumberInputBlock,
 } from 'components/InputBlocks';
 
-function getParameterTypes(object, parameter, defaultType) {
+const getParameterTypes = (object, parameter, defaultType) => {
   if (object.hasOwnProperty(parameter.type)) return object[parameter.type];
   else {
     console.warn(
@@ -19,13 +20,12 @@ function getParameterTypes(object, parameter, defaultType) {
     );
     return object[defaultType];
   }
-}
+};
 
-// PARAMETER TYPES
 const parameterTypes = {
-  // BOOLEAN / TOGGLE
   boolean(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { uuid, name, description, label, value } = props;
+
     return (
       <ToggleInputBlock
         key={uuid || name}
@@ -42,7 +42,7 @@ const parameterTypes = {
       />
     );
   },
-  // feature
+
   feature(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { uuid, name, label, value, options, multiple, description } = props;
 
@@ -65,7 +65,7 @@ const parameterTypes = {
       />
     );
   },
-  // float
+
   float(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, max, multiple, min, name } = props;
     const { options, placeholder, step, uuid, value } = props;
@@ -87,7 +87,6 @@ const parameterTypes = {
         valueLatestTraining={valueLatestTraining}
       />
     ) : (
-      // number select input
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
@@ -104,7 +103,7 @@ const parameterTypes = {
       />
     );
   },
-  // integer
+
   integer(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, max, multiple, min, name } = props;
     const { options, placeholder, step, uuid, value } = props;
@@ -126,7 +125,6 @@ const parameterTypes = {
         valueLatestTraining={valueLatestTraining}
       />
     ) : (
-      // integer select input
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
@@ -143,7 +141,7 @@ const parameterTypes = {
       />
     );
   },
-  // number
+
   number(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, max, multiple, min, name } = props;
     const { options, placeholder, step, uuid, value } = props;
@@ -165,7 +163,6 @@ const parameterTypes = {
         valueLatestTraining={valueLatestTraining}
       />
     ) : (
-      // number select input
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
@@ -182,7 +179,7 @@ const parameterTypes = {
       />
     );
   },
-  // radio
+
   radio({ uuid, name, ...props }) {
     return (
       <RadioInput
@@ -193,7 +190,7 @@ const parameterTypes = {
       />
     );
   },
-  // select
+
   select({ uuid, name, ...props }) {
     return (
       <SelectInputBlock
@@ -204,7 +201,7 @@ const parameterTypes = {
       />
     );
   },
-  // string
+
   string(props, loading, handleChange, trainingLoading, valueLatestTraining) {
     const { description, label, multiple, name } = props;
     const { options, placeholder, value, uuid } = props;
@@ -223,7 +220,6 @@ const parameterTypes = {
         valueLatestTraining={valueLatestTraining}
       />
     ) : (
-      // string select input
       <SelectInputBlock
         key={uuid || name}
         isMultiple={multiple ? true : false}
@@ -242,17 +238,9 @@ const parameterTypes = {
   },
 };
 
-/**
- * This component is responsible for render the parameter group.
- */
 const ParameterGroup = (props) => {
-  const {
-    loading,
-    onChange,
-    parameter,
-    trainingLoading,
-    valueLatestTraining,
-  } = props;
+  const { loading, onChange, parameter, trainingLoading, valueLatestTraining } =
+    props;
 
   return getParameterTypes(parameterTypes, parameter, 'string')(
     parameter,
@@ -263,17 +251,11 @@ const ParameterGroup = (props) => {
   );
 };
 
-// PROP TYPES
 ParameterGroup.propTypes = {
-  /** parameter is loading */
   loading: PropTypes.bool,
-  /** function to handle change parameter */
   onChange: PropTypes.func,
-  /** parameter object */
   parameter: PropTypes.object,
-  /** training is running */
   trainingLoading: PropTypes.bool,
-  /** latest training value */
   valueLatestTraining: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.object,
@@ -281,5 +263,4 @@ ParameterGroup.propTypes = {
   ]),
 };
 
-// EXPORT DEFAULT
 export default ParameterGroup;

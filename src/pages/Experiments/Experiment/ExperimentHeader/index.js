@@ -1,58 +1,38 @@
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// COMPONENTS
 import {
   InterruptTrainExperimentButton,
   TrainExperimentButton,
 } from 'components/Buttons';
-import NewTemplateButton from './NewTemplateButton/NewTemplateButtonContainer';
-import NewTemplateModal from './NewTemplateModal/NewTemplateModalContainer';
 import ToolbarConfig from 'components/ToolbarConfig';
+import NewTemplateModal from './NewTemplateModal/NewTemplateModalContainer';
+import NewTemplateButton from './NewTemplateButton/NewTemplateButtonContainer';
 
 import './styles.less';
 
-/**
- * Experiment Header.
- * This component is responsible for displaying the experiment header.
- *
- * @component
- * @param props.loading
- * @param props.deleteTrainingLoading
- * @param props.trainingLoading
- * @param props.handleTrainExperiment
- * @param props.handleDeleteTrainExperiment
- * @param props.empty
- * @param props.handleRemoveOperator
- * @param props.operator
- * @param props.handleRemoveOperator
- * @param props.operator
- * @param {object} props Component props
- * @returns {ExperimentHeader} React component
- */
 const ExperimentHeader = ({
+  empty,
   loading,
-  deleteTrainingLoading,
+  operator,
   trainingLoading,
+  deleteTrainingLoading,
+  handleRemoveOperator,
   handleTrainExperiment,
   handleDeleteTrainExperiment,
-  handleRemoveOperator,
-  empty,
-  operator,
 }) => (
   <div className='buttons-config'>
     <div>
       <ToolbarConfig
-        handleDeleteClick={handleRemoveOperator}
         operator={operator}
+        handleDeleteClick={handleRemoveOperator}
       />
     </div>
+
     <div>
       <NewTemplateModal />
-      {/* new template button */}
       <NewTemplateButton disabled={loading || trainingLoading || empty} />
-      {/* train button or interrupt train button */}
+
       {trainingLoading ? (
         <InterruptTrainExperimentButton
           handleClick={handleDeleteTrainExperiment}
@@ -61,29 +41,23 @@ const ExperimentHeader = ({
         />
       ) : (
         <TrainExperimentButton
-          handleClick={handleTrainExperiment}
           disabled={loading || empty}
+          handleClick={handleTrainExperiment}
         />
       )}
     </div>
   </div>
 );
 
-// PROP TYPES
 ExperimentHeader.propTypes = {
-  /** experiment header edit experiment name handler */
-  handleEditExperimentName: PropTypes.func.isRequired,
-  /** experiment header train experiment handler */
-  handleTrainExperiment: PropTypes.func.isRequired,
-  /** experiment header delete train experiment handler */
-  handleDeleteTrainExperiment: PropTypes.func.isRequired,
-  /** is loading */
-  loading: PropTypes.bool.isRequired,
-  /** training is loading */
-  trainingLoading: PropTypes.bool.isRequired,
-  /** is empty (there isn't any operators) */
   empty: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  operator: PropTypes.object.isRequired,
+  trainingLoading: PropTypes.bool.isRequired,
+  deleteTrainingLoading: PropTypes.bool.isRequired,
+  handleRemoveOperator: PropTypes.func.isRequired,
+  handleTrainExperiment: PropTypes.func.isRequired,
+  handleDeleteTrainExperiment: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default ExperimentHeader;

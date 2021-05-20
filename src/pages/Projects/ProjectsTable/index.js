@@ -1,12 +1,6 @@
-/* eslint-disable react/display-name */
-// CORE LIBS
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-
-import { CommonTable } from 'components';
-
-// UI LIBS
 import { SearchOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
 import {
   Button,
   Input,
@@ -17,20 +11,16 @@ import {
   Typography,
 } from 'antd';
 
-const { Text } = Typography;
+import { CommonTable } from 'components';
 
-/**
- * Projects Table.
- * This component is responsible for displaying projects table.
- */
 const ProjectsTable = ({
   loading,
   projects,
   selectedProjects,
-  handleClickProject,
   handleClickDelete,
-  handleFetchPaginatedProjects,
+  handleClickProject,
   handleSelectProjects,
+  handleFetchPaginatedProjects,
 }) => {
   const [searchText, setSearchText] = useState('');
   const intervalRef = useRef(null);
@@ -71,62 +61,69 @@ const ProjectsTable = ({
       dataIndex: 'name',
       key: 'name',
       width: '20%',
-      filterDropdown: ({
-        setSelectedKeys,
-        selectedKeys,
-        confirm,
-        clearFilters,
-      }) => (
-        <div style={{ padding: 8 }}>
-          <Input
-            ref={searchInputRef}
-            placeholder={`Nome`}
-            value={selectedKeys[0]}
-            onChange={(e) =>
-              setSelectedKeys(e.target.value ? [e.target.value] : [])
-            }
-            onPressEnter={() => handleSearch(selectedKeys, confirm)}
-            style={{ width: 188, marginBottom: 8, display: 'block' }}
-          />
-          <Space>
-            <Button
-              type='primary'
-              onClick={() => handleSearch(selectedKeys, confirm)}
-              icon={<SearchOutlined />}
-              size='small'
-              style={{ width: 90 }}
-            >
-              Search
-            </Button>
-            <Button
-              onClick={() => handleReset(clearFilters)}
-              size='small'
-              style={{ width: 90 }}
-            >
-              Reset
-            </Button>
-          </Space>
-        </div>
-      ),
+      filterDropdown(filterDropdownProps) {
+        const { setSelectedKeys, selectedKeys, confirm, clearFilters } =
+          filterDropdownProps;
+
+        return (
+          <div style={{ padding: 8 }}>
+            <Input
+              ref={searchInputRef}
+              placeholder={`Nome`}
+              value={selectedKeys[0]}
+              onPressEnter={() => handleSearch(selectedKeys, confirm)}
+              style={{ width: 188, marginBottom: 8, display: 'block' }}
+              onChange={(e) =>
+                setSelectedKeys(e.target.value ? [e.target.value] : [])
+              }
+            />
+            <Space>
+              <Button
+                type='primary'
+                size='small'
+                style={{ width: 90 }}
+                icon={<SearchOutlined />}
+                onClick={() => handleSearch(selectedKeys, confirm)}
+              >
+                Search
+              </Button>
+              <Button
+                size='small'
+                style={{ width: 90 }}
+                onClick={() => handleReset(clearFilters)}
+              >
+                Reset
+              </Button>
+            </Space>
+          </div>
+        );
+      },
       onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
           setTimeout(() => searchInputRef.current.select());
         }
       },
-      filterIcon: (filtered) => (
-        <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-      ),
-      render: (value, record) => (
-        <Button
-          type='link'
-          onClick={() => handleClickProject(record.uuid)}
-          style={{ textAlign: 'left', width: '100%' }}
-        >
-          <Text ellipsis style={{ color: '#0050B3', width: '100%' }}>
-            {value}
-          </Text>
-        </Button>
-      ),
+      filterIcon(filtered) {
+        return (
+          <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+        );
+      },
+      render(value, record) {
+        return (
+          <Button
+            type='link'
+            style={{ textAlign: 'left', width: '100%' }}
+            onClick={() => handleClickProject(record.uuid)}
+          >
+            <Typography.Text
+              style={{ color: '#0050B3', width: '100%' }}
+              ellipsis
+            >
+              {value}
+            </Typography.Text>
+          </Button>
+        );
+      },
     },
     {
       title: <strong>Descrição</strong>,
@@ -136,11 +133,13 @@ const ProjectsTable = ({
       ellipsis: {
         showTitle: false,
       },
-      render: (value, record) => (
-        <Tooltip placement='topLeft' title={value}>
-          {value}
-        </Tooltip>
-      ),
+      render(value) {
+        return (
+          <Tooltip placement='topLeft' title={value}>
+            {value}
+          </Tooltip>
+        );
+      },
     },
     {
       title: <strong>Tags</strong>,
@@ -161,10 +160,10 @@ const ProjectsTable = ({
           value: 'Implantado',
         },
       ],
-      onFilter: (value, record) => {
+      onFilter(value, record) {
         return record.tags ? record.tags.indexOf(value) === 0 : false;
       },
-      render: (tags, record) => {
+      render(_, record) {
         return (
           <>
             <Tag color='purple'>Experimentação</Tag>
@@ -191,26 +190,28 @@ const ProjectsTable = ({
       dataIndex: 'action',
       key: 'action',
       width: '10%',
-      render: (value, record) => (
-        <Popconfirm
-          title='Você tem certeza que deseja excluir esse projeto?'
-          onConfirm={() => handleClickDelete(record.uuid)}
-          okText='Sim'
-          cancelText='Não'
-        >
-          <Button type='link'>Excluir</Button>
-        </Popconfirm>
-      ),
+      render(_, record) {
+        return (
+          <Popconfirm
+            title='Você tem certeza que deseja excluir esse projeto?'
+            onConfirm={() => handleClickDelete(record.uuid)}
+            okText='Sim'
+            cancelText='Não'
+          >
+            <Button type='link'>Excluir</Button>
+          </Popconfirm>
+        );
+      },
     },
   ];
-  // RENDER
+
   return (
     <CommonTable
       className='projectsTable'
       rowKey={(record) => record.uuid}
       rowSelection={{
         selectedRowKeys: selectedProjects,
-        onChange: (selectedRowKeys, selectedRows) => {
+        onChange: (selectedRowKeys) => {
           handleSelectProjects(selectedRowKeys);
         },
       }}
@@ -222,23 +223,14 @@ const ProjectsTable = ({
   );
 };
 
-// PROP TYPES
 ProjectsTable.propTypes = {
-  /** is loading */
   loading: PropTypes.bool.isRequired,
-  /** projects list */
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** selected projects list */
   selectedProjects: PropTypes.arrayOf(PropTypes.string).isRequired,
-  /** projects table click project handle */
-  handleClickProject: PropTypes.func.isRequired,
-  /** projects table delete project handle */
   handleClickDelete: PropTypes.func.isRequired,
-  /** fetch paginated projects handle */
-  handleFetchPaginatedProjects: PropTypes.func.isRequired,
-  /** projects table row selection project handle */
+  handleClickProject: PropTypes.func.isRequired,
   handleSelectProjects: PropTypes.func.isRequired,
+  handleFetchPaginatedProjects: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default ProjectsTable;

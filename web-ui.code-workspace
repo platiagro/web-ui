@@ -29,15 +29,19 @@
     },
     "cSpell.words": [
       "antd",
+      "arrowend",
+      "builtins",
       "callout",
       "cascader",
       "dbaeumer",
       "draggable",
       "esbenp",
       "featuretype",
+      "flow",
       "implantacao",
       "ipynb",
       "jupyterlab",
+      "metrica",
       "mgmcdermott",
       "monitorings",
       "ndarray",
@@ -47,7 +51,8 @@
       "setted",
       "sider",
       "siders",
-      "suming"
+      "suming",
+      "uuidv"
     ],
     "[javascript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
