@@ -661,8 +661,8 @@ export const deleteDatasetRequest =
     const { operatorReducer: operator, operatorsReducer: operators } =
       getState();
 
-    const experimentIsSucceeded = operators.every((operator) => {
-      return operator.status === 'Succeeded';
+    const experimentIsSucceeded = operators.every((operatorItem) => {
+      return operatorItem.status === 'Succeeded';
     });
 
     // dispatching dataset operator loading data action
