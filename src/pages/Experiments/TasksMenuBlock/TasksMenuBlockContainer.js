@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchTasks, getTasks } from 'store/tasks';
+import { getTasks } from 'store/tasks';
 import { createOperatorRequest } from 'store/operator/actions';
 import {
   fetchTasksMenuRequest,
@@ -101,7 +101,6 @@ const TasksMenuBlockContainer = ({ disabled }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchTasks());
     dispatch(fetchTasksMenuRequest());
   }, [dispatch]);
 
