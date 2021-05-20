@@ -207,7 +207,7 @@ const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
 
   experimentRunsApi
     .deleteExperimentRun(projectId, experimentId)
-    .then((response) => dispatch(deleteExperimentRunSuccess(response)))
+    .then(() => dispatch(deleteExperimentRunSuccess()))
     .catch((error) => dispatch(deleteExperimentRunFail(error)));
 };
 

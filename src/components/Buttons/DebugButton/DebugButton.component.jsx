@@ -7,7 +7,7 @@ import './style.less';
 const DebugButton = ({ onClick, active, disabled }) => {
   const getClassName = () => {
     if (disabled) return 'debug-button-disabled';
-    else if (active) 'debug-button';
+    else if (active) return 'debug-button';
     return 'debug-button-active';
   };
 

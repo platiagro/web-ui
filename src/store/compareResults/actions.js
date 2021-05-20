@@ -19,6 +19,7 @@ import {
 import utils from 'utils';
 
 import { Selectors } from 'store/projects/experiments';
+import { showError } from 'store/message';
 
 const { getExperiments } = Selectors;
 
@@ -142,60 +143,62 @@ export const fetchCompareResults = (projectId) => (dispatch, getState) => {
  */
 export const fetchCompareResultsResults =
   (compareResult) => async (dispatch) => {
-    const { projectId, experimentId, operatorId, runId } = compareResult;
-    const figures = await experimentRunsApi
-      .listOperatorFigures(projectId, experimentId, runId, operatorId)
-      .then((response) => {
-        return response.data;
-      })
-      .catch(() => {});
+    try {
+      const { projectId, experimentId, operatorId, runId } = compareResult;
 
-    const dataset = await experimentRunsApi
-      .listOperatorDatasets(projectId, experimentId, runId, operatorId, 1)
-      .then((response) => {
-        return response.data;
-      })
-      .catch(() => {});
+      const figures = await experimentRunsApi
+        .listOperatorFigures(projectId, experimentId, runId, operatorId)
+        .then((response) => {
+          return response.data;
+        });
 
-    const metrics = await experimentRunsApi
-      .listOperatorMetrics(projectId, experimentId, runId, operatorId)
-      .then((response) => {
-        return response.data;
-      })
-      .catch(() => {});
+      const dataset = await experimentRunsApi
+        .listOperatorDatasets(projectId, experimentId, runId, operatorId, 1)
+        .then((response) => {
+          return response.data;
+        });
 
-    const figureResults = utils.transformResults(operatorId, figures);
-    let datasetResult = null;
-    if (dataset) {
-      // create columns in antd format
-      let tableColumns = [];
-      let index = 0;
-      for (let column of dataset.columns) {
-        let tableColumn = {
-          title: column,
-          dataIndex: index,
+      const metrics = await experimentRunsApi
+        .listOperatorMetrics(projectId, experimentId, runId, operatorId)
+        .then((response) => {
+          return response.data;
+        });
+
+      const figureResults = utils.transformResults(operatorId, figures);
+      let datasetResult = null;
+      if (dataset) {
+        // create columns in antd format
+        let tableColumns = [];
+        let index = 0;
+        for (let column of dataset.columns) {
+          let tableColumn = {
+            title: column,
+            dataIndex: index,
+          };
+          tableColumns.push(tableColumn);
+          index++;
+        }
+        datasetResult = {
+          uuid: `table-${operatorId}`,
+          columns: tableColumns,
+          currentPage: 1,
+          pageSize: 10,
+          rows: dataset.data,
+          total: dataset.total,
         };
-        tableColumns.push(tableColumn);
-        index++;
       }
-      datasetResult = {
-        uuid: `table-${operatorId}`,
-        columns: tableColumns,
-        currentPage: 1,
-        pageSize: 10,
-        rows: dataset.data,
-        total: dataset.total,
-      };
-    }
 
-    const compareResultsAux = { ...compareResult };
-    compareResultsAux.dataset = datasetResult ? datasetResult : null;
-    compareResultsAux.figures = figureResults ? figureResults : [];
-    compareResultsAux.metrics = metrics ? metrics : [];
-    dispatch({
-      type: actionTypes.UPDATE_COMPARE_RESULT,
-      compareResult: compareResultsAux,
-    });
+      const compareResultsAux = { ...compareResult };
+      compareResultsAux.dataset = datasetResult ? datasetResult : null;
+      compareResultsAux.figures = figureResults ? figureResults : [];
+      compareResultsAux.metrics = metrics ? metrics : [];
+      dispatch({
+        type: actionTypes.UPDATE_COMPARE_RESULT,
+        compareResult: compareResultsAux,
+      });
+    } catch (e) {
+      dispatch(showError(e.message));
+    }
   };
 
 /**

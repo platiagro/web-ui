@@ -1,6 +1,6 @@
 // CORE LIBS
 import React, { useMemo, useState } from 'react';
-import _ from 'lodash';
+import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import ReactFlow, { Background } from 'react-flow-renderer';
@@ -133,7 +133,7 @@ const ExperimentFlow = ({
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         nodesConnectable={true}
-        elements={_.flattenDeep(cardsElements)}
+        elements={lodash.flattenDeep(cardsElements)}
         onLoad={handleLoad}
         onConnect={handleConnect}
         onNodeDragStop={handleDragStop}
