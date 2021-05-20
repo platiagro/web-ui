@@ -194,7 +194,7 @@ export const datasetUploadSuccess =
     if (experimentIsSucceeded) {
       dispatch(
         showWarning(
-          'Fluxo perdido! Reconfigure as tarefas e reexecute o treinamento.'
+          'Arquivo atualizado! Algumas tarefas precisam ser reconfiguradas.'
         )
       );
     }
@@ -615,7 +615,7 @@ export const deleteDatasetSuccess = (experimentIsSucceeded) => (dispatch) => {
   if (experimentIsSucceeded) {
     dispatch(
       showWarning(
-        'Fluxo perdido! Reconfigure as tarefas e reexecute o treinamento.'
+        'Arquivo atualizado! Algumas tarefas precisam ser reconfiguradas.'
       )
     );
   }

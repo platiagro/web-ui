@@ -116,9 +116,10 @@ const GoogleUploadInputBlock = (props) => {
         </GooglePicker>
         <Upload {...uploadProps} disabled={isDisabled} />
         {showDangerMessage && (
-          <Text type='danger'>
+          <Text>
             <br />
-            Ao alterar o arquivo todo fluxo treinado será perdido!
+            Ao alterar o arquivo, algumas tarefas vão precisar ser
+            reconfiguradas!
           </Text>
         )}
       </PropertyBlock>
