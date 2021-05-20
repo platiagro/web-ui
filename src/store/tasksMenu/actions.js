@@ -11,6 +11,8 @@ import templatesApi from 'services/TemplatesApi';
 // UI ACTIONS
 import { tasksMenuLoadingData, tasksMenuDataLoaded } from '../ui/actions';
 
+import { fetchTasksSuccess } from 'store/tasks/tasks.actions';
+
 // UTILS
 import utils from 'utils';
 
@@ -72,8 +74,15 @@ export const fetchTasksMenuRequest = () => async (dispatch) => {
   try {
     // getting templates
     const templatesResponse = await templatesApi.listTemplates();
+
+    /**
+     * Atualmente os menus não funcionam corretamente sem dados na store de
+     * tasks, por isso estamos dando um dispatch para preencher a store
+     */
     // getting tasks
     const tasksResponse = await tasksApi.getAllTasks();
+    const { tasks } = tasksResponse.data;
+    dispatch(fetchTasksSuccess(tasks));
 
     // creating tasks menu
     let tasksMenu = {};
