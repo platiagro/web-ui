@@ -61,13 +61,13 @@ const ContentInfo = () => {
       <p></p>
       <p>
         <b>
-          <q>names</q>:[...]{' '}
+          <q>names</q>:[...]
         </b>
         - nome das colunas do conjunto de dados, sem o nome do atributo alvo.
         <br />
         <b>
           <q>ndarray</q>:[...]
-        </b>{' '}
+        </b>
         - amostras para predição, sem o valor atributo alvo.
       </p>
 
@@ -77,14 +77,14 @@ const ContentInfo = () => {
 
       <p>
         <b>
-          <q>names</q>:[...]{' '}
+          <q>names</q>:[...]
         </b>
         - nome das colunas retornadas pelo último passo do fluxo de
         experimentos.
         <br />
         <b>
           <q>ndarray</q>:[...]
-        </b>{' '}
+        </b>
         - valores retornados pelo último passo do fluxo de experimentos.
       </p>
     </div>
