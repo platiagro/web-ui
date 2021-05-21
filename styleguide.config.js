@@ -11,6 +11,8 @@ module.exports = {
     return newWebpackConfig;
   },
   require: ['less-loader', './src/style.less'],
+  tocMode: 'collapse',
+  pagePerSection: true,
   sections: [
     {
       name: 'Components',
@@ -60,7 +62,7 @@ module.exports = {
     {
       name: 'Pages',
       description: 'Application pages.',
-      components: ['src/Pages/**/*.page.jsx'],
+      components: ['src/pages/**/*.page.jsx'],
     },
   ],
 };
