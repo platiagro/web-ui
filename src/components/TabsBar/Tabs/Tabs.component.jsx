@@ -1,9 +1,7 @@
-// CORE LIBS
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Tabs as AntdTabs, Popconfirm, Popover, Input } from 'antd';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
-
-// UI LIBS
 import {
   CloseOutlined,
   DeleteOutlined,
@@ -11,48 +9,32 @@ import {
   LoadingOutlined,
   CopyOutlined,
 } from '@ant-design/icons';
-import { Tabs as antdTabs, Popconfirm, Popover, Input } from 'antd';
 
-// COMPONENTS
-import DraggableTabs from '../DraggableTabs';
 import CustomDndProvider from 'components/CustomDndProvider';
 
-// TABS COMPONENTS
-const { TabPane } = antdTabs;
+import DraggableTabs from '../DraggableTabs';
 
-/**
- * This component is responsible for displaying tabs.
- */
-const Tabs = (props) => {
-  const {
-    activeTab,
-    deleteTitle,
-    loading,
-    onChange,
-    onDelete,
-    onDuplicate,
-    onMoveTab,
-    onRename,
-    tabs,
-  } = props;
-
-  // Id for make delete and rename requisitions
+const Tabs = ({
+  activeTab,
+  deleteTitle,
+  loading,
+  onChange,
+  onDelete,
+  onDuplicate,
+  onMoveTab,
+  onRename,
+  tabs,
+}) => {
   const [currentId, setCurrentId] = useState(null);
-  // Name for use into rename popover
   const [currentName, setCurrentName] = useState('');
-  // Visible for rename popover
   const [renameVisible, setRenameVisible] = useState(false);
-  // Visible for duplicate popover
   const [duplicateVisible, setDuplicateVisible] = useState(false);
 
   useEffect(() => {
-    // change rename popover visibility on tabs change
     setRenameVisible(false);
     setDuplicateVisible(false);
   }, [tabs]);
 
-  // COMPONENTS RENDERS
-  // title
   const renderTitle = (title, running, tabId, loadingTitle) => (
     <>
       <ContextMenuTrigger
@@ -75,11 +57,13 @@ const Tabs = (props) => {
               <LoadingOutlined />
             )}
           </div>
+
           {tabId && (
             <Popconfirm
+              okText='Sim'
+              cancelText='Não'
               title={deleteTitle}
               onConfirm={(e) => {
-                //Need to stop propagation for don't enter into tab
                 e.stopPropagation();
                 onDelete(tabId);
               }}
@@ -87,8 +71,6 @@ const Tabs = (props) => {
                 e.stopPropagation();
                 setCurrentId(null);
               }}
-              okText='Sim'
-              cancelText='Não'
             >
               <CloseOutlined
                 className='close-icon-tab'
@@ -101,21 +83,12 @@ const Tabs = (props) => {
     </>
   );
 
-  const ItemName = ({ name, icon }) => (
-    <div className='menu-item-name'>
-      {icon}
-      <span>{name}</span>
-    </div>
-  );
-
-  //Content of rename popover, using Search for press enter and suffix ok button
   const contentRename = (
     <>
       <p>Renomear</p>
       <Input.Search
         enterButton='Ok'
         onSearch={(name) => {
-          //Only send rename if has a name
           if (name.length > 0) {
             onRename(currentId, name);
           }
@@ -153,13 +126,10 @@ const Tabs = (props) => {
     </>
   );
 
-  // render tabs
   const renderTabs = () => {
-    // if is loading
     if (loading && tabs.length <= 0) {
-      // rendering loading tab
       return (
-        <TabPane
+        <AntdTabs.TabPane
           tab={<div className='tab-title-custom' />}
           disabled={loading}
           key='without-tab'
@@ -167,11 +137,9 @@ const Tabs = (props) => {
       );
     }
 
-    // has tabs
     if (tabs.length > 0) {
-      // rendering tabs
       return tabs.map(({ name, uuid, running }) => (
-        <TabPane
+        <AntdTabs.TabPane
           disabled={loading}
           tab={renderTitle(name, running, uuid, loading)}
           key={uuid}
@@ -180,7 +148,6 @@ const Tabs = (props) => {
     }
   };
 
-  // Handlers
   const handleMenuClick = (action, uuid, title) => {
     setCurrentId(uuid);
     switch (action) {
@@ -207,6 +174,7 @@ const Tabs = (props) => {
         >
           {renderTabs()}
         </DraggableTabs>
+
         <ContextMenu className='menu-tab' id='menu_id'>
           <Popover
             trigger='click'
@@ -224,7 +192,10 @@ const Tabs = (props) => {
               }
               preventClose={true}
             >
-              <ItemName name='Renomear' icon={<EditOutlined />} />
+              <div className='menu-item-name'>
+                <EditOutlined />
+                <span>Renomear</span>
+              </div>
             </MenuItem>
           </Popover>
 
@@ -244,7 +215,10 @@ const Tabs = (props) => {
               }
               preventClose={true}
             >
-              <ItemName name='Duplicar' icon={<CopyOutlined />} />
+              <div className='menu-item-name'>
+                <CopyOutlined />
+                <span>Duplicar</span>
+              </div>
             </MenuItem>
           </Popover>
 
@@ -261,7 +235,10 @@ const Tabs = (props) => {
               preventClose={true}
               onClick={(e, data) => handleMenuClick(data.action, data.tabId)}
             >
-              <ItemName name='Excluir' icon={<DeleteOutlined />} />
+              <div className='menu-item-name'>
+                <DeleteOutlined />
+                <span>Excluir</span>
+              </div>
             </MenuItem>
           </Popconfirm>
         </ContextMenu>
@@ -270,33 +247,20 @@ const Tabs = (props) => {
   );
 };
 
-// PROP TYPES
 Tabs.propTypes = {
-  /** active tab key */
   activeTab: PropTypes.string,
-  /** delete pop confirm title */
   deleteTitle: PropTypes.string,
-  /** is loading */
   loading: PropTypes.bool.isRequired,
-  /** handle tab change function */
   onChange: PropTypes.func.isRequired,
-  /** delete function to use on context menu */
   onDelete: PropTypes.func.isRequired,
-  /** duplicate function to use on context menu */
   onDuplicate: PropTypes.func.isRequired,
-  /** handle move tab function */
   onMoveTab: PropTypes.func.isRequired,
-  /** rename function to use on context menu */
   onRename: PropTypes.func.isRequired,
-  /** tabs list */
   tabs: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-// PROP DEFAULT VALUES
 Tabs.defaultProps = {
-  /** experiments tabs active experiment key */
   activeTab: undefined,
 };
 
-// EXPORT
 export default Tabs;

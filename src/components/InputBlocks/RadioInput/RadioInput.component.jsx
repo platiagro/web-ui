@@ -1,58 +1,49 @@
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// UI LIBS
-import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Radio, Skeleton, Tooltip } from 'antd';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 
-// COMPONENTS
 import { PropertyBlock } from 'components';
 
-// RADIO COMPONENTS
-const { Group } = Radio;
-
-/**
- * Radio Input.
- * This component is responsible for displaying radio input in generic drawer.
- */
-const RadioInput = (props) => {
-  const { handleChange, isDisabled, isLoading, options } = props;
-  const { tip, title, value, valueLatestTraining } = props;
+const RadioInput = ({
+  tip,
+  title,
+  value,
+  options,
+  isLoading,
+  isDisabled,
+  handleChange,
+  valueLatestTraining,
+}) => {
   const modifiedSinceLastExecution = value !== valueLatestTraining;
 
-  // rendering component
   return (
     <PropertyBlock tip={tip} title={title}>
       {isLoading ? (
         <Skeleton
           active
-          paragraph={{ rows: 1, width: 110 }}
           size='large'
           title={false}
+          paragraph={{ rows: 1, width: 110 }}
         />
       ) : (
         <>
-          {/* radio group */}
-          <Group
-            disabled={isLoading || isDisabled}
-            onChange={handleChange}
+          <Radio.Group
             value={value}
+            onChange={handleChange}
+            disabled={isLoading || isDisabled}
           >
-            {/* rendering radio options */}
             {options.map((option) => (
               <Radio
-                style={{
-                  display: 'block',
-                }}
                 key={option.uuid}
                 value={option.uuid}
+                style={{ display: 'block' }}
               >
                 {option.name}
               </Radio>
             ))}
-          </Group>
-          {/* rendering tooltip */}
+          </Radio.Group>
+
           {modifiedSinceLastExecution && (
             <Tooltip
               placement='bottomRight'
@@ -69,37 +60,23 @@ const RadioInput = (props) => {
   );
 };
 
-// PROP TYPES
 RadioInput.propTypes = {
-  /** radio input title string */
-  title: PropTypes.string,
-  /** radio input description string */
-  description: PropTypes.string,
-  /** radio input warning message string */
-  warning: PropTypes.string,
-  /** radio input tip message string */
   tip: PropTypes.string,
-  /** radio input value id string */
+  title: PropTypes.string,
   value: PropTypes.string,
-  /** radio input options list */
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** radio input change handler */
+  isLoading: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   handleChange: PropTypes.func.isRequired,
+  valueLatestTraining: PropTypes.string,
 };
 
-// PROP DEFAULT VALUES
 RadioInput.defaultProps = {
-  /** radio input warning message string */
-  warning: undefined,
-  /** radio input tip message string */
   tip: undefined,
-  /** radio input value id string */
-  value: undefined,
-  /** radio input title string */
   title: undefined,
-  /** radio input description string */
+  value: undefined,
+  warning: undefined,
   description: undefined,
 };
 
-// EXPORT
 export default RadioInput;

@@ -1,33 +1,26 @@
-// REACT LIBS
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
+import { Card } from 'antd';
+import PropTypes from 'prop-types';
 import { withResizeDetector } from 'react-resize-detector';
 
-// UI LIBS
-import { Card } from 'antd';
-
-// COMPONENTS
-import CompareResultItemResults from './CompareResultItemResults';
 import CompareResultItemTasks from './CompareResultItemTasks';
 import CompareResultItemTitle from './CompareResultItemTitle';
+import CompareResultItemResults from './CompareResultItemResults';
 
-// STYLES
 import './CompareResultItem.less';
 
-const CompareResultItem = (props) => {
-  const {
-    compareResult,
-    experimentsOptions,
-    experimentsTrainingHistory,
-    height,
-    onDelete,
-    onFetchResults,
-    onLoadTrainingHistory,
-    onResultDatasetPageChange,
-    onUpdate,
-    tasks,
-  } = props;
-
+const CompareResultItem = ({
+  tasks,
+  height,
+  compareResult,
+  experimentsOptions,
+  experimentsTrainingHistory,
+  onDelete,
+  onUpdate,
+  onFetchResults,
+  onLoadTrainingHistory,
+  onResultDatasetPageChange,
+}) => {
   /**
    * Get the results if the experiment and task were selected
    * and the metrics and results were undefined
@@ -46,6 +39,7 @@ const CompareResultItem = (props) => {
 
   const experimentId = compareResult.experimentId;
   let trainingDetail = null;
+  // eslint-disable-next-line no-prototype-builtins
   if (experimentId && experimentsTrainingHistory.hasOwnProperty(experimentId)) {
     const trainingHistory = experimentsTrainingHistory[experimentId];
     if (trainingHistory) {
@@ -57,59 +51,48 @@ const CompareResultItem = (props) => {
 
   return (
     <Card
+      style={{ height: '100%', margin: 0 }}
       title={
         <CompareResultItemTitle
-          compareResult={compareResult}
-          experimentsOptions={experimentsOptions}
           onDelete={onDelete}
-          onLoadTrainingHistory={onLoadTrainingHistory}
           onUpdate={onUpdate}
+          compareResult={compareResult}
           trainingDetail={trainingDetail}
+          experimentsOptions={experimentsOptions}
+          onLoadTrainingHistory={onLoadTrainingHistory}
         />
       }
-      style={{ height: '100%', margin: 0 }}
     >
       <CompareResultItemTasks
-        compareResult={compareResult}
-        onUpdate={onUpdate}
         tasks={tasks}
+        onUpdate={onUpdate}
+        compareResult={compareResult}
         trainingDetail={trainingDetail}
       />
+
       <CompareResultItemResults
-        compareResult={compareResult}
-        height={height}
-        onResultDatasetPageChange={onResultDatasetPageChange}
-        onUpdate={onUpdate}
         tasks={tasks}
+        height={height}
+        onUpdate={onUpdate}
+        compareResult={compareResult}
         trainingDetail={trainingDetail}
+        onResultDatasetPageChange={onResultDatasetPageChange}
       />
     </Card>
   );
 };
 
-// PROP TYPES
 CompareResultItem.propTypes = {
-  /** The compare result */
-  compareResult: PropTypes.object.isRequired,
-  /** The expriment options to use on Cascader */
-  experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** The expriments training history */
-  experimentsTrainingHistory: PropTypes.object.isRequired,
-  /** The current card height on grid */
-  height: PropTypes.number,
-  /** Function to handle delete compare result */
-  onDelete: PropTypes.func.isRequired,
-  /** Function to handle fetch results */
-  onFetchResults: PropTypes.func.isRequired,
-  /** Function to handle load training history */
-  onLoadTrainingHistory: PropTypes.func.isRequired,
-  /** Function to handle result dataset page change */
-  onResultDatasetPageChange: PropTypes.func.isRequired,
-  /** Function to handle update compare result */
-  onUpdate: PropTypes.func.isRequired,
-  /** Tasks list */
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  height: PropTypes.number,
+  compareResult: PropTypes.object.isRequired,
+  experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  experimentsTrainingHistory: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onFetchResults: PropTypes.func.isRequired,
+  onLoadTrainingHistory: PropTypes.func.isRequired,
+  onResultDatasetPageChange: PropTypes.func.isRequired,
 };
 
-// EXPORT DEFAULT
 export default withResizeDetector(CompareResultItem);

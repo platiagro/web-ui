@@ -1,19 +1,14 @@
-// CORE LIBS
+/* eslint-disable jsx-a11y/no-autofocus */
+
 import React, { useEffect, useRef, useState } from 'react';
+import { Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 
-// UI LIBS
-import { Form, Input, Modal } from 'antd';
-
-/**
- * New Experiment Modal.
- * This component is responsible for displaying a new experiment modal.
- */
 const NewExperimentModal = ({
   loading,
   visible,
-  modalValidateStatus,
   errorMessage,
+  modalValidateStatus,
   handleCloseModal,
   handleNewExperiment,
 }) => {
@@ -22,7 +17,6 @@ const NewExperimentModal = ({
   const [form] = Form.useForm();
   const inputNameRef = useRef();
 
-  // did mount hook
   useEffect(() => {
     if (visible) {
       setTimeout(() => inputNameRef.current.select());
@@ -32,71 +26,62 @@ const NewExperimentModal = ({
     setStatus(modalValidateStatus);
   }, [modalValidateStatus, visible]);
 
-  // FUNCTIONS
-  // function to enable or disable submit button
-  const onValuesChangeForm = (changedValues, allValues) => {
-    if (allValues.name === '') {
-      setButtonDisabled(true);
-    } else {
-      setButtonDisabled(false);
-    }
+  const onValuesChangeForm = (_, allValues) => {
+    const isNameEmpty = allValues.name === '';
+    setButtonDisabled(isNameEmpty);
   };
-  // Function to handle form submit
+
   const handleSubmit = () => {
     form.validateFields().then((values) => {
       handleNewExperiment(values.name);
     });
   };
 
-  // RENDER
   return (
-    // modal component
     <Modal
-      visible={visible}
-      title='Novo Experimento'
       okText='Criar'
-      cancelText='Cancelar'
-      onCancel={handleCloseModal}
+      visible={visible}
       onOk={handleSubmit}
+      cancelText='Cancelar'
+      title='Novo Experimento'
+      onCancel={handleCloseModal}
       okButtonProps={{
-        disabled: buttonDisabled,
         loading,
-        form: 'newExperimentForm',
         key: 'submit',
         htmlType: 'submit',
+        disabled: buttonDisabled,
+        form: 'newExperimentForm',
       }}
       destroyOnClose
     >
-      {/* form details */}
       <Form
         id='newExperimentForm'
-        layout='vertical'
         form={form}
         preserve={false}
+        layout='vertical'
         onValuesChange={onValuesChangeForm}
       >
         <Form.Item
-          label='Qual o nome do seu experimento?'
           name='name'
           initialValue='Novo Experimento'
+          label='Qual o nome do seu experimento?'
+          help={status ? errorMessage : undefined}
+          validateStatus={status ? modalValidateStatus : undefined}
           rules={[
             {
               required: true,
               message: 'Por favor insira um nome para o experimento!',
             },
           ]}
-          validateStatus={status ? modalValidateStatus : undefined}
-          help={status ? errorMessage : undefined}
           autoFocus
         >
           <Input
-            allowClear
-            autoFocus
             ref={inputNameRef}
             onChange={() => {
-              // remove current status
               setStatus(null);
             }}
+            autoFocus
+            allowClear
           />
         </Form.Item>
       </Form>
@@ -104,15 +89,13 @@ const NewExperimentModal = ({
   );
 };
 
-// PROP TYPES
 NewExperimentModal.propTypes = {
-  /** new experiment modal visible */
   visible: PropTypes.bool.isRequired,
-  /** new experiment modal close handler */
+  loading: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+  modalValidateStatus: PropTypes.string.isRequired,
   handleCloseModal: PropTypes.func.isRequired,
-  /** new experiment modal new experiment handler */
   handleNewExperiment: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default NewExperimentModal;

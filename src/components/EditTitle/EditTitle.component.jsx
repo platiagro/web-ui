@@ -1,22 +1,17 @@
-// CORE LIBS
-import PropTypes from 'prop-types';
 import React from 'react';
-
-// UI LIBS
-import { EditOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
 import { Typography, Tooltip } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 
-// STYLES
 import './style.less';
-
-const { Title } = Typography;
 
 const EditTitle = ({ title, level, editable, handleClick }) => {
   return (
     <div className='custom-edit-title'>
-      <Title level={level} ellipsis>
+      <Typography.Title level={level} ellipsis>
         {title}
-      </Title>
+      </Typography.Title>
+
       {editable && (
         <Tooltip title='Editar'>
           <EditOutlined
@@ -34,6 +29,11 @@ EditTitle.propTypes = {
   title: PropTypes.string.isRequired,
   level: PropTypes.number.isRequired,
   editable: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func,
+};
+
+EditTitle.defaultProps = {
+  handleClick: undefined,
 };
 
 export default EditTitle;

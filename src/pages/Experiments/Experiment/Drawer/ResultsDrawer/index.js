@@ -1,38 +1,34 @@
-// CORE LIBS
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
-
-// UI LIBS
-import { LoadingOutlined } from '@ant-design/icons';
 import { Empty, Spin, Tabs } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
-// COMPONENTS
 import { CommonTable } from 'components';
-import TableResult from './TableResult';
-import PlotResult from './PlotResult';
-import MetricsTitle from './MetricsTitle';
-
-// CONTAINERS
 import { DownloadOperatorDatasetContainer } from 'containers';
 
-// STYLES
-import './ResultsDrawer.less';
+import PlotResult from './PlotResult';
+import TableResult from './TableResult';
+import MetricsTitle from './MetricsTitle';
 
-const { TabPane } = Tabs;
+import './ResultsDrawer.less';
 
 const metricsColumns = [
   {
     title: 'Métrica',
     dataIndex: 'metrica',
     key: 'metrica',
-    render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
+    render(val) {
+      return <span style={{ fontWeight: 'bold' }}>{val}</span>;
+    },
   },
   {
     title: 'Valor',
     dataIndex: 'valor',
     key: 'valor',
-    render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
+    render(val) {
+      return <span style={{ fontFamily: 'monospace' }}>{val}</span>;
+    },
   },
 ];
 
@@ -41,23 +37,20 @@ const parametersColumns = [
     title: 'Parâmetro',
     dataIndex: 'name',
     key: 'parameter',
-    render: (val) => <span style={{ fontWeight: 'bold' }}>{val}</span>,
+    render(val) {
+      return <span style={{ fontWeight: 'bold' }}>{val}</span>;
+    },
   },
   {
     title: 'Valor',
     dataIndex: 'value',
     key: 'value',
-    render: (val) => <span style={{ fontFamily: 'monospace' }}>{val}</span>,
+    render(val) {
+      return <span style={{ fontFamily: 'monospace' }}>{val}</span>;
+    },
   },
 ];
 
-/**
- * Results Drawer.
- * This component is responsible for displaying drawer with results.
- *
- * @param {object} props Component props
- * @returns {ResultsDrawer} React component
- */
 const ResultsDrawer = (props) => {
   const {
     activeKey,
@@ -75,21 +68,27 @@ const ResultsDrawer = (props) => {
     scroll,
   } = props;
 
-  const metricsDataSource = metrics.map((element, i) => {
-    const objectKey = Object.keys(element)[0];
-    const objectValor = element[objectKey];
-    return {
-      key: i,
-      metrica: objectKey,
-      valor: JSON.stringify(objectValor),
-    };
-  });
+  const metricsDataSource = useMemo(() => {
+    return metrics.map((element, i) => {
+      const objectKey = Object.keys(element)[0];
+      const objectValor = element[objectKey];
 
-  const hasResult =
-    figures.length > 0 ||
-    metrics.length > 0 ||
-    parameters.length > 0 ||
-    dataset;
+      return {
+        key: i,
+        metrica: objectKey,
+        valor: JSON.stringify(objectValor),
+      };
+    });
+  }, [metrics]);
+
+  const hasResult = useMemo(() => {
+    return (
+      figures.length > 0 ||
+      metrics.length > 0 ||
+      parameters.length > 0 ||
+      dataset
+    );
+  }, [dataset, figures.length, metrics.length, parameters.length]);
 
   if (loading) {
     return (
@@ -103,77 +102,69 @@ const ResultsDrawer = (props) => {
     <div className='resultsDrawer'>
       {hasResult ? (
         <Tabs defaultActiveKey={activeKey} onChange={onTabChange}>
-          {/* figures */}
           {figures.map((result, i) => {
             const index = i + 1;
             return (
-              <TabPane tab={`Figura ${index}`} key={index}>
+              <Tabs.TabPane tab={`Figura ${index}`} key={index}>
                 <div style={resultsTabStyle}>
                   <div className='tab-content'>
                     <PlotResult key={result.uuid} plotUrl={result.plotUrl} />
                   </div>
                 </div>
-              </TabPane>
+              </Tabs.TabPane>
             );
           })}
 
-          {/* dataset */}
-          <TabPane
-            tab={<span>Dataset</span>}
-            key={figures.length + 1}
+          <Tabs.TabPane
             disabled={!dataset}
+            key={figures.length + 1}
+            tab={<span>Dataset</span>}
           >
             {!!dataset && (
               <TableResult
-                columns={dataset.columns}
-                currentPage={dataset.currentPage}
                 key={dataset.uuid}
-                onPageChange={onDatasetPageChange}
-                pageSize={dataset.pageSize}
                 rows={dataset.rows}
-                scroll={datasetScroll}
                 total={dataset.total}
+                scroll={datasetScroll}
+                columns={dataset.columns}
+                pageSize={dataset.pageSize}
+                currentPage={dataset.currentPage}
+                onPageChange={onDatasetPageChange}
               />
             )}
 
             {isToShowDownloadButtons && <DownloadOperatorDatasetContainer />}
-          </TabPane>
+          </Tabs.TabPane>
 
-          {/* metrics */}
-          <TabPane
-            tab={<MetricsTitle loading={metricsLoading} />}
+          <Tabs.TabPane
             key={figures.length + 2}
             disabled={metrics.length <= 0}
+            tab={<MetricsTitle loading={metricsLoading} />}
           >
             <CommonTable
-              bordered
+              scroll={scroll}
+              isLoading={false}
+              rowKey={() => uuidv4()}
               columns={metricsColumns}
               dataSource={metricsDataSource}
-              isLoading={false}
-              rowKey={() => {
-                return uuidv4();
-              }}
-              scroll={scroll}
+              bordered
             />
-          </TabPane>
+          </Tabs.TabPane>
 
-          {/* parameters */}
-          <TabPane
-            tab={<span>Parâmetros</span>}
+          <Tabs.TabPane
             key={figures.length + 3}
+            tab={<span>Parâmetros</span>}
             disabled={parameters.length <= 0}
           >
             <CommonTable
-              bordered
-              columns={parametersColumns}
-              dataSource={parameters}
-              isLoading={false}
-              rowKey={() => {
-                return uuidv4();
-              }}
               scroll={scroll}
+              isLoading={false}
+              rowKey={() => uuidv4()}
+              dataSource={parameters}
+              columns={parametersColumns}
+              bordered
             />
-          </TabPane>
+          </Tabs.TabPane>
         </Tabs>
       ) : (
         <Empty
@@ -185,40 +176,26 @@ const ResultsDrawer = (props) => {
   );
 };
 
-// PROP TYPES
 ResultsDrawer.propTypes = {
-  /** Tabs active key */
   activeKey: PropTypes.string,
-  /** Dataset result  */
   dataset: PropTypes.object,
-  /** Dataset scroll config */
   datasetScroll: PropTypes.object,
-  /** Figures list  */
   figures: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Show download buttons */
   isToShowDownloadButtons: PropTypes.bool,
-  /** Results drawer is loading */
   loading: PropTypes.bool.isRequired,
-  /** Metrics list */
   metrics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Metrics is loading */
   metricsLoading: PropTypes.bool.isRequired,
-  /** Function to handle dataset page change */
   onDatasetPageChange: PropTypes.func.isRequired,
-  /** Function to handle tab change */
   onTabChange: PropTypes.func.isRequired,
-  /** Training parameters */
   parameters: PropTypes.arrayOf(PropTypes.object),
-  /** Table scroll config */
   scroll: PropTypes.object,
+  resultsTabStyle: PropTypes.object,
 };
 
 ResultsDrawer.defaultProps = {
-  /** Tabs active key */
   activeKey: '1',
-  /** Table scroll config */
   scroll: undefined,
+  resultsTabStyle: undefined,
 };
 
-// EXPORT
 export default ResultsDrawer;

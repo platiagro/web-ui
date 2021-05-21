@@ -1,163 +1,134 @@
-// REACT LIBS
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-// UI COMPONENTS
 import { Modal } from 'uiComponents';
-
-// COMPONENTS
+import { hideOperatorResults } from 'store/ui/actions';
+import { getOperatorResultDataset } from 'store/operator/actions';
 import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer';
 
-// ACTIONS
-import { getOperatorResultDataset } from 'store/operator/actions';
-import { hideOperatorResults } from 'store/ui/actions';
-
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleClose: () => dispatch(hideOperatorResults()),
-    handleGetOperatorResultDataset: (
-      projectId,
-      experimentId,
-      operator,
-      page,
-      pageSize
-    ) =>
-      dispatch(
-        getOperatorResultDataset(
-          projectId,
-          experimentId,
-          operator,
-          page,
-          pageSize
-        )
-      ),
-  };
+const isVisibleSelector = ({ uiReducer }) => {
+  return uiReducer.operatorResults.showOperatorResults;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    isVisible: state.uiReducer.operatorResults.showOperatorResults,
-    operatorId: state.operatorReducer.uuid,
-    operatorDataset: state.operatorReducer.dataset,
-    operatorFigures: state.operatorReducer.figures,
-    operatorMetrics: state.operatorReducer.metrics,
-    operatorMetricsLoading: state.uiReducer.operatorMetrics.loading,
-    operatorParameters: state.operatorReducer.parameters,
-    operatorParametersLatestTraining:
-      state.operatorReducer.parametersLatestTraining,
-    operatorResultsLoading: state.uiReducer.operatorResults.loading,
-  };
+const operatorIdSelector = ({ operatorReducer }) => {
+  return operatorReducer.uuid;
 };
 
-/**
- * Container to display operator experiment results modal.
- *
- * @param {object} props Container props
- * @returns {OperatorResultsModalContainer} Container
- * @component
- */
-const OperatorResultsModalContainer = (props) => {
-  const {
-    handleClose,
-    handleGetOperatorResultDataset,
-    isVisible,
-    operatorId,
-    operatorDataset,
-    operatorFigures,
-    operatorMetrics,
-    operatorMetricsLoading,
-    operatorParameters,
-    operatorParametersLatestTraining,
-    operatorResultsLoading,
-  } = props;
+const operatorDatasetSelector = ({ operatorReducer }) => {
+  return operatorReducer.dataset;
+};
+
+const operatorFiguresSelector = ({ operatorReducer }) => {
+  return operatorReducer.figures;
+};
+
+const operatorMetricsSelector = ({ operatorReducer }) => {
+  return operatorReducer.metrics;
+};
+
+const operatorParametersSelector = ({ operatorReducer }) => {
+  return operatorReducer.parameters;
+};
+
+const operatorMetricsLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.operatorMetrics.loading;
+};
+
+const operatorResultsLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.operatorResults.loading;
+};
+
+const operatorParametersLatestTrainingSelector = ({ operatorReducer }) => {
+  return operatorReducer.parametersLatestTraining;
+};
+
+const OperatorResultsModalContainer = () => {
   const { projectId, experimentId } = useParams();
+  const dispatch = useDispatch();
 
-  // format results parameters to use label from parameter and value from latest training
-  const resultsParameters = [];
-  if (operatorParameters) {
-    for (const operatorParameter of operatorParameters) {
-      let valueLatestTraining = operatorParametersLatestTraining
-        ? operatorParametersLatestTraining[operatorParameter.name]
-        : null;
-      if (Array.isArray(valueLatestTraining)) {
-        valueLatestTraining = valueLatestTraining.join();
-      }
-      if (typeof valueLatestTraining === 'boolean') {
-        valueLatestTraining = valueLatestTraining.toString();
-      }
-      resultsParameters.push({
-        name: operatorParameter.label
+  const isVisible = useSelector(isVisibleSelector);
+  const operatorId = useSelector(operatorIdSelector);
+  const operatorDataset = useSelector(operatorDatasetSelector);
+  const operatorFigures = useSelector(operatorFiguresSelector);
+  const operatorMetrics = useSelector(operatorMetricsSelector);
+  const operatorParameters = useSelector(operatorParametersSelector);
+  const operatorMetricsLoading = useSelector(operatorMetricsLoadingSelector);
+  const operatorResultsLoading = useSelector(operatorResultsLoadingSelector);
+  const operatorParametersLatestTraining = useSelector(
+    operatorParametersLatestTrainingSelector
+  );
+
+  const datasetScrollX = useMemo(() => {
+    return operatorDataset ? operatorDataset.columns.length * 100 : undefined;
+  }, [operatorDataset]);
+
+  // format results parameters to use label from parameter
+  // and value from latest training
+  const resultsParameters = useMemo(() => {
+    const parametersArray = [];
+
+    if (operatorParameters) {
+      for (const operatorParameter of operatorParameters) {
+        let valueLatestTraining = operatorParametersLatestTraining
+          ? operatorParametersLatestTraining[operatorParameter.name]
+          : null;
+
+        if (Array.isArray(valueLatestTraining)) {
+          valueLatestTraining = valueLatestTraining.join();
+        }
+
+        if (typeof valueLatestTraining === 'boolean') {
+          valueLatestTraining = valueLatestTraining.toString();
+        }
+
+        const labelOrName = operatorParameter.label
           ? operatorParameter.label
-          : operatorParameter.name,
-        value: valueLatestTraining,
-      });
+          : operatorParameter.name;
+
+        parametersArray.push({
+          name: labelOrName,
+          value: valueLatestTraining,
+        });
+      }
     }
-  }
+
+    return parametersArray;
+  }, [operatorParameters, operatorParametersLatestTraining]);
+
+  const handleClose = () => {
+    dispatch(hideOperatorResults());
+  };
 
   const handleOnDatasetPageChange = (page, size) => {
-    handleGetOperatorResultDataset(
-      projectId,
-      experimentId,
-      operatorId,
-      page,
-      size
+    dispatch(
+      getOperatorResultDataset(projectId, experimentId, operatorId, page, size)
     );
   };
 
   return (
     <Modal
-      closeButtonText={'Fechar'}
-      handleClose={handleClose}
       isFullScreen={true}
       isVisible={isVisible}
-      title={'Visualizar Resultados'}
+      closeButtonText='Fechar'
+      handleClose={handleClose}
+      title='Visualizar Resultados'
     >
       <ResultsDrawer
         dataset={operatorDataset}
-        datasetScroll={{
-          x: operatorDataset ? operatorDataset.columns.length * 100 : undefined,
-        }}
         figures={operatorFigures}
+        metrics={operatorMetrics}
+        parameters={resultsParameters}
         isToShowDownloadButtons={true}
         loading={operatorResultsLoading}
         metricsLoading={operatorMetricsLoading}
-        metrics={operatorMetrics}
         onDatasetPageChange={handleOnDatasetPageChange}
-        parameters={resultsParameters}
+        datasetScroll={{
+          x: datasetScrollX,
+        }}
       />
     </Modal>
   );
 };
 
-OperatorResultsModalContainer.propTypes = {
-  /** Operator results modal close handler */
-  handleClose: PropTypes.func.isRequired,
-  /** Operator results modal get operator result dataset handler */
-  handleGetOperatorResultDataset: PropTypes.func.isRequired,
-  /** Operator results modal is visible */
-  isVisible: PropTypes.bool.isRequired,
-  /** Operator dataset result */
-  operatorDataset: PropTypes.object,
-  /** Operator figures results */
-  operatorFigures: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator experiment metrics*/
-  operatorMetrics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator experiment metrics is loading */
-  operatorMetricsLoading: PropTypes.bool.isRequired,
-  /** Operator parameters */
-  operatorParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** Operator parameters latest training*/
-  operatorParametersLatestTraining: PropTypes.object,
-  /** Operator experiment results is loading */
-  operatorResultsLoading: PropTypes.bool.isRequired,
-};
-
-// EXPORT DEFAULT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OperatorResultsModalContainer);
+export default OperatorResultsModalContainer;

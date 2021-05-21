@@ -1,28 +1,29 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
-// COMPONENTS
-import NewTemplateButton from './index';
-
-// ACTIONS
 import { showNewTemplateModal } from 'store/ui/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleShowModal: () => dispatch(showNewTemplateModal()),
+import NewTemplateButton from './index';
+
+const NewTemplateButtonContainer = ({ disabled }) => {
+  const dispatch = useDispatch();
+
+  const handleShowModal = () => {
+    dispatch(showNewTemplateModal());
   };
+
+  return (
+    <NewTemplateButton disabled={disabled} handleClick={handleShowModal} />
+  );
 };
 
-/**
- * New Template Button Container.
- * This component is responsible for create a logic container for create new
- * template button with redux.
- */
-const NewTemplateButtonContainer = ({ handleShowModal, disabled }) => (
-  <NewTemplateButton disabled={disabled} handleClick={handleShowModal} />
-);
+NewTemplateButtonContainer.propTypes = {
+  disabled: PropTypes.bool,
+};
 
-// EXPORT
-export default connect(null, mapDispatchToProps)(NewTemplateButtonContainer);
+NewTemplateButtonContainer.defaultProps = {
+  disabled: false,
+};
+
+export default NewTemplateButtonContainer;

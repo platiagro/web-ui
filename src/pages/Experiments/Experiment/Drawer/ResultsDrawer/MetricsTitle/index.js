@@ -1,7 +1,5 @@
-// CORE LIBS
 import React from 'react';
-
-// UI LIBS
+import PropTypes from 'prop-types';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const MetricsTitle = ({ loading }) => {
@@ -12,6 +10,14 @@ const MetricsTitle = ({ loading }) => {
   ) : (
     <span>Métricas</span>
   );
+};
+
+MetricsTitle.propTypes = {
+  loading: PropTypes.boolean,
+};
+
+MetricsTitle.defaultProps = {
+  loading: false,
 };
 
 export default MetricsTitle;

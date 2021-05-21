@@ -1,28 +1,18 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-// COMPONENTS
-import NewExperimentButton from './index';
-
-// ACTIONS
 import { showNewExperimentModal } from 'store/ui/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleShowModal: () => dispatch(showNewExperimentModal()),
+import NewExperimentButton from './index';
+
+const NewExperimentButtonContainer = () => {
+  const dispatch = useDispatch();
+
+  const handleShowModal = () => {
+    dispatch(showNewExperimentModal());
   };
+
+  return <NewExperimentButton disabled={false} handleClick={handleShowModal} />;
 };
 
-/**
- * New Experiment Button Container.
- * This component is responsible for create a logic container for create new
- * experiment button with redux.
- */
-const NewExperimentButtonContainer = ({ handleShowModal }) => (
-  <NewExperimentButton disabled={false} handleClick={handleShowModal} />
-);
-
-// EXPORT
-export default connect(null, mapDispatchToProps)(NewExperimentButtonContainer);
+export default NewExperimentButtonContainer;
