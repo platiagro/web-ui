@@ -14,7 +14,7 @@ export default () => {
   const showedNotifications = useRef({});
 
   // Shows a notification if you have not shown it before
-  // The operator uuid and message is used as key
+  // The operator uuid and message are used as the notification key
   useEffect(() => {
     if (!operators || operators.length === 0) return;
 
