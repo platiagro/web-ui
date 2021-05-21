@@ -2,13 +2,14 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import {
+  Tasks,
+  AddTask,
+  Error404,
+  Projects,
   Deployment,
   JupyterLab,
-  Projects,
-  ProjectsDetails,
   Experiments,
-  Tasks,
-  Error404,
+  ProjectsDetails,
 } from 'pages';
 
 export const Main = () => {
@@ -29,7 +30,9 @@ export const Main = () => {
       />
 
       <Route path='/tarefas' component={Tasks} />
+      <Route path='/nova-tarefa' component={AddTask} />
       <Route path='/jupyterlab/:path*' component={JupyterLab} />
+
       <Route component={Error404} />
     </Switch>
   );
