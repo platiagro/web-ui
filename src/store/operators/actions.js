@@ -40,8 +40,6 @@ const fetchOperatorsSuccess = (operators) => (dispatch) => {
 
   dispatch(resultsButtonBarDataLoaded());
 
-  utils.retrieveStatusMessageFromOperators(operators);
-
   // dispatching fetch operators success action
   dispatch({
     type: actionTypes.FETCH_OPERATORS_SUCCESS,

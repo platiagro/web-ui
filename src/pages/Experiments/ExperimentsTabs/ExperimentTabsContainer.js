@@ -90,9 +90,6 @@ const ExperimentTabsContainer = () => {
       history.push(getCurrentRoutePath(projectId, targetId));
       dispatch(clearAllExperimentLogs());
       dispatch(deselectOperator());
-
-      // Destroy operator status notifications when change experiment
-      notification.destroy();
     }
   };
 
@@ -155,15 +152,20 @@ const ExperimentTabsContainer = () => {
     }
   }, [experimentId, experiments, dispatch, history, projectId]);
 
+  useEffect(() => {
+    // Destroy operator status notifications when change experiment
+    notification.destroy();
+  }, [experimentId]);
+
   return (
     <ExperimentsTabs
+      loading={experimentDetailsLoading || experimentOperatorsLoading}
       activeExperiment={experimentId}
       experiments={experiments}
-      handleChange={handleChangeTab}
-      handleMoveTab={handleOrganizeTabs}
-      loading={experimentDetailsLoading || experimentOperatorsLoading}
       deleteHandler={deleteHandler}
       renameHandler={renameHandler}
+      handleChange={handleChangeTab}
+      handleMoveTab={handleOrganizeTabs}
       duplicateHandler={duplicateHandler}
     />
   );

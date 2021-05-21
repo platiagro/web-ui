@@ -329,7 +329,6 @@ const fetchExperimentRunStatusSuccess =
       dispatch(experimentTrainingLoadingData());
     }
 
-    utils.retrieveStatusMessageFromOperators(operators);
     dispatch({
       type: actionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS,
       operatorsLatestTraining: operators,
