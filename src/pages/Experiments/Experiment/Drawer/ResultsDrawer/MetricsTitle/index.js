@@ -13,7 +13,7 @@ const MetricsTitle = ({ loading }) => {
 };
 
 MetricsTitle.propTypes = {
-  loading: PropTypes.boolean,
+  loading: PropTypes.bool,
 };
 
 MetricsTitle.defaultProps = {

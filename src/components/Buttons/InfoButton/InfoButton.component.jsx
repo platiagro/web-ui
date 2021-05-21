@@ -21,8 +21,8 @@ const InfoButton = ({ onClick, disabled, active }) => {
 
 InfoButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  active: PropTypes.boolean,
-  disabled: PropTypes.boolean,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 InfoButton.defaultProps = {
