@@ -12,9 +12,14 @@ const TaskTemplateItem = ({
   buttonText,
   handleClickButton,
   titleComponent,
+  ...otherProps // The antd tooltip needs this to work
 }) => {
   return (
-    <div className={`task-template-item ${className}`} style={style}>
+    <div
+      {...otherProps}
+      className={`task-template-item ${className}`}
+      style={style}
+    >
       <div className='task-template-item-title-container'>
         {titleComponent || (
           <div className='task-template-item-title'>{title}</div>
@@ -43,6 +48,7 @@ TaskTemplateItem.propTypes = {
   buttonText: PropTypes.string,
   handleClickButton: PropTypes.func,
   titleComponent: PropTypes.node,
+  otherProps: PropTypes.object,
 };
 
 TaskTemplateItem.defaultProps = {
@@ -53,6 +59,7 @@ TaskTemplateItem.defaultProps = {
   buttonText: '',
   handleClickButton: undefined,
   titleComponent: undefined,
+  otherProps: {},
 };
 
 export default TaskTemplateItem;

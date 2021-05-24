@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router';
+import { PageHeader, Typography, Button, Tooltip } from 'antd';
 import {
   ShoppingOutlined,
   CodeTwoTone,
   LayoutTwoTone,
 } from '@ant-design/icons';
-import { PageHeader, Typography, Button } from 'antd';
 
 import { TaskTemplateItem } from 'components';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
@@ -50,12 +50,18 @@ const AddTask = () => {
             </div>
 
             <div className='add-task-page-content-panels-left-list'>
-              <TaskTemplateItem
-                className='add-task-page-content-panels-left-item'
-                title='Em Branco'
-                description='Crie a tarefa a partir de um template contendo a estrutura necessária para funcionamento na PlatIAgro ou faça upload do seu Notebook Jupyter. Crie a tarefa a partir de um template contendo a estrutura necessária para funcionamento na PlatIAgro ou faça upload do seu Notebook Jupyter.'
-                buttonText='Criar Tarefa'
-              />
+              <Tooltip
+                color='black'
+                placement='right'
+                title='Crie a tarefa a partir de um template contendo a estrutura necessária para funcionamento na PlatIAgro ou faça upload do seu Notebook Jupyter.'
+              >
+                <TaskTemplateItem
+                  className='add-task-page-content-panels-left-item'
+                  title='Em Branco'
+                  description='Crie a tarefa a partir de um template contendo a estrutura necessária para funcionamento na PlatIAgro ou faça upload do seu Notebook Jupyter.'
+                  buttonText='Criar Tarefa'
+                />
+              </Tooltip>
 
               <TaskTemplateItem
                 className='add-task-page-content-panels-left-item'
