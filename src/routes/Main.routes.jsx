@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import {
   Tasks,
-  AddTask,
+  NewTask,
   Error404,
   Projects,
   Deployment,
@@ -30,7 +30,7 @@ export const Main = () => {
       />
 
       <Route path='/tarefas' component={Tasks} />
-      <Route path='/nova-tarefa' component={AddTask} />
+      <Route path='/nova-tarefa' component={NewTask} />
       <Route path='/jupyterlab/:path*' component={JupyterLab} />
 
       <Route component={Error404} />
