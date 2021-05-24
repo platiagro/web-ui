@@ -1,10 +1,16 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { ShoppingOutlined } from '@ant-design/icons';
+import {
+  ShoppingOutlined,
+  CodeTwoTone,
+  LayoutTwoTone,
+} from '@ant-design/icons';
 import { PageHeader, Typography, Button } from 'antd';
 
-import { ReactComponent as MarketPlaceIcon } from 'assets/marketplace.svg';
+import { TaskTemplateItem } from 'components';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
+import { ReactComponent as MarketPlaceIcon } from 'assets/marketplace.svg';
+import { ReactComponent as DockerIcon } from 'assets/dockerIcon.svg';
 
 import './AddTask.style.less';
 
@@ -37,7 +43,105 @@ const AddTask = () => {
 
       <div className='add-task-page-content'>
         <div className='add-task-page-content-panels'>
-          <div className='add-task-page-content-panels-left'></div>
+          <div className='add-task-page-content-panels-left'>
+            <div className='add-task-page-content-panels-left-title'>
+              <CodeTwoTone />
+              <span>Faça Você Mesmo(a)</span>
+            </div>
+
+            <div className='add-task-page-content-panels-left-list'>
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                title='Em Branco'
+                description='Crie a tarefa a partir de um template contendo a estrutura necessária para funcionamento na PlatIAgro ou faça upload do seu Notebook Jupyter. Crie a tarefa a partir de um template contendo a estrutura necessária para funcionamento na PlatIAgro ou faça upload do seu Notebook Jupyter.'
+                buttonText='Criar Tarefa'
+              />
+
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+            </div>
+
+            <div className='add-task-page-content-panels-left-title'>
+              <LayoutTwoTone />
+              <span>Comece Por Um Exemplo</span>
+            </div>
+
+            <div className='add-task-page-content-panels-left-category'>
+              Nome da Categoria
+            </div>
+
+            <div className='add-task-page-content-panels-left-type'>
+              Genérico
+            </div>
+
+            <div className='add-task-page-content-panels-left-list'>
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+            </div>
+
+            <div className='add-task-page-content-panels-left-type'>
+              Especializado
+            </div>
+
+            <div className='add-task-page-content-panels-left-list'>
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+
+              <TaskTemplateItem
+                className='add-task-page-content-panels-left-item'
+                titleComponent={<DockerIcon />}
+                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+                buttonText='Criar Tarefa'
+              />
+            </div>
+          </div>
 
           <div className='add-task-page-content-panels-right'>
             <div className='add-task-page-content-panels-right-title'>

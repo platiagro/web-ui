@@ -44,6 +44,7 @@ export { default as PropertyBlock } from './PropertyBlock';
 export { default as ResizableSection } from './ResizableSection';
 export { default as TabsBar } from './TabsBar';
 export { default as TaskBox } from './TaskBox';
+export { default as TaskTemplateItem } from './TaskTemplateItem';
 export { default as TemplatesTable } from './TemplatesTable';
 export { default as Title } from './Title';
 export { default as ToolbarConfig } from './ToolbarConfig';
