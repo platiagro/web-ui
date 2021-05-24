@@ -9,6 +9,7 @@ import {
   Deployment,
   JupyterLab,
   Experiments,
+  TaskDetails,
   ProjectsDetails,
 } from 'pages';
 
@@ -31,6 +32,7 @@ export const Main = () => {
 
       <Route path='/tarefas' component={Tasks} />
       <Route path='/nova-tarefa' component={NewTask} />
+      <Route path='/tarefa/:taskId' component={TaskDetails} />
       <Route path='/jupyterlab/:path*' component={JupyterLab} />
 
       <Route component={Error404} />

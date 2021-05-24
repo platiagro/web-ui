@@ -5,6 +5,7 @@ import Projects from './Projects';
 import Deployment from './Deployment';
 import JupyterLab from './JupyterLab';
 import Experiments from './Experiments';
+import TaskDetails from './TaskDetails';
 import ProjectsDetails from './ProjectDetails';
 
 export {
@@ -15,5 +16,6 @@ export {
   Deployment,
   JupyterLab,
   Experiments,
+  TaskDetails,
   ProjectsDetails,
 };

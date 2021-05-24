@@ -1,0 +1,79 @@
+.task-details-page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .task-details-page-header {
+    background: #fff;
+    width: 100%;
+    padding: 0;
+    box-shadow: 0px 1px 4px rgba(0, 21, 41, 0.12);
+    z-index: 999;
+
+    .task-details-page-header-subtitle {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 22px;
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    .ant-page-header-heading {
+      .ant-page-header-heading-left {
+        margin: 0 0;
+      }
+
+      .ant-page-header-back {
+        margin: auto;
+        border: 3px solid white;
+        padding: 10px;
+      }
+
+      .ant-page-header-heading-title {
+        padding-right: 21px;
+        border-right: 1px solid rgba(0, 0, 0, 0.09);
+        width: 100%;
+
+        &:first-child {
+          padding: 16px 42px 0 42px;
+        }
+      }
+
+      .ant-page-header-heading-extra {
+        display: flex;
+        margin: 0;
+      }
+    }
+  }
+
+  .task-details-page-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+
+    .task-details-page-content-panels {
+      flex: 1;
+      display: flex;
+      align-items: center;
+
+      .task-details-page-content-panels-left {
+        flex: 1;
+        background: white;
+        height: 100%;
+      }
+
+      .task-details-page-content-panels-right {
+        background: #e8e8e8;
+        width: 30%;
+        height: 100%;
+        min-width: 232px;
+        max-width: 332px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+}

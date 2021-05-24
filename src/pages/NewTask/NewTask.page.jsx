@@ -26,11 +26,11 @@ const NewTask = () => {
   };
 
   const handleCreateBlankTask = () => {
-    history.push('/create-task');
+    history.push('/tarefa/0');
   };
 
   const handleCreateDockerTask = () => {
-    history.push('/create-task');
+    history.push('/tarefa/0');
   };
 
   return (
