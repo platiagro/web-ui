@@ -259,7 +259,7 @@ const CompareResultsModalContainer = () => {
       title={title}
       width={'90%'}
     >
-      <modalBody />
+      {modalBody()}
     </Modal>
   );
 };
