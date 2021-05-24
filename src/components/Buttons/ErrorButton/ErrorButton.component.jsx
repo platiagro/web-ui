@@ -21,8 +21,8 @@ const ErrorButton = ({ onClick, disabled, active }) => {
 
 ErrorButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  active: PropTypes.boolean,
-  disabled: PropTypes.boolean,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 ErrorButton.defaultProps = {

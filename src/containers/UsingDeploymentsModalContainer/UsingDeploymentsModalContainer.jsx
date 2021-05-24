@@ -60,15 +60,11 @@ const ContentInfo = () => {
       <pre style={styles}>{request}</pre>
       <p></p>
       <p>
-        <b>
-          <q>names</q>:[...]
-        </b>
+        <b>&quot;names&quot;:[...]</b>
         - nome das colunas do conjunto de dados, sem o nome do atributo alvo.
         <br />
-        <b>
-          <q>ndarray</q>:[...]
-        </b>
-        - amostras para predição, sem o valor atributo alvo.
+        <b>&quot;ndarray&quot;:[...]</b>- amostras para predição, sem o valor
+        atributo alvo.
       </p>
 
       <h3>Response Body:</h3>
@@ -76,16 +72,12 @@ const ContentInfo = () => {
       <pre style={styles}>{response}</pre>
 
       <p>
-        <b>
-          <q>names</q>:[...]
-        </b>
+        <b>&quot;names&quot;:[...]</b>
         - nome das colunas retornadas pelo último passo do fluxo de
         experimentos.
         <br />
-        <b>
-          <q>ndarray</q>:[...]
-        </b>
-        - valores retornados pelo último passo do fluxo de experimentos.
+        <b>&quot;ndarray&quot;:[...]</b>- valores retornados pelo último passo
+        do fluxo de experimentos.
       </p>
     </div>
   );

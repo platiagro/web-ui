@@ -21,8 +21,8 @@ const DebugButton = ({ onClick, active, disabled }) => {
 
 DebugButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  active: PropTypes.boolean,
-  disabled: PropTypes.boolean,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 DebugButton.defaultProps = {
