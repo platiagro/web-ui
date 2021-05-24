@@ -1,6 +1,9 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
+
 import React, { memo } from 'react';
-import { getSmoothStepPath } from 'react-flow-renderer';
 import { Menu, Dropdown } from 'antd';
+import { getSmoothStepPath } from 'react-flow-renderer';
 
 const ARROWS = [
   {
@@ -105,19 +108,20 @@ export const edgeTypes = {
       borderRadius: 20,
     });
 
-    const menu = (
-      <Menu onClick={() => onDelete(target, source)}>
-        {onDelete && <Menu.Item key='remove'>Remover</Menu.Item>}
-      </Menu>
-    );
-
     return (
-      <Dropdown overlay={menu} trigger={['contextMenu']}>
+      <Dropdown
+        trigger={['contextMenu']}
+        overlay={
+          <Menu onClick={() => onDelete(target, source)}>
+            {onDelete && <Menu.Item key='remove'>Remover</Menu.Item>}
+          </Menu>
+        }
+      >
         <path
           id={id}
           style={style}
-          className='react-flow__edge-path'
           d={edgePath}
+          className='react-flow__edge-path'
           markerEnd='url(#react-flow__arrowend)'
           markerStart='url(#react-flow__circle)'
         />

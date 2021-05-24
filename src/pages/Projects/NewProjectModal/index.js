@@ -1,38 +1,25 @@
-// CORE LIBS
+/* eslint-disable jsx-a11y/no-autofocus */
+
 import React, { useEffect, useRef, useState } from 'react';
+import { Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 
-// UI LIBS
-import { Form, Input, Modal } from 'antd';
-
-/**
- * New Project Modal.
- * This component is responsible for displaying a new project modal.
- *
- * @component
- * @param {object} props Component props
- * @returns {NewProjectModal} React component
- */
-const NewProjectModal = (props) => {
-  // destructuring props
-  const {
-    visible,
-    loading,
-    title,
-    record,
-    modalValidateStatus,
-    errorMessage,
-    handleCloseModal,
-    handleNewProject,
-    handleUpdateProject,
-  } = props;
-
+const NewProjectModal = ({
+  title,
+  record,
+  visible,
+  loading,
+  modalValidateStatus,
+  errorMessage,
+  handleCloseModal,
+  handleNewProject,
+  handleUpdateProject,
+}) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
   const [form] = Form.useForm();
   const inputNameRef = useRef();
 
-  // did mount hook
   useEffect(() => {
     if (visible) setTimeout(() => inputNameRef.current.select());
     else setButtonDisabled(false);
@@ -40,17 +27,13 @@ const NewProjectModal = (props) => {
     setStatus(modalValidateStatus);
   }, [modalValidateStatus, visible]);
 
-  // FUNCTIONS
-  // function to enable or disable submit button
-  const onValuesChangeForm = (changedValues, allValues) => {
+  const onValuesChangeForm = (_, allValues) => {
     const isNameEmpty = allValues.name === '';
     setButtonDisabled(isNameEmpty);
   };
 
-  // Function to handle form submit
   const handleSubmit = () => {
     form.validateFields().then((values) => {
-      // handling create new project
       if (record) {
         handleUpdateProject(record.uuid, values.name, values.description, true);
       } else {
@@ -59,22 +42,19 @@ const NewProjectModal = (props) => {
     });
   };
 
-  // FUNCTION KEYS
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') handleSubmit();
     else if (e.key === 'Escape') handleCloseModal();
   };
 
-  // RENDER
   return (
-    // modal component
     <Modal
-      visible={visible}
       title={title}
-      okText={record ? 'Salvar' : 'Criar'}
+      visible={visible}
+      onOk={handleSubmit}
       cancelText='Cancelar'
       onCancel={handleCloseModal}
-      onOk={handleSubmit}
+      okText={record ? 'Salvar' : 'Criar'}
       okButtonProps={{
         disabled: buttonDisabled,
         loading,
@@ -84,26 +64,25 @@ const NewProjectModal = (props) => {
       }}
       destroyOnClose
     >
-      {/* form details */}
       <Form
         id='projectForm'
-        layout='vertical'
         form={form}
         preserve={false}
+        layout='vertical'
         onValuesChange={onValuesChangeForm}
       >
         <Form.Item
-          label='Qual o nome do seu projeto?'
           name='name'
+          label='Qual o nome do seu projeto?'
+          help={status ? errorMessage : undefined}
           initialValue={record?.name ?? 'Novo Projeto'}
+          validateStatus={status ? modalValidateStatus : undefined}
           rules={[
             {
               required: true,
               message: 'Por favor insira um nome para o projeto!',
             },
           ]}
-          validateStatus={status ? modalValidateStatus : undefined}
-          help={status ? errorMessage : undefined}
           autoFocus
         >
           <Input
@@ -112,11 +91,11 @@ const NewProjectModal = (props) => {
             ref={inputNameRef}
             onKeyUp={handleKeyPress}
             onChange={() => {
-              // remove current status
               setStatus(null);
             }}
           />
         </Form.Item>
+
         <Form.Item
           label='Descrição (Opcional):'
           name='description'
@@ -129,17 +108,16 @@ const NewProjectModal = (props) => {
   );
 };
 
-// PROP TYPES
 NewProjectModal.propTypes = {
-  /** new project modal visible */
+  title: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
-  /** new project modal close handler */
-  handleCloseModal: PropTypes.func.isRequired,
-  /** new project modal new project handler */
-  handleNewProject: PropTypes.func.isRequired,
-  /** is loading */
   loading: PropTypes.bool.isRequired,
+  record: PropTypes.object.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+  modalValidateStatus: PropTypes.string.isRequired,
+  handleCloseModal: PropTypes.func.isRequired,
+  handleNewProject: PropTypes.func.isRequired,
+  handleUpdateProject: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default NewProjectModal;

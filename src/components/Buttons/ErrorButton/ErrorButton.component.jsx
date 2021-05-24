@@ -1,39 +1,33 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { BugOutlined } from '@ant-design/icons';
 
-import PropTypes from "prop-types";
+import './style.less';
 
-import { BugOutlined } from "@ant-design/icons";
+const ErrorButton = ({ onClick, disabled, active }) => {
+  const getClassName = () => {
+    if (disabled) return 'error-button-disabled';
+    else if (active) return 'error-button-active';
+    return 'error-button';
+  };
 
-import "./style.less";
-
-/**
- * A error button
- *
- * @param {*} props Component props
- *
- * @returns {ErrorButton} Component
- *
- * @component
- */
-
-const ErrorButton = (props) => {
-  const { onClick, disabled, active } = props;
   return (
-    <button className={disabled?"error-button-disabled":active?"error-button-active":"error-button"} onClick={onClick} disabled={disabled}>
+    <button className={getClassName()} onClick={onClick} disabled={disabled}>
       <BugOutlined />
       Error
     </button>
   );
 };
 
-// PROP TYPES
 ErrorButton.propTypes = {
-  /** click function */
   onClick: PropTypes.func.isRequired,
-  /** disable function */
-  disabled: PropTypes.bool.isRequired,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
+ErrorButton.defaultProps = {
+  active: false,
+  disabled: false,
+};
 
 export default ErrorButton;
-

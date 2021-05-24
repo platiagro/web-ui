@@ -1,6 +1,6 @@
 // CORE LIBS
-import React, { useState } from 'react';
-import _ from 'lodash';
+import React, { useMemo, useState } from 'react';
+import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import ReactFlow, { Background } from 'react-flow-renderer';
@@ -15,18 +15,18 @@ import './style.less';
 
 const ExperimentFlow = ({
   tasks,
+  isOver,
+  canDrop,
   loading,
   arrowConfigs,
-  handleTaskBoxClick,
-  handleDeselectOperator,
-  handleSavePosition,
-  handleSaveDependencies,
-  canDrop,
-  isOver,
-  connectDropTarget,
-  handleToggleLogsPanel,
-  isLogsPanelSelected,
   numberOfLogs,
+  connectDropTarget,
+  isLogsPanelSelected,
+  handleTaskBoxClick,
+  handleSavePosition,
+  handleToggleLogsPanel,
+  handleSaveDependencies,
+  handleDeselectOperator,
 }) => {
   const [connectClass, setConnectClass] = useState('');
 
@@ -38,10 +38,8 @@ const ExperimentFlow = ({
   };
 
   const handleConnect = (params) => {
-    const targetDependencies = tasks.filter(
-      (operator) => operator.uuid === params.target
-    )[0].dependencies;
-
+    const targetTask = tasks.find(({ uuid }) => uuid === params.target);
+    const targetDependencies = targetTask.dependencies;
     handleSaveDependencies(params.target, [
       ...targetDependencies,
       params.source,
@@ -49,26 +47,28 @@ const ExperimentFlow = ({
   };
 
   const handleDeleteConnection = (target, source) => {
-    const targetDependencies = [...tasks].filter((el) => el.uuid === target)[0]
-      .dependencies;
-    const removeDependencies = targetDependencies.filter(
+    const targetTask = tasks.find((el) => el.uuid === target);
+    const targetDependencies = targetTask.dependencies;
+    const filteredDependencies = targetDependencies.filter(
       (dep) => dep !== source
     );
 
-    handleSaveDependencies(target, removeDependencies);
+    handleSaveDependencies(target, filteredDependencies);
   };
 
-  const handleDragStop = (event, task) =>
+  const handleDragStop = (_, task) => {
     handleSavePosition(task.id, task.position);
+  };
 
-  const isActive = canDrop && isOver;
+  const isActive = useMemo(() => {
+    return canDrop && isOver;
+  }, [canDrop, isOver]);
 
-  let backgroundColor = '#fff';
-  if (isActive) {
-    backgroundColor = 'rgba(20,250,20,0.1)';
-  } else if (canDrop) {
-    backgroundColor = 'rgba(250,20,20,0.1)';
-  }
+  const backgroundColor = useMemo(() => {
+    if (isActive) return 'rgba(20,250,20,0.1)';
+    else if (canDrop) return 'rgba(250,20,20,0.1)';
+    return '#ffffff';
+  }, [canDrop, isActive]);
 
   const cardsElements = tasks.map((component) => {
     const arrows = component.dependencies.map((arrow) => {
@@ -129,19 +129,19 @@ const ExperimentFlow = ({
   ) : (
     <div className='experiment-flow' ref={connectDropTarget}>
       <ReactFlow
+        deleteKeyCode={46}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         nodesConnectable={true}
-        elements={_.flattenDeep(cardsElements)}
-        onPaneClick={handleDeselectOperator}
-        onSelectionChange={handleDeselectOperator}
+        elements={lodash.flattenDeep(cardsElements)}
         onLoad={handleLoad}
         onConnect={handleConnect}
         onNodeDragStop={handleDragStop}
+        onPaneClick={handleDeselectOperator}
         onConnectEnd={() => setConnectClass('')}
-        onConnectStart={() => setConnectClass('Connecting')}
+        onSelectionChange={handleDeselectOperator}
         onPaneContextMenu={(e) => e.preventDefault()}
-        deleteKeyCode={46}
+        onConnectStart={() => setConnectClass('Connecting')}
         onElementsRemove={(e) => {
           const line = e[0];
           if (line.type !== 'cardNode') {
@@ -150,9 +150,9 @@ const ExperimentFlow = ({
         }}
       >
         <Background
-          variant='dots'
           gap={25}
           size={1}
+          variant='dots'
           color={'#58585850'}
           style={{ backgroundColor }}
         />
@@ -171,21 +171,22 @@ const ExperimentFlow = ({
 };
 
 ExperimentFlow.propTypes = {
-  /** experiment flow tasks list */
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** experiment flow task box click handler */
-  handleTaskBoxClick: PropTypes.func.isRequired,
-  /** is loading */
+  tasks: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
-  /** flag for enable drop */
   canDrop: PropTypes.bool.isRequired,
-  /** flag for show item over drop area */
   isOver: PropTypes.bool.isRequired,
-  /** function to save offset of Flow Area */
-  handleSaveFlowTransform: PropTypes.func,
+  numberOfLogs: PropTypes.number.isRequired,
+  arrowConfigs: PropTypes.object.isRequired,
+  connectDropTarget: PropTypes.object.isRequired,
+  isLogsPanelSelected: PropTypes.bool.isRequired,
+  handleSavePosition: PropTypes.func.isRequired,
+  handleTaskBoxClick: PropTypes.func.isRequired,
+  handleToggleLogsPanel: PropTypes.func.isRequired,
+  handleDeselectOperator: PropTypes.func.isRequired,
+  handleSaveDependencies: PropTypes.func.isRequired,
+  handleSaveFlowTransform: PropTypes.func.isRequired,
 };
 
-//HOC for transform ExperimentFlow into DropTarget
 const ExperimentFlowDrop = DropTarget(
   'TASK',
   {

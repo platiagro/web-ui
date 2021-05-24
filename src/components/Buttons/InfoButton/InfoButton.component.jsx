@@ -1,36 +1,33 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
-import PropTypes from "prop-types";
+import './style.less';
 
-import { InfoCircleOutlined } from "@ant-design/icons";
+const InfoButton = ({ onClick, disabled, active }) => {
+  const getClassName = () => {
+    if (disabled) return 'info-button-disabled';
+    else if (active) return 'info-button-active';
+    return 'info-button';
+  };
 
-import "./style.less";
-
-/**
- * A info button
- *
- * @param {*} props Component props
- *
- * @returns {InfoButton} Component
- *
- * @component
- */
-
-const InfoButton = (props) => {
-  const { onClick, disabled, active } = props;
   return (
-    <button className={disabled?"info-button-disabled":active?"info-button-active":"info-button"} onClick={onClick} disabled={disabled}>
+    <button className={getClassName()} onClick={onClick} disabled={disabled}>
       <InfoCircleOutlined />
       Info
     </button>
   );
 };
 
-// PROP TYPES
 InfoButton.propTypes = {
-  /** click function */
   onClick: PropTypes.func.isRequired,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
+InfoButton.defaultProps = {
+  active: false,
+  disabled: false,
+};
 
 export default InfoButton;

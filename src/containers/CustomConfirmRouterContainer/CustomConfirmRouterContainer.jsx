@@ -1,55 +1,33 @@
-// REACT LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-// ROUTER COMPONENTS
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-// ACTIONS
 import { cancelDatasetUpload } from 'store/dataset/actions';
 
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    // show data view modal
-    cancelUpload: () => dispatch(cancelDatasetUpload()),
+const CustomConfirmRouterContainer = ({ children }) => {
+  const dispatch = useDispatch();
+
+  const handleGetUserConfirmation = (message, callback) => {
+    const allowTransition = window.confirm(message);
+
+    if (allowTransition) {
+      dispatch(cancelDatasetUpload());
+      callback(allowTransition);
+    }
   };
-};
 
-const CustomConfirmRouterContainer = (props) => {
-  // PROPS / CONSTANTS
-  // destructuring props
-  const { cancelUpload, children } = props;
-
-  // rendering component
   return (
-    <Router
-      getUserConfirmation={(message, callback) => {
-        // invoke alert confirm
-        const allowTransition = window.confirm(message);
-
-        // if confirmed
-        if (allowTransition) {
-          // cancel upload
-          cancelUpload();
-          // go to route
-          callback(allowTransition);
-        }
-      }}
-    >
-      {/* child nodes */}
-      {children}
-    </Router>
+    <Router getUserConfirmation={handleGetUserConfirmation}>{children}</Router>
   );
 };
 
 CustomConfirmRouterContainer.propTypes = {
-  /** Cancel upload handler */
-  cancelUpload: PropTypes.func.isRequired,
-  /** Router childs */
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 };
 
-// EXPORT DEFAULT
-export default connect(null, mapDispatchToProps)(CustomConfirmRouterContainer);
+CustomConfirmRouterContainer.defaultProps = {
+  children: undefined,
+};
+
+export default CustomConfirmRouterContainer;

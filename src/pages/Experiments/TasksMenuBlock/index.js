@@ -1,63 +1,44 @@
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// COMPONENTS
 import TasksMenuSearch from './TasksMenuSearch';
 import TasksMenu from './TasksMenu';
 
-//STYLE
 import './style.less';
 
-/**
- * Tasks Menu Block.
- * This component is responsible for displaying tasks menu with search.
- *
- * @component
- * @param {object} props Component props
- * @returns {TasksMenuBlock} React component
- */
 const TasksMenuBlock = (props) => {
-  // destructuring props
   const {
     menu,
     loading,
-    handleTaskClick,
-    handleFilter,
     disabled,
+    handleFilter,
+    handleTaskClick,
     handleDeleteTemplate,
   } = props;
 
-  // RENDER
   return (
-    // div container
     <div className='task-menu'>
-      <span className='task-menu-title'> Armazém de tarefas</span>
-      <TasksMenuSearch disabled={disabled} handleFilter={handleFilter} />
+      <span className='task-menu-title'>Armazém de tarefas</span>
+      <TasksMenuSearch handleFilter={handleFilter} />
+
       <TasksMenu
+        menu={menu}
+        loading={loading}
         disabled={disabled}
         handleClick={handleTaskClick}
         handleDeleteTemplate={handleDeleteTemplate}
-        menu={menu}
-        loading={loading}
       />
     </div>
   );
 };
 
-// PROP TYPES
 TasksMenuBlock.propTypes = {
-  /** tasks menu block tasks list */
-  menu: PropTypes.objectOf(PropTypes.any).isRequired,
-  /** tasks menu block is disabled */
-  disabled: PropTypes.bool.isRequired,
-  /** tasks menu task click handler */
-  handleTaskClick: PropTypes.func.isRequired,
-  /** tasks menu filter handler */
-  handleFilter: PropTypes.func.isRequired,
-  /** is loading */
+  menu: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  handleFilter: PropTypes.func.isRequired,
+  handleTaskClick: PropTypes.func.isRequired,
+  handleDeleteTemplate: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default TasksMenuBlock;
