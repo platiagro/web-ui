@@ -61,6 +61,78 @@
         flex: 1;
         background: white;
         height: 100%;
+        padding: 24px;
+
+        .task-details-page-content-form-field {
+          max-width: 500px;
+          width: 100%;
+          margin-bottom: 32px;
+
+          .task-details-page-content-form-field-label {
+            display: block;
+            font-weight: bold;
+            line-height: 24px;
+            font-size: 16px;
+            padding: 0 0 12px 12px;
+
+            > *:not(:last-child) {
+              margin-right: 16px;
+            }
+          }
+
+          .task-details-page-content-form-field-input {
+            width: 100%;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+            border-left: none;
+            outline: none;
+            box-shadow: none;
+            border: 1px solid transparent !important;
+            border-radius: 5px;
+            transition: none;
+
+            // Chrome, Firefox, Opera, Safari 10.1+
+            &::placeholder {
+              color: #8c8c8c !important;
+              opacity: 1; // Firefox
+            }
+
+            // Internet Explorer 10-11
+            &:-ms-input-placeholder {
+              color: #8c8c8c !important;
+            }
+
+            // Microsoft Edge
+            &::-ms-input-placeholder {
+              color: #8c8c8c !important;
+            }
+
+            &:hover {
+              border: 1px solid rgba(0, 0, 0, 0.3) !important;
+            }
+
+            &:focus {
+              border: 1px solid rgba(0, 0, 0, 0.6) !important;
+            }
+          }
+
+          .task-details-page-content-form-field-input {
+            .ant-select-selector {
+              border-top: none;
+              border-right: none;
+              border-bottom: none;
+              border-left: none;
+              outline: none;
+              border: none;
+              box-shadow: none;
+
+              .ant-select-selection-placeholder {
+                color: #8c8c8c;
+              }
+            }
+          }
+        }
       }
 
       .task-details-page-content-info {
@@ -71,6 +143,7 @@
         max-width: 332px;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
 
         .task-details-page-content-info-notebook {
           color: #262626;
@@ -99,16 +172,18 @@
           .task-details-page-content-info-notebook-buttons {
             display: flex;
             align-items: center;
+            flex-wrap: wrap-reverse;
             justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 16px;
+            margin-top: 8px;
 
             > * {
+              margin-top: 8px;
               color: #0050b3;
             }
 
             > :first-child {
               flex: 1;
+              overflow: hidden;
               margin-right: 8px;
             }
           }

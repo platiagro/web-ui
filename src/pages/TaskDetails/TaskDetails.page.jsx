@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router';
-import { PageHeader, Typography, Button, Avatar } from 'antd';
+import {
+  PageHeader,
+  Typography,
+  Button,
+  Avatar,
+  Input,
+  Select,
+  Tooltip,
+} from 'antd';
 import {
   ToolOutlined,
   UploadOutlined,
   ExperimentOutlined,
   ClockCircleOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons';
 
 import AccountInfo from 'components/ContentHeader/AccountInfo';
@@ -16,6 +25,14 @@ import { Placeholder } from 'components';
 const TaskDetails = () => {
   const history = useHistory();
 
+  const descriptionRef = useRef(null);
+  const inputDataRef = useRef(null);
+  const outputDataRef = useRef(null);
+  const searchTagsRef = useRef(null);
+  const documentationRef = useRef(null);
+
+  const [selectedCategory, setSelectedCategory] = useState();
+
   const handleGoBack = () => {
     history.goBack();
   };
@@ -25,6 +42,14 @@ const TaskDetails = () => {
 
   const handleOpenDeploymentNotebook = () => {};
   const handleUploadDeploymentNotebook = () => {};
+
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div className='task-details-page'>
@@ -44,7 +69,145 @@ const TaskDetails = () => {
 
       <div className='task-details-page-content'>
         <div className='task-details-page-content-panels'>
-          <div className='task-details-page-content-form'></div>
+          <form
+            className='task-details-page-content-form'
+            onSubmit={handleSubmit}
+            noValidate
+          >
+            <div className='task-details-page-content-form-field'>
+              <label
+                className='task-details-page-content-form-field-label'
+                htmlFor='description'
+              >
+                Descrição
+              </label>
+
+              <Input
+                className='task-details-page-content-form-field-input'
+                ref={descriptionRef}
+                type='text'
+                size='large'
+                id='description'
+                placeholder='Adicionar Descrição'
+              />
+            </div>
+
+            <div className='task-details-page-content-form-field'>
+              <label
+                className='task-details-page-content-form-field-label'
+                htmlFor='category'
+              >
+                Categoria
+              </label>
+
+              <Select
+                className='task-details-page-content-form-field-input'
+                id='category'
+                size='large'
+                value={selectedCategory}
+                onChange={handleSelectCategory}
+                placeholder='Selecionar Categoria'
+              >
+                <Select.Option value='1'>Category 1</Select.Option>
+                <Select.Option value='2'>Category 2</Select.Option>
+                <Select.Option value='3'>Category 3</Select.Option>
+                <Select.Option value='4'>Category 4</Select.Option>
+                <Select.Option value='5'>Category 5</Select.Option>
+              </Select>
+            </div>
+
+            <div className='task-details-page-content-form-field'>
+              <label
+                className='task-details-page-content-form-field-label'
+                htmlFor='inputData'
+              >
+                <span>Dados de Entrada</span>
+
+                <Tooltip
+                  title='Descrição dos dados de entrada da tarefa. Exemplo: “Arquivo .csv com dados tabulares (um atributo por coluna), sem cabeçalho”'
+                  placement='right'
+                >
+                  <QuestionCircleOutlined />
+                </Tooltip>
+              </label>
+
+              <Input
+                className='task-details-page-content-form-field-input'
+                ref={inputDataRef}
+                type='text'
+                size='large'
+                id='inputData'
+                placeholder='Adicionar dados de entrada'
+              />
+            </div>
+
+            <div className='task-details-page-content-form-field'>
+              <label
+                className='task-details-page-content-form-field-label'
+                htmlFor='outputData'
+              >
+                <span>Dados de Saída</span>
+                <Tooltip
+                  title='Descrição dos dados de saída da tarefa. Exemplo: “Conjunto de dados em formato de matriz, com uma amostra por linha”'
+                  placement='right'
+                >
+                  <QuestionCircleOutlined />
+                </Tooltip>
+              </label>
+
+              <Input
+                className='task-details-page-content-form-field-input'
+                ref={outputDataRef}
+                type='text'
+                size='large'
+                id='outputData'
+                placeholder='Adicionar dados de saída'
+              />
+            </div>
+
+            <div className='task-details-page-content-form-field'>
+              <label
+                className='task-details-page-content-form-field-label'
+                htmlFor='searchTags'
+              >
+                <span>Tags de Busca</span>
+
+                <Tooltip
+                  title='As tags facilitam a busca de tarefas. Escolha palavras-chave e adicione as tags usando vírgulas para separá-las.'
+                  placement='right'
+                >
+                  <QuestionCircleOutlined />
+                </Tooltip>
+              </label>
+
+              <Input
+                className='task-details-page-content-form-field-input'
+                ref={searchTagsRef}
+                type='text'
+                size='large'
+                id='searchTags'
+                placeholder='Adicionar tags de busca'
+              />
+            </div>
+
+            <div className='task-details-page-content-form-field'>
+              <label
+                className='task-details-page-content-form-field-label'
+                htmlFor='documentation'
+              >
+                Documentação
+              </label>
+
+              <Input
+                className='task-details-page-content-form-field-input'
+                ref={documentationRef}
+                type='text'
+                size='large'
+                id='documentation'
+                placeholder='Adicionar documentação'
+              />
+            </div>
+          </form>
 
           <div className='task-details-page-content-info'>
             <div className='task-details-page-content-info-notebook'>
@@ -73,7 +236,7 @@ const TaskDetails = () => {
                   type='default'
                   shape='round'
                 >
-                  Notebook de Experimentação
+                  <span>Notebook de Experimentação</span>
                 </Button>
 
                 <Button
@@ -91,7 +254,7 @@ const TaskDetails = () => {
                   type='default'
                   shape='round'
                 >
-                  Notebook de Pré-implantação
+                  <span>Notebook de Pré-implantação</span>
                 </Button>
 
                 <Button
