@@ -32,7 +32,7 @@ export default () => {
 
         notification.open({
           key,
-          duration: 8,
+          duration: 0,
           message: operator.task?.name,
           description: operator.statusMessage,
         });
