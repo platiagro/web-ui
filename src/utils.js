@@ -786,21 +786,6 @@ const formatResultsParameters = (parameters, parametersTraining) => {
   return resultsParameters;
 };
 
-const retrieveStatusMessageFromOperators = (operators) => {
-  if (!operators) return;
-
-  operators.forEach((operator) => {
-    if (operator.statusMessage) {
-      notification.open({
-        key: `${operator.uuid}-${operator.statusMessage}`,
-        duration: 0,
-        message: operator.task?.name,
-        description: operator.statusMessage,
-      });
-    }
-  });
-};
-
 /**
  * Change succeeded status of experiment
  *
@@ -864,7 +849,6 @@ export default {
   formatResultsParameters,
   copyToClipboard,
   downloadFile,
-  retrieveStatusMessageFromOperators,
   changeExperimentSucceededStatus,
   changeProjectExperiments,
 };

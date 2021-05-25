@@ -13,6 +13,7 @@ import {
   PrepareDeploymentsModalContainer,
 } from 'containers';
 
+import useShowOperatorStatusNotifications from './useShowOperatorStatusNotifications';
 import NewExperimentButton from './NewExperimentButton/NewExperimentButtonContainer';
 import NewExperimentModal from './NewExperimentModal/NewExperimentModalContainer';
 import ExperimentsTabs from './ExperimentsTabs/ExperimentTabsContainer';
@@ -23,6 +24,8 @@ import './Experiments.style.less';
 
 const Experiments = () => {
   const { experimentId } = useParams();
+
+  useShowOperatorStatusNotifications();
 
   useEffect(() => {
     return () => {
