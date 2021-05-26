@@ -3,12 +3,79 @@
   display: flex;
   flex-direction: column;
 
+  .task-details-page-input-style {
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    outline: none;
+    box-shadow: none;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: none;
+    overflow: hidden;
+
+    // Chrome, Firefox, Opera, Safari 10.1+
+    &::placeholder {
+      color: #8c8c8c !important;
+      opacity: 1; // Firefox
+    }
+
+    // Internet Explorer 10-11
+    &:-ms-input-placeholder {
+      color: #8c8c8c !important;
+    }
+
+    // Microsoft Edge
+    &::-ms-input-placeholder {
+      color: #8c8c8c !important;
+    }
+
+    &:hover {
+      border: 1px solid rgba(0, 0, 0, 0.3) !important;
+    }
+
+    &:focus,
+    &.ant-select-open,
+    &.ant-select-focused {
+      border: 1px solid #1890ff !important;
+    }
+
+    .ant-select-selector {
+      border-top: none;
+      border-right: none;
+      border-bottom: none;
+      border-left: none;
+      outline: none;
+      border: none;
+      box-shadow: none;
+
+      .ant-select-selection-placeholder {
+        color: #8c8c8c;
+      }
+    }
+  }
+
   .task-details-page-header {
     background: #fff;
     width: 100%;
     padding: 0;
     box-shadow: 0px 1px 4px rgba(0, 21, 41, 0.12);
     z-index: 999;
+
+    .task-details-page-header-edit-name {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+
+      > *:not(:last-child) {
+        margin-right: 16px;
+      }
+
+      .task-details-page-header-edit-name-input {
+        border: 1px solid rgba(0, 0, 0, 0.3);
+      }
+    }
 
     .task-details-page-header-subtitle {
       font-style: normal;
@@ -128,58 +195,6 @@
 
           .task-details-page-content-form-field-input {
             width: 100%;
-            border-top: none;
-            border-right: none;
-            border-bottom: none;
-            border-left: none;
-            outline: none;
-            box-shadow: none;
-            border: 1px solid transparent !important;
-            border-radius: 5px;
-            transition: none;
-            overflow: hidden;
-
-            // Chrome, Firefox, Opera, Safari 10.1+
-            &::placeholder {
-              color: #8c8c8c !important;
-              opacity: 1; // Firefox
-            }
-
-            // Internet Explorer 10-11
-            &:-ms-input-placeholder {
-              color: #8c8c8c !important;
-            }
-
-            // Microsoft Edge
-            &::-ms-input-placeholder {
-              color: #8c8c8c !important;
-            }
-
-            &:hover {
-              border: 1px solid rgba(0, 0, 0, 0.3) !important;
-            }
-
-            &:focus,
-            &.ant-select-open,
-            &.ant-select-focused {
-              border: 1px solid #1890ff !important;
-            }
-          }
-
-          .task-details-page-content-form-field-input {
-            .ant-select-selector {
-              border-top: none;
-              border-right: none;
-              border-bottom: none;
-              border-left: none;
-              outline: none;
-              border: none;
-              box-shadow: none;
-
-              .ant-select-selection-placeholder {
-                color: #8c8c8c;
-              }
-            }
           }
         }
       }

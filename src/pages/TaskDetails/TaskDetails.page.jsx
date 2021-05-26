@@ -139,7 +139,7 @@ const TaskDetails = () => {
             {isEditingTaskName ? (
               <div className='task-details-page-header-edit-name'>
                 <Input
-                  className='task-details-page-header-edit-name-input'
+                  className='task-details-page-header-edit-name-input task-details-page-input-style'
                   ref={taskNameRef}
                   type='text'
                   size='middle'
@@ -147,15 +147,23 @@ const TaskDetails = () => {
                   placeholder='Escreva um nome para a tarefa'
                 />
 
-                <div className='task-details-page-header-edit-name-actions'>
-                  <Tooltip title='Cancelar Edição' placement='bottom'>
-                    <CloseOutlined onClick={handleCancelTaskNameEditing} />
-                  </Tooltip>
+                <Tooltip title='Cancelar Edição' placement='bottom'>
+                  <Button
+                    type='default'
+                    shape='circle'
+                    icon={<CloseOutlined />}
+                    onClick={handleCancelTaskNameEditing}
+                  />
+                </Tooltip>
 
-                  <Tooltip title='Salvar' placement='bottom'>
-                    <CheckOutlined onClick={handleEditTaskName} />
-                  </Tooltip>
-                </div>
+                <Tooltip title='Salvar' placement='bottom'>
+                  <Button
+                    type='default'
+                    shape='circle'
+                    icon={<CheckOutlined />}
+                    onClick={handleEditTaskName}
+                  />
+                </Tooltip>
               </div>
             ) : (
               <Typography.Title level={3} ellipsis>
@@ -190,7 +198,7 @@ const TaskDetails = () => {
               </label>
 
               <Input
-                className='task-details-page-content-form-field-input'
+                className='task-details-page-content-form-field-input task-details-page-input-style'
                 ref={descriptionRef}
                 type='text'
                 size='large'
@@ -208,7 +216,7 @@ const TaskDetails = () => {
               </label>
 
               <Select
-                className='task-details-page-content-form-field-input'
+                className='task-details-page-content-form-field-input task-details-page-input-style'
                 id='category'
                 size='large'
                 value={selectedCategory}
@@ -239,7 +247,7 @@ const TaskDetails = () => {
               </label>
 
               <Input
-                className='task-details-page-content-form-field-input'
+                className='task-details-page-content-form-field-input task-details-page-input-style'
                 ref={inputDataRef}
                 type='text'
                 size='large'
@@ -263,7 +271,7 @@ const TaskDetails = () => {
               </label>
 
               <Input
-                className='task-details-page-content-form-field-input'
+                className='task-details-page-content-form-field-input task-details-page-input-style'
                 ref={outputDataRef}
                 type='text'
                 size='large'
@@ -288,7 +296,7 @@ const TaskDetails = () => {
               </label>
 
               <Input
-                className='task-details-page-content-form-field-input'
+                className='task-details-page-content-form-field-input task-details-page-input-style'
                 ref={searchTagsRef}
                 type='text'
                 size='large'
@@ -306,7 +314,7 @@ const TaskDetails = () => {
               </label>
 
               <Input
-                className='task-details-page-content-form-field-input'
+                className='task-details-page-content-form-field-input task-details-page-input-style'
                 ref={documentationRef}
                 type='text'
                 size='large'
