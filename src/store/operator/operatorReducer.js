@@ -11,17 +11,19 @@ const initialState = {
   dataset: null,
   figures: [],
   logs: [],
-  metrics: [],
   parameters: [],
 };
 
 /**
  * operator reducer
+ *
+ * @param state
+ * @param action
+ * @param state
+ * @param action
  */
 const operatorReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    case actionTypes.GET_OPERATOR_METRICS_REQUEST:
-      return { ...state, metrics: [] };
     case actionTypes.SELECT_OPERATOR:
       return { ...state, ...action.operator };
     case actionTypes.DESELECT_OPERATOR:
@@ -36,8 +38,6 @@ const operatorReducer = (state = initialState, action = undefined) => {
       return { ...state, dataset: { ...action.result } };
     case actionTypes.GET_OPERATOR_FIGURES_SUCCESS:
       return { ...state, figures: [...action.results] };
-    case actionTypes.GET_OPERATOR_METRICS_SUCCESS:
-      return { ...state, metrics: [...action.metrics] };
     case actionTypes.GET_OPERATOR_LOGS_SUCCESS:
       return { ...state, logs: [...action.logs] };
 
@@ -52,8 +52,6 @@ const operatorReducer = (state = initialState, action = undefined) => {
       return { ...state, dataset: null };
     case actionTypes.GET_OPERATOR_FIGURES_FAIL:
       return { ...state, figures: [] };
-    case actionTypes.GET_OPERATOR_METRICS_FAIL:
-      return { ...state, metrics: [] };
     case actionTypes.GET_OPERATOR_LOGS_FAIL:
       return { ...state, logs: action.logs };
 

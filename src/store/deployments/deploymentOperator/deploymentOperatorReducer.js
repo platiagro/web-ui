@@ -11,7 +11,6 @@ const initialState = {
   dataset: null,
   figures: [],
   logs: [],
-  metrics: [],
   parameters: [],
 };
 
