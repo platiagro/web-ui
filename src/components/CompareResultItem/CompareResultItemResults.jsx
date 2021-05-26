@@ -32,7 +32,7 @@ const CompareResultItemResults = (props) => {
   if (
     !compareResult.operatorId ||
     !trainingDetail ||
-    (!compareResult.dataset && !compareResult.figures && !compareResult.metrics)
+    (!compareResult.dataset && !compareResult.figures)
   ) {
     return (
       <>
@@ -96,8 +96,6 @@ const CompareResultItemResults = (props) => {
       }}
       figures={compareResult.figures}
       loading={false}
-      metrics={compareResult.metrics}
-      metricsLoading={false}
       parameters={resultsParameters}
       onDatasetPageChange={handleOnDatasetPageChange}
       onTabChange={handleOnTabChange}

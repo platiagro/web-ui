@@ -9,28 +9,8 @@ import { DownloadOperatorDatasetContainer } from 'containers';
 
 import PlotResult from './PlotResult';
 import TableResult from './TableResult';
-import MetricsTitle from './MetricsTitle';
 
 import './ResultsDrawer.less';
-
-const metricsColumns = [
-  {
-    title: 'Métrica',
-    dataIndex: 'metrica',
-    key: 'metrica',
-    render(val) {
-      return <span style={{ fontWeight: 'bold' }}>{val}</span>;
-    },
-  },
-  {
-    title: 'Valor',
-    dataIndex: 'valor',
-    key: 'valor',
-    render(val) {
-      return <span style={{ fontFamily: 'monospace' }}>{val}</span>;
-    },
-  },
-];
 
 const parametersColumns = [
   {
@@ -59,8 +39,6 @@ const ResultsDrawer = (props) => {
     figures,
     isToShowDownloadButtons,
     loading,
-    metrics,
-    metricsLoading,
     onDatasetPageChange,
     onTabChange,
     parameters,
@@ -68,27 +46,9 @@ const ResultsDrawer = (props) => {
     scroll,
   } = props;
 
-  const metricsDataSource = useMemo(() => {
-    return metrics.map((element, i) => {
-      const objectKey = Object.keys(element)[0];
-      const objectValor = element[objectKey];
-
-      return {
-        key: i,
-        metrica: objectKey,
-        valor: JSON.stringify(objectValor),
-      };
-    });
-  }, [metrics]);
-
   const hasResult = useMemo(() => {
-    return (
-      figures.length > 0 ||
-      metrics.length > 0 ||
-      parameters.length > 0 ||
-      dataset
-    );
-  }, [dataset, figures.length, metrics.length, parameters.length]);
+    return figures.length > 0 || parameters.length > 0 || dataset;
+  }, [dataset, figures.length, parameters.length]);
 
   if (loading) {
     return (
@@ -137,21 +97,6 @@ const ResultsDrawer = (props) => {
           </Tabs.TabPane>
 
           <Tabs.TabPane
-            key={figures.length + 2}
-            disabled={metrics.length <= 0}
-            tab={<MetricsTitle loading={metricsLoading} />}
-          >
-            <CommonTable
-              scroll={scroll}
-              isLoading={false}
-              rowKey={() => uuidv4()}
-              columns={metricsColumns}
-              dataSource={metricsDataSource}
-              bordered
-            />
-          </Tabs.TabPane>
-
-          <Tabs.TabPane
             key={figures.length + 3}
             tab={<span>Parâmetros</span>}
             disabled={parameters.length <= 0}
@@ -183,8 +128,6 @@ ResultsDrawer.propTypes = {
   figures: PropTypes.arrayOf(PropTypes.object).isRequired,
   isToShowDownloadButtons: PropTypes.bool,
   loading: PropTypes.bool.isRequired,
-  metrics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  metricsLoading: PropTypes.bool.isRequired,
   onDatasetPageChange: PropTypes.func.isRequired,
   onTabChange: PropTypes.func.isRequired,
   parameters: PropTypes.arrayOf(PropTypes.object),
