@@ -35,6 +35,7 @@ export { default as MonitoringTaskCard } from './MonitoringTaskCard';
 export { default as MonitoringToolbar } from './MonitoringToolbar';
 export { default as NewDeploymentModal } from './NewDeploymentModal';
 export { default as NewMonitoringModal } from './NewMonitoringModal';
+export { default as NotebooksExplanationModal } from './NotebooksExplanationModal';
 export { default as ParameterGroup } from './ParameterGroup';
 export { default as Placeholder } from './Placeholder';
 export { default as PopoverTip } from './PopoverTip';

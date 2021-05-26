@@ -25,11 +25,11 @@ import {
   QuestionCircleOutlined,
 } from '@ant-design/icons';
 
-import { Placeholder } from 'components';
+import { NotebooksExplanationModal, Placeholder } from 'components';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
 import './TaskDetails.style.less';
-import { useIsLoading } from 'hooks';
+import { useIsLoading, useToggleState } from 'hooks';
 
 const TaskDetails = () => {
   const history = useHistory();
@@ -42,9 +42,13 @@ const TaskDetails = () => {
   const documentationRef = useRef(null);
 
   const [selectedCategory, setSelectedCategory] = useState();
+  const [isEditingTaskName, setIsEditingTaskName] = useState(false);
   const [hasEditedSomething, setHasEditedSomething] = useState(false);
 
-  const [isEditingTaskName, setIsEditingTaskName] = useState(false);
+  const [
+    isShowingNotebooksExplanationModal,
+    handleToggleNotebooksExplanationModal,
+  ] = useToggleState(false);
 
   const isUploadingExperimentationNotebook = useIsLoading('uploading');
   const isUploadingDeploymentNotebook = useIsLoading('uploading');
@@ -70,6 +74,10 @@ const TaskDetails = () => {
 
   const handleStartEditingTaskName = () => {
     setIsEditingTaskName(true);
+    setTimeout(() => {
+      // The timeout sends the callback to the end of the event loop
+      if (taskNameRef.current) taskNameRef.current.focus();
+    }, 0);
   };
 
   const handleCancelTaskNameEditing = () => {
@@ -87,6 +95,11 @@ const TaskDetails = () => {
 
   return (
     <div className='task-details-page'>
+      <NotebooksExplanationModal
+        isShowingModal={isShowingNotebooksExplanationModal}
+        handleHideModal={handleToggleNotebooksExplanationModal}
+      />
+
       <PageHeader
         className='task-details-page-header'
         onBack={handleGoBack}
@@ -139,8 +152,8 @@ const TaskDetails = () => {
             {isEditingTaskName ? (
               <div className='task-details-page-header-edit-name'>
                 <Input
-                  className='task-details-page-header-edit-name-input task-details-page-input-style'
                   ref={taskNameRef}
+                  className='task-details-page-header-edit-name-input task-details-page-input-style'
                   type='text'
                   size='middle'
                   defaultValue='Tarefa em Branco'
@@ -338,8 +351,9 @@ const TaskDetails = () => {
               </div>
 
               <Button
-                type='link'
                 className='task-details-page-content-info-notebook-more'
+                onClick={handleToggleNotebooksExplanationModal}
+                type='link'
               >
                 <span>Saiba Mais</span>
               </Button>
