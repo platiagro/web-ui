@@ -18,6 +18,52 @@
       color: rgba(0, 0, 0, 0.65);
     }
 
+    .task-details-page-header-edit-icon {
+      color: #0050b3;
+      margin-left: 16px;
+    }
+
+    .task-details-page-header-save-message {
+      color: #595959;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 16px;
+      padding: 0 16px;
+      height: 100%;
+      border-right: 1px solid rgba(0, 0, 0, 0.09);
+
+      > *:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+
+    .task-details-page-header-share-button {
+      background: #237804;
+      color: white;
+      border: none;
+      margin: auto 0;
+      transition: transform 0.2s ease-in-out;
+
+      &:hover,
+      &:focus {
+        transform: scale(1.05);
+      }
+    }
+
+    .task-details-page-header-delete-button {
+      background: #ffffff;
+      height: auto;
+      width: 70px;
+      border: none;
+      border-left: 1px solid #e8e8e8;
+
+      &:hover {
+        background: #ffccc7;
+        color: #cf1322;
+      }
+    }
+
     .ant-page-header-heading {
       .ant-page-header-heading-left {
         margin: 0 0;
@@ -64,7 +110,7 @@
         padding: 24px;
 
         .task-details-page-content-form-field {
-          max-width: 500px;
+          max-width: 600px;
           width: 100%;
           margin-bottom: 32px;
 
@@ -91,6 +137,7 @@
             border: 1px solid transparent !important;
             border-radius: 5px;
             transition: none;
+            overflow: hidden;
 
             // Chrome, Firefox, Opera, Safari 10.1+
             &::placeholder {
@@ -112,8 +159,10 @@
               border: 1px solid rgba(0, 0, 0, 0.3) !important;
             }
 
-            &:focus {
-              border: 1px solid rgba(0, 0, 0, 0.6) !important;
+            &:focus,
+            &.ant-select-open,
+            &.ant-select-focused {
+              border: 1px solid #1890ff !important;
             }
           }
 
@@ -186,6 +235,12 @@
               overflow: hidden;
               margin-right: 8px;
             }
+
+            > :last-child {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
           }
         }
 
@@ -203,16 +258,32 @@
           }
         }
 
-        .task-details-page-content-info-task-creator {
-          padding: 24px;
+        .task-details-page-content-info-footer {
           background: #fafafa;
+          padding: 24px 24px 16px 24px;
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
 
-          > :first-child {
-            margin-right: 16px;
-            background: #1890ff;
-            color: white;
+          .task-details-page-content-info-footer-task-creator {
+            display: flex;
+            align-items: center;
+            margin: 0 16px 8px 0;
+
+            > :first-child {
+              margin-right: 16px;
+              background: #1890ff;
+              color: white;
+            }
+          }
+
+          .task-details-page-content-info-footer-task-modified {
+            color: #595959;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            padding: 2px 4px;
+            margin-bottom: 8px;
           }
         }
       }

@@ -2,9 +2,9 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { PageHeader, Typography, Button, Tooltip } from 'antd';
 import {
-  ShoppingOutlined,
   CodeTwoTone,
   LayoutTwoTone,
+  ShoppingOutlined,
 } from '@ant-design/icons';
 
 import { TaskTemplateItem } from 'components';
@@ -53,7 +53,7 @@ const NewTask = () => {
         <div className='new-task-page-content-panels'>
           <div className='new-task-page-content-panels-left'>
             <div className='new-task-page-content-panels-left-title'>
-              <CodeTwoTone />
+              <CodeTwoTone twoToneColor='#a9a9a9' />
               <span>Faça Você Mesmo(a)</span>
             </div>
 
@@ -82,7 +82,7 @@ const NewTask = () => {
             </div>
 
             <div className='new-task-page-content-panels-left-title'>
-              <LayoutTwoTone />
+              <LayoutTwoTone twoToneColor='#a9a9a9' />
               <span>Comece Por Um Exemplo</span>
             </div>
 
