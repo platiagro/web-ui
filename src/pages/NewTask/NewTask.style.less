@@ -64,10 +64,16 @@
         height: 100%;
 
         .new-task-page-content-panels-left-skeletons {
-          > * {
-            width: 300px;
-            height: 186px;
-            padding: 16px;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: stretch;
+
+          .new-task-page-content-panels-left-skeleton {
+            > * {
+              width: 300px;
+              height: 186px;
+              margin: 16px;
+            }
           }
         }
 
