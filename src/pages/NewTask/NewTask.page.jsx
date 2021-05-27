@@ -1,180 +1,108 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router';
-import { PageHeader, Typography, Button, Tooltip } from 'antd';
-import {
-  CodeTwoTone,
-  LayoutTwoTone,
-  ShoppingOutlined,
-} from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { TaskTemplateItem } from 'components';
-import AccountInfo from 'components/ContentHeader/AccountInfo';
-import { ReactComponent as DockerIcon } from 'assets/dockerIcon.svg';
-import { ReactComponent as MarketPlaceIcon } from 'assets/marketplace.svg';
+import { useIsLoading } from 'hooks';
+import { TASK_CATEGORIES } from 'configs';
+import { getTasks, fetchTasks, addTask, TASKS_TYPES } from 'store/tasks';
+
+import NewTaskList from './NewTaskList.';
+import NewTaskHeader from './NewTaskHeader';
+import NewTaskSkeleton from './NewTaskSkeleton';
+import NewTaskDefaultTemplates from './NewTaskDefaultTemplates';
+import NewTaskMarketplacePanel from './NewTaskMarketplacePanel';
 
 import './NewTask.style.less';
 
 const NewTask = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const tasks = useSelector(getTasks);
+  const isLoadingTasks = useIsLoading(TASKS_TYPES.FETCH_TASKS_REQUEST);
+
+  const tasksGroupedByCategory = useMemo(() => {
+    return Object.values(TASK_CATEGORIES).map((category) => {
+      const tasksOfThisCategory = tasks.filter((task) => {
+        return !!task.tags && task.tags.includes(category.key);
+      });
+
+      return {
+        key: category.key,
+        name: category.name,
+        tasks: tasksOfThisCategory,
+      };
+    });
+  }, [tasks]);
 
   const handleGoBack = () => {
     history.goBack();
   };
 
   const handleGoToMarketPlace = () => {
-    history.push('/marketplace');
+    history.push('/marketplace'); // TODO: Put the correct route path here
   };
 
   const handleCreateBlankTask = () => {
-    history.push('/tarefa/0');
+    const newTask = { name: 'Tarefa em Branco' };
+    dispatch(addTask(newTask), (newTask) => {
+      history.push(`/tarefa/${newTask.uuid}`);
+    });
   };
 
   const handleCreateDockerTask = () => {
-    history.push('/tarefa/0');
+    const newTask = {
+      name: 'Tarefa com Docker',
+      image: 'your-custom-docker-image:tag',
+    };
+
+    dispatch(addTask(newTask), (newTask) => {
+      history.push(`/tarefa/${newTask.uuid}`);
+    });
   };
+
+  const handleCreateTaskCopy = (task) => {
+    const taskCopy = {
+      ...task,
+      name: `${task.name} Cópia`,
+      copyFrom: task.uuid,
+    };
+
+    delete taskCopy.uuid;
+
+    dispatch(addTask(taskCopy), (newTask) => {
+      history.push(`/tarefa/${newTask.uuid}`);
+    });
+  };
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
 
   return (
     <div className='new-task-page'>
-      <PageHeader
-        className='new-task-page-header'
-        extra={<AccountInfo />}
-        onBack={handleGoBack}
-        title={
-          <>
-            <span className='new-task-page-header-subtitle'>Tarefas</span>
-            <Typography.Title level={3} ellipsis>
-              Nova Tarefa
-            </Typography.Title>
-          </>
-        }
-      />
+      <NewTaskHeader handleGoBack={handleGoBack} />
 
       <div className='new-task-page-content'>
         <div className='new-task-page-content-panels'>
           <div className='new-task-page-content-panels-left'>
-            <div className='new-task-page-content-panels-left-title'>
-              <CodeTwoTone twoToneColor='#a9a9a9' />
-              <span>Faça Você Mesmo(a)</span>
-            </div>
+            <NewTaskDefaultTemplates
+              handleCreateBlankTask={handleCreateBlankTask}
+              handleCreateDockerTask={handleCreateDockerTask}
+            />
 
-            <div className='new-task-page-content-panels-left-list'>
-              <Tooltip
-                color='black'
-                placement='right'
-                title='Crie a tarefa a partir de um template contendo a estrutura necessária para funcionamento na PlatIAgro ou faça upload do seu Notebook Jupyter.'
-              >
-                <TaskTemplateItem
-                  className='new-task-page-content-panels-left-item'
-                  handleClickButton={handleCreateBlankTask}
-                  buttonText='Criar Tarefa'
-                  title='Em Branco'
-                  description='Crie a tarefa a partir de um template contendo a estrutura necessária para funcionamento na PlatIAgro ou faça upload do seu Notebook Jupyter.'
-                />
-              </Tooltip>
+            <NewTaskList
+              isLoadingTasks={isLoadingTasks}
+              handleCreateTaskCopy={handleCreateTaskCopy}
+              tasksGroupedByCategory={tasksGroupedByCategory}
+            />
 
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                handleClickButton={handleCreateDockerTask}
-                titleComponent={<DockerIcon />}
-                buttonText='Criar Tarefa'
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-              />
-            </div>
-
-            <div className='new-task-page-content-panels-left-title'>
-              <LayoutTwoTone twoToneColor='#a9a9a9' />
-              <span>Comece Por Um Exemplo</span>
-            </div>
-
-            <div className='new-task-page-content-panels-left-category'>
-              Nome da Categoria
-            </div>
-
-            <div className='new-task-page-content-panels-left-type'>
-              Genérico
-            </div>
-
-            <div className='new-task-page-content-panels-left-list'>
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                titleComponent={<DockerIcon />}
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-                buttonText='Criar Tarefa'
-              />
-
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                titleComponent={<DockerIcon />}
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-                buttonText='Criar Tarefa'
-              />
-
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                titleComponent={<DockerIcon />}
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-                buttonText='Criar Tarefa'
-              />
-
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                titleComponent={<DockerIcon />}
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-                buttonText='Criar Tarefa'
-              />
-            </div>
-
-            <div className='new-task-page-content-panels-left-type'>
-              Especializado
-            </div>
-
-            <div className='new-task-page-content-panels-left-list'>
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                titleComponent={<DockerIcon />}
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-                buttonText='Criar Tarefa'
-              />
-
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                titleComponent={<DockerIcon />}
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-                buttonText='Criar Tarefa'
-              />
-
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                titleComponent={<DockerIcon />}
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-                buttonText='Criar Tarefa'
-              />
-
-              <TaskTemplateItem
-                className='new-task-page-content-panels-left-item'
-                titleComponent={<DockerIcon />}
-                description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
-                buttonText='Criar Tarefa'
-              />
-            </div>
+            {isLoadingTasks && <NewTaskSkeleton />}
           </div>
 
-          <div className='new-task-page-content-panels-right'>
-            <div className='new-task-page-content-panels-right-title'>
-              Você também pode encontrar o que precisa no Marketplace
-            </div>
-
-            <MarketPlaceIcon />
-
-            <Button
-              className='new-task-page-content-panels-right-button'
-              onClick={handleGoToMarketPlace}
-              icon={<ShoppingOutlined />}
-              shape='round'
-            >
-              Ir Para o Marketplace
-            </Button>
-          </div>
+          <NewTaskMarketplacePanel
+            handleGoToMarketPlace={handleGoToMarketPlace}
+          />
         </div>
       </div>
     </div>

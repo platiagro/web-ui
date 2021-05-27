@@ -83,9 +83,10 @@ export const addTaskFail = (errorMessage) => {
  * Add task
  *
  * @param {object} task A Task
+ * @param {Function} successCallback Success callback that receive the created task as param
  * @returns {Function} Dispatch function
  */
-export const addTask = (task) => async (dispatch) => {
+export const addTask = (task, successCallback) => async (dispatch) => {
   try {
     dispatch(addLoading(TASKS_TYPES.ADD_TASK_REQUEST));
     const response = await tasksApi.createTask(task);
@@ -94,6 +95,8 @@ export const addTask = (task) => async (dispatch) => {
     dispatch(showSuccess(`Tarefa adicionada com sucesso.`));
     dispatch(closeTasksModal());
     await utils.sleep(1000);
+
+    if (successCallback) successCallback(responseTask);
 
     window.open(
       `/jupyterlab/tree/tasks/${responseTask.name}/?reset&open=Experiment.ipynb,Deployment.ipynb`
