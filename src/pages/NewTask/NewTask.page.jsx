@@ -44,10 +44,15 @@ const NewTask = () => {
   };
 
   const handleCreateBlankTask = () => {
-    const newTask = { name: 'Tarefa em Branco' };
-    dispatch(addTask(newTask), (newTask) => {
-      history.push(`/tarefa/${newTask.uuid}`);
-    });
+    const currentTimestamp = new Date().getTime();
+    const newTask = { name: `Tarefa em Branco - ${currentTimestamp}` };
+
+    dispatch(
+      addTask(newTask, (newTask) => {
+        console.log(newTask);
+        history.push(`/tarefa/${newTask.uuid}`);
+      })
+    );
   };
 
   const handleCreateDockerTask = () => {
@@ -56,9 +61,11 @@ const NewTask = () => {
       image: 'your-custom-docker-image:tag',
     };
 
-    dispatch(addTask(newTask), (newTask) => {
-      history.push(`/tarefa/${newTask.uuid}`);
-    });
+    dispatch(
+      addTask(newTask, (newTask) => {
+        history.push(`/tarefa/${newTask.uuid}`);
+      })
+    );
   };
 
   const handleCreateTaskCopy = (task) => {
@@ -70,9 +77,11 @@ const NewTask = () => {
 
     delete taskCopy.uuid;
 
-    dispatch(addTask(taskCopy), (newTask) => {
-      history.push(`/tarefa/${newTask.uuid}`);
-    });
+    dispatch(
+      addTask(taskCopy, (newTask) => {
+        history.push(`/tarefa/${newTask.uuid}`);
+      })
+    );
   };
 
   useEffect(() => {
