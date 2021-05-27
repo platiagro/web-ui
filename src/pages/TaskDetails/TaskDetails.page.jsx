@@ -25,7 +25,11 @@ import {
   QuestionCircleOutlined,
 } from '@ant-design/icons';
 
-import { NotebooksExplanationModal, Placeholder } from 'components';
+import {
+  NotebooksExplanationModal,
+  Placeholder,
+  ShareTaskModal,
+} from 'components';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
 import './TaskDetails.style.less';
@@ -50,6 +54,9 @@ const TaskDetails = () => {
     handleToggleNotebooksExplanationModal,
   ] = useToggleState(false);
 
+  const [isShowingShareTaskModal, handleToggleShareTaskModal] =
+    useToggleState(false);
+
   const isUploadingExperimentationNotebook = useIsLoading('uploading');
   const isUploadingDeploymentNotebook = useIsLoading('uploading');
   const isEditingTask = useIsLoading('editing');
@@ -68,9 +75,11 @@ const TaskDetails = () => {
 
   const handleDeleteTask = () => {};
 
-  const handleShareTask = () => {};
-
   const handleEditTaskName = () => {};
+
+  const handleSendTaskCopyToEmail = (email) => {
+    console.log(email);
+  };
 
   const handleStartEditingTaskName = () => {
     setIsEditingTaskName(true);
@@ -100,6 +109,12 @@ const TaskDetails = () => {
         handleHideModal={handleToggleNotebooksExplanationModal}
       />
 
+      <ShareTaskModal
+        isShowingModal={isShowingShareTaskModal}
+        handleHideModal={handleToggleShareTaskModal}
+        handleSendTaskCopyToEmail={handleSendTaskCopyToEmail}
+      />
+
       <PageHeader
         className='task-details-page-header'
         onBack={handleGoBack}
@@ -121,8 +136,8 @@ const TaskDetails = () => {
 
             <Button
               className='task-details-page-header-share-button'
+              onClick={handleToggleShareTaskModal}
               icon={<ShareAltOutlined />}
-              onClick={handleShareTask}
               type='default'
               shape='round'
             >

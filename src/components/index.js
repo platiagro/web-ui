@@ -43,6 +43,7 @@ export { default as PreloadAnimation } from './PreloadAnimation';
 export { default as PropertiesPanel } from './PropertiesPanel';
 export { default as PropertyBlock } from './PropertyBlock';
 export { default as ResizableSection } from './ResizableSection';
+export { default as ShareTaskModal } from './ShareTaskModal';
 export { default as TabsBar } from './TabsBar';
 export { default as TaskBox } from './TaskBox';
 export { default as TaskTemplateItem } from './TaskTemplateItem';
