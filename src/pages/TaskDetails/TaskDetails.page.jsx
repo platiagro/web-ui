@@ -9,6 +9,7 @@ import {
   Select,
   Tooltip,
   Popconfirm,
+  Tag,
 } from 'antd';
 import {
   EditOutlined,
@@ -42,10 +43,10 @@ const TaskDetails = () => {
   const descriptionRef = useRef(null);
   const inputDataRef = useRef(null);
   const outputDataRef = useRef(null);
-  const searchTagsRef = useRef(null);
   const documentationRef = useRef(null);
 
   const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedSearchTags, setSelectedSearchTags] = useState([]);
   const [isEditingTaskName, setIsEditingTaskName] = useState(false);
   const [hasEditedSomething, setHasEditedSomething] = useState(false);
 
@@ -76,6 +77,10 @@ const TaskDetails = () => {
   const handleDeleteTask = () => {};
 
   const handleEditTaskName = () => {};
+
+  const handleSelectTag = (searchTags) => {
+    setSelectedSearchTags(searchTags);
+  };
 
   const handleSendTaskCopyToEmail = (email) => {
     console.log(email);
@@ -316,20 +321,32 @@ const TaskDetails = () => {
                 <span>Tags de Busca</span>
 
                 <Tooltip
-                  title='As tags facilitam a busca de tarefas. Escolha palavras-chave e adicione as tags usando vírgulas para separá-las.'
+                  title='As tags facilitam a busca de tarefas. Escolha e escreva palavras-chave e depois aperte a tecla ENTER ou TAB para adicionar a tag.'
                   placement='right'
                 >
                   <QuestionCircleOutlined />
                 </Tooltip>
               </label>
 
-              <Input
+              <Select
                 className='task-details-page-content-form-field-input task-details-page-input-style'
-                ref={searchTagsRef}
-                type='text'
+                mode='tags'
                 size='large'
                 id='searchTags'
+                onChange={handleSelectTag}
+                value={selectedSearchTags}
                 placeholder='Adicionar tags de busca'
+                tagRender={({ label, ...otherTagProps }) => {
+                  return (
+                    <Tag
+                      {...otherTagProps}
+                      color='blue'
+                      closeIcon={<CloseOutlined style={{ color: '#1890ff' }} />}
+                    >
+                      {label}
+                    </Tag>
+                  );
+                }}
               />
             </div>
 
