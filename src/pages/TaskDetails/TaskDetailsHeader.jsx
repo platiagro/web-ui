@@ -26,7 +26,7 @@ const TaskDetailsHeader = ({
   handleDeleteTask,
   hasEditedSomething,
   handleEditTaskName,
-  handleToggleShareTaskModal,
+  handleShowShareTaskModal,
 }) => {
   const history = useHistory();
 
@@ -144,7 +144,7 @@ const TaskDetailsHeader = ({
 
           <Button
             className='task-details-page-header-share-button'
-            onClick={handleToggleShareTaskModal}
+            onClick={handleShowShareTaskModal}
             icon={<ShareAltOutlined />}
             type='default'
             shape='round'
@@ -177,7 +177,7 @@ TaskDetailsHeader.propTypes = {
   handleDeleteTask: PropTypes.func.isRequired,
   hasEditedSomething: PropTypes.func.isRequired,
   handleEditTaskName: PropTypes.func.isRequired,
-  handleToggleShareTaskModal: PropTypes.func.isRequired,
+  handleShowShareTaskModal: PropTypes.func.isRequired,
 };
 
 export default TaskDetailsHeader;

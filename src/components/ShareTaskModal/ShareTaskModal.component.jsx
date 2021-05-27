@@ -1,12 +1,17 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Input, Modal } from 'antd';
-import { SendOutlined, GlobalOutlined } from '@ant-design/icons';
+import {
+  SendOutlined,
+  GlobalOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 
 import './ShareTaskModal.style.less';
 
 const ShareTaskModal = ({
   isShowingModal,
+  isSendingTaskViaEmail,
   handleHideModal,
   handleSendTaskCopyToEmail,
 }) => {
@@ -70,7 +75,13 @@ const ShareTaskModal = ({
             placeholder='Ex: e-mail@email.com'
           />
 
-          <Button type='primary' htmlType='submit' icon={<SendOutlined />}>
+          <Button
+            type='primary'
+            htmlType='submit'
+            icon={
+              isSendingTaskViaEmail ? <LoadingOutlined /> : <SendOutlined />
+            }
+          >
             Enviar
           </Button>
         </div>
@@ -81,6 +92,7 @@ const ShareTaskModal = ({
 
 ShareTaskModal.propTypes = {
   isShowingModal: PropTypes.bool.isRequired,
+  isSendingTaskViaEmail: PropTypes.bool.isRequired,
   handleHideModal: PropTypes.func.isRequired,
   handleSendTaskCopyToEmail: PropTypes.func.isRequired,
 };

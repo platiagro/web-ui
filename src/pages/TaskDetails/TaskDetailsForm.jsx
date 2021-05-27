@@ -5,7 +5,16 @@ import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 import { TASK_CATEGORIES } from 'configs';
 
-const TaskDetailsForm = ({ setHasEditedSomething }) => {
+const FORM_IDS = {
+  DESCRIPTION: 'description',
+  CATEGORY: 'category',
+  INPUT_DATA: 'inputData',
+  OUTPUT_DATA: 'outputData',
+  SEARCH_TAGS: 'tags',
+  DOCUMENTATION: 'documentation',
+};
+
+const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
   const descriptionRef = useRef(null);
   const inputDataRef = useRef(null);
   const outputDataRef = useRef(null);
@@ -18,21 +27,46 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
     setSelectedCategory(category);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const getValueByFieldId = (fieldId) => {
+    switch (fieldId) {
+      case FORM_IDS.DESCRIPTION: {
+        return descriptionRef.current.state.value || '';
+      }
+
+      case FORM_IDS.CATEGORY: {
+        return selectedCategory;
+      }
+
+      case FORM_IDS.INPUT_DATA: {
+        return inputDataRef.current.state.value || '';
+      }
+
+      case FORM_IDS.OUTPUT_DATA: {
+        return outputDataRef.current.state.value || '';
+      }
+
+      case FORM_IDS.SEARCH_TAGS: {
+        return selectedSearchTags;
+      }
+
+      case FORM_IDS.DOCUMENTATION: {
+        return documentationRef.current.state.value || '';
+      }
+    }
+  };
+
+  const handleSaveDataWhenLooseFocus = (fieldId) => () => {
     setHasEditedSomething(true);
+    const value = getValueByFieldId(fieldId);
+    handleUpdateTaskData(fieldId, value);
   };
 
   return (
-    <form
-      className='task-details-page-content-form'
-      onSubmit={handleSubmit}
-      noValidate
-    >
+    <div className='task-details-page-content-form'>
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor='description'
+          htmlFor={FORM_IDS.DESCRIPTION}
         >
           Descrição
         </label>
@@ -42,7 +76,8 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
           ref={descriptionRef}
           type='text'
           size='large'
-          id='description'
+          id={FORM_IDS.DESCRIPTION}
+          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.DESCRIPTION)}
           placeholder='Adicionar Descrição'
         />
       </div>
@@ -50,14 +85,15 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor='category'
+          htmlFor={FORM_IDS.CATEGORY}
         >
           Categoria
         </label>
 
         <Select
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          id='category'
+          id={FORM_IDS.CATEGORY}
+          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.CATEGORY)}
           size='large'
           value={selectedCategory}
           onChange={handleSelectCategory}
@@ -76,7 +112,7 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor='inputData'
+          htmlFor={FORM_IDS.INPUT_DATA}
         >
           <span>Dados de Entrada</span>
 
@@ -93,7 +129,8 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
           ref={inputDataRef}
           type='text'
           size='large'
-          id='inputData'
+          id={FORM_IDS.INPUT_DATA}
+          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.INPUT_DATA)}
           placeholder='Adicionar dados de entrada'
         />
       </div>
@@ -101,7 +138,7 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor='outputData'
+          htmlFor={FORM_IDS.OUTPUT_DATA}
         >
           <span>Dados de Saída</span>
           <Tooltip
@@ -117,7 +154,8 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
           ref={outputDataRef}
           type='text'
           size='large'
-          id='outputData'
+          id={FORM_IDS.OUTPUT_DATA}
+          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.OUTPUT_DATA)}
           placeholder='Adicionar dados de saída'
         />
       </div>
@@ -125,7 +163,7 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor='searchTags'
+          htmlFor={FORM_IDS.SEARCH_TAGS}
         >
           <span>Tags de Busca</span>
 
@@ -141,7 +179,8 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
           className='task-details-page-content-form-field-input task-details-page-input-style'
           mode='tags'
           size='large'
-          id='searchTags'
+          id={FORM_IDS.SEARCH_TAGS}
+          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.SEARCH_TAGS)}
           value={selectedSearchTags}
           onChange={setSelectedSearchTags}
           placeholder='Adicionar tags de busca'
@@ -162,7 +201,7 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor='documentation'
+          htmlFor={FORM_IDS.DOCUMENTATION}
         >
           Documentação
         </label>
@@ -170,17 +209,19 @@ const TaskDetailsForm = ({ setHasEditedSomething }) => {
         <Input.TextArea
           className='task-details-page-content-form-field-input task-details-page-input-style'
           ref={documentationRef}
-          id='documentation'
+          id={FORM_IDS.DOCUMENTATION}
+          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.DOCUMENTATION)}
           placeholder='Adicionar documentação'
           autoSize
         />
       </div>
-    </form>
+    </div>
   );
 };
 
 TaskDetailsForm.propTypes = {
   setHasEditedSomething: PropTypes.func.isRequired,
+  handleUpdateTaskData: PropTypes.func.isRequired,
 };
 
 export default TaskDetailsForm;

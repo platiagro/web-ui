@@ -1,7 +1,9 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router';
 
-import { useIsLoading, useToggleState } from 'hooks';
+import { deleteTask, TASKS_TYPES, updateTask } from 'store/tasks';
+import { useIsLoading, useBooleanState } from 'hooks';
 import { ShareTaskModal, NotebooksExplanationModal } from 'components';
 
 import TaskDetailsForm from './TaskDetailsForm';
@@ -11,38 +13,101 @@ import TaskDetailsNotebooks from './TaskDetailsNotebooks';
 import TaskDetailsInfoFooter from './TaskDetailsInfoFooter';
 
 import './TaskDetails.style.less';
-import { useDispatch } from 'react-redux';
+
+const taskDataSelector = () => {
+  return {};
+};
 
 const TaskDetails = () => {
   const { taskId } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
 
+  const taskData = useSelector(taskDataSelector);
+
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   const [hasEditedSomething, setHasEditedSomething] = useState(false);
 
-  const [isShowingNotebooksModal, handleToggleNotebooksModal] =
-    useToggleState(false);
+  const [
+    isShowingNotebooksModal,
+    handleShowNotebooksModal,
+    handleHideNotebooksModal,
+  ] = useBooleanState(false);
 
-  const [isShowingShareTaskModal, handleToggleShareTaskModal] =
-    useToggleState(false);
+  const [
+    isShowingShareTaskModal,
+    handleShowShareTaskModal,
+    handleHideShareTaskModal,
+  ] = useBooleanState(false);
 
-  const isEditingTask = useIsLoading('editing');
-  const isUploadingExperimentNotebook = useIsLoading('uploading');
-  const isUploadingDeploymentNotebook = useIsLoading('uploading');
+  const isEditingTask = useIsLoading(TASKS_TYPES.UPDATE_TASK_REQUEST);
 
-  const handleUploadExperimentNotebook = () => {};
+  const isSendingTaskViaEmail = useIsLoading(
+    TASKS_TYPES.SEND_TASK_VIA_EMAIL_REQUEST
+  );
 
-  const handleOpenExperimentNotebook = () => {};
+  const isUploadingExperimentNotebook = useIsLoading(
+    TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST
+  );
 
-  const handleOpenDeploymentNotebook = () => {};
+  const isUploadingDeploymentNotebook = useIsLoading(
+    TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST
+  );
 
-  const handleUploadDeploymentNotebook = () => {};
+  const handleUploadExperimentNotebook = () => {
+    setUploadedFiles([]);
+  };
 
-  const handleDeleteTask = () => {};
+  const handleUploadDeploymentNotebook = () => {
+    setUploadedFiles([]);
+  };
 
-  const handleEditTaskName = () => {};
+  const handleOpenExperimentNotebook = () => {
+    if (!taskData?.name) return;
+
+    window.open(
+      `/jupyterlab/tree/tasks/${taskData.name}/?reset&open=Experiment.ipynb`
+    );
+  };
+
+  const handleOpenDeploymentNotebook = () => {
+    if (!taskData?.name) return;
+
+    window.open(
+      `/jupyterlab/tree/tasks/${taskData.name}/?reset&open=Deployment.ipynb`
+    );
+  };
+
+  const handleDeleteTask = () => {
+    dispatch(
+      deleteTask(taskId, () => {
+        if (history.length === 0) history.push('/tarefas');
+        else history.goBack();
+      })
+    );
+  };
+
+  const handleEditTaskName = (taskName) => {
+    const taskWithNewName = {
+      ...taskData,
+      name: taskName,
+    };
+
+    dispatch(updateTask(taskId, taskWithNewName));
+  };
+
+  const handleUpdateTaskData = (field, value) => {
+    const taskWithUpdatedData = {
+      ...taskData,
+      [field]: value,
+    };
+
+    dispatch(updateTask(taskId, taskWithUpdatedData));
+  };
 
   const handleSendTaskCopyToEmail = (email) => {
     console.log(email);
+    handleHideShareTaskModal();
   };
 
   useLayoutEffect(() => {
@@ -55,12 +120,13 @@ const TaskDetails = () => {
     <div className='task-details-page'>
       <NotebooksExplanationModal
         isShowingModal={isShowingNotebooksModal}
-        handleHideModal={handleToggleNotebooksModal}
+        handleHideModal={handleHideNotebooksModal}
       />
 
       <ShareTaskModal
         isShowingModal={isShowingShareTaskModal}
-        handleHideModal={handleToggleShareTaskModal}
+        isSendingTaskViaEmail={isSendingTaskViaEmail}
+        handleHideModal={handleHideShareTaskModal}
         handleSendTaskCopyToEmail={handleSendTaskCopyToEmail}
       />
 
@@ -69,26 +135,30 @@ const TaskDetails = () => {
         handleDeleteTask={handleDeleteTask}
         hasEditedSomething={hasEditedSomething}
         handleEditTaskName={handleEditTaskName}
-        handleToggleShareTaskModal={handleToggleShareTaskModal}
+        handleShowShareTaskModal={handleShowShareTaskModal}
       />
 
       <div className='task-details-page-content'>
         <div className='task-details-page-content-panels'>
-          <TaskDetailsForm setHasEditedSomething={setHasEditedSomething} />
+          <TaskDetailsForm
+            setHasEditedSomething={setHasEditedSomething}
+            handleUpdateTaskData={handleUpdateTaskData}
+          />
 
           <div className='task-details-page-content-info'>
             <TaskDetailsNotebooks
               isUploadingDeploymentNotebook={isUploadingDeploymentNotebook}
               isUploadingExperimentNotebook={isUploadingExperimentNotebook}
-              handleToggleNotebooksModal={handleToggleNotebooksModal}
+              handleShowNotebooksModal={handleShowNotebooksModal}
               handleOpenDeploymentNotebook={handleOpenDeploymentNotebook}
               handleOpenExperimentNotebook={handleOpenExperimentNotebook}
               handleUploadDeploymentNotebook={handleUploadDeploymentNotebook}
               handleUploadExperimentNotebook={handleUploadExperimentNotebook}
             />
 
-            <TaskDetailsUploads />
-            <TaskDetailsInfoFooter />
+            <TaskDetailsUploads uploadedFiles={uploadedFiles} />
+
+            <TaskDetailsInfoFooter hasEditedSomething={hasEditedSomething} />
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ import {
 const TaskDetailsNotebooks = ({
   isUploadingDeploymentNotebook,
   isUploadingExperimentNotebook,
-  handleToggleNotebooksModal,
+  handleShowNotebooksModal,
   handleOpenDeploymentNotebook,
   handleOpenExperimentNotebook,
   handleUploadDeploymentNotebook,
@@ -31,7 +31,7 @@ const TaskDetailsNotebooks = ({
 
       <Button
         className='task-details-page-content-info-notebook-more'
-        onClick={handleToggleNotebooksModal}
+        onClick={handleShowNotebooksModal}
         type='link'
       >
         <span>Saiba Mais</span>
@@ -101,7 +101,7 @@ const TaskDetailsNotebooks = ({
 TaskDetailsNotebooks.propTypes = {
   isUploadingDeploymentNotebook: PropTypes.bool.isRequired,
   isUploadingExperimentNotebook: PropTypes.bool.isRequired,
-  handleToggleNotebooksModal: PropTypes.func.isRequired,
+  handleShowNotebooksModal: PropTypes.func.isRequired,
   handleOpenDeploymentNotebook: PropTypes.func.isRequired,
   handleOpenExperimentNotebook: PropTypes.func.isRequired,
   handleUploadDeploymentNotebook: PropTypes.func.isRequired,

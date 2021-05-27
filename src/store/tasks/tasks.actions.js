@@ -141,14 +141,16 @@ export const deleteTaskFail = () => {
  * Delete task
  *
  * @param {string} id Task id
+ * @param {Function} successCallback Success callback
  * @returns {Function} Dispatch function
  */
-export const deleteTask = (id) => async (dispatch) => {
+export const deleteTask = (id, successCallback) => async (dispatch) => {
   try {
     dispatch(addLoading(TASKS_TYPES.DELETE_TASK_REQUEST));
     await tasksApi.deleteTask(id);
     dispatch(deleteTaskSuccess(id));
     dispatch(showSuccess('Tarefa excluída'));
+    if (successCallback) successCallback();
   } catch (e) {
     const isForbidden = e.response?.status === 403;
     const errorMessage = isForbidden
