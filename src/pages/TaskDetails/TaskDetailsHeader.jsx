@@ -22,6 +22,7 @@ import {
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
 const TaskDetailsHeader = ({
+  taskData,
   isEditingTask,
   handleDeleteTask,
   hasEditedSomething,
@@ -67,6 +68,7 @@ const TaskDetailsHeader = ({
     if (handleValidation()) {
       const { taskName } = getValues();
       handleEditTaskName(taskName);
+      setIsEditingTaskName(false);
     }
   };
 
@@ -89,7 +91,7 @@ const TaskDetailsHeader = ({
                 className='task-details-page-header-edit-name-input task-details-page-input-style'
                 type='text'
                 size='middle'
-                defaultValue='Tarefa em Branco'
+                defaultValue={taskData?.name}
                 placeholder='Escreva um nome para a tarefa'
               />
 
@@ -113,7 +115,7 @@ const TaskDetailsHeader = ({
             </form>
           ) : (
             <Typography.Title level={3} ellipsis>
-              <span>Tarefa em Branco</span>
+              <span>{taskData?.name}</span>
 
               <Tooltip title='Editar' placement='bottom'>
                 <EditOutlined
@@ -173,6 +175,7 @@ const TaskDetailsHeader = ({
 };
 
 TaskDetailsHeader.propTypes = {
+  taskData: PropTypes.object.isRequired,
   isEditingTask: PropTypes.bool.isRequired,
   handleDeleteTask: PropTypes.func.isRequired,
   hasEditedSomething: PropTypes.func.isRequired,

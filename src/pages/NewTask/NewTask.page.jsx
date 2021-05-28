@@ -46,25 +46,18 @@ const NewTask = () => {
   };
 
   const handleCreateBlankTask = () => {
-    const currentTimestamp = new Date().getTime();
-    const newTask = { name: `Tarefa em Branco - ${currentTimestamp}` };
-
     dispatch(
-      addTask(newTask, (newTask) => {
-        console.log(newTask);
+      // TODO: Remove the name from this object when the backend creates a random name for the task
+      addTask({ name: '' }, (newTask) => {
         history.push(`/tarefa/${newTask.uuid}`);
       })
     );
   };
 
   const handleCreateDockerTask = () => {
-    const newTask = {
-      name: 'Tarefa com Docker',
-      image: 'your-custom-docker-image:tag',
-    };
-
+    // TODO: Remove the name from this object when the backend creates a random name for the task
     dispatch(
-      addTask(newTask, (newTask) => {
+      addTask({ name: '' }, (newTask) => {
         history.push(`/tarefa/${newTask.uuid}`);
       })
     );

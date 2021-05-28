@@ -9,6 +9,7 @@ export const initialState = {
   pageSize: null,
   tasks: [],
   totalTasks: null,
+  taskData: null,
 };
 
 export const tasksReducer = (state = initialState, action = {}) => {
@@ -71,8 +72,14 @@ export const tasksReducer = (state = initialState, action = {}) => {
       tasksAux[taskIndex] = updatedTask;
       tasksAux.sort((a, b) => a.name.localeCompare(b.name));
 
+      const canUpdateTaskData = state.taskData?.uuid === updatedTask.uuid;
+      const taskData = canUpdateTaskData
+        ? { ...state.taskData, ...updatedTask }
+        : state.taskData;
+
       return {
         ...state,
+        taskData,
         tasks: tasksAux,
       };
     }
@@ -107,6 +114,21 @@ export const tasksReducer = (state = initialState, action = {}) => {
         ...state,
         modalValidateStatus: 'error',
         errorMessage: action.errorMessage,
+      };
+    }
+
+    case TASKS_TYPES.CLEAR_TASK_DATA:
+    case TASKS_TYPES.FETCH_TASK_DATA_FAIL: {
+      return {
+        ...state,
+        taskData: null,
+      };
+    }
+
+    case TASKS_TYPES.FETCH_TASK_DATA_SUCCESS: {
+      return {
+        ...state,
+        taskData: action.taskData,
       };
     }
 

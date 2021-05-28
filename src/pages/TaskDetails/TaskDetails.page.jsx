@@ -2,7 +2,15 @@ import React, { useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 
-import { deleteTask, TASKS_TYPES, updateTask } from 'store/tasks';
+import {
+  TASKS_TYPES,
+  deleteTask,
+  updateTask,
+  fetchTaskData,
+  clearTaskData,
+  getTaskData,
+  sendTaskViaEmail,
+} from 'store/tasks';
 import { useIsLoading, useBooleanState } from 'hooks';
 import { ShareTaskModal, NotebooksExplanationModal } from 'components';
 
@@ -14,16 +22,12 @@ import TaskDetailsInfoFooter from './TaskDetailsInfoFooter';
 
 import './TaskDetails.style.less';
 
-const taskDataSelector = () => {
-  return {};
-};
-
 const TaskDetails = () => {
   const { taskId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const taskData = useSelector(taskDataSelector);
+  const taskData = useSelector(getTaskData);
 
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [hasEditedSomething, setHasEditedSomething] = useState(false);
@@ -88,6 +92,8 @@ const TaskDetails = () => {
   };
 
   const handleEditTaskName = (taskName) => {
+    if (!taskData) return;
+
     const taskWithNewName = {
       ...taskData,
       name: taskName,
@@ -97,23 +103,21 @@ const TaskDetails = () => {
   };
 
   const handleUpdateTaskData = (field, value) => {
-    const taskWithUpdatedData = {
-      ...taskData,
-      [field]: value,
-    };
-
-    dispatch(updateTask(taskId, taskWithUpdatedData));
+    if (!taskData) return;
+    const taskDataToUpdate = { [field]: value };
+    const successCallback = () => setHasEditedSomething(true);
+    dispatch(updateTask(taskId, taskDataToUpdate, successCallback));
   };
 
   const handleSendTaskCopyToEmail = (email) => {
-    console.log(email);
-    handleHideShareTaskModal();
+    dispatch(sendTaskViaEmail(taskId, email, handleHideShareTaskModal));
   };
 
   useLayoutEffect(() => {
-    if (taskId) {
-      dispatch({ type: 'pow' });
-    }
+    if (taskId) dispatch(fetchTaskData(taskId));
+    return () => {
+      dispatch(clearTaskData());
+    };
   }, [dispatch, taskId]);
 
   return (
@@ -131,6 +135,7 @@ const TaskDetails = () => {
       />
 
       <TaskDetailsHeader
+        taskData={taskData}
         isEditingTask={isEditingTask}
         handleDeleteTask={handleDeleteTask}
         hasEditedSomething={hasEditedSomething}
@@ -141,7 +146,7 @@ const TaskDetails = () => {
       <div className='task-details-page-content'>
         <div className='task-details-page-content-panels'>
           <TaskDetailsForm
-            setHasEditedSomething={setHasEditedSomething}
+            taskData={taskData}
             handleUpdateTaskData={handleUpdateTaskData}
           />
 

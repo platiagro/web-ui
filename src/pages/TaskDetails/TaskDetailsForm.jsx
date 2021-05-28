@@ -1,11 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Select, Tooltip, Tag } from 'antd';
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 import { TASK_CATEGORIES } from 'configs';
 
-const FORM_IDS = {
+const FIELD_IDS = {
+  DESCRIPTION: 'DESCRIPTION',
+  CATEGORY: 'CATEGORY',
+  INPUT_DATA: 'INPUT_DATA',
+  OUTPUT_DATA: 'OUTPUT_DATA',
+  SEARCH_TAGS: 'SEARCH_TAGS',
+  DOCUMENTATION: 'DOCUMENTATION',
+};
+
+const FIELD_ID_TO_FIELD_NAME = {
   DESCRIPTION: 'description',
   CATEGORY: 'category',
   INPUT_DATA: 'inputData',
@@ -14,59 +23,64 @@ const FORM_IDS = {
   DOCUMENTATION: 'documentation',
 };
 
-const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
+const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
   const descriptionRef = useRef(null);
   const inputDataRef = useRef(null);
   const outputDataRef = useRef(null);
   const documentationRef = useRef(null);
 
-  const [selectedCategory, setSelectedCategory] = useState();
-  const [selectedSearchTags, setSelectedSearchTags] = useState([]);
-
-  const handleSelectCategory = (category) => {
-    setSelectedCategory(category);
-  };
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState(undefined);
+  const [inputData, setInputData] = useState('');
+  const [outputData, setOutputData] = useState('');
+  const [searchTags, setSearchTags] = useState([]);
+  const [documentation, setDocumentation] = useState('');
 
   const getValueByFieldId = (fieldId) => {
     switch (fieldId) {
-      case FORM_IDS.DESCRIPTION: {
-        return descriptionRef.current.state.value || '';
-      }
+      case FIELD_IDS.DESCRIPTION:
+        return description;
 
-      case FORM_IDS.CATEGORY: {
-        return selectedCategory;
-      }
+      case FIELD_IDS.CATEGORY:
+        return category;
 
-      case FORM_IDS.INPUT_DATA: {
-        return inputDataRef.current.state.value || '';
-      }
+      case FIELD_IDS.INPUT_DATA:
+        return inputData;
 
-      case FORM_IDS.OUTPUT_DATA: {
-        return outputDataRef.current.state.value || '';
-      }
+      case FIELD_IDS.OUTPUT_DATA:
+        return outputData;
 
-      case FORM_IDS.SEARCH_TAGS: {
-        return selectedSearchTags;
-      }
+      case FIELD_IDS.SEARCH_TAGS:
+        return searchTags;
 
-      case FORM_IDS.DOCUMENTATION: {
-        return documentationRef.current.state.value || '';
-      }
+      case FIELD_IDS.DOCUMENTATION:
+        return documentation;
     }
   };
 
   const handleSaveDataWhenLooseFocus = (fieldId) => () => {
-    setHasEditedSomething(true);
     const value = getValueByFieldId(fieldId);
-    handleUpdateTaskData(fieldId, value);
+    const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
+    handleUpdateTaskData(fieldName, value);
   };
+
+  useEffect(() => {
+    if (taskData) {
+      setDescription(taskData.description);
+      setCategory(taskData.category);
+      setInputData(taskData.inputData);
+      setOutputData(taskData.outputData);
+      setSearchTags(taskData.tags);
+      setDocumentation(taskData.documentation);
+    }
+  }, [taskData]);
 
   return (
     <div className='task-details-page-content-form'>
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor={FORM_IDS.DESCRIPTION}
+          htmlFor={FIELD_IDS.DESCRIPTION}
         >
           Descrição
         </label>
@@ -76,8 +90,10 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
           ref={descriptionRef}
           type='text'
           size='large'
-          id={FORM_IDS.DESCRIPTION}
-          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.DESCRIPTION)}
+          value={description}
+          id={FIELD_IDS.DESCRIPTION}
+          onChange={(e) => setDescription(e.target.value)}
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DESCRIPTION)}
           placeholder='Adicionar Descrição'
         />
       </div>
@@ -85,18 +101,18 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor={FORM_IDS.CATEGORY}
+          htmlFor={FIELD_IDS.CATEGORY}
         >
           Categoria
         </label>
 
         <Select
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          id={FORM_IDS.CATEGORY}
-          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.CATEGORY)}
+          id={FIELD_IDS.CATEGORY}
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.CATEGORY)}
           size='large'
-          value={selectedCategory}
-          onChange={handleSelectCategory}
+          value={category}
+          onChange={setCategory}
           placeholder='Selecionar Categoria'
         >
           {Object.values(TASK_CATEGORIES).map((category) => {
@@ -112,7 +128,7 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor={FORM_IDS.INPUT_DATA}
+          htmlFor={FIELD_IDS.INPUT_DATA}
         >
           <span>Dados de Entrada</span>
 
@@ -129,8 +145,10 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
           ref={inputDataRef}
           type='text'
           size='large'
-          id={FORM_IDS.INPUT_DATA}
-          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.INPUT_DATA)}
+          value={inputData}
+          id={FIELD_IDS.INPUT_DATA}
+          onChange={(e) => setInputData(e.target.value)}
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.INPUT_DATA)}
           placeholder='Adicionar dados de entrada'
         />
       </div>
@@ -138,7 +156,7 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor={FORM_IDS.OUTPUT_DATA}
+          htmlFor={FIELD_IDS.OUTPUT_DATA}
         >
           <span>Dados de Saída</span>
           <Tooltip
@@ -154,8 +172,10 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
           ref={outputDataRef}
           type='text'
           size='large'
-          id={FORM_IDS.OUTPUT_DATA}
-          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.OUTPUT_DATA)}
+          value={outputData}
+          id={FIELD_IDS.OUTPUT_DATA}
+          onChange={(e) => setOutputData(e.target.value)}
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.OUTPUT_DATA)}
           placeholder='Adicionar dados de saída'
         />
       </div>
@@ -163,7 +183,7 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor={FORM_IDS.SEARCH_TAGS}
+          htmlFor={FIELD_IDS.SEARCH_TAGS}
         >
           <span>Tags de Busca</span>
 
@@ -179,10 +199,10 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
           className='task-details-page-content-form-field-input task-details-page-input-style'
           mode='tags'
           size='large'
-          id={FORM_IDS.SEARCH_TAGS}
-          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.SEARCH_TAGS)}
-          value={selectedSearchTags}
-          onChange={setSelectedSearchTags}
+          id={FIELD_IDS.SEARCH_TAGS}
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.SEARCH_TAGS)}
+          value={searchTags}
+          onChange={setSearchTags}
           placeholder='Adicionar tags de busca'
           tagRender={({ label, ...otherTagProps }) => {
             return (
@@ -201,7 +221,7 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
       <div className='task-details-page-content-form-field'>
         <label
           className='task-details-page-content-form-field-label'
-          htmlFor={FORM_IDS.DOCUMENTATION}
+          htmlFor={FIELD_IDS.DOCUMENTATION}
         >
           Documentação
         </label>
@@ -209,8 +229,10 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
         <Input.TextArea
           className='task-details-page-content-form-field-input task-details-page-input-style'
           ref={documentationRef}
-          id={FORM_IDS.DOCUMENTATION}
-          onBlur={handleSaveDataWhenLooseFocus(FORM_IDS.DOCUMENTATION)}
+          id={FIELD_IDS.DOCUMENTATION}
+          value={documentation}
+          onChange={(e) => setDocumentation(e.target.value)}
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DOCUMENTATION)}
           placeholder='Adicionar documentação'
           autoSize
         />
@@ -220,7 +242,7 @@ const TaskDetailsForm = ({ setHasEditedSomething, handleUpdateTaskData }) => {
 };
 
 TaskDetailsForm.propTypes = {
-  setHasEditedSomething: PropTypes.func.isRequired,
+  taskData: PropTypes.object.isRequired,
   handleUpdateTaskData: PropTypes.func.isRequired,
 };
 

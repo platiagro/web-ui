@@ -285,15 +285,17 @@ export const updateTaskFail = (errorMessage) => {
  *
  * @param {string} uuid The ID
  * @param {object} task The task
+ * @param {Function} successCallback Success callback
  * @returns {Function} Dispatch function
  */
-export const updateTask = (uuid, task) => async (dispatch) => {
+export const updateTask = (uuid, task, successCallback) => async (dispatch) => {
   try {
     dispatch(addLoading(TASKS_TYPES.UPDATE_TASK_REQUEST));
     const response = await tasksApi.updateTask(uuid, task);
     dispatch(closeTasksModal());
     dispatch(updateTaskSuccess(response.data));
     dispatch(showSuccess(`Alteração realizada com sucesso.`));
+    if (successCallback) successCallback();
   } catch (e) {
     const errorMessage = e.response?.data?.message || e.message;
     if (errorMessage.includes('name already exist')) {
@@ -304,4 +306,105 @@ export const updateTask = (uuid, task) => async (dispatch) => {
   } finally {
     dispatch(removeLoading(TASKS_TYPES.UPDATE_TASK_REQUEST));
   }
+};
+
+/**
+ * Fetch task data success action creator
+ *
+ * @param {object} taskData Task data
+ * @returns {object} Action
+ */
+export const fetchTaskDataSuccess = (taskData) => {
+  return {
+    type: TASKS_TYPES.FETCH_TASK_DATA_SUCCESS,
+    taskData,
+  };
+};
+
+/**
+ * Fetch task data fail action creator
+ *
+ * @returns {object} Action
+ */
+export const fetchTaskDataFail = () => {
+  return {
+    type: TASKS_TYPES.FETCH_TASK_DATA_FAIL,
+  };
+};
+
+/**
+ * Fetch task data
+ *
+ * @param {string} taskId Task ID
+ * @returns {Function} Dispatch function
+ */
+export const fetchTaskData = (taskId) => async (dispatch) => {
+  try {
+    dispatch(addLoading(TASKS_TYPES.FETCH_TASK_DATA_REQUEST));
+    const response = await tasksApi.getTaskData(taskId);
+    const task = response.data;
+    dispatch(fetchTaskDataSuccess(task));
+  } catch (e) {
+    dispatch(fetchTaskDataFail());
+    dispatch(showError(e.message));
+  } finally {
+    dispatch(removeLoading(TASKS_TYPES.FETCH_TASK_DATA_REQUEST));
+  }
+};
+
+/**
+ * send task via email success action creator
+ *
+ * @returns {object} Action
+ */
+export const sendTaskViaEmailSuccess = () => {
+  return {
+    type: TASKS_TYPES.SEND_TASK_VIA_EMAIL_SUCCESS,
+  };
+};
+
+/**
+ * send task via email FAIL action creator
+ *
+ * @returns {object} Action
+ */
+export const sendTaskViaEmailFail = () => {
+  return {
+    type: TASKS_TYPES.SEND_TASK_VIA_EMAIL_FAIL,
+  };
+};
+
+/**
+ * send task via email
+ *
+ * @param {string} taskId Task Id
+ * @param {string} email Email
+ * @param {Function} successCallback Success callback
+ * @returns {Function} Dispatch function
+ */
+export const sendTaskViaEmail =
+  (taskId, email, successCallback) => async (dispatch) => {
+    try {
+      dispatch(addLoading(TASKS_TYPES.SEND_TASK_VIA_EMAIL_REQUEST));
+      await tasksApi.sendTaskViaEmail(taskId, email);
+      dispatch(sendTaskViaEmailSuccess());
+      dispatch(showSuccess(`E-mail enviado com sucesso!`));
+      if (successCallback) successCallback();
+    } catch (e) {
+      dispatch(sendTaskViaEmailFail());
+      dispatch(showError(e.message));
+    } finally {
+      dispatch(removeLoading(TASKS_TYPES.SEND_TASK_VIA_EMAIL_REQUEST));
+    }
+  };
+
+/**
+ * Clear task data from state
+ *
+ * @returns {object} Action
+ */
+export const clearTaskData = () => {
+  return {
+    type: TASKS_TYPES.CLEAR_TASK_DATA,
+  };
 };

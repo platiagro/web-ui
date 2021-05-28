@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, Modal, Tooltip } from 'antd';
 import {
   SendOutlined,
   GlobalOutlined,
@@ -49,14 +49,22 @@ const ShareTaskModal = ({
       footerStyle={{ textAlign: 'left' }}
       footer={
         <div className='share-task-modal-footer'>
-          <Button
-            shape='round'
-            type='default'
-            icon={<GlobalOutlined />}
-            disabled // TODO: Enable if the marketplace exists
+          <Tooltip
+            title='Para publicar, todos os campos devem estar preenchidos.'
+            placement='bottom'
+            // TODO: Remove the zIndex prop to show the tooltip
+            // TODO: Create the logic to show or hide this tooltip
+            zIndex={-1}
           >
-            Publicar no Marketplace
-          </Button>
+            <Button
+              shape='round'
+              type='default'
+              icon={<GlobalOutlined />}
+              disabled // TODO: Enable if the marketplace exists
+            >
+              Publicar no Marketplace
+            </Button>
+          </Tooltip>
         </div>
       }
       centered
