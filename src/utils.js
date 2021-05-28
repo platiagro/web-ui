@@ -837,6 +837,29 @@ const changeProjectExperiments = (projects, projectId, newExperiments) => {
   );
 };
 
+/**
+ * Read the content of a file
+ *
+ * @param {File} fileInstance File to read the content
+ * @returns {Promise} Promise that resolves to the file content as text
+ */
+const readFileContent = (fileInstance) => {
+  return new Promise((resolve, reject) => {
+    if (typeof window.FileReader === 'function') {
+      const fileReader = new FileReader();
+      fileReader.onload = (reader) => resolve(reader.target.result);
+      fileReader.onerror = (error) => reject(error);
+      fileReader.readAsText(fileInstance);
+    } else {
+      const error = new Error(
+        'window.FileReader not supported in your browser'
+      );
+
+      reject(error);
+    }
+  });
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -867,4 +890,5 @@ export default {
   retrieveStatusMessageFromOperators,
   changeExperimentSucceededStatus,
   changeProjectExperiments,
+  readFileContent,
 };

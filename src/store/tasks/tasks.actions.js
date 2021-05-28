@@ -408,3 +408,101 @@ export const clearTaskData = () => {
     type: TASKS_TYPES.CLEAR_TASK_DATA,
   };
 };
+
+/**
+ * Upload task experiment notebook success action creator
+ *
+ * @returns {object} Action
+ */
+export const uploadTaskExperimentNotebookSuccess = () => {
+  return {
+    type: TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_SUCCESS,
+  };
+};
+
+/**
+ * Upload task experiment notebook fail action creator
+ *
+ * @returns {object} Action
+ */
+export const uploadTaskExperimentNotebookFail = () => {
+  return {
+    type: TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_FAIL,
+  };
+};
+
+/**
+ * Upload task experiment notebook
+ *
+ * @param {string} uuid Task ID
+ * @param {File} file Experiment Notebook file
+ * @returns {Function} Dispatch function
+ */
+export const uploadTaskExperimentNotebook =
+  (uuid, file) => async (dispatch) => {
+    try {
+      dispatch(addLoading(TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST));
+      const fileContent = await utils.readFileContent(file);
+      const fileContentJson = JSON.parse(fileContent);
+      await tasksApi.updateTask(uuid, { experimentNotebook: fileContentJson });
+      dispatch(showSuccess(`Upload do notebook de experimentação concluído`));
+      dispatch(uploadTaskExperimentNotebookSuccess());
+    } catch (e) {
+      const errorMessage = e.response?.data?.message || e.message;
+      dispatch(showError(errorMessage));
+      dispatch(uploadTaskExperimentNotebookFail());
+    } finally {
+      dispatch(
+        removeLoading(TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST)
+      );
+    }
+  };
+
+/**
+ * Upload task deployment notebook success action creator
+ *
+ * @returns {object} Action
+ */
+export const uploadTaskDeploymentNotebookSuccess = () => {
+  return {
+    type: TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_SUCCESS,
+  };
+};
+
+/**
+ * Upload task deployment notebook fail action creator
+ *
+ * @returns {object} Action
+ */
+export const uploadTaskDeploymentNotebookFail = () => {
+  return {
+    type: TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_FAIL,
+  };
+};
+
+/**
+ * Upload task deployment notebook
+ *
+ * @param {string} uuid Task ID
+ * @param {file} file Deployment Notebook file
+ * @returns {Function} Dispatch function
+ */
+export const uploadTaskDeploymentNotebook =
+  (uuid, file) => async (dispatch) => {
+    try {
+      dispatch(addLoading(TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST));
+      const fileContent = await utils.readFileContent(file);
+      const fileContentJson = JSON.parse(fileContent);
+      await tasksApi.updateTask(uuid, { deploymentNotebook: fileContentJson });
+      dispatch(showSuccess('Upload do notebook de pré-implantação concluído'));
+      dispatch(uploadTaskDeploymentNotebookSuccess());
+    } catch (e) {
+      const errorMessage = e.response?.data?.message || e.message;
+      dispatch(showError(errorMessage));
+      dispatch(uploadTaskDeploymentNotebookFail());
+    } finally {
+      dispatch(
+        removeLoading(TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST)
+      );
+    }
+  };

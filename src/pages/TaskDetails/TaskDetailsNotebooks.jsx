@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Tooltip } from 'antd';
+import { Button, Tooltip, Upload } from 'antd';
 import {
   ToolOutlined,
   UploadOutlined,
@@ -11,12 +11,27 @@ import {
 const TaskDetailsNotebooks = ({
   isUploadingDeploymentNotebook,
   isUploadingExperimentNotebook,
+  setUploadedFiles,
   handleShowNotebooksModal,
   handleOpenDeploymentNotebook,
   handleOpenExperimentNotebook,
   handleUploadDeploymentNotebook,
   handleUploadExperimentNotebook,
 }) => {
+  const handleExperimentNotebookRequest = (data) => {
+    if (data.file) {
+      setUploadedFiles((currentFiles) => [...currentFiles, data.file]);
+      handleUploadExperimentNotebook(data.file);
+    }
+  };
+
+  const handleDeploymentNotebookRequest = (data) => {
+    if (data.file) {
+      setUploadedFiles((currentFiles) => [...currentFiles, data.file]);
+      handleUploadDeploymentNotebook(data.file);
+    }
+  };
+
   return (
     <div className='task-details-page-content-info-notebook'>
       <div className='task-details-page-content-info-notebook-title'>
@@ -47,23 +62,28 @@ const TaskDetailsNotebooks = ({
           <span>Notebook de Experimentação</span>
         </Button>
 
-        <Tooltip
-          title='Faz upload de um Notebook Jupyter, substituindo o código de experimentação existente'
-          placement='rightBottom'
+        <Upload
+          accept='.ipynb,.py'
+          showUploadList={false}
+          customRequest={handleExperimentNotebookRequest}
         >
-          <Button
-            onClick={handleUploadExperimentNotebook}
-            type='default'
-            shape='circle'
-            icon={
-              isUploadingExperimentNotebook ? (
-                <LoadingOutlined style={{ fontSize: '14px' }} />
-              ) : (
-                <UploadOutlined />
-              )
-            }
-          />
-        </Tooltip>
+          <Tooltip
+            title='Faz upload de um Notebook Jupyter, substituindo o código de experimentação existente'
+            placement='rightBottom'
+          >
+            <Button
+              type='default'
+              shape='circle'
+              icon={
+                isUploadingExperimentNotebook ? (
+                  <LoadingOutlined style={{ fontSize: '14px' }} />
+                ) : (
+                  <UploadOutlined />
+                )
+              }
+            />
+          </Tooltip>
+        </Upload>
       </div>
 
       <div className='task-details-page-content-info-notebook-buttons'>
@@ -76,23 +96,28 @@ const TaskDetailsNotebooks = ({
           <span>Notebook de Pré-implantação</span>
         </Button>
 
-        <Tooltip
-          title='Faz upload de um Notebook Jupyter, substituindo o código de pré-implantação existente'
-          placement='rightBottom'
+        <Upload
+          accept='.ipynb,.py'
+          showUploadList={false}
+          customRequest={handleDeploymentNotebookRequest}
         >
-          <Button
-            onClick={handleUploadDeploymentNotebook}
-            type='default'
-            shape='circle'
-            icon={
-              isUploadingDeploymentNotebook ? (
-                <LoadingOutlined style={{ fontSize: '14px' }} />
-              ) : (
-                <UploadOutlined />
-              )
-            }
-          />
-        </Tooltip>
+          <Tooltip
+            title='Faz upload de um Notebook Jupyter, substituindo o código de pré-implantação existente'
+            placement='rightBottom'
+          >
+            <Button
+              type='default'
+              shape='circle'
+              icon={
+                isUploadingDeploymentNotebook ? (
+                  <LoadingOutlined style={{ fontSize: '14px' }} />
+                ) : (
+                  <UploadOutlined />
+                )
+              }
+            />
+          </Tooltip>
+        </Upload>
       </div>
     </div>
   );
@@ -101,6 +126,7 @@ const TaskDetailsNotebooks = ({
 TaskDetailsNotebooks.propTypes = {
   isUploadingDeploymentNotebook: PropTypes.bool.isRequired,
   isUploadingExperimentNotebook: PropTypes.bool.isRequired,
+  setUploadedFiles: PropTypes.func.isRequired,
   handleShowNotebooksModal: PropTypes.func.isRequired,
   handleOpenDeploymentNotebook: PropTypes.func.isRequired,
   handleOpenExperimentNotebook: PropTypes.func.isRequired,

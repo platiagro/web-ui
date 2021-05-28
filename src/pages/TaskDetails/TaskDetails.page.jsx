@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 
@@ -10,6 +10,8 @@ import {
   clearTaskData,
   getTaskData,
   sendTaskViaEmail,
+  uploadTaskExperimentNotebook,
+  uploadTaskDeploymentNotebook,
 } from 'store/tasks';
 import { useIsLoading, useBooleanState } from 'hooks';
 import { ShareTaskModal, NotebooksExplanationModal } from 'components';
@@ -58,12 +60,12 @@ const TaskDetails = () => {
     TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST
   );
 
-  const handleUploadExperimentNotebook = () => {
-    setUploadedFiles([]);
+  const handleUploadExperimentNotebook = (fileInstance) => {
+    dispatch(uploadTaskExperimentNotebook(taskId, fileInstance));
   };
 
-  const handleUploadDeploymentNotebook = () => {
-    setUploadedFiles([]);
+  const handleUploadDeploymentNotebook = (fileInstance) => {
+    dispatch(uploadTaskDeploymentNotebook(taskId, fileInstance));
   };
 
   const handleOpenExperimentNotebook = () => {
@@ -113,7 +115,7 @@ const TaskDetails = () => {
     dispatch(sendTaskViaEmail(taskId, email, handleHideShareTaskModal));
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (taskId) dispatch(fetchTaskData(taskId));
     return () => {
       dispatch(clearTaskData());
@@ -154,6 +156,7 @@ const TaskDetails = () => {
             <TaskDetailsNotebooks
               isUploadingDeploymentNotebook={isUploadingDeploymentNotebook}
               isUploadingExperimentNotebook={isUploadingExperimentNotebook}
+              setUploadedFiles={setUploadedFiles}
               handleShowNotebooksModal={handleShowNotebooksModal}
               handleOpenDeploymentNotebook={handleOpenDeploymentNotebook}
               handleOpenExperimentNotebook={handleOpenExperimentNotebook}

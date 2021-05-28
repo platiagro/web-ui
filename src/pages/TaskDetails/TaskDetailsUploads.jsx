@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, PaperClipOutlined } from '@ant-design/icons';
 
 import { Placeholder } from 'components';
 
@@ -19,8 +19,16 @@ const TaskDetailsUploads = ({ uploadedFiles }) => {
         />
       )}
 
-      {uploadedFiles.map((_, index) => {
-        return <div key={`file-${index}`}>File</div>;
+      {uploadedFiles.map((file, index) => {
+        return (
+          <div
+            key={`file-${file.uid}-${index}`}
+            className='task-details-page-content-info-uploads-file'
+          >
+            <PaperClipOutlined />
+            <span>{file.name}</span>
+          </div>
+        );
       })}
     </div>
   );
