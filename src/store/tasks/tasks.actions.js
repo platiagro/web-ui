@@ -436,10 +436,11 @@ export const uploadTaskExperimentNotebookFail = () => {
  *
  * @param {string} uuid Task ID
  * @param {File} file Experiment Notebook file
+ * @param {Function} successCallback Success callback
  * @returns {Function} Dispatch function
  */
 export const uploadTaskExperimentNotebook =
-  (uuid, file) => async (dispatch) => {
+  (uuid, file, successCallback) => async (dispatch) => {
     try {
       dispatch(addLoading(TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST));
       const fileContent = await utils.readFileContent(file);
@@ -447,6 +448,7 @@ export const uploadTaskExperimentNotebook =
       await tasksApi.updateTask(uuid, { experimentNotebook: fileContentJson });
       dispatch(showSuccess(`Upload do notebook de experimentação concluído`));
       dispatch(uploadTaskExperimentNotebookSuccess());
+      if (successCallback) successCallback();
     } catch (e) {
       const errorMessage = e.response?.data?.message || e.message;
       dispatch(showError(errorMessage));
@@ -485,10 +487,11 @@ export const uploadTaskDeploymentNotebookFail = () => {
  *
  * @param {string} uuid Task ID
  * @param {file} file Deployment Notebook file
+ * @param {Function} successCallback Success callback
  * @returns {Function} Dispatch function
  */
 export const uploadTaskDeploymentNotebook =
-  (uuid, file) => async (dispatch) => {
+  (uuid, file, successCallback) => async (dispatch) => {
     try {
       dispatch(addLoading(TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST));
       const fileContent = await utils.readFileContent(file);
@@ -496,6 +499,7 @@ export const uploadTaskDeploymentNotebook =
       await tasksApi.updateTask(uuid, { deploymentNotebook: fileContentJson });
       dispatch(showSuccess('Upload do notebook de pré-implantação concluído'));
       dispatch(uploadTaskDeploymentNotebookSuccess());
+      if (successCallback) successCallback();
     } catch (e) {
       const errorMessage = e.response?.data?.message || e.message;
       dispatch(showError(errorMessage));

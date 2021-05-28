@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Select, Tooltip, Tag } from 'antd';
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons';
@@ -24,11 +24,6 @@ const FIELD_ID_TO_FIELD_NAME = {
 };
 
 const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
-  const descriptionRef = useRef(null);
-  const inputDataRef = useRef(null);
-  const outputDataRef = useRef(null);
-  const documentationRef = useRef(null);
-
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(undefined);
   const [inputData, setInputData] = useState('');
@@ -91,7 +86,6 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
         <Input
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          ref={descriptionRef}
           type='text'
           size='large'
           value={description}
@@ -146,7 +140,6 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
         <Input
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          ref={inputDataRef}
           type='text'
           size='large'
           value={inputData}
@@ -173,7 +166,6 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
         <Input
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          ref={outputDataRef}
           type='text'
           size='large'
           value={outputData}
@@ -234,7 +226,6 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
         <Input.TextArea
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          ref={documentationRef}
           id={FIELD_IDS.DOCUMENTATION}
           value={documentation}
           onChange={(e) => setDocumentation(e.target.value)}

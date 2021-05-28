@@ -23,6 +23,7 @@ import TaskDetailsNotebooks from './TaskDetailsNotebooks';
 import TaskDetailsInfoFooter from './TaskDetailsInfoFooter';
 
 import './TaskDetails.style.less';
+import TaskDetailsDocker from './TaskDetailsDocker';
 
 const TaskDetails = () => {
   const { taskId } = useParams();
@@ -61,11 +62,19 @@ const TaskDetails = () => {
   );
 
   const handleUploadExperimentNotebook = (fileInstance) => {
-    dispatch(uploadTaskExperimentNotebook(taskId, fileInstance));
+    dispatch(
+      uploadTaskExperimentNotebook(taskId, fileInstance, () => {
+        setUploadedFiles((currentFiles) => [...currentFiles, fileInstance]);
+      })
+    );
   };
 
   const handleUploadDeploymentNotebook = (fileInstance) => {
-    dispatch(uploadTaskDeploymentNotebook(taskId, fileInstance));
+    dispatch(
+      uploadTaskDeploymentNotebook(taskId, fileInstance, () => {
+        setUploadedFiles((currentFiles) => [...currentFiles, fileInstance]);
+      })
+    );
   };
 
   const handleOpenExperimentNotebook = () => {
@@ -153,18 +162,31 @@ const TaskDetails = () => {
           />
 
           <div className='task-details-page-content-info'>
-            <TaskDetailsNotebooks
-              isUploadingDeploymentNotebook={isUploadingDeploymentNotebook}
-              isUploadingExperimentNotebook={isUploadingExperimentNotebook}
-              setUploadedFiles={setUploadedFiles}
-              handleShowNotebooksModal={handleShowNotebooksModal}
-              handleOpenDeploymentNotebook={handleOpenDeploymentNotebook}
-              handleOpenExperimentNotebook={handleOpenExperimentNotebook}
-              handleUploadDeploymentNotebook={handleUploadDeploymentNotebook}
-              handleUploadExperimentNotebook={handleUploadExperimentNotebook}
-            />
+            {!taskData?.type === 'docker' ? (
+              // TODO: "taskData.type" does not exist. Find other way to check if is a docker task
+              <TaskDetailsDocker
+                taskData={taskData}
+                handleUpdateTaskData={handleUpdateTaskData}
+              />
+            ) : (
+              <>
+                <TaskDetailsNotebooks
+                  isUploadingDeploymentNotebook={isUploadingDeploymentNotebook}
+                  isUploadingExperimentNotebook={isUploadingExperimentNotebook}
+                  handleShowNotebooksModal={handleShowNotebooksModal}
+                  handleOpenDeploymentNotebook={handleOpenDeploymentNotebook}
+                  handleOpenExperimentNotebook={handleOpenExperimentNotebook}
+                  handleUploadDeploymentNotebook={
+                    handleUploadDeploymentNotebook
+                  }
+                  handleUploadExperimentNotebook={
+                    handleUploadExperimentNotebook
+                  }
+                />
 
-            <TaskDetailsUploads uploadedFiles={uploadedFiles} />
+                <TaskDetailsUploads uploadedFiles={uploadedFiles} />
+              </>
+            )}
 
             <TaskDetailsInfoFooter hasEditedSomething={hasEditedSomething} />
           </div>

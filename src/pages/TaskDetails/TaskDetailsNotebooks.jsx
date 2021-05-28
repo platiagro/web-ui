@@ -11,7 +11,6 @@ import {
 const TaskDetailsNotebooks = ({
   isUploadingDeploymentNotebook,
   isUploadingExperimentNotebook,
-  setUploadedFiles,
   handleShowNotebooksModal,
   handleOpenDeploymentNotebook,
   handleOpenExperimentNotebook,
@@ -19,17 +18,11 @@ const TaskDetailsNotebooks = ({
   handleUploadExperimentNotebook,
 }) => {
   const handleExperimentNotebookRequest = (data) => {
-    if (data.file) {
-      setUploadedFiles((currentFiles) => [...currentFiles, data.file]);
-      handleUploadExperimentNotebook(data.file);
-    }
+    if (data.file) handleUploadExperimentNotebook(data.file);
   };
 
   const handleDeploymentNotebookRequest = (data) => {
-    if (data.file) {
-      setUploadedFiles((currentFiles) => [...currentFiles, data.file]);
-      handleUploadDeploymentNotebook(data.file);
-    }
+    if (data.file) handleUploadDeploymentNotebook(data.file);
   };
 
   return (
@@ -126,7 +119,6 @@ const TaskDetailsNotebooks = ({
 TaskDetailsNotebooks.propTypes = {
   isUploadingDeploymentNotebook: PropTypes.bool.isRequired,
   isUploadingExperimentNotebook: PropTypes.bool.isRequired,
-  setUploadedFiles: PropTypes.func.isRequired,
   handleShowNotebooksModal: PropTypes.func.isRequired,
   handleOpenDeploymentNotebook: PropTypes.func.isRequired,
   handleOpenExperimentNotebook: PropTypes.func.isRequired,
