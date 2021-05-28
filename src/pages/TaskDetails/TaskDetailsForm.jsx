@@ -16,7 +16,7 @@ const FIELD_IDS = {
 
 const FIELD_ID_TO_FIELD_NAME = {
   DESCRIPTION: 'description',
-  CATEGORY: 'category',
+  CATEGORY: 'tags', // TODO: Put 'category' here when the backend accepts a category
   INPUT_DATA: 'inputData',
   OUTPUT_DATA: 'outputData',
   SEARCH_TAGS: 'tags',
@@ -41,8 +41,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
       case FIELD_IDS.DESCRIPTION:
         return description;
 
+      // TODO: Return only the category when the backend accepts a category
       case FIELD_IDS.CATEGORY:
-        return category;
+        return [category];
 
       case FIELD_IDS.INPUT_DATA:
         return inputData;
@@ -67,7 +68,10 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
   useEffect(() => {
     if (taskData) {
       setDescription(taskData.description);
-      setCategory(taskData.category);
+
+      // TODO: Use taskData.category here when the backend accepts a category
+      setCategory(taskData?.tags.length ? taskData.tags[0] : undefined);
+
       setInputData(taskData.inputData);
       setOutputData(taskData.outputData);
       setSearchTags(taskData.tags);
@@ -210,11 +214,13 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
                 {...otherTagProps}
                 color='blue'
                 closeIcon={<CloseOutlined style={{ color: '#1890ff' }} />}
+                closable={false} // TODO: Make this field closable removing this prop when the backend accepts custom tags
               >
                 {label}
               </Tag>
             );
           }}
+          disabled // TODO: Enable this field when the backend accepts custom tags
         />
       </div>
 
