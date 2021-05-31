@@ -11,7 +11,11 @@ import { useIsLoading } from 'hooks';
 import NewMonitoringModal from 'components/NewMonitoringModal';
 import { TASKS_TYPES, fetchTasks, getTasks } from 'store/tasks';
 
-const NewMonitoringModalContainer = ({ isShowing, handleHideModal }) => {
+const NewMonitoringModalContainer = ({
+  isShowing,
+  handleHideModal,
+  setIsShowingPanel,
+}) => {
   const { projectId, deploymentId } = useParams();
   const dispatch = useDispatch();
 
@@ -35,7 +39,11 @@ const NewMonitoringModalContainer = ({ isShowing, handleHideModal }) => {
       deploymentId,
     }));
 
-    dispatch(createMultipleMonitorings(requestDataArray));
+    dispatch(
+      createMultipleMonitorings(requestDataArray, () => {
+        if (setIsShowingPanel) setIsShowingPanel(true);
+      })
+    );
   };
 
   // Always fetch tasks when open the modal
@@ -51,24 +59,26 @@ const NewMonitoringModalContainer = ({ isShowing, handleHideModal }) => {
 
   return (
     <NewMonitoringModal
-      isCreatingMonitorings={isCreatingMonitorings}
-      isLoadingTasks={isLoadingTasks}
-      isShowing={isShowing}
-      handleAddMonitorings={handleAddMonitorings}
-      handleHideModal={handleHideModal}
       tasks={tasks}
+      isShowing={isShowing}
+      isLoadingTasks={isLoadingTasks}
+      isCreatingMonitorings={isCreatingMonitorings}
+      handleHideModal={handleHideModal}
+      handleAddMonitorings={handleAddMonitorings}
     />
   );
 };
 
 NewMonitoringModalContainer.propTypes = {
   isShowing: PropTypes.bool,
-  handleHideModal: PropTypes.bool,
+  handleHideModal: PropTypes.func,
+  setIsShowingPanel: PropTypes.func,
 };
 
 NewMonitoringModalContainer.defaultProps = {
   isShowing: false,
   handleHideModal: undefined,
+  setIsShowingPanel: undefined,
 };
 
 export default NewMonitoringModalContainer;
