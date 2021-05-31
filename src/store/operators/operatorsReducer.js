@@ -1,6 +1,6 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import operatorActionTypes from '../operator/actionTypes';
+import { OPERATOR_TYPES } from 'store/operator';
 import uiActionTypes from '../ui/actionTypes';
 import experimentRunsActionTypes from '../projects/experiments/experimentRuns/actionTypes';
 
@@ -46,13 +46,13 @@ const operatorsReducer = (state = initialState, action = undefined) => {
       });
 
     // operator
-    case operatorActionTypes.CREATE_OPERATOR_SUCCESS:
+    case OPERATOR_TYPES.CREATE_OPERATOR_SUCCESS:
       return [...state, action.operator];
-    case operatorActionTypes.DESELECT_OPERATOR:
+    case OPERATOR_TYPES.DESELECT_OPERATOR:
       return [...utils.selectOperator(null, state)];
-    case operatorActionTypes.SELECT_OPERATOR:
+    case OPERATOR_TYPES.SELECT_OPERATOR:
       return [...utils.selectOperator(action.operator.uuid, state)];
-    case operatorActionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
+    case OPERATOR_TYPES.UPDATE_OPERATOR_SUCCESS:
       return state.map((operator) =>
         operator.uuid === action.operator.uuid
           ? { ...action.operator }

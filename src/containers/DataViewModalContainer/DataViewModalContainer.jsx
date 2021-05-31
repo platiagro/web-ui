@@ -14,7 +14,7 @@ import {
 import { Modal, Button } from 'uiComponents';
 import { UploadButton } from 'components/Buttons';
 import { hideDataViewModal } from 'store/ui/actions';
-import { saveTargetAttribute } from 'store/operator/actions';
+import { saveTargetAttribute } from 'store/operator';
 import { CommonTable, DatasetColumnsTable } from 'components';
 
 import './DataViewModalContainer.less';

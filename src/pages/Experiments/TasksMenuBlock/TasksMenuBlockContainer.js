@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getTasks } from 'store/tasks';
-import { createOperatorRequest } from 'store/operator/actions';
+import { createOperatorRequest } from 'store/operator';
 import {
   fetchTasksMenuRequest,
   filterTasksMenu,

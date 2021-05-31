@@ -9,7 +9,7 @@ import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsRe
 import Projects from './projects';
 import experimentRunReducer from './projects/experiments/experimentRuns/experimentRunsReducer';
 import operatorsReducer from './operators/operatorsReducer';
-import operatorReducer from './operator/operatorReducer';
+import { operatorReducer } from './operator';
 import tasksMenuReducer from './tasksMenu/tasksMenuReducer';
 import templatesReducer from './templates/templatesReducer';
 import uiReducer from './ui/uiReducer';

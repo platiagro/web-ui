@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 // ACTION TYPES
-import actionTypes from './actionTypes';
+import * as OPERATOR_TYPES from './operator.actionTypes';
 
 // SERVICES
 import DatasetsApi from 'services/DatasetsApi';
@@ -49,7 +49,7 @@ export const downloadOperatorResultDataset =
   (projectId, experimentId, operatorId) => (dispatch) => {
     dispatch(operatorResultsDownloadDatasetLoading());
     dispatch({
-      type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
+      type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
     });
 
     experimentRunsApi
@@ -65,7 +65,7 @@ export const downloadOperatorResultDataset =
         dispatch(operatorResultsDownloadDatasetLoaded());
         const responseData = response.data;
         dispatch({
-          type: actionTypes.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS,
+          type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS,
           downloadDataset: [[...responseData.columns], ...responseData.data],
         });
       })
@@ -86,14 +86,14 @@ const getLogsSuccess = (response) => (dispatch) => {
   const logs = response.data;
 
   dispatch({
-    type: actionTypes.GET_OPERATOR_LOGS_SUCCESS,
+    type: OPERATOR_TYPES.GET_OPERATOR_LOGS_SUCCESS,
     logs: logs.traceback,
   });
 };
 
 const getLogsFail = (error) => (dispatch) => {
   dispatch({
-    type: actionTypes.GET_OPERATOR_LOGS_FAIL,
+    type: OPERATOR_TYPES.GET_OPERATOR_LOGS_FAIL,
     logs: error.response.data.message,
   });
 };
@@ -140,7 +140,7 @@ export const getOperatorLogs =
 export const getOperatorFigures =
   (projectId, experimentId, runId, operatorId) => (dispatch) => {
     dispatch({
-      type: actionTypes.GET_OPERATOR_FIGURES_REQUEST,
+      type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST,
     });
     dispatch(operatorResultsLoadingData());
     experimentRunsApi
@@ -149,7 +149,7 @@ export const getOperatorFigures =
         const results = utils.transformResults(operatorId, responseFigure.data);
         dispatch(operatorResultsDataLoaded());
         dispatch({
-          type: actionTypes.GET_OPERATOR_FIGURES_SUCCESS,
+          type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_SUCCESS,
           results,
         });
       })
@@ -158,7 +158,7 @@ export const getOperatorFigures =
         // allowed to fail silently for 404
         if (error.response.status !== 404) {
           dispatch({
-            type: actionTypes.GET_OPERATOR_FIGURES_FAIL,
+            type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_FAIL,
           });
           message.error(error.message);
         }
@@ -177,7 +177,7 @@ export const getOperatorFigures =
 export const getOperatorResultDataset =
   (projectId, experimentId, operatorId, page, pageSize) => (dispatch) => {
     dispatch({
-      type: actionTypes.GET_OPERATOR_DATASET_RESULT_REQUEST,
+      type: OPERATOR_TYPES.GET_OPERATOR_DATASET_RESULT_REQUEST,
     });
     experimentRunsApi
       .listOperatorDatasets(
@@ -211,15 +211,39 @@ export const getOperatorResultDataset =
             total: responseTable.data.total,
           };
           dispatch({
-            type: actionTypes.GET_OPERATOR_DATASET_RESULT_SUCCESS,
+            type: OPERATOR_TYPES.GET_OPERATOR_DATASET_RESULT_SUCCESS,
             result,
           });
         }
       })
       .catch(() => {
         dispatch({
-          type: actionTypes.GET_OPERATOR_DATASET_RESULT_FAIL,
+          type: OPERATOR_TYPES.GET_OPERATOR_DATASET_RESULT_FAIL,
         });
+      });
+  };
+
+export const getOperatorMetricsRequest =
+  (projectId, experimentId, runId, operatorId) => (dispatch) => {
+    dispatch({
+      type: OPERATOR_TYPES.GET_OPERATOR_METRICS_REQUEST,
+    });
+    dispatch(operatorMetricsLoadingData());
+
+    experimentRunsApi
+      .listOperatorMetrics(projectId, experimentId, runId, operatorId)
+      .then((response) => {
+        dispatch({
+          type: OPERATOR_TYPES.GET_OPERATOR_METRICS_SUCCESS,
+          metrics: response.data,
+        });
+        dispatch(operatorMetricsDataLoaded());
+      })
+      .catch(() => {
+        dispatch({
+          type: OPERATOR_TYPES.GET_OPERATOR_METRICS_FAIL,
+        });
+        dispatch(operatorMetricsDataLoaded());
       });
   };
 
@@ -237,7 +261,7 @@ export const selectOperatorAndGetData =
   (projectId, experimentId, operator) => (dispatch, getState) => {
     // dispatching action
     dispatch({
-      type: actionTypes.SELECT_OPERATOR,
+      type: OPERATOR_TYPES.SELECT_OPERATOR,
       operator,
     });
 
@@ -288,7 +312,7 @@ export const selectOperatorAndGetData =
  */
 export const selectOperator = (operator) => (dispatch) => {
   dispatch({
-    type: actionTypes.SELECT_OPERATOR,
+    type: OPERATOR_TYPES.SELECT_OPERATOR,
     operator,
   });
 };
@@ -298,7 +322,7 @@ export const selectOperator = (operator) => (dispatch) => {
  */
 export const deselectOperator = () => (dispatch) => {
   dispatch({
-    type: actionTypes.DESELECT_OPERATOR,
+    type: OPERATOR_TYPES.DESELECT_OPERATOR,
   });
 };
 
@@ -319,7 +343,7 @@ const createOperatorFail = (error) => (dispatch) => {
 
   // dispatching create operator fail
   dispatch({
-    type: actionTypes.CREATE_OPERATOR_FAIL,
+    type: OPERATOR_TYPES.CREATE_OPERATOR_FAIL,
     errorMessage,
   });
 
@@ -345,7 +369,7 @@ export const createOperatorRequest =
   async (dispatch, getState) => {
     // dispatching request action
     dispatch({
-      type: actionTypes.CREATE_OPERATOR_REQUEST,
+      type: OPERATOR_TYPES.CREATE_OPERATOR_REQUEST,
     });
 
     // getting dataset name and operators from store
@@ -426,7 +450,7 @@ export const createOperatorRequest =
 
         // dispatching create operator success action
         dispatch({
-          type: actionTypes.CREATE_OPERATOR_SUCCESS,
+          type: OPERATOR_TYPES.CREATE_OPERATOR_SUCCESS,
           operator: {
             ...operator,
             ...restTaskData,
@@ -451,7 +475,7 @@ export const createOperatorRequest =
 export const removeOperatorRequest =
   (projectId, experimentId, operator) => (dispatch) => {
     dispatch({
-      type: actionTypes.REMOVE_OPERATOR_REQUEST,
+      type: OPERATOR_TYPES.REMOVE_OPERATOR_REQUEST,
     });
 
     dispatch(experimentOperatorsLoadingData());
@@ -476,7 +500,7 @@ export const removeOperatorRequest =
       .catch((error) => {
         dispatch(experimentOperatorsDataLoaded());
         dispatch({
-          type: actionTypes.REMOVE_OPERATOR_FAIL,
+          type: OPERATOR_TYPES.REMOVE_OPERATOR_FAIL,
         });
         const errorMessage = error.message;
         message.error(errorMessage);
@@ -490,13 +514,13 @@ export const removeOperatorRequest =
  * @param {object} operator
  * @returns {object} { type, operator }
  */
-const setOperatorParametersSuccess = (operator) => (dispatch) => {
+const updateOperatorSuccess = (operator) => (dispatch) => {
   // dispatching operator parameter data loaded action
   dispatch(operatorParameterDataLoaded());
 
   // dispatching set operator params success action
   dispatch({
-    type: actionTypes.SET_OPERATOR_PARAMETERS_SUCCESS,
+    type: OPERATOR_TYPES.UPDATE_OPERATOR_SUCCESS,
     operator,
   });
 };
@@ -507,7 +531,7 @@ const setOperatorParametersSuccess = (operator) => (dispatch) => {
  * @param {object} error
  * @returns {object} { type, errorMessage }
  */
-const setOperatorParametersFail = (error) => (dispatch) => {
+const updateOperatorFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
@@ -516,7 +540,7 @@ const setOperatorParametersFail = (error) => (dispatch) => {
 
   // dispatching set operator params fail
   dispatch({
-    type: actionTypes.SET_OPERATOR_PARAMETERS_FAIL,
+    type: OPERATOR_TYPES.UPDATE_OPERATOR_FAIL,
     errorMessage,
   });
 
@@ -524,7 +548,7 @@ const setOperatorParametersFail = (error) => (dispatch) => {
 };
 
 /**
- * set operator params request action
+ * update experiment operator request action
  *
  * @param {string} projectId The project uuid
  * @param {string} experimentId The experiment uuid
@@ -533,11 +557,11 @@ const setOperatorParametersFail = (error) => (dispatch) => {
  * @param {any} parameterValue Parameter value
  * @returns {Function} The dispatch function
  */
-export const setOperatorParametersRequest =
+export const updateExperimentOperatorRequest =
   (projectId, experimentId, operator, parameterName, parameterValue) =>
   (dispatch) => {
     dispatch({
-      type: actionTypes.SET_OPERATOR_PARAMETERS_REQUEST,
+      type: OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST,
     });
     dispatch(operatorParameterLoadingData());
 
@@ -581,9 +605,76 @@ export const setOperatorParametersRequest =
         successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
 
         // dispatching success action
-        dispatch(setOperatorParametersSuccess(successOperator));
+        dispatch(updateOperatorSuccess(successOperator));
       })
-      .catch((error) => dispatch(setOperatorParametersFail(error)));
+      .catch((error) => dispatch(updateOperatorFail(error)));
+  };
+
+/**
+ * update experiment operator request action
+ *
+ * @param {string} projectId The project uuid
+ * @param {string} deploymentId The deployment uuid
+ * @param {object} operator The operator
+ * @param {string} parameterName Parameter name
+ * @param {any} parameterValue Parameter value
+ * @returns {Function} The dispatch function
+ */
+export const updateDeploymentOperatorRequest =
+  (projectId, deploymentId, operator, parameterName, parameterValue) =>
+  (dispatch) => {
+    dispatch({
+      type: OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST,
+    });
+    dispatch(operatorParameterLoadingData());
+
+    // filtering parameters with value
+    const parametersWithValue = operator.parameters.filter((parameter) => {
+      if (parameter.name === parameterName) {
+        return true;
+      } else if (parameter.value !== undefined) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    const parameters = {};
+    parametersWithValue.forEach(({ name, value }) => {
+      parameters[name] = name === parameterName ? parameterValue : value;
+    });
+
+    // update operator
+    DeploymentsOperatorsApi.updateOperator(
+      projectId,
+      deploymentId,
+      operator.uuid,
+      { parameters }
+    )
+      .then((response) => {
+        // getting operator data
+        const successOperator = { ...operator };
+
+        // changing param value
+        successOperator.parameters = successOperator.parameters.map(
+          (parameter) => ({
+            ...parameter,
+            value:
+              parameter.name === parameterName
+                ? parameterValue !== null
+                  ? parameterValue
+                  : undefined
+                : parameter.value,
+          })
+        );
+
+        // checking if operator is setted up
+        successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
+
+        // dispatching success action
+        dispatch(updateOperatorSuccess(successOperator));
+      })
+      .catch((error) => dispatch(updateOperatorFail(error)));
   };
 
 // // // // // // // // // //
@@ -649,7 +740,7 @@ export const saveTargetAttribute =
     const { operatorReducer: datasetOperator } = getState();
 
     dispatch(
-      setOperatorParametersRequest(
+      updateExperimentOperatorRequest(
         projectId,
         experimentId,
         datasetOperator,
