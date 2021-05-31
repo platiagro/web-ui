@@ -1,7 +1,7 @@
 import React from 'react';
 import { Skeleton } from 'antd';
 
-const NewTaskSkeletons = () => {
+const NewTaskSkeleton = () => {
   return (
     <div className='new-task-page-content-panels-left-skeletons'>
       <Skeleton.Button
@@ -37,4 +37,4 @@ const NewTaskSkeletons = () => {
   );
 };
 
-export default NewTaskSkeletons;
+export default NewTaskSkeleton;
