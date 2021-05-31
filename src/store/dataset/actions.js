@@ -314,9 +314,7 @@ export const startDatasetUpload =
     // save dataset operator
     const datasetOperator = { ...operatorReducer };
 
-    const experimentIsSucceeded = operators.every((operator) => {
-      return operator.status === 'Succeeded';
-    });
+    const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
 
     // dispatching dataset operator loading data action
     dispatch(datasetOperatorLoadingData());
@@ -558,9 +556,7 @@ export const selectDataset =
     // save dataset operator
     const datasetOperator = { ...operatorReducer };
 
-    const experimentIsSucceeded = operators.every((operator) => {
-      return operator.status === 'Succeeded';
-    });
+    const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
 
     // fetching dataset
     datasetsApi
@@ -661,9 +657,7 @@ export const deleteDatasetRequest =
     const { operatorReducer: operator, operatorsReducer: operators } =
       getState();
 
-    const experimentIsSucceeded = operators.every((operatorItem) => {
-      return operatorItem.status === 'Succeeded';
-    });
+    const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
 
     // dispatching dataset operator loading data action
     dispatch(datasetOperatorLoadingData());

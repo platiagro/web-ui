@@ -158,12 +158,6 @@ export const fetchCompareResultsResults =
           return response.data;
         });
 
-      const metrics = await experimentRunsApi
-        .listOperatorMetrics(projectId, experimentId, runId, operatorId)
-        .then((response) => {
-          return response.data;
-        });
-
       const figureResults = utils.transformResults(operatorId, figures);
       let datasetResult = null;
       if (dataset) {
@@ -191,7 +185,9 @@ export const fetchCompareResultsResults =
       const compareResultsAux = { ...compareResult };
       compareResultsAux.dataset = datasetResult ? datasetResult : null;
       compareResultsAux.figures = figureResults ? figureResults : [];
-      compareResultsAux.metrics = metrics ? metrics : [];
+
+      compareResultsAux.resultsFetched = datasetResult || figureResults;
+
       dispatch({
         type: actionTypes.UPDATE_COMPARE_RESULT,
         compareResult: compareResultsAux,

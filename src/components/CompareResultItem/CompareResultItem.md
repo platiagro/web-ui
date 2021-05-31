@@ -6,8 +6,6 @@
     experimentId: '1',
     operatorId: '2',
     runId: '3',
-    metrics: 'metrics',
-    metrics: {},
     results: {},
   }}
   experiments={[]}

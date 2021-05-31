@@ -29,8 +29,6 @@ import {
   operatorResultsLoadingData,
   operatorResultsDownloadDatasetLoaded,
   operatorResultsDownloadDatasetLoading,
-  operatorMetricsLoadingData,
-  operatorMetricsDataLoaded,
   dependenciesOperatorLoading,
   dependenciesOperatorLoaded,
 } from 'store/ui/actions';
@@ -225,30 +223,6 @@ export const getOperatorResultDataset =
       });
   };
 
-export const getOperatorMetricsRequest =
-  (projectId, experimentId, runId, operatorId) => (dispatch) => {
-    dispatch({
-      type: actionTypes.GET_OPERATOR_METRICS_REQUEST,
-    });
-    dispatch(operatorMetricsLoadingData());
-
-    experimentRunsApi
-      .listOperatorMetrics(projectId, experimentId, runId, operatorId)
-      .then((response) => {
-        dispatch({
-          type: actionTypes.GET_OPERATOR_METRICS_SUCCESS,
-          metrics: response.data,
-        });
-        dispatch(operatorMetricsDataLoaded());
-      })
-      .catch(() => {
-        dispatch({
-          type: actionTypes.GET_OPERATOR_METRICS_FAIL,
-        });
-        dispatch(operatorMetricsDataLoaded());
-      });
-  };
-
 // // // // // // // // // //
 // ** SELECT OPERATOR
 /**
@@ -296,15 +270,6 @@ export const selectOperatorAndGetData =
 
     dispatch(
       getOperatorResultDataset(projectId, experimentId, operator.uuid, 1, 10)
-    );
-
-    dispatch(
-      getOperatorMetricsRequest(
-        projectId,
-        experimentId,
-        'latest',
-        operator.uuid
-      )
     );
 
     if (!isDataset && operator.status === 'Failed') {

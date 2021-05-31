@@ -801,7 +801,7 @@ const changeExperimentSucceededStatus = (
 ) => {
   return experiments.map((experiment) => {
     return experiment.uuid === experimentId
-      ? { ...experiment, succeded: succeeded }
+      ? { ...experiment, succeeded: succeeded }
       : { ...experiment };
   });
 };
@@ -820,6 +820,24 @@ const changeProjectExperiments = (projects, projectId, newExperiments) => {
       ? { ...projectItem, experiments: newExperiments }
       : projectItem
   );
+};
+
+/**
+ * Check if experiment is succeeded
+ *
+ * @param {object} experiment Experiment
+ * @param {object[]} experiment.operators Experiment operators list
+ * @returns {boolean} Experiment is succeeded
+ */
+const checkExperimentSuccess = (experiment) => {
+  let experimentIsSucceeded = false;
+
+  if (experiment.operators.length > 0)
+    experimentIsSucceeded = experiment.operators.every((operator) => {
+      return operator.status === 'Succeeded';
+    });
+
+  return experimentIsSucceeded;
 };
 
 // EXPORT DEFAULT
@@ -851,4 +869,5 @@ export default {
   downloadFile,
   changeExperimentSucceededStatus,
   changeProjectExperiments,
+  checkExperimentSuccess,
 };
