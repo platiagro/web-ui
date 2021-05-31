@@ -47,8 +47,7 @@ const OperatorResizableSectionContainer = () => {
 
   useEffect(() => {
     if (experimentId) {
-      // Do not change "succeded" to "succeeded" or it will fail
-      const wasExperimentSucceed = experiment?.succeded || false;
+      const wasExperimentSucceed = experiment?.succeeded || false;
       setHasExperimentFinished(wasExperimentSucceed);
     }
   }, [experiment, experimentId]);
