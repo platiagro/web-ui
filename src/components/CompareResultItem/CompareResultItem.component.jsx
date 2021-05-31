@@ -30,7 +30,7 @@ const CompareResultItem = ({
       compareResult.experimentId &&
       compareResult.operatorId &&
       compareResult.runId &&
-      !compareResult.results
+      !compareResult.resultsFetched
     ) {
       onFetchResults(compareResult);
     }

@@ -185,6 +185,9 @@ export const fetchCompareResultsResults =
       const compareResultsAux = { ...compareResult };
       compareResultsAux.dataset = datasetResult ? datasetResult : null;
       compareResultsAux.figures = figureResults ? figureResults : [];
+
+      compareResultsAux.resultsFetched = datasetResult || figureResults;
+
       dispatch({
         type: actionTypes.UPDATE_COMPARE_RESULT,
         compareResult: compareResultsAux,
