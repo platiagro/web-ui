@@ -2,6 +2,7 @@
 /* eslint-disable-next-line */
 /* global Experiments, Experiment, AppStores */
 
+import utils from 'utils';
 import { getProject } from '../projects.selectors';
 
 /**
@@ -18,7 +19,7 @@ const getExperiments = (state, projectId) => {
 };
 
 /**
- * Get experiment from project
+ * Get experiment from project and succeeded status
  *
  * @param {object} state state
  * @param {string} projectId Project id
@@ -28,6 +29,7 @@ const getExperiments = (state, projectId) => {
 const getExperiment = (state, projectId, experimentId) => {
   const experiments = getExperiments(state, projectId);
 
+  let isSucceeded = false;
   let experiment = {
     uuid: '',
     name: '',
@@ -37,12 +39,18 @@ const getExperiment = (state, projectId, experimentId) => {
     operators: [],
     createdAt: '',
     updatedAt: '',
+    succeeded: isSucceeded,
   };
 
   if (experiments?.length > 0 && experimentId)
     experiment = experiments.find(
       (experimentItem) => experimentItem.uuid === experimentId
     );
+
+  if (experiment.operators.length > 0)
+    isSucceeded = utils.checkExperimentSuccess(experiment);
+
+  experiment.succeeded = isSucceeded;
 
   return experiment;
 };
