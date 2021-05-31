@@ -822,6 +822,24 @@ const changeProjectExperiments = (projects, projectId, newExperiments) => {
   );
 };
 
+/**
+ * Check if experiment is succeeded
+ *
+ * @param {object} experiment Experiment
+ * @param {object[]} experiment.operators Experiment operators list
+ * @returns {boolean} Experiment is succeeded
+ */
+const checkExperimentSuccess = (experiment) => {
+  let experimentIsSucceeded = false;
+
+  if (experiment.operators.length > 0)
+    experimentIsSucceeded = experiment.operators.every((operator) => {
+      return operator.status === 'Succeeded';
+    });
+
+  return experimentIsSucceeded;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -851,4 +869,5 @@ export default {
   downloadFile,
   changeExperimentSucceededStatus,
   changeProjectExperiments,
+  checkExperimentSuccess,
 };

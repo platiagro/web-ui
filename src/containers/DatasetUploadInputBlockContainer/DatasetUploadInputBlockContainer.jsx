@@ -17,6 +17,8 @@ import {
 
 import { fetchDatasetsRequest } from 'store/datasets/actions';
 
+import utils from 'utils';
+
 const DatasetUploadInputBlockContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
@@ -64,9 +66,7 @@ const DatasetUploadInputBlockContainer = () => {
       ];
   const isGoogleDrive = operatorName === 'Google Drive';
 
-  const experimentIsSucceeded = operators.every((operator) => {
-    return operator.status === 'Succeeded';
-  });
+  const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
 
   useEffect(() => {
     dispatch(fetchDatasetsRequest());
