@@ -33,7 +33,6 @@ const ContentInfo = () => {
           'e6065e85-a056-40b7-9e4b-4db49ee3b915':
             'platiagro/platiagro-deployment-image:0.2.0',
         },
-        metrics: [],
       },
       data: {
         names: ['atributo1', 'atributo2', 'proba_classe1', 'proba_classe2'],

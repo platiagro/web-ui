@@ -786,21 +786,6 @@ const formatResultsParameters = (parameters, parametersTraining) => {
   return resultsParameters;
 };
 
-const retrieveStatusMessageFromOperators = (operators) => {
-  if (!operators) return;
-
-  operators.forEach((operator) => {
-    if (operator.statusMessage) {
-      notification.open({
-        key: `${operator.uuid}-${operator.statusMessage}`,
-        duration: 0,
-        message: operator.task?.name,
-        description: operator.statusMessage,
-      });
-    }
-  });
-};
-
 /**
  * Change succeeded status of experiment
  *
@@ -816,7 +801,7 @@ const changeExperimentSucceededStatus = (
 ) => {
   return experiments.map((experiment) => {
     return experiment.uuid === experimentId
-      ? { ...experiment, succeded: succeeded }
+      ? { ...experiment, succeeded: succeeded }
       : { ...experiment };
   });
 };
@@ -860,6 +845,24 @@ const readFileContent = (fileInstance) => {
   });
 };
 
+/**
+ * Check if experiment is succeeded
+ *
+ * @param {object} experiment Experiment
+ * @param {object[]} experiment.operators Experiment operators list
+ * @returns {boolean} Experiment is succeeded
+ */
+const checkExperimentSuccess = (experiment) => {
+  let experimentIsSucceeded = false;
+
+  if (experiment.operators.length > 0)
+    experimentIsSucceeded = experiment.operators.every((operator) => {
+      return operator.status === 'Succeeded';
+    });
+
+  return experimentIsSucceeded;
+};
+
 // EXPORT DEFAULT
 export default {
   deleteExperiment,
@@ -887,8 +890,8 @@ export default {
   formatResultsParameters,
   copyToClipboard,
   downloadFile,
-  retrieveStatusMessageFromOperators,
   changeExperimentSucceededStatus,
   changeProjectExperiments,
   readFileContent,
+  checkExperimentSuccess,
 };

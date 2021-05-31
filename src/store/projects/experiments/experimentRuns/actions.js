@@ -246,9 +246,7 @@ const fetchExperimentRunStatusSuccess =
     let interruptExperiment = uiReducer.experimentTraining.deleteLoading;
 
     if (hasOperators) {
-      succeededRun = operators.every((operator) => {
-        return operator.status === 'Succeeded';
-      });
+      succeededRun = utils.checkExperimentSuccess({ operators });
 
       stoppedRun = operators.some(
         (operator) =>
@@ -329,7 +327,6 @@ const fetchExperimentRunStatusSuccess =
       dispatch(experimentTrainingLoadingData());
     }
 
-    utils.retrieveStatusMessageFromOperators(operators);
     dispatch({
       type: actionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS,
       operatorsLatestTraining: operators,

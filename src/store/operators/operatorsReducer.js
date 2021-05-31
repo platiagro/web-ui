@@ -88,6 +88,7 @@ const operatorsReducer = (state = initialState, action = undefined) => {
         return {
           ...operator,
           status,
+          statusMessage: operatorLatestTraining.statusMessage,
           parametersLatestTraining: operatorLatestTraining
             ? operatorLatestTraining.parameters
             : null,

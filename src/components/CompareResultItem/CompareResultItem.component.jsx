@@ -23,15 +23,14 @@ const CompareResultItem = ({
 }) => {
   /**
    * Get the results if the experiment and task were selected
-   * and the metrics and results were undefined
+   * and the results were undefined
    */
   useEffect(() => {
     if (
       compareResult.experimentId &&
       compareResult.operatorId &&
       compareResult.runId &&
-      !compareResult.metrics &&
-      !compareResult.results
+      !compareResult.resultsFetched
     ) {
       onFetchResults(compareResult);
     }

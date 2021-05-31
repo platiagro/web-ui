@@ -614,32 +614,6 @@ export const resultsButtonBarDataLoaded = () => {
   };
 };
 
-// ** OPERATOR RESULTS LOADING DATA
-/**
- * operator parameter loading data
- *
- * @returns {object} { type, operatorResultsLoading }
- */
-export const operatorMetricsLoadingData = () => {
-  return {
-    type: actionTypes.OPERATOR_METRICS_LOADING_DATA,
-  };
-};
-
-// // // // // // // // // //
-
-// ** OPERATOR RESULTS DATA LOADED
-/**
- * operator parameter data loaded
- *
- * @returns {object} { type, operatorResultsLoading }
- */
-export const operatorMetricsDataLoaded = () => {
-  return {
-    type: actionTypes.OPERATOR_METRICS_DATA_LOADED,
-  };
-};
-
 // // // // // // // // // //
 
 // ** TEMPLATE LOADING DATA

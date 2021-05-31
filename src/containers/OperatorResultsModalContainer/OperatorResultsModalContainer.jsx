@@ -23,16 +23,8 @@ const operatorFiguresSelector = ({ operatorReducer }) => {
   return operatorReducer.figures;
 };
 
-const operatorMetricsSelector = ({ operatorReducer }) => {
-  return operatorReducer.metrics;
-};
-
 const operatorParametersSelector = ({ operatorReducer }) => {
   return operatorReducer.parameters;
-};
-
-const operatorMetricsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.operatorMetrics.loading;
 };
 
 const operatorResultsLoadingSelector = ({ uiReducer }) => {
@@ -51,9 +43,7 @@ const OperatorResultsModalContainer = () => {
   const operatorId = useSelector(operatorIdSelector);
   const operatorDataset = useSelector(operatorDatasetSelector);
   const operatorFigures = useSelector(operatorFiguresSelector);
-  const operatorMetrics = useSelector(operatorMetricsSelector);
   const operatorParameters = useSelector(operatorParametersSelector);
-  const operatorMetricsLoading = useSelector(operatorMetricsLoadingSelector);
   const operatorResultsLoading = useSelector(operatorResultsLoadingSelector);
   const operatorParametersLatestTraining = useSelector(
     operatorParametersLatestTrainingSelector
@@ -117,11 +107,9 @@ const OperatorResultsModalContainer = () => {
       <ResultsDrawer
         dataset={operatorDataset}
         figures={operatorFigures}
-        metrics={operatorMetrics}
         parameters={resultsParameters}
         isToShowDownloadButtons={true}
         loading={operatorResultsLoading}
-        metricsLoading={operatorMetricsLoading}
         onDatasetPageChange={handleOnDatasetPageChange}
         datasetScroll={{
           x: datasetScrollX,

@@ -59,7 +59,6 @@ const initialState = {
     showOperatorResults: false,
     resultsButtonBarLoading: false,
   },
-  operatorMetrics: { loading: false },
   implantedExperiments: { loading: false },
   prepareDeploymentsModal: { loading: false, visible: false },
   dataViewModal: { isVisible: false, loading: false },
@@ -409,26 +408,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         operatorResults: {
           ...state.operatorResults,
           downloadDatasetLoading: action.downloadDatasetLoading,
-        },
-      };
-
-    // OPERATOR METRICS
-    // loading data
-    case actionTypes.OPERATOR_METRICS_LOADING_DATA:
-      return {
-        ...state,
-        operatorMetrics: {
-          ...state.operatorMetrics,
-          loading: true,
-        },
-      };
-    // data loaded
-    case actionTypes.OPERATOR_METRICS_DATA_LOADED:
-      return {
-        ...state,
-        operatorMetrics: {
-          ...state.operatorMetrics,
-          loading: false,
         },
       };
 

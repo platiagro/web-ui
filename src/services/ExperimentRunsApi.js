@@ -120,21 +120,6 @@ const listOperatorFigures = (projectId, experimentId, runId, operatorId) => {
 };
 
 /**
- * List Operator Metrics
- *
- * @param {string} projectId Project UUID
- * @param {string} experimentId Experiment UUID
- * @param {string} runId Run UUID
- * @param {string} operatorId Operator UUID
- * @returns {Promise} Request Promise
- */
-const listOperatorMetrics = (projectId, experimentId, runId, operatorId) => {
-  return projectsApi.get(
-    `${projectId}/${experimentsPath}/${experimentId}/${runsPath}/${runId}/operators/${operatorId}/metrics`
-  );
-};
-
-/**
  * Fetch Operator Logs
  *
  * @param {string} projectId Project UUID
@@ -172,7 +157,6 @@ export default {
   retryExperimentRun,
   listOperatorDatasets,
   listOperatorFigures,
-  listOperatorMetrics,
   fetchOperatorLogs,
   fetchExperimentLogs,
 };
