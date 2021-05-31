@@ -5,6 +5,8 @@ import { addLoading, removeLoading } from 'store/loading';
 
 import * as TASKS_TYPES from './tasks.actionTypes';
 
+// TODO: Remove all actions that open modals or save error messages in the reducer state when the NewTask page is integrated to the Tasks page
+
 /**
  * Show the modal to edit a task
  *
@@ -59,9 +61,9 @@ export const closeTasksModal = () => {
  * @param {object} task Added Task
  * @returns {object} Action
  */
-export const addTaskSuccess = (task) => {
+export const createTaskSuccess = (task) => {
   return {
-    type: TASKS_TYPES.ADD_TASK_SUCCESS,
+    type: TASKS_TYPES.CREATE_TASK_SUCCESS,
     task,
   };
 };
@@ -72,9 +74,9 @@ export const addTaskSuccess = (task) => {
  * @param {string} errorMessage Error message
  * @returns {object} Action
  */
-export const addTaskFail = (errorMessage) => {
+export const createTaskFail = (errorMessage) => {
   return {
-    type: TASKS_TYPES.ADD_TASK_FAIL,
+    type: TASKS_TYPES.CREATE_TASK_FAIL,
     errorMessage,
   };
 };
@@ -86,30 +88,32 @@ export const addTaskFail = (errorMessage) => {
  * @param {Function} successCallback Success callback that receive the created task as param
  * @returns {Function} Dispatch function
  */
-export const addTask = (task, successCallback) => async (dispatch) => {
+export const createTask = (task, successCallback) => async (dispatch) => {
   try {
-    dispatch(addLoading(TASKS_TYPES.ADD_TASK_REQUEST));
+    dispatch(addLoading(TASKS_TYPES.CREATE_TASK_REQUEST));
     const response = await tasksApi.createTask(task);
     const responseTask = response.data;
-    dispatch(addTaskSuccess(responseTask));
-    dispatch(showSuccess(`Tarefa adicionada com sucesso.`));
-    dispatch(closeTasksModal());
-    await utils.sleep(1000);
+    dispatch(createTaskSuccess(responseTask));
+    dispatch(showSuccess(`Tarefa criada com sucesso.`));
+    dispatch(closeTasksModal()); // TODO: Remove when the NewTask page is integrated to the Tasks page
+    await utils.sleep(1000); // TODO: Remove when the NewTask page is integrated to the Tasks page
 
     if (successCallback) successCallback(responseTask);
 
+    // TODO: Remove this window.open() when the NewTask page is integrated to the Tasks page
     window.open(
       `/jupyterlab/tree/tasks/${responseTask.name}/?reset&open=Experiment.ipynb,Deployment.ipynb`
     );
   } catch (e) {
     const errorMessage = e.response?.data?.message || e.message;
     if (errorMessage && errorMessage.includes('name already exist')) {
-      dispatch(addTaskFail('Já existe uma tarefa com este nome!'));
+      // TODO: Show an error with dispatch(showError()) when the NewTask page is integrated to the Tasks page
+      dispatch(createTaskFail('Já existe uma tarefa com este nome!'));
     } else {
       dispatch(showError(errorMessage));
     }
   } finally {
-    dispatch(removeLoading(TASKS_TYPES.ADD_TASK_REQUEST));
+    dispatch(removeLoading(TASKS_TYPES.CREATE_TASK_REQUEST));
   }
 };
 
@@ -292,13 +296,14 @@ export const updateTask = (uuid, task, successCallback) => async (dispatch) => {
   try {
     dispatch(addLoading(TASKS_TYPES.UPDATE_TASK_REQUEST));
     const response = await tasksApi.updateTask(uuid, task);
-    dispatch(closeTasksModal());
+    dispatch(closeTasksModal()); // TODO: Remove this line when the NewTask page is integrated to the Tasks page
     dispatch(updateTaskSuccess(response.data));
     dispatch(showSuccess(`Alteração realizada com sucesso.`));
     if (successCallback) successCallback();
   } catch (e) {
     const errorMessage = e.response?.data?.message || e.message;
     if (errorMessage.includes('name already exist')) {
+      // TODO: Show an error with dispatch(showError()) when the NewTask page is integrated to the Tasks page
       dispatch(updateTaskFail('Já existe uma tarefa com este nome!'));
     } else {
       dispatch(showError(errorMessage));

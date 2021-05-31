@@ -30,9 +30,9 @@ export const Main = () => {
         component={Deployment}
       />
 
-      <Route path='/tarefas' component={Tasks} />
+      <Route path='/tarefas' component={Tasks} exact />
       <Route path='/nova-tarefa' component={NewTask} />
-      <Route path='/tarefa/:taskId' component={TaskDetails} />
+      <Route path='/tarefas/:taskId' component={TaskDetails} />
       <Route path='/jupyterlab/:path*' component={JupyterLab} />
 
       <Route component={Error404} />

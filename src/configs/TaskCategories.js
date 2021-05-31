@@ -1,4 +1,4 @@
-export const TASK_CATEGORIES = {
+const TASK_CATEGORIES = {
   DEFAULT: {
     key: 'DEFAULT',
     name: 'Minhas Tarefas',
@@ -32,3 +32,8 @@ export const TASK_CATEGORIES = {
     name: 'Templates',
   },
 };
+
+const TASK_CATEGORIES_WITHOUT_TEMPLATES = { ...TASK_CATEGORIES };
+delete TASK_CATEGORIES_WITHOUT_TEMPLATES.TEMPLATES;
+
+export { TASK_CATEGORIES, TASK_CATEGORIES_WITHOUT_TEMPLATES };

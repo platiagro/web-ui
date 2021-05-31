@@ -4,8 +4,8 @@ import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
-import { TASK_CATEGORIES } from 'configs';
-import { getTasks, fetchTasks, addTask, TASKS_TYPES } from 'store/tasks';
+import { TASK_CATEGORIES_WITHOUT_TEMPLATES } from 'configs';
+import { getTasks, fetchTasks, createTask, TASKS_TYPES } from 'store/tasks';
 
 import NewTaskList from './NewTaskList.';
 import NewTaskHeader from './NewTaskHeader';
@@ -20,11 +20,11 @@ const NewTask = () => {
   const dispatch = useDispatch();
 
   const tasks = useSelector(getTasks);
-  const isAddingTask = useIsLoading(TASKS_TYPES.ADD_TASK_REQUEST);
+  const isCreatingTask = useIsLoading(TASKS_TYPES.CREATE_TASK_REQUEST);
   const isLoadingTasks = useIsLoading(TASKS_TYPES.FETCH_TASKS_REQUEST);
 
   const tasksGroupedByCategory = useMemo(() => {
-    return Object.values(TASK_CATEGORIES).map((category) => {
+    return Object.values(TASK_CATEGORIES_WITHOUT_TEMPLATES).map((category) => {
       const tasksOfThisCategory = tasks.filter((task) => {
         return !!task.tags && task.tags.includes(category.key);
       });
@@ -48,8 +48,8 @@ const NewTask = () => {
   const handleCreateBlankTask = () => {
     // TODO: Remove the name from this object when the backend can create a random name for the task
     dispatch(
-      addTask({ name: `Tarefa - ${new Date().getTime()}` }, (newTask) => {
-        history.push(`/tarefa/${newTask.uuid}`);
+      createTask({ name: `Tarefa - ${new Date().getTime()}` }, (newTask) => {
+        history.push(`/tarefas/${newTask.uuid}`);
       })
     );
   };
@@ -57,10 +57,10 @@ const NewTask = () => {
   const handleCreateDockerTask = () => {
     // TODO: Remove the name from this object when the backend can create a random name for the task
     dispatch(
-      addTask(
+      createTask(
         { name: `Tarefa Docker - ${new Date().getTime()}` },
         (newTask) => {
-          history.push(`/tarefa/${newTask.uuid}`);
+          history.push(`/tarefas/${newTask.uuid}`);
         }
       )
     );
@@ -76,8 +76,8 @@ const NewTask = () => {
     delete taskCopy.uuid;
 
     dispatch(
-      addTask(taskCopy, (newTask) => {
-        history.push(`/tarefa/${newTask.uuid}`);
+      createTask(taskCopy, (newTask) => {
+        history.push(`/tarefas/${newTask.uuid}`);
       })
     );
   };
@@ -87,15 +87,15 @@ const NewTask = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isAddingTask) {
+    if (isCreatingTask) {
       message.loading({
-        key: 'isAddingTask',
+        key: 'isCreatingTask',
         content: 'Criando Nova Tarefa',
       });
     } else {
-      message.destroy('isAddingTask');
+      message.destroy('isCreatingTask');
     }
-  }, [isAddingTask]);
+  }, [isCreatingTask]);
 
   return (
     <div className='new-task-page'>

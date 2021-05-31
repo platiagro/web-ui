@@ -92,7 +92,7 @@ const TaskDetailsHeader = ({
                 type='text'
                 size='middle'
                 defaultValue={taskData?.name}
-                placeholder='Escreva um nome para a tarefa'
+                placeholder='Escreva o novo nome da tarefa'
               />
 
               <Tooltip title='Cancelar Edição' placement='bottom'>

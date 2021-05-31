@@ -74,7 +74,7 @@ const getTaskData = (uuid) => {
 };
 
 /**
- * Get task data
+ * Send task via email
  *
  * @param {string} uuid Task id
  * @param {string} email Email
@@ -82,7 +82,7 @@ const getTaskData = (uuid) => {
  */
 const sendTaskViaEmail = (uuid, email) => {
   // TODO: This endpoint doesn't exist. Change it with the correct one
-  return taskApi.put(`/tasks/mail/${uuid}`, { email });
+  return taskApi.put(`/tasks/${uuid}/mail`, { email });
 };
 
 export default {

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   TASKS_TYPES,
+  getTaskData,
   deleteTask,
   updateTask,
   fetchTaskData,
   clearTaskData,
-  getTaskData,
   sendTaskViaEmail,
   uploadTaskExperimentNotebook,
   uploadTaskDeploymentNotebook,
@@ -17,13 +17,13 @@ import { useIsLoading, useBooleanState } from 'hooks';
 import { ShareTaskModal, NotebooksExplanationModal } from 'components';
 
 import TaskDetailsForm from './TaskDetailsForm';
+import TaskDetailsDocker from './TaskDetailsDocker';
 import TaskDetailsHeader from './TaskDetailsHeader';
 import TaskDetailsUploads from './TaskDetailsUploads';
 import TaskDetailsNotebooks from './TaskDetailsNotebooks';
 import TaskDetailsInfoFooter from './TaskDetailsInfoFooter';
 
 import './TaskDetails.style.less';
-import TaskDetailsDocker from './TaskDetailsDocker';
 
 const TaskDetails = () => {
   const { taskId } = useParams();
@@ -79,7 +79,6 @@ const TaskDetails = () => {
 
   const handleOpenExperimentNotebook = () => {
     if (!taskData?.name) return;
-
     window.open(
       `/jupyterlab/tree/tasks/${taskData.name}/?reset&open=Experiment.ipynb`
     );
@@ -87,7 +86,6 @@ const TaskDetails = () => {
 
   const handleOpenDeploymentNotebook = () => {
     if (!taskData?.name) return;
-
     window.open(
       `/jupyterlab/tree/tasks/${taskData.name}/?reset&open=Deployment.ipynb`
     );
@@ -104,12 +102,7 @@ const TaskDetails = () => {
 
   const handleEditTaskName = (taskName) => {
     if (!taskData) return;
-
-    const taskWithNewName = {
-      ...taskData,
-      name: taskName,
-    };
-
+    const taskWithNewName = { ...taskData, name: taskName };
     dispatch(updateTask(taskId, taskWithNewName));
   };
 

@@ -51,3 +51,4 @@ export { default as TemplatesTable } from './TemplatesTable';
 export { default as Title } from './Title';
 export { default as ToolbarConfig } from './ToolbarConfig';
 export { default as TooltipTip } from './TooltipTip';
+export { default as UserInfo } from './UserInfo';

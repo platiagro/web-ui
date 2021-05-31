@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar } from 'antd';
+
+import { UserInfo } from 'components';
 
 const TaskDetailsInfoFooter = ({ hasEditedSomething }) => {
   return (
     <div className='task-details-page-content-info-footer'>
-      <div className='task-details-page-content-info-footer-task-creator'>
-        <Avatar>UA</Avatar>
-        <span>Usuário Anônimo</span>
-      </div>
+      <UserInfo
+        className='task-details-page-content-info-footer-task-creator'
+        avatarBackground='#1890ff'
+        name='Usuário Anônimo'
+      />
 
       {hasEditedSomething && (
         <div className='task-details-page-content-info-footer-task-modified'>

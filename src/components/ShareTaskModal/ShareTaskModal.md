@@ -1,9 +1,9 @@
 **Default**
 
 ```js
-const [isShowing, setIsShowing] = React.useState(false);
-const handleShowModal = () => setIsShowing(true);
-const handleHideModal = () => setIsShowing(false);
+const [isShowingModal, setIsShowingModal] = React.useState(false);
+const handleShowModal = () => setIsShowingModal(true);
+const handleHideModal = () => setIsShowingModal(false);
 
 const handleSendTaskCopyToEmail = (email) => {
   alert(`Send Task Copy To: ${email}`);
@@ -15,7 +15,7 @@ const handleSendTaskCopyToEmail = (email) => {
   </button>
 
   <ShareTaskModal
-    isShowing={isShowing}
+    isShowingModal={isShowingModal}
     handleHideModal={handleHideModal}
     handleSendTaskCopyToEmail={handleSendTaskCopyToEmail}
   />

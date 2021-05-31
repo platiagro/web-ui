@@ -14,7 +14,7 @@ export const initialState = {
 
 export const tasksReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case TASKS_TYPES.ADD_TASK_SUCCESS:
+    case TASKS_TYPES.CREATE_TASK_SUCCESS:
     case TASKS_TYPES.COPY_TASK_SUCCESS: {
       const tasksListAux = [action.task, ...state.tasks];
       const sortedTasks = [...tasksListAux].sort((taskA, taskB) =>
@@ -107,7 +107,7 @@ export const tasksReducer = (state = initialState, action = {}) => {
       };
     }
 
-    case TASKS_TYPES.ADD_TASK_FAIL:
+    case TASKS_TYPES.CREATE_TASK_FAIL:
     case TASKS_TYPES.UPDATE_TASK_FAIL:
     case TASKS_TYPES.COPY_TASK_FAIL: {
       return {

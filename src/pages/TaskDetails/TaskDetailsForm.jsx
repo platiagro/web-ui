@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Input, Select, Tooltip, Tag } from 'antd';
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
-import { TASK_CATEGORIES } from 'configs';
+import { TASK_CATEGORIES_WITHOUT_TEMPLATES } from 'configs';
 
 const FIELD_IDS = {
   DESCRIPTION: 'DESCRIPTION',
@@ -113,16 +113,18 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           onChange={setCategory}
           placeholder='Selecionar Categoria'
         >
-          {Object.values(TASK_CATEGORIES).map((categoryOption) => {
-            return (
-              <Select.Option
-                key={categoryOption.key}
-                value={categoryOption.key}
-              >
-                {categoryOption.name}
-              </Select.Option>
-            );
-          })}
+          {Object.values(TASK_CATEGORIES_WITHOUT_TEMPLATES).map(
+            (categoryOption) => {
+              return (
+                <Select.Option
+                  key={categoryOption.key}
+                  value={categoryOption.key}
+                >
+                  {categoryOption.name}
+                </Select.Option>
+              );
+            }
+          )}
         </Select>
       </div>
 
