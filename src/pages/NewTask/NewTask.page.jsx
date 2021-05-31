@@ -46,8 +46,8 @@ const NewTask = () => {
   };
 
   const handleCreateBlankTask = () => {
+    // TODO: Remove the name from this object when the backend can create a random name for the task
     dispatch(
-      // TODO: Remove the name from this object when the backend can create a random name for the task
       addTask({ name: `Tarefa - ${new Date().getTime()}` }, (newTask) => {
         history.push(`/tarefa/${newTask.uuid}`);
       })
@@ -57,9 +57,12 @@ const NewTask = () => {
   const handleCreateDockerTask = () => {
     // TODO: Remove the name from this object when the backend can create a random name for the task
     dispatch(
-      addTask({ name: `Tarefa - ${new Date().getTime()}` }, (newTask) => {
-        history.push(`/tarefa/${newTask.uuid}`);
-      })
+      addTask(
+        { name: `Tarefa Docker - ${new Date().getTime()}` },
+        (newTask) => {
+          history.push(`/tarefa/${newTask.uuid}`);
+        }
+      )
     );
   };
 

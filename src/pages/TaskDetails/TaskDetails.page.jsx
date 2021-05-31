@@ -162,7 +162,7 @@ const TaskDetails = () => {
           />
 
           <div className='task-details-page-content-info'>
-            {!taskData?.type === 'docker' ? (
+            {taskData?.type === 'docker' ? (
               // TODO: "taskData.type" does not exist. Find other way to check if is a docker task
               <TaskDetailsDocker
                 taskData={taskData}

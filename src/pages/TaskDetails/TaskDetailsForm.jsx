@@ -113,10 +113,13 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           onChange={setCategory}
           placeholder='Selecionar Categoria'
         >
-          {Object.values(TASK_CATEGORIES).map((category) => {
+          {Object.values(TASK_CATEGORIES).map((categoryOption) => {
             return (
-              <Select.Option key={category.key} value={category.key}>
-                {category.name}
+              <Select.Option
+                key={categoryOption.key}
+                value={categoryOption.key}
+              >
+                {categoryOption.name}
               </Select.Option>
             );
           })}
