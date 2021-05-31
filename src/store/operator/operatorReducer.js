@@ -19,8 +19,6 @@ const initialState = {
  *
  * @param state
  * @param action
- * @param state
- * @param action
  */
 const operatorReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
