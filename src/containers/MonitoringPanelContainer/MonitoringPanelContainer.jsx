@@ -102,6 +102,7 @@ const MonitoringPanelContainer = () => {
       <NewMonitoringModalContainer
         isShowing={isShowingAddModal}
         handleHideModal={handleToggleAddModal}
+        setIsShowingPanel={setIsShowingPanel}
       />
     </div>
   );

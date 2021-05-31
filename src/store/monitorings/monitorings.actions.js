@@ -110,10 +110,11 @@ export const createMonitoring =
  * Create multiple monitorings
  *
  * @param {Array} requestDataArray Request data array
+ * @param {Function} successCallback Success callback
  * @returns {Promise} Request
  */
 export const createMultipleMonitorings =
-  (requestDataArray) => async (dispatch) => {
+  (requestDataArray, successCallback) => async (dispatch) => {
     try {
       dispatch(addLoading(MONITORING_TYPES.CREATE_MONITORINGS_REQUEST));
 
@@ -131,6 +132,7 @@ export const createMultipleMonitorings =
 
       const createdMonitorings = responses.map((response) => response.data);
       dispatch(createMonitoringsSuccess(createdMonitorings));
+      if (successCallback) successCallback();
     } catch (e) {
       dispatch(createMonitoringsFail());
       dispatch(showError(e.message));
