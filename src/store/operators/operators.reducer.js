@@ -1,5 +1,5 @@
 // ACTION TYPES
-import actionTypes from './actionTypes';
+import * as OPERATORS_TYPES from './operators.actionTypes';
 import { OPERATOR_TYPES } from 'store/operator';
 import uiActionTypes from '../ui/actionTypes';
 import experimentRunsActionTypes from '../projects/experiments/experimentRuns/actionTypes';
@@ -16,17 +16,17 @@ const initialState = [];
  * @param state
  * @param action
  */
-const operatorsReducer = (state = initialState, action = undefined) => {
+export const operatorsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    case actionTypes.FETCH_OPERATORS_REQUEST:
+    case OPERATORS_TYPES.FETCH_OPERATORS_REQUEST:
       return [...initialState];
-    case actionTypes.FETCH_OPERATORS_SUCCESS:
+    case OPERATORS_TYPES.FETCH_OPERATORS_SUCCESS:
       return [...action.operators];
-    case actionTypes.FETCH_OPERATORS_FAIL:
+    case OPERATORS_TYPES.FETCH_OPERATORS_FAIL:
       return [...state];
-    case actionTypes.UPDATE_OPERATOR_DEPENDENCIES:
+    case OPERATORS_TYPES.UPDATE_OPERATOR_DEPENDENCIES:
       return [...action.operators];
-    case actionTypes.UPDATE_OPERATORS_OPTIONS:
+    case OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS:
       return state.map((operator) => {
         const featureOptions = utils.transformColumnsInParameterOptions(
           action.columns
@@ -113,6 +113,3 @@ const operatorsReducer = (state = initialState, action = undefined) => {
       return state;
   }
 };
-
-// EXPORT
-export default operatorsReducer;

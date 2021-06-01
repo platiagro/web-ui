@@ -9,7 +9,7 @@ import {
   EXPERIMENTS_TYPES,
   Selectors,
 } from 'store/projects/experiments';
-import { fetchOperatorsRequest } from 'store/operators/actions';
+import { fetchOperatorsRequest } from 'store/operators';
 import { removeOperatorRequest } from 'store/operator';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
 import { useIsLoading } from 'hooks';

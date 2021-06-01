@@ -7,7 +7,7 @@ import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 import experimentsApi from 'services/ExperimentsApi';
 
 import { hideNewExperimentModal } from 'store/ui/actions';
-import { fetchOperatorsRequest } from 'store/operators/actions';
+import { fetchOperatorsRequest } from 'store/operators';
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
 
 import { getProjects } from 'store/projects/projects.selectors';

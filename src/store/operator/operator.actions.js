@@ -17,7 +17,7 @@ import {
   clearOperatorsFeatureParametersRequest,
   fetchOperatorsRequest,
   upadteOperatorDependencies,
-} from 'store/operators/actions';
+} from 'store/operators';
 import {
   showOperatorDrawer,
   hideOperatorDrawer,

@@ -9,7 +9,7 @@ import datasetsApi from 'services/DatasetsApi';
 
 // ACTIONS
 import { updateExperimentOperatorRequest } from 'store/operator';
-import { clearOperatorsFeatureParametersRequest } from 'store/operators/actions';
+import { clearOperatorsFeatureParametersRequest } from 'store/operators';
 import {
   datasetOperatorDataLoaded,
   datasetOperatorLoadingData,

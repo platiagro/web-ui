@@ -1,8 +1,6 @@
-// UI LIB
 import { message } from 'antd';
 
-// ACTION TYPES
-import actionTypes from './actionTypes';
+import * as OPERATORS_TYPES from './operators.actionTypes';
 
 // SERVICES
 import datasetsApi from 'services/DatasetsApi';
@@ -42,7 +40,7 @@ const fetchOperatorsSuccess = (operators) => (dispatch) => {
 
   // dispatching fetch operators success action
   dispatch({
-    type: actionTypes.FETCH_OPERATORS_SUCCESS,
+    type: OPERATORS_TYPES.FETCH_OPERATORS_SUCCESS,
     operators,
   });
 };
@@ -64,7 +62,7 @@ const fetchOperatorsFail = (error) => (dispatch) => {
 
   // dispatching fetch operators fail
   dispatch({
-    type: actionTypes.FETCH_OPERATORS_FAIL,
+    type: OPERATORS_TYPES.FETCH_OPERATORS_FAIL,
     errorMessage,
   });
 
@@ -81,7 +79,7 @@ const fetchOperatorsFail = (error) => (dispatch) => {
 export const fetchOperatorsRequest =
   (projectId, experimentId) => async (dispatch) => {
     dispatch({
-      type: actionTypes.FETCH_OPERATORS_REQUEST,
+      type: OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
     });
     dispatch(experimentOperatorsLoadingData());
     dispatch(resultsButtonBarLoadingData());
@@ -126,7 +124,7 @@ export const clearOperatorsFeatureParametersRequest =
     const { operatorsReducer: operators } = getState();
 
     dispatch({
-      type: actionTypes.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
+      type: OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
     });
 
     dispatch(operatorParameterLoadingData());
@@ -171,7 +169,7 @@ export const clearOperatorsFeatureParametersRequest =
       }
 
       dispatch({
-        type: actionTypes.UPDATE_OPERATORS_OPTIONS,
+        type: OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS,
         columns: dataset ? dataset.columns : [],
       });
 
@@ -204,7 +202,7 @@ export const upadteOperatorDependencies =
 
     // create/dispatch action
     dispatch({
-      type: actionTypes.UPDATE_OPERATOR_DEPENDENCIES,
+      type: OPERATORS_TYPES.UPDATE_OPERATOR_DEPENDENCIES,
       operators: configuredOperators,
     });
   };
