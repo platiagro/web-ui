@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Handle } from 'react-flow-renderer';
 import { Tooltip, Menu, Dropdown } from 'antd';
@@ -23,14 +23,6 @@ const TASK_BOX_STATUS = {
   FAILED: 'Failed',
   TERMINATED: 'Terminated',
   LOADING: 'Loading',
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleRemoveOperator: (projectId, experimentId, operatorId) => {
-      dispatch(removeOperatorRequest(projectId, experimentId, operatorId));
-    },
-  };
 };
 
 const getToolTipConfig = (status, interruptIsRunning) => {
@@ -80,23 +72,21 @@ const getToolTipConfig = (status, interruptIsRunning) => {
   return config;
 };
 
-const TaskBox = (props) => {
-  const {
-    name,
-    icon,
-    status,
-    onConnectingClass,
-    settedUp,
-    selected,
-    handleClick,
-    operator,
-    experimentIsRunning,
-    interruptIsRunning,
-    handleRemoveOperator,
-    dependenciesGraph,
-  } = props;
-
+const TaskBox = ({
+  name,
+  icon,
+  status,
+  onConnectingClass,
+  settedUp,
+  selected,
+  handleClick,
+  operator,
+  experimentIsRunning,
+  interruptIsRunning,
+  dependenciesGraph,
+}) => {
   const { projectId, experimentId } = useParams();
+  const dispatch = useDispatch();
 
   const { isPending, isRunning, isLoading } = useMemo(
     () => ({
@@ -129,6 +119,10 @@ const TaskBox = (props) => {
     if (!isPending && !isRunning) handleClick(operator);
   };
 
+  const handleRemoveOperator = (operatorId) => {
+    dispatch(removeOperatorRequest(projectId, experimentId, operatorId));
+  };
+
   const handleRightButtonClick = (e) => {
     if (experimentIsRunning || interruptIsRunning) return;
     const isEditKey = e.key === 'edit';
@@ -139,7 +133,7 @@ const TaskBox = (props) => {
     }
 
     if (!isPending && !isRunning && isRemoveKey) {
-      handleRemoveOperator(projectId, experimentId, operator);
+      handleRemoveOperator(operator);
     }
   };
 
@@ -249,30 +243,17 @@ const TaskBox = (props) => {
 };
 
 TaskBox.propTypes = {
-  /** task title string */
   name: PropTypes.string.isRequired,
-  /** task icon string */
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
-  /** task status string */
   status: PropTypes.string.isRequired,
-  /** task is setted up */
   settedUp: PropTypes.bool.isRequired,
-  /** task is selected */
   selected: PropTypes.bool.isRequired,
-  /** task click handler */
   handleClick: PropTypes.func.isRequired,
-  /** task remove handler */
-  handleRemoveOperator: PropTypes.func.isRequired,
-  /** connection class  */
   onConnectingClass: PropTypes.string,
-  /** operator  */
   operator: PropTypes.object,
-  /** experiment is running  */
   experimentIsRunning: PropTypes.bool,
-  /** is being interrupted  */
   interruptIsRunning: PropTypes.bool,
-  /** dependencies graph  */
   dependenciesGraph: PropTypes.object,
 };
 
-export default connect(null, mapDispatchToProps)(TaskBox);
+export default TaskBox;
