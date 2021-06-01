@@ -5,6 +5,9 @@ import * as OPERATORS_TYPES from './operators.actionTypes';
 // SERVICES
 import datasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
+import tasksApi from 'services/TasksApi';
+import deploymentRunsApi from 'services/DeploymentRunsApi';
+import deploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 
 // UI ACTIONS
 import {
@@ -14,6 +17,10 @@ import {
   operatorParameterDataLoaded,
   resultsButtonBarLoadingData,
   resultsButtonBarDataLoaded,
+  deploymentOperatorsDataLoaded,
+  deploymentOperatorsLoadingData,
+  deploymentsTabsDataLoaded,
+  deploymentsTabsLoadingData,
 } from 'store/ui/actions';
 
 // UTILS
@@ -33,11 +40,6 @@ import utils from 'utils';
  * @returns {object} { type, operators }
  */
 const fetchOperatorsSuccess = (operators) => (dispatch) => {
-  // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
-
-  dispatch(resultsButtonBarDataLoaded());
-
   // dispatching fetch operators success action
   dispatch({
     type: OPERATORS_TYPES.FETCH_OPERATORS_SUCCESS,
@@ -54,11 +56,6 @@ const fetchOperatorsSuccess = (operators) => (dispatch) => {
 const fetchOperatorsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
-
-  // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
-
-  dispatch(resultsButtonBarDataLoaded());
 
   // dispatching fetch operators fail
   dispatch({
@@ -109,6 +106,71 @@ export const fetchOperatorsRequest =
       dispatch(fetchOperatorsSuccess(configuredOperators));
     } catch (e) {
       dispatch(fetchOperatorsFail(e));
+    } finally {
+      dispatch(experimentOperatorsDataLoaded());
+      dispatch(resultsButtonBarDataLoaded());
+    }
+  };
+
+/**
+ * Fetch operators request action
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} deploymentId Deployment UUID
+ * @returns {Function} Dispatch function
+ */
+export const fetchDeploymentOperatorsRequest =
+  (projectId, deploymentId) => async (dispatch) => {
+    dispatch({
+      type: OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
+    });
+
+    dispatch(deploymentOperatorsLoadingData());
+    dispatch(deploymentsTabsLoadingData());
+
+    try {
+      // getting tasks
+      const tasksResponse = await tasksApi.getAllTasks();
+      const tasks = tasksResponse.data.tasks;
+
+      // getting operators
+      const operatorsResponse = await deploymentsOperatorsApi.listOperators(
+        projectId,
+        deploymentId
+      );
+
+      const operators = operatorsResponse.data.operators;
+
+      // get dataset name
+      const datasetName = utils.getDatasetName(tasks, operators);
+
+      // getting dataset columns
+      let datasetColumns = [];
+      if (datasetName) {
+        const response = await datasetsApi.listDatasetColumns(datasetName);
+        datasetColumns = response.data;
+      }
+
+      // gettins pipelines status
+      const pipelinesResponse = await deploymentRunsApi.listDeploymentRuns(
+        projectId,
+        deploymentId
+      );
+
+      // configuring operators
+      let configuredOperators = utils.configureOperators(
+        tasks,
+        operators,
+        datasetColumns,
+        pipelinesResponse.data
+      );
+
+      dispatch(fetchOperatorsSuccess(configuredOperators));
+    } catch (e) {
+      dispatch(fetchOperatorsFail(e));
+    } finally {
+      dispatch(deploymentOperatorsDataLoaded());
+      dispatch(deploymentsTabsDataLoaded());
     }
   };
 
@@ -206,3 +268,14 @@ export const upadteOperatorDependencies =
       operators: configuredOperators,
     });
   };
+
+/**
+ * CLear all deployment operators from DeploymentOperators reducer
+ *
+ * @returns {object} Action
+ */
+export const clearAllDeploymentOperators = () => {
+  return {
+    type: OPERATORS_TYPES.CLEAR_ALL_DEPLOYMENT_OPERATORS,
+  };
+};

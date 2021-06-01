@@ -108,6 +108,9 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
     case uiActionTypes.HIDE_OPERATOR_DRAWER:
       return [...utils.selectOperator(undefined, state)];
 
+    case OPERATORS_TYPES.CLEAR_ALL_DEPLOYMENT_OPERATORS:
+      return [];
+
     // DEFAULT
     default:
       return state;

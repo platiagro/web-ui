@@ -228,7 +228,6 @@ export const getOperatorMetricsRequest =
     dispatch({
       type: OPERATOR_TYPES.GET_OPERATOR_METRICS_REQUEST,
     });
-    dispatch(operatorMetricsLoadingData());
 
     experimentRunsApi
       .listOperatorMetrics(projectId, experimentId, runId, operatorId)
@@ -237,13 +236,11 @@ export const getOperatorMetricsRequest =
           type: OPERATOR_TYPES.GET_OPERATOR_METRICS_SUCCESS,
           metrics: response.data,
         });
-        dispatch(operatorMetricsDataLoaded());
       })
       .catch(() => {
         dispatch({
           type: OPERATOR_TYPES.GET_OPERATOR_METRICS_FAIL,
         });
-        dispatch(operatorMetricsDataLoaded());
       });
   };
 
@@ -611,7 +608,7 @@ export const updateExperimentOperatorRequest =
   };
 
 /**
- * update experiment operator request action
+ * update deployment operator request action
  *
  * @param {string} projectId The project uuid
  * @param {string} deploymentId The deployment uuid
