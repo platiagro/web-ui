@@ -17,8 +17,9 @@ const initialState = {
 /**
  * dataset reducer
  *
- * @param state
- * @param action
+ * @param {object} state State
+ * @param {object} action Action
+ * @returns {object} state
  */
 const datasetReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
