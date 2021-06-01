@@ -1,67 +1,74 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import {
+  Selectors,
+  EXPERIMENTS_TYPES,
+  Actions as experimentsActions,
+} from 'store/projects/experiments';
+import { useIsLoading } from 'hooks';
+import { removeOperatorRequest } from 'store/operator/actions';
+import { fetchOperatorsRequest } from 'store/operators/actions';
+import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
 
 import ExperimentHeader from './index';
 
-import {
-  Actions as experimentsActions,
-  EXPERIMENTS_TYPES,
-  Selectors,
-} from 'store/projects/experiments';
-import { fetchOperatorsRequest } from 'store/operators/actions';
-import { removeOperatorRequest } from 'store/operator/actions';
-import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
-import { useIsLoading } from 'hooks';
+const experimentSelector = (projectId, experimentId) => (state) => {
+  return Selectors.getExperiment(state, projectId, experimentId);
+};
 
-const { getExperiment } = Selectors;
+const operatorsSelector = ({ operatorsReducer }) => {
+  return operatorsReducer;
+};
 
-/**
- * Experiment Header Container.
- *
- * This component is responsible for create a logic container for experiment
- * header with redux.
- */
+const operatorSelector = ({ operatorReducer }) => {
+  return operatorReducer;
+};
+
+const trainingLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.experimentTraining.loading;
+};
+
+const deleteTrainingLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.experimentTraining.deleteLoading;
+};
+
 const ExperimentHeaderContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
   const loading = useIsLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST);
 
-  // TODO: Criar seletor com reselect
-  /* eslint-disable-next-line */
-  const experiment = useSelector((state) =>
-    getExperiment(state, projectId, experimentId)
-  );
+  const operators = useSelector(operatorsSelector);
+  const operator = useSelector(operatorSelector);
+  const trainingLoading = useSelector(trainingLoadingSelector);
+  const deleteTrainingLoading = useSelector(deleteTrainingLoadingSelector);
+  const experiment = useSelector(experimentSelector(projectId, experimentId));
 
-  // TODO: Criar seletores
-  /* eslint-disable */
-  const operators = useSelector((state) => state.operatorsReducer);
-  const operator = useSelector((state) => state.operatorReducer);
-  const trainingLoading = useSelector(
-    (state) => state.uiReducer.experimentTraining.loading
-  );
-  const deleteTrainingLoading = useSelector(
-    (state) => state.uiReducer.experimentTraining.deleteLoading
-  );
-  /* eslint-enable */
-
-  const editExperimentNameHandler = (newName) =>
+  const editExperimentNameHandler = (newName) => {
     dispatch(
       experimentsActions.updateExperimentRequest(projectId, experimentId, {
         name: newName,
       })
     );
-  const trainExperimentHandler = () =>
+  };
+
+  const trainExperimentHandler = () => {
     dispatch(
       experimentRunsActions.createExperimentRunRequest(projectId, experimentId)
     );
-  const deleteTrainExperimentHandler = () =>
+  };
+
+  const deleteTrainExperimentHandler = () => {
     dispatch(
       experimentRunsActions.deleteExperimentRunRequest(projectId, experimentId)
     );
-  const removeOperatorHandler = () =>
+  };
+
+  const removeOperatorHandler = () => {
     dispatch(removeOperatorRequest(projectId, experimentId, operator));
+  };
 
   useEffect(() => {
     if (experimentId) {
