@@ -19,7 +19,7 @@ import {
 
 // UTILS
 import utils from 'utils';
-import { CancelToken, isCancel } from 'axios';
+import { isCancel, CancelToken } from 'axios';
 
 import { showWarning } from 'store/message';
 
@@ -28,7 +28,7 @@ import { showWarning } from 'store/message';
 /**
  * fetch dataset columns success action
  *
- * @param {object} response
+ * @param {object} response Response
  * @returns {object} { type, columns }
  */
 const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
@@ -48,7 +48,7 @@ const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
 /**
  * fetch dataset columns fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type, errorMessage }
  */
 const fetchDatasetColumnsFail = (error) => (dispatch) => {
@@ -70,8 +70,8 @@ const fetchDatasetColumnsFail = (error) => (dispatch) => {
 /**
  * fetch dataset columns request action
  *
- * @param datasetName
- * @returns {Function}
+ * @param {string} datasetName Dataset name
+ * @returns {Function} Dispatch function
  */
 export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
   // dispatching request action
@@ -133,7 +133,7 @@ export const cancelDatasetUpload = () => (dispatch, getState) => {
  * @param {string} projectId Current Project id
  * @param {string} experimentId Current Experiment id
  * @param {object} datasetOperator Dataset operator
- * @param experimentIsSucceeded
+ * @param {boolean} experimentIsSucceeded Experiment is succeeded
  * @returns {Function} Dispatch function
  */
 export const datasetUploadSuccess =
@@ -374,7 +374,7 @@ export const startDatasetUpload =
 /**
  * update dataset column success action
  *
- * @param {object} response
+ * @param {object} response Response
  * @returns {object} { type, column }
  */
 const updateDatasetColumnSuccess = (response) => (dispatch) => {
@@ -394,7 +394,7 @@ const updateDatasetColumnSuccess = (response) => (dispatch) => {
 /**
  * update dataset column fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type, errorMessage }
  */
 const updateDatasetColumnFail = (error) => (dispatch) => {
@@ -416,10 +416,9 @@ const updateDatasetColumnFail = (error) => (dispatch) => {
 /**
  * update dataset column request action
  *
- * @param {string} datasetName
- * @param {string} columnName
- * @param {string} columnNewType
- * @returns {Function}
+ * @param {string} columnName COlumn name
+ * @param {string} columnNewType Column new type
+ * @returns {Function} Dispatch function
  */
 export const updateDatasetColumnRequest =
   (columnName, columnNewType) => (dispatch, getState) => {
@@ -451,7 +450,7 @@ export const updateDatasetColumnRequest =
 /**
  * get dataset success action
  *
- * @param {object} response
+ * @param {object} response Response
  * @returns {object} { type, columns }
  */
 const getDatasetSuccess = (response) => (dispatch) => {
@@ -477,7 +476,7 @@ const getDatasetSuccess = (response) => (dispatch) => {
 /**
  * get dataset fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type, errorMessage }
  */
 const getDatasetFail = (error) => (dispatch) => {
@@ -499,8 +498,8 @@ const getDatasetFail = (error) => (dispatch) => {
 /**
  * get dataset request action
  *
- * @param datasetName
- * @returns {Function}
+ * @param {string} datasetName Dataset name
+ * @returns {Function} Dispatch function
  */
 export const getDatasetRequest = (datasetName) => (dispatch) => {
   // dispatching request action
@@ -586,7 +585,7 @@ export const selectDataset =
 /**
  * delete dataset success action
  *
- * @param experimentIsSucceeded
+ * @param {boolean} experimentIsSucceeded Experiment is succeeded
  * @returns {Function} Dispatch function
  */
 export const deleteDatasetSuccess = (experimentIsSucceeded) => (dispatch) => {
@@ -640,10 +639,8 @@ export const deleteDatasetFail = () => (dispatch) => {
 /**
  * Delete dataset request action
  *
- * @param projectId
- * @param experimentId
- * @param projectId
- * @param experimentId
+ * @param {string} projectId Project Id
+ * @param {string} experimentId Experiment Id
  * @returns {Function} Dispatch function
  */
 export const deleteDatasetRequest =
@@ -715,9 +712,10 @@ export const updateAllDatasetColumnFail = (errorMessage) => (dispatch) => {
 /**
  * Function to fetch pagineted dataset and dispatch to reducer
  *
- * @param datasetName
- * @param page
- * @param pageSize
+ * @param {string} datasetName Dataset name
+ * @param {number} page Page number
+ * @param {number} pageSize Pge size
+ * @returns {Function} DIspatch function
  */
 export const fetchPaginatedDataset = (datasetName, page, pageSize) => {
   return (dispatch) => {
