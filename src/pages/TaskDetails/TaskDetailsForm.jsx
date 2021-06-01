@@ -31,33 +31,86 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
   const [searchTags, setSearchTags] = useState([]);
   const [documentation, setDocumentation] = useState('');
 
-  const getValueByFieldId = (fieldId) => {
+  const getNewValueByFieldId = (fieldId) => {
     switch (fieldId) {
       case FIELD_IDS.DESCRIPTION:
-        return description;
+        return description.trim();
 
       // TODO: Return only the category when the backend accepts a category
       case FIELD_IDS.CATEGORY:
         return [category];
 
       case FIELD_IDS.INPUT_DATA:
-        return inputData;
+        return inputData.trim();
 
       case FIELD_IDS.OUTPUT_DATA:
-        return outputData;
+        return outputData.trim();
 
       case FIELD_IDS.SEARCH_TAGS:
-        return searchTags;
+        return searchTags.trim();
 
       case FIELD_IDS.DOCUMENTATION:
-        return documentation;
+        return documentation.trim();
+    }
+  };
+
+  const getOldValueByFieldId = (fieldId) => {
+    switch (fieldId) {
+      case FIELD_IDS.DESCRIPTION:
+        return taskData.description;
+
+      // TODO: Return the category when the backend accepts a category
+      case FIELD_IDS.CATEGORY:
+        return taskData.tags;
+
+      case FIELD_IDS.INPUT_DATA:
+        return taskData.inputData;
+
+      case FIELD_IDS.OUTPUT_DATA:
+        return taskData.outputData;
+
+      case FIELD_IDS.SEARCH_TAGS:
+        return taskData.searchTags;
+
+      case FIELD_IDS.DOCUMENTATION:
+        return taskData.documentation;
+    }
+  };
+
+  const handleCompareNewAndOldValues = (fieldId, oldValue, newValue) => {
+    switch (fieldId) {
+      case FIELD_IDS.INPUT_DATA:
+      case FIELD_IDS.DESCRIPTION:
+      case FIELD_IDS.OUTPUT_DATA:
+      case FIELD_IDS.DOCUMENTATION:
+        return oldValue === newValue;
+
+      case FIELD_IDS.SEARCH_TAGS: {
+        const hasTheSameLength = oldValue.length === newValue.length;
+        const isIdentical = oldValue.every((tag) => newValue.includes(tag));
+        return hasTheSameLength || isIdentical;
+      }
+
+      case FIELD_IDS.CATEGORY: {
+        return oldValue.some((tag) => newValue.includes(tag));
+      }
     }
   };
 
   const handleSaveDataWhenLooseFocus = (fieldId) => () => {
-    const value = getValueByFieldId(fieldId);
+    const newValue = getNewValueByFieldId(fieldId);
+    const oldValue = getOldValueByFieldId(fieldId);
+    const isOldValueEqualsNewValue = handleCompareNewAndOldValues(
+      fieldId,
+      oldValue,
+      newValue
+    );
+
+    // Prevent making the update request if the user didn't change anything
+    if (isOldValueEqualsNewValue) return;
+
     const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
-    handleUpdateTaskData(fieldName, value);
+    handleUpdateTaskData(fieldName, newValue);
   };
 
   useEffect(() => {

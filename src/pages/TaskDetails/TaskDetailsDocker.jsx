@@ -27,23 +27,39 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
   const [commands, setCommands] = useState('');
   const [args, setArgs] = useState('');
 
-  const getValueByFieldId = (fieldId) => {
+  const getNewValueByFieldId = (fieldId) => {
     switch (fieldId) {
       case FIELD_IDS.IMAGE_URL:
-        return imageUrl;
+        return imageUrl.trim();
 
       case FIELD_IDS.COMMANDS:
-        return commands;
+        return commands.trim();
 
       case FIELD_IDS.ARGUMENTS:
-        return args;
+        return args.trim();
+    }
+  };
+
+  const getOldValueByFieldId = (fieldId) => {
+    switch (fieldId) {
+      case FIELD_IDS.IMAGE_URL:
+        return taskData.imageUrl;
+
+      case FIELD_IDS.COMMANDS:
+        return taskData.commands;
+
+      case FIELD_IDS.ARGUMENTS:
+        return taskData.args;
     }
   };
 
   const handleSaveDataWhenLooseFocus = (fieldId) => () => {
-    const value = getValueByFieldId(fieldId);
+    const newValue = getNewValueByFieldId(fieldId);
+    const oldValue = getOldValueByFieldId(fieldId);
+    const isOldValueEqualsNewValue = newValue === oldValue;
+    if (isOldValueEqualsNewValue) return;
     const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
-    handleUpdateTaskData(fieldName, value);
+    handleUpdateTaskData(fieldName, newValue);
   };
 
   useEffect(() => {
