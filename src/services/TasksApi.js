@@ -1,4 +1,3 @@
-// CORE LIBS
 import axios from 'axios';
 
 export const URL =
@@ -13,7 +12,7 @@ const taskPath = '/tasks';
 /**
  * Create task
  *
- * @param {object} task
+ * @param {object} task Task data
  * @returns {Promise} The request promise
  */
 const createTask = (task) => {
@@ -22,6 +21,7 @@ const createTask = (task) => {
     name: task.name,
     description: task.description,
   };
+
   return taskApi.post(taskPath, body);
 };
 
@@ -38,7 +38,8 @@ const deleteTask = (id) => {
 /**
  * Get all tasks
  *
- * @param filters Filters object
+ * @param {object} filters Filters object
+ * @param {Array} filters.tags Tag array to filter
  * @returns {Promise} The request promise
  */
 const getAllTasks = (filters) => {
@@ -73,7 +74,6 @@ const updateTask = (uuid, task) => {
   return taskApi.patch(`${taskPath}/${uuid}`, body);
 };
 
-// EXPORT DEFAULT
 export default {
   createTask,
   deleteTask,
