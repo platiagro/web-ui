@@ -29,8 +29,7 @@ const getExperiments = (state, projectId) => {
 const getExperiment = (state, projectId, experimentId) => {
   const experiments = getExperiments(state, projectId);
 
-  let isSucceeded = false;
-  let experiment = {
+  const defaultExperiment = {
     uuid: '',
     name: '',
     position: 0,
@@ -39,20 +38,22 @@ const getExperiment = (state, projectId, experimentId) => {
     operators: [],
     createdAt: '',
     updatedAt: '',
-    succeeded: isSucceeded,
+    succeeded: false,
   };
 
-  if (experiments?.length > 0 && experimentId)
-    experiment = experiments.find(
-      (experimentItem) => experimentItem.uuid === experimentId
-    );
+  if (experiments?.length > 0 && experimentId) {
+    const experiment = experiments.find(({ uuid }) => uuid === experimentId);
+    if (!experiment) return defaultExperiment;
 
-  if (experiment.operators.length > 0)
-    isSucceeded = utils.checkExperimentSuccess(experiment);
+    experiment.isSucceeded = false;
+    if (experiment?.operators?.length > 0) {
+      experiment.isSucceeded = utils.checkExperimentSuccess(experiment);
+    }
 
-  experiment.succeeded = isSucceeded;
+    return experiment;
+  }
 
-  return experiment;
+  return defaultExperiment;
 };
 
 export { getExperiments, getExperiment };

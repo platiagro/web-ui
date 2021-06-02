@@ -111,8 +111,8 @@ const ExperimentTabsContainer = () => {
   };
 
   useEffect(() => {
-    dispatch(projectsActions.fetchProjectRequest(projectId));
-  }, [projectId, dispatch]);
+    dispatch(projectsActions.fetchProjectRequest(projectId, history));
+  }, [projectId, dispatch, history]);
 
   // Redirect to the active experiment or to the first experiment
   // if the user deletes the active experiment
