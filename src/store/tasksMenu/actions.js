@@ -21,7 +21,7 @@ import utils from 'utils';
 /**
  * fetch tasks menu success action
  *
- * @param {object} tasksMenu
+ * @param {object} tasksMenu Task menu
  * @returns {object} { type, tasksMenu }
  */
 const fetchTasksMenuSuccess = (tasksMenu) => (dispatch) => {
@@ -38,7 +38,7 @@ const fetchTasksMenuSuccess = (tasksMenu) => (dispatch) => {
 /**
  * fetch tasks menu fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type, errorMessage }
  */
 const fetchTasksMenuFail = (error) => (dispatch) => {
@@ -60,7 +60,7 @@ const fetchTasksMenuFail = (error) => (dispatch) => {
 /**
  * fetch tasks menu request action
  *
- * @returns {Function}
+ * @returns {Function} Dispatch function
  */
 export const fetchTasksMenuRequest = () => async (dispatch) => {
   // dispatching request action
@@ -112,8 +112,8 @@ export const fetchTasksMenuRequest = () => async (dispatch) => {
 /**
  * filter experiment tasks menu action
  *
- * @param {string} filter
- * @returns {type, filter}
+ * @param {string} filter Filter
+ * @returns {object} Action
  */
 export const filterTasksMenu = (filter) => ({
   type: actionTypes.FILTER_TASKS_MENU,
