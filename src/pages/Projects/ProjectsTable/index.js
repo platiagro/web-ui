@@ -166,7 +166,10 @@ const ProjectsTable = ({
       render(_, record) {
         return (
           <>
-            <Tag color='purple'>Experimentação</Tag>
+            {record.hasExperiment && <Tag color='purple'>Experimentação</Tag>}
+            {record.hasPreDeployment && (
+              <Tag color='volcano'>Pré-implantação</Tag>
+            )}
             {record.hasDeployment && <Tag color='green'>Implantado</Tag>}
           </>
         );
