@@ -44,8 +44,8 @@ const fetchExperimentRunsSuccess = (response) => (dispatch) => {
 /**
  * Fetch experiment runs fail action
  *
- * @param {object} error
- * @param routerProps
+ * @param {object} error Error
+ * @param {object} routerProps Router props
  * @returns {object} { type, errorMessage }
  */
 const fetchExperimentRunsFail = (error, routerProps) => (dispatch) => {
@@ -72,8 +72,8 @@ const fetchExperimentRunsFail = (error, routerProps) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment UUID
- * @param routerProps
- * @returns {Function}
+ * @param {object} routerProps Router props
+ * @returns {Function} Dispatch function
  */
 const fetchExperimentRunsRequest =
   (projectId, experimentId, routerProps) => (dispatch) => {
@@ -115,7 +115,7 @@ const createExperimentRunSuccess = (projectId, response) => (dispatch) => {
 /**
  * Create experiment run fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type }
  */
 const createExperimentRunFail = (error) => (dispatch) => {
@@ -135,8 +135,7 @@ const createExperimentRunFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment id
- * @param {object} history Router history
- * @returns {Function} Disapatch
+ * @returns {Function} Dispatch function
  */
 const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
   dispatch({
@@ -160,7 +159,6 @@ const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
 /**
  * Delete experiment run success action
  *
- * @param response
  * @returns {object} { type }
  */
 const deleteExperimentRunSuccess = () => (dispatch) => {
@@ -177,7 +175,7 @@ const deleteExperimentRunSuccess = () => (dispatch) => {
 /**
  * Delete experiment run fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type }
  */
 const deleteExperimentRunFail = (error) => (dispatch) => {
@@ -196,7 +194,7 @@ const deleteExperimentRunFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId ExperimentUUID
- * @returns {Function}
+ * @returns {Function} Dispatch function
  */
 const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
   dispatch({
