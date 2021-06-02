@@ -149,19 +149,24 @@ const ProjectsTable = ({
       filters: [
         {
           text: 'Experimentação',
-          value: 'Experimentação',
+          value: 'hasExperiment',
         },
         {
           text: 'Pré-implantação',
-          value: 'Pré-implantação',
+          value: 'hasPreDeployment',
         },
         {
           text: 'Implantado',
-          value: 'Implantado',
+          value: 'hasDeployment',
         },
       ],
       onFilter(value, record) {
-        return record.tags ? record.tags.indexOf(value) === 0 : false;
+        /**
+         * Utilizamos o value (hasDeployment, hasPreDeployment, hasExperiment)
+         * para acessar a chave do objeto (hasDeployment, hasPreDeployment,
+         * hasExperiment)
+         */
+        return record[value];
       },
       render(_, record) {
         return (
