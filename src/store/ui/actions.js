@@ -35,7 +35,7 @@ export const setDeleteLoaderCompareResultsModal = (deleteIsLoading) => {
 /**
  * show new project modal
  *
- * @param record
+ * @param {object} record Record
  * @returns {object} { type, newProjectModalVisible }
  */
 export const showNewProjectModal = (record) => {
