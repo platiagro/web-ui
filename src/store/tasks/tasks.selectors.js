@@ -29,3 +29,7 @@ export const getTasks = ({ tasksReducer }) => {
 export const getTotalTasks = ({ tasksReducer }) => {
   return tasksReducer.totalTasks;
 };
+
+export const getTaskData = ({ tasksReducer }) => {
+  return tasksReducer.taskData;
+};
