@@ -31,8 +31,7 @@ const fetchDeploymentRunsSuccess = (response) => (dispatch) => {
 /**
  * Fetch deployment runs fail action
  *
- * @param {object} error
- * @param routerProps
+ * @param {object} error Error
  * @returns {object} { type, errorMessage }
  */
 const fetchDeploymentRunsFail = (error) => (dispatch) => {
@@ -54,32 +53,29 @@ const fetchDeploymentRunsFail = (error) => (dispatch) => {
  * @param {boolean} isToShowLoader Whenever is to show loader
  * @returns {Function} `Dispatch function`
  */
-const fetchDeploymentRunsRequest = (
-  projectId,
-  deploymentId,
-  isToShowLoader
-) => (dispatch) => {
-  if (isToShowLoader) {
-    dispatch(implantedExperimentsLoadingData());
-  }
+const fetchDeploymentRunsRequest =
+  (projectId, deploymentId, isToShowLoader) => (dispatch) => {
+    if (isToShowLoader) {
+      dispatch(implantedExperimentsLoadingData());
+    }
 
-  // dispatching request action
-  dispatch({
-    type: actionTypes.FETCH_DEPLOYMENT_RUNS_REQUEST,
-  });
-
-  // fetching experiment
-  deploymentRunsApi
-    .fetchDeploymentRuns(projectId, deploymentId)
-    .then((response) => {
-      dispatch(fetchDeploymentRunsSuccess(response));
-    })
-    .catch((error) => {
-      dispatch(fetchDeploymentRunsFail(error));
+    // dispatching request action
+    dispatch({
+      type: actionTypes.FETCH_DEPLOYMENT_RUNS_REQUEST,
     });
 
-  dispatch(implantedExperimentsDataLoaded());
-};
+    // fetching experiment
+    deploymentRunsApi
+      .fetchDeploymentRuns(projectId, deploymentId)
+      .then((response) => {
+        dispatch(fetchDeploymentRunsSuccess(response));
+      })
+      .catch((error) => {
+        dispatch(fetchDeploymentRunsFail(error));
+      });
+
+    dispatch(implantedExperimentsDataLoaded());
+  };
 
 // // // // // // // // // //
 
@@ -88,26 +84,25 @@ const fetchDeploymentRunsRequest = (
  * Create deployment run success action
  *
  * @param {string} projectId Project UUID
- * @param history
- * @param response
+ * @param {object} response Response
+ * @param {object} history History
  * @returns {object} { type }
  */
-const createDeploymentRunSuccess = (projectId, response, history) => (
-  dispatch
-) => {
-  dispatch({
-    type: actionTypes.CREATE_DEPLOYMENT_RUN_SUCCESS,
-    runId: response.data.uuid,
-  });
+const createDeploymentRunSuccess =
+  (projectId, response, history) => (dispatch) => {
+    dispatch({
+      type: actionTypes.CREATE_DEPLOYMENT_RUN_SUCCESS,
+      runId: response.data.uuid,
+    });
 
-  history.push(`/projetos/${projectId}`);
-  message.success('Experimento implantado!');
-};
+    history.push(`/projetos/${projectId}`);
+    message.success('Experimento implantado!');
+  };
 
 /**
  * Create deployment run fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type }
  */
 const createDeploymentRunFail = (error) => (dispatch) => {
@@ -123,29 +118,28 @@ const createDeploymentRunFail = (error) => (dispatch) => {
  * Create deployment run request
  *
  * @param {string} projectId Project UUID
- * @param deploymentId
- * @param history
- * @returns {Function}
+ * @param {string} deploymentId Deployment Id
+ * @param {object} history History
+ * @returns {Function} Dispatch function
  */
-const createDeploymentRunRequest = (projectId, deploymentId, history) => (
-  dispatch
-) => {
-  dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+const createDeploymentRunRequest =
+  (projectId, deploymentId, history) => (dispatch) => {
+    dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
 
-  dispatch({
-    type: actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST,
-  });
-
-  deploymentRunsApi
-    .createDeploymentRun(projectId, deploymentId)
-    .then((response) =>
-      dispatch(createDeploymentRunSuccess(projectId, response, history))
-    )
-    .catch((error) => dispatch(createDeploymentRunFail(error)))
-    .finally(() => {
-      dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+    dispatch({
+      type: actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST,
     });
-};
+
+    deploymentRunsApi
+      .createDeploymentRun(projectId, deploymentId)
+      .then((response) =>
+        dispatch(createDeploymentRunSuccess(projectId, response, history))
+      )
+      .catch((error) => dispatch(createDeploymentRunFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+      });
+  };
 
 // // // // // // // // // //
 
@@ -153,7 +147,7 @@ const createDeploymentRunRequest = (projectId, deploymentId, history) => (
 /**
  * Delete deployment run success action
  *
- * @param response
+ * @param {object} response Response
  * @returns {object} { type }
  */
 const deleteDeploymentRunSuccess = (response) => (dispatch, getState) => {
@@ -175,7 +169,7 @@ const deleteDeploymentRunSuccess = (response) => (dispatch, getState) => {
 /**
  * Delete deployment run fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type }
  */
 const deleteDeploymentRunFail = (error) => (dispatch) => {
@@ -194,22 +188,21 @@ const deleteDeploymentRunFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} deploymentId DeploymentUUID
- * @returns {Function}
+ * @returns {Function} Dispatch function
  */
-export const deleteDeploymentRunRequest = (projectId, deploymentId) => (
-  dispatch
-) => {
-  dispatch({
-    type: actionTypes.DELETE_DEPLOYMENT_RUN_REQUEST,
-  });
+export const deleteDeploymentRunRequest =
+  (projectId, deploymentId) => (dispatch) => {
+    dispatch({
+      type: actionTypes.DELETE_DEPLOYMENT_RUN_REQUEST,
+    });
 
-  dispatch(implantedExperimentsLoadingData());
+    dispatch(implantedExperimentsLoadingData());
 
-  deploymentRunsApi
-    .deleteDeploymentRun(projectId, deploymentId, 'latest')
-    .then((response) => dispatch(deleteDeploymentRunSuccess(response)))
-    .catch((error) => dispatch(deleteDeploymentRunFail(error)));
-};
+    deploymentRunsApi
+      .deleteDeploymentRun(projectId, deploymentId, 'latest')
+      .then((response) => dispatch(deleteDeploymentRunSuccess(response)))
+      .catch((error) => dispatch(deleteDeploymentRunFail(error)));
+  };
 
 // // // // // // // // // //
 // ** RETRY DEPLOYMENT RUN
