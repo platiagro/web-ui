@@ -17,15 +17,17 @@ const initialState = [];
  * @param action
  */
 export const operatorsReducer = (state = initialState, action = undefined) => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case OPERATORS_TYPES.FETCH_OPERATORS_REQUEST:
       return [...initialState];
     case OPERATORS_TYPES.FETCH_OPERATORS_SUCCESS:
-      return [...action.operators];
+      return [...payload.operators];
     case OPERATORS_TYPES.FETCH_OPERATORS_FAIL:
       return [...state];
     case OPERATORS_TYPES.UPDATE_OPERATOR_DEPENDENCIES:
-      return [...action.operators];
+      return [...payload.operators];
     case OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS:
       return state.map((operator) => {
         const featureOptions = utils.transformColumnsInParameterOptions(
@@ -47,7 +49,7 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
 
     // operator
     case OPERATOR_TYPES.CREATE_OPERATOR_SUCCESS:
-      return [...state, action.operator];
+      return [...state, payload.operator];
     case OPERATOR_TYPES.DESELECT_OPERATOR:
       return [...utils.selectOperator(null, state)];
     case OPERATOR_TYPES.SELECT_OPERATOR:

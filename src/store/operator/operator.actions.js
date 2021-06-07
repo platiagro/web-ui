@@ -15,7 +15,7 @@ import { message } from 'antd';
 import { getDatasetRequest } from 'store/dataset/actions';
 import {
   clearOperatorsFeatureParametersRequest,
-  fetchOperatorsRequest,
+  fetchExperimentOperatorsRequest,
   upadteOperatorDependencies,
 } from 'store/operators';
 import {
@@ -448,13 +448,15 @@ export const createOperatorRequest =
         // dispatching create operator success action
         dispatch({
           type: OPERATOR_TYPES.CREATE_OPERATOR_SUCCESS,
-          operator: {
-            ...operator,
-            ...restTaskData,
-            parameters: configuredParameters,
-            settedUp: utils.checkOperatorSettedUp(operator),
-            selected: false,
-            status: '',
+          payload: {
+            operator: {
+              ...operator,
+              ...restTaskData,
+              parameters: configuredParameters,
+              settedUp: utils.checkOperatorSettedUp(operator),
+              selected: false,
+              status: '',
+            },
           },
         });
       })
@@ -491,7 +493,7 @@ export const removeOperatorRequest =
             )
           );
         }
-        dispatch(fetchOperatorsRequest(projectId, experimentId));
+        dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
         message.success('Operador removido com sucesso!');
       })
       .catch((error) => {

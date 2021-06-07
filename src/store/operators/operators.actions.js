@@ -43,7 +43,7 @@ const fetchOperatorsSuccess = (operators) => (dispatch) => {
   // dispatching fetch operators success action
   dispatch({
     type: OPERATORS_TYPES.FETCH_OPERATORS_SUCCESS,
-    operators,
+    payload: { operators: operators },
   });
 };
 
@@ -73,7 +73,7 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  * @param {string} experimentId
  * @returns {Function}
  */
-export const fetchOperatorsRequest =
+export const fetchExperimentOperatorsRequest =
   (projectId, experimentId) => async (dispatch) => {
     dispatch({
       type: OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
@@ -265,7 +265,7 @@ export const upadteOperatorDependencies =
     // create/dispatch action
     dispatch({
       type: OPERATORS_TYPES.UPDATE_OPERATOR_DEPENDENCIES,
-      operators: configuredOperators,
+      payload: { operators: configuredOperators },
     });
   };
 

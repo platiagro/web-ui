@@ -7,7 +7,7 @@ import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 import experimentsApi from 'services/ExperimentsApi';
 
 import { hideNewExperimentModal } from 'store/ui/actions';
-import { fetchOperatorsRequest } from 'store/operators';
+import { fetchExperimentOperatorsRequest } from 'store/operators';
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
 
 import { getProjects } from 'store/projects/projects.selectors';
@@ -51,7 +51,7 @@ const createExperimentSuccess =
     dispatch(hideNewExperimentModal());
 
     // TODO: Utilizar operadores do experimento, remover redundância
-    dispatch(fetchOperatorsRequest(projectId, experiment.uuid));
+    dispatch(fetchExperimentOperatorsRequest(projectId, experiment.uuid));
 
     dispatch({
       type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_SUCCESS,
