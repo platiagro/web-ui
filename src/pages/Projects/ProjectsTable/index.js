@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import {
@@ -22,37 +22,16 @@ const ProjectsTable = ({
   handleSelectProjects,
   handleFetchPaginatedProjects,
 }) => {
-  const [searchText, setSearchText] = useState('');
-  const intervalRef = useRef(null);
-  const previousSearchText = useRef(null);
   const searchInputRef = useRef(null);
-
-  useEffect(() => {
-    if (searchText) {
-      intervalRef.current = setTimeout(() => {
-        previousSearchText.current = searchText;
-        handleFetchPaginatedProjects(searchText);
-      }, 1000);
-    } else {
-      if (previousSearchText.current) {
-        intervalRef.current = setTimeout(() => {
-          handleFetchPaginatedProjects();
-        }, 1000);
-      } else {
-        clearTimeout(intervalRef.current);
-      }
-    }
-    return () => clearTimeout(intervalRef.current);
-  }, [searchText, handleFetchPaginatedProjects]);
 
   const handleSearch = (selectedKeys, confirm) => {
     confirm();
-    setSearchText(selectedKeys[0]);
+    handleFetchPaginatedProjects(selectedKeys[0]);
   };
 
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText('');
+    handleFetchPaginatedProjects('');
   };
 
   const columnsConfig = [
@@ -85,14 +64,14 @@ const ProjectsTable = ({
                 icon={<SearchOutlined />}
                 onClick={() => handleSearch(selectedKeys, confirm)}
               >
-                Search
+                Buscar
               </Button>
               <Button
                 size='small'
                 style={{ width: 90 }}
                 onClick={() => handleReset(clearFilters)}
               >
-                Reset
+                Resetar
               </Button>
             </Space>
           </div>
@@ -149,24 +128,32 @@ const ProjectsTable = ({
       filters: [
         {
           text: 'Experimentação',
-          value: 'Experimentação',
+          value: 'hasExperiment',
         },
         {
           text: 'Pré-implantação',
-          value: 'Pré-implantação',
+          value: 'hasPreDeployment',
         },
         {
           text: 'Implantado',
-          value: 'Implantado',
+          value: 'hasDeployment',
         },
       ],
       onFilter(value, record) {
-        return record.tags ? record.tags.indexOf(value) === 0 : false;
+        /**
+         * Utilizamos o value (hasDeployment, hasPreDeployment, hasExperiment)
+         * para acessar a chave do objeto (hasDeployment, hasPreDeployment,
+         * hasExperiment)
+         */
+        return record[value];
       },
       render(_, record) {
         return (
           <>
-            <Tag color='purple'>Experimentação</Tag>
+            {record.hasExperiment && <Tag color='purple'>Experimentação</Tag>}
+            {record.hasPreDeployment && (
+              <Tag color='volcano'>Pré-implantação</Tag>
+            )}
             {record.hasDeployment && <Tag color='green'>Implantado</Tag>}
           </>
         );
