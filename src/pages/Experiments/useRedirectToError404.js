@@ -14,7 +14,7 @@ export default (projectId, experimentId) => {
   const experiments = useSelector(experimentsSelector(projectId));
 
   useEffect(() => {
-    if (!experiments?.length || !projectId || !experimentId) return;
+    if (!experiments?.length || !experimentId) return;
 
     const currentExperiment = experiments.find(
       ({ uuid }) => uuid === experimentId
@@ -23,5 +23,5 @@ export default (projectId, experimentId) => {
     if (!currentExperiment) {
       history.replace('/erro-404');
     }
-  }, [experimentId, experiments, history, projectId]);
+  }, [experimentId, experiments, history]);
 };
