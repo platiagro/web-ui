@@ -41,10 +41,12 @@ import DeploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 /**
  * Download operator result dataset
  *
- * @param projectId
- * @param experimentId
- * @param operatorId
+ * @param projectId Project ID
+ * @param experimentId Experiment ID
+ * @param operatorId Operator ID
+ * @returns {Promise} Request
  */
+
 export const downloadOperatorResultDataset =
   (projectId, experimentId, operatorId) => (dispatch) => {
     dispatch(operatorResultsDownloadDatasetLoading());
@@ -79,8 +81,8 @@ export const downloadOperatorResultDataset =
 /**
  *  get operator logs success action
  *
- * @param {object} response
- * @returns {Function}
+ * @param {object} response Response from API
+ * @returns {object} { type }
  */
 const getLogsSuccess = (response) => (dispatch) => {
   const logs = response.data;
@@ -91,6 +93,12 @@ const getLogsSuccess = (response) => (dispatch) => {
   });
 };
 
+/**
+ *  get operator logs fail action
+ *
+ * @param {object} error Error from API
+ * @returns {object} { type }
+ */
 const getLogsFail = (error) => (dispatch) => {
   dispatch({
     type: OPERATOR_TYPES.GET_OPERATOR_LOGS_FAIL,
@@ -99,12 +107,13 @@ const getLogsFail = (error) => (dispatch) => {
 };
 
 /**
- * Get operator logs
+ *Get operator logs
  *
- * @param projectId
- * @param {string} experimentId
- * @param {string} operatorId
+ * @param {string} projectId Project ID
+ * @param {string} experimentId Experiment ID
+ * @returns {Promise} Request
  */
+
 export const getOperatorLogs =
   (projectId, experimentId, operatorId) => async (dispatch) => {
     experimentRunsApi
@@ -118,25 +127,15 @@ export const getOperatorLogs =
   };
 
 /**
- * Get operator figures
+ *Get operator figures
  *
- * @param projectId
- * @param experimentId
- * @param runId
- * @param operatorId
- * @param projectId
- * @param experimentId
- * @param runId
- * @param operatorId
- * @param projectId
- * @param experimentId
- * @param runId
- * @param operatorId
- * @param projectId
- * @param experimentId
- * @param runId
- * @param operatorId
+ * @param {string} projectId Project ID
+ * @param {string} experimentId Experiment ID
+ * @param {string} runId Run ID
+ * @param {string} operatorId Operator ID
+ * @returns {Promise} Request
  */
+
 export const getOperatorFigures =
   (projectId, experimentId, runId, operatorId) => (dispatch) => {
     dispatch({
@@ -168,12 +167,14 @@ export const getOperatorFigures =
 /**
  * Get operator result dataset
  *
- * @param projectId
- * @param experimentId
- * @param operatorId
- * @param page
- * @param pageSize
+ * @param {string} projectId Project ID
+ * @param {string} experimentId Experiment ID
+ * @param {string} operatorId Operator ID
+ * @param {number} page Page Number
+ * @param {number} pageSize Page Size
+ * @returns {Promise} Request
  */
+
 export const getOperatorResultDataset =
   (projectId, experimentId, operatorId, page, pageSize) => (dispatch) => {
     dispatch({
@@ -249,10 +250,10 @@ export const getOperatorMetricsRequest =
 /**
  * select operator action
  *
- * @param projectId
- * @param {string} experimentId
- * @param {object} operator
- * @param page
+ * @param {string} projectId Project ID
+ * @param {string} experimentId Experiment ID
+ * @param {object} operator Operator object
+ * @returns {Promise} Request
  */
 export const selectOperatorAndGetData =
   (projectId, experimentId, operator) => (dispatch, getState) => {
@@ -305,7 +306,8 @@ export const selectOperatorAndGetData =
 /**
  * Select operator action
  *
- * @param operator
+ * @param {object} operator Operator Object
+ * @returns {object} { type }
  */
 export const selectOperator = (operator) => (dispatch) => {
   dispatch({
@@ -316,6 +318,8 @@ export const selectOperator = (operator) => (dispatch) => {
 
 /**
  * Deselect operator action
+ *
+ * @returns {object} { type }
  */
 export const deselectOperator = () => (dispatch) => {
   dispatch({
@@ -328,7 +332,7 @@ export const deselectOperator = () => (dispatch) => {
 /**
  * create operator fail action
  *
- * @param {object} error
+ * @param {object} error Error from API
  * @returns {object} { type, errorMessage }
  */
 const createOperatorFail = (error) => (dispatch) => {
@@ -350,16 +354,13 @@ const createOperatorFail = (error) => (dispatch) => {
 /**
  * create operator request action
  *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {object} taskId
- * @param {object[]} tasks,
- * @param tasks
- * @param isTemplate
- * @param position
- * @param isTemplate
- * @param position
- * @returns {Function}
+ * @param {string} projectId Project ID
+ * @param {string} experimentId Project ID
+ * @param {string} taskId Task ID
+ * @param {object[]} tasks Tasks
+ * @param {boolean} isTemplate Flag to check if is Template
+ * @param {object} position Object with X and Y positions
+ * @returns {Promise} Request
  */
 export const createOperatorRequest =
   (projectId, experimentId, taskId, tasks, isTemplate, position) =>
@@ -466,10 +467,10 @@ export const createOperatorRequest =
 /**
  * Remove operator request action
  *
- * @param {string} projectId
- * @param {string} experimentId
- * @param {string} operatorId
- * @param operator
+ * @param {string} projectId Project ID
+ * @param {string} experimentId Experiment ID
+ * @param {object} operator Object
+ * @returns {Promise} Request
  */
 export const removeOperatorRequest =
   (projectId, experimentId, operator) => (dispatch) => {
@@ -510,7 +511,7 @@ export const removeOperatorRequest =
 /**
  * set operator params success action
  *
- * @param {object} operator
+ * @param {object} operator Operator Object
  * @returns {object} { type, operator }
  */
 const updateOperatorSuccess = (operator) => (dispatch) => {
@@ -527,7 +528,7 @@ const updateOperatorSuccess = (operator) => (dispatch) => {
 /**
  * set operator params fail action
  *
- * @param {object} error
+ * @param {object} error Error from API
  * @returns {object} { type, errorMessage }
  */
 const updateOperatorFail = (error) => (dispatch) => {
