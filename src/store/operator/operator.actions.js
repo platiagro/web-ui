@@ -581,15 +581,20 @@ export const updateExperimentOperatorRequest =
 
         // changing param value
         successOperator.parameters = successOperator.parameters.map(
-          (parameter) => ({
-            ...parameter,
-            value:
+          (parameter) => {
+            const validParameterValue =
+              parameterValue !== null ? parameterValue : undefined;
+
+            const value =
               parameter.name === parameterName
-                ? parameterValue !== null
-                  ? parameterValue
-                  : undefined
-                : parameter.value,
-          })
+                ? validParameterValue
+                : parameter.value;
+
+            return {
+              ...parameter,
+              value: value,
+            };
+          }
         );
 
         // checking if operator is setted up
