@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { showError } from 'store/message';
 
 import * as OPERATORS_TYPES from './operators.actionTypes';
 
@@ -31,12 +31,7 @@ import utils from 'utils';
 /**
  * fetch operators success action
  *
- * @param {object} response
- * @param operators
- * @param projectId
- * @param experimentId
- * @param operators
- * @param experimentId
+ * @param {object} operators Operators
  * @returns {object} { type, operators }
  */
 const fetchOperatorsSuccess = (operators) => (dispatch) => {
@@ -50,28 +45,23 @@ const fetchOperatorsSuccess = (operators) => (dispatch) => {
 /**
  * fetch operators fail action
  *
- * @param {object} error
+ * @param {object} error Error from API
  * @returns {object} { type, errorMessage }
  */
 const fetchOperatorsFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
   // dispatching fetch operators fail
   dispatch({
     type: OPERATORS_TYPES.FETCH_OPERATORS_FAIL,
-    errorMessage,
   });
-
-  message.error(errorMessage);
+  dispatch(showError(error.message));
 };
 
 /**
  * fetch operators request action
  *
- * @param {string} projectId
- * @param {string} experimentId
- * @returns {Function}
+ * @param {string} projectId Project ID
+ * @param {string} experimentId Experiment ID
+ * @returns {Promise} Request
  */
 export const fetchExperimentOperatorsRequest =
   (projectId, experimentId) => async (dispatch) => {
@@ -177,9 +167,10 @@ export const fetchDeploymentOperatorsRequest =
 /**
  * Clear operators feature parameters
  *
- * @param {string} projectId
- * @param {string} experimentId
- * @param dataset
+ * @param {string} projectId Project ID
+ * @param {string} experimentId Experiment ID
+ * @param {object} dataset Dataset Object
+ * @returns {Promise} Request
  */
 export const clearOperatorsFeatureParametersRequest =
   (projectId, experimentId, dataset) => async (dispatch, getState) => {

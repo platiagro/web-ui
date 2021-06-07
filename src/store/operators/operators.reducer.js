@@ -11,10 +11,11 @@ import utils from 'utils';
 const initialState = [];
 
 /**
- * operators reducer
+ * Operators reducer
  *
- * @param state
- * @param action
+ * @param {object} state Current State
+ * @param {object} action Action
+ * @returns {object} New state
  */
 export const operatorsReducer = (state = initialState, action = undefined) => {
   const { type, payload } = action;
