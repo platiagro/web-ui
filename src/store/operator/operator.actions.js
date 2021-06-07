@@ -8,8 +8,7 @@ import DatasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
 import experimentRunsApi from 'services/ExperimentRunsApi';
 
-// UI LIB
-import { message } from 'antd';
+import { showError, showSuccess, showWarning } from 'store/message';
 
 // ACTIONS
 import { getDatasetRequest } from 'store/dataset/actions';
@@ -73,7 +72,7 @@ export const downloadOperatorResultDataset =
       })
       .catch((error) => {
         dispatch(operatorResultsDownloadDatasetLoaded());
-        message.error(error.message);
+        dispatch(showError(error.message));
       });
   };
 
@@ -159,7 +158,7 @@ export const getOperatorFigures =
           dispatch({
             type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_FAIL,
           });
-          message.error(error.message);
+          dispatch(showError(error.message));
         }
       });
   };
@@ -336,19 +335,15 @@ export const deselectOperator = () => (dispatch) => {
  * @returns {object} { type, errorMessage }
  */
 const createOperatorFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
   // dispatching experiment operators data loaded action
   dispatch(experimentOperatorsDataLoaded());
 
   // dispatching create operator fail
   dispatch({
     type: OPERATOR_TYPES.CREATE_OPERATOR_FAIL,
-    errorMessage,
   });
 
-  message.error(errorMessage);
+  dispatch(showError(error.message));
 };
 
 /**
@@ -382,9 +377,10 @@ export const createOperatorRequest =
         operator.tags.includes('DATASETS')
       );
       if (datasetOperatorIndex > -1) {
-        message.warn(
-          'Não é permitido mais de um "Conjunto de dados" no mesmo fluxo',
-          5
+        dispatch(
+          showWarning(
+            'Não é permitido mais de um "Conjunto de dados" no mesmo fluxo'
+          )
         );
         return;
       }
@@ -495,15 +491,14 @@ export const removeOperatorRequest =
           );
         }
         dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
-        message.success('Operador removido com sucesso!');
+        dispatch(showSuccess('Operador removido com sucesso!'));
       })
       .catch((error) => {
         dispatch(experimentOperatorsDataLoaded());
         dispatch({
           type: OPERATOR_TYPES.REMOVE_OPERATOR_FAIL,
         });
-        const errorMessage = error.message;
-        message.error(errorMessage);
+        dispatch(showError(error.message));
       });
   };
 
@@ -532,19 +527,15 @@ const updateOperatorSuccess = (operator) => (dispatch) => {
  * @returns {object} { type, errorMessage }
  */
 const updateOperatorFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
   // dispatching operator parameter data loaded action
   dispatch(operatorParameterDataLoaded());
 
   // dispatching set operator params fail
   dispatch({
     type: OPERATOR_TYPES.UPDATE_OPERATOR_FAIL,
-    errorMessage,
   });
 
-  message.error(errorMessage);
+  dispatch(showError(error.message));
 };
 
 /**
@@ -680,7 +671,7 @@ export const updateDeploymentOperatorRequest =
 // // // // // // // // // //
 
 export const saveOperatorPosition =
-  (projectId, experimentId, operatorId, position) => async () => {
+  (projectId, experimentId, operatorId, position) => async (dispatch) => {
     try {
       const body = {
         positionX: position.x,
@@ -694,7 +685,7 @@ export const saveOperatorPosition =
         body
       );
     } catch (e) {
-      message.error(e.message);
+      dispatch(showError(e.message));
     }
   };
 
@@ -729,8 +720,7 @@ export const saveOperatorDependencies =
       })
       .catch((error) => {
         dispatch(dependenciesOperatorLoaded());
-        const errorMessage = error.message;
-        message.error(errorMessage);
+        dispatch(showError(error.message));
         dispatch(upadteOperatorDependencies(operators));
       });
   };
@@ -753,7 +743,7 @@ export const saveTargetAttribute =
 // // // // // // // // // //
 
 export const saveDeploymentOperatorPosition =
-  (projectId, deploymentId, operatorId, position) => async () => {
+  (projectId, deploymentId, operatorId, position) => async (dispatch) => {
     try {
       const operatorDataToUpdate = {
         positionX: position.x,
@@ -767,6 +757,6 @@ export const saveDeploymentOperatorPosition =
         operatorDataToUpdate
       );
     } catch (e) {
-      message.error(e.message);
+      dispatch(showError(e.message));
     }
   };
