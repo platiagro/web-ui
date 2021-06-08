@@ -557,15 +557,10 @@ export const updateExperimentOperatorRequest =
     dispatch(operatorParameterLoadingData());
 
     // filtering parameters with value
-    const parametersWithValue = operator.parameters.filter((parameter) => {
-      if (parameter.name === parameterName) {
-        return true;
-      } else if (parameter.value !== undefined) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    const parametersWithValue = utils.filterOperatorParameters(
+      operator,
+      parameterName
+    );
 
     const parameters = {};
     parametersWithValue.forEach(({ name, value }) => {
@@ -580,21 +575,10 @@ export const updateExperimentOperatorRequest =
         const successOperator = { ...operator };
 
         // changing param value
-        successOperator.parameters = successOperator.parameters.map(
-          (parameter) => {
-            const validParameterValue =
-              parameterValue !== null ? parameterValue : undefined;
-
-            const value =
-              parameter.name === parameterName
-                ? validParameterValue
-                : parameter.value;
-
-            return {
-              ...parameter,
-              value: value,
-            };
-          }
+        successOperator.parameters = utils.successOperatorMap(
+          successOperator.parameters,
+          parameterValue,
+          parameterName
         );
 
         // checking if operator is setted up
@@ -625,15 +609,10 @@ export const updateDeploymentOperatorRequest =
     dispatch(operatorParameterLoadingData());
 
     // filtering parameters with value
-    const parametersWithValue = operator.parameters.filter((parameter) => {
-      if (parameter.name === parameterName) {
-        return true;
-      } else if (parameter.value !== undefined) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    const parametersWithValue = utils.filterOperatorParameters(
+      operator,
+      parameterName
+    );
 
     const parameters = {};
     parametersWithValue.forEach(({ name, value }) => {
@@ -652,21 +631,10 @@ export const updateDeploymentOperatorRequest =
         const successOperator = { ...operator };
 
         // changing param value
-        successOperator.parameters = successOperator.parameters.map(
-          (parameter) => {
-            const validParameterValue =
-              parameterValue !== null ? parameterValue : undefined;
-
-            const value =
-              parameter.name === parameterName
-                ? validParameterValue
-                : parameter.value;
-
-            return {
-              ...parameter,
-              value: value,
-            };
-          }
+        successOperator.parameters = utils.successOperatorMap(
+          successOperator.parameters,
+          parameterValue,
+          parameterName
         );
 
         // checking if operator is setted up
