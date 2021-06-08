@@ -24,12 +24,6 @@ const TasksMenu = ({
   };
 
   const renderTooltip = (name, description, uuid, title) => {
-    const DropDownMenu = (
-      <Menu onSelect={() => handleBoxClick(uuid)}>
-        <Menu.Item key='removeTemplate'>Remover</Menu.Item>
-      </Menu>
-    );
-
     const tooltip = (
       <Tooltip
         title={() => {
@@ -51,7 +45,19 @@ const TasksMenu = ({
 
     if ('Templates' === title) {
       return (
-        <Dropdown overlay={DropDownMenu} trigger={['contextMenu']}>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item
+                key='removeTemplate'
+                onClick={() => handleBoxClick(uuid)}
+              >
+                Remover
+              </Menu.Item>
+            </Menu>
+          }
+          trigger={['contextMenu']}
+        >
           {tooltip}
         </Dropdown>
       );
