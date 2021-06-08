@@ -21,7 +21,8 @@ const initialState = {
  * @returns {object} New state
  */
 export const operatorReducer = (state = initialState, action = undefined) => {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case OPERATOR_TYPES.GET_OPERATOR_METRICS_REQUEST:
       return { ...state, metrics: [] };
     case OPERATOR_TYPES.SELECT_OPERATOR:
@@ -31,7 +32,7 @@ export const operatorReducer = (state = initialState, action = undefined) => {
 
     // SUCCESS
     case OPERATOR_TYPES.UPDATE_OPERATOR_SUCCESS:
-      return { ...state, ...action.operator };
+      return { ...state, ...payload.operator };
     case OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS:
       return { ...state, downloadDataset: [...action.downloadDataset] };
     case OPERATOR_TYPES.GET_OPERATOR_DATASET_RESULT_SUCCESS:

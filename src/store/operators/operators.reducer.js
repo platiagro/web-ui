@@ -30,23 +30,7 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
     case OPERATORS_TYPES.UPDATE_OPERATOR_DEPENDENCIES:
       return [...payload.operators];
     case OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS:
-      return state.map((operator) => {
-        const featureOptions = utils.transformColumnsInParameterOptions(
-          action.columns
-        );
-        let paramUpdated = false;
-        for (const param of operator.parameters) {
-          if (param.type === 'feature') {
-            param.options = featureOptions;
-            param.value = param.multiple ? [] : null;
-            paramUpdated = true;
-          }
-        }
-        if (paramUpdated) {
-          operator.settedUp = false;
-        }
-        return { ...operator };
-      });
+      return [...payload.operators];
 
     // operator
     case OPERATOR_TYPES.CREATE_OPERATOR_SUCCESS:
@@ -56,11 +40,7 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
     case OPERATOR_TYPES.SELECT_OPERATOR:
       return [...utils.selectOperator(action.operator.uuid, state)];
     case OPERATOR_TYPES.UPDATE_OPERATOR_SUCCESS:
-      return state.map((operator) =>
-        operator.uuid === action.operator.uuid
-          ? { ...action.operator }
-          : { ...operator }
-      );
+      return [...payload.operators];
 
     // get experiment run status
     case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS: {

@@ -509,14 +509,22 @@ export const removeOperatorRequest =
  * @param {object} operator Operator Object
  * @returns {object} { type, operator }
  */
-const updateOperatorSuccess = (operator) => (dispatch) => {
+const updateOperatorSuccess = (operator) => (dispatch, getState) => {
+  const { operatorsReducer } = getState();
   // dispatching operator parameter data loaded action
   dispatch(operatorParameterDataLoaded());
+
+  let mappedOperators = [...operatorsReducer];
+  mappedOperators = mappedOperators.map((mappedOperator) =>
+    mappedOperator.uuid === operator.uuid
+      ? { ...operator }
+      : { ...mappedOperator }
+  );
 
   // dispatching set operator params success action
   dispatch({
     type: OPERATOR_TYPES.UPDATE_OPERATOR_SUCCESS,
-    operator,
+    payload: { operators: mappedOperators, operator: operator },
   });
 };
 

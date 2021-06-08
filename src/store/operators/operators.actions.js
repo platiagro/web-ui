@@ -221,9 +221,31 @@ export const clearOperatorsFeatureParametersRequest =
           });
       }
 
+      const columns = dataset ? dataset.columns : [];
+
+      let mappedOperators = [...operators];
+
+      mappedOperators = mappedOperators.map((operator) => {
+        const featureOptions =
+          utils.transformColumnsInParameterOptions(columns);
+
+        let paramUpdated = false;
+        for (const param of operator.parameters) {
+          if (param.type === 'feature') {
+            param.options = featureOptions;
+            param.value = param.multiple ? [] : null;
+            paramUpdated = true;
+          }
+        }
+        if (paramUpdated) {
+          operator.settedUp = false;
+        }
+        return { ...operator };
+      });
+
       dispatch({
         type: OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS,
-        columns: dataset ? dataset.columns : [],
+        payload: { operators: mappedOperators },
       });
 
       dispatch(operatorParameterDataLoaded());
