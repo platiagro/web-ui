@@ -184,25 +184,9 @@ export const clearOperatorsFeatureParametersRequest =
 
     try {
       // getting all operators with feature parameter
-      const operatorsWithFeatureParameter = [];
-      operators.forEach((operator) => {
-        const newOperator = { ...operator };
-
-        // getting operator feature parameters
-        const operatorFeatureParameters = operator.parameters.filter(
-          (parameter) => {
-            if (parameter.type === 'feature') {
-              return true;
-            }
-            return false;
-          }
-        );
-
-        // adding operator to list if it has feature parameters
-        if (operatorFeatureParameters.length > 0) {
-          operatorsWithFeatureParameter.push(newOperator);
-        }
-      });
+      const operatorsWithFeatureParameter = operators.filter((operator) =>
+        operator.parameters.some((parameter) => parameter.type === 'feature')
+      );
 
       // clear operators feature parameters
       for (const operator of operatorsWithFeatureParameter) {
