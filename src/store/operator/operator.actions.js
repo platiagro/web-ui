@@ -543,13 +543,19 @@ const updateOperatorFail = (error) => (dispatch) => {
  *
  * @param {string} projectId The project uuid
  * @param {string} experimentId The experiment uuid
- * @param {object} operator The operator
+ * @param {object} experimentOperator The Experiment Operator
  * @param {string} parameterName Parameter name
  * @param {any} parameterValue Parameter value
  * @returns {Function} The dispatch function
  */
 export const updateExperimentOperatorRequest =
-  (projectId, experimentId, operator, parameterName, parameterValue) =>
+  (
+    projectId,
+    experimentId,
+    experimentOperator,
+    parameterName,
+    parameterValue
+  ) =>
   (dispatch) => {
     dispatch({
       type: OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST,
@@ -558,7 +564,7 @@ export const updateExperimentOperatorRequest =
 
     // filtering parameters with value
     const parametersWithValue = utils.filterOperatorParameters(
-      operator,
+      experimentOperator,
       parameterName
     );
 
@@ -567,25 +573,29 @@ export const updateExperimentOperatorRequest =
       parameters[name] = name === parameterName ? parameterValue : value;
     });
 
-    // update operator
+    // update experimentOperator
     operatorsApi
-      .updateOperator(projectId, experimentId, operator.uuid, { parameters })
+      .updateOperator(projectId, experimentId, experimentOperator.uuid, {
+        parameters,
+      })
       .then((response) => {
-        // getting operator data
-        const successOperator = { ...operator };
+        // getting experimentOperator data
+        const successExperimentOperator = { ...experimentOperator };
 
         // changing param value
-        successOperator.parameters = utils.successOperatorMap(
-          successOperator.parameters,
+        successExperimentOperator.parameters = utils.successOperatorMap(
+          successExperimentOperator.parameters,
           parameterValue,
           parameterName
         );
 
-        // checking if operator is setted up
-        successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
+        // checking if experimentOperator is setted up
+        successExperimentOperator.settedUp = utils.checkOperatorSettedUp(
+          response.data
+        );
 
         // dispatching success action
-        dispatch(updateOperatorSuccess(successOperator));
+        dispatch(updateOperatorSuccess(successExperimentOperator));
       })
       .catch((error) => dispatch(updateOperatorFail(error)));
   };
@@ -595,13 +605,19 @@ export const updateExperimentOperatorRequest =
  *
  * @param {string} projectId The project uuid
  * @param {string} deploymentId The deployment uuid
- * @param {object} operator The operator
+ * @param {object} deploymentOperator The Deployment Operator
  * @param {string} parameterName Parameter name
  * @param {any} parameterValue Parameter value
  * @returns {Function} The dispatch function
  */
 export const updateDeploymentOperatorRequest =
-  (projectId, deploymentId, operator, parameterName, parameterValue) =>
+  (
+    projectId,
+    deploymentId,
+    deploymentOperator,
+    parameterName,
+    parameterValue
+  ) =>
   (dispatch) => {
     dispatch({
       type: OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST,
@@ -610,7 +626,7 @@ export const updateDeploymentOperatorRequest =
 
     // filtering parameters with value
     const parametersWithValue = utils.filterOperatorParameters(
-      operator,
+      deploymentOperator,
       parameterName
     );
 
@@ -619,29 +635,31 @@ export const updateDeploymentOperatorRequest =
       parameters[name] = name === parameterName ? parameterValue : value;
     });
 
-    // update operator
+    // update deploymentOperator
     DeploymentsOperatorsApi.updateOperator(
       projectId,
       deploymentId,
-      operator.uuid,
+      deploymentOperator.uuid,
       { parameters }
     )
       .then((response) => {
-        // getting operator data
-        const successOperator = { ...operator };
+        // getting deploymentOperator data
+        const successDeploymentOperator = { ...deploymentOperator };
 
         // changing param value
-        successOperator.parameters = utils.successOperatorMap(
-          successOperator.parameters,
+        successDeploymentOperator.parameters = utils.successOperatorMap(
+          successDeploymentOperator.parameters,
           parameterValue,
           parameterName
         );
 
-        // checking if operator is setted up
-        successOperator.settedUp = utils.checkOperatorSettedUp(response.data);
+        // checking if deploymentOperator is setted up
+        successDeploymentOperator.settedUp = utils.checkOperatorSettedUp(
+          response.data
+        );
 
         // dispatching success action
-        dispatch(updateOperatorSuccess(successOperator));
+        dispatch(updateOperatorSuccess(successDeploymentOperator));
       })
       .catch((error) => dispatch(updateOperatorFail(error)));
   };
