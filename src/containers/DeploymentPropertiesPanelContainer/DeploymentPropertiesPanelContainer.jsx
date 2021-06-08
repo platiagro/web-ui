@@ -9,8 +9,9 @@ import { Empty } from 'antd';
 // COMPONENTS
 import { ParameterGroup, PropertyBlock } from 'components';
 
-// ACTIONS
-import { setOperatorParametersRequest } from 'store/deployments/deploymentOperator/actions';
+import { Actions as operatorActions } from 'store/operator';
+
+const { updateExperimentOperatorRequest } = operatorActions;
 
 // DISPATCHS
 const mapDispatchToProps = (dispatch) => {
@@ -23,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
       parameterValue
     ) =>
       dispatch(
-        setOperatorParametersRequest(
+        updateExperimentOperatorRequest(
           projectId,
           deploymentId,
           operator,

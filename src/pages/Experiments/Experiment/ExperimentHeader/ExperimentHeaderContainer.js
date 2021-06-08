@@ -9,8 +9,8 @@ import {
   EXPERIMENTS_TYPES,
   Selectors,
 } from 'store/projects/experiments';
-import { fetchOperatorsRequest } from 'store/operators/actions';
-import { removeOperatorRequest } from 'store/operator/actions';
+import { fetchExperimentOperatorsRequest } from 'store/operators';
+import { removeOperatorRequest } from 'store/operator';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
 import { useIsLoading } from 'hooks';
 
@@ -65,7 +65,7 @@ const ExperimentHeaderContainer = () => {
 
   useEffect(() => {
     if (experimentId) {
-      dispatch(fetchOperatorsRequest(projectId, experimentId));
+      dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
     }
   }, [dispatch, projectId, experimentId]);
 

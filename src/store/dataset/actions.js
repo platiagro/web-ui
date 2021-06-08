@@ -8,8 +8,8 @@ import actionTypes from './actionTypes';
 import datasetsApi from 'services/DatasetsApi';
 
 // ACTIONS
-import { setOperatorParametersRequest } from 'store/operator/actions';
-import { clearOperatorsFeatureParametersRequest } from 'store/operators/actions';
+import { updateExperimentOperatorRequest } from 'store/operator';
+import { clearOperatorsFeatureParametersRequest } from 'store/operators';
 import {
   datasetOperatorDataLoaded,
   datasetOperatorLoadingData,
@@ -158,7 +158,7 @@ export const datasetUploadSuccess =
 
     // update dataset parameter
     dispatch(
-      setOperatorParametersRequest(
+      updateExperimentOperatorRequest(
         projectId,
         experimentId,
         datasetOperator,
@@ -665,7 +665,7 @@ export const deleteDatasetRequest =
     try {
       // update dataset parameter
       dispatch(
-        setOperatorParametersRequest(
+        updateExperimentOperatorRequest(
           projectId,
           experimentId,
           operator,

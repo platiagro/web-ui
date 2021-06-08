@@ -44,8 +44,8 @@ const fetchExperimentRunsSuccess = (response) => (dispatch) => {
 /**
  * Fetch experiment runs fail action
  *
- * @param {object} error
- * @param routerProps
+ * @param {object} error Error from API
+ * @param {object} routerProps Props from React Router
  * @returns {object} { type, errorMessage }
  */
 const fetchExperimentRunsFail = (error, routerProps) => (dispatch) => {
@@ -72,8 +72,8 @@ const fetchExperimentRunsFail = (error, routerProps) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment UUID
- * @param routerProps
- * @returns {Function}
+ * @param {object} routerProps Props from React Router
+ * @returns {Promise} Request
  */
 const fetchExperimentRunsRequest =
   (projectId, experimentId, routerProps) => (dispatch) => {
@@ -103,19 +103,32 @@ const fetchExperimentRunsRequest =
  * @param {object} response Response
  * @returns {object} { type }
  */
-const createExperimentRunSuccess = (projectId, response) => (dispatch) => {
-  dispatch({
-    type: actionTypes.CREATE_EXPERIMENT_RUN_SUCCESS,
-    runId: response.data.uuid,
-  });
+const createExperimentRunSuccess =
+  (projectId, response) => (dispatch, getState) => {
+    const { operatorsReducer } = getState();
 
-  message.success('Treinamento iniciado!');
-};
+    let operators = [...operatorsReducer];
+
+    operators = operators.map((operator) => ({
+      ...operator,
+      status: operator.uuid === 'dataset' ? 'Succeeded' : 'Pending',
+    }));
+
+    dispatch({
+      type: actionTypes.CREATE_EXPERIMENT_RUN_SUCCESS,
+      payload: {
+        runId: response.data.uuid,
+        operators: operators,
+      },
+    });
+
+    message.success('Treinamento iniciado!');
+  };
 
 /**
  * Create experiment run fail action
  *
- * @param {object} error
+ * @param {object} error Error from API
  * @returns {object} { type }
  */
 const createExperimentRunFail = (error) => (dispatch) => {
@@ -135,8 +148,7 @@ const createExperimentRunFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment id
- * @param {object} history Router history
- * @returns {Function} Disapatch
+ * @returns {Promise} Request
  */
 const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
   dispatch({
@@ -160,7 +172,6 @@ const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
 /**
  * Delete experiment run success action
  *
- * @param response
  * @returns {object} { type }
  */
 const deleteExperimentRunSuccess = () => (dispatch) => {
@@ -177,7 +188,7 @@ const deleteExperimentRunSuccess = () => (dispatch) => {
 /**
  * Delete experiment run fail action
  *
- * @param {object} error
+ * @param {object} error Error from API
  * @returns {object} { type }
  */
 const deleteExperimentRunFail = (error) => (dispatch) => {
@@ -196,7 +207,7 @@ const deleteExperimentRunFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId ExperimentUUID
- * @returns {Function}
+ * @returns {Promise} Request
  */
 const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
   dispatch({

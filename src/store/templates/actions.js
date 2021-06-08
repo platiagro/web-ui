@@ -20,7 +20,7 @@ import {
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
-import { fetchOperatorsRequest } from '../operators/actions';
+import { fetchExperimentOperatorsRequest } from '../operators';
 
 // COMPONENTS MENU ACTIONS
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
@@ -138,23 +138,22 @@ const createTemplateFail = (error) => (dispatch) => {
  * @param {string} experimentId
  * @returns {Function}
  */
-export const createTemplateRequest = (templateName, experimentId) => (
-  dispatch
-) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.CREATE_TEMPLATE_REQUEST,
-  });
+export const createTemplateRequest =
+  (templateName, experimentId) => (dispatch) => {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.CREATE_TEMPLATE_REQUEST,
+    });
 
-  // dispatching template loading data action
-  dispatch(templateLoadingData());
+    // dispatching template loading data action
+    dispatch(templateLoadingData());
 
-  // fetching templates
-  templatesApi
-    .createTemplate(templateName, experimentId)
-    .then((response) => dispatch(createTemplateSuccess(response)))
-    .catch((error) => dispatch(createTemplateFail(error)));
-};
+    // fetching templates
+    templatesApi
+      .createTemplate(templateName, experimentId)
+      .then((response) => dispatch(createTemplateSuccess(response)))
+      .catch((error) => dispatch(createTemplateFail(error)));
+  };
 
 // // // // // // // // // //
 
@@ -208,20 +207,19 @@ const updateTemplateFail = (error) => (dispatch) => {
  * @param {string} templateName Template name
  * @returns {Function}
  */
-export const updateTemplateRequest = (templateId, templateName) => (
-  dispatch
-) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.UPDATE_TEMPLATE_REQUEST,
-  });
+export const updateTemplateRequest =
+  (templateId, templateName) => (dispatch) => {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.UPDATE_TEMPLATE_REQUEST,
+    });
 
-  // update template
-  templatesApi
-    .updateTemplate(templateId, templateName)
-    .then((response) => dispatch(updateTemplateSuccess(response)))
-    .catch((error) => dispatch(updateTemplateFail(error)));
-};
+    // update template
+    templatesApi
+      .updateTemplate(templateId, templateName)
+      .then((response) => dispatch(updateTemplateSuccess(response)))
+      .catch((error) => dispatch(updateTemplateFail(error)));
+  };
 
 // // // // // // // // // //
 
@@ -233,55 +231,53 @@ export const updateTemplateRequest = (templateId, templateName) => (
  * @param {*} allTasks
  * @returns {object} { type }
  */
-const deleteTemplateSuccess = (templateId, allTasks) => (
-  dispatch,
-  getState
-) => {
-  const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
-    (template) => template.uuid !== templateId
-  );
+const deleteTemplateSuccess =
+  (templateId, allTasks) => (dispatch, getState) => {
+    const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
+      (template) => template.uuid !== templateId
+    );
 
-  const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
-    (template) => template.uuid !== templateId
-  );
+    const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
+      (template) => template.uuid !== templateId
+    );
 
-  const tasks = {
-    unfiltered: {
-      ...allTasks.unfiltered,
-      TEMPLATES: unfilteredTemplates,
-    },
-    filtered: {
-      ...allTasks.filtered,
-      TEMPLATES: filteredTemplates,
-    },
+    const tasks = {
+      unfiltered: {
+        ...allTasks.unfiltered,
+        TEMPLATES: unfilteredTemplates,
+      },
+      filtered: {
+        ...allTasks.filtered,
+        TEMPLATES: filteredTemplates,
+      },
+    };
+
+    if (tasks.unfiltered.TEMPLATES.length === 0) {
+      delete tasks.unfiltered.TEMPLATES;
+    }
+
+    if (tasks.filtered.TEMPLATES.length === 0) {
+      delete tasks.filtered.TEMPLATES;
+    }
+
+    dispatch(tasksMenuDataLoaded());
+
+    const currentState = getState();
+    const templatesState = currentState.templatesReducer;
+
+    const templates = templatesState.filter((template) => {
+      return template.uuid !== templateId;
+    });
+
+    // dispatching delete template success action
+    dispatch({
+      type: actionTypes.DELETE_TEMPLATE_SUCCESS,
+      payload: tasks,
+      templates,
+    });
+
+    message.success('Template excluído!');
   };
-
-  if (tasks.unfiltered.TEMPLATES.length === 0) {
-    delete tasks.unfiltered.TEMPLATES;
-  }
-
-  if (tasks.filtered.TEMPLATES.length === 0) {
-    delete tasks.filtered.TEMPLATES;
-  }
-
-  dispatch(tasksMenuDataLoaded());
-
-  const currentState = getState();
-  const templatesState = currentState.templatesReducer;
-
-  const templates = templatesState.filter((template) => {
-    return template.uuid !== templateId;
-  });
-
-  // dispatching delete template success action
-  dispatch({
-    type: actionTypes.DELETE_TEMPLATE_SUCCESS,
-    payload: tasks,
-    templates,
-  });
-
-  message.success('Template excluído!');
-};
 
 /**
  * delete template fail action
@@ -339,21 +335,20 @@ export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
  * @param {string} experimentId Experiment UUID
  * @returns {object} { type, templates }
  */
-const setTemplateSuccess = (response, projectId, experimentId) => (
-  dispatch
-) => {
-  // getting templates from response
-  /* const { operators } = response.data; */
+const setTemplateSuccess =
+  (response, projectId, experimentId) => (dispatch) => {
+    // getting templates from response
+    /* const { operators } = response.data; */
 
-  // dispatching experiment operators data loaded action
-  dispatch(fetchOperatorsRequest(projectId, experimentId));
+    // dispatching experiment operators data loaded action
+    dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
 
-  // dispatching set template success action
-  dispatch({
-    type: actionTypes.SET_TEMPLATE_SUCCESS,
-    /* operators, */
-  });
-};
+    // dispatching set template success action
+    dispatch({
+      type: actionTypes.SET_TEMPLATE_SUCCESS,
+      /* operators, */
+    });
+  };
 
 /**
  * set template fail action
@@ -384,29 +379,28 @@ const setTemplateFail = (error) => (dispatch) => {
  * @param {string} templateId Template UUID
  * @returns {Function}
  */
-export const setTemplateRequest = (projectId, experimentId, templateId) => (
-  dispatch
-) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.SET_TEMPLATE_REQUEST,
-  });
+export const setTemplateRequest =
+  (projectId, experimentId, templateId) => (dispatch) => {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.SET_TEMPLATE_REQUEST,
+    });
 
-  // dispatching experiment operators loading data action
-  dispatch(experimentOperatorsLoadingData());
+    // dispatching experiment operators loading data action
+    dispatch(experimentOperatorsLoadingData());
 
-  // experiment body
-  const experiment = {
-    templateId,
+    // experiment body
+    const experiment = {
+      templateId,
+    };
+
+    // fetching templates
+    experimentsApi
+      .updateExperiment(projectId, experimentId, experiment)
+      .then((response) =>
+        dispatch(setTemplateSuccess(response, projectId, experimentId))
+      )
+      .catch((error) => dispatch(setTemplateFail(error)));
   };
-
-  // fetching templates
-  experimentsApi
-    .updateExperiment(projectId, experimentId, experiment)
-    .then((response) =>
-      dispatch(setTemplateSuccess(response, projectId, experimentId))
-    )
-    .catch((error) => dispatch(setTemplateFail(error)));
-};
 
 // // // // // // // // // //

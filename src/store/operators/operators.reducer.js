@@ -1,6 +1,6 @@
 // ACTION TYPES
-import actionTypes from './actionTypes';
-import operatorActionTypes from '../operator/actionTypes';
+import * as OPERATORS_TYPES from './operators.actionTypes';
+import { OPERATOR_TYPES } from 'store/operator';
 import uiActionTypes from '../ui/actionTypes';
 import experimentRunsActionTypes from '../projects/experiments/experimentRuns/actionTypes';
 
@@ -11,53 +11,36 @@ import utils from 'utils';
 const initialState = [];
 
 /**
- * operators reducer
+ * Operators reducer
  *
- * @param state
- * @param action
+ * @param {object} state Current State
+ * @param {object} action Action
+ * @returns {object} New state
  */
-const operatorsReducer = (state = initialState, action = undefined) => {
-  switch (action.type) {
-    case actionTypes.FETCH_OPERATORS_REQUEST:
+export const operatorsReducer = (state = initialState, action = undefined) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case OPERATORS_TYPES.FETCH_OPERATORS_REQUEST:
       return [...initialState];
-    case actionTypes.FETCH_OPERATORS_SUCCESS:
-      return [...action.operators];
-    case actionTypes.FETCH_OPERATORS_FAIL:
+    case OPERATORS_TYPES.FETCH_OPERATORS_SUCCESS:
+      return [...payload.operators];
+    case OPERATORS_TYPES.FETCH_OPERATORS_FAIL:
       return [...state];
-    case actionTypes.UPDATE_OPERATOR_DEPENDENCIES:
-      return [...action.operators];
-    case actionTypes.UPDATE_OPERATORS_OPTIONS:
-      return state.map((operator) => {
-        const featureOptions = utils.transformColumnsInParameterOptions(
-          action.columns
-        );
-        let paramUpdated = false;
-        for (const param of operator.parameters) {
-          if (param.type === 'feature') {
-            param.options = featureOptions;
-            param.value = param.multiple ? [] : null;
-            paramUpdated = true;
-          }
-        }
-        if (paramUpdated) {
-          operator.settedUp = false;
-        }
-        return { ...operator };
-      });
+    case OPERATORS_TYPES.UPDATE_OPERATOR_DEPENDENCIES:
+      return [...payload.operators];
+    case OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS:
+      return [...payload.operators];
 
     // operator
-    case operatorActionTypes.CREATE_OPERATOR_SUCCESS:
-      return [...state, action.operator];
-    case operatorActionTypes.DESELECT_OPERATOR:
+    case OPERATOR_TYPES.CREATE_OPERATOR_SUCCESS:
+      return [...state, payload.operator];
+    case OPERATOR_TYPES.DESELECT_OPERATOR:
       return [...utils.selectOperator(null, state)];
-    case operatorActionTypes.SELECT_OPERATOR:
+    case OPERATOR_TYPES.SELECT_OPERATOR:
       return [...utils.selectOperator(action.operator.uuid, state)];
-    case operatorActionTypes.SET_OPERATOR_PARAMETERS_SUCCESS:
-      return state.map((operator) =>
-        operator.uuid === action.operator.uuid
-          ? { ...action.operator }
-          : { ...operator }
-      );
+    case OPERATOR_TYPES.UPDATE_OPERATOR_SUCCESS:
+      return [...payload.operators];
 
     // get experiment run status
     case experimentRunsActionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS: {
@@ -85,13 +68,15 @@ const operatorsReducer = (state = initialState, action = undefined) => {
           isTerminated = true;
         }
 
+        const validParametersLatestTraining = operatorLatestTraining
+          ? operatorLatestTraining.parameters
+          : null;
+
         return {
           ...operator,
           status,
           statusMessage: operatorLatestTraining.statusMessage,
-          parametersLatestTraining: operatorLatestTraining
-            ? operatorLatestTraining.parameters
-            : null,
+          parametersLatestTraining: validParametersLatestTraining,
           experimentIsRunning: action.experimentIsRunning,
           interruptIsRunning: action.interruptIsRunning,
         };
@@ -99,20 +84,17 @@ const operatorsReducer = (state = initialState, action = undefined) => {
     }
     // train experiment success
     case experimentRunsActionTypes.CREATE_EXPERIMENT_RUN_SUCCESS:
-      return state.map((operator) => ({
-        ...operator,
-        status: operator.uuid === 'dataset' ? 'Succeeded' : 'Pending',
-      }));
+      return [...payload.operators];
 
     // ui
     case uiActionTypes.HIDE_OPERATOR_DRAWER:
       return [...utils.selectOperator(undefined, state)];
+
+    case OPERATORS_TYPES.CLEAR_ALL_DEPLOYMENT_OPERATORS:
+      return [];
 
     // DEFAULT
     default:
       return state;
   }
 };
-
-// EXPORT
-export default operatorsReducer;

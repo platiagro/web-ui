@@ -21,8 +21,8 @@ const isLoadingSelector = ({ uiReducer }) => {
   return uiReducer.inferenceLogsDrawer.loading;
 };
 
-const operatorsSelector = ({ deploymentOperatorsReducer }) => {
-  return deploymentOperatorsReducer;
+const operatorsSelector = ({ operatorsReducer }) => {
+  return operatorsReducer;
 };
 
 const logsSelector = ({ deploymentLogsReducer }) => {

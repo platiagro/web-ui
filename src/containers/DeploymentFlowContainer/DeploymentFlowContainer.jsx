@@ -8,10 +8,10 @@ import {
   selectOperator,
   deselectOperator,
   saveDeploymentOperatorPosition,
-} from 'store/operator/actions';
+} from 'store/operator';
 
-const operatorsSelector = ({ deploymentOperatorsReducer }) => {
-  return deploymentOperatorsReducer;
+const operatorsSelector = ({ operatorsReducer }) => {
+  return operatorsReducer;
 };
 
 const loadingSelector = ({ uiReducer }) => {

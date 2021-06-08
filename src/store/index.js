@@ -3,13 +3,11 @@ import thunk from 'redux-thunk';
 
 import compareResultsReducer from './compareResults/compareResultsReducer';
 import deploymentsReducer from './deployments/deploymentsReducer';
-import deploymentOperatorReducer from './deployments/deploymentOperator/deploymentOperatorReducer';
-import deploymentOperatorsReducer from './deployments/deploymentOperators/deploymentOperatorsReducer';
 import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsReducer';
 import Projects from './projects';
 import experimentRunReducer from './projects/experiments/experimentRuns/experimentRunsReducer';
-import operatorsReducer from './operators/operatorsReducer';
-import operatorReducer from './operator/operatorReducer';
+import { operatorsReducer } from './operators';
+import { operatorReducer } from './operator';
 import tasksMenuReducer from './tasksMenu/tasksMenuReducer';
 import templatesReducer from './templates/templatesReducer';
 import uiReducer from './ui/uiReducer';
@@ -26,8 +24,6 @@ import { monitoringsReducer } from './monitorings';
 const reducers = combineReducers({
   compareResultsReducer,
   deploymentsReducer,
-  deploymentOperatorReducer,
-  deploymentOperatorsReducer,
   deploymentRunsReducer,
   Projects,
   experimentRunReducer,
