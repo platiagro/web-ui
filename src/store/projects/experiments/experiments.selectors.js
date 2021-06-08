@@ -45,9 +45,9 @@ const getExperiment = (state, projectId, experimentId) => {
     const experiment = experiments.find(({ uuid }) => uuid === experimentId);
     if (!experiment) return defaultExperiment;
 
-    experiment.isSucceeded = false;
+    experiment.succeeded = false;
     if (experiment?.operators?.length > 0) {
-      experiment.isSucceeded = utils.checkExperimentSuccess(experiment);
+      experiment.succeeded = utils.checkExperimentSuccess(experiment);
     }
 
     return experiment;
