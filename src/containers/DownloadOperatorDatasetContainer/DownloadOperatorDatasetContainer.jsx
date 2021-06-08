@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DownloadOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import utils from 'utils';
-import { downloadOperatorResultDataset } from 'store/operator/actions';
+import { downloadOperatorResultDataset } from 'store/operator';
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;

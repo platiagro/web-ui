@@ -10,7 +10,7 @@ import {
 } from 'store/projects/experiments';
 import { useIsLoading } from 'hooks';
 import { hideLogsPanel } from 'store/ui/actions';
-import { deselectOperator } from 'store/operator/actions';
+import { deselectOperator } from 'store/operator';
 import { clearAllExperimentLogs } from 'store/experimentLogs/actions';
 import { Actions as projectsActions, PROJECTS_TYPES } from 'store/projects';
 

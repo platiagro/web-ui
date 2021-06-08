@@ -8,7 +8,7 @@ import {
   deselectOperator,
   saveOperatorPosition,
   saveOperatorDependencies,
-} from 'store/operator/actions';
+} from 'store/operator';
 import { fetchExperimentRunStatusRequest } from 'store/projects/experiments/experimentRuns/actions';
 import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
 

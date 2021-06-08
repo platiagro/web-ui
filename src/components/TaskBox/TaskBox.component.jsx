@@ -12,7 +12,7 @@ import {
   LoadingOutlined,
 } from '@ant-design/icons';
 
-import { removeOperatorRequest } from 'store/operator/actions';
+import { removeOperatorRequest } from 'store/operator';
 
 import './style.less';
 

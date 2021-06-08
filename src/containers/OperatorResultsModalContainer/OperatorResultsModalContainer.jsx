@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Modal } from 'uiComponents';
 import { hideOperatorResults } from 'store/ui/actions';
-import { getOperatorResultDataset } from 'store/operator/actions';
+import { getOperatorResultDataset } from 'store/operator';
 import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer';
 
 const isVisibleSelector = ({ uiReducer }) => {

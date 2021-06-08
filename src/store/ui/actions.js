@@ -1,6 +1,6 @@
 // ACTION TYPES
 import actionTypes from './actionTypes';
-import { deselectOperator } from '../operator/actions';
+import { deselectOperator } from 'store/operator';
 
 // ACTIONS
 

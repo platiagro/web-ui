@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIsLoading } from 'hooks';
 import {
   TASKS_TYPES,
-  addTask,
+  createTask,
   closeTasksModal,
   getErrorMessage,
   getNewTaskRecord,
@@ -38,10 +38,10 @@ const NewTaskModalContainer = () => {
   const copyTaskRecord = useSelector(getNewTaskRecord);
   const modalValidateStatus = useSelector(getModalValidateStatus);
 
-  const isAddingTask = useIsLoading(TASKS_TYPES.ADD_TASK_REQUEST);
+  const isCreatingTask = useIsLoading(TASKS_TYPES.CREATE_TASK_REQUEST);
 
   const handleAddTask = (task) => {
-    dispatch(addTask(task));
+    dispatch(createTask(task));
   };
 
   const handleCloseTasksModal = () => {
@@ -52,7 +52,7 @@ const NewTaskModalContainer = () => {
     <NewTaskModal
       visible={visible}
       templates={tasks}
-      loading={isAddingTask}
+      loading={isCreatingTask}
       errorMessage={errorMessage}
       copyTaskRecord={copyTaskRecord}
       modalValidateStatus={modalValidateStatus}

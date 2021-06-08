@@ -9,11 +9,12 @@ export const initialState = {
   pageSize: null,
   tasks: [],
   totalTasks: null,
+  taskData: null,
 };
 
 export const tasksReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case TASKS_TYPES.ADD_TASK_SUCCESS:
+    case TASKS_TYPES.CREATE_TASK_SUCCESS:
     case TASKS_TYPES.COPY_TASK_SUCCESS: {
       const tasksListAux = [action.task, ...state.tasks];
       const sortedTasks = [...tasksListAux].sort((taskA, taskB) =>
@@ -71,8 +72,14 @@ export const tasksReducer = (state = initialState, action = {}) => {
       tasksAux[taskIndex] = updatedTask;
       tasksAux.sort((a, b) => a.name.localeCompare(b.name));
 
+      const canUpdateTaskData = state.taskData?.uuid === updatedTask.uuid;
+      const taskData = canUpdateTaskData
+        ? { ...state.taskData, ...updatedTask }
+        : state.taskData;
+
       return {
         ...state,
+        taskData,
         tasks: tasksAux,
       };
     }
@@ -100,13 +107,28 @@ export const tasksReducer = (state = initialState, action = {}) => {
       };
     }
 
-    case TASKS_TYPES.ADD_TASK_FAIL:
+    case TASKS_TYPES.CREATE_TASK_FAIL:
     case TASKS_TYPES.UPDATE_TASK_FAIL:
     case TASKS_TYPES.COPY_TASK_FAIL: {
       return {
         ...state,
         modalValidateStatus: 'error',
         errorMessage: action.errorMessage,
+      };
+    }
+
+    case TASKS_TYPES.CLEAR_TASK_DATA:
+    case TASKS_TYPES.FETCH_TASK_DATA_FAIL: {
+      return {
+        ...state,
+        taskData: null,
+      };
+    }
+
+    case TASKS_TYPES.FETCH_TASK_DATA_SUCCESS: {
+      return {
+        ...state,
+        taskData: action.taskData,
       };
     }
 

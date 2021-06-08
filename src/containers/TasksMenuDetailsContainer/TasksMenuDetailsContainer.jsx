@@ -1,11 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Skeleton } from 'antd';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import './style.less';
-import { Selectors, PROJECTS_TYPES } from 'store/projects';
 import { useIsLoading } from 'hooks';
+import { UserInfo } from 'components';
+import { Selectors, PROJECTS_TYPES } from 'store/projects';
+
+import './style.less';
 
 const { getProject } = Selectors;
 
@@ -50,10 +52,11 @@ const TasksMenuDetailsContainer = () => {
             paragraph={false}
           />
         ) : (
-          <p className='user-description'>
-            <span className='user-avatar'>A</span>
-            <span>Usuário anônimo</span>
-          </p>
+          <UserInfo
+            className='user-description'
+            avatarBackground='grey'
+            name='Usuário Anônimo'
+          />
         )}
       </div>
     </div>

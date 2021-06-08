@@ -20,7 +20,7 @@ import {
 } from '../ui/actions';
 
 // OPERATORS ACTIONS
-import { fetchOperatorsRequest } from '../operators/actions';
+import { fetchExperimentOperatorsRequest } from '../operators';
 
 // COMPONENTS MENU ACTIONS
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
@@ -341,7 +341,7 @@ const setTemplateSuccess =
     /* const { operators } = response.data; */
 
     // dispatching experiment operators data loaded action
-    dispatch(fetchOperatorsRequest(projectId, experimentId));
+    dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
 
     // dispatching set template success action
     dispatch({

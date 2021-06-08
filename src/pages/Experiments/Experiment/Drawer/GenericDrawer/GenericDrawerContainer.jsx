@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ParameterGroup, PropertyBlock } from 'components';
-import { setOperatorParametersRequest } from 'store/operator/actions';
+import { updateExperimentOperatorRequest } from 'store/operator';
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
@@ -40,7 +40,7 @@ const GenericDrawerContainer = () => {
 
   const setOperatorParameterHandler = (parameterName, parameterValue) => {
     dispatch(
-      setOperatorParametersRequest(
+      updateExperimentOperatorRequest(
         projectId,
         experimentId,
         operator,

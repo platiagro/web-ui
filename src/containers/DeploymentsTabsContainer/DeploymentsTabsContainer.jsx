@@ -4,11 +4,11 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import TabsBar from 'components/TabsBar';
 import { showNewDeploymentModal } from 'store/ui/actions';
-import { deselectOperator } from 'store/operator/actions';
+import { deselectOperator } from 'store/operator';
+import { clearAllDeploymentOperators } from 'store/operators';
 import { clearAllMonitorings } from 'store/monitorings';
 import { clearAllDeploymentLogs } from 'store/deploymentLogs/actions';
 import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer';
-import { clearAllDeploymentOperators } from 'store/deployments/deploymentOperators/actions';
 import {
   clearAllDeployments,
   fetchDeploymentsRequest,

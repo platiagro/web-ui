@@ -44,8 +44,8 @@ const fetchExperimentRunsSuccess = (response) => (dispatch) => {
 /**
  * Fetch experiment runs fail action
  *
- * @param {object} error Error
- * @param {object} routerProps Router props
+ * @param {object} error Error from API
+ * @param {object} routerProps Props from React Router
  * @returns {object} { type, errorMessage }
  */
 const fetchExperimentRunsFail = (error, routerProps) => (dispatch) => {
@@ -72,8 +72,8 @@ const fetchExperimentRunsFail = (error, routerProps) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment UUID
- * @param {object} routerProps Router props
- * @returns {Function} Dispatch function
+ * @param {object} routerProps Props from React Router
+ * @returns {Promise} Request
  */
 const fetchExperimentRunsRequest =
   (projectId, experimentId, routerProps) => (dispatch) => {
@@ -103,19 +103,32 @@ const fetchExperimentRunsRequest =
  * @param {object} response Response
  * @returns {object} { type }
  */
-const createExperimentRunSuccess = (projectId, response) => (dispatch) => {
-  dispatch({
-    type: actionTypes.CREATE_EXPERIMENT_RUN_SUCCESS,
-    runId: response.data.uuid,
-  });
+const createExperimentRunSuccess =
+  (projectId, response) => (dispatch, getState) => {
+    const { operatorsReducer } = getState();
 
-  message.success('Treinamento iniciado!');
-};
+    let operators = [...operatorsReducer];
+
+    operators = operators.map((operator) => ({
+      ...operator,
+      status: operator.uuid === 'dataset' ? 'Succeeded' : 'Pending',
+    }));
+
+    dispatch({
+      type: actionTypes.CREATE_EXPERIMENT_RUN_SUCCESS,
+      payload: {
+        runId: response.data.uuid,
+        operators: operators,
+      },
+    });
+
+    message.success('Treinamento iniciado!');
+  };
 
 /**
  * Create experiment run fail action
  *
- * @param {object} error Error
+ * @param {object} error Error from API
  * @returns {object} { type }
  */
 const createExperimentRunFail = (error) => (dispatch) => {
@@ -175,7 +188,7 @@ const deleteExperimentRunSuccess = () => (dispatch) => {
 /**
  * Delete experiment run fail action
  *
- * @param {object} error Error
+ * @param {object} error Error from API
  * @returns {object} { type }
  */
 const deleteExperimentRunFail = (error) => (dispatch) => {
@@ -405,7 +418,6 @@ export const fetchExperimentRunStatusRequest =
       );
   };
 
-// EXPORT DEFAUL
 export default {
   fetchExperimentRunsRequest,
   createExperimentRunRequest,

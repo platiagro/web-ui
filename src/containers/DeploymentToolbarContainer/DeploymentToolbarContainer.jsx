@@ -13,7 +13,7 @@ import { useIsLoading, useToggleState } from 'hooks';
 import { PROJECTS_TYPES } from 'store/projects';
 import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
-import { fetchOperatorsRequest } from 'store/deployments/deploymentOperators/actions';
+import { fetchDeploymentOperatorsRequest } from 'store/operators';
 
 import './DeploymentToolbarContainer.less';
 import {
@@ -23,14 +23,12 @@ import {
 } from 'store/testDeployment';
 import { DeploymentTestResultModalContainer } from 'containers';
 
-const operatorsSelector = ({ deploymentOperatorsReducer }) => {
-  return deploymentOperatorsReducer;
+const operatorsSelector = ({ operatorsReducer }) => {
+  return operatorsReducer;
 };
 
-const datasetOperatorUploadedFileNameSelector = ({
-  deploymentOperatorsReducer,
-}) => {
-  const datasetOperator = deploymentOperatorsReducer.find((operator) => {
+const datasetOperatorUploadedFileNameSelector = ({ operatorsReducer }) => {
+  const datasetOperator = operatorsReducer.find((operator) => {
     return operator.tags.includes('DATASETS');
   });
 
@@ -76,7 +74,7 @@ const DeploymentToolbarContainer = () => {
   }, [datasetOperatorUploadedFileName]);
 
   const handleFetchOperators = useCallback(() => {
-    dispatch(fetchOperatorsRequest(projectId, deploymentId));
+    dispatch(fetchDeploymentOperatorsRequest(projectId, deploymentId));
   }, [projectId, deploymentId, dispatch]);
 
   const handleRunDeployment = () => {

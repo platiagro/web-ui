@@ -823,6 +823,29 @@ const changeProjectExperiments = (projects, projectId, newExperiments) => {
 };
 
 /**
+ * Read the content of a file
+ *
+ * @param {File} fileInstance File to read the content
+ * @returns {Promise} Promise that resolves to the file content as text
+ */
+const readFileContent = (fileInstance) => {
+  return new Promise((resolve, reject) => {
+    if (typeof window.FileReader === 'function') {
+      const fileReader = new FileReader();
+      fileReader.onload = (reader) => resolve(reader.target.result);
+      fileReader.onerror = (error) => reject(error);
+      fileReader.readAsText(fileInstance);
+    } else {
+      const error = new Error(
+        'window.FileReader not supported in your browser'
+      );
+
+      reject(error);
+    }
+  });
+};
+
+/**
  * Check if experiment is succeeded
  *
  * @param {object} experiment Experiment
@@ -839,6 +862,51 @@ const checkExperimentSuccess = (experiment) => {
 
   return experimentIsSucceeded;
 };
+
+/**
+ * Map to change param value
+ *
+ * @param {object} operatorParameters Operator Parameters
+ * @param {string} parameterValue Parameter Value
+ * @param {string} parameterName Parameter Name
+ * @returns {object} Parameter
+ */
+const successOperatorMap = (
+  operatorParameters,
+  parameterValue,
+  parameterName
+) => {
+  return operatorParameters.map((parameter) => {
+    const validParameterValue =
+      parameterValue !== null ? parameterValue : undefined;
+
+    const value =
+      parameter.name === parameterName ? validParameterValue : parameter.value;
+
+    return {
+      ...parameter,
+      value: value,
+    };
+  });
+};
+
+/**
+ * Function to filter operators by parameter name
+ *
+ * @param {object} operator Operator
+ * @param {string} parameterName Parameter Name
+ * @returns {object} Operator filtered
+ */
+const filterOperatorParameters = (operator, parameterName) =>
+  operator.parameters.filter((parameter) => {
+    if (parameter.name === parameterName) {
+      return true;
+    } else if (parameter.value !== undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
 // EXPORT DEFAULT
 export default {
@@ -869,5 +937,8 @@ export default {
   downloadFile,
   changeExperimentSucceededStatus,
   changeProjectExperiments,
+  readFileContent,
   checkExperimentSuccess,
+  successOperatorMap,
+  filterOperatorParameters,
 };
