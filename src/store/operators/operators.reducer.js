@@ -88,13 +88,15 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
           isTerminated = true;
         }
 
+        const validParametersLatestTraining = operatorLatestTraining
+          ? operatorLatestTraining.parameters
+          : null;
+
         return {
           ...operator,
           status,
           statusMessage: operatorLatestTraining.statusMessage,
-          parametersLatestTraining: operatorLatestTraining
-            ? operatorLatestTraining.parameters
-            : null,
+          parametersLatestTraining: validParametersLatestTraining,
           experimentIsRunning: action.experimentIsRunning,
           interruptIsRunning: action.interruptIsRunning,
         };
@@ -102,10 +104,7 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
     }
     // train experiment success
     case experimentRunsActionTypes.CREATE_EXPERIMENT_RUN_SUCCESS:
-      return state.map((operator) => ({
-        ...operator,
-        status: operator.uuid === 'dataset' ? 'Succeeded' : 'Pending',
-      }));
+      return [...payload.operators];
 
     // ui
     case uiActionTypes.HIDE_OPERATOR_DRAWER:
