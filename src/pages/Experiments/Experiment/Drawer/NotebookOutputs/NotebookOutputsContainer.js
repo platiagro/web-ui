@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -16,7 +17,7 @@ const statusSelector = ({ operatorReducer }) => {
   return operatorReducer.status;
 };
 
-const NotebookOutputsContainer = () => {
+const NotebookOutputsContainer = ({ disabled }) => {
   const { experimentId } = useParams();
 
   const operatorId = useSelector(operatorIdSelector);
@@ -35,7 +36,20 @@ const NotebookOutputsContainer = () => {
     }
   };
 
-  return <NotebookOutputs handleOpenNotebookClick={openNotebook} />;
+  return (
+    <NotebookOutputs
+      handleOpenNotebookClick={openNotebook}
+      disabled={disabled}
+    />
+  );
+};
+
+NotebookOutputsContainer.propTypes = {
+  disabled: PropTypes.bool,
+};
+
+NotebookOutputsContainer.defaultProps = {
+  disabled: false,
 };
 
 export default NotebookOutputsContainer;

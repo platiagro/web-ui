@@ -45,7 +45,7 @@ const ResultsButtonBar = (props) => {
       <Button
         onClick={handleResultsClick}
         shape='round'
-        type='primary'
+        type='primary-inverse'
         disabled={disabled}
         loading={loading}
         icon={icon}

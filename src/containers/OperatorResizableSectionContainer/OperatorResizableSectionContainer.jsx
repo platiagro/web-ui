@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { OPERATOR_STATUS } from 'configs';
 import { ResultsButtonBar } from 'components/Buttons';
 import { showOperatorResults } from 'store/ui/actions';
 import { PropertiesPanel, PropertyBlock } from 'components';
+import { getExperiment } from 'store/projects/experiments/experiments.selectors';
 import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/DatasetDrawerContainer';
 import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/GenericDrawerContainer';
 import NotebookOutputsContainer from 'pages/Experiments/Experiment/Drawer/NotebookOutputs/NotebookOutputsContainer';
-import { getExperiment } from 'store/projects/experiments/experiments.selectors';
-import './OperatorResizableSectionContainer.less';
 
-const operatorDescriptionSelector = ({ operatorReducer }) => {
-  return operatorReducer.description;
-};
+import './OperatorResizableSectionContainer.less';
 
 const isDatasetOperatorSelector = ({ operatorReducer }) => {
   return operatorReducer.tags
@@ -21,40 +19,57 @@ const isDatasetOperatorSelector = ({ operatorReducer }) => {
     : false;
 };
 
-const operatorNameSelector = ({ operatorReducer }) => {
-  return operatorReducer.name;
+const operatorSelector = ({ operatorReducer, operatorsReducer }) => {
+  const currentOperatorId = operatorReducer.uuid;
+
+  // These lines below are important to get the latest operator status
+  // to enable or disable the buttons of this component.
+  // The operatorsReducer is an array of operators linked to the polling request
+  const operatorFound = operatorsReducer.find(
+    ({ uuid }) => uuid === currentOperatorId
+  );
+
+  return operatorFound || operatorReducer;
+};
+
+const experimentSelector = (projectId, experimentId) => (state) => {
+  return getExperiment(state, projectId, experimentId);
 };
 
 const OperatorResizableSectionContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
-  const [HasExperimentFinished, setHasExperimentFinished] = useState(false);
-
-  // TODO: Criar seletor com reselect
-  /* eslint-disable-next-line */
-  const experiment = useSelector((state) =>
-    getExperiment(state, projectId, experimentId)
-  );
-
-  const operatorDescription = useSelector(operatorDescriptionSelector);
+  const experiment = useSelector(experimentSelector(projectId, experimentId));
   const isDatasetOperator = useSelector(isDatasetOperatorSelector);
-  const operatorName = useSelector(operatorNameSelector);
+  const operator = useSelector(operatorSelector);
+
+  const isResultsButtonBarDisabled = useMemo(() => {
+    const isOperatorPending = operator.status === OPERATOR_STATUS.PENDING;
+    const isOperatorRunning = operator.status === OPERATOR_STATUS.RUNNING;
+    const hasExperimentSucceeded = !!experiment?.succeeded;
+
+    return (
+      !experimentId ||
+      isOperatorPending ||
+      isOperatorRunning ||
+      !hasExperimentSucceeded
+    );
+  }, [experiment?.succeeded, experimentId, operator.status]);
+
+  const isNotebookOutputsContainerDisabled = useMemo(() => {
+    const isOperatorPending = operator.status === OPERATOR_STATUS.PENDING;
+    const isOperatorRunning = operator.status === OPERATOR_STATUS.RUNNING;
+    return !experimentId || isOperatorPending || isOperatorRunning;
+  }, [operator.status, experimentId]);
 
   const handleShowResults = () => {
     dispatch(showOperatorResults());
   };
 
-  useEffect(() => {
-    if (experimentId) {
-      const wasExperimentSucceed = experiment?.succeeded || false;
-      setHasExperimentFinished(wasExperimentSucceed);
-    }
-  }, [experiment, experimentId]);
-
   return (
-    <PropertiesPanel tip={operatorDescription} title={operatorName}>
-      {!!operatorName && (
+    <PropertiesPanel tip={operator.description} title={operator.name}>
+      {!!operator?.name && (
         <>
           {isDatasetOperator && <DatasetDrawerContainer />}
 
@@ -66,11 +81,13 @@ const OperatorResizableSectionContainer = () => {
             <PropertyBlock>
               <ResultsButtonBar
                 showingResults={false}
-                disabled={!HasExperimentFinished}
+                disabled={isResultsButtonBarDisabled}
                 handleResultsClick={handleShowResults}
               />
 
-              <NotebookOutputsContainer />
+              <NotebookOutputsContainer
+                disabled={isNotebookOutputsContainerDisabled}
+              />
             </PropertyBlock>
           )}
         </>
