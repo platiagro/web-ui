@@ -7,6 +7,7 @@ import ReactFlow, { Background } from 'react-flow-renderer';
 
 import TaskBox from 'components/TaskBox';
 import LoadingBox from 'components/LoadingBox';
+import { OperatorsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { LogsButton } from 'components/Buttons';
 
 import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
@@ -17,7 +18,8 @@ const ExperimentFlow = ({
   tasks,
   isOver,
   canDrop,
-  loading,
+  flowLoading,
+  operatorLoading,
   arrowConfigs,
   numberOfLogs,
   connectDropTarget,
@@ -124,10 +126,18 @@ const ExperimentFlow = ({
     return [card, ...arrows];
   });
 
-  return loading ? (
+  const cursorStyle = operatorLoading ? { cursor: 'wait' } : {};
+
+  const emptyOperators = tasks.length === 0;
+
+  return flowLoading ? (
     <LoadingBox />
   ) : (
-    <div className='experiment-flow' ref={connectDropTarget}>
+    <div
+      className='experiment-flow'
+      style={cursorStyle}
+      ref={connectDropTarget}
+    >
       <ReactFlow
         deleteKeyCode={46}
         nodeTypes={nodeTypes}
@@ -157,6 +167,10 @@ const ExperimentFlow = ({
           style={{ backgroundColor }}
         />
 
+        {emptyOperators && (
+          <OperatorsEmptyPlaceholder className='experiment-flow-empty-operators' />
+        )}
+
         <LogsButton
           className='experiment-flow-logs-button'
           errorCount={numberOfLogs}
@@ -172,7 +186,8 @@ const ExperimentFlow = ({
 
 ExperimentFlow.propTypes = {
   tasks: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
+  flowLoading: PropTypes.bool.isRequired,
+  operatorLoading: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   isOver: PropTypes.bool.isRequired,
   numberOfLogs: PropTypes.number.isRequired,

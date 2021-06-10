@@ -61,15 +61,21 @@ const fetchOperatorsFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project ID
  * @param {string} experimentId Experiment ID
+ * @param {boolean} withLoading Flag to check loading or not
  * @returns {Promise} Request
  */
 export const fetchExperimentOperatorsRequest =
-  (projectId, experimentId) => async (dispatch) => {
+  (projectId, experimentId, withLoading = true) =>
+  async (dispatch) => {
     dispatch({
       type: OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
     });
-    dispatch(experimentOperatorsLoadingData());
-    dispatch(resultsButtonBarLoadingData());
+
+    if (withLoading) {
+      dispatch(clearAllDeploymentOperators());
+      dispatch(experimentOperatorsLoadingData());
+      dispatch(resultsButtonBarLoadingData());
+    }
 
     try {
       // getting operators
