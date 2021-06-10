@@ -1,14 +1,9 @@
 import * as TASKS_TYPES from './tasks.actionTypes';
 
 export const initialState = {
-  editModalIsVisible: false,
-  errorMessage: null,
-  modalIsVisible: false,
-  modalValidateStatus: null,
-  newTaskRecord: {},
-  pageSize: null,
   tasks: [],
-  totalTasks: null,
+  pageSize: 0,
+  totalTasks: 0,
   taskData: null,
 };
 
@@ -23,20 +18,10 @@ export const tasksReducer = (state = initialState, action = {}) => {
           sensitivity: 'base',
         })
       );
+
       return {
         ...state,
         tasks: sortedTasks,
-      };
-    }
-
-    case TASKS_TYPES.CLOSE_TASKS_MODAL: {
-      return {
-        ...state,
-        newTaskRecord: {},
-        editModalIsVisible: false,
-        modalIsVisible: false,
-        modalValidateStatus: null,
-        errorMessage: null,
       };
     }
 
@@ -81,39 +66,6 @@ export const tasksReducer = (state = initialState, action = {}) => {
         ...state,
         taskData,
         tasks: tasksAux,
-      };
-    }
-
-    case TASKS_TYPES.COPY_TASK_REQUEST: {
-      return {
-        ...state,
-        modalIsVisible: true,
-        newTaskRecord: action.newTaskRecord,
-      };
-    }
-
-    case TASKS_TYPES.SHOW_EDIT_TASK_MODAL: {
-      return {
-        ...state,
-        editModalIsVisible: true,
-        newTaskRecord: action.newTaskRecord,
-      };
-    }
-
-    case TASKS_TYPES.SHOW_NEW_TASK_MODAL: {
-      return {
-        ...state,
-        modalIsVisible: true,
-      };
-    }
-
-    case TASKS_TYPES.CREATE_TASK_FAIL:
-    case TASKS_TYPES.UPDATE_TASK_FAIL:
-    case TASKS_TYPES.COPY_TASK_FAIL: {
-      return {
-        ...state,
-        modalValidateStatus: 'error',
-        errorMessage: action.errorMessage,
       };
     }
 

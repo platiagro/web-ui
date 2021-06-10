@@ -115,15 +115,15 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
   useEffect(() => {
     if (taskData) {
-      setDescription(taskData.description);
+      setDescription(taskData.description || '');
 
       // TODO: Use taskData.category here when the backend accepts a category
       setCategory(taskData?.tags.length ? taskData.tags[0] : undefined);
 
-      setInputData(taskData.inputData);
-      setOutputData(taskData.outputData);
-      setSearchTags(taskData.tags);
-      setDocumentation(taskData.documentation);
+      setInputData(taskData.inputData || '');
+      setOutputData(taskData.outputData || '');
+      setSearchTags(taskData.tags || []);
+      setDocumentation(taskData.documentation || '');
     }
   }, [taskData]);
 

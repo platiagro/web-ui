@@ -64,9 +64,9 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
 
   useEffect(() => {
     if (taskData) {
-      setImageUrl(taskData.image);
-      setCommands(taskData.commands);
-      setArgs(taskData.args);
+      setImageUrl(taskData.image || '');
+      setCommands(taskData.commands || '');
+      setArgs(taskData.args || '');
     }
   }, [taskData]);
 

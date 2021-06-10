@@ -93,7 +93,7 @@
           color: #262626;
           font-weight: bold;
           font-size: 16px;
-          padding: 16px;
+          padding: 16px 16px 8px 16px;
         }
 
         .new-task-page-content-panels-left-list {
@@ -143,6 +143,10 @@
           &:hover,
           &:focus {
             transform: scale(1.05);
+          }
+
+          &:disabled {
+            background: #777777;
           }
         }
       }
