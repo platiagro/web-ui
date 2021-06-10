@@ -148,7 +148,7 @@ const createExperimentRunFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment id
- * @returns {Promise} Request
+ * @returns {Function} Dispatch function
  */
 const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
   dispatch({
@@ -207,7 +207,7 @@ const deleteExperimentRunFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId ExperimentUUID
- * @returns {Promise} Request
+ * @returns {Function} Dispatch function
  */
 const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
   dispatch({
@@ -418,7 +418,6 @@ export const fetchExperimentRunStatusRequest =
       );
   };
 
-// EXPORT DEFAUL
 export default {
   fetchExperimentRunsRequest,
   createExperimentRunRequest,

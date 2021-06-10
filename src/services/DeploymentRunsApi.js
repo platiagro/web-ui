@@ -1,8 +1,7 @@
-// CORE LIBS
 import axios from 'axios';
 
-// CONSTANTS
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
+
 const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
@@ -10,7 +9,6 @@ const projectsApi = axios.create({
 const deploymentsPath = 'deployments';
 const runsPath = 'runs';
 
-// API METHODS
 /**
  * List Deployment Runs
  *
@@ -56,7 +54,8 @@ const createDeploymentRun = (projectId, deploymentId) => {
  *
  * @param {string} projectId Project UUID
  * @param {string} deploymentId Deployment UUID
- * @returns {Promise} //
+ * @param {string} runId Deployment run UUID
+ * @returns {Promise} Request Promise
  */
 const deleteDeploymentRun = (projectId, deploymentId, runId) => {
   return projectsApi.delete(
@@ -92,7 +91,6 @@ const retryDeploymentRun = (projectId, deploymentId, runId) => {
   );
 };
 
-// EXPORT DEFAULT
 export default {
   fetchDeploymentRun,
   createDeploymentRun,

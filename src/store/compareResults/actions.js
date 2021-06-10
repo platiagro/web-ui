@@ -26,9 +26,10 @@ const { getExperiments } = Selectors;
 /**
  * Function to update experiments options data
  *
- * @param {string} experimentId
- * @param {object[]} children
- * @param {boolean} isLoading
+ * @param {string} experimentId Experiment Id
+ * @param {object[]} children Children elements
+ * @param {boolean} isLoading Is loading
+ * @returns {object} Experiment Options
  */
 const updateExperimentsOptions = (experimentId, children, isLoading) => {
   return {
@@ -42,7 +43,8 @@ const updateExperimentsOptions = (experimentId, children, isLoading) => {
 /**
  * Function to add compare result and dispatch to reducer
  *
- * @param {string} projectId
+ * @param {string} projectId Project Id
+ * @returns {Function} DIspatch function
  */
 export const addCompareResult = (projectId) => {
   return (dispatch) => {
@@ -67,8 +69,9 @@ export const addCompareResult = (projectId) => {
 /**
  * Function to delete compare result and dispatch to reducer
  *
- * @param {string} projectId
- * @param {string} id
+ * @param {string} projectId Project Id
+ * @param {string} id COmpare result Id
+ * @returns {Function} Dispatch function
  */
 export const deleteCompareResult = (projectId, id) => {
   return (dispatch) => {
@@ -93,8 +96,8 @@ export const deleteCompareResult = (projectId, id) => {
 /**
  * Function to fetch compare results and dispatch to reducer
  *
- * @param {string} projectId
- * @param {object[]} experiments
+ * @param {string} projectId Project Id
+ * @returns {Function} DIspatch function
  */
 export const fetchCompareResults = (projectId) => (dispatch, getState) => {
   dispatch(changeLoadingCompareResultsModal(true));
@@ -139,7 +142,8 @@ export const fetchCompareResults = (projectId) => (dispatch, getState) => {
 /**
  * Function to fetch the compare results results and dispatch to reducer
  *
- * @param {object} compareResult
+ * @param {object} compareResult Compare result
+ * @returns {Function} Dispatch function
  */
 export const fetchCompareResultsResults =
   (compareResult) => async (dispatch) => {
@@ -200,9 +204,10 @@ export const fetchCompareResultsResults =
 /**
  * Get compare result dataset paginated
  *
- * @param compareResult
- * @param page
- * @param pageSize
+ * @param {object} compareResult Compare result
+ * @param {number} page Page number
+ * @param {number} pageSize Page size
+ * @returns {Function} Dispatch function
  */
 export const getCompareResultDatasetPaginated =
   (compareResult, page, pageSize) => (dispatch) => {
@@ -261,8 +266,9 @@ export const getCompareResultDatasetPaginated =
 /**
  * Function to fetch the training history and dispatch to reducer
  *
- * @param projectId
- * @param {string} experimentId
+ * @param {string} projectId Project Id
+ * @param {string} experimentId Experiment id
+ * @returns {Function} DIspatch function
  */
 export const fetchTrainingHistory = (projectId, experimentId) => {
   return (dispatch, getState) => {
@@ -299,8 +305,9 @@ export const fetchTrainingHistory = (projectId, experimentId) => {
 /**
  * Function to update compare result and dispatch to reducer
  *
- * @param {object} compareResult
- * @param {boolean} isToDispachAction
+ * @param {object} compareResult Compare result
+ * @param {boolean} isToDispachAction Is to dispatch function
+ * @returns {Function} Dispatch function
  */
 export const updateCompareResult = (compareResult, isToDispachAction) => {
   return (dispatch) => {

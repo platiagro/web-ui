@@ -1,36 +1,21 @@
-// REACT LIBS
 import React from 'react';
 
-// IMAGES
-// experimentation icon
 import experimentationIcon from 'assets/experimentationIcon.svg';
-// pre implantation icon
 import preImplantationIcon from 'assets/preImplantationIcon.svg';
 
-// STYLES
 import './styles.less';
 
-/**
- * Project empty placeholder.
- *
- * @returns {ProjectEmptyPlaceholder} Component
- * @component
- * @example
- * return <ProjectEmptyPlaceholder />;
- */
 const ProjectEmptyPlaceholder = () => {
-  // rendering component
   return (
     <div className='projectEmptyPlaceholderContainer'>
       <div className='projectEmptyPlaceholder'>
-        {/* title */}
         <h3>Projeto vazio</h3>
-        {/* description */}
+
         <p>
           Para começar, clique em <strong>Novo Fluxo</strong> e escolha um dos
           tipos:
         </p>
-        {/* experimentation description block */}
+
         <div className='infoBlock'>
           <div className='imgBlock experimentationIcon'>
             <img src={experimentationIcon} alt='experimentação' />
@@ -45,7 +30,7 @@ const ProjectEmptyPlaceholder = () => {
             pré-implantação.
           </p>
         </div>
-        {/* pre implantation description block */}
+
         <div className='infoBlock'>
           <div className='imgBlock'>
             <img src={preImplantationIcon} alt='pré-implantação' />
@@ -64,5 +49,4 @@ const ProjectEmptyPlaceholder = () => {
   );
 };
 
-// EXPORT DEFAULT
 export default ProjectEmptyPlaceholder;

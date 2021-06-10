@@ -1,14 +1,7 @@
-// CORE LIBS
 import React from 'react';
+import { Pagination } from 'antd';
 import PropTypes from 'prop-types';
 
-// UI LIBS
-import { Pagination } from 'antd';
-
-/**
- * Projects Table Pagination.
- * This component is responsible for displaying projects table pagination.
- */
 const ProjectsTablePagination = ({
   disabled,
   currentPage,
@@ -33,19 +26,12 @@ const ProjectsTablePagination = ({
   );
 };
 
-// PROP TYPES
 ProjectsTablePagination.propTypes = {
-  /** pagination is disabled */
   disabled: PropTypes.bool.isRequired,
-  /** current page */
   currentPage: PropTypes.number.isRequired,
-  /** page size */
   pageSize: PropTypes.number.isRequired,
-  /** total pages  */
   total: PropTypes.number.isRequired,
-  /** on change page or page size handle */
   onChange: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default ProjectsTablePagination;

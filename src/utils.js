@@ -362,10 +362,10 @@ const getTaskData = (tasks, taskId, task = undefined) => {
  *
  * Method to configure operator parameters
  *
- * @param {object[]} taskParameters
- * @param {object} operatorParameters
- * @param {object[]} featureOptions
- * @param isDataset
+ * @param {object[]} taskParameters Task parameters
+ * @param {object} operatorParameters Operator parameters
+ * @param {object[]} featureOptions Feature Options
+ * @param {boolean} isDataset Is Dataset
  * @returns {object[]} configured operator parameters
  */
 const configureOperatorParameters = (
@@ -504,7 +504,7 @@ const configureOperators = (tasks, operators, datasetColumns) => {
  * Check Operator Setted Up
  * Function to check if operator is setted up
  *
- * @param {object[]} operator
+ * @param {object[]} operator Operator
  * @returns {boolean} operator is setted up?
  */
 const checkOperatorSettedUp = (operator) => {
@@ -598,8 +598,8 @@ const getDatasetName = (tasks, operators) => {
 /**
  * Sleep method
  *
- * @param {int} milliseconds
- * @returns {Promise}
+ * @param {number} milliseconds milliseconds
+ * @returns {Promise} Promise
  */
 const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -608,8 +608,8 @@ const sleep = (milliseconds) => {
 /**
  * Check whenever a dataset has featuretypes
  *
- * @param {object} dataset
- * @returns {boolean}
+ * @param {object} dataset Dataset
+ * @returns {boolean} Has feature types
  */
 const hasFeaturetypes = (dataset) => {
   if (hasOwnProperty.call(dataset, 'columns')) {
@@ -626,8 +626,8 @@ const hasFeaturetypes = (dataset) => {
 /**
  * Get featuretypes from a dataset
  *
- * @param {object} dataset
- * @returns {string}
+ * @param {object} dataset Dataset
+ * @returns {string} feature types
  */
 const getFeaturetypes = (dataset) => {
   if (hasFeaturetypes(dataset)) {
@@ -707,7 +707,7 @@ const toRawText = (strEncoded) => {
 /**
  * Copy Seldon response to clipboard.
  *
- * @param experimentInference
+ * @param {object} experimentInference Experiment inference
  */
 const copyToClipboard = (experimentInference) => {
   const text = toRawText(experimentInference);
@@ -731,7 +731,7 @@ const copyToClipboard = (experimentInference) => {
 /**
  * Download a response content as file
  *
- * @param experimentInference
+ * @param {object} experimentInference Experiment inference
  * @returns {string} content as base64
  */
 const downloadFile = (experimentInference) => {
@@ -759,8 +759,9 @@ const formatCompareResultDate = (date) => {
 /**
  * Format results parameters to use label from parameter and value from training
  *
- * @param parameters
- * @param parametersTraining
+ * @param {object} parameters Parameters
+ * @param {object} parametersTraining Parameters training
+ * @returns {object} Results parameters
  */
 const formatResultsParameters = (parameters, parametersTraining) => {
   const resultsParameters = [];

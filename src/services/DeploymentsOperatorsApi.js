@@ -1,15 +1,14 @@
-// CORE LIBS
 import axios from 'axios';
 
-// CONSTANTS
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
+
 const operatorsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
+
 const deploymentsPath = 'deployments';
 const operatorsPath = 'operators';
 
-// API METHODS
 /**
  * List Operators
  *
@@ -30,6 +29,9 @@ const listOperators = (projectId, deploymentId) => {
  * @param {string} deploymentId Deployment UUID
  * @param {string} taskId Project UUID
  * @param {string[]} dependencies List of operators UUID
+ * @param {object} position Contains the X and Y coordinates
+ * @param {number} position.x X Coordinate
+ * @param {number} position.y Y Coordinate
  * @returns {Promise} Request Promise
  */
 const createOperator = (
@@ -81,7 +83,6 @@ const updateOperator = (projectId, deploymentId, operatorId, operator) => {
   );
 };
 
-// EXPORT DEFAULT
 export default {
   listOperators,
   createOperator,

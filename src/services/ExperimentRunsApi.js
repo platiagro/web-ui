@@ -1,8 +1,7 @@
-// CORE LIBS
 import axios from 'axios';
 
-// CONSTANTS
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
+
 const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
@@ -10,7 +9,6 @@ const projectsApi = axios.create({
 const experimentsPath = 'experiments';
 const runsPath = 'runs';
 
-// API METHODS
 /**
  * Detail Experiment Runs
  *
@@ -87,8 +85,8 @@ const retryExperimentRun = (projectId, experimentId, runId) => {
  * @param {string} experimentId Experiment UUID
  * @param {string} runId Run UUID
  * @param {string} operatorId Operator UUID
- * @param {int} page Dataset Page
- * @param {int} pageSize Dataset Page Size
+ * @param {number} page Dataset Page
+ * @param {number} pageSize Dataset Page Size
  * @returns {Promise} Request Promise
  */
 const listOperatorDatasets = (
@@ -148,7 +146,6 @@ const fetchExperimentLogs = (projectId, experimentId, runId) => {
   );
 };
 
-// EXPORT DEFAULT
 export default {
   fetchExperimentRuns,
   fetchExperimentRunStatus,

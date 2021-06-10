@@ -51,6 +51,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
       case FIELD_IDS.DOCUMENTATION:
         return documentation.trim();
+
+      default:
+        return undefined;
     }
   };
 
@@ -74,6 +77,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
       case FIELD_IDS.DOCUMENTATION:
         return taskData.documentation;
+
+      default:
+        return undefined;
     }
   };
 
@@ -94,6 +100,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
       case FIELD_IDS.CATEGORY: {
         return oldValue.some((tag) => newValue.includes(tag));
       }
+
+      default:
+        return true;
     }
   };
 

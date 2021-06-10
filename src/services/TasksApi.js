@@ -33,7 +33,8 @@ const deleteTask = (id) => {
  * Get all tasks
  *
  * @param {object} filters Filters object
- * @returns {Promise} Request promise
+ * @param {Array} filters.tags Tag array to filter
+ * @returns {Promise} The request promise
  */
 const getAllTasks = (filters) => {
   const tags = filters?.tags || [];
