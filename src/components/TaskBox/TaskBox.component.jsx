@@ -111,7 +111,7 @@ const TaskBox = ({
     handleClick(operator);
   };
 
-  const handleRemoveOperator = (operator) => {
+  const handleRemoveOperator = () => {
     dispatch(removeOperatorRequest(projectId, experimentId, operator));
   };
 
@@ -124,7 +124,7 @@ const TaskBox = ({
     }
 
     if (!experimentIsRunning && !isPending && !isRunning && isRemoveKey) {
-      handleRemoveOperator(operator);
+      handleRemoveOperator();
     }
   };
 
