@@ -285,14 +285,6 @@ export const selectOperatorAndGetData =
       dispatch(getDatasetRequest(datasetValue));
     }
 
-    dispatch(
-      getOperatorFigures(projectId, experimentId, 'latest', operator.uuid)
-    );
-
-    dispatch(
-      getOperatorResultDataset(projectId, experimentId, operator.uuid, 1, 10)
-    );
-
     if (!isDataset && operator.status === 'Failed') {
       dispatch(getOperatorLogs(projectId, experimentId, operator.uuid));
     }

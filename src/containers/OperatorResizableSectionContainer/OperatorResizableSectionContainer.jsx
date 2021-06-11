@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { OPERATOR_STATUS } from 'configs';
 import { ResultsButtonBar } from 'components/Buttons';
 import { showOperatorResults } from 'store/ui/actions';
+import {
+  getOperatorFigures,
+  getOperatorResultDataset,
+} from 'store/operator/operator.actions';
 import { PropertiesPanel, PropertyBlock } from 'components';
 import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/DatasetDrawerContainer';
 import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/GenericDrawerContainer';
@@ -32,7 +36,7 @@ const operatorSelector = ({ operatorReducer, operatorsReducer }) => {
 };
 
 const OperatorResizableSectionContainer = () => {
-  const { experimentId } = useParams();
+  const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
   const isDatasetOperator = useSelector(isDatasetOperatorSelector);
@@ -60,6 +64,13 @@ const OperatorResizableSectionContainer = () => {
   }, [operator.status, experimentId]);
 
   const handleShowResults = () => {
+    dispatch(
+      getOperatorFigures(projectId, experimentId, 'latest', operator.uuid)
+    );
+
+    dispatch(
+      getOperatorResultDataset(projectId, experimentId, operator.uuid, 1, 10)
+    );
     dispatch(showOperatorResults());
   };
 
