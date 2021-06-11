@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 import { Empty, Spin, Tabs } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -104,9 +103,9 @@ const ResultsDrawer = (props) => {
             <CommonTable
               scroll={scroll}
               isLoading={false}
-              rowKey={() => uuidv4()}
               dataSource={parameters}
               columns={parametersColumns}
+              rowKey={(data, index) => data.name || `result-${index}`}
               bordered
             />
           </Tabs.TabPane>

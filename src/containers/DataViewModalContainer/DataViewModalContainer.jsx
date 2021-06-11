@@ -1,5 +1,4 @@
 import React, { useLayoutEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { Pagination, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -237,9 +236,7 @@ const DataViewModalContainer = () => {
                 columns={columns}
                 dataSource={datasetData}
                 isLoading={datasetLoading}
-                rowKey={() => {
-                  return uuidv4();
-                }}
+                rowKey={(_, index) => `observação-${index}`}
                 scroll={{
                   x: columns.length > 10 ? 2000 : 1000,
                   y: window.innerHeight / 2,

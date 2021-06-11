@@ -207,7 +207,6 @@ web-ui
 │  ├─ components                                                          // application components
 │  ├─ containers                                                          // application containers
 │  ├─ index.js                                                            // application initialization file
-│  ├─ serviceWorker.js                                                    // standard react pwa utility
 │  ├─ services                                                            // application services
 │  ├─ setupTests.js                                                       // test configurations (enzyme)
 │  ├─ store                                                               // application stores
@@ -362,7 +361,6 @@ Project libraries dependencies.
   "dependencies": {
     "antd": "4.6.4",                                                      // design system library (wm)
     "axios": "^0.20.0",                                                   // request library
-    "istextorbinary": "^5.11.0",                                          // utility to check if a file name is text or binary
     "react": "^16.13.1",                                                  // react - ui spa framework
     "react-contextmenu": "^2.14.0",                                       // context menu utility for react
     "react-copy-to-clipboard": "^5.0.1",                                  // utility to copy to the clipboard in react
@@ -382,9 +380,7 @@ Project libraries dependencies.
     "react-router-dom": "^5.2.0",                                         // route libraries for react
     "react-scripts": "3.4.4",                                             // cra scripts and settings (create react app)
     "redux": "^4.0.4",                                                    // redux - flow-based state manager
-    "redux-thunk": "^2.3.0",                                              // redux middleware for asynchronous actions
-    "universal-cookie": "^4.0.2",                                         // javascript cookie utility
-    "uuid": "^8.3.0"                                                      // utility for creating UUID
+    "redux-thunk": "^2.3.0"                                               // redux middleware for asynchronous actions
   }
 ...
 }
@@ -397,7 +393,6 @@ Development dependencies.
 {
 ...
   "devDependencies": {
-    "@axe-core/react": "^4.1.0",                                          // utility to validate accessibility rules in the browser
     "@craco/craco": "^5.8.0",                                             // create react app configuration override (CRACO) - used to customize the antd theme
     "babel-eslint": "10.1.0",                                             // parser (parsing) of modern javascript for ESLint
     "craco-less": "^1.17.0",                                              // less plugin for craco
