@@ -5,60 +5,52 @@ import { useParams } from 'react-router-dom';
 import { Handle } from 'react-flow-renderer';
 import { Tooltip, Menu, Dropdown } from 'antd';
 import {
-  CheckCircleFilled,
-  ClockCircleFilled,
-  ExclamationCircleFilled,
   StopOutlined,
   LoadingOutlined,
+  ClockCircleFilled,
+  CheckCircleFilled,
+  ExclamationCircleFilled,
 } from '@ant-design/icons';
 
+import { OPERATOR_STATUS } from 'configs';
 import { removeOperatorRequest } from 'store/operator';
 
 import './style.less';
-
-const TASK_BOX_STATUS = {
-  RUNNING: 'Running',
-  PENDING: 'Pending',
-  SUCCEEDED: 'Succeeded',
-  FAILED: 'Failed',
-  TERMINATED: 'Terminated',
-  LOADING: 'Loading',
-};
 
 const getToolTipConfig = (status, interruptIsRunning) => {
   const style = { fontSize: '18px' };
   const config = { title: '', iconType: '' };
 
   switch (status) {
-    case TASK_BOX_STATUS.RUNNING: {
+    case OPERATOR_STATUS.RUNNING: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa em execução';
       config.iconType = <LoadingOutlined style={style} spin />;
       break;
     }
 
-    case TASK_BOX_STATUS.PENDING: {
+    case OPERATOR_STATUS.PENDING: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa pendente';
       config.iconType = <ClockCircleFilled style={style} />;
       break;
     }
 
-    case TASK_BOX_STATUS.SUCCEEDED: {
+    case OPERATOR_STATUS.SUCCEEDED: {
       style.color = interruptIsRunning ? '' : '#389E0D';
       config.title = 'Tarefa executada com sucesso';
       config.iconType = <CheckCircleFilled style={style} />;
       break;
     }
 
-    case TASK_BOX_STATUS.FAILED: {
+    case OPERATOR_STATUS.FAILED: {
       style.color = interruptIsRunning ? '' : '#CF1322';
       config.title = 'Tarefa executada com falha';
       config.iconType = <ExclamationCircleFilled style={style} />;
       break;
     }
 
-    case TASK_BOX_STATUS.TERMINATED: {
+    case OPERATOR_STATUS.TERMINATED: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa interrompida';
       config.iconType = <StopOutlined style={style} />;
@@ -90,9 +82,9 @@ const TaskBox = ({
 
   const { isPending, isRunning, isLoading } = useMemo(
     () => ({
-      isPending: status === TASK_BOX_STATUS.PENDING,
-      isRunning: status === TASK_BOX_STATUS.RUNNING,
-      isLoading: status === TASK_BOX_STATUS.LOADING,
+      isPending: status === OPERATOR_STATUS.PENDING,
+      isRunning: status === OPERATOR_STATUS.RUNNING,
+      isLoading: status === OPERATOR_STATUS.LOADING,
     }),
     [status]
   );
@@ -116,24 +108,23 @@ const TaskBox = ({
   const handleBoxClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!isPending && !isRunning) handleClick(operator);
+    handleClick(operator);
   };
 
-  const handleRemoveOperator = (operatorId) => {
-    dispatch(removeOperatorRequest(projectId, experimentId, operatorId));
+  const handleRemoveOperator = () => {
+    dispatch(removeOperatorRequest(projectId, experimentId, operator));
   };
 
   const handleRightButtonClick = (e) => {
-    if (experimentIsRunning || interruptIsRunning) return;
     const isEditKey = e.key === 'edit';
     const isRemoveKey = e.key === 'remove';
 
-    if (!isPending && !isRunning && isEditKey) {
+    if (isEditKey) {
       handleClick(operator);
     }
 
-    if (!isPending && !isRunning && isRemoveKey) {
-      handleRemoveOperator(operator);
+    if (!experimentIsRunning && !isPending && !isRunning && isRemoveKey) {
+      handleRemoveOperator();
     }
   };
 

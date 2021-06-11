@@ -24,7 +24,7 @@ const ResultsButtonBar = ({
     <Button
       onClick={handleResultsClick}
       shape='round'
-      type='primary'
+      type='primary-inverse'
       disabled={disabled}
       loading={loading}
       icon={<TableOutlined />}

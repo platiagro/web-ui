@@ -3,13 +3,14 @@ import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { CodeOutlined } from '@ant-design/icons';
 
-const NotebookOutputs = ({ handleOpenNotebookClick }) => {
+const NotebookOutputs = ({ handleOpenNotebookClick, disabled }) => {
   return (
     <Button
-      onClick={handleOpenNotebookClick}
-      icon={<CodeOutlined />}
-      type='primary-inverse'
       shape='round'
+      disabled={disabled}
+      type='primary-inverse'
+      icon={<CodeOutlined />}
+      onClick={handleOpenNotebookClick}
     >
       Ver código no Jupyter
     </Button>
@@ -18,6 +19,11 @@ const NotebookOutputs = ({ handleOpenNotebookClick }) => {
 
 NotebookOutputs.propTypes = {
   handleOpenNotebookClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+NotebookOutputs.defaultProps = {
+  disabled: false,
 };
 
 export default NotebookOutputs;
