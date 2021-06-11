@@ -17,10 +17,10 @@ const FIELD_IDS = {
 const FIELD_ID_TO_FIELD_NAME = {
   DESCRIPTION: 'description',
   CATEGORY: 'category',
-  INPUT_DATA: 'inputData',
-  OUTPUT_DATA: 'outputData',
+  INPUT_DATA: 'dataIn',
+  OUTPUT_DATA: 'dataOut',
   SEARCH_TAGS: 'tags',
-  DOCUMENTATION: 'documentation',
+  DOCUMENTATION: 'docs',
 };
 
 const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
