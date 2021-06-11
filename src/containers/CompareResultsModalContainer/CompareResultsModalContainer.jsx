@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
 import {
   DownloadOutlined,
@@ -95,7 +94,7 @@ const CompareResultsModalContainer = () => {
 
   const renderLoadingCard = () => {
     return (
-      <Col key={uuidv4()} span={12}>
+      <Col span={12}>
         <Card
           title={<Skeleton paragraphConfig={{ rows: 1, width: '100%' }} />}
           style={{ height: 450, overflowX: 'scroll' }}
@@ -108,12 +107,10 @@ const CompareResultsModalContainer = () => {
               { title: '' },
               { title: '' },
             ]}
-            isLoading={true}
-            rowKey={() => {
-              return uuidv4();
-            }}
             size={'small'}
+            isLoading={true}
             skeletonRowsAmount={5}
+            rowKey={(_, index) => `loading-${index}`}
           />
         </Card>
       </Col>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 
 import { CommonTable } from 'components';
 
@@ -29,7 +28,7 @@ const TableResult = ({
         columns={columns}
         dataSource={rows}
         isLoading={false}
-        rowKey={() => uuidv4()}
+        rowKey={(_, index) => `table-result-${index}`}
       />
 
       <br />
