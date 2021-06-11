@@ -16,7 +16,7 @@ const FIELD_IDS = {
 
 const FIELD_ID_TO_FIELD_NAME = {
   DESCRIPTION: 'description',
-  CATEGORY: 'tags', // TODO: Put 'category' here when the backend accepts a category
+  CATEGORY: 'category',
   INPUT_DATA: 'inputData',
   OUTPUT_DATA: 'outputData',
   SEARCH_TAGS: 'tags',
@@ -36,9 +36,8 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
       case FIELD_IDS.DESCRIPTION:
         return description.trim();
 
-      // TODO: Return only the category when the backend accepts a category
       case FIELD_IDS.CATEGORY:
-        return [category];
+        return category;
 
       case FIELD_IDS.INPUT_DATA:
         return inputData.trim();
@@ -47,7 +46,7 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
         return outputData.trim();
 
       case FIELD_IDS.SEARCH_TAGS:
-        return searchTags.trim();
+        return searchTags.map((tag) => tag.trim());
 
       case FIELD_IDS.DOCUMENTATION:
         return documentation.trim();
@@ -59,26 +58,26 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
       case FIELD_IDS.DESCRIPTION:
         return taskData.description;
 
-      // TODO: Return the category when the backend accepts a category
       case FIELD_IDS.CATEGORY:
-        return taskData.tags;
+        return taskData.category;
 
       case FIELD_IDS.INPUT_DATA:
-        return taskData.inputData;
+        return taskData.dataIn;
 
       case FIELD_IDS.OUTPUT_DATA:
-        return taskData.outputData;
+        return taskData.dataOut;
 
       case FIELD_IDS.SEARCH_TAGS:
-        return taskData.searchTags;
+        return taskData.tags;
 
       case FIELD_IDS.DOCUMENTATION:
-        return taskData.documentation;
+        return taskData.docs;
     }
   };
 
   const handleCompareNewAndOldValues = (fieldId, oldValue, newValue) => {
     switch (fieldId) {
+      case FIELD_IDS.CATEGORY:
       case FIELD_IDS.INPUT_DATA:
       case FIELD_IDS.DESCRIPTION:
       case FIELD_IDS.OUTPUT_DATA:
@@ -88,11 +87,7 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
       case FIELD_IDS.SEARCH_TAGS: {
         const hasTheSameLength = oldValue.length === newValue.length;
         const isIdentical = oldValue.every((tag) => newValue.includes(tag));
-        return hasTheSameLength || isIdentical;
-      }
-
-      case FIELD_IDS.CATEGORY: {
-        return oldValue.some((tag) => newValue.includes(tag));
+        return hasTheSameLength && isIdentical;
       }
     }
   };
@@ -116,14 +111,11 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
   useEffect(() => {
     if (taskData) {
       setDescription(taskData.description || '');
-
-      // TODO: Use taskData.category here when the backend accepts a category
-      setCategory(taskData?.tags.length ? taskData.tags[0] : undefined);
-
-      setInputData(taskData.inputData || '');
-      setOutputData(taskData.outputData || '');
+      setCategory(taskData.category);
+      setInputData(taskData.dataIn || '');
+      setOutputData(taskData.dataOut || '');
       setSearchTags(taskData.tags || []);
-      setDocumentation(taskData.documentation || '');
+      setDocumentation(taskData.docs || '');
     }
   }, [taskData]);
 
@@ -264,13 +256,11 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
                 {...otherTagProps}
                 color='blue'
                 closeIcon={<CloseOutlined style={{ color: '#1890ff' }} />}
-                closable={false} // TODO: Make this field closable removing this prop when the backend accepts custom tags
               >
                 {label}
               </Tag>
             );
           }}
-          disabled // TODO: Enable this field when the backend accepts custom tags
         />
       </div>
 
