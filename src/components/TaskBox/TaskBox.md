@@ -44,7 +44,6 @@ const handleToggleSelection = () => {
         onConnectingClass='Connecting Class'
         settedUp={true}
         handleClick={handleToggleSelection}
-        handleRemoveOperator={() => alert('Operator Removed')}
         operator={null}
         dependenciesGraph={{}}
         selected={isSelected}

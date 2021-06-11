@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master, v*-branch ]
+    branches: [master, v*-branch]
   pull_request:
-    branches: [ master, v*-branch ]
+    branches: [master, v*-branch]
 
 jobs:
   build:
@@ -86,8 +86,6 @@ jobs:
         run: |
           yarn build
           yarn test:ci
-        env:
-          CI: false
 
       - name: SonarCloud Scan
         if: ${{ always() }}

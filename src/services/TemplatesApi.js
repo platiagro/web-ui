@@ -1,21 +1,17 @@
-// CORE LIBS
 import axios from 'axios';
 
-// CONSTANTS
-// api base url
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
-// api object
+
 const templatesApi = axios.create({
   baseURL: URL,
 });
-// templates path
+
 const templatesPath = '/templates';
 
-// API METHODS
 /**
  * List Templates
  *
- * @returns {Promise}
+ * @returns {Promise} Request Promise
  */
 const listTemplates = () => {
   return templatesApi.get(templatesPath);
@@ -23,11 +19,10 @@ const listTemplates = () => {
 
 /**
  * Create Template
- * 
+ *
  * @param {string} templateName Template name
  * @param {string} experimentId Experiment UUID
- * 
- * @returns {Promise}
+ * @returns {Promise} Request Promise
  */
 const createTemplate = (templateName, experimentId) => {
   const body = {
@@ -39,11 +34,10 @@ const createTemplate = (templateName, experimentId) => {
 
 /**
  * Update Template
- * 
+ *
  * @param {string} templateId Template UUID
  * @param {string} templateName Template new name
- * 
- * @returns {Promise}
+ * @returns {Promise} Request Promise
  */
 const updateTemplate = (templateId, templateName) => {
   const body = {
@@ -54,16 +48,14 @@ const updateTemplate = (templateId, templateName) => {
 
 /**
  * Delete Template
- * 
+ *
  * @param {string} templateId Template UUID
- * 
- * @returns {Promise}
+ * @returns {Promise} Request Promise
  */
 const deleteTemplate = (templateId) => {
-    return templatesApi.delete(`${templatesPath}/${templateId}`);
+  return templatesApi.delete(`${templatesPath}/${templateId}`);
 };
 
-// EXPORT DEFAULT
 export default {
   listTemplates,
   createTemplate,

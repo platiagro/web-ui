@@ -1,7 +1,5 @@
-// ACTION TYPES
 import actionTypes from './actionTypes';
 
-// INITIAL STATE
 const initialState = [];
 
 /**
@@ -18,6 +16,7 @@ const experimentRunsReducer = (state = initialState, action = undefined) => {
     // experiment runs
     case actionTypes.FETCH_EXPERIMENT_RUNS_SUCCESS:
       return [...action.runs];
+
     case actionTypes.CREATE_EXPERIMENT_RUN_SUCCESS:
       return [...state, { runId: payload.runId }];
     case actionTypes.DELETE_EXPERIMENT_RUN_SUCCESS:
@@ -27,16 +26,16 @@ const experimentRunsReducer = (state = initialState, action = undefined) => {
     // experiment runs
     case actionTypes.FETCH_EXPERIMENT_RUNS_FAIL:
       return [...state];
+
     case actionTypes.CREATE_EXPERIMENT_RUN_FAIL:
       return [...state];
+
     case actionTypes.DELETE_EXPERIMENT_RUN_FAIL:
       return [...state];
 
-    // DEFAULT
     default:
       return state;
   }
 };
 
-// EXPORT
 export default experimentRunsReducer;

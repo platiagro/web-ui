@@ -15,7 +15,7 @@ import { datasetsListLoadingData, datasetsListDataLoaded } from '../ui/actions';
 /**
  * fetch datasets success action
  *
- * @param {object} response
+ * @param {object} response Response
  * @returns {object} {type, experiments}
  */
 const fetchDatasetsSuccess = (response) => (dispatch) => {
@@ -34,7 +34,7 @@ const fetchDatasetsSuccess = (response) => (dispatch) => {
 /**
  * fetch datasets fail action
  *
- * @param {object} error
+ * @param {object} error Error
  * @returns {object} { type, errorMessage }
  */
 const fetchDatasetsFail = (error) => (dispatch) => {
@@ -55,8 +55,7 @@ const fetchDatasetsFail = (error) => (dispatch) => {
 /**
  * fetch datasets request action
  *
- * @param {string} projectId
- * @returns {Function}
+ * @returns {Function} Dispatch function
  */
 export const fetchDatasetsRequest = () => (dispatch) => {
   // dispatching request action
@@ -84,7 +83,7 @@ export const fetchDatasetsRequest = () => (dispatch) => {
 /**
  * clear all datasets action
  *
- * @returns {Function}
+ * @returns {Function} Dispatch function
  */
 export const clearAllDatasets = () => (dispatch) => {
   dispatch({

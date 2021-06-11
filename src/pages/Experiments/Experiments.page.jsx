@@ -18,14 +18,16 @@ import NewExperimentButton from './NewExperimentButton/NewExperimentButtonContai
 import NewExperimentModal from './NewExperimentModal/NewExperimentModalContainer';
 import ExperimentsTabs from './ExperimentsTabs/ExperimentTabsContainer';
 import TasksMenuBlock from './TasksMenuBlock/TasksMenuBlockContainer';
+import useRedirectToError404 from './useRedirectToError404';
 import FlowDrop from './FlowDrop';
 
 import './Experiments.style.less';
 
 const Experiments = () => {
-  const { experimentId } = useParams();
+  const { projectId, experimentId } = useParams();
 
   useShowOperatorStatusNotifications();
+  useRedirectToError404(projectId, experimentId);
 
   useEffect(() => {
     return () => {

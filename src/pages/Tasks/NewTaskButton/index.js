@@ -1,35 +1,23 @@
-// CORE LIBS
 import React from 'react';
-import PropTypes from 'prop-types';
-
-// UI LIBS
-import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import PropTypes from 'prop-types';
+import { PlusOutlined } from '@ant-design/icons';
 
-/**
- * New Task Button.
- * This component is responsible for displaying new task button.
- */
-const NewTaskButton = ({ handleClick, disabled }) => (
-  // button component
+const NewTaskButton = ({ disabled, handleClick }) => (
   <Button
-    disabled={disabled}
-    onClick={handleClick}
     className='newTaskButton'
-    type='primary'
     icon={<PlusOutlined />}
+    onClick={handleClick}
+    disabled={disabled}
+    type='primary'
   >
     Nova Tarefa
   </Button>
 );
 
-// PROP TYPES
 NewTaskButton.propTypes = {
-  /** new task button is disabled */
   disabled: PropTypes.bool.isRequired,
-  /** new task button click function */
   handleClick: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default NewTaskButton;
