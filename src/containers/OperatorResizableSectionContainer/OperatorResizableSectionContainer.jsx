@@ -6,7 +6,6 @@ import { OPERATOR_STATUS } from 'configs';
 import { ResultsButtonBar } from 'components/Buttons';
 import { showOperatorResults } from 'store/ui/actions';
 import { PropertiesPanel, PropertyBlock } from 'components';
-import { getExperiment } from 'store/projects/experiments/experiments.selectors';
 import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/DatasetDrawerContainer';
 import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/GenericDrawerContainer';
 import NotebookOutputsContainer from 'pages/Experiments/Experiment/Drawer/NotebookOutputs/NotebookOutputsContainer';
@@ -24,7 +23,7 @@ const operatorSelector = ({ operatorReducer, operatorsReducer }) => {
 
   // These lines below are important to get the latest operator status
   // to enable or disable the buttons of this component.
-  // The operatorsReducer is an array of operators linked to the polling request
+  // The operatorsReducer is an array related to the operators long polling
   const operatorFound = operatorsReducer.find(
     ({ uuid }) => uuid === currentOperatorId
   );
@@ -32,30 +31,27 @@ const operatorSelector = ({ operatorReducer, operatorsReducer }) => {
   return operatorFound || operatorReducer;
 };
 
-const experimentSelector = (projectId, experimentId) => (state) => {
-  return getExperiment(state, projectId, experimentId);
-};
-
 const OperatorResizableSectionContainer = () => {
-  const { projectId, experimentId } = useParams();
+  const { experimentId } = useParams();
   const dispatch = useDispatch();
 
-  const experiment = useSelector(experimentSelector(projectId, experimentId));
   const isDatasetOperator = useSelector(isDatasetOperatorSelector);
   const operator = useSelector(operatorSelector);
 
   const isResultsButtonBarDisabled = useMemo(() => {
     const isOperatorPending = operator.status === OPERATOR_STATUS.PENDING;
     const isOperatorRunning = operator.status === OPERATOR_STATUS.RUNNING;
-    const hasExperimentSucceeded = !!experiment?.succeeded;
+    const isOperatorUnset = operator.status === OPERATOR_STATUS.UNSET;
+    const hasNoOperatorStatus = !operator.status;
 
     return (
       !experimentId ||
+      hasNoOperatorStatus ||
+      isOperatorUnset ||
       isOperatorPending ||
-      isOperatorRunning ||
-      !hasExperimentSucceeded
+      isOperatorRunning
     );
-  }, [experiment?.succeeded, experimentId, operator.status]);
+  }, [experimentId, operator.status]);
 
   const isNotebookOutputsContainerDisabled = useMemo(() => {
     const isOperatorPending = operator.status === OPERATOR_STATUS.PENDING;
