@@ -1,3 +1,7 @@
+[![.github/workflows/ci.yml](https://github.com/platiagro/web-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/platiagro/web-ui/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=platiagro_web-ui&metric=alert_status)](https://sonarcloud.io/dashboard?id=platiagro_web-ui)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 - [PlatIA - WEB-UI](#platia---web-ui)
   - [VS Code (Visual Studio Code) - IDE](#vs-code-visual-studio-code---ide)
     - [Extensions](#extensions)
@@ -296,7 +300,7 @@ Configuration used by the VS Code JavaScript interpreter.
   "compilerOptions": {                                                    // compiler options
     "jsx": "react",                                                       // react
     "baseUrl": "src"                                                      // project base (root)
-  },                                                                      
+  },
   "include": ["src"]                                                      // include module paths for correct functioning of intellisense
 }
 ```
