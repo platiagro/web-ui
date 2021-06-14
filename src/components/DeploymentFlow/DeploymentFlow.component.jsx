@@ -10,20 +10,20 @@ import Vectors, {
   edgeTypes,
 } from 'pages/Experiments/Experiment/ExperimentFlow/CustomNodes';
 
-import DeploymentFlowBox from './DeploymentFlowBox/DeploymentFlowBox.component';
+import DeploymentFlowBox from './DeploymentFlowBox';
 
 import './DeploymentFlow.style.less';
 
 const DeploymentFlow = ({
-  operators,
   loading,
-  handleSelectOperator,
-  handleSavePosition,
-  handleDeselectOperator,
-  selectedOperatorId,
+  operators,
   numberOfLogs,
+  selectedOperatorId,
   isLogsPanelSelected,
+  handleSavePosition,
+  handleSelectOperator,
   handleToggleLogsPanel,
+  handleDeselectOperator,
 }) => {
   const handleLoad = (reactFlowInstance) => {
     setTimeout(() => {
@@ -154,15 +154,15 @@ const DeploymentFlow = ({
 };
 
 DeploymentFlow.propTypes = {
-  operators: PropTypes.array,
   loading: PropTypes.bool,
+  operators: PropTypes.array,
+  numberOfLogs: PropTypes.number,
   selectedOperatorId: PropTypes.string,
+  isLogsPanelSelected: PropTypes.bool,
   handleSavePosition: PropTypes.func,
   handleSelectOperator: PropTypes.func,
-  handleDeselectOperator: PropTypes.func,
-  numberOfLogs: PropTypes.number,
-  isLogsPanelSelected: PropTypes.bool,
   handleToggleLogsPanel: PropTypes.func,
+  handleDeselectOperator: PropTypes.func,
 };
 
 export default DeploymentFlow;

@@ -1,62 +1,61 @@
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { Tooltip as AntTooltip } from 'antd';
 
 import {
+  StopOutlined,
+  LoadingOutlined,
   CheckCircleFilled,
   ClockCircleFilled,
   ExclamationCircleFilled,
-  StopOutlined,
-  LoadingOutlined,
 } from '@ant-design/icons';
 
 import './Tooltip.style.less';
 
-/**
- * DeploymentFlowBox tooltip
- */
-function Tooltip(props) {
-  const { status } = props;
+const Tooltip = ({ status }) => {
+  const tooltipIconClassName = useMemo(() => {
+    const statusClass = status?.toLowerCase() || '';
+    return `icon ${statusClass}`;
+  }, [status]);
 
-  const statusClass = status?.toLowerCase() || '';
-  const tooltipIconClassName = `icon ${statusClass}`;
+  const { title, icon } = useMemo(() => {
+    const tooltipConfig = {
+      Running: {
+        title: 'Tarefa em execução',
+        icon: <LoadingOutlined className={tooltipIconClassName} spin />,
+      },
+      Pending: {
+        title: 'Tarefa pendente',
+        icon: <ClockCircleFilled className={tooltipIconClassName} />,
+      },
+      Succeeded: {
+        title: 'Tarefa executada com sucesso',
+        icon: <CheckCircleFilled className={tooltipIconClassName} />,
+      },
+      Failed: {
+        title: 'Tarefa executada com falha',
+        icon: <ExclamationCircleFilled className={tooltipIconClassName} />,
+      },
+      Interrupted: {
+        title: 'Tarefa interrompida',
+        icon: <StopOutlined className={tooltipIconClassName} />,
+      },
+      Waiting: {
+        title: 'Tarefa aguardando dados',
+        icon: <div className={`${tooltipIconClassName} customIcon`} />,
+      },
+      Ready: {
+        title: 'Tarefa com dados recebidos',
+        icon: <div className={`${tooltipIconClassName} customIcon`} />,
+      },
+      Default: {
+        title: '',
+        icon: undefined,
+      },
+    };
 
-  const tooltipConfig = {
-    Running: {
-      title: 'Tarefa em execução',
-      icon: <LoadingOutlined className={tooltipIconClassName} spin />,
-    },
-    Pending: {
-      title: 'Tarefa pendente',
-      icon: <ClockCircleFilled className={tooltipIconClassName} />,
-    },
-    Succeeded: {
-      title: 'Tarefa executada com sucesso',
-      icon: <CheckCircleFilled className={tooltipIconClassName} />,
-    },
-    Failed: {
-      title: 'Tarefa executada com falha',
-      icon: <ExclamationCircleFilled className={tooltipIconClassName} />,
-    },
-    Interrupted: {
-      title: 'Tarefa interrompida',
-      icon: <StopOutlined className={tooltipIconClassName} />,
-    },
-    Waiting: {
-      title: 'Tarefa aguardando dados',
-      icon: <div className={`${tooltipIconClassName} customIcon`} />,
-    },
-    Ready: {
-      title: 'Tarefa com dados recebidos',
-      icon: <div className={`${tooltipIconClassName} customIcon`} />,
-    },
-    default: {
-      title: '',
-      icon: undefined,
-    },
-  };
-
-  const { title, icon } = tooltipConfig[status] || tooltipConfig['default'];
+    return tooltipConfig[status] || tooltipConfig['Default'];
+  }, [status, tooltipIconClassName]);
 
   return !status || status === 'Loading' ? null : (
     <div className='deploymentFlowBox__tooltip'>
@@ -65,7 +64,7 @@ function Tooltip(props) {
       </AntTooltip>
     </div>
   );
-}
+};
 
 Tooltip.propTypes = {
   status: PropTypes.oneOf([
