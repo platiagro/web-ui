@@ -31,7 +31,6 @@ const ColumnsTable = ({
     },
   };
 
-  // columns configuration
   const columnsConfig = [
     {
       title: 'Atributo',
@@ -77,14 +76,12 @@ const ColumnsTable = ({
     },
   ];
 
-  const setRowKey = (record) => record.name;
-
   return (
     <Table
       className='datasetTable'
       dataSource={columns}
       columns={columnsConfig}
-      rowKey={setRowKey}
+      rowKey={(record) => record.name}
       rowSelection={rowSelection}
       size='small'
       pagination={{
