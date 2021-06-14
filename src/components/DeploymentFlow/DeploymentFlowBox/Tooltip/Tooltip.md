@@ -1,36 +1,29 @@
 **Default**
+
 ```js
 <Tooltip />
 ```
 
-
 **Running**
+
 ```js
-const status = 'Running';
-
-<Tooltip status={status}/>
+<Tooltip status='Running' />
 ```
-
 
 **Pending**
+
 ```js
-const status = 'Pending';
-
-<Tooltip status={status}/>
+<Tooltip status='Pending' />
 ```
-
 
 **Succeeded**
-```js
-const status = 'Succeeded';
 
-<Tooltip status={status}/>
+```js
+<Tooltip status='Succeeded' />
 ```
 
-
 **Failed**
-```js
-const status = 'Failed';
 
-<Tooltip status={status}/>
+```js
+<Tooltip status='Failed' />
 ```
