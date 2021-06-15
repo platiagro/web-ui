@@ -1,4 +1,4 @@
-**Exemplo:**
+**Default**
 
 ```js
 const text = 'Texto para cópia';

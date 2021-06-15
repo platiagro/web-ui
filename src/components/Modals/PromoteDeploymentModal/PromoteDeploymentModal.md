@@ -1,4 +1,4 @@
-**Exemplo:**
+**Default**
 
 ```js
 const [visible, setVisible] = React.useState(false);

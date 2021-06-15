@@ -1,17 +1,17 @@
-**Exemplo:**
+**Default**
 
 ```jsx
-  const onClick = () => alert('Experimento implantado.');
-  const disabled = false;
+const onClick = () => alert('Experimento implantado.');
+const disabled = false;
 
-  <RunDeploymentButton onClick={onClick} disabled={disabled}/>
+<RunDeploymentButton onClick={onClick} disabled={disabled} />;
 ```
 
 Desabilitado:
 
 ```jsx
-  const onClick = () => alert('Experimento implantado.');
-  const disabled = true;
+const onClick = () => alert('Experimento implantado.');
+const disabled = true;
 
-  <RunDeploymentButton onClick={onClick} disabled={disabled}/>
+<RunDeploymentButton onClick={onClick} disabled={disabled} />;
 ```

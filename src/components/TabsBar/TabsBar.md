@@ -1,4 +1,4 @@
-**Exemplo:**
+**Default**
 
 ```js
 const activeTab = '1';
