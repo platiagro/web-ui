@@ -1,4 +1,4 @@
-/* globals Projects */
+/* globals Projects, Templates */
 
 // TODO: Refatorar store (da para remover detalhes de paginação, filtro e seleção)
 /**
@@ -14,8 +14,15 @@
  */
 
 /**
+ * Store Templates (TemplatesStore).
+ *
+ * @typedef {Templates} TemplatesStore
+ */
+
+/**
  * Stores da aplicação (AppStores).
  *
  * @typedef {object} AppStores
  * @property {ProjectsStore} Projects Projects store
+ * @property {TemplatesStore} Templates Templates store
  */
