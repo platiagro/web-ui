@@ -9,12 +9,12 @@ import { taskShape } from './propTypes';
 import './styles.less';
 
 const NewMonitoringModal = ({
-  isCreatingMonitorings,
-  isLoadingTasks,
-  isShowing,
-  handleAddMonitorings,
-  handleHideModal,
   tasks,
+  isShowing,
+  isLoadingTasks,
+  isCreatingMonitorings,
+  handleHideModal,
+  handleAddMonitorings,
 }) => {
   const [selectedTasks, setSelectedTasks] = useState([]);
   const [wasOkButtonClicked, setWasOkButtonClicked] = useState(false);
@@ -69,15 +69,15 @@ const NewMonitoringModal = ({
 
   return (
     <Modal
-      wrapClassName='new-monitoring-modal'
-      title='Escolha um ou mais Tipos de Monitoramento'
-      okText={okButtonText}
-      bodyStyle={{ padding: '16px' }}
-      cancelText='Cancelar'
       width={1000}
+      visible={isShowing}
+      okText={okButtonText}
+      cancelText='Cancelar'
       onCancel={handleHideModal}
       onOk={handleClickOkButton}
-      visible={isShowing}
+      bodyStyle={{ padding: '16px' }}
+      wrapClassName='new-monitoring-modal'
+      title='Escolha um ou mais Tipos de Monitoramento'
       okButtonProps={{
         disabled: isOkButtonDisabled,
         loading: isCreatingMonitorings,
@@ -99,21 +99,21 @@ const NewMonitoringModal = ({
 };
 
 NewMonitoringModal.propTypes = {
-  isCreatingMonitorings: PropTypes.bool,
-  isLoadingTasks: PropTypes.bool,
-  isShowing: PropTypes.bool,
-  handleAddMonitorings: PropTypes.func,
-  handleHideModal: PropTypes.func,
   tasks: PropTypes.arrayOf(PropTypes.shape(taskShape)),
+  isShowing: PropTypes.bool,
+  isLoadingTasks: PropTypes.bool,
+  isCreatingMonitorings: PropTypes.bool,
+  handleHideModal: PropTypes.func,
+  handleAddMonitorings: PropTypes.func,
 };
 
 NewMonitoringModal.defaultProps = {
-  isCreatingMonitorings: false,
-  isLoadingTasks: false,
-  isShowing: false,
-  handleAddMonitorings: undefined,
-  handleHideModal: undefined,
   tasks: [],
+  isShowing: false,
+  isLoadingTasks: false,
+  isCreatingMonitorings: false,
+  handleHideModal: undefined,
+  handleAddMonitorings: undefined,
 };
 
 export default NewMonitoringModal;

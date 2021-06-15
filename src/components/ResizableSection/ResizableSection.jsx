@@ -8,9 +8,7 @@ import { PopoverTip } from 'components';
 
 import './ResizableSection.less';
 
-const ResizableSection = (props) => {
-  const { placeholder, title, tip, children } = props;
-
+const ResizableSection = ({ placeholder, title, tip, children }) => {
   return (
     <ResizePanel
       direction='w'
@@ -36,8 +34,8 @@ const ResizableSection = (props) => {
             {tip && (
               <div className='resizable-section-tip'>
                 <PopoverTip
-                  isPopoverBelow={true}
                   popoverTitle={title || ''}
+                  isPopoverBelow={true}
                   popoverText={tip}
                   iconType='info'
                 />
@@ -58,15 +56,15 @@ const ResizableSection = (props) => {
 
 ResizableSection.propTypes = {
   placeholder: PropTypes.node.isRequired,
+  children: PropTypes.node,
   title: PropTypes.string,
   tip: PropTypes.string,
-  children: PropTypes.node,
 };
 
 ResizableSection.defaultProps = {
+  children: null,
   title: null,
   tip: null,
-  children: null,
 };
 
 export default ResizableSection;

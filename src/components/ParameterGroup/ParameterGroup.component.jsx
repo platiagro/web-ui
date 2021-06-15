@@ -13,8 +13,9 @@ import {
 } from 'components/InputBlocks';
 
 const getParameterTypes = (object, parameter, defaultType) => {
-  if (object.hasOwnProperty(parameter.type)) return object[parameter.type];
-  else {
+  if (object.hasOwnProperty(parameter.type)) {
+    return object[parameter.type];
+  } else {
     console.warn(
       `Não foi declarado o tipo para o parâmetro '${parameter?.name}'`
     );
@@ -238,10 +239,13 @@ const parameterTypes = {
   },
 };
 
-const ParameterGroup = (props) => {
-  const { loading, onChange, parameter, trainingLoading, valueLatestTraining } =
-    props;
-
+const ParameterGroup = ({
+  loading,
+  onChange,
+  parameter,
+  trainingLoading,
+  valueLatestTraining,
+}) => {
   return getParameterTypes(parameterTypes, parameter, 'string')(
     parameter,
     loading,
