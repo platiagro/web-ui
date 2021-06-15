@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-// COMPONENTS
+import { useIsLoading } from 'hooks';
 import ContentHeader from 'components/ContentHeader';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
@@ -10,29 +10,19 @@ import {
   CompareResultsButton,
   PrepareDeploymentsButton,
 } from 'components/Buttons';
-
 import {
   changeVisibilityCompareResultsModal,
   showPrepareDeploymentsModal,
 } from 'store/ui/actions';
-
 import {
   Actions as projectsActions,
   Selectors,
   PROJECTS_TYPES,
 } from 'store/projects';
 
-import { useIsLoading } from 'hooks';
-
 const { getProject } = Selectors;
 const { updateProjectRequest, fetchProjectRequest } = projectsActions;
 
-/**
- * Experiments Header Container.
- *
- * This component is responsible for create a logic container for experiments content
- * header with route control.
- */
 const ExperimentsHeaderContainer = () => {
   const { projectId } = useParams();
   const history = useHistory();

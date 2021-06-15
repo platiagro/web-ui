@@ -909,7 +909,6 @@ const filterOperatorParameters = (operator, parameterName) =>
     }
   });
 
-// EXPORT DEFAULT
 export default {
   deleteExperiment,
   organizeExperiments,

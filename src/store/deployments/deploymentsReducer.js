@@ -1,7 +1,5 @@
-// ACTION TYPES
 import actionTypes from './actionTypes';
 
-// INITIAL STATE
 const initialState = [];
 
 /**
@@ -13,42 +11,22 @@ const initialState = [];
  */
 const deploymentsReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    // reset initial fetch of deployments
     case actionTypes.CLEAR_ALL_DEPLOYMENTS:
       return [];
 
-    // SUCCESS
-    // fetch deployments success
     case actionTypes.FETCH_DEPLOYMENTS_SUCCESS:
       return action.deployments;
+
     case actionTypes.DUPLICATE_DEPLOYMENT_SUCCESS:
     case actionTypes.CREATE_DEPLOYMENT_SUCCESS:
       return [...state, ...action.deployments];
-    // update deployment success
+
     case actionTypes.UPDATE_DEPLOYMENT_SUCCESS:
       return action.deployments;
-    // delete deployment success
+
     case actionTypes.DELETE_DEPLOYMENT_SUCCESS:
     case actionTypes.RENAME_DEPLOYMENT_SUCCESS:
       return action.deployments;
-
-    // // // // // // //
-
-    // FAIL
-    // fetch deployments fail
-    case actionTypes.FETCH_DEPLOYMENTS_FAIL:
-      return state;
-    // create deployment fail
-    case actionTypes.CREATE_DEPLOYMENT_FAIL:
-      return state;
-    // update deployment fail
-    case actionTypes.UPDATE_DEPLOYMENT_FAIL:
-      return state;
-    // delete deployment fail
-    case actionTypes.DELETE_DEPLOYMENT_FAIL:
-      return state;
-
-    // // // // // // //
 
     case actionTypes.UPDATE_DEPLOYMENT_POSITION_SUCCESS: {
       const deploymentsClone = [...state];
@@ -64,13 +42,10 @@ const deploymentsReducer = (state = initialState, action = undefined) => {
       }));
     }
 
-    // DEFAULT
     default:
       return state;
   }
 };
-
-// SELECTOR
 
 /**
  * Select deployment by id
@@ -85,5 +60,4 @@ export const getDeploymentById = (state, deploymentId) => {
   );
 };
 
-// EXPORT
 export default deploymentsReducer;

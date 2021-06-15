@@ -2,26 +2,18 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-// COMPONENTS
 import ContentHeader from 'components/ContentHeader';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
-import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
-
 import { Actions as projectsActions, Selectors } from 'store/projects';
+import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 
 const { getProject } = Selectors;
 const { updateProjectRequest, fetchProjectRequest } = projectsActions;
 
-/**
- * Deployments Header Container.
- *
- * This components is responsible for create a logic container
- * for deployments header with route control.
- */
 const DeploymentsHeaderContainer = () => {
   const { projectId } = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const target = `/projetos/${projectId}/experimentos`;
 

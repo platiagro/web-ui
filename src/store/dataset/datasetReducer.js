@@ -1,7 +1,5 @@
-// ACTION TYPES
 import actionTypes from './actionTypes';
 
-// INITIAL STATE
 const initialState = {
   filename: '',
   name: '',
@@ -15,7 +13,7 @@ const initialState = {
 };
 
 /**
- * dataset reducer
+ * Dataset reducer
  *
  * @param {object} state State
  * @param {object} action Action
@@ -23,18 +21,15 @@ const initialState = {
  */
 const datasetReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    // SUCCESS
-    // dataset
-    //update all columns
     case actionTypes.UPDATE_ALL_DATASET_COLUMNS_SUCCESS:
       return {
         ...state,
         columns: action.payload,
       };
-    // fetch dataset columns success
+
     case actionTypes.FETCH_DATASET_COLUMNS_SUCCESS:
       return { ...state, columns: [...action.columns] };
-    // update dataset column success
+
     case actionTypes.UPDATE_DATASET_COLUMN_SUCCESS:
       return {
         ...state,
@@ -44,11 +39,10 @@ const datasetReducer = (state = initialState, action = undefined) => {
           ),
         ],
       };
-    // create dataset success
+
     case actionTypes.CREATE_DATASET_SUCCESS:
       return { ...state, ...action.payload };
 
-    // FAIL
     case actionTypes.CREATE_DATASET_FAIL:
     case actionTypes.FETCH_DATASET_COLUMNS_FAIL:
     case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
@@ -57,12 +51,9 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.UPDATE_ALL_DATASET_COLUMNS_FAIL:
       return { ...state };
 
-    // CANCEL
-    // create dataset cancel
     case actionTypes.CREATE_DATASET_CANCEL:
       return { ...state, ...action.payload };
 
-    // get dataset filename
     case actionTypes.GET_DATASET_SUCCESS:
     case actionTypes.DELETE_DATASET_SUCCESS:
       return {
@@ -79,6 +70,7 @@ const datasetReducer = (state = initialState, action = undefined) => {
         pageSize: action.pageSize,
         total: action.total,
       };
+
     case actionTypes.SET_GOOGLE_DATASET_STATUS:
       return {
         ...state,
@@ -86,7 +78,6 @@ const datasetReducer = (state = initialState, action = undefined) => {
         status: action.status,
       };
 
-    // create dataset success
     case actionTypes.CREATE_DATASET_REQUEST:
       return {
         ...state,
@@ -98,15 +89,12 @@ const datasetReducer = (state = initialState, action = undefined) => {
         cancelToken: action.cancelToken,
       };
 
-    // create dataset success
     case actionTypes.UPDATE_DATASET_UPLOAD:
       return { ...state, progress: action.progress };
 
-    // DEFAULT
     default:
       return state;
   }
 };
 
-// EXPORT
 export default datasetReducer;

@@ -1,4 +1,3 @@
-// CORE LIBS
 import React, { useMemo, useState } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';

@@ -1,75 +1,54 @@
-// CORE LIBS
 import React from 'react';
-import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-
-// UI LIBS
 import { Empty } from 'antd';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-// COMPONENTS
 import { ParameterGroup, PropertyBlock } from 'components';
+import { updateExperimentOperatorRequest } from 'store/operator';
 
-import { Actions as operatorActions } from 'store/operator';
-
-const { updateExperimentOperatorRequest } = operatorActions;
-
-// DISPATCHS
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleSetOperatorParameter: (
-      projectId,
-      deploymentId,
-      operator,
-      parameterName,
-      parameterValue
-    ) =>
-      dispatch(
-        updateExperimentOperatorRequest(
-          projectId,
-          deploymentId,
-          operator,
-          parameterName,
-          parameterValue
-        )
-      ),
-  };
+const operatorSelector = ({ deploymentOperatorReducer }) => {
+  return deploymentOperatorReducer;
 };
 
-// STATES
-const mapStateToProps = (state) => {
-  return {
-    operator: state.deploymentOperatorReducer,
-    parameters: state.deploymentOperatorReducer.parameters,
-    parametersLatestTraining:
-      state.deploymentOperatorReducer.parametersLatestTraining,
-    parameterLoading: state.uiReducer.deploymentOperatorParameter.loading,
-    trainingLoading: state.uiReducer.deploymentTraining.loading,
-  };
+const parametersSelector = ({ deploymentOperatorReducer }) => {
+  return deploymentOperatorReducer.parameters;
 };
 
-/**
- * Deployment Properties Panel Container.
- */
-const DeploymentPropertiesPanelContainer = (props) => {
-  const {
-    handleSetOperatorParameter,
-    operator,
-    parameters,
-    parametersLatestTraining,
-    parameterLoading,
-    trainingLoading,
-  } = props;
+const trainingLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.deploymentTraining.loading;
+};
+
+const parameterLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.deploymentOperatorParameter.loading;
+};
+
+const parametersLatestTrainingSelector = ({ deploymentOperatorReducer }) => {
+  return deploymentOperatorReducer.parametersLatestTraining;
+};
+
+const DeploymentPropertiesPanelContainer = () => {
   const { projectId, deploymentId } = useParams();
+  const dispatch = useDispatch();
 
-  // HANDLERS
-  const setOperatorParameterHandler = (parameterName, parameterValue) =>
-    handleSetOperatorParameter(
-      projectId,
-      deploymentId,
-      operator,
-      parameterName,
-      parameterValue
+  const operator = useSelector(operatorSelector);
+  const parameters = useSelector(parametersSelector);
+  const trainingLoading = useSelector(trainingLoadingSelector);
+  const parameterLoading = useSelector(parameterLoadingSelector);
+  const parametersLatestTraining = useSelector(
+    parametersLatestTrainingSelector
+  );
+
+  const setOperatorParameterHandler = (parameterName, parameterValue) => {
+    dispatch(
+      updateExperimentOperatorRequest(
+        projectId,
+        deploymentId,
+        operator,
+        parameterName,
+        parameterValue
+      )
     );
+  };
 
   if (parameters && parameters.length === 0) {
     return (
@@ -82,22 +61,24 @@ const DeploymentPropertiesPanelContainer = (props) => {
     );
   }
 
-  // rendering parameters
   return (
     <>
-      {parameters.map((parameter) => {
+      {parameters.map((parameter, index) => {
         let valueLatestTraining = parametersLatestTraining
           ? parametersLatestTraining[parameter.name]
           : null;
+
         if (valueLatestTraining === undefined || valueLatestTraining === null) {
           valueLatestTraining = parameter.value;
         }
+
         return (
           <ParameterGroup
-            loading={parameterLoading}
-            onChange={setOperatorParameterHandler}
+            key={`parameter-${index}`}
             parameter={parameter}
+            loading={parameterLoading}
             trainingLoading={trainingLoading}
+            onChange={setOperatorParameterHandler}
             valueLatestTraining={valueLatestTraining}
           />
         );
@@ -106,8 +87,4 @@ const DeploymentPropertiesPanelContainer = (props) => {
   );
 };
 
-// EXPORT
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeploymentPropertiesPanelContainer);
+export default DeploymentPropertiesPanelContainer;

@@ -47,7 +47,6 @@ function NewDeploymentModalContainer() {
   };
   const handleCancel = () => dispatch(hideNewDeploymentModal());
 
-  // did mount hook
   useEffect(() => {
     dispatch(fetchTemplatesRequest(projectId));
   }, [dispatch, projectId]);

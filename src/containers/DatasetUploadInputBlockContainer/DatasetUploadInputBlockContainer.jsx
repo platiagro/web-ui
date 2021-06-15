@@ -1,23 +1,20 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-import {
-  GoogleUploadInputBlock,
-  UploadInputBlock,
-} from 'components/InputBlocks';
-
-import {
-  selectDataset,
-  startFileDatasetUpload,
-  cancelDatasetUpload,
-  startGoogleDatasetUpload,
-  deleteDatasetRequest,
-} from 'store/dataset/actions';
-
-import { fetchDatasetsRequest } from 'store/datasets/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 import utils from 'utils';
+import { fetchDatasetsRequest } from 'store/datasets/actions';
+import {
+  UploadInputBlock,
+  GoogleUploadInputBlock,
+} from 'components/InputBlocks';
+import {
+  selectDataset,
+  cancelDatasetUpload,
+  deleteDatasetRequest,
+  startFileDatasetUpload,
+  startGoogleDatasetUpload,
+} from 'store/dataset/actions';
 
 const DatasetUploadInputBlockContainer = () => {
   const { projectId, experimentId } = useParams();
@@ -86,7 +83,6 @@ const DatasetUploadInputBlockContainer = () => {
   const handleGoogleDataset = (file) =>
     dispatch(startGoogleDatasetUpload(file, projectId, experimentId));
 
-  // rendering component
   return isGoogleDrive ? (
     <GoogleUploadInputBlock
       defaultFileList={defaultFileList}
@@ -117,5 +113,4 @@ const DatasetUploadInputBlockContainer = () => {
   );
 };
 
-// EXPORT DEFAULT
 export default DatasetUploadInputBlockContainer;

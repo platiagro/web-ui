@@ -35,5 +35,4 @@ const itemsMenu = [
   },
 ];
 
-// EXPORT
 export default itemsMenu;

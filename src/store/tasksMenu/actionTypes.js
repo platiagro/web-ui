@@ -1,31 +1,11 @@
-// ACTION TYPES
-// REQUEST
-// fetch tasks menu request
 const FETCH_TASKS_MENU_REQUEST = 'FETCH_TASKS_MENU_REQUEST';
-
-// SUCCESS
-// fetch tasks menu success
 const FETCH_TASKS_MENU_SUCCESS = 'FETCH_TASKS_MENU_SUCCESS';
-
-// FAIL
-// fetch tasks menu fail
 const FETCH_TASKS_MENU_FAIL = 'FETCH_TASKS_MENU_FAIL';
-
-// COMMON
-// filter tasks menu
 const FILTER_TASKS_MENU = 'FILTER_TASKS_MENU';
 
-// EXPORT
 export default {
-  // REQUEST
   FETCH_TASKS_MENU_REQUEST,
-
-  // SUCCESS
   FETCH_TASKS_MENU_SUCCESS,
-
-  // FAIL
   FETCH_TASKS_MENU_FAIL,
-
-  // COMMON
   FILTER_TASKS_MENU,
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Skeleton } from 'antd';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -9,53 +9,60 @@ import { Selectors, PROJECTS_TYPES } from 'store/projects';
 
 import './style.less';
 
-const { getProject } = Selectors;
+const projectSelector = (projectId) => (state) => {
+  return Selectors.getProject(projectId, state);
+};
 
-// TODO: Componente com nome incoerente, renomear
 const TasksMenuDetailsContainer = () => {
   const { projectId } = useParams();
 
-  // TODO: Criar seletores com reselect -> Otimização
-  /* eslint-disable-next-line */
-  const project = useSelector((state) => getProject(projectId, state));
+  const project = useSelector(projectSelector(projectId));
   const loading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
-  const formatedDate = new Date(project.updatedAt).toLocaleString();
-  const projectDescription =
-    project.description || 'Não há descrição disponível';
+  const formattedDate = useMemo(() => {
+    return new Date(project.updatedAt).toLocaleString();
+  }, [project.updatedAt]);
+
+  const projectDescription = useMemo(() => {
+    return project.description || 'Não há descrição disponível';
+  }, [project.description]);
 
   return (
     <div className='project-description'>
       <div className='description'>
         <strong> Descrição </strong>
+
         {loading ? (
           <Skeleton active title={{ width: 200 }} paragraph={false} />
         ) : (
           <p>{projectDescription}</p>
         )}
       </div>
+
       <div className='updated'>
         <strong> Última modificação </strong>
+
         {loading ? (
           <Skeleton active title={{ width: 200 }} paragraph={false} />
         ) : (
-          <p>{formatedDate}</p>
+          <p>{formattedDate}</p>
         )}
       </div>
+
       <div className='created'>
         <strong> Criado por </strong>
         {loading ? (
           <Skeleton
-            active
-            avatar={{ shape: 'circle' }}
-            title={{ width: 200 }}
             paragraph={false}
+            title={{ width: 200 }}
+            avatar={{ shape: 'circle' }}
+            active
           />
         ) : (
           <UserInfo
-            className='user-description'
-            avatarBackground='grey'
             name='Usuário Anônimo'
+            avatarBackground='grey'
+            className='user-description'
           />
         )}
       </div>
