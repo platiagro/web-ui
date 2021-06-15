@@ -7,6 +7,8 @@ import { hideNewDeploymentModal } from 'store/ui/actions';
 import { fetchTemplatesRequest } from 'store/templates/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
+import { useIsLoading } from 'hooks';
+import * as TEMPLATES_TYPES from 'store/templates/actionTypes';
 
 const experimentsDataSelector = (projectId) => (state) => {
   return Selectors.getExperiments(state, projectId);
@@ -20,10 +22,6 @@ const loadingSelector = ({ uiReducer }) => {
   return uiReducer.newDeploymentModal.loading;
 };
 
-const templatesLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.template.loading;
-};
-
 const templatesDataSelector = ({ templatesReducer }) => {
   return templatesReducer;
 };
@@ -35,8 +33,11 @@ const NewDeploymentModalContainer = () => {
   const experimentsData = useSelector(experimentsDataSelector(projectId));
   const visible = useSelector(visibleSelector);
   const loading = useSelector(loadingSelector);
-  const templatesLoading = useSelector(templatesLoadingSelector);
   const templatesData = useSelector(templatesDataSelector);
+
+  const templatesLoading = useIsLoading(
+    TEMPLATES_TYPES.FETCH_TEMPLATES_REQUEST
+  );
 
   const handleConfirm = (selectedType, selectedUuid) => {
     const isExperiment = selectedType === 'experiment';

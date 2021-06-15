@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import SaveTemplateModal from 'components/Modals/SaveTemplateModal';
+import SaveTemplateButton from 'components/Buttons/SaveTemplateButton';
+
+import * as TEMPLATES_TYPES from 'store/templates/actionTypes';
+
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createTemplateRequest } from 'store/templates/actions';
-import SaveTemplateModal from 'components/Modals/SaveTemplateModal';
-import SaveTemplateButton from 'components/Buttons/SaveTemplateButton';
 import { showNewTemplateModal, hideNewTemplateModal } from 'store/ui/actions';
+
+import { useIsLoading } from 'hooks';
 
 const modalVisibleSelector = ({ uiReducer }) => {
   return uiReducer.newTemplateModal.visible;
-};
-
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.template.loading;
 };
 
 const SaveTemplateContainer = ({ disabled }) => {
@@ -21,7 +23,7 @@ const SaveTemplateContainer = ({ disabled }) => {
   const dispatch = useDispatch();
 
   const modalVisible = useSelector(modalVisibleSelector);
-  const isLoading = useSelector(loadingSelector);
+  const isLoading = useIsLoading(TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST);
 
   const handleCreateTemplate = (templateName) => {
     dispatch(createTemplateRequest(templateName, deploymentId));
