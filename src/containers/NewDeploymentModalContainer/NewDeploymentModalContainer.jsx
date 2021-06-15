@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Selectors } from 'store/projects/experiments';
 import { hideNewDeploymentModal } from 'store/ui/actions';
-import { fetchTemplatesRequest } from 'store/templates/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { useIsLoading } from 'hooks';
+import { fetchTemplatesRequest } from 'store/templates/templates.actions';
 import * as TEMPLATES_TYPES from 'store/templates/actionTypes';
 
 const experimentsDataSelector = (projectId) => (state) => {

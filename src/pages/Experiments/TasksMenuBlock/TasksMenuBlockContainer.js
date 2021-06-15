@@ -13,7 +13,7 @@ import {
 import {
   setTemplateRequest,
   deleteTemplateRequest,
-} from 'store/templates/actions';
+} from 'store/templates/templates.actions';
 
 import TasksMenuBlock from './index';
 

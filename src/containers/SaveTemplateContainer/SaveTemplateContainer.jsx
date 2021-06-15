@@ -9,7 +9,7 @@ import * as TEMPLATES_TYPES from 'store/templates/actionTypes';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { createTemplateRequest } from 'store/templates/actions';
+import { createTemplateRequest } from 'store/templates/templates.actions';
 import { showNewTemplateModal, hideNewTemplateModal } from 'store/ui/actions';
 
 import { useIsLoading } from 'hooks';
