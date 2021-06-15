@@ -1,14 +1,14 @@
-// UI LIBS
-import { message } from 'antd';
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global Templates */
 
-// ACTION TYPES
-import actionTypes from './actionTypes';
+import * as actionTypes from './actionTypes';
 
-// SERVICES
 import templatesApi from 'services/TemplatesApi';
 import experimentsApi from 'services/ExperimentsApi';
 
-// UI ACTIONS
+import { message as antdMessage } from 'antd';
+
 import {
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
@@ -16,251 +16,200 @@ import {
   templateLoadingData,
   hideNewTemplateModal,
   tasksMenuLoadingData,
-  tasksMenuDataLoaded,
 } from '../ui/actions';
 
-// OPERATORS ACTIONS
 import { fetchExperimentOperatorsRequest } from '../operators';
 
-// COMPONENTS MENU ACTIONS
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 
-// ACTIONS
-// ** FETCH TEMPLATES
 /**
- * fetch templates success action
+ * Templates success default action
  *
- * @param {object} response Request response
- * @returns {object} { type, templates }
+ * @param {object} successObject Success action default object
+ * @param {Templates} successObject.templates New templates state
+ * @param {string} successObject.actionType Action type
+ * @param {string=} successObject.message Success message
+ * @param {Function} successObject.callback Success function callback
+ * @returns {Function} Thunk action
  */
-const fetchTemplatesSuccess = (response) => (dispatch) => {
-  dispatch(templateDataLoaded());
+const templatesActionSuccess =
+  ({ templates, actionType, message = undefined, callback = undefined }) =>
+  (dispatch) => {
+    dispatch({
+      type: actionType,
+      templates: templates,
+    });
 
-  dispatch({
-    type: actionTypes.FETCH_TEMPLATES_SUCCESS,
-    templates: response.data.templates,
-  });
-};
+    if (message) antdMessage.success(message);
+    if (callback) callback();
+
+    dispatch(templateDataLoaded());
+  };
 
 /**
- * fetch templates fail action
+ * Templates fail default action
  *
- * @param {object} error Error
- * @returns {object} { type, errorMessage }
+ * @param {object} failObject Success action default object
+ * @param {string} failObject.actionType Action type
+ * @param {string=} failObject.message Success message
+ * @param {Function} failObject.callback Fail function callback
+ * @returns {Function} Thunk action
  */
-const fetchTemplatesFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
+const templatesActionFail =
+  ({ actionType, message = undefined, callback }) =>
+  (dispatch) => {
+    dispatch({
+      type: actionType,
+    });
 
-  // dispatching fetch templates fail action
-  dispatch({
-    type: actionTypes.FETCH_TEMPLATES_FAIL,
-    errorMessage,
-  });
+    if (message) antdMessage.error(message);
+    if (callback) callback();
 
-  message.error(errorMessage);
-
-  dispatch(templateDataLoaded());
-};
+    dispatch(templateDataLoaded());
+  };
 
 /**
- * fetch templates request action
+ * Fetch templates request action
  *
- * @returns {Function} Dispatch function
+ * @returns {Function} Thunk action
  */
 export const fetchTemplatesRequest = () => (dispatch) => {
-  // dispatching request action
   dispatch({
     type: actionTypes.FETCH_TEMPLATES_REQUEST,
   });
 
   dispatch(templateLoadingData());
 
-  // fetching templates
-  templatesApi
-    .listTemplates()
-    .then((response) => dispatch(fetchTemplatesSuccess(response)))
-    .catch((error) => dispatch(fetchTemplatesFail(error)));
-};
+  try {
+    const response = templatesApi.listTemplates();
 
-// // // // // // // // // //
+    const { data: templates } = response;
 
-// ** CREATE TEMPLATE
-/**
- * create template success action
- *
- * @param {object} response Response
- * @returns {object} { type, templates }
- */
-const createTemplateSuccess = (response) => (dispatch) => {
-  // dispatching template data loaded action
-  dispatch(templateDataLoaded());
+    const successObject = {
+      templates,
+      actionType: actionTypes.FETCH_TEMPLATES_SUCCESS,
+    };
 
-  // dispatching hide new template modal action
-  dispatch(hideNewTemplateModal());
+    dispatch(templatesActionSuccess(successObject));
+  } catch (error) {
+    const errorMessage = error.message;
 
-  // dispatching fetch components menu request
-  dispatch(fetchTasksMenuRequest());
+    const errorObject = {
+      actionType: actionTypes.FETCH_TEMPLATES_FAIL,
+      message: errorMessage,
+    };
 
-  // dispatching create success
-  dispatch({
-    type: actionTypes.CREATE_TEMPLATE_SUCCESS,
-    template: response.data,
-  });
+    dispatch(templatesActionFail(errorObject));
+  }
 };
 
 /**
- * create template fail action
- *
- * @param {object} error Error
- * @returns {object} { type, errorMessage }
- */
-const createTemplateFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching template data loaded action
-  dispatch(templateDataLoaded());
-
-  // dispatching create template fail
-  dispatch({
-    type: actionTypes.CREATE_TEMPLATE_FAIL,
-    errorMessage,
-  });
-
-  message.error(errorMessage);
-};
-
-/**
- * create template request action
+ * Create template request action
  *
  * @param {string} templateName Template name
  * @param {string} experimentId Experiment Id
- * @returns {Function} Dispatch function
+ * @returns {Function} Thunk action
  */
 export const createTemplateRequest =
   (templateName, experimentId) => (dispatch) => {
-    // dispatching request action
     dispatch({
       type: actionTypes.CREATE_TEMPLATE_REQUEST,
     });
 
-    // dispatching template loading data action
     dispatch(templateLoadingData());
 
-    // fetching templates
-    templatesApi
-      .createTemplate(templateName, experimentId)
-      .then((response) => dispatch(createTemplateSuccess(response)))
-      .catch((error) => dispatch(createTemplateFail(error)));
+    try {
+      const response = templatesApi.createTemplate(templateName, experimentId);
+
+      const { data: templates } = response;
+
+      const successCallback = () => {
+        dispatch(hideNewTemplateModal());
+
+        dispatch(fetchTasksMenuRequest());
+      };
+
+      const successObject = {
+        templates,
+        actionType: actionTypes.CREATE_TEMPLATE_SUCCESS,
+        message: 'Template criado com sucesso!',
+        callback: successCallback,
+      };
+
+      dispatch(templatesActionSuccess(successObject));
+    } catch (error) {
+      const errorMessage = error.message;
+
+      const errorObject = {
+        actionType: actionTypes.FETCH_TEMPLATES_FAIL,
+        message: errorMessage,
+      };
+
+      dispatch(templatesActionFail(errorObject));
+    }
   };
 
-// // // // // // // // // //
-
-// ** UPDATE TEMPLATE
 /**
- * update template success action
- *
- * @param {object} response Request response
- * @returns {object} {type, experiment}
- */
-const updateTemplateSuccess = (response) => (dispatch, getState) => {
-  const currentState = getState();
-  const templatesState = currentState.templatesReducer;
-
-  const templates = templatesState.map((template) => {
-    return template.uuid !== response.data.uuid
-      ? template
-      : { ...template, ...response.data };
-  });
-
-  // dispatching update template success
-  dispatch({
-    type: actionTypes.UPDATE_TEMPLATE_SUCCESS,
-    templates,
-  });
-};
-
-/**
- * update template fail action
- *
- * @param {object} error Error
- * @returns {object} { type, errorMessage }
- */
-const updateTemplateFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching update template fail action response
-  dispatch({
-    type: actionTypes.UPDATE_TEMPLATE_FAIL,
-    errorMessage,
-  });
-
-  message.error(errorMessage, 5);
-};
-
-/**
- * update template request action
+ * Update template request action
  *
  * @param {string} templateId Template UUID
  * @param {string} templateName Template name
- * @returns {Function} Dispatch function
+ * @returns {Function} Thunk action
  */
 export const updateTemplateRequest =
-  (templateId, templateName) => (dispatch) => {
-    // dispatching request action
+  (templateId, templateName) => (dispatch, getState) => {
     dispatch({
       type: actionTypes.UPDATE_TEMPLATE_REQUEST,
     });
 
-    // update template
-    templatesApi
-      .updateTemplate(templateId, templateName)
-      .then((response) => dispatch(updateTemplateSuccess(response)))
-      .catch((error) => dispatch(updateTemplateFail(error)));
+    try {
+      const response = templatesApi.updateTemplate(templateId, templateName);
+
+      const { data: updatedTemplate } = response;
+
+      const currentState = getState();
+      const templatesState = currentState.templatesReducer;
+
+      const templates = templatesState.map((templateItem) => {
+        return templateItem.uuid !== updatedTemplate.uuid
+          ? templateItem
+          : { ...templateItem, ...updatedTemplate };
+      });
+
+      const successObject = {
+        templates,
+        actionType: actionTypes.UPDATE_TEMPLATE_SUCCESS,
+        message: 'Template atualizado com sucesso!',
+      };
+
+      dispatch(templatesActionSuccess(successObject));
+    } catch (error) {
+      const errorMessage = error.message;
+
+      const errorObject = {
+        actionType: actionTypes.UPDATE_TEMPLATE_FAIL,
+        message: errorMessage,
+      };
+
+      dispatch(templatesActionFail(errorObject));
+    }
   };
 
-// // // // // // // // // //
-
-// ** DELETE TEMPLATE
 /**
- * delete template success action
+ * Delete template request action
  *
- * @param {object} templateId Template UUID
- * @param {*} allTasks All tasks
- * @returns {object} { type }
+ * @param {string} templateId Template UUID
+ * @returns {Function} Thunk action
  */
-const deleteTemplateSuccess =
-  (templateId, allTasks) => (dispatch, getState) => {
-    const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
-      (template) => template.uuid !== templateId
-    );
+export const deleteTemplateRequest = (templateId) => (dispatch, getState) => {
+  dispatch({
+    type: actionTypes.DELETE_TEMPLATE_REQUEST,
+  });
 
-    const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
-      (template) => template.uuid !== templateId
-    );
+  dispatch(tasksMenuLoadingData());
 
-    const tasks = {
-      unfiltered: {
-        ...allTasks.unfiltered,
-        TEMPLATES: unfilteredTemplates,
-      },
-      filtered: {
-        ...allTasks.filtered,
-        TEMPLATES: filteredTemplates,
-      },
-    };
-
-    if (tasks.unfiltered.TEMPLATES.length === 0) {
-      delete tasks.unfiltered.TEMPLATES;
-    }
-
-    if (tasks.filtered.TEMPLATES.length === 0) {
-      delete tasks.filtered.TEMPLATES;
-    }
-
-    dispatch(tasksMenuDataLoaded());
+  try {
+    templatesApi.deleteTemplate(templateId);
 
     const currentState = getState();
     const templatesState = currentState.templatesReducer;
@@ -269,110 +218,28 @@ const deleteTemplateSuccess =
       return template.uuid !== templateId;
     });
 
-    // dispatching delete template success action
-    dispatch({
-      type: actionTypes.DELETE_TEMPLATE_SUCCESS,
-      payload: tasks,
+    const successObject = {
       templates,
-    });
+      actionType: actionTypes.DELETE_TEMPLATE_SUCCESS,
+      message: 'Template excluído com sucesso!',
+    };
 
-    message.success('Template excluído!');
-  };
+    dispatch(templatesActionSuccess(successObject));
+  } catch (error) {
+    const errorMessage = error.message;
 
-/**
- * delete template fail action
- *
- * @param {object} error Error
- * @returns {object} { type, errorMessage }
- */
-const deleteTemplateFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
+    const errorObject = {
+      actionType: actionTypes.DELETE_TEMPLATE_FAIL,
+      message: errorMessage,
+    };
 
-  // dispatching projects table data loaded action
-  dispatch(tasksMenuDataLoaded());
-
-  // dispatching delete projects fail action
-  dispatch({
-    type: actionTypes.DELETE_TEMPLATE_FAIL,
-    errorMessage,
-  });
-
-  message.error(errorMessage);
+    dispatch(templatesActionFail(errorObject));
+  }
 };
 
+// TODO: Passar para experimentos, faz mais sentido.
 /**
- * delete template request action
- *
- * @param {string} templateId Template UUID
- * @param {*} allTasks All tasks
- * @returns {Function} Dispatch function
- */
-export const deleteTemplateRequest = (templateId, allTasks) => (dispatch) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.DELETE_TEMPLATE_REQUEST,
-  });
-
-  // dispatching template table loading data action
-  dispatch(tasksMenuLoadingData());
-
-  // deleting project
-  templatesApi
-    .deleteTemplate(templateId)
-    .then(() => dispatch(deleteTemplateSuccess(templateId, allTasks)))
-    .catch((error) => dispatch(deleteTemplateFail(error)));
-};
-
-// // // // // // // // // //
-
-// ** SET TEMPLATE
-/**
- * set template success action
- *
- * @param {object} response Request response
- * @param {string} projectId Project UUID
- * @param {string} experimentId Experiment UUID
- * @returns {object} { type, templates }
- */
-const setTemplateSuccess =
-  (response, projectId, experimentId) => (dispatch) => {
-    // getting templates from response
-    /* const { operators } = response.data; */
-
-    // dispatching experiment operators data loaded action
-    dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
-
-    // dispatching set template success action
-    dispatch({
-      type: actionTypes.SET_TEMPLATE_SUCCESS,
-      /* operators, */
-    });
-  };
-
-/**
- * set template fail action
- *
- * @param {object} error Error
- * @returns {object} { type, errorMessage }
- */
-const setTemplateFail = (error) => (dispatch) => {
-  // getting error message
-  const errorMessage = error.message;
-
-  // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
-
-  dispatch({
-    type: actionTypes.SET_TEMPLATE_FAIL,
-    errorMessage,
-  });
-
-  message.error(errorMessage);
-};
-
-/**
- * set template request action
+ * Set template request action
  *
  * @param {string} projectId Project UUID
  * @param {string} experimentId Experiment UUID
@@ -380,27 +247,48 @@ const setTemplateFail = (error) => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const setTemplateRequest =
-  (projectId, experimentId, templateId) => (dispatch) => {
-    // dispatching request action
+  (projectId, experimentId, templateId) => (dispatch, getState) => {
     dispatch({
       type: actionTypes.SET_TEMPLATE_REQUEST,
     });
 
-    // dispatching experiment operators loading data action
     dispatch(experimentOperatorsLoadingData());
 
-    // experiment body
-    const experiment = {
-      templateId,
-    };
+    try {
+      const experiment = {
+        templateId,
+      };
 
-    // fetching templates
-    experimentsApi
-      .updateExperiment(projectId, experimentId, experiment)
-      .then((response) =>
-        dispatch(setTemplateSuccess(response, projectId, experimentId))
-      )
-      .catch((error) => dispatch(setTemplateFail(error)));
+      experimentsApi.updateExperiment(projectId, experimentId, experiment);
+
+      const successCallback = () => {
+        dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
+      };
+
+      const currentState = getState();
+      const templatesState = currentState.templatesReducer;
+
+      const successObject = {
+        templates: templatesState,
+        actionType: actionTypes.SET_TEMPLATE_SUCCESS,
+        message: 'Experimento atualizado com sucesso!',
+        callback: successCallback,
+      };
+
+      dispatch(templatesActionSuccess(successObject));
+    } catch (error) {
+      const errorCallback = () => {
+        dispatch(experimentOperatorsDataLoaded());
+      };
+
+      const errorMessage = error.message;
+
+      const errorObject = {
+        actionType: actionTypes.SET_TEMPLATE_FAIL,
+        message: errorMessage,
+        callback: errorCallback,
+      };
+
+      dispatch(templatesActionFail(errorObject));
+    }
   };
-
-// // // // // // // // // //
