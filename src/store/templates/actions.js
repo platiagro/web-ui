@@ -37,7 +37,7 @@ const templatesActionSuccess =
   (dispatch) => {
     dispatch({
       type: actionType,
-      templates: templates,
+      payload: { templates },
     });
 
     if (message) dispatch(showSuccess(message));
@@ -113,7 +113,7 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
  * @returns {Function} Thunk action
  */
 export const createTemplateRequest =
-  (templateName, experimentId) => async (dispatch) => {
+  (templateName, experimentId) => async (dispatch, getState) => {
     const actionType = TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST;
 
     dispatch({
@@ -128,8 +128,12 @@ export const createTemplateRequest =
         experimentId
       );
 
-      // FIXME: Atualmente retorna apenas o template e a montagem da lista é feita no reducer
-      const { data: templates } = response;
+      const { data: template } = response;
+
+      const currentState = getState();
+      const templatesState = currentState.templatesReducer;
+
+      const templates = [...templatesState, template];
 
       const successCallback = () => {
         dispatch(hideNewTemplateModal());
