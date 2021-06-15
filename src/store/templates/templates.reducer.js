@@ -18,8 +18,11 @@ export default (state = initialState, action = {}) => {
     case TEMPLATES_TYPES.FETCH_TEMPLATES_SUCCESS:
     case TEMPLATES_TYPES.CREATE_TEMPLATE_SUCCESS:
     case TEMPLATES_TYPES.UPDATE_TEMPLATE_SUCCESS:
-    case TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS:
       return [...action.payload.templates];
+
+    // TODO: essa adaptação poderá ser removida quando a store de tarefas for refatorada
+    case TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS:
+      return [...action.payload.templates.templates];
 
     default:
       return state;

@@ -12,6 +12,7 @@ import {
   experimentOperatorsLoadingData,
   hideNewTemplateModal,
   tasksMenuLoadingData,
+  tasksMenuDataLoaded,
 } from '../ui/actions';
 import { fetchExperimentOperatorsRequest } from '../operators';
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
@@ -165,10 +166,11 @@ export const createTemplateRequest =
  * Delete template request action
  *
  * @param {string} templateId Template UUID
+ * @param {object[]} allTasks All tasks list, used in task menu
  * @returns {Function} Thunk action
  */
 export const deleteTemplateRequest =
-  (templateId) => async (dispatch, getState) => {
+  (templateId, allTasks) => async (dispatch, getState) => {
     const actionType = TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST;
 
     dispatch({
@@ -177,7 +179,7 @@ export const deleteTemplateRequest =
 
     dispatch(addLoading(actionType));
 
-    // FIXME: Corrigir esse loading
+    // TODO: Esse loading pode ser removido quando a store de tarefas for refatorada, provavelmente
     dispatch(tasksMenuLoadingData());
 
     try {
@@ -190,10 +192,49 @@ export const deleteTemplateRequest =
         return templateItem.uuid !== templateId;
       });
 
+      // TODO: Todo esse bloco será removido quando a store de tarefas for refatorada
+      // INICIO ------------->
+      const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
+        (template) => template.uuid !== templateId
+      );
+
+      const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
+        (template) => template.uuid !== templateId
+      );
+
+      const tasks = {
+        unfiltered: {
+          ...allTasks.unfiltered,
+          TEMPLATES: unfilteredTemplates,
+        },
+        filtered: {
+          ...allTasks.filtered,
+          TEMPLATES: filteredTemplates,
+        },
+      };
+
+      if (tasks.unfiltered.TEMPLATES.length === 0) {
+        delete tasks.unfiltered.TEMPLATES;
+      }
+
+      if (tasks.filtered.TEMPLATES.length === 0) {
+        delete tasks.filtered.TEMPLATES;
+      }
+
+      const successCallback = () => {
+        dispatch(tasksMenuDataLoaded());
+      };
+      // FIM ------------->
+
+      // TODO: por enquanto precisamos enviar as tarefas no payload, porém quando a store de tarefas for refatorada
+      // provavelmente isso poderá ser corrigido
+      const customPayload = { templates, tasks };
+
       const successObject = {
-        templates,
+        templates: customPayload,
         actionType: TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS,
         message: 'Template excluído com sucesso!',
+        callback: successCallback,
       };
 
       dispatch(templatesActionSuccess(successObject));

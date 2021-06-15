@@ -16,16 +16,17 @@ const tasksMenuReducer = (state = initialState, action = undefined) => {
         filtered: { ...action.tasksMenu },
       };
 
-    // FIXME: Remover
+    // TODO: acho que quando for feita a padronização desse módulo, conseguiremos remover isso
     case TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS:
       return {
         ...state,
-        ...action.payload,
+        ...action.payload.templates.tasks,
       };
 
     case actionTypes.FETCH_TASKS_MENU_FAIL:
       return { ...state };
 
+    // TODO: acho que quando for feita a padronização desse módulo, conseguiremos remover isso
     case TEMPLATES_TYPES.DELETE_TEMPLATE_FAIL:
       return { ...state };
 
