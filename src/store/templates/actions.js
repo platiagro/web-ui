@@ -10,8 +10,6 @@ import experimentsApi from 'services/ExperimentsApi';
 import {
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
-  templateDataLoaded,
-  templateLoadingData,
   hideNewTemplateModal,
   tasksMenuLoadingData,
 } from '../ui/actions';
@@ -21,6 +19,8 @@ import { fetchExperimentOperatorsRequest } from '../operators';
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 
 import { showError, showSuccess } from 'store/message/message.actions';
+
+import { addLoading, removeLoading } from 'store/loading';
 
 /**
  * Templates success default action
@@ -42,8 +42,6 @@ const templatesActionSuccess =
 
     if (message) dispatch(showSuccess(message));
     if (callback) callback();
-
-    dispatch(templateDataLoaded());
   };
 
 /**
@@ -64,8 +62,6 @@ const templatesActionFail =
 
     if (message) dispatch(showError(message));
     if (callback) callback();
-
-    dispatch(templateDataLoaded());
   };
 
 /**
@@ -74,11 +70,13 @@ const templatesActionFail =
  * @returns {Function} Thunk action
  */
 export const fetchTemplatesRequest = () => async (dispatch) => {
+  const actionType = TEMPLATES_TYPES.FETCH_TEMPLATES_REQUEST;
+
   dispatch({
-    type: TEMPLATES_TYPES.FETCH_TEMPLATES_REQUEST,
+    type: actionType,
   });
 
-  dispatch(templateLoadingData());
+  dispatch(addLoading(actionType));
 
   try {
     const response = await templatesApi.listTemplates();
@@ -102,6 +100,8 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
     };
 
     dispatch(templatesActionFail(errorObject));
+  } finally {
+    dispatch(removeLoading(actionType));
   }
 };
 
@@ -114,11 +114,13 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
  */
 export const createTemplateRequest =
   (templateName, experimentId) => async (dispatch) => {
+    const actionType = TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST;
+
     dispatch({
-      type: TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST,
+      type: actionType,
     });
 
-    dispatch(templateLoadingData());
+    dispatch(addLoading(actionType));
 
     try {
       const response = await templatesApi.createTemplate(
@@ -152,6 +154,8 @@ export const createTemplateRequest =
       };
 
       dispatch(templatesActionFail(errorObject));
+    } finally {
+      dispatch(removeLoading(actionType));
     }
   };
 
@@ -165,9 +169,13 @@ export const createTemplateRequest =
  */
 export const updateTemplateRequest =
   (templateId, templateName) => async (dispatch, getState) => {
+    const actionType = TEMPLATES_TYPES.UPDATE_TEMPLATE_REQUEST;
+
     dispatch({
-      type: TEMPLATES_TYPES.UPDATE_TEMPLATE_REQUEST,
+      type: actionType,
     });
+
+    dispatch(addLoading(actionType));
 
     try {
       const response = await templatesApi.updateTemplate(
@@ -202,6 +210,8 @@ export const updateTemplateRequest =
       };
 
       dispatch(templatesActionFail(errorObject));
+    } finally {
+      dispatch(removeLoading(actionType));
     }
   };
 
@@ -213,10 +223,15 @@ export const updateTemplateRequest =
  */
 export const deleteTemplateRequest =
   (templateId) => async (dispatch, getState) => {
+    const actionType = TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST;
+
     dispatch({
-      type: TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST,
+      type: actionType,
     });
 
+    dispatch(addLoading(actionType));
+
+    // FIXME: Corrigir esse loading
     dispatch(tasksMenuLoadingData());
 
     try {
@@ -245,6 +260,8 @@ export const deleteTemplateRequest =
       };
 
       dispatch(templatesActionFail(errorObject));
+    } finally {
+      dispatch(removeLoading(actionType));
     }
   };
 
@@ -259,10 +276,15 @@ export const deleteTemplateRequest =
  */
 export const setTemplateRequest =
   (projectId, experimentId, templateId) => async (dispatch, getState) => {
+    const actionType = TEMPLATES_TYPES.SET_TEMPLATE_REQUEST;
+
     dispatch({
-      type: TEMPLATES_TYPES.SET_TEMPLATE_REQUEST,
+      type: actionType,
     });
 
+    dispatch(addLoading(actionType));
+
+    // FIXME: Corrigir
     dispatch(experimentOperatorsLoadingData());
 
     try {
@@ -305,5 +327,7 @@ export const setTemplateRequest =
       };
 
       dispatch(templatesActionFail(errorObject));
+    } finally {
+      dispatch(removeLoading(actionType));
     }
   };
