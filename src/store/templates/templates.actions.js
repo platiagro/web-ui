@@ -13,14 +13,12 @@ import {
   hideNewTemplateModal,
   tasksMenuLoadingData,
 } from '../ui/actions';
-
 import { fetchExperimentOperatorsRequest } from '../operators';
-
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
-
 import { showError, showSuccess } from 'store/message/message.actions';
-
 import { addLoading, removeLoading } from 'store/loading';
+
+import { getTemplates } from './templates.selectors';
 
 /**
  * Templates success default action
@@ -131,7 +129,7 @@ export const createTemplateRequest =
       const { data: template } = response;
 
       const currentState = getState();
-      const templatesState = currentState.templatesReducer;
+      const templatesState = getTemplates(currentState);
 
       const templates = [...templatesState, template];
 
@@ -190,7 +188,7 @@ export const updateTemplateRequest =
       const { data: updatedTemplate } = response;
 
       const currentState = getState();
-      const templatesState = currentState.templatesReducer;
+      const templatesState = getTemplates(currentState);
 
       const templates = templatesState.map((templateItem) => {
         return templateItem.uuid !== updatedTemplate.uuid
@@ -242,7 +240,7 @@ export const deleteTemplateRequest =
       await templatesApi.deleteTemplate(templateId);
 
       const currentState = getState();
-      const templatesState = currentState.templatesReducer;
+      const templatesState = getTemplates(currentState);
 
       const templates = templatesState.filter((templateItem) => {
         return templateItem.uuid !== templateId;
@@ -307,7 +305,7 @@ export const setTemplateRequest =
       };
 
       const currentState = getState();
-      const templatesState = currentState.templatesReducer;
+      const templatesState = getTemplates(currentState);
 
       const successObject = {
         templates: templatesState,
