@@ -1,6 +1,4 @@
-**Padrão**
-
-Painel de monitoramento.
+**Default**
 
 ```js
 const handleSelectMonitoring = (monitoring) => {
@@ -8,18 +6,16 @@ const handleSelectMonitoring = (monitoring) => {
 };
 
 <MonitoringPanel
+  handleSelectMonitoring={handleSelectMonitoring}
   monitorings={[
     { uuid: '1', title: 'First' },
     { uuid: '2', title: 'Second' },
     { uuid: '3', title: 'Third' },
   ]}
-  handleSelectMonitoring={handleSelectMonitoring}
 />;
 ```
 
 **Loading Monitorings**
-
-Carregando os monitoramentos (mostrando skeleton)
 
 ```js
 <MonitoringPanel isLoading />
@@ -27,16 +23,14 @@ Carregando os monitoramentos (mostrando skeleton)
 
 **Deleting a Monitoring**
 
-Excluindo o monitoramento selecionado
-
 ```js
 <MonitoringPanel
+  selectedMonitoring={{ uuid: '2', title: 'Second' }}
   monitorings={[
     { uuid: '1', title: 'First' },
     { uuid: '2', title: 'Second' },
     { uuid: '3', title: 'Third' },
   ]}
-  selectedMonitoring={{ uuid: '2', title: 'Second' }}
   isDeleting
 />
 ```

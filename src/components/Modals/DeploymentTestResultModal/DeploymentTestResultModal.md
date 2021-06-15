@@ -1,4 +1,4 @@
-**Image:**
+**With Image**
 
 ```js
 const [visible, setVisible] = React.useState(false);
@@ -13,11 +13,8 @@ const experiments = {
   },
 };
 
-const onClose = () => {
+const handleClone = () => {
   setVisible(false);
-};
-const onConfirm = () => {
-  alert('onConfirm');
 };
 
 <div>
@@ -25,13 +22,13 @@ const onConfirm = () => {
 
   <DeploymentTestResultModal
     visible={visible}
+    closeModal={handleClone}
     experimentInference={experiments}
-    closeModal={onClose}
   />
 </div>;
 ```
 
-**Text:**
+**With Text**
 
 ```js
 const [visible, setVisible] = React.useState(false);
@@ -41,11 +38,8 @@ const experiments = {
   strData: 'The quick brown fox jumps over the lazy dog',
 };
 
-const onClose = () => {
+const handleClose = () => {
   setVisible(false);
-};
-const onConfirm = () => {
-  alert('onConfirm');
 };
 
 <div>
@@ -53,13 +47,13 @@ const onConfirm = () => {
 
   <DeploymentTestResultModal
     visible={visible}
+    closeModal={handleClose}
     experimentInference={experiments}
-    closeModal={onClose}
   />
 </div>;
 ```
 
-**Table:**
+**With Table**
 
 ```js
 const [visible, setVisible] = React.useState(false);
@@ -72,33 +66,28 @@ const experiments = {
   meta: {},
 };
 
-const onClose = () => {
+const handleClose = () => {
   setVisible(false);
-};
-const onConfirm = () => {
-  alert('onConfirm');
 };
 
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
+
   <DeploymentTestResultModal
     visible={visible}
+    closeModal={handleClose}
     experimentInference={experiments.data}
-    closeModal={onClose}
   />
 </div>;
 ```
 
-**Error:**
+**With Error**
 
 ```js
 const [visible, setVisible] = React.useState(false);
 
-const onClose = () => {
+const handleClose = () => {
   setVisible(false);
-};
-const onConfirm = () => {
-  alert('onConfirm');
 };
 
 <div>
@@ -106,8 +95,8 @@ const onConfirm = () => {
 
   <DeploymentTestResultModal
     visible={visible}
+    closeModal={handleClose}
     experimentInference={null}
-    closeModal={onClose}
   />
 </div>;
 ```

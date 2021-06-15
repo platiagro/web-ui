@@ -3,7 +3,7 @@
 ```js
 const [visible, setVisible] = React.useState(false);
 
-const onClose = () => {
+const handleClose = () => {
   setVisible(false);
 };
 
@@ -11,7 +11,11 @@ const url = 'https://ip.to.copy/prediction';
 
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
-  <ExternalDatasetHelperModal onClose={onClose} visible={visible} url={url} />
+  <ExternalDatasetHelperModal
+    url={url}
+    visible={visible}
+    onClose={handleClose}
+  />
 </div>;
 ```
 
@@ -19,6 +23,7 @@ const url = 'https://ip.to.copy/prediction';
 
 ```js
 import { Input } from 'antd';
+
 const [visible, setVisible] = React.useState(false);
 const [exampleBody, setExampleBody] = React.useState(`{
   	"meta":{
@@ -31,7 +36,7 @@ const [exampleBody, setExampleBody] = React.useState(`{
   	}
   }`);
 
-const onClose = () => {
+const handleClose = () => {
   setVisible(false);
 };
 
@@ -43,17 +48,19 @@ const url = 'https://ip.to.copy/prediction';
 
 <div>
   <Input.TextArea
+    rows={12}
     size='large'
     value={exampleBody}
     onChange={handleChangeExample}
-    rows={12}
   />
+
   <button onClick={() => setVisible(true)}>Open modal</button>
+
   <ExternalDatasetHelperModal
-    exampleBody={exampleBody}
-    onClose={onClose}
-    visible={visible}
     url={url}
+    visible={visible}
+    onClose={handleClose}
+    exampleBody={exampleBody}
   />
 </div>;
 ```

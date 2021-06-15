@@ -1,4 +1,4 @@
-**Exemplo:**
+**Default**
 
 ```js
 const [visible, setVisible] = React.useState(false);
@@ -8,11 +8,11 @@ const experiments = [
   { uuid: '2', name: 'Experimento 2' },
 ];
 
-const onClose = () => {
+const handleClose = () => {
   setVisible(false);
 };
 
-const onConfirm = () => {
+const handleConfirm = () => {
   alert('onConfirm');
 };
 
@@ -21,8 +21,8 @@ const onConfirm = () => {
 
   <PrepareDeploymentsModal
     visible={visible}
-    onClose={onClose}
-    onConfirm={onConfirm}
+    onClose={handleClose}
+    onConfirm={handleConfirm}
     experiments={experiments}
   />
 </>;

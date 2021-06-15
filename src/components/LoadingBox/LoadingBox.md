@@ -1,13 +1,11 @@
-**Padrão:**
-
-Renderização padrão do LoadingBox.
+**Default**
 
 ```js
 <LoadingBox absolute={false} />
 ```
 
-Modificando cores dos siders LoadingBox.
+**With Different Sider COlor**
 
 ```js
-<LoadingBox absolute={false} siderColor="#f0f9ff" />
+<LoadingBox absolute={false} siderColor='#f0f9ff' />
 ```
