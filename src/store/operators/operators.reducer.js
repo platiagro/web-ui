@@ -25,8 +25,6 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
       return [...initialState];
     case OPERATORS_TYPES.FETCH_OPERATORS_SUCCESS:
       return [...payload.operators];
-    case OPERATORS_TYPES.FETCH_OPERATORS_FAIL:
-      return [...state];
     case OPERATORS_TYPES.UPDATE_OPERATOR_DEPENDENCIES:
       return [...payload.operators];
     case OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS:

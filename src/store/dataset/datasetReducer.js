@@ -43,14 +43,6 @@ const datasetReducer = (state = initialState, action = undefined) => {
     case actionTypes.CREATE_DATASET_SUCCESS:
       return { ...state, ...action.payload };
 
-    case actionTypes.CREATE_DATASET_FAIL:
-    case actionTypes.FETCH_DATASET_COLUMNS_FAIL:
-    case actionTypes.UPDATE_DATASET_COLUMN_FAIL:
-    case actionTypes.DELETE_DATASET_FAIL:
-    case actionTypes.GET_DATASET_FAIL:
-    case actionTypes.UPDATE_ALL_DATASET_COLUMNS_FAIL:
-      return { ...state };
-
     case actionTypes.CREATE_DATASET_CANCEL:
       return { ...state, ...action.payload };
 

@@ -22,12 +22,6 @@ const tasksMenuReducer = (state = initialState, action = undefined) => {
         ...action.payload,
       };
 
-    case actionTypes.FETCH_TASKS_MENU_FAIL:
-      return { ...state };
-
-    case templatesActionTypes.DELETE_TEMPLATE_FAIL:
-      return { ...state };
-
     case actionTypes.FILTER_TASKS_MENU:
       return {
         ...state,

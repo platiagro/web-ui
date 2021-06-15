@@ -14,9 +14,6 @@ const datasetsReducer = (state = initialState, action = undefined) => {
     case datasetActionTypes.CREATE_DATASET_SUCCESS:
       return [...state, { name: action.payload.name }];
 
-    case actionTypes.FETCH_DATASETS_FAIL:
-      return [...state];
-
     default:
       return state;
   }
