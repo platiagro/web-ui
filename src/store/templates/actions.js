@@ -7,8 +7,6 @@ import * as actionTypes from './actionTypes';
 import templatesApi from 'services/TemplatesApi';
 import experimentsApi from 'services/ExperimentsApi';
 
-import { message as antdMessage } from 'antd';
-
 import {
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
@@ -21,6 +19,8 @@ import {
 import { fetchExperimentOperatorsRequest } from '../operators';
 
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
+
+import { showError, showSuccess } from 'store/message/message.actions';
 
 /**
  * Templates success default action
@@ -40,7 +40,7 @@ const templatesActionSuccess =
       templates: templates,
     });
 
-    if (message) antdMessage.success(message);
+    if (message) dispatch(showSuccess(message));
     if (callback) callback();
 
     dispatch(templateDataLoaded());
@@ -62,7 +62,7 @@ const templatesActionFail =
       type: actionType,
     });
 
-    if (message) antdMessage.error(message);
+    if (message) dispatch(showError(message));
     if (callback) callback();
 
     dispatch(templateDataLoaded());
