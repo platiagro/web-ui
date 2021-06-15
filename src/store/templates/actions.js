@@ -73,7 +73,7 @@ const templatesActionFail =
  *
  * @returns {Function} Thunk action
  */
-export const fetchTemplatesRequest = () => (dispatch) => {
+export const fetchTemplatesRequest = () => async (dispatch) => {
   dispatch({
     type: actionTypes.FETCH_TEMPLATES_REQUEST,
   });
@@ -81,9 +81,11 @@ export const fetchTemplatesRequest = () => (dispatch) => {
   dispatch(templateLoadingData());
 
   try {
-    const response = templatesApi.listTemplates();
+    const response = await templatesApi.listTemplates();
 
-    const { data: templates } = response;
+    const {
+      data: { templates },
+    } = response;
 
     const successObject = {
       templates,
@@ -111,7 +113,7 @@ export const fetchTemplatesRequest = () => (dispatch) => {
  * @returns {Function} Thunk action
  */
 export const createTemplateRequest =
-  (templateName, experimentId) => (dispatch) => {
+  (templateName, experimentId) => async (dispatch) => {
     dispatch({
       type: actionTypes.CREATE_TEMPLATE_REQUEST,
     });
@@ -119,8 +121,12 @@ export const createTemplateRequest =
     dispatch(templateLoadingData());
 
     try {
-      const response = templatesApi.createTemplate(templateName, experimentId);
+      const response = await templatesApi.createTemplate(
+        templateName,
+        experimentId
+      );
 
+      // FIXME: Atualmente retorna apenas o template e a montagem da lista é feita no reducer
       const { data: templates } = response;
 
       const successCallback = () => {
@@ -149,6 +155,7 @@ export const createTemplateRequest =
     }
   };
 
+// FIXME: Aparentemente não é utilizada para nada
 /**
  * Update template request action
  *
@@ -157,13 +164,16 @@ export const createTemplateRequest =
  * @returns {Function} Thunk action
  */
 export const updateTemplateRequest =
-  (templateId, templateName) => (dispatch, getState) => {
+  (templateId, templateName) => async (dispatch, getState) => {
     dispatch({
       type: actionTypes.UPDATE_TEMPLATE_REQUEST,
     });
 
     try {
-      const response = templatesApi.updateTemplate(templateId, templateName);
+      const response = await templatesApi.updateTemplate(
+        templateId,
+        templateName
+      );
 
       const { data: updatedTemplate } = response;
 
@@ -201,43 +211,44 @@ export const updateTemplateRequest =
  * @param {string} templateId Template UUID
  * @returns {Function} Thunk action
  */
-export const deleteTemplateRequest = (templateId) => (dispatch, getState) => {
-  dispatch({
-    type: actionTypes.DELETE_TEMPLATE_REQUEST,
-  });
-
-  dispatch(tasksMenuLoadingData());
-
-  try {
-    templatesApi.deleteTemplate(templateId);
-
-    const currentState = getState();
-    const templatesState = currentState.templatesReducer;
-
-    const templates = templatesState.filter((template) => {
-      return template.uuid !== templateId;
+export const deleteTemplateRequest =
+  (templateId) => async (dispatch, getState) => {
+    dispatch({
+      type: actionTypes.DELETE_TEMPLATE_REQUEST,
     });
 
-    const successObject = {
-      templates,
-      actionType: actionTypes.DELETE_TEMPLATE_SUCCESS,
-      message: 'Template excluído com sucesso!',
-    };
+    dispatch(tasksMenuLoadingData());
 
-    dispatch(templatesActionSuccess(successObject));
-  } catch (error) {
-    const errorMessage = error.message;
+    try {
+      await templatesApi.deleteTemplate(templateId);
 
-    const errorObject = {
-      actionType: actionTypes.DELETE_TEMPLATE_FAIL,
-      message: errorMessage,
-    };
+      const currentState = getState();
+      const templatesState = currentState.templatesReducer;
 
-    dispatch(templatesActionFail(errorObject));
-  }
-};
+      const templates = templatesState.filter((templateItem) => {
+        return templateItem.uuid !== templateId;
+      });
 
-// TODO: Passar para experimentos, faz mais sentido.
+      const successObject = {
+        templates,
+        actionType: actionTypes.DELETE_TEMPLATE_SUCCESS,
+        message: 'Template excluído com sucesso!',
+      };
+
+      dispatch(templatesActionSuccess(successObject));
+    } catch (error) {
+      const errorMessage = error.message;
+
+      const errorObject = {
+        actionType: actionTypes.DELETE_TEMPLATE_FAIL,
+        message: errorMessage,
+      };
+
+      dispatch(templatesActionFail(errorObject));
+    }
+  };
+
+// FIXME: Passar para experimentos, faz mais sentido.
 /**
  * Set template request action
  *
@@ -247,7 +258,7 @@ export const deleteTemplateRequest = (templateId) => (dispatch, getState) => {
  * @returns {Function} Dispatch function
  */
 export const setTemplateRequest =
-  (projectId, experimentId, templateId) => (dispatch, getState) => {
+  (projectId, experimentId, templateId) => async (dispatch, getState) => {
     dispatch({
       type: actionTypes.SET_TEMPLATE_REQUEST,
     });
@@ -259,7 +270,11 @@ export const setTemplateRequest =
         templateId,
       };
 
-      experimentsApi.updateExperiment(projectId, experimentId, experiment);
+      await experimentsApi.updateExperiment(
+        projectId,
+        experimentId,
+        experiment
+      );
 
       const successCallback = () => {
         dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
