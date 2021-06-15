@@ -161,62 +161,6 @@ export const createTemplateRequest =
     }
   };
 
-// FIXME: Aparentemente não é utilizada para nada
-/**
- * Update template request action
- *
- * @param {string} templateId Template UUID
- * @param {string} templateName Template name
- * @returns {Function} Thunk action
- */
-export const updateTemplateRequest =
-  (templateId, templateName) => async (dispatch, getState) => {
-    const actionType = TEMPLATES_TYPES.UPDATE_TEMPLATE_REQUEST;
-
-    dispatch({
-      type: actionType,
-    });
-
-    dispatch(addLoading(actionType));
-
-    try {
-      const response = await templatesApi.updateTemplate(
-        templateId,
-        templateName
-      );
-
-      const { data: updatedTemplate } = response;
-
-      const currentState = getState();
-      const templatesState = getTemplates(currentState);
-
-      const templates = templatesState.map((templateItem) => {
-        return templateItem.uuid !== updatedTemplate.uuid
-          ? templateItem
-          : { ...templateItem, ...updatedTemplate };
-      });
-
-      const successObject = {
-        templates,
-        actionType: TEMPLATES_TYPES.UPDATE_TEMPLATE_SUCCESS,
-        message: 'Template atualizado com sucesso!',
-      };
-
-      dispatch(templatesActionSuccess(successObject));
-    } catch (error) {
-      const errorMessage = error.message;
-
-      const errorObject = {
-        actionType: TEMPLATES_TYPES.UPDATE_TEMPLATE_FAIL,
-        message: errorMessage,
-      };
-
-      dispatch(templatesActionFail(errorObject));
-    } finally {
-      dispatch(removeLoading(actionType));
-    }
-  };
-
 /**
  * Delete template request action
  *
