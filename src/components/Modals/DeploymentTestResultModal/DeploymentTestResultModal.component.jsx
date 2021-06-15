@@ -19,8 +19,8 @@ const DeploymentTestResultModal = ({
       visible={isShowingModal}
       onOk={handleHideModal}
       onCancel={handleHideModal}
-      title={<strong>Visualizar Resultados do Teste do Fluxo</strong>}
       cancelButtonProps={{ style: { display: 'none' } }}
+      title={<strong>Visualizar Resultados do Teste do Fluxo</strong>}
     >
       {isTestingFlow ? (
         <Skeleton paragraphConfig={{ rows: 10, width: '100%' }} />

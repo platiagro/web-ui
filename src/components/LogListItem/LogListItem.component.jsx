@@ -2,8 +2,8 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import {
   BugOutlined,
-  InfoCircleOutlined,
   CodeOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons';
 
 import { LOG_TYPES } from 'configs';

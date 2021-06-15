@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Radio, Skeleton, Tooltip } from 'antd';
 import { ExclamationCircleFilled } from '@ant-design/icons';
@@ -15,7 +15,9 @@ const RadioInput = ({
   handleChange,
   valueLatestTraining,
 }) => {
-  const modifiedSinceLastExecution = value !== valueLatestTraining;
+  const modifiedSinceLastExecution = useMemo(() => {
+    return value !== valueLatestTraining;
+  }, [value, valueLatestTraining]);
 
   return (
     <PropertyBlock tip={tip} title={title}>
@@ -64,7 +66,7 @@ RadioInput.propTypes = {
   tip: PropTypes.string,
   title: PropTypes.string,
   value: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  options: PropTypes.array.isRequired,
   isLoading: PropTypes.bool,
   isDisabled: PropTypes.bool,
   handleChange: PropTypes.func.isRequired,

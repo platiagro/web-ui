@@ -27,7 +27,6 @@ export { default as MainSider } from './MainSider';
 export { default as MonitoringDrawer } from './MonitoringDrawer';
 export { default as MonitoringDrawerItem } from './MonitoringDrawerItem';
 export { default as MonitoringFlowBox } from './MonitoringFlowBox';
-export { default as MonitoringImagePlaceholder } from './MonitoringImagePlaceholder';
 export { default as MonitoringPanel } from './MonitoringPanel';
 export { default as MonitoringTaskCard } from './MonitoringTaskCard';
 export { default as MonitoringToolbar } from './MonitoringToolbar';

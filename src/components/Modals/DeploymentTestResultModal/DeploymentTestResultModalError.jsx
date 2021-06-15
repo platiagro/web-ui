@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Result } from 'antd';
 
-const DeploymentTestResultModalError = (props) => {
-  const { handleShowLogs, handleTryAgain } = props;
-
+const DeploymentTestResultModalError = ({ handleShowLogs, handleTryAgain }) => {
   return (
     <Result
       status='error'

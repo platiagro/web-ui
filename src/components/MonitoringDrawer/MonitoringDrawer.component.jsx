@@ -11,10 +11,11 @@ import MonitoringDrawerTitle from './MonitoringDrawerTitle';
 import MonitoringDrawerAddCard from './MonitoringDrawerAddCard';
 import MonitoringDrawerSkeleton from './MonitoringDrawerSkeleton';
 
+import { ADD_CARD_KEY } from './constants';
+
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './MonitoringDrawer.style.less';
-import { ADD_CARD_KEY } from './constants';
 
 const ReactGridLayout = WidthProvider(RGL);
 

@@ -3,8 +3,8 @@ import {
   AppstoreOutlined,
   BuildOutlined,
   ExperimentOutlined,
-  SettingOutlined,
   ShoppingOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 
 const itemsMenu = [
