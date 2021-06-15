@@ -8,9 +8,11 @@ import {
   deselectOperator,
   saveOperatorPosition,
   saveOperatorDependencies,
+  OPERATOR_TYPES,
 } from 'store/operator';
 import { fetchExperimentRunStatusRequest } from 'store/projects/experiments/experimentRuns/actions';
 import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
+import { useIsLoading } from 'hooks';
 
 import ExperimentFlow from './index';
 
@@ -38,12 +40,14 @@ const ExperimentFlowContainer = () => {
   const dispatch = useDispatch();
   const { projectId, experimentId } = useParams();
 
-  const loading = useSelector(loadingSelector);
+  const flowLoading = useSelector(loadingSelector);
   const operators = useSelector(operatorsSelector);
   const arrowConfigs = useSelector(arrowConfigsSelector);
   const numberOfLogs = useSelector(numberOfLogsSelector);
   const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
   const transformations = useStoreState((flowStore) => flowStore.transform);
+
+  const operatorLoading = useIsLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST);
 
   const selectOperatorHandler = (operator) => {
     dispatch(selectOperatorAndGetData(projectId, experimentId, operator));
@@ -87,7 +91,8 @@ const ExperimentFlowContainer = () => {
   return (
     <ExperimentFlow
       tasks={operators}
-      loading={loading}
+      flowLoading={flowLoading}
+      operatorLoading={operatorLoading}
       numberOfLogs={numberOfLogs}
       arrowConfigs={arrowConfigs}
       transformations={transformations}

@@ -1,0 +1,45 @@
+.OperatorsEmptyContainer {
+  h3 {
+    opacity: 0.5;
+  }
+  img {
+    max-width: 35vw;
+  }
+}
+
+.image-animated {
+  mask-image: linear-gradient(-90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  mask-size: 300% 100%;
+
+  .keyframes(loading;{
+    0% {
+  	  mask-position:  1% center;
+    }
+    50%{
+      mask-position:  -51% center;
+    }
+    100% {
+      mask-position:  -51% center;
+    }
+    });
+
+  .animation(loading 1.5s ease-in infinite);
+}
+
+.keyframes(@name; @arguments) {
+  @-moz-keyframes @name {
+    @arguments();
+  }
+  @-webkit-keyframes @name {
+    @arguments();
+  }
+  @keyframes @name {
+    @arguments();
+  }
+}
+
+.animation(@arguments) {
+  -webkit-animation: @arguments;
+  -moz-animation: @arguments;
+  animation: @arguments;
+}
