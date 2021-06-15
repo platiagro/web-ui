@@ -51,8 +51,8 @@ const NewDeploymentModalContainer = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchTemplatesRequest(projectId));
-  }, [dispatch, projectId]);
+    if (visible) dispatch(fetchTemplatesRequest(projectId));
+  }, [dispatch, projectId, visible]);
 
   return (
     <NewDeploymentModalComponent
