@@ -1,5 +1,5 @@
 /* global TemplatesStore */
-import * as actionTypes from './actionTypes';
+import * as TEMPLATES_TYPES from './templates.actionTypes';
 
 /** @type {TemplatesStore} */
 const initialState = [];
@@ -15,10 +15,10 @@ const initialState = [];
  */
 const templatesReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case actionTypes.FETCH_TEMPLATES_SUCCESS:
-    case actionTypes.CREATE_TEMPLATE_SUCCESS:
-    case actionTypes.UPDATE_TEMPLATE_SUCCESS:
-    case actionTypes.DELETE_TEMPLATE_SUCCESS:
+    case TEMPLATES_TYPES.FETCH_TEMPLATES_SUCCESS:
+    case TEMPLATES_TYPES.CREATE_TEMPLATE_SUCCESS:
+    case TEMPLATES_TYPES.UPDATE_TEMPLATE_SUCCESS:
+    case TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS:
       return [...action.payload.templates];
 
     default:

@@ -2,7 +2,7 @@ import React from 'react';
 
 import NewTemplateModal from './index';
 
-import * as TEMPLATES_TYPES from 'store/templates/actionTypes';
+import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
 
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';

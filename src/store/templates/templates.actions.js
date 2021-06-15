@@ -2,7 +2,7 @@
 /* eslint-disable-next-line */
 /* global Templates */
 
-import * as TEMPLATES_TYPES from './actionTypes';
+import * as TEMPLATES_TYPES from './templates.actionTypes';
 
 import templatesApi from 'services/TemplatesApi';
 import experimentsApi from 'services/ExperimentsApi';

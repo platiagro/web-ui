@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import SaveTemplateModal from 'components/Modals/SaveTemplateModal';
 import SaveTemplateButton from 'components/Buttons/SaveTemplateButton';
 
-import * as TEMPLATES_TYPES from 'store/templates/actionTypes';
+import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
 
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';

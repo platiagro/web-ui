@@ -8,7 +8,7 @@ import { createDeploymentRequest } from 'store/deployments/actions';
 import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { useIsLoading } from 'hooks';
 import { fetchTemplatesRequest } from 'store/templates/templates.actions';
-import * as TEMPLATES_TYPES from 'store/templates/actionTypes';
+import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
 
 const experimentsDataSelector = (projectId) => (state) => {
   return Selectors.getExperiments(state, projectId);

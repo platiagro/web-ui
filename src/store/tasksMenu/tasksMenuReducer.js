@@ -1,7 +1,7 @@
 import utils from 'utils';
 
 import actionTypes from './actionTypes';
-import templatesActionTypes from '../templates/actionTypes';
+import * as TEMPLATES_TYPES from '../templates/templates.actionTypes';
 
 const initialState = {
   filtered: {},
@@ -16,11 +16,18 @@ const tasksMenuReducer = (state = initialState, action = undefined) => {
         filtered: { ...action.tasksMenu },
       };
 
-    case templatesActionTypes.DELETE_TEMPLATE_SUCCESS:
+    // FIXME: Remover
+    case TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS:
       return {
         ...state,
         ...action.payload,
       };
+
+    case actionTypes.FETCH_TASKS_MENU_FAIL:
+      return { ...state };
+
+    case TEMPLATES_TYPES.DELETE_TEMPLATE_FAIL:
+      return { ...state };
 
     case actionTypes.FILTER_TASKS_MENU:
       return {
