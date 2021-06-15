@@ -6,7 +6,6 @@ import { DropTarget } from 'react-dnd';
 import ReactFlow, { Background } from 'react-flow-renderer';
 
 import TaskBox from 'components/TaskBox';
-import LoadingBox from 'components/LoadingBox';
 import { OperatorsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { LogsButton } from 'components/Buttons';
 
@@ -130,9 +129,7 @@ const ExperimentFlow = ({
 
   const emptyOperators = tasks.length === 0;
 
-  return flowLoading ? (
-    <LoadingBox />
-  ) : (
+  return (
     <div
       className='experiment-flow'
       style={cursorStyle}
@@ -168,7 +165,10 @@ const ExperimentFlow = ({
         />
 
         {emptyOperators && (
-          <OperatorsEmptyPlaceholder className='experiment-flow-empty-operators' />
+          <OperatorsEmptyPlaceholder
+            loading={flowLoading}
+            className='experiment-flow-empty-operators'
+          />
         )}
 
         <LogsButton
