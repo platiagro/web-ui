@@ -2,7 +2,7 @@
 /* eslint-disable-next-line */
 /* global Templates */
 
-import * as actionTypes from './actionTypes';
+import * as TEMPLATES_TYPES from './actionTypes';
 
 import templatesApi from 'services/TemplatesApi';
 import experimentsApi from 'services/ExperimentsApi';
@@ -75,7 +75,7 @@ const templatesActionFail =
  */
 export const fetchTemplatesRequest = () => async (dispatch) => {
   dispatch({
-    type: actionTypes.FETCH_TEMPLATES_REQUEST,
+    type: TEMPLATES_TYPES.FETCH_TEMPLATES_REQUEST,
   });
 
   dispatch(templateLoadingData());
@@ -89,7 +89,7 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
 
     const successObject = {
       templates,
-      actionType: actionTypes.FETCH_TEMPLATES_SUCCESS,
+      actionType: TEMPLATES_TYPES.FETCH_TEMPLATES_SUCCESS,
     };
 
     dispatch(templatesActionSuccess(successObject));
@@ -97,7 +97,7 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
     const errorMessage = error.message;
 
     const errorObject = {
-      actionType: actionTypes.FETCH_TEMPLATES_FAIL,
+      actionType: TEMPLATES_TYPES.FETCH_TEMPLATES_FAIL,
       message: errorMessage,
     };
 
@@ -115,7 +115,7 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
 export const createTemplateRequest =
   (templateName, experimentId) => async (dispatch) => {
     dispatch({
-      type: actionTypes.CREATE_TEMPLATE_REQUEST,
+      type: TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST,
     });
 
     dispatch(templateLoadingData());
@@ -137,7 +137,7 @@ export const createTemplateRequest =
 
       const successObject = {
         templates,
-        actionType: actionTypes.CREATE_TEMPLATE_SUCCESS,
+        actionType: TEMPLATES_TYPES.CREATE_TEMPLATE_SUCCESS,
         message: 'Template criado com sucesso!',
         callback: successCallback,
       };
@@ -147,7 +147,7 @@ export const createTemplateRequest =
       const errorMessage = error.message;
 
       const errorObject = {
-        actionType: actionTypes.FETCH_TEMPLATES_FAIL,
+        actionType: TEMPLATES_TYPES.FETCH_TEMPLATES_FAIL,
         message: errorMessage,
       };
 
@@ -166,7 +166,7 @@ export const createTemplateRequest =
 export const updateTemplateRequest =
   (templateId, templateName) => async (dispatch, getState) => {
     dispatch({
-      type: actionTypes.UPDATE_TEMPLATE_REQUEST,
+      type: TEMPLATES_TYPES.UPDATE_TEMPLATE_REQUEST,
     });
 
     try {
@@ -188,7 +188,7 @@ export const updateTemplateRequest =
 
       const successObject = {
         templates,
-        actionType: actionTypes.UPDATE_TEMPLATE_SUCCESS,
+        actionType: TEMPLATES_TYPES.UPDATE_TEMPLATE_SUCCESS,
         message: 'Template atualizado com sucesso!',
       };
 
@@ -197,7 +197,7 @@ export const updateTemplateRequest =
       const errorMessage = error.message;
 
       const errorObject = {
-        actionType: actionTypes.UPDATE_TEMPLATE_FAIL,
+        actionType: TEMPLATES_TYPES.UPDATE_TEMPLATE_FAIL,
         message: errorMessage,
       };
 
@@ -214,7 +214,7 @@ export const updateTemplateRequest =
 export const deleteTemplateRequest =
   (templateId) => async (dispatch, getState) => {
     dispatch({
-      type: actionTypes.DELETE_TEMPLATE_REQUEST,
+      type: TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST,
     });
 
     dispatch(tasksMenuLoadingData());
@@ -231,7 +231,7 @@ export const deleteTemplateRequest =
 
       const successObject = {
         templates,
-        actionType: actionTypes.DELETE_TEMPLATE_SUCCESS,
+        actionType: TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS,
         message: 'Template excluído com sucesso!',
       };
 
@@ -240,7 +240,7 @@ export const deleteTemplateRequest =
       const errorMessage = error.message;
 
       const errorObject = {
-        actionType: actionTypes.DELETE_TEMPLATE_FAIL,
+        actionType: TEMPLATES_TYPES.DELETE_TEMPLATE_FAIL,
         message: errorMessage,
       };
 
@@ -260,7 +260,7 @@ export const deleteTemplateRequest =
 export const setTemplateRequest =
   (projectId, experimentId, templateId) => async (dispatch, getState) => {
     dispatch({
-      type: actionTypes.SET_TEMPLATE_REQUEST,
+      type: TEMPLATES_TYPES.SET_TEMPLATE_REQUEST,
     });
 
     dispatch(experimentOperatorsLoadingData());
@@ -285,7 +285,7 @@ export const setTemplateRequest =
 
       const successObject = {
         templates: templatesState,
-        actionType: actionTypes.SET_TEMPLATE_SUCCESS,
+        actionType: TEMPLATES_TYPES.SET_TEMPLATE_SUCCESS,
         message: 'Experimento atualizado com sucesso!',
         callback: successCallback,
       };
@@ -299,7 +299,7 @@ export const setTemplateRequest =
       const errorMessage = error.message;
 
       const errorObject = {
-        actionType: actionTypes.SET_TEMPLATE_FAIL,
+        actionType: TEMPLATES_TYPES.SET_TEMPLATE_FAIL,
         message: errorMessage,
         callback: errorCallback,
       };
