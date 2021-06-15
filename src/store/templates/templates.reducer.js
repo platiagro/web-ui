@@ -13,7 +13,7 @@ const initialState = [];
  * @param {string} action.type Action type
  * @returns {TemplatesStore} New state
  */
-const templatesReducer = (state = initialState, action = {}) => {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
     case TEMPLATES_TYPES.FETCH_TEMPLATES_SUCCESS:
     case TEMPLATES_TYPES.CREATE_TEMPLATE_SUCCESS:
@@ -25,5 +25,3 @@ const templatesReducer = (state = initialState, action = {}) => {
       return state;
   }
 };
-
-export default templatesReducer;
