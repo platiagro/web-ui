@@ -252,7 +252,7 @@ export const deleteTemplateRequest =
     }
   };
 
-// FIXME: Passar para experimentos, faz mais sentido.
+// TODO: Passar para experimentos, faz mais sentido.
 /**
  * Set template request action
  *
@@ -271,7 +271,6 @@ export const setTemplateRequest =
 
     dispatch(addLoading(actionType));
 
-    // FIXME: Corrigir
     dispatch(experimentOperatorsLoadingData());
 
     try {
