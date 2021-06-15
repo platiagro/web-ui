@@ -1,9 +1,7 @@
-**Exemplo:**
+**Default**
 
 ```js
-import { useState } from 'react';
-
-const [selectedRowKey, setSelectedRowKey] = useState('');
+const [selectedRowKey, setSelectedRowKey] = React.useState('');
 
 const templatesData = [
   {
@@ -40,9 +38,7 @@ const containerStyle = { margin: '20px' };
 
 const handleSelect = (selectedArray) => {
   const selectedUuid = selectedArray[0];
-
   setSelectedRowKey(selectedUuid);
-
   alert(`Template selecionado: ${selectedUuid}`);
 };
 
