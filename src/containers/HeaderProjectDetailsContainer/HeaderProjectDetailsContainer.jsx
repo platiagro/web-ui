@@ -65,6 +65,7 @@ const HeaderProjectDetailsContainer = () => {
               <Button icon={<DeleteOutlined />} className='buttonDelete' />
             </Popconfirm>
           </Tooltip>
+
           <AccountInfo />
         </>
       }

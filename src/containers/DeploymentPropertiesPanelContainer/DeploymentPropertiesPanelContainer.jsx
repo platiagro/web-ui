@@ -50,7 +50,7 @@ const DeploymentPropertiesPanelContainer = () => {
     );
   };
 
-  if (parameters && parameters.length === 0) {
+  if (!parameters?.length) {
     return (
       <PropertyBlock>
         <Empty
@@ -68,7 +68,7 @@ const DeploymentPropertiesPanelContainer = () => {
           ? parametersLatestTraining[parameter.name]
           : null;
 
-        if (valueLatestTraining === undefined || valueLatestTraining === null) {
+        if (!valueLatestTraining) {
           valueLatestTraining = parameter.value;
         }
 
