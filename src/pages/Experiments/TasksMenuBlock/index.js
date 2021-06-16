@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 import TasksMenuSearch from './TasksMenuSearch';
@@ -41,4 +41,4 @@ TasksMenuBlock.propTypes = {
   handleDeleteTemplate: PropTypes.func.isRequired,
 };
 
-export default TasksMenuBlock;
+export default memo(TasksMenuBlock);

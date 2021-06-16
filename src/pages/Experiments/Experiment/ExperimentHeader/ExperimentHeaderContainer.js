@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, shallowEqual } from 'react-redux';
 
 import {
   Selectors,
   EXPERIMENTS_TYPES,
   Actions as experimentsActions,
 } from 'store/projects/experiments';
-import { useIsLoading } from 'hooks';
 import { removeOperatorRequest } from 'store/operator';
+import { useDeepEqualSelector, useIsLoading } from 'hooks';
 import { fetchExperimentOperatorsRequest } from 'store/operators';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
 
@@ -40,11 +40,23 @@ const ExperimentHeaderContainer = () => {
 
   const loading = useIsLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST);
 
-  const operators = useSelector(operatorsSelector);
-  const operator = useSelector(operatorSelector);
-  const trainingLoading = useSelector(trainingLoadingSelector);
-  const deleteTrainingLoading = useSelector(deleteTrainingLoadingSelector);
-  const experiment = useSelector(experimentSelector(projectId, experimentId));
+  const operators = useDeepEqualSelector(operatorsSelector, shallowEqual);
+  const operator = useDeepEqualSelector(operatorSelector, shallowEqual);
+
+  const trainingLoading = useDeepEqualSelector(
+    trainingLoadingSelector,
+    shallowEqual
+  );
+
+  const deleteTrainingLoading = useDeepEqualSelector(
+    deleteTrainingLoadingSelector,
+    shallowEqual
+  );
+
+  const experiment = useDeepEqualSelector(
+    experimentSelector(projectId, experimentId),
+    shallowEqual
+  );
 
   const handleEditExperimentName = (newName) => {
     dispatch(

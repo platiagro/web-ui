@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { LOG_TYPES } from 'configs';
-import { useLogsLongPolling } from 'hooks';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
+import { useDeepEqualSelector, useLogsLongPolling } from 'hooks';
 import {
   clearAllExperimentLogs,
   getExperimentLogs,
@@ -47,10 +47,10 @@ const ExperimentLogsPanelContainer = () => {
 
   const [isShowingModal, setIsShowingModal] = useState(false);
 
-  const logs = useSelector(logsSelector);
-  const operators = useSelector(operatorsSelector);
-  const isLoading = useSelector(isLoadingSelector);
-  const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
+  const logs = useDeepEqualSelector(logsSelector);
+  const operators = useDeepEqualSelector(operatorsSelector);
+  const isLoading = useDeepEqualSelector(isLoadingSelector);
+  const isShowingLogsPanel = useDeepEqualSelector(isShowingLogsPanelSelector);
 
   const handleHideLogsPanel = () => {
     dispatch(hideLogsPanel());

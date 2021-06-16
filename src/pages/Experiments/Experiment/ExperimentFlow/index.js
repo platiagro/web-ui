@@ -147,6 +147,7 @@ const ExperimentFlow = ({
             handleDeleteConnection(line.target, line.source);
           }
         }}
+        onlyRenderVisibleElements
       >
         <Background
           gap={25}
