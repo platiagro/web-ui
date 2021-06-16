@@ -89,30 +89,15 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push docker image (NO AUTH) 📦
+    - name: Build and push docker image 📦
       id: docker_build
       uses: docker/build-push-action@v2
       with:
         push: true
         tags: docker.io/platiagro/web-ui:${{ steps.vars.outputs.TAG }}
         build-args: |
-          auth=false
           COMMIT=${{ steps.vars.outputs.COMMIT }}
           BRANCH=${{ steps.vars.outputs.BRANCH }}
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
-
-    - name: Build and push docker image (AUTH) 📦
-      id: docker_build_auth
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: docker.io/platiagro/web-ui:${{ steps.vars.outputs.TAG }}-AUTH
-        build-args: |
-          auth=true
-          COMMIT=${{ steps.vars.outputs.COMMIT }}
-          BRANCH=${{ steps.vars.outputs.BRANCH }}
-
-    - name: Image digest
-      run: echo ${{ steps.docker_build_auth.outputs.digest }}
