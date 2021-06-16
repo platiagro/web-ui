@@ -46,7 +46,7 @@ const ExperimentHeaderContainer = () => {
   const deleteTrainingLoading = useSelector(deleteTrainingLoadingSelector);
   const experiment = useSelector(experimentSelector(projectId, experimentId));
 
-  const editExperimentNameHandler = (newName) => {
+  const handleEditExperimentName = (newName) => {
     dispatch(
       experimentsActions.updateExperimentRequest(projectId, experimentId, {
         name: newName,
@@ -54,19 +54,19 @@ const ExperimentHeaderContainer = () => {
     );
   };
 
-  const trainExperimentHandler = () => {
+  const handleTrainExperiment = () => {
     dispatch(
       experimentRunsActions.createExperimentRunRequest(projectId, experimentId)
     );
   };
 
-  const deleteTrainExperimentHandler = () => {
+  const handleDeleteTrainExperiment = () => {
     dispatch(
       experimentRunsActions.deleteExperimentRunRequest(projectId, experimentId)
     );
   };
 
-  const removeOperatorHandler = () => {
+  const handleRemoveOperator = () => {
     dispatch(removeOperatorRequest(projectId, experimentId, operator));
   };
 
@@ -84,10 +84,10 @@ const ExperimentHeaderContainer = () => {
       operator={operator}
       trainingLoading={trainingLoading}
       deleteTrainingLoading={deleteTrainingLoading}
-      handleEditExperimentName={editExperimentNameHandler}
-      handleTrainExperiment={trainExperimentHandler}
-      handleDeleteTrainExperiment={deleteTrainExperimentHandler}
-      handleRemoveOperator={removeOperatorHandler}
+      handleEditExperimentName={handleEditExperimentName}
+      handleTrainExperiment={handleTrainExperiment}
+      handleDeleteTrainExperiment={handleDeleteTrainExperiment}
+      handleRemoveOperator={handleRemoveOperator}
     />
   );
 };
