@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,99 +16,140 @@ import {
   startGoogleDatasetUpload,
 } from 'store/dataset/actions';
 
+const datasetsSelector = ({ datasetsReducer }) => {
+  return datasetsReducer;
+};
+
+const datasetsLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.datasetsList.loading;
+};
+
+const datasetFileNameSelector = ({ datasetReducer }) => {
+  return datasetReducer.filename;
+};
+
+const datasetStatusSelector = ({ datasetReducer }) => {
+  return datasetReducer.status;
+};
+
+const uploadProgressSelector = ({ datasetReducer }) => {
+  return datasetReducer.progress;
+};
+
+const isUploadingSelector = ({ datasetReducer }) => {
+  return datasetReducer.isUploading;
+};
+
+const isLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.datasetOperator.loading;
+};
+
+const operatorNameSelector = ({ operatorReducer }) => {
+  return operatorReducer.name;
+};
+
+const isDisabledSelector = ({ uiReducer }) => {
+  return uiReducer.experimentTraining.loading;
+};
+
+const operatorsSelector = ({ operatorsReducer }) => {
+  return operatorsReducer;
+};
+
+const tip = 'Selecione os dados de entrada.';
+const title = 'Dados de entrada';
+const buttonText = 'Importar';
+const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets`;
+
 const DatasetUploadInputBlockContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
-  const tip = 'Selecione os dados de entrada.';
-  const title = 'Dados de entrada';
-  const buttonText = 'Importar';
-  const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets`;
+  const datasets = useSelector(datasetsSelector);
+  const datasetsLoading = useSelector(datasetsLoadingSelector);
+  const datasetFileName = useSelector(datasetFileNameSelector);
+  const datasetStatus = useSelector(datasetStatusSelector);
+  const uploadProgress = useSelector(uploadProgressSelector);
+  const isUploading = useSelector(isUploadingSelector);
+  const isLoading = useSelector(isLoadingSelector);
+  const operatorName = useSelector(operatorNameSelector);
+  const isDisabled = useSelector(isDisabledSelector);
+  const operators = useSelector(operatorsSelector);
 
-  // TODO: Criar seletores
-  /* eslint-disable */
-  const datasets = useSelector((state) => state.datasetsReducer);
-  const datasetsLoading = useSelector(
-    (state) => state.uiReducer.datasetsList.loading
-  );
-  const datasetFileName = useSelector((state) => state.datasetReducer.filename);
-  const datasetStatus = useSelector((state) => state.datasetReducer.status);
-  const uploadProgress = useSelector((state) => state.datasetReducer.progress);
-  const isUploading = useSelector((state) => state.datasetReducer.isUploading);
-  const isLoading = useSelector(
-    (state) => state.uiReducer.datasetOperator.loading
-  );
-  const operatorName = useSelector((state) => state.operatorReducer.name);
-  const isDisabled = useSelector(
-    (state) => state.uiReducer.experimentTraining.loading
-  );
-  const operators = useSelector((state) => state.operatorsReducer);
-  /* eslint-enable */
+  const defaultFileList = useMemo(() => {
+    return isUploading
+      ? [
+          {
+            uid: datasetFileName,
+            name: datasetFileName,
+            status: datasetStatus,
+            percent: uploadProgress,
+          },
+        ]
+      : datasetFileName && [
+          {
+            uid: datasetFileName,
+            name: datasetFileName,
+            status: 'done',
+          },
+        ];
+  }, [datasetFileName, datasetStatus, isUploading, uploadProgress]);
 
-  const defaultFileList = isUploading
-    ? [
-        {
-          uid: datasetFileName,
-          name: datasetFileName,
-          status: datasetStatus,
-          percent: uploadProgress,
-        },
-      ]
-    : datasetFileName && [
-        {
-          uid: datasetFileName,
-          name: datasetFileName,
-          status: 'done',
-        },
-      ];
-  const isGoogleDrive = operatorName === 'Google Drive';
+  const isGoogleDrive = useMemo(() => {
+    return operatorName === 'Google Drive';
+  }, [operatorName]);
 
-  const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
+  const experimentIsSucceeded = useMemo(() => {
+    return utils.checkExperimentSuccess({ operators });
+  }, [operators]);
+
+  const handleUploadCancel = () => {
+    if (isUploading) dispatch(cancelDatasetUpload());
+    else dispatch(deleteDatasetRequest(projectId, experimentId));
+  };
+
+  const handleSelectDataset = (dataset) => {
+    dispatch(selectDataset(dataset, projectId, experimentId));
+  };
+
+  const handleCustomRequest = (data) => {
+    dispatch(startFileDatasetUpload(data.file, projectId, experimentId));
+  };
+
+  const handleGoogleDataset = (file) => {
+    dispatch(startGoogleDatasetUpload(file, projectId, experimentId));
+  };
 
   useEffect(() => {
     dispatch(fetchDatasetsRequest());
   }, [dispatch]);
 
-  const containerHandleUploadCancel = () =>
-    isUploading
-      ? dispatch(cancelDatasetUpload())
-      : dispatch(deleteDatasetRequest(projectId, experimentId));
-
-  const containerHandleSelectDataset = (dataset) =>
-    dispatch(selectDataset(dataset, projectId, experimentId));
-
-  const customUploadHandler = (data) =>
-    dispatch(startFileDatasetUpload(data.file, projectId, experimentId));
-
-  const handleGoogleDataset = (file) =>
-    dispatch(startGoogleDatasetUpload(file, projectId, experimentId));
-
   return isGoogleDrive ? (
     <GoogleUploadInputBlock
-      defaultFileList={defaultFileList}
-      handleCreateGoogleDataset={handleGoogleDataset}
-      handleUploadCancel={containerHandleUploadCancel}
-      isDisabled={isDisabled}
-      isLoading={isLoading}
       tip={tip}
       title={title}
+      isLoading={isLoading}
+      isDisabled={isDisabled}
+      defaultFileList={defaultFileList}
       experimentIsSucceeded={experimentIsSucceeded}
+      handleCreateGoogleDataset={handleGoogleDataset}
+      handleUploadCancel={handleUploadCancel}
     />
   ) : (
     <UploadInputBlock
-      actionUrl={actionUrl}
-      buttonText={buttonText}
-      datasets={datasets}
-      datasetsLoading={datasetsLoading}
-      handleSelectDataset={containerHandleSelectDataset}
-      handleUploadCancel={containerHandleUploadCancel}
-      isDisabled={isDisabled}
-      isLoading={isLoading}
-      customRequest={customUploadHandler}
       tip={tip}
       title={title}
+      datasets={datasets}
+      actionUrl={actionUrl}
+      isLoading={isLoading}
+      isDisabled={isDisabled}
+      buttonText={buttonText}
       defaultFileList={defaultFileList}
+      datasetsLoading={datasetsLoading}
+      customRequest={handleCustomRequest}
+      handleSelectDataset={handleSelectDataset}
       experimentIsSucceeded={experimentIsSucceeded}
+      handleUploadCancel={handleUploadCancel}
     />
   );
 };

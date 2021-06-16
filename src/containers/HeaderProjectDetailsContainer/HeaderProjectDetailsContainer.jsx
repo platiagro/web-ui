@@ -1,72 +1,66 @@
 import React from 'react';
+import { DeleteOutlined } from '@ant-design/icons';
+import { Button, Tooltip, Popconfirm } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-// COMPONENTS
+import { useIsLoading } from 'hooks';
 import ContentHeader from 'components/ContentHeader';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
-
 import {
   Actions as projectsActions,
   Selectors,
   PROJECTS_TYPES,
 } from 'store/projects';
 
-import { Button, Tooltip, Popconfirm } from 'antd';
-
-import { DeleteOutlined } from '@ant-design/icons';
-
 import './style.less';
 
-import { useIsLoading } from 'hooks';
-
-const { getProject } = Selectors;
 const { deleteProjectsRequest, updateProjectRequest } = projectsActions;
 
-/**
- * Content Header Project Container.
- *
- * This component is responsible for create a logic container for project content
- * header with route control.
- */
+const projectSelector = (projectId) => (state) => {
+  return Selectors.getProject(projectId, state);
+};
+
 const HeaderProjectDetailsContainer = () => {
-  const history = useHistory();
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const loading = useIsLoading(
     PROJECTS_TYPES.DELETE_PROJECTS_REQUEST,
     PROJECTS_TYPES.UPDATE_PROJECT_REQUEST
   );
 
-  // TODO: Criar seletores com reselect -> Otimização
-  /* eslint-disable-next-line */
-  const project = useSelector((state) => getProject(projectId, state));
+  const project = useSelector(projectSelector(projectId));
 
-  const goBackHandler = () => history.push('/projetos');
-  const editProjectNameHandler = (newProjectName) =>
+  const handleGoBack = () => {
+    history.push('/projetos');
+  };
+
+  const handleEditProjectName = (newProjectName) => {
     dispatch(updateProjectRequest(projectId, { name: newProjectName }));
+  };
 
-  const handleClick = () => {
+  const handleDeleteProjectConfirmation = () => {
     dispatch(deleteProjectsRequest([projectId]));
-    goBackHandler();
+    handleGoBack();
   };
 
   return (
     <ContentHeader
-      title={project.name}
       loading={loading}
+      title={project.name}
       customSubTitle='Meus projetos'
-      handleGoBack={goBackHandler}
-      handleSubmit={editProjectNameHandler}
+      handleGoBack={handleGoBack}
+      handleSubmit={handleEditProjectName}
       extra={
         <>
           <Tooltip placement='bottom' title={'Excluir projeto'}>
             <Popconfirm
               title='Você tem certeza que deseja excluir esse projeto?'
-              onConfirm={handleClick}
-              okText='Sim'
+              onConfirm={handleDeleteProjectConfirmation}
               cancelText='Não'
+              okText='Sim'
             >
               <Button icon={<DeleteOutlined />} className='buttonDelete' />
             </Popconfirm>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -7,50 +7,45 @@ import AccountInfo from 'components/ContentHeader/AccountInfo';
 import { Actions as projectsActions, Selectors } from 'store/projects';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 
-const { getProject } = Selectors;
 const { updateProjectRequest, fetchProjectRequest } = projectsActions;
+
+const projectSelector = (projectId) => (state) => {
+  return Selectors.getProject(projectId, state);
+};
 
 const DeploymentsHeaderContainer = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const target = `/projetos/${projectId}/experimentos`;
+  const project = useSelector(projectSelector(projectId));
 
-  // TODO: Criar seletores com reselect -> Otimização
-  /* eslint-disable-next-line */
-  const project = useSelector((state) => getProject(projectId, state));
+  const target = useMemo(() => {
+    return `/projetos/${projectId}/experimentos`;
+  }, [projectId]);
 
-  const goBackHandler = () => history.push(`/projetos/${projectId}`);
-  const editProjectNameHandler = (newProjectName) =>
+  const handleGoBack = () => {
+    history.push(`/projetos/${projectId}`);
+  };
+
+  const handleEditProjectName = (newProjectName) => {
     dispatch(updateProjectRequest(projectId, { name: newProjectName }));
+  };
 
   useEffect(() => {
     if (project.uuid === '') {
       dispatch(fetchProjectRequest(projectId, history));
     }
-
-    // component did mount
-    /* eslint-disable-next-line */
-  }, []);
+  }, [dispatch, history, project.uuid, projectId]);
 
   return (
     <ContentHeader
       title={project.name}
-      subTitle={
-        <>
-          <PageHeaderDropdown type='deployment' target={target} />
-        </>
-      }
+      extra={<AccountInfo />}
+      handleGoBack={handleGoBack}
       customSubTitle='Meus projetos'
-      handleGoBack={goBackHandler}
-      handleSubmit={editProjectNameHandler}
-      extra={
-        <>
-          {/* FIXME: missing deployment buttons */}
-          <AccountInfo />
-        </>
-      }
+      handleSubmit={handleEditProjectName}
+      subTitle={<PageHeaderDropdown type='deployment' target={target} />}
     />
   );
 };

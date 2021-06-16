@@ -1,29 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-
-import {
-  DownloadOutlined,
-  LoadingOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
 import { Button, Card, Col, Divider, Row, Space } from 'antd';
+import {
+  PlusOutlined,
+  LoadingOutlined,
+  DownloadOutlined,
+} from '@ant-design/icons';
 
-import { CommonTable, CompareResultItem } from 'components';
 import { Modal, Skeleton } from 'uiComponents';
+import { CommonTable, CompareResultItem } from 'components';
 
 import {
   addCompareResult,
   deleteCompareResult,
   fetchCompareResults,
-  fetchCompareResultsResults,
-  fetchTrainingHistory,
-  getCompareResultDatasetPaginated,
   updateCompareResult,
+  fetchTrainingHistory,
+  fetchCompareResultsResults,
+  getCompareResultDatasetPaginated,
 } from 'store/compareResults/actions';
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
-
 import { getExperiments } from 'store/projects/experiments/experiments.selectors';
 
 import 'react-grid-layout/css/styles.css';
@@ -32,44 +30,62 @@ import 'react-resizable/css/styles.css';
 const ADD_COMPARE_RESULT_GRID_KEY = 'add-compare-result-grid-key';
 const ReactGridLayout = WidthProvider(RGL);
 
-/**
- * Container to display operator experiment results modal.
- */
+const experimentsSelector = (projectId) => (state) => {
+  return getExperiments(state, projectId);
+};
+
+const addIsLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.compareResultsModal.addIsLoading;
+};
+
+const compareResultsSelector = ({ compareResultsReducer }) => {
+  return compareResultsReducer.compareResults;
+};
+
+const deleteIsLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.compareResultsModal.deleteIsLoading;
+};
+
+const experimentsOptionsSelector = ({ compareResultsReducer }) => {
+  return compareResultsReducer.experimentsOptions;
+};
+
+const isLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.compareResultsModal.loading;
+};
+
+const isVisibleSelector = ({ uiReducer }) => {
+  return uiReducer.compareResultsModal.isVisible;
+};
+
+const tasksSelector = ({ tasksReducer }) => {
+  return tasksReducer.tasks;
+};
+
+const experimentsTrainingHistorySelector = ({ compareResultsReducer }) => {
+  return compareResultsReducer.experimentsTrainingHistory;
+};
+
 const CompareResultsModalContainer = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
-  // TODO: Criar seletor com reselect
-  /* eslint-disable-next-line */
-  const experiments = useSelector((state) => getExperiments(state, projectId));
+  const experiments = useSelector(experimentsSelector(projectId));
 
-  // TODO: Criar seletores
-  /* eslint-disable */
-  const addIsLoading = useSelector(
-    (state) => state.uiReducer.compareResultsModal.addIsLoading
-  );
-  const compareResults = useSelector(
-    (state) => state.compareResultsReducer.compareResults
-  );
-  const deleteIsLoading = useSelector(
-    (state) => state.uiReducer.compareResultsModal.deleteIsLoading
-  );
-  const experimentsOptions = useSelector(
-    (state) => state.compareResultsReducer.experimentsOptions
-  );
+  const addIsLoading = useSelector(addIsLoadingSelector);
+  const compareResults = useSelector(compareResultsSelector);
+  const deleteIsLoading = useSelector(deleteIsLoadingSelector);
+  const experimentsOptions = useSelector(experimentsOptionsSelector);
+  const isLoading = useSelector(isLoadingSelector);
+  const isVisible = useSelector(isVisibleSelector);
+  const tasks = useSelector(tasksSelector);
   const experimentsTrainingHistory = useSelector(
-    (state) => state.compareResultsReducer.experimentsTrainingHistory
+    experimentsTrainingHistorySelector
   );
-  const isLoading = useSelector(
-    (state) => state.uiReducer.compareResultsModal.loading
-  );
-  const isVisible = useSelector(
-    (state) => state.uiReducer.compareResultsModal.isVisible
-  );
-  const tasks = useSelector((state) => state.tasksReducer.tasks);
-  /* eslint-enable */
 
-  const hasLoading = isLoading || deleteIsLoading;
+  const hasLoading = useMemo(() => {
+    return isLoading || deleteIsLoading;
+  }, [deleteIsLoading, isLoading]);
 
   useEffect(() => {
     if (isVisible) {
@@ -78,18 +94,18 @@ const CompareResultsModalContainer = () => {
   }, [dispatch, isVisible, projectId]);
 
   const title = (
-    <>
-      <Space>
-        <span>
-          <strong>Comparar resultados</strong>
-        </span>
-        <Divider type='vertical' />
-        <Button shape='round' type='primary-inverse' disabled>
-          <DownloadOutlined />
-          Fazer download
-        </Button>
-      </Space>
-    </>
+    <Space>
+      <span>
+        <strong>Comparar resultados</strong>
+      </span>
+
+      <Divider type='vertical' />
+
+      <Button shape='round' type='primary-inverse' disabled>
+        <DownloadOutlined />
+        Fazer download
+      </Button>
+    </Space>
   );
 
   const renderLoadingCard = () => {
@@ -100,6 +116,7 @@ const CompareResultsModalContainer = () => {
           style={{ height: 450, overflowX: 'scroll' }}
         >
           <Skeleton paragraphConfig={{ rows: 1, width: '100%' }} />
+
           <CommonTable
             columns={[
               { title: '' },
@@ -122,28 +139,28 @@ const CompareResultsModalContainer = () => {
       return (
         <div key={compareResult.uuid}>
           <CompareResultItem
-            compareResult={compareResult}
+            tasks={tasks}
             experiments={experiments}
+            compareResult={compareResult}
             experimentsOptions={experimentsOptions}
             experimentsTrainingHistory={experimentsTrainingHistory}
             onDelete={(id) => {
               dispatch(deleteCompareResult(projectId, id));
             }}
-            onFetchResults={(results) =>
-              dispatch(fetchCompareResultsResults(results))
-            }
-            onResultDatasetPageChange={(results, page, pageSize) =>
+            onFetchResults={(results) => {
+              dispatch(fetchCompareResultsResults(results));
+            }}
+            onResultDatasetPageChange={(results, page, pageSize) => {
               dispatch(
                 getCompareResultDatasetPaginated(results, page, pageSize)
-              )
-            }
+              );
+            }}
             onLoadTrainingHistory={(experimentId) => {
               dispatch(fetchTrainingHistory(projectId, experimentId));
             }}
-            onUpdate={(results, isToDispatchAction) =>
-              dispatch(updateCompareResult(results, isToDispatchAction))
-            }
-            tasks={tasks}
+            onUpdate={(results, isToDispatchAction) => {
+              dispatch(updateCompareResult(results, isToDispatchAction));
+            }}
           />
         </div>
       );
@@ -152,6 +169,7 @@ const CompareResultsModalContainer = () => {
 
   const generateGridLayout = () => {
     let totalW = 0;
+
     const gridLayout = compareResults.map((item) => {
       let itemLayout = item.layout;
       if (!itemLayout) {
@@ -168,6 +186,7 @@ const CompareResultsModalContainer = () => {
       itemLayout.minH = 12;
       return itemLayout;
     });
+
     gridLayout.push({
       i: ADD_COMPARE_RESULT_GRID_KEY,
       x: (Math.floor(totalW / 6) % 2) * 6,
@@ -178,6 +197,7 @@ const CompareResultsModalContainer = () => {
       isDraggable: true,
       isResizable: false,
     });
+
     return gridLayout;
   };
 
@@ -188,12 +208,14 @@ const CompareResultsModalContainer = () => {
           let compareResult = compareResults.find(
             (e) => e.uuid === layoutItem.i
           );
+
           compareResult.layout = {
             x: layoutItem.x,
             y: layoutItem.y,
             w: layoutItem.w,
             h: layoutItem.h,
           };
+
           dispatch(updateCompareResult(compareResult, false));
         }
       }
@@ -209,8 +231,8 @@ const CompareResultsModalContainer = () => {
       <ReactGridLayout
         className={'layout'}
         cols={12}
-        layout={generateGridLayout()}
         rowHeight={35}
+        layout={generateGridLayout()}
         onDragStop={handleUpdateCompareResultLayout}
         onResizeStop={handleUpdateCompareResultLayout}
       >
@@ -219,8 +241,8 @@ const CompareResultsModalContainer = () => {
           <Card
             style={{
               border: '2px dashed #D9D9D9',
-              margin: 0,
               textAlign: 'center',
+              margin: 0,
             }}
           >
             <Button
@@ -246,8 +268,8 @@ const CompareResultsModalContainer = () => {
     <Modal
       bodyStyle={{
         backgroundColor: '#ECEFF1',
-        height: '80vh',
         overflowX: 'scroll',
+        height: '80vh',
       }}
       footer={null}
       handleClose={() => dispatch(changeVisibilityCompareResultsModal(false))}
