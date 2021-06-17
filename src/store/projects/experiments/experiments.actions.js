@@ -20,6 +20,7 @@ import utils from 'utils';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';
 
+// TODO: Remover actions de success e de fail e utilizar actions default
 /**
  * Experiments success default action
  *
