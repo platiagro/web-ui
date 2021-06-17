@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -47,6 +47,7 @@ const TaskDetails = () => {
     handleHideShareTaskModal,
   ] = useBooleanState(false);
 
+  const isLoadingTask = useIsLoading(TASKS_TYPES.FETCH_TASK_DATA_REQUEST);
   const isEditingTask = useIsLoading(TASKS_TYPES.UPDATE_TASK_REQUEST);
 
   const isSendingTaskViaEmail = useIsLoading(
@@ -117,7 +118,7 @@ const TaskDetails = () => {
     dispatch(sendTaskViaEmail(taskId, email, handleHideShareTaskModal));
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (taskId) dispatch(fetchTaskData(taskId));
     return () => {
       dispatch(clearTaskData());
@@ -155,7 +156,7 @@ const TaskDetails = () => {
           />
 
           <div className='task-details-page-content-info'>
-            {taskData?.hasNotebook ? (
+            {!isLoadingTask && !!taskData?.hasNotebook && (
               <>
                 <TaskDetailsNotebooks
                   isUploadingDeploymentNotebook={isUploadingDeploymentNotebook}
@@ -173,14 +174,18 @@ const TaskDetails = () => {
 
                 <TaskDetailsUploads uploadedFiles={uploadedFiles} />
               </>
-            ) : (
+            )}
+
+            {!isLoadingTask && !taskData?.hasNotebook && (
               <TaskDetailsDocker
                 taskData={taskData}
                 handleUpdateTaskData={handleUpdateTaskData}
               />
             )}
 
-            <TaskDetailsInfoFooter hasEditedSomething={hasEditedSomething} />
+            {!isLoadingTask && (
+              <TaskDetailsInfoFooter hasEditedSomething={hasEditedSomething} />
+            )}
           </div>
         </div>
       </div>
