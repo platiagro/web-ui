@@ -6,11 +6,7 @@ import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 
 import experimentsApi from 'services/ExperimentsApi';
 
-import {
-  hideNewExperimentModal,
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
-} from 'store/ui/actions';
+import { hideNewExperimentModal } from 'store/ui/actions';
 import { fetchExperimentOperatorsRequest } from 'store/operators';
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
 
@@ -29,41 +25,53 @@ const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';
  *
  * @param {object} successObject Success action default object
  * @param {Experiments} successObject.experiments New experiments state
- * @param {string} successObject.actionType Action type
+ * @param {string} successObject.requestActionType Action type request, used in loading
+ * @param {string} successObject.successActionType Action type success
  * @param {string=} successObject.message Success message
  * @param {Function} successObject.callback Success function callback
  * @returns {Function} Thunk action
  */
 const experimentsActionSuccess =
-  ({ experiments, actionType, message = undefined, callback = undefined }) =>
+  ({
+    experiments,
+    requestActionType,
+    successActionType,
+    message = undefined,
+    callback = undefined,
+  }) =>
   (dispatch) => {
     dispatch({
-      type: actionType,
+      type: successActionType,
       payload: { experiments },
     });
 
     if (message) dispatch(showSuccess(message));
     if (callback) callback();
+
+    dispatch(removeLoading(requestActionType));
   };
 
 /**
  * Experiments fail default action
  *
  * @param {object} failObject Success action default object
- * @param {string} failObject.actionType Action type
+ * @param {string} failObject.requestActionType Action type request, used in loading
+ * @param {string} failObject.failActionType Action type fail
  * @param {string=} failObject.message Success message
  * @param {Function} failObject.callback Fail function callback
  * @returns {Function} Thunk action
  */
 const experimentsActionFail =
-  ({ actionType, message = undefined, callback }) =>
+  ({ requestActionType, failActionType, message = undefined, callback }) =>
   (dispatch) => {
     dispatch({
-      type: actionType,
+      type: failActionType,
     });
 
     if (message) dispatch(showError(message));
     if (callback) callback();
+
+    dispatch(removeLoading(requestActionType));
   };
 
 /**
@@ -470,13 +478,13 @@ export const activeExperiment = (projectId, experimentId) => (dispatch) => {
  */
 export const applyTemplateRequest =
   (projectId, experimentId, templateId) => async (dispatch) => {
-    const actionType = EXPERIMENTS_TYPES.APPLY_TEMPLATE_REQUEST;
+    const requestActionType = EXPERIMENTS_TYPES.APPLY_TEMPLATE_REQUEST;
 
     dispatch({
-      type: actionType,
+      type: requestActionType,
     });
 
-    dispatch(addLoading(actionType));
+    dispatch(addLoading(requestActionType));
 
     try {
       const experiment = {
@@ -494,7 +502,8 @@ export const applyTemplateRequest =
       };
 
       const successObject = {
-        actionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_SUCCESS,
+        requestActionType,
+        successActionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_SUCCESS,
         message: 'Template aplicado com sucesso!',
         callback: successCallback,
       };
@@ -504,12 +513,11 @@ export const applyTemplateRequest =
       const errorMessage = error.message;
 
       const errorObject = {
-        actionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_FAIL,
+        requestActionType,
+        failActionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_FAIL,
         message: errorMessage,
       };
 
       dispatch(experimentsActionFail(errorObject));
-    } finally {
-      dispatch(removeLoading(actionType));
     }
   };
