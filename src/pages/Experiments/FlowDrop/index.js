@@ -12,8 +12,6 @@ import ExperimentFlowContainer from '../Experiment/ExperimentFlow/ExperimentFlow
 import './style.less';
 
 const FlowDrop = () => {
-  console.log('FlowDrop RENDERIZOU');
-
   const { experimentId } = useParams();
 
   return (
