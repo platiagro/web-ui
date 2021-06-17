@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useDispatch, shallowEqual } from 'react-redux';
 
 import {
   Selectors,
@@ -18,16 +18,16 @@ const experimentSelector = (projectId, experimentId) => (state) => {
   return Selectors.getExperiment(state, projectId, experimentId);
 };
 
+const trainingLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.experimentTraining.loading;
+};
+
 const operatorsSelector = ({ operatorsReducer }) => {
   return operatorsReducer;
 };
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
-};
-
-const trainingLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.experimentTraining.loading;
 };
 
 const deleteTrainingLoadingSelector = ({ uiReducer }) => {
@@ -40,22 +40,16 @@ const ExperimentHeaderContainer = () => {
 
   const loading = useIsLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST);
 
-  const operators = useDeepEqualSelector(operatorsSelector, shallowEqual);
-  const operator = useDeepEqualSelector(operatorSelector, shallowEqual);
-
-  const trainingLoading = useDeepEqualSelector(
-    trainingLoadingSelector,
-    shallowEqual
-  );
+  const trainingLoading = useDeepEqualSelector(trainingLoadingSelector);
+  const operators = useDeepEqualSelector(operatorsSelector);
+  const operator = useDeepEqualSelector(operatorSelector);
 
   const deleteTrainingLoading = useDeepEqualSelector(
-    deleteTrainingLoadingSelector,
-    shallowEqual
+    deleteTrainingLoadingSelector
   );
 
   const experiment = useDeepEqualSelector(
-    experimentSelector(projectId, experimentId),
-    shallowEqual
+    experimentSelector(projectId, experimentId)
   );
 
   const handleEditExperimentName = (newName) => {
@@ -90,16 +84,16 @@ const ExperimentHeaderContainer = () => {
 
   return (
     <ExperimentHeader
-      title={experiment?.name}
-      empty={operators.length <= 0}
       loading={loading}
       operator={operator}
+      title={experiment?.name}
+      empty={operators.length <= 0}
       trainingLoading={trainingLoading}
       deleteTrainingLoading={deleteTrainingLoading}
-      handleEditExperimentName={handleEditExperimentName}
-      handleTrainExperiment={handleTrainExperiment}
-      handleDeleteTrainExperiment={handleDeleteTrainExperiment}
       handleRemoveOperator={handleRemoveOperator}
+      handleTrainExperiment={handleTrainExperiment}
+      handleEditExperimentName={handleEditExperimentName}
+      handleDeleteTrainExperiment={handleDeleteTrainExperiment}
     />
   );
 };
