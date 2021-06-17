@@ -1,4 +1,4 @@
-/* globals Projects, Templates */
+/* globals Projects, Templates, Tasks */
 
 // TODO: Refatorar store (da para remover detalhes de paginação, filtro e seleção)
 /**
@@ -41,9 +41,27 @@
  */
 
 /**
+ * Tasks (TasksStore).
+ *
+ * @typedef {object} TasksStore
+ * @property {boolean} editModalIsVisible Task edit modal is visible
+ * @property {string} errorMessage Task error message
+ * @property {boolean} modalIsVisible Task modal is visible
+ * @property {string} modalValidateStatus Task modal validate status id
+ * @property {object} newTaskRecord New task record
+ * @property {number} pageSize Tasks page size
+ * @property {Tasks} tasks Tasks
+ * @property {number} totalTasks Total tasks in page
+ * @property {object} taskData Task data
+ */
+
+/**
  * Stores da aplicação (AppStores).
  *
  * @typedef {object} AppStores
  * @property {ProjectsStore} Projects Projects store
  * @property {TemplatesStore} Templates Templates store
+ * @property {OperatorsStore} operatorsReducer Operators store
+ * @property {OperatorStore} operatorReducer Operator store
+ * @property {TasksStore} tasksReducer Operator store
  */
