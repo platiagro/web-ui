@@ -50,7 +50,6 @@ const createExperimentSuccess =
 
     dispatch(hideNewExperimentModal());
 
-    // TODO: Utilizar operadores do experimento, remover redundância
     dispatch(fetchExperimentOperatorsRequest(projectId, experiment.uuid));
 
     dispatch({
