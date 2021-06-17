@@ -155,13 +155,7 @@ const TaskDetails = () => {
           />
 
           <div className='task-details-page-content-info'>
-            {taskData?.type === 'docker' ? (
-              // TODO: "taskData.type" does not exist. Find other way to check if is a docker task
-              <TaskDetailsDocker
-                taskData={taskData}
-                handleUpdateTaskData={handleUpdateTaskData}
-              />
-            ) : (
+            {taskData?.hasNotebook ? (
               <>
                 <TaskDetailsNotebooks
                   isUploadingDeploymentNotebook={isUploadingDeploymentNotebook}
@@ -179,6 +173,11 @@ const TaskDetails = () => {
 
                 <TaskDetailsUploads uploadedFiles={uploadedFiles} />
               </>
+            ) : (
+              <TaskDetailsDocker
+                taskData={taskData}
+                handleUpdateTaskData={handleUpdateTaskData}
+              />
             )}
 
             <TaskDetailsInfoFooter hasEditedSomething={hasEditedSomething} />
