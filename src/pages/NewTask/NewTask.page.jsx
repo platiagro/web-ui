@@ -54,9 +54,8 @@ const NewTask = () => {
   };
 
   const handleCreateDockerTask = () => {
-    // TODO: Define a field to indicate that you want a docker task
     dispatch(
-      createTask({ type: 'docker' }, (newTask) => {
+      createTask({ image: 'docker.io/busybox' }, (newTask) => {
         history.replace(`/tarefas/${newTask.uuid}`);
       })
     );
