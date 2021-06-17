@@ -20,6 +20,27 @@
  */
 
 /**
+ * Store Operator (OperatorStore).
+ *
+ * @typedef {object} OperatorStore
+ * @property {string} icon Operator icon
+ * @property {string} name Operator name
+ * @property {number} position Operator sequential position
+ * @property {string} uuid Operator id
+ * @property {boolean} selected Operator is selected
+ * @property {string} dataset Operator dataset
+ * @property {string[]} figures Operator result figures
+ * @property {object[]} logs Operator logs
+ * @property {object[]} parameters Operator parameters
+ */
+
+/**
+ * Store Operators (OperatorsStore).
+ *
+ * @typedef {OperatorStore[]} OperatorsStore
+ */
+
+/**
  * Stores da aplicação (AppStores).
  *
  * @typedef {object} AppStores
