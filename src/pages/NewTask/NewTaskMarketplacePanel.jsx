@@ -23,6 +23,7 @@ const NewTaskMarketplacePanel = ({ handleGoToMarketPlace }) => {
             className='new-task-page-content-panels-right-button'
             onClick={handleGoToMarketPlace}
             icon={<ShoppingOutlined />}
+            type='secondary'
             shape='round'
             disabled // TODO: Enable when the marketplace exists
           >

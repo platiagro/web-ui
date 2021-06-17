@@ -148,7 +148,7 @@ const TaskDetailsHeader = ({
             className='task-details-page-header-share-button'
             onClick={handleShowShareTaskModal}
             icon={<ShareAltOutlined />}
-            type='default'
+            type='secondary'
             shape='round'
           >
             Compartilhar
