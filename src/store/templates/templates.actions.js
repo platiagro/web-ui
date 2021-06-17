@@ -5,16 +5,12 @@
 import * as TEMPLATES_TYPES from './templates.actionTypes';
 
 import templatesApi from 'services/TemplatesApi';
-import experimentsApi from 'services/ExperimentsApi';
 
 import {
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
   hideNewTemplateModal,
   tasksMenuLoadingData,
   tasksMenuDataLoaded,
 } from '../ui/actions';
-import { fetchExperimentOperatorsRequest } from '../operators';
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 import { showError, showSuccess } from 'store/message/message.actions';
 import { addLoading, removeLoading } from 'store/loading';
@@ -244,72 +240,6 @@ export const deleteTemplateRequest =
       const errorObject = {
         actionType: TEMPLATES_TYPES.DELETE_TEMPLATE_FAIL,
         message: errorMessage,
-      };
-
-      dispatch(templatesActionFail(errorObject));
-    } finally {
-      dispatch(removeLoading(actionType));
-    }
-  };
-
-// TODO: Passar para experimentos, faz mais sentido.
-/**
- * Set template request action
- *
- * @param {string} projectId Project UUID
- * @param {string} experimentId Experiment UUID
- * @param {string} templateId Template UUID
- * @returns {Function} Dispatch function
- */
-export const setTemplateRequest =
-  (projectId, experimentId, templateId) => async (dispatch, getState) => {
-    const actionType = TEMPLATES_TYPES.SET_TEMPLATE_REQUEST;
-
-    dispatch({
-      type: actionType,
-    });
-
-    dispatch(addLoading(actionType));
-
-    dispatch(experimentOperatorsLoadingData());
-
-    try {
-      const experiment = {
-        templateId,
-      };
-
-      await experimentsApi.updateExperiment(
-        projectId,
-        experimentId,
-        experiment
-      );
-
-      const successCallback = () => {
-        dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
-      };
-
-      const currentState = getState();
-      const templatesState = getTemplates(currentState);
-
-      const successObject = {
-        templates: templatesState,
-        actionType: TEMPLATES_TYPES.SET_TEMPLATE_SUCCESS,
-        message: 'Experimento atualizado com sucesso!',
-        callback: successCallback,
-      };
-
-      dispatch(templatesActionSuccess(successObject));
-    } catch (error) {
-      const errorCallback = () => {
-        dispatch(experimentOperatorsDataLoaded());
-      };
-
-      const errorMessage = error.message;
-
-      const errorObject = {
-        actionType: TEMPLATES_TYPES.SET_TEMPLATE_FAIL,
-        message: errorMessage,
-        callback: errorCallback,
       };
 
       dispatch(templatesActionFail(errorObject));
