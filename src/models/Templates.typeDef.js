@@ -1,4 +1,4 @@
-// TODO: Criar Tasks type def (model)
+/* globals Tasks */
 
 /**
  * Template.
@@ -10,8 +10,8 @@
  * @property {string} uuid Template id
  * @property {string} name Template name
  * @property {Tasks} tasks Template tasks
- * @property {string} createdAt	Project creation date
- * @property {string} updatedAt	Project last update date
+ * @property {string} createdAt	Template creation date
+ * @property {string} updatedAt	Template last update date
  */
 
 /**

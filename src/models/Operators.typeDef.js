@@ -1,3 +1,5 @@
+/* globals Task */
+
 /**
  * Operador (Operator).
  *
