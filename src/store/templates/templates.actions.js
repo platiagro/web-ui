@@ -187,7 +187,7 @@ export const deleteTemplateRequest =
 
     dispatch(addLoading(requestActionType));
 
-    // TODO: Esse loading pode ser removido quando a store de tarefas for refatorada, provavelmente
+    // TODO: Esse loading pode ser removido quando a store de menu de tarefas for refatorada, provavelmente
     dispatch(tasksMenuLoadingData());
 
     try {
@@ -200,7 +200,7 @@ export const deleteTemplateRequest =
         return templateItem.uuid !== templateId;
       });
 
-      // TODO: Todo esse bloco será removido quando a store de tarefas for refatorada
+      // TODO: Todo esse bloco será removido quando a store de menu de tarefas for refatorada
       // INICIO ------------->
       const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
         (template) => template.uuid !== templateId
@@ -234,7 +234,7 @@ export const deleteTemplateRequest =
       };
       // FIM ------------->
 
-      // TODO: por enquanto precisamos enviar as tarefas no payload, porém quando a store de tarefas for refatorada
+      // TODO: por enquanto precisamos enviar as tarefas no payload, porém quando a store de menu de tarefas for refatorada
       // provavelmente isso poderá ser corrigido
       const customPayload = { templates, tasks };
 
