@@ -1,12 +1,16 @@
 // correção de bug do eslint/jsdoc
 /* eslint-disable-next-line */
-/* global ExperimentCreatable, ExperimentUpdatable */
+/* global Experiments, ExperimentCreatable, ExperimentUpdatable */
 
 import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 
 import experimentsApi from 'services/ExperimentsApi';
 
-import { hideNewExperimentModal } from 'store/ui/actions';
+import {
+  hideNewExperimentModal,
+  experimentOperatorsDataLoaded,
+  experimentOperatorsLoadingData,
+} from 'store/ui/actions';
 import { fetchExperimentOperatorsRequest } from 'store/operators';
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
 
@@ -455,3 +459,64 @@ export const activeExperiment = (projectId, experimentId) => (dispatch) => {
 
   dispatch(updateExperimentRequest(projectId, experimentId, experiment));
 };
+
+/**
+ * Apply template request action
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentId Experiment UUID
+ * @param {string} templateId Template UUID
+ * @returns {Function} Dispatch function
+ */
+export const applyTemplateRequest =
+  (projectId, experimentId, templateId) => async (dispatch) => {
+    const actionType = EXPERIMENTS_TYPES.APPLY_TEMPLATE_REQUEST;
+
+    dispatch({
+      type: actionType,
+    });
+
+    dispatch(addLoading(actionType));
+
+    dispatch(experimentOperatorsLoadingData());
+
+    try {
+      const experiment = {
+        templateId,
+      };
+
+      await experimentsApi.updateExperiment(
+        projectId,
+        experimentId,
+        experiment
+      );
+
+      const successCallback = () => {
+        dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
+      };
+
+      const successObject = {
+        actionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_SUCCESS,
+        message: 'Template aplicado com sucesso!',
+        callback: successCallback,
+      };
+
+      dispatch(experimentsActionSuccess(successObject));
+    } catch (error) {
+      const errorCallback = () => {
+        dispatch(experimentOperatorsDataLoaded());
+      };
+
+      const errorMessage = error.message;
+
+      const errorObject = {
+        actionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_FAIL,
+        message: errorMessage,
+        callback: errorCallback,
+      };
+
+      dispatch(experimentsActionFail(errorObject));
+    } finally {
+      dispatch(removeLoading(actionType));
+    }
+  };
