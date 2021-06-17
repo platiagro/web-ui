@@ -1,21 +1,14 @@
-// CORE LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// UI LIBS
-import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 
-/**
- * Delete Projects Button.
- * This component is responsible for delete projects button.
- */
 const DeleteProjectsButton = ({ disabled, selectedProjects, handleClick }) => (
   <Popconfirm
-    title='Excluir projetos selecionados?'
     onConfirm={() => handleClick(selectedProjects)}
-    okText='Sim'
+    title='Excluir projetos selecionados?'
     cancelText='Não'
+    okText='Sim'
   >
     <Button
       disabled={disabled}
@@ -27,15 +20,10 @@ const DeleteProjectsButton = ({ disabled, selectedProjects, handleClick }) => (
   </Popconfirm>
 );
 
-// PROP TYPES
 DeleteProjectsButton.propTypes = {
-  /** new project button is disabled */
   disabled: PropTypes.bool.isRequired,
-  /** selected projects to be deleted */
   selectedProjects: PropTypes.array.isRequired,
-  /** new project button click function */
   handleClick: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default DeleteProjectsButton;

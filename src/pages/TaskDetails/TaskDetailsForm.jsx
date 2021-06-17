@@ -50,6 +50,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
       case FIELD_IDS.DOCUMENTATION:
         return documentation.trim();
+
+      default:
+        return undefined;
     }
   };
 
@@ -72,6 +75,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
       case FIELD_IDS.DOCUMENTATION:
         return taskData.docs;
+
+      default:
+        return undefined;
     }
   };
 
@@ -89,6 +95,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
         const isIdentical = oldValue.every((tag) => newValue.includes(tag));
         return hasTheSameLength && isIdentical;
       }
+
+      default:
+        return true;
     }
   };
 

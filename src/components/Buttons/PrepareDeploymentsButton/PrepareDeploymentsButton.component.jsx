@@ -1,25 +1,10 @@
-// REACT LIBS
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// UI COMPONENTS
 import { LoadingOutlined, ToolOutlined } from '@ant-design/icons';
+
 import { Button } from 'uiComponents';
 
-/**
- * A button to prepare deployments
- *
- * @param {*} props Component props
- *
- * @returns {PrepareDeploymentsButton} Component
- *
- * @component
- */
-const PrepareDeploymentsButton = (props) => {
-  // destructuring props PrepareDeploymentsButton
-  const { loading, disabled, onClick } = props;
-
-  // rendering component PrepareDeploymentsButton
+const PrepareDeploymentsButton = ({ loading, disabled, onClick }) => {
   return (
     <Button
       shape='round'
@@ -33,15 +18,10 @@ const PrepareDeploymentsButton = (props) => {
   );
 };
 
-// PROP TYPES
 PrepareDeploymentsButton.propTypes = {
-  /** click function */
   onClick: PropTypes.func.isRequired,
-  /** prepare deployments button is loading */
   loading: PropTypes.bool.isRequired,
-  /** prepare deployments button is disabled */
   disabled: PropTypes.bool.isRequired,
 };
 
-// EXPORT DEFAULT
 export default PrepareDeploymentsButton;

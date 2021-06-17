@@ -3,42 +3,41 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
 import {
-  Actions as experimentsActions,
   EXPERIMENTS_TYPES,
+  Actions as experimentsActions,
 } from 'store/projects/experiments';
-import { hideNewExperimentModal } from 'store/ui/actions';
-
 import { useIsLoading } from 'hooks';
+import { hideNewExperimentModal } from 'store/ui/actions';
 
 import NewExperimentModal from './index';
 
-/**
- * New Experiment Modal Container.
- *
- * This component is responsible for create a logic container for new experiment
- * modal with redux.
- */
+const modalVisibleSelector = ({ uiReducer }) => {
+  return uiReducer.newExperimentModal.visible;
+};
+
+const errorMessageSelector = ({ uiReducer }) => {
+  return uiReducer.newExperimentModal.errorMessage;
+};
+
+const modalValidateStatusSelector = ({ uiReducer }) => {
+  return uiReducer.newExperimentModal.modalValidateStatus;
+};
+
 const NewExperimentModalContainer = () => {
   const { projectId } = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const loading = useIsLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST);
 
-  // TODO: Criar seletores
-  /* eslint-disable */
-  const modalVisible = useSelector(
-    (state) => state.uiReducer.newExperimentModal.visible
-  );
-  const modalValidateStatus = useSelector(
-    (state) => state.uiReducer.newExperimentModal.modalValidateStatus
-  );
-  const errorMessage = useSelector(
-    (state) => state.uiReducer.newExperimentModal.errorMessage
-  );
-  /* eslint-enable */
+  const modalVisible = useSelector(modalVisibleSelector);
+  const errorMessage = useSelector(errorMessageSelector);
+  const modalValidateStatus = useSelector(modalValidateStatusSelector);
 
-  const handleHideExperimentModal = () => dispatch(hideNewExperimentModal());
+  const handleHideExperimentModal = () => {
+    dispatch(hideNewExperimentModal());
+  };
+
   const newExperimentHandler = (experimentName, copyFrom) => {
     dispatch(
       experimentsActions.createExperimentRequest(
@@ -51,12 +50,12 @@ const NewExperimentModalContainer = () => {
 
   return (
     <NewExperimentModal
-      visible={modalVisible}
-      handleCloseModal={handleHideExperimentModal}
-      handleNewExperiment={newExperimentHandler}
       loading={loading}
-      modalValidateStatus={modalValidateStatus}
+      visible={modalVisible}
       errorMessage={errorMessage}
+      modalValidateStatus={modalValidateStatus}
+      handleNewExperiment={newExperimentHandler}
+      handleCloseModal={handleHideExperimentModal}
     />
   );
 };

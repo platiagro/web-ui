@@ -1,77 +1,71 @@
-// CORE LIBS
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-// UI LIBS
-import { DownOutlined, ExperimentOutlined, ToolOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 import { Button, Dropdown, Menu } from 'antd';
+import {
+  DownOutlined,
+  ExperimentOutlined,
+  ToolOutlined,
+} from '@ant-design/icons';
 
-// STYLES
 import './style.less';
 
-/**
- * Page Header Dropdown.
- * This component is responsible for page header dropdown to change view.
- *
- * @param {object} props Component props
- * 
- * @returns {PageHeaderDropdown} Component
- * 
- * @component
- */
-const PageHeaderDropdown = (props) => {
-  // destructuring props
-  const {
-    type,
-    target
-  } = props;
+const PAGE_HEADER_DROPDOWN_TYPES = {
+  EXPERIMENT: 'experiment',
+  DEPLOYMENT: 'deployment',
+};
+
+const PageHeaderDropdown = ({ type, target }) => {
+  const history = useHistory();
 
   let icon, title, targetTitle;
 
   switch (type) {
-    case 'experiment':
+    case PAGE_HEADER_DROPDOWN_TYPES.EXPERIMENT: {
       icon = <ExperimentOutlined />;
       title = 'Experimentação';
       targetTitle = 'Pré-implantação';
       break;
-    case 'deployment':
+    }
+
+    case PAGE_HEADER_DROPDOWN_TYPES.DEPLOYMENT: {
       icon = <ToolOutlined />;
       title = 'Pré-implantação';
       targetTitle = 'Experimentação';
       break;
+    }
+
     default:
       break;
   }
 
-  const changeView = () => {
+  const handleChangeView = () => {
     history.push(target);
   };
 
-  const history = useHistory();
-
-  const menu = (
-    <Menu className='dropdown-menu'>
-      <h1>Ir para:</h1>
-      <Button
-        shape='round'
-        type='primary-inverse'
-        size='medium'
-        onClick={changeView}
-      >
-        {targetTitle}
-      </Button>
-    </Menu>
-  );
-
   return (
     <div className='pageHeaderDropdown'>
-      <Dropdown overlay={menu} trigger={['click']}>
+      <Dropdown
+        overlay={
+          <Menu className='dropdown-menu'>
+            <h1>Ir para:</h1>
+            <Button
+              shape='round'
+              type='primary-inverse'
+              size='medium'
+              onClick={handleChangeView}
+            >
+              {targetTitle}
+            </Button>
+          </Menu>
+        }
+        trigger={['click']}
+      >
         <Button
           className={type}
-          type='primary-inverse'
           size='large'
-          onClick={e => e.preventDefault()}
+          type='primary-inverse'
+          onClick={(e) => e.preventDefault()}
         >
           {icon}
           {title}
@@ -79,15 +73,15 @@ const PageHeaderDropdown = (props) => {
         </Button>
       </Dropdown>
     </div>
-  )
-}
-// PROP TYPES
-PageHeaderDropdown.propTypes = {
-  /** Actual page type (experiment/deployment)*/
-  type: PropTypes.string.isRequired,
-  /** Target route for button*/
-  target: PropTypes.string.isRequired
+  );
 };
 
-// EXPORT
+PageHeaderDropdown.propTypes = {
+  type: PropTypes.oneOf([
+    PAGE_HEADER_DROPDOWN_TYPES.EXPERIMENT,
+    PAGE_HEADER_DROPDOWN_TYPES.DEPLOYMENT,
+  ]).isRequired,
+  target: PropTypes.string.isRequired,
+};
+
 export default PageHeaderDropdown;

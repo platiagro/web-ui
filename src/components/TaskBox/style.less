@@ -43,7 +43,7 @@
   font-size: 1em;
   height: 6em;
   user-select: none;
-  cursor: grab;
+  cursor: pointer;
 
   &:active {
     cursor: grabbing;
@@ -115,11 +115,10 @@
       border-color: #595959;
     }
   }
-  &.Running {
-    cursor: progress;
-  }
+
+  &.Running,
   &.Pending {
-    cursor: progress;
+    cursor: pointer;
   }
 
   &.Succeeded {

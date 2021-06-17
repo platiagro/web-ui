@@ -1,35 +1,23 @@
-// CORE LIBS
 import React from 'react';
-import PropTypes from 'prop-types';
-
-// UI LIBS
-import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import PropTypes from 'prop-types';
+import { PlusOutlined } from '@ant-design/icons';
 
-/**
- * New Project Button.
- * This component is responsible for show new project button.
- */
-const NewProjectButton = ({ handleClick, disabled }) => (
-  // button component
+const NewProjectButton = ({ disabled, handleClick }) => (
   <Button
-    disabled={disabled}
-    onClick={handleClick}
     className='newProjectButton'
-    type='primary'
     icon={<PlusOutlined />}
+    onClick={handleClick}
+    disabled={disabled}
+    type='primary'
   >
     Novo Projeto
   </Button>
 );
 
-// PROP TYPES
 NewProjectButton.propTypes = {
-  /** new project button is disabled */
   disabled: PropTypes.bool.isRequired,
-  /** new project button click function */
   handleClick: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default NewProjectButton;

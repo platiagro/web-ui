@@ -37,6 +37,9 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
 
       case FIELD_IDS.ARGUMENTS:
         return args.trim();
+
+      default:
+        return undefined;
     }
   };
 
@@ -50,6 +53,9 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
 
       case FIELD_IDS.ARGUMENTS:
         return taskData.args;
+
+      default:
+        return undefined;
     }
   };
 

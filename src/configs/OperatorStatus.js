@@ -5,4 +5,6 @@ export const OPERATOR_STATUS = {
   RUNNING: 'Running',
   FAILED: 'Failed',
   SUCCEEDED: 'Succeeded',
+  TERMINATED: 'Terminated',
+  LOADING: 'Loading',
 };

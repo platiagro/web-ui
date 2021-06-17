@@ -1,72 +1,56 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Handle } from 'react-flow-renderer';
 import { Tooltip, Menu, Dropdown } from 'antd';
 import {
-  CheckCircleFilled,
-  ClockCircleFilled,
-  ExclamationCircleFilled,
   StopOutlined,
   LoadingOutlined,
+  ClockCircleFilled,
+  CheckCircleFilled,
+  ExclamationCircleFilled,
 } from '@ant-design/icons';
 
+import { OPERATOR_STATUS } from 'configs';
 import { removeOperatorRequest } from 'store/operator';
 
 import './style.less';
-
-const TASK_BOX_STATUS = {
-  RUNNING: 'Running',
-  PENDING: 'Pending',
-  SUCCEEDED: 'Succeeded',
-  FAILED: 'Failed',
-  TERMINATED: 'Terminated',
-  LOADING: 'Loading',
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleRemoveOperator: (projectId, experimentId, operatorId) => {
-      dispatch(removeOperatorRequest(projectId, experimentId, operatorId));
-    },
-  };
-};
 
 const getToolTipConfig = (status, interruptIsRunning) => {
   const style = { fontSize: '18px' };
   const config = { title: '', iconType: '' };
 
   switch (status) {
-    case TASK_BOX_STATUS.RUNNING: {
+    case OPERATOR_STATUS.RUNNING: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa em execução';
       config.iconType = <LoadingOutlined style={style} spin />;
       break;
     }
 
-    case TASK_BOX_STATUS.PENDING: {
+    case OPERATOR_STATUS.PENDING: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa pendente';
       config.iconType = <ClockCircleFilled style={style} />;
       break;
     }
 
-    case TASK_BOX_STATUS.SUCCEEDED: {
+    case OPERATOR_STATUS.SUCCEEDED: {
       style.color = interruptIsRunning ? '' : '#389E0D';
       config.title = 'Tarefa executada com sucesso';
       config.iconType = <CheckCircleFilled style={style} />;
       break;
     }
 
-    case TASK_BOX_STATUS.FAILED: {
+    case OPERATOR_STATUS.FAILED: {
       style.color = interruptIsRunning ? '' : '#CF1322';
       config.title = 'Tarefa executada com falha';
       config.iconType = <ExclamationCircleFilled style={style} />;
       break;
     }
 
-    case TASK_BOX_STATUS.TERMINATED: {
+    case OPERATOR_STATUS.TERMINATED: {
       style.color = interruptIsRunning ? '' : '#666666';
       config.title = 'Tarefa interrompida';
       config.iconType = <StopOutlined style={style} />;
@@ -80,29 +64,27 @@ const getToolTipConfig = (status, interruptIsRunning) => {
   return config;
 };
 
-const TaskBox = (props) => {
-  const {
-    name,
-    icon,
-    status,
-    onConnectingClass,
-    settedUp,
-    selected,
-    handleClick,
-    operator,
-    experimentIsRunning,
-    interruptIsRunning,
-    handleRemoveOperator,
-    dependenciesGraph,
-  } = props;
-
+const TaskBox = ({
+  name,
+  icon,
+  status,
+  onConnectingClass,
+  settedUp,
+  selected,
+  handleClick,
+  operator,
+  experimentIsRunning,
+  interruptIsRunning,
+  dependenciesGraph,
+}) => {
   const { projectId, experimentId } = useParams();
+  const dispatch = useDispatch();
 
   const { isPending, isRunning, isLoading } = useMemo(
     () => ({
-      isPending: status === TASK_BOX_STATUS.PENDING,
-      isRunning: status === TASK_BOX_STATUS.RUNNING,
-      isLoading: status === TASK_BOX_STATUS.LOADING,
+      isPending: status === OPERATOR_STATUS.PENDING,
+      isRunning: status === OPERATOR_STATUS.RUNNING,
+      isLoading: status === OPERATOR_STATUS.LOADING,
     }),
     [status]
   );
@@ -126,20 +108,23 @@ const TaskBox = (props) => {
   const handleBoxClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!isPending && !isRunning) handleClick(operator);
+    handleClick(operator);
+  };
+
+  const handleRemoveOperator = () => {
+    dispatch(removeOperatorRequest(projectId, experimentId, operator));
   };
 
   const handleRightButtonClick = (e) => {
-    if (experimentIsRunning || interruptIsRunning) return;
     const isEditKey = e.key === 'edit';
     const isRemoveKey = e.key === 'remove';
 
-    if (!isPending && !isRunning && isEditKey) {
+    if (isEditKey) {
       handleClick(operator);
     }
 
-    if (!isPending && !isRunning && isRemoveKey) {
-      handleRemoveOperator(projectId, experimentId, operator);
+    if (!experimentIsRunning && !isPending && !isRunning && isRemoveKey) {
+      handleRemoveOperator();
     }
   };
 
@@ -249,30 +234,17 @@ const TaskBox = (props) => {
 };
 
 TaskBox.propTypes = {
-  /** task title string */
   name: PropTypes.string.isRequired,
-  /** task icon string */
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
-  /** task status string */
   status: PropTypes.string.isRequired,
-  /** task is setted up */
   settedUp: PropTypes.bool.isRequired,
-  /** task is selected */
   selected: PropTypes.bool.isRequired,
-  /** task click handler */
   handleClick: PropTypes.func.isRequired,
-  /** task remove handler */
-  handleRemoveOperator: PropTypes.func.isRequired,
-  /** connection class  */
   onConnectingClass: PropTypes.string,
-  /** operator  */
   operator: PropTypes.object,
-  /** experiment is running  */
   experimentIsRunning: PropTypes.bool,
-  /** is being interrupted  */
   interruptIsRunning: PropTypes.bool,
-  /** dependencies graph  */
   dependenciesGraph: PropTypes.object,
 };
 
-export default connect(null, mapDispatchToProps)(TaskBox);
+export default TaskBox;

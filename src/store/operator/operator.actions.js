@@ -9,6 +9,7 @@ import operatorsApi from 'services/OperatorsApi';
 import experimentRunsApi from 'services/ExperimentRunsApi';
 
 import { showError, showSuccess, showWarning } from 'store/message';
+import { addLoading, removeLoading } from 'store/loading';
 
 // ACTIONS
 import { getDatasetRequest } from 'store/dataset/actions';
@@ -20,8 +21,6 @@ import {
 import {
   showOperatorDrawer,
   hideOperatorDrawer,
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
   operatorParameterLoadingData,
   operatorParameterDataLoaded,
   operatorResultsDataLoaded,
@@ -285,14 +284,6 @@ export const selectOperatorAndGetData =
       dispatch(getDatasetRequest(datasetValue));
     }
 
-    dispatch(
-      getOperatorFigures(projectId, experimentId, 'latest', operator.uuid)
-    );
-
-    dispatch(
-      getOperatorResultDataset(projectId, experimentId, operator.uuid, 1, 10)
-    );
-
     if (!isDataset && operator.status === 'Failed') {
       dispatch(getOperatorLogs(projectId, experimentId, operator.uuid));
     }
@@ -336,7 +327,7 @@ export const deselectOperator = () => (dispatch) => {
  */
 const createOperatorFail = (error) => (dispatch) => {
   // dispatching experiment operators data loaded action
-  dispatch(experimentOperatorsDataLoaded());
+  dispatch(removeLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST));
 
   // dispatching create operator fail
   dispatch({
@@ -387,7 +378,7 @@ export const createOperatorRequest =
     }
 
     // dispatching experiment operators loading data action
-    dispatch(experimentOperatorsLoadingData());
+    dispatch(addLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST));
 
     // getting dataset columns
     const datasetName = utils.getDatasetName(tasks, experimentOperators);
@@ -440,7 +431,7 @@ export const createOperatorRequest =
         const operator = response.data;
 
         // dispatching experiment operators data loaded action
-        dispatch(experimentOperatorsDataLoaded());
+        dispatch(removeLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST));
 
         // dispatching create operator success action
         dispatch({
@@ -474,7 +465,7 @@ export const removeOperatorRequest =
       type: OPERATOR_TYPES.REMOVE_OPERATOR_REQUEST,
     });
 
-    dispatch(experimentOperatorsLoadingData());
+    dispatch(addLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST));
 
     operatorsApi
       .deleteOperator(projectId, experimentId, operator.uuid)
@@ -490,16 +481,20 @@ export const removeOperatorRequest =
             )
           );
         }
-        dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
+        dispatch(
+          fetchExperimentOperatorsRequest(projectId, experimentId, false)
+        );
         dispatch(showSuccess('Operador removido com sucesso!'));
       })
       .catch((error) => {
-        dispatch(experimentOperatorsDataLoaded());
         dispatch({
           type: OPERATOR_TYPES.REMOVE_OPERATOR_FAIL,
         });
         dispatch(showError(error.message));
-      });
+      })
+      .finally(() =>
+        dispatch(removeLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST))
+      );
   };
 
 // ** SET OPERATOR PARAMS
