@@ -21,6 +21,48 @@ import utils from 'utils';
 const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';
 
 /**
+ * Experiments success default action
+ *
+ * @param {object} successObject Success action default object
+ * @param {Experiments} successObject.experiments New experiments state
+ * @param {string} successObject.actionType Action type
+ * @param {string=} successObject.message Success message
+ * @param {Function} successObject.callback Success function callback
+ * @returns {Function} Thunk action
+ */
+const experimentsActionSuccess =
+  ({ experiments, actionType, message = undefined, callback = undefined }) =>
+  (dispatch) => {
+    dispatch({
+      type: actionType,
+      payload: { experiments },
+    });
+
+    if (message) dispatch(showSuccess(message));
+    if (callback) callback();
+  };
+
+/**
+ * Experiments fail default action
+ *
+ * @param {object} failObject Success action default object
+ * @param {string} failObject.actionType Action type
+ * @param {string=} failObject.message Success message
+ * @param {Function} failObject.callback Fail function callback
+ * @returns {Function} Thunk action
+ */
+const experimentsActionFail =
+  ({ actionType, message = undefined, callback }) =>
+  (dispatch) => {
+    dispatch({
+      type: actionType,
+    });
+
+    if (message) dispatch(showError(message));
+    if (callback) callback();
+  };
+
+/**
  * create experiment success action
  *
  * @param {object} response Request response
