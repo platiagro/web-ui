@@ -478,8 +478,6 @@ export const applyTemplateRequest =
 
     dispatch(addLoading(actionType));
 
-    dispatch(experimentOperatorsLoadingData());
-
     try {
       const experiment = {
         templateId,
@@ -503,16 +501,11 @@ export const applyTemplateRequest =
 
       dispatch(experimentsActionSuccess(successObject));
     } catch (error) {
-      const errorCallback = () => {
-        dispatch(experimentOperatorsDataLoaded());
-      };
-
       const errorMessage = error.message;
 
       const errorObject = {
         actionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_FAIL,
         message: errorMessage,
-        callback: errorCallback,
       };
 
       dispatch(experimentsActionFail(errorObject));
