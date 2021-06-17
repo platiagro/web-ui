@@ -1,3 +1,5 @@
+/* globals Operators */
+
 // TODO: Criar Operators e Deployments type def (model)
 
 /**
