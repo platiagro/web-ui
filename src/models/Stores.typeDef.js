@@ -1,4 +1,4 @@
-/* globals Projects, Templates, Tasks */
+/* globals Projects, Templates, Tasks, Deployment */
 
 // TODO: Refatorar store (da para remover detalhes de paginação, filtro e seleção)
 /**
@@ -56,6 +56,12 @@
  */
 
 /**
+ * Store Deployments (DeploymentsStore).
+ *
+ * @typedef {Deployment[]} DeploymentsStore
+ */
+
+/**
  * Stores da aplicação (AppStores).
  *
  * @typedef {object} AppStores
@@ -63,5 +69,6 @@
  * @property {TemplatesStore} Templates Templates store
  * @property {OperatorsStore} operatorsReducer Operators store
  * @property {OperatorStore} operatorReducer Operator store
- * @property {TasksStore} tasksReducer Operator store
+ * @property {TasksStore} tasksReducer Tasks store
+ * @property {DeploymentsStore} deploymentsReducer Deployments store
  */
