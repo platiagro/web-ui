@@ -22,41 +22,53 @@ import { getTemplates } from './templates.selectors';
  *
  * @param {object} successObject Success action default object
  * @param {Templates} successObject.templates New templates state
- * @param {string} successObject.actionType Action type
+ * @param {string} successObject.requestActionType Action type request, used in loading
+ * @param {string} successObject.successActionType Action type success
  * @param {string=} successObject.message Success message
  * @param {Function} successObject.callback Success function callback
  * @returns {Function} Thunk action
  */
 const templatesActionSuccess =
-  ({ templates, actionType, message = undefined, callback = undefined }) =>
+  ({
+    templates,
+    requestActionType,
+    successActionType,
+    message = undefined,
+    callback = undefined,
+  }) =>
   (dispatch) => {
     dispatch({
-      type: actionType,
+      type: successActionType,
       payload: { templates },
     });
 
     if (message) dispatch(showSuccess(message));
     if (callback) callback();
+
+    dispatch(removeLoading(requestActionType));
   };
 
 /**
  * Templates fail default action
  *
  * @param {object} failObject Success action default object
- * @param {string} failObject.actionType Action type
+ * @param {string} failObject.requestActionType Action type request, used in loading
+ * @param {string} failObject.failActionType Action type fail
  * @param {string=} failObject.message Success message
  * @param {Function} failObject.callback Fail function callback
  * @returns {Function} Thunk action
  */
 const templatesActionFail =
-  ({ actionType, message = undefined, callback }) =>
+  ({ requestActionType, failActionType, message = undefined, callback }) =>
   (dispatch) => {
     dispatch({
-      type: actionType,
+      type: failActionType,
     });
 
     if (message) dispatch(showError(message));
     if (callback) callback();
+
+    dispatch(removeLoading(requestActionType));
   };
 
 /**
@@ -65,13 +77,13 @@ const templatesActionFail =
  * @returns {Function} Thunk action
  */
 export const fetchTemplatesRequest = () => async (dispatch) => {
-  const actionType = TEMPLATES_TYPES.FETCH_TEMPLATES_REQUEST;
+  const requestActionType = TEMPLATES_TYPES.FETCH_TEMPLATES_REQUEST;
 
   dispatch({
-    type: actionType,
+    type: requestActionType,
   });
 
-  dispatch(addLoading(actionType));
+  dispatch(addLoading(requestActionType));
 
   try {
     const response = await templatesApi.listTemplates();
@@ -82,7 +94,8 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
 
     const successObject = {
       templates,
-      actionType: TEMPLATES_TYPES.FETCH_TEMPLATES_SUCCESS,
+      requestActionType,
+      successActionType: TEMPLATES_TYPES.FETCH_TEMPLATES_SUCCESS,
     };
 
     dispatch(templatesActionSuccess(successObject));
@@ -90,13 +103,12 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
     const errorMessage = error.message;
 
     const errorObject = {
-      actionType: TEMPLATES_TYPES.FETCH_TEMPLATES_FAIL,
+      requestActionType,
+      failActionType: TEMPLATES_TYPES.FETCH_TEMPLATES_FAIL,
       message: errorMessage,
     };
 
     dispatch(templatesActionFail(errorObject));
-  } finally {
-    dispatch(removeLoading(actionType));
   }
 };
 
@@ -109,13 +121,13 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
  */
 export const createTemplateRequest =
   (templateName, experimentId) => async (dispatch, getState) => {
-    const actionType = TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST;
+    const requestActionType = TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST;
 
     dispatch({
-      type: actionType,
+      type: requestActionType,
     });
 
-    dispatch(addLoading(actionType));
+    dispatch(addLoading(requestActionType));
 
     try {
       const response = await templatesApi.createTemplate(
@@ -138,7 +150,8 @@ export const createTemplateRequest =
 
       const successObject = {
         templates,
-        actionType: TEMPLATES_TYPES.CREATE_TEMPLATE_SUCCESS,
+        requestActionType,
+        successActionType: TEMPLATES_TYPES.CREATE_TEMPLATE_SUCCESS,
         message: 'Template criado com sucesso!',
         callback: successCallback,
       };
@@ -148,13 +161,12 @@ export const createTemplateRequest =
       const errorMessage = error.message;
 
       const errorObject = {
-        actionType: TEMPLATES_TYPES.FETCH_TEMPLATES_FAIL,
+        requestActionType,
+        failActionType: TEMPLATES_TYPES.FETCH_TEMPLATES_FAIL,
         message: errorMessage,
       };
 
       dispatch(templatesActionFail(errorObject));
-    } finally {
-      dispatch(removeLoading(actionType));
     }
   };
 
@@ -167,13 +179,13 @@ export const createTemplateRequest =
  */
 export const deleteTemplateRequest =
   (templateId, allTasks) => async (dispatch, getState) => {
-    const actionType = TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST;
+    const requestActionType = TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST;
 
     dispatch({
-      type: actionType,
+      type: requestActionType,
     });
 
-    dispatch(addLoading(actionType));
+    dispatch(addLoading(requestActionType));
 
     // TODO: Esse loading pode ser removido quando a store de tarefas for refatorada, provavelmente
     dispatch(tasksMenuLoadingData());
@@ -228,7 +240,8 @@ export const deleteTemplateRequest =
 
       const successObject = {
         templates: customPayload,
-        actionType: TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS,
+        requestActionType,
+        successActionType: TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS,
         message: 'Template excluído com sucesso!',
         callback: successCallback,
       };
@@ -238,12 +251,11 @@ export const deleteTemplateRequest =
       const errorMessage = error.message;
 
       const errorObject = {
-        actionType: TEMPLATES_TYPES.DELETE_TEMPLATE_FAIL,
+        failActionType: TEMPLATES_TYPES.DELETE_TEMPLATE_FAIL,
+        requestActionType,
         message: errorMessage,
       };
 
       dispatch(templatesActionFail(errorObject));
-    } finally {
-      dispatch(removeLoading(actionType));
     }
   };
