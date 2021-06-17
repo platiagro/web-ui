@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Select, Tooltip, Tag } from 'antd';
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons';
@@ -24,6 +24,8 @@ const FIELD_ID_TO_FIELD_NAME = {
 };
 
 const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
+  const isRemovingSearchTagUsingCloseIcon = useRef(false);
+
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(undefined);
   const [inputData, setInputData] = useState('');
@@ -128,6 +130,16 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
     }
   }, [taskData]);
 
+  useEffect(() => {
+    // Save search tags when click in a search tag close icon
+    if (isRemovingSearchTagUsingCloseIcon.current) {
+      isRemovingSearchTagUsingCloseIcon.current = false;
+      const searchTagsToSave = searchTags.map((tag) => tag.trim());
+      const fieldName = FIELD_ID_TO_FIELD_NAME[FIELD_IDS.SEARCH_TAGS];
+      handleUpdateTaskData(fieldName, searchTagsToSave);
+    }
+  }, [handleUpdateTaskData, searchTags]);
+
   return (
     <div className='task-details-page-content-form'>
       <div className='task-details-page-content-form-field'>
@@ -144,9 +156,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           size='large'
           value={description}
           id={FIELD_IDS.DESCRIPTION}
+          placeholder='Adicionar Descrição'
           onChange={(e) => setDescription(e.target.value)}
           onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DESCRIPTION)}
-          placeholder='Adicionar Descrição'
         />
       </div>
 
@@ -160,12 +172,12 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
         <Select
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          id={FIELD_IDS.CATEGORY}
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.CATEGORY)}
           size='large'
           value={category}
           onChange={setCategory}
+          id={FIELD_IDS.CATEGORY}
           placeholder='Selecionar Categoria'
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.CATEGORY)}
         >
           {Object.values(TASK_CATEGORIES_WITHOUT_TEMPLATES).map(
             (categoryOption) => {
@@ -203,9 +215,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           size='large'
           value={inputData}
           id={FIELD_IDS.INPUT_DATA}
+          placeholder='Adicionar dados de entrada'
           onChange={(e) => setInputData(e.target.value)}
           onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.INPUT_DATA)}
-          placeholder='Adicionar dados de entrada'
         />
       </div>
 
@@ -229,9 +241,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           size='large'
           value={outputData}
           id={FIELD_IDS.OUTPUT_DATA}
+          placeholder='Adicionar dados de saída'
           onChange={(e) => setOutputData(e.target.value)}
           onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.OUTPUT_DATA)}
-          placeholder='Adicionar dados de saída'
         />
       </div>
 
@@ -254,16 +266,22 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           className='task-details-page-content-form-field-input task-details-page-input-style'
           mode='tags'
           size='large'
-          id={FIELD_IDS.SEARCH_TAGS}
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.SEARCH_TAGS)}
           value={searchTags}
           onChange={setSearchTags}
+          id={FIELD_IDS.SEARCH_TAGS}
           placeholder='Adicionar tags de busca'
-          tagRender={({ label, ...otherTagProps }) => {
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.SEARCH_TAGS)}
+          tagRender={({ label, onClose, ...otherTagProps }) => {
+            const handleRemoveTag = () => {
+              onClose();
+              isRemovingSearchTagUsingCloseIcon.current = true;
+            };
+
             return (
               <Tag
                 {...otherTagProps}
                 color='blue'
+                onClose={handleRemoveTag}
                 closeIcon={<CloseOutlined style={{ color: '#1890ff' }} />}
               >
                 {label}
@@ -283,11 +301,11 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
         <Input.TextArea
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          id={FIELD_IDS.DOCUMENTATION}
           value={documentation}
+          id={FIELD_IDS.DOCUMENTATION}
+          placeholder='Adicionar documentação'
           onChange={(e) => setDocumentation(e.target.value)}
           onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DOCUMENTATION)}
-          placeholder='Adicionar documentação'
           autoSize
         />
       </div>
