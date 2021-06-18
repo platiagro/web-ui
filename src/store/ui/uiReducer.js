@@ -252,14 +252,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
-    // TASKS TABLE
-    case actionTypes.TASKS_TABLE_LOADING_DATA: // loading data
-    case actionTypes.TASKS_TABLE_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        tasksTable: { ...state.tasksTable, loading: action.tasksTableLoading },
-      };
-
     // PROJECTS TABLE
     case PROJECTS_TYPES.CREATE_PROJECT_REQUEST: // loading data
       return {
@@ -282,16 +274,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
-    // DEPLOYMENTS TABS
-    case actionTypes.DEPLOYMENTS_TABS_LOADING_DATA:
-    case actionTypes.DEPLOYMENTS_TABS_DATA_LOADED:
-      return {
-        ...state,
-        deploymentsTabs: {
-          ...state.deploymentsTabs,
-          loading: action.loading,
-        },
-      };
     case actionTypes.DEPLOYMENT_OPERATORS_LOADING_DATA:
     case actionTypes.DEPLOYMENT_OPERATORS_DATA_LOADED:
       return {

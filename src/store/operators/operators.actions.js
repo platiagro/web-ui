@@ -19,12 +19,11 @@ import {
   resultsButtonBarDataLoaded,
   deploymentOperatorsDataLoaded,
   deploymentOperatorsLoadingData,
-  deploymentsTabsDataLoaded,
-  deploymentsTabsLoadingData,
 } from 'store/ui/actions';
 
 // UTILS
 import utils from 'utils';
+import { addLoading, removeLoading } from 'store/loading';
 
 // ACTIONS
 // ** FETCH OPERATORS
@@ -122,7 +121,7 @@ export const fetchDeploymentOperatorsRequest =
     });
 
     dispatch(deploymentOperatorsLoadingData());
-    dispatch(deploymentsTabsLoadingData());
+    dispatch(addLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
 
     try {
       // getting tasks
@@ -165,8 +164,8 @@ export const fetchDeploymentOperatorsRequest =
     } catch (e) {
       dispatch(fetchOperatorsFail(e));
     } finally {
+      dispatch(removeLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
       dispatch(deploymentOperatorsDataLoaded());
-      dispatch(deploymentsTabsDataLoaded());
     }
   };
 

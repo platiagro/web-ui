@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { useIsLoading } from 'hooks';
 import TabsBar from 'components/TabsBar';
 import { deselectOperator } from 'store/operator';
 import { clearAllMonitorings } from 'store/monitorings';
 import { showNewDeploymentModal } from 'store/ui/actions';
-import { clearAllDeploymentOperators } from 'store/operators';
+import { clearAllDeploymentOperators, OPERATORS_TYPES } from 'store/operators';
 import { clearAllDeploymentLogs } from 'store/deploymentLogs/actions';
+import { ActionTypes as DEPLOYMENTS_TYPES } from 'store/deployments';
 import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer';
 import {
   clearAllDeployments,
@@ -17,10 +19,6 @@ import {
   duplicateDeploymentRequest,
   updateDeploymentPositionRequest,
 } from 'store/deployments/actions';
-
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.deploymentsTabs.loading;
-};
 
 const deploymentsSelector = ({ deploymentsReducer }) => {
   return deploymentsReducer;
@@ -35,10 +33,15 @@ const DeploymentsTabsContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const isLoading = useSelector(loadingSelector);
+  const isDeletingDeployment = useRef(false);
+
   const deployments = useSelector(deploymentsSelector);
 
-  const isDeletingDeployment = useRef(false);
+  const isLoading = useIsLoading(
+    OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
+    DEPLOYMENTS_TYPES.DELETE_DEPLOYMENT_REQUEST,
+    DEPLOYMENTS_TYPES.RENAME_DEPLOYMENT_REQUEST
+  );
 
   const handleDelete = (deploymentIdToDelete) => {
     isDeletingDeployment.current = true;

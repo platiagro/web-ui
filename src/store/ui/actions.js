@@ -249,36 +249,6 @@ export const hideOperatorResults = () => {
 
 // // // // // // // // // //
 
-// ** TASKS TABLE LOADING DATA
-/**
- * tasks table loading data
- *
- * @returns {object} { type, tasksTableLoading }
- */
-export const tasksTableLoadingData = () => {
-  return {
-    type: actionTypes.TASKS_TABLE_LOADING_DATA,
-    tasksTableLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** TASKS TABLE DATA LOADED
-/**
- * tasks table loading data
- *
- * @returns {object} { type, tasksTableLoading }
- */
-export const tasksTableDataLoaded = () => {
-  return {
-    type: actionTypes.TASKS_TABLE_DATA_LOADED,
-    tasksTableLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
 // ** TASKS MENU LOADING DATA
 /**
  * tasks menu loading data
@@ -310,29 +280,6 @@ export const tasksMenuDataLoaded = () => {
 // // // // // // // // // //
 
 // ** DEPLOYMENTS TABS
-/**
- * deployments tabs loading data
- *
- * @returns {object} { type, loading }
- */
-export const deploymentsTabsDataLoaded = () => {
-  return {
-    type: actionTypes.DEPLOYMENTS_TABS_DATA_LOADED,
-    loading: false,
-  };
-};
-
-/**
- * deployments tabs loading data
- *
- * @returns {object} { type, loading }
- */
-export const deploymentsTabsLoadingData = () => {
-  return {
-    type: actionTypes.DEPLOYMENTS_TABS_LOADING_DATA,
-    loading: true,
-  };
-};
 
 /**
  * deployments tabs hide modal
