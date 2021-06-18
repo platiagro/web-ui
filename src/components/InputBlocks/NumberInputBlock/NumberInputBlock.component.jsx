@@ -1,37 +1,31 @@
-// CORE LIBS
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-
-// UI LIBS
-import { ExclamationCircleFilled } from '@ant-design/icons';
 import { InputNumber, Tooltip, Skeleton } from 'antd';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 
-// COMPONENTS
 import { PropertyBlock } from 'components';
 
-/**
- * A input block with number input
- *
- * @param {object} props Component props
- * @returns {NumberInputBlock} Component
- */
-const NumberInputBlock = (props) => {
-  const { handleChange, isDisabled, isLoading, max, min, name } = props;
-  const { placeholder, tip, title, value, step, valueLatestTraining } = props;
-  const modifiedSinceLastExecution = value !== valueLatestTraining;
-
-  // HOOKS
-  // use ref
+const NumberInputBlock = ({
+  handleChange,
+  isDisabled,
+  isLoading,
+  max,
+  min,
+  name,
+  placeholder,
+  tip,
+  title,
+  value,
+  step,
+  valueLatestTraining,
+}) => {
   const inputRef = useRef();
-  // use state
   const [currentValue, setCurrentValue] = useState(value);
-  // use effect
-  useEffect(() => {
-    setCurrentValue(value);
-  }, [value]);
 
-  // FUNCTIONS
-  // handle key press
+  const modifiedSinceLastExecution = useMemo(() => {
+    return value !== valueLatestTraining;
+  }, [value, valueLatestTraining]);
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();
@@ -40,16 +34,18 @@ const NumberInputBlock = (props) => {
       inputRef.current.blur();
     }
   };
-  // before submit
+
   const beforeSubmit = () => {
-    // new value is different from old
     if (value !== currentValue) handleChange(name, currentValue);
   };
+
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
 
   return (
     <PropertyBlock tip={tip} title={title}>
       {isLoading ? (
-        /* loading */
         <Skeleton
           active
           paragraph={{ rows: 1, width: 110 }}
@@ -58,7 +54,6 @@ const NumberInputBlock = (props) => {
         />
       ) : (
         <>
-          {/* number input */}
           <InputNumber
             ref={inputRef}
             value={currentValue}
@@ -74,10 +69,9 @@ const NumberInputBlock = (props) => {
             onKeyUp={handleKeyPress}
             onBlur={beforeSubmit}
             style={{
-              width: modifiedSinceLastExecution ? '80%' : '100%'
+              width: modifiedSinceLastExecution ? '80%' : '100%',
             }}
           />
-          {/* rendering tooltip */}
           {modifiedSinceLastExecution && (
             <Tooltip
               placement='bottomRight'
@@ -94,53 +88,30 @@ const NumberInputBlock = (props) => {
   );
 };
 
-// PROP TYPES
 NumberInputBlock.propTypes = {
-  /** Input title */
   title: PropTypes.string,
-  /** Input name */
   name: PropTypes.string,
-  /** Input tip */
   tip: PropTypes.string,
-  /** Input minimum value */
   min: PropTypes.number,
-  /** Input maximum value */
   max: PropTypes.number,
-  /** Input value step  */
   step: PropTypes.number,
-  /** Lastest Training value */
   valueLatestTraining: PropTypes.number,
-  /** Input placeholder */
   placeholder: PropTypes.number,
-  /** Input value */
   value: PropTypes.number,
-  /** Input change handler */
   handleChange: PropTypes.func.isRequired,
-  /** Input is disabled*/
   isDisabled: PropTypes.bool.isRequired,
-  /** Input is loading */
   isLoading: PropTypes.bool.isRequired,
 };
 
-// PROP DEFAULT VALUES
 NumberInputBlock.defaultProps = {
-  /** Input tip */
   tip: undefined,
-  /** Input value */
   value: undefined,
-  /** Input value step */
   step: undefined,
-  /** Input value placeholder */
   placeholder: undefined,
-  /** Input title */
   title: undefined,
-  /** Input name */
   name: undefined,
-  /** Input minimum value */
   min: undefined,
-  /** Input maximum value */
   max: undefined,
 };
 
-// EXPORT
 export default NumberInputBlock;

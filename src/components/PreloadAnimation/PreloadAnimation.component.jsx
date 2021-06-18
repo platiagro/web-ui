@@ -1,19 +1,12 @@
-// REACT LIBS
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import './styles.less';
-
-// UI LIBS
 import { Result } from 'antd';
+import PropTypes from 'prop-types';
 
 import loadingImage from 'assets/loading_jupyter.gif';
 
-/**
- * Renders an animation while some content is loading.
- */
-const PreloadAnimation = (props) => {
-  const { remainingSeconds } = props;
+import './styles.less';
+
+const PreloadAnimation = ({ remainingSeconds }) => {
   return (
     <div className='contentPage'>
       <Result
@@ -41,10 +34,8 @@ const PreloadAnimation = (props) => {
   );
 };
 
-// PROP TYPES
 PreloadAnimation.propTypes = {
   remainingSeconds: PropTypes.number.isRequired,
 };
 
-// EXPORT DEFAULT
 export default PreloadAnimation;

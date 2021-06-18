@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 
 import {
   Selectors,
   EXPERIMENTS_TYPES,
   Actions as experimentsActions,
 } from 'store/projects/experiments';
-import { useIsLoading } from 'hooks';
 import { removeOperatorRequest } from 'store/operator';
+import { useDeepEqualSelector, useIsLoading } from 'hooks';
 import { fetchExperimentOperatorsRequest } from 'store/operators';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
 
@@ -18,16 +18,16 @@ const experimentSelector = (projectId, experimentId) => (state) => {
   return Selectors.getExperiment(state, projectId, experimentId);
 };
 
+const trainingLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.experimentTraining.loading;
+};
+
 const operatorsSelector = ({ operatorsReducer }) => {
   return operatorsReducer;
 };
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
-};
-
-const trainingLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.experimentTraining.loading;
 };
 
 const deleteTrainingLoadingSelector = ({ uiReducer }) => {
@@ -40,13 +40,19 @@ const ExperimentHeaderContainer = () => {
 
   const loading = useIsLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST);
 
-  const operators = useSelector(operatorsSelector);
-  const operator = useSelector(operatorSelector);
-  const trainingLoading = useSelector(trainingLoadingSelector);
-  const deleteTrainingLoading = useSelector(deleteTrainingLoadingSelector);
-  const experiment = useSelector(experimentSelector(projectId, experimentId));
+  const trainingLoading = useDeepEqualSelector(trainingLoadingSelector);
+  const operators = useDeepEqualSelector(operatorsSelector);
+  const operator = useDeepEqualSelector(operatorSelector);
 
-  const editExperimentNameHandler = (newName) => {
+  const deleteTrainingLoading = useDeepEqualSelector(
+    deleteTrainingLoadingSelector
+  );
+
+  const experiment = useDeepEqualSelector(
+    experimentSelector(projectId, experimentId)
+  );
+
+  const handleEditExperimentName = (newName) => {
     dispatch(
       experimentsActions.updateExperimentRequest(projectId, experimentId, {
         name: newName,
@@ -54,19 +60,19 @@ const ExperimentHeaderContainer = () => {
     );
   };
 
-  const trainExperimentHandler = () => {
+  const handleTrainExperiment = () => {
     dispatch(
       experimentRunsActions.createExperimentRunRequest(projectId, experimentId)
     );
   };
 
-  const deleteTrainExperimentHandler = () => {
+  const handleDeleteTrainExperiment = () => {
     dispatch(
       experimentRunsActions.deleteExperimentRunRequest(projectId, experimentId)
     );
   };
 
-  const removeOperatorHandler = () => {
+  const handleRemoveOperator = () => {
     dispatch(removeOperatorRequest(projectId, experimentId, operator));
   };
 
@@ -78,16 +84,16 @@ const ExperimentHeaderContainer = () => {
 
   return (
     <ExperimentHeader
-      title={experiment?.name}
-      empty={operators.length <= 0}
       loading={loading}
       operator={operator}
+      title={experiment?.name}
+      empty={operators.length <= 0}
       trainingLoading={trainingLoading}
       deleteTrainingLoading={deleteTrainingLoading}
-      handleEditExperimentName={editExperimentNameHandler}
-      handleTrainExperiment={trainExperimentHandler}
-      handleDeleteTrainExperiment={deleteTrainExperimentHandler}
-      handleRemoveOperator={removeOperatorHandler}
+      handleRemoveOperator={handleRemoveOperator}
+      handleTrainExperiment={handleTrainExperiment}
+      handleEditExperimentName={handleEditExperimentName}
+      handleDeleteTrainExperiment={handleDeleteTrainExperiment}
     />
   );
 };

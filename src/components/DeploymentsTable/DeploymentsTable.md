@@ -5,6 +5,10 @@ import { MemoryRouter } from 'react-router-dom';
 
 <MemoryRouter>
   <DeploymentsTable
+    loading={false}
+    onOpenLog={() => alert('Log Opened')}
+    onTestInference={() => alert('Inference Tested')}
+    onDeleteDeployment={() => alert('Deployment Deleted')}
     deployments={[
       {
         uuid: '1',
@@ -31,10 +35,6 @@ import { MemoryRouter } from 'react-router-dom';
         action: '',
       },
     ]}
-    onDeleteDeployment={() => alert('Deployment Deleted')}
-    onOpenLog={() => alert('Log Opened')}
-    onTestInference={() => alert('Inference Tested')}
-    loading={false}
   />
 </MemoryRouter>;
 ```
@@ -46,6 +46,9 @@ import { MemoryRouter } from 'react-router-dom';
 
 <MemoryRouter>
   <DeploymentsTable
+    onOpenLog={() => alert('Log Opened')}
+    onTestInference={() => alert('Inference Tested')}
+    onDeleteDeployment={() => alert('Deployment Deleted')}
     deployments={[
       {
         uuid: '1',
@@ -72,9 +75,6 @@ import { MemoryRouter } from 'react-router-dom';
         action: '',
       },
     ]}
-    onDeleteDeployment={() => alert('Deployment Deleted')}
-    onOpenLog={() => alert('Log Opened')}
-    onTestInference={() => alert('Inference Tested')}
     loading
   />
 </MemoryRouter>;

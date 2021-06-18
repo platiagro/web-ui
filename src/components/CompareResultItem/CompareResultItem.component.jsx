@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Card } from 'antd';
 import PropTypes from 'prop-types';
 import { withResizeDetector } from 'react-resize-detector';
@@ -21,10 +21,27 @@ const CompareResultItem = ({
   onLoadTrainingHistory,
   onResultDatasetPageChange,
 }) => {
-  /**
-   * Get the results if the experiment and task were selected
-   * and the results were undefined
-   */
+  const trainingDetail = useMemo(() => {
+    const experimentId = compareResult.experimentId;
+    if (
+      experimentId &&
+      // eslint-disable-next-line no-prototype-builtins
+      experimentsTrainingHistory.hasOwnProperty(experimentId)
+    ) {
+      const trainingHistory = experimentsTrainingHistory[experimentId];
+      if (trainingHistory) {
+        return trainingHistory.find(({ uuid }) => uuid === compareResult.runId);
+      }
+    }
+
+    return null;
+  }, [
+    compareResult.experimentId,
+    compareResult.runId,
+    experimentsTrainingHistory,
+  ]);
+
+  // Get results if experiment and task are selected and results undefined
   useEffect(() => {
     if (
       compareResult.experimentId &&
@@ -36,21 +53,12 @@ const CompareResultItem = ({
     }
   }, [compareResult, onFetchResults]);
 
-  const experimentId = compareResult.experimentId;
-  let trainingDetail = null;
-  // eslint-disable-next-line no-prototype-builtins
-  if (experimentId && experimentsTrainingHistory.hasOwnProperty(experimentId)) {
-    const trainingHistory = experimentsTrainingHistory[experimentId];
-    if (trainingHistory) {
-      trainingDetail = trainingHistory.find(
-        (x) => x.uuid === compareResult.runId
-      );
-    }
-  }
-
   return (
     <Card
-      style={{ height: '100%', margin: 0 }}
+      style={{
+        height: '100%',
+        margin: 0,
+      }}
       title={
         <CompareResultItemTitle
           onDelete={onDelete}
@@ -82,10 +90,10 @@ const CompareResultItem = ({
 };
 
 CompareResultItem.propTypes = {
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  height: PropTypes.number,
+  tasks: PropTypes.array.isRequired,
+  height: PropTypes.number.isRequired,
   compareResult: PropTypes.object.isRequired,
-  experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  experimentsOptions: PropTypes.array.isRequired,
   experimentsTrainingHistory: PropTypes.object.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

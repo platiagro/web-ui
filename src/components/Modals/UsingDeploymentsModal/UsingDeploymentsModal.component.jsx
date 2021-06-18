@@ -2,9 +2,12 @@ import React from 'react';
 import { Modal } from 'antd';
 import PropTypes from 'prop-types';
 
-const UsingDeploymentsModal = (props) => {
-  const { visible, handleCloseModal, title, children } = props;
-
+const UsingDeploymentsModal = ({
+  title,
+  visible,
+  children,
+  handleCloseModal,
+}) => {
   return (
     <Modal
       width='800px'
@@ -20,10 +23,10 @@ const UsingDeploymentsModal = (props) => {
 };
 
 UsingDeploymentsModal.propTypes = {
-  handleCloseModal: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  visible: PropTypes.bool.isRequired,
   children: PropTypes.node,
+  handleCloseModal: PropTypes.func.isRequired,
 };
 
 UsingDeploymentsModal.propTypes = {

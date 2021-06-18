@@ -8,14 +8,14 @@
     runId: '3',
     results: {},
   }}
+  tasks={[]}
   experiments={[]}
   experimentsOptions={[]}
   experimentsTrainingHistory={[]}
-  onDelete={(id) => alert(`Delete with ID ${id || ''}`)}
-  onFetchResults={() => alert('Fetch Results')}
-  onResultDatasetPageChange={() => alert('Result Dataset Changed')}
-  onLoadTrainingHistory={() => alert('Load Training History')}
   onUpdate={() => alert('Handle Update')}
-  tasks={[]}
+  onFetchResults={() => alert('Fetch Results')}
+  onDelete={(id) => alert(`Delete with ID ${id || ''}`)}
+  onLoadTrainingHistory={() => alert('Load Training History')}
+  onResultDatasetPageChange={() => alert('Result Dataset Changed')}
 />
 ```

@@ -9,13 +9,11 @@ import MainMenuContainer from './MainMenu/MainMenuContainer';
 
 import './style.less';
 
-const { Sider } = Layout;
-
 const MainSider = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <Sider
+    <Layout.Sider
       className='mainSider'
       collapsed={collapsed}
       onCollapse={() => setCollapsed(!collapsed)}
@@ -30,7 +28,7 @@ const MainSider = () => {
       />
 
       <MainMenuContainer />
-    </Sider>
+    </Layout.Sider>
   );
 };
 

@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import DeploymentsTable from 'components/DeploymentsTable';
-
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
   deleteDeploymentRequest,

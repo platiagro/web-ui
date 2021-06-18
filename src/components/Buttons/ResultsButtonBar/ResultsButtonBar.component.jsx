@@ -22,13 +22,13 @@ const ResultsButtonBar = ({
     </Button>
   ) : (
     <Button
-      onClick={handleResultsClick}
       shape='round'
-      type='primary-inverse'
-      disabled={disabled}
       loading={loading}
+      disabled={disabled}
+      type='primary-inverse'
       icon={<TableOutlined />}
       title={getDisabledTitle()}
+      onClick={handleResultsClick}
       style={{ marginBottom: '14px', marginRight: '8px' }}
     >
       Visualizar resultados

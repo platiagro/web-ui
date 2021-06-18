@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip, Menu, Dropdown, Skeleton } from 'antd';
 
@@ -138,4 +138,4 @@ TasksMenu.propTypes = {
   handleDeleteTemplate: PropTypes.func.isRequired,
 };
 
-export default TasksMenu;
+export default memo(TasksMenu);

@@ -1,20 +1,14 @@
-// UI LIBS
 import { message } from 'antd';
 
-// ACTION TYPES
-import actionTypes from './actionTypes';
-
-// SERVICES
+import { addLoading, removeLoading } from 'store/loading';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
 import {
   implantedExperimentsLoadingData,
   implantedExperimentsDataLoaded,
 } from 'store/ui/actions';
 
-import { addLoading, removeLoading } from 'store/loading';
+import actionTypes from './actionTypes';
 
-// ACTIONS
-// ** FETCH DEPLOYMENT RUNS
 /**
  * Fetch deployment runs success action
  *
@@ -77,9 +71,6 @@ const fetchDeploymentRunsRequest =
     dispatch(implantedExperimentsDataLoaded());
   };
 
-// // // // // // // // // //
-
-// ** CREATE DEPLOYMENT RUN
 /**
  * Create deployment run success action
  *
@@ -141,9 +132,6 @@ const createDeploymentRunRequest =
       });
   };
 
-// // // // // // // // // //
-
-// ** DELETE DEPLOYMENT RUN
 /**
  * Delete deployment run success action
  *
@@ -204,10 +192,6 @@ export const deleteDeploymentRunRequest =
       .catch((error) => dispatch(deleteDeploymentRunFail(error)));
   };
 
-// // // // // // // // // //
-// ** RETRY DEPLOYMENT RUN
-
-// EXPORT DEFAUL
 export default {
   fetchDeploymentRunsRequest,
   createDeploymentRunRequest,

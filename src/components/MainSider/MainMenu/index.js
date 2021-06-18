@@ -3,6 +3,7 @@ import { Menu } from 'antd';
 import PropTypes from 'prop-types';
 
 const MainMenu = ({ className, itemsList, selectedItems, handleItemClick }) => {
+  // ! The code below may be changing a prop value. We should fix this
   const selectedItem = selectedItems[0];
   if (selectedItem === '/' || selectedItem.includes('/projetos')) {
     selectedItems[0] = '/projetos';

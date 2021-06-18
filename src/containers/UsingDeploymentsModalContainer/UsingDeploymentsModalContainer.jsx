@@ -4,45 +4,45 @@ import { useDispatch, useSelector } from 'react-redux';
 import { UsingDeploymentsModal } from 'components/Modals';
 import { hideUsingDeploymentsModal } from 'store/ui/actions';
 
+const styles = {
+  border: '1px solid #c1c7d0',
+  borderRadius: '3px',
+  background: '#f4f5f7',
+  padding: '10px',
+};
+
+const request = JSON.stringify(
+  {
+    data: {
+      names: ['atributo1', 'atributo2'],
+      ndarray: [[0, 10]],
+    },
+  },
+  null,
+  2
+);
+
+const response = JSON.stringify(
+  {
+    meta: {
+      puid: 'pqvaab0ej28n89sr4ffjni1ie7',
+      tags: {},
+      routing: {},
+      requestPath: {
+        'e6065e85-a056-40b7-9e4b-4db49ee3b915':
+          'platiagro/platiagro-deployment-image:0.2.0',
+      },
+    },
+    data: {
+      names: ['atributo1', 'atributo2', 'proba_classe1', 'proba_classe2'],
+      ndarray: [[0, 10, 0.8902377788100774, 0.10971507514730343]],
+    },
+  },
+  null,
+  2
+);
+
 const ContentInfo = () => {
-  const styles = {
-    border: '1px solid #c1c7d0',
-    borderRadius: '3px',
-    background: '#f4f5f7',
-    padding: '10px',
-  };
-
-  const request = JSON.stringify(
-    {
-      data: {
-        names: ['atributo1', 'atributo2'],
-        ndarray: [[0, 10]],
-      },
-    },
-    null,
-    2
-  );
-
-  const response = JSON.stringify(
-    {
-      meta: {
-        puid: 'pqvaab0ej28n89sr4ffjni1ie7',
-        tags: {},
-        routing: {},
-        requestPath: {
-          'e6065e85-a056-40b7-9e4b-4db49ee3b915':
-            'platiagro/platiagro-deployment-image:0.2.0',
-        },
-      },
-      data: {
-        names: ['atributo1', 'atributo2', 'proba_classe1', 'proba_classe2'],
-        ndarray: [[0, 10, 0.8902377788100774, 0.10971507514730343]],
-      },
-    },
-    null,
-    2
-  );
-
   return (
     <div>
       <p>

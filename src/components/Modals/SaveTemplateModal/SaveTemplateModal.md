@@ -1,22 +1,25 @@
-**Exemplo:**
+**Default**
 
 ```js
-const [visible, setVisible] = React.useState(false)
+const [visible, setVisible] = React.useState(false);
 const loading = false;
-const onClose = () => {
+
+const handleClose = () => {
   setVisible(false);
 };
-const onConfirm = () => {
+
+const handleConfirm = () => {
   alert('onConfirm');
 };
 
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
+
   <SaveTemplateModal
     loading={loading}
-    onClose={onClose}
-    onConfirm={onConfirm}
     visible={visible}
+    onClose={handleClose}
+    onConfirm={handleConfirm}
   />
-</div>
+</div>;
 ```

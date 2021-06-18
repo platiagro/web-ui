@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 
 import ImageLightbox from 'components/ImageLightbox';
 
-const PlotResult = (props) => {
-  const { title, description, plotUrl } = props;
-
+const PlotResult = ({ title, description, plotUrl }) => {
   return (
     <div>
       {title && (

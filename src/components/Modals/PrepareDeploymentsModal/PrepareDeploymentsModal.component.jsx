@@ -41,7 +41,7 @@ const PrepareDeploymentsModal = ({
 
 PrepareDeploymentsModal.propTypes = {
   visible: PropTypes.bool.isRequired,
-  experiments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  experiments: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
 };

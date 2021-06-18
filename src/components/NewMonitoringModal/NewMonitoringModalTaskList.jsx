@@ -6,10 +6,10 @@ import MonitoringTaskCard from 'components/MonitoringTaskCard';
 import { taskShape } from './propTypes';
 
 const NewMonitoringModalTaskList = ({
-  handleUnselectTask,
-  handleSelectTask,
-  selectedTasks,
   tasks,
+  selectedTasks,
+  handleSelectTask,
+  handleUnselectTask,
 }) => {
   return (
     <div className='new-monitoring-modal-list'>
@@ -36,17 +36,17 @@ const NewMonitoringModalTaskList = ({
 };
 
 NewMonitoringModalTaskList.propTypes = {
-  handleUnselectTask: PropTypes.func,
-  handleSelectTask: PropTypes.func,
-  selectedTasks: PropTypes.arrayOf(taskShape),
   tasks: PropTypes.arrayOf(taskShape),
+  selectedTasks: PropTypes.arrayOf(taskShape),
+  handleSelectTask: PropTypes.func,
+  handleUnselectTask: PropTypes.func,
 };
 
 NewMonitoringModalTaskList.defaultProps = {
-  handleUnselectTask: undefined,
-  handleSelectTask: undefined,
-  selectedTasks: [],
   tasks: [],
+  selectedTasks: [],
+  handleSelectTask: undefined,
+  handleUnselectTask: undefined,
 };
 
 export default NewMonitoringModalTaskList;

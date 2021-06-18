@@ -1,24 +1,15 @@
 **Default**
+
 ```js
-const onEdit = () => alert('Edit!');
-
-const onRemove = () => alert('Remove!');
-
-<DropdownMenu onEdit={onEdit} onRemove={onRemove} >
+<DropdownMenu onEdit={() => alert('Edit!')}>
   <div>Right click here!</div>
 </DropdownMenu>
 ```
 
-
 **Disabled**
+
 ```js
-const disabled = true;
-
-const onEdit = () => alert('Edit!');
-
-const onRemove = () => alert('Remove!');
-
-<DropdownMenu disabled={disabled} onEdit={onEdit} onRemove={onRemove} >
+<DropdownMenu disabled={true} onEdit={() => alert('Edit!')}>
   <div>Right click here!</div>
 </DropdownMenu>
 ```

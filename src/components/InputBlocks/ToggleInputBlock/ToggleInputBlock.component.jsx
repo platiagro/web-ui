@@ -1,34 +1,31 @@
-// CORE LIBS
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-
-// UI LIBS
+import { Tooltip, Switch, Skeleton } from 'antd';
 import {
   CheckOutlined,
   CloseOutlined,
   ExclamationCircleFilled,
 } from '@ant-design/icons';
-import { Tooltip, Switch, Skeleton } from 'antd';
 
-// COMPONENTS
 import { PropertyBlock } from 'components';
 
-/**
- * A input block with toggle input
- *
- * @param {object} props Component props
- * @returns {ToggleInputBlock} Component
- */
-const ToggleInputBlock = (props) => {
-  const { handleChange, name, isChecked, isLoading, isDisabled } = props;
-  const { tip, title, valueLatestTraining } = props;
-  const modifiedSinceLastExecution = isChecked !== valueLatestTraining;
+const ToggleInputBlock = ({
+  handleChange,
+  name,
+  isChecked,
+  isLoading,
+  isDisabled,
+  tip,
+  title,
+  valueLatestTraining,
+}) => {
+  const modifiedSinceLastExecution = useMemo(() => {
+    return isChecked !== valueLatestTraining;
+  }, [isChecked, valueLatestTraining]);
 
-  // rendering component
   return (
     <PropertyBlock tip={tip} title={title}>
       {isLoading ? (
-        /* loading */
         <Skeleton
           active
           paragraph={{ rows: 1, width: 110 }}
@@ -37,7 +34,6 @@ const ToggleInputBlock = (props) => {
         />
       ) : (
         <>
-          {/* toggle input */}
           <Switch
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
@@ -46,7 +42,7 @@ const ToggleInputBlock = (props) => {
             disabled={isLoading || isDisabled}
             loading={isLoading}
           />
-          {/* rendering tooltip */}
+
           {modifiedSinceLastExecution && (
             <Tooltip
               placement='bottomRight'
@@ -63,33 +59,20 @@ const ToggleInputBlock = (props) => {
   );
 };
 
-// PROP TYPES
 ToggleInputBlock.propTypes = {
-  /** Input title */
   title: PropTypes.string.isRequired,
-  /** Input tip */
   tip: PropTypes.string.isRequired,
-  /** Input is checked (toggled on) */
   isChecked: PropTypes.bool,
-  /** Input change (toggle) handler */
   handleChange: PropTypes.func.isRequired,
-  /** Input is disabled*/
   isDisabled: PropTypes.bool.isRequired,
-  /** Input name */
   name: PropTypes.string.isRequired,
-  /** Input is loading */
   isLoading: PropTypes.bool.isRequired,
-  /** Lastest Training value */
   valueLatestTraining: PropTypes.bool,
 };
 
-// PROP DEFAULT VALUES
 ToggleInputBlock.defaultProps = {
-  /** string input tip message string */
   tip: undefined,
-  /** string input title string */
   title: undefined,
 };
 
-// EXPORT
 export default ToggleInputBlock;

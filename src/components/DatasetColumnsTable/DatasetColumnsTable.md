@@ -1,11 +1,14 @@
 **Default**
 
 ```js
-// This import is only to the style guide works
 import { MemoryRouter } from 'react-router-dom';
 
 <MemoryRouter>
   <DatasetColumnsTable
+    selectedRows={['1']}
+    setParameterLoading={false}
+    handleSetColumnType={() => alert('Set Column Type')}
+    handleRowSelection={() => alert('Row Selected')}
     columns={[
       {
         key: '1',
@@ -23,10 +26,6 @@ import { MemoryRouter } from 'react-router-dom';
         featuretype: 'Feature Type 3',
       },
     ]}
-    handleSetColumnType={() => alert('Set Column Type')}
-    handleRowSelection={() => alert('Row Selected')}
-    selectedRows={['1']}
-    setParameterLoading={false}
   />
 </MemoryRouter>;
 ```
@@ -34,15 +33,14 @@ import { MemoryRouter } from 'react-router-dom';
 **No Data to Show**
 
 ```js
-// This import is only to the style guide works
 import { MemoryRouter } from 'react-router-dom';
 
 <MemoryRouter>
   <DatasetColumnsTable
     columns={[]}
+    selectedRows={['1']}
     handleSetColumnType={() => alert('Set Column Type')}
     handleRowSelection={() => alert('Row Selected')}
-    selectedRows={['1']}
   />
 </MemoryRouter>;
 ```
@@ -50,11 +48,14 @@ import { MemoryRouter } from 'react-router-dom';
 **Loading**
 
 ```js
-// This import is only to the style guide works
 import { MemoryRouter } from 'react-router-dom';
 
 <MemoryRouter>
   <DatasetColumnsTable
+    selectedRows={['1']}
+    setParameterLoading={true}
+    handleSetColumnType={() => alert('Set Column Type')}
+    handleRowSelection={() => alert('Row Selected')}
     columns={[
       {
         key: '1',
@@ -62,10 +63,6 @@ import { MemoryRouter } from 'react-router-dom';
         featuretype: 'Feature Type 1',
       },
     ]}
-    handleSetColumnType={() => alert('Set Column Type')}
-    handleRowSelection={() => alert('Row Selected')}
-    selectedRows={['1']}
-    setParameterLoading={true}
   />
 </MemoryRouter>;
 ```

@@ -4,22 +4,18 @@
 
 /* API REFERENCE: https://platiagro.github.io/projects/#/Experiments */
 
-// CORE LIBS
 import axios from 'axios';
 
-// CONSTANTS
-// api base url
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
-// projects path
+
 const projectsPath = '/projects';
-// api object
+
 const experimentsApi = axios.create({
   baseURL: `${URL}${projectsPath}`,
 });
-// experiments path
+
 const experimentsPath = '/experiments';
 
-// API METHODS
 /**
  * List Experiments
  *
@@ -80,7 +76,6 @@ const deleteExperiment = (projectId, experimentId) => {
   );
 };
 
-// EXPORT DEFAULT
 export default {
   listExperiments,
   detailExperiment,

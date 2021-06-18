@@ -50,7 +50,7 @@ const GenericDrawerContainer = () => {
     );
   };
 
-  if (!parameters || parameters.length === 0) {
+  if (!parameters?.length) {
     return (
       <PropertyBlock>
         <Empty

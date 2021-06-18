@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-// COMPONENTS
+import { useIsLoading } from 'hooks';
 import ContentHeader from 'components/ContentHeader';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
@@ -10,66 +10,66 @@ import {
   CompareResultsButton,
   PrepareDeploymentsButton,
 } from 'components/Buttons';
-
 import {
   changeVisibilityCompareResultsModal,
   showPrepareDeploymentsModal,
 } from 'store/ui/actions';
-
 import {
-  Actions as projectsActions,
   Selectors,
   PROJECTS_TYPES,
+  Actions as projectsActions,
 } from 'store/projects';
 
-import { useIsLoading } from 'hooks';
-
-const { getProject } = Selectors;
 const { updateProjectRequest, fetchProjectRequest } = projectsActions;
 
-/**
- * Experiments Header Container.
- *
- * This component is responsible for create a logic container for experiments content
- * header with route control.
- */
+const projectSelector = (projectId) => (state) => {
+  return Selectors.getProject(projectId, state);
+};
+
+const prepareDeploymentsLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.prepareDeployments.loading;
+};
+
 const ExperimentsHeaderContainer = () => {
   const { projectId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const target = `/projetos/${projectId}/pre-implantacao`;
 
   const loading = useIsLoading(
     PROJECTS_TYPES.FETCH_PROJECT_REQUEST,
     PROJECTS_TYPES.UPDATE_PROJECT_REQUEST
   );
 
-  // TODO: Criar seletores com reselect -> Otimização
-  /* eslint-disable-next-line */
-  const project = useSelector((state) => getProject(projectId, state));
-  // TODO: Criar seletores
-  /* eslint-disable-next-line */
+  const project = useSelector(projectSelector(projectId));
   const prepareDeploymentsLoading = useSelector(
-    (state) => state.uiReducer.prepareDeployments.loading
+    prepareDeploymentsLoadingSelector
   );
 
-  const goBackHandler = () => history.push(`/projetos/${projectId}`);
-  const editProjectNameHandler = (newProjectName) =>
+  const target = useMemo(() => {
+    return `/projetos/${projectId}/pre-implantacao`;
+  }, [projectId]);
+
+  const handleGoBack = () => {
+    history.push(`/projetos/${projectId}`);
+  };
+
+  const handleEditProjectName = (newProjectName) => {
     dispatch(updateProjectRequest(projectId, { name: newProjectName }));
-  const handlePrepareDeploymentsClick = () =>
+  };
+
+  const handlePrepareDeployments = () => {
     dispatch(showPrepareDeploymentsModal());
-  const handleCompareResultsClick = () =>
+  };
+
+  const handleCompareResults = () => {
     dispatch(changeVisibilityCompareResultsModal(true));
+  };
 
   useEffect(() => {
     if (project.uuid === '') {
       dispatch(fetchProjectRequest(projectId, history));
     }
-
-    // component did mount
-    /* eslint-disable-next-line */
-  }, []);
+  }, [dispatch, history, project.uuid, projectId]);
 
   return (
     <ContentHeader
@@ -80,20 +80,20 @@ const ExperimentsHeaderContainer = () => {
         </>
       }
       customSubTitle='Meus projetos'
-      handleGoBack={goBackHandler}
-      handleSubmit={editProjectNameHandler}
+      handleGoBack={handleGoBack}
+      handleSubmit={handleEditProjectName}
       loading={loading}
       extra={
         <>
           <div className='headerButtons'>
             <CompareResultsButton
               disabled={loading}
-              onClick={handleCompareResultsClick}
+              onClick={handleCompareResults}
             />
             <PrepareDeploymentsButton
               disabled={loading}
               loading={prepareDeploymentsLoading}
-              onClick={handlePrepareDeploymentsClick}
+              onClick={handlePrepareDeployments}
             />
           </div>
           <AccountInfo />

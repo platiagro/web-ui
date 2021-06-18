@@ -4,20 +4,16 @@
 
 /* API REFERENCE: https://platiagro.github.io/projects/#/Projects */
 
-// CORE LIBS
 import axios from 'axios';
 
-// CONSTANTS
-// api base url
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
-// api object
+
 const projectsApi = axios.create({
   baseURL: URL,
 });
-// projects path
+
 const projectsPath = '/projects';
 
-// API METHODS
 /**
  * Fetch Project
  *
@@ -73,7 +69,6 @@ const fetchPaginatedProjects = (name, page, pageSize) => {
   );
 };
 
-// EXPORT DEFAULT
 export default {
   fetchProject,
   createProject,

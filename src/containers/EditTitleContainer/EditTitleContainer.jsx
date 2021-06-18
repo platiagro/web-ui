@@ -3,29 +3,22 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import EditTitle from 'components/EditTitle';
-import NewProjectModal from 'pages/Projects/NewProjectModal/NewProjectModalContainer';
-
-import { showNewProjectModal } from 'store/ui/actions';
 import { Selectors } from 'store/projects';
+import EditTitle from 'components/EditTitle';
+import { showNewProjectModal } from 'store/ui/actions';
+import NewProjectModal from 'pages/Projects/NewProjectModal/NewProjectModalContainer';
 
 const { getProject } = Selectors;
 
-/**
- * New Project Button Container.
- *
- * This component is responsible for create a logic container for new project
- * button with redux.
- */
-const EditTitleContainer = (props) => {
-  const { title, ...restProps } = props;
+const projectSelector = (projectId) => (state) => {
+  return getProject(projectId, state);
+};
 
+const EditTitleContainer = ({ title, ...restProps }) => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
-  // TODO: Criar seletores com reselect -> Otimização
-  /* eslint-disable-next-line */
-  const project = useSelector((state) => getProject(projectId, state));
+  const project = useSelector(projectSelector(projectId));
 
   const handleEditModal = () => {
     const record = {
@@ -40,10 +33,11 @@ const EditTitleContainer = (props) => {
   return (
     <>
       <NewProjectModal />
+
       <EditTitle
         {...restProps}
-        handleClick={handleEditModal}
         title={title || project.name}
+        handleClick={handleEditModal}
       />
     </>
   );

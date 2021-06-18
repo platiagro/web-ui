@@ -2,37 +2,32 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
+import { Selectors } from 'store/projects/experiments';
 import { PrepareDeploymentsModal } from 'components/Modals';
-
 import { hidePrepareDeploymentsModal } from 'store/ui/actions';
 import { prepareDeployments } from 'store/deployments/actions';
 
-import { Selectors } from 'store/projects/experiments';
+const visibleSelector = ({ uiReducer }) => {
+  return uiReducer.prepareDeploymentsModal.visible;
+};
 
-const { getExperiments } = Selectors;
+const experimentsSelector = (projectId) => (state) => {
+  return Selectors.getExperiments(state, projectId);
+};
 
-/**
- * Container to display using deployments modal.
- */
 const PrepareDeploymentsModalContainer = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // TODO: Utilizar reselect
-  /* eslint-disable-next-line */
-  const experiments = useSelector((state) => getExperiments(state, projectId));
-
-  // TODO: criar seletor
-  /* eslint-disable-next-line */
-  const visible = useSelector(
-    (state) => state.uiReducer.prepareDeploymentsModal.visible
-  );
+  const visible = useSelector(visibleSelector);
+  const experiments = useSelector(experimentsSelector(projectId));
 
   const handleConfirm = (values) => {
     const experimentsArray = Object.keys(values).filter(
       (el) => values[el] === true
     );
+
     if (experimentsArray.length > 0) {
       dispatch(prepareDeployments(experimentsArray, projectId, history));
     }
@@ -42,8 +37,8 @@ const PrepareDeploymentsModalContainer = () => {
     <PrepareDeploymentsModal
       visible={visible}
       experiments={experiments}
-      onClose={() => dispatch(hidePrepareDeploymentsModal())}
       onConfirm={handleConfirm}
+      onClose={() => dispatch(hidePrepareDeploymentsModal())}
     />
   );
 };

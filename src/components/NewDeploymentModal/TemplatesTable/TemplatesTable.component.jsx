@@ -1,62 +1,59 @@
+import React, { useMemo } from 'react';
+import { Table } from 'antd';
 import PropTypes from 'prop-types';
 import { PartitionOutlined } from '@ant-design/icons';
-import { Table } from 'antd';
-import React from 'react';
+
 import UserAvatar from './UserAvatar';
 
 import './TemplatesTable.style.less';
 
-/**
- * Componente de tabela de templates
- */
-function TemplatesTable(props) {
-  const { onSelect, templatesData, selectedRowKey, loading } = props;
-
-  const renderName = (text) => <strong>{text}</strong>;
-
-  const renderUser = (user, index) => {
-    /*
-      TODO: Backend ainda não retorna os dados do usuário, quando retornar é só
-      remover o bloco abaixo.
-    */
-    user = user || { userName: 'Anônimo', avatarColor: 'grey' };
-
-    return (
-      <UserAvatar
-        userName={user.userName}
-        key={user.userName + index}
-        avatarColor={user.avatarColor}
-      />
-    );
-  };
-
-  const columns = [
-    {
-      dataIndex: 'name',
-      render: renderName,
+const columns = [
+  {
+    dataIndex: 'name',
+    render(text) {
+      return <strong>{text}</strong>;
     },
-    {
-      dataIndex: 'description',
-    },
-    {
-      dataIndex: 'user',
-      render: renderUser,
-    },
-  ];
+  },
+  {
+    dataIndex: 'description',
+  },
+  {
+    dataIndex: 'user',
+    render(user, index) {
+      // TODO: Remover bloco depois do || quando o back-end retornar os dados
+      const userData = user || { userName: 'Anônimo', avatarColor: 'grey' };
 
-  const rowSelection = {
-    type: 'radio',
-    selectedRowKeys: [selectedRowKey],
-    onChange: (selectedRowKeys) => {
-      onSelect(selectedRowKeys);
+      return (
+        <UserAvatar
+          userName={userData.userName}
+          key={userData.userName + index}
+          avatarColor={userData.avatarColor}
+        />
+      );
     },
-  };
+  },
+];
+
+const TemplatesTable = ({
+  onSelect,
+  templatesData,
+  selectedRowKey,
+  loading,
+}) => {
+  const rowSelection = useMemo(() => {
+    return {
+      type: 'radio',
+      selectedRowKeys: [selectedRowKey],
+      onChange: (selectedRowKeys) => {
+        onSelect(selectedRowKeys);
+      },
+    };
+  }, [onSelect, selectedRowKey]);
 
   const onRow = (record) => {
     return {
       onClick: (event) => {
         event.stopPropagation();
-
         onSelect([record.uuid]);
       },
     };
@@ -68,21 +65,22 @@ function TemplatesTable(props) {
         <PartitionOutlined style={{ fontSize: '1.5em' }} />
         <h2>Fluxo de tarefas</h2>
       </div>
+
       <div>
         <Table
-          rowSelection={rowSelection}
           rowKey='uuid'
           onRow={onRow}
+          loading={loading}
+          columns={columns}
           showHeader={false}
           pagination={false}
-          columns={columns}
           dataSource={templatesData}
-          loading={loading}
+          rowSelection={rowSelection}
         />
       </div>
     </div>
   );
-}
+};
 
 TemplatesTable.propTypes = {
   templatesData: PropTypes.arrayOf(

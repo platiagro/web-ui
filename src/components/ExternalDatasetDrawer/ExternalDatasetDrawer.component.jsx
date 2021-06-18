@@ -1,28 +1,20 @@
-// REACT LIBS
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { Button } from 'antd';
+import PropTypes from 'prop-types';
+import { CopyOutlined } from '@ant-design/icons';
 
-// COMPONENTS
 import { PropertyBlock, CopyToClipboard } from 'components';
 import { SelectInputBlock } from 'components/InputBlocks';
-import { CopyOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
 
-// STYLES
 import './ExternalDatasetDrawer.component.style.less';
 
-/**
- * This component is responsible for render the external dataset drawer.
- */
-const ExternalDatasetDrawer = (props) => {
-  const {
-    urlText,
-    propertyTip,
-    propertyTitle,
-    onClickLearnMore,
-    description,
-  } = props;
-
+const ExternalDatasetDrawer = ({
+  urlText,
+  propertyTip,
+  propertyTitle,
+  onClickLearnMore,
+  description,
+}) => {
   const [inputValue, setInputValue] = useState('Aplicação externa');
 
   const handleChange = (value) => {
@@ -41,19 +33,22 @@ const ExternalDatasetDrawer = (props) => {
           valueLatestTraining='Aplicação externa'
         />
       </PropertyBlock>
+
       <div className='externalDatasetDrawerUrl'>
         <p>{description}</p>
+
         <p>
           <Button type='link' onClick={onClickLearnMore}>
             Saiba mais
           </Button>
         </p>
+
         <CopyToClipboard text={urlText}>
           <Button
             style={{ backgroundColor: '#237804', borderColor: '#237804' }}
             icon={<CopyOutlined />}
-            shape='round'
             type='primary'
+            shape='round'
           >
             Copiar URL
           </Button>
@@ -63,19 +58,12 @@ const ExternalDatasetDrawer = (props) => {
   );
 };
 
-// PROP TYPES
 ExternalDatasetDrawer.propTypes = {
-  /** Text to be copied on button click */
   urlText: PropTypes.string.isRequired,
-  /** Property title on first block*/
   propertyTitle: PropTypes.string.isRequired,
-  /** Property tip on first block*/
   propertyTip: PropTypes.string.isRequired,
-  /** Description text */
   description: PropTypes.string.isRequired,
-  /** Function to click on anchor link */
   onClickLearnMore: PropTypes.func.isRequired,
 };
 
-// EXPORT DEFAULT
 export default ExternalDatasetDrawer;

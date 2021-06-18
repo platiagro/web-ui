@@ -1,4 +1,3 @@
-// CORE LIBS
 import React, { useMemo, useState } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
@@ -155,6 +154,7 @@ const ExperimentFlow = ({
             handleDeleteConnection(line.target, line.source);
           }
         }}
+        onlyRenderVisibleElements
       >
         <Background
           gap={25}

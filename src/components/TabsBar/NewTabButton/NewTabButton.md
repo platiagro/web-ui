@@ -1,10 +1,9 @@
-**Exemplo:**
+**Default**
 
 ```js
-const disabled = false;
-const onClick = () => {
+const handleClick = () => {
   console.log('onClick');
 };
 
-<NewTabButton disabled={disabled} onClick={onClick} />;
+<NewTabButton disabled={false} onClick={handleClick} />;
 ```

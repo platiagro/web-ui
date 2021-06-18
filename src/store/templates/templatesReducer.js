@@ -16,21 +16,6 @@ const templatesReducer = (state = initialState, action = {}) => {
     case actionTypes.DELETE_TEMPLATE_SUCCESS:
       return [...action.templates];
 
-    case actionTypes.FETCH_TEMPLATES_FAIL:
-      return [...state];
-
-    case actionTypes.CREATE_TEMPLATE_FAIL:
-      return [...state];
-
-    case actionTypes.UPDATE_TEMPLATE_FAIL:
-      return [...state];
-
-    case actionTypes.DELETE_TEMPLATE_FAIL:
-      return [...state];
-
-    case actionTypes.SET_TEMPLATE_FAIL:
-      return [...state];
-
     default:
       return state;
   }

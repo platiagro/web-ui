@@ -1,4 +1,4 @@
-**Exemplo:**
+**Default**
 
 ```js
 const activeTab = '1';
@@ -14,9 +14,11 @@ const tabs = [
     name: 'tab 2',
   },
 ];
+
 const onDelete = (id) => {
   console.log(id);
 };
+
 const onMoveTab = (dragId, hoverId) => {
   console.log(dragId, hoverId);
 };

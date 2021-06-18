@@ -24,7 +24,7 @@ const NotebookOutputsContainer = ({ disabled }) => {
   const taskName = useSelector(taskNameSelector);
   const status = useSelector(statusSelector);
 
-  const openNotebook = () => {
+  const handleOpenNotebook = () => {
     if (status) {
       window.open(
         `/jupyterlab/tree/experiments/${experimentId}/operators/${operatorId}/?reset&open=Experiment.ipynb`
@@ -38,7 +38,7 @@ const NotebookOutputsContainer = ({ disabled }) => {
 
   return (
     <NotebookOutputs
-      handleOpenNotebookClick={openNotebook}
+      handleOpenNotebookClick={handleOpenNotebook}
       disabled={disabled}
     />
   );

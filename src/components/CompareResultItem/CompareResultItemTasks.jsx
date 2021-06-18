@@ -1,52 +1,51 @@
-// REACT LIBS
-import PropTypes from 'prop-types';
-import React from 'react';
-
-// UI LIBS
+import React, { useMemo } from 'react';
 import { Select } from 'antd';
+import PropTypes from 'prop-types';
 
-// COMPONENTS
 import { Skeleton } from 'uiComponents';
 
-// STYLES
 import './CompareResultItem.less';
 
-const { Option } = Select;
+const CompareResultItemTasks = ({
+  trainingDetail,
+  compareResult,
+  onUpdate,
+  tasks,
+}) => {
+  const operatorKeys = useMemo(() => {
+    if (!trainingDetail?.operators) return [];
+    return Object.keys(trainingDetail.operators);
+  }, [trainingDetail?.operators]);
 
-const CompareResultItemTasks = (props) => {
-  const { compareResult, onUpdate, tasks, trainingDetail } = props;
+  const handleChange = (value) => {
+    const updatedCompareResult = { ...compareResult, operatorId: value };
+    onUpdate(updatedCompareResult, true);
+  };
 
-  if (!compareResult.runId || !trainingDetail) {
-    return <Skeleton />;
-  }
+  if (!compareResult.runId || !trainingDetail) return <Skeleton />;
 
   return (
     <>
       <Select
         key={compareResult.operatorId}
-        defaultValue={compareResult.operatorId}
-        onChange={(value) => {
-          const updatedCompareResult = {
-            ...compareResult,
-            operatorId: value,
-          };
-          onUpdate(updatedCompareResult, true);
-        }}
+        onChange={handleChange}
         optionLabelProp='label'
-        placeholder={'Selecione a tarefa'}
         style={{ width: '100%' }}
+        placeholder={'Selecione a tarefa'}
+        defaultValue={compareResult.operatorId}
       >
-        {Object.keys(trainingDetail.operators).map((operatorId) => {
-          const operator = trainingDetail.operators[operatorId];
+        {operatorKeys.map((operatorKey) => {
+          const operator = trainingDetail.operators[operatorKey];
           const task = tasks.find((x) => x.uuid === operator.taskId);
+
           return (
-            <Option
+            <Select.Option
               key={operator.taskId}
+              value={operatorKey}
               label={task ? task.name : operator.taskId}
-              value={operatorId}
             >
               {task ? task.name : operator.taskId}
-            </Option>
+            </Select.Option>
           );
         })}
       </Select>
@@ -56,17 +55,11 @@ const CompareResultItemTasks = (props) => {
   );
 };
 
-// PROP TYPES
 CompareResultItemTasks.propTypes = {
-  /** The compare result */
-  compareResult: PropTypes.object.isRequired,
-  /** Function to handle update compare result */
-  onUpdate: PropTypes.func.isRequired,
-  /** Tasks list */
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** The expriment training detail */
   trainingDetail: PropTypes.object,
+  compareResult: PropTypes.object.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-// EXPORT DEFAULT
 export default CompareResultItemTasks;

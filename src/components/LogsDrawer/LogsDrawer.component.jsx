@@ -118,7 +118,7 @@ LogsDrawer.propTypes = {
   handleClose: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
-  logs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  logs: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
 };
 

@@ -1,46 +1,44 @@
+import React, { useMemo } from 'react';
+import { Table } from 'antd';
 import PropTypes from 'prop-types';
 import { PartitionOutlined } from '@ant-design/icons';
-import { Table } from 'antd';
-import React from 'react';
+
 import UserAvatar from './UserAvatar';
 
 import './TemplatesTable.style.less';
 
-/**
- * Componente de tabela de templates
- */
-function TemplatesTable(props) {
-  const { onSelect, templatesData } = props;
-
-  const renderName = (text) => <strong>{text}</strong>;
-
-  const renderUser = (user, index) => (
-    <UserAvatar
-      userName={user.username}
-      key={user.name + index}
-      avatarColor={user.avatarColor}
-    />
-  );
-
-  const columns = [
-    {
-      dataIndex: 'name',
-      render: renderName,
+const columns = [
+  {
+    dataIndex: 'name',
+    render(text) {
+      return <strong>{text}</strong>;
     },
-    {
-      dataIndex: 'description',
+  },
+  {
+    dataIndex: 'description',
+  },
+  {
+    dataIndex: 'user',
+    render(user, index) {
+      return (
+        <UserAvatar
+          userName={user.username}
+          key={user.name + index}
+          avatarColor={user.avatarColor}
+        />
+      );
     },
-    {
-      dataIndex: 'user',
-      render: renderUser,
-    },
-  ];
+  },
+];
 
-  const rowSelection = {
-    onChange: (selectedRowKeys) => {
-      onSelect(selectedRowKeys);
-    },
-  };
+const TemplatesTable = ({ onSelect, templatesData }) => {
+  const rowSelection = useMemo(() => {
+    return {
+      onChange: (selectedRowKeys) => {
+        onSelect(selectedRowKeys);
+      },
+    };
+  }, [onSelect]);
 
   return (
     <div className='templatesTable'>
@@ -48,6 +46,7 @@ function TemplatesTable(props) {
         <PartitionOutlined style={{ fontSize: '1.5em' }} />
         <h2>Fluxo de tarefas</h2>
       </div>
+
       <div>
         <Table
           rowSelection={{
@@ -63,7 +62,7 @@ function TemplatesTable(props) {
       </div>
     </div>
   );
-}
+};
 
 TemplatesTable.propTypes = {
   templatesData: PropTypes.arrayOf(

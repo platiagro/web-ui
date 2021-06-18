@@ -8,7 +8,7 @@ const MainMenuContainer = () => {
   const history = useHistory();
   const { pathname } = useLocation();
 
-  const itemClickHandler = (path) => {
+  const handleItemClick = (path) => {
     history.push(path);
   };
 
@@ -17,7 +17,7 @@ const MainMenuContainer = () => {
       className='mainMenu'
       itemsList={itemsMenu}
       selectedItems={[pathname]}
-      handleItemClick={itemClickHandler}
+      handleItemClick={handleItemClick}
     />
   );
 };

@@ -6,7 +6,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "test:ci": "react-scripts test --silent --coverage --testResultsProcessor jest-sonar-reporter",
+    "test:ci": "react-scripts test --passWithNoTests --silent --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build"

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { Pagination, Tabs } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -66,6 +66,10 @@ const datasetOperatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
 };
 
+const isFullScreen = true;
+const closeButtonText = 'Fechar';
+const title = 'Visualizar dados';
+
 const DataViewModalContainer = () => {
   const dispatch = useDispatch();
 
@@ -82,29 +86,34 @@ const DataViewModalContainer = () => {
   const setParameterLoading = useSelector(setParameterLoadingSelector);
   const datasetOperator = useSelector(datasetOperatorSelector);
 
-  const isFullScreen = true;
-  const closeButtonText = 'Fechar';
-  const title = 'Visualizar dados';
-  const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets/${datasetName}`;
+  const actionUrl = useMemo(() => {
+    return `${process.env.REACT_APP_DATASET_API}/datasets/${datasetName}`;
+  }, [datasetName]);
 
-  const attributesCount = new Intl.NumberFormat('pt-BR').format(
-    datasetColumns.length
-  );
+  const attributesCount = useMemo(() => {
+    return new Intl.NumberFormat('pt-BR').format(datasetColumns.length);
+  }, [datasetColumns.length]);
 
-  const observationsCount = new Intl.NumberFormat('pt-BR').format(datasetTotal);
+  const observationsCount = useMemo(() => {
+    return new Intl.NumberFormat('pt-BR').format(datasetTotal);
+  }, [datasetTotal]);
 
-  const columns = datasetColumns.map((column, index) => {
-    return {
-      title: column.name,
-      dataIndex: index,
-    };
-  });
+  const columns = useMemo(() => {
+    return datasetColumns.map((column, index) => {
+      return {
+        title: column.name,
+        dataIndex: index,
+      };
+    });
+  }, [datasetColumns]);
 
-  const featureParameter = datasetOperator?.parameters.find(
-    (parameter) => parameter.name === 'target'
-  );
+  const selectedRows = useMemo(() => {
+    const featureParameter = datasetOperator?.parameters.find(
+      (parameter) => parameter.name === 'target'
+    );
 
-  const selectedRows = featureParameter ? [featureParameter.value] : [];
+    return featureParameter ? [featureParameter.value] : [];
+  }, [datasetOperator?.parameters]);
 
   const handleClose = () => {
     dispatch(hideDataViewModal());
@@ -171,10 +180,10 @@ const DataViewModalContainer = () => {
             <div className='attributtesTable'>
               <DatasetColumnsTable
                 columns={datasetColumns}
-                handleSetColumnType={handleUpdateDatasetColumn}
-                handleRowSelection={handleTargetAttribute}
                 selectedRows={selectedRows}
                 setParameterLoading={setParameterLoading}
+                handleRowSelection={handleTargetAttribute}
+                handleSetColumnType={handleUpdateDatasetColumn}
               />
             </div>
 

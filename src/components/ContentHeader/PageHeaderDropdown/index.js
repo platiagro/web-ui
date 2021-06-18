@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { Button, Dropdown, Menu } from 'antd';
 import {
   DownOutlined,
-  ExperimentOutlined,
   ToolOutlined,
+  ExperimentOutlined,
 } from '@ant-design/icons';
 
 import './style.less';
@@ -18,26 +18,28 @@ const PAGE_HEADER_DROPDOWN_TYPES = {
 const PageHeaderDropdown = ({ type, target }) => {
   const history = useHistory();
 
-  let icon, title, targetTitle;
+  const { icon, title, targetTitle } = useMemo(() => {
+    switch (type) {
+      case PAGE_HEADER_DROPDOWN_TYPES.EXPERIMENT: {
+        return {
+          icon: <ExperimentOutlined />,
+          title: 'Experimentação',
+          targetTitle: 'Pré-implantação',
+        };
+      }
 
-  switch (type) {
-    case PAGE_HEADER_DROPDOWN_TYPES.EXPERIMENT: {
-      icon = <ExperimentOutlined />;
-      title = 'Experimentação';
-      targetTitle = 'Pré-implantação';
-      break;
+      case PAGE_HEADER_DROPDOWN_TYPES.DEPLOYMENT: {
+        return {
+          icon: <ToolOutlined />,
+          title: 'Pré-implantação',
+          targetTitle: 'Experimentação',
+        };
+      }
+
+      default:
+        return {};
     }
-
-    case PAGE_HEADER_DROPDOWN_TYPES.DEPLOYMENT: {
-      icon = <ToolOutlined />;
-      title = 'Pré-implantação';
-      targetTitle = 'Experimentação';
-      break;
-    }
-
-    default:
-      break;
-  }
+  }, [type]);
 
   const handleChangeView = () => {
     history.push(target);
@@ -46,20 +48,20 @@ const PageHeaderDropdown = ({ type, target }) => {
   return (
     <div className='pageHeaderDropdown'>
       <Dropdown
+        trigger={['click']}
         overlay={
           <Menu className='dropdown-menu'>
             <h1>Ir para:</h1>
             <Button
               shape='round'
-              type='primary-inverse'
               size='medium'
+              type='primary-inverse'
               onClick={handleChangeView}
             >
               {targetTitle}
             </Button>
           </Menu>
         }
-        trigger={['click']}
       >
         <Button
           className={type}

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Divider, Popconfirm, Typography } from 'antd';
 import {
+  UpOutlined,
   PlusOutlined,
   FundOutlined,
-  DeleteOutlined,
   DownOutlined,
-  UpOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons';
 
 import { Button } from 'uiComponents';
@@ -15,25 +15,24 @@ import './styles.less';
 
 const MonitoringToolbar = ({
   className,
-  handleAddMonitoring,
-  handleSeeMonitoring,
-  handleDeleteMonitoring,
+  isDeleting,
+  isShowingPanel,
   showAddButton,
   showSeeButton,
   showDeleteButton,
-  isShowingPanel,
   handleTogglePanel,
-  isDeleting,
+  handleAddMonitoring,
+  handleSeeMonitoring,
+  handleDeleteMonitoring,
 }) => {
-  const [isShowingDeleteConfirmation, setIsShowingDeleteConfirmation] =
-    useState(false);
+  const [isConfirmingToDelete, setIsConfirmingToDelete] = useState(false);
 
   const handleToggleDeleteConfirmation = () => {
-    setIsShowingDeleteConfirmation((isShowing) => !isShowing);
+    setIsConfirmingToDelete((isShowing) => !isShowing);
   };
 
   const handleDeleteMonitoringAndHideConfirmation = () => {
-    setIsShowingDeleteConfirmation(false);
+    setIsConfirmingToDelete(false);
     if (handleDeleteMonitoring) handleDeleteMonitoring();
   };
 
@@ -41,7 +40,7 @@ const MonitoringToolbar = ({
     // Hides the delete confirmation modal if the delete button
     // or the panel is hidden
     if (!showDeleteButton || !isShowingPanel) {
-      setIsShowingDeleteConfirmation(false);
+      setIsConfirmingToDelete(false);
     }
   }, [isShowingPanel, showDeleteButton]);
 
@@ -86,22 +85,22 @@ const MonitoringToolbar = ({
           <Divider className='monitoring-toolbar-divider' type='vertical' />
 
           <Popconfirm
-            onConfirm={handleDeleteMonitoringAndHideConfirmation}
-            onCancel={handleToggleDeleteConfirmation}
-            visible={isShowingDeleteConfirmation}
-            title='Excluir o Monitoramento Selecionado?'
+            visible={isConfirmingToDelete}
+            okType='danger'
+            okText='Excluir'
             placement='topLeft'
             cancelText='Cancelar'
-            okText='Excluir'
-            okType='danger'
+            title='Excluir o Monitoramento Selecionado?'
+            onCancel={handleToggleDeleteConfirmation}
+            onConfirm={handleDeleteMonitoringAndHideConfirmation}
           >
             <Button
               className='monitoring-toolbar-delete-button'
               shape='round'
               type='primary-inverse'
+              isLoading={isDeleting}
               icon={<DeleteOutlined />}
               handleClick={handleToggleDeleteConfirmation}
-              isLoading={isDeleting}
             >
               <span className='monitoring-toolbar-button-text'>Excluir</span>
             </Button>
@@ -122,28 +121,28 @@ const MonitoringToolbar = ({
 
 MonitoringToolbar.propTypes = {
   className: PropTypes.string,
-  handleAddMonitoring: PropTypes.func,
-  handleSeeMonitoring: PropTypes.func,
-  handleDeleteMonitoring: PropTypes.func,
+  isDeleting: PropTypes.bool,
+  isShowingPanel: PropTypes.bool,
   showAddButton: PropTypes.bool,
   showSeeButton: PropTypes.bool,
   showDeleteButton: PropTypes.bool,
-  isShowingPanel: PropTypes.bool,
   handleTogglePanel: PropTypes.func,
-  isDeleting: PropTypes.bool,
+  handleAddMonitoring: PropTypes.func,
+  handleSeeMonitoring: PropTypes.func,
+  handleDeleteMonitoring: PropTypes.func,
 };
 
 MonitoringToolbar.defaultProps = {
   className: '',
-  handleAddMonitoring: undefined,
-  handleSeeMonitoring: undefined,
-  handleDeleteMonitoring: undefined,
+  isDeleting: false,
+  isShowingPanel: true,
   showAddButton: true,
   showSeeButton: false,
   showDeleteButton: false,
-  isShowingPanel: true,
   handleTogglePanel: undefined,
-  isDeleting: false,
+  handleAddMonitoring: undefined,
+  handleSeeMonitoring: undefined,
+  handleDeleteMonitoring: undefined,
 };
 
 export default MonitoringToolbar;

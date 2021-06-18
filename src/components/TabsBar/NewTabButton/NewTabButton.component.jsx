@@ -1,39 +1,26 @@
-// CORE LIBS
 import React from 'react';
-import PropTypes from 'prop-types';
-
-// UI LIBS
-import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import PropTypes from 'prop-types';
+import { PlusOutlined } from '@ant-design/icons';
 
-//STYLE
 import './NewTabButton.component.style.less';
 
-/**
- * New Tab Button.
- * This component is responsible for show new tab button.
- */
-const NewTabButton = (props) => {
-  const { disabled, onClick } = props;
+const NewTabButton = ({ disabled, onClick }) => {
   return (
     <Button
-      disabled={disabled}
-      onClick={onClick}
-      size='small'
-      type='add'
-      icon={<PlusOutlined />}
       className='new-tab-button'
+      type='add'
+      size='small'
+      onClick={onClick}
+      disabled={disabled}
+      icon={<PlusOutlined />}
     />
   );
 };
 
-// PROP TYPES
 NewTabButton.propTypes = {
-  /** button is disabled */
   disabled: PropTypes.bool.isRequired,
-  /** button click function */
   onClick: PropTypes.func.isRequired,
 };
 
-// EXPORT
 export default NewTabButton;

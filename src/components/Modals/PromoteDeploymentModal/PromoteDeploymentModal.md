@@ -1,24 +1,27 @@
-**Exemplo:**
+**Default**
 
 ```js
 const [visible, setVisible] = React.useState(false);
 const loading = false;
-const onClose = () => {
+
+const handleClose = () => {
   setVisible(false);
 };
-const onConfirm = () => {
-  alert('onConfirm');
+
+const handleConfirm = () => {
+  alert('Confirmed');
 };
 
 <div>
   <button onClick={() => setVisible(true)}>Open modal</button>
+
   <PromoteDeploymentModal
-    urlPrefix = "teste"
-    urlSuffix = "teste6"
+    urlPrefix='teste'
+    urlSuffix='teste6'
     visible={visible}
     loading={loading}
-    onClose={onClose}
-    onConfirm={onConfirm}
+    onClose={handleClose}
+    onConfirm={handleConfirm}
   />
 </div>;
 ```

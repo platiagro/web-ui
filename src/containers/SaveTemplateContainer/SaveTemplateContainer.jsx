@@ -4,10 +4,9 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createTemplateRequest } from 'store/templates/actions';
-import { showNewTemplateModal, hideNewTemplateModal } from 'store/ui/actions';
-
 import SaveTemplateModal from 'components/Modals/SaveTemplateModal';
 import SaveTemplateButton from 'components/Buttons/SaveTemplateButton';
+import { showNewTemplateModal, hideNewTemplateModal } from 'store/ui/actions';
 
 const modalVisibleSelector = ({ uiReducer }) => {
   return uiReducer.newTemplateModal.visible;

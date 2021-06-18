@@ -1,17 +1,12 @@
-// CORE LIBS
 import axios from 'axios';
 
-// CONSTANTS
-// api base url
 const URL = process.env.REACT_APP_DATASET_API || 'http://localhost:8080';
-// api object
+
 const datasetsApi = axios.create({
   baseURL: URL,
 });
-// datasets path
-const datasetsPath = '/datasets';
 
-// API METHODS
+const datasetsPath = '/datasets';
 
 /**
  * List all datasets
@@ -95,7 +90,6 @@ const getDatasetFeaturetypes = (datasetName) => {
   return datasetsApi.get(`${datasetsPath}/${datasetName}/featuretypes`);
 };
 
-// EXPORT DEFAULT
 export default {
   listDatasets,
   listDatasetColumns,

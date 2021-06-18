@@ -1,4 +1,4 @@
-**Exemplo:**
+**Default**
 
 ```js
 const activeTab = '1';
@@ -14,18 +14,23 @@ const tabs = [
     name: 'tab 2',
   },
 ];
+
 const onChange = (id) => {
   console.log(id);
 };
+
 const onDelete = (id) => {
   console.log(id);
 };
+
 const onDuplicate = (currentId, name) => {
   console.log(currentId, name);
 };
+
 const onMoveTab = (dragId, hoverId) => {
   console.log(dragId, hoverId);
 };
+
 const onRename = (currentId, name) => {
   console.log(currentId, name);
 };

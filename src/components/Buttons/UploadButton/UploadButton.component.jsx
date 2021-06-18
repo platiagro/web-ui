@@ -1,13 +1,9 @@
-// REACT LIBS
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-
-// UI LIB COMPONENTS
 import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button } from 'antd';
+import PropTypes from 'prop-types';
 
 const UploadButton = (props) => {
-  // destructuring props
   const {
     actionUrl,
     buttonText,
@@ -22,59 +18,41 @@ const UploadButton = (props) => {
     parameterName,
   } = props;
 
-  //
   const [fileList, setFileList] = useState([]);
 
-  // file list state hook
-  // Similar ao componentDidMount e componentDidUpdate:
   useEffect(() => {
     defaultFileList ? setFileList(defaultFileList) : setFileList([]);
   }, [actionUrl, defaultFileList]);
 
-  // default error message
-  const defaultErrorMessage = 'Ocorreu um erro no processamento do arquivo.';
+  const handleChange = (info) => {
+    let infoFileList = [...info.fileList];
+    infoFileList = infoFileList.slice(-1);
 
-  // upload props
-  const uploadProps = {
-    name: parameterName,
-    fileList: fileList,
-    action: actionUrl,
-    method: method,
-    beforeUpload() {
-      handleUploadStart();
-    },
-    onChange(info) {
-      // getting info file list
-      let infoFileList = [...info.fileList];
+    if (info.file.status === 'done') {
+      const dataset = infoFileList[0].response;
+      handleUploadSuccess(dataset.columns);
+    } else if (info.file.status === 'error') {
+      const defaultErrorMessage =
+        'Ocorreu um erro no processamento do arquivo.';
+      infoFileList[0].response = defaultErrorMessage;
+      handleUploadFail(defaultErrorMessage);
+    } else if (info.file.status === 'removed') {
+      handleUploadCancel('Envio cancelado.');
+    }
 
-      // limiting number of files
-      infoFileList = infoFileList.slice(-1);
-
-      if (info.file.status === 'done') {
-        // getting dataset
-        const dataset = infoFileList[0].response;
-
-        // upload success
-        handleUploadSuccess(dataset.columns);
-      } else if (info.file.status === 'error') {
-        // set error message
-        infoFileList[0].response = defaultErrorMessage;
-
-        // upload fail
-        handleUploadFail(defaultErrorMessage);
-      } else if (info.file.status === 'removed') {
-        // upload cancel
-        handleUploadCancel('Envio cancelado.');
-      }
-
-      // setting file list
-      setFileList(infoFileList);
-    },
+    setFileList(infoFileList);
   };
 
-  // rendering component
   return (
-    <Upload {...uploadProps} disabled={isDisabled}>
+    <Upload
+      method={method}
+      action={actionUrl}
+      fileList={fileList}
+      name={parameterName}
+      disabled={isDisabled}
+      onChange={handleChange}
+      beforeUpload={handleUploadStart}
+    >
       <Button disabled={isDisabled || isLoading}>
         <UploadOutlined /> {buttonText}
       </Button>
@@ -82,48 +60,23 @@ const UploadButton = (props) => {
   );
 };
 
-// PROP TYPES
 UploadButton.propTypes = {
-  /** Upload action url */
   actionUrl: PropTypes.string.isRequired,
-
-  /** Upload method (post, get, patch) */
   method: PropTypes.string.isRequired,
-
-  /** Upload paramenter name  */
   parameterName: PropTypes.string.isRequired,
-
-  /** Upload button text */
   buttonText: PropTypes.string.isRequired,
-
-  /** Upload cancel handler */
   handleUploadCancel: PropTypes.func,
-
-  /** Upload fail handler */
   handleUploadFail: PropTypes.func.isRequired,
-
-  /** Upload start handler */
   handleUploadStart: PropTypes.func.isRequired,
-
-  /** Upload success handler */
   handleUploadSuccess: PropTypes.func.isRequired,
-
-  /** Upload is disabled */
   isDisabled: PropTypes.bool.isRequired,
-
-  /** Upload is loading */
   isLoading: PropTypes.bool.isRequired,
-
-  /** Uploaded file name */
   defaultFileList: PropTypes.string,
 };
 
-// DEFAULT PROPS
 UploadButton.defaultProps = {
-  /** Uploaded file name */
   defaultFileList: undefined,
-  handleUploadStart: () => console.log('Starting'),
+  handleUploadStart: undefined,
 };
 
-// EXPORT DEFAULT
 export default UploadButton;

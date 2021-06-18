@@ -1,74 +1,42 @@
-// REACT LIBS
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-// Fix Jest errors by importing from react-google-button/dist/react-google-button
-import GoogleButton from 'react-google-button/dist/react-google-button';
 import GooglePicker from 'react-google-picker';
-
-// UI LIB COMPONENTS
-import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button, Typography } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import GoogleButton from 'react-google-button/dist/react-google-button';
 
-// COMPONENTS
 import { PropertyBlock } from 'components';
 
-const { Text } = Typography;
-
-// GOOGLE CREDENTIALS
 const CLIENT_ID =
   '160790132410-cbp6okdeqhg6rkoj5pb5r40ouit5pki3.apps.googleusercontent.com';
 const DEVELOPER_KEY = 'AIzaSyC1x3NtULJzGPFWvIZ7k3QwMlHdIKeC1LA';
 const SCOPE = ['https://www.googleapis.com/auth/drive.readonly'];
 
-/**
- * A input block with upload input
- *
- * @param {object} props Component props
- * @returns {GoogleUploadInputBlock} Component
- */
-const GoogleUploadInputBlock = (props) => {
-  const {
-    defaultFileList,
-    isDisabled,
-    isLoading,
-    tip,
-    title,
-    experimentIsSucceeded,
-  } = props;
-  const { handleCreateGoogleDataset, handleUploadCancel } = props;
+const GoogleUploadInputBlock = ({
+  tip,
+  title,
+  isLoading,
+  isDisabled,
+  defaultFileList,
+  experimentIsSucceeded,
+  handleUploadCancel,
+  handleCreateGoogleDataset,
+}) => {
   const [fileList, setFileList] = useState([]);
   const [googleToken, setGoogleToken] = useState(null);
 
-  const showDangerMessage =
-    experimentIsSucceeded && defaultFileList?.length > 0;
+  const showDangerMessage = useMemo(() => {
+    return experimentIsSucceeded && defaultFileList?.length > 0;
+  }, [defaultFileList?.length, experimentIsSucceeded]);
 
-  useEffect(() => {
-    // set the google token if user already logged
-    if (window.gapi && window.gapi.auth) {
-      setGoogleToken(window.gapi.auth.getToken());
+  const handleUploadChange = (info) => {
+    let infoFileList = [...info.fileList];
+    infoFileList = infoFileList.slice(-1);
+    if (info.file.status === 'removed') {
+      handleUploadCancel();
     }
-    defaultFileList && setFileList(defaultFileList);
-  }, [defaultFileList]);
 
-  // upload props
-  const uploadProps = {
-    name: 'file',
-    fileList: fileList,
-    onChange(info) {
-      // getting info file list
-      let infoFileList = [...info.fileList];
-
-      // limiting number of files
-      infoFileList = infoFileList.slice(-1);
-
-      if (info.file.status === 'removed') {
-        // upload cancel
-        handleUploadCancel();
-      }
-
-      // setting file list
-      setFileList(infoFileList);
-    },
+    setFileList(infoFileList);
   };
 
   const handleGooglePickerOnChange = (data) => {
@@ -92,19 +60,29 @@ const GoogleUploadInputBlock = (props) => {
     }
   };
 
-  // rendering component
+  useEffect(() => {
+    // Set the google token if user already logged
+    if (window.gapi?.auth) {
+      setGoogleToken(window.gapi.auth.getToken());
+    }
+
+    if (defaultFileList) {
+      setFileList(defaultFileList);
+    }
+  }, [defaultFileList]);
+
   return (
     <>
       <PropertyBlock tip={tip} title={title}>
         <GooglePicker
-          disabled={isDisabled || isLoading}
-          clientId={CLIENT_ID}
-          developerKey={DEVELOPER_KEY}
           scope={SCOPE}
-          onChange={handleGooglePickerOnChange}
-          navHidden={true}
-          authImmediate={false}
           viewId={'DOCS'}
+          navHidden={true}
+          clientId={CLIENT_ID}
+          authImmediate={false}
+          developerKey={DEVELOPER_KEY}
+          disabled={isDisabled || isLoading}
+          onChange={handleGooglePickerOnChange}
         >
           {googleToken ? (
             <Button disabled={isDisabled || isLoading}>
@@ -114,51 +92,39 @@ const GoogleUploadInputBlock = (props) => {
             <GoogleButton style={{ width: 210 }} type='dark' />
           )}
         </GooglePicker>
-        <Upload {...uploadProps} disabled={isDisabled} />
+
+        <Upload
+          name='file'
+          fileList={fileList}
+          disabled={isDisabled}
+          onChange={handleUploadChange}
+        />
+
         {showDangerMessage && (
-          <Text>
+          <Typography.Text>
             <br />
             Ao alterar o arquivo, algumas tarefas vão precisar ser
             reconfiguradas!
-          </Text>
+          </Typography.Text>
         )}
       </PropertyBlock>
     </>
   );
 };
 
-// PROP TYPES
 GoogleUploadInputBlock.propTypes = {
-  /** Uploaded file name */
-  defaultFileList: PropTypes.string,
-
-  /** Create Google dataset handler */
-  handleCreateGoogleDataset: PropTypes.func.isRequired,
-
-  /** Upload cancel handler */
-  handleUploadCancel: PropTypes.func.isRequired,
-
-  /** Upload is disabled */
-  isDisabled: PropTypes.bool.isRequired,
-
-  /** Upload is loading */
-  isLoading: PropTypes.bool.isRequired,
-
-  /** Upload tip text */
   tip: PropTypes.string.isRequired,
-
-  /** Upload title */
   title: PropTypes.string.isRequired,
-
-  /** Experiment training is succeed */
+  isLoading: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  defaultFileList: PropTypes.string,
   experimentIsSucceeded: PropTypes.bool.isRequired,
+  handleUploadCancel: PropTypes.func.isRequired,
+  handleCreateGoogleDataset: PropTypes.func.isRequired,
 };
 
-// DEFAULT PROPS
 GoogleUploadInputBlock.defaultProps = {
-  /** Uploaded file name */
   defaultFileList: undefined,
 };
 
-// EXPORT DEFAULT
 export default GoogleUploadInputBlock;
