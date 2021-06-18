@@ -17,9 +17,11 @@ const CompareResultItemResults = ({
   trainingDetail,
   onResultDatasetPageChange,
 }) => {
-  const isRandomResultImageEqualsTwo = useMemo(() => {
-    const randomResultImage = Math.floor(Math.random() * 2) + 1;
-    return randomResultImage === 2;
+  const canShowGraphLoaderImage = useMemo(() => {
+    const currentTimestamp = new Date().getTime();
+    const firstTimestampNumber = Number(String(currentTimestamp).charCodeAt(0));
+    const pseudoRandomValue = currentTimestamp % firstTimestampNumber;
+    return pseudoRandomValue % 2 === 0;
   }, []);
 
   const shouldShowResultImagePlaceholder = useMemo(() => {
@@ -53,7 +55,7 @@ const CompareResultItemResults = ({
       );
     }
 
-    return Object.entries(operator.parameters).map(([key, value]) => {
+    return Object.keys(operator.parameters).map(([key, value]) => {
       return {
         name: key,
         value: value,
@@ -76,7 +78,7 @@ const CompareResultItemResults = ({
   };
 
   if (shouldShowResultImagePlaceholder) {
-    return isRandomResultImageEqualsTwo ? (
+    return canShowGraphLoaderImage ? (
       <Image
         src={GraphLoaderImage}
         className={'centerResultImagePlaceholder'}
