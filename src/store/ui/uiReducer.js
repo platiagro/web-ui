@@ -337,17 +337,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         },
       };
 
-    // DATASETS LIST
-    case actionTypes.DATASETS_LIST_LOADING_DATA: // loading data
-    case actionTypes.DATASETS_LIST_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        datasetsList: {
-          ...state.datasetsList,
-          loading: action.datasetsListLoading,
-        },
-      };
-
     // DATASET OPERATOR
     case actionTypes.DATASET_OPERATOR_LOADING_DATA: // loading data
     case actionTypes.DATASET_OPERATOR_DATA_LOADED: // data loaded

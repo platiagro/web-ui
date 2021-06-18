@@ -8,7 +8,7 @@ import actionTypes from './actionTypes';
 import datasetsApi from 'services/DatasetsApi';
 
 // UI ACTIONS
-import { datasetsListLoadingData, datasetsListDataLoaded } from '../ui/actions';
+import { addLoading, removeLoading } from 'store/loading';
 
 // ACTIONS
 // ** FETCH DATASETS
@@ -21,8 +21,6 @@ import { datasetsListLoadingData, datasetsListDataLoaded } from '../ui/actions';
 const fetchDatasetsSuccess = (response) => (dispatch) => {
   // getting datasets from response
   const datasets = response.data;
-
-  dispatch(datasetsListDataLoaded());
 
   // dispatching fetch experiments success action
   dispatch({
@@ -41,8 +39,6 @@ const fetchDatasetsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  dispatch(datasetsListDataLoaded());
-
   // dispatching fetch experiments fail action
   dispatch({
     type: actionTypes.FETCH_DATASETS_FAIL,
@@ -58,25 +54,23 @@ const fetchDatasetsFail = (error) => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const fetchDatasetsRequest = () => (dispatch) => {
-  // dispatching request action
   dispatch({
     type: actionTypes.FETCH_DATASETS_REQUEST,
   });
 
-  // dispatching datasets list loading data action
-  dispatch(datasetsListLoadingData());
+  dispatch(addLoading(actionTypes.FETCH_DATASETS_REQUEST));
 
-  // fetching datasets
   datasetsApi
     .listDatasets()
     .then((response) => dispatch(fetchDatasetsSuccess(response)))
     .catch((error) => {
       // allow to fail silently for 404
-      if (error.response.status === 404) {
-        dispatch(datasetsListDataLoaded());
-      } else {
+      if (error.response.status !== 404) {
         dispatch(fetchDatasetsFail(error));
       }
+    })
+    .finally(() => {
+      dispatch(removeLoading(actionTypes.FETCH_DATASETS_REQUEST));
     });
 };
 

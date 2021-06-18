@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import utils from 'utils';
+import { useIsLoading } from 'hooks';
 import { fetchDatasetsRequest } from 'store/datasets/actions';
+import DATASETS_TYPES from 'store/datasets/actionTypes';
 import {
   UploadInputBlock,
   GoogleUploadInputBlock,
@@ -18,10 +20,6 @@ import {
 
 const datasetsSelector = ({ datasetsReducer }) => {
   return datasetsReducer;
-};
-
-const datasetsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.datasetsList.loading;
 };
 
 const datasetFileNameSelector = ({ datasetReducer }) => {
@@ -66,7 +64,6 @@ const DatasetUploadInputBlockContainer = () => {
   const dispatch = useDispatch();
 
   const datasets = useSelector(datasetsSelector);
-  const datasetsLoading = useSelector(datasetsLoadingSelector);
   const datasetFileName = useSelector(datasetFileNameSelector);
   const datasetStatus = useSelector(datasetStatusSelector);
   const uploadProgress = useSelector(uploadProgressSelector);
@@ -75,6 +72,8 @@ const DatasetUploadInputBlockContainer = () => {
   const operatorName = useSelector(operatorNameSelector);
   const isDisabled = useSelector(isDisabledSelector);
   const operators = useSelector(operatorsSelector);
+
+  const datasetsLoading = useIsLoading(DATASETS_TYPES.FETCH_DATASETS_REQUEST);
 
   const defaultFileList = useMemo(() => {
     return isUploading
