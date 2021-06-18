@@ -29,21 +29,15 @@ const GoogleUploadInputBlock = ({
     return experimentIsSucceeded && defaultFileList?.length > 0;
   }, [defaultFileList?.length, experimentIsSucceeded]);
 
-  const uploadProps = useMemo(() => {
-    return {
-      name: 'file',
-      fileList: fileList,
-      onChange(info) {
-        let infoFileList = [...info.fileList];
-        infoFileList = infoFileList.slice(-1);
-        if (info.file.status === 'removed') {
-          handleUploadCancel();
-        }
+  const handleUploadChange = (info) => {
+    let infoFileList = [...info.fileList];
+    infoFileList = infoFileList.slice(-1);
+    if (info.file.status === 'removed') {
+      handleUploadCancel();
+    }
 
-        setFileList(infoFileList);
-      },
-    };
-  }, [fileList, handleUploadCancel]);
+    setFileList(infoFileList);
+  };
 
   const handleGooglePickerOnChange = (data) => {
     if (data.action === 'loaded') {
@@ -68,25 +62,27 @@ const GoogleUploadInputBlock = ({
 
   useEffect(() => {
     // Set the google token if user already logged
-    if (window.gapi && window.gapi.auth) {
+    if (window.gapi?.auth) {
       setGoogleToken(window.gapi.auth.getToken());
     }
 
-    if (defaultFileList) setFileList(defaultFileList);
+    if (defaultFileList) {
+      setFileList(defaultFileList);
+    }
   }, [defaultFileList]);
 
   return (
     <>
       <PropertyBlock tip={tip} title={title}>
         <GooglePicker
-          disabled={isDisabled || isLoading}
-          clientId={CLIENT_ID}
-          developerKey={DEVELOPER_KEY}
           scope={SCOPE}
-          onChange={handleGooglePickerOnChange}
-          navHidden={true}
-          authImmediate={false}
           viewId={'DOCS'}
+          navHidden={true}
+          clientId={CLIENT_ID}
+          authImmediate={false}
+          developerKey={DEVELOPER_KEY}
+          disabled={isDisabled || isLoading}
+          onChange={handleGooglePickerOnChange}
         >
           {googleToken ? (
             <Button disabled={isDisabled || isLoading}>
@@ -97,7 +93,13 @@ const GoogleUploadInputBlock = ({
           )}
         </GooglePicker>
 
-        <Upload {...uploadProps} disabled={isDisabled} />
+        <Upload
+          name='file'
+          fileList={fileList}
+          disabled={isDisabled}
+          onChange={handleUploadChange}
+        />
+
         {showDangerMessage && (
           <Typography.Text>
             <br />
