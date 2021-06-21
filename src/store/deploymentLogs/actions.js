@@ -1,13 +1,10 @@
-import {
-  showInferenceLogsDrawer,
-  inferenceLogsDrawerLoadingData,
-  inferenceLogsDrawerDataLoaded,
-} from 'store/ui/actions';
-import deploymentsApi from 'services/DeploymentRunsApi';
 import utils from 'utils';
+import { showError } from 'store/message';
+import deploymentsApi from 'services/DeploymentRunsApi';
+import { addLoading, removeLoading } from 'store/loading';
+import { showInferenceLogsDrawer } from 'store/ui/actions';
 
 import actionTypes from './actionTypes';
-import { showError } from 'store/message';
 
 /**
  * Get logs of implanted experiments (deployment logs)
@@ -22,7 +19,7 @@ export const getDeployExperimentLogs =
   async (dispatch) => {
     try {
       if (shouldShowLogsDrawer) dispatch(showInferenceLogsDrawer('Logs'));
-      dispatch(inferenceLogsDrawerLoadingData());
+      dispatch(addLoading(actionTypes.GET_DEPLOYMENT_LOGS));
 
       const response = await deploymentsApi.fetchDeploymentRunLogs(
         projectId,
@@ -38,7 +35,7 @@ export const getDeployExperimentLogs =
       dispatch({ type: actionTypes.GET_DEPLOYMENT_LOGS_FAIL });
       dispatch(showError(utils.getErrorMessage(e)));
     } finally {
-      dispatch(inferenceLogsDrawerDataLoaded());
+      dispatch(removeLoading(actionTypes.GET_DEPLOYMENT_LOGS));
     }
   };
 

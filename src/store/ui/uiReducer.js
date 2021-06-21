@@ -32,7 +32,6 @@ const initialState = {
     title: 'Título Drawer',
   },
   inferenceLogsDrawer: {
-    loading: false,
     isDataset: false,
     title: 'Título Drawer',
     visible: false,
@@ -340,15 +339,7 @@ const uiReducer = (state = initialState, action = undefined) => {
           visible: action.drawerVisible,
         },
       };
-    case actionTypes.INFERENCE_LOGS_DRAWER_LOADING_DATA:
-    case actionTypes.INFERENCE_LOGS_DRAWER_DATA_LOADED:
-      return {
-        ...state,
-        inferenceLogsDrawer: {
-          ...state.inferenceLogsDrawer,
-          loading: action.inferenceLogsDrawerLoading,
-        },
-      };
+
     //SAVE OFFSET OF FLOW AREA
     case actionTypes.SAVE_FLOW_TRANSFORM:
       return {

@@ -175,30 +175,6 @@ export const hideInferenceLogsDrawer = () => {
   };
 };
 
-/**
- *  Inference logs drawer loading data
- *
- * @returns {object} { type, inferenceLogsDrawerLoading }
- */
-export const inferenceLogsDrawerLoadingData = () => {
-  return {
-    type: actionTypes.INFERENCE_LOGS_DRAWER_LOADING_DATA,
-    inferenceLogsDrawerLoading: true,
-  };
-};
-
-/**
- * Inference logs drawer data loaded
- *
- * @returns {object} { type, inferenceLogsDrawerLoading }
- */
-export const inferenceLogsDrawerDataLoaded = () => {
-  return {
-    type: actionTypes.INFERENCE_LOGS_DRAWER_DATA_LOADED,
-    inferenceLogsDrawerLoading: false,
-  };
-};
-
 // // // // // // // // // //
 
 // ** SHOW OPERATOR RESULTS

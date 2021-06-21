@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { format } from 'date-fns';
 
 import { LOG_TYPES } from 'configs';
-import { useLogsLongPolling } from 'hooks';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
+import { useIsLoading, useLogsLongPolling } from 'hooks';
+import DEPLOYMENT_LOGS_TYPES from 'store/deploymentLogs/actionTypes';
 import {
   clearAllDeploymentLogs,
   getDeployExperimentLogs,
@@ -15,10 +16,6 @@ import {
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
-};
-
-const isLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.inferenceLogsDrawer.loading;
 };
 
 const operatorsSelector = ({ operatorsReducer }) => {
@@ -49,8 +46,9 @@ const DeploymentLogsPanelContainer = () => {
 
   const logs = useSelector(logsSelector);
   const operators = useSelector(operatorsSelector);
-  const isLoading = useSelector(isLoadingSelector);
   const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
+
+  const isLoading = useIsLoading(DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS);
 
   const handleHideLogsPanel = () => {
     dispatch(hideLogsPanel());
