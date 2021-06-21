@@ -21,8 +21,6 @@ import {
 import {
   showOperatorDrawer,
   hideOperatorDrawer,
-  operatorResultsDataLoaded,
-  operatorResultsLoadingData,
   operatorResultsDownloadDatasetLoaded,
   operatorResultsDownloadDatasetLoading,
   dependenciesOperatorLoading,
@@ -137,19 +135,19 @@ export const getOperatorFigures =
     dispatch({
       type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST,
     });
-    dispatch(operatorResultsLoadingData());
+
+    dispatch(addLoading(OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST));
+
     experimentRunsApi
       .listOperatorFigures(projectId, experimentId, runId, operatorId)
       .then((responseFigure) => {
         const results = utils.transformResults(operatorId, responseFigure.data);
-        dispatch(operatorResultsDataLoaded());
         dispatch({
           type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_SUCCESS,
           results,
         });
       })
       .catch((error) => {
-        dispatch(operatorResultsDataLoaded());
         // allowed to fail silently for 404
         if (error.response.status !== 404) {
           dispatch({
@@ -157,6 +155,9 @@ export const getOperatorFigures =
           });
           dispatch(showError(error.message));
         }
+      })
+      .finally(() => {
+        dispatch(removeLoading(OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST));
       });
   };
 

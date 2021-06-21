@@ -395,36 +395,6 @@ export const operatorResultsDownloadDatasetLoading = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** OPERATOR RESULTS LOADING DATA
-/**
- * operator parameter loading data
- *
- * @returns {object} { type, operatorResultsLoading }
- */
-export const operatorResultsLoadingData = () => {
-  return {
-    type: actionTypes.OPERATOR_RESULTS_LOADING_DATA,
-    operatorResultsLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** OPERATOR RESULTS DATA LOADED
-/**
- * operator parameter data loaded
- *
- * @returns {object} { type, operatorResultsLoading }
- */
-export const operatorResultsDataLoaded = () => {
-  return {
-    type: actionTypes.OPERATOR_RESULTS_DATA_LOADED,
-    operatorResultsLoading: false,
-  };
-};
-
 // ** OPERATOR RESULTS BUTTON LOADING DATA
 /**
  * operator parameter loading data
