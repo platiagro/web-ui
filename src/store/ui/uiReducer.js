@@ -9,10 +9,7 @@ import { PROJECTS_TYPES } from 'store/projects';
 // INITIAL STATE
 const initialState = {
   compareResultsModal: {
-    addIsLoading: false,
-    deleteIsLoading: false,
     isVisible: false,
-    loading: false,
   },
   newProjectModal: {
     visible: false,
@@ -73,37 +70,12 @@ const initialState = {
 
 const uiReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
-    // COMPARE RESULTS MODAL
-    case actionTypes.ADD_COMPARE_RESULT_LOADER:
-      return {
-        ...state,
-        compareResultsModal: {
-          ...state.compareResultsModal,
-          addIsLoading: action.addIsLoading,
-        },
-      };
-    case actionTypes.DELETE_COMPARE_RESULT_LOADER:
-      return {
-        ...state,
-        compareResultsModal: {
-          ...state.compareResultsModal,
-          deleteIsLoading: action.deleteIsLoading,
-        },
-      };
     case actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL:
       return {
         ...state,
         compareResultsModal: {
           ...state.compareResultsModal,
           isVisible: action.isVisible,
-        },
-      };
-    case actionTypes.LOADING_COMPARE_RESULTS_MODAL:
-      return {
-        ...state,
-        compareResultsModal: {
-          ...state.compareResultsModal,
-          loading: action.loading,
         },
       };
 

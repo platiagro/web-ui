@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,6 +21,8 @@ import {
   fetchCompareResultsResults,
   getCompareResultDatasetPaginated,
 } from 'store/compareResults/actions';
+import { useIsLoading } from 'hooks';
+import COMPARE_RESULTS_TYPES from 'store/compareResults/actionTypes';
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 import { getExperiments } from 'store/projects/experiments/experiments.selectors';
 
@@ -34,24 +36,12 @@ const experimentsSelector = (projectId) => (state) => {
   return getExperiments(state, projectId);
 };
 
-const addIsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.compareResultsModal.addIsLoading;
-};
-
 const compareResultsSelector = ({ compareResultsReducer }) => {
   return compareResultsReducer.compareResults;
 };
 
-const deleteIsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.compareResultsModal.deleteIsLoading;
-};
-
 const experimentsOptionsSelector = ({ compareResultsReducer }) => {
   return compareResultsReducer.experimentsOptions;
-};
-
-const isLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.compareResultsModal.loading;
 };
 
 const isVisibleSelector = ({ uiReducer }) => {
@@ -72,20 +62,17 @@ const CompareResultsModalContainer = () => {
 
   const experiments = useSelector(experimentsSelector(projectId));
 
-  const addIsLoading = useSelector(addIsLoadingSelector);
   const compareResults = useSelector(compareResultsSelector);
-  const deleteIsLoading = useSelector(deleteIsLoadingSelector);
   const experimentsOptions = useSelector(experimentsOptionsSelector);
-  const isLoading = useSelector(isLoadingSelector);
   const isVisible = useSelector(isVisibleSelector);
   const tasks = useSelector(tasksSelector);
   const experimentsTrainingHistory = useSelector(
     experimentsTrainingHistorySelector
   );
 
-  const hasLoading = useMemo(() => {
-    return isLoading || deleteIsLoading;
-  }, [deleteIsLoading, isLoading]);
+  const isAdding = useIsLoading(COMPARE_RESULTS_TYPES.ADD_COMPARE_RESULT);
+  const isLoading = useIsLoading(COMPARE_RESULTS_TYPES.FETCH_COMPARE_RESULTS);
+  const isDeleting = useIsLoading(COMPARE_RESULTS_TYPES.DELETE_COMPARE_RESULT);
 
   useEffect(() => {
     if (isVisible) {
@@ -223,7 +210,7 @@ const CompareResultsModalContainer = () => {
   };
 
   const modalBody = () => {
-    if (hasLoading) {
+    if (isLoading || isDeleting) {
       return <Row gutter={[8, 8]}>{renderLoadingCard()}</Row>;
     }
 
@@ -248,13 +235,13 @@ const CompareResultsModalContainer = () => {
             <Button
               shape='round'
               type='default'
-              disabled={addIsLoading}
+              disabled={isAdding}
               onClick={() => {
                 dispatch(addCompareResult(projectId));
               }}
             >
               <Space style={{ color: '#0050B3' }}>
-                {addIsLoading ? <LoadingOutlined /> : <PlusOutlined />}
+                {isAdding ? <LoadingOutlined /> : <PlusOutlined />}
                 Adicionar resultado
               </Space>
             </Button>
