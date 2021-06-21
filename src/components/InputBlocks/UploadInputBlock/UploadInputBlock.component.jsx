@@ -54,6 +54,22 @@ const UploadInputBlock = ({
     handleSelectDataset(e.key);
   };
 
+  const menuOverlay = useMemo(
+    () =>
+      datasets.length > 0 ? (
+        datasets.map((dataset) => (
+          <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
+        ))
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description='Não há conjuntos de dados.'
+          style={{ paddingLeft: '10px', paddingRight: '10px' }}
+        />
+      ),
+    [datasets]
+  );
+
   return (
     <PropertyBlock tip={tip} title={title}>
       {deployment ? (
@@ -74,17 +90,7 @@ const UploadInputBlock = ({
                   overflow: 'auto',
                 }}
               >
-                {datasets.length > 0 ? (
-                  datasets.map((dataset) => (
-                    <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
-                  ))
-                ) : (
-                  <Empty
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description='Não há conjuntos de dados.'
-                    style={{ paddingLeft: '10px', paddingRight: '10px' }}
-                  />
-                )}
+                {menuOverlay}
               </Menu>
             }
             buttonsRender={([leftButton, rightButton]) => [
