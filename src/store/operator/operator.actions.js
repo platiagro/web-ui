@@ -21,8 +21,6 @@ import {
 import {
   showOperatorDrawer,
   hideOperatorDrawer,
-  operatorResultsDownloadDatasetLoaded,
-  operatorResultsDownloadDatasetLoading,
   dependenciesOperatorLoading,
   dependenciesOperatorLoaded,
 } from 'store/ui/actions';
@@ -43,7 +41,10 @@ import DeploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 
 export const downloadOperatorResultDataset =
   (projectId, experimentId, operatorId) => (dispatch) => {
-    dispatch(operatorResultsDownloadDatasetLoading());
+    dispatch(
+      addLoading(OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST)
+    );
+
     dispatch({
       type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
     });
@@ -58,7 +59,6 @@ export const downloadOperatorResultDataset =
         -1
       )
       .then((response) => {
-        dispatch(operatorResultsDownloadDatasetLoaded());
         const responseData = response.data;
         dispatch({
           type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS,
@@ -66,8 +66,12 @@ export const downloadOperatorResultDataset =
         });
       })
       .catch((error) => {
-        dispatch(operatorResultsDownloadDatasetLoaded());
         dispatch(showError(error.message));
+      })
+      .finally(() => {
+        dispatch(
+          removeLoading(OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST)
+        );
       });
   };
 
