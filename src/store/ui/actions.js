@@ -1,11 +1,6 @@
-// ACTION TYPES
 import actionTypes from './actionTypes';
 import { deselectOperator } from 'store/operator';
 
-// ACTIONS
-
-// // // // // // // // // //
-// COMPARE RESULTS MODAL
 export const changeVisibilityCompareResultsModal = (visible) => {
   return {
     type: actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL,
@@ -13,7 +8,6 @@ export const changeVisibilityCompareResultsModal = (visible) => {
   };
 };
 
-// ** SHOW_NEW_PROJECT_MODAL
 /**
  * show new project modal
  *
@@ -35,9 +29,6 @@ export const showNewProjectModal = (record) => {
   }
 };
 
-// // // // // // // // // //
-
-// ** HIDE_NEW_PROJECT_MODAL
 /**
  * hide new project modal
  *
@@ -50,9 +41,6 @@ export const hideNewProjectModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** SHOW_NEW_EXPERIMENT_MODAL
 /**
  * show new experiment modal
  *
@@ -67,9 +55,6 @@ export const showNewExperimentModal = () => (dispatch) => {
   });
 };
 
-// // // // // // // // // //
-
-// ** HIDE_NEW_EXPERIMENT_MODAL
 /**
  * hide new experiment modal
  *
@@ -82,9 +67,6 @@ export const hideNewExperimentModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** SHOW_NEW_TEMPLATE_MODAL
 /**
  * show new template modal
  *
@@ -97,9 +79,6 @@ export const showNewTemplateModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** HIDE_NEW_TEMPLATE_MODAL
 /**
  * hide new template modal
  *
@@ -111,8 +90,6 @@ export const hideNewTemplateModal = () => {
     newTemplateModalVisible: false,
   };
 };
-
-// // // // // // // // // //
 
 /**
  * Show operator information drawer
@@ -127,8 +104,6 @@ export const showOperatorDrawer = (title, isDataset) => {
     operatorDrawer: { visible: true, title, isDataset },
   };
 };
-
-// // // // // // // // // //
 
 /**
  * Hide operator drawer
@@ -145,10 +120,6 @@ export const hideOperatorDrawer = () => (dispatch) => {
   // hidding drawer results
   dispatch(hideOperatorResults());
 };
-
-// // // // // // // // // // // // // //
-//
-//  INFERENCE LOGS DRAWER
 
 /**
  * Show inference logs drawer
@@ -175,9 +146,6 @@ export const hideInferenceLogsDrawer = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** SHOW OPERATOR RESULTS
 /**
  * show operator results
  *
@@ -190,9 +158,6 @@ export const showOperatorResults = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** HIDE OPERATOR RESULTS
 /**
  * hide drawer results
  *
@@ -205,9 +170,6 @@ export const hideOperatorResults = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** TASKS MENU LOADING DATA
 /**
  * tasks menu loading data
  *
@@ -220,9 +182,6 @@ export const tasksMenuLoadingData = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** TASKS MENU DATA LOADED
 /**
  * tasks menu loading data
  *
@@ -234,10 +193,6 @@ export const tasksMenuDataLoaded = () => {
     tasksMenuLoading: false,
   };
 };
-
-// // // // // // // // // //
-
-// ** DEPLOYMENTS TABS
 
 /**
  * deployments tabs hide modal
@@ -263,9 +218,6 @@ export const deploymentsTabsShowModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT TRAINING LOADING DATA
 /**
  * experiment training loading data
  *
@@ -278,9 +230,6 @@ export const experimentTrainingLoadingData = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT TRAINING DATA LOADED
 /**
  * experiment training loading data
  *
@@ -293,9 +242,6 @@ export const experimentTrainingDataLoaded = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT DELETE TRAINING LOADING DATA
 /**
  * experiment delete training loading data
  *
@@ -308,9 +254,6 @@ export const experimentDeleteTrainingLoadingData = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT DELETE TRAINING LOADED DATA
 /**
  * experiment delete training loaded data
  *
@@ -323,9 +266,6 @@ export const experimentDeleteTrainingDataLoaded = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT OPERATORS LOADING DATA
 /**
  * experiment operators loading data
  *
@@ -338,9 +278,6 @@ export const experimentOperatorsLoadingData = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT OPERATORS DATA LOADED
 /**
  * experiment operators loading data
  *
@@ -353,9 +290,6 @@ export const experimentOperatorsDataLoaded = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** TEMPLATE LOADING DATA
 /**
  * template loading data
  *
@@ -368,9 +302,6 @@ export const templateLoadingData = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** TEMPLATE DATA LOADED
 /**
  * template loading data
  *
@@ -390,9 +321,6 @@ export const showUsingDeploymentsModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** HIDE_USING_DEPLOYMENTS_MODAL
 /**
  *
  * @returns {object} { type, newTemplateModalVisible }
@@ -417,9 +345,6 @@ export const loadingOffDataViewModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** DEPLOYMENT OPERATORS LOADING DATA
 /**
  * deployment operators loading data
  *
@@ -432,9 +357,6 @@ export const deploymentOperatorsLoadingData = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** DEPLOYMENT OPERATORS DATA LOADED
 /**
  * deployment operators loading data
  *
@@ -446,8 +368,6 @@ export const deploymentOperatorsDataLoaded = () => {
     deploymentOperatorsLoading: false,
   };
 };
-
-// // // // // // // // // //
 
 // DATA VIEW MODAL
 
@@ -474,9 +394,6 @@ export const hideDataViewModal = () => {
     isVisible: false,
   };
 };
-
-// // // // // // // // // // // // // //
-// // // // // // // // // //
 
 export const saveFlowTransform = (transform) => {
   return {
@@ -580,8 +497,6 @@ export const newDeploymentModalEndLoading = () => {
     payload: false,
   };
 };
-
-// // // // // // // // // // // // // //
 
 export const showLogsPanel = () => {
   return {
