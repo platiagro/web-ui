@@ -48,7 +48,7 @@ const initialState = {
     showOperatorResults: false,
   },
   prepareDeploymentsModal: { loading: false, visible: false },
-  dataViewModal: { isVisible: false, loading: false },
+  dataViewModal: { isVisible: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
   operatorsDependencies: {
     loading: false,
@@ -294,15 +294,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         dataViewModal: {
           ...state.dataViewModal,
           isVisible: action.isVisible,
-        },
-      };
-
-    case actionTypes.LOADING_DATA_VIEW_MODAL:
-      return {
-        ...state,
-        dataViewModal: {
-          ...state.dataViewModal,
-          loading: action.loading,
         },
       };
 

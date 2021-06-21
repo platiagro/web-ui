@@ -53,10 +53,6 @@ const isVisibleSelector = ({ uiReducer }) => {
   return uiReducer.dataViewModal.isVisible;
 };
 
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.dataViewModal.loading;
-};
-
 const datasetOperatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
 };
@@ -76,15 +72,18 @@ const DataViewModalContainer = () => {
   const datasetPageSize = useSelector(datasetPageSizeSelector);
   const datasetTotal = useSelector(datasetTotalSelector);
   const isVisible = useSelector(isVisibleSelector);
-  const loading = useSelector(loadingSelector);
   const datasetOperator = useSelector(datasetOperatorSelector);
 
-  const parameterLoading = useIsLoading(
+  const isUpdatingAllDatasetColumns = useIsLoading(
+    DATASET_TYPES.UPDATE_ALL_DATASET_COLUMNS_REQUEST
+  );
+
+  const isLoadingParameter = useIsLoading(
     OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
     OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST
   );
 
-  const datasetLoading = useIsLoading(
+  const isLoadingDataset = useIsLoading(
     DATASET_TYPES.FETCH_DATASET_COLUMNS_REQUEST,
     DATASET_TYPES.CREATE_DATASET_REQUEST,
     DATASET_TYPES.UPDATE_DATASET_COLUMN_REQUEST,
@@ -188,7 +187,7 @@ const DataViewModalContainer = () => {
               <DatasetColumnsTable
                 columns={datasetColumns}
                 selectedRows={selectedRows}
-                setParameterLoading={parameterLoading}
+                setParameterLoading={isLoadingParameter}
                 handleRowSelection={handleTargetAttribute}
                 handleSetColumnType={handleUpdateDatasetColumn}
               />
@@ -234,10 +233,10 @@ const DataViewModalContainer = () => {
               <UploadButton
                 method='PATCH'
                 isDisabled={false}
-                isLoading={loading}
                 actionUrl={actionUrl}
                 parameterName='featuretypes'
                 buttonText='Importar arquivo'
+                isLoading={isUpdatingAllDatasetColumns}
                 handleUploadFail={handleUpdateAllDatasetColumnFail}
                 handleUploadStart={handleUpdateAllDatasetColumnStart}
                 handleUploadSuccess={handleUpdateAllDatasetColumnSuccess}
@@ -251,7 +250,7 @@ const DataViewModalContainer = () => {
                 size={'small'}
                 columns={columns}
                 dataSource={datasetData}
-                isLoading={datasetLoading}
+                isLoading={isLoadingDataset}
                 rowKey={(_, index) => `observação-${index}`}
                 scroll={{
                   x: columns.length > 10 ? 2000 : 1000,

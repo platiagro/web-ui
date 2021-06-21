@@ -331,20 +331,6 @@ export const hideUsingDeploymentsModal = () => {
   };
 };
 
-export const loadingOnDataViewModal = () => {
-  return {
-    type: actionTypes.LOADING_DATA_VIEW_MODAL,
-    loading: true,
-  };
-};
-
-export const loadingOffDataViewModal = () => {
-  return {
-    type: actionTypes.LOADING_DATA_VIEW_MODAL,
-    loading: false,
-  };
-};
-
 /**
  * deployment operators loading data
  *

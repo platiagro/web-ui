@@ -10,10 +10,6 @@ import datasetsApi from 'services/DatasetsApi';
 // ACTIONS
 import { updateExperimentOperatorRequest } from 'store/operator';
 import { clearOperatorsFeatureParametersRequest } from 'store/operators';
-import {
-  loadingOffDataViewModal,
-  loadingOnDataViewModal,
-} from 'store/ui/actions';
 
 // UTILS
 import utils from 'utils';
@@ -657,12 +653,11 @@ export const deleteDatasetRequest =
   };
 
 export const updateAllDatasetColumnStart = () => (dispatch) => {
-  // dispatching update dataset column success
-  dispatch(loadingOnDataViewModal());
+  dispatch(addLoading(actionTypes.UPDATE_ALL_DATASET_COLUMNS_REQUEST));
 };
 
 export const updateAllDatasetColumnSuccess = (columns) => (dispatch) => {
-  dispatch(loadingOffDataViewModal());
+  dispatch(removeLoading(actionTypes.UPDATE_ALL_DATASET_COLUMNS_REQUEST));
 
   // dispatching update dataset column success
   dispatch({
@@ -672,7 +667,7 @@ export const updateAllDatasetColumnSuccess = (columns) => (dispatch) => {
 };
 
 export const updateAllDatasetColumnFail = (errorMessage) => (dispatch) => {
-  dispatch(loadingOffDataViewModal());
+  dispatch(removeLoading(actionTypes.UPDATE_ALL_DATASET_COLUMNS_REQUEST));
 
   // dispatching update dataset column fail
   dispatch({
