@@ -11,8 +11,6 @@ import datasetsApi from 'services/DatasetsApi';
 import { updateExperimentOperatorRequest } from 'store/operator';
 import { clearOperatorsFeatureParametersRequest } from 'store/operators';
 import {
-  datasetOperatorDataLoaded,
-  datasetOperatorLoadingData,
   loadingOffDataViewModal,
   loadingOnDataViewModal,
 } from 'store/ui/actions';
@@ -22,6 +20,7 @@ import utils from 'utils';
 import { isCancel, CancelToken } from 'axios';
 
 import { showWarning } from 'store/message';
+import { addLoading, removeLoading } from 'store/loading';
 
 // ACTIONS
 // ** FETCH DATASET COLUMNS
@@ -34,9 +33,6 @@ import { showWarning } from 'store/message';
 const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
   // getting dataset columns from response
   const columns = response.data;
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
 
   // dispatching fetch dataset columns success
   dispatch({
@@ -54,9 +50,6 @@ const fetchDatasetColumnsSuccess = (response) => (dispatch) => {
 const fetchDatasetColumnsFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
 
   // dispatching fetch dataset columns fail
   dispatch({
@@ -80,15 +73,20 @@ export const fetchDatasetColumnsRequest = (datasetName) => (dispatch) => {
   });
 
   // dispatching dataset operator loading data action
-  dispatch(datasetOperatorLoadingData());
+  dispatch(addLoading(actionTypes.FETCH_DATASET_COLUMNS_REQUEST));
 
-  if (datasetName)
+  if (datasetName) {
     // fetching dataset columns
     datasetsApi
       .listDatasetColumns(datasetName)
       .then((response) => dispatch(fetchDatasetColumnsSuccess(response)))
-      .catch((error) => dispatch(fetchDatasetColumnsFail(error)));
-  else dispatch(fetchDatasetColumnsSuccess({ data: [] }));
+      .catch((error) => dispatch(fetchDatasetColumnsFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.FETCH_DATASET_COLUMNS_REQUEST));
+      });
+  } else {
+    dispatch(fetchDatasetColumnsSuccess({ data: [] }));
+  }
 };
 
 // // // // // // // // // //
@@ -105,9 +103,6 @@ export const cancelDatasetUpload = () => (dispatch, getState) => {
 
   // invoke cancel upload
   datasetReducer.cancelToken.cancel();
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
 
   // dispatching create dataset cancel
   dispatch({
@@ -172,9 +167,6 @@ export const datasetUploadSuccess =
       clearOperatorsFeatureParametersRequest(projectId, experimentId, dataset)
     );
 
-    // dispatching dataset operator data loaded action
-    dispatch(datasetOperatorDataLoaded());
-
     // dispatch action
     dispatch({
       type: actionTypes.CREATE_DATASET_SUCCESS,
@@ -207,9 +199,6 @@ export const datasetUploadSuccess =
  */
 export const datasetUploadFail = () => (dispatch) => {
   const errorMessage = 'Ocorreu um erro no processamento do arquivo';
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
 
   // dispatching create dataset fail
   dispatch({
@@ -316,9 +305,6 @@ export const startDatasetUpload =
 
     const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
 
-    // dispatching dataset operator loading data action
-    dispatch(datasetOperatorLoadingData());
-
     // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
     /* 
   const {
@@ -338,6 +324,8 @@ export const startDatasetUpload =
 
     // upload file block
     try {
+      dispatch(addLoading(actionTypes.CREATE_DATASET_REQUEST));
+
       // call api
       const response = await datasetsApi.createDataset(
         file,
@@ -365,6 +353,8 @@ export const startDatasetUpload =
         // dispatch fail action
         dispatch(datasetUploadFail());
       }
+    } finally {
+      dispatch(removeLoading(actionTypes.CREATE_DATASET_REQUEST));
     }
   };
 
@@ -380,9 +370,6 @@ export const startDatasetUpload =
 const updateDatasetColumnSuccess = (response) => (dispatch) => {
   // getting column from response
   const column = response.data;
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
 
   // dispatching update dataset column success
   dispatch({
@@ -400,9 +387,6 @@ const updateDatasetColumnSuccess = (response) => (dispatch) => {
 const updateDatasetColumnFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
 
   // dispatching update dataset column fail
   dispatch({
@@ -428,7 +412,7 @@ export const updateDatasetColumnRequest =
     });
 
     // dispatching dataset operator loading data action
-    dispatch(datasetOperatorLoadingData());
+    dispatch(addLoading(actionTypes.UPDATE_DATASET_COLUMN_REQUEST));
 
     // getting operators and tasks from store
     const { operatorsReducer, tasksReducer } = getState();
@@ -441,7 +425,10 @@ export const updateDatasetColumnRequest =
     datasetsApi
       .updateDatasetColumn(datasetName, columnName, columnNewType)
       .then((response) => dispatch(updateDatasetColumnSuccess(response)))
-      .catch((error) => dispatch(updateDatasetColumnFail(error)));
+      .catch((error) => dispatch(updateDatasetColumnFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.UPDATE_DATASET_COLUMN_REQUEST));
+      });
   };
 
 // // // // // // // // // //
@@ -457,9 +444,6 @@ const getDatasetSuccess = (response) => (dispatch) => {
   // getting dataset from response
   const dataset = response.data;
   const featuretypes = utils.getFeaturetypes(dataset);
-
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
 
   // dispatching get dataset success
   dispatch({
@@ -483,9 +467,6 @@ const getDatasetFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
-
   // dispatching get dataset fail
   dispatch({
     type: actionTypes.GET_DATASET_FAIL,
@@ -507,17 +488,16 @@ export const getDatasetRequest = (datasetName) => (dispatch) => {
     type: actionTypes.GET_DATASET_REQUEST,
   });
 
-  // dispatching dataset operator loading data action
-  dispatch(datasetOperatorLoadingData());
-
   if (datasetName) {
-    // fetching dataset
+    dispatch(addLoading(actionTypes.GET_DATASET_REQUEST));
+
     datasetsApi
       .getDataset(datasetName)
       .then((response) => dispatch(getDatasetSuccess(response)))
-      .catch((error) => dispatch(getDatasetFail(error)));
-
-    // dispatching get dataset featuretypes
+      .catch((error) => dispatch(getDatasetFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.GET_DATASET_REQUEST));
+      });
   } else {
     dispatch(
       getDatasetSuccess({
@@ -589,10 +569,6 @@ export const selectDataset =
  * @returns {Function} Dispatch function
  */
 export const deleteDatasetSuccess = (experimentIsSucceeded) => (dispatch) => {
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
-
-  // dispatch action
   dispatch({
     type: actionTypes.DELETE_DATASET_SUCCESS,
     payload: {
@@ -624,9 +600,6 @@ export const deleteDatasetSuccess = (experimentIsSucceeded) => (dispatch) => {
 export const deleteDatasetFail = () => (dispatch) => {
   const errorMessage = 'Ocorreu um erro ao excluir arquivo';
 
-  // dispatching dataset operator data loaded action
-  dispatch(datasetOperatorDataLoaded());
-
   // dispatching create dataset fail
   dispatch({
     type: actionTypes.DELETE_DATASET_FAIL,
@@ -656,10 +629,9 @@ export const deleteDatasetRequest =
 
     const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
 
-    // dispatching dataset operator loading data action
-    dispatch(datasetOperatorLoadingData());
-
     try {
+      dispatch(addLoading(actionTypes.DELETE_DATASET_REQUEST));
+
       // update dataset parameter
       dispatch(
         updateExperimentOperatorRequest(
@@ -679,6 +651,8 @@ export const deleteDatasetRequest =
       dispatch(deleteDatasetSuccess(experimentIsSucceeded));
     } catch (e) {
       dispatch(deleteDatasetFail());
+    } finally {
+      dispatch(removeLoading(actionTypes.DELETE_DATASET_REQUEST));
     }
   };
 
@@ -719,11 +693,11 @@ export const updateAllDatasetColumnFail = (errorMessage) => (dispatch) => {
  */
 export const fetchPaginatedDataset = (datasetName, page, pageSize) => {
   return (dispatch) => {
-    dispatch(datasetOperatorLoadingData());
+    dispatch(addLoading(actionTypes.FETCH_PAGINATED_DATASET));
+
     return datasetsApi
       .getDataset(datasetName, page, pageSize)
       .then((response) => {
-        dispatch(datasetOperatorDataLoaded());
         const dataset = response.data;
         dispatch({
           type: actionTypes.FETCH_PAGINATED_DATASET,
@@ -734,9 +708,11 @@ export const fetchPaginatedDataset = (datasetName, page, pageSize) => {
         });
       })
       .catch((error) => {
-        dispatch(datasetOperatorDataLoaded());
         const errorMessage = error.message;
         message.error(errorMessage, 5);
+      })
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.FETCH_PAGINATED_DATASET));
       });
   };
 };

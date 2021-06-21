@@ -6,6 +6,7 @@ import utils from 'utils';
 import { useIsLoading } from 'hooks';
 import { fetchDatasetsRequest } from 'store/datasets/actions';
 import DATASETS_TYPES from 'store/datasets/actionTypes';
+import DATASET_TYPES from 'store/dataset/actionTypes';
 import {
   UploadInputBlock,
   GoogleUploadInputBlock,
@@ -38,10 +39,6 @@ const isUploadingSelector = ({ datasetReducer }) => {
   return datasetReducer.isUploading;
 };
 
-const isLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.datasetOperator.loading;
-};
-
 const operatorNameSelector = ({ operatorReducer }) => {
   return operatorReducer.name;
 };
@@ -68,12 +65,20 @@ const DatasetUploadInputBlockContainer = () => {
   const datasetStatus = useSelector(datasetStatusSelector);
   const uploadProgress = useSelector(uploadProgressSelector);
   const isUploading = useSelector(isUploadingSelector);
-  const isLoading = useSelector(isLoadingSelector);
   const operatorName = useSelector(operatorNameSelector);
   const isDisabled = useSelector(isDisabledSelector);
   const operators = useSelector(operatorsSelector);
 
   const datasetsLoading = useIsLoading(DATASETS_TYPES.FETCH_DATASETS_REQUEST);
+
+  const isLoading = useIsLoading(
+    DATASET_TYPES.FETCH_DATASET_COLUMNS_REQUEST,
+    DATASET_TYPES.CREATE_DATASET_REQUEST,
+    DATASET_TYPES.UPDATE_DATASET_COLUMN_REQUEST,
+    DATASET_TYPES.GET_DATASET_REQUEST,
+    DATASET_TYPES.DELETE_DATASET_REQUEST,
+    DATASET_TYPES.FETCH_PAGINATED_DATASET
+  );
 
   const defaultFileList = useMemo(() => {
     return isUploading

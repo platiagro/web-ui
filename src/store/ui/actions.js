@@ -379,36 +379,6 @@ export const experimentOperatorsDataLoaded = () => {
 
 // // // // // // // // // //
 
-// ** DATASET OPERATOR LOADING DATA
-/**
- * dataset operator loading data
- *
- * @returns {object} { type, datasetOperatorLoading }
- */
-export const datasetOperatorLoadingData = () => {
-  return {
-    type: actionTypes.DATASET_OPERATOR_LOADING_DATA,
-    datasetOperatorLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DATASET OPERATOR DATA LOADED
-/**
- * dataset operator loading data
- *
- * @returns {object} { type, datasetOperatorLoading }
- */
-export const datasetOperatorDataLoaded = () => {
-  return {
-    type: actionTypes.DATASET_OPERATOR_DATA_LOADED,
-    datasetOperatorLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
 // ** OPERATOR PARAMETER LOADING DATA
 /**
  * operator parameter loading data

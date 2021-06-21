@@ -10,10 +10,12 @@ import {
   updateAllDatasetColumnFail,
   updateAllDatasetColumnStart,
 } from 'store/dataset/actions';
+import { useIsLoading } from 'hooks';
 import { Modal, Button } from 'uiComponents';
 import { UploadButton } from 'components/Buttons';
 import { hideDataViewModal } from 'store/ui/actions';
 import { saveTargetAttribute } from 'store/operator';
+import DATASET_TYPES from 'store/dataset/actionTypes';
 import { CommonTable, DatasetColumnsTable } from 'components';
 
 import './DataViewModalContainer.less';
@@ -32,10 +34,6 @@ const datasetDataSelector = ({ datasetReducer }) => {
 
 const datasetFeaturetypesSelector = ({ datasetReducer }) => {
   return datasetReducer.featuretypes;
-};
-
-const datasetLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.datasetOperator.loading;
 };
 
 const datasetNameSelector = ({ datasetReducer }) => {
@@ -77,7 +75,6 @@ const DataViewModalContainer = () => {
   const datasetCurrentPage = useSelector(datasetCurrentPageSelector);
   const datasetData = useSelector(datasetDataSelector);
   const datasetFeaturetypes = useSelector(datasetFeaturetypesSelector);
-  const datasetLoading = useSelector(datasetLoadingSelector);
   const datasetName = useSelector(datasetNameSelector);
   const datasetPageSize = useSelector(datasetPageSizeSelector);
   const datasetTotal = useSelector(datasetTotalSelector);
@@ -85,6 +82,15 @@ const DataViewModalContainer = () => {
   const loading = useSelector(loadingSelector);
   const setParameterLoading = useSelector(setParameterLoadingSelector);
   const datasetOperator = useSelector(datasetOperatorSelector);
+
+  const datasetLoading = useIsLoading(
+    DATASET_TYPES.FETCH_DATASET_COLUMNS_REQUEST,
+    DATASET_TYPES.CREATE_DATASET_REQUEST,
+    DATASET_TYPES.UPDATE_DATASET_COLUMN_REQUEST,
+    DATASET_TYPES.GET_DATASET_REQUEST,
+    DATASET_TYPES.DELETE_DATASET_REQUEST,
+    DATASET_TYPES.FETCH_PAGINATED_DATASET
+  );
 
   const actionUrl = useMemo(() => {
     return `${process.env.REACT_APP_DATASET_API}/datasets/${datasetName}`;
