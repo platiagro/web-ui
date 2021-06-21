@@ -13,8 +13,6 @@ import deploymentsApi from 'services/DeploymentsApi';
 
 // UI ACTIONS
 import {
-  implantedExperimentsLoadingData,
-  implantedExperimentsDataLoaded,
   prepareDeploymentsLoadingData,
   prepareDeploymentsDataLoaded,
   hidePrepareDeploymentsModal,
@@ -40,8 +38,6 @@ const fetchDeploymentsSuccess = (response) => (dispatch) => {
     type: actionTypes.FETCH_DEPLOYMENTS_SUCCESS,
     deployments: response.data.deployments,
   });
-
-  dispatch(implantedExperimentsDataLoaded());
 };
 
 /**
@@ -59,8 +55,6 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_DEPLOYMENTS_FAIL,
     errorMessage,
   });
-
-  dispatch(implantedExperimentsDataLoaded());
 };
 
 /**
@@ -74,14 +68,17 @@ export const fetchDeploymentsRequest =
   (projectId, isToShowLoader) => async (dispatch) => {
     if (isToShowLoader) {
       await dispatch(clearAllDeployments());
-      dispatch(implantedExperimentsLoadingData());
+      dispatch(addLoading(actionTypes.FETCH_DEPLOYMENTS_REQUEST));
     }
 
     // fetching deployments
     deploymentsApi
       .listDeployments(projectId)
       .then((response) => dispatch(fetchDeploymentsSuccess(response)))
-      .catch((error) => dispatch(fetchDeploymentsFail(error)));
+      .catch((error) => dispatch(fetchDeploymentsFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.FETCH_DEPLOYMENTS_REQUEST));
+      });
   };
 
 // // // // // // // // // //

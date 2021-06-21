@@ -407,36 +407,6 @@ export const templateDataLoaded = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** IMPLANTED EXPERIMENTS LOADING DATA
-/**
- *  implanted experiments loading data
- *
- * @returns {object} { type, implantedExperimentsLoading }
- */
-export const implantedExperimentsLoadingData = () => {
-  return {
-    type: actionTypes.IMPLANTED_EXPERIMENTS_LOADING_DATA,
-    implantedExperimentsLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** IMPLANTED EXPERIMENTS DATA LOADED
-/**
- * implanted experiments loading data
- *
- * @returns {object} { type, implantedExperimentsLoading }
- */
-export const implantedExperimentsDataLoaded = () => {
-  return {
-    type: actionTypes.IMPLANTED_EXPERIMENTS_DATA_LOADED,
-    implantedExperimentsLoading: false,
-  };
-};
-
 // USING_DEPLOYMENTS_MODAL
 export const showUsingDeploymentsModal = () => {
   return {

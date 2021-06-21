@@ -18,7 +18,6 @@ import {
   experimentDeleteTrainingLoadingData,
   experimentTrainingDataLoaded,
   experimentTrainingLoadingData,
-  implantedExperimentsLoadingData,
 } from 'store/ui/actions';
 
 // UTILS
@@ -173,8 +172,6 @@ const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
  * @returns {object} { type }
  */
 const deleteExperimentRunSuccess = () => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
-
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_RUN_SUCCESS,
     runs: [],

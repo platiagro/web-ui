@@ -51,7 +51,6 @@ const initialState = {
   operatorResults: {
     showOperatorResults: false,
   },
-  implantedExperiments: { loading: false },
   prepareDeploymentsModal: { loading: false, visible: false },
   dataViewModal: { isVisible: false, loading: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
@@ -301,17 +300,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         template: {
           ...state.template,
           loading: action.templateLoading,
-        },
-      };
-
-    // IMPLANTED EXPERIMENT
-    case actionTypes.IMPLANTED_EXPERIMENTS_LOADING_DATA: // loading data
-    case actionTypes.IMPLANTED_EXPERIMENTS_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        implantedExperiments: {
-          ...state.implantedExperiments,
-          loading: action.implantedExperimentsLoading,
         },
       };
 
