@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { useIsLoading } from 'hooks';
 import { Selectors } from 'store/projects/experiments';
 import { hideNewDeploymentModal } from 'store/ui/actions';
 import { fetchTemplatesRequest } from 'store/templates/actions';
+import DEPLOYMENTS_TYPES from 'store/deployments/actionTypes';
 import { createDeploymentRequest } from 'store/deployments/actions';
 import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 
@@ -14,10 +16,6 @@ const experimentsDataSelector = (projectId) => (state) => {
 
 const visibleSelector = ({ uiReducer }) => {
   return uiReducer.newDeploymentModal.visible;
-};
-
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.newDeploymentModal.loading;
 };
 
 const templatesLoadingSelector = ({ uiReducer }) => {
@@ -32,11 +30,12 @@ const NewDeploymentModalContainer = () => {
   const dispatch = useDispatch();
   const { projectId } = useParams();
 
-  const experimentsData = useSelector(experimentsDataSelector(projectId));
   const visible = useSelector(visibleSelector);
-  const loading = useSelector(loadingSelector);
-  const templatesLoading = useSelector(templatesLoadingSelector);
   const templatesData = useSelector(templatesDataSelector);
+  const templatesLoading = useSelector(templatesLoadingSelector);
+  const experimentsData = useSelector(experimentsDataSelector(projectId));
+
+  const isLoading = useIsLoading(DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST);
 
   const handleConfirm = (selectedType, selectedUuid) => {
     const isExperiment = selectedType === 'experiment';
@@ -57,7 +56,7 @@ const NewDeploymentModalContainer = () => {
   return (
     <NewDeploymentModalComponent
       visible={visible}
-      loading={loading}
+      loading={isLoading}
       templatesData={templatesData}
       experimentsData={experimentsData}
       templatesLoading={templatesLoading}

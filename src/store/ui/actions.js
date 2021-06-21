@@ -484,20 +484,6 @@ export const hideExternalDatasetHelperModal = () => {
   };
 };
 
-export const newDeploymentModalStartLoading = () => {
-  return {
-    type: actionTypes.DEPLOYMENT_MODAL_START_LOADING,
-    payload: true,
-  };
-};
-
-export const newDeploymentModalEndLoading = () => {
-  return {
-    type: actionTypes.DEPLOYMENT_MODAL_END_LOADING,
-    payload: false,
-  };
-};
-
 export const showLogsPanel = () => {
   return {
     type: actionTypes.SHOW_LOGS_PANEL,

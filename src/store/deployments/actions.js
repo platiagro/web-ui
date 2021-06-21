@@ -16,8 +16,6 @@ import {
   prepareDeploymentsLoadingData,
   prepareDeploymentsDataLoaded,
   hidePrepareDeploymentsModal,
-  newDeploymentModalStartLoading,
-  newDeploymentModalEndLoading,
   hideNewDeploymentModal,
 } from 'store/ui/actions';
 import { addLoading, removeLoading } from 'store/loading';
@@ -97,7 +95,6 @@ const createDeploymentSuccess = (response) => (dispatch) => {
     deployments: response.data.deployments,
   });
 
-  dispatch(newDeploymentModalEndLoading());
   dispatch(hideNewDeploymentModal());
 };
 
@@ -119,8 +116,6 @@ const createDeploymentFail = (error) => (dispatch) => {
     type: actionTypes.CREATE_DEPLOYMENT_FAIL,
     errorMessage,
   });
-
-  dispatch(newDeploymentModalEndLoading());
 
   errorMessage = errorMessage.includes('either')
     ? customErrorMessage
@@ -145,7 +140,7 @@ export const createDeploymentRequest =
       type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
     });
 
-    dispatch(newDeploymentModalStartLoading());
+    dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
 
     try {
       let createObject = {};
@@ -161,6 +156,8 @@ export const createDeploymentRequest =
       dispatch(createDeploymentSuccess(response));
     } catch (error) {
       dispatch(createDeploymentFail(error));
+    } finally {
+      dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
     }
   };
 
