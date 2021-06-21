@@ -3,8 +3,13 @@ import { Empty } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useIsLoading } from 'hooks';
+import { OPERATORS_TYPES } from 'store/operators';
 import { ParameterGroup, PropertyBlock } from 'components';
-import { updateExperimentOperatorRequest } from 'store/operator';
+import {
+  OPERATOR_TYPES,
+  updateExperimentOperatorRequest,
+} from 'store/operator';
 
 const operatorSelector = ({ deploymentOperatorReducer }) => {
   return deploymentOperatorReducer;
@@ -18,10 +23,6 @@ const trainingLoadingSelector = ({ uiReducer }) => {
   return uiReducer.deploymentTraining.loading;
 };
 
-const parameterLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.deploymentOperatorParameter.loading;
-};
-
 const parametersLatestTrainingSelector = ({ deploymentOperatorReducer }) => {
   return deploymentOperatorReducer.parametersLatestTraining;
 };
@@ -33,9 +34,13 @@ const DeploymentPropertiesPanelContainer = () => {
   const operator = useSelector(operatorSelector);
   const parameters = useSelector(parametersSelector);
   const trainingLoading = useSelector(trainingLoadingSelector);
-  const parameterLoading = useSelector(parameterLoadingSelector);
   const parametersLatestTraining = useSelector(
     parametersLatestTrainingSelector
+  );
+
+  const parameterLoading = useIsLoading(
+    OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
+    OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST
   );
 
   const setOperatorParameterHandler = (parameterName, parameterValue) => {

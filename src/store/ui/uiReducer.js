@@ -48,7 +48,6 @@ const initialState = {
   experimentOperators: { loading: false },
   experimentTraining: { loading: false },
   datasetsList: { loading: false },
-  operatorParameter: { loading: false },
   operatorResults: {
     downloadDatasetLoading: false,
     loading: false,
@@ -305,18 +304,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         experimentOperators: {
           ...state.experimentOperators,
           loading: action.experimentOperatorsLoading,
-        },
-      };
-
-    // OPERATOR PARAMETER
-
-    case actionTypes.OPERATOR_PARAMETER_LOADING_DATA: // loading data
-    case actionTypes.OPERATOR_PARAMETER_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        operatorParameter: {
-          ...state.operatorParameter,
-          loading: action.operatorParameterLoading,
         },
       };
 

@@ -3,8 +3,13 @@ import { Empty } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { useIsLoading } from 'hooks';
+import { OPERATORS_TYPES } from 'store/operators';
 import { ParameterGroup, PropertyBlock } from 'components';
-import { updateExperimentOperatorRequest } from 'store/operator';
+import {
+  OPERATOR_TYPES,
+  updateExperimentOperatorRequest,
+} from 'store/operator';
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
@@ -18,10 +23,6 @@ const trainingLoadingSelector = ({ uiReducer }) => {
   return uiReducer.experimentTraining.loading;
 };
 
-const parameterLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.operatorParameter.loading;
-};
-
 const parametersLatestTrainingSelector = ({ operatorReducer }) => {
   return operatorReducer.parametersLatestTraining;
 };
@@ -33,9 +34,13 @@ const GenericDrawerContainer = () => {
   const operator = useSelector(operatorSelector);
   const parameters = useSelector(parametersSelector);
   const trainingLoading = useSelector(trainingLoadingSelector);
-  const parameterLoading = useSelector(parameterLoadingSelector);
   const parametersLatestTraining = useSelector(
     parametersLatestTrainingSelector
+  );
+
+  const parameterLoading = useIsLoading(
+    OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
+    OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST
   );
 
   const setOperatorParameterHandler = (parameterName, parameterValue) => {

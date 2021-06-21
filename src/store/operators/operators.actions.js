@@ -13,8 +13,6 @@ import deploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 import {
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
-  operatorParameterLoadingData,
-  operatorParameterDataLoaded,
   resultsButtonBarLoadingData,
   resultsButtonBarDataLoaded,
   deploymentOperatorsDataLoaded,
@@ -179,15 +177,17 @@ export const fetchDeploymentOperatorsRequest =
  */
 export const clearOperatorsFeatureParametersRequest =
   (projectId, experimentId, dataset) => async (dispatch, getState) => {
-    const { operatorsReducer: operators } = getState();
-
-    dispatch({
-      type: OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
-    });
-
-    dispatch(operatorParameterLoadingData());
-
     try {
+      const { operatorsReducer: operators } = getState();
+
+      dispatch({
+        type: OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
+      });
+
+      dispatch(
+        addLoading(OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST)
+      );
+
       // getting all operators with feature parameter
       const operatorsWithFeatureParameter = operators.filter((operator) =>
         operator.parameters.some((parameter) => parameter.type === 'feature')
@@ -236,11 +236,14 @@ export const clearOperatorsFeatureParametersRequest =
         type: OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS,
         payload: { operators: mappedOperators },
       });
-
-      dispatch(operatorParameterDataLoaded());
     } catch (e) {
-      dispatch(operatorParameterDataLoaded());
       console.log(e);
+    } finally {
+      dispatch(
+        removeLoading(
+          OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST
+        )
+      );
     }
   };
 

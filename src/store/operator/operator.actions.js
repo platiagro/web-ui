@@ -21,8 +21,6 @@ import {
 import {
   showOperatorDrawer,
   hideOperatorDrawer,
-  operatorParameterLoadingData,
-  operatorParameterDataLoaded,
   operatorResultsDataLoaded,
   operatorResultsLoadingData,
   operatorResultsDownloadDatasetLoaded,
@@ -506,8 +504,6 @@ export const removeOperatorRequest =
  */
 const updateOperatorSuccess = (operator) => (dispatch, getState) => {
   const { operatorsReducer } = getState();
-  // dispatching operator parameter data loaded action
-  dispatch(operatorParameterDataLoaded());
 
   let mappedOperators = [...operatorsReducer];
   mappedOperators = mappedOperators.map((mappedOperator) =>
@@ -530,9 +526,6 @@ const updateOperatorSuccess = (operator) => (dispatch, getState) => {
  * @returns {object} { type, errorMessage }
  */
 const updateOperatorFail = (error) => (dispatch) => {
-  // dispatching operator parameter data loaded action
-  dispatch(operatorParameterDataLoaded());
-
   // dispatching set operator params fail
   dispatch({
     type: OPERATOR_TYPES.UPDATE_OPERATOR_FAIL,
@@ -563,7 +556,8 @@ export const updateExperimentOperatorRequest =
     dispatch({
       type: OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST,
     });
-    dispatch(operatorParameterLoadingData());
+
+    dispatch(addLoading(OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST));
 
     // filtering parameters with value
     const parametersWithValue = utils.filterOperatorParameters(
@@ -600,7 +594,10 @@ export const updateExperimentOperatorRequest =
         // dispatching success action
         dispatch(updateOperatorSuccess(successExperimentOperator));
       })
-      .catch((error) => dispatch(updateOperatorFail(error)));
+      .catch((error) => dispatch(updateOperatorFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST));
+      });
   };
 
 /**
@@ -625,7 +622,8 @@ export const updateDeploymentOperatorRequest =
     dispatch({
       type: OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST,
     });
-    dispatch(operatorParameterLoadingData());
+
+    dispatch(addLoading(OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST));
 
     // filtering parameters with value
     const parametersWithValue = utils.filterOperatorParameters(
@@ -664,7 +662,10 @@ export const updateDeploymentOperatorRequest =
         // dispatching success action
         dispatch(updateOperatorSuccess(successDeploymentOperator));
       })
-      .catch((error) => dispatch(updateOperatorFail(error)));
+      .catch((error) => dispatch(updateOperatorFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST));
+      });
   };
 
 // // // // // // // // // //
