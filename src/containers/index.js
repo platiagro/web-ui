@@ -32,3 +32,4 @@ export { default as SaveTemplateContainer } from './SaveTemplateContainer';
 export { default as TasksMenuDetailsContainer } from './TasksMenuDetailsContainer';
 export { default as UsingDeploymentsButtonContainer } from './UsingDeploymentsButtonContainer';
 export { default as UsingDeploymentsModalContainer } from './UsingDeploymentsModalContainer';
+export { default as DeploymentDatasetUploadContainer } from './DeploymentDatasetUploadContainer';

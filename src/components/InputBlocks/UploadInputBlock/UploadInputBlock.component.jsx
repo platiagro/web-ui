@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { UploadOutlined } from '@ant-design/icons';
-import { Dropdown, Empty, Menu, Upload, Typography } from 'antd';
+import { Dropdown, Empty, Menu, Upload, Typography, Button } from 'antd';
 
 import { PropertyBlock } from 'components';
 
@@ -21,6 +21,7 @@ const UploadInputBlock = ({
   tip,
   title,
   experimentIsSucceeded,
+  deployment,
 }) => {
   const [fileList, setFileList] = useState([]);
 
@@ -55,43 +56,50 @@ const UploadInputBlock = ({
 
   return (
     <PropertyBlock tip={tip} title={title}>
-      <Upload {...uploadProps} disabled={isDisabled || datasetsLoading}>
-        <Dropdown.Button
-          trigger={['click']}
-          overlay={
-            <Menu
-              className='datasets-menu'
-              onClick={setDataset}
-              style={{
-                maxHeight: '400px',
-                overflow: 'auto',
-              }}
-            >
-              {datasets.length > 0 ? (
-                datasets.map((dataset) => (
-                  <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
-                ))
-              ) : (
-                <Empty
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                  description='Não há conjuntos de dados.'
-                  style={{ paddingLeft: '10px', paddingRight: '10px' }}
-                />
-              )}
-            </Menu>
-          }
-          buttonsRender={([leftButton, rightButton]) => [
-            <>{leftButton}</>,
-            React.cloneElement(rightButton, {
-              onClick: (e) => e.stopPropagation(),
-              loading: datasetsLoading,
-            }),
-          ]}
-        >
+      {deployment ? (
+        <Button>
           <UploadOutlined />
           {buttonText}
-        </Dropdown.Button>
-      </Upload>
+        </Button>
+      ) : (
+        <Upload {...uploadProps} disabled={isDisabled || datasetsLoading}>
+          <Dropdown.Button
+            trigger={['click']}
+            overlay={
+              <Menu
+                className='datasets-menu'
+                onClick={setDataset}
+                style={{
+                  maxHeight: '400px',
+                  overflow: 'auto',
+                }}
+              >
+                {datasets.length > 0 ? (
+                  datasets.map((dataset) => (
+                    <Menu.Item key={dataset.name}>{dataset.name}</Menu.Item>
+                  ))
+                ) : (
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description='Não há conjuntos de dados.'
+                    style={{ paddingLeft: '10px', paddingRight: '10px' }}
+                  />
+                )}
+              </Menu>
+            }
+            buttonsRender={([leftButton, rightButton]) => [
+              <>{leftButton}</>,
+              React.cloneElement(rightButton, {
+                onClick: (e) => e.stopPropagation(),
+                loading: datasetsLoading,
+              }),
+            ]}
+          >
+            <UploadOutlined />
+            {buttonText}
+          </Dropdown.Button>
+        </Upload>
+      )}
 
       {showDangerMessage && (
         <Text>
@@ -120,11 +128,15 @@ UploadInputBlock.propTypes = {
   defaultFileList: PropTypes.string,
   customRequest: PropTypes.func,
   experimentIsSucceeded: PropTypes.bool.isRequired,
+
+  /** Flag to check deployment */
+  deployment: PropTypes.bool,
 };
 
 UploadInputBlock.defaultProps = {
   defaultFileList: undefined,
   customRequest: undefined,
+  deployment: false,
 };
 
 export default UploadInputBlock;
