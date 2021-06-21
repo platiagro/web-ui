@@ -19,8 +19,6 @@ import {
   experimentTrainingDataLoaded,
   experimentTrainingLoadingData,
   implantedExperimentsLoadingData,
-  resultsButtonBarLoadingData,
-  resultsButtonBarDataLoaded,
 } from 'store/ui/actions';
 
 // UTILS
@@ -271,10 +269,8 @@ const fetchExperimentRunStatusSuccess =
 
     if (isAllPending) {
       dispatch(experimentTrainingLoadingData());
-      dispatch(resultsButtonBarLoadingData());
     } else {
       dispatch(experimentTrainingDataLoaded());
-      dispatch(resultsButtonBarDataLoaded());
     }
 
     if (!stoppedRun) {

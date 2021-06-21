@@ -3,9 +3,9 @@ import { showError } from 'store/message';
 import * as OPERATORS_TYPES from './operators.actionTypes';
 
 // SERVICES
+import tasksApi from 'services/TasksApi';
 import datasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
-import tasksApi from 'services/TasksApi';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
 import deploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 
@@ -13,8 +13,6 @@ import deploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 import {
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
-  resultsButtonBarLoadingData,
-  resultsButtonBarDataLoaded,
   deploymentOperatorsDataLoaded,
   deploymentOperatorsLoadingData,
 } from 'store/ui/actions';
@@ -71,7 +69,7 @@ export const fetchExperimentOperatorsRequest =
     if (withLoading) {
       dispatch(clearAllDeploymentOperators());
       dispatch(experimentOperatorsLoadingData());
-      dispatch(resultsButtonBarLoadingData());
+      dispatch(addLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
     }
 
     try {
@@ -101,7 +99,7 @@ export const fetchExperimentOperatorsRequest =
       dispatch(fetchOperatorsFail(e));
     } finally {
       dispatch(experimentOperatorsDataLoaded());
-      dispatch(resultsButtonBarDataLoaded());
+      dispatch(removeLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
     }
   };
 

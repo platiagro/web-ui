@@ -51,7 +51,6 @@ const initialState = {
   operatorResults: {
     downloadDatasetLoading: false,
     showOperatorResults: false,
-    resultsButtonBarLoading: false,
   },
   implantedExperiments: { loading: false },
   prepareDeploymentsModal: { loading: false, visible: false },
@@ -207,17 +206,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         operatorResults: {
           ...state.operatorResults,
           showOperatorResults: action.showOperatorResults,
-        },
-      };
-
-    // OPERATOR RESULTS LOADING
-    case actionTypes.OPERATOR_RESULTS_BUTTON_LOADING_DATA: // show operator results
-    case actionTypes.OPERATOR_RESULTS_BUTTON_DATA_LOADED: // hide operator results
-      return {
-        ...state,
-        operatorResults: {
-          ...state.operatorResults,
-          resultsButtonBarLoading: action.resultsButtonBarLoading,
         },
       };
 
