@@ -53,7 +53,6 @@ const initialState = {
   operatorsDependencies: {
     loading: false,
   },
-  prepareDeployments: { loading: false },
   externalDatasetHelperModal: { visible: false },
   logsPanel: { isShowing: false },
 };
@@ -358,16 +357,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         externalDatasetHelperModal: {
           ...state.externalDatasetHelperModal,
           visible: action.visible,
-        },
-      };
-
-    case actionTypes.PREPARE_DEPLOYMENTS_LOADING_DATA:
-    case actionTypes.PREPARE_DEPLOYMENTS_DATA_LOADED:
-      return {
-        ...state,
-        prepareDeployments: {
-          ...state.prepareDeployments,
-          loading: action.prepareDeploymentsLoading,
         },
       };
 

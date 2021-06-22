@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import { useIsLoading } from 'hooks';
 import ContentHeader from 'components/ContentHeader';
+import DEPLOYMENTS_TYPES from 'store/deployments/actionTypes';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 import {
@@ -26,10 +27,6 @@ const projectSelector = (projectId) => (state) => {
   return Selectors.getProject(projectId, state);
 };
 
-const prepareDeploymentsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.prepareDeployments.loading;
-};
-
 const ExperimentsHeaderContainer = () => {
   const { projectId } = useParams();
   const history = useHistory();
@@ -41,8 +38,9 @@ const ExperimentsHeaderContainer = () => {
   );
 
   const project = useSelector(projectSelector(projectId));
-  const prepareDeploymentsLoading = useSelector(
-    prepareDeploymentsLoadingSelector
+
+  const isPreparingDeployment = useIsLoading(
+    DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST
   );
 
   const target = useMemo(() => {
@@ -92,7 +90,7 @@ const ExperimentsHeaderContainer = () => {
             />
             <PrepareDeploymentsButton
               disabled={loading}
-              loading={prepareDeploymentsLoading}
+              loading={isPreparingDeployment}
               onClick={handlePrepareDeployments}
             />
           </div>

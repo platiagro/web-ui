@@ -432,30 +432,6 @@ export const hideNewDeploymentModal = () => {
   };
 };
 
-/**
- * Prepare deployments loading data
- *
- * @returns {object} { type, prepareDeploymentsLoading }
- */
-export const prepareDeploymentsLoadingData = () => {
-  return {
-    type: actionTypes.PREPARE_DEPLOYMENTS_LOADING_DATA,
-    prepareDeploymentsLoading: true,
-  };
-};
-
-/**
- * Prepare deployments data loaded
- *
- * @returns {object} { type, prepareDeploymentsLoading }
- */
-export const prepareDeploymentsDataLoaded = () => {
-  return {
-    type: actionTypes.PREPARE_DEPLOYMENTS_DATA_LOADED,
-    prepareDeploymentsLoading: false,
-  };
-};
-
 export const showExternalDatasetHelperModal = () => {
   return {
     type: actionTypes.SHOW_EXTERNAL_DATASET_HELPER_MODAL,

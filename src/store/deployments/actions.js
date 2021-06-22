@@ -13,8 +13,6 @@ import deploymentsApi from 'services/DeploymentsApi';
 
 // UI ACTIONS
 import {
-  prepareDeploymentsLoadingData,
-  prepareDeploymentsDataLoaded,
   hidePrepareDeploymentsModal,
   hideNewDeploymentModal,
 } from 'store/ui/actions';
@@ -324,31 +322,24 @@ export const clearAllDeployments = () => (dispatch) => {
  */
 export const prepareDeployments =
   (experiments, projectId, history) => (dispatch) => {
-    // close prepare deployment modal
     dispatch(hidePrepareDeploymentsModal());
-    // dispatching request action
-    dispatch(prepareDeploymentsLoadingData());
+    dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
 
-    // creating deployment object
     const deploymentObj = {
       experiments: experiments,
     };
 
-    // creating deployment
     deploymentsApi
       .createDeployment(projectId, deploymentObj)
       .then(() => {
-        dispatch(prepareDeploymentsDataLoaded());
-
         history.push(`/projetos/${projectId}/pre-implantacao`);
         message.success('Experimento implantado!');
       })
       .catch((error) => {
-        dispatch(prepareDeploymentsDataLoaded());
-
-        // getting error message
-        const errorMessage = error.message;
-        message.error(errorMessage, 5);
+        message.error(error.message, 5);
+      })
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
       });
   };
 
