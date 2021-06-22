@@ -15,6 +15,7 @@ const createTask = (task) => {
     copy_from: task.template === 'uuid' ? '' : task.template,
     name: task.name,
     description: task.description,
+    category: 'DEFAULT',
   };
   return taskApi.post('/tasks', body);
 };
