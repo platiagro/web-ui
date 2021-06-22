@@ -40,7 +40,6 @@ const initialState = {
     title: 'Título Drawer',
     visible: false,
   },
-  template: { loading: false },
   tasksTable: { loading: false },
   tasksMenu: { loading: false },
   deploymentsTabs: {
@@ -408,17 +407,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         operatorResults: {
           ...state.operatorResults,
           downloadDatasetLoading: action.downloadDatasetLoading,
-        },
-      };
-
-    // TEMPLATE
-    case actionTypes.TEMPLATE_LOADING_DATA: // loading data
-    case actionTypes.TEMPLATE_DATA_LOADED: // data loaded
-      return {
-        ...state,
-        template: {
-          ...state.template,
-          loading: action.templateLoading,
         },
       };
 

@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
 
-import { Selectors } from 'store/projects/experiments';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import { hideNewDeploymentModal } from 'store/ui/actions';
-import { fetchTemplatesRequest } from 'store/templates/actions';
 import { createDeploymentRequest } from 'store/deployments/actions';
 import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
+import { useIsLoading } from 'hooks';
+import { fetchTemplatesRequest } from 'store/templates/templates.actions';
+import { getExperiments } from 'store/projects/experiments/experiments.selectors';
+import { getTemplates } from 'store/templates/templates.selectors';
 
 const experimentsDataSelector = (projectId) => (state) => {
-  return Selectors.getExperiments(state, projectId);
+  return getExperiments(state, projectId);
 };
 
 const visibleSelector = ({ uiReducer }) => {
@@ -20,14 +24,6 @@ const loadingSelector = ({ uiReducer }) => {
   return uiReducer.newDeploymentModal.loading;
 };
 
-const templatesLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.template.loading;
-};
-
-const templatesDataSelector = ({ templatesReducer }) => {
-  return templatesReducer;
-};
-
 const NewDeploymentModalContainer = () => {
   const dispatch = useDispatch();
   const { projectId } = useParams();
@@ -35,8 +31,11 @@ const NewDeploymentModalContainer = () => {
   const experimentsData = useSelector(experimentsDataSelector(projectId));
   const visible = useSelector(visibleSelector);
   const loading = useSelector(loadingSelector);
-  const templatesLoading = useSelector(templatesLoadingSelector);
-  const templatesData = useSelector(templatesDataSelector);
+  const templatesData = useSelector(getTemplates);
+
+  const templatesLoading = useIsLoading(
+    TEMPLATES_TYPES.FETCH_TEMPLATES_REQUEST
+  );
 
   const handleConfirm = (selectedType, selectedUuid) => {
     const isExperiment = selectedType === 'experiment';
@@ -51,8 +50,8 @@ const NewDeploymentModalContainer = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchTemplatesRequest(projectId));
-  }, [dispatch, projectId]);
+    if (visible) dispatch(fetchTemplatesRequest(projectId));
+  }, [dispatch, projectId, visible]);
 
   return (
     <NewDeploymentModalComponent

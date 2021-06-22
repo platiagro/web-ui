@@ -1,4 +1,4 @@
-// TODO: Criar Operators e Deployments type def (model)
+/* globals Operators, Deployment */
 
 /**
  * Projeto (Project).
@@ -11,7 +11,7 @@
  * @property {string} name Project name
  * @property {string} description	Project description
  * @property {Experiments} experiments Project experiments list
- * @property {Deployments} deployments Project deployments list
+ * @property {Deployment[]} deployments Project deployments list
  * @property {string} createdAt	Project creation date
  * @property {string} updatedAt	Project last update date
  * @property {string} hasExperiment	Project has experiment

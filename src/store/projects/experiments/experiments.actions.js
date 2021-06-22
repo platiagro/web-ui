@@ -1,6 +1,6 @@
 // correção de bug do eslint/jsdoc
 /* eslint-disable-next-line */
-/* global ExperimentCreatable, ExperimentUpdatable */
+/* global Experiments, ExperimentCreatable, ExperimentUpdatable */
 
 import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 
@@ -19,6 +19,61 @@ import { addLoading, removeLoading } from 'store/loading';
 import utils from 'utils';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe um experimento com este nome!';
+
+// TODO: Remover actions de success e de fail e utilizar actions default
+/**
+ * Experiments success default action
+ *
+ * @param {object} successObject Success action default object
+ * @param {Experiments} successObject.experiments New experiments state
+ * @param {string} successObject.requestActionType Action type request, used in loading
+ * @param {string} successObject.successActionType Action type success
+ * @param {string=} successObject.message Success message
+ * @param {Function} successObject.callback Success function callback
+ * @returns {Function} Thunk action
+ */
+const experimentsActionSuccess =
+  ({
+    experiments,
+    requestActionType,
+    successActionType,
+    message = undefined,
+    callback = undefined,
+  }) =>
+  (dispatch) => {
+    dispatch({
+      type: successActionType,
+      payload: { experiments },
+    });
+
+    if (message) dispatch(showSuccess(message));
+    if (callback) callback();
+
+    dispatch(removeLoading(requestActionType));
+  };
+
+/**
+ * Experiments fail default action
+ *
+ * @param {object} failObject Success action default object
+ * @param {string} failObject.requestActionType Action type request, used in loading
+ * @param {string} failObject.failActionType Action type fail
+ * @param {string=} failObject.message Success message
+ * @param {Function} failObject.callback Fail function callback
+ * @returns {Function} Thunk action
+ */
+const experimentsActionFail =
+  ({ requestActionType, failActionType, message = undefined, callback }) =>
+  (dispatch) => {
+    dispatch({
+      type: failActionType,
+    });
+
+    if (message) dispatch(showError(message));
+    if (callback) callback();
+
+    dispatch(removeLoading(requestActionType));
+  };
 
 /**
  * create experiment success action
@@ -50,7 +105,6 @@ const createExperimentSuccess =
 
     dispatch(hideNewExperimentModal());
 
-    // TODO: Utilizar operadores do experimento, remover redundância
     dispatch(fetchExperimentOperatorsRequest(projectId, experiment.uuid));
 
     dispatch({
@@ -414,3 +468,57 @@ export const activeExperiment = (projectId, experimentId) => (dispatch) => {
 
   dispatch(updateExperimentRequest(projectId, experimentId, experiment));
 };
+
+/**
+ * Apply template request action
+ *
+ * @param {string} projectId Project UUID
+ * @param {string} experimentId Experiment UUID
+ * @param {string} templateId Template UUID
+ * @returns {Function} Dispatch function
+ */
+export const applyTemplateRequest =
+  (projectId, experimentId, templateId) => async (dispatch) => {
+    const requestActionType = EXPERIMENTS_TYPES.APPLY_TEMPLATE_REQUEST;
+
+    dispatch({
+      type: requestActionType,
+    });
+
+    dispatch(addLoading(requestActionType));
+
+    try {
+      const experiment = {
+        templateId,
+      };
+
+      await experimentsApi.updateExperiment(
+        projectId,
+        experimentId,
+        experiment
+      );
+
+      const successCallback = () => {
+        dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
+      };
+
+      const successObject = {
+        requestActionType,
+        successActionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_SUCCESS,
+        message: 'Template aplicado com sucesso!',
+        callback: successCallback,
+      };
+
+      dispatch(experimentsActionSuccess(successObject));
+    } catch (error) {
+      const errorMessage = error.message;
+
+      const errorObject = {
+        requestActionType,
+        failActionType: EXPERIMENTS_TYPES.APPLY_TEMPLATE_FAIL,
+        message: errorMessage,
+      };
+
+      dispatch(experimentsActionFail(errorObject));
+    }
+  };
