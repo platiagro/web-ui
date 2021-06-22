@@ -6,17 +6,11 @@ import { useDeepEqualSelector } from 'hooks';
 import { UploadInputBlock } from 'components/InputBlocks';
 
 import {
-  selectDeploymentDataset,
   startFileDatasetUpload,
   cancelDatasetUpload,
   deleteDeploymentDatasetRequest,
+  changeDataset,
 } from 'store/dataset/actions';
-
-import { fetchDatasetsRequest } from 'store/datasets/actions';
-
-const datasetsSelector = ({ datasetsReducer }) => {
-  return datasetsReducer;
-};
 
 const datasetsLoadingSelector = ({ uiReducer }) => {
   return uiReducer.datasetsList.loading;
@@ -38,6 +32,10 @@ const isUploadingSelector = ({ datasetReducer }) => {
   return datasetReducer.isUploading;
 };
 
+const selectedOperatorDatasetSelector = ({ operatorReducer }) => {
+  return operatorReducer.parameters.find((param) => param.name === 'dataset');
+};
+
 const DeploymentDatasetUploadContainer = () => {
   const { projectId, deploymentId } = useParams();
 
@@ -48,7 +46,7 @@ const DeploymentDatasetUploadContainer = () => {
   const buttonText = 'Importar';
   const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets`;
 
-  const datasets = useDeepEqualSelector(datasetsSelector);
+  const datasetSelected = useDeepEqualSelector(selectedOperatorDatasetSelector);
   const datasetsLoading = useDeepEqualSelector(datasetsLoadingSelector);
   const datasetFileName = useDeepEqualSelector(datasetFileNameSelector);
   const datasetStatus = useDeepEqualSelector(datasetStatusSelector);
@@ -73,16 +71,13 @@ const DeploymentDatasetUploadContainer = () => {
       ];
 
   useEffect(() => {
-    dispatch(fetchDatasetsRequest());
-  }, [dispatch]);
+    dispatch(changeDataset(datasetSelected));
+  }, [dispatch, datasetSelected]);
 
   const containerHandleUploadCancel = () =>
     isUploading
       ? dispatch(cancelDatasetUpload())
       : dispatch(deleteDeploymentDatasetRequest(projectId, deploymentId));
-
-  const containerHandleSelectDataset = (dataset) =>
-    dispatch(selectDeploymentDataset(dataset, projectId, deploymentId));
 
   const customUploadHandler = (data) =>
     dispatch(startFileDatasetUpload(data.file, projectId, null, deploymentId));
@@ -92,9 +87,8 @@ const DeploymentDatasetUploadContainer = () => {
     <UploadInputBlock
       actionUrl={actionUrl}
       buttonText={buttonText}
-      datasets={datasets}
+      datasets={[]}
       datasetsLoading={datasetsLoading}
-      handleSelectDataset={containerHandleSelectDataset}
       handleUploadCancel={containerHandleUploadCancel}
       customRequest={customUploadHandler}
       tip={tip}

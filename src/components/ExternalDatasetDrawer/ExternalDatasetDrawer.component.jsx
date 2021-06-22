@@ -21,7 +21,6 @@ const ExternalDatasetDrawer = (props) => {
   const [datasetType, setDatasetType] = useState('L');
 
   const disabledButton = !urlText;
-  console.log('urlText', disabledButton);
 
   const handleChange = (value) => {
     setDatasetType(value);

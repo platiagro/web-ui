@@ -657,50 +657,6 @@ export const selectDataset =
       .catch((error) => dispatch(getDatasetFail(error)));
   };
 
-// ** SELECT DEPLOYMENT DATASET
-/**
- * select deployment dataset action
- *
- * @param {string} datasetName Dataset name
- * @param {string} projectId Project id
- * @param {string} deploymentId Experiment id
- * @returns {Function} Action
- */
-export const selectDeploymentDataset =
-  (datasetName, projectId, deploymentId) => (dispatch, getState) => {
-    // dispatch action
-    dispatch({
-      type: actionTypes.SELECT_DATASET,
-    });
-
-    // get operator reducer from store
-    const { operatorReducer } = getState();
-
-    // save dataset operator
-    const datasetOperator = { ...operatorReducer };
-
-    // fetching dataset
-    datasetsApi
-      .getDataset(datasetName)
-      .then((response) => {
-        // get dataset from response
-        const dataset = response.data;
-
-        // dispatch action to save dataset
-        dispatch(
-          deploymentDatasetUploadSuccess(
-            dataset,
-            projectId,
-            deploymentId,
-            datasetOperator
-          )
-        );
-      })
-      .catch((error) => dispatch(getDatasetFail(error)));
-  };
-
-// // // // // // // // // //
-
 // ** DELETE DATASET
 
 /**
@@ -910,4 +866,22 @@ export const fetchPaginatedDataset = (datasetName, page, pageSize) => {
         message.error(errorMessage, 5);
       });
   };
+};
+
+/**
+ * Change dataset action
+ *
+ * @param {object} dataset Dataset
+ * @returns {object} { type, payload }
+ */
+export const changeDataset = (dataset) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_DATASET_SUCCESS,
+    payload: {
+      filename: dataset?.value || '',
+      name: '',
+      columns: [],
+      featuretypes: '',
+    },
+  });
 };

@@ -30,7 +30,11 @@ const UploadInputBlock = ({
   }, [defaultFileList?.length, experimentIsSucceeded]);
 
   useEffect(() => {
-    if (defaultFileList) setFileList(defaultFileList);
+    if (defaultFileList) {
+      setFileList(defaultFileList);
+    } else {
+      setFileList([]);
+    }
   }, [defaultFileList]);
 
   const uploadProps = useMemo(() => {
@@ -122,9 +126,9 @@ const UploadInputBlock = ({
 UploadInputBlock.propTypes = {
   actionUrl: PropTypes.string.isRequired,
   buttonText: PropTypes.string.isRequired,
-  datasets: PropTypes.array.isRequired,
+  datasets: PropTypes.array,
   datasetsLoading: PropTypes.bool.isRequired,
-  handleSelectDataset: PropTypes.func.isRequired,
+  handleSelectDataset: PropTypes.func,
   handleUploadCancel: PropTypes.func.isRequired,
   handleUploadFail: PropTypes.func.isRequired,
   handleUploadStart: PropTypes.func.isRequired,
@@ -143,8 +147,10 @@ UploadInputBlock.propTypes = {
 
 UploadInputBlock.defaultProps = {
   defaultFileList: undefined,
+  handleSelectDataset: undefined,
   customRequest: undefined,
   deployment: false,
+  datasets: [],
 };
 
 export default UploadInputBlock;
