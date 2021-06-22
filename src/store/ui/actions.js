@@ -1,6 +1,12 @@
 import actionTypes from './actionTypes';
 import { deselectOperator } from 'store/operator';
 
+/**
+ * Change compare results modal visibility
+ *
+ * @param {boolean} visible Is Visible
+ * @returns {object} Action
+ */
 export const changeVisibilityCompareResultsModal = (visible) => {
   return {
     type: actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL,
@@ -12,7 +18,7 @@ export const changeVisibilityCompareResultsModal = (visible) => {
  * show new project modal
  *
  * @param {object} record Record
- * @returns {object} { type, newProjectModalVisible }
+ * @returns {object} Action
  */
 export const showNewProjectModal = (record) => {
   if (record !== undefined && record !== null) {
@@ -32,7 +38,7 @@ export const showNewProjectModal = (record) => {
 /**
  * hide new project modal
  *
- * @returns {object} { type, newProjectModalVisible }
+ * @returns {object} Action
  */
 export const hideNewProjectModal = () => {
   return {
@@ -44,7 +50,7 @@ export const hideNewProjectModal = () => {
 /**
  * show new experiment modal
  *
- * @returns {object} { type, newExperimentModalVisible }
+ * @returns {Function} DIspatch function
  */
 export const showNewExperimentModal = () => (dispatch) => {
   dispatch(deselectOperator());
@@ -58,7 +64,7 @@ export const showNewExperimentModal = () => (dispatch) => {
 /**
  * hide new experiment modal
  *
- * @returns {object} { type, newExperimentModalVisible }
+ * @returns {object} Action
  */
 export const hideNewExperimentModal = () => {
   return {
@@ -70,7 +76,7 @@ export const hideNewExperimentModal = () => {
 /**
  * show new template modal
  *
- * @returns {object} { type, newTemplateModalVisible }
+ * @returns {object} Action
  */
 export const showNewTemplateModal = () => {
   return {
@@ -82,7 +88,7 @@ export const showNewTemplateModal = () => {
 /**
  * hide new template modal
  *
- * @returns {object} { type, newTemplateModalVisible }
+ * @returns {object} Action
  */
 export const hideNewTemplateModal = () => {
   return {
@@ -96,7 +102,7 @@ export const hideNewTemplateModal = () => {
  *
  * @param {string} title operator drawer
  * @param {boolean} isDataset is a operator is DATASET type
- * @returns {object} { type, drawerVisible }
+ * @returns {object} Action
  */
 export const showOperatorDrawer = (title, isDataset) => {
   return {
@@ -108,16 +114,14 @@ export const showOperatorDrawer = (title, isDataset) => {
 /**
  * Hide operator drawer
  *
- * @returns {object} { type, drawerVisible }
+ * @returns {Function} DIspatch function
  */
 export const hideOperatorDrawer = () => (dispatch) => {
-  //hidding drawer
   dispatch({
     type: actionTypes.HIDE_OPERATOR_DRAWER,
     operatorDrawer: false,
   });
 
-  // hidding drawer results
   dispatch(hideOperatorResults());
 };
 
@@ -125,7 +129,7 @@ export const hideOperatorDrawer = () => (dispatch) => {
  * Show inference logs drawer
  *
  * @param {string} title drawer title
- * @returns {object} { type, title }
+ * @returns {object} Action
  */
 export const showInferenceLogsDrawer = (title) => {
   return {
@@ -137,7 +141,7 @@ export const showInferenceLogsDrawer = (title) => {
 /**
  * Hide inference logs drawer
  *
- * @returns {object} { type, drawerVisible }
+ * @returns {object} Action
  */
 export const hideInferenceLogsDrawer = () => {
   return {
@@ -149,7 +153,7 @@ export const hideInferenceLogsDrawer = () => {
 /**
  * show operator results
  *
- * @returns {object} { type, showResults }
+ * @returns {object} Action
  */
 export const showOperatorResults = () => {
   return {
@@ -161,7 +165,7 @@ export const showOperatorResults = () => {
 /**
  * hide drawer results
  *
- * @returns {object} { type, showResults }
+ * @returns {object} Action
  */
 export const hideOperatorResults = () => {
   return {
@@ -173,7 +177,7 @@ export const hideOperatorResults = () => {
 /**
  * tasks menu loading data
  *
- * @returns {object} { type, tasksMenuLoading }
+ * @returns {object} Action
  */
 export const tasksMenuLoadingData = () => {
   return {
@@ -185,7 +189,7 @@ export const tasksMenuLoadingData = () => {
 /**
  * tasks menu loading data
  *
- * @returns {object} { type, tasksMenuLoading }
+ * @returns {object} Action
  */
 export const tasksMenuDataLoaded = () => {
   return {
@@ -197,7 +201,7 @@ export const tasksMenuDataLoaded = () => {
 /**
  * deployments tabs hide modal
  *
- * @returns {object} { type, visible }
+ * @returns {object} Action
  */
 export const deploymentsTabsHideModal = () => {
   return {
@@ -209,7 +213,7 @@ export const deploymentsTabsHideModal = () => {
 /**
  * deployments tabs show modal
  *
- * @returns {object} { type, visible }
+ * @returns {object} Action
  */
 export const deploymentsTabsShowModal = () => {
   return {
@@ -221,7 +225,7 @@ export const deploymentsTabsShowModal = () => {
 /**
  * experiment training loading data
  *
- * @returns {object} { type, experimentTrainingLoading }
+ * @returns {object} Action
  */
 export const experimentTrainingLoadingData = () => {
   return {
@@ -233,7 +237,7 @@ export const experimentTrainingLoadingData = () => {
 /**
  * experiment training loading data
  *
- * @returns {object} { type, experimentTrainingLoading }
+ * @returns {object} Action
  */
 export const experimentTrainingDataLoaded = () => {
   return {
@@ -245,7 +249,7 @@ export const experimentTrainingDataLoaded = () => {
 /**
  * experiment delete training loading data
  *
- * @returns {object} { type, experimentDeleteTrainingLoading }
+ * @returns {object} Action
  */
 export const experimentDeleteTrainingLoadingData = () => {
   return {
@@ -257,7 +261,7 @@ export const experimentDeleteTrainingLoadingData = () => {
 /**
  * experiment delete training loaded data
  *
- * @returns {object} { type, experimentDeleteTrainingLoading }
+ * @returns {object} Action
  */
 export const experimentDeleteTrainingDataLoaded = () => {
   return {
@@ -269,7 +273,7 @@ export const experimentDeleteTrainingDataLoaded = () => {
 /**
  * experiment operators loading data
  *
- * @returns {object} { type, experimentOperatorsLoading }
+ * @returns {object} Action
  */
 export const experimentOperatorsLoadingData = () => {
   return {
@@ -281,7 +285,7 @@ export const experimentOperatorsLoadingData = () => {
 /**
  * experiment operators loading data
  *
- * @returns {object} { type, experimentOperatorsLoading }
+ * @returns {object} Action
  */
 export const experimentOperatorsDataLoaded = () => {
   return {
@@ -293,7 +297,7 @@ export const experimentOperatorsDataLoaded = () => {
 /**
  * template loading data
  *
- * @returns {object} { type, templateLoading }
+ * @returns {object} Action
  */
 export const templateLoadingData = () => {
   return {
@@ -305,7 +309,7 @@ export const templateLoadingData = () => {
 /**
  * template loading data
  *
- * @returns {object} { type, templateLoading }
+ * @returns {object} Action
  */
 export const templateDataLoaded = () => {
   return {
@@ -314,7 +318,11 @@ export const templateDataLoaded = () => {
   };
 };
 
-// USING_DEPLOYMENTS_MODAL
+/**
+ * show using deployments modal
+ *
+ * @returns {object} Action
+ */
 export const showUsingDeploymentsModal = () => {
   return {
     type: actionTypes.SHOW_USING_DEPLOYMENTS_MODAL,
@@ -322,8 +330,9 @@ export const showUsingDeploymentsModal = () => {
 };
 
 /**
+ * Hide using deployments modal
  *
- * @returns {object} { type, newTemplateModalVisible }
+ * @returns {object} Action
  */
 export const hideUsingDeploymentsModal = () => {
   return {
@@ -355,6 +364,12 @@ export const hideDataViewModal = () => {
   };
 };
 
+/**
+ * Save flow transform
+ *
+ * @param {object} transform Transform
+ * @returns {object} Action
+ */
 export const saveFlowTransform = (transform) => {
   return {
     type: actionTypes.SAVE_FLOW_TRANSFORM,
@@ -362,6 +377,12 @@ export const saveFlowTransform = (transform) => {
   };
 };
 
+/**
+ * Dependencies operator loading
+ *
+ * @param {string} dependencyId Dependency Id
+ * @returns {object} Action
+ */
 export const dependenciesOperatorLoading = (dependencyId) => {
   return {
     type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
@@ -370,6 +391,12 @@ export const dependenciesOperatorLoading = (dependencyId) => {
   };
 };
 
+/**
+ * Dependencies operator loaded
+ *
+ * @param {string} dependencyId Dependency Id
+ * @returns {object} Action
+ */
 export const dependenciesOperatorLoaded = (dependencyId) => {
   return {
     type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
@@ -378,6 +405,11 @@ export const dependenciesOperatorLoaded = (dependencyId) => {
   };
 };
 
+/**
+ * Hide prepare deployments modal
+ *
+ * @returns {object} Action
+ */
 export const hidePrepareDeploymentsModal = () => {
   return {
     type: actionTypes.HIDE_PREPARE_DEPLOYMENTS_MODAL,
@@ -385,6 +417,11 @@ export const hidePrepareDeploymentsModal = () => {
   };
 };
 
+/**
+ * Show prepare deployments modal
+ *
+ * @returns {object} Action
+ */
 export const showPrepareDeploymentsModal = () => {
   return {
     type: actionTypes.SHOW_PREPARE_DEPLOYMENTS_MODAL,
@@ -392,6 +429,11 @@ export const showPrepareDeploymentsModal = () => {
   };
 };
 
+/**
+ * Show mew deployment modal
+ *
+ * @returns {object} Action
+ */
 export const showNewDeploymentModal = () => {
   return {
     type: actionTypes.SHOW_DEPLOYMENT_MODAL,
@@ -399,6 +441,11 @@ export const showNewDeploymentModal = () => {
   };
 };
 
+/**
+ * Hide new deployment modal
+ *
+ * @returns {object} Action
+ */
 export const hideNewDeploymentModal = () => {
   return {
     type: actionTypes.HIDE_DEPLOYMENT_MODAL,
@@ -406,6 +453,11 @@ export const hideNewDeploymentModal = () => {
   };
 };
 
+/**
+ * Show external dataset helper modal
+ *
+ * @returns {object} Action
+ */
 export const showExternalDatasetHelperModal = () => {
   return {
     type: actionTypes.SHOW_EXTERNAL_DATASET_HELPER_MODAL,
@@ -413,6 +465,11 @@ export const showExternalDatasetHelperModal = () => {
   };
 };
 
+/**
+ * Hide external dataset helper modal
+ *
+ * @returns {object} Action
+ */
 export const hideExternalDatasetHelperModal = () => {
   return {
     type: actionTypes.HIDE_EXTERNAL_DATASET_HELPER_MODAL,
@@ -420,6 +477,11 @@ export const hideExternalDatasetHelperModal = () => {
   };
 };
 
+/**
+ * Show logs panel
+ *
+ * @returns {object} Action
+ */
 export const showLogsPanel = () => {
   return {
     type: actionTypes.SHOW_LOGS_PANEL,
@@ -427,6 +489,11 @@ export const showLogsPanel = () => {
   };
 };
 
+/**
+ * Hide logs panel
+ *
+ * @returns {object} Action
+ */
 export const hideLogsPanel = () => {
   return {
     type: actionTypes.SHOW_LOGS_PANEL,
