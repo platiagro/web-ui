@@ -73,10 +73,12 @@ const UploadInputBlock = ({
   return (
     <PropertyBlock tip={tip} title={title}>
       {deployment ? (
-        <Button>
-          <UploadOutlined />
-          {buttonText}
-        </Button>
+        <Upload {...uploadProps} disabled={isDisabled || datasetsLoading}>
+          <Button>
+            <UploadOutlined />
+            {buttonText}
+          </Button>
+        </Upload>
       ) : (
         <Upload {...uploadProps} disabled={isDisabled || datasetsLoading}>
           <Dropdown.Button

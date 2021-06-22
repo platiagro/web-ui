@@ -18,7 +18,10 @@ const ExternalDatasetDrawer = (props) => {
   const { urlText, propertyTip, propertyTitle, onClickLearnMore, description } =
     props;
 
-  const [datasetType, setDatasetType] = useState('E');
+  const [datasetType, setDatasetType] = useState('L');
+
+  const disabledButton = !urlText;
+  console.log('urlText', disabledButton);
 
   const handleChange = (value) => {
     setDatasetType(value);
@@ -36,12 +39,12 @@ const ExternalDatasetDrawer = (props) => {
           ]}
           handleChange={handleChange}
           value={datasetType}
-          valueLatestTraining='E'
+          valueLatestTraining='L'
         />
       </PropertyBlock>
       {datasetType === 'E' ? (
         <div className='externalDatasetDrawerUrl'>
-          <p>{description}</p>
+          <p dangerouslySetInnerHTML={{ __html: description }} />
           <p>
             <Button type='link' onClick={onClickLearnMore}>
               Saiba mais
@@ -49,10 +52,10 @@ const ExternalDatasetDrawer = (props) => {
           </p>
           <CopyToClipboard text={urlText}>
             <Button
-              style={{ backgroundColor: '#237804', borderColor: '#237804' }}
+              type='secondary'
               icon={<CopyOutlined />}
               shape='round'
-              type='primary'
+              disabled={disabledButton}
             >
               Copiar URL
             </Button>

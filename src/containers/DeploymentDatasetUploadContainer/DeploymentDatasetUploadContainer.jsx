@@ -1,20 +1,45 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useDeepEqualSelector } from 'hooks';
 
 import { UploadInputBlock } from 'components/InputBlocks';
 
 import {
-  selectDataset,
+  selectDeploymentDataset,
   startFileDatasetUpload,
   cancelDatasetUpload,
-  deleteDatasetRequest,
+  deleteDeploymentDatasetRequest,
 } from 'store/dataset/actions';
 
 import { fetchDatasetsRequest } from 'store/datasets/actions';
 
+const datasetsSelector = ({ datasetsReducer }) => {
+  return datasetsReducer;
+};
+
+const datasetsLoadingSelector = ({ uiReducer }) => {
+  return uiReducer.datasetsList.loading;
+};
+
+const datasetFileNameSelector = ({ datasetReducer }) => {
+  return datasetReducer.filename;
+};
+
+const datasetStatusSelector = ({ datasetReducer }) => {
+  return datasetReducer.status;
+};
+
+const uploadProgressSelector = ({ datasetReducer }) => {
+  return datasetReducer.progress;
+};
+
+const isUploadingSelector = ({ datasetReducer }) => {
+  return datasetReducer.isUploading;
+};
+
 const DeploymentDatasetUploadContainer = () => {
-  const { projectId, experimentId, deploymentId } = useParams();
+  const { projectId, deploymentId } = useParams();
 
   const dispatch = useDispatch();
 
@@ -23,18 +48,12 @@ const DeploymentDatasetUploadContainer = () => {
   const buttonText = 'Importar';
   const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets`;
 
-  // TODO: Criar seletores
-  /* eslint-disable */
-  const datasets = useSelector((state) => state.datasetsReducer);
-  const datasetsLoading = useSelector(
-    (state) => state.uiReducer.datasetsList.loading
-  );
-  const datasetFileName = useSelector((state) => state.datasetReducer.filename);
-  const datasetStatus = useSelector((state) => state.datasetReducer.status);
-  const uploadProgress = useSelector((state) => state.datasetReducer.progress);
-  const isUploading = useSelector((state) => state.datasetReducer.isUploading);
-
-  /* eslint-enable */
+  const datasets = useDeepEqualSelector(datasetsSelector);
+  const datasetsLoading = useDeepEqualSelector(datasetsLoadingSelector);
+  const datasetFileName = useDeepEqualSelector(datasetFileNameSelector);
+  const datasetStatus = useDeepEqualSelector(datasetStatusSelector);
+  const uploadProgress = useDeepEqualSelector(uploadProgressSelector);
+  const isUploading = useDeepEqualSelector(isUploadingSelector);
 
   const defaultFileList = isUploading
     ? [
@@ -60,10 +79,10 @@ const DeploymentDatasetUploadContainer = () => {
   const containerHandleUploadCancel = () =>
     isUploading
       ? dispatch(cancelDatasetUpload())
-      : dispatch(deleteDatasetRequest(projectId, experimentId));
+      : dispatch(deleteDeploymentDatasetRequest(projectId, deploymentId));
 
   const containerHandleSelectDataset = (dataset) =>
-    dispatch(selectDataset(dataset, projectId, experimentId));
+    dispatch(selectDeploymentDataset(dataset, projectId, deploymentId));
 
   const customUploadHandler = (data) =>
     dispatch(startFileDatasetUpload(data.file, projectId, null, deploymentId));
