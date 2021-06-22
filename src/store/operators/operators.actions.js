@@ -13,8 +13,6 @@ import deploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 import {
   experimentOperatorsDataLoaded,
   experimentOperatorsLoadingData,
-  deploymentOperatorsDataLoaded,
-  deploymentOperatorsLoadingData,
 } from 'store/ui/actions';
 
 // UTILS
@@ -116,7 +114,6 @@ export const fetchDeploymentOperatorsRequest =
       type: OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
     });
 
-    dispatch(deploymentOperatorsLoadingData());
     dispatch(addLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
 
     try {
@@ -161,7 +158,6 @@ export const fetchDeploymentOperatorsRequest =
       dispatch(fetchOperatorsFail(e));
     } finally {
       dispatch(removeLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
-      dispatch(deploymentOperatorsDataLoaded());
     }
   };
 

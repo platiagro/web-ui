@@ -37,17 +37,14 @@ const initialState = {
   tasksTable: { loading: false },
   tasksMenu: { loading: false },
   deploymentsTabs: {
-    loading: false,
     modalVisible: false,
-    deploymentOperatorsLoading: false,
   },
   experimentOperators: { loading: false },
   experimentTraining: { loading: false },
-  datasetsList: { loading: false },
   operatorResults: {
     showOperatorResults: false,
   },
-  prepareDeploymentsModal: { loading: false, visible: false },
+  prepareDeploymentsModal: { visible: false },
   dataViewModal: { isVisible: false },
   flowTransform: { x: 0, y: 0, zoom: 1 },
   operatorsDependencies: {
@@ -212,16 +209,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         tasksMenu: {
           ...state.tasksMenu,
           loading: action.tasksMenuLoading,
-        },
-      };
-
-    case actionTypes.DEPLOYMENT_OPERATORS_LOADING_DATA:
-    case actionTypes.DEPLOYMENT_OPERATORS_DATA_LOADED:
-      return {
-        ...state,
-        deploymentsTabs: {
-          ...state.deploymentsTabs,
-          deploymentOperatorsLoading: action.deploymentOperatorsLoading,
         },
       };
 

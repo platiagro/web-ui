@@ -332,32 +332,6 @@ export const hideUsingDeploymentsModal = () => {
 };
 
 /**
- * deployment operators loading data
- *
- * @returns {object} { type, deploymentOperatorsLoading }
- */
-export const deploymentOperatorsLoadingData = () => {
-  return {
-    type: actionTypes.DEPLOYMENT_OPERATORS_LOADING_DATA,
-    deploymentOperatorsLoading: true,
-  };
-};
-
-/**
- * deployment operators loading data
- *
- * @returns {object} { type, deploymentOperatorsLoading }
- */
-export const deploymentOperatorsDataLoaded = () => {
-  return {
-    type: actionTypes.DEPLOYMENT_OPERATORS_DATA_LOADED,
-    deploymentOperatorsLoading: false,
-  };
-};
-
-// DATA VIEW MODAL
-
-/**
  * Show data view modal
  *
  * @returns {object} Action
