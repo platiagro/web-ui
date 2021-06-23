@@ -1,5 +1,9 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global OperatorStore */
 import * as OPERATOR_TYPES from './operator.actionTypes';
 
+/** @type {OperatorStore} */
 const initialState = {
   icon: '',
   name: '',

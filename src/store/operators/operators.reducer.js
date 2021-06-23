@@ -1,3 +1,6 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global OperatorsStore */
 // ACTION TYPES
 import * as OPERATORS_TYPES from './operators.actionTypes';
 import { OPERATOR_TYPES } from 'store/operator';
@@ -7,7 +10,7 @@ import experimentRunsActionTypes from '../projects/experiments/experimentRuns/ac
 // UTILS
 import utils from 'utils';
 
-// INITIAL STATE
+/** @type {OperatorsStore} */
 const initialState = [];
 
 /**

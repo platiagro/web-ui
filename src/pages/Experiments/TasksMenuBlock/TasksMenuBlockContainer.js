@@ -10,10 +10,8 @@ import {
   fetchTasksMenuRequest,
   filterTasksMenu,
 } from 'store/tasksMenu/actions';
-import {
-  setTemplateRequest,
-  deleteTemplateRequest,
-} from 'store/templates/actions';
+import { deleteTemplateRequest } from 'store/templates/templates.actions';
+import { applyTemplateRequest } from 'store/projects/experiments/experiments.actions';
 
 import TasksMenuBlock from './index';
 
@@ -57,7 +55,7 @@ const TasksMenuBlockContainer = ({ disabled }) => {
     selectedTemplateId
   ) => {
     dispatch(
-      setTemplateRequest(
+      applyTemplateRequest(
         currentProjectId,
         currentExperimentId,
         selectedTemplateId

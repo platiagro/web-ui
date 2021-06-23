@@ -295,30 +295,6 @@ export const experimentOperatorsDataLoaded = () => {
 };
 
 /**
- * template loading data
- *
- * @returns {object} Action
- */
-export const templateLoadingData = () => {
-  return {
-    type: actionTypes.TEMPLATE_LOADING_DATA,
-    templateLoading: true,
-  };
-};
-
-/**
- * template loading data
- *
- * @returns {object} Action
- */
-export const templateDataLoaded = () => {
-  return {
-    type: actionTypes.TEMPLATE_DATA_LOADED,
-    templateLoading: false,
-  };
-};
-
-/**
  * show using deployments modal
  *
  * @returns {object} Action

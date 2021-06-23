@@ -1,5 +1,10 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global DeploymentsStore */
+// ACTION TYPES
 import actionTypes from './actionTypes';
 
+/** @type {DeploymentsStore} */
 const initialState = [];
 
 /**
