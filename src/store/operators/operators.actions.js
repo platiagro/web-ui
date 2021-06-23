@@ -9,12 +9,6 @@ import operatorsApi from 'services/OperatorsApi';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
 import deploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 
-// UI ACTIONS
-import {
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
-} from 'store/ui/actions';
-
 // UTILS
 import utils from 'utils';
 import { addLoading, removeLoading } from 'store/loading';
@@ -66,7 +60,6 @@ export const fetchExperimentOperatorsRequest =
 
     if (withLoading) {
       dispatch(clearAllDeploymentOperators());
-      dispatch(experimentOperatorsLoadingData());
       dispatch(addLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
     }
 
@@ -96,7 +89,6 @@ export const fetchExperimentOperatorsRequest =
     } catch (e) {
       dispatch(fetchOperatorsFail(e));
     } finally {
-      dispatch(experimentOperatorsDataLoaded());
       dispatch(removeLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
     }
   };

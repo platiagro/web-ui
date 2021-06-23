@@ -247,30 +247,6 @@ export const experimentDeleteTrainingDataLoaded = () => {
 };
 
 /**
- * experiment operators loading data
- *
- * @returns {object} Action
- */
-export const experimentOperatorsLoadingData = () => {
-  return {
-    type: actionTypes.EXPERIMENT_OPERATORS_LOADING_DATA,
-    experimentOperatorsLoading: true,
-  };
-};
-
-/**
- * experiment operators loading data
- *
- * @returns {object} Action
- */
-export const experimentOperatorsDataLoaded = () => {
-  return {
-    type: actionTypes.EXPERIMENT_OPERATORS_DATA_LOADED,
-    experimentOperatorsLoading: false,
-  };
-};
-
-/**
  * show using deployments modal
  *
  * @returns {object} Action

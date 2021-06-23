@@ -10,6 +10,7 @@ import {
   saveOperatorDependencies,
   selectOperatorAndGetData,
 } from 'store/operator';
+import { OPERATORS_TYPES } from 'store/operators';
 import { useDeepEqualSelector, useIsLoading } from 'hooks';
 import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
 import { fetchExperimentRunStatusRequest } from 'store/projects/experiments/experimentRuns/actions';
@@ -18,10 +19,6 @@ import ExperimentFlow from './index';
 
 const operatorsSelector = ({ operatorsReducer }) => {
   return operatorsReducer;
-};
-
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.experimentOperators.loading;
 };
 
 const arrowConfigsSelector = ({ uiReducer }) => {
@@ -40,7 +37,6 @@ const ExperimentFlowContainer = () => {
   const dispatch = useDispatch();
   const { projectId, experimentId } = useParams();
 
-  const flowLoading = useDeepEqualSelector(loadingSelector);
   const operators = useDeepEqualSelector(operatorsSelector);
   const arrowConfigs = useDeepEqualSelector(arrowConfigsSelector);
   const numberOfLogs = useDeepEqualSelector(numberOfLogsSelector);
@@ -48,6 +44,7 @@ const ExperimentFlowContainer = () => {
 
   const transformations = useStoreState((flowStore) => flowStore.transform);
 
+  const flowLoading = useIsLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST);
   const operatorLoading = useIsLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST);
 
   const selectOperatorHandler = (operator) => {
@@ -93,9 +90,9 @@ const ExperimentFlowContainer = () => {
     <ExperimentFlow
       tasks={operators}
       flowLoading={flowLoading}
-      operatorLoading={operatorLoading}
       numberOfLogs={numberOfLogs}
       arrowConfigs={arrowConfigs}
+      operatorLoading={operatorLoading}
       transformations={transformations}
       isLogsPanelSelected={isShowingLogsPanel}
       handleSavePosition={handleSavePosition}

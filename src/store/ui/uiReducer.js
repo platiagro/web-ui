@@ -37,7 +37,6 @@ const initialState = {
   deploymentsTabs: {
     modalVisible: false,
   },
-  experimentOperators: { loading: false },
   experimentTraining: { loading: false },
   operatorResults: {
     showOperatorResults: false,
@@ -238,16 +237,6 @@ const uiReducer = (state = initialState, action = undefined) => {
         experimentTraining: {
           ...state.experimentTraining,
           deleteLoading: action.experimentDeleteTrainingLoading,
-        },
-      };
-
-    case actionTypes.EXPERIMENT_OPERATORS_LOADING_DATA:
-    case actionTypes.EXPERIMENT_OPERATORS_DATA_LOADED:
-      return {
-        ...state,
-        experimentOperators: {
-          ...state.experimentOperators,
-          loading: action.experimentOperatorsLoading,
         },
       };
 

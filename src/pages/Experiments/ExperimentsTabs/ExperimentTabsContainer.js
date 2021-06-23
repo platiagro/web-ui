@@ -11,6 +11,7 @@ import {
 import { useIsLoading } from 'hooks';
 import { hideLogsPanel } from 'store/ui/actions';
 import { deselectOperator } from 'store/operator';
+import { OPERATORS_TYPES } from 'store/operators';
 import { clearAllExperimentLogs } from 'store/experimentLogs/actions';
 import { Actions as projectsActions, PROJECTS_TYPES } from 'store/projects';
 
@@ -20,10 +21,6 @@ const { getExperiments } = Selectors;
 
 const experimentsSelector = (projectId) => (state) => {
   return getExperiments(state, projectId);
-};
-
-const experimentOperatorsLoadingSelector = (state) => {
-  return state.uiReducer.experimentOperators.loading;
 };
 
 const getCurrentRoutePath = (projectId, experimentId) => {
@@ -37,6 +34,8 @@ const ExperimentTabsContainer = () => {
 
   const isDeletingExperiment = useRef(false);
 
+  const experiments = useSelector(experimentsSelector(projectId));
+
   const experimentDetailsLoading = useIsLoading(
     EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST,
     EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST,
@@ -45,10 +44,8 @@ const ExperimentTabsContainer = () => {
     PROJECTS_TYPES.FETCH_PROJECT_REQUEST
   );
 
-  const experiments = useSelector(experimentsSelector(projectId));
-
-  const experimentOperatorsLoading = useSelector(
-    experimentOperatorsLoadingSelector
+  const experimentOperatorsLoading = useIsLoading(
+    OPERATORS_TYPES.FETCH_OPERATORS_REQUEST
   );
 
   const deleteHandler = (deleteExperimentId) => {
