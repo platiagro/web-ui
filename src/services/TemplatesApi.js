@@ -49,11 +49,11 @@ const updateTemplate = (templateId, templateName) => {
 /**
  * Delete Template
  *
- * @param {string} templateId Template UUID
+ * @param {string[]} templates Templates UUID list
  * @returns {Promise} Request Promise
  */
-const deleteTemplate = (templateId) => {
-  return templatesApi.delete(`${templatesPath}/${templateId}`);
+const deleteTemplate = (templates) => {
+  return templatesApi.post(`${templatesPath}/deletetemplates`, templates);
 };
 
 export default {
