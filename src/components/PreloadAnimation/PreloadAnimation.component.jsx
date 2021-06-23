@@ -2,7 +2,7 @@ import React from 'react';
 import { Result } from 'antd';
 import PropTypes from 'prop-types';
 
-import loadingImage from 'assets/loading_jupyter.gif';
+import { LoadingJupyter } from 'assets';
 
 import './styles.less';
 
@@ -12,7 +12,7 @@ const PreloadAnimation = ({ remainingSeconds }) => {
       <Result
         icon={
           <img
-            src={loadingImage}
+            src={LoadingJupyter}
             alt='Animação de carregamento. Um desenho de trator passando pelo campo, enquanto ao fundo aparecem estrelas e nuvens'
           />
         }

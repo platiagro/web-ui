@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Image } from 'antd';
 
 import utils from 'utils';
-import GraphLoaderImage from 'assets/resultGraphLoader.svg';
-import TableLoaderImage from 'assets/resultTableLoader.svg';
+import { ResultGraphLoading, ResultTableLoading } from 'assets';
 import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer';
 
 import './CompareResultItem.less';
@@ -80,12 +79,12 @@ const CompareResultItemResults = ({
   if (shouldShowResultImagePlaceholder) {
     return canShowGraphLoaderImage ? (
       <Image
-        src={GraphLoaderImage}
+        src={ResultGraphLoading}
         className={'centerResultImagePlaceholder'}
       />
     ) : (
       <Image
-        src={TableLoaderImage}
+        src={ResultTableLoading}
         className={'centerResultImagePlaceholder'}
       />
     );
