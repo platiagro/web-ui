@@ -40,11 +40,17 @@ const tasksFlowData = [
 
 const containerStyle = { margin: '20px' };
 
-const handleDelete = (deletedItems) => {
-  alert(`Templates deletados: ${deletedItems}`);
+const handleDelete = (deletedItem) => {
+  alert(`Template deletado: ${deletedItem}`);
 };
 
+const isLoading = false;
+
 <div style={containerStyle}>
-  <TasksFlowTable onDelete={handleDelete} tasksFlowData={tasksFlowData} />
+  <TasksFlowTable
+    isLoading={isLoading}
+    onDelete={handleDelete}
+    tasksFlowData={tasksFlowData}
+  />
 </div>;
 ```

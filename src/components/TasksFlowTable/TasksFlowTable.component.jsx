@@ -1,82 +1,118 @@
-import React, { useMemo } from 'react';
-import { Table } from 'antd';
+import React from 'react';
+import { Table, Button } from 'antd';
 import PropTypes from 'prop-types';
-import { PartitionOutlined } from '@ant-design/icons';
+import {
+  ShoppingOutlined,
+  ExperimentOutlined,
+  CloudUploadOutlined,
+} from '@ant-design/icons';
 
 import UserAvatar from '../UserAvatar';
 
 import './TasksFlowTable.style.less';
 
-const columns = [
-  {
-    dataIndex: 'name',
-    render(text) {
-      return <strong>{text}</strong>;
-    },
-  },
-  {
-    dataIndex: 'description',
-  },
-  {
-    dataIndex: 'user',
-    render(user, index) {
-      return (
-        <UserAvatar
-          userName={user.username}
-          key={user.name + index}
-          avatarColor={user.avatarColor}
-        />
-      );
-    },
-  },
-];
+const typeIcons = {
+  EXPERIMENT: (
+    <div className='typeIcon experiment'>
+      <ExperimentOutlined />
+    </div>
+  ),
+  DEPLOYMENT: (
+    <div className='typeIcon deployment'>
+      <CloudUploadOutlined />
+    </div>
+  ),
+};
 
-const TasksFlowTable = ({ onSelect, tasksFlowData }) => {
-  const rowSelection = useMemo(() => {
-    return {
-      onChange: (selectedRowKeys) => {
-        onSelect(selectedRowKeys);
+const TasksFlowTable = ({ onDelete, tasksFlowData, isLoading }) => {
+  const columns = [
+    {
+      title: <strong>Nome do fluxo</strong>,
+      dataIndex: 'name',
+      render(text) {
+        return <strong>{text}</strong>;
       },
-    };
-  }, [onSelect]);
+    },
+    {
+      dataIndex: 'isMarketPlace',
+      render(isMarketPlace) {
+        return (
+          isMarketPlace && (
+            <div
+              className='marketPlaceIcon'
+              style={{ backgroundColor: '#722ED1' }}
+            >
+              <ShoppingOutlined />
+            </div>
+          )
+        );
+      },
+    },
+    {
+      title: <strong>Descrição</strong>,
+      dataIndex: 'description',
+    },
+    {
+      title: <strong>Tipo</strong>,
+      dataIndex: 'types',
+      render(types) {
+        return (
+          <div className='types'>{types.map((type) => typeIcons[type])}</div>
+        );
+      },
+    },
+    {
+      title: <strong>Origem</strong>,
+      dataIndex: 'user',
+      render(user, index) {
+        return (
+          <UserAvatar
+            userName={user.username}
+            key={user.name + index}
+            avatarColor={user.avatarColor}
+          />
+        );
+      },
+    },
+    {
+      title: <strong>Ações</strong>,
+      dataIndex: 'actions',
+      render(_, record) {
+        return (
+          <Button type='link' onClick={() => onDelete(record.uuid)}>
+            Excluir
+          </Button>
+        );
+      },
+    },
+  ];
 
   return (
-    <div className='templatesTable'>
-      <div className='title'>
-        <PartitionOutlined style={{ fontSize: '1.5em' }} />
-        <h2>Fluxo de tarefas</h2>
-      </div>
-
-      <div>
-        <Table
-          rowSelection={{
-            type: 'radio',
-            ...rowSelection,
-          }}
-          rowKey='uuid'
-          showHeader={false}
-          pagination={false}
-          columns={columns}
-          dataSource={tasksFlowData}
-        />
-      </div>
+    <div className='tasksFlowTable'>
+      <Table
+        loading={isLoading}
+        rowKey='uuid'
+        columns={columns}
+        dataSource={tasksFlowData}
+      />
     </div>
   );
 };
 
 TasksFlowTable.propTypes = {
-  tasksFlowData: PropTypes.arrayOf(
-    PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      user: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        avatarColor: PropTypes.string.isRequired,
-      }).isRequired,
-    })
-  ),
-  onSelect: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  tasksFlowData: PropTypes.shape({
+    uuid: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    isMarketPlace: PropTypes.bool.isRequired,
+    description: PropTypes.string.isRequired,
+    types: PropTypes.arrayOf(PropTypes.string).isRequired,
+    user: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+      avatarColor: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default TasksFlowTable;

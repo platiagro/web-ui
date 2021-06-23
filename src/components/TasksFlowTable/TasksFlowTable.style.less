@@ -1,14 +1,41 @@
 .tasksFlowTable {
-  .title {
+  .marketPlaceIcon {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    color: #fff;
+    margin-right: 5px;
+  }
+
+  .types {
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
 
-    h2 {
-      margin: 0 5px;
-      padding: 0;
-      line-height: 1.5em;
-    }
+    .typeIcon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid black;
+      width: 28px;
+      height: 22px;
+      border-radius: 2px;
+      margin-right: 5px;
 
-    margin-bottom: 10px;
+      &.experiment {
+        border-color: #d4380d;
+        color: #d4380d;
+        background-color: #fff2e8;
+      }
+
+      &.deployment {
+        border-color: #722ed1;
+        color: #722ed1;
+        background-color: #f9f0ff;
+      }
+    }
   }
 }
