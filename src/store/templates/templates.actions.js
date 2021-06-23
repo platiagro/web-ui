@@ -173,12 +173,12 @@ export const createTemplateRequest =
 /**
  * Delete template request action
  *
- * @param {string} templateId Template UUID
+ * @param {string[]} templatesList Templates UUID list
  * @param {object[] | undefined} allTasks All tasks list, used in task menu
  * @returns {Function} Thunk action
  */
 export const deleteTemplateRequest =
-  (templateId, allTasks) => async (dispatch, getState) => {
+  (templatesList, allTasks) => async (dispatch, getState) => {
     const requestActionType = TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST;
 
     dispatch({
@@ -191,13 +191,13 @@ export const deleteTemplateRequest =
     if (allTasks) dispatch(tasksMenuLoadingData());
 
     try {
-      await templatesApi.deleteTemplate(templateId);
+      await templatesApi.deleteTemplate(templatesList);
 
       const currentState = getState();
       const templatesState = getTemplates(currentState);
 
       const templates = templatesState.filter((templateItem) => {
-        return templateItem.uuid !== templateId;
+        return !templatesList.includes(templateItem.uuid);
       });
 
       // TODO: Todo esse bloco será removido quando a store de menu de tarefas for refatorada
@@ -206,11 +206,11 @@ export const deleteTemplateRequest =
       let successCallback = () => {};
       if (allTasks) {
         const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
-          (template) => template.uuid !== templateId
+          (template) => !templatesList.includes(template.uuid)
         );
 
         const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
-          (template) => template.uuid !== templateId
+          (template) => !templatesList.includes(template.uuid)
         );
 
         tasks = {
@@ -246,7 +246,7 @@ export const deleteTemplateRequest =
         templates: customPayload,
         requestActionType,
         successActionType: TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS,
-        message: 'Template excluído com sucesso!',
+        message: 'Template(s) excluído(s) com sucesso!',
         callback: successCallback,
       };
 

@@ -22,7 +22,7 @@ const TasksFlowTableContainer = ({ onSelectRow }) => {
   );
 
   const handleTaskFlowDelete = (tasksFlowId) => {
-    dispatch(deleteTemplateRequest(tasksFlowId));
+    dispatch(deleteTemplateRequest([tasksFlowId]));
   };
 
   useEffect(() => {

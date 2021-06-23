@@ -42,7 +42,7 @@ const TasksMenuBlockContainer = ({ disabled }) => {
   const trainingLoading = useDeepEqualSelector(trainingLoadingSelector);
 
   const handleDeleteTemplate = (templateId) => {
-    dispatch(deleteTemplateRequest(templateId, allTasks));
+    dispatch(deleteTemplateRequest([templateId], allTasks));
   };
 
   const handleFilterTasksMenu = (filter) => {
