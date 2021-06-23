@@ -1,10 +1,11 @@
-import React from 'react';
-import { Table, Button, Popconfirm } from 'antd';
+import React, { useRef } from 'react';
+import { Table, Button, Popconfirm, Input, Space } from 'antd';
 import PropTypes from 'prop-types';
 import {
   ShoppingOutlined,
   ExperimentOutlined,
   CloudUploadOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 
 import UserAvatar from '../UserAvatar';
@@ -31,10 +32,61 @@ const TasksFlowTable = ({
   isLoading,
   selectedRows,
 }) => {
+  const searchInputRef = useRef(null);
+
   const columns = [
     {
       title: <strong>Nome do fluxo</strong>,
       dataIndex: 'name',
+      filterDropdown(filterDropdownProps) {
+        const { setSelectedKeys, selectedKeys, confirm, clearFilters } =
+          filterDropdownProps;
+
+        return (
+          <div style={{ padding: 8 }}>
+            <Input
+              ref={searchInputRef}
+              placeholder={`Nome`}
+              value={selectedKeys[0]}
+              onChange={(e) =>
+                setSelectedKeys(e.target.value ? [e.target.value] : [])
+              }
+              onPressEnter={() => confirm()}
+              style={{ width: 188, marginBottom: 8, display: 'block' }}
+            />
+            <Space>
+              <Button
+                type='primary'
+                onClick={() => confirm()}
+                icon={<SearchOutlined />}
+                size='small'
+                style={{ width: 90 }}
+              >
+                Search
+              </Button>
+              <Button
+                onClick={() => clearFilters()}
+                size='small'
+                style={{ width: 90 }}
+              >
+                Reset
+              </Button>
+            </Space>
+          </div>
+        );
+      },
+      filterIcon(filtered) {
+        return (
+          <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+        );
+      },
+      onFilter: (value, record) =>
+        record ? record.name.toLowerCase().includes(value.toLowerCase()) : '',
+      onFilterDropdownVisibleChange: (visible) => {
+        if (visible) {
+          setTimeout(() => searchInputRef.current.select());
+        }
+      },
       render(text) {
         return <Button type='link'>{text}</Button>;
       },
