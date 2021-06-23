@@ -1,3 +1,14 @@
+/**
+ * Steps to Refactor:
+ *
+ * (FINISHED) 1 - Create src/utils folder
+ * (FINISHED) 2 - Group functions by its functionality
+ * (FINISHED) 3 - Fix JsDoc
+ * (PARTIALLY FINISHED) 4 - Simplify logic
+ * 5 - Remove functions that are used in just one place or functions to specific scenarios, because this folder must contain only reusable and generic functions
+ * 6 - Break complex functions in smaller ones (Single Responsibility, DRY)
+ */
+
 import {
   createMenu,
   filterMenu,
