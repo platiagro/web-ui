@@ -9,6 +9,7 @@ import {
 } from 'store/templates/templates.actions';
 import { getTemplates } from 'store/templates/templates.selectors';
 import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
+import { TasksFlowEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 import { useIsLoading } from 'hooks';
 
@@ -29,7 +30,7 @@ const TasksFlowTableContainer = ({ onSelectRow, selectedRows }) => {
     dispatch(fetchTemplatesRequest());
   }, [dispatch]);
 
-  return (
+  return isLoading || (tasksFlowData && tasksFlowData.length > 0) ? (
     <TasksFlowTable
       isLoading={isLoading}
       onDelete={handleTaskFlowDelete}
@@ -37,6 +38,8 @@ const TasksFlowTableContainer = ({ onSelectRow, selectedRows }) => {
       onSelectRow={onSelectRow}
       selectedRows={selectedRows}
     />
+  ) : (
+    <TasksFlowEmptyPlaceholder />
   );
 };
 
