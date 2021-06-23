@@ -12,7 +12,7 @@ import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
 
 import { useIsLoading } from 'hooks';
 
-const TasksFlowTableContainer = ({ onSelectRow }) => {
+const TasksFlowTableContainer = ({ onSelectRow, selectedRows }) => {
   const dispatch = useDispatch();
 
   const tasksFlowData = useSelector(getTemplates);
@@ -35,12 +35,14 @@ const TasksFlowTableContainer = ({ onSelectRow }) => {
       onDelete={handleTaskFlowDelete}
       tasksFlowData={tasksFlowData}
       onSelectRow={onSelectRow}
+      selectedRows={selectedRows}
     />
   );
 };
 
 TasksFlowTableContainer.propTypes = {
   onSelectRow: PropTypes.func.isRequired,
+  selectedRows: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default TasksFlowTableContainer;

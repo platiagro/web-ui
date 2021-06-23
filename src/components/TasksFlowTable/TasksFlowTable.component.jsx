@@ -29,6 +29,7 @@ const TasksFlowTable = ({
   onDelete,
   tasksFlowData,
   isLoading,
+  selectedRows,
 }) => {
   const columns = [
     {
@@ -97,6 +98,7 @@ const TasksFlowTable = ({
 
   const rowSelection = {
     onChange: (selectedRowKeys) => onSelectRow(selectedRowKeys),
+    selectedRowKeys: selectedRows,
   };
 
   return (
@@ -107,6 +109,7 @@ const TasksFlowTable = ({
         columns={columns}
         dataSource={tasksFlowData}
         rowSelection={rowSelection}
+        selectedRowKeys
       />
     </div>
   );
@@ -127,6 +130,7 @@ TasksFlowTable.propTypes = {
       avatarColor: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  selectedRows: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default TasksFlowTable;
