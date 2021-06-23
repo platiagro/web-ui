@@ -1,17 +1,20 @@
 import { notification } from 'antd';
 
+/**
+ * Get the error message
+ *
+ * @param {Error} error error
+ * @returns {string} error message
+ */
 export const getErrorMessage = (error) => {
-  let msg = error.message;
-  if (error.response && error.response.data && error.response.data.message)
-    msg = error.response.data.message;
-  return msg;
+  return error.response?.data?.message || error.message;
 };
 
 /**
  * Sleep method
  *
  * @param {number} milliseconds milliseconds
- * @returns {Promise} Promise
+ * @returns {Promise} promise
  */
 export const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -49,14 +52,13 @@ export const isSupportedBinaryData = (response) => {
  */
 export const isImage = (response) => {
   const contentType = response.meta?.tags?.['content-type'];
-
   return Boolean(contentType) && contentType.includes('image/');
 };
 
 /**
  * Transform a string into base64 format.
  *
- * @param {string} data String
+ * @param {string} data string
  * @returns {string} a string with in base64 format
  */
 export const formatBase64 = (data) => {
@@ -66,7 +68,7 @@ export const formatBase64 = (data) => {
 /**
  * Transform a tabular data or a binary data to a plain text.
  *
- * @param {object} strEncoded Seldon object response
+ * @param {object} strEncoded seldon object response
  * @returns {string} a string with Seldon response
  */
 export const toRawText = (strEncoded) => {
@@ -84,10 +86,11 @@ export const toRawText = (strEncoded) => {
 /**
  * Copy Seldon response to clipboard.
  *
- * @param {object} experimentInference Experiment inference
+ * @param {object} experimentInference experiment inference
  */
 export const copyToClipboard = (experimentInference) => {
   const text = toRawText(experimentInference);
+
   navigator.clipboard
     .writeText(text)
     .then(() =>
@@ -108,7 +111,7 @@ export const copyToClipboard = (experimentInference) => {
 /**
  * Download a response content as file
  *
- * @param {object} experimentInference Experiment inference
+ * @param {object} experimentInference experiment inference
  * @returns {string} content as base64
  */
 export const downloadFile = (experimentInference) => {
@@ -120,8 +123,8 @@ export const downloadFile = (experimentInference) => {
 /**
  * Read the content of a file
  *
- * @param {File} fileInstance File to read the content
- * @returns {Promise} Promise that resolves to the file content as text
+ * @param {File} fileInstance file to read the content
+ * @returns {Promise} promise that resolves to the file content as text
  */
 export const readFileContent = (fileInstance) => {
   return new Promise((resolve, reject) => {

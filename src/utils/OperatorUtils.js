@@ -1,22 +1,18 @@
 import { getTaskData } from './TaskUtils';
 
 /**
- * Select Operator
- * Method to select operator or deselect all operators
+ * Select operator or deselect all operators
  *
  * @param {string} operatorId operators list * omit/null this to deselect all *
  * @param {object[]} operators operators list
  * @returns {object[]} new operators list
  */
 export const selectOperator = (operatorId, operators) => {
-  // creating new operators list
-  const newOperators = operators.map((operator) =>
+  return operators.map((operator) =>
     operator.uuid === operatorId
       ? { ...operator, selected: true }
       : { ...operator, selected: false }
   );
-
-  return newOperators;
 };
 
 /**
@@ -31,13 +27,13 @@ export const getDatasetName = (tasks, operators) => {
 
   if (tasks) {
     const datasetTasks = tasks
-      .filter((i) => {
-        return i.tags.includes('DATASETS');
-      })
+      .filter((i) => i.tags.includes('DATASETS'))
       .map((task) => task.uuid);
+
     const datasetOperator = operators.find((i) => {
       return datasetTasks.includes(i.taskId);
     });
+
     if (datasetOperator) {
       const parameters = datasetOperator.parameters;
       if (parameters instanceof Array) {
@@ -89,16 +85,17 @@ export const getFeaturetypes = (dataset) => {
 
     return featuretypes.toString().replace(/,/g, '\n');
   }
+
   return false;
 };
 
 /**
  * Map to change param value
  *
- * @param {object} operatorParameters Operator Parameters
- * @param {string} parameterValue Parameter Value
- * @param {string} parameterName Parameter Name
- * @returns {object} Parameter
+ * @param {object} operatorParameters operator parameters
+ * @param {string} parameterValue parameter value
+ * @param {string} parameterName parameter name
+ * @returns {object} parameter
  */
 export const successOperatorMap = (
   operatorParameters,
@@ -106,15 +103,13 @@ export const successOperatorMap = (
   parameterName
 ) => {
   return operatorParameters.map((parameter) => {
-    const validParameterValue =
-      parameterValue !== null ? parameterValue : undefined;
-
-    const value =
-      parameter.name === parameterName ? validParameterValue : parameter.value;
+    const validParameterValue = parameterValue || undefined;
+    const isThisParameter = parameter.name === parameterName;
+    const newValue = isThisParameter ? validParameterValue : parameter.value;
 
     return {
       ...parameter,
-      value: value,
+      value: newValue,
     };
   });
 };
@@ -126,37 +121,26 @@ export const successOperatorMap = (
  * @param {string} parameterName Parameter Name
  * @returns {object} Operator filtered
  */
-export const filterOperatorParameters = (operator, parameterName) =>
-  operator.parameters.filter((parameter) => {
-    if (parameter.name === parameterName) {
-      return true;
-    } else if (parameter.value !== undefined) {
-      return true;
-    } else {
-      return false;
-    }
+export const filterOperatorParameters = (operator, parameterName) => {
+  return operator.parameters.filter((parameter) => {
+    return parameter.name === parameterName || !!parameter.value;
   });
-
+};
 /**
- * Transform Columns In Parameter Options
- *
- * Method to transform dataset columns in feature type parameter options
+ * Transform dataset columns in feature type parameter options
  *
  * @param {object[]} datasetColumns dataset columns list
  * @returns {object[]} transformed columns
  */
 export const transformColumnsInParameterOptions = (datasetColumns) => {
-  const transformedColumns = datasetColumns.map((column) => ({
+  return datasetColumns.map((column) => ({
     uuid: column.name,
     name: column.name,
   }));
-
-  return transformedColumns;
 };
 
 /**
- * Configure Operators
- * Method to configure operators
+ * Configure operators
  *
  * @param {object[]} tasks tasks list
  * @param {object[]} operators operators list
@@ -164,22 +148,17 @@ export const transformColumnsInParameterOptions = (datasetColumns) => {
  * @returns {object[]} configured operators
  */
 export const configureOperators = (tasks, operators, datasetColumns) => {
-  // transforming dataset columns to feature parameter options
   const featureOptions = transformColumnsInParameterOptions(datasetColumns);
 
-  // creating configured operators
   const configuredOperators = operators.map((operator) => {
-    // getting task data
     const {
       parameters: taskParameters,
       tags,
       ...restTaskData
     } = getTaskData(tasks, operator.taskId, operator.task);
 
-    // check if operator is dataset
     const isDataset = tags.includes('DATASETS');
 
-    // configuring operator parameters
     const parameters = configureOperatorParameters(
       taskParameters,
       operator.parameters,
@@ -187,7 +166,6 @@ export const configureOperators = (tasks, operators, datasetColumns) => {
       isDataset
     );
 
-    // checking if operator is setted up
     const settedUp = checkOperatorSettedUp(operator);
 
     return {
@@ -204,25 +182,22 @@ export const configureOperators = (tasks, operators, datasetColumns) => {
 };
 
 /**
- * Check Operator Setted Up
- * Function to check if operator is setted up
+ * Check operator is setted up
  *
- * @param {object[]} operator Operator
+ * @param {object[]} operator operator
  * @returns {boolean} operator is setted up?
  */
 export const checkOperatorSettedUp = (operator) => {
-  return operator.status === 'Setted up' ? true : false;
+  return operator.status === 'Setted up';
 };
 
 /**
- * Configure Operator Parameters
+ * Configure operator parameters
  *
- * Method to configure operator parameters
- *
- * @param {object[]} taskParameters Task parameters
- * @param {object} operatorParameters Operator parameters
- * @param {object[]} featureOptions Feature Options
- * @param {boolean} isDataset Is Dataset
+ * @param {object[]} taskParameters task parameters
+ * @param {object} operatorParameters operator parameters
+ * @param {object[]} featureOptions feature options
+ * @param {boolean} isDataset is dataset
  * @returns {object[]} configured operator parameters
  */
 export const configureOperatorParameters = (
@@ -231,7 +206,6 @@ export const configureOperatorParameters = (
   featureOptions,
   isDataset
 ) => {
-  // Returns the operator key and value
   let datasetParameters = undefined;
 
   if (isDataset && operatorParameters) {
