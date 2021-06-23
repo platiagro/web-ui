@@ -3,7 +3,7 @@
 **Default**
 
 ```js
-const templatesData = [
+const tasksFlowData = [
   {
     uuid: 'id01',
     name: 'Contagem de grãos de milho',
@@ -41,6 +41,6 @@ const handleSelect = (selectedUuid) => {
 };
 
 <div style={containerStyle}>
-  <TemplatesTable onSelect={handleSelect} templatesData={templatesData} />
+  <TasksFlowTable onSelect={handleSelect} tasksFlowData={tasksFlowData} />
 </div>;
 ```

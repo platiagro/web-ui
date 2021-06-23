@@ -44,7 +44,7 @@ export { default as ShareTaskModal } from './ShareTaskModal';
 export { default as TabsBar } from './TabsBar';
 export { default as TaskBox } from './TaskBox';
 export { default as TaskTemplateItem } from './TaskTemplateItem';
-export { default as TemplatesTable } from './TemplatesTable';
+export { default as TasksFlowTable } from './TasksFlowTable';
 export { default as Title } from './Title';
 export { default as ToolbarConfig } from './ToolbarConfig';
 export { default as TooltipTip } from './TooltipTip';

@@ -5,7 +5,7 @@ import { PartitionOutlined } from '@ant-design/icons';
 
 import UserAvatar from '../UserAvatar';
 
-import './TemplatesTable.style.less';
+import './TasksFlowTable.style.less';
 
 const columns = [
   {
@@ -31,7 +31,7 @@ const columns = [
   },
 ];
 
-const TemplatesTable = ({ onSelect, templatesData }) => {
+const TasksFlowTable = ({ onSelect, tasksFlowData }) => {
   const rowSelection = useMemo(() => {
     return {
       onChange: (selectedRowKeys) => {
@@ -57,15 +57,15 @@ const TemplatesTable = ({ onSelect, templatesData }) => {
           showHeader={false}
           pagination={false}
           columns={columns}
-          dataSource={templatesData}
+          dataSource={tasksFlowData}
         />
       </div>
     </div>
   );
 };
 
-TemplatesTable.propTypes = {
-  templatesData: PropTypes.arrayOf(
+TasksFlowTable.propTypes = {
+  tasksFlowData: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
@@ -79,4 +79,4 @@ TemplatesTable.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-export default TemplatesTable;
+export default TasksFlowTable;
