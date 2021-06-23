@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Popconfirm } from 'antd';
 import PropTypes from 'prop-types';
 import {
   ShoppingOutlined,
@@ -82,9 +82,14 @@ const TasksFlowTable = ({
       dataIndex: 'actions',
       render(_, record) {
         return (
-          <Button type='link' onClick={() => onDelete(record.uuid)}>
-            Excluir
-          </Button>
+          <Popconfirm
+            onConfirm={() => onDelete(record.uuid)}
+            title='Excluir fluxo?'
+            cancelText='Não'
+            okText='Sim'
+          >
+            <Button type='link'>Excluir</Button>
+          </Popconfirm>
         );
       },
     },
