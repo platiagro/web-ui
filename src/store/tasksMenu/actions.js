@@ -9,12 +9,11 @@ import tasksApi from 'services/TasksApi';
 import templatesApi from 'services/TemplatesApi';
 
 // UI ACTIONS
-import { tasksMenuLoadingData, tasksMenuDataLoaded } from '../ui/actions';
-
 import { fetchTasksSuccess } from 'store/tasks/tasks.actions';
 
 // UTILS
 import utils from 'utils';
+import { addLoading, removeLoading } from 'store/loading';
 
 // ACTIONS
 // ** FETCH TASKS MENU
@@ -25,9 +24,6 @@ import utils from 'utils';
  * @returns {object} { type, tasksMenu }
  */
 const fetchTasksMenuSuccess = (tasksMenu) => (dispatch) => {
-  // dispatching tasks menu data loaded action
-  dispatch(tasksMenuDataLoaded());
-
   // dispatching fetch tasks menu success
   dispatch({
     type: actionTypes.FETCH_TASKS_MENU_SUCCESS,
@@ -45,9 +41,6 @@ const fetchTasksMenuFail = (error) => (dispatch) => {
   // getting error message
   const errorMessage = error.message;
 
-  // dispatching tasks menu data loaded action
-  dispatch(tasksMenuDataLoaded());
-
   // dispatching fetch tasks menu fail action
   dispatch({
     type: actionTypes.FETCH_TASKS_MENU_FAIL,
@@ -63,15 +56,15 @@ const fetchTasksMenuFail = (error) => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const fetchTasksMenuRequest = () => async (dispatch) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.FETCH_TASKS_MENU_REQUEST,
-  });
-
-  // dispatching tasks menu loading data action
-  dispatch(tasksMenuLoadingData());
-
   try {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.FETCH_TASKS_MENU_REQUEST,
+    });
+
+    // dispatching tasks menu loading data action
+    dispatch(addLoading(actionTypes.FETCH_TASKS_MENU_REQUEST));
+
     // getting templates
     const templatesResponse = await templatesApi.listTemplates();
 
@@ -103,6 +96,8 @@ export const fetchTasksMenuRequest = () => async (dispatch) => {
     dispatch(fetchTasksMenuSuccess(tasksMenu));
   } catch (e) {
     dispatch(fetchTasksMenuFail(e));
+  } finally {
+    dispatch(removeLoading(actionTypes.FETCH_TASKS_MENU_REQUEST));
   }
 };
 

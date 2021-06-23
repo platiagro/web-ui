@@ -34,7 +34,6 @@ const initialState = {
     visible: false,
   },
   tasksTable: { loading: false },
-  tasksMenu: { loading: false },
   deploymentsTabs: {
     modalVisible: false,
   },
@@ -198,16 +197,6 @@ const uiReducer = (state = initialState, action = undefined) => {
           ...state.newProjectModal,
           modalValidateStatus: null,
           errorMessage: null,
-        },
-      };
-
-    case actionTypes.TASKS_MENU_LOADING_DATA:
-    case actionTypes.TASKS_MENU_DATA_LOADED:
-      return {
-        ...state,
-        tasksMenu: {
-          ...state.tasksMenu,
-          loading: action.tasksMenuLoading,
         },
       };
 

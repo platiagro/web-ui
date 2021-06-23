@@ -175,30 +175,6 @@ export const hideOperatorResults = () => {
 };
 
 /**
- * tasks menu loading data
- *
- * @returns {object} Action
- */
-export const tasksMenuLoadingData = () => {
-  return {
-    type: actionTypes.TASKS_MENU_LOADING_DATA,
-    tasksMenuLoading: true,
-  };
-};
-
-/**
- * tasks menu loading data
- *
- * @returns {object} Action
- */
-export const tasksMenuDataLoaded = () => {
-  return {
-    type: actionTypes.TASKS_MENU_DATA_LOADED,
-    tasksMenuLoading: false,
-  };
-};
-
-/**
  * deployments tabs hide modal
  *
  * @returns {object} Action

@@ -6,11 +6,7 @@ import * as TEMPLATES_TYPES from './templates.actionTypes';
 
 import templatesApi from 'services/TemplatesApi';
 
-import {
-  hideNewTemplateModal,
-  tasksMenuLoadingData,
-  tasksMenuDataLoaded,
-} from '../ui/actions';
+import { hideNewTemplateModal } from '../ui/actions';
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 import { showError, showSuccess } from 'store/message/message.actions';
 import { addLoading, removeLoading } from 'store/loading';
@@ -187,9 +183,6 @@ export const deleteTemplateRequest =
 
     dispatch(addLoading(requestActionType));
 
-    // TODO: Esse loading pode ser removido quando a store de menu de tarefas for refatorada, provavelmente
-    dispatch(tasksMenuLoadingData());
-
     try {
       await templatesApi.deleteTemplate(templateId);
 
@@ -228,10 +221,6 @@ export const deleteTemplateRequest =
       if (tasks.filtered.TEMPLATES.length === 0) {
         delete tasks.filtered.TEMPLATES;
       }
-
-      const successCallback = () => {
-        dispatch(tasksMenuDataLoaded());
-      };
       // FIM ------------->
 
       // TODO: por enquanto precisamos enviar as tarefas no payload, porém quando a store de menu de tarefas for refatorada
@@ -243,7 +232,6 @@ export const deleteTemplateRequest =
         requestActionType,
         successActionType: TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS,
         message: 'Template excluído com sucesso!',
-        callback: successCallback,
       };
 
       dispatch(templatesActionSuccess(successObject));
