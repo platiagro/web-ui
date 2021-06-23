@@ -174,7 +174,7 @@ export const createTemplateRequest =
  * Delete template request action
  *
  * @param {string} templateId Template UUID
- * @param {object[]} allTasks All tasks list, used in task menu
+ * @param {object[] | undefined} allTasks All tasks list, used in task menu
  * @returns {Function} Thunk action
  */
 export const deleteTemplateRequest =
@@ -188,7 +188,7 @@ export const deleteTemplateRequest =
     dispatch(addLoading(requestActionType));
 
     // TODO: Esse loading pode ser removido quando a store de menu de tarefas for refatorada, provavelmente
-    dispatch(tasksMenuLoadingData());
+    if (allTasks) dispatch(tasksMenuLoadingData());
 
     try {
       await templatesApi.deleteTemplate(templateId);
@@ -202,36 +202,40 @@ export const deleteTemplateRequest =
 
       // TODO: Todo esse bloco será removido quando a store de menu de tarefas for refatorada
       // INICIO ------------->
-      const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
-        (template) => template.uuid !== templateId
-      );
+      let tasks = [];
+      let successCallback = () => {};
+      if (allTasks) {
+        const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
+          (template) => template.uuid !== templateId
+        );
 
-      const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
-        (template) => template.uuid !== templateId
-      );
+        const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
+          (template) => template.uuid !== templateId
+        );
 
-      const tasks = {
-        unfiltered: {
-          ...allTasks.unfiltered,
-          TEMPLATES: unfilteredTemplates,
-        },
-        filtered: {
-          ...allTasks.filtered,
-          TEMPLATES: filteredTemplates,
-        },
-      };
+        tasks = {
+          unfiltered: {
+            ...allTasks.unfiltered,
+            TEMPLATES: unfilteredTemplates,
+          },
+          filtered: {
+            ...allTasks.filtered,
+            TEMPLATES: filteredTemplates,
+          },
+        };
 
-      if (tasks.unfiltered.TEMPLATES.length === 0) {
-        delete tasks.unfiltered.TEMPLATES;
+        if (tasks.unfiltered.TEMPLATES.length === 0) {
+          delete tasks.unfiltered.TEMPLATES;
+        }
+
+        if (tasks.filtered.TEMPLATES.length === 0) {
+          delete tasks.filtered.TEMPLATES;
+        }
+
+        successCallback = () => {
+          dispatch(tasksMenuDataLoaded());
+        };
       }
-
-      if (tasks.filtered.TEMPLATES.length === 0) {
-        delete tasks.filtered.TEMPLATES;
-      }
-
-      const successCallback = () => {
-        dispatch(tasksMenuDataLoaded());
-      };
       // FIM ------------->
 
       // TODO: por enquanto precisamos enviar as tarefas no payload, porém quando a store de menu de tarefas for refatorada
