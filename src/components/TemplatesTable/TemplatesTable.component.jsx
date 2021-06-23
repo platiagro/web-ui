@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import PropTypes from 'prop-types';
 import { PartitionOutlined } from '@ant-design/icons';
 
-import UserAvatar from './UserAvatar';
+import UserAvatar from '../UserAvatar';
 
 import './TemplatesTable.style.less';
 
