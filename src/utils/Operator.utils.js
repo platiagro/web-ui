@@ -1,4 +1,4 @@
-import { getTaskData } from './TaskUtils';
+import { getTaskData } from './Task.utils';
 
 /**
  * Select operator or deselect all operators

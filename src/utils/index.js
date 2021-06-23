@@ -1,4 +1,9 @@
-import { createMenu, filterMenu, getTagConfig, getTaskData } from './TaskUtils';
+import {
+  createMenu,
+  filterMenu,
+  getTagConfig,
+  getTaskData,
+} from './Task.utils';
 
 import {
   copyToClipboard,
@@ -10,13 +15,13 @@ import {
   readFileContent,
   sleep,
   toRawText,
-} from './GenericUtils';
+} from './Generic.utils';
 
 import {
   formatCompareResultDate,
   formatResultsParameters,
   transformResults,
-} from './ResultsUtils';
+} from './Results.utils';
 
 import {
   configureOperatorParameters,
@@ -29,7 +34,7 @@ import {
   selectOperator,
   successOperatorMap,
   transformColumnsInParameterOptions,
-} from './OperatorUtils';
+} from './Operator.utils';
 
 import {
   changeExperimentSucceededStatus,
@@ -37,7 +42,7 @@ import {
   checkExperimentSuccess,
   deleteExperiment,
   organizeExperiments,
-} from './ExperimentUtils';
+} from './Experiment.utils';
 
 export default {
   createMenu,
