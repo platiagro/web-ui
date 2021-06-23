@@ -24,13 +24,18 @@ const typeIcons = {
   ),
 };
 
-const TasksFlowTable = ({ onDelete, tasksFlowData, isLoading }) => {
+const TasksFlowTable = ({
+  onSelectRow,
+  onDelete,
+  tasksFlowData,
+  isLoading,
+}) => {
   const columns = [
     {
       title: <strong>Nome do fluxo</strong>,
       dataIndex: 'name',
       render(text) {
-        return <strong>{text}</strong>;
+        return <Button type='link'>{text}</Button>;
       },
     },
     {
@@ -57,7 +62,9 @@ const TasksFlowTable = ({ onDelete, tasksFlowData, isLoading }) => {
       dataIndex: 'types',
       render(types) {
         return (
-          <div className='types'>{types.map((type) => typeIcons[type])}</div>
+          types && (
+            <div className='types'>{types.map((type) => typeIcons[type])}</div>
+          )
         );
       },
     },
@@ -66,11 +73,7 @@ const TasksFlowTable = ({ onDelete, tasksFlowData, isLoading }) => {
       dataIndex: 'user',
       render(user, index) {
         return (
-          <UserAvatar
-            userName={user.username}
-            key={user.name + index}
-            avatarColor={user.avatarColor}
-          />
+          <UserAvatar userName={'Anônimo'} key={index} avatarColor={'grey'} />
         );
       },
     },
@@ -87,6 +90,10 @@ const TasksFlowTable = ({ onDelete, tasksFlowData, isLoading }) => {
     },
   ];
 
+  const rowSelection = {
+    onChange: (selectedRowKeys) => onSelectRow(selectedRowKeys),
+  };
+
   return (
     <div className='tasksFlowTable'>
       <Table
@@ -94,6 +101,7 @@ const TasksFlowTable = ({ onDelete, tasksFlowData, isLoading }) => {
         rowKey='uuid'
         columns={columns}
         dataSource={tasksFlowData}
+        rowSelection={rowSelection}
       />
     </div>
   );
@@ -102,6 +110,7 @@ const TasksFlowTable = ({ onDelete, tasksFlowData, isLoading }) => {
 TasksFlowTable.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onSelectRow: PropTypes.func.isRequired,
   tasksFlowData: PropTypes.shape({
     uuid: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
