@@ -190,6 +190,21 @@ export const checkOperatorSettedUp = (operator) => {
 };
 
 /**
+ * Get dataset operator parameters
+ *
+ * @param {object} operatorParameters operator parameters
+ * @returns {object[]} configured operator parameters
+ */
+export const getDatasetOperatorParams = (operatorParameters) => {
+  if (Array.isArray(operatorParameters)) return operatorParameters;
+
+  return Object.keys(operatorParameters).map((key) => ({
+    name: key,
+    value: operatorParameters[key],
+  }));
+};
+
+/**
  * Configure operator parameters
  *
  * @param {object[]} taskParameters task parameters
@@ -205,14 +220,7 @@ export const configureOperatorParameters = (
   isDataset
 ) => {
   if (isDataset && operatorParameters) {
-    if (Array.isArray(operatorParameters)) {
-      return operatorParameters;
-    } else {
-      return Object.keys(operatorParameters).map((key) => ({
-        name: key,
-        value: operatorParameters[key],
-      }));
-    }
+    return getDatasetOperatorParams(operatorParameters);
   }
 
   return taskParameters.map((parameter) => {
