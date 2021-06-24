@@ -150,7 +150,7 @@ export const transformColumnsInParameterOptions = (datasetColumns) => {
 export const configureOperators = (tasks, operators, datasetColumns) => {
   const featureOptions = transformColumnsInParameterOptions(datasetColumns);
 
-  const configuredOperators = operators.map((operator) => {
+  return operators.map((operator) => {
     const {
       parameters: taskParameters,
       tags,
@@ -177,8 +177,6 @@ export const configureOperators = (tasks, operators, datasetColumns) => {
       tags,
     };
   });
-
-  return configuredOperators;
 };
 
 /**
@@ -206,61 +204,53 @@ export const configureOperatorParameters = (
   featureOptions,
   isDataset
 ) => {
-  let datasetParameters = undefined;
-
   if (isDataset && operatorParameters) {
     if (Array.isArray(operatorParameters)) {
-      datasetParameters = operatorParameters;
+      return operatorParameters;
     } else {
-      datasetParameters = Object.keys(operatorParameters).map((key) => ({
+      return Object.keys(operatorParameters).map((key) => ({
         name: key,
         value: operatorParameters[key],
       }));
     }
   }
 
-  const configuredOperatorParameters = taskParameters.map((parameter) => {
-    let options;
-    if (parameter.options) {
-      // use parameter options if exist
-      options = parameter.options;
-    } else if (parameter.type === 'feature') {
-      // use feature options if parameter is type feature
-      options = featureOptions;
-    } else {
-      options = undefined;
-    }
+  return taskParameters.map((parameter) => {
+    const isFeatureParameter = parameter.type === 'feature';
 
-    let value;
+    let options;
+    if (parameter.options) options = parameter.options;
+    else if (isFeatureParameter) options = featureOptions;
+
+    let value = parameter.default;
     if (parameter.name in operatorParameters) {
       /**
-       *  get the value from operatorParameters if parameter exist in operatorParameters
+       *  Get the value from operatorParameters if parameter exist in operatorParameters
        *  to parameter multiple we need to split string by ','
        *  because the multiple values are in this format 'value1,value2,value3'
        */
-      if (parameter.multiple && parameter.length) {
-        value = operatorParameters[parameter.name].split(',').filter((el) => {
-          return el !== '';
-        });
+
+      const haasMultipleParameters = parameter.multiple && parameter.length;
+
+      if (haasMultipleParameters) {
+        value = operatorParameters[parameter.name]
+          .split(',')
+          .filter((el) => el !== '');
       } else {
         value = operatorParameters[parameter.name];
       }
     } else if (parameter.multiple) {
-      // for parameter multiple use a empty array to default value
+      // For parameter multiple use a empty array to default value
       value = [];
-    } else if (parameter.type === 'feature') {
-      // for feature parameter use null to default value
+    } else if (isFeatureParameter) {
+      // For feature parameter use null to default value
       value = null;
-    } else {
-      value = parameter.default;
     }
 
     return {
       ...parameter,
-      options: options,
-      value: value,
+      options,
+      value,
     };
   });
-
-  return datasetParameters || configuredOperatorParameters;
 };
