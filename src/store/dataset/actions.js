@@ -12,10 +12,7 @@ import {
   updateExperimentOperatorRequest,
   updateDeploymentOperatorRequest,
 } from 'store/operator';
-import {
-  clearOperatorsFeatureParametersRequest,
-  clearDeploymentOperatorsFeatureParametersRequest,
-} from 'store/operators';
+import { clearOperatorsFeatureParametersRequest } from 'store/operators';
 import {
   datasetOperatorDataLoaded,
   datasetOperatorLoadingData,
@@ -227,15 +224,6 @@ export const deploymentDatasetUploadSuccess =
         datasetOperator,
         'dataset',
         dataset.name
-      )
-    );
-
-    // dispatching clear operator feature parameters
-    dispatch(
-      clearDeploymentOperatorsFeatureParametersRequest(
-        projectId,
-        deploymentId,
-        dataset
       )
     );
 
@@ -791,15 +779,6 @@ export const deleteDeploymentDatasetRequest =
           operator,
           'dataset',
           ''
-        )
-      );
-
-      // dispatching clear operator feature parameters
-      dispatch(
-        clearDeploymentOperatorsFeatureParametersRequest(
-          projectId,
-          deploymentId,
-          null
         )
       );
 

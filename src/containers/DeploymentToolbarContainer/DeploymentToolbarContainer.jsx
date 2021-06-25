@@ -136,6 +136,9 @@ const DeploymentToolbarContainer = () => {
     }
   }, [isTestingFlow]);
 
+  // console.log('dataset', datasetOperatorUploadedFileName);
+  // console.log('operators', operators);
+
   return (
     <div className='deployment-toolbar-container'>
       <PromoteDeploymentModal

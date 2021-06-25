@@ -232,6 +232,7 @@ export const clearOperatorsFeatureParametersRequest =
         }
         return { ...operator };
       });
+      console.log('[EXP]inicia dispatch em OPTIONS');
 
       dispatch({
         type: OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS,
@@ -244,83 +245,6 @@ export const clearOperatorsFeatureParametersRequest =
       console.log(e);
     }
   };
-
-/**
- * Clear deployment operators feature parameters
- *
- * @param {string} projectId Project ID
- * @param {string} deploymentId Deployment ID
- * @param {object} dataset Dataset Object
- * @returns {Promise} Request
- */
-export const clearDeploymentOperatorsFeatureParametersRequest =
-  (projectId, deploymentId, dataset) => async (dispatch, getState) => {
-    const { operatorsReducer: operators } = getState();
-
-    dispatch({
-      type: OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
-    });
-
-    dispatch(operatorParameterLoadingData());
-
-    try {
-      // getting all operators with feature parameter
-      const operatorsWithFeatureParameter = operators.filter((operator) =>
-        operator.parameters.some((parameter) => parameter.type === 'feature')
-      );
-
-      // clear operators feature parameters
-      for (const operator of operatorsWithFeatureParameter) {
-        // creating parameter object to update without the feature parameter
-        const parameters = {};
-        operator.parameters.forEach(({ name, type, value }) => {
-          if (type !== 'feature') {
-            parameters[name] = value;
-          }
-        });
-        const body = { parameters };
-        await deploymentsOperatorsApi
-          .updateOperator(projectId, deploymentId, operator.uuid, body)
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-
-      const columns = dataset ? dataset.columns : [];
-
-      let mappedOperators = [...operators];
-
-      mappedOperators = mappedOperators.map((operator) => {
-        const featureOptions =
-          utils.transformColumnsInParameterOptions(columns);
-
-        let paramUpdated = false;
-        for (const param of operator.parameters) {
-          if (param.type === 'feature') {
-            param.options = featureOptions;
-            param.value = param.multiple ? [] : null;
-            paramUpdated = true;
-          }
-        }
-        if (paramUpdated) {
-          operator.settedUp = false;
-        }
-        return { ...operator };
-      });
-
-      dispatch({
-        type: OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS,
-        payload: { operators: mappedOperators },
-      });
-
-      dispatch(operatorParameterDataLoaded());
-    } catch (e) {
-      dispatch(operatorParameterDataLoaded());
-      console.log(e);
-    }
-  };
-
-// // // // // // // // // //
 
 export const upadteOperatorDependencies =
   (operators) => async (dispatch, getState) => {
