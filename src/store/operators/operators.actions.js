@@ -232,7 +232,6 @@ export const clearOperatorsFeatureParametersRequest =
         }
         return { ...operator };
       });
-      console.log('[EXP]inicia dispatch em OPTIONS');
 
       dispatch({
         type: OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS,
