@@ -1,7 +1,6 @@
 import React from 'react';
 
-import experimentationIcon from 'assets/experimentationIcon.svg';
-import preImplantationIcon from 'assets/preImplantationIcon.svg';
+import { ExperimentationIcon, PreImplantationIcon } from 'assets';
 
 import './styles.less';
 
@@ -18,7 +17,7 @@ const ProjectEmptyPlaceholder = () => {
 
         <div className='infoBlock'>
           <div className='imgBlock experimentationIcon'>
-            <img src={experimentationIcon} alt='experimentação' />
+            <img src={ExperimentationIcon} alt='experimentação' />
           </div>
           <h4>
             <strong>Experimentação</strong>
@@ -33,7 +32,7 @@ const ProjectEmptyPlaceholder = () => {
 
         <div className='infoBlock'>
           <div className='imgBlock'>
-            <img src={preImplantationIcon} alt='pré-implantação' />
+            <img src={PreImplantationIcon} alt='pré-implantação' />
           </div>
           <h4>
             <strong>Pré-implantação</strong>

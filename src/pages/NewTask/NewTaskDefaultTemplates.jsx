@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CodeTwoTone } from '@ant-design/icons';
 
+import { DockerIconComponent } from 'assets';
 import { TaskTemplateItem } from 'components';
-import { ReactComponent as DockerIcon } from 'assets/dockerIcon.svg';
 
 const NewTaskDefaultTemplates = ({
   handleCreateBlankTask,
@@ -28,7 +28,7 @@ const NewTaskDefaultTemplates = ({
         <TaskTemplateItem
           className='new-task-page-content-panels-left-item'
           handleClickButton={handleCreateDockerTask}
-          titleComponent={<DockerIcon />}
+          titleComponent={<DockerIconComponent />}
           buttonText='Criar Tarefa'
           description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
         />
