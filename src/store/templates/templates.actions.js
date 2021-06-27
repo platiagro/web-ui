@@ -1,6 +1,6 @@
 // correção de bug do eslint/jsdoc
 /* eslint-disable-next-line */
-/* global Templates */
+/* global Templates, TemplateCreatable */
 
 import * as TEMPLATES_TYPES from './templates.actionTypes';
 
@@ -115,12 +115,11 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
 /**
  * Create template request action
  *
- * @param {string} templateName Template name
- * @param {string} experimentId Experiment Id
+ * @param {TemplateCreatable} templateObject Template creatable object
  * @returns {Function} Thunk action
  */
 export const createTemplateRequest =
-  (templateName, experimentId) => async (dispatch, getState) => {
+  (templateObject) => async (dispatch, getState) => {
     const requestActionType = TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST;
 
     dispatch({
@@ -130,10 +129,7 @@ export const createTemplateRequest =
     dispatch(addLoading(requestActionType));
 
     try {
-      const response = await templatesApi.createTemplate(
-        templateName,
-        experimentId
-      );
+      const response = await templatesApi.createTemplate(templateObject);
 
       const { data: template } = response;
 
