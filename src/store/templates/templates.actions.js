@@ -199,7 +199,7 @@ export const deleteTemplateRequest =
       // TODO: Todo esse bloco será removido quando a store de menu de tarefas for refatorada
       // INICIO ------------->
       let tasks = [];
-      let successCallback = () => {};
+      let successCallback = undefined;
       if (allTasks) {
         const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
           (template) => !templatesList.includes(template.uuid)

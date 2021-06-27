@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Popconfirm } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
-const DeleteProjectsButton = ({ onDelete }) => (
+const DeleteTemplatesButton = ({ onDelete }) => (
   <Popconfirm
     onConfirm={() => onDelete()}
     title='Excluir fluxos selecionados?'
@@ -19,8 +19,8 @@ const DeleteProjectsButton = ({ onDelete }) => (
   </Popconfirm>
 );
 
-DeleteProjectsButton.propTypes = {
+DeleteTemplatesButton.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 
-export default DeleteProjectsButton;
+export default DeleteTemplatesButton;
