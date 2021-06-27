@@ -24,7 +24,12 @@ const NewTemplateModalContainer = () => {
   const modalVisible = useSelector(modalVisibleSelector);
 
   const handleCreateNewTemplate = (templateName) => {
-    dispatch(createTemplateRequest(templateName, experimentId));
+    const createObject = {
+      name: templateName,
+      experimentId,
+    };
+
+    dispatch(createTemplateRequest(createObject));
   };
 
   const handleHideTemplateModal = () => {

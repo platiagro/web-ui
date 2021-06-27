@@ -26,7 +26,12 @@ const SaveTemplateContainer = ({ disabled }) => {
   const isLoading = useIsLoading(TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST);
 
   const handleCreateTemplate = (templateName) => {
-    dispatch(createTemplateRequest(templateName, deploymentId));
+    const createObject = {
+      name: templateName,
+      deploymentId,
+    };
+
+    dispatch(createTemplateRequest(createObject));
   };
 
   const handleShowModal = () => {
