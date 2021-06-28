@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
 
-import logo from 'assets/logo-vazado.png';
-import icon from 'assets/icone-vazado.png';
+import { NoBackgroundLogo, NoBackgroundIcon } from 'assets';
 
 import Logo from './Logo';
 import MainMenuContainer from './MainMenu/MainMenuContainer';
@@ -23,8 +22,8 @@ const MainSider = () => {
         className='logoPlatiagro'
         altText='PlatIAgro logo'
         collapse={collapsed}
-        collapsedSrc={icon}
-        logoSrc={logo}
+        collapsedSrc={NoBackgroundIcon}
+        logoSrc={NoBackgroundLogo}
       />
 
       <MainMenuContainer />

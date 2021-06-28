@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { ShoppingOutlined } from '@ant-design/icons';
 
-import { ReactComponent as MarketPlaceIcon } from 'assets/marketplace.svg';
+import { MarketplaceComponent } from 'assets';
 
 const NewTaskMarketplacePanel = ({ handleGoToMarketPlace }) => {
   return (
@@ -12,7 +12,7 @@ const NewTaskMarketplacePanel = ({ handleGoToMarketPlace }) => {
         Você também pode encontrar o que precisa no Marketplace
       </div>
 
-      <MarketPlaceIcon />
+      <MarketplaceComponent />
 
       <Button
         className='new-task-page-content-panels-right-button'

@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Tooltip, Dropdown, Menu } from 'antd';
 
-import { ReactComponent as DragIndicator } from 'assets/dragIndicator.svg';
+import { DragIndicatorComponent } from 'assets';
 
 const MonitoringDrawerItemTitle = ({
   monitoringName,
@@ -35,7 +35,7 @@ const MonitoringDrawerItemTitle = ({
   return (
     <div className='monitoring-drawer-item-header'>
       <div className='monitoring-drawer-item-drag-indicator' draggable>
-        <DragIndicator />
+        <DragIndicatorComponent />
       </div>
 
       <div className='monitoring-drawer-item-title'>{monitoringName}</div>
