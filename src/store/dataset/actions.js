@@ -8,7 +8,10 @@ import actionTypes from './actionTypes';
 import datasetsApi from 'services/DatasetsApi';
 
 // ACTIONS
-import { updateExperimentOperatorRequest } from 'store/operator';
+import {
+  updateExperimentOperatorRequest,
+  updateDeploymentOperatorRequest,
+} from 'store/operator';
 import { clearOperatorsFeatureParametersRequest } from 'store/operators';
 
 // UTILS
@@ -189,6 +192,50 @@ export const datasetUploadSuccess =
   };
 
 /**
+ * Dataset upload success action
+ *
+ * @param {object} dataset Response dataset object
+ * @param {string} projectId Current Project id
+ * @param {string} deploymentId Current Deployment id
+ * @param {object} datasetOperator Dataset operator
+ * @returns {Function} Dispatch function
+ */
+export const deploymentDatasetUploadSuccess =
+  (dataset, projectId, deploymentId, datasetOperator) => (dispatch) => {
+    const featuretypes = utils.getFeaturetypes(dataset);
+
+    // update dataset parameter
+    dispatch(
+      updateDeploymentOperatorRequest(
+        projectId,
+        deploymentId,
+        datasetOperator,
+        'dataset',
+        dataset.name
+      )
+    );
+
+    // dispatching dataset operator data loaded action
+    dispatch(datasetOperatorDataLoaded());
+
+    // dispatch action
+    dispatch({
+      type: actionTypes.CREATE_DATASET_SUCCESS,
+      payload: {
+        filename: dataset.filename || '',
+        name: dataset.name || '',
+        columns: dataset.columns || [],
+        status: dataset && dataset.name ? 'done' : null,
+        featuretypes: featuretypes || '',
+        isUploading: false,
+        cancelToken: null,
+      },
+    });
+
+    message.success('Dados de entrada importados', 5);
+  };
+
+/**
  * Dataset upload fail action
  *
  * @returns {Function} Dispatch function
@@ -231,10 +278,11 @@ export const updateDatasetUpload = (uploadProgress) => (dispatch) => {
  * @param {object} file Dataset file
  * @param {string} projectId Project id
  * @param {string} experimentId Experiment id
+ * @param {string} deploymentId Deployment id
  * @returns {Function} Dispatch function
  */
 export const startFileDatasetUpload =
-  (file, projectId, experimentId) => (dispatch) => {
+  (file, projectId, experimentId, deploymentId) => (dispatch) => {
     // create cancel token
     const cancelToken = CancelToken.source();
 
@@ -252,7 +300,13 @@ export const startFileDatasetUpload =
     fileFormData.append('file', file);
 
     dispatch(
-      startDatasetUpload(fileFormData, cancelToken, projectId, experimentId)
+      startDatasetUpload(
+        fileFormData,
+        cancelToken,
+        projectId,
+        experimentId,
+        deploymentId
+      )
     );
   };
 
@@ -288,10 +342,11 @@ export const startGoogleDatasetUpload =
  * @param {object} cancelToken Cancel request token
  * @param {string} projectId Project id
  * @param {string} experimentId The experiment id
+ * @param {string} deploymentId The deployment id
  * @returns {Function} Dispatch function
  */
 export const startDatasetUpload =
-  (file, cancelToken, projectId, experimentId) =>
+  (file, cancelToken, projectId, experimentId, deploymentId) =>
   async (dispatch, getState) => {
     // get reducers from store
     const { operatorReducer, operatorsReducer: operators } = getState();
@@ -332,16 +387,28 @@ export const startDatasetUpload =
       // get dataset from response
       const dataset = response.data;
 
-      // dispatch success action
-      dispatch(
-        datasetUploadSuccess(
-          dataset,
-          projectId,
-          experimentId,
-          datasetOperator,
-          experimentIsSucceeded
-        )
-      );
+      if (experimentId) {
+        // dispatch success action
+        dispatch(
+          datasetUploadSuccess(
+            dataset,
+            projectId,
+            experimentId,
+            datasetOperator,
+            experimentIsSucceeded
+          )
+        );
+      } else {
+        dispatch(
+          deploymentDatasetUploadSuccess(
+            dataset,
+            projectId,
+            deploymentId,
+            datasetOperator
+          )
+        );
+      }
+
       // on error
     } catch (error) {
       // error not is cancel action
@@ -554,8 +621,6 @@ export const selectDataset =
       .catch((error) => dispatch(getDatasetFail(error)));
   };
 
-// // // // // // // // // //
-
 // ** DELETE DATASET
 
 /**
@@ -652,6 +717,47 @@ export const deleteDatasetRequest =
     }
   };
 
+/**
+ * Delete deployment dataset request action
+ *
+ * @param {string} projectId Project Id
+ * @param {string} deploymentId Deployment Id
+ * @returns {Function} Dispatch function
+ */
+export const deleteDeploymentDatasetRequest =
+  (projectId, deploymentId) => (dispatch, getState) => {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.DELETE_DATASET_REQUEST,
+    });
+
+    // get select operator from store
+    const { operatorReducer: operator, operatorsReducer: operators } =
+      getState();
+
+    const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
+
+    // dispatching dataset operator loading data action
+    dispatch(datasetOperatorLoadingData());
+
+    try {
+      // update dataset parameter
+      dispatch(
+        updateDeploymentOperatorRequest(
+          projectId,
+          deploymentId,
+          operator,
+          'dataset',
+          ''
+        )
+      );
+
+      dispatch(deleteDatasetSuccess(experimentIsSucceeded));
+    } catch (e) {
+      dispatch(deleteDatasetFail());
+    }
+  };
+
 export const updateAllDatasetColumnStart = () => (dispatch) => {
   dispatch(addLoading(actionTypes.UPDATE_ALL_DATASET_COLUMNS_REQUEST));
 };
@@ -710,4 +816,22 @@ export const fetchPaginatedDataset = (datasetName, page, pageSize) => {
         dispatch(removeLoading(actionTypes.FETCH_PAGINATED_DATASET));
       });
   };
+};
+
+/**
+ * Change dataset action
+ *
+ * @param {object} dataset Dataset
+ * @returns {object} { type, payload }
+ */
+export const changeDataset = (dataset) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_DATASET_SUCCESS,
+    payload: {
+      filename: dataset?.value || '',
+      name: '',
+      columns: [],
+      featuretypes: '',
+    },
+  });
 };

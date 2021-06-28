@@ -2,25 +2,22 @@ import React, { useState, useMemo } from 'react';
 import { Image, Skeleton, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 
-import FluxImage from 'assets/fluxo.svg';
-import FLuxHoverImage from 'assets/fluxoHover.svg';
-import ExperimentImage from 'assets/experimentacao.svg';
-import ExperimentHoverImage from 'assets/experimentacaoHover.svg';
+import { Flow, FlowHover, Experimentation, ExperimentationHover } from 'assets';
 
 import './DetailsCardButton.style.less';
 
 const buttonType = {
   deployment: {
-    imageHovered: FLuxHoverImage,
-    image: FluxImage,
+    imageHovered: FlowHover,
+    image: Flow,
     classImage: 'cardsImage fluxoImage',
     classText: 'cardsText fluxoText',
     textType: 'fluxo(s)',
     tooltipText: 'Não existem fluxos de pré-implantação',
   },
   experiment: {
-    imageHovered: ExperimentHoverImage,
-    image: ExperimentImage,
+    imageHovered: ExperimentationHover,
+    image: Experimentation,
     classImage: 'cardsImage experimentacaoImage',
     classText: 'cardsText experimentacaoText',
     textType: 'experimento(s)',

@@ -2,11 +2,11 @@ import React from 'react';
 import { Empty } from 'antd';
 import PropTypes from 'prop-types';
 
-import emptyImage from 'assets/emptyPlaceholder.png';
+import { EmptyPlaceholderImage } from 'assets';
 
 const TasksEmpty = ({ children }) => (
   <Empty
-    image={emptyImage}
+    image={EmptyPlaceholderImage}
     imageStyle={{
       height: 136,
     }}

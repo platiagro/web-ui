@@ -1,12 +1,12 @@
 import React from 'react';
 import { Empty } from 'antd';
 
-import emptyImage from 'assets/emptyPlaceholder.png';
+import { EmptyPlaceholderImage } from 'assets';
 
 const ExperimentEmpty = () => (
   <Empty
     imageStyle={{ height: 136 }}
-    image={emptyImage}
+    image={EmptyPlaceholderImage}
     description={
       <span>
         <span>

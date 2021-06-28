@@ -233,8 +233,6 @@ export const clearOperatorsFeatureParametersRequest =
     }
   };
 
-// // // // // // // // // //
-
 export const upadteOperatorDependencies =
   (operators) => async (dispatch, getState) => {
     // getting store data

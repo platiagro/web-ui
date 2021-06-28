@@ -46,7 +46,7 @@ const PropertiesResizableContainer = () => {
           propertyTip='Dica'
           urlText={deploymentUrl}
           onClickLearnMore={handleShowHelperModal}
-          description='Um texto falando sobre como uma aplicação pode enviar dados para o fluxo (através de uma URL) a fim de testá-lo antes da implantação.'
+          description="Você pode testar o fluxo com um cliente HTTP, por exemplo o <a target='_blank' rel='noreferrer' href='https://www.postman.com' >Postman.</a>"
         />
       )}
 

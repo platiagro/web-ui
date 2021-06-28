@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import emptyOperators from 'assets/operators_empty.png';
+
+import { OperatorsEmpty } from 'assets';
+
 import './styles.less';
 
 const OperatorsEmptyPlaceholder = ({ className, loading }) => {
@@ -14,7 +16,7 @@ const OperatorsEmptyPlaceholder = ({ className, loading }) => {
       <h3>{placeholderText}</h3>
       <img
         className={animationClass}
-        src={emptyOperators}
+        src={OperatorsEmpty}
         alt='empty operators diagram'
       />
     </div>
