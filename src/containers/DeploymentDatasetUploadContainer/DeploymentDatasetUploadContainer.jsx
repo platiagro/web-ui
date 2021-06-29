@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useDeepEqualSelector } from 'hooks';
-
-import { UploadInputBlock } from 'components/InputBlocks';
 
 import {
-  startFileDatasetUpload,
-  cancelDatasetUpload,
-  deleteDeploymentDatasetRequest,
   changeDataset,
+  cancelDatasetUpload,
+  startFileDatasetUpload,
+  deleteDeploymentDatasetRequest,
 } from 'store/dataset/actions';
-
-const datasetsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.datasetsList.loading;
-};
+import DATASETS_TYPES from 'store/dataset/actionTypes';
+import { UploadInputBlock } from 'components/InputBlocks';
+import { useDeepEqualSelector, useIsLoading } from 'hooks';
 
 const datasetFileNameSelector = ({ datasetReducer }) => {
   return datasetReducer.filename;
@@ -47,11 +43,12 @@ const DeploymentDatasetUploadContainer = () => {
   const actionUrl = `${process.env.REACT_APP_DATASET_API}/datasets`;
 
   const datasetSelected = useDeepEqualSelector(selectedOperatorDatasetSelector);
-  const datasetsLoading = useDeepEqualSelector(datasetsLoadingSelector);
   const datasetFileName = useDeepEqualSelector(datasetFileNameSelector);
-  const datasetStatus = useDeepEqualSelector(datasetStatusSelector);
   const uploadProgress = useDeepEqualSelector(uploadProgressSelector);
+  const datasetStatus = useDeepEqualSelector(datasetStatusSelector);
   const isUploading = useDeepEqualSelector(isUploadingSelector);
+
+  const datasetsLoading = useIsLoading(DATASETS_TYPES.FETCH_DATASETS_REQUEST);
 
   const defaultFileList = isUploading
     ? [

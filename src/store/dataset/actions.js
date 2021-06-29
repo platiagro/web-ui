@@ -215,9 +215,6 @@ export const deploymentDatasetUploadSuccess =
       )
     );
 
-    // dispatching dataset operator data loaded action
-    dispatch(datasetOperatorDataLoaded());
-
     // dispatch action
     dispatch({
       type: actionTypes.CREATE_DATASET_SUCCESS,
@@ -737,10 +734,9 @@ export const deleteDeploymentDatasetRequest =
 
     const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
 
-    // dispatching dataset operator loading data action
-    dispatch(datasetOperatorLoadingData());
-
     try {
+      dispatch(addLoading(actionTypes.DELETE_DATASET_REQUEST));
+
       // update dataset parameter
       dispatch(
         updateDeploymentOperatorRequest(
@@ -755,6 +751,8 @@ export const deleteDeploymentDatasetRequest =
       dispatch(deleteDatasetSuccess(experimentIsSucceeded));
     } catch (e) {
       dispatch(deleteDatasetFail());
+    } finally {
+      dispatch(removeLoading(actionTypes.DELETE_DATASET_REQUEST));
     }
   };
 
