@@ -1,3 +1,0 @@
-import MonitoringImagePlaceholder from './MonitoringImagePlaceholder.component'
-
-export default MonitoringImagePlaceholder

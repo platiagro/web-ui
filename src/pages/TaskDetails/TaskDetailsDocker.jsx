@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
 
-import { ReactComponent as DockerIcon } from 'assets/dockerIcon.svg';
+import { DockerIconComponent } from 'assets';
 
 const FIELD_IDS = {
   IMAGE_URL: 'IMAGE_URL',
@@ -80,7 +80,7 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     <div className='task-details-page-content-info-docker'>
       <div className='task-details-page-content-info-docker-form'>
         <div className='task-details-page-content-info-docker-form-icon'>
-          <DockerIcon />
+          <DockerIconComponent />
         </div>
 
         <div className='task-details-page-content-info-docker-field'>

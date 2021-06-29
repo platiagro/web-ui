@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
+import { useDeepEqualSelector } from 'hooks';
 import { Selectors } from 'store/projects/experiments';
 
 const experimentsSelector = (projectId) => (state) => {
@@ -11,7 +11,7 @@ const experimentsSelector = (projectId) => (state) => {
 export default (projectId, experimentId) => {
   const history = useHistory();
 
-  const experiments = useSelector(experimentsSelector(projectId));
+  const experiments = useDeepEqualSelector(experimentsSelector(projectId));
 
   useEffect(() => {
     if (!experiments?.length || !experimentId) return;

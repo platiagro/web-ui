@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Tooltip } from 'antd';
 import { ShoppingOutlined } from '@ant-design/icons';
 
-import { ReactComponent as MarketPlaceIcon } from 'assets/marketplace.svg';
+import { MarketplaceComponent } from 'assets';
 
 const NewTaskMarketplacePanel = ({ handleGoToMarketPlace }) => {
   return (
@@ -12,7 +12,7 @@ const NewTaskMarketplacePanel = ({ handleGoToMarketPlace }) => {
         Em breve você também poderá encontrar o que precisa no Marketplace
       </div>
 
-      <MarketPlaceIcon />
+      <MarketplaceComponent />
 
       <Tooltip
         placement='bottom'

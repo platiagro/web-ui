@@ -2,8 +2,8 @@
 
 ```js
 <EditTitle
-  title='The Title'
   level={1}
+  title='The Title'
   handleClick={() => alert('Clicked')}
   editable
 />
@@ -13,9 +13,9 @@
 
 ```js
 <EditTitle
-  title='The Title'
   level={1}
-  handleClick={() => alert('Clicked')}
   editable={false}
+  title='The Title'
+  handleClick={() => alert('Clicked')}
 />
 ```

@@ -7,18 +7,16 @@ import Title from 'components/Title';
 
 import './style.less';
 
-const ContentHeader = (props) => {
-  const {
-    handleGoBack,
-    handleSubmit,
-    title,
-    subTitle,
-    loading,
-    customSubTitle,
-    extra,
-    backIcon,
-  } = props;
-
+const ContentHeader = ({
+  title,
+  extra,
+  loading,
+  subTitle,
+  backIcon,
+  customSubTitle,
+  handleGoBack,
+  handleSubmit,
+}) => {
   return (
     <PageHeader
       className='contentHeader'
@@ -31,9 +29,9 @@ const ContentHeader = (props) => {
           <span className='subtitle-custom'>{customSubTitle}</span>
 
           <Title
-            loading={loading}
             level={3}
             title={title}
+            loading={loading}
             handleSubmit={handleSubmit}
           />
         </>
@@ -43,25 +41,25 @@ const ContentHeader = (props) => {
 };
 
 ContentHeader.propTypes = {
-  handleGoBack: PropTypes.func,
-  handleSubmit: PropTypes.func,
   title: PropTypes.string,
+  extra: PropTypes.node,
   loading: PropTypes.bool,
   backIcon: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   subTitle: PropTypes.string,
   customSubTitle: PropTypes.string,
-  extra: PropTypes.node,
+  handleGoBack: PropTypes.func,
+  handleSubmit: PropTypes.func,
 };
 
 ContentHeader.defaultProps = {
-  handleGoBack: undefined,
-  handleSubmit: undefined,
   title: undefined,
+  extra: undefined,
   loading: false,
   backIcon: <ArrowLeftOutlined />,
   subTitle: undefined,
   customSubTitle: undefined,
-  extra: undefined,
+  handleGoBack: undefined,
+  handleSubmit: undefined,
 };
 
 export default ContentHeader;

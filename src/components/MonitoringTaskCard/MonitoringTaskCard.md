@@ -4,7 +4,7 @@
 <MonitoringTaskCard
   title='This is the title'
   description='A simple description'
-  onClick={() => alert('Clicked')}
+  onClick={() => alert('Monitoring Clicked')}
 />
 ```
 
@@ -14,7 +14,7 @@
 <MonitoringTaskCard
   title='This is the title'
   description='A simple description'
-  onClick={() => alert('Clicked')}
+  onClick={() => alert('Monitoring Clicked')}
   isSelected
 />
 ```

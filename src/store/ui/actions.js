@@ -616,36 +616,6 @@ export const resultsButtonBarDataLoaded = () => {
 
 // // // // // // // // // //
 
-// ** TEMPLATE LOADING DATA
-/**
- * template loading data
- *
- * @returns {object} { type, templateLoading }
- */
-export const templateLoadingData = () => {
-  return {
-    type: actionTypes.TEMPLATE_LOADING_DATA,
-    templateLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** TEMPLATE DATA LOADED
-/**
- * template loading data
- *
- * @returns {object} { type, templateLoading }
- */
-export const templateDataLoaded = () => {
-  return {
-    type: actionTypes.TEMPLATE_DATA_LOADED,
-    templateLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
 // ** IMPLANTED EXPERIMENTS LOADING DATA
 /**
  *  implanted experiments loading data

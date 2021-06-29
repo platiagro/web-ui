@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import MonitoringPanelSkeleton from './MonitoringPanelSkeleton'
-import MonitoringPanelList from './MonitoringPanelList'
-import { monitoringShape } from './propTypes'
+import { monitoringShape } from './propTypes';
+import MonitoringPanelList from './MonitoringPanelList';
+import MonitoringPanelSkeleton from './MonitoringPanelSkeleton';
+import MonitoringPanelPlaceholder from './MonitoringPanelPlaceholder';
 
-import './styles.less'
-import MonitoringPanelPlaceholder from './MonitoringPanelPlaceholder'
+import './styles.less';
 
 const MonitoringPanel = ({
   className,
@@ -14,13 +14,13 @@ const MonitoringPanel = ({
   isDeleting,
   monitorings,
   selectedMonitoring,
-  handleSelectMonitoring
+  handleSelectMonitoring,
 }) => {
   const renderMonitoringPanel = () => {
-    if (isLoading) return <MonitoringPanelSkeleton />
+    if (isLoading) return <MonitoringPanelSkeleton />;
 
-    const hasNoMonitorings = !monitorings || monitorings.length === 0
-    if (hasNoMonitorings) return <MonitoringPanelPlaceholder />
+    const hasNoMonitorings = !monitorings || monitorings.length === 0;
+    if (hasNoMonitorings) return <MonitoringPanelPlaceholder />;
 
     return (
       <MonitoringPanelList
@@ -29,15 +29,15 @@ const MonitoringPanel = ({
         selectedMonitoring={selectedMonitoring}
         handleSelectMonitoring={handleSelectMonitoring}
       />
-    )
-  }
+    );
+  };
 
   return (
     <div className={`monitoring-panel ${className}`}>
       {renderMonitoringPanel()}
     </div>
-  )
-}
+  );
+};
 
 MonitoringPanel.propTypes = {
   className: PropTypes.string,
@@ -46,7 +46,7 @@ MonitoringPanel.propTypes = {
   monitorings: PropTypes.arrayOf(PropTypes.shape(monitoringShape)),
   selectedMonitoring: PropTypes.shape(monitoringShape),
   handleSelectMonitoring: PropTypes.func,
-}
+};
 
 MonitoringPanel.defaultProps = {
   className: '',
@@ -54,7 +54,7 @@ MonitoringPanel.defaultProps = {
   isDeleting: false,
   monitorings: [],
   selectedMonitoring: null,
-  handleSelectMonitoring: undefined
-}
+  handleSelectMonitoring: undefined,
+};
 
-export default MonitoringPanel
+export default MonitoringPanel;

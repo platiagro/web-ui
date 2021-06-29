@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { PropertiesPanel, ExternalDatasetDrawer } from 'components';
+import { useDeepEqualSelector } from 'hooks';
 import { ExternalDatasetHelperModal } from 'components/Modals';
+import { PropertiesPanel, ExternalDatasetDrawer } from 'components';
 
 const selectedOperatorNameSelector = ({ operatorReducer }) => {
   return operatorReducer.name;
@@ -13,20 +13,22 @@ const selectedOperatorTagsSelector = ({ operatorReducer }) => {
   return operatorReducer?.tags?.includes('DATASETS');
 };
 
-export const deploymentsUrlSelector = (currentDeploymentId) => ({
-  deploymentsReducer,
-}) => {
-  return deploymentsReducer.find(({ uuid }) => uuid === currentDeploymentId)
-    ?.url;
-};
+export const deploymentsUrlSelector =
+  (currentDeploymentId) =>
+  ({ deploymentsReducer }) => {
+    return deploymentsReducer.find(({ uuid }) => uuid === currentDeploymentId)
+      ?.url;
+  };
 
 const PropertiesResizableContainer = () => {
   const { deploymentId } = useParams();
   const [isOpenHelperModal, setIsOpenHelperModal] = useState(false);
 
-  const operatorName = useSelector(selectedOperatorNameSelector);
-  const deploymentUrl = useSelector(deploymentsUrlSelector(deploymentId));
-  const operatorIsDataset = useSelector(selectedOperatorTagsSelector);
+  const operatorName = useDeepEqualSelector(selectedOperatorNameSelector);
+  const operatorIsDataset = useDeepEqualSelector(selectedOperatorTagsSelector);
+  const deploymentUrl = useDeepEqualSelector(
+    deploymentsUrlSelector(deploymentId)
+  );
 
   const handleHideHelperModal = () => {
     setIsOpenHelperModal(false);
@@ -44,7 +46,7 @@ const PropertiesResizableContainer = () => {
           propertyTip='Dica'
           urlText={deploymentUrl}
           onClickLearnMore={handleShowHelperModal}
-          description='Um texto falando sobre como uma aplicação pode enviar dados para o fluxo (através de uma URL) a fim de testá-lo antes da implantação.'
+          description="Você pode testar o fluxo com um cliente HTTP, por exemplo o <a target='_blank' rel='noreferrer' href='https://www.postman.com' >Postman.</a>"
         />
       )}
 

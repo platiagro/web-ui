@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Empty } from 'antd';
+import PropTypes from 'prop-types';
 
-import EmptyPlaceholderImage from 'assets/emptyPlaceholder.png';
+import { EmptyPlaceholderImage } from 'assets';
 
 const TasksEmpty = ({ children }) => (
   <Empty

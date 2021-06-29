@@ -1,10 +1,7 @@
-**Exemplo:**
+**Default**
 
 ```js
-const children = <input />;
-const tip = 'Tip text!';
-const title = 'Title text!';
-<PropertyBlock tip={tip} title={title}>
-  {children}
-</PropertyBlock>;
+<PropertyBlock tip={'Tip text!'} title={'Title text!'}>
+  <input />
+</PropertyBlock>
 ```

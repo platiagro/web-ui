@@ -1,12 +1,12 @@
-// REACT LIBS
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { Button } from 'antd';
+import PropTypes from 'prop-types';
+import { CopyOutlined } from '@ant-design/icons';
 
-// COMPONENTS
 import { PropertyBlock, CopyToClipboard } from 'components';
 import { SelectInputBlock } from 'components/InputBlocks';
-import { CopyOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+
+import { DeploymentDatasetUploadContainer } from 'containers';
 
 // STYLES
 import './ExternalDatasetDrawer.component.style.less';
@@ -15,67 +15,64 @@ import './ExternalDatasetDrawer.component.style.less';
  * This component is responsible for render the external dataset drawer.
  */
 const ExternalDatasetDrawer = (props) => {
-  const {
-    urlText,
-    propertyTip,
-    propertyTitle,
-    onClickLearnMore,
-    description,
-  } = props;
+  const { urlText, propertyTip, propertyTitle, onClickLearnMore, description } =
+    props;
 
-  const [inputValue, setInputValue] = useState('Aplicação externa');
+  const [datasetType, setDatasetType] = useState('L');
+
+  const disabledButton = !urlText;
 
   const handleChange = (value) => {
-    setInputValue(value);
+    setDatasetType(value);
   };
 
   return (
     <div className='externalDatasetDrawer'>
       <PropertyBlock title={propertyTitle} tip={propertyTip}>
         <SelectInputBlock
-          key='externalDataset'
+          key='deploymentDataset'
           placeholder='Selecionar'
-          options={['Arquivo local', 'Aplicação externa']}
+          options={[
+            { name: 'Aplicação externa', uuid: 'E' },
+            { name: 'Arquivo local', uuid: 'L' },
+          ]}
           handleChange={handleChange}
-          value={inputValue}
-          valueLatestTraining='Aplicação externa'
+          value={datasetType}
+          valueLatestTraining='L'
         />
       </PropertyBlock>
-      <div className='externalDatasetDrawerUrl'>
-        <p>{description}</p>
-        <p>
-          <Button type='link' onClick={onClickLearnMore}>
-            Saiba mais
-          </Button>
-        </p>
-        <CopyToClipboard text={urlText}>
-          <Button
-            style={{ backgroundColor: '#237804', borderColor: '#237804' }}
-            icon={<CopyOutlined />}
-            shape='round'
-            type='primary'
-          >
-            Copiar URL
-          </Button>
-        </CopyToClipboard>
-      </div>
+      {datasetType === 'E' ? (
+        <div className='externalDatasetDrawerUrl'>
+          <p dangerouslySetInnerHTML={{ __html: description }} />
+          <p>
+            <Button type='link' onClick={onClickLearnMore}>
+              Saiba mais
+            </Button>
+          </p>
+          <CopyToClipboard text={urlText}>
+            <Button
+              type='secondary'
+              icon={<CopyOutlined />}
+              shape='round'
+              disabled={disabledButton}
+            >
+              Copiar URL
+            </Button>
+          </CopyToClipboard>
+        </div>
+      ) : (
+        <DeploymentDatasetUploadContainer />
+      )}
     </div>
   );
 };
 
-// PROP TYPES
 ExternalDatasetDrawer.propTypes = {
-  /** Text to be copied on button click */
   urlText: PropTypes.string.isRequired,
-  /** Property title on first block*/
   propertyTitle: PropTypes.string.isRequired,
-  /** Property tip on first block*/
   propertyTip: PropTypes.string.isRequired,
-  /** Description text */
   description: PropTypes.string.isRequired,
-  /** Function to click on anchor link */
   onClickLearnMore: PropTypes.func.isRequired,
 };
 
-// EXPORT DEFAULT
 export default ExternalDatasetDrawer;

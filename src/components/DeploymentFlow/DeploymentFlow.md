@@ -1,40 +1,37 @@
-**Padrão:**
-
-Renderização sem nenhuma tarefa.
+**Default**
 
 ```js
 import { DatabaseOutlined } from '@ant-design/icons';
-const icon = <DatabaseOutlined />;
 
-const tarefas = [
+const tasks = [
   {
     uuid: '1',
     dependencies: [],
-    name: 'Tarefa 1',
+    name: 'Task 1',
     positionX: 0,
     positionY: 0,
-    icon: icon,
+    icon: <DatabaseOutlined />,
   },
   {
     uuid: '2',
     dependencies: ['1'],
-    name: 'Tarefa 2',
+    name: 'Task 2',
     positionX: 350,
     positionY: 50,
-    icon: icon,
+    icon: <DatabaseOutlined />,
   },
 ];
 
 const handleClick = (e) => {
-  alert('Clicou em ' + e.name);
+  alert('Clicked in ' + e.name);
 };
 
 <div style={{ width: '100%', height: '350px' }}>
-  <DeploymentFlow onClickCard={handleClick} operators={tarefas} />
+  <DeploymentFlow onClickCard={handleClick} operators={tasks} />
 </div>;
 ```
 
-Renderização com loading.
+**Loading**
 
 ```js
 <div style={{ width: '100%', height: '350px' }}>

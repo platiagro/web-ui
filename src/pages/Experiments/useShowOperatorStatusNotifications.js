@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { notification } from 'antd';
+
+import { useDeepEqualSelector } from 'hooks';
 
 const operatorsSelector = ({ operatorsReducer }) => {
   return operatorsReducer || [];
@@ -9,7 +10,8 @@ const operatorsSelector = ({ operatorsReducer }) => {
 
 export default () => {
   const { experimentId } = useParams();
-  const operators = useSelector(operatorsSelector);
+
+  const operators = useDeepEqualSelector(operatorsSelector);
 
   const showedNotifications = useRef({});
 

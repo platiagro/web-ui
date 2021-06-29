@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './styles.less';
 
-const Placeholder = ({ className, style, iconComponent, message }) => {
+const Placeholder = ({ className, style, message, iconComponent }) => {
   return (
     <div style={style} className={`placeholder ${className}`}>
       <div className='placeholder-icon'>{iconComponent}</div>
@@ -15,8 +15,8 @@ const Placeholder = ({ className, style, iconComponent, message }) => {
 Placeholder.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  iconComponent: PropTypes.element.isRequired,
   message: PropTypes.string.isRequired,
+  iconComponent: PropTypes.element.isRequired,
 };
 
 Placeholder.defaultProps = {

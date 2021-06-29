@@ -761,7 +761,7 @@ const formatCompareResultDate = (date) => {
  *
  * @param {object} parameters Parameters
  * @param {object} parametersTraining Parameters training
- * @returns {object} Results parameters
+ * @returns {Array} Results parameters
  */
 const formatResultsParameters = (parameters, parametersTraining) => {
   const resultsParameters = [];
@@ -909,7 +909,6 @@ const filterOperatorParameters = (operator, parameterName) =>
     }
   });
 
-// EXPORT DEFAULT
 export default {
   deleteExperiment,
   organizeExperiments,

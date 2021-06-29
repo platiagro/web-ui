@@ -6,9 +6,6 @@ import DropdownMenu from './DropdownMenu';
 
 import './style.less';
 
-/**
- * This component is responsible for displaying deployment flow task box.
- */
 const DeploymentFlowBox = (props) => {
   const {
     title,

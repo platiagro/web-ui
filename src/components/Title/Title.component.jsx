@@ -9,8 +9,9 @@ import './style.less';
 const Title = ({ title, level, loading, handleSubmit }) => {
   const beforeSubmit = (newTitle) => {
     const trimmedNewTitle = newTitle.trim();
-    if (trimmedNewTitle !== title && trimmedNewTitle.length > 0)
+    if (trimmedNewTitle !== title && trimmedNewTitle.length > 0) {
       handleSubmit(trimmedNewTitle);
+    }
   };
 
   return (

@@ -1,14 +1,10 @@
-**Padrão**
-
-Toolbar de monitoramento com botão de adicionar monitoramento
+**Default**
 
 ```js
 <MonitoringToolbar handleAddMonitoring={() => alert('Add A New Monitoring')} />
 ```
 
-**Com Botão de Ver Monitoramento**
-
-Mostrando botão de ver monitoramento
+**With See Monitoring Button**
 
 ```js
 <MonitoringToolbar
@@ -17,9 +13,7 @@ Mostrando botão de ver monitoramento
 />
 ```
 
-**Com Botão de Excluir Monitoramento**
-
-Mostrando botão de excluir monitoramento
+**With Delete Monitoring Button**
 
 ```js
 <MonitoringToolbar

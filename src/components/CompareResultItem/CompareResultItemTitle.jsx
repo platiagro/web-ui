@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 
 import utils from 'utils';
-import { ReactComponent as DragIndicator } from 'assets/dragIndicator.svg';
+import { DragIndicatorComponent } from 'assets';
 
 import './CompareResultItem.less';
 
@@ -53,7 +53,7 @@ const CompareResultItemTitle = ({
     <>
       <Space>
         <div draggable='true' style={{ cursor: 'grab', paddingRight: 10 }}>
-          <DragIndicator />
+          <DragIndicatorComponent />
         </div>
 
         <Cascader

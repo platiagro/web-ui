@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
-import { ReactComponent as DragIndicator } from 'assets/dragIndicator.svg';
+import { DragIndicatorComponent } from 'assets';
 
 const MenuItem = ({
   isDragging,
@@ -36,7 +36,7 @@ const MenuItem = ({
       style={{ opacity }}
     >
       <div className='draggable-item-content-icon'>
-        <DragIndicator />
+        <DragIndicatorComponent />
       </div>
 
       <div className='draggable-item-content-text'>{children}</div>

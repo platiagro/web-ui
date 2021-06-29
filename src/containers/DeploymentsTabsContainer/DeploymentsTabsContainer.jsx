@@ -3,18 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 import TabsBar from 'components/TabsBar';
-import { showNewDeploymentModal } from 'store/ui/actions';
 import { deselectOperator } from 'store/operator';
-import { clearAllDeploymentOperators } from 'store/operators';
 import { clearAllMonitorings } from 'store/monitorings';
+import { showNewDeploymentModal } from 'store/ui/actions';
+import { clearAllDeploymentOperators } from 'store/operators';
 import { clearAllDeploymentLogs } from 'store/deploymentLogs/actions';
 import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer';
 import {
   clearAllDeployments,
   fetchDeploymentsRequest,
-  duplicateDeploymentRequest,
   renameDeploymentRequest,
   deleteDeploymentRequest,
+  duplicateDeploymentRequest,
   updateDeploymentPositionRequest,
 } from 'store/deployments/actions';
 

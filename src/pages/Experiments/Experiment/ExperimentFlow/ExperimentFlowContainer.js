@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useStoreState } from 'react-flow-renderer';
-import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  selectOperatorAndGetData,
+  OPERATOR_TYPES,
   deselectOperator,
   saveOperatorPosition,
   saveOperatorDependencies,
-  OPERATOR_TYPES,
+  selectOperatorAndGetData,
 } from 'store/operator';
-import { fetchExperimentRunStatusRequest } from 'store/projects/experiments/experimentRuns/actions';
+import { useDeepEqualSelector, useIsLoading } from 'hooks';
 import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
-import { useIsLoading } from 'hooks';
+import { fetchExperimentRunStatusRequest } from 'store/projects/experiments/experimentRuns/actions';
 
 import ExperimentFlow from './index';
 
@@ -40,11 +40,12 @@ const ExperimentFlowContainer = () => {
   const dispatch = useDispatch();
   const { projectId, experimentId } = useParams();
 
-  const flowLoading = useSelector(loadingSelector);
-  const operators = useSelector(operatorsSelector);
-  const arrowConfigs = useSelector(arrowConfigsSelector);
-  const numberOfLogs = useSelector(numberOfLogsSelector);
-  const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
+  const flowLoading = useDeepEqualSelector(loadingSelector);
+  const operators = useDeepEqualSelector(operatorsSelector);
+  const arrowConfigs = useDeepEqualSelector(arrowConfigsSelector);
+  const numberOfLogs = useDeepEqualSelector(numberOfLogsSelector);
+  const isShowingLogsPanel = useDeepEqualSelector(isShowingLogsPanelSelector);
+
   const transformations = useStoreState((flowStore) => flowStore.transform);
 
   const operatorLoading = useIsLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST);

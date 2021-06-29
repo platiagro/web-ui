@@ -5,18 +5,16 @@ import { CopyToClipboard } from 'components';
 import { CopyOutlined } from '@ant-design/icons';
 import './style.less';
 
-const PromoteDeploymentModal = (props) => {
-  const {
-    visible,
-    onClose,
-    onConfirm,
-    urlPrefix,
-    urlSuffix,
-    isInputDisabled,
-    confirmButtonIsLoading,
-    initialInputValue,
-  } = props;
-
+const PromoteDeploymentModal = ({
+  visible,
+  onClose,
+  onConfirm,
+  urlPrefix,
+  urlSuffix,
+  isInputDisabled,
+  initialInputValue,
+  confirmButtonIsLoading,
+}) => {
   const [inputValue, setInputValue] = useState(initialInputValue);
 
   useEffect(() => {
@@ -36,6 +34,7 @@ const PromoteDeploymentModal = (props) => {
       {urlPrefix}
     </div>
   );
+
   const selectAfter = (
     <div className='modal-text-color' disabled>
       {urlSuffix}
@@ -44,31 +43,33 @@ const PromoteDeploymentModal = (props) => {
 
   return (
     <Modal
+      width='875px'
       visible={visible}
-      title={<strong>Implantar fluxo</strong>}
-      onCancel={onClose}
-      onOk={handleConfirm}
       okText='Implantar'
       cancelText='Cancelar'
-      width='875px'
-      destroyOnClose
+      onCancel={onClose}
+      onOk={handleConfirm}
+      title={<strong>Implantar fluxo</strong>}
       okButtonProps={{ loading: confirmButtonIsLoading }}
+      destroyOnClose
     >
       <p>URL de implantação</p>
+
       <div className='modal-components-configuration'>
         <Input
           id='implantation-input'
-          addonBefore={selectBefore}
-          addonAfter={selectAfter}
-          onChange={handleInputChange}
           value={inputValue}
+          addonAfter={selectAfter}
+          addonBefore={selectBefore}
           disabled={isInputDisabled}
-        ></Input>
+          onChange={handleInputChange}
+        />
+
         <CopyToClipboard text={`${urlPrefix}${inputValue}${urlSuffix}`}>
           <Button
             className='ant-btn-primary-inverse'
-            type='default'
             icon={<CopyOutlined />}
+            type='default'
           >
             Copiar
           </Button>
@@ -79,22 +80,14 @@ const PromoteDeploymentModal = (props) => {
 };
 
 PromoteDeploymentModal.propTypes = {
-  /** modal visible */
   visible: PropTypes.bool.isRequired,
-  /** is loading */
-  confirmButtonIsLoading: PropTypes.string,
-  /** modal close handler */
   onClose: PropTypes.func.isRequired,
-  /** modal confirm handler */
   onConfirm: PropTypes.func.isRequired,
-  /** boolean to disable input */
-  isInputDisabled: PropTypes.bool,
-  /** Prefix for url input */
   urlPrefix: PropTypes.string.isRequired,
-  /** Suffix for url input */
   urlSuffix: PropTypes.string.isRequired,
-  /** Initial value on input */
+  isInputDisabled: PropTypes.bool,
   initialInputValue: PropTypes.string,
+  confirmButtonIsLoading: PropTypes.string,
 };
 
 PromoteDeploymentModal.defaultProps = {

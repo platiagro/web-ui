@@ -1,45 +1,31 @@
-// REACT LIBS
 import React from 'react';
-import PropTypes from 'prop-types';
-
-// UI LIB COMPONENTS
-import { InfoCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
+import PropTypes from 'prop-types';
+import { InfoCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
-const TooltipTip = (props) => {
-  // destructuring props
-  const { isTooltipBelow, tooltipText, iconType } = props;
+const TooltipTip = ({ isTooltipBelow, tooltipText, iconType }) => {
+  const renderToolTipIcon = () => {
+    const iconStyle = { lineHeight: '0', margin: '0', padding: '0' };
+    if (iconType === 'info') return <InfoCircleOutlined style={iconStyle} />;
+    else return <QuestionCircleOutlined style={iconStyle} />;
+  };
 
-  const toolTipIconStyle = { lineHeight: '0', margin: '0', padding: '0' };
-  let toolTipIcon;
-  if (iconType === 'info') {
-    toolTipIcon = <InfoCircleOutlined style={toolTipIconStyle} />;
-  } else {
-    toolTipIcon = <QuestionCircleOutlined style={toolTipIconStyle} />;
-  }
-
-  // rendering component
   return (
     <Tooltip
       placement={isTooltipBelow ? 'bottomRight' : 'topRight'}
-      title={tooltipText}
       style={{ margin: '0', padding: '0' }}
+      title={tooltipText}
       trigger='hover'
     >
-      {toolTipIcon}
+      {renderToolTipIcon()}
     </Tooltip>
   );
 };
 
-// PROP TYPES
 TooltipTip.propTypes = {
-  /** Show tooltip below the icon */
   isTooltipBelow: PropTypes.bool.isRequired,
-  /** Tooltip information text */
   tooltipText: PropTypes.string.isRequired,
-  /** Icon type */
   iconType: PropTypes.oneOf(['info', 'question']).isRequired,
 };
 
-// EXPORT DEFAULT
 export default TooltipTip;

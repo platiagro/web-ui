@@ -1,128 +1,126 @@
-// REACT LIBS
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-
-// UI LIBS
 import { Image } from 'antd';
 
-// COMPONENTS
+import utils from 'utils';
+import { ResultGraphLoading, ResultTableLoading } from 'assets';
 import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer';
 
-// IMAGES
-import graphLoaderImage from 'assets/resultGraphLoader.svg';
-import tableLoaderImage from 'assets/resultTableLoader.svg';
-
-// UTILS
-import utils from 'utils';
-
-// STYLES
 import './CompareResultItem.less';
 
-const CompareResultItemResults = (props) => {
-  const {
-    compareResult,
-    height,
-    onResultDatasetPageChange,
-    onUpdate,
-    tasks,
-    trainingDetail,
-  } = props;
-  const [randResultImage] = useState(Math.floor(Math.random() * 2) + 1);
+const CompareResultItemResults = ({
+  tasks,
+  height,
+  onUpdate,
+  compareResult,
+  trainingDetail,
+  onResultDatasetPageChange,
+}) => {
+  const canShowGraphLoaderImage = useMemo(() => {
+    const currentTimestamp = new Date().getTime();
+    const firstTimestampNumber = Number(String(currentTimestamp).charCodeAt(0));
+    const pseudoRandomValue = currentTimestamp % firstTimestampNumber;
+    return pseudoRandomValue % 2 === 0;
+  }, []);
 
-  if (
-    !compareResult.operatorId ||
-    !trainingDetail ||
-    (!compareResult.dataset && !compareResult.figures)
-  ) {
+  const shouldShowResultImagePlaceholder = useMemo(() => {
     return (
-      <>
-        {randResultImage === 2 ? (
-          <Image
-            src={graphLoaderImage}
-            className={'centerResultImagePlaceholder'}
-          />
-        ) : (
-          <Image
-            src={tableLoaderImage}
-            className={'centerResultImagePlaceholder'}
-          />
-        )}
-      </>
+      !compareResult.operatorId ||
+      !trainingDetail ||
+      (!compareResult.dataset && !compareResult.figures)
     );
-  }
+  }, [
+    compareResult.dataset,
+    compareResult.figures,
+    compareResult.operatorId,
+    trainingDetail,
+  ]);
 
-  const operatorId = Object.keys(trainingDetail.operators).find(
-    (opId) => opId === compareResult.operatorId
-  );
-  const operator = trainingDetail.operators[operatorId];
-  const task = tasks.find((x) => x.uuid === operator.taskId);
-  let resultsParameters;
-  if (task) {
-    resultsParameters = utils.formatResultsParameters(
-      task.parameters,
-      operator.parameters
+  const resultsParameters = useMemo(() => {
+    if (shouldShowResultImagePlaceholder) return [];
+
+    const operatorKeys = Object.keys(trainingDetail.operators);
+    const operatorId = operatorKeys.find(
+      (opId) => opId === compareResult.operatorId
     );
-  } else {
-    resultsParameters = [];
-    for (const [key, value] of Object.entries(operator.parameters)) {
-      resultsParameters.push({
+
+    const operator = trainingDetail.operators[operatorId];
+    const task = tasks.find(({ uuid }) => uuid === operator.taskId);
+
+    if (task) {
+      return utils.formatResultsParameters(
+        task.parameters,
+        operator.parameters
+      );
+    }
+
+    return Object.keys(operator.parameters).map(([key, value]) => {
+      return {
         name: key,
         value: value,
-      });
-    }
-  }
+      };
+    });
+  }, [
+    compareResult.operatorId,
+    shouldShowResultImagePlaceholder,
+    tasks,
+    trainingDetail?.operators,
+  ]);
 
   const handleOnDatasetPageChange = (page, size) => {
     onResultDatasetPageChange(compareResult, page, size);
   };
 
   const handleOnTabChange = (activeKey) => {
-    const updatedCompareResult = {
-      ...compareResult,
-      activeTab: activeKey,
-    };
+    const updatedCompareResult = { ...compareResult, activeTab: activeKey };
     onUpdate(updatedCompareResult, false);
   };
 
+  if (shouldShowResultImagePlaceholder) {
+    return canShowGraphLoaderImage ? (
+      <Image
+        src={ResultGraphLoading}
+        className={'centerResultImagePlaceholder'}
+      />
+    ) : (
+      <Image
+        src={ResultTableLoading}
+        className={'centerResultImagePlaceholder'}
+      />
+    );
+  }
+
   return (
     <ResultsDrawer
-      activeKey={compareResult.activeTab}
+      loading={false}
+      parameters={resultsParameters}
       dataset={compareResult.dataset}
+      figures={compareResult.figures}
+      onTabChange={handleOnTabChange}
+      activeKey={compareResult.activeTab}
+      scroll={{ y: height ? height - 300 : 200 }}
+      onDatasetPageChange={handleOnDatasetPageChange}
       datasetScroll={{
         x: compareResult.dataset
           ? compareResult.dataset.columns.length * 100
           : undefined,
         y: height ? height - 375 : 200,
       }}
-      figures={compareResult.figures}
-      loading={false}
-      parameters={resultsParameters}
-      onDatasetPageChange={handleOnDatasetPageChange}
-      onTabChange={handleOnTabChange}
       resultsTabStyle={{
         maxHeight: height ? height - 220 : 300,
         overflow: 'auto',
       }}
-      scroll={{ y: height ? height - 300 : 200 }}
     />
   );
 };
 
-// PROP TYPES
 CompareResultItemResults.propTypes = {
-  /** The compare result */
-  compareResult: PropTypes.object.isRequired,
-  /** The current card height on grid */
-  height: PropTypes.number,
-  /** Function to handle result dataset page change */
-  onResultDatasetPageChange: PropTypes.func.isRequired,
-  /** Function to handle update compare result */
+  tasks: PropTypes.array.isRequired,
+  height: PropTypes.number.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  /** Tasks list */
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /** The expriment training detail */
-  trainingDetail: PropTypes.object,
+  compareResult: PropTypes.object.isRequired,
+  trainingDetail: PropTypes.object.isRequired,
+  onResultDatasetPageChange: PropTypes.func.isRequired,
 };
 
-// EXPORT DEFAULT
 export default CompareResultItemResults;

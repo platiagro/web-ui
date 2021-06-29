@@ -15,14 +15,6 @@ const NewTemplateModal = ({
   const [form] = Form.useForm();
   const inputNameRef = useRef();
 
-  useEffect(() => {
-    if (visible) {
-      setTimeout(() => inputNameRef.current.select());
-    } else {
-      setButtonDisabled(false);
-    }
-  }, [visible]);
-
   const onValuesChangeForm = (changedValues, allValues) => {
     if (allValues.name === '') {
       setButtonDisabled(true);
@@ -36,6 +28,14 @@ const NewTemplateModal = ({
       handleNewTemplate(values.name);
     });
   };
+
+  useEffect(() => {
+    if (visible) {
+      setTimeout(() => inputNameRef.current.select());
+    } else {
+      setButtonDisabled(false);
+    }
+  }, [visible]);
 
   return (
     <Modal

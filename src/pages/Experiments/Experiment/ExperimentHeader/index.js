@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -20,34 +20,36 @@ const ExperimentHeader = ({
   handleRemoveOperator,
   handleTrainExperiment,
   handleDeleteTrainExperiment,
-}) => (
-  <div className='buttons-config'>
-    <div>
-      <ToolbarConfig
-        operator={operator}
-        handleDeleteClick={handleRemoveOperator}
-      />
-    </div>
-
-    <div>
-      <NewTemplateModal />
-      <NewTemplateButton disabled={loading || trainingLoading || empty} />
-
-      {trainingLoading ? (
-        <InterruptTrainExperimentButton
-          handleClick={handleDeleteTrainExperiment}
-          disabled={loading || deleteTrainingLoading}
-          deleteExperimentRunning={deleteTrainingLoading}
+}) => {
+  return (
+    <div className='buttons-config'>
+      <div>
+        <ToolbarConfig
+          operator={operator}
+          handleDeleteClick={handleRemoveOperator}
         />
-      ) : (
-        <TrainExperimentButton
-          disabled={loading || empty}
-          handleClick={handleTrainExperiment}
-        />
-      )}
+      </div>
+
+      <div>
+        <NewTemplateModal />
+        <NewTemplateButton disabled={loading || trainingLoading || empty} />
+
+        {trainingLoading ? (
+          <InterruptTrainExperimentButton
+            handleClick={handleDeleteTrainExperiment}
+            disabled={loading || deleteTrainingLoading}
+            deleteExperimentRunning={deleteTrainingLoading}
+          />
+        ) : (
+          <TrainExperimentButton
+            disabled={loading || empty}
+            handleClick={handleTrainExperiment}
+          />
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 ExperimentHeader.propTypes = {
   empty: PropTypes.bool.isRequired,
@@ -60,4 +62,4 @@ ExperimentHeader.propTypes = {
   handleDeleteTrainExperiment: PropTypes.func.isRequired,
 };
 
-export default ExperimentHeader;
+export default memo(ExperimentHeader);

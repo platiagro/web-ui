@@ -1,21 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { Menu, Dropdown } from 'antd';
 
-/**
- * DeploymentFlowBox dropdown menu
- */
-function DropdownMenu(props) {
-  const { disabled, onEdit, children } = props;
-
-  const handleClick = (e) => {
-    if (e.key === 'edit') onEdit();
-  };
-
+const DropdownMenu = ({ disabled, onEdit, children }) => {
   const menuOverlay = (
-    <Menu onClick={handleClick}>
-      <Menu.Item disabled={disabled} key='edit'>
+    <Menu>
+      <Menu.Item key='edit' disabled={disabled} onClick={onEdit}>
         Editar
       </Menu.Item>
     </Menu>
@@ -26,7 +16,7 @@ function DropdownMenu(props) {
       {children}
     </Dropdown>
   );
-}
+};
 
 DropdownMenu.propTypes = {
   children: PropTypes.any,

@@ -12,7 +12,6 @@ import { hideNewProjectModal } from 'store/ui/actions';
 
 import { addLoading, removeLoading } from 'store/loading';
 
-// TODO: Criar store para mensagens
 /**
  * Function to fetch paginated projects request fail
  *

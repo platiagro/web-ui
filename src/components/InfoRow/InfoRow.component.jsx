@@ -4,9 +4,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 
 import './style.less';
 
-const InfoRow = (props) => {
-  const { title, dateTime, message } = props;
-
+const InfoRow = ({ title, dateTime, message }) => {
   return (
     <div className='InfoRow-Body'>
       <div className='InfoRow-Header'>

@@ -1,3 +1,6 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global OperatorsStore */
 // ACTION TYPES
 import * as OPERATORS_TYPES from './operators.actionTypes';
 import { OPERATOR_TYPES } from 'store/operator';
@@ -7,7 +10,7 @@ import experimentRunsActionTypes from '../projects/experiments/experimentRuns/ac
 // UTILS
 import utils from 'utils';
 
-// INITIAL STATE
+/** @type {OperatorsStore} */
 const initialState = [];
 
 /**
@@ -23,8 +26,6 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
   switch (type) {
     case OPERATORS_TYPES.FETCH_OPERATORS_SUCCESS:
       return [...payload.operators];
-    case OPERATORS_TYPES.FETCH_OPERATORS_FAIL:
-      return [...state];
     case OPERATORS_TYPES.UPDATE_OPERATOR_DEPENDENCIES:
       return [...payload.operators];
     case OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS:

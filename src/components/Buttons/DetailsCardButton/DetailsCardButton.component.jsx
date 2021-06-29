@@ -1,35 +1,32 @@
-import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
 import { Image, Skeleton, Tooltip } from 'antd';
+import PropTypes from 'prop-types';
 
-import experimentacao from 'assets/experimentacao.svg';
-import fluxo from 'assets/fluxo.svg';
-import experimentacaoHover from 'assets/experimentacaoHover.svg';
-import fluxoHover from 'assets/fluxoHover.svg';
+import { Flow, FlowHover, Experimentation, ExperimentationHover } from 'assets';
 
 import './DetailsCardButton.style.less';
 
+const buttonType = {
+  deployment: {
+    imageHovered: FlowHover,
+    image: Flow,
+    classImage: 'cardsImage fluxoImage',
+    classText: 'cardsText fluxoText',
+    textType: 'fluxo(s)',
+    tooltipText: 'Não existem fluxos de pré-implantação',
+  },
+  experiment: {
+    imageHovered: ExperimentationHover,
+    image: Experimentation,
+    classImage: 'cardsImage experimentacaoImage',
+    classText: 'cardsText experimentacaoText',
+    textType: 'experimento(s)',
+    tooltipText: 'Não existem fluxos de experimentação',
+  },
+};
+
 const DetailsCardButton = ({ onClick, projectLoading, numberText, type }) => {
   const [buttonIsHovered, setButtonIsHovered] = useState(false);
-
-  const buttonType = {
-    deployment: {
-      imageHovered: fluxoHover,
-      image: fluxo,
-      classImage: 'cardsImage fluxoImage',
-      classText: 'cardsText fluxoText',
-      textType: 'fluxo(s)',
-      tooltipText: 'Não existem fluxos de pré-implantação',
-    },
-    experiment: {
-      imageHovered: experimentacaoHover,
-      image: experimentacao,
-      classImage: 'cardsImage experimentacaoImage',
-      classText: 'cardsText experimentacaoText',
-      textType: 'experimento(s)',
-      tooltipText: 'Não existem fluxos de experimentação',
-    },
-  };
 
   const handleMouseEnter = () => {
     setButtonIsHovered(true);
@@ -39,23 +36,24 @@ const DetailsCardButton = ({ onClick, projectLoading, numberText, type }) => {
     setButtonIsHovered(false);
   };
 
-  const hasProjects = useMemo(() => numberText > 0, [numberText]);
+  const hasProjects = useMemo(() => {
+    return numberText > 0;
+  }, [numberText]);
 
-  const cardsClass = useMemo(
-    () => (!hasProjects || projectLoading ? 'cards' : 'cards active'),
-    [hasProjects, projectLoading]
-  );
+  const cardsClass = useMemo(() => {
+    return !hasProjects || projectLoading ? 'cards' : 'cards active';
+  }, [hasProjects, projectLoading]);
 
   return (
     <Tooltip
+      trigger={hasProjects || projectLoading ? '' : 'hover'}
       title={buttonType[type].tooltipText}
       placement='bottomRight'
       color='black'
-      trigger={hasProjects || projectLoading ? '' : 'hover'}
     >
       <button
-        className={cardsClass}
         onClick={onClick}
+        className={cardsClass}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >

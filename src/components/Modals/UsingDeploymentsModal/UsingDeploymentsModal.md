@@ -11,9 +11,9 @@ const handleOpen = () => setIsVisible(true);
   </button>
 
   <UsingDeploymentsModal
-    handleCloseModal={handleClose}
-    visible={isVisible}
     title='The Title'
+    visible={isVisible}
+    handleCloseModal={handleClose}
   >
     <div>Modal Content</div>
   </UsingDeploymentsModal>

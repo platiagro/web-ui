@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, memo } from 'react';
 import { Button, Divider, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import {
@@ -138,4 +138,4 @@ LogsPanel.defaultProps = {
   handleOpenLogsModal: undefined,
 };
 
-export default LogsPanel;
+export default memo(LogsPanel);

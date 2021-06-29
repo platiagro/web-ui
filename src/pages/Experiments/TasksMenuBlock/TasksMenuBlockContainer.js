@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { getTasks } from 'store/tasks';
+import { useDeepEqualSelector } from 'hooks';
 import { createOperatorRequest } from 'store/operator';
 import {
   fetchTasksMenuRequest,
   filterTasksMenu,
 } from 'store/tasksMenu/actions';
-import {
-  setTemplateRequest,
-  deleteTemplateRequest,
-} from 'store/templates/actions';
+import { deleteTemplateRequest } from 'store/templates/templates.actions';
+import { applyTemplateRequest } from 'store/projects/experiments/experiments.actions';
 
 import TasksMenuBlock from './index';
 
@@ -36,11 +35,11 @@ const TasksMenuBlockContainer = ({ disabled }) => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
-  const tasks = useSelector(getTasks);
-  const loading = useSelector(loadingSelector);
-  const allTasks = useSelector(allTasksSelector);
-  const tasksMenu = useSelector(tasksMenuSelector);
-  const trainingLoading = useSelector(trainingLoadingSelector);
+  const tasks = useDeepEqualSelector(getTasks);
+  const loading = useDeepEqualSelector(loadingSelector);
+  const allTasks = useDeepEqualSelector(allTasksSelector);
+  const tasksMenu = useDeepEqualSelector(tasksMenuSelector);
+  const trainingLoading = useDeepEqualSelector(trainingLoadingSelector);
 
   const handleDeleteTemplate = (templateId) => {
     dispatch(deleteTemplateRequest(templateId, allTasks));
@@ -56,7 +55,7 @@ const TasksMenuBlockContainer = ({ disabled }) => {
     selectedTemplateId
   ) => {
     dispatch(
-      setTemplateRequest(
+      applyTemplateRequest(
         currentProjectId,
         currentExperimentId,
         selectedTemplateId

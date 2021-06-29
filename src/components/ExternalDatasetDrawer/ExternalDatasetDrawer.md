@@ -1,9 +1,10 @@
-**Exemplo:**
+**Default**
 
 ```js
 const handleClickLearnMore = () => {
   alert('Clicked');
 };
+
 <ExternalDatasetDrawer
   propertyTitle='Tipo da fonte de dados'
   propertyTip='Dica'

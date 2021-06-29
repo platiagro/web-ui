@@ -6,18 +6,24 @@ The examples below use the most common props that you probably will use. To see 
 
 ```js
 <CommonTable
+  rowKey={`${Math.random()}`} // This can also be a function
+  isLoading={false}
   columns={[
     {
       key: '1',
       title: 'User Name',
       dataIndex: 'name',
-      render: (val) => <span style={{ color: 'red' }}>{val}</span>,
+      render(val) {
+        return <span style={{ color: 'red' }}>{val}</span>;
+      },
     },
     {
       key: '2',
       title: 'User Age',
       dataIndex: 'age',
-      render: (val) => <span style={{ color: 'blue' }}>{val}</span>,
+      render(val) {
+        return <span style={{ color: 'blue' }}>{val}</span>;
+      },
     },
   ]}
   dataSource={[
@@ -28,8 +34,6 @@ The examples below use the most common props that you probably will use. To see 
     { key: '5', name: 'Name 5', age: '5' },
     { key: '6', name: 'Name 6', age: '6' },
   ]}
-  rowKey={`${Math.random()}`} // This can also be a function
-  isLoading={false}
 />
 ```
 
@@ -37,23 +41,27 @@ The examples below use the most common props that you probably will use. To see 
 
 ```js
 <CommonTable
-  bordered
+  dataSource={[]}
+  rowKey={`${Math.random()}`} // This can also be a function
   columns={[
     {
       key: '1',
       title: 'User Name',
       dataIndex: 'name',
-      render: (val) => <span style={{ color: 'red' }}>{val}</span>,
+      render(val) {
+        return <span style={{ color: 'red' }}>{val}</span>;
+      },
     },
     {
       key: '2',
       title: 'User Age',
       dataIndex: 'age',
-      render: (val) => <span style={{ color: 'blue' }}>{val}</span>,
+      render(val) {
+        return <span style={{ color: 'blue' }}>{val}</span>;
+      },
     },
   ]}
-  dataSource={[]}
-  rowKey={`${Math.random()}`} // This can also be a function
+  bordered
   isLoading
 />
 ```

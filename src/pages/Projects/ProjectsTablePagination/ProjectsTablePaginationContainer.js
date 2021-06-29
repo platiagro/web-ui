@@ -10,12 +10,9 @@ import { useIsLoading } from 'hooks';
 
 import ProjectsTablePagination from './index';
 
-const {
-  getPageSize,
-  getCurrentPage,
-  getTotalProjects,
-  getSearchText,
-} = projectsSelectors;
+const { getPageSize, getCurrentPage, getTotalProjects, getSearchText } =
+  projectsSelectors;
+
 const { fetchPaginatedProjectsRequest } = projectsActions;
 
 const ProjectsTablePaginationContainer = () => {

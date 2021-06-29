@@ -9,7 +9,7 @@ import experimentRunReducer from './projects/experiments/experimentRuns/experime
 import { operatorsReducer } from './operators';
 import { operatorReducer } from './operator';
 import tasksMenuReducer from './tasksMenu/tasksMenuReducer';
-import templatesReducer from './templates/templatesReducer';
+import Templates from './templates';
 import uiReducer from './ui/uiReducer';
 import datasetReducer from './dataset/datasetReducer';
 import datasetsReducer from './datasets/datasetsReducer';
@@ -30,7 +30,7 @@ const reducers = combineReducers({
   operatorsReducer,
   operatorReducer,
   tasksMenuReducer,
-  templatesReducer,
+  Templates,
   uiReducer,
   datasetReducer,
   datasetsReducer,

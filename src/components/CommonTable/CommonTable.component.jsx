@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { Table, Skeleton } from 'uiComponents';
@@ -18,45 +18,42 @@ const CommonTable = ({
   size,
   skeletonRowsAmount,
 }) => {
-  const skeletonColumns = [];
-  const skeletonDataSource = [];
-  const skeletonDataExample = {};
-
-  columns.forEach((column) => {
-    skeletonColumns.push({
-      ...column,
-      render(value, record) {
-        return <Skeleton key={`${record.uuid}-${value}`} />;
-      },
+  const skeletonColumns = useMemo(() => {
+    return columns.map((column) => {
+      return {
+        ...column,
+        render(value, record) {
+          return <Skeleton key={`${record.uuid}-${value}`} />;
+        },
+      };
     });
+  }, [columns]);
 
-    skeletonDataExample[column.key] = '';
-  });
+  const skeletonDataSource = useMemo(() => {
+    return new Array(skeletonRowsAmount).fill(0).map((_, index) => {
+      const row = {};
 
-  for (let i = 0; i < skeletonRowsAmount; i++) {
-    const newRow = { ...skeletonDataExample };
+      columns.forEach((column) => {
+        row[column.key] = `${column.key}-${index}`;
+      });
 
-    Object.keys(newRow).forEach((key) => {
-      newRow[key] = `${key}-${i}`;
+      return row;
     });
-
-    newRow.uuid = i;
-    skeletonDataSource.push(newRow);
-  }
+  }, [columns, skeletonRowsAmount]);
 
   return (
     <Table
-      bordered={bordered}
       className={className}
-      dataSource={isLoading ? skeletonDataSource : dataSource}
-      columns={isLoading ? skeletonColumns : columns}
-      locale={locale}
-      pagination={pagination}
       rowClassName={rowClassName}
-      rowKey={rowKey}
       rowSelection={rowSelection}
-      scroll={scroll}
+      rowKey={rowKey}
       size={size}
+      scroll={scroll}
+      locale={locale}
+      bordered={bordered}
+      pagination={pagination}
+      columns={isLoading ? skeletonColumns : columns}
+      dataSource={isLoading ? skeletonDataSource : dataSource}
     />
   );
 };

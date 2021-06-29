@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
 
-import logo from 'assets/logo-vazado.png';
-import icon from 'assets/icone-vazado.png';
+import { NoBackgroundLogo, NoBackgroundIcon } from 'assets';
 
 import Logo from './Logo';
 import MainMenuContainer from './MainMenu/MainMenuContainer';
 
 import './style.less';
 
-const { Sider } = Layout;
-
 const MainSider = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <Sider
+    <Layout.Sider
       className='mainSider'
       collapsed={collapsed}
       onCollapse={() => setCollapsed(!collapsed)}
@@ -25,12 +22,12 @@ const MainSider = () => {
         className='logoPlatiagro'
         altText='PlatIAgro logo'
         collapse={collapsed}
-        collapsedSrc={icon}
-        logoSrc={logo}
+        collapsedSrc={NoBackgroundIcon}
+        logoSrc={NoBackgroundLogo}
       />
 
       <MainMenuContainer />
-    </Sider>
+    </Layout.Sider>
   );
 };
 

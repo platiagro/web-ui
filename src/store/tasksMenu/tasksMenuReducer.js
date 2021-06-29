@@ -1,7 +1,7 @@
 import utils from 'utils';
 
 import actionTypes from './actionTypes';
-import templatesActionTypes from '../templates/actionTypes';
+import * as TEMPLATES_TYPES from '../templates/templates.actionTypes';
 
 const initialState = {
   filtered: {},
@@ -16,16 +16,18 @@ const tasksMenuReducer = (state = initialState, action = undefined) => {
         filtered: { ...action.tasksMenu },
       };
 
-    case templatesActionTypes.DELETE_TEMPLATE_SUCCESS:
+    // TODO: acho que quando for feita a padronização desse módulo, conseguiremos remover isso
+    case TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS:
       return {
         ...state,
-        ...action.payload,
+        ...action.payload.templates.tasks,
       };
 
     case actionTypes.FETCH_TASKS_MENU_FAIL:
       return { ...state };
 
-    case templatesActionTypes.DELETE_TEMPLATE_FAIL:
+    // TODO: acho que quando for feita a padronização desse módulo, conseguiremos remover isso
+    case TEMPLATES_TYPES.DELETE_TEMPLATE_FAIL:
       return { ...state };
 
     case actionTypes.FILTER_TASKS_MENU:

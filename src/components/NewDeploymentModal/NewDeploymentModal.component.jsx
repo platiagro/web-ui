@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Modal, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -8,32 +8,29 @@ import TemplatesTable from './TemplatesTable';
 
 import './NewDeploymentModal.style.less';
 
-/**
- * Componente de modal de nova implantação
- */
-function NewDeploymentModal(props) {
-  const {
-    visible,
-    loading,
-    experimentsLoading,
-    templatesLoading,
-    experimentsData,
-    templatesData,
-    onCancel,
-    onConfirm,
-  } = props;
-
-  const [filteredExperiments, setFilteredExperiments] = useState(
-    experimentsData
-  );
+const NewDeploymentModal = ({
+  visible,
+  loading,
+  experimentsLoading,
+  templatesLoading,
+  experimentsData,
+  templatesData,
+  onCancel,
+  onConfirm,
+}) => {
+  const [filteredExperiments, setFilteredExperiments] =
+    useState(experimentsData);
   const [filteredTemplates, setFilteredTemplates] = useState(templatesData);
   const [selectedUuid, setSelectedUuid] = useState(undefined);
   const [selectedType, setSelectedType] = useState(undefined);
 
-  useEffect(() => {
-    setFilteredExperiments(experimentsData);
-    setFilteredTemplates(templatesData);
-  }, [experimentsData, templatesData]);
+  const experimentsSelectedRow = useMemo(() => {
+    return selectedType === 'experiment' ? selectedUuid : '';
+  }, [selectedType, selectedUuid]);
+
+  const templatesSelectedRow = useMemo(() => {
+    return selectedType === 'template' ? selectedUuid : '';
+  }, [selectedType, selectedUuid]);
 
   const handleSearch = (e) => {
     const filterValue = e.target.value.toLowerCase();
@@ -52,64 +49,66 @@ function NewDeploymentModal(props) {
 
   const handleExperimentSelect = (selectedArray) => {
     const uuid = selectedArray[0];
-
     setSelectedType('experiment');
     setSelectedUuid(uuid);
   };
 
   const handleTemplateSelect = (selectedArray) => {
     const uuid = selectedArray[0];
-
     setSelectedType('template');
     setSelectedUuid(uuid);
   };
 
-  const handleOk = () => onConfirm(selectedType, selectedUuid);
+  const handleOk = () => {
+    onConfirm(selectedType, selectedUuid);
+  };
 
-  const experimentsSelectedRow =
-    selectedType === 'experiment' ? selectedUuid : '';
-
-  const templatesSelectedRow = selectedType === 'template' ? selectedUuid : '';
+  useEffect(() => {
+    setFilteredExperiments(experimentsData);
+    setFilteredTemplates(templatesData);
+  }, [experimentsData, templatesData]);
 
   return (
     <Modal
-      title={<strong>Escolha um fluxo</strong>}
-      visible={visible}
-      onOk={handleOk}
-      onCancel={onCancel}
       width={'70%'}
-      cancelText='Cancelar'
+      onOk={handleOk}
+      visible={visible}
       okText='Confirmar'
+      onCancel={onCancel}
+      cancelText='Cancelar'
       className='newDeploymentModal'
-      confirmLoading={loading || experimentsLoading || templatesLoading}
+      title={<strong>Escolha um fluxo</strong>}
       okButtonProps={{ disabled: !selectedType }}
+      confirmLoading={loading || experimentsLoading || templatesLoading}
     >
       <div>
         <Input
-          placeholder='Pesquisar fluxo'
           suffix={<SearchOutlined style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
+          placeholder='Pesquisar fluxo'
           onChange={handleSearch}
         />
       </div>
+
       <div className='section'>
         <ExperimentsTable
+          loading={experimentsLoading}
           onSelect={handleExperimentSelect}
           experimentsData={filteredExperiments}
           selectedRowKey={experimentsSelectedRow}
-          loading={experimentsLoading}
         />
       </div>
+
       <div className='section'>
         <TemplatesTable
+          loading={templatesLoading}
           onSelect={handleTemplateSelect}
           templatesData={filteredTemplates}
           selectedRowKey={templatesSelectedRow}
-          loading={templatesLoading}
         />
       </div>
     </Modal>
   );
-}
+};
 
 NewDeploymentModal.propTypes = {
   experimentsData: PropTypes.arrayOf(
