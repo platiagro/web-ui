@@ -330,7 +330,7 @@ export const sendTaskViaEmail =
   (taskId, email, successCallback) => async (dispatch) => {
     try {
       dispatch(addLoading(TASKS_TYPES.SEND_TASK_VIA_EMAIL_REQUEST));
-      await tasksApi.sendTaskViaEmail(taskId, email);
+      await tasksApi.sendTaskViaEmail(taskId, [email]);
       dispatch(sendTaskViaEmailSuccess());
       dispatch(showSuccess(`E-mail enviado com sucesso!`));
       if (successCallback) successCallback();
