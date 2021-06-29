@@ -141,7 +141,7 @@ export const cancelDatasetUpload = () => (dispatch, getState) => {
  */
 export const datasetUploadSuccess =
   (dataset, projectId, experimentId, datasetOperator, experimentIsSucceeded) =>
-  (dispatch) => {
+  async (dispatch) => {
     const featuretypes = utils.getFeaturetypes(dataset);
 
     // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
@@ -159,8 +159,13 @@ export const datasetUploadSuccess =
     operators,
   }); */
 
+    // dispatching clear operator feature parameters
+    await dispatch(
+      clearOperatorsFeatureParametersRequest(projectId, experimentId, dataset)
+    );
+
     // update dataset parameter
-    dispatch(
+    await dispatch(
       updateExperimentOperatorRequest(
         projectId,
         experimentId,
@@ -704,7 +709,7 @@ export const deleteDatasetFail = () => (dispatch) => {
  * @returns {Function} Dispatch function
  */
 export const deleteDatasetRequest =
-  (projectId, experimentId) => (dispatch, getState) => {
+  (projectId, experimentId) => async (dispatch, getState) => {
     // dispatching request action
     dispatch({
       type: actionTypes.DELETE_DATASET_REQUEST,
@@ -720,8 +725,13 @@ export const deleteDatasetRequest =
     dispatch(datasetOperatorLoadingData());
 
     try {
+      // dispatching clear operator feature parameters
+      await dispatch(
+        clearOperatorsFeatureParametersRequest(projectId, experimentId, null)
+      );
+
       // update dataset parameter
-      dispatch(
+      await dispatch(
         updateExperimentOperatorRequest(
           projectId,
           experimentId,
@@ -729,11 +739,6 @@ export const deleteDatasetRequest =
           'dataset',
           ''
         )
-      );
-
-      // dispatching clear operator feature parameters
-      dispatch(
-        clearOperatorsFeatureParametersRequest(projectId, experimentId, null)
       );
 
       dispatch(deleteDatasetSuccess(experimentIsSucceeded));
