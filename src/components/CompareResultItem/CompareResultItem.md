@@ -13,7 +13,7 @@
   experimentsOptions={[]}
   experimentsTrainingHistory={[]}
   onUpdate={() => alert('Handle Update')}
-  onFetchResults={() => alert('Fetch Results')}
+  onFetchResults={() => console.log('CompareResultItem - Fetch Results')}
   onDelete={(id) => alert(`Delete with ID ${id || ''}`)}
   onLoadTrainingHistory={() => alert('Load Training History')}
   onResultDatasetPageChange={() => alert('Result Dataset Changed')}

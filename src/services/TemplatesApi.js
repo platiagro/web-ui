@@ -1,3 +1,9 @@
+// correção de bug do eslint/jsdoc
+/* eslint-disable-next-line */
+/* global TemplateCreatable */
+
+/* API REFERENCE: https://platiagro.github.io/projects/#/Templates */
+
 import axios from 'axios';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
@@ -20,16 +26,11 @@ const listTemplates = () => {
 /**
  * Create Template
  *
- * @param {string} templateName Template name
- * @param {string} experimentId Experiment UUID
+ * @param {TemplateCreatable} template Template creatable object
  * @returns {Promise} Request Promise
  */
-const createTemplate = (templateName, experimentId) => {
-  const body = {
-    name: templateName,
-    experimentId,
-  };
-  return templatesApi.post(templatesPath, body);
+const createTemplate = (template) => {
+  return templatesApi.post(templatesPath, template);
 };
 
 /**
@@ -49,11 +50,11 @@ const updateTemplate = (templateId, templateName) => {
 /**
  * Delete Template
  *
- * @param {string} templateId Template UUID
+ * @param {string[]} templates Templates UUID list
  * @returns {Promise} Request Promise
  */
-const deleteTemplate = (templateId) => {
-  return templatesApi.delete(`${templatesPath}/${templateId}`);
+const deleteTemplate = (templates) => {
+  return templatesApi.post(`${templatesPath}/deletetemplates`, templates);
 };
 
 export default {
