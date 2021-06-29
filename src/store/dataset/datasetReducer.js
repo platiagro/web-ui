@@ -10,6 +10,8 @@ const initialState = {
   cancelToken: null,
   columns: [],
   featuretypes: '',
+  pageSize: 0,
+  total: 0,
 };
 
 /**
