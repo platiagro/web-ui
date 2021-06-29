@@ -113,7 +113,11 @@ const TasksFlowTable = ({
     {
       title: <strong>Tipo</strong>,
       dataIndex: 'types',
-      render(types) {
+      render(_, record) {
+        const types = [];
+        if (record.experimentId) types.push('EXPERIMENT');
+        if (record.deploymentId) types.push('DEPLOYMENT');
+
         return (
           types && (
             <div className='types'>{types.map((type) => typeIcons[type])}</div>
