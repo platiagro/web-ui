@@ -170,11 +170,6 @@ export const datasetUploadSuccess =
       )
     );
 
-    // dispatching clear operator feature parameters
-    dispatch(
-      clearOperatorsFeatureParametersRequest(projectId, experimentId, dataset)
-    );
-
     // dispatching dataset operator data loaded action
     dispatch(datasetOperatorDataLoaded());
 
