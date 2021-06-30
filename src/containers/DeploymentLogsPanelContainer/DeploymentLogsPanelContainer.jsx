@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { LOG_TYPES } from 'configs';
-import { useLogsLongPolling } from 'hooks';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
+import { useDeepEqualSelector } from 'hooks';
 import { hideLogsPanel } from 'store/ui/actions';
 import {
   clearAllDeploymentLogs,
@@ -19,10 +19,6 @@ const isShowingLogsPanelSelector = ({ uiReducer }) => {
 
 const isLoadingSelector = ({ uiReducer }) => {
   return uiReducer.inferenceLogsDrawer.loading;
-};
-
-const operatorsSelector = ({ operatorsReducer }) => {
-  return operatorsReducer;
 };
 
 const logsSelector = ({ deploymentLogsReducer }) => {
@@ -47,10 +43,9 @@ const DeploymentLogsPanelContainer = () => {
 
   const [isShowingModal, setIsShowingModal] = useState(false);
 
-  const logs = useSelector(logsSelector);
-  const operators = useSelector(operatorsSelector);
-  const isLoading = useSelector(isLoadingSelector);
-  const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
+  const logs = useDeepEqualSelector(logsSelector);
+  const isLoading = useDeepEqualSelector(isLoadingSelector);
+  const isShowingLogsPanel = useDeepEqualSelector(isShowingLogsPanelSelector);
 
   const handleHideLogsPanel = () => {
     dispatch(hideLogsPanel());
@@ -64,17 +59,24 @@ const DeploymentLogsPanelContainer = () => {
     setIsShowingModal(false);
   };
 
-  const handleFetchLogs = useCallback(() => {
-    if (!projectId || !deploymentId) return;
-    dispatch(getDeployExperimentLogs(projectId, deploymentId, false));
-  }, [dispatch, deploymentId, projectId]);
+  const handleFetchLogs = useCallback(
+    (shouldShowLoading = true) => {
+      if (!projectId || !deploymentId) return;
+      dispatch(
+        getDeployExperimentLogs(
+          projectId,
+          deploymentId,
+          false,
+          shouldShowLoading
+        )
+      );
+    },
+    [dispatch, deploymentId, projectId]
+  );
 
-  useEffect(handleFetchLogs, [handleFetchLogs]);
-
-  useLogsLongPolling({
-    handleFetchLogs,
-    operators,
-  });
+  useEffect(() => {
+    handleFetchLogs(true);
+  }, [handleFetchLogs]);
 
   useEffect(() => {
     return () => {
@@ -82,6 +84,15 @@ const DeploymentLogsPanelContainer = () => {
       dispatch(clearAllDeploymentLogs());
     };
   }, [dispatch]);
+
+  // TODO: Replace this useEffect by the useLogsLongPolling hook when the operators polling exists in the deployment page
+  useEffect(() => {
+    const polling = setInterval(() => {
+      handleFetchLogs(false);
+    }, 5000);
+
+    return () => clearInterval(polling);
+  }, [handleFetchLogs]);
 
   return (
     <>
