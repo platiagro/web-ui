@@ -8,7 +8,7 @@ import {
   Actions as experimentsActions,
 } from 'store/projects/experiments';
 import { removeOperatorRequest } from 'store/operator';
-import { useDeepEqualSelector, useIsLoading } from 'hooks';
+import { useDeepEqualSelector, useIsLoading, useChangeFavicon } from 'hooks';
 import { fetchExperimentOperatorsRequest } from 'store/operators';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
 
@@ -81,6 +81,8 @@ const ExperimentHeaderContainer = () => {
       dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
     }
   }, [dispatch, projectId, experimentId]);
+
+  useChangeFavicon(trainingLoading);
 
   return (
     <ExperimentHeader
