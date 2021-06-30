@@ -1,16 +1,15 @@
 import React from 'react';
+import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { LoadingOutlined, ToolOutlined } from '@ant-design/icons';
-
-import { Button } from 'uiComponents';
 
 const PrepareDeploymentsButton = ({ loading, disabled, onClick }) => {
   return (
     <Button
       shape='round'
       type='primary-inverse'
-      handleClick={onClick}
-      isDisabled={disabled || loading}
+      onClick={onClick}
+      disabled={disabled || loading}
     >
       {loading ? <LoadingOutlined /> : <ToolOutlined />}
       Preparar para a implantação

@@ -1,7 +1,9 @@
 import React from 'react';
+import { Button } from 'antd';
+
 import PropTypes from 'prop-types';
 
-import { Popconfirm, Button } from 'uiComponents';
+import { Popconfirm } from 'uiComponents';
 
 const DeleteButton = ({ popconfirmText, handleDelete }) => {
   return (

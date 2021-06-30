@@ -1,9 +1,6 @@
 // Modal
 import Modal from './Modal';
 
-// Button
-import Button from './Button';
-
 // Table
 import Table from './Table';
 
@@ -13,4 +10,4 @@ import Skeleton from './Skeleton';
 // Popconfirm
 import Popconfirm from './Popconfirm';
 
-export { Modal, Button, Table, Skeleton, Popconfirm };
+export { Modal, Table, Skeleton, Popconfirm };

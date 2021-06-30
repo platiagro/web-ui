@@ -41,8 +41,8 @@ const DetailsCardButton = ({ onClick, projectLoading, numberText, type }) => {
   }, [numberText]);
 
   const cardsClass = useMemo(() => {
-    return !hasProjects || projectLoading ? 'cards' : 'cards active';
-  }, [hasProjects, projectLoading]);
+    return projectLoading ? 'cards' : 'cards active';
+  }, [projectLoading]);
 
   return (
     <Tooltip
@@ -58,7 +58,7 @@ const DetailsCardButton = ({ onClick, projectLoading, numberText, type }) => {
         onMouseLeave={handleMouseLeave}
       >
         <div className={buttonType[type].classImage}>
-          {buttonIsHovered && hasProjects && !projectLoading ? (
+          {buttonIsHovered && !projectLoading ? (
             <Image width={50} src={buttonType[type].imageHovered} />
           ) : (
             <Image width={50} src={buttonType[type].image} />
