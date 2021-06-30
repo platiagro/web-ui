@@ -1,11 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  TeamOutlined,
-  DownOutlined,
-  SearchOutlined,
-  ShoppingOutlined,
-} from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   Tag,
   Input,
@@ -108,16 +103,6 @@ const TasksTable = ({
                 {value}
               </Typography.Text>
             </Button>
-
-            <Space style={{ width: '25%' }}>
-              <Button className='btnTaskLockTeam' icon={<TeamOutlined />} />
-
-              <Button
-                style={{ border: 0, backgroundColor: '#722ED1' }}
-                icon={<ShoppingOutlined style={{ color: 'white' }} />}
-                shape='circle'
-              />
-            </Space>
           </div>
         );
       },
@@ -153,51 +138,22 @@ const TasksTable = ({
       render(_, record) {
         return (
           <Space size={8}>
-            <Popover
-              placement='bottomLeft'
-              content={
-                <>
-                  <Space>
-                    <ShoppingOutlined style={{ fontSize: '20px' }} />
-                    <strong>{record.name}</strong>
-                  </Space>
+            <Space size={8}>
+              <Button
+                style={{
+                  border: 0,
+                  color: 'white',
+                  backgroundColor: '#389E0D',
+                }}
+                shape='circle'
+              >
+                P
+              </Button>
 
-                  <div style={{ marginLeft: '28px' }}>
-                    <Typography.Text strong>Autor: PlatIAgro</Typography.Text>
-
-                    <br />
-
-                    <Typography.Text strong>
-                      Atualizada em 15/06/2020
-                    </Typography.Text>
-
-                    <br />
-                    <br />
-
-                    <Typography.Text strong>
-                      A sua cópia foi feita em 10/06/2020
-                    </Typography.Text>
-                  </div>
-                </>
-              }
-            >
-              <Space size={8}>
-                <Button
-                  style={{
-                    border: 0,
-                    color: 'white',
-                    backgroundColor: '#389E0D',
-                  }}
-                  shape='circle'
-                >
-                  P
-                </Button>
-
-                <Button className='btnTaskOrigin' type='link'>
-                  platiagro
-                </Button>
-              </Space>
-            </Popover>
+              <Button className='btnTaskOrigin' type='link'>
+                platiagro
+              </Button>
+            </Space>
 
             {record.createdAt !== record.updatedAt ? (
               <Tag>Modificada</Tag>
