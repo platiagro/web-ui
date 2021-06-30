@@ -47,15 +47,21 @@ const NewTask = () => {
 
   const handleCreateBlankTask = () => {
     dispatch(
-      createTask({}, (newTask) => {
+      createTask({ category: 'DEFAULT', hasNotebook: true }, (newTask) => {
         history.replace(`/tarefas/${newTask.uuid}`);
       })
     );
   };
 
   const handleCreateDockerTask = () => {
+    const dockerTaskData = {
+      category: 'DEFAULT',
+      image: 'docker.io/busybox:latest',
+      hasNotebook: false,
+    };
+
     dispatch(
-      createTask({ image: 'docker.io/busybox' }, (newTask) => {
+      createTask(dockerTaskData, (newTask) => {
         history.replace(`/tarefas/${newTask.uuid}`);
       })
     );
