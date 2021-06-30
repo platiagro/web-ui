@@ -21,9 +21,6 @@ const DeploymentFlowBox = (props) => {
     onEdit,
   } = props;
 
-  const disabled =
-    status === 'Pending' || status === 'Running' || status === 'Interrupted';
-
   const settedUpClass = settedUp ? 'setted-up' : '';
   const statusClass = status?.toLowerCase();
   const selectedClass = selected ? 'selected' : '';
@@ -32,7 +29,6 @@ const DeploymentFlowBox = (props) => {
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (disabled) return;
     if (selected) onDeselect(operator);
     else onSelect(operator);
   };
@@ -42,7 +38,7 @@ const DeploymentFlowBox = (props) => {
   };
 
   return (
-    <DropdownMenu disabled={disabled} onEdit={handleEdit}>
+    <DropdownMenu onEdit={handleEdit}>
       <div className='deploymentFlowBox'>
         <div
           className={mainClassName}
