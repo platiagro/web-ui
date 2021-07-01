@@ -15,7 +15,7 @@ const DeploymentTestResultModalContent = ({
   handleTryAgain,
 }) => {
   const dataSource = useMemo(() => {
-    if (!testResult) return [];
+    if (!testResult?.ndarray || !testResult?.names) return [];
 
     return testResult.ndarray.map((e, i) => {
       const data = { key: i };
@@ -29,7 +29,7 @@ const DeploymentTestResultModalContent = ({
   }, [testResult]);
 
   const columns = useMemo(() => {
-    if (!testResult) return [];
+    if (!testResult?.names) return [];
 
     return testResult.names.map((name) => ({
       title: name,

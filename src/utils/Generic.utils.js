@@ -23,73 +23,90 @@ export const sleep = (milliseconds) => {
 /**
  * Checks if a response is one of the supported binary file types (video and image)
  *
- * @param {object} response response from Seldon
+ * @param {object} seldonObject seldon object
  * @returns {boolean} if a response includes a encoded base64 string or not
  */
-export const isSupportedBinaryData = (response) => {
-  const isExpectedResponse = Object.keys(response).includes('binData');
+export const isSupportedBinaryData = (seldonObject) => {
+  const isExpectedResponse = Object.keys(seldonObject).includes('binData');
 
   if (isExpectedResponse) {
-    const base = `data:${response?.meta?.tags?.['content-type']};base64`;
-    const content = response?.binData;
-
+    const contentType = seldonObject?.meta?.tags?.['content-type'];
+    const base = `data:${contentType};base64`;
+    const content = seldonObject?.binData;
     const mimeType = base.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/);
-    if (mimeType != null) {
+    if (mimeType) {
       const pattern = /[A-Za-z0-9+/=]/;
       const [type] = mimeType.shift().split('/');
       if (['video', 'image'].includes(type) && pattern.test(content))
         return true;
     }
   }
+
   return false;
 };
 
 /**
  * Check if a array has a encoded base64 image
  *
- * @param {object} response response from Seldon
- * @returns {boolean} is a response includes a encoded base64 image or not
+ * @param {object} seldonObject seldonObject from Seldon
+ * @returns {boolean} the seldon object includes a encoded base64 image or not
  */
-export const isImage = (response) => {
-  const contentType = response.meta?.tags?.['content-type'];
+export const isImage = (seldonObject) => {
+  const contentType = seldonObject.meta?.tags?.['content-type'];
   return Boolean(contentType) && contentType.includes('image/');
+};
+
+/**
+ * Get the mime type for a given seldon object
+ *
+ * @param {object} seldonObject seldon object
+ * @returns {string} mime type
+ */
+export const getSeldonObjectMimeType = (seldonObject) => {
+  const { binData, names, ndarray, strData } = seldonObject;
+  if (names && ndarray) return 'data:text/csv';
+  else if (binData) return 'data:image/jpeg';
+  else if (strData) return 'data:text/plain';
+  return '';
 };
 
 /**
  * Transform a string into base64 format.
  *
- * @param {string} data string
+ * @param {object} seldonObject seldon object
  * @returns {string} a string with in base64 format
  */
-export const formatBase64 = (data) => {
-  return `data:${data.meta.tags['content-type']};base64,${data.binData}`;
+export const formatBase64 = (seldonObject) => {
+  const mimeType = getSeldonObjectMimeType(seldonObject);
+  return `${mimeType};base64,${seldonObject.binData}`;
 };
 
 /**
  * Transform a tabular data or a binary data to a plain text.
  *
- * @param {object} strEncoded seldon object response
+ * @param {object} seldonObject seldon object response
  * @returns {string} a string with Seldon response
  */
-export const toRawText = (strEncoded) => {
-  const { binData, names, ndarray, strData } = strEncoded;
+export const toRawText = (seldonObject) => {
+  const { binData, names, ndarray, strData } = seldonObject;
   if (names && ndarray) {
     const columns = names.join(',');
     return columns + '\n' + ndarray.join('\n');
   } else if (binData) {
     return binData;
-  } else {
+  } else if (strData) {
     return strData;
   }
+  return '';
 };
 
 /**
  * Copy Seldon response to clipboard.
  *
- * @param {object} experimentInference experiment inference
+ * @param {object} seldonObject seldon object
  */
-export const copyToClipboard = (experimentInference) => {
-  const text = toRawText(experimentInference);
+export const copyToClipboard = (seldonObject) => {
+  const text = toRawText(seldonObject);
 
   navigator.clipboard
     .writeText(text)
@@ -111,13 +128,15 @@ export const copyToClipboard = (experimentInference) => {
 /**
  * Download a response content as file
  *
- * @param {object} experimentInference experiment inference
- * @returns {string} content as base64
+ * @param {object} seldonObject seldon object
+ * @returns {string} base64 content
  */
-export const downloadFile = (experimentInference) => {
-  return isSupportedBinaryData(experimentInference)
-    ? formatBase64(experimentInference)
-    : `data:text/plain;base64,${btoa(toRawText(experimentInference))}`;
+export const downloadFile = (seldonObject) => {
+  const isBinaryDataSupported = isSupportedBinaryData(seldonObject);
+  if (isBinaryDataSupported) return formatBase64(seldonObject);
+  const base64 = btoa(toRawText(seldonObject));
+  const mimeType = getSeldonObjectMimeType(seldonObject);
+  return `${mimeType};base64,${base64}`;
 };
 
 /**
