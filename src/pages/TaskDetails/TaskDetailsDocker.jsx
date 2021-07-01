@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
 
@@ -172,13 +171,23 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
 
       <div className='task-details-page-content-info-docker-explanation'>
         <span>Os comandos estão associados à instrução </span>
-        <Link to={URLS.ENTRYPOINT} target='_blank' referrerPolicy='no-referrer'>
+        <a
+          href={URLS.ENTRYPOINT}
+          target='_blank'
+          rel='noreferrer'
+          referrerPolicy='no-referrer'
+        >
           ENTRYPOINT
-        </Link>
+        </a>
         <span> e os argumentos à instrução </span>
-        <Link to={URLS.CMD} target='_blank' referrerPolicy='no-referrer'>
+        <a
+          href={URLS.CMD}
+          target='_blank'
+          rel='noreferrer'
+          referrerPolicy='no-referrer'
+        >
           CMD
-        </Link>
+        </a>
         <span> do Docker.</span>
       </div>
     </div>
