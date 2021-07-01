@@ -33,10 +33,10 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
         return imageUrl.trim();
 
       case FIELD_IDS.COMMANDS:
-        return commands.trim();
+        return commands.trim().split(' ');
 
       case FIELD_IDS.ARGUMENTS:
-        return args.trim();
+        return args.trim().split(' ');
 
       default:
         return undefined;
@@ -46,23 +46,46 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
   const getOldValueByFieldId = (fieldId) => {
     switch (fieldId) {
       case FIELD_IDS.IMAGE_URL:
-        return taskData.imageUrl;
+        return taskData.image;
 
       case FIELD_IDS.COMMANDS:
-        return taskData.commands;
+        return taskData.commands || [];
 
       case FIELD_IDS.ARGUMENTS:
-        return taskData.args;
+        return taskData.arguments || [];
 
       default:
         return undefined;
     }
   };
 
+  const handleCompareNewAndOldValues = (fieldId, oldValue, newValue) => {
+    switch (fieldId) {
+      case FIELD_IDS.IMAGE_URL:
+        return oldValue === newValue;
+
+      case FIELD_IDS.COMMANDS:
+      case FIELD_IDS.ARGUMENTS: {
+        const hasTheSameLength = oldValue.length === newValue.length;
+        const isIdentical = oldValue.every((val) => newValue.includes(val));
+        console.log(hasTheSameLength, isIdentical);
+        return hasTheSameLength && isIdentical;
+      }
+
+      default:
+        return true;
+    }
+  };
+
   const handleSaveDataWhenLooseFocus = (fieldId) => () => {
     const newValue = getNewValueByFieldId(fieldId);
     const oldValue = getOldValueByFieldId(fieldId);
-    const isOldValueEqualsNewValue = newValue === oldValue;
+    const isOldValueEqualsNewValue = handleCompareNewAndOldValues(
+      fieldId,
+      newValue,
+      oldValue
+    );
+
     if (isOldValueEqualsNewValue) return;
     const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
     handleUpdateTaskData(fieldName, newValue);
@@ -71,8 +94,8 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
   useEffect(() => {
     if (taskData) {
       setImageUrl(taskData.image || '');
-      setCommands(taskData.commands || '');
-      setArgs(taskData.args || '');
+      setCommands((taskData.commands || []).join(' '));
+      setArgs((taskData.arguments || []).join(' '));
     }
   }, [taskData]);
 
