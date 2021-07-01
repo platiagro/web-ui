@@ -11,13 +11,7 @@ export const taskApi = axios.create({
  * @returns {Promise} Request promise
  */
 const createTask = (task) => {
-  const body = {
-    copy_from: task.template === 'uuid' ? '' : task.template,
-    name: task.name,
-    description: task.description,
-    category: 'DEFAULT',
-  };
-  return taskApi.post('/tasks', body);
+  return taskApi.post('/tasks', task);
 };
 
 /**
@@ -79,12 +73,11 @@ const getTaskData = (uuid) => {
  * Send task via email
  *
  * @param {string} uuid Task id
- * @param {string} email Email
+ * @param {string[]} emails Email
  * @returns {Promise} Request promise
  */
-const sendTaskViaEmail = (uuid, email) => {
-  // TODO: This endpoint doesn't exist. Change it with the correct one
-  return taskApi.put(`/tasks/${uuid}/mail`, { email });
+const sendTaskViaEmail = (uuid, emails) => {
+  return taskApi.post(`/tasks/${uuid}/emails`, { emails });
 };
 
 export default {

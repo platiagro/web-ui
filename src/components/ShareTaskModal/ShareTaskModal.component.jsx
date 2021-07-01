@@ -56,14 +56,20 @@ const ShareTaskModal = ({
             // TODO: Create the logic to show or hide this tooltip
             zIndex={-1}
           >
-            <Button
-              shape='round'
-              type='default'
-              icon={<GlobalOutlined />}
-              disabled // TODO: Enable if the marketplace exists
+            <Tooltip
+              // TODO: Remove this tooltip below when the marketplace exists
+              placement='right'
+              title='Em breve esta funcionalidade estará disponível!'
             >
-              Publicar no Marketplace
-            </Button>
+              <Button
+                shape='round'
+                type='default'
+                icon={<GlobalOutlined />}
+                disabled // TODO: Enable if the marketplace exists
+              >
+                Publicar no Marketplace
+              </Button>
+            </Tooltip>
           </Tooltip>
         </div>
       }

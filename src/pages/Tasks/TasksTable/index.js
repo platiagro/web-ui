@@ -1,21 +1,16 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import {
-  DownOutlined,
-  SearchOutlined,
-  ShoppingOutlined,
-  TeamOutlined,
-} from '@ant-design/icons';
-import {
-  Button,
-  Input,
-  Popconfirm,
-  Popover,
-  Space,
   Tag,
+  Input,
+  Space,
+  Button,
+  Popover,
   Tooltip,
-  Typography,
   Skeleton,
+  Popconfirm,
+  Typography,
 } from 'antd';
 
 import { CommonTable } from 'components';
@@ -24,11 +19,11 @@ import './style.less';
 
 const TasksTable = ({
   tasks,
-  loading,
-  handleClickTask,
-  handleClickEdit,
-  handleClickDelete,
-  handleCopyTaskRequest,
+  isLoading,
+  handleCopyTask,
+  handleDeleteTask,
+  handleSeeTaskCode,
+  handleOpenTaskDetails,
 }) => {
   const searchInputRef = useRef(null);
   const confirmPopupRef = useRef(null);
@@ -55,6 +50,7 @@ const TasksTable = ({
               onPressEnter={() => confirm()}
               style={{ width: 188, marginBottom: 8, display: 'block' }}
             />
+
             <Space>
               <Button
                 type='primary'
@@ -65,6 +61,7 @@ const TasksTable = ({
               >
                 Search
               </Button>
+
               <Button
                 onClick={() => clearFilters()}
                 size='small'
@@ -81,8 +78,11 @@ const TasksTable = ({
           <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
         );
       },
-      onFilter: (value, record) =>
-        record ? record.name.toLowerCase().includes(value.toLowerCase()) : '',
+      onFilter: (value, record) => {
+        return record
+          ? record.name.toLowerCase().includes(value.toLowerCase())
+          : '';
+      },
       onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
           setTimeout(() => searchInputRef.current.select());
@@ -93,25 +93,16 @@ const TasksTable = ({
           <div>
             <Button
               type='link'
-              onClick={() => handleClickEdit(record)}
               style={{ textAlign: 'left', width: '75%' }}
+              onClick={() => handleOpenTaskDetails(record)}
             >
               <Typography.Text
-                ellipsis
                 style={{ color: '#0050B3', width: '100%' }}
+                ellipsis
               >
                 {value}
               </Typography.Text>
             </Button>
-            <Space style={{ width: '25%' }}>
-              <Button className='btnTaskLockTeam' icon={<TeamOutlined />} />
-
-              <Button
-                icon={<ShoppingOutlined style={{ color: 'white' }} />}
-                shape='circle'
-                style={{ border: 0, backgroundColor: '#722ED1' }}
-              />
-            </Space>
           </div>
         );
       },
@@ -125,7 +116,7 @@ const TasksTable = ({
         showTitle: false,
       },
       render(value) {
-        return loading ? (
+        return isLoading ? (
           <Skeleton
             active
             paragraph={{ rows: 1, width: 250 }}
@@ -147,45 +138,23 @@ const TasksTable = ({
       render(_, record) {
         return (
           <Space size={8}>
-            <Popover
-              placement='bottomLeft'
-              content={
-                <>
-                  <Space>
-                    <ShoppingOutlined style={{ fontSize: '20px' }} />
-                    <strong>{record.name}</strong>
-                  </Space>
-                  <div style={{ marginLeft: '28px' }}>
-                    <Typography.Text strong>Autor: PlatIAgro</Typography.Text>
-                    <br />
-                    <Typography.Text strong>
-                      Atualizada em 15/06/2020
-                    </Typography.Text>
-                    <br />
-                    <br />
-                    <Typography.Text strong>
-                      A sua cópia foi feita em 10/06/2020
-                    </Typography.Text>
-                  </div>
-                </>
-              }
-            >
-              <Space size={8}>
-                <Button
-                  shape='circle'
-                  style={{
-                    color: 'white',
-                    backgroundColor: '#389E0D',
-                    border: 0,
-                  }}
-                >
-                  P
-                </Button>
-                <Button className='btnTaskOrigin' type='link'>
-                  platiagro
-                </Button>
-              </Space>
-            </Popover>
+            <Space size={8}>
+              <Button
+                style={{
+                  border: 0,
+                  color: 'white',
+                  backgroundColor: '#389E0D',
+                }}
+                shape='circle'
+              >
+                P
+              </Button>
+
+              <Button className='btnTaskOrigin' type='link'>
+                platiagro
+              </Button>
+            </Space>
+
             {record.createdAt !== record.updatedAt ? (
               <Tag>Modificada</Tag>
             ) : null}
@@ -203,12 +172,14 @@ const TasksTable = ({
           <Space size={8}>
             <Button
               className='btnTaskActions'
-              onClick={() => handleClickTask(record.name)}
+              onClick={() => handleSeeTaskCode(record.name)}
               type='link'
             >
               Ver código-fonte
             </Button>
-            |
+
+            <span>|</span>
+
             <Popover
               overlayClassName='more-actions-popover'
               placement='bottom'
@@ -222,17 +193,18 @@ const TasksTable = ({
                   <Button
                     className='btnTaskMoreActions'
                     type='text'
-                    onClick={() => handleCopyTaskRequest(record)}
+                    onClick={() => handleCopyTask(record)}
                   >
                     Fazer uma cópia
                   </Button>
+
                   <Popconfirm
                     ref={confirmPopupRef}
                     title='Você tem certeza que deseja excluir essa tarefa?'
-                    onConfirm={() => handleClickDelete(record.uuid)}
-                    okText='Sim'
-                    cancelText='Não'
+                    onConfirm={() => handleDeleteTask(record.uuid)}
                     placement='bottomRight'
+                    cancelText='Não'
+                    okText='Sim'
                   >
                     <Button className='btnTaskMoreActions' type='text'>
                       Excluir
@@ -254,7 +226,7 @@ const TasksTable = ({
   return (
     <CommonTable
       dataSource={tasks}
-      isLoading={loading}
+      isLoading={isLoading}
       className='tasksTable'
       columns={columnsConfig}
       rowKey={(record) => record.uuid}
@@ -268,12 +240,12 @@ const TasksTable = ({
 };
 
 TasksTable.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleClickTask: PropTypes.func.isRequired,
-  handleClickEdit: PropTypes.func.isRequired,
-  handleClickDelete: PropTypes.func.isRequired,
-  handleCopyTaskRequest: PropTypes.func.isRequired,
+  tasks: PropTypes.arrayOf.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  handleCopyTask: PropTypes.func.isRequired,
+  handleDeleteTask: PropTypes.func.isRequired,
+  handleSeeTaskCode: PropTypes.func.isRequired,
+  handleOpenTaskDetails: PropTypes.func.isRequired,
 };
 
 export default TasksTable;
