@@ -6,6 +6,7 @@ import {
   NewTask,
   Error404,
   Projects,
+  TasksFlow,
   Deployment,
   JupyterLab,
   Experiments,
@@ -31,6 +32,7 @@ export const Main = () => {
       />
 
       <Route path='/tarefas' component={Tasks} exact />
+      <Route path='/fluxo-tarefas' component={TasksFlow} exact />
       <Route path='/nova-tarefa' component={NewTask} />
       <Route path='/tarefas/:taskId' component={TaskDetails} />
       <Route path='/jupyterlab/:path*' component={JupyterLab} />

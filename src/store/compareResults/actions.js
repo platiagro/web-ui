@@ -191,7 +191,10 @@ export const fetchCompareResultsResults =
         compareResult: compareResultsAux,
       });
     } catch (e) {
-      dispatch(showError(e.message));
+      const code = e?.response?.status;
+      if (code !== 404) {
+        dispatch(showError(e.message));
+      }
     }
   };
 

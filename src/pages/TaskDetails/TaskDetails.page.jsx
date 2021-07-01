@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -47,6 +47,7 @@ const TaskDetails = () => {
     handleHideShareTaskModal,
   ] = useBooleanState(false);
 
+  const isLoadingTask = useIsLoading(TASKS_TYPES.FETCH_TASK_DATA_REQUEST);
   const isEditingTask = useIsLoading(TASKS_TYPES.UPDATE_TASK_REQUEST);
 
   const isSendingTaskViaEmail = useIsLoading(
@@ -117,7 +118,7 @@ const TaskDetails = () => {
     dispatch(sendTaskViaEmail(taskId, email, handleHideShareTaskModal));
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (taskId) dispatch(fetchTaskData(taskId));
     return () => {
       dispatch(clearTaskData());
@@ -155,13 +156,7 @@ const TaskDetails = () => {
           />
 
           <div className='task-details-page-content-info'>
-            {taskData?.type === 'docker' ? (
-              // TODO: "taskData.type" does not exist. Find other way to check if is a docker task
-              <TaskDetailsDocker
-                taskData={taskData}
-                handleUpdateTaskData={handleUpdateTaskData}
-              />
-            ) : (
+            {!isLoadingTask && !!taskData?.hasNotebook && (
               <>
                 <TaskDetailsNotebooks
                   isUploadingDeploymentNotebook={isUploadingDeploymentNotebook}
@@ -181,7 +176,16 @@ const TaskDetails = () => {
               </>
             )}
 
-            <TaskDetailsInfoFooter hasEditedSomething={hasEditedSomething} />
+            {!isLoadingTask && !taskData?.hasNotebook && (
+              <TaskDetailsDocker
+                taskData={taskData}
+                handleUpdateTaskData={handleUpdateTaskData}
+              />
+            )}
+
+            {!isLoadingTask && (
+              <TaskDetailsInfoFooter hasEditedSomething={hasEditedSomething} />
+            )}
           </div>
         </div>
       </div>

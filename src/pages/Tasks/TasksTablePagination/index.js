@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import { Pagination } from 'antd';
+import PropTypes from 'prop-types';
 
 const ProjectsTablePagination = ({ pageSize, total, onChange }) => {
   return (

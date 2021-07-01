@@ -12,14 +12,21 @@ import actionTypes from './actionTypes';
  * @param {string} projectId Project ID
  * @param {string} deployId Deployment ID
  * @param {boolean} shouldShowLogsDrawer Should open the logs drawer?
+ * @param {boolean} shouldShowLoading Should show the loading?
  * @returns {Function} Dispatch function
  */
 export const getDeployExperimentLogs =
-  (projectId, deployId, shouldShowLogsDrawer = true) =>
+  (
+    projectId,
+    deployId,
+    shouldShowLogsDrawer = true,
+    shouldShowLoading = true
+  ) =>
   async (dispatch) => {
     try {
       if (shouldShowLogsDrawer) dispatch(showInferenceLogsDrawer('Logs'));
-      dispatch(addLoading(actionTypes.GET_DEPLOYMENT_LOGS));
+      if (shouldShowLoading)
+        dispatch(addLoading(actionTypes.GET_DEPLOYMENT_LOGS));
 
       const response = await deploymentsApi.fetchDeploymentRunLogs(
         projectId,

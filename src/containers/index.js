@@ -33,3 +33,4 @@ export { default as TasksMenuDetailsContainer } from './TasksMenuDetailsContaine
 export { default as UsingDeploymentsButtonContainer } from './UsingDeploymentsButtonContainer';
 export { default as UsingDeploymentsModalContainer } from './UsingDeploymentsModalContainer';
 export { default as DeploymentDatasetUploadContainer } from './DeploymentDatasetUploadContainer';
+export { default as TasksFlowTableContainer } from './TasksFlowTableContainer';

@@ -15,7 +15,9 @@ const TasksEmpty = ({ children }) => (
         <span>
           <strong>Nenhuma tarefa foi criada</strong>
         </span>
+
         <br />
+
         <span>Clique no botão &quot;Nova Tarefa&quot; para começar</span>
       </span>
     }

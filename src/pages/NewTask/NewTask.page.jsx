@@ -42,27 +42,28 @@ const NewTask = () => {
   };
 
   const handleGoToMarketPlace = () => {
-    history.push('/marketplace'); // TODO: Put the correct route path here
+    history.replace('/marketplace'); // TODO: Put the correct route path here
   };
 
   const handleCreateBlankTask = () => {
-    // TODO: Remove the name from this object when the backend can create a random name for the task
     dispatch(
-      createTask({ name: `Tarefa - ${new Date().getTime()}` }, (newTask) => {
-        history.push(`/tarefas/${newTask.uuid}`);
+      createTask({ category: 'DEFAULT', hasNotebook: true }, (newTask) => {
+        history.replace(`/tarefas/${newTask.uuid}`);
       })
     );
   };
 
   const handleCreateDockerTask = () => {
-    // TODO: Remove the name from this object when the backend can create a random name for the task
+    const dockerTaskData = {
+      category: 'DEFAULT',
+      image: 'docker.io/busybox:latest',
+      hasNotebook: false,
+    };
+
     dispatch(
-      createTask(
-        { name: `Tarefa Docker - ${new Date().getTime()}` },
-        (newTask) => {
-          history.push(`/tarefas/${newTask.uuid}`);
-        }
-      )
+      createTask(dockerTaskData, (newTask) => {
+        history.replace(`/tarefas/${newTask.uuid}`);
+      })
     );
   };
 
@@ -77,7 +78,7 @@ const NewTask = () => {
 
     dispatch(
       createTask(taskCopy, (newTask) => {
-        history.push(`/tarefas/${newTask.uuid}`);
+        history.replace(`/tarefas/${newTask.uuid}`);
       })
     );
   };

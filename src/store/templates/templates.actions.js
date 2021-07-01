@@ -1,6 +1,6 @@
 // correção de bug do eslint/jsdoc
 /* eslint-disable-next-line */
-/* global Templates */
+/* global Templates, TemplateCreatable */
 
 import * as TEMPLATES_TYPES from './templates.actionTypes';
 
@@ -111,12 +111,11 @@ export const fetchTemplatesRequest = () => async (dispatch) => {
 /**
  * Create template request action
  *
- * @param {string} templateName Template name
- * @param {string} experimentId Experiment Id
+ * @param {TemplateCreatable} templateObject Template creatable object
  * @returns {Function} Thunk action
  */
 export const createTemplateRequest =
-  (templateName, experimentId) => async (dispatch, getState) => {
+  (templateObject) => async (dispatch, getState) => {
     const requestActionType = TEMPLATES_TYPES.CREATE_TEMPLATE_REQUEST;
 
     dispatch({
@@ -126,10 +125,7 @@ export const createTemplateRequest =
     dispatch(addLoading(requestActionType));
 
     try {
-      const response = await templatesApi.createTemplate(
-        templateName,
-        experimentId
-      );
+      const response = await templatesApi.createTemplate(templateObject);
 
       const { data: template } = response;
 
@@ -169,12 +165,12 @@ export const createTemplateRequest =
 /**
  * Delete template request action
  *
- * @param {string} templateId Template UUID
- * @param {object[]} allTasks All tasks list, used in task menu
+ * @param {string[]} templatesList Templates UUID list
+ * @param {object[] | undefined} allTasks All tasks list, used in task menu
  * @returns {Function} Thunk action
  */
 export const deleteTemplateRequest =
-  (templateId, allTasks) => async (dispatch, getState) => {
+  (templatesList, allTasks) => async (dispatch, getState) => {
     const requestActionType = TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST;
 
     dispatch({
@@ -184,42 +180,45 @@ export const deleteTemplateRequest =
     dispatch(addLoading(requestActionType));
 
     try {
-      await templatesApi.deleteTemplate(templateId);
+      await templatesApi.deleteTemplate(templatesList);
 
       const currentState = getState();
       const templatesState = getTemplates(currentState);
 
       const templates = templatesState.filter((templateItem) => {
-        return templateItem.uuid !== templateId;
+        return !templatesList.includes(templateItem.uuid);
       });
 
       // TODO: Todo esse bloco será removido quando a store de menu de tarefas for refatorada
       // INICIO ------------->
-      const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
-        (template) => template.uuid !== templateId
-      );
+      let tasks = [];
+      if (allTasks) {
+        const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
+          (template) => !templatesList.includes(template.uuid)
+        );
 
-      const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
-        (template) => template.uuid !== templateId
-      );
+        const unfilteredTemplates = [...allTasks.unfiltered.TEMPLATES].filter(
+          (template) => !templatesList.includes(template.uuid)
+        );
 
-      const tasks = {
-        unfiltered: {
-          ...allTasks.unfiltered,
-          TEMPLATES: unfilteredTemplates,
-        },
-        filtered: {
-          ...allTasks.filtered,
-          TEMPLATES: filteredTemplates,
-        },
-      };
+        tasks = {
+          unfiltered: {
+            ...allTasks.unfiltered,
+            TEMPLATES: unfilteredTemplates,
+          },
+          filtered: {
+            ...allTasks.filtered,
+            TEMPLATES: filteredTemplates,
+          },
+        };
 
-      if (tasks.unfiltered.TEMPLATES.length === 0) {
-        delete tasks.unfiltered.TEMPLATES;
-      }
+        if (tasks.unfiltered.TEMPLATES.length === 0) {
+          delete tasks.unfiltered.TEMPLATES;
+        }
 
-      if (tasks.filtered.TEMPLATES.length === 0) {
-        delete tasks.filtered.TEMPLATES;
+        if (tasks.filtered.TEMPLATES.length === 0) {
+          delete tasks.filtered.TEMPLATES;
+        }
       }
       // FIM ------------->
 

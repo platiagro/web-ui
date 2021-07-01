@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Select, Tooltip, Tag } from 'antd';
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons';
@@ -16,14 +16,16 @@ const FIELD_IDS = {
 
 const FIELD_ID_TO_FIELD_NAME = {
   DESCRIPTION: 'description',
-  CATEGORY: 'tags', // TODO: Put 'category' here when the backend accepts a category
-  INPUT_DATA: 'inputData',
-  OUTPUT_DATA: 'outputData',
+  CATEGORY: 'category',
+  INPUT_DATA: 'dataIn',
+  OUTPUT_DATA: 'dataOut',
   SEARCH_TAGS: 'tags',
-  DOCUMENTATION: 'documentation',
+  DOCUMENTATION: 'docs',
 };
 
 const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
+  const isRemovingSearchTagUsingCloseIcon = useRef(false);
+
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(undefined);
   const [inputData, setInputData] = useState('');
@@ -36,9 +38,8 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
       case FIELD_IDS.DESCRIPTION:
         return description.trim();
 
-      // TODO: Return only the category when the backend accepts a category
       case FIELD_IDS.CATEGORY:
-        return [category];
+        return category;
 
       case FIELD_IDS.INPUT_DATA:
         return inputData.trim();
@@ -47,7 +48,7 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
         return outputData.trim();
 
       case FIELD_IDS.SEARCH_TAGS:
-        return searchTags.trim();
+        return searchTags.map((tag) => tag.trim());
 
       case FIELD_IDS.DOCUMENTATION:
         return documentation.trim();
@@ -62,21 +63,20 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
       case FIELD_IDS.DESCRIPTION:
         return taskData.description;
 
-      // TODO: Return the category when the backend accepts a category
       case FIELD_IDS.CATEGORY:
-        return taskData.tags;
+        return taskData.category;
 
       case FIELD_IDS.INPUT_DATA:
-        return taskData.inputData;
+        return taskData.dataIn;
 
       case FIELD_IDS.OUTPUT_DATA:
-        return taskData.outputData;
+        return taskData.dataOut;
 
       case FIELD_IDS.SEARCH_TAGS:
-        return taskData.searchTags;
+        return taskData.tags;
 
       case FIELD_IDS.DOCUMENTATION:
-        return taskData.documentation;
+        return taskData.docs;
 
       default:
         return undefined;
@@ -85,6 +85,7 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
   const handleCompareNewAndOldValues = (fieldId, oldValue, newValue) => {
     switch (fieldId) {
+      case FIELD_IDS.CATEGORY:
       case FIELD_IDS.INPUT_DATA:
       case FIELD_IDS.DESCRIPTION:
       case FIELD_IDS.OUTPUT_DATA:
@@ -94,11 +95,7 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
       case FIELD_IDS.SEARCH_TAGS: {
         const hasTheSameLength = oldValue.length === newValue.length;
         const isIdentical = oldValue.every((tag) => newValue.includes(tag));
-        return hasTheSameLength || isIdentical;
-      }
-
-      case FIELD_IDS.CATEGORY: {
-        return oldValue.some((tag) => newValue.includes(tag));
+        return hasTheSameLength && isIdentical;
       }
 
       default:
@@ -124,17 +121,24 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
   useEffect(() => {
     if (taskData) {
-      setDescription(taskData.description);
-
-      // TODO: Use taskData.category here when the backend accepts a category
-      setCategory(taskData?.tags.length ? taskData.tags[0] : undefined);
-
-      setInputData(taskData.inputData);
-      setOutputData(taskData.outputData);
-      setSearchTags(taskData.tags);
-      setDocumentation(taskData.documentation);
+      setDescription(taskData.description || '');
+      setCategory(taskData.category);
+      setInputData(taskData.dataIn || '');
+      setOutputData(taskData.dataOut || '');
+      setSearchTags(taskData.tags || []);
+      setDocumentation(taskData.docs || '');
     }
   }, [taskData]);
+
+  useEffect(() => {
+    // Save search tags when click in a search tag close icon
+    if (isRemovingSearchTagUsingCloseIcon.current) {
+      isRemovingSearchTagUsingCloseIcon.current = false;
+      const searchTagsToSave = searchTags.map((tag) => tag.trim());
+      const fieldName = FIELD_ID_TO_FIELD_NAME[FIELD_IDS.SEARCH_TAGS];
+      handleUpdateTaskData(fieldName, searchTagsToSave);
+    }
+  }, [handleUpdateTaskData, searchTags]);
 
   return (
     <div className='task-details-page-content-form'>
@@ -152,9 +156,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           size='large'
           value={description}
           id={FIELD_IDS.DESCRIPTION}
+          placeholder='Adicionar Descrição'
           onChange={(e) => setDescription(e.target.value)}
           onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DESCRIPTION)}
-          placeholder='Adicionar Descrição'
         />
       </div>
 
@@ -168,12 +172,12 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
         <Select
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          id={FIELD_IDS.CATEGORY}
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.CATEGORY)}
           size='large'
           value={category}
           onChange={setCategory}
+          id={FIELD_IDS.CATEGORY}
           placeholder='Selecionar Categoria'
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.CATEGORY)}
         >
           {Object.values(TASK_CATEGORIES_WITHOUT_TEMPLATES).map(
             (categoryOption) => {
@@ -211,9 +215,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           size='large'
           value={inputData}
           id={FIELD_IDS.INPUT_DATA}
+          placeholder='Adicionar dados de entrada'
           onChange={(e) => setInputData(e.target.value)}
           onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.INPUT_DATA)}
-          placeholder='Adicionar dados de entrada'
         />
       </div>
 
@@ -237,9 +241,9 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           size='large'
           value={outputData}
           id={FIELD_IDS.OUTPUT_DATA}
+          placeholder='Adicionar dados de saída'
           onChange={(e) => setOutputData(e.target.value)}
           onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.OUTPUT_DATA)}
-          placeholder='Adicionar dados de saída'
         />
       </div>
 
@@ -262,24 +266,28 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           className='task-details-page-content-form-field-input task-details-page-input-style'
           mode='tags'
           size='large'
-          id={FIELD_IDS.SEARCH_TAGS}
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.SEARCH_TAGS)}
           value={searchTags}
           onChange={setSearchTags}
+          id={FIELD_IDS.SEARCH_TAGS}
           placeholder='Adicionar tags de busca'
-          tagRender={({ label, ...otherTagProps }) => {
+          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.SEARCH_TAGS)}
+          tagRender={({ label, onClose, ...otherTagProps }) => {
+            const handleRemoveTag = () => {
+              onClose();
+              isRemovingSearchTagUsingCloseIcon.current = true;
+            };
+
             return (
               <Tag
                 {...otherTagProps}
                 color='blue'
+                onClose={handleRemoveTag}
                 closeIcon={<CloseOutlined style={{ color: '#1890ff' }} />}
-                closable={false} // TODO: Make this field closable removing this prop when the backend accepts custom tags
               >
                 {label}
               </Tag>
             );
           }}
-          disabled // TODO: Enable this field when the backend accepts custom tags
         />
       </div>
 
@@ -293,11 +301,11 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 
         <Input.TextArea
           className='task-details-page-content-form-field-input task-details-page-input-style'
-          id={FIELD_IDS.DOCUMENTATION}
           value={documentation}
+          id={FIELD_IDS.DOCUMENTATION}
+          placeholder='Adicionar documentação'
           onChange={(e) => setDocumentation(e.target.value)}
           onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DOCUMENTATION)}
-          placeholder='Adicionar documentação'
           autoSize
         />
       </div>

@@ -5,6 +5,7 @@ import {
   ExperimentOutlined,
   ShoppingOutlined,
   SettingOutlined,
+  PartitionOutlined,
 } from '@ant-design/icons';
 
 const itemsMenu = [
@@ -17,6 +18,11 @@ const itemsMenu = [
     icon: <BuildOutlined />,
     title: 'Tarefas',
     path: '/tarefas',
+  },
+  {
+    icon: <PartitionOutlined />,
+    title: 'Fluxo de Tarefas',
+    path: '/fluxo-tarefas',
   },
   {
     icon: <ExperimentOutlined />,

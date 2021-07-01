@@ -13,7 +13,10 @@ import { useIsLoading, useToggleState } from 'hooks';
 import { PROJECTS_TYPES } from 'store/projects';
 import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
 import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
-import { fetchDeploymentOperatorsRequest } from 'store/operators';
+import {
+  fetchDeploymentOperatorsRequest,
+  clearAllDeploymentOperators,
+} from 'store/operators';
 
 import './DeploymentToolbarContainer.less';
 import {
@@ -77,6 +80,10 @@ const DeploymentToolbarContainer = () => {
     dispatch(fetchDeploymentOperatorsRequest(projectId, deploymentId));
   }, [projectId, deploymentId, dispatch]);
 
+  const handleClearOperators = useCallback(() => {
+    dispatch(clearAllDeploymentOperators());
+  }, [dispatch]);
+
   const handleRunDeployment = () => {
     dispatch(
       deploymentRunsActions.createDeploymentRunRequest(
@@ -122,8 +129,10 @@ const DeploymentToolbarContainer = () => {
   useEffect(() => {
     if (deploymentId) {
       handleFetchOperators(projectId, deploymentId);
+    } else {
+      handleClearOperators();
     }
-  }, [projectId, deploymentId, handleFetchOperators]);
+  }, [projectId, deploymentId, handleFetchOperators, handleClearOperators]);
 
   useEffect(() => {
     if (isTestingFlow) {

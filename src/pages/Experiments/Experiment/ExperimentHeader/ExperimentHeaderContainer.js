@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -8,10 +8,10 @@ import {
   Actions as experimentsActions,
 } from 'store/projects/experiments';
 import { removeOperatorRequest } from 'store/operator';
-import { useDeepEqualSelector, useIsLoading } from 'hooks';
+import { useDeepEqualSelector, useIsLoading, useChangeFavicon } from 'hooks';
 import { fetchExperimentOperatorsRequest } from 'store/operators';
 import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
-
+import { experimentTrainingDataLoaded } from 'store/ui/actions';
 import ExperimentHeader from './index';
 
 const experimentSelector = (projectId, experimentId) => (state) => {
@@ -76,11 +76,24 @@ const ExperimentHeaderContainer = () => {
     dispatch(removeOperatorRequest(projectId, experimentId, operator));
   };
 
+  const stopTrainingLoading = useCallback(() => {
+    dispatch(experimentTrainingDataLoaded());
+  }, [dispatch]);
+
   useEffect(() => {
     if (experimentId) {
       dispatch(fetchExperimentOperatorsRequest(projectId, experimentId));
     }
   }, [dispatch, projectId, experimentId]);
+
+  //Using useEffect as cleanup to reset loading
+  useEffect(() => {
+    return () => {
+      stopTrainingLoading();
+    };
+  }, [stopTrainingLoading]);
+
+  useChangeFavicon(trainingLoading);
 
   return (
     <ExperimentHeader

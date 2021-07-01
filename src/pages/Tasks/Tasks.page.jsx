@@ -1,15 +1,19 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 
+import NewTaskButton from './NewTaskButton';
+import TasksTableContainer from './TasksTable/TasksTableContainer';
 import ContentHeaderContainer from 'components/ContentHeader/ContentHeaderContainer';
 
-import NewTaskButtonContainer from './NewTaskButton/NewTaskButtonContainer';
-import EditTaskModalContainer from './EditTaskModal/EditTaskModalContainer';
-import NewTaskModalContainer from './NewTaskModal/NewTaskModalContainer';
-import TasksTableContainer from './TasksTable/TasksTableContainer';
-
 const Tasks = () => {
+  const history = useHistory();
+
+  const handleOpenNewTaskPage = () => {
+    history.push('/nova-tarefa');
+  };
+
   return (
-    <>
+    <div className='tasks-page'>
       <ContentHeaderContainer
         title='Tarefas'
         editable={false}
@@ -17,12 +21,10 @@ const Tasks = () => {
       />
 
       <div className='contentPage'>
-        <NewTaskButtonContainer />
-        <NewTaskModalContainer />
-        <EditTaskModalContainer />
+        <NewTaskButton disabled={false} handleClick={handleOpenNewTaskPage} />
         <TasksTableContainer />
       </div>
-    </>
+    </div>
   );
 };
 

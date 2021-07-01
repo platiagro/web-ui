@@ -19,3 +19,13 @@
  *
  * @typedef {Template[]} Templates
  */
+
+/**
+ * Template Creatable.
+ *
+ * @typedef {object} TemplateCreatable
+ *
+ * @property {string} name Template name
+ * @property {string=} experimentId Experiment id to create template
+ * @property {string=} deploymentId Deployment id to create template
+ */
