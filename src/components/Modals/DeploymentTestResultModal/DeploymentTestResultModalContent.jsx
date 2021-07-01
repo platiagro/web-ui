@@ -79,7 +79,14 @@ const DeploymentTestResultModalContent = ({
           Copiar
         </Button>
 
-        <a href={utils.downloadFile(testResult)} download='predict-file'>
+        <a
+          href={utils.downloadFile(testResult)}
+          download={
+            utils.getSeldonObjectMimeType(testResult) === 'data:text/csv'
+              ? 'predict-file.csv'
+              : 'predict-file'
+          }
+        >
           <Button
             type='primary'
             icon={<DownloadOutlined />}

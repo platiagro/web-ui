@@ -58,6 +58,8 @@ export const isImage = (seldonObject) => {
 
 /**
  * Get the mime type for a given seldon object
+ * For more mime types:
+ * https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
  *
  * @param {object} seldonObject seldon object
  * @returns {string} mime type
@@ -136,6 +138,7 @@ export const downloadFile = (seldonObject) => {
   if (isBinaryDataSupported) return formatBase64(seldonObject);
   const base64 = btoa(toRawText(seldonObject));
   const mimeType = getSeldonObjectMimeType(seldonObject);
+  console.log(mimeType);
   return `${mimeType};base64,${base64}`;
 };
 
