@@ -26,6 +26,7 @@ import {
   readFileContent,
   sleep,
   toRawText,
+  getSeldonObjectMimeType,
 } from './Generic.utils';
 
 import {
@@ -70,6 +71,7 @@ export default {
   readFileContent,
   sleep,
   toRawText,
+  getSeldonObjectMimeType,
 
   formatCompareResultDate,
   formatResultsParameters,

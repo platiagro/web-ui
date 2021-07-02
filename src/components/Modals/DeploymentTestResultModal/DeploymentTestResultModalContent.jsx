@@ -15,7 +15,7 @@ const DeploymentTestResultModalContent = ({
   handleTryAgain,
 }) => {
   const dataSource = useMemo(() => {
-    if (!testResult) return [];
+    if (!testResult?.ndarray || !testResult?.names) return [];
 
     return testResult.ndarray.map((e, i) => {
       const data = { key: i };
@@ -29,7 +29,7 @@ const DeploymentTestResultModalContent = ({
   }, [testResult]);
 
   const columns = useMemo(() => {
-    if (!testResult) return [];
+    if (!testResult?.names) return [];
 
     return testResult.names.map((name) => ({
       title: name,
@@ -79,7 +79,14 @@ const DeploymentTestResultModalContent = ({
           Copiar
         </Button>
 
-        <a href={utils.downloadFile(testResult)} download='predict-file'>
+        <a
+          href={utils.downloadFile(testResult)}
+          download={
+            utils.getSeldonObjectMimeType(testResult) === 'data:text/csv'
+              ? 'predict-file.csv'
+              : 'predict-file'
+          }
+        >
           <Button
             type='primary'
             icon={<DownloadOutlined />}
