@@ -62,13 +62,18 @@ export const isImage = (seldonObject) => {
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
  *
  * @param {object} seldonObject seldon object
+ * @param {object} contentType response content type
  * @returns {string} mime type
  */
-export const getSeldonObjectMimeType = (seldonObject) => {
+export const getSeldonObjectMimeType = (seldonObject, contentType) => {
   const { binData, names, ndarray, strData } = seldonObject;
   if (names && ndarray) return 'data:text/csv';
-  else if (binData) return 'data:image/jpeg';
   else if (strData) return 'data:text/plain';
+  else if (binData) {
+    if (contentType?.includes('png')) return 'data:image/png';
+    else if (contentType?.includes('video')) return 'data:video/mp4';
+    return 'data:image/jpeg';
+  }
   return '';
 };
 
@@ -79,7 +84,8 @@ export const getSeldonObjectMimeType = (seldonObject) => {
  * @returns {string} a string with in base64 format
  */
 export const formatBase64 = (seldonObject) => {
-  const mimeType = getSeldonObjectMimeType(seldonObject);
+  const contentType = seldonObject?.meta?.tags?.['content-type'];
+  const mimeType = getSeldonObjectMimeType(seldonObject, contentType);
   return `${mimeType};base64,${seldonObject.binData}`;
 };
 
@@ -138,7 +144,6 @@ export const downloadFile = (seldonObject) => {
   if (isBinaryDataSupported) return formatBase64(seldonObject);
   const base64 = btoa(toRawText(seldonObject));
   const mimeType = getSeldonObjectMimeType(seldonObject);
-  console.log(mimeType);
   return `${mimeType};base64,${base64}`;
 };
 
