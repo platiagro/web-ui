@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 import TabsBar from 'components/TabsBar';
+import { useFirstRenderEffect } from 'hooks';
 import { deselectOperator } from 'store/operator';
 import { clearAllMonitorings } from 'store/monitorings';
 import { showNewDeploymentModal } from 'store/ui/actions';
@@ -93,9 +94,22 @@ const DeploymentsTabsContainer = () => {
     dispatch(showNewDeploymentModal());
   };
 
-  useEffect(() => {
-    dispatch(fetchDeploymentsRequest(projectId, true));
-  }, [dispatch, projectId]);
+  useFirstRenderEffect(() => {
+    const successCallback = (currentDeployments) => {
+      if (!deploymentId) return;
+
+      const currentDeployment = currentDeployments?.find(
+        ({ uuid }) => uuid === deploymentId
+      );
+
+      if (!currentDeployment) {
+        history.push('/erro-404');
+        return;
+      }
+    };
+
+    dispatch(fetchDeploymentsRequest(projectId, true, successCallback));
+  });
 
   useEffect(() => {
     if (!deploymentId && deployments?.length) {
