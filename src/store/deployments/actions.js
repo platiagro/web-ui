@@ -33,15 +33,17 @@ const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!'
  * fetch deployment success action
  *
  * @param {object} response Request response
+ * @param {Function} successCallback Success callback
  * @returns {object} { type, experiments }
  */
-const fetchDeploymentsSuccess = (response) => (dispatch) => {
+const fetchDeploymentsSuccess = (response, successCallback) => (dispatch) => {
   // dispatching fetch deployments success action
   dispatch({
     type: actionTypes.FETCH_DEPLOYMENTS_SUCCESS,
     deployments: response.data.deployments,
   });
 
+  if (successCallback) successCallback(response.data.deployments);
   dispatch(implantedExperimentsDataLoaded());
 };
 
@@ -69,22 +71,24 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {boolean} isToShowLoader Whenever is to show loader or not
+ * @param {Function} successCallback Success callback
  * @returns {Function} The `disptach` function
  */
-export const fetchDeploymentsRequest = (projectId, isToShowLoader) => async (
-  dispatch
-) => {
-  if (isToShowLoader) {
-    await dispatch(clearAllDeployments());
-    dispatch(implantedExperimentsLoadingData());
-  }
+export const fetchDeploymentsRequest =
+  (projectId, isToShowLoader, successCallback) => async (dispatch) => {
+    if (isToShowLoader) {
+      await dispatch(clearAllDeployments());
+      dispatch(implantedExperimentsLoadingData());
+    }
 
-  // fetching deployments
-  deploymentsApi
-    .listDeployments(projectId)
-    .then((response) => dispatch(fetchDeploymentsSuccess(response)))
-    .catch((error) => dispatch(fetchDeploymentsFail(error)));
-};
+    // fetching deployments
+    deploymentsApi
+      .listDeployments(projectId)
+      .then((response) =>
+        dispatch(fetchDeploymentsSuccess(response, successCallback))
+      )
+      .catch((error) => dispatch(fetchDeploymentsFail(error)));
+  };
 
 // // // // // // // // // //
 
@@ -143,34 +147,31 @@ const createDeploymentFail = (error) => (dispatch) => {
  *
  * @returns {Function} Async action
  */
-export const createDeploymentRequest = (
-  projectId,
-  experimentId,
-  templateId
-) => async (dispatch) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
-  });
+export const createDeploymentRequest =
+  (projectId, experimentId, templateId) => async (dispatch) => {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
+    });
 
-  dispatch(newDeploymentModalStartLoading());
+    dispatch(newDeploymentModalStartLoading());
 
-  try {
-    let createObject = {};
+    try {
+      let createObject = {};
 
-    if (experimentId) createObject = { experiments: [experimentId] };
-    if (templateId) createObject = { templateId };
+      if (experimentId) createObject = { experiments: [experimentId] };
+      if (templateId) createObject = { templateId };
 
-    const response = await deploymentsApi.createDeployment(
-      projectId,
-      createObject
-    );
+      const response = await deploymentsApi.createDeployment(
+        projectId,
+        createObject
+      );
 
-    dispatch(createDeploymentSuccess(response));
-  } catch (error) {
-    dispatch(createDeploymentFail(error));
-  }
-};
+      dispatch(createDeploymentSuccess(response));
+    } catch (error) {
+      dispatch(createDeploymentFail(error));
+    }
+  };
 
 // // // // // // // // // //
 
@@ -232,22 +233,19 @@ const updateDeploymentFail = (error, routerProps) => (dispatch) => {
  * @param {object} deploymentObj Deployment object updated
  * @returns {Function} The `disptach` function
  */
-export const updateDeploymentRequest = (
-  projectId,
-  deploymentId,
-  deploymentObj
-) => (dispatch) => {
-  // dispatching request action
-  dispatch({
-    type: actionTypes.UPDATE_DEPLOYMENT_REQUEST,
-  });
+export const updateDeploymentRequest =
+  (projectId, deploymentId, deploymentObj) => (dispatch) => {
+    // dispatching request action
+    dispatch({
+      type: actionTypes.UPDATE_DEPLOYMENT_REQUEST,
+    });
 
-  // creating deployment
-  deploymentsApi
-    .updateDeployment(projectId, deploymentId, deploymentObj)
-    .then((response) => dispatch(updateDeploymentSuccess(response)))
-    .catch((error) => dispatch(updateDeploymentFail(error)));
-};
+    // creating deployment
+    deploymentsApi
+      .updateDeployment(projectId, deploymentId, deploymentObj)
+      .then((response) => dispatch(updateDeploymentSuccess(response)))
+      .catch((error) => dispatch(updateDeploymentFail(error)));
+  };
 
 // // // // // // // // // //
 
@@ -301,20 +299,19 @@ const deleteDeploymentFail = (error) => (dispatch) => {
  * @param {string} deploymentId Deployment UUID
  * @returns {Function} The `disptach` function
  */
-export const deleteDeploymentRequest = (projectId, deploymentId) => async (
-  dispatch
-) => {
-  try {
-    dispatch({ type: actionTypes.DELETE_DEPLOYMENT_REQUEST });
-    dispatch(deploymentsTabsLoadingData());
-    await deploymentsApi.deleteDeployment(projectId, deploymentId);
-    dispatch(deleteDeploymentSuccess(deploymentId));
-  } catch (e) {
-    dispatch(deleteDeploymentFail(e));
-  } finally {
-    dispatch(deploymentsTabsDataLoaded());
-  }
-};
+export const deleteDeploymentRequest =
+  (projectId, deploymentId) => async (dispatch) => {
+    try {
+      dispatch({ type: actionTypes.DELETE_DEPLOYMENT_REQUEST });
+      dispatch(deploymentsTabsLoadingData());
+      await deploymentsApi.deleteDeployment(projectId, deploymentId);
+      dispatch(deleteDeploymentSuccess(deploymentId));
+    } catch (e) {
+      dispatch(deleteDeploymentFail(e));
+    } finally {
+      dispatch(deploymentsTabsDataLoaded());
+    }
+  };
 
 // // // // // // // // // //
 
@@ -337,36 +334,35 @@ export const clearAllDeployments = () => (dispatch) => {
  * @param {object} history Router history
  * @returns {Function} Dispatch function
  */
-export const prepareDeployments = (experiments, projectId, history) => (
-  dispatch
-) => {
-  // close prepare deployment modal
-  dispatch(hidePrepareDeploymentsModal());
-  // dispatching request action
-  dispatch(prepareDeploymentsLoadingData());
+export const prepareDeployments =
+  (experiments, projectId, history) => (dispatch) => {
+    // close prepare deployment modal
+    dispatch(hidePrepareDeploymentsModal());
+    // dispatching request action
+    dispatch(prepareDeploymentsLoadingData());
 
-  // creating deployment object
-  const deploymentObj = {
-    experiments: experiments,
+    // creating deployment object
+    const deploymentObj = {
+      experiments: experiments,
+    };
+
+    // creating deployment
+    deploymentsApi
+      .createDeployment(projectId, deploymentObj)
+      .then(() => {
+        dispatch(prepareDeploymentsDataLoaded());
+
+        history.push(`/projetos/${projectId}/pre-implantacao`);
+        message.success('Experimento implantado!');
+      })
+      .catch((error) => {
+        dispatch(prepareDeploymentsDataLoaded());
+
+        // getting error message
+        const errorMessage = error.message;
+        message.error(errorMessage, 5);
+      });
   };
-
-  // creating deployment
-  deploymentsApi
-    .createDeployment(projectId, deploymentObj)
-    .then(() => {
-      dispatch(prepareDeploymentsDataLoaded());
-
-      history.push(`/projetos/${projectId}/pre-implantacao`);
-      message.success('Experimento implantado!');
-    })
-    .catch((error) => {
-      dispatch(prepareDeploymentsDataLoaded());
-
-      // getting error message
-      const errorMessage = error.message;
-      message.error(errorMessage, 5);
-    });
-};
 
 /**
  * Action (async) to rename deployment
@@ -506,27 +502,24 @@ function duplicateDeploymentFail(error) {
  * @param {number} newPosition Deployment new position index
  * @returns {Function} Dispatch function
  */
-export const updateDeploymentPositionRequest = (
-  projectId,
-  draggedDeploymentId,
-  currentPosition,
-  newPosition
-) => async (dispatch) => {
-  try {
-    await deploymentsApi.updateDeployment(projectId, draggedDeploymentId, {
-      position: newPosition,
-    });
+export const updateDeploymentPositionRequest =
+  (projectId, draggedDeploymentId, currentPosition, newPosition) =>
+  async (dispatch) => {
+    try {
+      await deploymentsApi.updateDeployment(projectId, draggedDeploymentId, {
+        position: newPosition,
+      });
 
-    dispatch({
-      type: actionTypes.UPDATE_DEPLOYMENT_POSITION_SUCCESS,
-      currentPosition,
-      newPosition,
-    });
-  } catch (e) {
-    message.error(e.message);
-    dispatch({ type: actionTypes.UPDATE_DEPLOYMENT_POSITION_FAIL });
-  }
-};
+      dispatch({
+        type: actionTypes.UPDATE_DEPLOYMENT_POSITION_SUCCESS,
+        currentPosition,
+        newPosition,
+      });
+    } catch (e) {
+      message.error(e.message);
+      dispatch({ type: actionTypes.UPDATE_DEPLOYMENT_POSITION_FAIL });
+    }
+  };
 
 export default {
   fetchDeploymentsRequest,

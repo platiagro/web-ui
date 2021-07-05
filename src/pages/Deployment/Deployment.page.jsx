@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router';
 import { ReactFlowProvider } from 'react-flow-renderer';
 
 import {
@@ -12,15 +11,9 @@ import {
   PropertiesResizableContainer,
 } from 'containers';
 
-import useRedirectToError404 from './useRedirectToError404';
-
 import './Deployment.style.less';
 
 const Deployment = () => {
-  const { deploymentId } = useParams();
-
-  useRedirectToError404(deploymentId);
-
   return (
     <ReactFlowProvider>
       <div className='deployment-page'>
