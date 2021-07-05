@@ -104,7 +104,6 @@ const DeploymentsTabsContainer = () => {
 
       if (!currentDeployment) {
         history.push('/erro-404');
-        return;
       }
     };
 
