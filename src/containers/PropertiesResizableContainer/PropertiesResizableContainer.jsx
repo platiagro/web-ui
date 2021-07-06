@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useDeepEqualSelector } from 'hooks';
+import { useBooleanState, useDeepEqualSelector, useIsLoading } from 'hooks';
 import { ExternalDatasetHelperModal } from 'components/Modals';
 import { PropertiesPanel, ExternalDatasetDrawer } from 'components';
 
-const selectedOperatorNameSelector = ({ operatorReducer }) => {
-  return operatorReducer.name;
+const operatorSelector = ({ operatorReducer }) => {
+  return operatorReducer;
 };
 
-const selectedOperatorTagsSelector = ({ operatorReducer }) => {
+const isDatasetOperatorSelector = ({ operatorReducer }) => {
   return operatorReducer?.tags?.includes('DATASETS');
 };
 
@@ -22,37 +22,61 @@ export const deploymentsUrlSelector =
 
 const PropertiesResizableContainer = () => {
   const { deploymentId } = useParams();
-  const [isOpenHelperModal, setIsOpenHelperModal] = useState(false);
 
-  const operatorName = useDeepEqualSelector(selectedOperatorNameSelector);
-  const operatorIsDataset = useDeepEqualSelector(selectedOperatorTagsSelector);
+  const [
+    isShowingExternalDatasetHelperModal,
+    handleShowExternalDatasetHelperModal,
+    handleHideExternalDatasetHelperModal,
+  ] = useBooleanState(false);
+
+  const [
+    isEditingOperatorName,
+    handleStartEditingOperatorName,
+    handleCancelEditingOperatorName,
+  ] = useBooleanState(false);
+
+  const operator = useDeepEqualSelector(operatorSelector);
+  const isDatasetOperator = useDeepEqualSelector(isDatasetOperatorSelector);
   const deploymentUrl = useDeepEqualSelector(
     deploymentsUrlSelector(deploymentId)
   );
 
-  const handleHideHelperModal = () => {
-    setIsOpenHelperModal(false);
+  const isSavingOperatorName = useIsLoading('isSavingOperatorName');
+
+  const handleSaveNewOperatorName = (newName) => {
+    console.log(newName);
+    handleCancelEditingOperatorName();
   };
 
-  const handleShowHelperModal = () => {
-    setIsOpenHelperModal(true);
-  };
+  // Cancel the edition of the operator name when change the selected operator
+  useEffect(() => {
+    handleCancelEditingOperatorName();
+  }, [handleCancelEditingOperatorName, operator.uuid]);
 
   return (
-    <PropertiesPanel title={operatorName}>
-      {operatorIsDataset && (
+    <PropertiesPanel
+      title={operator?.name}
+      tip={operator?.description}
+      isShowingEditIcon={!!operator?.name}
+      isEditingTitle={isEditingOperatorName}
+      isSavingNewTitle={isSavingOperatorName}
+      handleSaveModifiedTitle={handleSaveNewOperatorName}
+      handleStartEditing={handleStartEditingOperatorName}
+      handleCancelEditing={handleCancelEditingOperatorName}
+    >
+      {isDatasetOperator && (
         <ExternalDatasetDrawer
           propertyTitle='Tipo da fonte de dados'
           propertyTip='Dica'
           urlText={deploymentUrl}
-          onClickLearnMore={handleShowHelperModal}
+          onClickLearnMore={handleShowExternalDatasetHelperModal}
           description="Você pode testar o fluxo com um cliente HTTP, por exemplo o <a target='_blank' rel='noreferrer' href='https://www.postman.com' >Postman.</a>"
         />
       )}
 
       <ExternalDatasetHelperModal
-        onClose={handleHideHelperModal}
-        visible={isOpenHelperModal}
+        onClose={handleHideExternalDatasetHelperModal}
+        visible={isShowingExternalDatasetHelperModal}
         url={deploymentUrl}
       />
     </PropertiesPanel>
