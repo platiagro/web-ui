@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { useBooleanState, useDeepEqualSelector, useIsLoading } from 'hooks';
 import { ExternalDatasetHelperModal } from 'components/Modals';
 import { PropertiesPanel, ExternalDatasetDrawer } from 'components';
+import { OPERATOR_TYPES, renameDeploymentOperator } from 'store/operator';
+import { useBooleanState, useDeepEqualSelector, useIsLoading } from 'hooks';
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
@@ -21,7 +23,8 @@ export const deploymentsUrlSelector =
   };
 
 const PropertiesResizableContainer = () => {
-  const { deploymentId } = useParams();
+  const { projectId, deploymentId } = useParams();
+  const dispatch = useDispatch();
 
   const [
     isShowingExternalDatasetHelperModal,
@@ -41,11 +44,21 @@ const PropertiesResizableContainer = () => {
     deploymentsUrlSelector(deploymentId)
   );
 
-  const isSavingOperatorName = useIsLoading('isSavingOperatorName');
+  const isRenamingOperator = useIsLoading(
+    OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_REQUEST
+  );
 
   const handleSaveNewOperatorName = (newName) => {
-    console.log(newName);
-    handleCancelEditingOperatorName();
+    const operatorId = operator?.uuid;
+    dispatch(
+      renameDeploymentOperator({
+        projectId,
+        deploymentId,
+        operatorId,
+        newName,
+        successCallback: handleCancelEditingOperatorName,
+      })
+    );
   };
 
   // Cancel the edition of the operator name when change the selected operator
@@ -59,7 +72,7 @@ const PropertiesResizableContainer = () => {
       tip={operator?.description}
       isShowingEditIcon={!!operator?.name}
       isEditingTitle={isEditingOperatorName}
-      isSavingNewTitle={isSavingOperatorName}
+      isSavingNewTitle={isRenamingOperator}
       handleSaveModifiedTitle={handleSaveNewOperatorName}
       handleStartEditing={handleStartEditingOperatorName}
       handleCancelEditing={handleCancelEditingOperatorName}

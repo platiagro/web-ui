@@ -280,3 +280,21 @@ export const clearAllDeploymentOperators = () => {
     type: OPERATORS_TYPES.CLEAR_ALL_DEPLOYMENT_OPERATORS,
   };
 };
+
+/**
+ * Edit a single operator data locally (do not make HTTP requests)
+ * This action can be used to just edit data in the operators redux store
+ *
+ * @param {string} operatorId Operator ID
+ * @param {object} operatorData Operator data
+ * @returns {object} Action
+ */
+export const editOperatorStoreData = (operatorId, operatorData) => {
+  return {
+    type: OPERATORS_TYPES.EDIT_OPERATOR_STORE_DATA,
+    payload: {
+      operatorId,
+      operatorData,
+    },
+  };
+};

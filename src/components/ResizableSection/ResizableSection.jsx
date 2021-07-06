@@ -28,13 +28,13 @@ const ResizableSection = ({
   const newTitleRef = useRef(null);
 
   const getValues = () => {
-    const newTitle = newTitleRef.current?.state?.value || '';
+    const newTitle = (newTitleRef.current?.state?.value || '').trim();
     return { newTitle };
   };
 
   const handleValidation = () => {
     const { newTitle } = getValues();
-    if (newTitle.trim()) return true;
+    if (newTitle) return true;
     return false;
   };
 
@@ -42,7 +42,8 @@ const ResizableSection = ({
     e.preventDefault();
     if (handleValidation()) {
       const { newTitle } = getValues();
-      handleSaveModifiedTitle(newTitle);
+      if (newTitle === title) handleCancelEditing();
+      else handleSaveModifiedTitle(newTitle);
     }
   };
 

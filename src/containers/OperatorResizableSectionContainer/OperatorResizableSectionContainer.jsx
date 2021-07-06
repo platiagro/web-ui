@@ -3,9 +3,11 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+  OPERATOR_TYPES,
   getOperatorFigures,
   getOperatorResultDataset,
-} from 'store/operator/operator.actions';
+  renameExperimentOperator,
+} from 'store/operator';
 import { OPERATOR_STATUS } from 'configs';
 import { useBooleanState, useIsLoading } from 'hooks';
 import { ResultsButtonBar } from 'components/Buttons';
@@ -49,7 +51,9 @@ const OperatorResizableSectionContainer = () => {
   const isDatasetOperator = useSelector(isDatasetOperatorSelector);
   const operator = useSelector(operatorSelector);
 
-  const isSavingOperatorName = useIsLoading('isSavingOperatorName');
+  const isRenamingOperator = useIsLoading(
+    OPERATOR_TYPES.RENAME_EXPERIMENT_OPERATOR_REQUEST
+  );
 
   const isResultsButtonBarDisabled = useMemo(() => {
     const isOperatorPending = operator.status === OPERATOR_STATUS.PENDING;
@@ -73,8 +77,16 @@ const OperatorResizableSectionContainer = () => {
   }, [operator.status, experimentId]);
 
   const handleSaveNewOperatorName = (newName) => {
-    console.log(newName);
-    handleCancelEditingOperatorName();
+    const operatorId = operator?.uuid;
+    dispatch(
+      renameExperimentOperator({
+        projectId,
+        experimentId,
+        operatorId,
+        newName,
+        successCallback: handleCancelEditingOperatorName,
+      })
+    );
   };
 
   const handleShowResults = () => {
@@ -100,7 +112,7 @@ const OperatorResizableSectionContainer = () => {
       title={operator.name}
       isShowingEditIcon={!!operator?.name}
       isEditingTitle={isEditingOperatorName}
-      isSavingNewTitle={isSavingOperatorName}
+      isSavingNewTitle={isRenamingOperator}
       handleSaveModifiedTitle={handleSaveNewOperatorName}
       handleStartEditing={handleStartEditingOperatorName}
       handleCancelEditing={handleCancelEditingOperatorName}
