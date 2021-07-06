@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import utils from 'utils';
 import { Modal } from 'uiComponents';
 import { hideOperatorResults } from 'store/ui/actions';
 import { getOperatorResultDataset } from 'store/operator';
@@ -96,6 +97,15 @@ const OperatorResultsModalContainer = () => {
     );
   };
 
+  const handleDownloadResult = () => {
+    utils.downloadExperimentRunResult({
+      projectId,
+      experimentId,
+      runId: 'latest',
+      operatorId,
+    });
+  };
+
   return (
     <Modal
       isFullScreen={true}
@@ -108,12 +118,11 @@ const OperatorResultsModalContainer = () => {
         dataset={operatorDataset}
         figures={operatorFigures}
         parameters={resultsParameters}
-        isToShowDownloadButtons={true}
         loading={operatorResultsLoading}
+        datasetScroll={{ x: datasetScrollX }}
+        handleDownloadResult={handleDownloadResult}
         onDatasetPageChange={handleOnDatasetPageChange}
-        datasetScroll={{
-          x: datasetScrollX,
-        }}
+        isToShowDownloadButtons
       />
     </Modal>
   );

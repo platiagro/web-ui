@@ -33,6 +33,7 @@ import {
   formatCompareResultDate,
   formatResultsParameters,
   transformResults,
+  downloadExperimentRunResult,
 } from './Results.utils';
 
 import {
@@ -76,6 +77,7 @@ export default {
   formatCompareResultDate,
   formatResultsParameters,
   transformResults,
+  downloadExperimentRunResult,
 
   configureOperatorParameters,
   checkOperatorSettedUp,

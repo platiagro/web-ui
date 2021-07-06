@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Cascader, Popover, Space } from 'antd';
+import { Button, Cascader, Dropdown, Menu, Space } from 'antd';
 import {
   MoreOutlined,
   DeleteOutlined,
+  DownloadOutlined,
   ClockCircleTwoTone,
 } from '@ant-design/icons';
 
@@ -18,6 +19,7 @@ const CompareResultItemTitle = ({
   compareResult,
   trainingDetail,
   experimentsOptions,
+  handleDownloadResult,
   onLoadTrainingHistory,
 }) => {
   const defaultValue = useMemo(() => {
@@ -25,6 +27,11 @@ const CompareResultItemTitle = ({
       ? [compareResult.experimentId, compareResult.runId]
       : null;
   }, [compareResult.experimentId, compareResult.runId]);
+
+  const canDownloadResult =
+    !!compareResult.experimentId &&
+    !!compareResult.runId &&
+    !!compareResult.operatorId;
 
   const handleChangeValue = (value) => {
     const updatedCompareResult = {
@@ -75,18 +82,36 @@ const CompareResultItemTitle = ({
         )}
       </Space>
 
-      <Popover
-        placement='bottom'
-        content={
-          <Button
-            type='text'
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              onDelete(compareResult.uuid);
-            }}
-          >
-            Remover
-          </Button>
+      <Dropdown
+        trigger={['click']}
+        overlay={
+          <Menu>
+            <Menu.Item
+              key='remove'
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                onDelete(compareResult.uuid);
+              }}
+            >
+              <span>Remover</span>
+            </Menu.Item>
+
+            {canDownloadResult && (
+              <Menu.Item
+                key='download'
+                icon={<DownloadOutlined />}
+                onClick={() => {
+                  handleDownloadResult(
+                    compareResult.experimentId,
+                    compareResult.runId,
+                    compareResult.operatorId
+                  );
+                }}
+              >
+                <span>Fazer Download</span>
+              </Menu.Item>
+            )}
+          </Menu>
         }
       >
         <Button
@@ -94,7 +119,7 @@ const CompareResultItemTitle = ({
           icon={<MoreOutlined />}
           style={{ float: 'right' }}
         />
-      </Popover>
+      </Dropdown>
     </>
   );
 };
@@ -105,6 +130,7 @@ CompareResultItemTitle.propTypes = {
   compareResult: PropTypes.object.isRequired,
   trainingDetail: PropTypes.object.isRequired,
   onLoadTrainingHistory: PropTypes.func.isRequired,
+  handleDownloadResult: PropTypes.func.isRequired,
   experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
