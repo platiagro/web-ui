@@ -72,3 +72,34 @@ export const formatResultsParameters = (parameters, parametersTraining) => {
 
   return resultsParameters;
 };
+
+/**
+ * Download the experiment run results
+ *
+ * @param {object} params parameters
+ * @param {string} params.projectId project id
+ * @param {string} params.experimentId experiment id
+ * @param {string} params.runId run id
+ * @param {string} params.operatorId operator id
+ */
+export const downloadExperimentRunResult = ({
+  projectId,
+  experimentId,
+  runId,
+  operatorId,
+}) => {
+  const urlParts = [
+    process.env.REACT_APP_PROJECTS_API,
+    'projects',
+    projectId,
+    'experiments',
+    experimentId,
+    'runs',
+    runId,
+    'operators',
+    operatorId,
+    'results',
+  ];
+
+  window.open(urlParts.join('/'), '_blank');
+};
