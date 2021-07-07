@@ -17,6 +17,7 @@ import {
   clearOperatorsFeatureParametersRequest,
   fetchExperimentOperatorsRequest,
   upadteOperatorDependencies,
+  editOperatorStoreData,
 } from 'store/operators';
 import {
   showOperatorDrawer,
@@ -763,5 +764,93 @@ export const saveDeploymentOperatorPosition =
       );
     } catch (e) {
       dispatch(showError(e.message));
+    }
+  };
+
+/**
+ * Rename experiment operator
+ *
+ * @param {object} params Params
+ * @param {object} params.projectId Project id
+ * @param {object} params.experimentId Experiment id
+ * @param {object} params.operatorId Operator id
+ * @param {object} params.newName New operator name
+ * @param {object} params.successCallback Success callback
+ * @returns {Promise} Dispatch function
+ */
+export const renameExperimentOperator =
+  ({ projectId, experimentId, operatorId, newName, successCallback }) =>
+  async (dispatch) => {
+    try {
+      dispatch(addLoading(OPERATOR_TYPES.RENAME_EXPERIMENT_OPERATOR_REQUEST));
+
+      const operatorDataToUpdate = { name: newName };
+
+      await operatorsApi.updateOperator(
+        projectId,
+        experimentId,
+        operatorId,
+        operatorDataToUpdate
+      );
+
+      dispatch({
+        type: OPERATOR_TYPES.RENAME_EXPERIMENT_OPERATOR_SUCCESS,
+        newName,
+      });
+
+      dispatch(editOperatorStoreData(operatorId, operatorDataToUpdate));
+
+      if (successCallback) successCallback();
+    } catch (e) {
+      dispatch(showError(e.message));
+      dispatch({ type: OPERATOR_TYPES.RENAME_EXPERIMENT_OPERATOR_FAIL });
+    } finally {
+      dispatch(
+        removeLoading(OPERATOR_TYPES.RENAME_EXPERIMENT_OPERATOR_REQUEST)
+      );
+    }
+  };
+
+/**
+ * Rename deployment operator
+ *
+ * @param {object} params Params
+ * @param {object} params.projectId Project id
+ * @param {object} params.deploymentId Deployment id
+ * @param {object} params.operatorId Operator id
+ * @param {object} params.newName New operator name
+ * @param {object} params.successCallback Success callback
+ * @returns {Promise} Dispatch function
+ */
+export const renameDeploymentOperator =
+  ({ projectId, deploymentId, operatorId, newName, successCallback }) =>
+  async (dispatch) => {
+    try {
+      dispatch(addLoading(OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_REQUEST));
+
+      const operatorDataToUpdate = { name: newName };
+
+      await DeploymentsOperatorsApi.updateOperator(
+        projectId,
+        deploymentId,
+        operatorId,
+        operatorDataToUpdate
+      );
+
+      dispatch({
+        type: OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_SUCCESS,
+        newName,
+      });
+
+      dispatch(editOperatorStoreData(operatorId, operatorDataToUpdate));
+
+      if (successCallback) successCallback();
+    } catch (e) {
+      dispatch(showError(e.message));
+      dispatch({ type: OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_FAIL });
+    } finally {
+      dispatch(
+        removeLoading(OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_REQUEST)
+      );
     }
   };

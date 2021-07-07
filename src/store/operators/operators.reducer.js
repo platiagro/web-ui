@@ -67,9 +67,8 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
           isTerminated = true;
         }
 
-        const validParametersLatestTraining = operatorLatestTraining
-          ? operatorLatestTraining.parameters
-          : null;
+        const validParametersLatestTraining =
+          operatorLatestTraining?.parameters || null;
 
         return {
           ...operator,
@@ -91,6 +90,15 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
 
     case OPERATORS_TYPES.CLEAR_ALL_DEPLOYMENT_OPERATORS:
       return [];
+
+    case OPERATORS_TYPES.EDIT_OPERATOR_STORE_DATA: {
+      return state.map((operator) => {
+        if (operator.uuid === payload.operatorId) {
+          return { ...operator, ...payload.operatorData };
+        }
+        return operator;
+      });
+    }
 
     // DEFAULT
     default:

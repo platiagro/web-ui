@@ -1,14 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { OPERATOR_STATUS } from 'configs';
-import { ResultsButtonBar } from 'components/Buttons';
-import { showOperatorResults } from 'store/ui/actions';
 import {
+  OPERATOR_TYPES,
   getOperatorFigures,
   getOperatorResultDataset,
-} from 'store/operator/operator.actions';
+  renameExperimentOperator,
+} from 'store/operator';
+import { OPERATOR_STATUS } from 'configs';
+import { useBooleanState, useIsLoading } from 'hooks';
+import { ResultsButtonBar } from 'components/Buttons';
+import { showOperatorResults } from 'store/ui/actions';
 import { PropertiesPanel, PropertyBlock } from 'components';
 import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/DatasetDrawerContainer';
 import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/GenericDrawerContainer';
@@ -39,8 +42,18 @@ const OperatorResizableSectionContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
+  const [
+    isEditingOperatorName,
+    handleStartEditingOperatorName,
+    handleCancelEditingOperatorName,
+  ] = useBooleanState(false);
+
   const isDatasetOperator = useSelector(isDatasetOperatorSelector);
   const operator = useSelector(operatorSelector);
+
+  const isRenamingOperator = useIsLoading(
+    OPERATOR_TYPES.RENAME_EXPERIMENT_OPERATOR_REQUEST
+  );
 
   const isResultsButtonBarDisabled = useMemo(() => {
     const isOperatorPending = operator.status === OPERATOR_STATUS.PENDING;
@@ -63,6 +76,19 @@ const OperatorResizableSectionContainer = () => {
     return !experimentId || isOperatorPending || isOperatorRunning;
   }, [operator.status, experimentId]);
 
+  const handleSaveNewOperatorName = (newName) => {
+    const operatorId = operator?.uuid;
+    dispatch(
+      renameExperimentOperator({
+        projectId,
+        experimentId,
+        operatorId,
+        newName,
+        successCallback: handleCancelEditingOperatorName,
+      })
+    );
+  };
+
   const handleShowResults = () => {
     dispatch(
       getOperatorFigures(projectId, experimentId, 'latest', operator.uuid)
@@ -71,11 +97,26 @@ const OperatorResizableSectionContainer = () => {
     dispatch(
       getOperatorResultDataset(projectId, experimentId, operator.uuid, 1, 10)
     );
+
     dispatch(showOperatorResults());
   };
 
+  // Cancel the edition of the operator name when change the selected operator
+  useEffect(() => {
+    handleCancelEditingOperatorName();
+  }, [handleCancelEditingOperatorName, operator.uuid]);
+
   return (
-    <PropertiesPanel tip={operator.description} title={operator.name}>
+    <PropertiesPanel
+      tip={operator.description}
+      title={operator.name}
+      isShowingEditIcon={!!operator?.name}
+      isEditingTitle={isEditingOperatorName}
+      isSavingNewTitle={isRenamingOperator}
+      handleSaveModifiedTitle={handleSaveNewOperatorName}
+      handleStartEditing={handleStartEditingOperatorName}
+      handleCancelEditing={handleCancelEditingOperatorName}
+    >
       {!!operator?.name && (
         <>
           {isDatasetOperator && <DatasetDrawerContainer />}

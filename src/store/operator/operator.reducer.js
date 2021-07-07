@@ -66,6 +66,10 @@ export const operatorReducer = (state = initialState, action = undefined) => {
     case OPERATOR_TYPES.GET_OPERATOR_LOGS_FAIL:
       return { ...state, logs: action.logs };
 
+    case OPERATOR_TYPES.RENAME_EXPERIMENT_OPERATOR_SUCCESS:
+    case OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_SUCCESS:
+      return { ...state, name: action.newName };
+
     default:
       return state;
   }
