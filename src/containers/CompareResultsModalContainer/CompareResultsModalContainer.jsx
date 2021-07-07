@@ -2,15 +2,12 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Card, Col, Divider, Row, Space } from 'antd';
+import { Button, Card, Col, Divider, Row, Space, Tooltip } from 'antd';
 import {
   PlusOutlined,
   LoadingOutlined,
   DownloadOutlined,
 } from '@ant-design/icons';
-
-import { Modal, Skeleton } from 'uiComponents';
-import { CommonTable, CompareResultItem } from 'components';
 
 import {
   addCompareResult,
@@ -21,7 +18,10 @@ import {
   fetchCompareResultsResults,
   getCompareResultDatasetPaginated,
 } from 'store/compareResults/actions';
+import utils from 'utils';
 import { useIsLoading } from 'hooks';
+import { Modal, Skeleton } from 'uiComponents';
+import { CommonTable, CompareResultItem } from 'components';
 import COMPARE_RESULTS_TYPES from 'store/compareResults/actionTypes';
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 import { getExperiments } from 'store/projects/experiments/experiments.selectors';
@@ -74,6 +74,19 @@ const CompareResultsModalContainer = () => {
   const isLoading = useIsLoading(COMPARE_RESULTS_TYPES.FETCH_COMPARE_RESULTS);
   const isDeleting = useIsLoading(COMPARE_RESULTS_TYPES.DELETE_COMPARE_RESULT);
 
+  const handleDownloadResults = () => {
+    compareResults?.forEach(({ experimentId, runId, operatorId }) => {
+      if (experimentId && runId && operatorId) {
+        utils.downloadExperimentRunResult({
+          projectId,
+          experimentId,
+          runId,
+          operatorId,
+        });
+      }
+    });
+  };
+
   useEffect(() => {
     if (isVisible) {
       dispatch(fetchCompareResults(projectId));
@@ -88,10 +101,16 @@ const CompareResultsModalContainer = () => {
 
       <Divider type='vertical' />
 
-      <Button shape='round' type='primary-inverse' disabled>
-        <DownloadOutlined />
-        Fazer download
-      </Button>
+      <Tooltip placement='bottom' title='Faz download dos resultados exibidos'>
+        <Button
+          shape='round'
+          type='primary-inverse'
+          onClick={handleDownloadResults}
+        >
+          <DownloadOutlined />
+          Fazer download
+        </Button>
+      </Tooltip>
     </Space>
   );
 
@@ -141,6 +160,14 @@ const CompareResultsModalContainer = () => {
               dispatch(
                 getCompareResultDatasetPaginated(results, page, pageSize)
               );
+            }}
+            handleDownloadResult={(experimentId, runId, operatorId) => {
+              utils.downloadExperimentRunResult({
+                projectId,
+                experimentId,
+                runId,
+                operatorId,
+              });
             }}
             onLoadTrainingHistory={(experimentId) => {
               dispatch(fetchTrainingHistory(projectId, experimentId));

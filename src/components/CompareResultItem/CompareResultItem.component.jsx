@@ -18,6 +18,7 @@ const CompareResultItem = ({
   onDelete,
   onUpdate,
   onFetchResults,
+  handleDownloadResult,
   onLoadTrainingHistory,
   onResultDatasetPageChange,
 }) => {
@@ -66,6 +67,7 @@ const CompareResultItem = ({
           compareResult={compareResult}
           trainingDetail={trainingDetail}
           experimentsOptions={experimentsOptions}
+          handleDownloadResult={handleDownloadResult}
           onLoadTrainingHistory={onLoadTrainingHistory}
         />
       }
@@ -98,6 +100,7 @@ CompareResultItem.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onFetchResults: PropTypes.func.isRequired,
+  handleDownloadResult: PropTypes.func.isRequired,
   onLoadTrainingHistory: PropTypes.func.isRequired,
   onResultDatasetPageChange: PropTypes.func.isRequired,
 };

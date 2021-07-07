@@ -26,14 +26,17 @@ const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!'
  * fetch deployment success action
  *
  * @param {object} response Request response
+ * @param {Function} successCallback Success callback
  * @returns {object} { type, experiments }
  */
-const fetchDeploymentsSuccess = (response) => (dispatch) => {
+const fetchDeploymentsSuccess = (response, successCallback) => (dispatch) => {
   // dispatching fetch deployments success action
   dispatch({
     type: actionTypes.FETCH_DEPLOYMENTS_SUCCESS,
     deployments: response.data.deployments,
   });
+
+  if (successCallback) successCallback(response.data.deployments);
 };
 
 /**
@@ -58,19 +61,22 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
  *
  * @param {string} projectId Project UUID
  * @param {boolean} isToShowLoader Whenever is to show loader or not
+ * @param {Function} successCallback Success callback
  * @returns {Function} The `disptach` function
  */
 export const fetchDeploymentsRequest =
-  (projectId, isToShowLoader) => async (dispatch) => {
+  (projectId, isToShowLoader, successCallback) => (dispatch) => {
     if (isToShowLoader) {
-      await dispatch(clearAllDeployments());
+      dispatch(clearAllDeployments());
       dispatch(addLoading(actionTypes.FETCH_DEPLOYMENTS_REQUEST));
     }
 
     // fetching deployments
     deploymentsApi
       .listDeployments(projectId)
-      .then((response) => dispatch(fetchDeploymentsSuccess(response)))
+      .then((response) =>
+        dispatch(fetchDeploymentsSuccess(response, successCallback))
+      )
       .catch((error) => dispatch(fetchDeploymentsFail(error)))
       .finally(() => {
         dispatch(removeLoading(actionTypes.FETCH_DEPLOYMENTS_REQUEST));

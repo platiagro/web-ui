@@ -79,12 +79,14 @@ const ExperimentFlowContainer = () => {
   };
 
   useEffect(() => {
+    dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
+
     const polling = setInterval(() => {
       dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
     }, 5000);
 
     return () => clearInterval(polling);
-  });
+  }, [dispatch, experimentId, projectId]);
 
   return (
     <ExperimentFlow
