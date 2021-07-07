@@ -117,8 +117,6 @@ const createExperimentSuccess =
     // go to new experiment
     history.push(`/projetos/${projectId}/experimentos/${experiment.uuid}`);
 
-    dispatch(removeLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST));
-
     dispatch(showSuccess(`Experimento ${experiment.name} criado!`));
   };
 
@@ -158,13 +156,11 @@ const createExperimentFail = (error) => (dispatch) => {
  */
 export const createExperimentRequest =
   (projectId, experiment, history) => async (dispatch) => {
-    const actionType = EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST;
-
     dispatch({
-      type: actionType,
+      type: EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST,
     });
 
-    dispatch(addLoading(actionType));
+    dispatch(addLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST));
 
     try {
       const response = await experimentsApi.createExperiment(
@@ -175,6 +171,8 @@ export const createExperimentRequest =
       dispatch(createExperimentSuccess(response, projectId, history));
     } catch (error) {
       dispatch(createExperimentFail(error));
+    } finally {
+      dispatch(removeLoading(EXPERIMENTS_TYPES.CREATE_EXPERIMENT_REQUEST));
     }
   };
 
