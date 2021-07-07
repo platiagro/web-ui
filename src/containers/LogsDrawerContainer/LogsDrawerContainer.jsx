@@ -1,15 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useIsLoading } from 'hooks';
 import { LogsDrawer } from 'components';
 import { hideInferenceLogsDrawer } from 'store/ui/actions';
+import DEPLOYMENT_LOGS_TYPES from 'store/deploymentLogs/actionTypes';
 
 const logsSelector = ({ deploymentLogsReducer }) => {
   return deploymentLogsReducer.logs || [];
-};
-
-const isLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.inferenceLogsDrawer.loading;
 };
 
 const isVisibleSelector = ({ uiReducer }) => {
@@ -23,14 +21,15 @@ const titleSelector = ({ uiReducer }) => {
 const LogsDrawerContainer = () => {
   const dispatch = useDispatch();
 
-  const handleHideDrawer = () => {
-    dispatch(hideInferenceLogsDrawer());
-  };
-
-  const isLoading = useSelector(isLoadingSelector);
   const isVisible = useSelector(isVisibleSelector);
   const title = useSelector(titleSelector);
   const logs = useSelector(logsSelector);
+
+  const isLoading = useIsLoading(DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS);
+
+  const handleHideDrawer = () => {
+    dispatch(hideInferenceLogsDrawer());
+  };
 
   return (
     <LogsDrawer

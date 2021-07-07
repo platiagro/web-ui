@@ -4,20 +4,18 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { getTasks } from 'store/tasks';
-import { useDeepEqualSelector } from 'hooks';
 import { createOperatorRequest } from 'store/operator';
+import { useDeepEqualSelector, useIsLoading } from 'hooks';
+import TASKS_MENU_TYPES from 'store/tasksMenu/actionTypes';
+import { deleteTemplateRequest } from 'store/templates/templates.actions';
+import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
+import { applyTemplateRequest } from 'store/projects/experiments/experiments.actions';
 import {
   fetchTasksMenuRequest,
   filterTasksMenu,
 } from 'store/tasksMenu/actions';
-import { deleteTemplateRequest } from 'store/templates/templates.actions';
-import { applyTemplateRequest } from 'store/projects/experiments/experiments.actions';
 
 import TasksMenuBlock from './index';
-
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.tasksMenu.loading;
-};
 
 const allTasksSelector = ({ tasksMenuReducer }) => {
   return tasksMenuReducer;
@@ -36,10 +34,14 @@ const TasksMenuBlockContainer = ({ disabled }) => {
   const dispatch = useDispatch();
 
   const tasks = useDeepEqualSelector(getTasks);
-  const loading = useDeepEqualSelector(loadingSelector);
   const allTasks = useDeepEqualSelector(allTasksSelector);
   const tasksMenu = useDeepEqualSelector(tasksMenuSelector);
   const trainingLoading = useDeepEqualSelector(trainingLoadingSelector);
+
+  const loading = useIsLoading(
+    TASKS_MENU_TYPES.FETCH_TASKS_MENU_REQUEST,
+    TEMPLATES_TYPES.DELETE_TEMPLATE_REQUEST
+  );
 
   const handleDeleteTemplate = (templateId) => {
     dispatch(deleteTemplateRequest([templateId], allTasks));

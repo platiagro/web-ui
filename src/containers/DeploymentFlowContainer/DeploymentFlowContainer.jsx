@@ -2,8 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useIsLoading } from 'hooks';
+import { OPERATORS_TYPES } from 'store/operators';
 import DeploymentFlow from 'components/DeploymentFlow';
 import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
+import { ActionTypes as DEPLOYMENTS_TYPES } from 'store/deployments';
 import {
   selectOperator,
   deselectOperator,
@@ -12,10 +15,6 @@ import {
 
 const operatorsSelector = ({ operatorsReducer }) => {
   return operatorsReducer;
-};
-
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.deploymentsTabs.deploymentOperatorsLoading;
 };
 
 const selectedOperatorIdSelector = ({ operatorReducer }) => {
@@ -34,11 +33,15 @@ const DeploymentFlowContainer = () => {
   const { projectId, deploymentId } = useParams();
   const dispatch = useDispatch();
 
-  const loading = useSelector(loadingSelector);
   const operators = useSelector(operatorsSelector);
   const numberOfLogs = useSelector(numberOfLogsSelector);
   const selectedOperatorId = useSelector(selectedOperatorIdSelector);
   const isShowingLogsPanel = useSelector(isShowingLogsPanelSelector);
+
+  const loading = useIsLoading(
+    OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
+    DEPLOYMENTS_TYPES.DELETE_DEPLOYMENT_REQUEST
+  );
 
   const handleSelectOperator = (operator) => {
     dispatch(selectOperator(operator));

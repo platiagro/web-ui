@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import utils from 'utils';
+import { useIsLoading } from 'hooks';
 import { Modal } from 'uiComponents';
 import { hideOperatorResults } from 'store/ui/actions';
-import { getOperatorResultDataset } from 'store/operator';
+import { getOperatorResultDataset, OPERATOR_TYPES } from 'store/operator';
 import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer';
 
 const isVisibleSelector = ({ uiReducer }) => {
@@ -28,10 +29,6 @@ const operatorParametersSelector = ({ operatorReducer }) => {
   return operatorReducer.parameters;
 };
 
-const operatorResultsLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.operatorResults.loading;
-};
-
 const operatorParametersLatestTrainingSelector = ({ operatorReducer }) => {
   return operatorReducer.parametersLatestTraining;
 };
@@ -45,9 +42,12 @@ const OperatorResultsModalContainer = () => {
   const operatorDataset = useSelector(operatorDatasetSelector);
   const operatorFigures = useSelector(operatorFiguresSelector);
   const operatorParameters = useSelector(operatorParametersSelector);
-  const operatorResultsLoading = useSelector(operatorResultsLoadingSelector);
   const operatorParametersLatestTraining = useSelector(
     operatorParametersLatestTrainingSelector
+  );
+
+  const operatorResultsLoading = useIsLoading(
+    OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST
   );
 
   const datasetScrollX = useMemo(() => {

@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
-
-import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { hideNewDeploymentModal } from 'store/ui/actions';
-import { createDeploymentRequest } from 'store/deployments/actions';
-import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
 import { useIsLoading } from 'hooks';
-import { fetchTemplatesRequest } from 'store/templates/templates.actions';
-import { getExperiments } from 'store/projects/experiments/experiments.selectors';
+import { hideNewDeploymentModal } from 'store/ui/actions';
+import DEPLOYMENTS_TYPES from 'store/deployments/actionTypes';
 import { getTemplates } from 'store/templates/templates.selectors';
+import { createDeploymentRequest } from 'store/deployments/actions';
+import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
+import { fetchTemplatesRequest } from 'store/templates/templates.actions';
+import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
+import { getExperiments } from 'store/projects/experiments/experiments.selectors';
 
 const experimentsDataSelector = (projectId) => (state) => {
   return getExperiments(state, projectId);
@@ -20,20 +20,17 @@ const visibleSelector = ({ uiReducer }) => {
   return uiReducer.newDeploymentModal.visible;
 };
 
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.newDeploymentModal.loading;
-};
-
 const NewDeploymentModalContainer = () => {
   const dispatch = useDispatch();
   const { projectId } = useParams();
 
-  const experimentsData = useSelector(experimentsDataSelector(projectId));
   const visible = useSelector(visibleSelector);
-  const loading = useSelector(loadingSelector);
   const templatesData = useSelector(getTemplates);
+  const experimentsData = useSelector(experimentsDataSelector(projectId));
 
-  const templatesLoading = useIsLoading(
+  const isLoading = useIsLoading(DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST);
+
+  const isLoadingTemplates = useIsLoading(
     TEMPLATES_TYPES.FETCH_TEMPLATES_REQUEST
   );
 
@@ -56,10 +53,10 @@ const NewDeploymentModalContainer = () => {
   return (
     <NewDeploymentModalComponent
       visible={visible}
-      loading={loading}
+      loading={isLoading}
       templatesData={templatesData}
       experimentsData={experimentsData}
-      templatesLoading={templatesLoading}
+      templatesLoading={isLoadingTemplates}
       onCancel={handleCancel}
       onConfirm={handleConfirm}
     />

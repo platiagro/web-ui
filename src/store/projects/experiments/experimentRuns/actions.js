@@ -18,9 +18,6 @@ import {
   experimentDeleteTrainingLoadingData,
   experimentTrainingDataLoaded,
   experimentTrainingLoadingData,
-  implantedExperimentsLoadingData,
-  resultsButtonBarLoadingData,
-  resultsButtonBarDataLoaded,
 } from 'store/ui/actions';
 
 // UTILS
@@ -175,8 +172,6 @@ const createExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
  * @returns {object} { type }
  */
 const deleteExperimentRunSuccess = () => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
-
   dispatch({
     type: actionTypes.DELETE_EXPERIMENT_RUN_SUCCESS,
     runs: [],
@@ -271,10 +266,8 @@ const fetchExperimentRunStatusSuccess =
 
     if (isAllPending) {
       dispatch(experimentTrainingLoadingData());
-      dispatch(resultsButtonBarLoadingData());
     } else {
       dispatch(experimentTrainingDataLoaded());
-      dispatch(resultsButtonBarDataLoaded());
     }
 
     if (!stoppedRun) {

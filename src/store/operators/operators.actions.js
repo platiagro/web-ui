@@ -3,28 +3,15 @@ import { showError } from 'store/message';
 import * as OPERATORS_TYPES from './operators.actionTypes';
 
 // SERVICES
+import tasksApi from 'services/TasksApi';
 import datasetsApi from 'services/DatasetsApi';
 import operatorsApi from 'services/OperatorsApi';
-import tasksApi from 'services/TasksApi';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
 import deploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 
-// UI ACTIONS
-import {
-  experimentOperatorsDataLoaded,
-  experimentOperatorsLoadingData,
-  operatorParameterLoadingData,
-  operatorParameterDataLoaded,
-  resultsButtonBarLoadingData,
-  resultsButtonBarDataLoaded,
-  deploymentOperatorsDataLoaded,
-  deploymentOperatorsLoadingData,
-  deploymentsTabsDataLoaded,
-  deploymentsTabsLoadingData,
-} from 'store/ui/actions';
-
 // UTILS
 import utils from 'utils';
+import { addLoading, removeLoading } from 'store/loading';
 
 // ACTIONS
 // ** FETCH OPERATORS
@@ -73,8 +60,7 @@ export const fetchExperimentOperatorsRequest =
 
     if (withLoading) {
       dispatch(clearAllDeploymentOperators());
-      dispatch(experimentOperatorsLoadingData());
-      dispatch(resultsButtonBarLoadingData());
+      dispatch(addLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
     }
 
     try {
@@ -103,8 +89,7 @@ export const fetchExperimentOperatorsRequest =
     } catch (e) {
       dispatch(fetchOperatorsFail(e));
     } finally {
-      dispatch(experimentOperatorsDataLoaded());
-      dispatch(resultsButtonBarDataLoaded());
+      dispatch(removeLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
     }
   };
 
@@ -121,8 +106,7 @@ export const fetchDeploymentOperatorsRequest =
       type: OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
     });
 
-    dispatch(deploymentOperatorsLoadingData());
-    dispatch(deploymentsTabsLoadingData());
+    dispatch(addLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
 
     try {
       // getting tasks
@@ -165,8 +149,7 @@ export const fetchDeploymentOperatorsRequest =
     } catch (e) {
       dispatch(fetchOperatorsFail(e));
     } finally {
-      dispatch(deploymentOperatorsDataLoaded());
-      dispatch(deploymentsTabsDataLoaded());
+      dispatch(removeLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST));
     }
   };
 
@@ -180,15 +163,17 @@ export const fetchDeploymentOperatorsRequest =
  */
 export const clearOperatorsFeatureParametersRequest =
   (projectId, experimentId, dataset) => async (dispatch, getState) => {
-    const { operatorsReducer: operators } = getState();
-
-    dispatch({
-      type: OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
-    });
-
-    dispatch(operatorParameterLoadingData());
-
     try {
+      const { operatorsReducer: operators } = getState();
+
+      dispatch({
+        type: OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
+      });
+
+      dispatch(
+        addLoading(OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST)
+      );
+
       // getting all operators with feature parameter
       const operatorsWithFeatureParameter = operators.filter((operator) =>
         operator.parameters.some((parameter) => parameter.type === 'feature')
@@ -237,11 +222,14 @@ export const clearOperatorsFeatureParametersRequest =
         type: OPERATORS_TYPES.UPDATE_OPERATORS_OPTIONS,
         payload: { operators: mappedOperators },
       });
-
-      dispatch(operatorParameterDataLoaded());
     } catch (e) {
-      dispatch(operatorParameterDataLoaded());
       console.log(e);
+    } finally {
+      dispatch(
+        removeLoading(
+          OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST
+        )
+      );
     }
   };
 

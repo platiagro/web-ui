@@ -6,11 +6,7 @@ import * as TEMPLATES_TYPES from './templates.actionTypes';
 
 import templatesApi from 'services/TemplatesApi';
 
-import {
-  hideNewTemplateModal,
-  tasksMenuLoadingData,
-  tasksMenuDataLoaded,
-} from '../ui/actions';
+import { hideNewTemplateModal } from '../ui/actions';
 import { fetchTasksMenuRequest } from '../tasksMenu/actions';
 import { showError, showSuccess } from 'store/message/message.actions';
 import { addLoading, removeLoading } from 'store/loading';
@@ -183,9 +179,6 @@ export const deleteTemplateRequest =
 
     dispatch(addLoading(requestActionType));
 
-    // TODO: Esse loading pode ser removido quando a store de menu de tarefas for refatorada, provavelmente
-    if (allTasks) dispatch(tasksMenuLoadingData());
-
     try {
       await templatesApi.deleteTemplate(templatesList);
 
@@ -199,7 +192,6 @@ export const deleteTemplateRequest =
       // TODO: Todo esse bloco será removido quando a store de menu de tarefas for refatorada
       // INICIO ------------->
       let tasks = [];
-      let successCallback = undefined;
       if (allTasks) {
         const filteredTemplates = [...allTasks.filtered.TEMPLATES].filter(
           (template) => !templatesList.includes(template.uuid)
@@ -227,10 +219,6 @@ export const deleteTemplateRequest =
         if (tasks.filtered.TEMPLATES.length === 0) {
           delete tasks.filtered.TEMPLATES;
         }
-
-        successCallback = () => {
-          dispatch(tasksMenuDataLoaded());
-        };
       }
       // FIM ------------->
 
@@ -242,8 +230,7 @@ export const deleteTemplateRequest =
         templates: customPayload,
         requestActionType,
         successActionType: TEMPLATES_TYPES.DELETE_TEMPLATE_SUCCESS,
-        message: 'Template(s) excluído(s) com sucesso!',
-        callback: successCallback,
+        message: 'Template excluído com sucesso!',
       };
 
       dispatch(templatesActionSuccess(successObject));

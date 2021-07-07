@@ -21,12 +21,6 @@ import {
 import {
   showOperatorDrawer,
   hideOperatorDrawer,
-  operatorParameterLoadingData,
-  operatorParameterDataLoaded,
-  operatorResultsDataLoaded,
-  operatorResultsLoadingData,
-  operatorResultsDownloadDatasetLoaded,
-  operatorResultsDownloadDatasetLoading,
   dependenciesOperatorLoading,
   dependenciesOperatorLoaded,
 } from 'store/ui/actions';
@@ -47,7 +41,10 @@ import DeploymentsOperatorsApi from 'services/DeploymentsOperatorsApi';
 
 export const downloadOperatorResultDataset =
   (projectId, experimentId, operatorId) => (dispatch) => {
-    dispatch(operatorResultsDownloadDatasetLoading());
+    dispatch(
+      addLoading(OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST)
+    );
+
     dispatch({
       type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
     });
@@ -62,7 +59,6 @@ export const downloadOperatorResultDataset =
         -1
       )
       .then((response) => {
-        dispatch(operatorResultsDownloadDatasetLoaded());
         const responseData = response.data;
         dispatch({
           type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_SUCCESS,
@@ -70,8 +66,12 @@ export const downloadOperatorResultDataset =
         });
       })
       .catch((error) => {
-        dispatch(operatorResultsDownloadDatasetLoaded());
         dispatch(showError(error.message));
+      })
+      .finally(() => {
+        dispatch(
+          removeLoading(OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST)
+        );
       });
   };
 
@@ -139,19 +139,19 @@ export const getOperatorFigures =
     dispatch({
       type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST,
     });
-    dispatch(operatorResultsLoadingData());
+
+    dispatch(addLoading(OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST));
+
     experimentRunsApi
       .listOperatorFigures(projectId, experimentId, runId, operatorId)
       .then((responseFigure) => {
         const results = utils.transformResults(operatorId, responseFigure.data);
-        dispatch(operatorResultsDataLoaded());
         dispatch({
           type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_SUCCESS,
           results,
         });
       })
       .catch((error) => {
-        dispatch(operatorResultsDataLoaded());
         // allowed to fail silently for 404
         if (error.response.status !== 404) {
           dispatch({
@@ -159,6 +159,9 @@ export const getOperatorFigures =
           });
           dispatch(showError(error.message));
         }
+      })
+      .finally(() => {
+        dispatch(removeLoading(OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST));
       });
   };
 
@@ -506,8 +509,6 @@ export const removeOperatorRequest =
  */
 const updateOperatorSuccess = (operator) => (dispatch, getState) => {
   const { operatorsReducer } = getState();
-  // dispatching operator parameter data loaded action
-  dispatch(operatorParameterDataLoaded());
 
   let mappedOperators = [...operatorsReducer];
   mappedOperators = mappedOperators.map((mappedOperator) =>
@@ -530,9 +531,6 @@ const updateOperatorSuccess = (operator) => (dispatch, getState) => {
  * @returns {object} { type, errorMessage }
  */
 const updateOperatorFail = (error) => (dispatch) => {
-  // dispatching operator parameter data loaded action
-  dispatch(operatorParameterDataLoaded());
-
   // dispatching set operator params fail
   dispatch({
     type: OPERATOR_TYPES.UPDATE_OPERATOR_FAIL,
@@ -563,7 +561,8 @@ export const updateExperimentOperatorRequest =
     dispatch({
       type: OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST,
     });
-    dispatch(operatorParameterLoadingData());
+
+    dispatch(addLoading(OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST));
 
     // filtering parameters with value
     const parametersWithValue = utils.filterOperatorParameters(
@@ -600,7 +599,10 @@ export const updateExperimentOperatorRequest =
         // dispatching success action
         dispatch(updateOperatorSuccess(successExperimentOperator));
       })
-      .catch((error) => dispatch(updateOperatorFail(error)));
+      .catch((error) => dispatch(updateOperatorFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST));
+      });
   };
 
 /**
@@ -625,7 +627,8 @@ export const updateDeploymentOperatorRequest =
     dispatch({
       type: OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST,
     });
-    dispatch(operatorParameterLoadingData());
+
+    dispatch(addLoading(OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST));
 
     // filtering parameters with value
     const parametersWithValue = utils.filterOperatorParameters(
@@ -664,7 +667,10 @@ export const updateDeploymentOperatorRequest =
         // dispatching success action
         dispatch(updateOperatorSuccess(successDeploymentOperator));
       })
-      .catch((error) => dispatch(updateOperatorFail(error)));
+      .catch((error) => dispatch(updateOperatorFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST));
+      });
   };
 
 // // // // // // // // // //

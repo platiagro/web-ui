@@ -13,17 +13,10 @@ import deploymentsApi from 'services/DeploymentsApi';
 
 // UI ACTIONS
 import {
-  implantedExperimentsLoadingData,
-  implantedExperimentsDataLoaded,
-  prepareDeploymentsLoadingData,
-  prepareDeploymentsDataLoaded,
   hidePrepareDeploymentsModal,
-  newDeploymentModalStartLoading,
-  newDeploymentModalEndLoading,
   hideNewDeploymentModal,
-  deploymentsTabsDataLoaded,
-  deploymentsTabsLoadingData,
 } from 'store/ui/actions';
+import { addLoading, removeLoading } from 'store/loading';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
 
@@ -44,7 +37,6 @@ const fetchDeploymentsSuccess = (response, successCallback) => (dispatch) => {
   });
 
   if (successCallback) successCallback(response.data.deployments);
-  dispatch(implantedExperimentsDataLoaded());
 };
 
 /**
@@ -62,8 +54,6 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
     type: actionTypes.FETCH_DEPLOYMENTS_FAIL,
     errorMessage,
   });
-
-  dispatch(implantedExperimentsDataLoaded());
 };
 
 /**
@@ -75,10 +65,10 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
  * @returns {Function} The `disptach` function
  */
 export const fetchDeploymentsRequest =
-  (projectId, isToShowLoader, successCallback) => async (dispatch) => {
+  (projectId, isToShowLoader, successCallback) => (dispatch) => {
     if (isToShowLoader) {
-      await dispatch(clearAllDeployments());
-      dispatch(implantedExperimentsLoadingData());
+      dispatch(clearAllDeployments());
+      dispatch(addLoading(actionTypes.FETCH_DEPLOYMENTS_REQUEST));
     }
 
     // fetching deployments
@@ -87,7 +77,10 @@ export const fetchDeploymentsRequest =
       .then((response) =>
         dispatch(fetchDeploymentsSuccess(response, successCallback))
       )
-      .catch((error) => dispatch(fetchDeploymentsFail(error)));
+      .catch((error) => dispatch(fetchDeploymentsFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.FETCH_DEPLOYMENTS_REQUEST));
+      });
   };
 
 // // // // // // // // // //
@@ -106,7 +99,6 @@ const createDeploymentSuccess = (response) => (dispatch) => {
     deployments: response.data.deployments,
   });
 
-  dispatch(newDeploymentModalEndLoading());
   dispatch(hideNewDeploymentModal());
 };
 
@@ -128,8 +120,6 @@ const createDeploymentFail = (error) => (dispatch) => {
     type: actionTypes.CREATE_DEPLOYMENT_FAIL,
     errorMessage,
   });
-
-  dispatch(newDeploymentModalEndLoading());
 
   errorMessage = errorMessage.includes('either')
     ? customErrorMessage
@@ -154,7 +144,7 @@ export const createDeploymentRequest =
       type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
     });
 
-    dispatch(newDeploymentModalStartLoading());
+    dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
 
     try {
       let createObject = {};
@@ -170,6 +160,8 @@ export const createDeploymentRequest =
       dispatch(createDeploymentSuccess(response));
     } catch (error) {
       dispatch(createDeploymentFail(error));
+    } finally {
+      dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
     }
   };
 
@@ -303,13 +295,13 @@ export const deleteDeploymentRequest =
   (projectId, deploymentId) => async (dispatch) => {
     try {
       dispatch({ type: actionTypes.DELETE_DEPLOYMENT_REQUEST });
-      dispatch(deploymentsTabsLoadingData());
+      dispatch(addLoading(actionTypes.DELETE_DEPLOYMENT_REQUEST));
       await deploymentsApi.deleteDeployment(projectId, deploymentId);
       dispatch(deleteDeploymentSuccess(deploymentId));
     } catch (e) {
       dispatch(deleteDeploymentFail(e));
     } finally {
-      dispatch(deploymentsTabsDataLoaded());
+      dispatch(removeLoading(actionTypes.DELETE_DEPLOYMENT_REQUEST));
     }
   };
 
@@ -336,31 +328,24 @@ export const clearAllDeployments = () => (dispatch) => {
  */
 export const prepareDeployments =
   (experiments, projectId, history) => (dispatch) => {
-    // close prepare deployment modal
     dispatch(hidePrepareDeploymentsModal());
-    // dispatching request action
-    dispatch(prepareDeploymentsLoadingData());
+    dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
 
-    // creating deployment object
     const deploymentObj = {
       experiments: experiments,
     };
 
-    // creating deployment
     deploymentsApi
       .createDeployment(projectId, deploymentObj)
       .then(() => {
-        dispatch(prepareDeploymentsDataLoaded());
-
         history.push(`/projetos/${projectId}/pre-implantacao`);
         message.success('Experimento implantado!');
       })
       .catch((error) => {
-        dispatch(prepareDeploymentsDataLoaded());
-
-        // getting error message
-        const errorMessage = error.message;
-        message.error(errorMessage, 5);
+        message.error(error.message, 5);
+      })
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
       });
   };
 
@@ -382,7 +367,7 @@ export function renameDeploymentRequest(
   return async (dispatch) => {
     try {
       dispatch({ type: actionTypes.RENAME_DEPLOYMENT_REQUEST });
-      dispatch(deploymentsTabsLoadingData());
+      dispatch(addLoading(actionTypes.RENAME_DEPLOYMENT_REQUEST));
 
       const response = await deploymentsApi.updateDeployment(
         projectId,
@@ -398,7 +383,7 @@ export function renameDeploymentRequest(
     } catch (error) {
       dispatch(renameDeploymentFail(error));
     } finally {
-      dispatch(deploymentsTabsDataLoaded());
+      dispatch(removeLoading(actionTypes.RENAME_DEPLOYMENT_REQUEST));
     }
   };
 }

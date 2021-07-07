@@ -6,8 +6,9 @@ import { useDispatch } from 'react-redux';
 import { LOG_TYPES } from 'configs';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
-import { useDeepEqualSelector } from 'hooks';
 import { hideLogsPanel } from 'store/ui/actions';
+import { useIsLoading, useDeepEqualSelector } from 'hooks';
+import DEPLOYMENT_LOGS_TYPES from 'store/deploymentLogs/actionTypes';
 import {
   clearAllDeploymentLogs,
   getDeployExperimentLogs,
@@ -15,10 +16,6 @@ import {
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
-};
-
-const isLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.inferenceLogsDrawer.loading;
 };
 
 const logsSelector = ({ deploymentLogsReducer }) => {
@@ -44,8 +41,9 @@ const DeploymentLogsPanelContainer = () => {
   const [isShowingModal, setIsShowingModal] = useState(false);
 
   const logs = useDeepEqualSelector(logsSelector);
-  const isLoading = useDeepEqualSelector(isLoadingSelector);
   const isShowingLogsPanel = useDeepEqualSelector(isShowingLogsPanelSelector);
+
+  const isLoading = useIsLoading(DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS);
 
   const handleHideLogsPanel = () => {
     dispatch(hideLogsPanel());

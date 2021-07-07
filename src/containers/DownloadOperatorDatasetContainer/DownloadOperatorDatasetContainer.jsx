@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DownloadOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import utils from 'utils';
-import { downloadOperatorResultDataset } from 'store/operator';
+import { useIsLoading } from 'hooks';
+import { downloadOperatorResultDataset, OPERATOR_TYPES } from 'store/operator';
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
@@ -16,10 +17,6 @@ const downloadDatasetSelector = ({ operatorReducer }) => {
   return operatorReducer.downloadDataset;
 };
 
-const isDownloadingDatasetSelector = ({ uiReducer }) => {
-  return uiReducer.operatorResults.downloadDatasetLoading;
-};
-
 const DownloadOperatorDatasetContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
@@ -27,7 +24,10 @@ const DownloadOperatorDatasetContainer = () => {
 
   const operator = useSelector(operatorSelector);
   const downloadDataset = useSelector(downloadDatasetSelector);
-  const isDownloadingDataset = useSelector(isDownloadingDatasetSelector);
+
+  const isDownloadingDataset = useIsLoading(
+    OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST
+  );
 
   const handleDownloadOperatorResultDataset = (operatorId) => {
     dispatch(

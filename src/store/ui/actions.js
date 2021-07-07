@@ -1,42 +1,24 @@
-// ACTION TYPES
 import actionTypes from './actionTypes';
 import { deselectOperator } from 'store/operator';
 
-// ACTIONS
-
-// // // // // // // // // //
-// COMPARE RESULTS MODAL
+/**
+ * Change compare results modal visibility
+ *
+ * @param {boolean} visible Is Visible
+ * @returns {object} Action
+ */
 export const changeVisibilityCompareResultsModal = (visible) => {
   return {
     type: actionTypes.VISIBILITY_COMPARE_RESULTS_MODAL,
     isVisible: visible,
   };
 };
-export const changeLoadingCompareResultsModal = (loading) => {
-  return {
-    type: actionTypes.LOADING_COMPARE_RESULTS_MODAL,
-    loading: loading,
-  };
-};
-export const setAddLoaderCompareResultsModal = (addIsLoading) => {
-  return {
-    type: actionTypes.ADD_COMPARE_RESULT_LOADER,
-    addIsLoading: addIsLoading,
-  };
-};
-export const setDeleteLoaderCompareResultsModal = (deleteIsLoading) => {
-  return {
-    type: actionTypes.DELETE_COMPARE_RESULT_LOADER,
-    deleteIsLoading: deleteIsLoading,
-  };
-};
 
-// ** SHOW_NEW_PROJECT_MODAL
 /**
  * show new project modal
  *
  * @param {object} record Record
- * @returns {object} { type, newProjectModalVisible }
+ * @returns {object} Action
  */
 export const showNewProjectModal = (record) => {
   if (record !== undefined && record !== null) {
@@ -53,13 +35,10 @@ export const showNewProjectModal = (record) => {
   }
 };
 
-// // // // // // // // // //
-
-// ** HIDE_NEW_PROJECT_MODAL
 /**
  * hide new project modal
  *
- * @returns {object} { type, newProjectModalVisible }
+ * @returns {object} Action
  */
 export const hideNewProjectModal = () => {
   return {
@@ -68,13 +47,10 @@ export const hideNewProjectModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** SHOW_NEW_EXPERIMENT_MODAL
 /**
  * show new experiment modal
  *
- * @returns {object} { type, newExperimentModalVisible }
+ * @returns {Function} DIspatch function
  */
 export const showNewExperimentModal = () => (dispatch) => {
   dispatch(deselectOperator());
@@ -85,13 +61,10 @@ export const showNewExperimentModal = () => (dispatch) => {
   });
 };
 
-// // // // // // // // // //
-
-// ** HIDE_NEW_EXPERIMENT_MODAL
 /**
  * hide new experiment modal
  *
- * @returns {object} { type, newExperimentModalVisible }
+ * @returns {object} Action
  */
 export const hideNewExperimentModal = () => {
   return {
@@ -100,13 +73,10 @@ export const hideNewExperimentModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** SHOW_NEW_TEMPLATE_MODAL
 /**
  * show new template modal
  *
- * @returns {object} { type, newTemplateModalVisible }
+ * @returns {object} Action
  */
 export const showNewTemplateModal = () => {
   return {
@@ -115,13 +85,10 @@ export const showNewTemplateModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** HIDE_NEW_TEMPLATE_MODAL
 /**
  * hide new template modal
  *
- * @returns {object} { type, newTemplateModalVisible }
+ * @returns {object} Action
  */
 export const hideNewTemplateModal = () => {
   return {
@@ -130,14 +97,12 @@ export const hideNewTemplateModal = () => {
   };
 };
 
-// // // // // // // // // //
-
 /**
  * Show operator information drawer
  *
  * @param {string} title operator drawer
  * @param {boolean} isDataset is a operator is DATASET type
- * @returns {object} { type, drawerVisible }
+ * @returns {object} Action
  */
 export const showOperatorDrawer = (title, isDataset) => {
   return {
@@ -146,33 +111,25 @@ export const showOperatorDrawer = (title, isDataset) => {
   };
 };
 
-// // // // // // // // // //
-
 /**
  * Hide operator drawer
  *
- * @returns {object} { type, drawerVisible }
+ * @returns {Function} DIspatch function
  */
 export const hideOperatorDrawer = () => (dispatch) => {
-  //hidding drawer
   dispatch({
     type: actionTypes.HIDE_OPERATOR_DRAWER,
     operatorDrawer: false,
   });
 
-  // hidding drawer results
   dispatch(hideOperatorResults());
 };
-
-// // // // // // // // // // // // // //
-//
-//  INFERENCE LOGS DRAWER
 
 /**
  * Show inference logs drawer
  *
  * @param {string} title drawer title
- * @returns {object} { type, title }
+ * @returns {object} Action
  */
 export const showInferenceLogsDrawer = (title) => {
   return {
@@ -184,7 +141,7 @@ export const showInferenceLogsDrawer = (title) => {
 /**
  * Hide inference logs drawer
  *
- * @returns {object} { type, drawerVisible }
+ * @returns {object} Action
  */
 export const hideInferenceLogsDrawer = () => {
   return {
@@ -194,36 +151,9 @@ export const hideInferenceLogsDrawer = () => {
 };
 
 /**
- *  Inference logs drawer loading data
- *
- * @returns {object} { type, inferenceLogsDrawerLoading }
- */
-export const inferenceLogsDrawerLoadingData = () => {
-  return {
-    type: actionTypes.INFERENCE_LOGS_DRAWER_LOADING_DATA,
-    inferenceLogsDrawerLoading: true,
-  };
-};
-
-/**
- * Inference logs drawer data loaded
- *
- * @returns {object} { type, inferenceLogsDrawerLoading }
- */
-export const inferenceLogsDrawerDataLoaded = () => {
-  return {
-    type: actionTypes.INFERENCE_LOGS_DRAWER_DATA_LOADED,
-    inferenceLogsDrawerLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** SHOW OPERATOR RESULTS
-/**
  * show operator results
  *
- * @returns {object} { type, showResults }
+ * @returns {object} Action
  */
 export const showOperatorResults = () => {
   return {
@@ -232,13 +162,10 @@ export const showOperatorResults = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** HIDE OPERATOR RESULTS
 /**
  * hide drawer results
  *
- * @returns {object} { type, showResults }
+ * @returns {object} Action
  */
 export const hideOperatorResults = () => {
   return {
@@ -247,97 +174,10 @@ export const hideOperatorResults = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** TASKS TABLE LOADING DATA
-/**
- * tasks table loading data
- *
- * @returns {object} { type, tasksTableLoading }
- */
-export const tasksTableLoadingData = () => {
-  return {
-    type: actionTypes.TASKS_TABLE_LOADING_DATA,
-    tasksTableLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** TASKS TABLE DATA LOADED
-/**
- * tasks table loading data
- *
- * @returns {object} { type, tasksTableLoading }
- */
-export const tasksTableDataLoaded = () => {
-  return {
-    type: actionTypes.TASKS_TABLE_DATA_LOADED,
-    tasksTableLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** TASKS MENU LOADING DATA
-/**
- * tasks menu loading data
- *
- * @returns {object} { type, tasksMenuLoading }
- */
-export const tasksMenuLoadingData = () => {
-  return {
-    type: actionTypes.TASKS_MENU_LOADING_DATA,
-    tasksMenuLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** TASKS MENU DATA LOADED
-/**
- * tasks menu loading data
- *
- * @returns {object} { type, tasksMenuLoading }
- */
-export const tasksMenuDataLoaded = () => {
-  return {
-    type: actionTypes.TASKS_MENU_DATA_LOADED,
-    tasksMenuLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DEPLOYMENTS TABS
-/**
- * deployments tabs loading data
- *
- * @returns {object} { type, loading }
- */
-export const deploymentsTabsDataLoaded = () => {
-  return {
-    type: actionTypes.DEPLOYMENTS_TABS_DATA_LOADED,
-    loading: false,
-  };
-};
-
-/**
- * deployments tabs loading data
- *
- * @returns {object} { type, loading }
- */
-export const deploymentsTabsLoadingData = () => {
-  return {
-    type: actionTypes.DEPLOYMENTS_TABS_LOADING_DATA,
-    loading: true,
-  };
-};
-
 /**
  * deployments tabs hide modal
  *
- * @returns {object} { type, visible }
+ * @returns {object} Action
  */
 export const deploymentsTabsHideModal = () => {
   return {
@@ -349,7 +189,7 @@ export const deploymentsTabsHideModal = () => {
 /**
  * deployments tabs show modal
  *
- * @returns {object} { type, visible }
+ * @returns {object} Action
  */
 export const deploymentsTabsShowModal = () => {
   return {
@@ -358,13 +198,10 @@ export const deploymentsTabsShowModal = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT TRAINING LOADING DATA
 /**
  * experiment training loading data
  *
- * @returns {object} { type, experimentTrainingLoading }
+ * @returns {object} Action
  */
 export const experimentTrainingLoadingData = () => {
   return {
@@ -373,13 +210,10 @@ export const experimentTrainingLoadingData = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT TRAINING DATA LOADED
 /**
  * experiment training loading data
  *
- * @returns {object} { type, experimentTrainingLoading }
+ * @returns {object} Action
  */
 export const experimentTrainingDataLoaded = () => {
   return {
@@ -388,13 +222,10 @@ export const experimentTrainingDataLoaded = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT DELETE TRAINING LOADING DATA
 /**
  * experiment delete training loading data
  *
- * @returns {object} { type, experimentDeleteTrainingLoading }
+ * @returns {object} Action
  */
 export const experimentDeleteTrainingLoadingData = () => {
   return {
@@ -403,13 +234,10 @@ export const experimentDeleteTrainingLoadingData = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT DELETE TRAINING LOADED DATA
 /**
  * experiment delete training loaded data
  *
- * @returns {object} { type, experimentDeleteTrainingLoading }
+ * @returns {object} Action
  */
 export const experimentDeleteTrainingDataLoaded = () => {
   return {
@@ -418,299 +246,27 @@ export const experimentDeleteTrainingDataLoaded = () => {
   };
 };
 
-// // // // // // // // // //
-
-// ** EXPERIMENT OPERATORS LOADING DATA
 /**
- * experiment operators loading data
+ * show using deployments modal
  *
- * @returns {object} { type, experimentOperatorsLoading }
+ * @returns {object} Action
  */
-export const experimentOperatorsLoadingData = () => {
-  return {
-    type: actionTypes.EXPERIMENT_OPERATORS_LOADING_DATA,
-    experimentOperatorsLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** EXPERIMENT OPERATORS DATA LOADED
-/**
- * experiment operators loading data
- *
- * @returns {object} { type, experimentOperatorsLoading }
- */
-export const experimentOperatorsDataLoaded = () => {
-  return {
-    type: actionTypes.EXPERIMENT_OPERATORS_DATA_LOADED,
-    experimentOperatorsLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DATASETS LIST LOADING DATA
-/**
- * datasets list loading data
- *
- * @returns {object} { type, datasetsListLoading }
- */
-export const datasetsListLoadingData = () => {
-  return {
-    type: actionTypes.DATASETS_LIST_LOADING_DATA,
-    datasetsListLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DATASETS LIST DATA LOADED
-/**
- * datasets list data loaded
- *
- * @returns {object} { type, datasetsListLoading }
- */
-export const datasetsListDataLoaded = () => {
-  return {
-    type: actionTypes.DATASETS_LIST_DATA_LOADED,
-    datasetsListLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DATASET OPERATOR LOADING DATA
-/**
- * dataset operator loading data
- *
- * @returns {object} { type, datasetOperatorLoading }
- */
-export const datasetOperatorLoadingData = () => {
-  return {
-    type: actionTypes.DATASET_OPERATOR_LOADING_DATA,
-    datasetOperatorLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DATASET OPERATOR DATA LOADED
-/**
- * dataset operator loading data
- *
- * @returns {object} { type, datasetOperatorLoading }
- */
-export const datasetOperatorDataLoaded = () => {
-  return {
-    type: actionTypes.DATASET_OPERATOR_DATA_LOADED,
-    datasetOperatorLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** OPERATOR PARAMETER LOADING DATA
-/**
- * operator parameter loading data
- *
- * @returns {object} { type, operatorParameterLoading }
- */
-export const operatorParameterLoadingData = () => {
-  return {
-    type: actionTypes.OPERATOR_PARAMETER_LOADING_DATA,
-    operatorParameterLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DATASET OPERATOR DATA LOADED
-/**
- * operator parameter data loaded
- *
- * @returns {object} { type, operatorParameterLoading }
- */
-export const operatorParameterDataLoaded = () => {
-  return {
-    type: actionTypes.OPERATOR_PARAMETER_DATA_LOADED,
-    operatorParameterLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** OPERATOR RESULTS DOWNLOAD DATASET LOADED
-export const operatorResultsDownloadDatasetLoaded = () => {
-  return {
-    type: actionTypes.OPERATOR_RESULTS_DOWNLOAD_DATASET_LOADED,
-    downloadDatasetLoading: false,
-  };
-};
-
-// ** OPERATOR RESULTS DOWNLOAD DATASET LOADING
-export const operatorResultsDownloadDatasetLoading = () => {
-  return {
-    type: actionTypes.OPERATOR_RESULTS_DOWNLOAD_DATASET_LOADING,
-    downloadDatasetLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** OPERATOR RESULTS LOADING DATA
-/**
- * operator parameter loading data
- *
- * @returns {object} { type, operatorResultsLoading }
- */
-export const operatorResultsLoadingData = () => {
-  return {
-    type: actionTypes.OPERATOR_RESULTS_LOADING_DATA,
-    operatorResultsLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** OPERATOR RESULTS DATA LOADED
-/**
- * operator parameter data loaded
- *
- * @returns {object} { type, operatorResultsLoading }
- */
-export const operatorResultsDataLoaded = () => {
-  return {
-    type: actionTypes.OPERATOR_RESULTS_DATA_LOADED,
-    operatorResultsLoading: false,
-  };
-};
-
-// ** OPERATOR RESULTS BUTTON LOADING DATA
-/**
- * operator parameter loading data
- *
- * @returns {object} { type, resultsButtonBarLoading }
- */
-export const resultsButtonBarLoadingData = () => {
-  return {
-    type: actionTypes.OPERATOR_RESULTS_BUTTON_LOADING_DATA,
-    resultsButtonBarLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** OPERATOR RESULTS BUTTON DATA LOADED
-/**
- * operator parameter data loaded
- *
- * @returns {object} { type, resultsButtonBarLoading }
- */
-export const resultsButtonBarDataLoaded = () => {
-  return {
-    type: actionTypes.OPERATOR_RESULTS_BUTTON_DATA_LOADED,
-    resultsButtonBarLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** IMPLANTED EXPERIMENTS LOADING DATA
-/**
- *  implanted experiments loading data
- *
- * @returns {object} { type, implantedExperimentsLoading }
- */
-export const implantedExperimentsLoadingData = () => {
-  return {
-    type: actionTypes.IMPLANTED_EXPERIMENTS_LOADING_DATA,
-    implantedExperimentsLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** IMPLANTED EXPERIMENTS DATA LOADED
-/**
- * implanted experiments loading data
- *
- * @returns {object} { type, implantedExperimentsLoading }
- */
-export const implantedExperimentsDataLoaded = () => {
-  return {
-    type: actionTypes.IMPLANTED_EXPERIMENTS_DATA_LOADED,
-    implantedExperimentsLoading: false,
-  };
-};
-
-// USING_DEPLOYMENTS_MODAL
 export const showUsingDeploymentsModal = () => {
   return {
     type: actionTypes.SHOW_USING_DEPLOYMENTS_MODAL,
   };
 };
 
-// // // // // // // // // //
-
-// ** HIDE_USING_DEPLOYMENTS_MODAL
 /**
+ * Hide using deployments modal
  *
- * @returns {object} { type, newTemplateModalVisible }
+ * @returns {object} Action
  */
 export const hideUsingDeploymentsModal = () => {
   return {
     type: actionTypes.HIDE_USING_DEPLOYMENTS_MODAL,
   };
 };
-
-export const loadingOnDataViewModal = () => {
-  return {
-    type: actionTypes.LOADING_DATA_VIEW_MODAL,
-    loading: true,
-  };
-};
-
-export const loadingOffDataViewModal = () => {
-  return {
-    type: actionTypes.LOADING_DATA_VIEW_MODAL,
-    loading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DEPLOYMENT OPERATORS LOADING DATA
-/**
- * deployment operators loading data
- *
- * @returns {object} { type, deploymentOperatorsLoading }
- */
-export const deploymentOperatorsLoadingData = () => {
-  return {
-    type: actionTypes.DEPLOYMENT_OPERATORS_LOADING_DATA,
-    deploymentOperatorsLoading: true,
-  };
-};
-
-// // // // // // // // // //
-
-// ** DEPLOYMENT OPERATORS DATA LOADED
-/**
- * deployment operators loading data
- *
- * @returns {object} { type, deploymentOperatorsLoading }
- */
-export const deploymentOperatorsDataLoaded = () => {
-  return {
-    type: actionTypes.DEPLOYMENT_OPERATORS_DATA_LOADED,
-    deploymentOperatorsLoading: false,
-  };
-};
-
-// // // // // // // // // //
-
-// DATA VIEW MODAL
 
 /**
  * Show data view modal
@@ -736,9 +292,12 @@ export const hideDataViewModal = () => {
   };
 };
 
-// // // // // // // // // // // // // //
-// // // // // // // // // //
-
+/**
+ * Save flow transform
+ *
+ * @param {object} transform Transform
+ * @returns {object} Action
+ */
 export const saveFlowTransform = (transform) => {
   return {
     type: actionTypes.SAVE_FLOW_TRANSFORM,
@@ -746,6 +305,12 @@ export const saveFlowTransform = (transform) => {
   };
 };
 
+/**
+ * Dependencies operator loading
+ *
+ * @param {string} dependencyId Dependency Id
+ * @returns {object} Action
+ */
 export const dependenciesOperatorLoading = (dependencyId) => {
   return {
     type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
@@ -754,6 +319,12 @@ export const dependenciesOperatorLoading = (dependencyId) => {
   };
 };
 
+/**
+ * Dependencies operator loaded
+ *
+ * @param {string} dependencyId Dependency Id
+ * @returns {object} Action
+ */
 export const dependenciesOperatorLoaded = (dependencyId) => {
   return {
     type: actionTypes.LOADING_OPERATOR_DEPENDENCIES,
@@ -762,6 +333,11 @@ export const dependenciesOperatorLoaded = (dependencyId) => {
   };
 };
 
+/**
+ * Hide prepare deployments modal
+ *
+ * @returns {object} Action
+ */
 export const hidePrepareDeploymentsModal = () => {
   return {
     type: actionTypes.HIDE_PREPARE_DEPLOYMENTS_MODAL,
@@ -769,6 +345,11 @@ export const hidePrepareDeploymentsModal = () => {
   };
 };
 
+/**
+ * Show prepare deployments modal
+ *
+ * @returns {object} Action
+ */
 export const showPrepareDeploymentsModal = () => {
   return {
     type: actionTypes.SHOW_PREPARE_DEPLOYMENTS_MODAL,
@@ -776,6 +357,11 @@ export const showPrepareDeploymentsModal = () => {
   };
 };
 
+/**
+ * Show mew deployment modal
+ *
+ * @returns {object} Action
+ */
 export const showNewDeploymentModal = () => {
   return {
     type: actionTypes.SHOW_DEPLOYMENT_MODAL,
@@ -783,6 +369,11 @@ export const showNewDeploymentModal = () => {
   };
 };
 
+/**
+ * Hide new deployment modal
+ *
+ * @returns {object} Action
+ */
 export const hideNewDeploymentModal = () => {
   return {
     type: actionTypes.HIDE_DEPLOYMENT_MODAL,
@@ -791,29 +382,10 @@ export const hideNewDeploymentModal = () => {
 };
 
 /**
- * Prepare deployments loading data
+ * Show external dataset helper modal
  *
- * @returns {object} { type, prepareDeploymentsLoading }
+ * @returns {object} Action
  */
-export const prepareDeploymentsLoadingData = () => {
-  return {
-    type: actionTypes.PREPARE_DEPLOYMENTS_LOADING_DATA,
-    prepareDeploymentsLoading: true,
-  };
-};
-
-/**
- * Prepare deployments data loaded
- *
- * @returns {object} { type, prepareDeploymentsLoading }
- */
-export const prepareDeploymentsDataLoaded = () => {
-  return {
-    type: actionTypes.PREPARE_DEPLOYMENTS_DATA_LOADED,
-    prepareDeploymentsLoading: false,
-  };
-};
-
 export const showExternalDatasetHelperModal = () => {
   return {
     type: actionTypes.SHOW_EXTERNAL_DATASET_HELPER_MODAL,
@@ -821,6 +393,11 @@ export const showExternalDatasetHelperModal = () => {
   };
 };
 
+/**
+ * Hide external dataset helper modal
+ *
+ * @returns {object} Action
+ */
 export const hideExternalDatasetHelperModal = () => {
   return {
     type: actionTypes.HIDE_EXTERNAL_DATASET_HELPER_MODAL,
@@ -828,22 +405,11 @@ export const hideExternalDatasetHelperModal = () => {
   };
 };
 
-export const newDeploymentModalStartLoading = () => {
-  return {
-    type: actionTypes.DEPLOYMENT_MODAL_START_LOADING,
-    payload: true,
-  };
-};
-
-export const newDeploymentModalEndLoading = () => {
-  return {
-    type: actionTypes.DEPLOYMENT_MODAL_END_LOADING,
-    payload: false,
-  };
-};
-
-// // // // // // // // // // // // // //
-
+/**
+ * Show logs panel
+ *
+ * @returns {object} Action
+ */
 export const showLogsPanel = () => {
   return {
     type: actionTypes.SHOW_LOGS_PANEL,
@@ -851,6 +417,11 @@ export const showLogsPanel = () => {
   };
 };
 
+/**
+ * Hide logs panel
+ *
+ * @returns {object} Action
+ */
 export const hideLogsPanel = () => {
   return {
     type: actionTypes.SHOW_LOGS_PANEL,

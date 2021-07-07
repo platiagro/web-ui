@@ -2,10 +2,6 @@ import { message } from 'antd';
 
 import { addLoading, removeLoading } from 'store/loading';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
-import {
-  implantedExperimentsLoadingData,
-  implantedExperimentsDataLoaded,
-} from 'store/ui/actions';
 
 import actionTypes from './actionTypes';
 
@@ -50,7 +46,7 @@ const fetchDeploymentRunsFail = (error) => (dispatch) => {
 const fetchDeploymentRunsRequest =
   (projectId, deploymentId, isToShowLoader) => (dispatch) => {
     if (isToShowLoader) {
-      dispatch(implantedExperimentsLoadingData());
+      dispatch(addLoading(actionTypes.FETCH_DEPLOYMENT_RUNS_REQUEST));
     }
 
     // dispatching request action
@@ -66,9 +62,10 @@ const fetchDeploymentRunsRequest =
       })
       .catch((error) => {
         dispatch(fetchDeploymentRunsFail(error));
+      })
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.FETCH_DEPLOYMENT_RUNS_REQUEST));
       });
-
-    dispatch(implantedExperimentsDataLoaded());
   };
 
 /**
@@ -139,8 +136,6 @@ const createDeploymentRunRequest =
  * @returns {object} { type }
  */
 const deleteDeploymentRunSuccess = (response) => (dispatch, getState) => {
-  dispatch(implantedExperimentsLoadingData());
-
   const currentState = getState();
   const deploymentRuns = currentState.deploymentRunsReducer;
 
@@ -161,8 +156,6 @@ const deleteDeploymentRunSuccess = (response) => (dispatch, getState) => {
  * @returns {object} { type }
  */
 const deleteDeploymentRunFail = (error) => (dispatch) => {
-  dispatch(implantedExperimentsLoadingData());
-
   dispatch({
     type: actionTypes.DELETE_DEPLOYMENT_RUN_FAIL,
   });
@@ -184,12 +177,15 @@ export const deleteDeploymentRunRequest =
       type: actionTypes.DELETE_DEPLOYMENT_RUN_REQUEST,
     });
 
-    dispatch(implantedExperimentsLoadingData());
+    dispatch(addLoading(actionTypes.DELETE_DEPLOYMENT_RUN_REQUEST));
 
     deploymentRunsApi
       .deleteDeploymentRun(projectId, deploymentId, 'latest')
       .then((response) => dispatch(deleteDeploymentRunSuccess(response)))
-      .catch((error) => dispatch(deleteDeploymentRunFail(error)));
+      .catch((error) => dispatch(deleteDeploymentRunFail(error)))
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.DELETE_DEPLOYMENT_RUN_REQUEST));
+      });
   };
 
 export default {

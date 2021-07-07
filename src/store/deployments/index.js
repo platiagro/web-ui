@@ -1,9 +1,5 @@
 import Actions from './actions';
 import ActionTypes from './actionTypes';
-import Reducer from './deploymentsReducer';
-
-export default Reducer;
-
-import deploymentReducer from './deployment';
+import deploymentReducer from './deploymentsReducer';
 
 export { deploymentReducer, Actions, ActionTypes };

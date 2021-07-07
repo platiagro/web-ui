@@ -10,11 +10,14 @@ import {
   updateAllDatasetColumnFail,
   updateAllDatasetColumnStart,
 } from 'store/dataset/actions';
+import { useIsLoading } from 'hooks';
 import { Modal, Button } from 'uiComponents';
+import { OPERATORS_TYPES } from 'store/operators';
 import { UploadButton } from 'components/Buttons';
 import { hideDataViewModal } from 'store/ui/actions';
-import { saveTargetAttribute } from 'store/operator';
+import DATASET_TYPES from 'store/dataset/actionTypes';
 import { CommonTable, DatasetColumnsTable } from 'components';
+import { OPERATOR_TYPES, saveTargetAttribute } from 'store/operator';
 
 import './DataViewModalContainer.less';
 
@@ -34,10 +37,6 @@ const datasetFeaturetypesSelector = ({ datasetReducer }) => {
   return datasetReducer.featuretypes;
 };
 
-const datasetLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.datasetOperator.loading;
-};
-
 const datasetNameSelector = ({ datasetReducer }) => {
   return datasetReducer.name;
 };
@@ -52,14 +51,6 @@ const datasetTotalSelector = ({ datasetReducer }) => {
 
 const isVisibleSelector = ({ uiReducer }) => {
   return uiReducer.dataViewModal.isVisible;
-};
-
-const loadingSelector = ({ uiReducer }) => {
-  return uiReducer.dataViewModal.loading;
-};
-
-const setParameterLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.operatorParameter.loading;
 };
 
 const datasetOperatorSelector = ({ operatorReducer }) => {
@@ -77,14 +68,29 @@ const DataViewModalContainer = () => {
   const datasetCurrentPage = useSelector(datasetCurrentPageSelector);
   const datasetData = useSelector(datasetDataSelector);
   const datasetFeaturetypes = useSelector(datasetFeaturetypesSelector);
-  const datasetLoading = useSelector(datasetLoadingSelector);
   const datasetName = useSelector(datasetNameSelector);
   const datasetPageSize = useSelector(datasetPageSizeSelector);
   const datasetTotal = useSelector(datasetTotalSelector);
   const isVisible = useSelector(isVisibleSelector);
-  const loading = useSelector(loadingSelector);
-  const setParameterLoading = useSelector(setParameterLoadingSelector);
   const datasetOperator = useSelector(datasetOperatorSelector);
+
+  const isUpdatingAllDatasetColumns = useIsLoading(
+    DATASET_TYPES.UPDATE_ALL_DATASET_COLUMNS_REQUEST
+  );
+
+  const isLoadingParameter = useIsLoading(
+    OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
+    OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST
+  );
+
+  const isLoadingDataset = useIsLoading(
+    DATASET_TYPES.FETCH_DATASET_COLUMNS_REQUEST,
+    DATASET_TYPES.CREATE_DATASET_REQUEST,
+    DATASET_TYPES.UPDATE_DATASET_COLUMN_REQUEST,
+    DATASET_TYPES.GET_DATASET_REQUEST,
+    DATASET_TYPES.DELETE_DATASET_REQUEST,
+    DATASET_TYPES.FETCH_PAGINATED_DATASET
+  );
 
   const actionUrl = useMemo(() => {
     return `${process.env.REACT_APP_DATASET_API}/datasets/${datasetName}`;
@@ -181,7 +187,7 @@ const DataViewModalContainer = () => {
               <DatasetColumnsTable
                 columns={datasetColumns}
                 selectedRows={selectedRows}
-                setParameterLoading={setParameterLoading}
+                setParameterLoading={isLoadingParameter}
                 handleRowSelection={handleTargetAttribute}
                 handleSetColumnType={handleUpdateDatasetColumn}
               />
@@ -227,10 +233,10 @@ const DataViewModalContainer = () => {
               <UploadButton
                 method='PATCH'
                 isDisabled={false}
-                isLoading={loading}
                 actionUrl={actionUrl}
                 parameterName='featuretypes'
                 buttonText='Importar arquivo'
+                isLoading={isUpdatingAllDatasetColumns}
                 handleUploadFail={handleUpdateAllDatasetColumnFail}
                 handleUploadStart={handleUpdateAllDatasetColumnStart}
                 handleUploadSuccess={handleUpdateAllDatasetColumnSuccess}
@@ -244,7 +250,7 @@ const DataViewModalContainer = () => {
                 size={'small'}
                 columns={columns}
                 dataSource={datasetData}
-                isLoading={datasetLoading}
+                isLoading={isLoadingDataset}
                 rowKey={(_, index) => `observação-${index}`}
                 scroll={{
                   x: columns.length > 10 ? 2000 : 1000,

@@ -1,25 +1,13 @@
-// UI LIBS
 import { message } from 'antd';
 
-// ACTION TYPES
-import actionTypes from './actionTypes';
-
-// SERVICES
+import utils from 'utils';
+import { showError } from 'store/message';
+import { Selectors } from 'store/projects/experiments';
+import { addLoading, removeLoading } from 'store/loading';
 import compareResultsApi from 'services/CompareResultsApi';
 import experimentRunsApi from 'services/ExperimentRunsApi';
 
-// UI ACTIONS
-import {
-  changeLoadingCompareResultsModal,
-  setAddLoaderCompareResultsModal,
-  setDeleteLoaderCompareResultsModal,
-} from 'store/ui/actions';
-
-// UTILS
-import utils from 'utils';
-
-import { Selectors } from 'store/projects/experiments';
-import { showError } from 'store/message';
+import actionTypes from './actionTypes';
 
 const { getExperiments } = Selectors;
 
@@ -48,20 +36,22 @@ const updateExperimentsOptions = (experimentId, children, isLoading) => {
  */
 export const addCompareResult = (projectId) => {
   return (dispatch) => {
-    dispatch(setAddLoaderCompareResultsModal(true));
+    dispatch(addLoading(actionTypes.ADD_COMPARE_RESULT));
+
     compareResultsApi
       .createCompareResult(projectId)
       .then((response) => {
-        dispatch(setAddLoaderCompareResultsModal(false));
         dispatch({
           type: actionTypes.ADD_COMPARE_RESULT,
           compareResult: response.data,
         });
       })
       .catch((error) => {
-        dispatch(setAddLoaderCompareResultsModal(false));
         let errorMessage = error.message;
         message.error(errorMessage, 5);
+      })
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.ADD_COMPARE_RESULT));
       });
   };
 };
@@ -75,20 +65,22 @@ export const addCompareResult = (projectId) => {
  */
 export const deleteCompareResult = (projectId, id) => {
   return (dispatch) => {
-    dispatch(setDeleteLoaderCompareResultsModal(true));
+    dispatch(addLoading(actionTypes.DELETE_COMPARE_RESULT));
+
     compareResultsApi
       .deleteCompareResult(projectId, id)
       .then(() => {
-        dispatch(setDeleteLoaderCompareResultsModal(false));
         dispatch({
           type: actionTypes.DELETE_COMPARE_RESULT,
           id,
         });
       })
       .catch((error) => {
-        dispatch(setDeleteLoaderCompareResultsModal(false));
         let errorMessage = error.message;
         message.error(errorMessage, 5);
+      })
+      .finally(() => {
+        dispatch(removeLoading(actionTypes.DELETE_COMPARE_RESULT));
       });
   };
 };
@@ -100,7 +92,8 @@ export const deleteCompareResult = (projectId, id) => {
  * @returns {Function} DIspatch function
  */
 export const fetchCompareResults = (projectId) => (dispatch, getState) => {
-  dispatch(changeLoadingCompareResultsModal(true));
+  dispatch(addLoading(actionTypes.FETCH_COMPARE_RESULTS));
+
   const state = getState();
   const experiments = getExperiments(state, projectId);
 
@@ -108,7 +101,6 @@ export const fetchCompareResults = (projectId) => (dispatch, getState) => {
     .listCompareResult(projectId)
     .then(async (response) => {
       const compareResults = response.data.comparisons;
-      dispatch(changeLoadingCompareResultsModal(false));
       dispatch({
         type: actionTypes.FETCH_COMPARE_RESULTS,
         compareResults: compareResults,
@@ -133,9 +125,11 @@ export const fetchCompareResults = (projectId) => (dispatch, getState) => {
       }
     })
     .catch((error) => {
-      dispatch(changeLoadingCompareResultsModal(false));
       let errorMessage = error.message;
       message.error(errorMessage, 5);
+    })
+    .finally(() => {
+      dispatch(removeLoading(actionTypes.FETCH_COMPARE_RESULTS));
     });
 };
 

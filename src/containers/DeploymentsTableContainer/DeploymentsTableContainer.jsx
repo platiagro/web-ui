@@ -9,6 +9,8 @@ import {
   deleteDeploymentRequest,
   fetchDeploymentsRequest,
 } from 'store/deployments/actions';
+import { useIsLoading } from 'hooks';
+import DEPLOYMENTS_TYPES from 'store/deployments/actionTypes';
 
 const deploymentsSelector = ({ deploymentsReducer }) => {
   const deployments = deploymentsReducer || [];
@@ -17,16 +19,13 @@ const deploymentsSelector = ({ deploymentsReducer }) => {
   return deployments.filter((deployment) => !!deployment.url);
 };
 
-const isLoadingSelector = ({ uiReducer }) => {
-  return uiReducer.implantedExperiments.loading;
-};
-
 const DeploymentsTableContainer = ({ handleShowMonitoringDrawer }) => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
   const deployments = useSelector(deploymentsSelector);
-  const isLoading = useSelector(isLoadingSelector);
+
+  const isLoading = useIsLoading(DEPLOYMENTS_TYPES.FETCH_DEPLOYMENTS_REQUEST);
 
   const handleDeleteDeployment = (deploymentId) => {
     dispatch(deleteDeploymentRequest(projectId, deploymentId));
