@@ -67,9 +67,8 @@ export const operatorsReducer = (state = initialState, action = undefined) => {
           isTerminated = true;
         }
 
-        const validParametersLatestTraining = operatorLatestTraining
-          ? operatorLatestTraining.parameters
-          : null;
+        const validParametersLatestTraining =
+          operatorLatestTraining?.parameters || null;
 
         return {
           ...operator,
