@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Input } from 'antd';
+import { Input, Radio } from 'antd';
 
 import { DockerIconComponent } from 'assets';
 
@@ -21,7 +21,17 @@ const URLS = {
   CMD: 'https://docs.docker.com/engine/reference/builder/#cmd',
 };
 
+const INPUT_TYPES = {
+  SHELL: 'SHELL',
+  EXEC: 'EXEC',
+};
+
 const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
+  const isFirstRender = useRef(true);
+
+  const [commandsInputType, setCommandsInputType] = useState(INPUT_TYPES.SHELL);
+  const [argsInputType, setArgsInputType] = useState(INPUT_TYPES.SHELL);
+
   const [imageUrl, setImageUrl] = useState('');
   const [commands, setCommands] = useState('');
   const [args, setArgs] = useState('');
@@ -32,10 +42,10 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
         return imageUrl.trim();
 
       case FIELD_IDS.COMMANDS:
-        return commands.trim().split(' ');
+        return commands.trim();
 
       case FIELD_IDS.ARGUMENTS:
-        return args.trim().split(' ');
+        return args.trim();
 
       default:
         return undefined;
@@ -48,31 +58,52 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
         return taskData.image;
 
       case FIELD_IDS.COMMANDS:
-        return taskData.commands || [];
+        return commandsInputType === INPUT_TYPES.SHELL
+          ? transformExecIntoShell(taskData.commands || [], false)
+          : JSON.stringify(taskData.commands);
 
       case FIELD_IDS.ARGUMENTS:
-        return taskData.arguments || [];
+        return argsInputType === INPUT_TYPES.SHELL
+          ? transformExecIntoShell(taskData.arguments || [], false)
+          : JSON.stringify(taskData.arguments);
 
       default:
         return undefined;
     }
   };
 
-  const handleCompareNewAndOldValues = (fieldId, oldValue, newValue) => {
-    switch (fieldId) {
-      case FIELD_IDS.IMAGE_URL:
-        return oldValue === newValue;
+  const handleCompareNewAndOldValues = (oldValue, newValue) => {
+    const isOldValueString = typeof oldValue === 'string';
+    const oldValueString = isOldValueString
+      ? oldValue
+      : JSON.stringify(oldValue);
 
-      case FIELD_IDS.COMMANDS:
+    const isNewValueString = typeof newValue === 'string';
+    const newValueString = isNewValueString
+      ? newValue
+      : JSON.stringify(newValue);
+
+    return oldValueString === newValueString;
+  };
+
+  const handleFormatValueToSave = (fieldId, value) => {
+    switch (fieldId) {
+      case FIELD_IDS.COMMANDS: {
+        if (commandsInputType === INPUT_TYPES.SHELL) {
+          return JSON.parse(transformShellIntoExec(value));
+        }
+        return JSON.parse(value);
+      }
+
       case FIELD_IDS.ARGUMENTS: {
-        const hasTheSameLength = oldValue.length === newValue.length;
-        const isIdentical = oldValue.every((val) => newValue.includes(val));
-        console.log(hasTheSameLength, isIdentical);
-        return hasTheSameLength && isIdentical;
+        if (argsInputType === INPUT_TYPES.SHELL) {
+          return JSON.parse(transformShellIntoExec(value));
+        }
+        return JSON.parse(value);
       }
 
       default:
-        return true;
+        return value;
     }
   };
 
@@ -80,21 +111,53 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     const newValue = getNewValueByFieldId(fieldId);
     const oldValue = getOldValueByFieldId(fieldId);
     const isOldValueEqualsNewValue = handleCompareNewAndOldValues(
-      fieldId,
       newValue,
       oldValue
     );
 
     if (isOldValueEqualsNewValue) return;
     const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
-    handleUpdateTaskData(fieldName, newValue);
+    const formattedNewValue = handleFormatValueToSave(fieldId, newValue);
+    handleUpdateTaskData(fieldName, formattedNewValue);
+  };
+
+  const transformShellIntoExec = (shellText) => {
+    if (!shellText) return '';
+    const [command, ...args] = shellText.split(' ');
+    const argsText = args.join(' ');
+    return JSON.stringify([command, argsText]);
+  };
+
+  const transformExecIntoShell = (exec, isInJSONFormat = true) => {
+    if (!exec || (Array.isArray(exec) && exec.length === 0)) return '';
+    const execArray = isInJSONFormat ? JSON.parse(exec) : exec;
+    return execArray.join(' ');
+  };
+
+  const handleChangeCommandsInputType = (e) => {
+    setCommandsInputType(e.target.value);
+    setCommands(
+      e.target.value === INPUT_TYPES.SHELL
+        ? transformExecIntoShell(commands)
+        : transformShellIntoExec(commands)
+    );
+  };
+
+  const handleChangeArgumentsInputType = (e) => {
+    setArgsInputType(e.target.value);
+    setArgs(
+      e.target.value === INPUT_TYPES.SHELL
+        ? transformExecIntoShell(args)
+        : transformShellIntoExec(args)
+    );
   };
 
   useEffect(() => {
-    if (taskData) {
+    if (taskData && isFirstRender.current) {
+      isFirstRender.current = false;
       setImageUrl(taskData.image || '');
-      setCommands((taskData.commands || []).join(' '));
-      setArgs((taskData.arguments || []).join(' '));
+      setCommands(transformExecIntoShell(taskData.commands || [], false));
+      setArgs(transformExecIntoShell(taskData.arguments || [], false));
     }
   }, [taskData]);
 
@@ -126,6 +189,16 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
           />
         </div>
 
+        <Radio.Group
+          className='task-details-page-content-info-docker-radio-group'
+          name='CommandsInputTypes'
+          value={commandsInputType}
+          onChange={handleChangeCommandsInputType}
+        >
+          <Radio value={INPUT_TYPES.SHELL}>Formato Shell</Radio>
+          <Radio value={INPUT_TYPES.EXEC}>Formato Exec</Radio>
+        </Radio.Group>
+
         <div className='task-details-page-content-info-docker-field'>
           <label
             className='task-details-page-content-info-docker-field-label'
@@ -146,6 +219,16 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
             placeholder='Adicionar Comandos'
           />
         </div>
+
+        <Radio.Group
+          className='task-details-page-content-info-docker-radio-group'
+          name='ArgumentsInputTypes'
+          value={argsInputType}
+          onChange={handleChangeArgumentsInputType}
+        >
+          <Radio value={INPUT_TYPES.SHELL}>Formato Shell</Radio>
+          <Radio value={INPUT_TYPES.EXEC}>Formato Exec</Radio>
+        </Radio.Group>
 
         <div className='task-details-page-content-info-docker-field'>
           <label
