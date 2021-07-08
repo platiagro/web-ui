@@ -27,11 +27,15 @@ const DeploymentTestResultModalContent = ({
 
     if (!dataArray || !names) return [];
 
-    return dataArray.map((e, i) => {
-      const data = { key: i };
-      names.forEach((c, j) => {
-        data[c] = e[j];
+    return dataArray.map((value, index) => {
+      const data = { key: index };
+      const isNumericValue = typeof value === 'number';
+      const isStringValue = typeof value === 'string';
+
+      names.forEach((name, nameIndex) => {
+        data[name] = isNumericValue || isStringValue ? value : value[nameIndex];
       });
+
       return data;
     });
   }, [testResult]);
