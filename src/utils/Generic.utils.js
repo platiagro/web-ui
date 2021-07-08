@@ -66,8 +66,9 @@ export const isImage = (seldonObject) => {
  * @returns {string} mime type
  */
 export const getSeldonObjectMimeType = (seldonObject, contentType) => {
-  const { binData, names, ndarray, strData } = seldonObject;
+  const { binData, names, ndarray, tensor, strData } = seldonObject;
   if (names && ndarray) return 'data:text/csv';
+  else if (names && tensor) return 'data:text/csv';
   else if (strData) return 'data:text/plain';
   else if (binData) {
     if (contentType?.includes('png')) return 'data:image/png';
@@ -96,10 +97,13 @@ export const formatBase64 = (seldonObject) => {
  * @returns {string} a string with Seldon response
  */
 export const toRawText = (seldonObject) => {
-  const { binData, names, ndarray, strData } = seldonObject;
+  const { binData, names, ndarray, tensor, strData } = seldonObject;
   if (names && ndarray) {
     const columns = names.join(',');
     return columns + '\n' + ndarray.join('\n');
+  } else if (names && tensor) {
+    const columns = names.join(',');
+    return columns + '\n' + tensor.values.join('\n');
   } else if (binData) {
     return binData;
   } else if (strData) {
