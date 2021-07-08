@@ -14,16 +14,24 @@ const DeploymentTestResultModalContent = ({
   handleShowLogs,
   handleTryAgain,
 }) => {
+  const canShowTable = useMemo(() => {
+    return (
+      !!testResult?.names &&
+      (!!testResult?.ndarray || !!testResult?.tensor?.values)
+    );
+  }, [testResult?.names, testResult?.ndarray, testResult?.tensor?.values]);
+
   const dataSource = useMemo(() => {
-    if (!testResult?.ndarray || !testResult?.names) return [];
+    const dataArray = testResult?.ndarray || testResult?.tensor?.values;
+    const names = testResult?.names;
 
-    return testResult.ndarray.map((e, i) => {
+    if (!dataArray || !names) return [];
+
+    return dataArray.map((e, i) => {
       const data = { key: i };
-
-      testResult.names.forEach((c, j) => {
+      names.forEach((c, j) => {
         data[c] = e[j];
       });
-
       return data;
     });
   }, [testResult]);
@@ -50,7 +58,7 @@ const DeploymentTestResultModalContent = ({
 
   return (
     <>
-      {'ndarray' in testResult ? (
+      {canShowTable ? (
         <CommonTable
           isLoading={false}
           columns={columns}
