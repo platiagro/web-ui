@@ -120,8 +120,7 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     const numberOfDoubleQuotes = shellText.split('"').length - 1;
     // Return default split if number of single or double quotes is odd
     if (numberOfSingleQuotes % 2 !== 0 || numberOfDoubleQuotes % 2 !== 0) {
-      const shellTextParts = shellText.split(' ');
-      return JSON.stringify(shellTextParts);
+      return JSON.stringify(shellText.split(' '));
     }
 
     let shellTextClone = `${shellText}`;
