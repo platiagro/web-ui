@@ -107,7 +107,6 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
       const formattedNewValue = handleFormatValueToSave(fieldId, newValue);
       handleUpdateTaskData(fieldName, formattedNewValue);
     } catch (error) {
-      console.log(error.message);
       message.error(
         'Erro na formatação dos dados. As alterações não foram salvas'
       );
