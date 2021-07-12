@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Radio } from 'antd';
+import { isEqual } from 'lodash';
 
 import { DockerIconComponent } from 'assets';
 
@@ -72,20 +73,6 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     }
   };
 
-  const handleCompareNewAndOldValues = (oldValue, newValue) => {
-    const isOldValueString = typeof oldValue === 'string';
-    const oldValueString = isOldValueString
-      ? oldValue
-      : JSON.stringify(oldValue);
-
-    const isNewValueString = typeof newValue === 'string';
-    const newValueString = isNewValueString
-      ? newValue
-      : JSON.stringify(newValue);
-
-    return oldValueString === newValueString;
-  };
-
   const handleFormatValueToSave = (fieldId, value) => {
     switch (fieldId) {
       case FIELD_IDS.COMMANDS: {
@@ -110,10 +97,7 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
   const handleSaveDataWhenLooseFocus = (fieldId) => () => {
     const newValue = getNewValueByFieldId(fieldId);
     const oldValue = getOldValueByFieldId(fieldId);
-    const isOldValueEqualsNewValue = handleCompareNewAndOldValues(
-      newValue,
-      oldValue
-    );
+    const isOldValueEqualsNewValue = isEqual(newValue, oldValue);
 
     if (isOldValueEqualsNewValue) return;
     const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
@@ -123,9 +107,41 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
 
   const transformShellIntoExec = (shellText) => {
     if (!shellText) return '';
-    const [command, ...args] = shellText.split(' ');
-    const argsText = args.join(' ');
-    return JSON.stringify([command, argsText]);
+
+    const numberOfSingleQuotes = shellText.split("'").length - 1;
+    const numberOfDoubleQuotes = shellText.split('"').length - 1;
+    // Return default split if number of single or double quotes is odd
+    if (numberOfSingleQuotes % 2 !== 0 || numberOfDoubleQuotes % 2 !== 0) {
+      const shellTextParts = shellText.split(' ');
+      return JSON.stringify(shellTextParts);
+    }
+
+    let shellTextClone = `${shellText}`;
+
+    // Get substrings inside single or double quotes
+    const textsWithQuotes = shellTextClone.match(
+      /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g
+    );
+
+    if (textsWithQuotes) {
+      // Replace text inside quotes to preserve its white spaces
+      textsWithQuotes.forEach((text, index) => {
+        shellTextClone = shellTextClone.replace(text, `@@_@@${index}`);
+      });
+    }
+
+    // Split in white spaces
+    const shellTextParts = shellTextClone.split(' ');
+
+    if (textsWithQuotes) {
+      // Put texts with quotes in the array again
+      textsWithQuotes.forEach((textWithQuotes, index) => {
+        const indexToReplace = shellTextParts.indexOf(`@@_@@${index}`);
+        shellTextParts[indexToReplace] = textWithQuotes;
+      });
+    }
+
+    return JSON.stringify(shellTextParts);
   };
 
   const transformExecIntoShell = (exec, isInJSONFormat = true) => {
