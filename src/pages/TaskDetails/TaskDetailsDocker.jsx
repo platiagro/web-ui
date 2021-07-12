@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Radio } from 'antd';
+import { Input, message, Radio } from 'antd';
 import { isEqual } from 'lodash';
 
 import { DockerIconComponent } from 'assets';
@@ -76,14 +76,16 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
   const handleFormatValueToSave = (fieldId, value) => {
     switch (fieldId) {
       case FIELD_IDS.COMMANDS: {
-        if (commandsInputType === INPUT_TYPES.SHELL) {
+        if (value === '') return [];
+        else if (commandsInputType === INPUT_TYPES.SHELL) {
           return JSON.parse(transformShellIntoExec(value));
         }
         return JSON.parse(value);
       }
 
       case FIELD_IDS.ARGUMENTS: {
-        if (argsInputType === INPUT_TYPES.SHELL) {
+        if (value === '') return [];
+        else if (argsInputType === INPUT_TYPES.SHELL) {
           return JSON.parse(transformShellIntoExec(value));
         }
         return JSON.parse(value);
@@ -95,14 +97,21 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
   };
 
   const handleSaveDataWhenLooseFocus = (fieldId) => () => {
-    const newValue = getNewValueByFieldId(fieldId);
-    const oldValue = getOldValueByFieldId(fieldId);
-    const isOldValueEqualsNewValue = isEqual(newValue, oldValue);
+    try {
+      const newValue = getNewValueByFieldId(fieldId);
+      const oldValue = getOldValueByFieldId(fieldId);
+      const isOldValueEqualsNewValue = isEqual(newValue, oldValue);
 
-    if (isOldValueEqualsNewValue) return;
-    const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
-    const formattedNewValue = handleFormatValueToSave(fieldId, newValue);
-    handleUpdateTaskData(fieldName, formattedNewValue);
+      if (isOldValueEqualsNewValue) return;
+      const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
+      const formattedNewValue = handleFormatValueToSave(fieldId, newValue);
+      handleUpdateTaskData(fieldName, formattedNewValue);
+    } catch (error) {
+      console.log(error.message);
+      message.error(
+        'Erro na formatação dos dados. As alterações não foram salvas'
+      );
+    }
   };
 
   const transformShellIntoExec = (shellText) => {
@@ -117,6 +126,7 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     }
 
     let shellTextClone = `${shellText}`;
+    const replaceIdentifier = '@@_@@';
 
     // Get substrings inside single or double quotes
     const textsWithQuotes = shellTextClone.match(
@@ -126,7 +136,10 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     if (textsWithQuotes) {
       // Replace text inside quotes to preserve its white spaces
       textsWithQuotes.forEach((text, index) => {
-        shellTextClone = shellTextClone.replace(text, `@@_@@${index}`);
+        shellTextClone = shellTextClone.replace(
+          text,
+          `${replaceIdentifier}${index}`
+        );
       });
     }
 
@@ -136,7 +149,9 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     if (textsWithQuotes) {
       // Put texts with quotes in the array again
       textsWithQuotes.forEach((textWithQuotes, index) => {
-        const indexToReplace = shellTextParts.indexOf(`@@_@@${index}`);
+        const indexToReplace = shellTextParts.indexOf(
+          `${replaceIdentifier}${index}`
+        );
         shellTextParts[indexToReplace] = textWithQuotes;
       });
     }
@@ -150,22 +165,38 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     return execArray.join(' ');
   };
 
-  const handleChangeCommandsInputType = (e) => {
-    setCommandsInputType(e.target.value);
-    setCommands(
-      e.target.value === INPUT_TYPES.SHELL
-        ? transformExecIntoShell(commands)
-        : transformShellIntoExec(commands)
+  const showTransformationError = (newInputType) => {
+    const newTypeName = newInputType === INPUT_TYPES.SHELL ? 'SHELL' : 'EXEC';
+    const oldTypeName = newInputType === INPUT_TYPES.SHELL ? 'EXEC' : 'SHELL';
+    message.error(
+      `Erro ao converter de ${oldTypeName} para ${newTypeName}. Verifique se o formato está correto.`
     );
   };
 
-  const handleChangeArgumentsInputType = (e) => {
-    setArgsInputType(e.target.value);
-    setArgs(
-      e.target.value === INPUT_TYPES.SHELL
-        ? transformExecIntoShell(args)
-        : transformShellIntoExec(args)
-    );
+  const handleChangeCommandsInputType = (event) => {
+    try {
+      const transformedCommands =
+        event.target.value === INPUT_TYPES.SHELL
+          ? transformExecIntoShell(commands)
+          : transformShellIntoExec(commands);
+      setCommandsInputType(event.target.value);
+      setCommands(transformedCommands);
+    } catch (error) {
+      showTransformationError(event.target.value);
+    }
+  };
+
+  const handleChangeArgumentsInputType = (event) => {
+    try {
+      const transformedArgs =
+        event.target.value === INPUT_TYPES.SHELL
+          ? transformExecIntoShell(args)
+          : transformShellIntoExec(args);
+      setArgsInputType(event.target.value);
+      setArgs(transformedArgs);
+    } catch (error) {
+      showTransformationError(event.target.value);
+    }
   };
 
   useEffect(() => {
