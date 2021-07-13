@@ -75,7 +75,7 @@ export const useShellAndExecFunctions = () => {
       );
 
       if (textsWithQuotes) {
-        // Put texts with quotes in the array again
+        // Put texts with quotes in shell text again
         textsWithQuotes.forEach((textWithQuotes, index) => {
           shellTextClone = shellTextClone.replace(
             `${quotesReplaceIdentifier}${index}`,
