@@ -309,6 +309,16 @@
             .task-details-page-content-info-docker-field {
               margin-bottom: 16px;
 
+              &:hover .task-details-page-content-info-docker-field-input,
+              .task-details-page-content-info-docker-field-input:hover {
+                border-color: rgba(0, 0, 0, 0.3);
+              }
+
+              &:focus .task-details-page-content-info-docker-field-input,
+              .task-details-page-content-info-docker-field-input:focus {
+                border-color: #1890ff;
+              }
+
               .task-details-page-content-info-docker-field-label {
                 display: block;
                 font-weight: bold;
@@ -336,14 +346,6 @@
                 border-radius: 3px;
                 border: 1px solid transparent;
                 transition: none;
-
-                &:hover {
-                  border-color: rgba(0, 0, 0, 0.3);
-                }
-
-                &:focus {
-                  border-color: #1890ff;
-                }
 
                 // Chrome, Firefox, Opera, Safari 10.1+
                 &::placeholder {
