@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Input, message, Radio, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
-import { Input, message, Radio } from 'antd';
 import { isEqual } from 'lodash';
 
 import { DockerIconComponent } from 'assets';
+
+import { useShellAndExecFunctions } from './useShellAndExecFunctions';
 
 const FIELD_IDS = {
   IMAGE_URL: 'IMAGE_URL',
@@ -30,27 +32,27 @@ const INPUT_TYPES = {
 const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
   const isFirstRender = useRef(true);
 
-  const [commandsInputType, setCommandsInputType] = useState(INPUT_TYPES.SHELL);
-  const [argsInputType, setArgsInputType] = useState(INPUT_TYPES.SHELL);
+  const [commandsInputType, setCommandsInputType] = useState(INPUT_TYPES.EXEC);
+  const [argsInputType, setArgsInputType] = useState(INPUT_TYPES.EXEC);
 
   const [imageUrl, setImageUrl] = useState('');
   const [commands, setCommands] = useState('');
   const [args, setArgs] = useState('');
 
+  const {
+    transformShellIntoExec,
+    transformExecArrayIntoShell,
+    transformExecJsonIntoShell,
+  } = useShellAndExecFunctions();
+
   const getNewValueByFieldId = (fieldId) => {
-    switch (fieldId) {
-      case FIELD_IDS.IMAGE_URL:
-        return imageUrl.trim();
+    const fieldValues = {
+      [FIELD_IDS.IMAGE_URL]: imageUrl.trim(),
+      [FIELD_IDS.COMMANDS]: commands.trim(),
+      [FIELD_IDS.ARGUMENTS]: args.trim(),
+    };
 
-      case FIELD_IDS.COMMANDS:
-        return commands.trim();
-
-      case FIELD_IDS.ARGUMENTS:
-        return args.trim();
-
-      default:
-        return undefined;
-    }
+    return fieldValues[fieldId];
   };
 
   const getOldValueByFieldId = (fieldId) => {
@@ -60,12 +62,12 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
 
       case FIELD_IDS.COMMANDS:
         return commandsInputType === INPUT_TYPES.SHELL
-          ? transformExecIntoShell(taskData.commands || [], false)
+          ? transformExecArrayIntoShell(taskData.commands || [])
           : JSON.stringify(taskData.commands);
 
       case FIELD_IDS.ARGUMENTS:
         return argsInputType === INPUT_TYPES.SHELL
-          ? transformExecIntoShell(taskData.arguments || [], false)
+          ? transformExecArrayIntoShell(taskData.arguments || [])
           : JSON.stringify(taskData.arguments);
 
       default:
@@ -101,73 +103,21 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
       const newValue = getNewValueByFieldId(fieldId);
       const oldValue = getOldValueByFieldId(fieldId);
       const isOldValueEqualsNewValue = isEqual(newValue, oldValue);
-
       if (isOldValueEqualsNewValue) return;
+
       const fieldName = FIELD_ID_TO_FIELD_NAME[fieldId];
       const formattedNewValue = handleFormatValueToSave(fieldId, newValue);
       handleUpdateTaskData(fieldName, formattedNewValue);
     } catch (error) {
-      message.error(
-        'Erro na formatação dos dados. As alterações não foram salvas'
-      );
+      message.error('Erro ao tentar salvar as alterações');
     }
-  };
-
-  const transformShellIntoExec = (shellText) => {
-    if (!shellText) return '';
-
-    const numberOfSingleQuotes = shellText.split("'").length - 1;
-    const numberOfDoubleQuotes = shellText.split('"').length - 1;
-    // Return default split if number of single or double quotes is odd
-    if (numberOfSingleQuotes % 2 !== 0 || numberOfDoubleQuotes % 2 !== 0) {
-      return JSON.stringify(shellText.split(' '));
-    }
-
-    let shellTextClone = `${shellText}`;
-    const replaceIdentifier = '@@_@@';
-
-    // Get substrings inside single or double quotes
-    const textsWithQuotes = shellTextClone.match(
-      /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g
-    );
-
-    if (textsWithQuotes) {
-      // Replace text inside quotes to preserve its white spaces
-      textsWithQuotes.forEach((text, index) => {
-        shellTextClone = shellTextClone.replace(
-          text,
-          `${replaceIdentifier}${index}`
-        );
-      });
-    }
-
-    // Split in white spaces
-    const shellTextParts = shellTextClone.split(' ');
-
-    if (textsWithQuotes) {
-      // Put texts with quotes in the array again
-      textsWithQuotes.forEach((textWithQuotes, index) => {
-        const indexToReplace = shellTextParts.indexOf(
-          `${replaceIdentifier}${index}`
-        );
-        shellTextParts[indexToReplace] = textWithQuotes;
-      });
-    }
-
-    return JSON.stringify(shellTextParts);
-  };
-
-  const transformExecIntoShell = (exec, isInJSONFormat = true) => {
-    if (!exec || (Array.isArray(exec) && exec.length === 0)) return '';
-    const execArray = isInJSONFormat ? JSON.parse(exec) : exec;
-    return execArray.join(' ');
   };
 
   const showTransformationError = (newInputType) => {
     const newTypeName = newInputType === INPUT_TYPES.SHELL ? 'SHELL' : 'EXEC';
     const oldTypeName = newInputType === INPUT_TYPES.SHELL ? 'EXEC' : 'SHELL';
     message.error(
-      `Erro ao converter de ${oldTypeName} para ${newTypeName}. Verifique se o formato está correto.`
+      `Erro ao converter de ${oldTypeName} para ${newTypeName}. Verifique se o formato está correto`
     );
   };
 
@@ -175,7 +125,7 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     try {
       const transformedCommands =
         event.target.value === INPUT_TYPES.SHELL
-          ? transformExecIntoShell(commands)
+          ? transformExecJsonIntoShell(commands)
           : transformShellIntoExec(commands);
       setCommandsInputType(event.target.value);
       setCommands(transformedCommands);
@@ -188,7 +138,7 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     try {
       const transformedArgs =
         event.target.value === INPUT_TYPES.SHELL
-          ? transformExecIntoShell(args)
+          ? transformExecJsonIntoShell(args)
           : transformShellIntoExec(args);
       setArgsInputType(event.target.value);
       setArgs(transformedArgs);
@@ -201,8 +151,8 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
     if (taskData && isFirstRender.current) {
       isFirstRender.current = false;
       setImageUrl(taskData.image || '');
-      setCommands(transformExecIntoShell(taskData.commands || [], false));
-      setArgs(transformExecIntoShell(taskData.arguments || [], false));
+      setCommands(taskData.commands ? JSON.stringify(taskData.commands) : '');
+      setArgs(taskData.arguments ? JSON.stringify(taskData.arguments) : '');
     }
   }, [taskData]);
 
@@ -234,16 +184,6 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
           />
         </div>
 
-        <Radio.Group
-          className='task-details-page-content-info-docker-radio-group'
-          name='CommandsInputTypes'
-          value={commandsInputType}
-          onChange={handleChangeCommandsInputType}
-        >
-          <Radio value={INPUT_TYPES.SHELL}>Formato Shell</Radio>
-          <Radio value={INPUT_TYPES.EXEC}>Formato Exec</Radio>
-        </Radio.Group>
-
         <div className='task-details-page-content-info-docker-field'>
           <label
             className='task-details-page-content-info-docker-field-label'
@@ -252,6 +192,27 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
             <span>Comandos</span>
             <span className='optional-label'>(Opcional)</span>
           </label>
+
+          <Radio.Group
+            className='task-details-page-content-info-docker-radio-group'
+            name='CommandsInputTypes'
+            value={commandsInputType}
+            onChange={handleChangeCommandsInputType}
+          >
+            <Tooltip
+              placement='topLeft'
+              title='O formato SHELL é uma string. Exemplo: /bin/sh -c'
+            >
+              <Radio value={INPUT_TYPES.SHELL}>Formato Shell</Radio>
+            </Tooltip>
+
+            <Tooltip
+              placement='topLeft'
+              title='O formato EXEC é um array em JSON. Exemplo: ["/bin/sh", "-c"]'
+            >
+              <Radio value={INPUT_TYPES.EXEC}>Formato Exec</Radio>
+            </Tooltip>
+          </Radio.Group>
 
           <Input
             className='task-details-page-content-info-docker-field-input'
@@ -265,16 +226,6 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
           />
         </div>
 
-        <Radio.Group
-          className='task-details-page-content-info-docker-radio-group'
-          name='ArgumentsInputTypes'
-          value={argsInputType}
-          onChange={handleChangeArgumentsInputType}
-        >
-          <Radio value={INPUT_TYPES.SHELL}>Formato Shell</Radio>
-          <Radio value={INPUT_TYPES.EXEC}>Formato Exec</Radio>
-        </Radio.Group>
-
         <div className='task-details-page-content-info-docker-field'>
           <label
             className='task-details-page-content-info-docker-field-label'
@@ -283,6 +234,27 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
             <span>Argumentos</span>
             <span className='optional-label'>(Opcional)</span>
           </label>
+
+          <Radio.Group
+            className='task-details-page-content-info-docker-radio-group'
+            name='ArgumentsInputTypes'
+            value={argsInputType}
+            onChange={handleChangeArgumentsInputType}
+          >
+            <Tooltip
+              placement='topLeft'
+              title='O formato SHELL é uma string. Exemplo: echo "hello world"'
+            >
+              <Radio value={INPUT_TYPES.SHELL}>Formato Shell</Radio>
+            </Tooltip>
+
+            <Tooltip
+              placement='topLeft'
+              title='O formato EXEC é um array em JSON. Exemplo: ["echo", "hello world"]'
+            >
+              <Radio value={INPUT_TYPES.EXEC}>Formato Exec</Radio>
+            </Tooltip>
+          </Radio.Group>
 
           <Input
             className='task-details-page-content-info-docker-field-input'

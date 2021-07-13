@@ -56,8 +56,10 @@ const NewTask = () => {
   const handleCreateDockerTask = () => {
     const dockerTaskData = {
       category: 'DEFAULT',
-      image: 'docker.io/busybox:latest',
       hasNotebook: false,
+      image: 'docker.io/busybox:latest',
+      commands: ['/bin/sh', '-c'],
+      arguments: ['echo', "'hello world'"],
     };
 
     dispatch(
