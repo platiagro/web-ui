@@ -62,7 +62,10 @@ const HeaderProjectDetailsContainer = () => {
               cancelText='Não'
               okText='Sim'
             >
-              <Button icon={<DeleteOutlined />} className='buttonDelete' />
+              <Button
+                className='project-details-page-header-delete-button'
+                icon={<DeleteOutlined />}
+              />
             </Popconfirm>
           </Tooltip>
 
