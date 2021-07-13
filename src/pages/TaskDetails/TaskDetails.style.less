@@ -302,8 +302,22 @@
               margin-bottom: 24px;
             }
 
+            .task-details-page-content-info-docker-radio-group {
+              margin-bottom: 8px;
+            }
+
             .task-details-page-content-info-docker-field {
               margin-bottom: 16px;
+
+              &:hover .task-details-page-content-info-docker-field-input,
+              .task-details-page-content-info-docker-field-input:hover {
+                border-color: rgba(0, 0, 0, 0.3);
+              }
+
+              &:focus .task-details-page-content-info-docker-field-input,
+              .task-details-page-content-info-docker-field-input:focus {
+                border-color: #1890ff;
+              }
 
               .task-details-page-content-info-docker-field-label {
                 display: block;
@@ -325,11 +339,13 @@
 
               .task-details-page-content-info-docker-field-input {
                 width: 100%;
-                border: none;
                 box-shadow: none;
                 outline: none;
-                padding: 8px 0;
-                background: transparent;
+                padding: 8px 16px;
+                background: white;
+                border-radius: 3px;
+                border: 1px solid transparent;
+                transition: none;
 
                 // Chrome, Firefox, Opera, Safari 10.1+
                 &::placeholder {
