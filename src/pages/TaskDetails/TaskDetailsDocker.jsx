@@ -243,14 +243,16 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
           >
             <Tooltip
               placement='topLeft'
-              title='O formato SHELL é uma string. Exemplo: echo "hello world"'
+              title="O formato SHELL é uma string. Exemplo: echo 'hello world'"
             >
               <Radio value={INPUT_TYPES.SHELL}>Formato Shell</Radio>
             </Tooltip>
 
             <Tooltip
               placement='topLeft'
-              title='O formato EXEC é um array em JSON. Exemplo: ["echo", "hello world"]'
+              title={`O formato EXEC é um array em JSON. Exemplo: ${JSON.stringify(
+                ['echo', "'hello world'"]
+              )}`}
             >
               <Radio value={INPUT_TYPES.EXEC}>Formato Exec</Radio>
             </Tooltip>
