@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useMemo } from 'react';
-import { Pagination, Tabs } from 'antd';
+import { Pagination, Tabs, Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -11,7 +11,7 @@ import {
   updateAllDatasetColumnStart,
 } from 'store/dataset/actions';
 import { useIsLoading } from 'hooks';
-import { Modal, Button } from 'uiComponents';
+import { Modal } from 'uiComponents';
 import { OPERATORS_TYPES } from 'store/operators';
 import { UploadButton } from 'components/Buttons';
 import { hideDataViewModal } from 'store/ui/actions';
@@ -201,8 +201,8 @@ const DataViewModalContainer = () => {
                 download='featuretypes.txt'
               >
                 <Button
-                  isDisabled={!datasetFeaturetypes}
-                  isLoading={false}
+                  disabled={!datasetFeaturetypes}
+                  loading={false}
                   type={'default'}
                   icon={<DownloadOutlined />}
                 >

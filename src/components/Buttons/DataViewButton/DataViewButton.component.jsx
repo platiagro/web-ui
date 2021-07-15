@@ -1,16 +1,15 @@
 import React from 'react';
+import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { TableOutlined } from '@ant-design/icons';
 
-import { Button } from 'uiComponents';
-
-const DataViewButton = ({ isDisabled, isLoading, handleClick }) => {
+const DataViewButton = ({ disabled, loading, onClick }) => {
   return (
     <Button
       icon={<TableOutlined />}
-      isDisabled={isDisabled}
-      isLoading={isLoading}
-      handleClick={handleClick}
+      disabled={disabled}
+      loading={loading}
+      onClick={onClick}
       shape='round'
       type='primary'
     >
@@ -20,9 +19,9 @@ const DataViewButton = ({ isDisabled, isLoading, handleClick }) => {
 };
 
 DataViewButton.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default DataViewButton;

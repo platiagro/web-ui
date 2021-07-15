@@ -1,16 +1,15 @@
 import React from 'react';
+import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { BarChartOutlined } from '@ant-design/icons';
-
-import { Button } from 'uiComponents';
 
 const CompareResultsButton = ({ onClick, disabled }) => {
   return (
     <Button
       shape='round'
       type='primary-inverse'
-      handleClick={onClick}
-      isDisabled={disabled}
+      onClick={onClick}
+      disabled={disabled}
     >
       <BarChartOutlined />
       Comparar resultados

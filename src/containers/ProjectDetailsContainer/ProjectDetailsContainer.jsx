@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -16,7 +17,6 @@ import {
   showNewDeploymentModal,
 } from 'store/ui/actions';
 import { useIsLoading } from 'hooks';
-import Button from 'uiComponents/Button';
 import { fetchMonitorings } from 'store/monitorings';
 import { DetailsCardButton } from 'components/Buttons';
 import { Selectors, PROJECTS_TYPES } from 'store/projects';
@@ -94,7 +94,7 @@ const ProjectDetailsContainer = () => {
               disabled={false}
               type='primary-inverse'
               icon={<PlusOutlined />}
-              handleClick={handleNewExperimentModal}
+              onClick={handleNewExperimentModal}
             >
               Novo Experimento
             </Button>
@@ -120,7 +120,7 @@ const ProjectDetailsContainer = () => {
               disabled={false}
               type='primary-inverse'
               icon={<PlusOutlined />}
-              handleClick={handleShowNewDeploymentModal}
+              onClick={handleShowNewDeploymentModal}
             >
               Escolher fluxo
             </Button>

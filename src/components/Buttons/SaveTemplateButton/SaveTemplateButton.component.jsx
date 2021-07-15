@@ -1,16 +1,15 @@
 import React from 'react';
+import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import { PartitionOutlined } from '@ant-design/icons';
-
-import { Button } from 'uiComponents';
 
 const SaveTemplateButton = ({ disabled, onClick }) => {
   return (
     <Button
       type='primary-inverse'
       shape='round'
-      handleClick={onClick}
-      isDisabled={disabled}
+      onClick={onClick}
+      disabled={disabled}
     >
       <PartitionOutlined />
       Salvar como template

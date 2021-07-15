@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Popconfirm, Typography } from 'antd';
+import { Divider, Popconfirm, Typography, Button } from 'antd';
 import {
   UpOutlined,
   PlusOutlined,
@@ -8,8 +8,6 @@ import {
   DownOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-
-import { Button } from 'uiComponents';
 
 import './styles.less';
 
@@ -56,7 +54,7 @@ const MonitoringToolbar = ({
           shape='round'
           type='primary-inverse'
           icon={<PlusOutlined />}
-          handleClick={handleAddMonitoring}
+          onClick={handleAddMonitoring}
         >
           <span className='monitoring-toolbar-button-text'>Adicionar</span>
         </Button>
@@ -71,7 +69,7 @@ const MonitoringToolbar = ({
             shape='round'
             type='primary-inverse'
             icon={<FundOutlined />}
-            handleClick={handleSeeMonitoring}
+            onClick={handleSeeMonitoring}
           >
             <span className='monitoring-toolbar-button-text'>
               Ver Monitoramentos
@@ -98,9 +96,9 @@ const MonitoringToolbar = ({
               className='monitoring-toolbar-delete-button'
               shape='round'
               type='primary-inverse'
-              isLoading={isDeleting}
+              loading={isDeleting}
               icon={<DeleteOutlined />}
-              handleClick={handleToggleDeleteConfirmation}
+              onClick={handleToggleDeleteConfirmation}
             >
               <span className='monitoring-toolbar-button-text'>Excluir</span>
             </Button>
@@ -113,7 +111,7 @@ const MonitoringToolbar = ({
         shape='circle'
         type='ghost'
         icon={isShowingPanel ? <DownOutlined /> : <UpOutlined />}
-        handleClick={handleTogglePanel}
+        onClick={handleTogglePanel}
       ></Button>
     </div>
   );

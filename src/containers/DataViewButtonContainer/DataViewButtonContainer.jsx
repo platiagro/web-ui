@@ -12,11 +12,7 @@ const DataViewButtonContainer = () => {
   };
 
   return (
-    <DataViewButton
-      isLoading={false}
-      isDisabled={false}
-      handleClick={handleClick}
-    />
+    <DataViewButton loading={false} disabled={false} onClick={handleClick} />
   );
 };
 
