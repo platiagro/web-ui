@@ -141,6 +141,7 @@ const TaskDetails = () => {
 
       <TaskDetailsHeader
         taskData={taskData}
+        isLoadingTask={isLoadingTask}
         isEditingTask={isEditingTask}
         handleDeleteTask={handleDeleteTask}
         hasEditedSomething={hasEditedSomething}
@@ -153,6 +154,7 @@ const TaskDetails = () => {
           <TaskDetailsForm
             taskData={taskData}
             handleUpdateTaskData={handleUpdateTaskData}
+            isLoadingTask={isLoadingTask}
           />
 
           <div className='task-details-page-content-info'>

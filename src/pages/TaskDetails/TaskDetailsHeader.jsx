@@ -3,14 +3,13 @@ import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import {
   PageHeader,
-  Typography,
   Button,
   Input,
   Tooltip,
   Popconfirm,
+  Typography,
 } from 'antd';
 import {
-  EditOutlined,
   CloseOutlined,
   CheckOutlined,
   DeleteOutlined,
@@ -21,8 +20,11 @@ import {
 
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
+import TaskDetailsHeaderTitle from './TaskDetailsHeaderTitle';
+
 const TaskDetailsHeader = ({
   taskData,
+  isLoadingTask,
   isEditingTask,
   handleDeleteTask,
   hasEditedSomething,
@@ -115,15 +117,11 @@ const TaskDetailsHeader = ({
             </form>
           ) : (
             <Typography.Title level={3} ellipsis>
-              <span>{taskData?.name}</span>
-
-              <Tooltip title='Editar' placement='bottom'>
-                <EditOutlined
-                  className='task-details-page-header-edit-icon'
-                  onClick={handleStartEditingTaskName}
-                  type='edit'
-                />
-              </Tooltip>
+              <TaskDetailsHeaderTitle
+                title={taskData?.name}
+                isLoadingTask={isLoadingTask}
+                onStartEditingTaskName={handleStartEditingTaskName}
+              />
             </Typography.Title>
           )}
         </>
@@ -176,6 +174,7 @@ const TaskDetailsHeader = ({
 
 TaskDetailsHeader.propTypes = {
   taskData: PropTypes.object.isRequired,
+  isLoadingTask: PropTypes.bool.isRequired,
   isEditingTask: PropTypes.bool.isRequired,
   handleDeleteTask: PropTypes.func.isRequired,
   hasEditedSomething: PropTypes.func.isRequired,

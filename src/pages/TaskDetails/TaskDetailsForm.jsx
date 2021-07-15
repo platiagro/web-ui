@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Select, Tooltip, Tag } from 'antd';
+import { Input, Select, Tooltip, Tag, Skeleton } from 'antd';
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 import { TASK_CATEGORIES_WITHOUT_TEMPLATES } from 'configs';
@@ -23,7 +23,7 @@ const FIELD_ID_TO_FIELD_NAME = {
   DOCUMENTATION: 'docs',
 };
 
-const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
+const TaskDetailsForm = ({ taskData, handleUpdateTaskData, isLoadingTask }) => {
   const isRemovingSearchTagUsingCloseIcon = useRef(false);
 
   const [description, setDescription] = useState('');
@@ -149,17 +149,24 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
         >
           Descrição
         </label>
-
-        <Input
-          className='task-details-page-content-form-field-input task-details-page-input-style'
-          type='text'
-          size='large'
-          value={description}
-          id={FIELD_IDS.DESCRIPTION}
-          placeholder='Adicionar Descrição'
-          onChange={(e) => setDescription(e.target.value)}
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DESCRIPTION)}
-        />
+        {isLoadingTask ? (
+          <Skeleton.Input
+            className='task-details-page-content-form-field-input'
+            active
+            size='small'
+          />
+        ) : (
+          <Input
+            className='task-details-page-content-form-field-input task-details-page-input-style'
+            type='text'
+            size='large'
+            value={description}
+            id={FIELD_IDS.DESCRIPTION}
+            placeholder='Adicionar Descrição'
+            onChange={(e) => setDescription(e.target.value)}
+            onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DESCRIPTION)}
+          />
+        )}
       </div>
 
       <div className='task-details-page-content-form-field'>
@@ -169,29 +176,36 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
         >
           Categoria
         </label>
-
-        <Select
-          className='task-details-page-content-form-field-input task-details-page-input-style'
-          size='large'
-          value={category}
-          onChange={setCategory}
-          id={FIELD_IDS.CATEGORY}
-          placeholder='Selecionar Categoria'
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.CATEGORY)}
-        >
-          {Object.values(TASK_CATEGORIES_WITHOUT_TEMPLATES).map(
-            (categoryOption) => {
-              return (
-                <Select.Option
-                  key={categoryOption.key}
-                  value={categoryOption.key}
-                >
-                  {categoryOption.name}
-                </Select.Option>
-              );
-            }
-          )}
-        </Select>
+        {isLoadingTask ? (
+          <Skeleton.Input
+            className='task-details-page-content-form-field-input'
+            active
+            size='small'
+          />
+        ) : (
+          <Select
+            className='task-details-page-content-form-field-input task-details-page-input-style'
+            size='large'
+            value={category}
+            onChange={setCategory}
+            id={FIELD_IDS.CATEGORY}
+            placeholder='Selecionar Categoria'
+            onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.CATEGORY)}
+          >
+            {Object.values(TASK_CATEGORIES_WITHOUT_TEMPLATES).map(
+              (categoryOption) => {
+                return (
+                  <Select.Option
+                    key={categoryOption.key}
+                    value={categoryOption.key}
+                  >
+                    {categoryOption.name}
+                  </Select.Option>
+                );
+              }
+            )}
+          </Select>
+        )}
       </div>
 
       <div className='task-details-page-content-form-field'>
@@ -209,16 +223,24 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
           </Tooltip>
         </label>
 
-        <Input
-          className='task-details-page-content-form-field-input task-details-page-input-style'
-          type='text'
-          size='large'
-          value={inputData}
-          id={FIELD_IDS.INPUT_DATA}
-          placeholder='Adicionar dados de entrada'
-          onChange={(e) => setInputData(e.target.value)}
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.INPUT_DATA)}
-        />
+        {isLoadingTask ? (
+          <Skeleton.Input
+            className='task-details-page-content-form-field-input'
+            active
+            size='small'
+          />
+        ) : (
+          <Input
+            className='task-details-page-content-form-field-input task-details-page-input-style'
+            type='text'
+            size='large'
+            value={inputData}
+            id={FIELD_IDS.INPUT_DATA}
+            placeholder='Adicionar dados de entrada'
+            onChange={(e) => setInputData(e.target.value)}
+            onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.INPUT_DATA)}
+          />
+        )}
       </div>
 
       <div className='task-details-page-content-form-field'>
@@ -234,17 +256,24 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
             <QuestionCircleOutlined />
           </Tooltip>
         </label>
-
-        <Input
-          className='task-details-page-content-form-field-input task-details-page-input-style'
-          type='text'
-          size='large'
-          value={outputData}
-          id={FIELD_IDS.OUTPUT_DATA}
-          placeholder='Adicionar dados de saída'
-          onChange={(e) => setOutputData(e.target.value)}
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.OUTPUT_DATA)}
-        />
+        {isLoadingTask ? (
+          <Skeleton.Input
+            className='task-details-page-content-form-field-input'
+            active
+            size='small'
+          />
+        ) : (
+          <Input
+            className='task-details-page-content-form-field-input task-details-page-input-style'
+            type='text'
+            size='large'
+            value={outputData}
+            id={FIELD_IDS.OUTPUT_DATA}
+            placeholder='Adicionar dados de saída'
+            onChange={(e) => setOutputData(e.target.value)}
+            onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.OUTPUT_DATA)}
+          />
+        )}
       </div>
 
       <div className='task-details-page-content-form-field'>
@@ -261,34 +290,41 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
             <QuestionCircleOutlined />
           </Tooltip>
         </label>
+        {isLoadingTask ? (
+          <Skeleton.Input
+            className='task-details-page-content-form-field-input'
+            active
+            size='small'
+          />
+        ) : (
+          <Select
+            className='task-details-page-content-form-field-input task-details-page-input-style'
+            mode='tags'
+            size='large'
+            value={searchTags}
+            onChange={setSearchTags}
+            id={FIELD_IDS.SEARCH_TAGS}
+            placeholder='Adicionar tags de busca'
+            onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.SEARCH_TAGS)}
+            tagRender={({ label, onClose, ...otherTagProps }) => {
+              const handleRemoveTag = () => {
+                onClose();
+                isRemovingSearchTagUsingCloseIcon.current = true;
+              };
 
-        <Select
-          className='task-details-page-content-form-field-input task-details-page-input-style'
-          mode='tags'
-          size='large'
-          value={searchTags}
-          onChange={setSearchTags}
-          id={FIELD_IDS.SEARCH_TAGS}
-          placeholder='Adicionar tags de busca'
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.SEARCH_TAGS)}
-          tagRender={({ label, onClose, ...otherTagProps }) => {
-            const handleRemoveTag = () => {
-              onClose();
-              isRemovingSearchTagUsingCloseIcon.current = true;
-            };
-
-            return (
-              <Tag
-                {...otherTagProps}
-                color='blue'
-                onClose={handleRemoveTag}
-                closeIcon={<CloseOutlined style={{ color: '#1890ff' }} />}
-              >
-                {label}
-              </Tag>
-            );
-          }}
-        />
+              return (
+                <Tag
+                  {...otherTagProps}
+                  color='blue'
+                  onClose={handleRemoveTag}
+                  closeIcon={<CloseOutlined style={{ color: '#1890ff' }} />}
+                >
+                  {label}
+                </Tag>
+              );
+            }}
+          />
+        )}
       </div>
 
       <div className='task-details-page-content-form-field'>
@@ -298,16 +334,23 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
         >
           Documentação
         </label>
-
-        <Input.TextArea
-          className='task-details-page-content-form-field-input task-details-page-input-style'
-          value={documentation}
-          id={FIELD_IDS.DOCUMENTATION}
-          placeholder='Adicionar documentação'
-          onChange={(e) => setDocumentation(e.target.value)}
-          onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DOCUMENTATION)}
-          autoSize
-        />
+        {isLoadingTask ? (
+          <Skeleton.Input
+            className='task-details-page-content-form-field-input'
+            active
+            size='small'
+          />
+        ) : (
+          <Input.TextArea
+            className='task-details-page-content-form-field-input task-details-page-input-style'
+            value={documentation}
+            id={FIELD_IDS.DOCUMENTATION}
+            placeholder='Adicionar documentação'
+            onChange={(e) => setDocumentation(e.target.value)}
+            onBlur={handleSaveDataWhenLooseFocus(FIELD_IDS.DOCUMENTATION)}
+            autoSize
+          />
+        )}
       </div>
     </div>
   );
@@ -316,6 +359,7 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData }) => {
 TaskDetailsForm.propTypes = {
   taskData: PropTypes.object.isRequired,
   handleUpdateTaskData: PropTypes.func.isRequired,
+  isLoadingTask: PropTypes.bool.isRequired,
 };
 
 export default TaskDetailsForm;
