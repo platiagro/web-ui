@@ -14,7 +14,11 @@ const TaskDetailsHeaderTitle = ({
     </h3>
   ) : (
     <h3 className='task-details-page-header-title-group'>
-      <Typography.Title level={3} ellipsis>
+      <Typography.Title
+        level={3}
+        ellipsis
+        className='task-details-page-header-title'
+      >
         <Tooltip title={title} placement='bottom'>
           <span>{title}</span>
         </Tooltip>
