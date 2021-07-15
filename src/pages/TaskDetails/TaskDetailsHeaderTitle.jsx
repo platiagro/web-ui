@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Skeleton, Tooltip } from 'antd';
+import { Skeleton, Tooltip, Typography } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 
 const TaskDetailsHeaderTitle = ({
@@ -9,10 +9,16 @@ const TaskDetailsHeaderTitle = ({
   onStartEditingTaskName,
 }) => {
   return isLoadingTask ? (
-    <Skeleton.Input style={{ width: 150 }} active size='small' />
+    <h3>
+      <Skeleton.Input style={{ width: 150 }} active size='small' />
+    </h3>
   ) : (
-    <>
-      <span>{title}</span>
+    <h3 className='task-details-page-header-title-group'>
+      <Typography.Title level={3} ellipsis>
+        <Tooltip title={title} placement='bottom'>
+          <span>{title}</span>
+        </Tooltip>
+      </Typography.Title>
       <Tooltip title='Editar' placement='bottom'>
         <EditOutlined
           className='task-details-page-header-edit-icon'
@@ -20,7 +26,7 @@ const TaskDetailsHeaderTitle = ({
           type='edit'
         />
       </Tooltip>
-    </>
+    </h3>
   );
 };
 

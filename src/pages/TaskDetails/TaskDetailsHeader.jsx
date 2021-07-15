@@ -1,14 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
-import {
-  PageHeader,
-  Button,
-  Input,
-  Tooltip,
-  Popconfirm,
-  Typography,
-} from 'antd';
+import { PageHeader, Button, Input, Tooltip, Popconfirm } from 'antd';
 import {
   CloseOutlined,
   CheckOutlined,
@@ -116,13 +109,11 @@ const TaskDetailsHeader = ({
               </Tooltip>
             </form>
           ) : (
-            <Typography.Title level={3} ellipsis>
-              <TaskDetailsHeaderTitle
-                title={taskData?.name}
-                isLoadingTask={isLoadingTask}
-                onStartEditingTaskName={handleStartEditingTaskName}
-              />
-            </Typography.Title>
+            <TaskDetailsHeaderTitle
+              title={taskData?.name}
+              isLoadingTask={isLoadingTask}
+              onStartEditingTaskName={handleStartEditingTaskName}
+            />
           )}
         </>
       }
