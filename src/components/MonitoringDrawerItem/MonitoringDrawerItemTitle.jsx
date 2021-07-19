@@ -60,30 +60,32 @@ const MonitoringDrawerItemTitle = ({
           </Button>
         </Tooltip>
 
-        <Dropdown
-          trigger='click'
-          overlay={
-            <Menu>
-              <Menu.Item onClick={handleDownload}>
-                <DownloadOutlined />
-                <span>Download</span>
-              </Menu.Item>
+        {false && ( // TODO: Exibe botão e dropdown quando funcionarem
+          <Dropdown
+            trigger='click'
+            overlay={
+              <Menu>
+                <Menu.Item onClick={handleDownload}>
+                  <DownloadOutlined />
+                  <span>Download</span>
+                </Menu.Item>
 
-              <Menu.Item onClick={handleRemove} disabled>
-                <DeleteOutlined />
-                <span>Remover</span>
-              </Menu.Item>
-            </Menu>
-          }
-        >
-          <Button
-            className='monitoring-drawer-item-more-button'
-            shape='circle'
-            type='ghost'
-            icon={<MoreOutlined />}
-            onClick={(e) => e.preventDefault()}
-          />
-        </Dropdown>
+                <Menu.Item onClick={handleRemove} disabled>
+                  <DeleteOutlined />
+                  <span>Remover</span>
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <Button
+              className='monitoring-drawer-item-more-button'
+              shape='circle'
+              type='ghost'
+              icon={<MoreOutlined />}
+              onClick={(e) => e.preventDefault()}
+            />
+          </Dropdown>
+        )}
       </div>
     </div>
   );
