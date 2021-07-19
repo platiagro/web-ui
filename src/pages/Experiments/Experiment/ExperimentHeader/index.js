@@ -22,16 +22,17 @@ const ExperimentHeader = ({
   handleDeleteTrainExperiment,
 }) => {
   return (
-    <div className='buttons-config'>
-      <div>
+    <div className='experiment-toolbar-container'>
+      <NewTemplateModal />
+
+      <div className='experiment-toolbar-container-controls'>
         <ToolbarConfig
           operator={operator}
           handleDeleteClick={handleRemoveOperator}
         />
       </div>
 
-      <div>
-        <NewTemplateModal />
+      <div className='experiment-toolbar-container-buttons'>
         <NewTemplateButton disabled={loading || trainingLoading || empty} />
 
         {trainingLoading ? (

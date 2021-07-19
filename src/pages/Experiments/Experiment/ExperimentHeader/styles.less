@@ -1,11 +1,22 @@
-.buttons-config {
+.experiment-toolbar-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-right: 8px;
-  padding: 12px;
   align-items: center;
-  .ant-btn {
-    margin-left: 8px;
+  padding: 12px;
+  height: 50px;
+  background: white;
+  border-bottom: 1px solid #e8e8e8;
+
+  .experiment-toolbar-container-controls {
+    > * {
+      margin-right: 8px;
+    }
+  }
+
+  .experiment-toolbar-container-buttons {
+    > * {
+      margin-left: 12px;
+    }
   }
 }
