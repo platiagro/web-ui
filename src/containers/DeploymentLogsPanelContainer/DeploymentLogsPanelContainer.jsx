@@ -83,7 +83,6 @@ const DeploymentLogsPanelContainer = () => {
     };
   }, [dispatch]);
 
-  // TODO: Replace this useEffect by the useLogsLongPolling hook when the operators polling exists in the deployment page
   useEffect(() => {
     const polling = setInterval(() => {
       handleFetchLogs(false);
