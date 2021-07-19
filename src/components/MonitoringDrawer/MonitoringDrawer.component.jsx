@@ -92,10 +92,12 @@ const MonitoringDrawer = ({
               })}
 
               <div key={ADD_CARD_KEY}>
-                <MonitoringDrawerAddCard
-                  isAdding={isAdding}
-                  handleAddMonitoring={handleAddMonitoring}
-                />
+                {false && ( // TODO: Exibe botão quando ele funcionar
+                  <MonitoringDrawerAddCard
+                    isAdding={isAdding}
+                    handleAddMonitoring={handleAddMonitoring}
+                  />
+                )}
               </div>
             </ReactGridLayout>
           </CustomDndProvider>

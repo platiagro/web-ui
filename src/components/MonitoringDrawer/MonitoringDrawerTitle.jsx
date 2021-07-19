@@ -16,19 +16,21 @@ const MonitoringDrawerTitle = ({
     <div className='monitoring-drawer-header'>
       <div className='monitoring-drawer-header-title'>{getDrawerTitle()}</div>
 
-      <Tooltip title='Faz download dos resultados exibidos'>
-        <Button
-          className='monitoring-drawer-header-download-button'
-          shape='round'
-          type='primary-inverse'
-          icon={<DownloadOutlined />}
-          onClick={handleDownloadAllFigures}
-        >
-          <span className='monitoring-drawer-header-download-text'>
-            Fazer Download
-          </span>
-        </Button>
-      </Tooltip>
+      {false && ( // TODO: Exibe botão quando ele funcionar
+        <Tooltip title='Faz download dos resultados exibidos'>
+          <Button
+            className='monitoring-drawer-header-download-button'
+            shape='round'
+            type='primary-inverse'
+            icon={<DownloadOutlined />}
+            onClick={handleDownloadAllFigures}
+          >
+            <span className='monitoring-drawer-header-download-text'>
+              Fazer Download
+            </span>
+          </Button>
+        </Tooltip>
+      )}
     </div>
   );
 };
