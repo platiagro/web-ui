@@ -7,7 +7,7 @@ import { LOG_TYPES } from 'configs';
 import LogsPanel from 'components/LogsPanel';
 import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
-import { useDeepEqualSelector, useLogsLongPolling } from 'hooks';
+import { useDeepEqualSelector } from 'hooks';
 import {
   clearAllExperimentLogs,
   getExperimentLogs,
@@ -19,10 +19,6 @@ const isShowingLogsPanelSelector = ({ uiReducer }) => {
 
 const isLoadingSelector = ({ experimentLogsReducer }) => {
   return experimentLogsReducer.isLoading;
-};
-
-const operatorsSelector = ({ operatorsReducer }) => {
-  return operatorsReducer;
 };
 
 const logsSelector = ({ experimentLogsReducer }) => {
@@ -48,7 +44,6 @@ const ExperimentLogsPanelContainer = () => {
   const [isShowingModal, setIsShowingModal] = useState(false);
 
   const logs = useDeepEqualSelector(logsSelector);
-  const operators = useDeepEqualSelector(operatorsSelector);
   const isLoading = useDeepEqualSelector(isLoadingSelector);
   const isShowingLogsPanel = useDeepEqualSelector(isShowingLogsPanelSelector);
 
@@ -71,10 +66,13 @@ const ExperimentLogsPanelContainer = () => {
 
   useEffect(handleFetchLogs, [handleFetchLogs]);
 
-  useLogsLongPolling({
-    operators,
-    handleFetchLogs,
-  });
+  useEffect(() => {
+    const polling = setInterval(() => {
+      handleFetchLogs();
+    }, 5000);
+
+    return () => clearInterval(polling);
+  }, [handleFetchLogs]);
 
   useEffect(() => {
     return () => {
