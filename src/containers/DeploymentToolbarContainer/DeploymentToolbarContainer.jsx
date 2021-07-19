@@ -166,7 +166,7 @@ const DeploymentToolbarContainer = () => {
         handleHideModal={handleToggleDeploymentTestModal}
       />
 
-      <div>
+      <div className='deployment-toolbar-container-controls'>
         <ToolbarConfig deployment />
       </div>
 
