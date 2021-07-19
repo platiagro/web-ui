@@ -3,8 +3,6 @@ import {
   AppstoreOutlined,
   BuildOutlined,
   ExperimentOutlined,
-  ShoppingOutlined,
-  SettingOutlined,
   PartitionOutlined,
 } from '@ant-design/icons';
 
@@ -28,16 +26,6 @@ const itemsMenu = [
     icon: <ExperimentOutlined />,
     title: 'JupyterLab',
     path: '/jupyterlab',
-  },
-  {
-    icon: <ShoppingOutlined />,
-    title: 'Marketplace',
-    path: '/marketplace',
-  },
-  {
-    icon: <SettingOutlined />,
-    title: 'Configurações',
-    path: '/configuracoes',
   },
 ];
 
