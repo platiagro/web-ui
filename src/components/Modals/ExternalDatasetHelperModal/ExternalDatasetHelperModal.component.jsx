@@ -18,16 +18,12 @@ const ExternalDatasetHelperModal = ({
 
   return (
     <Modal
-      visible={visible}
       title={<strong>Como usar uma aplicação como fonte de dados</strong>}
-      destroyOnClose
-      width={605}
       onCancel={onClose}
-      footer={[
-        <Button type='primary' key='back' onClick={onClose}>
-          Fechar
-        </Button>,
-      ]}
+      visible={visible}
+      footer={null}
+      width={605}
+      destroyOnClose
     >
       <p>
         Quando você implanta seu fluxo, a PlatIAgro cria um Serviço REST do{' '}

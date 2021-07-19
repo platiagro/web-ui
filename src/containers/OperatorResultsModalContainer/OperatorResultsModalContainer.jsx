@@ -108,9 +108,9 @@ const OperatorResultsModalContainer = () => {
 
   return (
     <Modal
+      footer={null}
       isFullScreen={true}
       isVisible={isVisible}
-      closeButtonText='Fechar'
       handleClose={handleClose}
       title='Visualizar Resultados'
     >
