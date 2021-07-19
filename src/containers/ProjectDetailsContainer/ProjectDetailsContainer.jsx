@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 import {
   LogsDrawerContainer,
@@ -86,7 +86,6 @@ const ProjectDetailsContainer = () => {
           <div className='project-details-card-header'>
             <div>
               <span className='text-with-icon-right'>Experimentação</span>
-              <QuestionCircleOutlined />
             </div>
 
             <Button
@@ -112,7 +111,6 @@ const ProjectDetailsContainer = () => {
           <div className='project-details-card-header'>
             <div>
               <span className='text-with-icon-right'>Pré-implantação</span>
-              <QuestionCircleOutlined />
             </div>
 
             <Button
@@ -139,7 +137,6 @@ const ProjectDetailsContainer = () => {
         <div className='project-details-table-title'>
           <div>
             <span className='text-with-icon-right'>Fluxos implantados</span>
-            <QuestionCircleOutlined />
           </div>
 
           <UsingDeploymentsButtonContainer />
