@@ -16,10 +16,9 @@ const DeploymentTestResultModal = ({
   return (
     <Modal
       width='70vw'
+      footer={null}
       visible={isShowingModal}
-      onOk={handleHideModal}
       onCancel={handleHideModal}
-      cancelButtonProps={{ style: { display: 'none' } }}
       title={<strong>Visualizar Resultados do Teste do Fluxo</strong>}
     >
       {isTestingFlow ? (

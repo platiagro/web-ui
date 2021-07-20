@@ -36,13 +36,12 @@ const LogsModal = ({ isShowing, handleHideModal, logs }) => {
 
   return (
     <Modal
-      cancelButtonProps={{ style: { display: 'none' } }}
       bodyStyle={{ padding: '0' }}
       wrapClassName='logs-modal'
       onCancel={handleHideModal}
       onOk={handleHideModal}
       visible={isShowing}
-      okText='Fechar'
+      footer={null}
       width={1000}
       title={
         <div className='logs-modal-header'>

@@ -8,13 +8,11 @@ const NotebooksExplanationModal = ({ isShowingModal, handleHideModal }) => {
       bodyStyle={{ padding: '24px', textAlign: 'justify' }}
       wrapClassName='notebooks-explanation-modal'
       okText='Ok'
+      footer={null}
       onOk={handleHideModal}
       visible={isShowingModal}
       onCancel={handleHideModal}
       title={<strong>Saiba Mais Sobre Notebooks</strong>}
-      cancelButtonProps={{
-        style: { display: 'none' },
-      }}
       centered
     >
       <h2>O que são Notebooks</h2>

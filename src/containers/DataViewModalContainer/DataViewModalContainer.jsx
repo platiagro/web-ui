@@ -57,10 +57,6 @@ const datasetOperatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
 };
 
-const isFullScreen = true;
-const closeButtonText = 'Fechar';
-const title = 'Visualizar dados';
-
 const DataViewModalContainer = () => {
   const dispatch = useDispatch();
 
@@ -158,11 +154,11 @@ const DataViewModalContainer = () => {
   return (
     <Modal
       className='dataViewModalParent'
-      closeButtonText={closeButtonText}
-      isFullScreen={isFullScreen}
       handleClose={handleClose}
+      title='Visualizar dados'
       isVisible={isVisible}
-      title={title}
+      footer={null}
+      isFullScreen
     >
       <div className='dataViewModal'>
         <div className='dataViewModalDataHeader'>
