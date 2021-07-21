@@ -70,6 +70,18 @@ const ExperimentsTabs = ({
     }
   };
 
+  const handleShowDeletePopover = (id) => {
+    setSelectedExperimentId(id);
+  };
+
+  const handleConfirmDeletion = () => {
+    deleteHandler(selectedExperimentId);
+  };
+
+  const handleCancelDeletion = () => {
+    setSelectedExperimentId(null);
+  };
+
   return (
     <>
       <DraggableTabs
@@ -217,12 +229,18 @@ const ExperimentsTabs = ({
 
         <Popconfirm
           title='Excluir o experimento?'
-          onConfirm={() => deleteHandler(selectedExperimentId)}
-          onCancel={() => setSelectedExperimentId(null)}
+          onConfirm={handleConfirmDeletion}
+          onCancel={handleCancelDeletion}
           okText='Sim'
           cancelText='Não'
         >
-          <MenuItem className='menu-tab-item' preventClose>
+          <MenuItem
+            className='menu-tab-item'
+            onClick={(_, { experimentId }) => {
+              handleShowDeletePopover(experimentId);
+            }}
+            preventClose
+          >
             <div className='menu-item-name'>
               <DeleteOutlined />
               <span>Excluir</span>
