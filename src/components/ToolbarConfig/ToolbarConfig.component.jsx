@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Button, Popconfirm } from 'antd';
 import { useZoomPanHelper } from 'react-flow-renderer';
 import {
-  RedoOutlined,
-  UndoOutlined,
   DeleteOutlined,
   ZoomInOutlined,
   ZoomOutOutlined,
@@ -21,8 +19,6 @@ const ToolbarConfig = ({ handleDeleteClick, operator, deployment }) => {
 
   return (
     <>
-      <Button icon={<UndoOutlined />} type='text' disabled />
-      <Button icon={<RedoOutlined />} type='text' disabled />
       <Button icon={<ZoomInOutlined />} type='text' onClick={zoomIn} />
       <Button icon={<ZoomOutOutlined />} type='text' onClick={zoomOut} />
 
