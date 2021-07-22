@@ -19,6 +19,7 @@ import {
 import { addLoading, removeLoading } from 'store/loading';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
+const AT_LEAST_ONE_OPERATOR_MESSAGE = 'O experimento selecionado deve possuir pelo menos um operador!';
 
 // ACTIONS
 // ** FETCH DEPLOYMENTS
@@ -121,9 +122,11 @@ const createDeploymentFail = (error) => (dispatch) => {
     errorMessage,
   });
 
-  errorMessage = errorMessage.includes('either')
-    ? customErrorMessage
-    : errorMessage;
+  if (errorMessage.includes('either')) {
+    errorMessage = customErrorMessage;
+  } else if (errorMessage.includes('at least one operator')) {
+    errorMessage = AT_LEAST_ONE_OPERATOR_MESSAGE;
+  }
 
   message.error(errorMessage, 5);
 };
