@@ -98,7 +98,9 @@ const ProjectsTable = ({
               style={{ color: '#0050B3', width: '100%' }}
               ellipsis
             >
-              {value}
+              <Tooltip placement='topLeft' title={value}>
+                {value}
+              </Tooltip>
             </Typography.Text>
           </Button>
         );
