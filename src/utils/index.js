@@ -27,6 +27,8 @@ import {
   sleep,
   toRawText,
   getSeldonObjectMimeType,
+  accessCookie,
+  deleteCookie,
 } from './Generic.utils';
 
 import {
@@ -73,6 +75,8 @@ export default {
   sleep,
   toRawText,
   getSeldonObjectMimeType,
+  accessCookie,
+  deleteCookie,
 
   formatCompareResultDate,
   formatResultsParameters,
