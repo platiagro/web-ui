@@ -30,7 +30,7 @@ const NewTaskDefaultTemplates = ({
           handleClickButton={handleCreateDockerTask}
           titleComponent={<DockerIconComponent />}
           buttonText='Criar Tarefa'
-          description='Uma descrição aqui falando que é uma tarefa criado “do zero” utilizando Docker no lugar de Jupyter Notebook.'
+          description='Crie a tarefa a partir de uma imagem Docker.'
         />
       </div>
     </>
