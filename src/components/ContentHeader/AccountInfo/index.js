@@ -12,6 +12,7 @@ const AccountInfo = () => {
     if (e.key === 'exit') {
       utils.deleteCookie('authservice_session');
       history.push('/');
+      window.location.reload();
     }
   };
 
