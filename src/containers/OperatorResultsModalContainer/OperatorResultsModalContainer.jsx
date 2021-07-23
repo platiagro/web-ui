@@ -119,7 +119,7 @@ const OperatorResultsModalContainer = () => {
         figures={operatorFigures}
         parameters={resultsParameters}
         loading={operatorResultsLoading}
-        datasetScroll={{ x: datasetScrollX }}
+        datasetScroll={{ x: datasetScrollX, y: 'calc(50vh - 96px)' }}
         handleDownloadResult={handleDownloadResult}
         onDatasetPageChange={handleOnDatasetPageChange}
         isToShowDownloadButtons
