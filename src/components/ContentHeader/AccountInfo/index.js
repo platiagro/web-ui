@@ -22,13 +22,7 @@ const AccountInfo = () => {
   );
 
   return (
-    <Dropdown
-      overlayClassName='accountInfo-menu'
-      overlay={menu}
-      // trigger={['click']}
-      // visible={true}
-      placement='bottomCenter'
-    >
+    <Dropdown overlay={menu} trigger={['click']}>
       <div className='accountInfo'>
         <UserInfo name='Usuário Anônimo' />
       </div>
