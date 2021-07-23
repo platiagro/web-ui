@@ -9,8 +9,8 @@ import experimentRunsApi from 'services/ExperimentRunsApi';
 import operatorsApi from 'services/OperatorsApi';
 
 import { getExperiments } from 'store/projects/experiments/experiments.selectors';
+import { showError, showSuccess, showInfo } from 'store/message';
 import { getProjects } from 'store/projects/projects.selectors';
-import { showError, showSuccess } from 'store/message';
 
 // UI ACTIONS
 import {
@@ -232,110 +232,79 @@ const deleteExperimentRunRequest = (projectId, experimentId) => (dispatch) => {
  */
 const fetchExperimentRunStatusSuccess =
   (response, projectId, experimentId) => (dispatch, getState) => {
-    const { uiReducer } = getState();
-    const state = getState();
-
-    const oldExperiments = getExperiments(state, projectId);
-    const projects = getProjects(state);
-
-    const { changeExperimentSucceededStatus, changeProjectExperiments } = utils;
-
     const operators = response.data.operators;
+    const hasOperators = !!operators?.length;
+    if (!hasOperators) return; // Não faz sentido continuar se não tem operadores
+
+    const state = getState();
+    const projects = getProjects(state);
+    const oldExperiments = getExperiments(state, projectId);
+
     const { operatorsReducer: oldOperators } = state;
 
-    const hasOperators = operators.length > 0;
+    const isInterruptingExperiment =
+      state.uiReducer.experimentTraining.deleteLoading;
 
-    let isRunning = false;
-    let succeededRun = false;
-    let stoppedRun = true;
-    let isAllPending = false;
-    let interruptExperiment = uiReducer.experimentTraining.deleteLoading;
+    let shouldContinueInterrupting = true;
 
-    if (hasOperators) {
-      succeededRun = utils.checkExperimentSuccess({ operators });
+    const wereAllOperatorsSuccessful = utils.checkExperimentSuccess({
+      operators,
+    });
 
-      stoppedRun = operators.some(
-        (operator) =>
-          operator.status === 'Failed' || operator.status === 'Terminated'
+    const areSomeOperatorsRunning = operators.some((operator) => {
+      return operator.status === 'Running' || operator.status === 'Pending';
+    });
+
+    const areSomeOldOperatorsRunning = oldOperators.some((oldOperator) => {
+      return (
+        oldOperator.status === 'Running' ||
+        oldOperator.status === 'Pending' ||
+        oldOperator.experimentIsRunning
       );
+    });
 
-      isAllPending = operators.every((operator) => {
-        return operator.status === 'Pending';
-      });
-    }
-
-    if (isAllPending) {
-      dispatch(experimentTrainingLoadingData());
-    } else {
-      dispatch(experimentTrainingDataLoaded());
-    }
-
-    if (!stoppedRun) {
-      operators.forEach((operator) => {
-        /**
-         * Verificamos também se algum operador da store possuí o atributo
-         * experimentIsRunning como positivo.
-         *
-         * Esse atributo serve para validar que um experimento foi bem sucedido,
-         * e o último estado dele era running.
-         *
-         * Dessa forma conseguimos exibir a mensagem de treinamento concluído
-         * apenas uma vez, quando o experimento for concluído.
-         */
-        const operatorIsRunning =
-          operator.status === 'Running' ||
-          operator.status === 'Pending' ||
-          oldOperators[0]?.experimentIsRunning;
-
-        if (operatorIsRunning) {
-          isRunning = true;
-        }
-      });
-    }
-
-    // experiment run finished successfully
-    if (succeededRun && isRunning) {
-      isRunning = false;
-
-      const experiments = changeExperimentSucceededStatus(
+    if (wereAllOperatorsSuccessful && areSomeOldOperatorsRunning) {
+      const experiments = utils.changeExperimentSucceededStatus(
         oldExperiments,
         experimentId,
         true
       );
 
-      const newProjects = changeProjectExperiments(
+      const newProjects = utils.changeProjectExperiments(
         projects,
         projectId,
         experiments
       );
 
-      dispatch(showSuccess('Treinamento concluído'));
-
       dispatch({
         type: actionTypes.EXPERIMENT_RUN_SUCCEEDED,
         payload: { projects: newProjects },
       });
+
+      dispatch(showSuccess('Treinamento concluído'));
     }
 
-    // experiment run has stopped
-    if (!isRunning) {
+    if (areSomeOperatorsRunning) {
+      dispatch(experimentTrainingLoadingData());
+    } else {
       dispatch(experimentTrainingDataLoaded());
 
-      // check if was manual interrupted
-      if (interruptExperiment) {
+      if (isInterruptingExperiment) {
         dispatch(experimentDeleteTrainingDataLoaded());
         dispatch(showSuccess('Treinamento interrompido!'));
-        interruptExperiment = false;
+        shouldContinueInterrupting = false;
+      } else if (areSomeOldOperatorsRunning) {
+        dispatch(showInfo('O fluxo terminou de executar'));
       }
-    } else {
-      dispatch(experimentTrainingLoadingData());
     }
 
+    // Update the status and loadings of all operators
     dispatch({
       type: actionTypes.GET_EXPERIMENT_RUN_STATUS_SUCCESS,
       operatorsLatestTraining: operators,
-      experimentIsRunning: isRunning,
-      interruptIsRunning: interruptExperiment,
+      experimentIsRunning: areSomeOperatorsRunning,
+      interruptIsRunning:
+        isInterruptingExperiment && shouldContinueInterrupting,
     });
   };
 
