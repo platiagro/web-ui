@@ -173,3 +173,31 @@ export const readFileContent = (fileInstance) => {
     }
   });
 };
+
+/**
+ * Access cookie by name
+ *
+ * @param {string} cookieName Name of cookie
+ * @returns {string} Value of Cookie
+ */
+export const accessCookie = (cookieName) => {
+  let name = cookieName + '=';
+  const allCookieArray = document.cookie.split(';');
+  const cookie = allCookieArray.find((c) => c.includes(name));
+
+  if (cookie) {
+    const cookieTrimmed = cookie.trim();
+    return cookieTrimmed.substring(name.length, cookieTrimmed.length);
+  }
+
+  return '';
+};
+
+/**
+ * Delete cookie by name
+ *
+ * @param {string} cookieName Name of cookie
+ */
+export const deleteCookie = (cookieName) => {
+  document.cookie = `${cookieName}= ; expires = Thu, 01 Jan 1942 00:00:00 GMT`;
+};
