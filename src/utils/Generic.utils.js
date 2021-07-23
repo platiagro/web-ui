@@ -183,11 +183,13 @@ export const readFileContent = (fileInstance) => {
 export const accessCookie = (cookieName) => {
   let name = cookieName + '=';
   const allCookieArray = document.cookie.split(';');
-  for (let i = 0; i < allCookieArray.length; i++) {
-    const temp = allCookieArray[i].trim();
-    if (temp.indexOf(name) === 0)
-      return temp.substring(name.length, temp.length);
+  const cookie = allCookieArray.find((c) => c.includes(name));
+
+  if (cookie) {
+    const cookieTrimmed = cookie.trim();
+    return cookieTrimmed.substring(name.length, cookieTrimmed.length);
   }
+
   return '';
 };
 
