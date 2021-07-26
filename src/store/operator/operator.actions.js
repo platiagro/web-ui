@@ -892,24 +892,23 @@ export const updateExperimentOperatorParameterRequest =
         parameterName,
         parameterValue
       )
-      .then((response) => {
+      .then(() => {
         // getting experimentOperator data
-        const successExperimentOperator = { ...experimentOperator };
+        const updatedOperator = { ...experimentOperator };
 
         // changing param value
-        successExperimentOperator.parameters = utils.successOperatorMap(
-          successExperimentOperator.parameters,
+        updatedOperator.parameters = utils.successOperatorMap(
+          updatedOperator.parameters,
           parameterValue,
           parameterName
         );
 
         // checking if experimentOperator is setted up
-        successExperimentOperator.settedUp = utils.checkOperatorSettedUp(
-          response.data
-        );
+        updatedOperator.settedUp =
+          utils.checkOperatorSettedUp(experimentOperator);
 
         // dispatching success action
-        dispatch(updateOperatorSuccess(successExperimentOperator));
+        dispatch(updateOperatorSuccess(updatedOperator));
       })
       .catch((error) => dispatch(updateOperatorFail(error)))
       .finally(() => {
