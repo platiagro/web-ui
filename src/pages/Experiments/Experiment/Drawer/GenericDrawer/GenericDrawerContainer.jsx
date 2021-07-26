@@ -6,10 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useIsLoading } from 'hooks';
 import { OPERATORS_TYPES } from 'store/operators';
 import { ParameterGroup, PropertyBlock } from 'components';
-import {
-  OPERATOR_TYPES,
-  updateExperimentOperatorRequest,
-} from 'store/operator';
+import { updateExperimentOperatorParameterRequest } from 'store/operator';
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
@@ -38,14 +35,9 @@ const GenericDrawerContainer = () => {
     parametersLatestTrainingSelector
   );
 
-  const parameterLoading = useIsLoading(
-    OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
-    OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST
-  );
-
   const setOperatorParameterHandler = (parameterName, parameterValue) => {
     dispatch(
-      updateExperimentOperatorRequest(
+      updateExperimentOperatorParameterRequest(
         projectId,
         experimentId,
         operator,
@@ -54,6 +46,35 @@ const GenericDrawerContainer = () => {
       )
     );
   };
+
+  // para adicionar o loading em cada parametro, precisamos
+  // renderizar cada parametro como se fosse um container
+  //
+  // desativamos o eslint para não ficar exigindo proptypes para esse container
+  /* eslint-disable */
+  const OperatorParameter = ({ parameterData }) => {
+    const loadingString = `${operator.uuid}-${parameterData.name}`;
+
+    const parameterLoading = useIsLoading(
+      OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
+      loadingString
+    );
+
+    const valueLatestTraining = parametersLatestTraining
+      ? parametersLatestTraining[parameterData.name]
+      : parameterData.value;
+
+    return (
+      <ParameterGroup
+        parameter={parameterData}
+        loading={parameterLoading}
+        trainingLoading={trainingLoading}
+        onChange={setOperatorParameterHandler}
+        valueLatestTraining={valueLatestTraining}
+      />
+    );
+  };
+  /* eslint-enable */
 
   if (!parameters?.length) {
     return (
@@ -69,20 +90,7 @@ const GenericDrawerContainer = () => {
   return (
     <>
       {parameters.map((parameter, index) => {
-        const valueLatestTraining = parametersLatestTraining
-          ? parametersLatestTraining[parameter.name]
-          : parameter.value;
-
-        return (
-          <ParameterGroup
-            key={index}
-            parameter={parameter}
-            loading={parameterLoading}
-            trainingLoading={trainingLoading}
-            onChange={setOperatorParameterHandler}
-            valueLatestTraining={valueLatestTraining}
-          />
-        );
+        return <OperatorParameter key={index} parameterData={parameter} />;
       })}
     </>
   );
