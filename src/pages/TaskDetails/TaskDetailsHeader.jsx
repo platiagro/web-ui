@@ -164,11 +164,11 @@ const TaskDetailsHeader = ({
 };
 
 TaskDetailsHeader.propTypes = {
-  taskData: PropTypes.object.isRequired,
+  taskData: PropTypes.object,
   isLoadingTask: PropTypes.bool.isRequired,
   isEditingTask: PropTypes.bool.isRequired,
   handleDeleteTask: PropTypes.func.isRequired,
-  hasEditedSomething: PropTypes.func.isRequired,
+  hasEditedSomething: PropTypes.bool.isRequired,
   handleEditTaskName: PropTypes.func.isRequired,
   handleShowShareTaskModal: PropTypes.func.isRequired,
 };
