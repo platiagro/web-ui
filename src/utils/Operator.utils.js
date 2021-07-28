@@ -104,7 +104,7 @@ export const successOperatorMap = (
 ) => {
   return operatorParameters.map((parameter) => {
     const validParameterValue =
-      parameterValue || parameterValue === 0 ? parameterValue : undefined;
+      parameterValue || parameterValue == 0 ? parameterValue : undefined;
     const isThisParameter = parameter.name === parameterName;
     const newValue = isThisParameter ? validParameterValue : parameter.value;
 
