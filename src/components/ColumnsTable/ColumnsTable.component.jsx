@@ -98,7 +98,7 @@ ColumnsTable.propTypes = {
   disabled: PropTypes.bool.isRequired,
   currentPage: PropTypes.number.isRequired,
   setCurrentPage: PropTypes.func.isRequired,
-  handleRowSelection: PropTypes.string.isRequired,
+  handleRowSelection: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   selectedRows: PropTypes.array.isRequired,
 };
