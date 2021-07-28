@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import {
@@ -9,6 +9,7 @@ import {
   Tag,
   Tooltip,
   Typography,
+  Badge,
 } from 'antd';
 
 import { CommonTable } from 'components';
@@ -33,6 +34,12 @@ const ProjectsTable = ({
     clearFilters();
     handleFetchPaginatedProjects('');
   };
+
+  const offsetBadge = [-10, 0];
+
+  const deploymentsCount = useCallback((deployments = []) => {
+    return deployments.filter((deployment) => deployment.url).length;
+  }, []);
 
   const columnsConfig = [
     {
@@ -152,11 +159,33 @@ const ProjectsTable = ({
       render(_, record) {
         return (
           <>
-            {record.hasExperiment && <Tag color='purple'>Experimentação</Tag>}
-            {record.hasPreDeployment && (
-              <Tag color='volcano'>Pré-implantação</Tag>
+            {record.hasExperiment && (
+              <Badge
+                size='small'
+                offset={offsetBadge}
+                count={record?.experiments.length}
+              >
+                <Tag color='purple'>Experimentação</Tag>
+              </Badge>
             )}
-            {record.hasDeployment && <Tag color='green'>Implantado</Tag>}
+            {record.hasPreDeployment && (
+              <Badge
+                size='small'
+                offset={offsetBadge}
+                count={record?.deployments.length}
+              >
+                <Tag color='volcano'>Pré-implantação</Tag>
+              </Badge>
+            )}
+            {record.hasDeployment && (
+              <Badge
+                size='small'
+                offset={offsetBadge}
+                count={deploymentsCount(record?.deployments)}
+              >
+                <Tag color='green'>Implantado</Tag>
+              </Badge>
+            )}
           </>
         );
       },
