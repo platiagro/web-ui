@@ -132,8 +132,12 @@ NewDeploymentModal.propTypes = {
   ),
   visible: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  experimentsLoading: PropTypes.bool.isRequired,
+  experimentsLoading: PropTypes.bool,
   templatesLoading: PropTypes.bool.isRequired,
+};
+
+NewDeploymentModal.defaultProps = {
+  experimentsLoading: false,
 };
 
 export default NewDeploymentModal;
