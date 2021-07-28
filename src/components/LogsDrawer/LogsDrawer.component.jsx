@@ -34,9 +34,6 @@ const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
         if (value) return new Date(value.split(' ')[0]).toLocaleString();
         return '-';
       },
-      sorter: (a, b) =>
-        new Date(a.timestamp.split(' ')[0]) -
-        new Date(b.timestamp.split(' ')[0]),
     },
     {
       dataIndex: 'level',
@@ -96,7 +93,10 @@ const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {
                       isLoading={false}
                       dataSource={logsList}
                       columns={logsTableColumns}
-                      rowKey={(record) => `${record.level}-${record.timestamp}`}
+                      rowKey={(record) => {
+                        const msgSlice = record.message.substring(0, 50);
+                        return `${record.level}-${record.createdAt}-${msgSlice}`;
+                      }}
                       pagination={{
                         defaultPageSize: 10,
                         showSizeChanger: true,
