@@ -35,7 +35,7 @@ export default () => {
         notification.open({
           key,
           duration: 0,
-          message: operator.task?.name,
+          message: operator?.name,
           description: operator.statusMessage,
         });
       }
