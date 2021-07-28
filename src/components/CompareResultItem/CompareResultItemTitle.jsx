@@ -128,7 +128,7 @@ CompareResultItemTitle.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   compareResult: PropTypes.object.isRequired,
-  trainingDetail: PropTypes.object.isRequired,
+  trainingDetail: PropTypes.object,
   onLoadTrainingHistory: PropTypes.func.isRequired,
   handleDownloadResult: PropTypes.func.isRequired,
   experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
