@@ -873,7 +873,7 @@ export const updateExperimentOperatorParameterRequest =
     parameterName,
     parameterValue
   ) =>
-  (dispatch) => {
+  async (dispatch) => {
     const experimentOperatorId = experimentOperator.uuid;
     const loadingString = `${experimentOperatorId}-${parameterName}`;
 
@@ -883,35 +883,31 @@ export const updateExperimentOperatorParameterRequest =
 
     dispatch(addLoading(loadingString));
 
-    // update experimentOperator
-    operatorsApi
-      .updateOperatorParameter(
+    try {
+      await operatorsApi.updateOperatorParameter(
         projectId,
         experimentId,
         experimentOperatorId,
         parameterName,
         parameterValue
-      )
-      .then(() => {
-        // getting experimentOperator data
-        const updatedOperator = { ...experimentOperator };
+      );
 
-        // changing param value
-        updatedOperator.parameters = utils.successOperatorMap(
-          updatedOperator.parameters,
-          parameterValue,
-          parameterName
-        );
+      const updatedOperator = { ...experimentOperator };
 
-        // checking if experimentOperator is setted up
-        updatedOperator.settedUp =
-          utils.checkOperatorSettedUp(experimentOperator);
+      // changing param value
+      updatedOperator.parameters = utils.successOperatorMap(
+        updatedOperator.parameters,
+        parameterValue,
+        parameterName
+      );
 
-        // dispatching success action
-        dispatch(updateOperatorSuccess(updatedOperator));
-      })
-      .catch((error) => dispatch(updateOperatorFail(error)))
-      .finally(() => {
-        dispatch(removeLoading(loadingString));
-      });
+      updatedOperator.settedUp =
+        utils.checkOperatorSettedUp(experimentOperator);
+
+      dispatch(updateOperatorSuccess(updatedOperator));
+    } catch (error) {
+      dispatch(updateOperatorFail(error));
+    } finally {
+      dispatch(removeLoading(loadingString));
+    }
   };
