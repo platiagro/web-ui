@@ -9,11 +9,11 @@ const TaskDetailsHeaderTitle = ({
   onStartEditingTaskName,
 }) => {
   return isLoadingTask ? (
-    <h3>
+    <div className='task-details-page-header-title-group'>
       <Skeleton.Input style={{ width: 150 }} active size='small' />
-    </h3>
+    </div>
   ) : (
-    <h3 className='task-details-page-header-title-group'>
+    <div className='task-details-page-header-title-group'>
       <Typography.Title
         level={3}
         ellipsis
@@ -23,6 +23,7 @@ const TaskDetailsHeaderTitle = ({
           <span>{title}</span>
         </Tooltip>
       </Typography.Title>
+
       <Tooltip title='Editar' placement='bottom'>
         <EditOutlined
           className='task-details-page-header-edit-icon'
@@ -30,12 +31,12 @@ const TaskDetailsHeaderTitle = ({
           type='edit'
         />
       </Tooltip>
-    </h3>
+    </div>
   );
 };
 
 TaskDetailsHeaderTitle.propTypes = {
-  title: PropTypes.object.isRequired,
+  title: PropTypes.string,
   isLoadingTask: PropTypes.bool.isRequired,
   onStartEditingTaskName: PropTypes.func.isRequired,
 };
