@@ -37,8 +37,7 @@ ContentHeaderContainer.propTypes = {
   customSubTitle: PropTypes.string,
 };
 
-ContentHeaderContainer.propTypes = {
-  title: PropTypes.string.isRequired,
+ContentHeaderContainer.defaultProps = {
   subTitle: undefined,
   backIcon: undefined,
   customSubTitle: undefined,
