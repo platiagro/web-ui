@@ -138,6 +138,22 @@ export const copyToClipboard = (seldonObject) => {
 };
 
 /**
+ * Convert string to base64
+ *
+ * @param {string} str string content
+ * @returns {string} base64 content
+ */
+export const convertToBase64 = (str) =>
+  btoa(
+    encodeURIComponent(str).replace(
+      /%([0-9A-F]{2})/g,
+      function toSolidBytes(match, p1) {
+        return String.fromCharCode('0x' + p1);
+      }
+    )
+  );
+
+/**
  * Download a response content as file
  *
  * @param {object} seldonObject seldon object
@@ -146,7 +162,7 @@ export const copyToClipboard = (seldonObject) => {
 export const downloadFile = (seldonObject) => {
   const isBinaryDataSupported = isSupportedBinaryData(seldonObject);
   if (isBinaryDataSupported) return formatBase64(seldonObject);
-  const base64 = btoa(toRawText(seldonObject));
+  const base64 = convertToBase64(toRawText(seldonObject));
   const mimeType = getSeldonObjectMimeType(seldonObject);
   return `${mimeType};base64,${base64}`;
 };
