@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'prop-types';
 
@@ -14,6 +14,11 @@ const TableResult = ({
   title,
   total,
 }) => {
+  const rowsWithId = useMemo(() => {
+    if (!rows) return [];
+    return rows.map((row, index) => ({ ...row, uuid: `uuid-${index}` }));
+  }, [rows]);
+
   return (
     <div>
       {title && (
@@ -26,9 +31,9 @@ const TableResult = ({
         size={'middle'}
         scroll={scroll}
         columns={columns}
-        dataSource={rows}
         isLoading={false}
-        rowKey={(_, index) => `table-result-${index}`}
+        dataSource={rowsWithId}
+        rowKey={(record) => record.uuid}
       />
 
       <br />
