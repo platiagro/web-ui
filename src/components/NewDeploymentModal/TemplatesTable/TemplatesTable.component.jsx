@@ -85,13 +85,13 @@ const TemplatesTable = ({
 TemplatesTable.propTypes = {
   templatesData: PropTypes.arrayOf(
     PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
+      uuid: PropTypes.string,
+      name: PropTypes.string,
+      description: PropTypes.string,
       user: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        avatarColor: PropTypes.string.isRequired,
-      }).isRequired,
+        username: PropTypes.string,
+        avatarColor: PropTypes.string,
+      }),
     })
   ),
   onSelect: PropTypes.func.isRequired,
