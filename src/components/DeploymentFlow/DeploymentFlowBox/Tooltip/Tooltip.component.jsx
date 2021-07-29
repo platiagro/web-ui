@@ -76,6 +76,7 @@ Tooltip.propTypes = {
     'Interrupted',
     'Waiting',
     'Ready',
+    'Setted up',
   ]),
 };
 
