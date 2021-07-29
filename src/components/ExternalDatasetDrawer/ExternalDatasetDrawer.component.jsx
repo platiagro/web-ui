@@ -68,7 +68,7 @@ const ExternalDatasetDrawer = (props) => {
 };
 
 ExternalDatasetDrawer.propTypes = {
-  urlText: PropTypes.string.isRequired,
+  urlText: PropTypes.string,
   propertyTitle: PropTypes.string.isRequired,
   propertyTip: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
