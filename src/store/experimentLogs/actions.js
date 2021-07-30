@@ -45,29 +45,30 @@ const setIsLoadingLogs = (isLoading = false) => ({
  *
  * @param {string} projectId Project ID
  * @param {string} experimentId Deployment ID
+ * @param {boolean} shouldShowLoading Should show loading
  * @returns {Function} Dispatch function
  */
-export const getExperimentLogs = (projectId, experimentId) => async (
-  dispatch
-) => {
-  try {
-    dispatch(setIsLoadingLogs(true));
+export const getExperimentLogs =
+  (projectId, experimentId, shouldShowLoading = true) =>
+  async (dispatch) => {
+    try {
+      if (shouldShowLoading) dispatch(setIsLoadingLogs(true));
 
-    const response = await experimentRunsApi.fetchExperimentLogs(
-      projectId,
-      experimentId,
-      'latest'
-    );
+      const response = await experimentRunsApi.fetchExperimentLogs(
+        projectId,
+        experimentId,
+        'latest'
+      );
 
-    const logs = response.data?.logs || [];
-    dispatch(getExperimentLogsSucceed(logs));
-  } catch (e) {
-    dispatch(getExperimentLogsFailed());
-    message.error(utils.getErrorMessage(e), 5);
-  } finally {
-    dispatch(setIsLoadingLogs(false));
-  }
-};
+      const logs = response.data?.logs || [];
+      dispatch(getExperimentLogsSucceed(logs));
+    } catch (e) {
+      dispatch(getExperimentLogsFailed());
+      message.error(utils.getErrorMessage(e), 5);
+    } finally {
+      dispatch(setIsLoadingLogs(false));
+    }
+  };
 
 /**
  * Clear all experiment logs

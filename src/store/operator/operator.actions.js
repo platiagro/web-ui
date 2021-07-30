@@ -854,3 +854,60 @@ export const renameDeploymentOperator =
       );
     }
   };
+
+/**
+ * update experiment operator parameter request action
+ *
+ * @param {string} projectId The project uuid
+ * @param {string} experimentId The experiment uuid
+ * @param {object} experimentOperator The Experiment Operator
+ * @param {string} parameterName Parameter name
+ * @param {any} parameterValue Parameter value
+ * @returns {Function} The dispatch function
+ */
+export const updateExperimentOperatorParameterRequest =
+  (
+    projectId,
+    experimentId,
+    experimentOperator,
+    parameterName,
+    parameterValue
+  ) =>
+  async (dispatch) => {
+    const experimentOperatorId = experimentOperator.uuid;
+    const loadingString = `${experimentOperatorId}-${parameterName}`;
+
+    dispatch({
+      type: OPERATOR_TYPES.UPDATE_OPERATOR_PARAMETER_REQUEST,
+    });
+
+    dispatch(addLoading(loadingString));
+
+    try {
+      await operatorsApi.updateOperatorParameter(
+        projectId,
+        experimentId,
+        experimentOperatorId,
+        parameterName,
+        parameterValue
+      );
+
+      const updatedOperator = { ...experimentOperator };
+
+      // changing param value
+      updatedOperator.parameters = utils.successOperatorMap(
+        updatedOperator.parameters,
+        parameterValue,
+        parameterName
+      );
+
+      updatedOperator.settedUp =
+        utils.checkOperatorSettedUp(experimentOperator);
+
+      dispatch(updateOperatorSuccess(updatedOperator));
+    } catch (error) {
+      dispatch(updateOperatorFail(error));
+    } finally {
+      dispatch(removeLoading(loadingString));
+    }
+  };

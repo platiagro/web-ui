@@ -59,16 +59,19 @@ const ExperimentLogsPanelContainer = () => {
     setIsShowingModal(false);
   };
 
-  const handleFetchLogs = useCallback(() => {
-    if (!projectId || !experimentId) return;
-    dispatch(getExperimentLogs(projectId, experimentId));
-  }, [dispatch, experimentId, projectId]);
+  const handleFetchLogs = useCallback(
+    (shouldShowLoading = true) => {
+      if (!projectId || !experimentId) return;
+      dispatch(getExperimentLogs(projectId, experimentId, shouldShowLoading));
+    },
+    [dispatch, experimentId, projectId]
+  );
 
   useEffect(handleFetchLogs, [handleFetchLogs]);
 
   useEffect(() => {
     const polling = setInterval(() => {
-      handleFetchLogs();
+      handleFetchLogs(false);
     }, 5000);
 
     return () => clearInterval(polling);
