@@ -8,6 +8,7 @@ const operatorsApi = axios.create({
 
 const experimentsPath = '/experiments';
 const operatorsPath = '/operators';
+const parametersPath = '/parameters';
 
 /**
  * List Operators
@@ -67,9 +68,33 @@ const updateOperator = (projectId, experimentId, operatorId, operator) => {
   );
 };
 
+/**
+ * Update Operator Parameter
+ *
+ * @param {string} projectId Project Id
+ * @param {string} experimentId Experiment Id
+ * @param {string} operatorId Operator Id
+ * @param {object} parameterName Parameter Name
+ * @param {object} parameterValue Parameter Value
+ * @returns {Promise} Request Promise
+ */
+const updateOperatorParameter = (
+  projectId,
+  experimentId,
+  operatorId,
+  parameterName,
+  parameterValue
+) => {
+  return operatorsApi.patch(
+    `/${projectId}${experimentsPath}/${experimentId}${operatorsPath}/${operatorId}${parametersPath}/${parameterName}`,
+    { value: parameterValue }
+  );
+};
+
 export default {
   listOperators,
   createOperator,
   deleteOperator,
   updateOperator,
+  updateOperatorParameter,
 };
