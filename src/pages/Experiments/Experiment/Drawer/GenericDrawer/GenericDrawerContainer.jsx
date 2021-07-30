@@ -3,13 +3,10 @@ import { Empty } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { useIsLoading } from 'hooks';
+import { useIsLoading, useDeepEqualSelector } from 'hooks';
 import { OPERATORS_TYPES } from 'store/operators';
 import { ParameterGroup, PropertyBlock } from 'components';
-import {
-  OPERATOR_TYPES,
-  updateExperimentOperatorRequest,
-} from 'store/operator';
+import { updateExperimentOperatorParameterRequest } from 'store/operator';
 
 const operatorSelector = ({ operatorReducer }) => {
   return operatorReducer;
@@ -27,25 +24,36 @@ const parametersLatestTrainingSelector = ({ operatorReducer }) => {
   return operatorReducer.parametersLatestTraining;
 };
 
-const GenericDrawerContainer = () => {
+// para adicionar o loading em cada parametro, precisamos
+// renderizar cada parametro como se fosse um container
+//
+// desativamos o eslint para não ficar exigindo proptypes para esse container
+/* eslint-disable */
+const OperatorParameter = ({ parameterData }) => {
   const { projectId, experimentId } = useParams();
+
   const dispatch = useDispatch();
 
-  const operator = useSelector(operatorSelector);
-  const parameters = useSelector(parametersSelector);
   const trainingLoading = useSelector(trainingLoadingSelector);
   const parametersLatestTraining = useSelector(
     parametersLatestTrainingSelector
   );
+  const operator = useDeepEqualSelector(operatorSelector);
+
+  const loadingString = `${operator.uuid}-${parameterData.name}`;
+
+  const valueLatestTraining = parametersLatestTraining
+    ? parametersLatestTraining[parameterData.name]
+    : parameterData.value;
 
   const parameterLoading = useIsLoading(
     OPERATORS_TYPES.CLEAR_OPERATORS_FEATURE_PARAMETERS_REQUEST,
-    OPERATOR_TYPES.UPDATE_OPERATOR_REQUEST
+    loadingString
   );
 
   const setOperatorParameterHandler = (parameterName, parameterValue) => {
     dispatch(
-      updateExperimentOperatorRequest(
+      updateExperimentOperatorParameterRequest(
         projectId,
         experimentId,
         operator,
@@ -54,6 +62,21 @@ const GenericDrawerContainer = () => {
       )
     );
   };
+
+  return (
+    <ParameterGroup
+      parameter={parameterData}
+      loading={parameterLoading}
+      trainingLoading={trainingLoading}
+      onChange={setOperatorParameterHandler}
+      valueLatestTraining={valueLatestTraining}
+    />
+  );
+};
+/* eslint-enable */
+
+const GenericDrawerContainer = () => {
+  const parameters = useDeepEqualSelector(parametersSelector);
 
   if (!parameters?.length) {
     return (
@@ -69,20 +92,7 @@ const GenericDrawerContainer = () => {
   return (
     <>
       {parameters.map((parameter, index) => {
-        const valueLatestTraining = parametersLatestTraining
-          ? parametersLatestTraining[parameter.name]
-          : parameter.value;
-
-        return (
-          <ParameterGroup
-            key={index}
-            parameter={parameter}
-            loading={parameterLoading}
-            trainingLoading={trainingLoading}
-            onChange={setOperatorParameterHandler}
-            valueLatestTraining={valueLatestTraining}
-          />
-        );
+        return <OperatorParameter key={index} parameterData={parameter} />;
       })}
     </>
   );
