@@ -102,7 +102,7 @@ SelectInputBlock.propTypes = {
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   options: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
   ).isRequired,
   handleChange: PropTypes.func.isRequired,
   valueLatestTraining: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
