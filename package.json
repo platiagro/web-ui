@@ -51,9 +51,6 @@
     "babel-eslint": "10.1.0",
     "craco-less": "^1.17.0",
     "customize-cra": "^1.0.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.4",
-    "enzyme-to-json": "^3.5.0",
     "eslint": "7.26.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-import-resolver-node": "^0.3.4",
@@ -66,20 +63,6 @@
     "eslint-plugin-react-redux": "^3.3.0",
     "jest-sonar-reporter": "^2.0.0",
     "nock": "^13.0.4",
-    "react-styleguidist": "^11.1.4",
-    "redux-mock-store": "^1.5.3"
-  },
-  "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "moduleNameMapper": {
-      "^dnd-core$": "dnd-core/dist/cjs",
-      "^react-dnd$": "react-dnd/dist/cjs",
-      "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs",
-      "^react-dnd-touch-backend$": "react-dnd-touch-backend/dist/cjs",
-      "^react-dnd-test-backend$": "react-dnd-test-backend/dist/cjs",
-      "^react-dnd-test-utils$": "react-dnd-test-utils/dist/cjs"
-    }
+    "react-styleguidist": "^11.1.4"
   }
 }
