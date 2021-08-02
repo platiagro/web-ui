@@ -84,13 +84,18 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData, isLoadingTask }) => {
   };
 
   const handleCompareNewAndOldValues = (fieldId, oldValue, newValue) => {
+    let stringOldValue;
+    let stringNewValue;
+
     switch (fieldId) {
       case FIELD_IDS.CATEGORY:
       case FIELD_IDS.INPUT_DATA:
       case FIELD_IDS.DESCRIPTION:
       case FIELD_IDS.OUTPUT_DATA:
       case FIELD_IDS.DOCUMENTATION:
-        return oldValue === newValue;
+        stringOldValue = oldValue === null ? '' : oldValue.trim();
+        stringNewValue = newValue === null ? '' : newValue.trim();
+        return stringOldValue === stringNewValue;
 
       case FIELD_IDS.SEARCH_TAGS: {
         const hasTheSameLength = oldValue.length === newValue.length;
