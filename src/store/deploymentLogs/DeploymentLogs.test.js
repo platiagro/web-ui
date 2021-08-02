@@ -2,6 +2,7 @@ import thunk from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import configureStore from 'redux-mock-store';
 
+import { ADD_LOADING, REMOVE_LOADING } from 'store/loading';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
 
 import DEPLOYMENT_LOGS_TYPES from './actionTypes';
@@ -82,8 +83,38 @@ describe('Deployment Logs Store', () => {
     expect(actions).toEqual(
       expect.arrayContaining([
         {
+          type: ADD_LOADING,
+          payload: { [DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS]: true },
+        },
+        {
           type: DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS,
           payload: fakeDeploymentLogs,
+        },
+        {
+          type: REMOVE_LOADING,
+          payload: [DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS],
+        },
+      ])
+    );
+  });
+
+  it('should handle errors if the get deployment logs request fails', async () => {
+    const store = mockStore({});
+
+    mockAxios.onAny().reply(500, {
+      message: 'The error message',
+    });
+
+    await store.dispatch(
+      getDeployExperimentLogs('projectId', 'deploymentId', false, true)
+    );
+
+    const actions = store.getActions();
+
+    expect(actions).toEqual(
+      expect.arrayContaining([
+        {
+          type: DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS_FAIL,
         },
       ])
     );
