@@ -11,7 +11,7 @@ import DeploymentLogsReducer, { initialState } from './deploymentLogsReducer';
 
 describe('Deployment Logs Store', () => {
   const mockStore = configureStore([thunk]);
-  var mockAxios = new MockAdapter(deploymentRunsApi.axiosInstance);
+  const mockAxios = new MockAdapter(deploymentRunsApi.axiosInstance);
 
   const fakeDeploymentLogs = [{ uuid: '1' }, { uuid: '2' }, { uuid: '3' }];
 
