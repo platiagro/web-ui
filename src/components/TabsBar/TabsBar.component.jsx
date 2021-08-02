@@ -39,7 +39,7 @@ const TabsBar = ({
 TabsBar.propTypes = {
   activeTab: PropTypes.string,
   deleteTitle: PropTypes.string,
-  loading: PropTypes.string,
+  loading: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

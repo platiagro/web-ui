@@ -57,10 +57,14 @@ ExperimentHeader.propTypes = {
   loading: PropTypes.bool.isRequired,
   operator: PropTypes.object.isRequired,
   trainingLoading: PropTypes.bool.isRequired,
-  deleteTrainingLoading: PropTypes.bool.isRequired,
+  deleteTrainingLoading: PropTypes.bool,
   handleRemoveOperator: PropTypes.func.isRequired,
   handleTrainExperiment: PropTypes.func.isRequired,
   handleDeleteTrainExperiment: PropTypes.func.isRequired,
+};
+
+ExperimentHeader.defaultProps = {
+  deleteTrainingLoading: false,
 };
 
 export default memo(ExperimentHeader);

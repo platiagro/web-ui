@@ -76,7 +76,7 @@ const NewTaskList = ({
 NewTaskList.propTypes = {
   isLoadingTasks: PropTypes.bool.isRequired,
   handleCreateTaskCopy: PropTypes.func.isRequired,
-  tasksGroupedByCategory: PropTypes.arrayOf(PropTypes.array).isRequired,
+  tasksGroupedByCategory: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default NewTaskList;

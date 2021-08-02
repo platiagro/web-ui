@@ -80,7 +80,7 @@ const MonitoringDrawerContainer = ({
 
 MonitoringDrawerContainer.propTypes = {
   projectId: PropTypes.string.isRequired,
-  deploymentId: PropTypes.string.isRequired,
+  deploymentId: PropTypes.string,
   isShowingDrawer: PropTypes.bool.isRequired,
   handleHideDrawer: PropTypes.func.isRequired,
 };

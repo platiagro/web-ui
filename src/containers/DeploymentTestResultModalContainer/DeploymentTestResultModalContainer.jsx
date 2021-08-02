@@ -47,7 +47,7 @@ const DeploymentTestResultModalContainer = ({
 
 DeploymentTestResultModalContainer.propTypes = {
   projectId: PropTypes.string.isRequired,
-  deploymentId: PropTypes.string.isRequired,
+  deploymentId: PropTypes.string,
   isTestingFlow: PropTypes.bool.isRequired,
   isShowingModal: PropTypes.bool.isRequired,
   handleHideModal: PropTypes.func.isRequired,

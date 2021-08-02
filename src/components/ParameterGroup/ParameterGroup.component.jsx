@@ -264,6 +264,8 @@ ParameterGroup.propTypes = {
     PropTypes.number,
     PropTypes.object,
     PropTypes.string,
+    PropTypes.array,
+    PropTypes.bool,
   ]),
 };
 

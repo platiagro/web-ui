@@ -36,7 +36,7 @@ const ExternalDatasetHelperModal = ({
         </a>
         . Para testar o serviço, siga os seguintes passos:
       </p>
-      <p>
+      <div>
         <ol>
           <li>
             <CopyToClipboard text={url}>
@@ -54,7 +54,7 @@ const ExternalDatasetHelperModal = ({
           <li>Preencha o Header Content-Type: application/json</li>
           <li>Preencha o corpo da requisição:</li>
         </ol>
-      </p>
+      </div>
       <Input.TextArea
         className='input-settings'
         size='large'
@@ -79,7 +79,7 @@ const ExternalDatasetHelperModal = ({
 };
 
 ExternalDatasetHelperModal.propTypes = {
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,

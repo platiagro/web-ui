@@ -9,11 +9,11 @@ const NewProjectModal = ({
   record,
   visible,
   loading,
-  modalValidateStatus,
   errorMessage,
   handleCloseModal,
   handleNewProject,
   handleUpdateProject,
+  modalValidateStatus,
 }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
@@ -112,12 +112,12 @@ NewProjectModal.propTypes = {
   title: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  record: PropTypes.object.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  modalValidateStatus: PropTypes.string.isRequired,
+  record: PropTypes.object,
+  errorMessage: PropTypes.string,
   handleCloseModal: PropTypes.func.isRequired,
   handleNewProject: PropTypes.func.isRequired,
   handleUpdateProject: PropTypes.func.isRequired,
+  modalValidateStatus: PropTypes.string,
 };
 
 export default NewProjectModal;

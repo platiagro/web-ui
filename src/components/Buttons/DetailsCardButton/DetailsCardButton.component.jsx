@@ -81,7 +81,8 @@ const DetailsCardButton = ({ onClick, projectLoading, numberText, type }) => {
 };
 
 DetailsCardButton.propTypes = {
-  numberText: PropTypes.string.isRequired,
+  numberText: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   onClick: PropTypes.func.isRequired,
   projectLoading: PropTypes.bool.isRequired,
   type: PropTypes.string,

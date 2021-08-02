@@ -192,14 +192,14 @@ ExperimentFlow.propTypes = {
   isOver: PropTypes.bool.isRequired,
   numberOfLogs: PropTypes.number.isRequired,
   arrowConfigs: PropTypes.object.isRequired,
-  connectDropTarget: PropTypes.object.isRequired,
+  connectDropTarget: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+    .isRequired,
   isLogsPanelSelected: PropTypes.bool.isRequired,
   handleSavePosition: PropTypes.func.isRequired,
   handleTaskBoxClick: PropTypes.func.isRequired,
   handleToggleLogsPanel: PropTypes.func.isRequired,
   handleDeselectOperator: PropTypes.func.isRequired,
   handleSaveDependencies: PropTypes.func.isRequired,
-  handleSaveFlowTransform: PropTypes.func.isRequired,
 };
 
 const ExperimentFlowDrop = DropTarget(

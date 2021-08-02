@@ -121,19 +121,23 @@ NewDeploymentModal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   templatesData: PropTypes.arrayOf(
     PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
+      uuid: PropTypes.string,
+      name: PropTypes.string,
+      description: PropTypes.string,
       user: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        avatarColor: PropTypes.string.isRequired,
-      }).isRequired,
+        username: PropTypes.string,
+        avatarColor: PropTypes.string,
+      }),
     })
   ),
   visible: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  experimentsLoading: PropTypes.bool.isRequired,
+  experimentsLoading: PropTypes.bool,
   templatesLoading: PropTypes.bool.isRequired,
+};
+
+NewDeploymentModal.defaultProps = {
+  experimentsLoading: false,
 };
 
 export default NewDeploymentModal;

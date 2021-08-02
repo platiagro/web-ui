@@ -88,6 +88,14 @@ const DataViewModalContainer = () => {
     DATASET_TYPES.FETCH_PAGINATED_DATASET
   );
 
+  const datasetDataWithId = useMemo(() => {
+    if (!datasetData) return [];
+    return datasetData.map((item, index) => ({
+      ...item,
+      uuid: `uuid-${index}`,
+    }));
+  }, [datasetData]);
+
   const actionUrl = useMemo(() => {
     return `${process.env.REACT_APP_DATASET_API}/datasets/${datasetName}`;
   }, [datasetName]);
@@ -245,9 +253,9 @@ const DataViewModalContainer = () => {
               <CommonTable
                 size={'small'}
                 columns={columns}
-                dataSource={datasetData}
                 isLoading={isLoadingDataset}
-                rowKey={(_, index) => `observação-${index}`}
+                dataSource={datasetDataWithId}
+                rowKey={(record) => record.uuid}
                 scroll={{
                   x: columns.length > 10 ? 2000 : 1000,
                   y: window.innerHeight / 2,

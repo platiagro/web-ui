@@ -95,14 +95,14 @@ const SelectInputBlock = ({
 
 SelectInputBlock.propTypes = {
   title: PropTypes.string,
-  isLoading: PropTypes.bool.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   tip: PropTypes.string,
-  isMultiple: PropTypes.bool.isRequired,
+  isMultiple: PropTypes.bool,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   options: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
   ).isRequired,
   handleChange: PropTypes.func.isRequired,
   valueLatestTraining: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -113,6 +113,9 @@ SelectInputBlock.defaultProps = {
   value: undefined,
   title: undefined,
   name: undefined,
+  isLoading: false,
+  isDisabled: false,
+  isMultiple: false,
 };
 
 export default SelectInputBlock;

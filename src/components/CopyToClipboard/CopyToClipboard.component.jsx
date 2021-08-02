@@ -19,13 +19,14 @@ const CopyToClipboard = ({ children, text, onCopy, showMessageOnCopy }) => {
 };
 
 CopyToClipboard.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   showMessageOnCopy: PropTypes.bool,
   children: PropTypes.any,
   onCopy: PropTypes.func,
 };
 
 CopyToClipboard.defaultProps = {
+  text: '',
   showMessageOnCopy: true,
 };
 

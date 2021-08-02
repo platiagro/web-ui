@@ -93,7 +93,7 @@ TextInputBlock.propTypes = {
   handleChange: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  valueLatestTraining: PropTypes.bool,
+  valueLatestTraining: PropTypes.string,
 };
 
 TextInputBlock.defaultProps = {

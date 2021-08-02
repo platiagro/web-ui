@@ -357,7 +357,7 @@ const TaskDetailsForm = ({ taskData, handleUpdateTaskData, isLoadingTask }) => {
 };
 
 TaskDetailsForm.propTypes = {
-  taskData: PropTypes.object.isRequired,
+  taskData: PropTypes.object,
   handleUpdateTaskData: PropTypes.func.isRequired,
   isLoadingTask: PropTypes.bool.isRequired,
 };

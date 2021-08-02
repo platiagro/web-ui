@@ -87,7 +87,7 @@ PromoteDeploymentModal.propTypes = {
   urlSuffix: PropTypes.string.isRequired,
   isInputDisabled: PropTypes.bool,
   initialInputValue: PropTypes.string,
-  confirmButtonIsLoading: PropTypes.string,
+  confirmButtonIsLoading: PropTypes.bool,
 };
 
 PromoteDeploymentModal.defaultProps = {

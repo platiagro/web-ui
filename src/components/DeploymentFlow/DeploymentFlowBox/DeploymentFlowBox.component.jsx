@@ -83,6 +83,7 @@ DeploymentFlowBox.propTypes = {
     'Failed',
     'Waiting',
     'Ready',
+    'Setted up',
   ]),
   title: PropTypes.string.isRequired,
 };

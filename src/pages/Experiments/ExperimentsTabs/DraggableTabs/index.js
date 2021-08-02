@@ -39,9 +39,12 @@ const WrappedTabNode = DropTarget(TAB_TYPE, tabTargetConfig, (connect) => ({
   }))(TabNode)
 );
 
-const DraggableTabs = (props) => {
-  const { handleMoveTab, children, activeExperiment } = props;
-
+const DraggableTabs = ({
+  handleMoveTab,
+  children,
+  activeExperiment,
+  ...otherProps
+}) => {
   const tabs = [];
   React.Children.forEach(children, (c) => {
     tabs.push(c);
@@ -67,7 +70,7 @@ const DraggableTabs = (props) => {
       className='experimentTabs'
       renderTabBar={renderTabBar}
       activeKey={activeExperiment}
-      {...props}
+      {...otherProps}
     >
       {tabs}
     </Tabs>

@@ -36,8 +36,8 @@ const NewMonitoringModalTaskList = ({
 };
 
 NewMonitoringModalTaskList.propTypes = {
-  tasks: PropTypes.arrayOf(taskShape),
-  selectedTasks: PropTypes.arrayOf(taskShape),
+  tasks: PropTypes.arrayOf(PropTypes.shape(taskShape)),
+  selectedTasks: PropTypes.arrayOf(PropTypes.shape(taskShape)),
   handleSelectTask: PropTypes.func,
   handleUnselectTask: PropTypes.func,
 };

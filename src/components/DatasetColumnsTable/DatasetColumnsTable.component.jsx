@@ -40,7 +40,7 @@ DatasetColumnsTable.propTypes = {
   selectedRows: PropTypes.array.isRequired,
   handleSetColumnType: PropTypes.func.isRequired,
   handleRowSelection: PropTypes.func.isRequired,
-  setParameterLoading: PropTypes.func.isRequired,
+  setParameterLoading: PropTypes.bool.isRequired,
 };
 
 export default DatasetColumnsTable;
