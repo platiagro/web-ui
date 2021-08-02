@@ -222,10 +222,10 @@ const updateExperimentSuccess =
 const updateExperimentFail = (error) => (dispatch) => {
   let errorMessage;
 
-  if (error.response.status === 500) {
+  if (error.response?.status === 500) {
     errorMessage = error.message;
   } else {
-    errorMessage = error.response.data.message;
+    errorMessage = error.response?.data.message ?? '';
     if (errorMessage.includes('name already exist')) {
       errorMessage = ALREADY_EXIST_MESSAGE;
     }
@@ -233,7 +233,7 @@ const updateExperimentFail = (error) => (dispatch) => {
 
   dispatch(removeLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST));
 
-  dispatch(showError(errorMessage, 5));
+  if (errorMessage) dispatch(showError(errorMessage, 5));
 
   dispatch({
     type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_FAIL,
