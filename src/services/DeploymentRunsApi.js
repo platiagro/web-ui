@@ -98,4 +98,5 @@ export default {
   fetchDeploymentRunLogs,
   listDeploymentRuns,
   retryDeploymentRun,
+  axiosInstance: projectsApi,
 };
