@@ -27,6 +27,7 @@ const ExperimentFlow = ({
   handleToggleLogsPanel,
   handleSaveDependencies,
   handleDeselectOperator,
+  handleRemoveOperator,
 }) => {
   const [connectClass, setConnectClass] = useState('');
 
@@ -54,6 +55,15 @@ const ExperimentFlow = ({
     );
 
     handleSaveDependencies(target, filteredDependencies);
+  };
+
+  const handleDeleteOperator = (elements) => {
+    const element = elements[0];
+    if (element.type !== 'cardNode') {
+      handleDeleteConnection(element.target, element.source);
+    } else if (element.type == 'cardNode') {
+      handleRemoveOperator();
+    }
   };
 
   const handleDragStop = (_, task) => {
@@ -148,12 +158,7 @@ const ExperimentFlow = ({
         onSelectionChange={handleDeselectOperator}
         onPaneContextMenu={(e) => e.preventDefault()}
         onConnectStart={() => setConnectClass('Connecting')}
-        onElementsRemove={(e) => {
-          const line = e[0];
-          if (line.type !== 'cardNode') {
-            handleDeleteConnection(line.target, line.source);
-          }
-        }}
+        onElementsRemove={handleDeleteOperator}
         onlyRenderVisibleElements
       >
         <Background
@@ -200,6 +205,7 @@ ExperimentFlow.propTypes = {
   handleToggleLogsPanel: PropTypes.func.isRequired,
   handleDeselectOperator: PropTypes.func.isRequired,
   handleSaveDependencies: PropTypes.func.isRequired,
+  handleRemoveOperator: PropTypes.func.isRequired,
 };
 
 const ExperimentFlowDrop = DropTarget(
