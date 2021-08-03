@@ -2,14 +2,13 @@ import thunk from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import configureStore from 'redux-mock-store';
 
-import { ADD_LOADING, REMOVE_LOADING } from 'store/loading';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
+import { ADD_LOADING, REMOVE_LOADING } from 'store/loading';
 
-import DEPLOYMENT_LOGS_TYPES from './actionTypes';
-import { clearAllDeploymentLogs, getDeployExperimentLogs } from './actions';
-import DeploymentLogsReducer, { initialState } from './deploymentLogsReducer';
+import DEPLOYMENT_LOGS_TYPES from '../actionTypes';
+import { clearAllDeploymentLogs, getDeployExperimentLogs } from '../actions';
 
-describe('Deployment Logs Store', () => {
+describe('Deployment Logs Actions', () => {
   const mockStore = configureStore([thunk]);
   const mockAxios = new MockAdapter(deploymentRunsApi.axiosInstance);
 
@@ -17,47 +16,6 @@ describe('Deployment Logs Store', () => {
 
   afterEach(() => {
     mockAxios.reset(); // Reset all request handlers
-  });
-
-  it('should have the prefix @DEPLOYMENT_LOGS in every action type', () => {
-    const allActionTypesHavePrefix = Object.values(DEPLOYMENT_LOGS_TYPES).every(
-      (actionType) => {
-        return actionType.includes('@DEPLOYMENT_LOGS');
-      }
-    );
-
-    expect(allActionTypesHavePrefix).toBe(true);
-  });
-
-  it('should set all deployment logs', () => {
-    const action = {
-      type: DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS,
-      payload: fakeDeploymentLogs,
-    };
-    const newState = DeploymentLogsReducer(initialState, action);
-    expect(newState).toMatchObject({ logs: fakeDeploymentLogs });
-  });
-
-  it('should clear all deployment logs', () => {
-    const action = {
-      type: DEPLOYMENT_LOGS_TYPES.CLEAR_ALL_DEPLOYMENT_LOGS,
-    };
-    const newState = DeploymentLogsReducer(
-      { ...initialState, logs: fakeDeploymentLogs },
-      action
-    );
-    expect(newState).toMatchObject({ logs: [] });
-  });
-
-  it('should clear deployment logs when the get logs request fails', () => {
-    const action = {
-      type: DEPLOYMENT_LOGS_TYPES.GET_DEPLOYMENT_LOGS_FAIL,
-    };
-    const newState = DeploymentLogsReducer(
-      { ...initialState, logs: fakeDeploymentLogs },
-      action
-    );
-    expect(newState).toMatchObject({ logs: [] });
   });
 
   it('should return the clear deployment logs action', () => {
