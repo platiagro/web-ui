@@ -53,8 +53,10 @@ const ExperimentFlowContainer = () => {
   const flowLoading = useIsLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST);
   const operatorLoading = useIsLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST);
 
-  const selectOperatorHandler = (operator) => {
-    dispatch(selectOperatorAndGetData(projectId, experimentId, operator));
+  const selectOperatorHandler = (selectedOperator) => {
+    dispatch(
+      selectOperatorAndGetData(projectId, experimentId, selectedOperator)
+    );
   };
 
   const handleSavePosition = (operatorId, position) => {
