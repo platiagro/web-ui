@@ -1,7 +1,7 @@
 import React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
-import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { renderHook } from '@testing-library/react-hooks';
 
 import { useDeepEqualSelector } from '../useDeepEqualSelector';
 
