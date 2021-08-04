@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 
 /**
  *
- * @param {boolean} dependency Dependecy flag to monitorate
+ * @param {boolean} dependency Dependency flag to monitore
  */
-
 export const useChangeFavicon = (dependency) => {
   useEffect(() => {
     const favicon = document.querySelector('#favicon');
