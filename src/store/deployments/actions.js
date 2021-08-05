@@ -1,10 +1,3 @@
-// correção de bug do eslint/jsdoc
-/* eslint-disable-next-line */
-/* global Experiments */
-
-// UI LIB
-import { message } from 'antd';
-
 // ACTION TYPES
 import actionTypes from './actionTypes';
 
@@ -17,9 +10,13 @@ import {
   hideNewDeploymentModal,
 } from 'store/ui/actions';
 import { addLoading, removeLoading } from 'store/loading';
+import { showError, showSuccess } from 'store/message';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
-const AT_LEAST_ONE_OPERATOR_MESSAGE = 'O experimento selecionado deve possuir pelo menos um operador!';
+const AT_LEAST_ONE_OPERATOR_MESSAGE =
+  'O experimento selecionado deve possuir pelo menos uma tarefa.';
+const AT_LEAST_ONE_OPERATOR_MESSAGE_THAN_DATA =
+  'O experimento selecionado deve possuir pelo menos uma tarefa diferente de "Conjunto de dados".';
 
 // ACTIONS
 // ** FETCH DEPLOYMENTS
@@ -48,7 +45,7 @@ const fetchDeploymentsSuccess = (response, successCallback) => (dispatch) => {
  */
 const fetchDeploymentsFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  const errorMessage = error.response?.data?.message || error.message;
 
   // dispatching fetch experiments fail action
   dispatch({
@@ -112,23 +109,23 @@ const createDeploymentSuccess = (response) => (dispatch) => {
 const createDeploymentFail = (error) => (dispatch) => {
   const customErrorMessage = 'Selecione um experimento ou fluxo de tarefas';
 
-  // getting error message
-  let errorMessage =
-    error.response === undefined ? error.message : error.response.data.message;
-
-  // dispatching create deployment fail action response
-  dispatch({
-    type: actionTypes.CREATE_DEPLOYMENT_FAIL,
-    errorMessage,
-  });
+  let errorMessage = error.response?.data?.message || error.message;
 
   if (errorMessage.includes('either')) {
     errorMessage = customErrorMessage;
-  } else if (errorMessage.includes('at least one operator')) {
+  } else if (
+    errorMessage.includes('least one operator that is not a data source')
+  ) {
+    errorMessage = AT_LEAST_ONE_OPERATOR_MESSAGE_THAN_DATA;
+  } else if (errorMessage.includes('least one operator.')) {
     errorMessage = AT_LEAST_ONE_OPERATOR_MESSAGE;
   }
 
-  message.error(errorMessage, 5);
+  dispatch({
+    type: actionTypes.CREATE_DEPLOYMENT_FAIL,
+  });
+
+  dispatch(showError(errorMessage));
 };
 
 /**
@@ -203,15 +200,14 @@ const updateDeploymentSuccess = (response) => (dispatch, getState) => {
  */
 const updateDeploymentFail = (error, routerProps) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  const errorMessage = error.response?.data?.message || error.message;
 
   // dispatching update deployment fail action response
   dispatch({
     type: actionTypes.UPDATE_DEPLOYMENT_FAIL,
-    errorMessage,
   });
 
-  message.error(errorMessage, 5);
+  dispatch(showError(errorMessage));
 
   // check if error is 404
   if (error.response?.status === 404) {
@@ -265,7 +261,7 @@ const deleteDeploymentSuccess = (deploymentId) => (dispatch, getState) => {
     deployments,
   });
 
-  message.success('Fluxo excluído!');
+  dispatch(showSuccess('Fluxo excluído!'));
 };
 
 /**
@@ -276,15 +272,14 @@ const deleteDeploymentSuccess = (deploymentId) => (dispatch, getState) => {
  */
 const deleteDeploymentFail = (error) => (dispatch) => {
   // getting error message
-  const errorMessage = error.message;
+  const errorMessage = error.response?.data?.message || error.message;
 
   // dispatching delete deployment fail action response
   dispatch({
     type: actionTypes.DELETE_DEPLOYMENT_FAIL,
-    errorMessage,
   });
 
-  message.error(errorMessage, 5);
+  dispatch(showError(errorMessage));
 };
 
 /**
@@ -324,7 +319,7 @@ export const clearAllDeployments = () => (dispatch) => {
 /**
  * prepare deployment request action
  *
- * @param {Experiments} experiments Experiments
+ * @param {object} experiments Experiments
  * @param {string} projectId The project Id
  * @param {object} history Router history
  * @returns {Function} Dispatch function
@@ -342,10 +337,19 @@ export const prepareDeployments =
       .createDeployment(projectId, deploymentObj)
       .then(() => {
         history.push(`/projetos/${projectId}/pre-implantacao`);
-        message.success('Experimento implantado!');
+        dispatch(showSuccess('Experimento implantado!'));
       })
       .catch((error) => {
-        message.error(error.message, 5);
+        let errorMessage = error.response?.data?.message || error.message;
+        if (
+          errorMessage.includes('least one operator that is not a data source')
+        ) {
+          errorMessage = AT_LEAST_ONE_OPERATOR_MESSAGE_THAN_DATA;
+        } else if (errorMessage.includes('least one operator.')) {
+          errorMessage = AT_LEAST_ONE_OPERATOR_MESSAGE;
+        }
+
+        dispatch(showError(errorMessage));
       })
       .finally(() => {
         dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
@@ -408,18 +412,22 @@ function renameDeploymentSuccess(updatedDeployments) {
 /**
  * Action to rename deployment fail
  *
- * @param {object} error Error object
- * @returns {Function} Async action
+ * @param {object} error Responde error
+ * @returns {object} { type, errorMessage }
  */
-function renameDeploymentFail(error) {
-  const errorMessage = error.message.includes('name already exist')
-    ? ALREADY_EXIST_MESSAGE
-    : error.message;
+const renameDeploymentFail = (error) => (dispatch) => {
+  let errorMessage = error.response?.data?.message || error.message;
 
-  message.error(errorMessage, 5);
+  if (errorMessage.includes('name already exist')) {
+    errorMessage = ALREADY_EXIST_MESSAGE;
+  }
 
-  return { type: actionTypes.RENAME_DEPLOYMENT_FAIL };
-}
+  dispatch({
+    type: actionTypes.RENAME_DEPLOYMENT_FAIL,
+  });
+
+  dispatch(showError(errorMessage));
+};
 
 /**
  * Action (async) to duplicate deployment
@@ -468,18 +476,22 @@ function duplicateDeploymentSuccess(deployments) {
 /**
  * Action to duplicate deployment fail
  *
- * @param {object} error Error object
- * @returns {Function} Async action
+ * @param {object} error Responde error
+ * @returns {object} { type, errorMessage }
  */
-function duplicateDeploymentFail(error) {
-  const errorMessage = error.message.includes('name already exist')
-    ? ALREADY_EXIST_MESSAGE
-    : error.message;
+const duplicateDeploymentFail = (error) => (dispatch) => {
+  let errorMessage = error.response?.data?.message || error.message;
 
-  message.error(errorMessage, 5);
+  if (errorMessage.includes('name already exist')) {
+    errorMessage = ALREADY_EXIST_MESSAGE;
+  }
 
-  return { type: actionTypes.DUPLICATE_DEPLOYMENT_FAIL };
-}
+  dispatch({
+    type: actionTypes.DUPLICATE_DEPLOYMENT_FAIL,
+  });
+
+  dispatch(showError(errorMessage));
+};
 
 /**
  * Update Deployment Position
@@ -504,7 +516,8 @@ export const updateDeploymentPositionRequest =
         newPosition,
       });
     } catch (e) {
-      message.error(e.message);
+      const errorMessage = e.response?.data?.message || e.message;
+      dispatch(showError(errorMessage));
       dispatch({ type: actionTypes.UPDATE_DEPLOYMENT_POSITION_FAIL });
     }
   };
