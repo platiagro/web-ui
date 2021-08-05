@@ -1,6 +1,6 @@
 import actionTypes from './actionTypes';
 
-const initialState = {
+export const initialState = {
   logs: [],
   isLoading: false,
 };
