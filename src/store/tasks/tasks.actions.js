@@ -21,13 +21,11 @@ export const createTaskSuccess = (task) => {
 /**
  * Add task fail action creator
  *
- * @param {string} errorMessage Error message
  * @returns {object} Action
  */
-export const createTaskFail = (errorMessage) => {
+export const createTaskFail = () => {
   return {
     type: TASKS_TYPES.CREATE_TASK_FAIL,
-    errorMessage,
   };
 };
 
@@ -47,6 +45,7 @@ export const createTask = (task, successCallback) => async (dispatch) => {
     dispatch(showSuccess(`Tarefa criada com sucesso.`));
     if (successCallback) successCallback(responseTask);
   } catch (e) {
+    dispatch(createTaskFail());
     const errorMessage = e.response?.data?.message || e.message;
     if (errorMessage && errorMessage.includes('name already exist')) {
       dispatch(showError('Já existe uma tarefa com este nome!'));
@@ -215,13 +214,11 @@ export const updateTaskSuccess = (task) => {
 /**
  * Update task fail action creator
  *
- * @param {string} errorMessage The error message
  * @returns {object} Action
  */
-export const updateTaskFail = (errorMessage) => {
+export const updateTaskFail = () => {
   return {
     type: TASKS_TYPES.UPDATE_TASK_FAIL,
-    errorMessage,
   };
 };
 
@@ -241,6 +238,7 @@ export const updateTask = (uuid, task, successCallback) => async (dispatch) => {
     dispatch(showSuccess(`Alteração realizada com sucesso.`));
     if (successCallback) successCallback();
   } catch (e) {
+    dispatch(updateTaskFail());
     const errorMessage = e.response?.data?.message || e.message;
     if (errorMessage.includes('name already exist')) {
       dispatch(showError('Já existe uma tarefa com este nome!'));

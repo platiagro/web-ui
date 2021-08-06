@@ -88,4 +88,5 @@ export default {
   updateTask,
   getTaskData,
   sendTaskViaEmail,
+  axiosInstance: taskApi,
 };
