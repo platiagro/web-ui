@@ -69,6 +69,8 @@ jobs:
       run: |
         yarn build
         yarn test:ci
+        pwd
+        cat test-report.xml
 
     - name: SonarCloud Scan
       if: ${{ always() }}
