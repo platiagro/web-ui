@@ -30,6 +30,10 @@ import {
   clearTaskData,
   uploadTaskExperimentNotebookSuccess,
   uploadTaskExperimentNotebookFail,
+  uploadTaskExperimentNotebook,
+  uploadTaskDeploymentNotebookSuccess,
+  uploadTaskDeploymentNotebookFail,
+  uploadTaskDeploymentNotebook,
 } from '../tasks.actions';
 
 describe('Tasks Action', () => {
@@ -38,8 +42,9 @@ describe('Tasks Action', () => {
 
   const mockAxios = new MockAdapter(TasksApi.axiosInstance);
 
-  afterEach(() => {
+  beforeEach(() => {
     mockAxios.reset();
+    jest.clearAllMocks();
   });
 
   const fakeTask = {
@@ -491,24 +496,169 @@ describe('Tasks Action', () => {
 
   it('should run the upload task experiment notebook async action correctly', async () => {
     const successCallbackMock = jest.fn();
-    mockAxios.onPost().reply(200);
-    await store.dispatch(sendTaskViaEmail('1', 'a@a.com', successCallbackMock));
-    const actions = store.getActions();
+    mockAxios.onPatch().reply(200);
+    const file = new File(['{"value": "text"}'], 'notebook.ipynb');
+    await store.dispatch(
+      uploadTaskExperimentNotebook('1', file, successCallbackMock)
+    );
 
+    const actions = store.getActions();
     expect(successCallbackMock).toBeCalled();
 
     expect(actions).toEqual(
       expect.arrayContaining([
         {
           type: ADD_LOADING,
-          payload: { [TASKS_TYPES.SEND_TASK_VIA_EMAIL_REQUEST]: true },
+          payload: {
+            [TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST]: true,
+          },
         },
         {
-          type: TASKS_TYPES.SEND_TASK_VIA_EMAIL_SUCCESS,
+          type: TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_SUCCESS,
         },
         {
           type: REMOVE_LOADING,
-          payload: [TASKS_TYPES.SEND_TASK_VIA_EMAIL_REQUEST],
+          payload: [TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST],
+        },
+      ])
+    );
+  });
+
+  it('should handle errors in the upload task experiment notebook async action', async () => {
+    mockAxios.onPatch().reply(500);
+    const file = new File(['{"value": "text"}'], 'notebook.ipynb');
+    await store.dispatch(uploadTaskExperimentNotebook('1', file));
+    const actions = store.getActions();
+
+    expect(actions).toEqual(
+      expect.arrayContaining([
+        {
+          type: ADD_LOADING,
+          payload: {
+            [TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST]: true,
+          },
+        },
+        {
+          type: TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_FAIL,
+        },
+        {
+          type: REMOVE_LOADING,
+          payload: [TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST],
+        },
+      ])
+    );
+  });
+
+  it('should the upload task experiment notebook request fails if file content is not a valid JSON', async () => {
+    const file = new File(['{ not a valid JSON }'], 'notebook.ipynb');
+    await store.dispatch(uploadTaskExperimentNotebook('1', file));
+    const actions = store.getActions();
+
+    expect(actions).toEqual(
+      expect.arrayContaining([
+        {
+          type: ADD_LOADING,
+          payload: {
+            [TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST]: true,
+          },
+        },
+        {
+          type: TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_FAIL,
+        },
+        {
+          type: REMOVE_LOADING,
+          payload: [TASKS_TYPES.UPLOAD_TASK_EXPERIMENT_NOTEBOOK_REQUEST],
+        },
+      ])
+    );
+  });
+
+  it('should create the upload task deployment notebook success action', () => {
+    expect(uploadTaskDeploymentNotebookSuccess()).toEqual({
+      type: TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_SUCCESS,
+    });
+  });
+
+  it('should create the upload task deployment notebook fail action', () => {
+    expect(uploadTaskDeploymentNotebookFail()).toEqual({
+      type: TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_FAIL,
+    });
+  });
+
+  it('should run the upload task deployment notebook async action correctly', async () => {
+    const successCallbackMock = jest.fn();
+    mockAxios.onPatch().reply(200);
+    const file = new File(['{"value": "text"}'], 'notebook.ipynb');
+    await store.dispatch(
+      uploadTaskDeploymentNotebook('1', file, successCallbackMock)
+    );
+
+    const actions = store.getActions();
+    expect(successCallbackMock).toBeCalled();
+
+    expect(actions).toEqual(
+      expect.arrayContaining([
+        {
+          type: ADD_LOADING,
+          payload: {
+            [TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST]: true,
+          },
+        },
+        {
+          type: TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_SUCCESS,
+        },
+        {
+          type: REMOVE_LOADING,
+          payload: [TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST],
+        },
+      ])
+    );
+  });
+
+  it('should handle errors in the upload task deployment notebook async action', async () => {
+    mockAxios.onPatch().reply(500);
+    const file = new File(['{"value": "text"}'], 'notebook.ipynb');
+    await store.dispatch(uploadTaskDeploymentNotebook('1', file));
+    const actions = store.getActions();
+
+    expect(actions).toEqual(
+      expect.arrayContaining([
+        {
+          type: ADD_LOADING,
+          payload: {
+            [TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST]: true,
+          },
+        },
+        {
+          type: TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_FAIL,
+        },
+        {
+          type: REMOVE_LOADING,
+          payload: [TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST],
+        },
+      ])
+    );
+  });
+
+  it('should the upload task deployment notebook request fails if file content is not a valid JSON', async () => {
+    const file = new File(['{ not a valid JSON }'], 'notebook.ipynb');
+    await store.dispatch(uploadTaskDeploymentNotebook('1', file));
+    const actions = store.getActions();
+
+    expect(actions).toEqual(
+      expect.arrayContaining([
+        {
+          type: ADD_LOADING,
+          payload: {
+            [TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST]: true,
+          },
+        },
+        {
+          type: TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_FAIL,
+        },
+        {
+          type: REMOVE_LOADING,
+          payload: [TASKS_TYPES.UPLOAD_TASK_DEPLOYMENT_NOTEBOOK_REQUEST],
         },
       ])
     );
