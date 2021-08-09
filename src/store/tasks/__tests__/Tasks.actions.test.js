@@ -8,6 +8,7 @@ import { ADD_LOADING, REMOVE_LOADING } from 'store/loading';
 import * as TASKS_TYPES from '../tasks.actionTypes';
 import {
   createTaskSuccess,
+  createTaskFail,
   createTask,
   deleteTaskSuccess,
   deleteTaskFail,
@@ -67,6 +68,12 @@ describe('Tasks Action', () => {
     expect(createTaskSuccess(fakeTask)).toEqual({
       type: TASKS_TYPES.CREATE_TASK_SUCCESS,
       task: fakeTask,
+    });
+  });
+
+  it('should create the task creation fail action', () => {
+    expect(createTaskFail()).toEqual({
+      type: TASKS_TYPES.CREATE_TASK_FAIL,
     });
   });
 
