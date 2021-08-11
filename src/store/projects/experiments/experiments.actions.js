@@ -6,7 +6,10 @@ import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 
 import experimentsApi from 'services/ExperimentsApi';
 
-import { hideNewExperimentModal } from 'store/ui/actions';
+import {
+  hideNewExperimentModal,
+  experimentTrainingDataLoaded,
+} from 'store/ui/actions';
 import { fetchExperimentOperatorsRequest } from 'store/operators';
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
 
@@ -459,6 +462,8 @@ export const organizeExperimentsRequest =
  */
 export const activeExperiment = (projectId, experimentId) => (dispatch) => {
   const experiment = { isActive: true };
+
+  dispatch(experimentTrainingDataLoaded());
 
   dispatch({ type: EXPERIMENTS_TYPES.ACTIVE_EXPERIMENT });
 
