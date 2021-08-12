@@ -13,6 +13,7 @@ import { useBooleanState, useIsLoading } from 'hooks';
 import { ResultsButtonBar } from 'components/Buttons';
 import { showOperatorResults } from 'store/ui/actions';
 import { PropertiesPanel, PropertyBlock } from 'components';
+import { updateExperimentOperatorStoreData } from 'store/projects/experiments/experiments.actions';
 import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/DatasetDrawerContainer';
 import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/GenericDrawerContainer';
 import NotebookOutputsContainer from 'pages/Experiments/Experiment/Drawer/NotebookOutputs/NotebookOutputsContainer';
@@ -78,13 +79,26 @@ const OperatorResizableSectionContainer = () => {
 
   const handleSaveNewOperatorName = (newName) => {
     const operatorId = operator?.uuid;
+
+    const successCallback = () => {
+      handleCancelEditingOperatorName();
+      dispatch(
+        updateExperimentOperatorStoreData({
+          projectId,
+          experimentId,
+          operatorId,
+          newOperatorData: { name: newName },
+        })
+      );
+    };
+
     dispatch(
       renameExperimentOperator({
         projectId,
         experimentId,
         operatorId,
         newName,
-        successCallback: handleCancelEditingOperatorName,
+        successCallback,
       })
     );
   };
