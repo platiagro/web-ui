@@ -69,23 +69,12 @@ jobs:
       run: |
         yarn build
         yarn test:ci
-        pwd
-        cat test-report.xml
+        sed -i s'|/home/runner/work/web-ui/web-ui/||g' test-report.xml
+        sed -i s'|/home/runner/work/web-ui/web-ui/||g' coverage/lcov.info
 
     - name: SonarCloud Scan
       if: ${{ always() }}
       uses: sonarsource/sonarcloud-github-action@master
-      with:
-        projectBaseDir: .
-        args: >
-          -Dsonar.organization=platiagro
-          -Dsonar.projectKey=platiagro_web-ui
-          -Dsonar.sources=src
-          -Dsonar.sourceEncoding=UTF-8
-          -Dsonar.exclusions=node_modules/**
-          -Dsonar.testExecutionReportPaths=test-report.xml
-          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-          -Dsonar.verbose=true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
