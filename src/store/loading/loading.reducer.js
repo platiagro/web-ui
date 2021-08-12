@@ -1,6 +1,6 @@
 import { ADD_LOADING, REMOVE_LOADING } from './loading.actionTypes';
 
-const initialState = {
+export const initialState = {
   loading: {},
 };
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const projectsApi = axios.create({
+export const projectsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
 
@@ -156,4 +156,5 @@ export default {
   listOperatorFigures,
   fetchOperatorLogs,
   fetchExperimentLogs,
+  axiosInstance: projectsApi,
 };
