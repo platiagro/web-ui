@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Select } from 'antd';
 import PropTypes from 'prop-types';
 
@@ -7,22 +7,18 @@ import { Skeleton } from 'uiComponents';
 import './CompareResultItem.less';
 
 const CompareResultItemTasks = ({
-  trainingDetail,
+  selectedExperiment,
   compareResult,
   onUpdate,
-  tasks,
 }) => {
-  const operatorKeys = useMemo(() => {
-    if (!trainingDetail?.operators) return [];
-    return Object.keys(trainingDetail.operators);
-  }, [trainingDetail?.operators]);
+  if (!compareResult.runId || !selectedExperiment) {
+    return <Skeleton />;
+  }
 
   const handleChange = (value) => {
     const updatedCompareResult = { ...compareResult, operatorId: value };
     onUpdate(updatedCompareResult, true);
   };
-
-  if (!compareResult.runId || !trainingDetail) return <Skeleton />;
 
   return (
     <>
@@ -34,17 +30,10 @@ const CompareResultItemTasks = ({
         placeholder={'Selecione a tarefa'}
         defaultValue={compareResult.operatorId}
       >
-        {operatorKeys.map((operatorKey) => {
-          const operator = trainingDetail.operators[operatorKey];
-          const task = tasks.find((x) => x.uuid === operator.taskId);
-
+        {selectedExperiment.operators?.map(({ uuid, name }) => {
           return (
-            <Select.Option
-              key={operator.taskId}
-              value={operatorKey}
-              label={task ? task.name : operator.taskId}
-            >
-              {task ? task.name : operator.taskId}
+            <Select.Option key={uuid} value={uuid} label={name || uuid}>
+              {name || uuid}
             </Select.Option>
           );
         })}
@@ -56,10 +45,9 @@ const CompareResultItemTasks = ({
 };
 
 CompareResultItemTasks.propTypes = {
-  trainingDetail: PropTypes.object,
+  selectedExperiment: PropTypes.object,
   compareResult: PropTypes.object.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default CompareResultItemTasks;

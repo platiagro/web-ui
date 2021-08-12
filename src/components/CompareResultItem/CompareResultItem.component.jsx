@@ -12,6 +12,7 @@ import './CompareResultItem.less';
 const CompareResultItem = ({
   tasks,
   height,
+  experiments,
   compareResult,
   experimentsOptions,
   experimentsTrainingHistory,
@@ -41,6 +42,11 @@ const CompareResultItem = ({
     compareResult.runId,
     experimentsTrainingHistory,
   ]);
+
+  const selectedExperiment = useMemo(() => {
+    const experimentId = compareResult.experimentId;
+    return experiments?.find(({ uuid }) => uuid === experimentId);
+  }, [compareResult.experimentId, experiments]);
 
   // Get results if experiment and task are selected and results undefined
   useEffect(() => {
@@ -73,10 +79,9 @@ const CompareResultItem = ({
       }
     >
       <CompareResultItemTasks
-        tasks={tasks}
         onUpdate={onUpdate}
         compareResult={compareResult}
-        trainingDetail={trainingDetail}
+        selectedExperiment={selectedExperiment}
       />
 
       <CompareResultItemResults
@@ -94,6 +99,7 @@ const CompareResultItem = ({
 CompareResultItem.propTypes = {
   tasks: PropTypes.array.isRequired,
   height: PropTypes.number,
+  experiments: PropTypes.array.isRequired,
   compareResult: PropTypes.object.isRequired,
   experimentsOptions: PropTypes.array.isRequired,
   experimentsTrainingHistory: PropTypes.object.isRequired,
