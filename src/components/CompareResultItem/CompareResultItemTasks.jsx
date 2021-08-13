@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Select } from 'antd';
 import PropTypes from 'prop-types';
 
@@ -8,17 +8,46 @@ import './CompareResultItem.less';
 
 const CompareResultItemTasks = ({
   selectedExperiment,
+  trainingDetail,
   compareResult,
   onUpdate,
+  tasks,
 }) => {
-  if (!compareResult.runId || !selectedExperiment) {
-    return <Skeleton />;
-  }
+  const trainingOperatorKeys = useMemo(() => {
+    if (!trainingDetail?.operators) return [];
+    return Object.keys(trainingDetail.operators);
+  }, [trainingDetail?.operators]);
+
+  const selectedExperimentOperators = useMemo(() => {
+    const operatorsObject = {};
+    selectedExperiment?.operators?.forEach((operator) => {
+      operatorsObject[operator.uuid] = operator;
+    });
+    return operatorsObject;
+  }, [selectedExperiment?.operators]);
+
+  const trainingTasks = useMemo(() => {
+    const tasksObject = {};
+    tasks?.forEach((task) => {
+      tasksObject[task.uuid] = task;
+    });
+    return tasksObject;
+  }, [tasks]);
 
   const handleChange = (value) => {
     const updatedCompareResult = { ...compareResult, operatorId: value };
     onUpdate(updatedCompareResult, true);
   };
+
+  const getSelectLabel = (operatorName, taskName) => {
+    if (operatorName) return operatorName;
+    else if (taskName) return `${taskName} - (Tarefa Excluída)`;
+    return '* Tarefa Excluída *';
+  };
+
+  if (!compareResult.runId || !selectedExperiment) {
+    return <Skeleton />;
+  }
 
   return (
     <>
@@ -30,10 +59,15 @@ const CompareResultItemTasks = ({
         placeholder={'Selecione a tarefa'}
         defaultValue={compareResult.operatorId}
       >
-        {selectedExperiment.operators?.map(({ uuid, name }) => {
+        {trainingOperatorKeys.map((key) => {
+          const operator = selectedExperimentOperators[key] || {};
+          const trainingOperator = trainingDetail.operators[key];
+          const task = trainingTasks[trainingOperator.taskId] || {};
+          const selectLabel = getSelectLabel(operator.name, task.name);
+
           return (
-            <Select.Option key={uuid} value={uuid} label={name || uuid}>
-              {name || uuid}
+            <Select.Option key={key} value={key} label={selectLabel}>
+              {selectLabel}
             </Select.Option>
           );
         })}
@@ -46,8 +80,10 @@ const CompareResultItemTasks = ({
 
 CompareResultItemTasks.propTypes = {
   selectedExperiment: PropTypes.object,
-  compareResult: PropTypes.object.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  trainingDetail: PropTypes.object,
+  compareResult: PropTypes.object,
+  onUpdate: PropTypes.func,
+  tasks: PropTypes.array,
 };
 
 export default CompareResultItemTasks;

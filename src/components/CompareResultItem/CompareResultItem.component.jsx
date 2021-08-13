@@ -79,8 +79,10 @@ const CompareResultItem = ({
       }
     >
       <CompareResultItemTasks
+        tasks={tasks}
         onUpdate={onUpdate}
         compareResult={compareResult}
+        trainingDetail={trainingDetail}
         selectedExperiment={selectedExperiment}
       />
 
