@@ -6,7 +6,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "test:ci": "react-scripts test --passWithNoTests --silent --coverage --testResultsProcessor jest-sonar-reporter",
+    "test:coverage": "craco test --coverage --watchAll",
+    "test:ci": "react-scripts test --coverageReporters=lcov --testResultsProcessor jest-sonar-reporter --passWithNoTests --debug --coverage --no-cache --watchAll=false",
     "eject": "react-scripts eject",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build"
