@@ -60,7 +60,7 @@ const CompareResultItemTitle = ({
     <>
       <Space>
         <div draggable='true' style={{ cursor: 'grab', paddingRight: 10 }}>
-          <DragIndicatorComponent />
+          <DragIndicatorComponent fill='#595959' />
         </div>
 
         <Cascader

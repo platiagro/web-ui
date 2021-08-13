@@ -525,3 +525,59 @@ export const applyTemplateRequest =
       dispatch(experimentsActionFail(errorObject));
     }
   };
+
+/**
+ * Update a experiment operator data in the projects store
+ *
+ * @param {object} params Params
+ * @param {string} params.projectId Project UUID
+ * @param {string} params.experimentId Experiment UUID
+ * @param {string} params.operatorId Operator UUID
+ * @param {object} params.newOperatorData Operator data
+ * @returns {Function} Dispatch function
+ */
+export const updateExperimentOperatorStoreData =
+  ({ projectId, experimentId, operatorId, newOperatorData }) =>
+  (dispatch, getState) => {
+    const { Projects } = getState();
+    const projects = Projects?.projects;
+
+    if (
+      projects &&
+      projectId &&
+      experimentId &&
+      operatorId &&
+      newOperatorData
+    ) {
+      const mapOperators = (operator) => {
+        return operator.uuid === operatorId
+          ? { ...operator, ...newOperatorData }
+          : operator;
+      };
+
+      const mapExperiments = (experiment) => {
+        if (experiment.uuid === experimentId) {
+          const operatorsClone = experiment.operators?.map(mapOperators);
+          return { ...experiment, operators: operatorsClone };
+        }
+        return experiment;
+      };
+
+      const mapProjects = (project) => {
+        if (project.uuid === projectId) {
+          const experimentsClone = project.experiments?.map(mapExperiments);
+          return { ...project, experiments: experimentsClone };
+        }
+        return project;
+      };
+
+      const projectsClone = projects.map(mapProjects);
+
+      dispatch({
+        type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_OPERATOR_STORE_DATA,
+        payload: {
+          projects: projectsClone,
+        },
+      });
+    }
+  };
