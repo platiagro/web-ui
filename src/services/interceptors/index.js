@@ -1,1 +1,3 @@
-export * as AuthExpiredInterceptor from './AuthExpired.interceptor';
+import * as AuthExpiredInterceptor from './AuthExpired.interceptor';
+
+export { AuthExpiredInterceptor };
