@@ -6,11 +6,18 @@
 
 import axios from 'axios';
 
+import { AuthExpiredInterceptor } from './interceptors';
+
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
 const templatesApi = axios.create({
   baseURL: URL,
 });
+
+templatesApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 const templatesPath = '/templates';
 
@@ -62,4 +69,5 @@ export default {
   createTemplate,
   updateTemplate,
   deleteTemplate,
+  axiosInstance: templatesApi,
 };

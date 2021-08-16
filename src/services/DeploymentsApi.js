@@ -1,10 +1,17 @@
 import axios from 'axios';
 
+import { AuthExpiredInterceptor } from './interceptors';
+
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const projectsApi = axios.create({
+const deploymentsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
+
+deploymentsApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 const deploymentsPath = 'deployments';
 
@@ -15,7 +22,7 @@ const deploymentsPath = 'deployments';
  * @returns {Promise} Request Promise
  */
 const listDeployments = (projectId) => {
-  return projectsApi.get(`${projectId}/${deploymentsPath}`);
+  return deploymentsApi.get(`${projectId}/${deploymentsPath}`);
 };
 
 /**
@@ -26,7 +33,7 @@ const listDeployments = (projectId) => {
  * @returns {Promise} Request Promise
  */
 const createDeployment = (projectId, body) => {
-  return projectsApi.post(`${projectId}/${deploymentsPath}`, body);
+  return deploymentsApi.post(`${projectId}/${deploymentsPath}`, body);
 };
 
 /**
@@ -37,7 +44,7 @@ const createDeployment = (projectId, body) => {
  * @returns {Promise} Request Promise
  */
 const getDeployment = (projectId, deploymentId) => {
-  return projectsApi.get(`${projectId}/${deploymentsPath}/${deploymentId}`);
+  return deploymentsApi.get(`${projectId}/${deploymentsPath}/${deploymentId}`);
 };
 
 /**
@@ -49,7 +56,7 @@ const getDeployment = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const updateDeployment = (projectId, deploymentId, deploymentObj) => {
-  return projectsApi.patch(
+  return deploymentsApi.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}`,
     deploymentObj
   );
@@ -63,7 +70,9 @@ const updateDeployment = (projectId, deploymentId, deploymentObj) => {
  * @returns {Promise} Request Promise
  */
 const deleteDeployment = (projectId, deploymentId) => {
-  return projectsApi.delete(`${projectId}/${deploymentsPath}/${deploymentId}`);
+  return deploymentsApi.delete(
+    `${projectId}/${deploymentsPath}/${deploymentId}`
+  );
 };
 
 /**
@@ -81,7 +90,7 @@ const updateDeploymentOperator = (
   operatorId,
   operatorObj
 ) => {
-  return projectsApi.patch(
+  return deploymentsApi.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}/operators/${operatorId}`,
     operatorObj
   );
@@ -98,7 +107,7 @@ const updateDeploymentOperator = (
 const testDeploymentWithFile = (projectId, deploymentId, file) => {
   const form = new FormData();
   form.append('file', file);
-  return projectsApi.post(
+  return deploymentsApi.post(
     `${projectId}/${deploymentsPath}/${deploymentId}/predictions`,
     form
   );
@@ -113,7 +122,7 @@ const testDeploymentWithFile = (projectId, deploymentId, file) => {
  * @returns {Promise} Request Promise
  */
 const testDeploymentWithDataset = (projectId, deploymentId, dataset) => {
-  return projectsApi.post(
+  return deploymentsApi.post(
     `${projectId}/${deploymentsPath}/${deploymentId}/predictions`,
     { dataset }
   );
@@ -128,4 +137,5 @@ export default {
   updateDeploymentOperator,
   testDeploymentWithFile,
   testDeploymentWithDataset,
+  axiosInstance: deploymentsApi,
 };

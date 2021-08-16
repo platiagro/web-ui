@@ -1,10 +1,17 @@
 import axios from 'axios';
 
+import { AuthExpiredInterceptor } from './interceptors';
+
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
 const operatorsApi = axios.create({
   baseURL: `${URL}/projects`,
 });
+
+operatorsApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 const experimentsPath = '/experiments';
 const operatorsPath = '/operators';
@@ -97,4 +104,5 @@ export default {
   deleteOperator,
   updateOperator,
   updateOperatorParameter,
+  axiosInstance: operatorsApi,
 };

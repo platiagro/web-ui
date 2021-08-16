@@ -1,10 +1,17 @@
 import axios from 'axios';
 
-export const URL = process.env.REACT_APP_JUPYTER_API || 'http://localhost:8080';
+import { AuthExpiredInterceptor } from './interceptors';
 
-export const jupyterLabApi = axios.create({
+const URL = process.env.REACT_APP_JUPYTER_API || 'http://localhost:8080';
+
+const jupyterLabApi = axios.create({
   baseURL: URL,
 });
+
+jupyterLabApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 const healthCheckPath = '/api';
 
@@ -19,4 +26,5 @@ const healthCheck = () => {
 
 export default {
   healthCheck,
+  axiosInstance: jupyterLabApi,
 };

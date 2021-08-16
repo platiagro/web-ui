@@ -1,10 +1,17 @@
 import axios from 'axios';
 
+import { AuthExpiredInterceptor } from './interceptors';
+
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
 const comparisonsApi = axios.create({
   baseURL: `${URL}/projects`,
 });
+
+comparisonsApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 const comparisonsPath = '/comparisons';
 
@@ -61,4 +68,5 @@ export default {
   deleteCompareResult,
   listCompareResult,
   updateCompareResult,
+  axiosInstance: comparisonsApi,
 };

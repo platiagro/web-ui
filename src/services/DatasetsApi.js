@@ -1,10 +1,17 @@
 import axios from 'axios';
 
+import { AuthExpiredInterceptor } from './interceptors';
+
 const URL = process.env.REACT_APP_DATASET_API || 'http://localhost:8080';
 
 const datasetsApi = axios.create({
   baseURL: URL,
 });
+
+datasetsApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 const datasetsPath = '/datasets';
 
@@ -97,4 +104,5 @@ export default {
   getDataset,
   getDatasetFeaturetypes,
   createDataset,
+  axiosInstance: datasetsApi,
 };

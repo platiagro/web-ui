@@ -6,6 +6,8 @@
 
 import axios from 'axios';
 
+import { AuthExpiredInterceptor } from './interceptors';
+
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
 const projectsPath = '/projects';
@@ -13,6 +15,11 @@ const projectsPath = '/projects';
 const experimentsApi = axios.create({
   baseURL: `${URL}${projectsPath}`,
 });
+
+experimentsApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 const experimentsPath = '/experiments';
 
@@ -82,4 +89,5 @@ export default {
   createExperiment,
   updateExperiment,
   deleteExperiment,
+  axiosInstance: experimentsApi,
 };

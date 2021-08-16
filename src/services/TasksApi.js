@@ -1,8 +1,15 @@
 import axios from 'axios';
 
-export const taskApi = axios.create({
+import { AuthExpiredInterceptor } from './interceptors';
+
+const taskApi = axios.create({
   baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080',
 });
+
+taskApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 /**
  * Create task

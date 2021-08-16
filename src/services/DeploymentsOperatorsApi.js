@@ -1,10 +1,17 @@
 import axios from 'axios';
 
+import { AuthExpiredInterceptor } from './interceptors';
+
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const operatorsApi = axios.create({
+const deploymentsOperatorsApi = axios.create({
   baseURL: `${URL}/projects/`,
 });
+
+deploymentsOperatorsApi.interceptors.response.use(
+  undefined,
+  AuthExpiredInterceptor.response.onRejected
+);
 
 const deploymentsPath = 'deployments';
 const operatorsPath = 'operators';
@@ -17,7 +24,7 @@ const operatorsPath = 'operators';
  * @returns {Promise} Request Promise
  */
 const listOperators = (projectId, deploymentId) => {
-  return operatorsApi.get(
+  return deploymentsOperatorsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}/${operatorsPath}`
   );
 };
@@ -47,7 +54,7 @@ const createOperator = (
     positionX: position.x,
     positionY: position.y,
   };
-  return operatorsApi.post(
+  return deploymentsOperatorsApi.post(
     `${projectId}/${deploymentsPath}/${deploymentId}/${operatorsPath}`,
     body
   );
@@ -62,7 +69,7 @@ const createOperator = (
  * @returns {Promise} Request Promise
  */
 const deleteOperator = (projectId, deploymentId, operatorId) => {
-  return operatorsApi.delete(
+  return deploymentsOperatorsApi.delete(
     `${projectId}/${deploymentsPath}/${deploymentId}/${operatorsPath}/${operatorId}`
   );
 };
@@ -77,7 +84,7 @@ const deleteOperator = (projectId, deploymentId, operatorId) => {
  * @returns {Promise} Request Promise
  */
 const updateOperator = (projectId, deploymentId, operatorId, operator) => {
-  return operatorsApi.patch(
+  return deploymentsOperatorsApi.patch(
     `${projectId}/${deploymentsPath}/${deploymentId}/${operatorsPath}/${operatorId}`,
     operator
   );
@@ -88,4 +95,5 @@ export default {
   createOperator,
   deleteOperator,
   updateOperator,
+  axiosInstance: deploymentsOperatorsApi,
 };
