@@ -15,16 +15,43 @@ const DeploymentTestResultModalContent = ({
   handleTryAgain,
 }) => {
   const canShowTable = useMemo(() => {
-    return (
-      !!testResult?.names &&
-      (!!testResult?.ndarray || !!testResult?.tensor?.values)
-    );
+    const hasNames = !!testResult?.names;
+    const hasNdArray = !!testResult?.ndarray;
+    const hasTensorValues = !!testResult?.tensor?.values;
+    const hasDataToShow = hasNdArray || hasTensorValues;
+    return hasNames && hasDataToShow;
   }, [testResult?.names, testResult?.ndarray, testResult?.tensor?.values]);
 
-  const dataSource = useMemo(() => {
-    const dataArray = testResult?.ndarray || testResult?.tensor?.values;
-    const names = testResult?.names;
+  const dataArray = useMemo(() => {
+    if (testResult?.ndarray) return testResult.ndarray;
+    else if (testResult?.tensor?.values) {
+      const shape = testResult.tensor.shape;
+      const values = testResult.tensor.values;
 
+      if (shape?.length === 2 && values?.length > 0) {
+        const [numberOfRows, numberOfColumns] = shape;
+        const columns = new Array(numberOfColumns);
+        const rows = new Array(numberOfRows).fill(columns);
+        return rows.map((_, rowIndex) => {
+          return values.slice(
+            rowIndex * numberOfColumns,
+            (rowIndex + 1) * numberOfColumns
+          );
+        });
+      }
+
+      return values;
+    }
+
+    return null;
+  }, [
+    testResult.ndarray,
+    testResult?.tensor?.shape,
+    testResult?.tensor?.values,
+  ]);
+
+  const dataSource = useMemo(() => {
+    const names = testResult?.names;
     if (!dataArray || !names) return [];
 
     return dataArray.map((value, index) => {
@@ -38,7 +65,7 @@ const DeploymentTestResultModalContent = ({
 
       return data;
     });
-  }, [testResult]);
+  }, [dataArray, testResult?.names]);
 
   const columns = useMemo(() => {
     if (!testResult?.names) return [];
