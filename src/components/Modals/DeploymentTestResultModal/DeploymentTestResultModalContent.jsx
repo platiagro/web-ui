@@ -27,22 +27,8 @@ const DeploymentTestResultModalContent = ({
     else if (testResult?.tensor?.values) {
       const shape = testResult.tensor.shape;
       const values = testResult.tensor.values;
-
-      if (shape?.length === 2 && values?.length > 0) {
-        const [numberOfRows, numberOfColumns] = shape;
-        const columns = new Array(numberOfColumns);
-        const rows = new Array(numberOfRows).fill(columns);
-        return rows.map((_, rowIndex) => {
-          return values.slice(
-            rowIndex * numberOfColumns,
-            (rowIndex + 1) * numberOfColumns
-          );
-        });
-      }
-
-      return values;
+      return utils.formatTensorValues(values, shape);
     }
-
     return null;
   }, [
     testResult.ndarray,
