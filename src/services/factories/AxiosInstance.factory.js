@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 
 import { AuthExpiredInterceptor } from 'services/interceptors';
 
@@ -9,7 +9,7 @@ export const AXIOS_INSTANCE_FACTORY_IDENTIFIER = 'CreatedWithAxiosFactory';
  *
  * @param {object} configs Axios instance configs
  * @param {string} configs.baseURL Axios instance baseURL
- * @returns {AxiosInstance} A new axios instance
+ * @returns {axios} A new axios instance
  */
 export const createAxiosInstance = ({ baseURL }) => {
   const axiosInstance = axios.create({
