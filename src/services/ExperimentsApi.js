@@ -4,22 +4,15 @@
 
 /* API REFERENCE: https://platiagro.github.io/projects/#/Experiments */
 
-import axios from 'axios';
-
-import { AuthExpiredInterceptor } from './interceptors';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
 const projectsPath = '/projects';
 
-const experimentsApi = axios.create({
+const experimentsApi = createAxiosInstance({
   baseURL: `${URL}${projectsPath}`,
 });
-
-experimentsApi.interceptors.response.use(
-  AuthExpiredInterceptor.Response.onFulfilled,
-  AuthExpiredInterceptor.Response.onRejected
-);
 
 const experimentsPath = '/experiments';
 

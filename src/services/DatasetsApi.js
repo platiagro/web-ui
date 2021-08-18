@@ -1,17 +1,10 @@
-import axios from 'axios';
-
-import { AuthExpiredInterceptor } from './interceptors';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_DATASET_API || 'http://localhost:8080';
 
-const datasetsApi = axios.create({
+const datasetsApi = createAxiosInstance({
   baseURL: URL,
 });
-
-datasetsApi.interceptors.response.use(
-  AuthExpiredInterceptor.Response.onFulfilled,
-  AuthExpiredInterceptor.Response.onRejected
-);
 
 const datasetsPath = '/datasets';
 

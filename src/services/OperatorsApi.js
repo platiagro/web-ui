@@ -1,17 +1,10 @@
-import axios from 'axios';
-
-import { AuthExpiredInterceptor } from './interceptors';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const operatorsApi = axios.create({
+const operatorsApi = createAxiosInstance({
   baseURL: `${URL}/projects`,
 });
-
-operatorsApi.interceptors.response.use(
-  AuthExpiredInterceptor.Response.onFulfilled,
-  AuthExpiredInterceptor.Response.onRejected
-);
 
 const experimentsPath = '/experiments';
 const operatorsPath = '/operators';

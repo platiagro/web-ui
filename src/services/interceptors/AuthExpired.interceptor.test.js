@@ -16,6 +16,19 @@ describe('AuthExpired interceptor', () => {
     const response = { config: {}, data: [] };
     const newResponse = AuthExpiredInterceptor.Response.onFulfilled(response);
     expect(newResponse).toBe(response);
+    expect(window.location.assign).not.toBeCalled();
+  });
+
+  it('should change window.location when response header content-type is text/html', () => {
+    const response = { headers: { 'content-type': 'text/html' } };
+    AuthExpiredInterceptor.Response.onFulfilled(response);
+    expect(window.location.assign).toBeCalledWith('/');
+  });
+
+  it('should change window.location when the response contains a responseURL attr that includes /dex/auth', () => {
+    const response = { request: { responseURL: 'http://.../dex/auth/local' } };
+    AuthExpiredInterceptor.Response.onFulfilled(response);
+    expect(window.location.assign).toBeCalledWith(response.request.responseURL);
   });
 
   it('should change window.location when the error location exists', () => {

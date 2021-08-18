@@ -4,20 +4,13 @@
 
 /* API REFERENCE: https://platiagro.github.io/projects/#/Templates */
 
-import axios from 'axios';
-
-import { AuthExpiredInterceptor } from './interceptors';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const templatesApi = axios.create({
+const templatesApi = createAxiosInstance({
   baseURL: URL,
 });
-
-templatesApi.interceptors.response.use(
-  AuthExpiredInterceptor.Response.onFulfilled,
-  AuthExpiredInterceptor.Response.onRejected
-);
 
 const templatesPath = '/templates';
 

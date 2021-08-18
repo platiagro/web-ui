@@ -1,16 +1,24 @@
 export const Response = {
   onFulfilled(response) {
-    console.log(response);
+    const contentType = response?.headers?.['content-type'] || '';
+    const isContentTypeHTML = contentType.includes('text/html');
+
+    const responseURL = response?.request?.responseURL || '';
+    const isResponseURLTheDexAuth = responseURL.includes('/dex/auth');
+
+    if (isContentTypeHTML || isResponseURLTheDexAuth) {
+      const newLocation = isResponseURLTheDexAuth ? responseURL : '/';
+      window.location.assign(newLocation);
+      return;
+    }
+
     return response;
   },
 
   onRejected(error) {
-    console.log(error, error?.response);
     const newLocation = error?.response?.data?.location;
 
     if (newLocation) {
-      // Redirect to the base route. This will show the login page to the user
-      // window.location.assign saves the new route in the browser history
       window.location.assign(newLocation);
       return;
     }

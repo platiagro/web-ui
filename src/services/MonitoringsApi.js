@@ -1,15 +1,8 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
-import { AuthExpiredInterceptor } from './interceptors';
-
-const monitoringsApi = axios.create({
+const monitoringsApi = createAxiosInstance({
   baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080',
 });
-
-monitoringsApi.interceptors.response.use(
-  AuthExpiredInterceptor.Response.onFulfilled,
-  AuthExpiredInterceptor.Response.onRejected
-);
 
 const getBaseUrl = (projectId, deploymentId) => {
   return `projects/${projectId}/deployments/${deploymentId}/monitorings`;
