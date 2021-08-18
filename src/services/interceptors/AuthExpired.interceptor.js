@@ -6,9 +6,8 @@ export const Response = {
     const responseURL = response?.request?.responseURL || '';
     const isResponseURLTheDexAuth = responseURL.includes('/dex/auth');
 
-    if (isContentTypeHTML || isResponseURLTheDexAuth) {
-      const newLocation = isResponseURLTheDexAuth ? responseURL : '/';
-      window.location.assign(newLocation);
+    if (isContentTypeHTML && isResponseURLTheDexAuth) {
+      window.location.assign('/');
       return;
     }
 
