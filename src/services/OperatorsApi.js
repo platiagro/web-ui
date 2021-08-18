@@ -9,8 +9,8 @@ const operatorsApi = axios.create({
 });
 
 operatorsApi.interceptors.response.use(
-  undefined,
-  AuthExpiredInterceptor.response.onRejected
+  AuthExpiredInterceptor.Response.onFulfilled,
+  AuthExpiredInterceptor.Response.onRejected
 );
 
 const experimentsPath = '/experiments';

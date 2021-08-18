@@ -9,8 +9,8 @@ const experimentRunsApi = axios.create({
 });
 
 experimentRunsApi.interceptors.response.use(
-  undefined,
-  AuthExpiredInterceptor.response.onRejected
+  AuthExpiredInterceptor.Response.onFulfilled,
+  AuthExpiredInterceptor.Response.onRejected
 );
 
 const experimentsPath = 'experiments';

@@ -9,8 +9,8 @@ const jupyterLabApi = axios.create({
 });
 
 jupyterLabApi.interceptors.response.use(
-  undefined,
-  AuthExpiredInterceptor.response.onRejected
+  AuthExpiredInterceptor.Response.onFulfilled,
+  AuthExpiredInterceptor.Response.onRejected
 );
 
 const healthCheckPath = '/api';

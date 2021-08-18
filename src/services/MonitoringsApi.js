@@ -7,8 +7,8 @@ const monitoringsApi = axios.create({
 });
 
 monitoringsApi.interceptors.response.use(
-  undefined,
-  AuthExpiredInterceptor.response.onRejected
+  AuthExpiredInterceptor.Response.onFulfilled,
+  AuthExpiredInterceptor.Response.onRejected
 );
 
 const getBaseUrl = (projectId, deploymentId) => {

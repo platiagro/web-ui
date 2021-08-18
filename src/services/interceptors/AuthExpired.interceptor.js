@@ -1,5 +1,11 @@
-export const response = {
+export const Response = {
+  onFulfilled(response) {
+    console.log(response);
+    return response;
+  },
+
   onRejected(error) {
+    console.log(error, error?.response);
     const newLocation = error?.response?.data?.location;
 
     if (newLocation) {

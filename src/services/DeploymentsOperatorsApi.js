@@ -9,8 +9,8 @@ const deploymentsOperatorsApi = axios.create({
 });
 
 deploymentsOperatorsApi.interceptors.response.use(
-  undefined,
-  AuthExpiredInterceptor.response.onRejected
+  AuthExpiredInterceptor.Response.onFulfilled,
+  AuthExpiredInterceptor.Response.onRejected
 );
 
 const deploymentsPath = 'deployments';

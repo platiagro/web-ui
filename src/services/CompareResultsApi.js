@@ -9,8 +9,8 @@ const comparisonsApi = axios.create({
 });
 
 comparisonsApi.interceptors.response.use(
-  undefined,
-  AuthExpiredInterceptor.response.onRejected
+  AuthExpiredInterceptor.Response.onFulfilled,
+  AuthExpiredInterceptor.Response.onRejected
 );
 
 const comparisonsPath = '/comparisons';

@@ -4,8 +4,8 @@ import { AuthExpiredInterceptor } from '../interceptors';
 describe('CompareResultsApi', () => {
   it('should have the AuthExpired interceptor attached to the instance', () => {
     const interceptor = {
-      fulfilled: undefined,
-      rejected: AuthExpiredInterceptor.response.onRejected,
+      fulfilled: AuthExpiredInterceptor.Response.onFulfilled,
+      rejected: AuthExpiredInterceptor.Response.onRejected,
     };
 
     expect(

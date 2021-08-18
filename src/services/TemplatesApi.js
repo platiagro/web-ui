@@ -15,8 +15,8 @@ const templatesApi = axios.create({
 });
 
 templatesApi.interceptors.response.use(
-  undefined,
-  AuthExpiredInterceptor.response.onRejected
+  AuthExpiredInterceptor.Response.onFulfilled,
+  AuthExpiredInterceptor.Response.onRejected
 );
 
 const templatesPath = '/templates';
