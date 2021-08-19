@@ -8,7 +8,7 @@ export const Response = {
 
     if (isContentTypeHTML && isResponseURLTheDexAuth) {
       window.location.assign('/');
-      return;
+      return Promise.reject(new Error('Redirecionando para o login...'));
     }
 
     return response;
