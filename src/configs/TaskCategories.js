@@ -27,6 +27,10 @@ const TASK_CATEGORIES = {
     key: 'NLP',
     name: 'Texto e Linguagem',
   },
+  MONITORING: {
+    key: 'MONITORING',
+    name: 'Monitoramento',
+  },
   TEMPLATES: {
     key: 'TEMPLATES',
     name: 'Templates',
