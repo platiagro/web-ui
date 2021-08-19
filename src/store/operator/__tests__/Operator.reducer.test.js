@@ -24,7 +24,7 @@ describe('Operator Action Types', () => {
     };
 
     const newState = operatorReducer(initialState, action);
-    expect(newState.selected).toEqual({
+    expect(newState).toEqual({
       ...initialState,
       ...action.operator,
     });
@@ -77,21 +77,21 @@ describe('Operator Action Types', () => {
   it('should update dataset in the state', () => {
     const action = {
       type: OPERATOR_TYPES.GET_OPERATOR_DATASET_RESULT_SUCCESS,
-      dataset: { uuid: '1' },
+      result: { uuid: '1' },
     };
 
     const newState = operatorReducer(initialState, action);
-    expect(newState.dataset).toEqual(action.dataset);
+    expect(newState.dataset).toEqual(action.result);
   });
 
   it('should update figures in the state', () => {
     const action = {
       type: OPERATOR_TYPES.GET_OPERATOR_FIGURES_SUCCESS,
-      figures: [{ uuid: '1' }],
+      results: [{ uuid: '1' }],
     };
 
     const newState = operatorReducer(initialState, action);
-    expect(newState.figures).toEqual(action.figures);
+    expect(newState.figures).toEqual(action.results);
   });
 
   it('should update metrics in the state', () => {
@@ -147,7 +147,7 @@ describe('Operator Action Types', () => {
       { ...initialState, metrics: { uuid: '1' } },
       action
     );
-    expect(newState.metrics).toEqual(initialState.metrics);
+    expect(newState.metrics).toEqual([]);
   });
 
   it('should clear logs in the state', () => {
