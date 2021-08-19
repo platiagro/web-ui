@@ -36,6 +36,7 @@ import {
   formatResultsParameters,
   transformResults,
   downloadExperimentRunResult,
+  formatTensorValues,
 } from './Results.utils';
 
 import {
@@ -82,6 +83,7 @@ export default {
   formatResultsParameters,
   transformResults,
   downloadExperimentRunResult,
+  formatTensorValues,
 
   configureOperatorParameters,
   checkOperatorSettedUp,

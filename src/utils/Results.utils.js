@@ -103,3 +103,24 @@ export const downloadExperimentRunResult = ({
 
   window.open(urlParts.join('/'), '_blank');
 };
+
+/**
+ * Format tensor values with a given shape
+ *
+ * @param {Array} values array of values
+ * @param {Array} shape has this format: [numberOfRows, numberOfColumns]
+ * @returns {Array} formatted values or empty array
+ */
+export const formatTensorValues = (values, shape) => {
+  if (shape?.length === 2 && values?.length > 0) {
+    const [numberOfRows, numberOfColumns] = shape;
+    return new Array(numberOfRows).fill([]).map((_, rowIndex) => {
+      return values.slice(
+        rowIndex * numberOfColumns,
+        (rowIndex + 1) * numberOfColumns
+      );
+    });
+  }
+
+  return values || [];
+};
