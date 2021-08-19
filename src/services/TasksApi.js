@@ -1,6 +1,6 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
-export const taskApi = axios.create({
+const taskApi = createAxiosInstance({
   baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080',
 });
 

@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const projectsApi = axios.create({
+const deploymentRunsApi = createAxiosInstance({
   baseURL: `${URL}/projects/`,
 });
 
@@ -17,7 +17,7 @@ const runsPath = 'runs';
  * @returns {Promise} Request Promise
  */
 const listDeploymentRuns = (projectId, deploymentId) => {
-  return projectsApi.get(
+  return deploymentRunsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`
   );
 };
@@ -31,7 +31,7 @@ const listDeploymentRuns = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const fetchDeploymentRun = (projectId, deploymentId, runId) => {
-  return projectsApi.get(
+  return deploymentRunsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}`
   );
 };
@@ -44,7 +44,7 @@ const fetchDeploymentRun = (projectId, deploymentId, runId) => {
  * @returns {Promise} Request Promise
  */
 const createDeploymentRun = (projectId, deploymentId) => {
-  return projectsApi.post(
+  return deploymentRunsApi.post(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}`
   );
 };
@@ -58,7 +58,7 @@ const createDeploymentRun = (projectId, deploymentId) => {
  * @returns {Promise} Request Promise
  */
 const deleteDeploymentRun = (projectId, deploymentId, runId) => {
-  return projectsApi.delete(
+  return deploymentRunsApi.delete(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}`
   );
 };
@@ -72,7 +72,7 @@ const deleteDeploymentRun = (projectId, deploymentId, runId) => {
  * @returns {Promise} Request Promise
  */
 const fetchDeploymentRunLogs = (projectId, deploymentId, runId) => {
-  return projectsApi.get(
+  return deploymentRunsApi.get(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}/logs`
   );
 };
@@ -86,7 +86,7 @@ const fetchDeploymentRunLogs = (projectId, deploymentId, runId) => {
  * @returns {Promise} Request Promise
  */
 const retryDeploymentRun = (projectId, deploymentId, runId) => {
-  return projectsApi.put(
+  return deploymentRunsApi.put(
     `${projectId}/${deploymentsPath}/${deploymentId}/${runsPath}/${runId}/retry`
   );
 };
@@ -98,5 +98,5 @@ export default {
   fetchDeploymentRunLogs,
   listDeploymentRuns,
   retryDeploymentRun,
-  axiosInstance: projectsApi,
+  axiosInstance: deploymentRunsApi,
 };

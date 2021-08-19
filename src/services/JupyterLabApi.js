@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
-export const URL = process.env.REACT_APP_JUPYTER_API || 'http://localhost:8080';
+const URL = process.env.REACT_APP_JUPYTER_API || 'http://localhost:8080';
 
-export const jupyterLabApi = axios.create({
+const jupyterLabApi = createAxiosInstance({
   baseURL: URL,
 });
 
@@ -19,4 +19,5 @@ const healthCheck = () => {
 
 export default {
   healthCheck,
+  axiosInstance: jupyterLabApi,
 };

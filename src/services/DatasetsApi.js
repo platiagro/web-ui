@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_DATASET_API || 'http://localhost:8080';
 
-const datasetsApi = axios.create({
+const datasetsApi = createAxiosInstance({
   baseURL: URL,
 });
 
@@ -97,4 +97,5 @@ export default {
   getDataset,
   getDatasetFeaturetypes,
   createDataset,
+  axiosInstance: datasetsApi,
 };

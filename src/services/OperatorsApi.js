@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const operatorsApi = axios.create({
+const operatorsApi = createAxiosInstance({
   baseURL: `${URL}/projects`,
 });
 
@@ -97,4 +97,5 @@ export default {
   deleteOperator,
   updateOperator,
   updateOperatorParameter,
+  axiosInstance: operatorsApi,
 };

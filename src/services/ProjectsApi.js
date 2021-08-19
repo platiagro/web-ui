@@ -4,11 +4,11 @@
 
 /* API REFERENCE: https://platiagro.github.io/projects/#/Projects */
 
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const projectsApi = axios.create({
+const projectsApi = createAxiosInstance({
   baseURL: URL,
 });
 
@@ -75,4 +75,5 @@ export default {
   updateProject,
   deleteProjects,
   fetchPaginatedProjects,
+  axiosInstance: projectsApi,
 };
