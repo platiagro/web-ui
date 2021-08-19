@@ -16,36 +16,26 @@ describe('Operator Action', () => {
   );
 
   beforeEach(() => {
+    store.clearActions();
     experimentRunsMockAxios.reset();
-    jest.clearAllMocks();
   });
 
-  const fakeOperator = {
-    uuid: '1',
-    name: 'Operator 1',
-  };
+  const fakeOperatorLogs = { traceback: [{ uuid: '1' }, { uuid: '2' }] };
 
-  it('should run the get operator logs async action correctly', async () => {
-    const successCallbackMock = jest.fn();
-    experimentRunsMockAxios.onPost().reply(200, fakeOperator);
-    await store.dispatch(getOperatorLogs(fakeOperator, successCallbackMock));
+  it('should create an async action to get operator logs', async () => {
+    experimentRunsMockAxios.onGet().reply(200, fakeOperatorLogs);
+
+    await store.dispatch(
+      getOperatorLogs('projectId', 'experimentId', 'operatorId')
+    );
+
     const actions = store.getActions();
 
-    expect(successCallbackMock).toBeCalledWith(fakeOperator);
-
-    expect(actions).toEqual({
-      type: OPERATOR_TYPES.GET_OPERATOR_LOGS_SUCCESS,
-      logs: fakeOperator,
-    });
-  });
-
-  it('should handle errors in the task creation async action', async () => {
-    experimentRunsMockAxios.onPost().reply(500, { message: 'Error Message' });
-    await store.dispatch(getOperatorLogs(fakeOperator));
-    const actions = store.getActions();
-
-    expect(actions).toEqual({
-      type: OPERATOR_TYPES.GET_OPERATOR_LOGS_FAIL,
-    });
+    expect(actions).toEqual([
+      {
+        type: OPERATOR_TYPES.GET_OPERATOR_LOGS_SUCCESS,
+        logs: fakeOperatorLogs.traceback,
+      },
+    ]);
   });
 });

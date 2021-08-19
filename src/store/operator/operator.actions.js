@@ -114,8 +114,8 @@ export const getLogsFail = (error) => (dispatch) => {
  */
 
 export const getOperatorLogs =
-  (projectId, experimentId, operatorId) => async (dispatch) => {
-    experimentRunsApi
+  (projectId, experimentId, operatorId) => (dispatch) => {
+    return experimentRunsApi
       .fetchOperatorLogs(projectId, experimentId, 'latest', operatorId)
       .then((res) => {
         dispatch(getLogsSuccess(res));
