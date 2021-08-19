@@ -105,7 +105,7 @@ export const toRawText = (seldonObject) => {
     return columns + '\n' + ndarray.join('\n');
   } else if (names && tensor) {
     const columns = names.join(',');
-    const formattedValues = formatTensorValues(tensor.values);
+    const formattedValues = formatTensorValues(tensor.values, tensor.shape);
     return columns + '\n' + formattedValues.join('\n');
   } else if (binData) {
     return binData;
