@@ -83,7 +83,7 @@ export const downloadOperatorResultDataset =
  * @param {object} response Response from API
  * @returns {object} { type }
  */
-const getLogsSuccess = (response) => (dispatch) => {
+export const getLogsSuccess = (response) => (dispatch) => {
   const logs = response.data;
 
   dispatch({
@@ -98,7 +98,7 @@ const getLogsSuccess = (response) => (dispatch) => {
  * @param {object} error Error from API
  * @returns {object} { type }
  */
-const getLogsFail = (error) => (dispatch) => {
+export const getLogsFail = (error) => (dispatch) => {
   dispatch({
     type: OPERATOR_TYPES.GET_OPERATOR_LOGS_FAIL,
     logs: error.response.data.message,
@@ -329,7 +329,7 @@ export const deselectOperator = () => (dispatch) => {
  * @param {object} error Error from API
  * @returns {object} { type, errorMessage }
  */
-const createOperatorFail = (error) => (dispatch) => {
+export const createOperatorFail = (error) => (dispatch) => {
   // dispatching experiment operators data loaded action
   dispatch(removeLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST));
 
@@ -508,7 +508,7 @@ export const removeOperatorRequest =
  * @param {object} operator Operator Object
  * @returns {object} { type, operator }
  */
-const updateOperatorSuccess = (operator) => (dispatch, getState) => {
+export const updateOperatorSuccess = (operator) => (dispatch, getState) => {
   const { operatorsReducer } = getState();
 
   let mappedOperators = [...operatorsReducer];
@@ -531,7 +531,7 @@ const updateOperatorSuccess = (operator) => (dispatch, getState) => {
  * @param {object} error Error from API
  * @returns {object} { type, errorMessage }
  */
-const updateOperatorFail = (error) => (dispatch) => {
+export const updateOperatorFail = (error) => (dispatch) => {
   // dispatching set operator params fail
   dispatch({
     type: OPERATOR_TYPES.UPDATE_OPERATOR_FAIL,
