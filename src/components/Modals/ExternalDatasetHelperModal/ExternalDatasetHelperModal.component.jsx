@@ -14,8 +14,6 @@ const ExternalDatasetHelperModal = ({
   disabled,
   exampleBody,
 }) => {
-  const disabledButton = !url;
-
   return (
     <Modal
       title={<strong>Como usar uma aplicação como fonte de dados</strong>}
@@ -44,7 +42,6 @@ const ExternalDatasetHelperModal = ({
                 type='primary-inverse'
                 icon={<CopyOutlined />}
                 shape='round'
-                disabled={disabledButton}
               >
                 Copiar URL
               </Button>
@@ -92,8 +89,10 @@ ExternalDatasetHelperModal.defaultProps = {
     "data": {
           "ndarray": [
               [...]
-          ]
-    }
+          ],
+          "names": [...]
+    },
+    "meta": {}
   }`,
   disabled: true,
 };
