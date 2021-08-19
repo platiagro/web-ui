@@ -31,7 +31,7 @@ const DeploymentTestResultModalContent = ({
     }
     return null;
   }, [
-    testResult.ndarray,
+    testResult?.ndarray,
     testResult?.tensor?.shape,
     testResult?.tensor?.values,
   ]);
