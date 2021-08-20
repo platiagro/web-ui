@@ -50,7 +50,7 @@ export const downloadOperatorResultDataset =
       type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
     });
 
-    experimentRunsApi
+    return experimentRunsApi
       .listOperatorDatasets(
         projectId,
         experimentId,
@@ -68,6 +68,9 @@ export const downloadOperatorResultDataset =
       })
       .catch((error) => {
         dispatch(showError(error.message));
+        dispatch({
+          type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_FAIL,
+        });
       })
       .finally(() => {
         dispatch(
