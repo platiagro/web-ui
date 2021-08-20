@@ -19,7 +19,7 @@ export const deploymentsUrlSelector =
   (currentDeploymentId) =>
   ({ deploymentsReducer }) => {
     return deploymentsReducer.find(({ uuid }) => uuid === currentDeploymentId)
-      ?.url;
+      ?.url || `${window.location.origin.toString()}/seldon/anonymous/${currentDeploymentId}/api/v1.0/predictions`;
   };
 
 const PropertiesResizableContainer = () => {

@@ -20,8 +20,6 @@ const ExternalDatasetDrawer = (props) => {
 
   const [datasetType, setDatasetType] = useState('L');
 
-  const disabledButton = !urlText;
-
   const handleChange = (value) => {
     setDatasetType(value);
   };
@@ -54,7 +52,6 @@ const ExternalDatasetDrawer = (props) => {
               type='secondary'
               icon={<CopyOutlined />}
               shape='round'
-              disabled={disabledButton}
             >
               Copiar URL
             </Button>
