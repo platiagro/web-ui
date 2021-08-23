@@ -4,7 +4,7 @@
 import * as OPERATOR_TYPES from './operator.actionTypes';
 
 /** @type {OperatorStore} */
-const initialState = {
+export const initialState = {
   icon: '',
   name: '',
   position: 0,
