@@ -17,7 +17,7 @@ export const Response = {
       window.location.assign('/');
 
       // Make the request never ends. Never run the catch block around the request
-      return new Promise(() => {});
+      return new Promise(() => null);
     }
 
     return response;
