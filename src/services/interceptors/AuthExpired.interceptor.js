@@ -27,6 +27,11 @@ export const Response = {
     const newLocation = error?.response?.data?.location;
 
     if (newLocation) {
+      message.loading({
+        key: 'RedirectingToLocation',
+        content: 'Redirecionando...',
+      });
+
       window.location.assign(newLocation);
       return;
     }
