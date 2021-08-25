@@ -17,7 +17,7 @@ describe('Results utils', () => {
 
   it('should format the date of a result', () => {
     const date = new Date(1629477399451);
-    expect(formatCompareResultDate(date)).toBe('20 de agosto , 13:36');
+    expect(formatCompareResultDate(date, 'pt-BR')).toBe('20 de agosto , 13:36');
   });
 
   it('should format the parameters of a result', () => {

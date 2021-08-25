@@ -17,9 +17,10 @@ export const transformResults = (operatorId, results) => {
  * Format results parameters to use label from parameter and value from training
  *
  * @param {Date} date compare results date
+ * @param {string} locale compare results date locale
  * @returns {string} formatted compare results date
  */
-export const formatCompareResultDate = (date) => {
+export const formatCompareResultDate = (date, locale) => {
   const options = {
     day: 'numeric',
     month: 'long',
@@ -27,7 +28,7 @@ export const formatCompareResultDate = (date) => {
     minute: '2-digit',
   };
 
-  const formatDate = new Date(date).toLocaleDateString(undefined, options);
+  const formatDate = new Date(date).toLocaleDateString(locale, options);
   const rest = formatDate.substring(0, formatDate.lastIndexOf(' ') + 1);
   const last = formatDate.substring(
     formatDate.lastIndexOf(' ') + 1,
