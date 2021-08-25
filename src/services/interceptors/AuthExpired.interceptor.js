@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 export const Response = {
   onFulfilled(response) {
     const contentType = response?.headers?.['content-type'] || '';
@@ -7,8 +9,15 @@ export const Response = {
     const isResponseURLTheDexAuth = responseURL.includes('/dex/auth');
 
     if (isContentTypeHTML && isResponseURLTheDexAuth) {
+      message.loading({
+        key: 'RedirectingToLogin',
+        content: 'Redirecionando para o Login...',
+      });
+
       window.location.assign('/');
-      return Promise.reject(new Error('Redirecionando para o login...'));
+
+      // Make the request never ends. Never run the catch block around the request
+      return new Promise(() => {});
     }
 
     return response;

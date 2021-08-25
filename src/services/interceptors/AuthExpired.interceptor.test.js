@@ -25,7 +25,7 @@ describe('AuthExpired interceptor', () => {
       request: { responseURL: 'http://.../dex/auth/local' },
     };
     const returnedData = AuthExpiredInterceptor.Response.onFulfilled(response);
-    await expect(returnedData).rejects.toBeInstanceOf(Error);
+    await expect(returnedData).toBeInstanceOf(Promise);
     expect(window.location.assign).toBeCalledWith('/');
   });
 
