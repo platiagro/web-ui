@@ -15,14 +15,14 @@
 </div>
 
 <script>
-  const redirectToOrigin = function () {
+  function redirectToOrigin() {
     window.location.assign(window.location.origin);
-  };
+  }
 
-  const hasAuthCookie = document.cookie.includes("authservice_session");
+  var hasAuthCookie = document.cookie.includes('authservice_session');
   if (hasAuthCookie) redirectToOrigin();
 
-  document.querySelector("#back").addEventListener("click", redirectToOrigin);
+  document.getElementById('back').addEventListener('click', redirectToOrigin);
 </script>
 
 {{ template "footer.html" . }}
