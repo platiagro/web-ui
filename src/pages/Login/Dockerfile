@@ -1,4 +1,4 @@
-FROM ghcr.io/dexidp/dex:latest
+FROM ghcr.io/dexidp/dex:v2.30.0
 
 ENV DEX_FRONTEND_DIR=/srv/dex/web
 
