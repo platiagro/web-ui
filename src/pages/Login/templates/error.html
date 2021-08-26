@@ -1,0 +1,28 @@
+{{ template "header.html" . }}
+
+<div class="theme-panel">
+  <div class="theme-panel-error">
+    <h2 class="theme-heading">{{ .ErrType }}</h2>
+    <div>{{ .ErrMsg }}</div>
+
+    <button
+      id="back"
+      class="dex-btn theme-btn--primary theme-panel-error-button"
+    >
+      Back to Login
+    </button>
+  </div>
+</div>
+
+<script>
+  const redirectToOrigin = function () {
+    window.location.assign(window.location.origin);
+  };
+
+  const hasAuthCookie = document.cookie.includes("authservice_session");
+  if (hasAuthCookie) redirectToOrigin();
+
+  document.querySelector("#back").addEventListener("click", redirectToOrigin);
+</script>
+
+{{ template "footer.html" . }}
