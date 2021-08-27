@@ -6,9 +6,9 @@ import { TooltipTip } from 'components';
 
 import './PropertyBlock.component.style.less';
 
-const PropertyBlock = ({ children, status, tip, title }) => {
+const PropertyBlock = ({ className, children, status, title, tip }) => {
   return (
-    <div className='propertyBlock'>
+    <div className={`propertyBlock ${className}`}>
       {title && (
         <div className='propertyBlockHeader'>
           {status === 'Failed' && (
@@ -45,15 +45,17 @@ const PropertyBlock = ({ children, status, tip, title }) => {
 
 PropertyBlock.propTypes = {
   children: PropTypes.node.isRequired,
+  className: PropTypes.string,
   status: PropTypes.string,
-  tip: PropTypes.string,
   title: PropTypes.string,
+  tip: PropTypes.string,
 };
 
 PropertyBlock.defaultProps = {
+  className: '',
   status: undefined,
-  tip: undefined,
   title: undefined,
+  tip: undefined,
 };
 
 export default PropertyBlock;
