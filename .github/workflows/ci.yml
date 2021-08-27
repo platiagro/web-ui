@@ -108,3 +108,16 @@ jobs:
     - name: Image digest
       if: ${{ always() }}
       run: echo ${{ steps.docker_build.outputs.digest }}
+
+    - name: Build dex docker image
+      if: ${{ always() }}
+      id: dex_docker_build
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: docker.io/platiagro/dex-auth:${{ steps.vars.outputs.TAG }}
+        context: src/pages/Login
+        file: src/pages/Login/Dockerfile
+        build-args: |
+          COMMIT=${{ steps.vars.outputs.COMMIT }}
+          BRANCH=${{ steps.vars.outputs.BRANCH }}
