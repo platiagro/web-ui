@@ -1,1 +1,2 @@
-src/pages/Login
+# Disable lint for Login HTML templates
+src/pages/Login/templates/*.html
