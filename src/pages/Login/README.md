@@ -29,3 +29,10 @@ yarn dex:run
 ```
 
 And then access [http://localhost:5556/dex/auth](http://localhost:5556/dex/auth) in your favorite browser.
+
+---
+
+## :warning: Warning
+
+- The templates are cached by the browsers. When testing make sure to use `CTRL + F5` to force the browser to get all the files again each time you make a change.
+- If you remove the templates from this repo, make sure to also remove the eslint ignore rule from **.eslintignore** file in the root directory.
