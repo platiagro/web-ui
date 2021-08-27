@@ -16,7 +16,8 @@ export const Response = {
 
       window.location.assign('/');
 
-      // Make the request never ends. Never run the catch block around the request
+      // About the return statement below:
+      // Makes the request never ends, so the catch block around the request is never executed, preventing error alerts to pop up on the screen
       return new Promise(() => null);
     }
 
