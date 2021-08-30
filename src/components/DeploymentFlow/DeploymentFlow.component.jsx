@@ -3,8 +3,8 @@ import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import ReactFlow, { Background, Handle } from 'react-flow-renderer';
 
-import LoadingBox from 'components/LoadingBox';
 import { LogsButton } from 'components/Buttons';
+import { OperatorsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import Vectors, {
   nodeTypes,
   edgeTypes,
@@ -116,9 +116,7 @@ const DeploymentFlow = ({
     selectedOperatorId,
   ]);
 
-  return loading ? (
-    <LoadingBox siderColor='#FFF2E8' />
-  ) : (
+  return (
     <div className='deployment-flow' style={{ height: '100%' }}>
       <ReactFlow
         deleteKeyCode={46}
@@ -139,6 +137,15 @@ const DeploymentFlow = ({
           color={'#58585850'}
           style={{ backgroundColor: 'white' }}
         />
+
+        {!operators?.length && (
+          <OperatorsEmptyPlaceholder
+            className='deployment-flow-empty-operators'
+            placeholder='Este fluxo não possui tarefas'
+            placeholderWhenLoading='Aguarde...'
+            loading={loading}
+          />
+        )}
 
         <LogsButton
           className='deployment-flow-logs-button'
