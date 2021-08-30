@@ -17,6 +17,9 @@ const experimentLogsReducer = (state = initialState, action = {}) => {
     case actionTypes.SET_IS_LOADING_LOGS:
       return { ...state, isLoading: action.payload.isLoading };
 
+    case actionTypes.APPEND_EXPERIMENT_LOG:
+      return { ...state, logs: [...state.logs, action.payload.log] };
+
     default:
       return state;
   }

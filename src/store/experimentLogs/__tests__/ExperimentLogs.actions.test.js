@@ -10,6 +10,7 @@ import EXPERIMENT_LOGS_TYPES from '../actionTypes';
 import {
   setIsLoadingLogs,
   getExperimentLogs,
+  appendExperimentLog,
   clearAllExperimentLogs,
   getExperimentLogsFailed,
   getExperimentLogsSucceed,
@@ -28,6 +29,16 @@ describe('Experiment Logs Actions', () => {
   it('should create an action to clear all experiment logs', () => {
     expect(clearAllExperimentLogs()).toEqual({
       type: EXPERIMENT_LOGS_TYPES.CLEAR_ALL_EXPERIMENT_LOGS,
+    });
+  });
+
+  it('should create an action to append an experiment log in logs', () => {
+    const [firstFakeLog] = fakeExperimentLogs;
+    expect(appendExperimentLog(firstFakeLog)).toEqual({
+      type: EXPERIMENT_LOGS_TYPES.APPEND_EXPERIMENT_LOG,
+      payload: {
+        log: firstFakeLog,
+      },
     });
   });
 

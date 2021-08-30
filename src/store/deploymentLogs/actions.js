@@ -47,12 +47,27 @@ export const getDeployExperimentLogs =
   };
 
 /**
- * CLear all deployment logs
+ * Clear all deployment logs
  *
  * @returns {object} Action
  */
 export const clearAllDeploymentLogs = () => {
   return {
     type: actionTypes.CLEAR_ALL_DEPLOYMENT_LOGS,
+  };
+};
+
+/**
+ * Append deployment log in logs array
+ *
+ *  @param {object} log Log
+ * @returns {object} Action
+ */
+export const appendDeploymentLog = (log) => {
+  return {
+    type: actionTypes.APPEND_DEPLOYMENT_LOG,
+    payload: {
+      log,
+    },
   };
 };

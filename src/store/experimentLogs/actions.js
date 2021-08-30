@@ -78,3 +78,16 @@ export const getExperimentLogs =
 export const clearAllExperimentLogs = () => ({
   type: actionTypes.CLEAR_ALL_EXPERIMENT_LOGS,
 });
+
+/**
+ * Append a log in the experiment logs array
+ *
+ * @param {object} log Log item
+ * @returns {object} Action
+ */
+export const appendExperimentLog = (log) => ({
+  type: actionTypes.APPEND_EXPERIMENT_LOG,
+  payload: {
+    log,
+  },
+});

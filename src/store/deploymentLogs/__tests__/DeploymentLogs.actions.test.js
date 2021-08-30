@@ -6,7 +6,11 @@ import deploymentRunsApi from 'services/DeploymentRunsApi';
 import { ADD_LOADING, REMOVE_LOADING } from 'store/loading';
 
 import DEPLOYMENT_LOGS_TYPES from '../actionTypes';
-import { clearAllDeploymentLogs, getDeployExperimentLogs } from '../actions';
+import {
+  appendDeploymentLog,
+  clearAllDeploymentLogs,
+  getDeployExperimentLogs,
+} from '../actions';
 
 describe('Deployment Logs Actions', () => {
   const mockStore = configureStore([thunk]);
@@ -21,6 +25,16 @@ describe('Deployment Logs Actions', () => {
   it('should return the clear deployment logs action', () => {
     expect(clearAllDeploymentLogs()).toEqual({
       type: DEPLOYMENT_LOGS_TYPES.CLEAR_ALL_DEPLOYMENT_LOGS,
+    });
+  });
+
+  it('should create an action to append an deployment log in logs', () => {
+    const [firstFakeLog] = fakeDeploymentLogs;
+    expect(appendDeploymentLog(firstFakeLog)).toEqual({
+      type: DEPLOYMENT_LOGS_TYPES.APPEND_DEPLOYMENT_LOG,
+      payload: {
+        log: firstFakeLog,
+      },
     });
   });
 

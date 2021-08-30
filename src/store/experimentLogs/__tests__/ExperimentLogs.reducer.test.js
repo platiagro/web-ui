@@ -57,4 +57,22 @@ describe('Experiment Logs Actions', () => {
     const newState = ExperimentLogsReducer(initialState, action);
     expect(newState.isLoading).toBe(true);
   });
+
+  it('should append a log in the logs array', () => {
+    const [firstFakeLog] = fakeLogs;
+
+    const action = {
+      type: EXPERIMENT_LOGS_TYPES.APPEND_EXPERIMENT_LOG,
+      payload: {
+        log: firstFakeLog,
+      },
+    };
+
+    const newState = ExperimentLogsReducer(
+      { ...initialState, logs: [firstFakeLog] },
+      action
+    );
+
+    expect(newState.logs).toEqual([firstFakeLog, firstFakeLog]);
+  });
 });

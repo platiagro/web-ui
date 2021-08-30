@@ -10,6 +10,7 @@ import { hideLogsPanel } from 'store/ui/actions';
 import { useIsLoading, useDeepEqualSelector } from 'hooks';
 import DEPLOYMENT_LOGS_TYPES from 'store/deploymentLogs/actionTypes';
 import {
+  appendDeploymentLog,
   clearAllDeploymentLogs,
   getDeployExperimentLogs,
 } from 'store/deploymentLogs/actions';
@@ -72,7 +73,7 @@ const DeploymentLogsPanelContainer = () => {
     );
 
     const handleMessages = (e) => {
-      console.log(e.data);
+      dispatch(appendDeploymentLog(e.data));
     };
 
     eventSource.addEventListener('message', handleMessages);
@@ -81,7 +82,7 @@ const DeploymentLogsPanelContainer = () => {
       eventSource.removeEventListener('message', handleMessages);
       eventSource.close();
     };
-  }, [deploymentId, projectId]);
+  }, [deploymentId, dispatch, projectId]);
 
   // Hide panel and clear logs when unmount logs panel
   useEffect(() => {

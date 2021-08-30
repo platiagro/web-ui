@@ -15,6 +15,10 @@ const deploymentLogsReducer = (state = initialState, action = undefined) => {
       return { ...state, logs: [] };
     }
 
+    case actionTypes.APPEND_DEPLOYMENT_LOG: {
+      return { ...state, logs: [...state.logs, action.payload.log] };
+    }
+
     default:
       return state;
   }

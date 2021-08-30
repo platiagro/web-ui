@@ -11,14 +11,7 @@ describe('DeploymentLogsEventSource', () => {
   });
 
   it('should contain the project ID and deployment ID in the URL', () => {
-    const { isOpen, isClosed, isConnecting } = createDeploymentLogsEventSource(
-      'projectId',
-      'deploymentId'
-    );
-
+    createDeploymentLogsEventSource('projectId', 'deploymentId');
     expect(window.EventSource).toBeCalledTimes(1);
-    expect(typeof isOpen).toBe('function');
-    expect(typeof isClosed).toBe('function');
-    expect(typeof isConnecting).toBe('function');
   });
 });

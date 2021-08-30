@@ -9,8 +9,9 @@ import LogsModal from 'components/LogsModal';
 import { hideLogsPanel } from 'store/ui/actions';
 import { useDeepEqualSelector } from 'hooks';
 import {
-  clearAllExperimentLogs,
   getExperimentLogs,
+  appendExperimentLog,
+  clearAllExperimentLogs,
 } from 'store/experimentLogs/actions';
 import { createExperimentLogsEventSource } from 'services/ExperimentLogsEventSource';
 
@@ -74,7 +75,7 @@ const ExperimentLogsPanelContainer = () => {
     );
 
     const handleMessages = (e) => {
-      console.log(e.data);
+      dispatch(appendExperimentLog(e.data));
     };
 
     eventSource.addEventListener('message', handleMessages);
@@ -83,7 +84,7 @@ const ExperimentLogsPanelContainer = () => {
       eventSource.removeEventListener('message', handleMessages);
       eventSource.close();
     };
-  }, [experimentId, projectId]);
+  }, [dispatch, experimentId, projectId]);
 
   // Hide panel and clear logs when unmount logs panel
   useEffect(() => {

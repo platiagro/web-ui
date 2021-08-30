@@ -40,4 +40,22 @@ describe('Deployment Logs Reducer', () => {
     const newState = DeploymentLogsReducer(initialState, action);
     expect(newState).toEqual(initialState);
   });
+
+  it('should append a deployment log into logs array', () => {
+    const [firstFakeLog] = fakeDeploymentLogs;
+
+    const action = {
+      type: DEPLOYMENT_LOGS_TYPES.APPEND_DEPLOYMENT_LOG,
+      payload: {
+        log: firstFakeLog,
+      },
+    };
+
+    const newState = DeploymentLogsReducer(
+      { ...initialState, logs: [firstFakeLog] },
+      action
+    );
+
+    expect(newState.logs).toEqual([firstFakeLog, firstFakeLog]);
+  });
 });

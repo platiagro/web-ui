@@ -11,14 +11,7 @@ describe('ExperimentLogsEventSource', () => {
   });
 
   it('should contain the project ID and experiment ID in the URL', () => {
-    const { isOpen, isClosed, isConnecting } = createExperimentLogsEventSource(
-      'projectId',
-      'experimentId'
-    );
-
+    createExperimentLogsEventSource('projectId', 'experimentId');
     expect(window.EventSource).toBeCalledTimes(1);
-    expect(typeof isOpen).toBe('function');
-    expect(typeof isClosed).toBe('function');
-    expect(typeof isConnecting).toBe('function');
   });
 });

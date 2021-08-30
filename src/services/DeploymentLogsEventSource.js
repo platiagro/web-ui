@@ -1,19 +1,12 @@
 export const createDeploymentLogsEventSource = (projectId, deploymentId) => {
+  const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
+
   const eventSource = new EventSource(
-    `${process.env.REACT_APP_PROJECTS_API}/projects/${projectId}/deployments/${deploymentId}/logs/eventsource`
+    `${URL}/projects/${projectId}/deployments/${deploymentId}/logs/eventsource`
   );
 
   return {
     eventSource,
-    isOpen: () => {
-      return eventSource.readyState === EventSource.OPEN;
-    },
-    isClosed: () => {
-      return eventSource.readyState === EventSource.CLOSED;
-    },
-    isConnecting: () => {
-      return eventSource.readyState === EventSource.CONNECTING;
-    },
   };
 };
 
