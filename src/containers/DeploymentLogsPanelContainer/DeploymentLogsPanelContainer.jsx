@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
@@ -13,6 +13,7 @@ import {
   clearAllDeploymentLogs,
   getDeployExperimentLogs,
 } from 'store/deploymentLogs/actions';
+import { createDeploymentLogsEventSource } from 'services/DeploymentLogsEventSource';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
@@ -57,39 +58,38 @@ const DeploymentLogsPanelContainer = () => {
     setIsShowingModal(false);
   };
 
-  const handleFetchLogs = useCallback(
-    (shouldShowLoading = true) => {
-      if (!projectId || !deploymentId) return;
-      dispatch(
-        getDeployExperimentLogs(
-          projectId,
-          deploymentId,
-          false,
-          shouldShowLoading
-        )
-      );
-    },
-    [dispatch, deploymentId, projectId]
-  );
-
+  // Fetch logs when render the logs panel
   useEffect(() => {
-    handleFetchLogs(true);
-  }, [handleFetchLogs]);
+    if (!projectId || !deploymentId) return;
+    dispatch(getDeployExperimentLogs(projectId, deploymentId, false, true));
+  }, [deploymentId, dispatch, projectId]);
 
+  // Open the EventSource connection and listen messages
+  useEffect(() => {
+    const { eventSource } = createDeploymentLogsEventSource(
+      projectId,
+      deploymentId
+    );
+
+    const handleMessages = (e) => {
+      console.log(e.data);
+    };
+
+    eventSource.addEventListener('message', handleMessages);
+
+    return () => {
+      eventSource.removeEventListener('message', handleMessages);
+      eventSource.close();
+    };
+  }, [deploymentId, projectId]);
+
+  // Hide panel and clear logs when unmount logs panel
   useEffect(() => {
     return () => {
       dispatch(hideLogsPanel());
       dispatch(clearAllDeploymentLogs());
     };
   }, [dispatch]);
-
-  useEffect(() => {
-    const polling = setInterval(() => {
-      handleFetchLogs(false);
-    }, 5000);
-
-    return () => clearInterval(polling);
-  }, [handleFetchLogs]);
 
   return (
     <>

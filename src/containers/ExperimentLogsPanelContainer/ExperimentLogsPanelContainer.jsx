@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import {
   clearAllExperimentLogs,
   getExperimentLogs,
 } from 'store/experimentLogs/actions';
+import { createExperimentLogsEventSource } from 'services/ExperimentLogsEventSource';
 
 const isShowingLogsPanelSelector = ({ uiReducer }) => {
   return uiReducer.logsPanel.isShowing;
@@ -59,24 +60,32 @@ const ExperimentLogsPanelContainer = () => {
     setIsShowingModal(false);
   };
 
-  const handleFetchLogs = useCallback(
-    (shouldShowLoading = true) => {
-      if (!projectId || !experimentId) return;
-      dispatch(getExperimentLogs(projectId, experimentId, shouldShowLoading));
-    },
-    [dispatch, experimentId, projectId]
-  );
-
-  useEffect(handleFetchLogs, [handleFetchLogs]);
-
+  // Fetch logs when render the logs panel
   useEffect(() => {
-    const polling = setInterval(() => {
-      handleFetchLogs(false);
-    }, 5000);
+    if (!projectId || !experimentId) return;
+    dispatch(getExperimentLogs(projectId, experimentId, true));
+  }, [dispatch, experimentId, projectId]);
 
-    return () => clearInterval(polling);
-  }, [handleFetchLogs]);
+  // Open the EventSource connection and listen messages
+  useEffect(() => {
+    const { eventSource } = createExperimentLogsEventSource(
+      projectId,
+      experimentId
+    );
 
+    const handleMessages = (e) => {
+      console.log(e.data);
+    };
+
+    eventSource.addEventListener('message', handleMessages);
+
+    return () => {
+      eventSource.removeEventListener('message', handleMessages);
+      eventSource.close();
+    };
+  }, [experimentId, projectId]);
+
+  // Hide panel and clear logs when unmount logs panel
   useEffect(() => {
     return () => {
       dispatch(hideLogsPanel());
