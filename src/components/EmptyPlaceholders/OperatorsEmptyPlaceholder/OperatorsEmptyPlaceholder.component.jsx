@@ -20,8 +20,9 @@ const OperatorsEmptyPlaceholder = ({
 
       <img
         className={animationClass}
+        draggable={false}
         src={OperatorsEmpty}
-        alt='empty operators diagram'
+        alt='Operators Placeholder'
       />
     </div>
   );

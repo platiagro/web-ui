@@ -116,8 +116,16 @@ const DeploymentFlow = ({
     selectedOperatorId,
   ]);
 
-  return (
-    <div className='deployment-flow' style={{ height: '100%' }}>
+  return loading ? (
+    <div className='deployment-flow'>
+      <OperatorsEmptyPlaceholder
+        className='deployment-flow-empty-operators'
+        placeholderWhenLoading='Aguarde...'
+        loading
+      />
+    </div>
+  ) : (
+    <div className='deployment-flow'>
       <ReactFlow
         deleteKeyCode={46}
         edgeTypes={edgeTypes}
@@ -141,9 +149,7 @@ const DeploymentFlow = ({
         {!operators?.length && (
           <OperatorsEmptyPlaceholder
             className='deployment-flow-empty-operators'
-            placeholder='Este fluxo não possui tarefas'
-            placeholderWhenLoading='Aguarde...'
-            loading={loading}
+            placeholder='Crie um fluxo de pré-implantação para visualizar aqui'
           />
         )}
 
