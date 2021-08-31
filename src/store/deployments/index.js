@@ -1,5 +1,6 @@
-import Actions from './actions';
-import ActionTypes from './actionTypes';
-import deploymentReducer from './deploymentsReducer';
+import * as DEPLOYMENTS_TYPES from './deployments.actionTypes';
+export { DEPLOYMENTS_TYPES };
 
-export { deploymentReducer, Actions, ActionTypes };
+export * from './deployments.actions';
+export * from './deployments.reducer';
+export * from './deployments.selectors';

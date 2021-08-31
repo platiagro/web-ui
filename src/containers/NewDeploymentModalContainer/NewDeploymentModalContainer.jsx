@@ -4,9 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
 import { hideNewDeploymentModal } from 'store/ui/actions';
-import DEPLOYMENTS_TYPES from 'store/deployments/actionTypes';
 import { getTemplates } from 'store/templates/templates.selectors';
-import { createDeploymentRequest } from 'store/deployments/actions';
+import { DEPLOYMENTS_TYPES, createDeploymentRequest } from 'store/deployments';
 import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
 import { fetchTemplatesRequest } from 'store/templates/templates.actions';
 import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';

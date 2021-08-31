@@ -1,16 +1,13 @@
-// ACTION TYPES
-import actionTypes from './actionTypes';
-
-// SERVICE
+import { showError, showSuccess } from 'store/message';
 import deploymentsApi from 'services/DeploymentsApi';
+import { addLoading, removeLoading } from 'store/loading';
 
-// UI ACTIONS
+import * as DEPLOYMENTS_TYPES from './deployments.actionTypes';
+
 import {
   hidePrepareDeploymentsModal,
   hideNewDeploymentModal,
 } from 'store/ui/actions';
-import { addLoading, removeLoading } from 'store/loading';
-import { showError, showSuccess } from 'store/message';
 
 const ALREADY_EXIST_MESSAGE = 'Já existe uma pré-implantação com este nome!';
 const AT_LEAST_ONE_OPERATOR_MESSAGE =
@@ -30,7 +27,7 @@ const AT_LEAST_ONE_OPERATOR_MESSAGE_THAN_DATA =
 const fetchDeploymentsSuccess = (response, successCallback) => (dispatch) => {
   // dispatching fetch deployments success action
   dispatch({
-    type: actionTypes.FETCH_DEPLOYMENTS_SUCCESS,
+    type: DEPLOYMENTS_TYPES.FETCH_DEPLOYMENTS_SUCCESS,
     deployments: response.data.deployments,
   });
 
@@ -49,7 +46,7 @@ const fetchDeploymentsFail = (error) => (dispatch) => {
 
   // dispatching fetch experiments fail action
   dispatch({
-    type: actionTypes.FETCH_DEPLOYMENTS_FAIL,
+    type: DEPLOYMENTS_TYPES.FETCH_DEPLOYMENTS_FAIL,
     errorMessage,
   });
 };
@@ -66,7 +63,7 @@ export const fetchDeploymentsRequest =
   (projectId, isToShowLoader, successCallback) => (dispatch) => {
     if (isToShowLoader) {
       dispatch(clearAllDeployments());
-      dispatch(addLoading(actionTypes.FETCH_DEPLOYMENTS_REQUEST));
+      dispatch(addLoading(DEPLOYMENTS_TYPES.FETCH_DEPLOYMENTS_REQUEST));
     }
 
     // fetching deployments
@@ -77,7 +74,7 @@ export const fetchDeploymentsRequest =
       )
       .catch((error) => dispatch(fetchDeploymentsFail(error)))
       .finally(() => {
-        dispatch(removeLoading(actionTypes.FETCH_DEPLOYMENTS_REQUEST));
+        dispatch(removeLoading(DEPLOYMENTS_TYPES.FETCH_DEPLOYMENTS_REQUEST));
       });
   };
 
@@ -93,7 +90,7 @@ export const fetchDeploymentsRequest =
 const createDeploymentSuccess = (response) => (dispatch) => {
   // dispatching create deployment success
   dispatch({
-    type: actionTypes.CREATE_DEPLOYMENT_SUCCESS,
+    type: DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_SUCCESS,
     deployments: response.data.deployments,
   });
 
@@ -122,7 +119,7 @@ const createDeploymentFail = (error) => (dispatch) => {
   }
 
   dispatch({
-    type: actionTypes.CREATE_DEPLOYMENT_FAIL,
+    type: DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_FAIL,
   });
 
   dispatch(showError(errorMessage));
@@ -141,10 +138,10 @@ export const createDeploymentRequest =
   (projectId, experimentId, templateId) => async (dispatch) => {
     // dispatching request action
     dispatch({
-      type: actionTypes.CREATE_DEPLOYMENT_REQUEST,
+      type: DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST,
     });
 
-    dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
+    dispatch(addLoading(DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST));
 
     try {
       let createObject = {};
@@ -161,7 +158,7 @@ export const createDeploymentRequest =
     } catch (error) {
       dispatch(createDeploymentFail(error));
     } finally {
-      dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
+      dispatch(removeLoading(DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST));
     }
   };
 
@@ -186,7 +183,7 @@ const updateDeploymentSuccess = (response) => (dispatch, getState) => {
 
   // dispatching update deployment success
   dispatch({
-    type: actionTypes.UPDATE_DEPLOYMENT_SUCCESS,
+    type: DEPLOYMENTS_TYPES.UPDATE_DEPLOYMENT_SUCCESS,
     deployments,
   });
 };
@@ -204,7 +201,7 @@ const updateDeploymentFail = (error, routerProps) => (dispatch) => {
 
   // dispatching update deployment fail action response
   dispatch({
-    type: actionTypes.UPDATE_DEPLOYMENT_FAIL,
+    type: DEPLOYMENTS_TYPES.UPDATE_DEPLOYMENT_FAIL,
   });
 
   dispatch(showError(errorMessage));
@@ -228,7 +225,7 @@ export const updateDeploymentRequest =
   (projectId, deploymentId, deploymentObj) => (dispatch) => {
     // dispatching request action
     dispatch({
-      type: actionTypes.UPDATE_DEPLOYMENT_REQUEST,
+      type: DEPLOYMENTS_TYPES.UPDATE_DEPLOYMENT_REQUEST,
     });
 
     // creating deployment
@@ -257,7 +254,7 @@ const deleteDeploymentSuccess = (deploymentId) => (dispatch, getState) => {
 
   // dispatching delete deployment success
   dispatch({
-    type: actionTypes.DELETE_DEPLOYMENT_SUCCESS,
+    type: DEPLOYMENTS_TYPES.DELETE_DEPLOYMENT_SUCCESS,
     deployments,
   });
 
@@ -276,7 +273,7 @@ const deleteDeploymentFail = (error) => (dispatch) => {
 
   // dispatching delete deployment fail action response
   dispatch({
-    type: actionTypes.DELETE_DEPLOYMENT_FAIL,
+    type: DEPLOYMENTS_TYPES.DELETE_DEPLOYMENT_FAIL,
   });
 
   dispatch(showError(errorMessage));
@@ -292,14 +289,14 @@ const deleteDeploymentFail = (error) => (dispatch) => {
 export const deleteDeploymentRequest =
   (projectId, deploymentId) => async (dispatch) => {
     try {
-      dispatch({ type: actionTypes.DELETE_DEPLOYMENT_REQUEST });
-      dispatch(addLoading(actionTypes.DELETE_DEPLOYMENT_REQUEST));
+      dispatch({ type: DEPLOYMENTS_TYPES.DELETE_DEPLOYMENT_REQUEST });
+      dispatch(addLoading(DEPLOYMENTS_TYPES.DELETE_DEPLOYMENT_REQUEST));
       await deploymentsApi.deleteDeployment(projectId, deploymentId);
       dispatch(deleteDeploymentSuccess(deploymentId));
     } catch (e) {
       dispatch(deleteDeploymentFail(e));
     } finally {
-      dispatch(removeLoading(actionTypes.DELETE_DEPLOYMENT_REQUEST));
+      dispatch(removeLoading(DEPLOYMENTS_TYPES.DELETE_DEPLOYMENT_REQUEST));
     }
   };
 
@@ -312,7 +309,7 @@ export const deleteDeploymentRequest =
  */
 export const clearAllDeployments = () => (dispatch) => {
   dispatch({
-    type: actionTypes.CLEAR_ALL_DEPLOYMENTS,
+    type: DEPLOYMENTS_TYPES.CLEAR_ALL_DEPLOYMENTS,
   });
 };
 
@@ -327,7 +324,7 @@ export const clearAllDeployments = () => (dispatch) => {
 export const prepareDeployments =
   (experiments, projectId, history) => (dispatch) => {
     dispatch(hidePrepareDeploymentsModal());
-    dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
+    dispatch(addLoading(DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST));
 
     const deploymentObj = {
       experiments: experiments,
@@ -352,7 +349,7 @@ export const prepareDeployments =
         dispatch(showError(errorMessage));
       })
       .finally(() => {
-        dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_REQUEST));
+        dispatch(removeLoading(DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST));
       });
   };
 
@@ -373,8 +370,8 @@ export function renameDeploymentRequest(
 ) {
   return async (dispatch) => {
     try {
-      dispatch({ type: actionTypes.RENAME_DEPLOYMENT_REQUEST });
-      dispatch(addLoading(actionTypes.RENAME_DEPLOYMENT_REQUEST));
+      dispatch({ type: DEPLOYMENTS_TYPES.RENAME_DEPLOYMENT_REQUEST });
+      dispatch(addLoading(DEPLOYMENTS_TYPES.RENAME_DEPLOYMENT_REQUEST));
 
       const response = await deploymentsApi.updateDeployment(
         projectId,
@@ -390,7 +387,7 @@ export function renameDeploymentRequest(
     } catch (error) {
       dispatch(renameDeploymentFail(error));
     } finally {
-      dispatch(removeLoading(actionTypes.RENAME_DEPLOYMENT_REQUEST));
+      dispatch(removeLoading(DEPLOYMENTS_TYPES.RENAME_DEPLOYMENT_REQUEST));
     }
   };
 }
@@ -404,7 +401,7 @@ export function renameDeploymentRequest(
  */
 function renameDeploymentSuccess(updatedDeployments) {
   return {
-    type: actionTypes.RENAME_DEPLOYMENT_SUCCESS,
+    type: DEPLOYMENTS_TYPES.RENAME_DEPLOYMENT_SUCCESS,
     deployments: updatedDeployments,
   };
 }
@@ -423,7 +420,7 @@ const renameDeploymentFail = (error) => (dispatch) => {
   }
 
   dispatch({
-    type: actionTypes.RENAME_DEPLOYMENT_FAIL,
+    type: DEPLOYMENTS_TYPES.RENAME_DEPLOYMENT_FAIL,
   });
 
   dispatch(showError(errorMessage));
@@ -444,7 +441,7 @@ export function duplicateDeploymentRequest(
 ) {
   return async (dispatch) => {
     try {
-      dispatch({ type: actionTypes.DUPLICATE_DEPLOYMENT_REQUEST });
+      dispatch({ type: DEPLOYMENTS_TYPES.DUPLICATE_DEPLOYMENT_REQUEST });
 
       const response = await deploymentsApi.createDeployment(projectId, {
         name: newDeploymentName,
@@ -468,7 +465,7 @@ export function duplicateDeploymentRequest(
  */
 function duplicateDeploymentSuccess(deployments) {
   return {
-    type: actionTypes.DUPLICATE_DEPLOYMENT_SUCCESS,
+    type: DEPLOYMENTS_TYPES.DUPLICATE_DEPLOYMENT_SUCCESS,
     deployments: deployments,
   };
 }
@@ -487,7 +484,7 @@ const duplicateDeploymentFail = (error) => (dispatch) => {
   }
 
   dispatch({
-    type: actionTypes.DUPLICATE_DEPLOYMENT_FAIL,
+    type: DEPLOYMENTS_TYPES.DUPLICATE_DEPLOYMENT_FAIL,
   });
 
   dispatch(showError(errorMessage));
@@ -511,24 +508,13 @@ export const updateDeploymentPositionRequest =
       });
 
       dispatch({
-        type: actionTypes.UPDATE_DEPLOYMENT_POSITION_SUCCESS,
+        type: DEPLOYMENTS_TYPES.UPDATE_DEPLOYMENT_POSITION_SUCCESS,
         currentPosition,
         newPosition,
       });
     } catch (e) {
       const errorMessage = e.response?.data?.message || e.message;
       dispatch(showError(errorMessage));
-      dispatch({ type: actionTypes.UPDATE_DEPLOYMENT_POSITION_FAIL });
+      dispatch({ type: DEPLOYMENTS_TYPES.UPDATE_DEPLOYMENT_POSITION_FAIL });
     }
   };
-
-export default {
-  fetchDeploymentsRequest,
-  createDeploymentRequest,
-  updateDeploymentRequest,
-  deleteDeploymentRequest,
-  renameDeploymentRequest,
-  duplicateDeploymentRequest,
-  updateDeploymentPositionRequest,
-  prepareDeployments,
-};

@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import { useIsLoading } from 'hooks';
 import ContentHeader from 'components/ContentHeader';
-import DEPLOYMENTS_TYPES from 'store/deployments/actionTypes';
+import { DEPLOYMENTS_TYPES } from 'store/deployments';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 import PageHeaderDropdown from 'components/ContentHeader/PageHeaderDropdown';
 import {

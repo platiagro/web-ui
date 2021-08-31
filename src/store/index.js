@@ -2,7 +2,7 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
 import compareResultsReducer from './compareResults/compareResultsReducer';
-import deploymentsReducer from './deployments/deploymentsReducer';
+import { deploymentsReducer } from './deployments';
 import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsReducer';
 import Projects from './projects';
 import experimentRunReducer from './projects/experiments/experimentRuns/experimentRunsReducer';

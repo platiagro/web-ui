@@ -5,7 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { Selectors } from 'store/projects/experiments';
 import { PrepareDeploymentsModal } from 'components/Modals';
 import { hidePrepareDeploymentsModal } from 'store/ui/actions';
-import { prepareDeployments } from 'store/deployments/actions';
+import { prepareDeployments } from 'store/deployments';
 
 const visibleSelector = ({ uiReducer }) => {
   return uiReducer.prepareDeploymentsModal.visible;
