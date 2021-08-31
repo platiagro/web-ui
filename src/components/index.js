@@ -17,7 +17,6 @@ export { default as ExperimentEmpty } from './ExperimentEmpty';
 export { default as ExternalDatasetDrawer } from './ExternalDatasetDrawer';
 export { default as ImageLightbox } from './ImageLightbox';
 export { default as InfoRow } from './InfoRow';
-export { default as LoadingBox } from './LoadingBox';
 export { default as LogListItem } from './LogListItem';
 export { default as LogsDrawer } from './LogsDrawer';
 export { default as LogsModal } from './LogsModal';

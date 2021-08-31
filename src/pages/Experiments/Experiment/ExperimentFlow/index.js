@@ -171,8 +171,10 @@ const ExperimentFlow = ({
 
         {emptyOperators && (
           <OperatorsEmptyPlaceholder
-            loading={flowLoading}
             className='experiment-flow-empty-operators'
+            loading={flowLoading}
+            placeholderWhenLoading='Aguarde...'
+            placeholder='Para criar um fluxo, arraste e solte as tarefas aqui'
           />
         )}
 
