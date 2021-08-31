@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { ExternalDatasetHelperModal } from 'components/Modals';
 import { PropertiesPanel, ExternalDatasetDrawer } from 'components';
 import { OPERATOR_TYPES, renameDeploymentOperator } from 'store/operator';
+import { getDeploymentsUrl } from 'store/deployments';
 import { useBooleanState, useDeepEqualSelector, useIsLoading } from 'hooks';
 
 const operatorSelector = ({ operatorReducer }) => {
@@ -14,13 +15,6 @@ const operatorSelector = ({ operatorReducer }) => {
 const isDatasetOperatorSelector = ({ operatorReducer }) => {
   return operatorReducer?.tags?.includes('DATASETS');
 };
-
-export const deploymentsUrlSelector =
-  (currentDeploymentId) =>
-  ({ deploymentsReducer }) => {
-    return deploymentsReducer.find(({ uuid }) => uuid === currentDeploymentId)
-      ?.url || `${window.location.origin.toString()}/seldon/anonymous/${currentDeploymentId}/api/v1.0/predictions`;
-  };
 
 const PropertiesResizableContainer = () => {
   const { projectId, deploymentId } = useParams();
@@ -40,9 +34,7 @@ const PropertiesResizableContainer = () => {
 
   const operator = useDeepEqualSelector(operatorSelector);
   const isDatasetOperator = useDeepEqualSelector(isDatasetOperatorSelector);
-  const deploymentUrl = useDeepEqualSelector(
-    deploymentsUrlSelector(deploymentId)
-  );
+  const deploymentUrl = useDeepEqualSelector(getDeploymentsUrl(deploymentId));
 
   const isRenamingOperator = useIsLoading(
     OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_REQUEST
