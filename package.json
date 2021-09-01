@@ -16,9 +16,8 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
+    "**/*.{js,jsx,ts,tsx}": [
       "yarn eslint --fix",
-      "yarn prettier --write",
       "craco test --watchAll=false --findRelatedTests"
     ]
   },
