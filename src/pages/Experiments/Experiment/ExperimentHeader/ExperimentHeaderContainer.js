@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import {
   Selectors,
@@ -8,10 +8,12 @@ import {
   Actions as experimentsActions,
 } from 'store/projects/experiments';
 import { removeOperatorRequest } from 'store/operator';
-import { useDeepEqualSelector, useIsLoading, useChangeFavicon } from 'hooks';
-import { fetchExperimentOperatorsRequest } from 'store/operators';
-import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
 import { experimentTrainingDataLoaded } from 'store/ui/actions';
+import { fetchExperimentOperatorsRequest } from 'store/operators';
+import { clearAllExperimentLogs } from 'store/experimentLogs/actions';
+import { useDeepEqualSelector, useIsLoading, useChangeFavicon } from 'hooks';
+import experimentRunsActions from 'store/projects/experiments/experimentRuns/actions';
+
 import ExperimentHeader from './index';
 
 const experimentSelector = (projectId, experimentId) => (state) => {
@@ -61,6 +63,8 @@ const ExperimentHeaderContainer = () => {
   };
 
   const handleTrainExperiment = () => {
+    dispatch(clearAllExperimentLogs());
+
     dispatch(
       experimentRunsActions.createExperimentRunRequest(projectId, experimentId)
     );

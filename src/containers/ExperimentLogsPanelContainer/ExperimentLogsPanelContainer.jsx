@@ -75,7 +75,13 @@ const ExperimentLogsPanelContainer = () => {
     );
 
     const handleMessages = (e) => {
-      dispatch(appendExperimentLog(e.data));
+      const log = JSON.parse(e.data);
+
+      if (log.created_at && !log.createdAt) {
+        log.createdAt = log.created_at;
+      }
+
+      dispatch(appendExperimentLog(log));
     };
 
     eventSource.addEventListener('message', handleMessages);

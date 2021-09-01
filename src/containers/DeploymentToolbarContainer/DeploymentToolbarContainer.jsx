@@ -18,13 +18,15 @@ import {
   clearAllDeploymentOperators,
 } from 'store/operators';
 
-import './DeploymentToolbarContainer.less';
 import {
   interruptDeploymentTest,
   testDeploymentWithDataset,
   TEST_DEPLOYMENT_TYPES,
 } from 'store/testDeployment';
 import { DeploymentTestResultModalContainer } from 'containers';
+import { clearAllDeploymentLogs } from 'store/deploymentLogs/actions';
+
+import './DeploymentToolbarContainer.less';
 
 const operatorsSelector = ({ operatorsReducer }) => {
   return operatorsReducer;
@@ -119,6 +121,8 @@ const DeploymentToolbarContainer = () => {
           datasetOperatorUploadedFileName
         )
       );
+
+      dispatch(clearAllDeploymentLogs());
     }
   };
 

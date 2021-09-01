@@ -73,7 +73,13 @@ const DeploymentLogsPanelContainer = () => {
     );
 
     const handleMessages = (e) => {
-      dispatch(appendDeploymentLog(e.data));
+      const log = JSON.parse(e.data);
+
+      if (log.created_at && !log.createdAt) {
+        log.createdAt = log.created_at;
+      }
+
+      dispatch(appendDeploymentLog(log));
     };
 
     eventSource.addEventListener('message', handleMessages);
