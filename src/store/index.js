@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 
 import compareResultsReducer from './compareResults/compareResultsReducer';
 import { deploymentsReducer } from './deployments';
-import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsReducer';
+import { deploymentRunsReducer } from './deployments/deploymentRuns';
 import Projects from './projects';
 import experimentRunReducer from './projects/experiments/experimentRuns/experimentRunsReducer';
 import { operatorsReducer } from './operators';
