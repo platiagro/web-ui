@@ -11,6 +11,7 @@ import {
   JupyterLab,
   Experiments,
   TaskDetails,
+  Marketplace,
   ProjectsDetails,
 } from 'pages';
 
@@ -32,6 +33,7 @@ export const Main = () => {
       />
 
       <Route path='/tarefas' component={Tasks} exact />
+      <Route path='/marketplace' component={Marketplace} exact />
       <Route path='/fluxo-tarefas' component={TasksFlow} exact />
       <Route path='/nova-tarefa' component={NewTask} />
       <Route path='/tarefas/:taskId' component={TaskDetails} />

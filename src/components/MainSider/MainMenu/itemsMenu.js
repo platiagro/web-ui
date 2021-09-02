@@ -4,6 +4,7 @@ import {
   BuildOutlined,
   ExperimentOutlined,
   PartitionOutlined,
+  ShoppingOutlined,
 } from '@ant-design/icons';
 
 const itemsMenu = [
@@ -26,6 +27,11 @@ const itemsMenu = [
     icon: <ExperimentOutlined />,
     title: 'JupyterLab',
     path: '/jupyterlab',
+  },
+  {
+    icon: <ShoppingOutlined />,
+    title: 'Marketplace',
+    path: '/marketplace',
   },
 ];
 
