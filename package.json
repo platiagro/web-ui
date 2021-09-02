@@ -6,18 +6,20 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "eject": "react-scripts eject",
+    "prepare": "husky install",
     "test:coverage": "craco test --coverage --watchAll",
     "test:ci": "react-scripts test --coverageReporters=lcov --testResultsProcessor jest-sonar-reporter --passWithNoTests --debug --coverage --no-cache --watchAll=false",
-    "eject": "react-scripts eject",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
     "dex:build": "docker build src/pages/Login -t dex-auth-local",
     "dex:run": "docker run -it -p 5556:5556 dex-auth-local:latest",
-    "prepare": "husky install"
+    "eslint:lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "eslint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "yarn eslint --fix",
+      "eslint --ext .js,.jsx,.ts,.tsx --fix",
       "craco test --watchAll=false --findRelatedTests"
     ]
   },
@@ -75,6 +77,7 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-react-redux": "^3.3.0",
+    "eslint-plugin-sonarjs": "^0.10.0",
     "husky": "^7.0.2",
     "jest-sonar-reporter": "^2.0.0",
     "lint-staged": "^11.1.2",
