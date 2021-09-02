@@ -23,6 +23,7 @@ export { default as LogsModal } from './LogsModal';
 export { default as LogsPanel } from './LogsPanel';
 export { default as LogTypeTags } from './LogTypeTags';
 export { default as MainSider } from './MainSider';
+export { default as MarketplaceTaskItem } from './MarketplaceTaskItem';
 export { default as MonitoringDrawer } from './MonitoringDrawer';
 export { default as MonitoringDrawerItem } from './MonitoringDrawerItem';
 export { default as MonitoringFlowBox } from './MonitoringFlowBox';

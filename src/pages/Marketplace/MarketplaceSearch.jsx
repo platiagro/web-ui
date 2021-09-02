@@ -11,29 +11,33 @@ const MarketplaceSearch = ({ numberOfTasks }) => {
   };
 
   return (
-    <div className={'marketplace-section marketplace-search'}>
-      <div className='marketplace-search-left'>
-        <div className='marketplace-search-title'>
-          Encontre Soluções Prontas Para o Seu Problema
+    <div className={'marketplace-search'}>
+      <div className='marketplace-search-content'>
+        <div className='marketplace-search-left'>
+          <div className='marketplace-search-title'>
+            Encontre Soluções Prontas Para o Seu Problema
+          </div>
+
+          <Input
+            className='marketplace-search-input'
+            placeholder='Comece a Digitar para Buscar no Marketplace'
+            suffix={<SearchOutlined />}
+          />
+
+          <div className='marketplace-search-more'>
+            <div className='marketplace-search-more-text'>
+              Você também pode:
+            </div>
+
+            <Button shape='round' onClick={handleSeeAllTasks}>
+              Ver todas as {numberOfTasks} soluções
+            </Button>
+          </div>
         </div>
 
-        <Input
-          className='marketplace-search-input'
-          placeholder='Comece a Digitar para Buscar no Marketplace'
-          suffix={<SearchOutlined />}
-        />
-
-        <div className='marketplace-search-more'>
-          <div className='marketplace-search-more-text'>Você também pode:</div>
-
-          <Button shape='round' onClick={handleSeeAllTasks}>
-            Ver todas as {numberOfTasks} soluções
-          </Button>
+        <div className='marketplace-search-right'>
+          <MarketplaceColorfulComponent />
         </div>
-      </div>
-
-      <div className='marketplace-search-right'>
-        <MarketplaceColorfulComponent />
       </div>
     </div>
   );

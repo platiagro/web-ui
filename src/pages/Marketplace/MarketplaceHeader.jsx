@@ -13,7 +13,7 @@ const MarketplaceHeader = ({ handleGoBack }) => {
       title={
         <>
           <span className='marketplace-header-subtitle'>
-            Encontre Soluções Para Seus Fluxos
+            Encontre Soluções Para Seus Projetos
           </span>
 
           <Typography.Title level={3} ellipsis>

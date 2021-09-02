@@ -1,0 +1,35 @@
+.marketplace-task-item-box {
+  border-radius: 5px;
+  border: 1px solid #595959;
+  background: white;
+  overflow: hidden;
+
+  .marketplace-task-item-box-border {
+    background: grey;
+  }
+
+  .marketplace-task-item-box-content {
+    padding: 16px;
+  }
+
+  &.marketplace-task-item-box-top {
+    display: flex;
+    flex-direction: column;
+
+    .marketplace-task-item-box-border {
+      height: 6px;
+      width: 100%;
+      border-bottom: 1px solid #595959;
+    }
+  }
+
+  &.marketplace-task-item-box-left {
+    display: flex;
+    align-items: stretch;
+
+    .marketplace-task-item-box-border {
+      width: 6px;
+      border-right: 1px solid #595959;
+    }
+  }
+}

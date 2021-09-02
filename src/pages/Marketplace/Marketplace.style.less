@@ -47,16 +47,20 @@
   }
 
   .marketplace-search {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
     background: white;
     padding: 24px 0;
 
+    .marketplace-search-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
     .marketplace-search-left {
-      flex: 0 60%;
-      max-width: 1000px;
+      flex: 1;
       padding: 0 24px;
     }
 
@@ -88,13 +92,16 @@
       }
     }
 
-    @media only screen and (max-width: 768px) {
-      flex-direction: column-reverse;
-      align-items: center;
-      justify-content: start;
+    @media only screen and (max-width: 800px) {
+      .marketplace-search-content {
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: start;
+        max-width: 100%;
+      }
 
       .marketplace-search-left {
-        flex: unset;
+        flex: 0;
         padding: 0 24px;
       }
 
@@ -104,6 +111,70 @@
         > svg {
           height: 120px;
         }
+      }
+    }
+  }
+
+  .marketplace-basic-tasks {
+    background: #f5f5f5;
+
+    .marketplace-basic-tasks-content {
+      max-width: 80%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .marketplace-basic-tasks-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .marketplace-basic-tasks-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      > * {
+        flex: 1 25%;
+        margin: 8px;
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      .marketplace-basic-tasks-content {
+        max-width: 100%;
+      }
+    }
+  }
+
+  .marketplace-complex-tasks {
+    background: white;
+
+    .marketplace-complex-tasks-content {
+      max-width: 80%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .marketplace-complex-tasks-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .marketplace-complex-tasks-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      > * {
+        flex: 1 25%;
+        margin: 8px;
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      .marketplace-complex-tasks-content {
+        max-width: 100%;
       }
     }
   }
