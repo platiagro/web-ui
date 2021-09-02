@@ -16,9 +16,9 @@ describe('Results utils', () => {
   });
 
   it('should format the date of a result', () => {
-    const date = new Date(1629477399451);
+    const date = new Date('2021-01-01 00:00:00');
     expect(formatCompareResultDate(date, 'en-US')).toBe(
-      'August 20, 04:36 , PM'
+      'January 1, 12:00 , AM'
     );
   });
 
