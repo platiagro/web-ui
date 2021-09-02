@@ -60,6 +60,7 @@ const MonitoringDrawerItemTitle = ({
           </Button>
         </Tooltip>
 
+        {/* eslint-disable-next-line sonarjs/no-redundant-boolean */}
         {false && ( // TODO: Exibe botão e dropdown quando funcionarem
           <Dropdown
             trigger='click'

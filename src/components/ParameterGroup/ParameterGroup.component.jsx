@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-identical-functions */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
 
