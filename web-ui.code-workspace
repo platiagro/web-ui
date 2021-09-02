@@ -68,6 +68,9 @@
       "sider",
       "siders",
       "snapshot",
+      "sonarjs",
+      "sonarlint",
+      "sonarsource",
       "styleguide",
       "styleguidist",
       "suming",
@@ -84,7 +87,8 @@
       "dbaeumer.vscode-eslint",
       "mgmcdermott.vscode-language-babel",
       "OfHumanBondage.react-proptypes-intellisense",
-      "suming.react-proptypes-generate"
+      "suming.react-proptypes-generate",
+      "sonarsource.sonarlint-vscode"
     ]
   }
 }
