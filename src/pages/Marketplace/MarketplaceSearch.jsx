@@ -15,7 +15,7 @@ const MarketplaceSearch = ({ numberOfTasks }) => {
       <div className='marketplace-search-content'>
         <div className='marketplace-search-left'>
           <div className='marketplace-search-title'>
-            Encontre Soluções Prontas Para o Seu Problema
+            Encontre soluções prontas para o seu problema
           </div>
 
           <Input

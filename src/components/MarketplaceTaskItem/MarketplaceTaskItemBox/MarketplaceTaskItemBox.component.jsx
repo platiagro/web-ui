@@ -1,17 +1,16 @@
-import { TASK_CATEGORIES } from 'configs';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import './MarketplaceTaskItemBox.style.less';
 
 const COLORS = {
-  [TASK_CATEGORIES.DATASETS.key]: '#ff0000',
-  [TASK_CATEGORIES.FEATURE_ENGINEERING.key]: '#ff0000',
-  [TASK_CATEGORIES.PREDICTOR.key]: '#ff0000',
-  [TASK_CATEGORIES.DESCRIPTIVE_STATISTICS.key]: '#ff0000',
-  [TASK_CATEGORIES.COMPUTER_VISION.key]: '#ff0000',
-  OPTIMIZATION: '#ff0000',
-  OTHER: '#ff0000',
+  DATASETS: '#FF9C6E',
+  FEATURE_ENGINEERING: '#FFD666',
+  PREDICTOR: '#FFF566',
+  DESCRIPTIVE_STATISTICS: '#D3F261',
+  COMPUTER_VISION: '#5CDBD3',
+  OPTIMIZATION: '#69C0FF',
+  OTHER: '#85A5FF',
 };
 
 const MarketplaceTaskItemBox = ({
@@ -22,7 +21,7 @@ const MarketplaceTaskItemBox = ({
   borderDirection,
 }) => {
   const borderDirectionClass = `marketplace-task-item-box-${borderDirection}`;
-  const color = COLORS[taskCategory];
+  const color = COLORS[taskCategory] || COLORS.DATASETS;
 
   return (
     <div className={`marketplace-task-item-box ${borderDirectionClass}`}>
@@ -32,9 +31,9 @@ const MarketplaceTaskItemBox = ({
       />
 
       <div className='marketplace-task-item-box-content'>
-        {header}
-        {children}
-        {footer}
+        <div className='marketplace-task-item-box-content-header'>{header}</div>
+        <div className='marketplace-task-item-box-content-body'>{children}</div>
+        <div className='marketplace-task-item-box-content-footer'>{footer}</div>
       </div>
     </div>
   );

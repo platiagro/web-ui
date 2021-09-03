@@ -5,11 +5,22 @@
   overflow: hidden;
 
   .marketplace-task-item-box-border {
-    background: grey;
+    overflow: hidden;
   }
 
   .marketplace-task-item-box-content {
+    display: flex;
+    flex-direction: column;
     padding: 16px;
+
+    .marketplace-task-item-box-content-header {
+      margin-bottom: 8px;
+    }
+
+    .marketplace-task-item-box-content-body {
+      flex: 1;
+      margin-bottom: 16px;
+    }
   }
 
   &.marketplace-task-item-box-top {
@@ -18,6 +29,8 @@
 
     .marketplace-task-item-box-border {
       height: 6px;
+      min-height: 6px;
+      max-height: 6px;
       width: 100%;
       border-bottom: 1px solid #595959;
     }
@@ -29,6 +42,8 @@
 
     .marketplace-task-item-box-border {
       width: 6px;
+      min-width: 6px;
+      max-width: 6px;
       border-right: 1px solid #595959;
     }
   }

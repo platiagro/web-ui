@@ -1,12 +1,12 @@
 import Box from './MarketplaceTaskItemBox';
-import TItle from './MarketplaceTaskItemTitle';
+import Title from './MarketplaceTaskItemTitle';
 import Header from './MarketplaceTaskItemHeader';
 import InlineData from './MarketplaceTaskItemInlineData';
 import Description from './MarketplaceTaskItemDescription';
 
 export default {
   Box,
-  TItle,
+  Title,
   Header,
   InlineData,
   Description,
