@@ -2,6 +2,13 @@ import React from 'react';
 import { Button } from 'antd';
 
 import { MarketplaceTaskItem } from 'components';
+import { MARKETPLACE_TASK_CATEGORIES } from 'configs';
+
+const CATEGORY_LIST = [
+  MARKETPLACE_TASK_CATEGORIES.COMPUTER_VISION,
+  MARKETPLACE_TASK_CATEGORIES.OPTIMIZATION,
+  MARKETPLACE_TASK_CATEGORIES.OTHER,
+];
 
 const MarketplaceComplexTasks = () => {
   return (
@@ -13,22 +20,28 @@ const MarketplaceComplexTasks = () => {
         </div>
 
         <div className='marketplace-complex-tasks-list'>
-          {[1, 2, 3, 4].map((key) => {
+          {CATEGORY_LIST.map((category) => {
+            const handleSeeFlow = () => {
+              console.log('See flow');
+            };
+
             return (
               <MarketplaceTaskItem.Box
-                key={key}
-                taskCategory='DATASETS'
+                key={category.key}
+                taskCategory={category.key}
                 header={
                   <MarketplaceTaskItem.Title>
-                    Conjunto de dados
+                    {category.name}
                   </MarketplaceTaskItem.Title>
                 }
-                footer={<Button shape='round'>Ver tarefas</Button>}
+                footer={
+                  <Button shape='round' onClick={handleSeeFlow}>
+                    Ver fluxos
+                  </Button>
+                }
               >
                 <MarketplaceTaskItem.Description>
-                  Melhora a precisão dos modelos manipulando o conjunto de dados
-                  que será utilizado por ele. As técnicas podem ser de aumento,
-                  seleção ou transformação dos dados.
+                  {category.description}
                 </MarketplaceTaskItem.Description>
               </MarketplaceTaskItem.Box>
             );

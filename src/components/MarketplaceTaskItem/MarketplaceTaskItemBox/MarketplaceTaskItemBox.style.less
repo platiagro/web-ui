@@ -3,6 +3,11 @@
   border: 1px solid #595959;
   background: white;
   overflow: hidden;
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: 0px 4px 4px 0px #00000040;
+  }
 
   .marketplace-task-item-box-border {
     overflow: hidden;
@@ -12,6 +17,7 @@
     display: flex;
     flex-direction: column;
     padding: 16px;
+    height: 100%;
 
     .marketplace-task-item-box-content-header {
       margin-bottom: 8px;
