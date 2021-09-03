@@ -20,7 +20,7 @@ const MarketplaceSearch = ({ numberOfTasks }) => {
 
           <Input
             className='marketplace-search-input'
-            placeholder='Comece a Digitar para Buscar no Marketplace'
+            placeholder='Comece a digitar para buscar no marketplace'
             suffix={<SearchOutlined />}
           />
 
