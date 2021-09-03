@@ -6,7 +6,7 @@ describe('Deployment Logs Reducer', () => {
 
   it('should set the total of marketplace tasks', () => {
     const action = {
-      type: MARKETPLACE_TYPES.FETCH_QUANTITY_SUCCESS,
+      type: MARKETPLACE_TYPES.FETCH_TOTAL_TASKS_SUCCESS,
       payload: {
         totalMarketplaceTasks: 5,
       },
@@ -30,7 +30,7 @@ describe('Deployment Logs Reducer', () => {
 
   it('should clear the total of marketplace tasks', () => {
     const action = {
-      type: MARKETPLACE_TYPES.FETCH_QUANTITY_FAIL,
+      type: MARKETPLACE_TYPES.FETCH_TOTAL_TASKS_FAIL,
     };
 
     const newState = marketplaceReducer(

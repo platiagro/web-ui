@@ -7,7 +7,7 @@ export const initialState = {
 
 export const marketplaceReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case MARKETPLACE_TASKS.FETCH_QUANTITY_SUCCESS: {
+    case MARKETPLACE_TASKS.FETCH_TOTAL_TASKS_SUCCESS: {
       return {
         ...state,
         totalMarketplaceTasks: action.payload.totalMarketplaceTasks,
@@ -21,7 +21,7 @@ export const marketplaceReducer = (state = initialState, action = {}) => {
       };
     }
 
-    case MARKETPLACE_TASKS.FETCH_QUANTITY_FAIL: {
+    case MARKETPLACE_TASKS.FETCH_TOTAL_TASKS_FAIL: {
       return {
         ...state,
         totalMarketplaceTasks: 0,
