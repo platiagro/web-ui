@@ -7,6 +7,8 @@ const MainMenu = ({ className, itemsList, selectedItems, handleItemClick }) => {
   const selectedItem = selectedItems[0];
   if (selectedItem === '/' || selectedItem.includes('/projetos')) {
     selectedItems[0] = '/projetos';
+  } else if (selectedItem.includes('/marketplace')) {
+    selectedItems[0] = '/marketplace';
   } else if (selectedItem.includes('/tarefas')) {
     selectedItems[0] = '/tarefas';
   }

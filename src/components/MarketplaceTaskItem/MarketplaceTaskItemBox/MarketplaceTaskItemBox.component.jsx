@@ -9,6 +9,7 @@ const MarketplaceTaskItemBox = ({
   header,
   footer,
   children,
+  className,
   taskCategory,
   borderDirection,
 }) => {
@@ -22,7 +23,9 @@ const MarketplaceTaskItemBox = ({
   };
 
   return (
-    <div className={`marketplace-task-item-box ${borderDirectionClass}`}>
+    <div
+      className={`marketplace-task-item-box ${className} ${borderDirectionClass}`}
+    >
       <div
         style={{ background: getColor() }}
         className='marketplace-task-item-box-border'
@@ -41,6 +44,7 @@ MarketplaceTaskItemBox.propTypes = {
   header: PropTypes.node,
   footer: PropTypes.node,
   children: PropTypes.node,
+  className: PropTypes.string,
   taskCategory: PropTypes.oneOf(Object.keys(MARKETPLACE_TASK_CATEGORIES)),
   borderDirection: PropTypes.oneOf(['left', 'top']),
 };
@@ -49,7 +53,8 @@ MarketplaceTaskItemBox.defaultProps = {
   header: null,
   footer: null,
   children: null,
-  taskCategory: '',
+  className: '',
+  taskCategory: MARKETPLACE_TASK_CATEGORIES.DATASETS.key,
   borderDirection: 'top',
 };
 

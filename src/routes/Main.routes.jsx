@@ -14,6 +14,7 @@ import {
   Marketplace,
   ProjectsDetails,
   MarketplaceSearch,
+  MarketplaceTaskDetails,
 } from 'pages';
 
 export const Main = () => {
@@ -34,17 +35,18 @@ export const Main = () => {
       />
 
       <Route
-        path='/pesquisar-marketplace'
-        component={MarketplaceSearch}
+        path='/marketplace/tarefas/:taskId'
+        component={MarketplaceTaskDetails}
         exact
       />
 
       <Route path='/marketplace' component={Marketplace} exact />
+      <Route path='/marketplace/tarefas' component={MarketplaceSearch} exact />
 
       <Route path='/tarefas' component={Tasks} exact />
       <Route path='/fluxo-tarefas' component={TasksFlow} exact />
       <Route path='/nova-tarefa' component={NewTask} />
-      <Route path='/tarefas/:taskId' component={TaskDetails} />
+      <Route path='/tarefas/:taskId' component={TaskDetails} exact />
       <Route path='/jupyterlab/:path*' component={JupyterLab} />
 
       <Route component={Error404} />
