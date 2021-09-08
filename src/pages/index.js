@@ -9,6 +9,7 @@ import Experiments from './Experiments';
 import TaskDetails from './TaskDetails';
 import Marketplace from './Marketplace';
 import ProjectsDetails from './ProjectDetails';
+import MarketplaceSearch from './MarketplaceSearch';
 
 export {
   Tasks,
@@ -22,4 +23,5 @@ export {
   TaskDetails,
   Marketplace,
   ProjectsDetails,
+  MarketplaceSearch,
 };

@@ -13,6 +13,7 @@ import {
   TaskDetails,
   Marketplace,
   ProjectsDetails,
+  MarketplaceSearch,
 } from 'pages';
 
 export const Main = () => {
@@ -32,8 +33,15 @@ export const Main = () => {
         component={Deployment}
       />
 
-      <Route path='/tarefas' component={Tasks} exact />
+      <Route
+        path='/pesquisar-marketplace'
+        component={MarketplaceSearch}
+        exact
+      />
+
       <Route path='/marketplace' component={Marketplace} exact />
+
+      <Route path='/tarefas' component={Tasks} exact />
       <Route path='/fluxo-tarefas' component={TasksFlow} exact />
       <Route path='/nova-tarefa' component={NewTask} />
       <Route path='/tarefas/:taskId' component={TaskDetails} />
