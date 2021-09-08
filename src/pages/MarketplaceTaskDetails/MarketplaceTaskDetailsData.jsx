@@ -7,13 +7,18 @@ import { DownloadOutlined, LoadingOutlined } from '@ant-design/icons';
 const MarketplaceTaskDetailsData = ({
   taskData,
   isCopyingTask,
+  isLoadingTask,
   handleCopyTask,
 }) => {
+  if (isLoadingTask || !taskData) {
+    return null;
+  }
+
   return (
     <div className='marketplace-task-details-content-data'>
       <div className='marketplace-task-details-content-data-header'>
         <Avatar src={taskData.img} alt='Task Author' size={100}>
-          {taskData.author.charAt(0)}
+          {taskData.author?.name?.charAt(0)}
         </Avatar>
 
         <div className='marketplace-task-details-content-data-header-info'>
@@ -26,8 +31,11 @@ const MarketplaceTaskDetailsData = ({
 
           <Typography.Paragraph>{taskData.category}</Typography.Paragraph>
 
-          <Link to={taskData.link} component={Typography.Link}>
-            {taskData.author}
+          <Link
+            to={`/marketplace/author/${taskData.author?.uuid || ''}`}
+            component={Typography.Link}
+          >
+            {taskData.author?.name || 'Desconhecido'}
           </Link>
         </div>
 
@@ -77,10 +85,10 @@ const MarketplaceTaskDetailsData = ({
           </div>
         )}
 
-        {!!taskData?.tags && (
+        {!!taskData.tags && (
           <div>
             <Typography.Title level={5}>Tags</Typography.Title>
-            {taskData?.tags?.map((tag) => (
+            {taskData.tags.map((tag) => (
               <Tag key={tag}>{tag}</Tag>
             ))}
           </div>
@@ -93,12 +101,14 @@ const MarketplaceTaskDetailsData = ({
 MarketplaceTaskDetailsData.propTypes = {
   taskData: PropTypes.object,
   isCopyingTask: PropTypes.bool,
+  isLoadingTask: PropTypes.bool,
   handleCopyTask: PropTypes.func,
 };
 
 MarketplaceTaskDetailsData.defaultProps = {
   taskData: {},
   isCopyingTask: false,
+  isLoadingTask: false,
   handleCopyTask: undefined,
 };
 

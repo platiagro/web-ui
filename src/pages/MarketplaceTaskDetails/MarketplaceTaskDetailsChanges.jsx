@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 
 import { MarketplaceTaskItem } from 'components';
 
-const MarketplaceTaskDetailsChanges = ({ changes, updatedAt }) => {
+const MarketplaceTaskDetailsChanges = ({ taskData, isLoadingTask }) => {
+  if (isLoadingTask || !taskData) {
+    return null;
+  }
+
   return (
     <MarketplaceTaskItem.Box
       className='marketplace-task-details-content-changes'
@@ -20,26 +24,26 @@ const MarketplaceTaskDetailsChanges = ({ changes, updatedAt }) => {
           </div>
 
           <div className='marketplace-task-details-content-changes-text'>
-            {updatedAt}
+            {taskData.updatedAt}
           </div>
         </>
       }
     >
       <div className='marketplace-task-details-content-changes-text'>
-        {changes}
+        {taskData.changes}
       </div>
     </MarketplaceTaskItem.Box>
   );
 };
 
 MarketplaceTaskDetailsChanges.propTypes = {
-  changes: PropTypes.string,
-  updatedAt: PropTypes.string,
+  taskData: PropTypes.object,
+  isLoadingTask: PropTypes.bool,
 };
 
 MarketplaceTaskDetailsChanges.defaultProps = {
-  changes: '',
-  updatedAt: '',
+  taskData: {},
+  isLoadingTask: false,
 };
 
 export default MarketplaceTaskDetailsChanges;

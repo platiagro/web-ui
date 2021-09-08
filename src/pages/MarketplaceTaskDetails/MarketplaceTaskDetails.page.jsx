@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+
+import {
+  createTask,
+  getTaskData,
+  TASKS_TYPES,
+  fetchTaskData,
+} from 'store/tasks';
+import { useIsLoading } from 'hooks';
 
 import MarketplaceTaskDetailsData from './MarketplaceTaskDetailsData';
 import MarketplaceTaskDetailsHeader from './MarketplaceTaskDetailsHeader';
@@ -13,12 +21,23 @@ const MarketplaceTaskDetails = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const taskData = useSelector(getTaskData);
+
+  const isCopyingTask = useIsLoading(TASKS_TYPES.COPY_TASK_REQUEST);
+  const isLoadingTask = useIsLoading(TASKS_TYPES.FETCH_TASK_DATA_REQUEST);
+
   const handleGoBack = () => {
     history.goBack();
   };
 
+  const handleCopyTask = () => {
+    const taskCopy = { ...taskData, copyFrom: taskData.uuid };
+    delete taskCopy.uuid;
+    dispatch(createTask(taskCopy));
+  };
+
   useEffect(() => {
-    dispatch({ type: 'any', payload: taskId });
+    dispatch(fetchTaskData(taskId));
   }, [dispatch, taskId]);
 
   return (
@@ -27,29 +46,15 @@ const MarketplaceTaskDetails = () => {
 
       <div className='marketplace-task-details-content'>
         <MarketplaceTaskDetailsData
-          taskData={{
-            img: 'https://www.cpqd.com.br/wp-content/uploads/2020/07/ico-plat1-268x300.png',
-            name: 'Random Forest Classifier',
-            category: 'Treinamento',
-            link: '/platiagro',
-            author: 'Plataforma de IA para o Agronegócio',
-            dataOut: 'Descrição dos dados de saída da tarefa.',
-            dataIn:
-              'Arquivo .csv com dados tabulares (um atributo por coluna), sem cabeçalho.  ',
-            description:
-              'A random forest is a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting.',
-            docs: 'https://github.com/',
-            tags: ['cool', 'useful', 'task'],
-          }}
+          taskData={taskData}
+          isLoadingTask={isLoadingTask}
+          isCopyingTask={isCopyingTask}
+          handleCopyTask={handleCopyTask}
         />
 
         <MarketplaceTaskDetailsChanges
-          updatedAt='10/12/2020'
-          changes={`Nesta versão foram corrigidos alguns erros e acrescentada uma funcionalidade:
-
-- Correção do erro xyz que ocorria nos casos abc, def e ghi;
-- Correção do erro xpto quando todos os dados de um atributo são nulos;
-- Adicionado o parâmetros “asdf” para configuração na experimentação.`}
+          taskData={taskData}
+          isLoadingTask={isLoadingTask}
         />
       </div>
     </div>
