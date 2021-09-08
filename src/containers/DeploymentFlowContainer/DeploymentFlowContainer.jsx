@@ -6,7 +6,7 @@ import { useIsLoading } from 'hooks';
 import { OPERATORS_TYPES } from 'store/operators';
 import DeploymentFlow from 'components/DeploymentFlow';
 import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
-import { ActionTypes as DEPLOYMENTS_TYPES } from 'store/deployments';
+import { DEPLOYMENTS_TYPES } from 'store/deployments';
 import {
   selectOperator,
   deselectOperator,

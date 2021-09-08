@@ -9,20 +9,17 @@ import { showNewDeploymentModal } from 'store/ui/actions';
 import { useFirstRenderEffect, useIsLoading } from 'hooks';
 import { clearAllDeploymentOperators, OPERATORS_TYPES } from 'store/operators';
 import { clearAllDeploymentLogs } from 'store/deploymentLogs/actions';
-import { ActionTypes as DEPLOYMENTS_TYPES } from 'store/deployments';
 import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer';
 import {
+  DEPLOYMENTS_TYPES,
   clearAllDeployments,
   fetchDeploymentsRequest,
   renameDeploymentRequest,
   deleteDeploymentRequest,
   duplicateDeploymentRequest,
   updateDeploymentPositionRequest,
-} from 'store/deployments/actions';
-
-const deploymentsSelector = ({ deploymentsReducer }) => {
-  return deploymentsReducer;
-};
+  getDeployments,
+} from 'store/deployments';
 
 const getCurrentRoutePath = (projectId, deploymentId) => {
   return `/projetos/${projectId}/pre-implantacao/${deploymentId}`;
@@ -35,7 +32,7 @@ const DeploymentsTabsContainer = () => {
 
   const isDeletingDeployment = useRef(false);
 
-  const deployments = useSelector(deploymentsSelector);
+  const deployments = useSelector(getDeployments);
 
   const isLoading = useIsLoading(
     OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,

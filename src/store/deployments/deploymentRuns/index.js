@@ -1,7 +1,5 @@
-import Actions from './actions';
-import ActionTypes from './actionTypes';
-import Reducer from './deploymentRunsReducer';
+import * as DEPLOYMENTS_RUNS_TYPES from './deploymentRuns.actionTypes';
+export { DEPLOYMENTS_RUNS_TYPES };
 
-export default Reducer;
-
-export { Actions, ActionTypes }
+export * from './deploymentRuns.actions';
+export * from './deploymentRuns.reducer';

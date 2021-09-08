@@ -8,14 +8,9 @@ import {
   getMonitoringsFigures,
   fetchMonitoringFigures,
 } from 'store/monitorings';
+import { getDeploymentById } from 'store/deployments';
 import { useIsLoading } from 'hooks';
 import { MonitoringDrawer } from 'components';
-
-const deploymentSelector =
-  (deploymentId) =>
-  ({ deploymentsReducer }) => {
-    return deploymentsReducer.find(({ uuid }) => uuid === deploymentId);
-  };
 
 const MonitoringDrawerContainer = ({
   projectId,
@@ -25,7 +20,7 @@ const MonitoringDrawerContainer = ({
 }) => {
   const dispatch = useDispatch();
 
-  const deployment = useSelector(deploymentSelector(deploymentId));
+  const deployment = useSelector(getDeploymentById(deploymentId));
   const figures = useSelector(getMonitoringsFigures);
   const monitorings = useSelector(getMonitorings);
 

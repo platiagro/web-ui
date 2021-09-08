@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { addLoading, removeLoading } from 'store/loading';
 import deploymentRunsApi from 'services/DeploymentRunsApi';
 
-import actionTypes from './actionTypes';
+import * as DEPLOYMENTS_RUNS_TYPES from './deploymentRuns.actionTypes';
 
 /**
  * Fetch deployment runs success action
@@ -13,7 +13,7 @@ import actionTypes from './actionTypes';
  */
 const fetchDeploymentRunsSuccess = (response) => (dispatch) => {
   dispatch({
-    type: actionTypes.FETCH_DEPLOYMENT_RUNS_SUCCESS,
+    type: DEPLOYMENTS_RUNS_TYPES.FETCH_DEPLOYMENT_RUNS_SUCCESS,
     deploymentRuns: response.data,
   });
 };
@@ -30,7 +30,7 @@ const fetchDeploymentRunsFail = (error) => (dispatch) => {
 
   // dispatching fetch deployment runs fail action response
   dispatch({
-    type: actionTypes.FETCH_DEPLOYMENT_RUNS_FAIL,
+    type: DEPLOYMENTS_RUNS_TYPES.FETCH_DEPLOYMENT_RUNS_FAIL,
     errorMessage,
   });
 };
@@ -43,15 +43,17 @@ const fetchDeploymentRunsFail = (error) => (dispatch) => {
  * @param {boolean} isToShowLoader Whenever is to show loader
  * @returns {Function} `Dispatch function`
  */
-const fetchDeploymentRunsRequest =
+export const fetchDeploymentRunsRequest =
   (projectId, deploymentId, isToShowLoader) => (dispatch) => {
     if (isToShowLoader) {
-      dispatch(addLoading(actionTypes.FETCH_DEPLOYMENT_RUNS_REQUEST));
+      dispatch(
+        addLoading(DEPLOYMENTS_RUNS_TYPES.FETCH_DEPLOYMENT_RUNS_REQUEST)
+      );
     }
 
     // dispatching request action
     dispatch({
-      type: actionTypes.FETCH_DEPLOYMENT_RUNS_REQUEST,
+      type: DEPLOYMENTS_RUNS_TYPES.FETCH_DEPLOYMENT_RUNS_REQUEST,
     });
 
     // fetching experiment
@@ -64,7 +66,9 @@ const fetchDeploymentRunsRequest =
         dispatch(fetchDeploymentRunsFail(error));
       })
       .finally(() => {
-        dispatch(removeLoading(actionTypes.FETCH_DEPLOYMENT_RUNS_REQUEST));
+        dispatch(
+          removeLoading(DEPLOYMENTS_RUNS_TYPES.FETCH_DEPLOYMENT_RUNS_REQUEST)
+        );
       });
   };
 
@@ -79,7 +83,7 @@ const fetchDeploymentRunsRequest =
 const createDeploymentRunSuccess =
   (projectId, response, history) => (dispatch) => {
     dispatch({
-      type: actionTypes.CREATE_DEPLOYMENT_RUN_SUCCESS,
+      type: DEPLOYMENTS_RUNS_TYPES.CREATE_DEPLOYMENT_RUN_SUCCESS,
       runId: response.data.uuid,
     });
 
@@ -95,7 +99,7 @@ const createDeploymentRunSuccess =
  */
 const createDeploymentRunFail = (error) => (dispatch) => {
   dispatch({
-    type: actionTypes.CREATE_DEPLOYMENT_RUN_FAIL,
+    type: DEPLOYMENTS_RUNS_TYPES.CREATE_DEPLOYMENT_RUN_FAIL,
   });
 
   const errorMessage = error.message;
@@ -110,12 +114,12 @@ const createDeploymentRunFail = (error) => (dispatch) => {
  * @param {object} history History
  * @returns {Function} Dispatch function
  */
-const createDeploymentRunRequest =
+export const createDeploymentRunRequest =
   (projectId, deploymentId, history) => (dispatch) => {
-    dispatch(addLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+    dispatch(addLoading(DEPLOYMENTS_RUNS_TYPES.CREATE_DEPLOYMENT_RUN_REQUEST));
 
     dispatch({
-      type: actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST,
+      type: DEPLOYMENTS_RUNS_TYPES.CREATE_DEPLOYMENT_RUN_REQUEST,
     });
 
     deploymentRunsApi
@@ -125,7 +129,9 @@ const createDeploymentRunRequest =
       )
       .catch((error) => dispatch(createDeploymentRunFail(error)))
       .finally(() => {
-        dispatch(removeLoading(actionTypes.CREATE_DEPLOYMENT_RUN_REQUEST));
+        dispatch(
+          removeLoading(DEPLOYMENTS_RUNS_TYPES.CREATE_DEPLOYMENT_RUN_REQUEST)
+        );
       });
   };
 
@@ -144,7 +150,7 @@ const deleteDeploymentRunSuccess = (response) => (dispatch, getState) => {
   });
 
   dispatch({
-    type: actionTypes.DELETE_DEPLOYMENT_RUN_SUCCESS,
+    type: DEPLOYMENTS_RUNS_TYPES.DELETE_DEPLOYMENT_RUN_SUCCESS,
     runs,
   });
 };
@@ -157,7 +163,7 @@ const deleteDeploymentRunSuccess = (response) => (dispatch, getState) => {
  */
 const deleteDeploymentRunFail = (error) => (dispatch) => {
   dispatch({
-    type: actionTypes.DELETE_DEPLOYMENT_RUN_FAIL,
+    type: DEPLOYMENTS_RUNS_TYPES.DELETE_DEPLOYMENT_RUN_FAIL,
   });
 
   const errorMessage = error.message;
@@ -174,22 +180,18 @@ const deleteDeploymentRunFail = (error) => (dispatch) => {
 export const deleteDeploymentRunRequest =
   (projectId, deploymentId) => (dispatch) => {
     dispatch({
-      type: actionTypes.DELETE_DEPLOYMENT_RUN_REQUEST,
+      type: DEPLOYMENTS_RUNS_TYPES.DELETE_DEPLOYMENT_RUN_REQUEST,
     });
 
-    dispatch(addLoading(actionTypes.DELETE_DEPLOYMENT_RUN_REQUEST));
+    dispatch(addLoading(DEPLOYMENTS_RUNS_TYPES.DELETE_DEPLOYMENT_RUN_REQUEST));
 
     deploymentRunsApi
       .deleteDeploymentRun(projectId, deploymentId, 'latest')
       .then((response) => dispatch(deleteDeploymentRunSuccess(response)))
       .catch((error) => dispatch(deleteDeploymentRunFail(error)))
       .finally(() => {
-        dispatch(removeLoading(actionTypes.DELETE_DEPLOYMENT_RUN_REQUEST));
+        dispatch(
+          removeLoading(DEPLOYMENTS_RUNS_TYPES.DELETE_DEPLOYMENT_RUN_REQUEST)
+        );
       });
   };
-
-export default {
-  fetchDeploymentRunsRequest,
-  createDeploymentRunRequest,
-  deleteDeploymentRunRequest,
-};

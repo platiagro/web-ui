@@ -11,8 +11,10 @@ import SaveTemplateContainer from 'containers/SaveTemplateContainer';
 
 import { useIsLoading, useToggleState } from 'hooks';
 import { PROJECTS_TYPES } from 'store/projects';
-import DEPLOYMENT_TYPES from 'store/deployments/deploymentRuns/actionTypes';
-import deploymentRunsActions from 'store/deployments/deploymentRuns/actions';
+import {
+  DEPLOYMENTS_RUNS_TYPES,
+  createDeploymentRunRequest,
+} from 'store/deployments/deploymentRuns';
 import {
   fetchDeploymentOperatorsRequest,
   clearAllDeploymentOperators,
@@ -63,7 +65,7 @@ const DeploymentToolbarContainer = () => {
   const isLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 
   const confirmButtonIsLoading = useIsLoading(
-    DEPLOYMENT_TYPES.CREATE_DEPLOYMENT_RUN_REQUEST
+    DEPLOYMENTS_RUNS_TYPES.CREATE_DEPLOYMENT_RUN_REQUEST
   );
 
   const isEmpty = useMemo(() => {
@@ -85,13 +87,7 @@ const DeploymentToolbarContainer = () => {
   }, [dispatch]);
 
   const handleRunDeployment = () => {
-    dispatch(
-      deploymentRunsActions.createDeploymentRunRequest(
-        projectId,
-        deploymentId,
-        history
-      )
-    );
+    dispatch(createDeploymentRunRequest(projectId, deploymentId, history));
   };
 
   const runDeploymentHandler = (inputValue) => {
