@@ -15,8 +15,10 @@
     "plugin:react-hooks/recommended",
     "plugin:jest/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:react-redux/recommended"
+    "plugin:react-redux/recommended",
+    "plugin:sonarjs/recommended"
   ],
+  "plugins": ["sonarjs"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
@@ -37,13 +39,12 @@
     }
   },
   "rules": {
-    "jsdoc/require-param": [1, { "enableRootFixer": false }]
+    "jsdoc/require-param": [1, { "enableRootFixer": false }],
+    "sonarjs/no-duplicate-string": "off"
   },
   "overrides": [
     {
-      "files": [
-        "*.jsx"
-      ],
+      "files": ["*.jsx"],
       "rules": {
         "jsdoc/require-param": "off",
         "jsdoc/require-returns": "off"

@@ -8,6 +8,7 @@ const MonitoringDrawerAddCard = ({ isAdding, handleAddMonitoringTask }) => {
     <Card className='monitoring-drawer-content-add-card'>
       <Button
         shape='round'
+        // eslint-disable-next-line sonarjs/no-redundant-boolean
         disabled={true || isAdding} // TODO: Verificar se o MonitoringDrawerAddCard será utilizado
         type='primary-inverse'
         onClick={handleAddMonitoringTask}

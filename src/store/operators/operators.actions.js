@@ -162,6 +162,7 @@ export const fetchDeploymentOperatorsRequest =
  * @returns {Promise} Request
  */
 export const clearOperatorsFeatureParametersRequest =
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   (projectId, experimentId, dataset) => async (dispatch, getState) => {
     try {
       const { operatorsReducer: operators } = getState();

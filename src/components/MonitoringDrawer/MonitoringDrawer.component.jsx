@@ -92,6 +92,7 @@ const MonitoringDrawer = ({
               })}
 
               <div key={ADD_CARD_KEY}>
+                {/* eslint-disable-next-line sonarjs/no-redundant-boolean */}
                 {false && ( // TODO: Exibe botão quando ele funcionar
                   <MonitoringDrawerAddCard
                     isAdding={isAdding}
