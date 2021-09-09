@@ -85,17 +85,21 @@ export const fetchDeploymentsRequest =
  * create deployment success action
  *
  * @param {object} response Response body
+ * @param {string} projectId Project id
+ * @param {object} history Router history object
  * @returns {object} { type, experiment }
  */
-const createDeploymentSuccess = (response) => (dispatch) => {
-  // dispatching create deployment success
-  dispatch({
-    type: DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_SUCCESS,
-    deployments: response.data.deployments,
-  });
+const createDeploymentSuccess =
+  (response, projectId, history) => (dispatch) => {
+    // dispatching create deployment success
+    dispatch({
+      type: DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_SUCCESS,
+      deployments: response.data.deployments,
+    });
 
-  dispatch(hideNewDeploymentModal());
-};
+    dispatch(hideNewDeploymentModal());
+    if (history) history.push(`/projetos/${projectId}/pre-implantacao`);
+  };
 
 /**
  * create deployment fail action
@@ -131,11 +135,12 @@ const createDeploymentFail = (error) => (dispatch) => {
  * @param {string} projectId Project ID
  * @param {string=} experimentId Experiment ID
  * @param {string=} templateId Template ID
+ * @param {object} history Router history
  *
  * @returns {Function} Async action
  */
 export const createDeploymentRequest =
-  (projectId, experimentId, templateId) => async (dispatch) => {
+  (projectId, experimentId, templateId, history) => async (dispatch) => {
     // dispatching request action
     dispatch({
       type: DEPLOYMENTS_TYPES.CREATE_DEPLOYMENT_REQUEST,
@@ -154,7 +159,7 @@ export const createDeploymentRequest =
         createObject
       );
 
-      dispatch(createDeploymentSuccess(response));
+      dispatch(createDeploymentSuccess(response, projectId, history));
     } catch (error) {
       dispatch(createDeploymentFail(error));
     } finally {
