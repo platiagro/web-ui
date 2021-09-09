@@ -5,6 +5,11 @@ import { Skeleton } from 'antd';
 import { MarketplaceTaskItem } from 'components';
 
 const MarketplaceTaskDetailsChanges = ({ taskData, isLoadingTask }) => {
+  const getFormattedDate = (date) => {
+    if (!date) return '';
+    return new Date(date).toLocaleString();
+  };
+
   return (
     <MarketplaceTaskItem.Box
       className='marketplace-task-details-content-changes'
@@ -23,7 +28,7 @@ const MarketplaceTaskDetailsChanges = ({ taskData, isLoadingTask }) => {
             </div>
 
             <div className='marketplace-task-details-content-changes-text'>
-              {taskData.updatedAt}
+              {getFormattedDate(taskData.updatedAt)}
             </div>
           </>
         )
