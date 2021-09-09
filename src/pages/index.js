@@ -10,6 +10,7 @@ import TaskDetails from './TaskDetails';
 import Marketplace from './Marketplace';
 import ProjectsDetails from './ProjectDetails';
 import MarketplaceSearch from './MarketplaceSearch';
+import MarketplaceAuthor from './MarketplaceAuthor';
 import MarketplaceTaskDetails from './MarketplaceTaskDetails';
 
 export {
@@ -25,5 +26,6 @@ export {
   Marketplace,
   ProjectsDetails,
   MarketplaceSearch,
+  MarketplaceAuthor,
   MarketplaceTaskDetails,
 };

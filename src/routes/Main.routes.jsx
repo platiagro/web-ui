@@ -14,6 +14,7 @@ import {
   Marketplace,
   ProjectsDetails,
   MarketplaceSearch,
+  MarketplaceAuthor,
   MarketplaceTaskDetails,
 } from 'pages';
 
@@ -37,6 +38,12 @@ export const Main = () => {
       <Route
         path='/marketplace/tarefas/:taskId'
         component={MarketplaceTaskDetails}
+        exact
+      />
+
+      <Route
+        path='/marketplace/autor/:authorId'
+        component={MarketplaceAuthor}
         exact
       />
 

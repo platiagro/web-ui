@@ -8,7 +8,9 @@ import './MarketplaceTaskItemBox.style.less';
 const MarketplaceTaskItemBox = ({
   header,
   footer,
+  onClick,
   children,
+  tabIndex,
   className,
   taskCategory,
   borderDirection,
@@ -25,6 +27,10 @@ const MarketplaceTaskItemBox = ({
   return (
     <div
       className={`marketplace-task-item-box ${className} ${borderDirectionClass}`}
+      role='button'
+      onKeyPress={null}
+      onClick={onClick}
+      tabIndex={tabIndex}
     >
       <div
         style={{ background: getColor() }}
@@ -43,7 +49,9 @@ const MarketplaceTaskItemBox = ({
 MarketplaceTaskItemBox.propTypes = {
   header: PropTypes.node,
   footer: PropTypes.node,
+  onClick: PropTypes.func,
   children: PropTypes.node,
+  tabIndex: PropTypes.number,
   className: PropTypes.string,
   taskCategory: PropTypes.oneOf(Object.keys(MARKETPLACE_TASK_CATEGORIES)),
   borderDirection: PropTypes.oneOf(['left', 'top']),
@@ -52,7 +60,9 @@ MarketplaceTaskItemBox.propTypes = {
 MarketplaceTaskItemBox.defaultProps = {
   header: null,
   footer: null,
+  onClick: null,
   children: null,
+  tabIndex: -1,
   className: '',
   taskCategory: MARKETPLACE_TASK_CATEGORIES.DATASETS.key,
   borderDirection: 'top',
