@@ -8,6 +8,7 @@ const MarketplaceTaskDetailsChanges = ({ taskData, isLoadingTask }) => {
   return (
     <MarketplaceTaskItem.Box
       className='marketplace-task-details-content-changes'
+      taskCategory={taskData?.category}
       borderDirection='left'
       header={
         <div className='marketplace-task-details-content-changes-title'>
@@ -22,7 +23,7 @@ const MarketplaceTaskDetailsChanges = ({ taskData, isLoadingTask }) => {
             </div>
 
             <div className='marketplace-task-details-content-changes-text'>
-              {taskData?.updatedAt}
+              {taskData.updatedAt}
             </div>
           </>
         )
