@@ -19,8 +19,13 @@ const MarketplaceTaskDetailsData = ({
   return (
     <div className='marketplace-task-details-content-data'>
       <div className='marketplace-task-details-content-data-header'>
-        <Avatar src={taskData.img} alt='Task Author' size={100}>
-          {taskData.author?.name?.charAt(0)}
+        <Avatar
+          className='marketplace-task-details-content-data-header-avatar'
+          src={taskData.img}
+          alt='Task Author'
+          size={100}
+        >
+          {taskData.name.charAt(0)}
         </Avatar>
 
         <div className='marketplace-task-details-content-data-header-info'>
