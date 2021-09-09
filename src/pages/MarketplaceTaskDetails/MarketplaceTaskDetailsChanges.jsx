@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Skeleton } from 'antd';
 
 import { MarketplaceTaskItem } from 'components';
 
 const MarketplaceTaskDetailsChanges = ({ taskData, isLoadingTask }) => {
-  if (isLoadingTask || !taskData) {
-    return null;
-  }
-
   return (
     <MarketplaceTaskItem.Box
       className='marketplace-task-details-content-changes'
@@ -18,20 +15,26 @@ const MarketplaceTaskDetailsChanges = ({ taskData, isLoadingTask }) => {
         </div>
       }
       footer={
-        <>
-          <div>
-            <strong>Última atualização</strong>
-          </div>
+        isLoadingTask ? null : (
+          <>
+            <div>
+              <strong>Última atualização</strong>
+            </div>
 
-          <div className='marketplace-task-details-content-changes-text'>
-            {taskData.updatedAt}
-          </div>
-        </>
+            <div className='marketplace-task-details-content-changes-text'>
+              {taskData?.updatedAt}
+            </div>
+          </>
+        )
       }
     >
-      <div className='marketplace-task-details-content-changes-text'>
-        {taskData.changes}
-      </div>
+      {isLoadingTask ? (
+        <Skeleton active />
+      ) : (
+        <div className='marketplace-task-details-content-changes-text'>
+          {taskData.changes}
+        </div>
+      )}
     </MarketplaceTaskItem.Box>
   );
 };

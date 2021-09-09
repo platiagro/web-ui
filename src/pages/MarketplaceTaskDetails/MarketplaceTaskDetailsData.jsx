@@ -4,15 +4,17 @@ import { Link } from 'react-router-dom';
 import { Button, Typography, Avatar, Tag } from 'antd';
 import { DownloadOutlined, LoadingOutlined } from '@ant-design/icons';
 
+import { TASK_CATEGORIES } from 'configs';
+
+import MarketplaceTaskDetailsDataSkeleton from './MarketplaceTaskDetailsDataSkeleton';
+
 const MarketplaceTaskDetailsData = ({
   taskData,
   isCopyingTask,
   isLoadingTask,
   handleCopyTask,
 }) => {
-  if (isLoadingTask || !taskData) {
-    return null;
-  }
+  if (isLoadingTask) return <MarketplaceTaskDetailsDataSkeleton />;
 
   return (
     <div className='marketplace-task-details-content-data'>
@@ -29,14 +31,18 @@ const MarketplaceTaskDetailsData = ({
             {taskData.name}
           </Typography.Title>
 
-          <Typography.Paragraph>{taskData.category}</Typography.Paragraph>
+          <Typography.Paragraph>
+            {TASK_CATEGORIES[taskData.category]?.name || taskData.category}
+          </Typography.Paragraph>
 
-          <Link
-            to={`/marketplace/author/${taskData.author?.uuid || ''}`}
-            component={Typography.Link}
-          >
-            {taskData.author?.name || 'Desconhecido'}
-          </Link>
+          {taskData.author?.uuid && taskData.author?.name && (
+            <Link
+              to={`/marketplace/author/${taskData.author?.uuid || ''}`}
+              component={Typography.Link}
+            >
+              {taskData.author?.name}
+            </Link>
+          )}
         </div>
 
         <Button

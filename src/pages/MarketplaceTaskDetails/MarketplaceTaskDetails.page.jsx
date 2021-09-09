@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
+import { message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -7,6 +8,7 @@ import {
   getTaskData,
   TASKS_TYPES,
   fetchTaskData,
+  clearTaskData,
 } from 'store/tasks';
 import { useIsLoading } from 'hooks';
 
@@ -33,11 +35,16 @@ const MarketplaceTaskDetails = () => {
   const handleCopyTask = () => {
     const taskCopy = { ...taskData, copyFrom: taskData.uuid };
     delete taskCopy.uuid;
-    dispatch(createTask(taskCopy));
+    dispatch(
+      createTask(taskCopy, () => {
+        message.success('Tarefa copiada!');
+      })
+    );
   };
 
-  useEffect(() => {
-    dispatch(fetchTaskData(taskId));
+  useLayoutEffect(() => {
+    if (taskId) dispatch(fetchTaskData(taskId));
+    return () => dispatch(clearTaskData());
   }, [dispatch, taskId]);
 
   return (
@@ -46,14 +53,14 @@ const MarketplaceTaskDetails = () => {
 
       <div className='marketplace-task-details-content'>
         <MarketplaceTaskDetailsData
-          taskData={taskData}
+          taskData={taskData || {}}
           isLoadingTask={isLoadingTask}
           isCopyingTask={isCopyingTask}
           handleCopyTask={handleCopyTask}
         />
 
         <MarketplaceTaskDetailsChanges
-          taskData={taskData}
+          taskData={taskData || {}}
           isLoadingTask={isLoadingTask}
         />
       </div>
