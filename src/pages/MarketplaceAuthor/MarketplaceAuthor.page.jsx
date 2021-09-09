@@ -81,6 +81,7 @@ const MarketplaceAuthor = () => {
         numberOfFlows={1}
         numberOfTasks={2}
         isLoadingAuthor={isLoadingAuthor}
+        isLoading={isLoadingAuthor || isLoadingTasks}
       />
 
       <MarketplaceAuthorTasks tasks={tasks} isLoadingTasks={isLoadingTasks} />

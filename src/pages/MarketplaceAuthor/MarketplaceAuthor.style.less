@@ -51,18 +51,26 @@
 
     .marketplace-author-info-content {
       max-width: 80%;
-      padding: 24px;
+      padding: 16px 24px;
       margin: auto;
       display: flex;
+      flex-wrap: wrap;
       align-items: flex-start;
 
       .marketplace-author-info-content-avatar {
         min-width: 100px;
         min-height: 100px;
+        margin: 8px 24px 8px 0;
+
+        > * {
+          font-size: 32px;
+        }
       }
 
       .marketplace-author-info-content-texts {
-        padding: 0 24px;
+        margin: 8px 0;
+        flex: 1;
+        min-width: 250px;
 
         .marketplace-author-info-content-texts-title {
           margin: 0 0 4px 0;

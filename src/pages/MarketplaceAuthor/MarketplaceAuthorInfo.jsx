@@ -2,7 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Typography } from 'antd';
 
-const MarketplaceAuthorInfo = ({ author, numberOfTasks, numberOfFlows }) => {
+import MarketplaceAuthorInfoSkeleton from './MarketplaceAuthorInfoSkeleton';
+
+const MarketplaceAuthorInfo = ({
+  author,
+  isLoading,
+  numberOfTasks,
+  numberOfFlows,
+}) => {
+  if (isLoading) {
+    return <MarketplaceAuthorInfoSkeleton />;
+  }
+
   return (
     <div className='marketplace-author-info'>
       <div className='marketplace-author-info-content'>
@@ -48,12 +59,14 @@ const MarketplaceAuthorInfo = ({ author, numberOfTasks, numberOfFlows }) => {
 
 MarketplaceAuthorInfo.propTypes = {
   author: PropTypes.object,
+  isLoading: PropTypes.bool,
   numberOfTasks: PropTypes.number,
   numberOfFlows: PropTypes.number,
 };
 
 MarketplaceAuthorInfo.defaultProps = {
   author: {},
+  isLoading: false,
   numberOfTasks: 0,
   numberOfFlows: 0,
 };
