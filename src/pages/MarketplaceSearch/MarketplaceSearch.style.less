@@ -45,4 +45,101 @@
       }
     }
   }
+
+  .marketplace-search-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    flex: 1;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .marketplace-search-filters {
+    background: white;
+    width: 300px;
+    height: 100%;
+
+    .marketplace-search-filters-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 16px 24px 0 24px;
+
+      .marketplace-search-filters-header-title {
+        font-size: 16px;
+      }
+    }
+
+    .marketplace-search-filters-group {
+      padding: 24px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #00000017;
+      }
+
+      .marketplace-search-filters-group-title {
+        margin: 0 0 16px 0;
+      }
+
+      .marketplace-search-filters-group-checkbox {
+        display: block;
+        margin: 0 0 8px 0;
+      }
+    }
+  }
+
+  .marketplace-search-results {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px;
+
+    .marketplace-search-results-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+
+      .marketplace-search-results-header-total {
+        > *:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
+
+      .marketplace-search-results-header-options {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        > *:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .marketplace-search-results-tasks {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: flex-start;
+      margin: -8px;
+
+      .marketplace-search-results-task {
+        flex: 1 25%;
+        min-width: 250px;
+        margin: 8px;
+      }
+
+      .marketplace-search-results-tasks-empty {
+        align-self: center;
+        margin: 0 auto;
+      }
+    }
+  }
 }
