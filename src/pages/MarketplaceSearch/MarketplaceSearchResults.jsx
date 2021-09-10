@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import { Typography, Select, Button } from 'antd';
 import {
+  TableOutlined,
   ShoppingOutlined,
   UnorderedListOutlined,
-  BlockOutlined,
 } from '@ant-design/icons';
 
 import { MarketplaceTaskItem, Placeholder } from 'components';
@@ -16,6 +17,8 @@ const MarketplaceSearchResults = ({
   handleChangeListType,
   handleChangeListOrder,
 }) => {
+  const history = useHistory();
+
   return (
     <div className='marketplace-search-results'>
       <div className='marketplace-search-results-header'>
@@ -40,7 +43,7 @@ const MarketplaceSearchResults = ({
 
           <Button shape='round' onClick={handleChangeListType}>
             {listType === 'list' ? (
-              <BlockOutlined />
+              <TableOutlined />
             ) : (
               <UnorderedListOutlined />
             )}
@@ -63,11 +66,14 @@ const MarketplaceSearchResults = ({
               key={task.uuid}
               onClick={handleSeeTask}
               taskCategory={task.category}
-              className='marketplace-search-tasks-task'
+              className={`marketplace-search-results-tasks-task--${listType}`}
               header={
-                <MarketplaceTaskItem.Title>
-                  {task.name}
-                </MarketplaceTaskItem.Title>
+                <MarketplaceTaskItem.Header
+                  name={task.author.name}
+                  userId={task.author.uuid}
+                  imageSrc={task.author.img}
+                  userName={task.author.userName}
+                />
               }
               footer={
                 <MarketplaceTaskItem.InlineData

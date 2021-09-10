@@ -10,6 +10,61 @@ import './MarketplaceSearch.style.less';
 const MarketplaceSearch = () => {
   const history = useHistory();
 
+  const tasks = [
+    {
+      uuid: '1',
+      name: 'Upload de arquivo',
+      type: 'Tarefa',
+      category: 'DATASETS',
+      description: 'Faça o upload de arquivo para usar como dataset.',
+      author: {
+        uuid: '1',
+        name: 'Nome do Autor',
+        img: '',
+        userName: '@author',
+      },
+    },
+    {
+      uuid: '2',
+      name: 'Upload de arquivo',
+      type: 'Tarefa',
+      category: 'DATASETS',
+      description: 'Faça o upload de arquivo para usar como dataset.',
+      author: {
+        uuid: '1',
+        name: 'Nome do Autor',
+        img: '',
+        userName: '@author',
+      },
+    },
+    {
+      uuid: '3',
+      name: 'Upload de arquivo',
+      type: 'Tarefa',
+      category: 'DATASETS',
+      description: 'Faça o upload de arquivo para usar como dataset.',
+      author: {
+        uuid: '1',
+        name: 'Nome do Autor',
+        img: '',
+        userName: '@author',
+      },
+    },
+    {
+      uuid: '4',
+      name: 'Upload de arquivo',
+      type: 'Tarefa',
+      category: 'DATASETS',
+      description: 'Faça o upload de arquivo para usar como dataset.',
+      author: {
+        uuid: '1',
+        name: 'Nome do Autor',
+        img: '',
+        userName: '@author',
+      },
+    },
+  ];
+
   const [filters, setFilters] = useState(() => {
     const searchParams = new URLSearchParams(history.location.search);
     const paramsObject = {};
@@ -67,7 +122,7 @@ const MarketplaceSearch = () => {
         />
 
         <MarketplaceSearchResults
-          tasks={[]}
+          tasks={tasks}
           listType={listType}
           listOrder={listOrder}
           handleChangeListOrder={setListOrder}

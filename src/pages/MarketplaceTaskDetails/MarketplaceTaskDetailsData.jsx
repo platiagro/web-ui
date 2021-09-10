@@ -25,7 +25,7 @@ const MarketplaceTaskDetailsData = ({
           alt='Task Author'
           size={100}
         >
-          {taskData.name.charAt(0)}
+          {taskData?.name?.charAt(0)}
         </Avatar>
 
         <div className='marketplace-task-details-content-data-header-info'>
