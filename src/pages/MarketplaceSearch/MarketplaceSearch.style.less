@@ -51,11 +51,6 @@
     flex-wrap: wrap;
     align-items: stretch;
     flex: 1;
-
-    @media only screen and (max-width: 768px) {
-      flex-direction: column;
-      align-items: flex-start;
-    }
   }
 
   .marketplace-search-filters {
@@ -148,6 +143,31 @@
         align-self: center;
         margin: 0 auto;
       }
+    }
+
+    @media only screen and (max-width: 968px) {
+      .marketplace-search-results-header {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .marketplace-search-results-header-options {
+          > * {
+            margin: 4px 0;
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .marketplace-search-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .marketplace-search-filters {
+      height: auto;
+      width: 100%;
     }
   }
 }
