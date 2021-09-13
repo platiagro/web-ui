@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
+import PropTypes from 'prop-types';
 
 import { MarketplaceTaskItem } from 'components';
 import { MARKETPLACE_TASK_CATEGORIES } from 'configs';
@@ -11,7 +12,7 @@ const CATEGORY_LIST = [
   MARKETPLACE_TASK_CATEGORIES.DESCRIPTIVE_STATISTICS,
 ];
 
-const MarketplaceBasicTasks = () => {
+const MarketplaceBasicTasks = ({ handleSearchTasks }) => {
   return (
     <div className='marketplace-basic-tasks'>
       <div className='marketplace-basic-tasks-content'>
@@ -22,8 +23,8 @@ const MarketplaceBasicTasks = () => {
 
         <div className='marketplace-basic-tasks-list'>
           {CATEGORY_LIST.map((category) => {
-            const handleSeeTask = () => {
-              console.log('See task');
+            const handleSearchByCategory = () => {
+              handleSearchTasks(category.key);
             };
 
             return (
@@ -36,7 +37,7 @@ const MarketplaceBasicTasks = () => {
                   </MarketplaceTaskItem.Title>
                 }
                 footer={
-                  <Button shape='round' onClick={handleSeeTask}>
+                  <Button shape='round' onClick={handleSearchByCategory}>
                     Ver tarefas
                   </Button>
                 }
@@ -51,6 +52,10 @@ const MarketplaceBasicTasks = () => {
       </div>
     </div>
   );
+};
+
+MarketplaceBasicTasks.propTypes = {
+  handleSearchTasks: PropTypes.func,
 };
 
 export default MarketplaceBasicTasks;

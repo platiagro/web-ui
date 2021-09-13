@@ -15,12 +15,23 @@ const Marketplace = () => {
     history.goBack();
   };
 
+  const handleSearchTasks = (categoryKey) => {
+    const searchParams = new URLSearchParams({
+      [categoryKey]: true,
+    });
+
+    history.push({
+      pathname: '/marketplace/tarefas',
+      search: `?${searchParams}`,
+    });
+  };
+
   return (
     <div className='marketplace'>
       <MarketplaceHeader handleGoBack={handleGoBack} />
       <MarketplaceSearch />
-      <MarketplaceBasicTasks />
-      <MarketplaceComplexTasks />
+      <MarketplaceBasicTasks handleSearchTasks={handleSearchTasks} />
+      <MarketplaceComplexTasks handleSearchTasks={handleSearchTasks} />
     </div>
   );
 };

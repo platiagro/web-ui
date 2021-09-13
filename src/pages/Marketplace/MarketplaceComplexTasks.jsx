@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Button } from 'antd';
 
@@ -10,7 +11,7 @@ const CATEGORY_LIST = [
   MARKETPLACE_TASK_CATEGORIES.OTHER,
 ];
 
-const MarketplaceComplexTasks = () => {
+const MarketplaceComplexTasks = ({ handleSearchTasks }) => {
   return (
     <div className='marketplace-complex-tasks'>
       <div className='marketplace-complex-tasks-content'>
@@ -21,8 +22,8 @@ const MarketplaceComplexTasks = () => {
 
         <div className='marketplace-complex-tasks-list'>
           {CATEGORY_LIST.map((category) => {
-            const handleSeeFlow = () => {
-              console.log('See flow');
+            const handleSearchByCategory = () => {
+              handleSearchTasks(category.key);
             };
 
             return (
@@ -35,7 +36,7 @@ const MarketplaceComplexTasks = () => {
                   </MarketplaceTaskItem.Title>
                 }
                 footer={
-                  <Button shape='round' onClick={handleSeeFlow}>
+                  <Button shape='round' onClick={handleSearchByCategory}>
                     Ver fluxos
                   </Button>
                 }
@@ -50,6 +51,10 @@ const MarketplaceComplexTasks = () => {
       </div>
     </div>
   );
+};
+
+MarketplaceComplexTasks.propTypes = {
+  handleSearchTasks: PropTypes.func,
 };
 
 export default MarketplaceComplexTasks;
