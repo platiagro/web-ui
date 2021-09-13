@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography, Checkbox, Button } from 'antd';
+import { Typography, Checkbox, Button, Tag } from 'antd';
 
 import { MARKETPLACE_TASK_CATEGORIES } from 'configs';
 
@@ -20,20 +20,62 @@ const FLOW_CATEGORIES_TO_FILTER = [
 const MarketplaceSearchFilters = ({
   filters,
   handleClearFilters,
-  handleChangeFilters,
+  tagsGroupedByCategory,
+  handleChangeTagFilters,
+  handleChangeCategoryFilters,
 }) => {
   const mapCategoryToCheckbox = (category) => {
     const isChecked = !!filters[category.key];
+
+    const handleChange = (e) => {
+      handleChangeCategoryFilters(category.key, e.target.checked);
+    };
 
     return (
       <Checkbox
         key={category.key}
         checked={isChecked}
+        onChange={handleChange}
         className='marketplace-search-filters-group-checkbox'
-        onChange={(e) => handleChangeFilters(category.key, e.target.checked)}
       >
         {category.name}
       </Checkbox>
+    );
+  };
+
+  const mapCategoryToTags = (category) => {
+    const isFilteringByThisCategory = !!filters[category.key];
+    if (!isFilteringByThisCategory) return null;
+
+    const tags = tagsGroupedByCategory[category.key] || [
+      { name: 'Testing', quantity: 15 },
+      { name: 'Pow', quantity: 5 },
+    ];
+    if (tags.length === 0) return null;
+
+    return (
+      <div key={category.key} className='marketplace-search-filters-group-tags'>
+        <Typography.Paragraph strong>{category.name}</Typography.Paragraph>
+
+        {tags.map((tag) => {
+          const isChecked = !!filters?.tags?.includes(tag.name);
+
+          const handleChangeTag = () => {
+            handleChangeTagFilters(tag.name, isChecked);
+          };
+
+          return (
+            <div
+              key={tag.name}
+              className='marketplace-search-filters-group-tags-tag'
+            >
+              <Tag.CheckableTag checked={isChecked} onChange={handleChangeTag}>
+                {`${tag.name} (${tag.quantity})`}
+              </Tag.CheckableTag>
+            </div>
+          );
+        })}
+      </div>
     );
   };
 
@@ -58,6 +100,7 @@ const MarketplaceSearchFilters = ({
         </Typography.Title>
 
         {TASK_CATEGORIES_TO_FILTER.map(mapCategoryToCheckbox)}
+        {TASK_CATEGORIES_TO_FILTER.map(mapCategoryToTags)}
       </div>
 
       <div className='marketplace-search-filters-group'>
@@ -69,6 +112,7 @@ const MarketplaceSearchFilters = ({
         </Typography.Title>
 
         {FLOW_CATEGORIES_TO_FILTER.map(mapCategoryToCheckbox)}
+        {FLOW_CATEGORIES_TO_FILTER.map(mapCategoryToTags)}
       </div>
     </div>
   );
@@ -77,13 +121,17 @@ const MarketplaceSearchFilters = ({
 MarketplaceSearchFilters.propTypes = {
   filters: PropTypes.object,
   handleClearFilters: PropTypes.func,
-  handleChangeFilters: PropTypes.func,
+  tagsGroupedByCategory: PropTypes.object,
+  handleChangeTagFilters: PropTypes.func,
+  handleChangeCategoryFilters: PropTypes.func,
 };
 
 MarketplaceSearchFilters.defaultProps = {
   filters: {},
   handleClearFilters: null,
-  handleChangeFilters: null,
+  tagsGroupedByCategory: {},
+  handleChangeTagFilters: null,
+  handleChangeCategoryFilters: null,
 };
 
 export default MarketplaceSearchFilters;
