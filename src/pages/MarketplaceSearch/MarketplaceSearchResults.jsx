@@ -10,6 +10,11 @@ import {
 
 import { MarketplaceTaskItem, Placeholder } from 'components';
 
+import {
+  MARKETPLACE_LIST_TYPE,
+  MARKETPLACE_LIST_ORDER,
+} from './MarketplaceSearchConfigs';
+
 const MarketplaceSearchResults = ({
   tasks,
   listType,
@@ -37,19 +42,26 @@ const MarketplaceSearchResults = ({
             onChange={handleChangeListOrder}
             placeholder='Selecione a ordem de exibição'
           >
-            <Select.Option value='new'>Mais recentes</Select.Option>
-            <Select.Option value='old'>Mais antigos</Select.Option>
+            <Select.Option value={MARKETPLACE_LIST_ORDER.NEWER}>
+              Mais recentes
+            </Select.Option>
+
+            <Select.Option value={MARKETPLACE_LIST_ORDER.OLDER}>
+              Mais antigos
+            </Select.Option>
           </Select>
 
           <Button shape='round' onClick={handleChangeListType}>
-            {listType === 'list' ? (
+            {listType === MARKETPLACE_LIST_TYPE.LIST ? (
               <TableOutlined />
             ) : (
               <UnorderedListOutlined />
             )}
 
             <span>
-              {listType === 'list' ? 'Ver como grid' : 'Ver como lista'}
+              {listType === MARKETPLACE_LIST_TYPE.LIST
+                ? 'Ver como grid'
+                : 'Ver como lista'}
             </span>
           </Button>
         </div>
@@ -57,6 +69,8 @@ const MarketplaceSearchResults = ({
 
       <div className='marketplace-search-results-tasks'>
         {tasks.map((task) => {
+          const itemClass = `marketplace-search-results-tasks-task--${listType}`;
+
           const handleSeeTask = () => {
             history.push(`/marketplace/tarefas/${task.uuid}`);
           };
@@ -66,7 +80,7 @@ const MarketplaceSearchResults = ({
               key={task.uuid}
               onClick={handleSeeTask}
               taskCategory={task.category}
-              className={`marketplace-search-results-tasks-task--${listType}`}
+              className={itemClass.toLowerCase()}
               header={
                 <MarketplaceTaskItem.Header
                   name={task.author.name}
@@ -103,16 +117,16 @@ const MarketplaceSearchResults = ({
 
 MarketplaceSearchResults.propTypes = {
   tasks: PropTypes.array,
-  listType: PropTypes.oneOf(['list', 'grid']),
-  listOrder: PropTypes.oneOf(['new', 'old']),
+  listType: PropTypes.oneOf(Object.values(MARKETPLACE_LIST_TYPE)),
+  listOrder: PropTypes.oneOf(Object.values(MARKETPLACE_LIST_ORDER)),
   handleChangeListType: PropTypes.func,
   handleChangeListOrder: PropTypes.func,
 };
 
 MarketplaceSearchResults.defaultProps = {
   tasks: [],
-  listType: 'grid',
-  listOrder: 'new',
+  listType: MARKETPLACE_LIST_TYPE.GRID,
+  listOrder: MARKETPLACE_LIST_ORDER.NEWER,
   handleChangeListType: null,
   handleChangeListOrder: null,
 };

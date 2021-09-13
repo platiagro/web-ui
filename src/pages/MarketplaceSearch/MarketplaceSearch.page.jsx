@@ -4,6 +4,10 @@ import { useHistory } from 'react-router-dom';
 import MarketplaceSearchHeader from './MarketplaceSearchHeader';
 import MarketplaceSearchFilters from './MarketplaceSearchFilters';
 import MarketplaceSearchResults from './MarketplaceSearchResults';
+import {
+  MARKETPLACE_LIST_TYPE,
+  MARKETPLACE_LIST_ORDER,
+} from './MarketplaceSearchConfigs';
 
 import './MarketplaceSearch.style.less';
 
@@ -74,8 +78,8 @@ const MarketplaceSearch = () => {
     return paramsObject;
   });
 
-  const [listType, setListType] = useState('grid');
-  const [listOrder, setListOrder] = useState('new');
+  const [listType, setListType] = useState(MARKETPLACE_LIST_TYPE.GRID);
+  const [listOrder, setListOrder] = useState(MARKETPLACE_LIST_ORDER.NEWER);
 
   const handleGoBack = () => {
     history.goBack();
@@ -106,7 +110,9 @@ const MarketplaceSearch = () => {
 
   const handleChangeListType = () => {
     setListType((currentListType) =>
-      currentListType === 'grid' ? 'list' : 'grid'
+      currentListType === MARKETPLACE_LIST_TYPE.GRID
+        ? MARKETPLACE_LIST_TYPE.LIST
+        : MARKETPLACE_LIST_TYPE.GRID
     );
   };
 
