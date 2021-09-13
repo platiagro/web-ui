@@ -33,7 +33,7 @@ const MarketplaceTaskItemHeader = ({
 
         <Link
           onClick={handleClick}
-          to={`/usuario/${userId}`}
+          to={`/marketplace/autor/${userId}`}
           component={Typography.Link}
         >
           {userName}

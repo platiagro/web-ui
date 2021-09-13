@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageHeader, Typography } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { Input, PageHeader, Typography } from 'antd';
 
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
@@ -8,8 +9,18 @@ const MarketplaceSearchHeader = ({ handleGoBack }) => {
   return (
     <PageHeader
       className='marketplace-search-header'
-      extra={<AccountInfo />}
       onBack={handleGoBack}
+      extra={
+        <>
+          <Input
+            className='marketplace-search-header-search'
+            placeholder='Buscar no marketplace'
+            suffix={<SearchOutlined />}
+          />
+
+          <AccountInfo />
+        </>
+      }
       title={
         <>
           <span className='marketplace-search-header-subtitle'>
