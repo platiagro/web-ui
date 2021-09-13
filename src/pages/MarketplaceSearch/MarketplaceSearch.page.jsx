@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useIsLoading } from 'hooks';
+
 import MarketplaceSearchHeader from './MarketplaceSearchHeader';
 import MarketplaceSearchFilters from './MarketplaceSearchFilters';
 import MarketplaceSearchResults from './MarketplaceSearchResults';
@@ -69,6 +71,8 @@ const MarketplaceSearch = () => {
     },
   ];
 
+  const isSearchingTasks = useIsLoading('searching');
+
   const [filters, setFilters] = useState(() => {
     const searchParams = new URLSearchParams(history.location.search);
     const paramsObject = {};
@@ -131,6 +135,7 @@ const MarketplaceSearch = () => {
           tasks={tasks}
           listType={listType}
           listOrder={listOrder}
+          isSearchingTasks={isSearchingTasks}
           handleChangeListOrder={setListOrder}
           handleChangeListType={handleChangeListType}
         />
