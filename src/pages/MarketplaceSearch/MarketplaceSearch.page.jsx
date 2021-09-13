@@ -1,43 +1,56 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getMarketplaceTasks, MARKETPLACE_TYPES } from 'store/marketplace';
+import {
+  MARKETPLACE_TYPES,
+  getMarketplaceTasks,
+  fetchMarketplaceTasks,
+} from 'store/marketplace';
+import { MARKETPLACE_TASK_CATEGORIES } from 'configs';
 import { useIsLoading, usePersistentState } from 'hooks';
 
-import MarketplaceSearchHeader from './MarketplaceSearchHeader';
-import MarketplaceSearchFilters from './MarketplaceSearchFilters';
-import MarketplaceSearchResults from './MarketplaceSearchResults';
 import {
   MARKETPLACE_LIST_TYPE,
   MARKETPLACE_LIST_ORDER,
   MARKETPLACE_LOCAL_STORAGE_KEYS,
 } from './MarketplaceSearchConfigs';
+import MarketplaceSearchHeader from './MarketplaceSearchHeader';
+import MarketplaceSearchFilters from './MarketplaceSearchFilters';
+import MarketplaceSearchResults from './MarketplaceSearchResults';
 
 import './MarketplaceSearch.style.less';
 
 const MarketplaceSearch = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const tasks = useSelector(getMarketplaceTasks);
   const isSearchingTasks = useIsLoading(MARKETPLACE_TYPES.FETCH_TASKS);
 
-  const [filters, setFilters] = useState(() => {
+  const [searchText, setSearchText] = useState(() => {
+    const searchParams = new URLSearchParams(history.location.search);
+    return searchParams.get('search') || '';
+  });
+
+  const [tags, setTags] = useState(() => {
+    const searchParams = new URLSearchParams(history.location.search);
+    const commaSeparatedTags = searchParams.get('tags');
+    if (!commaSeparatedTags) return [];
+    const tagArray = commaSeparatedTags.split(',');
+    const tagSet = new Set(tagArray); // Remove repeated
+    tagArray.delete(''); // Remove empty string
+    return Array.from(tagSet);
+  });
+
+  const [categories, setCategories] = useState(() => {
     const searchParams = new URLSearchParams(history.location.search);
     const paramsObject = {};
-
     searchParams.forEach((value, key) => {
-      if (key === 'tags') {
-        const values = value.split(',');
-        const tagSet = new Set(values);
-        tagSet.delete(''); // Remove empty string
-        paramsObject.tags = Array.from(tagSet);
-        return;
+      if (MARKETPLACE_TASK_CATEGORIES[key]) {
+        paramsObject[key] = value === 'true'; // The value is a string
       }
-
-      paramsObject[key] = value === 'true'; // The value is a string
     });
-
     return paramsObject;
   });
 
@@ -56,54 +69,26 @@ const MarketplaceSearch = () => {
   };
 
   const handleChangeCategoryFilters = (categoryKey, isChecked) => {
-    const filtersClone = { ...filters };
-    if (isChecked) filtersClone[categoryKey] = isChecked;
-    else delete filtersClone[categoryKey];
-
-    const filterKeys = Object.keys(filtersClone);
-    const isFiltersEmpty = filterKeys.length === 0;
-    const filtersHasOneAttr = filterKeys.length === 1;
-    const filterHasOnlyTags = filtersHasOneAttr && filterKeys[0] === 'tags';
-
-    if (isFiltersEmpty || filterHasOnlyTags) {
-      delete filtersClone.tags;
-    }
-
-    history.push({
-      pathname: history.location.pathname,
-      search: `?${new URLSearchParams(filtersClone)}`,
-    });
-
-    setFilters(filtersClone);
+    const categoriesClone = { ...categories };
+    if (isChecked) categoriesClone[categoryKey] = isChecked;
+    else delete categoriesClone[categoryKey];
+    const hasNoCategories = Object.keys(categoriesClone).length === 0;
+    if (hasNoCategories) setTags([]);
+    setCategories(categoriesClone);
   };
 
   const handleChangeTagFilters = (tag, isChecked) => {
-    const filtersClone = { ...filters };
-
-    const tagSet = new Set(filtersClone.tags);
+    const tagsClone = [...tags];
+    const tagSet = new Set(tagsClone);
     if (isChecked) tagSet.delete(tag);
     else tagSet.add(tag);
-
-    filtersClone.tags = Array.from(tagSet);
-
-    if (filtersClone.tags.length === 0) {
-      delete filtersClone.tags;
-    }
-
-    history.push({
-      pathname: history.location.pathname,
-      search: `?${new URLSearchParams(filtersClone)}`,
-    });
-
-    setFilters(filtersClone);
+    setTags(Array.from(tagSet));
   };
 
   const handleClearFilters = () => {
-    setFilters({});
-    history.push({
-      pathname: history.location.pathname,
-      search: '',
-    });
+    setSearchText('');
+    setCategories({});
+    setTags([]);
   };
 
   const handleChangeListType = () => {
@@ -114,13 +99,38 @@ const MarketplaceSearch = () => {
     );
   };
 
+  useEffect(() => {
+    let searchParams = {};
+
+    const hasCategories = categories && Object.keys(categories).length > 0;
+    const hasSearchText = !!searchText?.trim();
+    const hasTags = tags?.length > 0;
+
+    if (hasCategories) searchParams = { ...categories };
+    if (hasSearchText) searchParams.search = searchText;
+    if (hasTags) searchParams.tags = tags;
+
+    history.push({
+      pathname: history.location.pathname,
+      search: `?${new URLSearchParams(searchParams)}`,
+    });
+  }, [categories, history, searchText, tags]);
+
+  useEffect(() => {
+    dispatch(fetchMarketplaceTasks({ searchText, categories, tags }));
+  }, [dispatch, categories, searchText, tags]);
+
   return (
     <div className='marketplace-search'>
-      <MarketplaceSearchHeader handleGoBack={handleGoBack} />
+      <MarketplaceSearchHeader
+        searchText={searchText}
+        handleGoBack={handleGoBack}
+        handleChangeSearchText={setSearchText}
+      />
 
       <div className='marketplace-search-content'>
         <MarketplaceSearchFilters
-          filters={filters}
+          filters={categories}
           handleClearFilters={handleClearFilters}
           handleChangeTagFilters={handleChangeTagFilters}
           handleChangeCategoryFilters={handleChangeCategoryFilters}

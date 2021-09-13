@@ -32,6 +32,13 @@ const MarketplaceTaskDetails = () => {
     history.goBack();
   };
 
+  const handleSearch = (search) => {
+    history.push({
+      pathname: '/marketplace/tarefas',
+      search: `?${new URLSearchParams({ search })}`,
+    });
+  };
+
   const handleCopyTask = () => {
     const taskCopy = { ...taskData, copyFrom: taskData.uuid };
     delete taskCopy.uuid;
@@ -49,7 +56,10 @@ const MarketplaceTaskDetails = () => {
 
   return (
     <div className='marketplace-task-details'>
-      <MarketplaceTaskDetailsHeader handleGoBack={handleGoBack} />
+      <MarketplaceTaskDetailsHeader
+        handleGoBack={handleGoBack}
+        handleSearch={handleSearch}
+      />
 
       <div className='marketplace-task-details-content'>
         <MarketplaceTaskDetailsData

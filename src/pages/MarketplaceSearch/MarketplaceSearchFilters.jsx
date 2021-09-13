@@ -47,10 +47,7 @@ const MarketplaceSearchFilters = ({
     const isFilteringByThisCategory = !!filters[category.key];
     if (!isFilteringByThisCategory) return null;
 
-    const tags = tagsGroupedByCategory[category.key] || [
-      { name: 'Testing', quantity: 15 },
-      { name: 'Pow', quantity: 5 },
-    ];
+    const tags = tagsGroupedByCategory[category.key] || [];
     if (tags.length === 0) return null;
 
     return (

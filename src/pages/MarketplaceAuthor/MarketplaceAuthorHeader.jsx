@@ -1,11 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SearchOutlined } from '@ant-design/icons';
 import { Input, PageHeader, Typography } from 'antd';
+import { SearchOutlined, LoadingOutlined } from '@ant-design/icons';
 
+import { useBooleanState, useDebounce } from 'hooks';
 import AccountInfo from 'components/ContentHeader/AccountInfo';
 
-const MarketplaceAuthorHeader = ({ handleGoBack, author }) => {
+const MarketplaceAuthorHeader = ({ author, handleGoBack, handleSearch }) => {
+  const [isSearching, handleStartSearching, handleStopSearching] =
+    useBooleanState();
+
+  const handleChangeText = useDebounce({
+    delay: 1000,
+    startCallback() {
+      handleStartSearching();
+    },
+    stopCallback(text) {
+      handleStopSearching();
+      const search = text?.trim();
+      if (search) handleSearch(search);
+    },
+  });
+
   return (
     <PageHeader
       className='marketplace-author-header'
@@ -13,9 +29,10 @@ const MarketplaceAuthorHeader = ({ handleGoBack, author }) => {
       extra={
         <>
           <Input
-            className='marketplace-author-header-search'
             placeholder='Buscar no marketplace'
-            suffix={<SearchOutlined />}
+            className='marketplace-author-header-search'
+            onChange={(e) => handleChangeText(e.target.value)}
+            suffix={isSearching ? <LoadingOutlined /> : <SearchOutlined />}
           />
 
           <AccountInfo />
@@ -37,8 +54,9 @@ const MarketplaceAuthorHeader = ({ handleGoBack, author }) => {
 };
 
 MarketplaceAuthorHeader.propTypes = {
-  handleGoBack: PropTypes.func.isRequired,
   author: PropTypes.object,
+  handleGoBack: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
 };
 
 MarketplaceAuthorHeader.defaultProps = {
