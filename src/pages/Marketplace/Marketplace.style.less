@@ -1,0 +1,185 @@
+.marketplace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  .marketplace-header {
+    background: #fff;
+    width: 100%;
+    padding: 0;
+    box-shadow: 0px 1px 4px rgba(0, 21, 41, 0.12);
+    z-index: 999;
+
+    .marketplace-header-subtitle {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 22px;
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    .ant-page-header-heading {
+      .ant-page-header-heading-left {
+        margin: 0 0;
+      }
+
+      .ant-page-header-back {
+        margin: auto;
+        border: 3px solid white;
+        padding: 10px;
+      }
+
+      .ant-page-header-heading-title {
+        padding-right: 21px;
+        border-right: 1px solid rgba(0, 0, 0, 0.09);
+        width: 100%;
+
+        &:first-child {
+          padding: 16px 42px 0 42px;
+        }
+      }
+
+      .ant-page-header-heading-extra {
+        display: flex;
+        margin: 0;
+      }
+    }
+  }
+
+  .marketplace-search {
+    background: white;
+    padding: 24px 0;
+
+    .marketplace-search-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    .marketplace-search-left {
+      flex: 1;
+      padding: 0 24px;
+    }
+
+    .marketplace-search-right {
+      padding: 0 24px;
+
+      > svg {
+        height: 140px;
+      }
+    }
+
+    .marketplace-search-title {
+      font-weight: bold;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    .marketplace-search-input {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .marketplace-search-more {
+      display: flex;
+      align-items: center;
+
+      .marketplace-search-more-text {
+        padding-right: 16px;
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      .marketplace-search-content {
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: start;
+        max-width: 100%;
+      }
+
+      .marketplace-search-left {
+        flex: 0;
+        padding: 0 24px;
+      }
+
+      .marketplace-search-right {
+        margin-bottom: 16px;
+
+        > svg {
+          height: 120px;
+        }
+      }
+    }
+  }
+
+  .marketplace-basic-tasks {
+    background: #f5f5f5;
+
+    .marketplace-basic-tasks-content {
+      max-width: 80%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .marketplace-basic-tasks-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .marketplace-basic-tasks-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      margin: 0 -8px;
+
+      > * {
+        flex: 1 25%;
+        min-width: 250px;
+        margin: 8px;
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      .marketplace-basic-tasks-content {
+        max-width: 100%;
+      }
+    }
+  }
+
+  .marketplace-complex-tasks {
+    background: white;
+
+    .marketplace-complex-tasks-content {
+      max-width: 80%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .marketplace-complex-tasks-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .marketplace-complex-tasks-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      margin: 0 -8px;
+
+      > * {
+        flex: 1 25%;
+        min-width: 250px;
+        margin: 8px;
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      .marketplace-complex-tasks-content {
+        max-width: 100%;
+      }
+    }
+  }
+}

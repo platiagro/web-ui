@@ -1,0 +1,154 @@
+.marketplace-task-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  .marketplace-task-details-header {
+    background: #fff;
+    width: 100%;
+    padding: 0;
+    box-shadow: 0px 1px 4px rgba(0, 21, 41, 0.12);
+    z-index: 999;
+
+    .marketplace-task-details-header-search {
+      height: 40px;
+      align-self: center;
+      margin-right: 16px;
+      width: 350px;
+    }
+
+    .marketplace-task-details-header-subtitle {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 22px;
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    .ant-page-header-heading {
+      .ant-page-header-heading-left {
+        margin: 0 0;
+      }
+
+      .ant-page-header-back {
+        margin: auto;
+        border: 3px solid white;
+        padding: 10px;
+      }
+
+      .ant-page-header-heading-title {
+        padding-right: 21px;
+        border-right: 1px solid rgba(0, 0, 0, 0.09);
+        width: 100%;
+
+        &:first-child {
+          padding: 16px 42px 0 42px;
+        }
+      }
+
+      .ant-page-header-heading-extra {
+        display: flex;
+        margin: 0;
+      }
+    }
+  }
+
+  .marketplace-task-details-content {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    padding: 0 16px;
+    max-width: 80%;
+    width: 100%;
+
+    .marketplace-task-details-content-data {
+      margin: 24px 8px;
+      border-radius: 4px;
+      border: 1px solid #595959;
+      background: white;
+      flex: 1;
+
+      .marketplace-task-details-content-data-skeleton {
+        padding: 24px;
+      }
+
+      .marketplace-task-details-content-data-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 16px;
+
+        > * {
+          margin: 8px;
+        }
+
+        .marketplace-task-details-content-data-header-avatar {
+          min-width: 100px;
+          min-height: 100px;
+
+          > * {
+            font-size: 32px;
+          }
+        }
+
+        .marketplace-task-details-content-data-header-info {
+          flex: 1;
+          min-width: 250px;
+
+          .marketplace-task-details-content-data-header-info-name {
+            margin-bottom: 4px;
+            padding: 0;
+          }
+        }
+      }
+
+      .marketplace-task-details-content-data-body {
+        padding: 0 24px 24px 24px;
+
+        > *:not(:last-child) {
+          margin-bottom: 24px;
+        }
+      }
+    }
+
+    .marketplace-task-details-content-changes {
+      margin: 24px 8px;
+      max-width: 300px;
+      flex: 1;
+      border-radius: 4px;
+      pointer-events: none;
+
+      .marketplace-task-details-content-changes-info {
+        margin-bottom: 8px;
+      }
+
+      .marketplace-task-details-content-changes-title {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .marketplace-task-details-content-changes-text {
+        font-size: 14px;
+        color: #595959;
+        white-space: pre-wrap;
+      }
+    }
+
+    @media only screen and (max-width: 1000px) {
+      max-width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 16px;
+
+      .marketplace-task-details-content-data {
+        margin: 8px;
+      }
+
+      .marketplace-task-details-content-changes {
+        margin: 8px;
+        max-width: 100%;
+      }
+    }
+  }
+}

@@ -1,7 +1,9 @@
 export { useDeepEqualSelector } from './useDeepEqualSelector';
 export { useFirstRenderEffect } from './useFirstRenderEffect';
+export { usePersistentState } from './usePersistentState';
 export { useChangeFavicon } from './useChangeFavicon';
 export { useBooleanState } from './useBooleanState';
 export { useToggleState } from './useToggleState';
 export { useIsLoading } from './useIsLoading';
 export { usePrevious } from './usePrevious';
+export { useDebounce } from './useDebounce';

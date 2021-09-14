@@ -20,6 +20,7 @@ import { tasksReducer } from './tasks';
 import { loadingReducer } from './loading';
 import { testDeploymentReducer } from './testDeployment';
 import { monitoringsReducer } from './monitorings';
+import { marketplaceReducer } from './marketplace';
 
 const reducers = combineReducers({
   compareResultsReducer,
@@ -41,6 +42,7 @@ const reducers = combineReducers({
   experimentLogsReducer,
   tasksReducer,
   loadingReducer,
+  marketplaceReducer,
 });
 
 const composeEnhancers =
