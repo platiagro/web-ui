@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { UserInfo } from 'components'
 import PropTypes from 'prop-types';
-import { getName, getUserName } from 'store/userPerfil'
+import { getName, getUserName } from 'store/userProfile'
 import { useSelector, useDispatch } from 'react-redux';
 
 const UserInfoContainer = ({ avatarBackground, className }) => {

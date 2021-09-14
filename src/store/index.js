@@ -20,7 +20,7 @@ import { tasksReducer } from './tasks';
 import { loadingReducer } from './loading';
 import { testDeploymentReducer } from './testDeployment';
 import { monitoringsReducer } from './monitorings';
-import { userPerfilReducer } from './userPerfil';
+import { userProfileReducer } from './userProfile';
 import { marketplaceReducer } from './marketplace';
 
 const reducers = combineReducers({
@@ -43,7 +43,7 @@ const reducers = combineReducers({
   experimentLogsReducer,
   tasksReducer,
   loadingReducer,
-  userPerfilReducer,
+  userProfileReducer,
   marketplaceReducer,
 });
 

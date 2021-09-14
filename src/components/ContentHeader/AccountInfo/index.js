@@ -13,14 +13,14 @@ const AccountInfo = () => {
       utils.deleteCookie('authservice_session');
       history.push('/');
       window.location.reload();
-    } else if (e.key === 'userPerfil') {
-      history.push('/user-perfil');
+    } else if (e.key === 'userProfile') {
+      history.push('/user-profile');
     }
   };
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key='userPerfil'>Minha conta</Menu.Item>
+      <Menu.Item key='userProfile'>Minha conta</Menu.Item>
       <Menu.Item key='exit'>Sair</Menu.Item>
     </Menu>
   );

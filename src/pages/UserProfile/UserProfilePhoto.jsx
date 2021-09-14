@@ -2,7 +2,7 @@ import React from 'react'
 import { Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-const UserPerfilPhoto = () => {
+const UserProfilePhoto = () => {
   return (
     <div>
       <Upload
@@ -20,4 +20,4 @@ const UserPerfilPhoto = () => {
   )
 }
 
-export default UserPerfilPhoto
+export default UserProfilePhoto

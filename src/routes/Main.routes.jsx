@@ -13,7 +13,7 @@ import {
   TaskDetails,
   Marketplace,
   ProjectsDetails,
-  UserPerfil
+  UserProfile,
   MarketplaceSearch,
   MarketplaceAuthor,
   MarketplaceTaskDetails,
@@ -56,7 +56,7 @@ export const Main = () => {
       <Route path='/nova-tarefa' component={NewTask} />
       <Route path='/tarefas/:taskId' component={TaskDetails} exact />
       <Route path='/jupyterlab/:path*' component={JupyterLab} />
-      <Route path='/user-perfil' component={UserPerfil} exact />
+      <Route path='/user-profile' component={UserProfile} exact />
 
       <Route component={Error404} />
     </Switch>

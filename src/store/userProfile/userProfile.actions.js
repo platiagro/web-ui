@@ -1,6 +1,6 @@
 import { showError } from 'store/message';
-import * as USER_PERFIL_TYPES from './userPerfil.actionTypes';
-import UserPerfilApi from 'services/UserPerfilApi';
+import * as USER_PROFILE_TYPES from './userProfile.actionTypes';
+import UserProfileApi from 'services/UserProfileApi';
 
 /**
  * Get User Name
@@ -9,18 +9,18 @@ import UserPerfilApi from 'services/UserPerfilApi';
  */
 export const getUserName = () => async (dispatch) => {
   try {
-    const response = await UserPerfilApi.getUserName();
+    const response = await UserProfileApi.getUserName();
 
     const userName = response.data?.user;
     dispatch({
-      type: USER_PERFIL_TYPES.FETCH_USER_NAME_SUCCESS,
+      type: USER_PROFILE_TYPES.FETCH_USER_NAME_SUCCESS,
       payload: {
         userName,
       },
     });
   } catch (e) {
     dispatch({
-      type: USER_PERFIL_TYPES.FETCH_USER_NAME_FAIL,
+      type: USER_PROFILE_TYPES.FETCH_USER_NAME_FAIL,
     });
     dispatch(showError(e.message));
   }

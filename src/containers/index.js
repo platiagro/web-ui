@@ -35,4 +35,4 @@ export { default as UsingDeploymentsModalContainer } from './UsingDeploymentsMod
 export { default as DeploymentDatasetUploadContainer } from './DeploymentDatasetUploadContainer';
 export { default as TasksFlowTableContainer } from './TasksFlowTableContainer';
 export { default as UserInfoContainer } from './UserInfoContainer';
-export { default as UserPerfilDataContainer } from './UserPerfilDataContainer';
+export { default as UserProfileDataContainer } from './UserProfileDataContainer';

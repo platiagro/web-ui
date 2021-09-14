@@ -1,10 +1,10 @@
-import UserNameApi from 'services/MonitoringsApi';
+import UserProfileApi from 'services/UserProfileApi';
 import { AuthExpiredInterceptor } from 'services/interceptors';
 import { AXIOS_INSTANCE_FACTORY_IDENTIFIER } from 'services/factories';
 
-describe('MonitoringsApi', () => {
+describe('UserProfileApi', () => {
   it('should have the axios factory unique identifier', () => {
-    expect(UserNameApi.axiosInstance.factoryIdentifier).toBe(
+    expect(UserProfileApi.axiosInstance.factoryIdentifier).toBe(
       AXIOS_INSTANCE_FACTORY_IDENTIFIER
     );
   });
@@ -15,8 +15,8 @@ describe('MonitoringsApi', () => {
       rejected: AuthExpiredInterceptor.Response.onRejected,
     };
 
-    expect(UserNameApi.axiosInstance.interceptors.response.handlers).toEqual([
-      interceptor,
-    ]);
+    expect(UserProfileApi.axiosInstance.interceptors.response.handlers).toEqual(
+      [interceptor]
+    );
   });
 });

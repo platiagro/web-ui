@@ -2,15 +2,15 @@ import React from 'react';
 
 import ContentHeaderContainer from 'components/ContentHeader/ContentHeaderContainer';
 import { ChangePasswordModal } from 'components'
-import { UserPerfilDataContainer } from 'containers'
+import { UserProfileDataContainer } from 'containers'
 
-import UserPerfilPhoto from './UserPerfilPhoto'
+import UserProfilePhoto from './UserProfilePhoto'
 
 import { useBooleanState } from 'hooks';
 
-import './UserPerfil.style.less';
+import './UserProfile.style.less';
 
-const UserPerfil = () => {
+const UserProfile = () => {
 
   const [
     isChangePasswordModal,
@@ -20,7 +20,7 @@ const UserPerfil = () => {
 
 
   return (
-    <div className='user-perfil-page'>
+    <div className='user-profile-page'>
       <ChangePasswordModal
         handleHideModal={handleHideChangePasswordModal}
         isShowingModal={isChangePasswordModal}
@@ -32,12 +32,12 @@ const UserPerfil = () => {
         backIcon={false}
       />
 
-      <div className='user-perfil-page-content'>
-        <div className='user-perfil-page-content-photo'>
-          <UserPerfilPhoto />
+      <div className='user-profile-page-content'>
+        <div className='user-profile-page-content-photo'>
+          <UserProfilePhoto />
         </div>
-        <div className='user-perfil-page-content-data'>
-          <UserPerfilDataContainer
+        <div className='user-profile-page-content-data'>
+          <UserProfileDataContainer
             handleShowChangePasswordModal={handleShowChangePasswordModal}
           />
         </div>
@@ -46,4 +46,4 @@ const UserPerfil = () => {
   );
 };
 
-export default UserPerfil;
+export default UserProfile;

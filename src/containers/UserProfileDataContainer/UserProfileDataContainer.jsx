@@ -2,13 +2,13 @@ import React from 'react'
 import { Button } from 'antd'
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { getUserData } from 'store/userPerfil'
+import { getUserData } from 'store/userProfile'
 
-const UserPerfilDataContainer = ({ handleShowChangePasswordModal }) => {
+const UserProfileDataContainer = ({ handleShowChangePasswordModal }) => {
   const userData = useSelector(getUserData);
 
   return (
-    <div className='user-perfil-data-form'>
+    <div className='user-profile-data-form'>
       <div>
         <b>Nome</b>
         <span>{userData?.userName}</span>
@@ -32,8 +32,8 @@ const UserPerfilDataContainer = ({ handleShowChangePasswordModal }) => {
   )
 }
 
-UserPerfilDataContainer.propTypes = {
+UserProfileDataContainer.propTypes = {
   handleShowChangePasswordModal: PropTypes.func.isRequired,
 };
 
-export default UserPerfilDataContainer
+export default UserProfileDataContainer
