@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, Dropdown } from 'antd';
-import { UserInfo } from 'components';
+import { UserInfoContainer } from 'containers';
 import { useHistory } from 'react-router';
 import utils from 'utils';
 import './style.less';
@@ -13,11 +13,14 @@ const AccountInfo = () => {
       utils.deleteCookie('authservice_session');
       history.push('/');
       window.location.reload();
+    } else if (e.key === 'userProfile') {
+      history.push('/user-profile');
     }
   };
 
   const menu = (
     <Menu onClick={handleMenuClick}>
+      <Menu.Item key='userProfile'>Minha conta</Menu.Item>
       <Menu.Item key='exit'>Sair</Menu.Item>
     </Menu>
   );
@@ -25,7 +28,7 @@ const AccountInfo = () => {
   return (
     <Dropdown overlay={menu} trigger={['click']}>
       <div className='accountInfo'>
-        <UserInfo name='Usuário Anônimo' />
+        <UserInfoContainer />
       </div>
     </Dropdown>
   );

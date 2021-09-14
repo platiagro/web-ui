@@ -34,3 +34,5 @@ export { default as UsingDeploymentsButtonContainer } from './UsingDeploymentsBu
 export { default as UsingDeploymentsModalContainer } from './UsingDeploymentsModalContainer';
 export { default as DeploymentDatasetUploadContainer } from './DeploymentDatasetUploadContainer';
 export { default as TasksFlowTableContainer } from './TasksFlowTableContainer';
+export { default as UserInfoContainer } from './UserInfoContainer';
+export { default as UserProfileDataContainer } from './UserProfileDataContainer';

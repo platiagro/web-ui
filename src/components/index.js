@@ -50,3 +50,4 @@ export { default as ToolbarConfig } from './ToolbarConfig';
 export { default as TooltipTip } from './TooltipTip';
 export { default as UserInfo } from './UserInfo';
 export { default as UserAvatar } from './UserAvatar';
+export { default as ChangePasswordModal } from './ChangePasswordModal';

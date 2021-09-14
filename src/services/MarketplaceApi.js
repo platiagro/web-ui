@@ -6,7 +6,7 @@ const marketplaceApi = createAxiosInstance({
 
 /**
  * Fetch the total of marketplace tasks
- 
+ *
  * @returns {Promise} Request promise
  */
 const fetchTotalMarketplaceTasks = () => {

@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { UserInfo } from 'components';
+import { UserInfoContainer } from 'containers';
 
 const TaskDetailsInfoFooter = ({ hasEditedSomething }) => {
   return (
     <div className='task-details-page-content-info-footer'>
-      <UserInfo
+      <UserInfoContainer
         className='task-details-page-content-info-footer-task-creator'
         avatarBackground='#1890ff'
-        name='Usuário Anônimo'
       />
 
       {hasEditedSomething && (
