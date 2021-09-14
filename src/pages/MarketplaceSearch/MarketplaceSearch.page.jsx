@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { isEqual } from 'lodash';
 
 import {
   MARKETPLACE_TYPES,
@@ -24,6 +25,8 @@ import './MarketplaceSearch.style.less';
 const MarketplaceSearch = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const lastFilters = useRef({});
 
   const tasks = useSelector(getMarketplaceTasks);
   const isSearchingTasks = useIsLoading(MARKETPLACE_TYPES.FETCH_TASKS);
@@ -110,14 +113,21 @@ const MarketplaceSearch = () => {
     if (hasSearchText) searchParams.search = searchText;
     if (hasTags) searchParams.tags = tags;
 
-    history.push({
-      pathname: history.location.pathname,
-      search: `?${new URLSearchParams(searchParams)}`,
-    });
+    const newLocationSearch = `?${new URLSearchParams(searchParams)}`;
+
+    if (newLocationSearch !== history.location.search) {
+      history.push({
+        pathname: history.location.pathname,
+        search: newLocationSearch,
+      });
+    }
   }, [categories, history, searchText, tags]);
 
   useEffect(() => {
-    dispatch(fetchMarketplaceTasks({ searchText, categories, tags }));
+    const filters = { searchText, categories, tags };
+    if (isEqual(filters, lastFilters.current)) return;
+    lastFilters.current = filters;
+    dispatch(fetchMarketplaceTasks(filters));
   }, [dispatch, categories, searchText, tags]);
 
   return (
