@@ -12,6 +12,7 @@ import {
   Experiments,
   TaskDetails,
   ProjectsDetails,
+  UserPerfil
 } from 'pages';
 
 export const Main = () => {
@@ -36,6 +37,7 @@ export const Main = () => {
       <Route path='/nova-tarefa' component={NewTask} />
       <Route path='/tarefas/:taskId' component={TaskDetails} />
       <Route path='/jupyterlab/:path*' component={JupyterLab} />
+      <Route path='/user-perfil' component={UserPerfil} exact />
 
       <Route component={Error404} />
     </Switch>
