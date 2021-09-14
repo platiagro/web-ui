@@ -3,27 +3,37 @@ import { Menu } from 'antd';
 import PropTypes from 'prop-types';
 
 const MainMenu = ({ className, itemsList, selectedItems, handleItemClick }) => {
-  // ! The code below may be changing a prop value. We should fix this
-  const selectedItem = selectedItems[0];
-  if (selectedItem === '/' || selectedItem.includes('/projetos')) {
-    selectedItems[0] = '/projetos';
-  } else if (selectedItem.includes('/tarefas')) {
-    selectedItems[0] = '/tarefas';
-  }
+  const getSelectedItems = () => {
+    const [firstItem] = selectedItems;
+
+    if (firstItem === '/' || firstItem.includes('/projetos')) {
+      return ['/projetos'];
+    } else if (firstItem.includes('/marketplace')) {
+      return ['/marketplace'];
+    } else if (firstItem.includes('/tarefas')) {
+      return ['/tarefas'];
+    }
+
+    return selectedItems;
+  };
 
   return (
     <Menu
       theme='dark'
       className={className}
-      selectedKeys={selectedItems}
+      selectedKeys={getSelectedItems()}
       onClick={(e) => handleItemClick(e.key)}
     >
-      {itemsList.map(({ icon, title, path }) => (
-        <Menu.Item key={path} style={{ color: '#ffffff' }}>
-          {icon}
-          <span>{title}</span>
-        </Menu.Item>
-      ))}
+      {itemsList.map(({ icon, title, path, visible }) => {
+        if (!visible) return null;
+
+        return (
+          <Menu.Item key={path} style={{ color: '#ffffff' }}>
+            {icon}
+            <span>{title}</span>
+          </Menu.Item>
+        );
+      })}
     </Menu>
   );
 };

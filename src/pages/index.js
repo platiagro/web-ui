@@ -7,8 +7,12 @@ import Deployment from './Deployment';
 import JupyterLab from './JupyterLab';
 import Experiments from './Experiments';
 import TaskDetails from './TaskDetails';
+import Marketplace from './Marketplace';
 import ProjectsDetails from './ProjectDetails';
 import UserPerfil from './UserPerfil';
+import MarketplaceSearch from './MarketplaceSearch';
+import MarketplaceAuthor from './MarketplaceAuthor';
+import MarketplaceTaskDetails from './MarketplaceTaskDetails';
 
 export {
   Tasks,
@@ -20,6 +24,10 @@ export {
   JupyterLab,
   Experiments,
   TaskDetails,
+  Marketplace,
   ProjectsDetails,
   UserPerfil,
+  MarketplaceSearch,
+  MarketplaceAuthor,
+  MarketplaceTaskDetails,
 };
