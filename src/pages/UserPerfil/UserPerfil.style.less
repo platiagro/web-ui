@@ -1,0 +1,63 @@
+.user-perfil-page {
+  width: 100%;
+  height: calc(100% - 60px);
+
+  .user-perfil-page-content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+
+    .user-perfil-page-content-photo {
+      background-color: #f5f5f5;
+      width: 17%;
+      padding: 24px 0;
+      display: flex;
+      justify-content: center;
+
+      .avatar-uploader > .ant-upload {
+        border-radius: 50%;
+      }
+    }
+
+    .user-perfil-page-content-data {
+      background-color: white;
+      flex: 1;
+      padding: 32px;
+
+      .user-perfil-data-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        > div {
+          display: flex;
+          flex-direction: column;
+          padding-bottom: 24px;
+
+          > b {
+            padding-bottom: 8px;
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    .user-perfil-page-content {
+      flex-direction: column;
+
+      .user-perfil-page-content-photo {
+        height: 20%;
+        width: 100%;
+        justify-content: flex-start;
+        padding: 24px 48px;
+      }
+
+      .user-perfil-page-content-data {
+        padding: 24px 48px;
+      }
+    }
+  }
+}

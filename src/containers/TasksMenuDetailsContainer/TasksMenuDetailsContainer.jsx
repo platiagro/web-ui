@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { useIsLoading } from 'hooks';
-import { UserInfo } from 'components';
+import { UserInfoContainer } from 'containers';
 import { Selectors, PROJECTS_TYPES } from 'store/projects';
 
 import './style.less';
@@ -59,8 +59,7 @@ const TasksMenuDetailsContainer = () => {
             active
           />
         ) : (
-          <UserInfo
-            name='Usuário Anônimo'
+          <UserInfoContainer
             avatarBackground='grey'
             className='user-description'
           />

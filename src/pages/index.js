@@ -8,6 +8,7 @@ import JupyterLab from './JupyterLab';
 import Experiments from './Experiments';
 import TaskDetails from './TaskDetails';
 import ProjectsDetails from './ProjectDetails';
+import UserPerfil from './UserPerfil';
 
 export {
   Tasks,
@@ -20,4 +21,5 @@ export {
   Experiments,
   TaskDetails,
   ProjectsDetails,
+  UserPerfil,
 };
