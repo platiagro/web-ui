@@ -24,12 +24,16 @@ const MainMenu = ({ className, itemsList, selectedItems, handleItemClick }) => {
       selectedKeys={getSelectedItems()}
       onClick={(e) => handleItemClick(e.key)}
     >
-      {itemsList.map(({ icon, title, path }) => (
-        <Menu.Item key={path} style={{ color: '#ffffff' }}>
-          {icon}
-          <span>{title}</span>
-        </Menu.Item>
-      ))}
+      {itemsList.map(({ icon, title, path, visible }) => {
+        if (!visible) return null;
+
+        return (
+          <Menu.Item key={path} style={{ color: '#ffffff' }}>
+            {icon}
+            <span>{title}</span>
+          </Menu.Item>
+        );
+      })}
     </Menu>
   );
 };
