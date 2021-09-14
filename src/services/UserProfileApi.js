@@ -6,7 +6,7 @@ const UserProfileApi = createAxiosInstance({
 });
 
 /**
- * Returns monitorings from the API
+ * Returns name from the API
  *
  * @returns {Promise} Get Request
  */
