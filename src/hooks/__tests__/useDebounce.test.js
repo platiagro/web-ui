@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 
 import { useDebounce } from '../useDebounce';
 
-describe('useBooleanState hook', () => {
+describe('useDebounce hook', () => {
   it('should return the correct structure', () => {
     const { result } = renderHook(() => useDebounce());
     expect(typeof result.current).toBe('function');
