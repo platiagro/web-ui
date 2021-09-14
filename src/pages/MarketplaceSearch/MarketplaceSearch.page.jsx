@@ -22,14 +22,18 @@ import MarketplaceSearchResults from './MarketplaceSearchResults';
 
 import './MarketplaceSearch.style.less';
 
+const tagsPerCategorySelector = () => {
+  return {};
+};
+
 const MarketplaceSearch = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const lastFilters = useRef({});
 
-  const tagsPerCategory = {};
   const tasks = useSelector(getMarketplaceTasks);
+  const tagsPerCategory = useSelector(tagsPerCategorySelector);
   const isSearchingTasks = useIsLoading(MARKETPLACE_TYPES.FETCH_TASKS);
 
   const [searchText, setSearchText] = useState(() => {
@@ -43,7 +47,7 @@ const MarketplaceSearch = () => {
     if (!commaSeparatedTags) return [];
     const tagArray = commaSeparatedTags.split(',');
     const tagSet = new Set(tagArray); // Remove repeated
-    tagArray.delete(''); // Remove empty string
+    tagSet.delete(''); // Remove empty string
     return Array.from(tagSet);
   });
 
@@ -141,7 +145,8 @@ const MarketplaceSearch = () => {
 
       <div className='marketplace-search-content'>
         <MarketplaceSearchFilters
-          filters={categories}
+          tags={tags}
+          categories={categories}
           tagsPerCategory={tagsPerCategory}
           handleClearFilters={handleClearFilters}
           handleChangeTagFilters={handleChangeTagFilters}

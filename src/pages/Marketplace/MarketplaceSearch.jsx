@@ -7,7 +7,7 @@ import { SearchOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useBooleanState, useDebounce } from 'hooks';
 import { MarketplaceColorfulComponent } from 'assets';
 
-const MarketplaceSearch = ({ numberOfTasks }) => {
+const MarketplaceSearch = ({ numberOfTasks, isLoadingNumberOfTasks }) => {
   const history = useHistory();
 
   const [isSearching, handleStartSearching, handleStopSearching] =
@@ -31,6 +31,11 @@ const MarketplaceSearch = ({ numberOfTasks }) => {
     },
   });
 
+  const getNumberOfTasks = () => {
+    if (isLoadingNumberOfTasks) return <LoadingOutlined />;
+    return numberOfTasks;
+  };
+
   return (
     <div className={'marketplace-search'}>
       <div className='marketplace-search-content'>
@@ -52,7 +57,7 @@ const MarketplaceSearch = ({ numberOfTasks }) => {
             </div>
 
             <Button shape='round' onClick={handleSeeAllTasks}>
-              Ver todas as {numberOfTasks} soluções
+              Ver todas as {getNumberOfTasks()} soluções
             </Button>
           </div>
         </div>
@@ -67,10 +72,12 @@ const MarketplaceSearch = ({ numberOfTasks }) => {
 
 MarketplaceSearch.propTypes = {
   numberOfTasks: PropTypes.number,
+  isLoadingNumberOfTasks: PropTypes.bool,
 };
 
 MarketplaceSearch.defaultProps = {
   numberOfTasks: 0,
+  isLoadingNumberOfTasks: false,
 };
 
 export default MarketplaceSearch;

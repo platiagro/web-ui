@@ -81,50 +81,52 @@ const MarketplaceSearchResults = ({
       {isSearchingTasks ? (
         <MarketplaceSearchTasksSkeleton listType={listType} />
       ) : (
-        <div className='marketplace-search-results-tasks'>
-          {tasks.map((task) => {
-            const itemClass = `marketplace-search-results-tasks-task--${listType}`;
+        <>
+          <div className='marketplace-search-results-tasks'>
+            {tasks.map((task) => {
+              const itemClass = `marketplace-search-results-tasks-task--${listType}`;
 
-            const handleSeeTask = () => {
-              history.push(`/marketplace/tarefas/${task.uuid}`);
-            };
+              const handleSeeTask = () => {
+                history.push(`/marketplace/tarefas/${task.uuid}`);
+              };
 
-            return (
-              <MarketplaceTaskItem.Box
-                key={task.uuid}
-                onClick={handleSeeTask}
-                taskCategory={task.category}
-                className={itemClass.toLowerCase()}
-                header={
-                  <MarketplaceTaskItem.Header
-                    name={task.author.name}
-                    userId={task.author.uuid}
-                    imageSrc={task.author.img}
-                    userName={task.author.userName}
-                  />
-                }
-                footer={
-                  <MarketplaceTaskItem.InlineData
-                    taskType={task.type}
-                    taskCategory={task.category}
-                  />
-                }
-              >
-                <MarketplaceTaskItem.Description>
-                  {task.description}
-                </MarketplaceTaskItem.Description>
-              </MarketplaceTaskItem.Box>
-            );
-          })}
+              return (
+                <MarketplaceTaskItem.Box
+                  key={task.uuid}
+                  onClick={handleSeeTask}
+                  taskCategory={task.category}
+                  className={itemClass.toLowerCase()}
+                  header={
+                    <MarketplaceTaskItem.Header
+                      name={task.author.name}
+                      userId={task.author.uuid}
+                      imageSrc={task.author.img}
+                      userName={task.author.userName}
+                    />
+                  }
+                  footer={
+                    <MarketplaceTaskItem.InlineData
+                      taskType={task.type}
+                      taskCategory={task.category}
+                    />
+                  }
+                >
+                  <MarketplaceTaskItem.Description>
+                    {task.description}
+                  </MarketplaceTaskItem.Description>
+                </MarketplaceTaskItem.Box>
+              );
+            })}
+          </div>
 
           {!tasks.length && (
             <Placeholder
-              className='marketplace-search-results-tasks-empty'
+              className='marketplace-search-results-empty'
               message='Nenhuma tarefa ou fluxo encontrado'
               iconComponent={<ShoppingOutlined />}
             />
           )}
-        </div>
+        </>
       )}
     </div>
   );

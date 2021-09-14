@@ -18,14 +18,15 @@ const FLOW_CATEGORIES_TO_FILTER = [
 ];
 
 const MarketplaceSearchFilters = ({
-  filters,
+  tags,
+  categories,
   tagsPerCategory,
   handleClearFilters,
   handleChangeTagFilters,
   handleChangeCategoryFilters,
 }) => {
   const mapCategoryToCheckbox = (category) => {
-    const isChecked = !!filters[category.key];
+    const isChecked = !!categories[category.key];
 
     const handleChange = (e) => {
       handleChangeCategoryFilters(category.key, e.target.checked);
@@ -44,18 +45,18 @@ const MarketplaceSearchFilters = ({
   };
 
   const mapCategoryToTags = (category) => {
-    const isFilteringByThisCategory = !!filters[category.key];
+    const isFilteringByThisCategory = !!categories[category.key];
     if (!isFilteringByThisCategory) return null;
 
-    const tags = tagsPerCategory[category.key] || [];
-    if (tags.length === 0) return null;
+    const categoryTags = tagsPerCategory[category.key] || [];
+    if (categoryTags.length === 0) return null;
 
     return (
       <div key={category.key} className='marketplace-search-filters-group-tags'>
         <Typography.Paragraph strong>{category.name}</Typography.Paragraph>
 
-        {tags.map((tag) => {
-          const isChecked = !!filters?.tags?.includes(tag.name);
+        {categoryTags.map((tag) => {
+          const isChecked = !!tags?.includes(tag.name);
 
           const handleChangeTag = () => {
             handleChangeTagFilters(tag.name, isChecked);
@@ -116,7 +117,8 @@ const MarketplaceSearchFilters = ({
 };
 
 MarketplaceSearchFilters.propTypes = {
-  filters: PropTypes.object,
+  tags: PropTypes.array,
+  categories: PropTypes.object,
   tagsPerCategory: PropTypes.object,
   handleClearFilters: PropTypes.func,
   handleChangeTagFilters: PropTypes.func,
@@ -124,7 +126,8 @@ MarketplaceSearchFilters.propTypes = {
 };
 
 MarketplaceSearchFilters.defaultProps = {
-  filters: {},
+  tags: [],
+  categories: {},
   tagsPerCategory: {},
   handleClearFilters: null,
   handleChangeTagFilters: null,

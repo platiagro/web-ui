@@ -150,7 +150,6 @@
 
     .marketplace-search-results-tasks,
     .marketplace-search-results-skeletons {
-      flex: 1;
       display: flex;
       flex-wrap: wrap;
       align-items: stretch;
@@ -171,11 +170,12 @@
         margin: 8px;
         cursor: pointer;
       }
+    }
 
-      .marketplace-search-results-tasks-empty {
-        align-self: center;
-        margin: 0 auto;
-      }
+    .marketplace-search-results-empty {
+      flex: 1;
+      margin: 0 auto;
+      padding: 16px 0;
     }
 
     .marketplace-search-results-skeletons {
@@ -215,6 +215,10 @@
 
     .marketplace-search-filters {
       height: auto;
+      width: 100%;
+    }
+
+    .marketplace-search-results {
       width: 100%;
     }
   }
