@@ -19,6 +19,7 @@ export const usePersistentState = ({ key, defaultValue, isJson = false }) => {
 
   const handleClearValue = useCallback(() => {
     localStorage.removeItem(key);
+    setValue(undefined);
   }, [key]);
 
   useEffect(() => {
