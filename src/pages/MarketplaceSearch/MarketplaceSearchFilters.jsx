@@ -19,8 +19,8 @@ const FLOW_CATEGORIES_TO_FILTER = [
 
 const MarketplaceSearchFilters = ({
   filters,
+  tagsPerCategory,
   handleClearFilters,
-  tagsGroupedByCategory,
   handleChangeTagFilters,
   handleChangeCategoryFilters,
 }) => {
@@ -47,7 +47,7 @@ const MarketplaceSearchFilters = ({
     const isFilteringByThisCategory = !!filters[category.key];
     if (!isFilteringByThisCategory) return null;
 
-    const tags = tagsGroupedByCategory[category.key] || [];
+    const tags = tagsPerCategory[category.key] || [];
     if (tags.length === 0) return null;
 
     return (
@@ -117,16 +117,16 @@ const MarketplaceSearchFilters = ({
 
 MarketplaceSearchFilters.propTypes = {
   filters: PropTypes.object,
+  tagsPerCategory: PropTypes.object,
   handleClearFilters: PropTypes.func,
-  tagsGroupedByCategory: PropTypes.object,
   handleChangeTagFilters: PropTypes.func,
   handleChangeCategoryFilters: PropTypes.func,
 };
 
 MarketplaceSearchFilters.defaultProps = {
   filters: {},
+  tagsPerCategory: {},
   handleClearFilters: null,
-  tagsGroupedByCategory: {},
   handleChangeTagFilters: null,
   handleChangeCategoryFilters: null,
 };

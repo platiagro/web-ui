@@ -28,6 +28,7 @@ const MarketplaceSearch = () => {
 
   const lastFilters = useRef({});
 
+  const tagsPerCategory = {};
   const tasks = useSelector(getMarketplaceTasks);
   const isSearchingTasks = useIsLoading(MARKETPLACE_TYPES.FETCH_TASKS);
 
@@ -141,6 +142,7 @@ const MarketplaceSearch = () => {
       <div className='marketplace-search-content'>
         <MarketplaceSearchFilters
           filters={categories}
+          tagsPerCategory={tagsPerCategory}
           handleClearFilters={handleClearFilters}
           handleChangeTagFilters={handleChangeTagFilters}
           handleChangeCategoryFilters={handleChangeCategoryFilters}
@@ -150,6 +152,7 @@ const MarketplaceSearch = () => {
           tasks={tasks}
           listType={listType}
           listOrder={listOrder}
+          searchText={searchText}
           isSearchingTasks={isSearchingTasks}
           handleChangeListOrder={setListOrder}
           handleChangeListType={handleChangeListType}

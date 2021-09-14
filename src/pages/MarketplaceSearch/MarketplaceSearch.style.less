@@ -124,7 +124,7 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
 
       .marketplace-search-results-header-total {
         > *:not(:last-child) {
@@ -141,6 +141,11 @@
           margin-right: 8px;
         }
       }
+    }
+
+    .marketplace-search-results-search-text {
+      margin-bottom: 16px;
+      font-size: 18px;
     }
 
     .marketplace-search-results-tasks,
@@ -175,6 +180,8 @@
 
     .marketplace-search-results-skeletons {
       flex: 0;
+      margin-left: -16px;
+      margin-right: 4px;
 
       .marketplace-search-results-skeletons-skeleton--grid,
       .marketplace-search-results-skeletons-skeleton--list {

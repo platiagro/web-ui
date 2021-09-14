@@ -20,6 +20,7 @@ const MarketplaceSearchResults = ({
   tasks,
   listType,
   listOrder,
+  searchText,
   isSearchingTasks,
   handleChangeListType,
   handleChangeListOrder,
@@ -68,6 +69,14 @@ const MarketplaceSearchResults = ({
           </Button>
         </div>
       </div>
+
+      {!!searchText?.trim() && (
+        <div className='marketplace-search-results-search-text'>
+          <Typography.Text>
+            Busca por: <q>{searchText}</q>
+          </Typography.Text>
+        </div>
+      )}
 
       {isSearchingTasks ? (
         <MarketplaceSearchTasksSkeleton listType={listType} />
@@ -125,6 +134,7 @@ MarketplaceSearchResults.propTypes = {
   tasks: PropTypes.array,
   listType: PropTypes.oneOf(Object.values(MARKETPLACE_LIST_TYPE)),
   listOrder: PropTypes.oneOf(Object.values(MARKETPLACE_LIST_ORDER)),
+  searchText: PropTypes.string,
   isSearchingTasks: PropTypes.bool,
   handleChangeListType: PropTypes.func,
   handleChangeListOrder: PropTypes.func,
@@ -134,6 +144,7 @@ MarketplaceSearchResults.defaultProps = {
   tasks: [],
   listType: MARKETPLACE_LIST_TYPE.GRID,
   listOrder: MARKETPLACE_LIST_ORDER.NEWER,
+  searchText: '',
   isSearchingTasks: false,
   handleChangeListType: null,
   handleChangeListOrder: null,
