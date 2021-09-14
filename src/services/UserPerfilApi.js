@@ -1,7 +1,7 @@
 import { createAxiosInstance } from 'services/factories';
 
 const UserNameApi = createAxiosInstance({
-  baseURL: process.env.REACT_APP_MAIN_DOMAIN || 'http://localhost:8080',
+  baseURL: process.env.REACT_APP_CENTRALDASHBOARD_API || 'http://localhost:8080',
 });
 
 /**
@@ -10,7 +10,7 @@ const UserNameApi = createAxiosInstance({
  * @returns {Promise} Get Request
  */
 const getUserName = () => {
-  return UserNameApi.get('/centraldashboard/api/workgroup/env-info');
+  return UserNameApi.get('/api/workgroup/env-info');
 };
 
 export default {
