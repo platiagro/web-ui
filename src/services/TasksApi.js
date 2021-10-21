@@ -28,12 +28,12 @@ const deleteTask = (id) => {
  * Get all tasks
  *
  * @param {object} filters Filters object
- * @param {Array} filters.tags Tag array to filter
+ * @param {Array} filters.category Tag array to filter
  * @returns {Promise} The request promise
  */
 const getAllTasks = (filters) => {
-  const tags = filters?.tags || [];
-  const queryParams = tags.length ? `?tags=${tags.join(',')}` : '';
+  const category = filters?.category || [];
+  const queryParams = category.length ? `?category=${category}` : '';
   return taskApi.get(`/tasks${queryParams}`);
 };
 
