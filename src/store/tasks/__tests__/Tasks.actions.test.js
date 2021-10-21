@@ -262,7 +262,7 @@ describe('Tasks Action', () => {
 
   it('should run the fetch tasks async action correctly', async () => {
     mockAxios.onGet().reply(200, { tasks: fakeTasks });
-    await store.dispatch(fetchTasks({ tags: ['MONITORING'] }));
+    await store.dispatch(fetchTasks({ category: 'MONITORING' }));
     const actions = store.getActions();
 
     expect(actions).toEqual(
@@ -285,7 +285,7 @@ describe('Tasks Action', () => {
 
   it('should handle errors in the fetch tasks async action', async () => {
     mockAxios.onGet().reply(500, { message: 'Error Message' });
-    await store.dispatch(fetchTasks({ tags: ['MONITORING'] }));
+    await store.dispatch(fetchTasks({ category: 'MONITORING' }));
     const actions = store.getActions();
 
     expect(actions).toEqual(
