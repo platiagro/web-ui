@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   getDataset,
-  getTestResult,
-  testDeploymentWithDataset,
-} from 'store/testDeployment';
+  getPredictionId,
+  getPredictionResult,
+  getStatus,
+  fetchPredictionRequest,
+  createPredictionWithDataset,
+} from 'store/prediction';
 import { showLogsPanel } from 'store/ui/actions';
 import { DeploymentTestResultModal } from 'components/Modals';
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
@@ -21,7 +24,20 @@ const DeploymentTestResultModalContainer = ({
   const dispatch = useDispatch();
 
   const dataset = useSelector(getDataset);
-  const testResult = useSelector(getTestResult);
+  const predictionId = useSelector(getPredictionId);
+  const status = useSelector(getStatus);
+  const predictionResult = useSelector(getPredictionResult);
+
+  useEffect(() => {
+    if (predictionId != null && status === 'started') {
+      dispatch(fetchPredictionRequest(projectId, deploymentId, predictionId));
+
+      const polling = setInterval(() => {
+        dispatch(fetchPredictionRequest(projectId, deploymentId, predictionId));
+      }, 5000);
+      return () => clearInterval(polling);
+    }
+  }, [dispatch, deploymentId, projectId, predictionId, status]);
 
   const handleShowLogs = () => {
     dispatch(getDeployExperimentLogs(projectId, deploymentId, false));
@@ -30,12 +46,12 @@ const DeploymentTestResultModalContainer = ({
   };
 
   const handleTryAgain = () => {
-    dispatch(testDeploymentWithDataset(projectId, deploymentId, dataset));
+    dispatch(createPredictionWithDataset(projectId, deploymentId, dataset));
   };
 
   return (
     <DeploymentTestResultModal
-      testResult={testResult}
+      testResult={predictionResult}
       isTestingFlow={isTestingFlow}
       isShowingModal={isShowingModal}
       handleTryAgain={handleTryAgain}

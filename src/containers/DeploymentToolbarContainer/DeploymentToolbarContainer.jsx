@@ -19,13 +19,14 @@ import {
   fetchDeploymentOperatorsRequest,
   clearAllDeploymentOperators,
 } from 'store/operators';
+import {
+  createPredictionWithDataset,
+  getPredictionId,
+  interruptPrediction,
+  PREDICTION_TYPES,
+} from 'store/prediction';
 
 import './DeploymentToolbarContainer.less';
-import {
-  interruptDeploymentTest,
-  testDeploymentWithDataset,
-  TEST_DEPLOYMENT_TYPES,
-} from 'store/testDeployment';
 import { DeploymentTestResultModalContainer } from 'containers';
 
 const operatorsSelector = ({ operatorsReducer }) => {
@@ -58,8 +59,10 @@ const DeploymentToolbarContainer = () => {
     datasetOperatorUploadedFileNameSelector
   );
 
+  const predictionId = useSelector(getPredictionId);
+
   const isTestingFlow = useIsLoading(
-    TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_REQUEST
+    PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_REQUEST
   );
 
   const isLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
@@ -109,7 +112,7 @@ const DeploymentToolbarContainer = () => {
       handleToggleDeploymentTestModal();
 
       dispatch(
-        testDeploymentWithDataset(
+        createPredictionWithDataset(
           projectId,
           deploymentId,
           datasetOperatorUploadedFileName
@@ -119,7 +122,7 @@ const DeploymentToolbarContainer = () => {
   };
 
   const handleInterruptFlowTesting = () => {
-    dispatch(interruptDeploymentTest(projectId, deploymentId));
+    dispatch(interruptPrediction(projectId, deploymentId, predictionId));
   };
 
   useEffect(() => {
