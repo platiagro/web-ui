@@ -18,10 +18,10 @@ import jupyterLabReducer from './jupyterLab/jupyterLabReducer';
 import experimentLogsReducer from './experimentLogs/experimentLogsReducer';
 import { tasksReducer } from './tasks';
 import { loadingReducer } from './loading';
-import { testDeploymentReducer } from './testDeployment';
 import { monitoringsReducer } from './monitorings';
 import { userProfileReducer } from './userProfile';
 import { marketplaceReducer } from './marketplace';
+import { predictionReducer } from './prediction';
 
 const reducers = combineReducers({
   compareResultsReducer,
@@ -37,7 +37,6 @@ const reducers = combineReducers({
   datasetReducer,
   datasetsReducer,
   deploymentLogsReducer,
-  testDeploymentReducer,
   jupyterLabReducer,
   monitoringsReducer,
   experimentLogsReducer,
@@ -45,6 +44,7 @@ const reducers = combineReducers({
   loadingReducer,
   userProfileReducer,
   marketplaceReducer,
+  predictionReducer,
 });
 
 const composeEnhancers =
