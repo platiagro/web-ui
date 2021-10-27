@@ -107,7 +107,7 @@ const DeploymentToolbarContainer = () => {
     setIsShowingPromoteModal(true);
   };
 
-  const handleTestDeploymentFlow = () => {
+  const handleCreatePrediction = () => {
     if (datasetOperatorUploadedFileName) {
       handleToggleDeploymentTestModal();
 
@@ -184,7 +184,7 @@ const DeploymentToolbarContainer = () => {
           <Button
             disabled={!datasetOperatorUploadedFileName}
             className={testDeploymentFlowClassName}
-            onClick={handleTestDeploymentFlow}
+            onClick={handleCreatePrediction}
             icon={<PlayCircleFilled />}
             shape='round'
           >

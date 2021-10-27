@@ -101,7 +101,7 @@ export const createPredictionWithDataset =
 export const interruptPrediction =
   (projectId, deploymentId, predictionId) => async (dispatch) => {
     try {
-      dispatch(addLoading(PREDICTION_TYPES.INTERRUPT_DEPLOYMENT_TEST_REQUEST));
+      dispatch(addLoading(PREDICTION_TYPES.INTERRUPT_PREDICTION_REQUEST));
 
       console.log(
         'prediction.actions.js',
@@ -123,15 +123,13 @@ export const interruptPrediction =
       await new Promise((resolve) => resolve());
 
       dispatch({
-        type: PREDICTION_TYPES.INTERRUPT_DEPLOYMENT_TEST_SUCCESS,
+        type: PREDICTION_TYPES.INTERRUPT_PREDICTION_SUCCESS,
       });
     } catch (e) {
       dispatch(showError(e.message));
-      dispatch({ type: PREDICTION_TYPES.INTERRUPT_DEPLOYMENT_TEST_FAIL });
+      dispatch({ type: PREDICTION_TYPES.INTERRUPT_PREDICTION_FAIL });
     } finally {
-      dispatch(
-        removeLoading(PREDICTION_TYPES.INTERRUPT_DEPLOYMENT_TEST_REQUEST)
-      );
+      dispatch(removeLoading(PREDICTION_TYPES.INTERRUPT_PREDICTION_REQUEST));
     }
   };
 
