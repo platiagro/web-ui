@@ -21,6 +21,7 @@ import {
 } from 'store/operators';
 import {
   createPredictionWithDataset,
+  getStatus as getPredictionStatus,
   interruptPrediction,
   PREDICTION_TYPES,
 } from 'store/prediction';
@@ -52,6 +53,20 @@ const DeploymentToolbarContainer = () => {
   const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
   const [isShowingDeploymentTestModal, handleToggleDeploymentTestModal] =
     useToggleState(false);
+  const [hasShownResultsAlready, handleToggleHasShownResultsAlready] =
+    useToggleState(false);
+
+  // If prediction results are ready, show the test result modal.
+  // We have to do this because the user may have closed the modal, and there's no other way to reopen it.
+  const predictionStatus = useSelector(getPredictionStatus);
+  if (
+    ['done', 'failed'].includes(predictionStatus) &&
+    !isShowingDeploymentTestModal &&
+    !hasShownResultsAlready
+  ) {
+    handleToggleDeploymentTestModal();
+    handleToggleHasShownResultsAlready();
+  }
 
   const operators = useSelector(operatorsSelector);
   const datasetOperatorUploadedFileName = useSelector(
@@ -107,6 +122,7 @@ const DeploymentToolbarContainer = () => {
   const handleCreatePrediction = () => {
     if (datasetOperatorUploadedFileName) {
       handleToggleDeploymentTestModal();
+      handleToggleHasShownResultsAlready();
 
       dispatch(
         createPredictionWithDataset(
