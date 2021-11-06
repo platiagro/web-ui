@@ -29,7 +29,7 @@ const DeploymentTestResultModalContainer = ({
   const predictionResult = useSelector(getPredictionResult);
 
   useEffect(() => {
-    if (predictionId != null && status === 'started') {
+    if (predictionId && status == 'started') {
       dispatch(fetchPredictionRequest(projectId, deploymentId, predictionId));
 
       const polling = setInterval(() => {

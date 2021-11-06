@@ -2,7 +2,6 @@ import * as PREDICTION_TYPES from './prediction.actionTypes';
 
 import predictionApi from 'services/PredictionApi';
 import { addLoading, removeLoading } from 'store/loading';
-import { showError } from 'store/message';
 
 const STATUS_DONE = 'done';
 
@@ -93,45 +92,15 @@ export const createPredictionWithDataset =
 /**
  * Interrupt prediction
  *
- * @param {string} projectId Project Id
- * @param {string} deploymentId Deployment Id
- * @param {string} predictionId Prediction Id
  * @returns {Function} Dispatch function
  */
-export const interruptPrediction =
-  (projectId, deploymentId, predictionId) => async (dispatch) => {
-    try {
-      dispatch(addLoading(PREDICTION_TYPES.INTERRUPT_PREDICTION_REQUEST));
+export const interruptPrediction = () => async (dispatch) => {
+  dispatch({ type: PREDICTION_TYPES.INTERRUPT_PREDICTION });
 
-      console.log(
-        'prediction.actions.js',
-        'interruptPrediction',
-        projectId,
-        deploymentId,
-        predictionId
-      );
-
-      /* 
-      Quando a action createPredictionWithDataset não for mais síncrona é possível
-      usar o dispatch(addLoading(...)) para guardar se está testando o fluxo.
-      Então na action de teste vocẽ adiciona o addLoading e na action que 
-      interrompe o teste você chama o removeLoading, só decida qual 
-      actionType usar para isso.
-      */
-
-      // TODO: Fazer o request
-      await new Promise((resolve) => resolve());
-
-      dispatch({
-        type: PREDICTION_TYPES.INTERRUPT_PREDICTION_SUCCESS,
-      });
-    } catch (e) {
-      dispatch(showError(e.message));
-      dispatch({ type: PREDICTION_TYPES.INTERRUPT_PREDICTION_FAIL });
-    } finally {
-      dispatch(removeLoading(PREDICTION_TYPES.INTERRUPT_PREDICTION_REQUEST));
-    }
-  };
+  dispatch(
+    removeLoading(PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_REQUEST)
+  );
+};
 
 /**
  * Function to fetch predictions

@@ -51,6 +51,15 @@ export const predictionReducer = (state = initialState, action = {}) => {
       };
     }
 
+    case PREDICTION_TYPES.INTERRUPT_PREDICTION: {
+      return {
+        ...state,
+        predictionId: null,
+        predictionResult: null,
+        status: null,
+      };
+    }
+
     default:
       return state;
   }

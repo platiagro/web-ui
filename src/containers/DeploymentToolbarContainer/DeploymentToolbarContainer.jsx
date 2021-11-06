@@ -21,7 +21,6 @@ import {
 } from 'store/operators';
 import {
   createPredictionWithDataset,
-  getPredictionId,
   interruptPrediction,
   PREDICTION_TYPES,
 } from 'store/prediction';
@@ -58,8 +57,6 @@ const DeploymentToolbarContainer = () => {
   const datasetOperatorUploadedFileName = useSelector(
     datasetOperatorUploadedFileNameSelector
   );
-
-  const predictionId = useSelector(getPredictionId);
 
   const isTestingFlow = useIsLoading(
     PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_REQUEST
@@ -122,7 +119,7 @@ const DeploymentToolbarContainer = () => {
   };
 
   const handleInterruptFlowTesting = () => {
-    dispatch(interruptPrediction(projectId, deploymentId, predictionId));
+    dispatch(interruptPrediction());
   };
 
   useEffect(() => {
@@ -176,7 +173,6 @@ const DeploymentToolbarContainer = () => {
             icon={<StopOutlined />}
             type='primary-inverse'
             shape='round'
-            disabled // TODO: Habilitar botão quando o "Interromper" funcionar
           >
             Interromper
           </Button>
