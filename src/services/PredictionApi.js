@@ -9,23 +9,6 @@ const predictionApi = createAxiosInstance({
 const deploymentsPath = 'deployments';
 
 /**
- * Create a prediction using a file
- *
- * @param {string} projectId Project UUID
- * @param {string} deploymentId Deployment UUID
- * @param {object} file File to be sent
- * @returns {Promise} Request Promise
- */
-const createPredictionWithFile = (projectId, deploymentId, file) => {
-  const form = new FormData();
-  form.append('file', file);
-  return predictionApi.post(
-    `${projectId}/${deploymentsPath}/${deploymentId}/predictions`,
-    form
-  );
-};
-
-/**
  * Create a prediction using a dataset id
  *
  * @param {string} projectId Project UUID
@@ -55,7 +38,6 @@ const fetchPrediction = (projectId, deploymentId, predictionId) => {
 };
 
 export default {
-  createPredictionWithFile,
   createPredictionWithDataset,
   fetchPrediction,
   axiosInstance: predictionApi,

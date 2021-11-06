@@ -6,47 +6,6 @@ import { addLoading, removeLoading } from 'store/loading';
 const STATUS_DONE = 'done';
 
 /**
- * Create a prediction using a file
- *
- * @param {string} projectId Project Id
- * @param {string} deploymentId Deployment Id
- * @param {object} file File class instance
- * @returns {Function} Dispatch function
- */
-export const createPredictionWithFile =
-  (projectId, deploymentId, file) => async (dispatch) => {
-    try {
-      dispatch(
-        addLoading(PREDICTION_TYPES.CREATE_PREDICTION_WITH_FILE_REQUEST)
-      );
-
-      const response = await predictionApi.createPredictionWithFile(
-        projectId,
-        deploymentId,
-        file
-      );
-      const predictionId = response.data?.uuid;
-      const status = response.data?.status;
-
-      dispatch({
-        type: PREDICTION_TYPES.CREATE_PREDICTION_WITH_FILE_SUCCESS,
-        payload: {
-          predictionId,
-          status,
-        },
-      });
-    } catch (e) {
-      dispatch({
-        type: PREDICTION_TYPES.CREATE_PREDICTION_WITH_FILE_FAIL,
-        payload: {
-          deploymentId,
-          file,
-        },
-      });
-    }
-  };
-
-/**
  * Create a prediction using a dataset id
  *
  * @param {string} projectId Project Id
@@ -79,9 +38,6 @@ export const createPredictionWithDataset =
     } catch (e) {
       dispatch({
         type: PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_FAIL,
-        payload: {
-          dataset,
-        },
       });
       dispatch(
         removeLoading(PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_REQUEST)
@@ -138,14 +94,10 @@ export const fetchPredictionRequest =
         dispatch(
           removeLoading(PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_REQUEST)
         );
-        dispatch(
-          removeLoading(PREDICTION_TYPES.CREATE_PREDICTION_WITH_FILE_REQUEST)
-        );
       }
     } catch (e) {
       dispatch({
         type: PREDICTION_TYPES.FETCH_PREDICTION_FAIL,
-        payload: {},
       });
     } finally {
       dispatch(removeLoading(PREDICTION_TYPES.FETCH_PREDICTION_REQUEST));

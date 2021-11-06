@@ -6,10 +6,6 @@ export const getPredictionId = ({ predictionReducer }) => {
   return predictionReducer.predictionId;
 };
 
-export const getFile = ({ predictionReducer }) => {
-  return predictionReducer.file;
-};
-
 export const getDataset = ({ predictionReducer }) => {
   return predictionReducer.dataset;
 };
