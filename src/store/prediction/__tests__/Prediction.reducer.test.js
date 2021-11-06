@@ -78,4 +78,15 @@ describe('Prediction Action Types', () => {
       status: action.payload.status,
     });
   });
+
+  it('should keep the state as it is', () => {
+    const action = {
+      type: PREDICTION_TYPES.FETCH_PREDICTION_FAIL,
+    };
+
+    const newState = predictionReducer(initialState, action);
+    expect(newState).toEqual({
+      ...initialState,
+    });
+  });
 });

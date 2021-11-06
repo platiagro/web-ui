@@ -130,6 +130,28 @@ describe('Prediction Action', () => {
     ]);
   });
 
+  it('should create the fetch prediction request action when prediction still in progress', async () => {
+    predictionMockAxios.onGet().reply(200, fakePredictionInProgress);
+
+    await store.dispatch(
+      fetchPredictionRequest('projectId', 'deploymentId', 'predictionId')
+    );
+    const actions = store.getActions();
+
+    expect(actions).toEqual([
+      {
+        type: ADD_LOADING,
+        payload: {
+          [PREDICTION_TYPES.FETCH_PREDICTION_REQUEST]: true,
+        },
+      },
+      {
+        type: REMOVE_LOADING,
+        payload: [PREDICTION_TYPES.FETCH_PREDICTION_REQUEST],
+      },
+    ]);
+  });
+
   it('should handle errors in fetch prediction async action', async () => {
     predictionMockAxios.onGet().reply(500, { message: 'error message' });
 
