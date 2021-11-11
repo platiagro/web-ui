@@ -89,38 +89,6 @@ const updateDeploymentOperator = (
   );
 };
 
-/**
- * Test deployment
- *
- * @param {string} projectId Project UUID
- * @param {string} deploymentId Deployment UUID
- * @param {object} file File to be sent
- * @returns {Promise} Request Promise
- */
-const testDeploymentWithFile = (projectId, deploymentId, file) => {
-  const form = new FormData();
-  form.append('file', file);
-  return deploymentsApi.post(
-    `${projectId}/${deploymentsPath}/${deploymentId}/predictions`,
-    form
-  );
-};
-
-/**
- * Test deployment with the dataset uploaded
- *
- * @param {string} projectId Project UUID
- * @param {string} deploymentId Deployment UUID
- * @param {string} dataset File name that was already uploaded
- * @returns {Promise} Request Promise
- */
-const testDeploymentWithDataset = (projectId, deploymentId, dataset) => {
-  return deploymentsApi.post(
-    `${projectId}/${deploymentsPath}/${deploymentId}/predictions`,
-    { dataset }
-  );
-};
-
 export default {
   listDeployments,
   createDeployment,
@@ -128,7 +96,5 @@ export default {
   updateDeployment,
   deleteDeployment,
   updateDeploymentOperator,
-  testDeploymentWithFile,
-  testDeploymentWithDataset,
   axiosInstance: deploymentsApi,
 };

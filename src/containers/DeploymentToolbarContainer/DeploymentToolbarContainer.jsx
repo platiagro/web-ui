@@ -19,13 +19,14 @@ import {
   fetchDeploymentOperatorsRequest,
   clearAllDeploymentOperators,
 } from 'store/operators';
+import {
+  createPredictionWithDataset,
+  getStatus as getPredictionStatus,
+  interruptPrediction,
+  PREDICTION_TYPES,
+} from 'store/prediction';
 
 import './DeploymentToolbarContainer.less';
-import {
-  interruptDeploymentTest,
-  testDeploymentWithDataset,
-  TEST_DEPLOYMENT_TYPES,
-} from 'store/testDeployment';
 import { DeploymentTestResultModalContainer } from 'containers';
 
 const operatorsSelector = ({ operatorsReducer }) => {
@@ -52,6 +53,20 @@ const DeploymentToolbarContainer = () => {
   const [isShowingPromoteModal, setIsShowingPromoteModal] = useState(false);
   const [isShowingDeploymentTestModal, handleToggleDeploymentTestModal] =
     useToggleState(false);
+  const [hasShownResultsAlready, handleToggleHasShownResultsAlready] =
+    useToggleState(false);
+
+  // If prediction results are ready, show the test result modal.
+  // We have to do this because the user may have closed the modal, and there's no other way to reopen it.
+  const predictionStatus = useSelector(getPredictionStatus);
+  if (
+    ['done', 'failed'].includes(predictionStatus) &&
+    !isShowingDeploymentTestModal &&
+    !hasShownResultsAlready
+  ) {
+    handleToggleDeploymentTestModal();
+    handleToggleHasShownResultsAlready();
+  }
 
   const operators = useSelector(operatorsSelector);
   const datasetOperatorUploadedFileName = useSelector(
@@ -59,7 +74,7 @@ const DeploymentToolbarContainer = () => {
   );
 
   const isTestingFlow = useIsLoading(
-    TEST_DEPLOYMENT_TYPES.TEST_DEPLOYMENT_WITH_DATASET_REQUEST
+    PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_REQUEST
   );
 
   const isLoading = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
@@ -104,12 +119,13 @@ const DeploymentToolbarContainer = () => {
     setIsShowingPromoteModal(true);
   };
 
-  const handleTestDeploymentFlow = () => {
+  const handleCreatePrediction = () => {
     if (datasetOperatorUploadedFileName) {
       handleToggleDeploymentTestModal();
+      handleToggleHasShownResultsAlready();
 
       dispatch(
-        testDeploymentWithDataset(
+        createPredictionWithDataset(
           projectId,
           deploymentId,
           datasetOperatorUploadedFileName
@@ -119,7 +135,7 @@ const DeploymentToolbarContainer = () => {
   };
 
   const handleInterruptFlowTesting = () => {
-    dispatch(interruptDeploymentTest(projectId, deploymentId));
+    dispatch(interruptPrediction());
   };
 
   useEffect(() => {
@@ -173,7 +189,6 @@ const DeploymentToolbarContainer = () => {
             icon={<StopOutlined />}
             type='primary-inverse'
             shape='round'
-            disabled // TODO: Habilitar botão quando o "Interromper" funcionar
           >
             Interromper
           </Button>
@@ -181,7 +196,7 @@ const DeploymentToolbarContainer = () => {
           <Button
             disabled={!datasetOperatorUploadedFileName}
             className={testDeploymentFlowClassName}
-            onClick={handleTestDeploymentFlow}
+            onClick={handleCreatePrediction}
             icon={<PlayCircleFilled />}
             shape='round'
           >
