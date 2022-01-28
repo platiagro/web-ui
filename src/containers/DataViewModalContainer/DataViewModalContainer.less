@@ -1,90 +1,100 @@
-@import '/src/variables.less';
+@import "/src/variables.less";
 
-.dataViewModal {
-  height: 95%;
+.data-view-modal-container {
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
 
-  .dataViewAttributtesDownload {
-    float: left;
-    width: 30%;
-    padding: 20px;
-    border-bottom: 1px solid #e8e8e8;
-
-    button:not(:disabled) {
-      color: @primary-color;
+    .ant-modal-body {
+      height: auto;
+      flex: 1;
     }
   }
 
-  .dataViewAttributtesUpload {
-    float: left;
-    width: 30%;
-    padding: 20px;
+  .data-view-modal {
+    .data-view-attributes-download {
+      float: left;
+      width: 30%;
+      padding: 20px;
+      border-bottom: 1px solid #e8e8e8;
 
-    button:not(:disabled) {
-      color: @primary-color;
+      button:not(:disabled) {
+        color: @primary-color;
+      }
     }
 
-    ul {
-      list-style: none;
-      padding: 0;
+    .data-view-attributes-upload {
+      float: left;
+      width: 30%;
+      padding: 20px;
+
+      button:not(:disabled) {
+        color: @primary-color;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        padding-left: 0.7em;
+      }
+      li:before {
+        content: "-"; /* FontAwesome Unicode */
+        display: inline-block;
+        margin-left: -0.7em; /* same as padding-left set on li */
+        width: 0.7em; /* same as padding-left set on li */
+      }
     }
-    li {
-      padding-left: 0.7em;
+
+    .datasetTable {
+      margin: 15px 10px 10px 0px;
     }
-    li:before {
-      content: '-'; /* FontAwesome Unicode */
-      display: inline-block;
-      margin-left: -0.7em; /* same as padding-left set on li */
-      width: 0.7em; /* same as padding-left set on li */
+
+    .ant-tabs-nav {
+      margin: 0;
+    }
+
+    .ant-tabs {
+      height: 100%;
+    }
+
+    .ant-tabs-tab {
+      padding: 12px 15px;
+      margin: 0px;
+    }
+
+    .ant-tabs-content {
+      height: 100%;
+    }
+
+    .ant-table-body {
+      max-height: none;
+      overflow-y: hidden;
+    }
+
+    .attributes-table {
+      float: left;
+      width: 70%;
+      height: 100%;
+      border-right: 1px solid #e8e8e8;
+      overflow: auto;
+    }
+
+    .data-view-modal-data-header {
+      margin: 1px 0;
+      padding: 10px 0;
+      height: 5%;
+    }
+
+    .data-view-observations {
+      margin: 15px 0px;
     }
   }
 
-  .datasetTable {
-    margin: 15px 10px 10px 0px;
-  }
-
-  .ant-tabs-nav {
-    margin: 0;
-  }
-
-  .ant-tabs {
-    height: 100%;
-  }
-
-  .ant-tabs-tab {
-    padding: 12px 15px;
-    margin: 0px;
-  }
-
-  .ant-tabs-content {
-    height: 100%;
-  }
-
-  .ant-table-body {
-    max-height: none;
-    overflow-y: hidden;
-  }
-
-  .attributtesTable {
-    float: left;
-    width: 70%;
-    height: 100%;
-    border-right: 1px solid #e8e8e8;
-    overflow: auto;
-  }
-
-  .dataViewModalDataHeader {
-    margin: 1px 0;
-    padding: 10px 0;
-    height: 5%;
-  }
-
-  .dataViewObservations {
-    margin: 15px 0px;
-  }
-}
-
-.dataViewModalParent {
-  .ant-modal-body {
-    padding: 0 25px;
+  .dataViewModalParent {
+    .ant-modal-body {
+      padding: 0 25px;
+    }
   }
 }
