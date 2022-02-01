@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import ReactFlow, { Background, Handle } from 'react-flow-renderer';
@@ -25,11 +25,16 @@ const DeploymentFlow = ({
   handleToggleLogsPanel,
   handleDeselectOperator,
 }) => {
+  const [flowInstance, setFlowInstance] = useState(null);
+
+  const handleFitReactFlowView = (reactFlowInstance) => {
+    reactFlowInstance.fitView({ includeHiddenNodes: true  });
+    reactFlowInstance.zoomTo(1);
+  }
+
   const handleLoad = (reactFlowInstance) => {
-    setTimeout(() => {
-      reactFlowInstance.fitView();
-      reactFlowInstance.zoomTo(1);
-    }, 0);
+    setFlowInstance(reactFlowInstance)
+    handleFitReactFlowView(reactFlowInstance)
   };
 
   const handleDragStop = (_, task) => {
@@ -115,6 +120,14 @@ const DeploymentFlow = ({
     operators,
     selectedOperatorId,
   ]);
+
+  // This useEffect updates the position of React Flow when all operators are fetched and flowInstance is set.
+  // Without this useEffect, operators located on a negative X or Y will not be shown in the initial render.
+  useEffect(() => {
+    if(operators?.length && flowInstance) {
+      handleFitReactFlowView(flowInstance)
+    }
+  }, [flowInstance, operators?.length])
 
   return loading ? (
     <div className='deployment-flow'>
