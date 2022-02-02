@@ -80,6 +80,7 @@ const TasksMenu = ({
         disabled={disabled}
         taskType={taskType}
         handleSelect={handleSelect}
+        tutorialUrl={'https://google.com'}
       >
         {renderTooltip(name, description, uuid, title)}
       </DraggableItem>
