@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import ReactFlow, { Background } from 'react-flow-renderer';
 
 import TaskBox from 'components/TaskBox';
-import { OperatorsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 import { LogsButton } from 'components/Buttons';
+import { OperatorsEmptyPlaceholder } from 'components/EmptyPlaceholders';
 
 import Vectors, { nodeTypes, edgeTypes } from './CustomNodes';
 
@@ -30,12 +30,16 @@ const ExperimentFlow = ({
   handleRemoveOperator,
 }) => {
   const [connectClass, setConnectClass] = useState('');
+  const [flowInstance, setFlowInstance] = useState(null);
+
+  const handleFitReactFlowView = (reactFlowInstance) => {
+    reactFlowInstance.fitView({ includeHiddenNodes: true  });
+    reactFlowInstance.zoomTo(1);
+  }
 
   const handleLoad = (reactFlowInstance) => {
-    setTimeout(() => {
-      reactFlowInstance.fitView();
-      reactFlowInstance.zoomTo(1);
-    }, 0);
+    setFlowInstance(reactFlowInstance)
+    handleFitReactFlowView(reactFlowInstance)
   };
 
   const handleConnect = (params) => {
@@ -135,8 +139,14 @@ const ExperimentFlow = ({
   });
 
   const cursorStyle = operatorLoading ? { cursor: 'wait' } : {};
-
   const emptyOperators = tasks.length === 0;
+
+  // Without this useEffect, operators located on a negative X or Y will not be shown in the initial render.
+  useEffect(() => {
+    if(tasks?.length && flowInstance) {
+      handleFitReactFlowView(flowInstance)
+    }
+  }, [flowInstance, tasks?.length])
 
   return (
     <div
@@ -159,7 +169,7 @@ const ExperimentFlow = ({
         onPaneContextMenu={(e) => e.preventDefault()}
         onConnectStart={() => setConnectClass('Connecting')}
         onElementsRemove={handleDeleteOperator}
-        onlyRenderVisibleElements
+        onlyRenderVisibleElements={false}
       >
         <Background
           gap={25}
