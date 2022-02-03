@@ -33,10 +33,8 @@ const ExperimentFlow = ({
   const [flowInstance, setFlowInstance] = useState(null);
 
   const handleFitReactFlowView = (reactFlowInstance) => {
-    setTimeout(() => {
-      reactFlowInstance.fitView({ includeHiddenNodes: true  });
-      reactFlowInstance.zoomTo(1);
-    }, 300)
+    reactFlowInstance.fitView({ includeHiddenNodes: true  });
+    reactFlowInstance.zoomTo(1);
   }
 
   const handleLoad = (reactFlowInstance) => {
@@ -143,7 +141,6 @@ const ExperimentFlow = ({
   const cursorStyle = operatorLoading ? { cursor: 'wait' } : {};
   const emptyOperators = tasks.length === 0;
 
-  // This useEffect updates the position of React Flow when all tasks are fetched and flowInstance is set.
   // Without this useEffect, operators located on a negative X or Y will not be shown in the initial render.
   useEffect(() => {
     if(tasks?.length && flowInstance) {

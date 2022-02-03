@@ -28,10 +28,8 @@ const DeploymentFlow = ({
   const [flowInstance, setFlowInstance] = useState(null);
 
   const handleFitReactFlowView = (reactFlowInstance) => {
-    setTimeout(() => {
-      reactFlowInstance.fitView({ includeHiddenNodes: true  });
-      reactFlowInstance.zoomTo(1);
-    }, 300)
+    reactFlowInstance.fitView({ includeHiddenNodes: true  });
+    reactFlowInstance.zoomTo(1);
   }
 
   const handleLoad = (reactFlowInstance) => {
@@ -123,7 +121,6 @@ const DeploymentFlow = ({
     selectedOperatorId,
   ]);
 
-  // This useEffect updates the position of React Flow when all operators are fetched and flowInstance is set.
   // Without this useEffect, operators located on a negative X or Y will not be shown in the initial render.
   useEffect(() => {
     if(operators?.length && flowInstance) {
