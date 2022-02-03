@@ -170,6 +170,7 @@ const ExperimentFlow = ({
         onPaneContextMenu={(e) => e.preventDefault()}
         onConnectStart={() => setConnectClass('Connecting')}
         onElementsRemove={handleDeleteOperator}
+        onlyRenderVisibleElements={false}
       >
         <Background
           gap={25}

@@ -150,6 +150,7 @@ const DeploymentFlow = ({
         onPaneClick={handleDeselectOperator}
         onSelectionChange={handleDeselectOperator}
         onPaneContextMenu={(e) => e.preventDefault()}
+        onlyRenderVisibleElements={false}
       >
         <Background
           variant='dots'
