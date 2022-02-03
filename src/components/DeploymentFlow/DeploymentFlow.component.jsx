@@ -131,15 +131,7 @@ const DeploymentFlow = ({
     }
   }, [flowInstance, operators?.length])
 
-  return loading ? (
-    <div className='deployment-flow'>
-      <OperatorsEmptyPlaceholder
-        className='deployment-flow-empty-operators'
-        placeholderWhenLoading='Aguarde...'
-        loading
-      />
-    </div>
-  ) : (
+  return (
     <div className='deployment-flow'>
       <ReactFlow
         deleteKeyCode={46}
@@ -165,6 +157,8 @@ const DeploymentFlow = ({
         {!operators?.length && (
           <OperatorsEmptyPlaceholder
             className='deployment-flow-empty-operators'
+            loading={loading} 
+            placeholderWhenLoading='Aguarde...'
             placeholder='Crie um fluxo de pré-implantação para visualizar aqui'
           />
         )}
