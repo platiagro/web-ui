@@ -33,8 +33,10 @@ const ExperimentFlow = ({
   const [flowInstance, setFlowInstance] = useState(null);
 
   const handleFitReactFlowView = (reactFlowInstance) => {
-    reactFlowInstance.fitView({ includeHiddenNodes: true  });
-    reactFlowInstance.zoomTo(1);
+    setTimeout(() => {
+      reactFlowInstance.fitView({ includeHiddenNodes: true  });
+      reactFlowInstance.zoomTo(1);
+    }, 300)
   }
 
   const handleLoad = (reactFlowInstance) => {
