@@ -126,7 +126,7 @@ const DeploymentFlow = ({
     if(operators?.length && flowInstance) {
       handleFitReactFlowView(flowInstance)
     }
-  }, [flowInstance, operators?.length])
+  }, [flowInstance, operators])
 
   return (
     <div className='deployment-flow'>
