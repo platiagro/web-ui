@@ -44,8 +44,8 @@ const MenuItem = ({
 
       <div className='draggable-item-content-text'>{children}</div>
 
-      <div className='draggable-item'>
-        <a className='iconUrl' href={tutorialUrl} target='_blank' rel='noreferrer'> <LinkOutlined /> </a>
+      <div className='link-item-content-icon'>
+        <a className='icon-url' href={tutorialUrl} target='_blank' rel='noreferrer'> <LinkOutlined /> </a>
       </div>
     </div>
   );
