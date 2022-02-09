@@ -1,92 +1,73 @@
+import { PREDICTION_STATUS } from 'configs';
+
 import * as PREDICTION_TYPES from '../prediction.actionTypes';
 import { predictionReducer, initialState } from '../prediction.reducer';
 
-describe('Prediction Action Types', () => {
-  it('should reset predictionId, predictionResult and status in the state', () => {
-    const action = {
-      type: PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_REQUEST,
-    };
+describe('Prediction Reducer', () => {
+  const projectId = 'projectId';
+  const deploymentId = 'deploymentId';
+  const predictionId = 'predictionId';
+  const predictionKey = `${projectId}/${deploymentId}`;
 
-    const newState = predictionReducer(
-      {
-        ...initialState,
-        predictionId: 'predictionId',
-        predictionResult: {},
-        status: 'success',
-      },
-      action
-    );
-    expect(newState).toEqual({
-      ...initialState,
-      predictionId: null,
-      predictionResult: null,
-      status: null,
-    });
-  });
+  const runningPrediction = {
+    status: PREDICTION_STATUS.STARTED,
+    dataset: 'dataset',
+    predictionId,
+  };
 
-  it('should set predictionId and status in the state', () => {
+  const predictionResult = {
+    status: PREDICTION_STATUS.DONE,
+    predictionData: {},
+    predictionId,
+  };
+
+  it('should create a prediction', () => {
     const action = {
       type: PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_SUCCESS,
       payload: {
-        predictionId: 'predictionId',
-        status: 'success',
+        projectId,
+        deploymentId,
+        predictionId,
+        dataset: 'dataset',
+        status: PREDICTION_STATUS.STARTED,
       },
     };
 
     const newState = predictionReducer(initialState, action);
+
     expect(newState).toEqual({
       ...initialState,
-      predictionId: action.payload.predictionId,
-      status: action.payload.status,
-    });
-  });
-
-  it('should reset the predictionId, predictionResult and status in the state when create request fails', () => {
-    const action = {
-      type: PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_FAIL,
-    };
-
-    const newState = predictionReducer(
-      {
-        ...initialState,
-        predictionId: 'predictionId',
-        status: 'started',
+      running: {
+        [predictionKey]: runningPrediction,
       },
-      action
-    );
-    expect(newState).toEqual({
-      ...initialState,
-      predictionId: null,
-      predictionResult: null,
-      status: 'failed',
     });
   });
 
-  it('should set predictionResult and status in the state', () => {
+  it('should set the prediction result in the state', () => {
     const action = {
       type: PREDICTION_TYPES.FETCH_PREDICTION_SUCCESS,
       payload: {
-        predictionResult: { ndarray: [1, 2, 3], names: ['a', 'b', 'c'] },
-        status: 'success',
+        projectId,
+        deploymentId,
+        predictionId,
+        predictionData: {},
+        status: PREDICTION_STATUS.DONE,
       },
     };
 
     const newState = predictionReducer(initialState, action);
+
     expect(newState).toEqual({
       ...initialState,
-      predictionResult: action.payload.predictionResult,
-      status: action.payload.status,
+      results: {
+        [predictionKey]: predictionResult,
+      },
     });
   });
 
   it('should keep the state as it is', () => {
-    const action = {
-      type: PREDICTION_TYPES.FETCH_PREDICTION_FAIL,
-    };
-
+    const action = { type: 'UNKNOWN' };
     const newState = predictionReducer(initialState, action);
-    expect(newState).toEqual({
-      ...initialState,
-    });
+    expect(newState).toEqual(initialState);
   });
 });
