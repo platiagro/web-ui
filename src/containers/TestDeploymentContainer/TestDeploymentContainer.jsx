@@ -72,6 +72,11 @@ const TestDeploymentContainer = () => {
     }
   };
 
+  const handleTryAgain = () => {
+    handleHideModal();
+    handleCreatePrediction();
+  };
+
   const handleInterruptPrediction = () => {
     dispatch(interruptPrediction(projectId, deploymentId));
   };
@@ -97,8 +102,8 @@ const TestDeploymentContainer = () => {
         testStatus={predictionResult?.status}
         testResult={predictionResult?.predictionData}
         handleShowLogs={handleShowLogs}
+        handleTryAgain={handleTryAgain}
         handleHideModal={handleHideModal}
-        handleTryAgain={handleCreatePrediction}
       />
 
       {!!predictionResult && (
