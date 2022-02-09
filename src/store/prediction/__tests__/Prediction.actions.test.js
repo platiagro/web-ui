@@ -70,6 +70,13 @@ describe('Prediction Actions', () => {
         },
       },
       {
+        type: PREDICTION_TYPES.DELETE_PREDICTION_RESULT,
+        payload: {
+          projectId: 'projectId',
+          deploymentId: 'deploymentId',
+        },
+      },
+      {
         type: PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_SUCCESS,
         payload: {
           dataset: 'dataset',

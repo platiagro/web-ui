@@ -66,7 +66,7 @@ const DeploymentTestResultModalContent = ({
     }));
   }, [testResult]);
 
-  if (!testResult && testStatus === PREDICTION_STATUS.FAILED) {
+  if (!testResult && ['', PREDICTION_STATUS.FAILED].includes(testStatus)) {
     return (
       <InferenceTestResultModalError
         handleShowLogs={handleShowLogs}

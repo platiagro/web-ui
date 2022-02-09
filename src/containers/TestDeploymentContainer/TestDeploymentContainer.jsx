@@ -13,7 +13,6 @@ import {
   getPredictionResult,
   getRunningPrediction,
   fetchPredictionRequest,
-  deletePredictionResult,
   createPredictionWithDataset,
 } from 'store/prediction';
 import { useBooleanState } from 'hooks';
@@ -73,11 +72,6 @@ const TestDeploymentContainer = () => {
     }
   };
 
-  const handleTryAgain = () => {
-    dispatch(deletePredictionResult(projectId, deploymentId));
-    handleCreatePrediction();
-  };
-
   const handleInterruptPrediction = () => {
     dispatch(interruptPrediction(projectId, deploymentId));
   };
@@ -103,8 +97,8 @@ const TestDeploymentContainer = () => {
         testStatus={predictionResult?.status}
         testResult={predictionResult?.predictionData}
         handleShowLogs={handleShowLogs}
-        handleTryAgain={handleTryAgain}
         handleHideModal={handleHideModal}
+        handleTryAgain={handleCreatePrediction}
       />
 
       {!!predictionResult && (
@@ -114,7 +108,7 @@ const TestDeploymentContainer = () => {
           type='primary'
           shape='round'
         >
-          Ver Resultado do Teste
+          Ver Resultados do Teste
         </Button>
       )}
 

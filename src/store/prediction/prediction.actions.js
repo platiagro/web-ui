@@ -50,6 +50,8 @@ export const createPredictionWithDataset =
         addLoading(PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_REQUEST)
       );
 
+      dispatch(deletePredictionResult(projectId, deploymentId));
+
       const response = await predictionApi.createPredictionWithDataset(
         projectId,
         deploymentId,
