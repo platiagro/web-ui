@@ -8,6 +8,7 @@ import { ADD_LOADING, REMOVE_LOADING } from 'store/loading';
 
 import {
   interruptPrediction,
+  deletePredictionResult,
   fetchPredictionRequest,
   createPredictionWithDataset,
 } from '../prediction.actions';
@@ -183,6 +184,16 @@ describe('Prediction Actions', () => {
   it('should create the interrupt prediction action', async () => {
     expect(interruptPrediction('projectId', 'deploymentId')).toEqual({
       type: PREDICTION_TYPES.INTERRUPT_PREDICTION,
+      payload: {
+        projectId: 'projectId',
+        deploymentId: 'deploymentId',
+      },
+    });
+  });
+
+  it('should create the delete prediction result action', async () => {
+    expect(deletePredictionResult('projectId', 'deploymentId')).toEqual({
+      type: PREDICTION_TYPES.DELETE_PREDICTION_RESULT,
       payload: {
         projectId: 'projectId',
         deploymentId: 'deploymentId',

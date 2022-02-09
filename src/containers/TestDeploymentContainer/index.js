@@ -1,3 +1,3 @@
-import DeploymentTestResultModalContainer from './DeploymentTestResultModalContainer';
+import TestDeploymentContainer from './TestDeploymentContainer';
 
-export default DeploymentTestResultModalContainer;
+export default TestDeploymentContainer;

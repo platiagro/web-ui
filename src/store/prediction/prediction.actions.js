@@ -21,6 +21,21 @@ export const interruptPrediction = (projectId, deploymentId) => ({
 });
 
 /**
+ * Delete prediction result
+ *
+ * @param {string} projectId Project Id
+ * @param {string} deploymentId Deployment Id
+ * @returns {Function} Dispatch function
+ */
+export const deletePredictionResult = (projectId, deploymentId) => ({
+  type: PREDICTION_TYPES.DELETE_PREDICTION_RESULT,
+  payload: {
+    projectId,
+    deploymentId,
+  },
+});
+
+/**
  * Create a prediction using a dataset id
  *
  * @param {string} projectId Project Id
@@ -92,9 +107,13 @@ export const fetchPredictionRequest =
 
       if (didPredictionFinished) {
         const responseBody = response.data?.response_body;
-        const predictionData = responseBody
-          ? JSON.parse(responseBody)?.data
-          : undefined;
+
+        let predictionData = null;
+        try {
+          predictionData = JSON.parse(responseBody).data;
+        } catch (e) {
+          predictionData = null;
+        }
 
         dispatch({
           type: PREDICTION_TYPES.FETCH_PREDICTION_SUCCESS,

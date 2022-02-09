@@ -65,6 +65,40 @@ describe('Prediction Reducer', () => {
     });
   });
 
+  it('should interrupt a running prediction', () => {
+    const action = {
+      type: PREDICTION_TYPES.INTERRUPT_PREDICTION,
+      payload: {
+        projectId,
+        deploymentId,
+      },
+    };
+
+    const newState = predictionReducer(
+      { ...initialState, running: { [predictionKey]: runningPrediction } },
+      action
+    );
+
+    expect(newState).toEqual(initialState);
+  });
+
+  it('should delete a prediction result', () => {
+    const action = {
+      type: PREDICTION_TYPES.DELETE_PREDICTION_RESULT,
+      payload: {
+        projectId,
+        deploymentId,
+      },
+    };
+
+    const newState = predictionReducer(
+      { ...initialState, results: { [predictionKey]: predictionResult } },
+      action
+    );
+
+    expect(newState).toEqual(initialState);
+  });
+
   it('should keep the state as it is', () => {
     const action = { type: 'UNKNOWN' };
     const newState = predictionReducer(initialState, action);

@@ -16,6 +16,13 @@ export const predictionReducer = (state = initialState, action = {}) => {
       return stateClone;
     }
 
+    case PREDICTION_TYPES.DELETE_PREDICTION_RESULT: {
+      const predictionKey = `${payload.projectId}/${payload.deploymentId}`;
+      const stateClone = { ...state };
+      delete stateClone.results[predictionKey];
+      return stateClone;
+    }
+
     case PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_SUCCESS: {
       const predictionKey = `${payload.projectId}/${payload.deploymentId}`;
       return {

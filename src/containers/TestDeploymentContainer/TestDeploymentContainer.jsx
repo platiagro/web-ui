@@ -2,13 +2,18 @@ import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { PlayCircleFilled, StopOutlined } from '@ant-design/icons';
+import {
+  StopOutlined,
+  PlayCircleFilled,
+  BarChartOutlined,
+} from '@ant-design/icons';
 
 import {
   interruptPrediction,
   getPredictionResult,
   getRunningPrediction,
   fetchPredictionRequest,
+  deletePredictionResult,
   createPredictionWithDataset,
 } from 'store/prediction';
 import { useBooleanState } from 'hooks';
@@ -68,6 +73,11 @@ const TestDeploymentContainer = () => {
     }
   };
 
+  const handleTryAgain = () => {
+    dispatch(deletePredictionResult(projectId, deploymentId));
+    handleCreatePrediction();
+  };
+
   const handleInterruptPrediction = () => {
     dispatch(interruptPrediction(projectId, deploymentId));
   };
@@ -88,22 +98,23 @@ const TestDeploymentContainer = () => {
   return (
     <>
       <DeploymentTestResultModal
-        testResult={predictionResult}
         isShowingModal={isShowingModal}
         isTestingFlow={!!runningPrediction}
+        testStatus={predictionResult?.status}
+        testResult={predictionResult?.predictionData}
         handleShowLogs={handleShowLogs}
+        handleTryAgain={handleTryAgain}
         handleHideModal={handleHideModal}
-        handleTryAgain={handleCreatePrediction}
       />
 
       {!!predictionResult && (
         <Button
+          icon={<BarChartOutlined />}
           onClick={handleShowModal}
-          icon={<StopOutlined />}
           type='primary'
           shape='round'
         >
-          Ver Resultados do Teste
+          Ver Resultado do Teste
         </Button>
       )}
 
