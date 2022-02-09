@@ -21,7 +21,16 @@ describe('Prediction Reducer', () => {
     predictionId,
   };
 
-  it('should create a prediction', () => {
+  const stateWithData = {
+    results: {
+      'abc/123': {},
+    },
+    running: {
+      'abc/123': {},
+    },
+  };
+
+  it('should add a running prediction to the state', () => {
     const action = {
       type: PREDICTION_TYPES.CREATE_PREDICTION_WITH_DATASET_SUCCESS,
       payload: {
@@ -33,17 +42,18 @@ describe('Prediction Reducer', () => {
       },
     };
 
-    const newState = predictionReducer(initialState, action);
+    const newState = predictionReducer(stateWithData, action);
 
     expect(newState).toEqual({
-      ...initialState,
+      ...stateWithData,
       running: {
+        ...stateWithData.running,
         [predictionKey]: runningPrediction,
       },
     });
   });
 
-  it('should set the prediction result in the state', () => {
+  it('should add a prediction result to the state', () => {
     const action = {
       type: PREDICTION_TYPES.FETCH_PREDICTION_SUCCESS,
       payload: {
@@ -55,11 +65,12 @@ describe('Prediction Reducer', () => {
       },
     };
 
-    const newState = predictionReducer(initialState, action);
+    const newState = predictionReducer(stateWithData, action);
 
     expect(newState).toEqual({
-      ...initialState,
+      ...stateWithData,
       results: {
+        ...stateWithData.results,
         [predictionKey]: predictionResult,
       },
     });

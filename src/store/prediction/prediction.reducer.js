@@ -43,6 +43,7 @@ export const predictionReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         results: {
+          ...state.results,
           [predictionKey]: {
             status: payload.status,
             predictionId: payload.predictionId,
