@@ -10,7 +10,6 @@ export { default as DeploymentToolbarContainer } from './DeploymentToolbarContai
 export { default as DeploymentsHeaderContainer } from './DeploymentsHeaderContainer';
 export { default as DeploymentsTableContainer } from './DeploymentsTableContainer';
 export { default as DeploymentsTabsContainer } from './DeploymentsTabsContainer';
-export { default as DeploymentTestResultModalContainer } from './DeploymentTestResultModalContainer';
 export { default as DownloadOperatorDatasetContainer } from './DownloadOperatorDatasetContainer';
 export { default as EditTitleContainer } from './EditTitleContainer';
 export { default as ExperimentsHeaderContainer } from './ExperimentsHeaderContainer';
@@ -30,6 +29,7 @@ export { default as ProjectDetailsContainer } from './ProjectDetailsContainer';
 export { default as PropertiesResizableContainer } from './PropertiesResizableContainer';
 export { default as SaveTemplateContainer } from './SaveTemplateContainer';
 export { default as TasksMenuDetailsContainer } from './TasksMenuDetailsContainer';
+export { default as TestDeploymentContainer } from './TestDeploymentContainer';
 export { default as UsingDeploymentsButtonContainer } from './UsingDeploymentsButtonContainer';
 export { default as UsingDeploymentsModalContainer } from './UsingDeploymentsModalContainer';
 export { default as DeploymentDatasetUploadContainer } from './DeploymentDatasetUploadContainer';

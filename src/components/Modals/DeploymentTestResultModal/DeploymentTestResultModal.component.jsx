@@ -7,6 +7,7 @@ import DeploymentTestResultModalContent from './DeploymentTestResultModalContent
 
 const DeploymentTestResultModal = ({
   testResult,
+  testStatus,
   isTestingFlow,
   isShowingModal,
   handleTryAgain,
@@ -26,6 +27,7 @@ const DeploymentTestResultModal = ({
       ) : (
         <DeploymentTestResultModalContent
           testResult={testResult}
+          testStatus={testStatus}
           handleShowLogs={handleShowLogs}
           handleTryAgain={handleTryAgain}
         />
@@ -36,11 +38,17 @@ const DeploymentTestResultModal = ({
 
 DeploymentTestResultModal.propTypes = {
   testResult: PropTypes.object,
+  testStatus: PropTypes.string,
   isTestingFlow: PropTypes.bool.isRequired,
   isShowingModal: PropTypes.bool.isRequired,
   handleTryAgain: PropTypes.func.isRequired,
   handleShowLogs: PropTypes.func.isRequired,
   handleHideModal: PropTypes.func.isRequired,
+};
+
+DeploymentTestResultModal.defaultProps = {
+  testResult: null,
+  testStatus: '',
 };
 
 export default DeploymentTestResultModal;
