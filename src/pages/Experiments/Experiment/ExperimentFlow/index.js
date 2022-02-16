@@ -100,7 +100,7 @@ const ExperimentFlow = ({
       };
     });
 
-    const operatorOriginalTask = tasks.find(
+    const operatorOriginalTask = tasks?.find(
       ({ uuid }) => uuid === operator.taskId
     );
 
