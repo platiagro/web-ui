@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { getDeploymentsUrl } from 'store/deployments';
 import { ExternalDatasetHelperModal } from 'components/Modals';
 import { PropertiesPanel, ExternalDatasetDrawer } from 'components';
+import { clearTaskData, fetchTaskData, getTaskData } from 'store/tasks';
 import { OPERATOR_TYPES, renameDeploymentOperator } from 'store/operator';
-import { getDeploymentsUrl } from 'store/deployments';
 import { useBooleanState, useDeepEqualSelector, useIsLoading } from 'hooks';
 
 const operatorSelector = ({ operatorReducer }) => {
@@ -33,6 +34,7 @@ const PropertiesResizableContainer = () => {
   ] = useBooleanState(false);
 
   const operator = useDeepEqualSelector(operatorSelector);
+  const operatorOriginalTask = useDeepEqualSelector(getTaskData);
   const isDatasetOperator = useDeepEqualSelector(isDatasetOperatorSelector);
   const deploymentUrl = useDeepEqualSelector(getDeploymentsUrl(deploymentId));
 
@@ -58,13 +60,18 @@ const PropertiesResizableContainer = () => {
     handleCancelEditingOperatorName();
   }, [handleCancelEditingOperatorName, operator.uuid]);
 
+  useEffect(() => {
+    if (operator?.taskId) dispatch(fetchTaskData(operator.taskId));
+    return () => dispatch(clearTaskData());
+  }, [dispatch, operator?.taskId]);
+
   return (
     <PropertiesPanel
       title={operator?.name}
-      tip={operator?.description}
       isShowingEditIcon={!!operator?.name}
-      isEditingTitle={isEditingOperatorName}
       isSavingNewTitle={isRenamingOperator}
+      isEditingTitle={isEditingOperatorName}
+      operatorOriginalTask={operatorOriginalTask}
       handleSaveModifiedTitle={handleSaveNewOperatorName}
       handleStartEditing={handleStartEditingOperatorName}
       handleCancelEditing={handleCancelEditingOperatorName}
