@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { fetchTasks, getTasks } from 'store/tasks';
 import { getDeploymentsUrl } from 'store/deployments';
 import { ExternalDatasetHelperModal } from 'components/Modals';
 import { PropertiesPanel, ExternalDatasetDrawer } from 'components';
-import { clearTaskData, fetchTaskData, getTaskData } from 'store/tasks';
 import { OPERATOR_TYPES, renameDeploymentOperator } from 'store/operator';
 import { useBooleanState, useDeepEqualSelector, useIsLoading } from 'hooks';
 
@@ -33,14 +33,19 @@ const PropertiesResizableContainer = () => {
     handleCancelEditingOperatorName,
   ] = useBooleanState(false);
 
+  const tasks = useDeepEqualSelector(getTasks);
   const operator = useDeepEqualSelector(operatorSelector);
-  const operatorOriginalTask = useDeepEqualSelector(getTaskData);
   const isDatasetOperator = useDeepEqualSelector(isDatasetOperatorSelector);
   const deploymentUrl = useDeepEqualSelector(getDeploymentsUrl(deploymentId));
 
   const isRenamingOperator = useIsLoading(
     OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_REQUEST
   );
+
+  const operatorOriginalTask = useMemo(() => {
+    if (!operator || !tasks?.length) return null;
+    return tasks.find(({ uuid }) => uuid === operator.taskId);
+  }, [operator, tasks]);
 
   const handleSaveNewOperatorName = (newName) => {
     const operatorId = operator?.uuid;
@@ -61,9 +66,8 @@ const PropertiesResizableContainer = () => {
   }, [handleCancelEditingOperatorName, operator.uuid]);
 
   useEffect(() => {
-    if (operator?.taskId) dispatch(fetchTaskData(operator.taskId));
-    return () => dispatch(clearTaskData());
-  }, [dispatch, operator?.taskId]);
+    dispatch(fetchTasks());
+  }, [dispatch]);
 
   return (
     <PropertiesPanel
