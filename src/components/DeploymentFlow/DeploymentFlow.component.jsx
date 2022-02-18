@@ -15,6 +15,7 @@ import DeploymentFlowBox from './DeploymentFlowBox';
 import './DeploymentFlow.style.less';
 
 const DeploymentFlow = ({
+  tasks,
   loading,
   operators,
   numberOfLogs,
@@ -28,13 +29,13 @@ const DeploymentFlow = ({
   const [flowInstance, setFlowInstance] = useState(null);
 
   const handleFitReactFlowView = (reactFlowInstance) => {
-    reactFlowInstance.fitView({ includeHiddenNodes: true  });
+    reactFlowInstance.fitView({ includeHiddenNodes: true });
     reactFlowInstance.zoomTo(1);
-  }
+  };
 
   const handleLoad = (reactFlowInstance) => {
-    setFlowInstance(reactFlowInstance)
-    handleFitReactFlowView(reactFlowInstance)
+    setFlowInstance(reactFlowInstance);
+    handleFitReactFlowView(reactFlowInstance);
   };
 
   const handleDragStop = (_, task) => {
@@ -62,6 +63,10 @@ const DeploymentFlow = ({
         };
       });
 
+      const operatorOriginalTask = tasks?.find(
+        ({ uuid }) => uuid === operator.taskId
+      );
+
       const card = {
         id: operator.uuid,
         sourcePosition: 'right',
@@ -80,6 +85,7 @@ const DeploymentFlow = ({
                 status={operator.status}
                 icon={operator.icon}
                 settedUp={operator.settedUp}
+                operatorOriginalTask={operatorOriginalTask}
                 selected={selectedOperatorId === operator.uuid}
                 onEdit={handleSelectOperator}
                 onSelect={handleSelectOperator}
@@ -119,14 +125,15 @@ const DeploymentFlow = ({
     handleSelectOperator,
     operators,
     selectedOperatorId,
+    tasks,
   ]);
 
   // Without this useEffect, operators located on a negative X or Y will not be shown in the initial render.
   useEffect(() => {
-    if(operators?.length && flowInstance) {
-      handleFitReactFlowView(flowInstance)
+    if (operators?.length && flowInstance) {
+      handleFitReactFlowView(flowInstance);
     }
-  }, [flowInstance, operators])
+  }, [flowInstance, operators]);
 
   return (
     <div className='deployment-flow'>
@@ -154,7 +161,7 @@ const DeploymentFlow = ({
         {!operators?.length && (
           <OperatorsEmptyPlaceholder
             className='deployment-flow-empty-operators'
-            loading={loading} 
+            loading={loading}
             placeholderWhenLoading='Aguarde...'
             placeholder='Crie um fluxo de pré-implantação para visualizar aqui'
           />
@@ -174,6 +181,7 @@ const DeploymentFlow = ({
 };
 
 DeploymentFlow.propTypes = {
+  tasks: PropTypes.array,
   loading: PropTypes.bool,
   operators: PropTypes.array,
   numberOfLogs: PropTypes.number,
