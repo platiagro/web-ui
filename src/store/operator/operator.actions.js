@@ -592,11 +592,11 @@ export const updateExperimentOperatorRequest =
         const successExperimentOperator = { ...experimentOperator };
 
         // changing param value
-        successExperimentOperator.parameters = utils.successOperatorMap(
-          successExperimentOperator.parameters,
-          parameterValue,
-          parameterName
-        );
+        successExperimentOperator.parameters = Object.entries(
+          newParameters
+        ).map(([name, value]) => {
+          return { name, value };
+        });
 
         // checking if experimentOperator is setted up
         successExperimentOperator.settedUp = utils.checkOperatorSettedUp(
@@ -663,11 +663,11 @@ export const updateDeploymentOperatorRequest =
         const successDeploymentOperator = { ...deploymentOperator };
 
         // changing param value
-        successDeploymentOperator.parameters = utils.successOperatorMap(
-          successDeploymentOperator.parameters,
-          parameterValue,
-          parameterName
-        );
+        successDeploymentOperator.parameters = Object.entries(
+          newParameters
+        ).map(([name, value]) => {
+          return { name, value };
+        });
 
         // checking if deploymentOperator is setted up
         successDeploymentOperator.settedUp = utils.checkOperatorSettedUp(
