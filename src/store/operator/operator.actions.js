@@ -574,15 +574,18 @@ export const updateExperimentOperatorRequest =
       parameterName
     );
 
-    const parameters = {};
+    const newParameters = {};
+
     parametersWithValue.forEach(({ name, value }) => {
-      parameters[name] = name === parameterName ? parameterValue : value;
+      newParameters[name] = value;
     });
+
+    newParameters[parameterName] = parameterValue;
 
     // update experimentOperator
     operatorsApi
       .updateOperator(projectId, experimentId, experimentOperator.uuid, {
-        parameters,
+        parameters: newParameters,
       })
       .then((response) => {
         // getting experimentOperator data
@@ -640,17 +643,20 @@ export const updateDeploymentOperatorRequest =
       parameterName
     );
 
-    const parameters = {};
+    const newParameters = {};
+
     parametersWithValue.forEach(({ name, value }) => {
-      parameters[name] = name === parameterName ? parameterValue : value;
+      newParameters[name] = value;
     });
+
+    newParameters[parameterName] = parameterValue;
 
     // update deploymentOperator
     DeploymentsOperatorsApi.updateOperator(
       projectId,
       deploymentId,
       deploymentOperator.uuid,
-      { parameters }
+      { parameters: newParameters }
     )
       .then((response) => {
         // getting deploymentOperator data
