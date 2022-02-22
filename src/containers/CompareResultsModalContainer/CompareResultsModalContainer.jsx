@@ -134,7 +134,6 @@ const CompareResultsModalContainer = () => {
             skeletonRowsAmount={5}
             rowKey={(record) => record.uuid}
           />
-          aqi
         </Card>
       </Col>
     );
@@ -144,7 +143,6 @@ const CompareResultsModalContainer = () => {
     return compareResults.map((compareResult) => {
       return (
         <div key={compareResult.uuid}>
-          <p>lalala</p>
           <CompareResultItem
             tasks={tasks}
             experiments={experiments}

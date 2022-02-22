@@ -1,15 +1,14 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Empty, Spin, Card, Col } from 'antd';
+import { Empty, Spin } from 'antd';
 import { LoadingOutlined, DownloadOutlined } from '@ant-design/icons';
+import OperatorResultItem from 'components/OperatorResultItem';
 
 import PlotResult from './PlotResult';
 
 import useGridLayout from './useGridLayout';
 import useMoveOrResize from './useMoveOrResize';
 import RGL, { WidthProvider } from 'react-grid-layout';
-import { Skeleton } from 'uiComponents';
-//import { CommonTable } from 'components';
 
 import './ResultsDrawer.less';
 import Button from 'antd/es/button';
@@ -72,16 +71,13 @@ const ResultsDrawer = ({
       >
         {figures.map((result) => {
           return (
-            <Col span={12} key={result.uuid}>
-              <Card
-                title={
-                  <Skeleton paragraphConfig={{ rows: 1, width: '100%' }} />
-                }
-                style={{ height: 450, overflowX: 'scroll' }}
-              >
-                <PlotResult plotUrl={result.plotUrl} />
-              </Card>
-            </Col>
+            <div key={result.uuid}>
+              <OperatorResultItem>
+                <div className='scroll-img'>
+                  <PlotResult plotUrl={result.plotUrl} />
+                </div>
+              </OperatorResultItem>
+            </div>
           );
         })}
       </ReactGridLayout>
