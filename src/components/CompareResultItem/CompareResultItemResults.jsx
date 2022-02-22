@@ -74,6 +74,7 @@ const CompareResultItemResults = ({
   const handleOnTabChange = (activeKey) => {
     const updatedCompareResult = { ...compareResult, activeTab: activeKey };
     onUpdate(updatedCompareResult, false);
+    console.log("compareResult",compareResult)
   };
 
   if (shouldShowResultImagePlaceholder) {

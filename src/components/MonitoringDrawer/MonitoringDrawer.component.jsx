@@ -2,6 +2,7 @@ import React from 'react';
 import { Drawer } from 'antd';
 import PropTypes from 'prop-types';
 import RGL, { WidthProvider } from 'react-grid-layout';
+import PlotResult from '../../../src/pages/Experiments/Experiment/Drawer/ResultsDrawer/PlotResult/'
 
 import { CustomDndProvider, MonitoringDrawerItem } from 'components';
 
@@ -87,6 +88,7 @@ const MonitoringDrawer = ({
                       handleRemove={handleRemoveThisMonitoring}
                       handleDownload={handleDownloadMonitoringChart}
                     />
+                    <PlotResult></PlotResult>
                   </div>
                 );
               })}

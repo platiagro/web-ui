@@ -1,50 +1,32 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Empty, Spin, Tabs } from 'antd';
+import { Empty, Spin, Card, Col } from 'antd';
 import { LoadingOutlined, DownloadOutlined } from '@ant-design/icons';
 
-import { CommonTable } from 'components';
-import { DownloadOperatorDatasetContainer } from 'containers';
-
 import PlotResult from './PlotResult';
-import TableResult from './TableResult';
+
+import useGridLayout from './useGridLayout';
+import useMoveOrResize from './useMoveOrResize';
+import RGL, { WidthProvider } from 'react-grid-layout';
+import { Skeleton } from 'uiComponents';
+//import { CommonTable } from 'components';
 
 import './ResultsDrawer.less';
 import Button from 'antd/es/button';
 
-const parametersColumns = [
-  {
-    title: 'Parâmetro',
-    dataIndex: 'name',
-    key: 'parameter',
-    render(val) {
-      return <span style={{ fontWeight: 'bold' }}>{val}</span>;
-    },
-  },
-  {
-    title: 'Valor',
-    dataIndex: 'value',
-    key: 'value',
-    render(val) {
-      return <span style={{ fontFamily: 'monospace' }}>{val}</span>;
-    },
-  },
-];
+const ReactGridLayout = WidthProvider(RGL);
 
 const ResultsDrawer = ({
-  activeKey,
   dataset,
-  datasetScroll,
   figures,
   isToShowDownloadButtons,
   loading,
-  onDatasetPageChange,
-  onTabChange,
   parameters,
-  resultsTabStyle,
-  scroll,
   handleDownloadResult,
 }) => {
+  const gridLayout = useGridLayout(figures);
+  const handleMoveOrResize = useMoveOrResize(figures);
+
   const hasResult = useMemo(() => {
     return figures.length > 0 || parameters.length > 0 || dataset;
   }, [dataset, figures.length, parameters.length]);
@@ -80,72 +62,39 @@ const ResultsDrawer = ({
           <span>Fazer download do resultado</span>
         </Button>
       )}
-
-      <Tabs defaultActiveKey={activeKey} onChange={onTabChange}>
-        {figures.map((result, index) => {
+      <ReactGridLayout
+        layout={gridLayout}
+        rowHeight={35}
+        cols={12}
+        onDragStop={handleMoveOrResize}
+        onResizeStop={handleMoveOrResize}
+        containerPadding={[30, 30]}
+      >
+        {figures.map((result) => {
           return (
-            <Tabs.TabPane tab={`Figura ${index + 1}`} key={index}>
-              <div style={resultsTabStyle}>
-                <div className='tab-content'>
-                  <PlotResult key={result.uuid} plotUrl={result.plotUrl} />
-                </div>
-              </div>
-            </Tabs.TabPane>
+            <Col span={12} key={result.uuid}>
+              <Card
+                title={
+                  <Skeleton paragraphConfig={{ rows: 1, width: '100%' }} />
+                }
+                style={{ height: 450, overflowX: 'scroll' }}
+              >
+                <PlotResult plotUrl={result.plotUrl} />
+              </Card>
+            </Col>
           );
         })}
-
-        <Tabs.TabPane
-          disabled={!dataset}
-          key={figures.length + 1}
-          tab={<span>Dataset</span>}
-        >
-          {!!dataset && (
-            <TableResult
-              key={dataset.uuid}
-              rows={dataset.rows}
-              total={dataset.total}
-              scroll={datasetScroll}
-              columns={dataset.columns}
-              pageSize={dataset.pageSize}
-              currentPage={dataset.currentPage}
-              onPageChange={onDatasetPageChange}
-            />
-          )}
-
-          {isToShowDownloadButtons && <DownloadOperatorDatasetContainer />}
-        </Tabs.TabPane>
-
-        <Tabs.TabPane
-          key={figures.length + 3}
-          tab={<span>Parâmetros</span>}
-          disabled={parameters.length <= 0}
-        >
-          <CommonTable
-            scroll={scroll}
-            isLoading={false}
-            dataSource={parameters}
-            columns={parametersColumns}
-            rowKey={(record) => record.name}
-            bordered
-          />
-        </Tabs.TabPane>
-      </Tabs>
+      </ReactGridLayout>
     </div>
   );
 };
 
 ResultsDrawer.propTypes = {
-  activeKey: PropTypes.string,
   dataset: PropTypes.object,
-  datasetScroll: PropTypes.object,
   figures: PropTypes.array.isRequired,
   isToShowDownloadButtons: PropTypes.bool,
   loading: PropTypes.bool.isRequired,
-  onDatasetPageChange: PropTypes.func.isRequired,
-  onTabChange: PropTypes.func,
   parameters: PropTypes.array,
-  scroll: PropTypes.object,
-  resultsTabStyle: PropTypes.object,
   handleDownloadResult: PropTypes.func,
 };
 
