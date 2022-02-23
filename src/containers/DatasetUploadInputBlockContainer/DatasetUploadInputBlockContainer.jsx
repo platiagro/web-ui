@@ -39,6 +39,10 @@ const isUploadingSelector = ({ datasetReducer }) => {
   return datasetReducer.isUploading;
 };
 
+const datasetNameSelector = ({ datasetReducer }) => {
+  return datasetReducer.name;
+};
+
 const operatorNameSelector = ({ operatorReducer }) => {
   return operatorReducer.name;
 };
@@ -60,14 +64,15 @@ const DatasetUploadInputBlockContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
-  const datasets = useSelector(datasetsSelector);
   const datasetFileName = useSelector(datasetFileNameSelector);
-  const datasetStatus = useSelector(datasetStatusSelector);
   const uploadProgress = useSelector(uploadProgressSelector);
-  const isUploading = useSelector(isUploadingSelector);
+  const datasetStatus = useSelector(datasetStatusSelector);
   const operatorName = useSelector(operatorNameSelector);
+  const isUploading = useSelector(isUploadingSelector);
+  const datasetName = useSelector(datasetNameSelector);
   const isDisabled = useSelector(isDisabledSelector);
   const operators = useSelector(operatorsSelector);
+  const datasets = useSelector(datasetsSelector);
 
   const datasetsLoading = useIsLoading(DATASETS_TYPES.FETCH_DATASETS_REQUEST);
 
@@ -90,14 +95,20 @@ const DatasetUploadInputBlockContainer = () => {
             percent: uploadProgress,
           },
         ]
-      : datasetFileName && [
+      : datasetName && [
           {
-            uid: datasetFileName,
-            name: datasetFileName,
+            uid: datasetName,
+            name: datasetName,
             status: 'done',
           },
         ];
-  }, [datasetFileName, datasetStatus, isUploading, uploadProgress]);
+  }, [
+    datasetFileName,
+    datasetName,
+    datasetStatus,
+    isUploading,
+    uploadProgress,
+  ]);
 
   const isGoogleDrive = useMemo(() => {
     return operatorName === 'Google Drive';
