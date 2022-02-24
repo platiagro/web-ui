@@ -7,11 +7,13 @@ on:
   push:
     branches:
     - master
+    - develop
     - v*-branch
 
   pull_request:
     branches:
     - master
+    - develop
     - v*-branch
 
 jobs:
