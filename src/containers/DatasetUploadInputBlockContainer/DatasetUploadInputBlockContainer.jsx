@@ -43,8 +43,8 @@ const datasetNameSelector = ({ datasetReducer }) => {
   return datasetReducer.name;
 };
 
-const operatorNameSelector = ({ operatorReducer }) => {
-  return operatorReducer.name;
+const operatorTaskNameSelector = ({ operatorReducer }) => {
+  return operatorReducer?.task?.name || '';
 };
 
 const isDisabledSelector = ({ uiReducer }) => {
@@ -64,10 +64,10 @@ const DatasetUploadInputBlockContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
+  const operatorTaskName = useSelector(operatorTaskNameSelector);
   const datasetFileName = useSelector(datasetFileNameSelector);
   const uploadProgress = useSelector(uploadProgressSelector);
   const datasetStatus = useSelector(datasetStatusSelector);
-  const operatorName = useSelector(operatorNameSelector);
   const isUploading = useSelector(isUploadingSelector);
   const datasetName = useSelector(datasetNameSelector);
   const isDisabled = useSelector(isDisabledSelector);
@@ -111,8 +111,9 @@ const DatasetUploadInputBlockContainer = () => {
   ]);
 
   const isGoogleDrive = useMemo(() => {
-    return operatorName === 'Google Drive';
-  }, [operatorName]);
+    const expectedTaskName = 'Google Drive'.toLowerCase();
+    return operatorTaskName.toLowerCase().includes(expectedTaskName);
+  }, [operatorTaskName]);
 
   const experimentIsSucceeded = useMemo(() => {
     return utils.checkExperimentSuccess({ operators });
