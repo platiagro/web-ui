@@ -10,8 +10,12 @@ import './styles.less';
 
 import 'react-image-lightbox/style.css';
 
-const ImageLightbox = ({ plotUrl }) => {
+const ImageLightbox = ({ className, plotUrl }) => {
   const [hasZoom, setHasZoom] = useState(false);
+
+  const handleShowWithZoom = () => {
+    setHasZoom(true);
+  };
 
   return (
     <>
@@ -34,8 +38,9 @@ const ImageLightbox = ({ plotUrl }) => {
       )}
 
       <img
+        className={className}
         style={{ cursor: 'pointer' }}
-        onClick={() => setHasZoom(true)}
+        onClick={handleShowWithZoom}
         src={plotUrl}
         alt='plot'
       />
@@ -44,7 +49,12 @@ const ImageLightbox = ({ plotUrl }) => {
 };
 
 ImageLightbox.propTypes = {
+  className: PropTypes.string,
   plotUrl: PropTypes.string.isRequired,
+};
+
+ImageLightbox.defaultProps = {
+  className: '',
 };
 
 export default ImageLightbox;

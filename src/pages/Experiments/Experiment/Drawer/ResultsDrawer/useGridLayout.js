@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { ADD_CARD_KEY } from './constants';
 
-export default (monitorings = []) => {
+export default (figures = []) => {
   return useMemo(() => {
     let totalW = 0;
 
-    const gridItems = monitorings.map((item) => {
+    const gridItems = figures.map((item) => {
       let itemLayout = item.layout;
 
       if (!itemLayout) {
@@ -13,14 +13,14 @@ export default (monitorings = []) => {
           x: (Math.floor(totalW / 6) % 2) * 6,
           y: 99999,
           w: 6,
-          h: 12,
+          h: 10,
         };
       }
 
       totalW += itemLayout.w;
-      itemLayout.i = item.uuid;
+      itemLayout.i = item.id;
       itemLayout.minW = 4;
-      itemLayout.minH = 12;
+      itemLayout.minH = 10;
 
       return itemLayout;
     });
@@ -29,7 +29,7 @@ export default (monitorings = []) => {
       i: ADD_CARD_KEY,
       x: (Math.floor(totalW / 6) % 2) * 6,
       y: 99999,
-      w: 4,
+      w: 6,
       h: 2,
       isBounded: true,
       isDraggable: true,
@@ -37,5 +37,5 @@ export default (monitorings = []) => {
     });
 
     return gridItems;
-  }, [monitorings]);
+  }, [figures]);
 };

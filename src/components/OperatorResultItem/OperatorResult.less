@@ -1,17 +1,49 @@
-.ant-input::-webkit-input-placeholder {
-  color: #262626;
-}
+.operator-result-item {
+  margin: 0 !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
-.ant-select-selection-placeholder {
-  color: #262626;
-}
+  .ant-card-body {
+    height: 100%;
+    padding: 0;
+    flex: 1;
+  }
 
-.centerResultImagePlaceholder {
-  display: block;
-  margin: 0 auto;
-  max-width: 600px;
-}
+  .ant-input::-webkit-input-placeholder {
+    color: #262626;
+  }
 
-.ant-modal-content {
-  background: rgb(236, 239, 241);
+  .ant-select-selection-placeholder {
+    color: #262626;
+  }
+
+  .ant-modal-content {
+    background: rgb(236, 239, 241);
+  }
+
+  .ant-checkbox-group-item {
+    display: contents;
+  }
+
+  .operator-result-item-scroll-img {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 16px;
+  }
+
+  .operator-result-item-placeholder {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .operator-result-item-plot-image {
+    margin: auto;
+  }
 }
