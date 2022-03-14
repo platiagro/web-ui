@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Card, Button } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
-const ResultsDrawerAddCard = ({ isAdding, handleAddFigure }) => {
+const ResultsDrawerAddCard = ({ isAdding, handleAddResult }) => {
   return (
     <Card className='results-drawer-add-card'>
       <Button
         shape='round'
         type='primary-inverse'
-        onClick={handleAddFigure}
+        onClick={handleAddResult}
         icon={isAdding ? <LoadingOutlined /> : <PlusOutlined />}
       >
         <span>Adicionar Resultado</span>
@@ -20,12 +20,12 @@ const ResultsDrawerAddCard = ({ isAdding, handleAddFigure }) => {
 
 ResultsDrawerAddCard.propTypes = {
   isAdding: PropTypes.bool,
-  handleAddFigure: PropTypes.func,
+  handleAddResult: PropTypes.func,
 };
 
 ResultsDrawerAddCard.defaultProps = {
   isAdding: false,
-  handleAddFigure: undefined,
+  handleAddResult: undefined,
 };
 
 export default ResultsDrawerAddCard;

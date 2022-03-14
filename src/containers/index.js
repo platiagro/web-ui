@@ -18,12 +18,12 @@ export { default as HeaderProjectDetailsContainer } from './HeaderProjectDetails
 export { default as JupyterLabContainer } from './JupyterLabContainer';
 export { default as LogsDrawerContainer } from './LogsDrawerContainer';
 export { default as ExperimentLogsPanelContainer } from './ExperimentLogsPanelContainer';
+export { default as ExperimentResultsDrawerContainer } from './ExperimentResultsDrawerContainer';
 export { default as MonitoringDrawerContainer } from './MonitoringDrawerContainer';
 export { default as MonitoringPanelContainer } from './MonitoringPanelContainer';
 export { default as NewDeploymentModalContainer } from './NewDeploymentModalContainer';
 export { default as NewMonitoringModalContainer } from './NewMonitoringModalContainer';
 export { default as OperatorResizableSectionContainer } from './OperatorResizableSectionContainer';
-export { default as OperatorResultsModalContainer } from './OperatorResultsModalContainer';
 export { default as PrepareDeploymentsModalContainer } from './PrepareDeploymentsModalContainer';
 export { default as ProjectDetailsContainer } from './ProjectDetailsContainer';
 export { default as PropertiesResizableContainer } from './PropertiesResizableContainer';

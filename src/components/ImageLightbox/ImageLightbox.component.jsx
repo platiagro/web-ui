@@ -10,7 +10,7 @@ import './styles.less';
 
 import 'react-image-lightbox/style.css';
 
-const ImageLightbox = ({ className, plotUrl }) => {
+const ImageLightbox = ({ className, plotUrl, draggable }) => {
   const [hasZoom, setHasZoom] = useState(false);
 
   const handleShowWithZoom = () => {
@@ -29,7 +29,7 @@ const ImageLightbox = ({ className, plotUrl }) => {
               key='DOWNLOAD_LINK'
               className='download-link'
               href={plotUrl}
-              download={`resultado`}
+              download={`Resultado`}
             >
               <DownloadOutlined />
             </a>,
@@ -41,6 +41,7 @@ const ImageLightbox = ({ className, plotUrl }) => {
         className={className}
         style={{ cursor: 'pointer' }}
         onClick={handleShowWithZoom}
+        draggable={draggable}
         src={plotUrl}
         alt='plot'
       />
@@ -50,11 +51,13 @@ const ImageLightbox = ({ className, plotUrl }) => {
 
 ImageLightbox.propTypes = {
   className: PropTypes.string,
+  draggable: PropTypes.bool,
   plotUrl: PropTypes.string.isRequired,
 };
 
 ImageLightbox.defaultProps = {
   className: '',
+  draggable: false,
 };
 
 export default ImageLightbox;

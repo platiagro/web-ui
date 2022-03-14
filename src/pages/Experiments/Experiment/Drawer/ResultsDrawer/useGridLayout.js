@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { ADD_CARD_KEY } from './constants';
 
 export default (figures = []) => {
+  console.log(figures);
   return useMemo(() => {
     let totalW = 0;
 

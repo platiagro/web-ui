@@ -13,13 +13,13 @@ import './OperatorResult.less';
 
 const OperatorResultItemTitle = ({
   cardId,
-  result,
-  figures,
   isSelected,
-  selectedFigure,
+  selectedResult,
+  availableResults,
+  isDownloadDisabled,
+  handleSelectCard,
+  handleRemoveResult,
   handleSelectResult,
-  handleRemoveFigure,
-  handleSelectFigure,
   handleDownloadResult,
 }) => {
   return (
@@ -30,26 +30,26 @@ const OperatorResultItemTitle = ({
         </div>
       </Space>
 
-      <Checkbox
-        className='ant-checkbox-group-item'
-        checked={isSelected}
-        onChange={() => handleSelectResult(cardId)}
-      >
-        {result}
-      </Checkbox>
+      {!isDownloadDisabled && (
+        <Checkbox
+          className='ant-checkbox-group-item'
+          checked={isSelected}
+          onChange={() => handleSelectCard(cardId)}
+        />
+      )}
 
       <Space>
         <Select
           displayRender={([firstLabel]) => firstLabel}
           placeholder={'Selecione um Resultado'}
           style={{ width: 250, marginLeft: 20 }}
-          value={selectedFigure}
-          onChange={(value) => handleSelectFigure(cardId, value)}
+          value={selectedResult}
+          onChange={(value) => handleSelectResult(cardId, value)}
         >
-          {figures.map((figure, index) => {
+          {availableResults.map((result) => {
             return (
-              <Select.Option key={figure.uuid} value={index}>
-                Resultado {index + 1}
+              <Select.Option key={result.id} value={result.id}>
+                {result.title}
               </Select.Option>
             );
           })}
@@ -63,12 +63,12 @@ const OperatorResultItemTitle = ({
             <Menu.Item
               key='remove'
               icon={<DeleteOutlined />}
-              onClick={() => handleRemoveFigure(cardId)}
+              onClick={() => handleRemoveResult(cardId)}
             >
-              <span>Remover</span>
+              <span>Ocultar</span>
             </Menu.Item>
 
-            {selectedFigure >= 0 && (
+            {!isDownloadDisabled && selectedResult && (
               <Menu.Item
                 key='download'
                 icon={<DownloadOutlined />}
@@ -92,18 +92,19 @@ const OperatorResultItemTitle = ({
 
 OperatorResultItemTitle.propTypes = {
   cardId: PropTypes.string.isRequired,
-  result: PropTypes.object.isRequired,
-  figures: PropTypes.array.isRequired,
   isSelected: PropTypes.array.isRequired,
-  selectedFigure: PropTypes.number,
+  selectedResult: PropTypes.number,
+  availableResults: PropTypes.array.isRequired,
+  isDownloadDisabled: PropTypes.array,
+  handleSelectCard: PropTypes.func.isRequired,
+  handleRemoveResult: PropTypes.func.isRequired,
   handleSelectResult: PropTypes.func.isRequired,
-  handleRemoveFigure: PropTypes.func.isRequired,
-  handleSelectFigure: PropTypes.func.isRequired,
   handleDownloadResult: PropTypes.func.isRequired,
 };
 
 OperatorResultItemTitle.defaultProps = {
   selectedFigure: undefined,
+  isDownloadDisabled: false,
 };
 
 export default OperatorResultItemTitle;

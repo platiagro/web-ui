@@ -10,6 +10,7 @@ export { default as ContentHeader } from './ContentHeader';
 export { default as CopyToClipboard } from './CopyToClipboard';
 export { default as CustomDndProvider } from './CustomDndProvider';
 export { default as DatasetColumnsTable } from './DatasetColumnsTable';
+export { default as DatasetResult } from './DatasetResult';
 export { default as DeploymentFlow } from './DeploymentFlow';
 export { default as DeploymentsTable } from './DeploymentsTable';
 export { default as EditTitle } from './EditTitle';

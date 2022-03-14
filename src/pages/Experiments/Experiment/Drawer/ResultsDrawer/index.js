@@ -1,105 +1,70 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
+import RGL, { WidthProvider } from 'react-grid-layout';
 import PropTypes from 'prop-types';
-import { Empty, Tabs } from 'antd';
-//import { LoadingOutlined } from '@ant-design/icons';
-import { OperatorResultItem, CommonTable } from 'components';
-import { DownloadOperatorDatasetContainer } from 'containers';
-import TableResult from './TableResult';
+import { Empty } from 'antd';
 
+import { BrainPlaceholderComponent } from 'assets';
+import {
+  OperatorResultItem,
+  DatasetResult,
+  PlotResult,
+  CommonTable,
+} from 'components';
+
+import useResults from './useResults';
 import useGridLayout from './useGridLayout';
-import { ADD_CARD_KEY } from './constants';
 import useMoveOrResize from './useMoveOrResize';
 import ResultsDrawerAddCard from './ResultsDrawerAddCard';
 import ResultsDrawerSkeleton from './ResultsDrawerSkeleton';
-import RGL, { WidthProvider } from 'react-grid-layout';
+import { ADD_CARD_KEY, DATASETS_KEY, PARAMETERS_KEY } from './constants';
 
 import './ResultsDrawer.less';
 
 const ReactGridLayout = WidthProvider(RGL);
 
+const PARAMETERS_COLUMNS = [
+  {
+    title: 'Parâmetro',
+    dataIndex: 'name',
+    key: 'parameter',
+    render(val) {
+      return <span style={{ fontWeight: 'bold' }}>{val}</span>;
+    },
+  },
+  {
+    title: 'Valor',
+    dataIndex: 'value',
+    key: 'value',
+    render(val) {
+      return <span style={{ fontFamily: 'monospace' }}>{val}</span>;
+    },
+  },
+];
+
 const ResultsDrawer = ({
   dataset,
   figures,
   loading,
-  activeKey,
   parameters,
   datasetScroll,
-  selectedResults,
-  onTabChange,
-  handleSelectResult,
+  selectedCards,
+  handleSelectCard,
   onDatasetPageChange,
-  isToShowDownloadButtons,
 }) => {
-  const [showingFigures, setShowingFigures] = useState([]);
+  const {
+    showingResults,
+    availableResults,
+    handleAddResult,
+    handleRemoveResult,
+    handleSelectResult,
+  } = useResults(figures);
 
-  const gridLayout = useGridLayout(showingFigures);
-  const handleMoveOrResize = useMoveOrResize(showingFigures);
+  const gridLayout = useGridLayout(showingResults);
+  const handleMoveOrResize = useMoveOrResize(showingResults);
 
-  const hasResult = useMemo(() => {
+  const hasDataToShow = useMemo(() => {
     return figures.length > 0 || parameters.length > 0 || dataset;
   }, [dataset, figures.length, parameters.length]);
-
-  const handleRemoveFigure = (id) => {
-    setShowingFigures((currentFigures) => {
-      return currentFigures.filter((figure) => figure.id !== id);
-    });
-  };
-
-  const parametersColumns = [
-    {
-      title: 'Parâmetro',
-      dataIndex: 'name',
-      key: 'parameter',
-      render(val) {
-        return <span style={{ fontWeight: 'bold' }}>{val}</span>;
-      },
-    },
-    {
-      title: 'Valor',
-      dataIndex: 'value',
-      key: 'value',
-      render(val) {
-        return <span style={{ fontFamily: 'monospace' }}>{val}</span>;
-      },
-    },
-  ];
-
-  const handleAddFigure = () => {
-    setShowingFigures((currentFigures) => {
-      const currentFiguresClone = [...currentFigures];
-      currentFiguresClone.push({
-        id: `${currentFiguresClone.length}`,
-      });
-      return currentFiguresClone;
-    });
-  };
-
-  const handleSelectFigure = (id, selectedFigure) => {
-    setShowingFigures((currentFigures) => {
-      const currentFiguresClone = [...currentFigures];
-
-      const indexToUpdate = currentFiguresClone.findIndex(
-        (figure) => figure.id === id
-      );
-      const figure = currentFiguresClone[indexToUpdate];
-      figure.selectedFigure = selectedFigure;
-
-      currentFiguresClone.splice(indexToUpdate, 1, figure);
-
-      return currentFiguresClone;
-    });
-  };
-
-  useEffect(() => {
-    if (figures?.length) {
-      setShowingFigures(
-        figures.map((_, index) => ({
-          id: `${index}`,
-          selectedFigure: index,
-        }))
-      );
-    }
-  }, [figures]);
 
   if (loading) {
     return (
@@ -109,12 +74,12 @@ const ResultsDrawer = ({
     );
   }
 
-  if (!hasResult) {
+  if (!hasDataToShow) {
     return (
       <div className='results-drawer'>
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description='Não existem resultados!'
+          description='Não Existem Resultados!'
         />
       </div>
     );
@@ -124,73 +89,83 @@ const ResultsDrawer = ({
     <div className='results-drawer'>
       <ReactGridLayout
         className='results-drawer-react-grid'
-        layout={gridLayout}
         cols={12}
         rowHeight={35}
+        layout={gridLayout}
+        containerPadding={[8, 8]}
         onDragStop={handleMoveOrResize}
         onResizeStop={handleMoveOrResize}
-        containerPadding={[8, 8]}
       >
-        {showingFigures.map(({ id, selectedFigure }) => {
+        {showingResults.map(({ id, selectedResult }) => {
+          const figure = selectedResult ? figures[selectedResult] : null;
+
+          const renderCardContent = () => {
+            if (selectedResult === DATASETS_KEY && dataset) {
+              return (
+                <div className='results-drawer-result-scroll'>
+                  <DatasetResult
+                    dataset={dataset}
+                    scroll={datasetScroll}
+                    onDatasetPageChange={onDatasetPageChange}
+                  />
+                </div>
+              );
+            }
+
+            if (selectedResult === PARAMETERS_KEY && parameters) {
+              return (
+                <div className='results-drawer-result-table'>
+                  <CommonTable
+                    isLoading={false}
+                    dataSource={parameters}
+                    columns={PARAMETERS_COLUMNS}
+                    rowKey={(record) => record.name}
+                    bordered
+                  />
+                </div>
+              );
+            }
+
+            if (figure) {
+              return (
+                <div className='results-drawer-result-scroll'>
+                  <PlotResult
+                    plotImageClassName='results-drawer-plot-image'
+                    plotUrl={figure.plotUrl}
+                  />
+                </div>
+              );
+            }
+
+            return (
+              <div className='results-drawer-placeholder'>
+                <BrainPlaceholderComponent />
+              </div>
+            );
+          };
+
           return (
             <div key={id}>
               <OperatorResultItem
                 cardId={id}
-                figures={figures}
-                selectedFigure={selectedFigure}
-                isSelected={!!selectedResults[id]}
+                selectedResult={selectedResult}
+                isSelected={!!selectedCards[id]}
+                availableResults={availableResults}
+                handleSelectCard={handleSelectCard}
                 handleSelectResult={handleSelectResult}
-                handleRemoveFigure={handleRemoveFigure}
-                handleSelectFigure={handleSelectFigure}
-              />
+                handleRemoveResult={handleRemoveResult}
+                isDownloadDisabled
+              >
+                {renderCardContent()}
+              </OperatorResultItem>
             </div>
           );
         })}
 
         <div key={ADD_CARD_KEY}>
-          <ResultsDrawerAddCard handleAddFigure={handleAddFigure} />
+          <ResultsDrawerAddCard handleAddResult={handleAddResult} />
         </div>
       </ReactGridLayout>
-
-      <div>
-        <Tabs defaultActiveKey={activeKey} onChange={onTabChange}>
-          <Tabs.TabPane
-            disabled={!dataset}
-            key={figures.length + 1}
-            tab={<span>Dataset</span>}
-          >
-            {!!dataset && (
-              <TableResult
-                key={dataset.uuid}
-                rows={dataset.rows}
-                total={dataset.total}
-                scroll={datasetScroll}
-                columns={dataset.columns}
-                pageSize={dataset.pageSize}
-                currentPage={dataset.currentPage}
-                onPageChange={onDatasetPageChange}
-              />
-            )}
-
-            {isToShowDownloadButtons && <DownloadOperatorDatasetContainer />}
-          </Tabs.TabPane>
-
-          <Tabs.TabPane
-            key={figures.length + 3}
-            tab={<span>Parâmetros</span>}
-            disabled={parameters.length <= 0}
-          >
-            <CommonTable
-              scroll={scroll}
-              isLoading={false}
-              dataSource={parameters}
-              columns={parametersColumns}
-              rowKey={(record) => record.name}
-              bordered
-            />
-          </Tabs.TabPane>
-        </Tabs>
-      </div>
     </div>
   );
 };
@@ -202,16 +177,12 @@ ResultsDrawer.propTypes = {
   parameters: PropTypes.array,
   datasetScroll: PropTypes.object,
   onDatasetPageChange: PropTypes.func.isRequired,
-  isToShowDownloadButtons: PropTypes.bool,
-  activeKey: PropTypes.string,
-  onTabChange: PropTypes.func,
-  selectedResults: PropTypes.object.isRequired,
-  handleSelectResult: PropTypes.func.isRequired,
+  selectedCards: PropTypes.object.isRequired,
+  handleSelectCard: PropTypes.func.isRequired,
 };
 
 ResultsDrawer.defaultProps = {
   activeKey: '1',
-  scroll: undefined,
   resultsTabStyle: undefined,
   onTabChange: undefined,
 };

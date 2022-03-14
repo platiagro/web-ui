@@ -3,68 +3,57 @@ import { Card } from 'antd';
 import PropTypes from 'prop-types';
 import { withResizeDetector } from 'react-resize-detector';
 
-import { PlotResult } from 'components';
-
 import OperatorResultItemTitle from './OperatorResultItemTitle';
 
 import './OperatorResult.less';
-import { BrainPlaceholderComponent } from 'assets';
 
 const OperatorResultItem = ({
   cardId,
-  figures,
+  children,
   isSelected,
-  selectedFigure,
+  selectedResult,
+  availableResults,
+  isDownloadDisabled,
+  handleSelectCard,
   handleSelectResult,
-  handleRemoveFigure,
-  handleSelectFigure,
+  handleRemoveResult,
 }) => {
-  const figure =
-    selectedFigure || selectedFigure === 0 ? figures[selectedFigure] : null;
-
   return (
     <Card
       className='operator-result-item'
       title={
         <OperatorResultItemTitle
           cardId={cardId}
-          figures={figures}
           isSelected={isSelected}
-          selectedFigure={selectedFigure}
-          handleSelectFigure={handleSelectFigure}
+          selectedResult={selectedResult}
+          availableResults={availableResults}
+          isDownloadDisabled={isDownloadDisabled}
+          handleSelectCard={handleSelectCard}
           handleSelectResult={handleSelectResult}
-          handleRemoveFigure={handleRemoveFigure}
+          handleRemoveResult={handleRemoveResult}
         />
       }
     >
-      {figure ? (
-        <div className='operator-result-item-scroll-img'>
-          <PlotResult
-            plotImageClassName='operator-result-item-plot-image'
-            plotUrl={figure.plotUrl}
-          />
-        </div>
-      ) : (
-        <div className='operator-result-item-placeholder'>
-          <BrainPlaceholderComponent />
-        </div>
-      )}
+      {children}
     </Card>
   );
 };
 
 OperatorResultItem.propTypes = {
   cardId: PropTypes.string.isRequired,
-  figures: PropTypes.array.isRequired,
+  children: PropTypes.node.isRequired,
   isSelected: PropTypes.bool.isRequired,
-  selectedFigure: PropTypes.number,
-  handleRemoveFigure: PropTypes.func.isRequired,
+  selectedResult: PropTypes.number,
+  availableResults: PropTypes.array.isRequired,
+  isDownloadDisabled: PropTypes.array,
+  handleSelectCard: PropTypes.func.isRequired,
+  handleRemoveResult: PropTypes.func.isRequired,
   handleSelectResult: PropTypes.func.isRequired,
-  handleSelectFigure: PropTypes.func.isRequired,
 };
 
 OperatorResultItem.defaultProps = {
-  selectedFigure: undefined,
+  selectedResult: undefined,
+  isDownloadDisabled: false,
 };
 
 export default withResizeDetector(OperatorResultItem);

@@ -1,14 +1,15 @@
 import React, { useMemo, useState } from 'react';
+import { Drawer } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Divider, Space, Tooltip, Drawer } from 'antd';
-import { DownloadOutlined } from '@ant-design/icons';
 
 import utils from 'utils';
 import { useIsLoading } from 'hooks';
 import { hideOperatorResults } from 'store/ui/actions';
 import { getOperatorResultDataset, OPERATOR_TYPES } from 'store/operator';
 import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer';
+
+import ExperimentResultsDrawerTitle from './ExperimentResultsDrawerTitle';
 
 const isVisibleSelector = ({ uiReducer }) => {
   return uiReducer.operatorResults.showOperatorResults;
@@ -34,11 +35,11 @@ const operatorParametersLatestTrainingSelector = ({ operatorReducer }) => {
   return operatorReducer.parametersLatestTraining;
 };
 
-const OperatorResultsModalContainer = () => {
+const ExperimentResultsDrawerContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
 
-  const [selectedResults, setSelectedResults] = useState({});
+  const [selectedCards, setSelectedCards] = useState({});
 
   const isVisible = useSelector(isVisibleSelector);
   const operatorId = useSelector(operatorIdSelector);
@@ -53,10 +54,10 @@ const OperatorResultsModalContainer = () => {
     OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST
   );
 
-  const numberOfSelectedResults = useMemo(() => {
-    const results = Object.values(selectedResults).filter((value) => !!value);
+  const numberOfSelectedCards = useMemo(() => {
+    const results = Object.values(selectedCards).filter((value) => !!value);
     return results.length;
-  }, [selectedResults]);
+  }, [selectedCards]);
 
   const datasetScrollX = useMemo(() => {
     return operatorDataset ? operatorDataset.columns.length * 100 : undefined;
@@ -114,50 +115,13 @@ const OperatorResultsModalContainer = () => {
     });
   };
 
-  const handleSelectResult = (resultIndex) => {
-    setSelectedResults((currentResults) => {
-      const currentResultsClone = { ...currentResults };
-      currentResultsClone[resultIndex] = !currentResultsClone[resultIndex];
-      return currentResultsClone;
+  const handleSelectCard = (id) => {
+    setSelectedCards((currentCards) => {
+      const currentCardsClone = { ...currentCards };
+      currentCardsClone[id] = !currentCardsClone[id];
+      return currentCardsClone;
     });
   };
-
-  const title = (
-    <Space>
-      <span>
-        <strong> Visualizar Resultados </strong>
-      </span>
-
-      <Divider type='vertical' />
-
-      <Tooltip placement='bottom' title='Faz download dos resultados exibidos'>
-        <Button
-          shape='round'
-          type='primary-inverse'
-          onClick={handleDownloadResult}
-        >
-          <DownloadOutlined />
-          Fazer download
-        </Button>
-      </Tooltip>
-
-      {numberOfSelectedResults > 0 && (
-        <Tooltip
-          placement='bottom'
-          title='Faz download dos resultados selecionados'
-        >
-          <Button
-            shape='round'
-            type='primary-inverse'
-            onClick={handleDownloadResult}
-          >
-            <DownloadOutlined />
-            Fazer download de {numberOfSelectedResults} Resultados
-          </Button>
-        </Tooltip>
-      )}
-    </Space>
-  );
 
   return (
     <Drawer
@@ -168,24 +132,28 @@ const OperatorResultsModalContainer = () => {
       isFullScreen={true}
       isVisible={isVisible}
       onClose={handleClose}
-      title={title}
+      title={
+        <ExperimentResultsDrawerTitle
+          numberOfSelectedCards={numberOfSelectedCards}
+          handleDownloadResult={handleDownloadResult}
+        />
+      }
       className='operator-drawer'
       bodyStyle={{ background: '#eceff1' }}
     >
       <ResultsDrawer
         dataset={operatorDataset}
         figures={operatorFigures}
+        selectedCards={selectedCards}
         parameters={resultsParameters}
         loading={operatorResultsLoading}
-        selectedResults={selectedResults}
         datasetScroll={{ x: datasetScrollX, y: 'calc(50vh - 96px)' }}
-        handleSelectResult={handleSelectResult}
+        handleSelectCard={handleSelectCard}
         handleDownloadResult={handleDownloadResult}
         onDatasetPageChange={handleOnDatasetPageChange}
-        isToShowDownloadButtons
       />
     </Drawer>
   );
 };
 
-export default OperatorResultsModalContainer;
+export default ExperimentResultsDrawerContainer;
