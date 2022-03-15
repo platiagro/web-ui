@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { Empty, Spin, Tabs, Button } from 'antd';
 import { LoadingOutlined, DownloadOutlined } from '@ant-design/icons';
 
-import { CommonTable, PlotResult } from 'components';
+import { CommonTable, PlotResult, DatasetResult } from 'components';
 import { DownloadOperatorDatasetContainer } from 'containers';
-
-import TableResult from './TableResult';
 
 import './ResultData.less';
 
@@ -98,15 +96,10 @@ const ResultData = ({
           tab={<span>Dataset</span>}
         >
           {!!dataset && (
-            <TableResult
-              key={dataset.uuid}
-              rows={dataset.rows}
-              total={dataset.total}
+            <DatasetResult
+              dataset={dataset}
               scroll={datasetScroll}
-              columns={dataset.columns}
-              pageSize={dataset.pageSize}
-              currentPage={dataset.currentPage}
-              onPageChange={onDatasetPageChange}
+              onDatasetPageChange={onDatasetPageChange}
             />
           )}
 

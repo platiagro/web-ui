@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { Empty } from 'antd';
 
 import { BrainPlaceholderComponent } from 'assets';
+import { DownloadOperatorDatasetContainer } from 'containers';
 import {
-  OperatorResultItem,
-  DatasetResult,
   PlotResult,
   CommonTable,
+  DatasetResult,
+  OperatorResultItem,
 } from 'components';
 
 import useResults from './useResults';
@@ -102,7 +103,11 @@ const ResultsDrawer = ({
           const renderCardContent = () => {
             if (selectedResult === DATASETS_KEY && dataset) {
               return (
-                <div className='results-drawer-result-scroll'>
+                <div className='results-drawer-result-table'>
+                  <div className='results-drawer-download-dataset'>
+                    <DownloadOperatorDatasetContainer />
+                  </div>
+
                   <DatasetResult
                     dataset={dataset}
                     scroll={datasetScroll}
