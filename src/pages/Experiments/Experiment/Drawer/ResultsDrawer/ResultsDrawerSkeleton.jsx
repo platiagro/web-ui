@@ -5,7 +5,6 @@ const ResultsDrawerSkeleton = () => {
   const skeletonColumn = (
     <Col span={12}>
       <Card
-        className='monitoring-drawer-skeleton-card'
         title={
           <div style={{ width: '100%', display: 'flex' }}>
             <Skeleton.Button
