@@ -2,13 +2,13 @@
 
 ```js
 <OperatorResultItem
-  cardId={[]}
-  isSelected
-  selectedResult
+  cardId='id'
+  isSelected={false}
+  selectedResult={1}
   availableResults={[]}
   isDownloadDisabled
-  handleSelectCard
-  handleSelectResult
-  handleRemoveResult
+  handleSelectCard={() => alert('handleSelectCard')}
+  handleSelectResult={() => alert('handleSelectResult')}
+  handleRemoveResult={() => alert('handleRemoveResult')}
 />
 ```
