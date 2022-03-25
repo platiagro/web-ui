@@ -8,6 +8,20 @@ export const getDeployments = ({ deploymentsReducer }) => {
   return deploymentsReducer;
 };
 
+export const getSortedDeployments = ({ deploymentsReducer }) => {
+  const deployments = deploymentsReducer || [];
+
+  return deployments.sort((a, b) => {
+    if (a.position === b.position) {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    }
+
+    return a.position - b.position;
+  });
+};
+
 export const getValidDeployments = ({ deploymentsReducer }) => {
   const deployments = deploymentsReducer || [];
   // filters by deployments that have an URL

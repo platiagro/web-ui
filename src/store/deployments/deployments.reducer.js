@@ -33,12 +33,14 @@ export const deploymentsReducer = (
 
     case DEPLOYMENTS_TYPES.UPDATE_DEPLOYMENT_POSITION_SUCCESS: {
       const deploymentsClone = [...state];
+
       const [deploymentToMove] = deploymentsClone.splice(
         action.currentPosition,
         1
       );
 
       deploymentsClone.splice(action.newPosition, 0, deploymentToMove);
+
       return deploymentsClone.map((deployment, index) => ({
         ...deployment,
         position: index,

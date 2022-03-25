@@ -10,10 +10,23 @@ import { getProject } from '../projects.selectors';
  *
  * @param {AppStores} state Application store
  * @param {string} projectId Project id
+ * @param {boolean} shouldSortExperiments Should order experiments by position
  * @returns {Experiments} Project experiments
  */
-const getExperiments = (state, projectId) => {
+const getExperiments = (state, projectId, shouldSortExperiments = false) => {
   const project = getProject(projectId, state);
+
+  if (shouldSortExperiments) {
+    return project.experiments.sort((a, b) => {
+      if (a.position === b.position) {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+      }
+
+      return a.position - b.position;
+    });
+  }
 
   return project.experiments;
 };

@@ -41,89 +41,27 @@ export const organizeExperiments = (
   dragExperimentId,
   hoverExperimentId
 ) => {
-  // ! NOT A CLONE = they are in the same memory address = MODIFYING PARAM
-  const experimentsAux = experiments;
-
-  const dragExperimentIndex = experimentsAux.findIndex(
-    (experiment) => experiment.uuid === dragExperimentId
+  const dragExperiment = experiments.find(
+    ({ uuid }) => uuid === dragExperimentId
   );
 
-  const hoverExperimentIndex = experimentsAux.findIndex(
-    (experiment) => experiment.uuid === hoverExperimentId
+  const hoverExperiment = experiments.find(
+    ({ uuid }) => uuid === hoverExperimentId
   );
 
-  // moving to end
-  if (dragExperimentIndex < hoverExperimentIndex) {
-    // splitting a copy of experiments list to hover experiment index
-    let splittedExperiments = experimentsAux.slice(
-      dragExperimentIndex,
-      hoverExperimentIndex + 1
-    );
+  const experimentsClone = [...experiments];
 
-    // splitting drag experiment from list
-    const dragExperiment = splittedExperiments.splice(0, 1)[0];
+  const [experimentToMove] = experimentsClone.splice(
+    dragExperiment.position,
+    1
+  );
 
-    // setting drag experiment position to hover position
-    dragExperiment.position = [...splittedExperiments].pop().position;
+  experimentsClone.splice(hoverExperiment.position, 0, experimentToMove);
 
-    // shifting splitted experiments position
-    splittedExperiments = splittedExperiments.map((experiment) => ({
-      ...experiment,
-      position: experiment.position - 1,
-    }));
-
-    // adding drag experiment to spplited experiments
-    splittedExperiments = splittedExperiments.concat(dragExperiment);
-
-    // replacing reorganized block the experiment list
-    experimentsAux.splice(
-      dragExperimentIndex,
-      splittedExperiments.length,
-      ...splittedExperiments
-    );
-  }
-
-  // moving to start
-  if (dragExperimentIndex > hoverExperimentIndex) {
-    // splitting a copy of experiments list to hover experiment index
-    let splittedExperiments = experimentsAux.slice(
-      hoverExperimentIndex,
-      dragExperimentIndex + 1
-    );
-
-    // splitting drag experiment from list
-    const dragExperiment = splittedExperiments.pop();
-
-    // setting drag experiment position to hover position
-    dragExperiment.position = splittedExperiments[0].position;
-
-    // shifting splitted experiments position
-    splittedExperiments = splittedExperiments.map((experiment) => ({
-      ...experiment,
-      position: experiment.position + 1,
-    }));
-
-    // adding drag experiment to splitted experiments
-    splittedExperiments.unshift(dragExperiment);
-
-    // replacing reorganized block the experiment list
-    experimentsAux.splice(
-      hoverExperimentIndex,
-      splittedExperiments.length,
-      ...splittedExperiments
-    );
-  }
-
-  // returning new experiment list ordered by position
-  return experimentsAux.sort((a, b) => {
-    if (a.position < b.position) {
-      return -1;
-    }
-    if (a.position > b.position) {
-      return 1;
-    }
-    return 0;
-  });
+  return experimentsClone.map((experiment, index) => ({
+    ...experiment,
+    position: index,
+  }));
 };
 
 /**

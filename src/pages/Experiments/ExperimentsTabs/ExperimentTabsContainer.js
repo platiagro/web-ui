@@ -20,7 +20,7 @@ import ExperimentsTabs from './index';
 const { getExperiments } = Selectors;
 
 const experimentsSelector = (projectId) => (state) => {
-  return getExperiments(state, projectId);
+  return getExperiments(state, projectId, true);
 };
 
 const getCurrentRoutePath = (projectId, experimentId) => {

@@ -13,12 +13,12 @@ import NewDeploymentModalContainer from 'containers/NewDeploymentModalContainer'
 import {
   DEPLOYMENTS_TYPES,
   clearAllDeployments,
+  getSortedDeployments,
   fetchDeploymentsRequest,
   renameDeploymentRequest,
   deleteDeploymentRequest,
   duplicateDeploymentRequest,
   updateDeploymentPositionRequest,
-  getDeployments,
 } from 'store/deployments';
 
 const getCurrentRoutePath = (projectId, deploymentId) => {
@@ -32,7 +32,7 @@ const DeploymentsTabsContainer = () => {
 
   const isDeletingDeployment = useRef(false);
 
-  const deployments = useSelector(getDeployments);
+  const deployments = useSelector(getSortedDeployments);
 
   const isLoading = useIsLoading(
     OPERATORS_TYPES.FETCH_OPERATORS_REQUEST,
