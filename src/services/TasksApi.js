@@ -35,9 +35,6 @@ const getAllTasks = ({ category } = {}) => {
   const filters = category ? { category } : undefined;
   return taskApi.post('/tasks/list-tasks', {
     filters,
-    // The back-end uses 10 as the page_size default value
-    // so we need to pass a big number here to get all tasks
-    page_size: 999999,
   });
 };
 
