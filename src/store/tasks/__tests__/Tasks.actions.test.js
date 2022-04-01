@@ -202,7 +202,7 @@ describe('Tasks Action', () => {
   });
 
   it('should run the fetch paginated tasks async action correctly', async () => {
-    mockAxios.onGet().reply(200, fakeTasks);
+    mockAxios.onPost().reply(200, fakeTasks);
     await store.dispatch(fetchPaginatedTasks(1, 10));
     const actions = store.getActions();
 
@@ -226,7 +226,7 @@ describe('Tasks Action', () => {
   });
 
   it('should handle errors in the fetch paginated tasks async action', async () => {
-    mockAxios.onGet().reply(500, { message: 'Error Message' });
+    mockAxios.onPost().reply(500, { message: 'Error Message' });
     await store.dispatch(fetchPaginatedTasks(1, 10));
     const actions = store.getActions();
 
@@ -261,7 +261,7 @@ describe('Tasks Action', () => {
   });
 
   it('should run the fetch tasks async action correctly', async () => {
-    mockAxios.onGet().reply(200, { tasks: fakeTasks });
+    mockAxios.onPost().reply(200, { tasks: fakeTasks });
     await store.dispatch(fetchTasks({ category: 'MONITORING' }));
     const actions = store.getActions();
 
@@ -284,7 +284,7 @@ describe('Tasks Action', () => {
   });
 
   it('should handle errors in the fetch tasks async action', async () => {
-    mockAxios.onGet().reply(500, { message: 'Error Message' });
+    mockAxios.onPost().reply(500, { message: 'Error Message' });
     await store.dispatch(fetchTasks({ category: 'MONITORING' }));
     const actions = store.getActions();
 

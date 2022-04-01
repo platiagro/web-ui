@@ -28,24 +28,33 @@ const deleteTask = (id) => {
  * Get all tasks
  *
  * @param {object} filters Filters object
- * @param {Array} filters.category Tag array to filter
+ * @param {string} filters.category Category to filter
  * @returns {Promise} The request promise
  */
-const getAllTasks = (filters) => {
-  const category = filters?.category || [];
-  const queryParams = category.length ? `?category=${category}` : '';
-  return taskApi.get(`/tasks${queryParams}`);
+const getAllTasks = ({ category } = {}) => {
+  const filters = category ? { category } : undefined;
+  return taskApi.post('/tasks/list-tasks', {
+    filters,
+  });
 };
 
 /**
  * Get paginated tasks
  *
- * @param {number} page Page number
- * @param {number} pageSize Page size
+ * @param {object} filters Filters object
+ * @param {number} filters.page CUrrent task page
+ * @param {number} filters.pageSize Number of tasks per page
+ * @param {string} filters.category Category to filter
  * @returns {Promise} Request promise
  */
-const getPaginatedTasks = (page, pageSize) => {
-  return taskApi.get(`/tasks?page=${page}&page_size=${pageSize}`);
+const getPaginatedTasks = ({ page, pageSize, category } = {}) => {
+  return taskApi.post('/tasks/list-tasks', {
+    filters: {
+      category,
+    },
+    page,
+    page_size: pageSize,
+  });
 };
 
 /**
