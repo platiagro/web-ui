@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-identical-functions */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
 
@@ -264,6 +265,8 @@ ParameterGroup.propTypes = {
     PropTypes.number,
     PropTypes.object,
     PropTypes.string,
+    PropTypes.array,
+    PropTypes.bool,
   ]),
 };
 

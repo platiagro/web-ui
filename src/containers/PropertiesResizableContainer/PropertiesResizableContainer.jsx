@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { fetchTasks, getTasks } from 'store/tasks';
+import { getDeploymentsUrl } from 'store/deployments';
 import { ExternalDatasetHelperModal } from 'components/Modals';
 import { PropertiesPanel, ExternalDatasetDrawer } from 'components';
 import { OPERATOR_TYPES, renameDeploymentOperator } from 'store/operator';
@@ -14,13 +16,6 @@ const operatorSelector = ({ operatorReducer }) => {
 const isDatasetOperatorSelector = ({ operatorReducer }) => {
   return operatorReducer?.tags?.includes('DATASETS');
 };
-
-export const deploymentsUrlSelector =
-  (currentDeploymentId) =>
-  ({ deploymentsReducer }) => {
-    return deploymentsReducer.find(({ uuid }) => uuid === currentDeploymentId)
-      ?.url;
-  };
 
 const PropertiesResizableContainer = () => {
   const { projectId, deploymentId } = useParams();
@@ -38,15 +33,19 @@ const PropertiesResizableContainer = () => {
     handleCancelEditingOperatorName,
   ] = useBooleanState(false);
 
+  const tasks = useDeepEqualSelector(getTasks);
   const operator = useDeepEqualSelector(operatorSelector);
   const isDatasetOperator = useDeepEqualSelector(isDatasetOperatorSelector);
-  const deploymentUrl = useDeepEqualSelector(
-    deploymentsUrlSelector(deploymentId)
-  );
+  const deploymentUrl = useDeepEqualSelector(getDeploymentsUrl(deploymentId));
 
   const isRenamingOperator = useIsLoading(
     OPERATOR_TYPES.RENAME_DEPLOYMENT_OPERATOR_REQUEST
   );
+
+  const operatorOriginalTask = useMemo(() => {
+    if (!operator || !tasks?.length) return null;
+    return tasks.find(({ uuid }) => uuid === operator.taskId);
+  }, [operator, tasks]);
 
   const handleSaveNewOperatorName = (newName) => {
     const operatorId = operator?.uuid;
@@ -66,13 +65,17 @@ const PropertiesResizableContainer = () => {
     handleCancelEditingOperatorName();
   }, [handleCancelEditingOperatorName, operator.uuid]);
 
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
   return (
     <PropertiesPanel
       title={operator?.name}
-      tip={operator?.description}
       isShowingEditIcon={!!operator?.name}
-      isEditingTitle={isEditingOperatorName}
       isSavingNewTitle={isRenamingOperator}
+      isEditingTitle={isEditingOperatorName}
+      operatorOriginalTask={operatorOriginalTask}
       handleSaveModifiedTitle={handleSaveNewOperatorName}
       handleStartEditing={handleStartEditingOperatorName}
       handleCancelEditing={handleCancelEditingOperatorName}

@@ -130,16 +130,13 @@ UploadInputBlock.propTypes = {
   datasetsLoading: PropTypes.bool.isRequired,
   handleSelectDataset: PropTypes.func,
   handleUploadCancel: PropTypes.func.isRequired,
-  handleUploadFail: PropTypes.func.isRequired,
-  handleUploadStart: PropTypes.func.isRequired,
-  handleUploadSuccess: PropTypes.func.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
   tip: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  defaultFileList: PropTypes.string,
+  defaultFileList: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   customRequest: PropTypes.func,
-  experimentIsSucceeded: PropTypes.bool.isRequired,
+  experimentIsSucceeded: PropTypes.bool,
 
   /** Flag to check deployment */
   deployment: PropTypes.bool,
@@ -151,6 +148,9 @@ UploadInputBlock.defaultProps = {
   customRequest: undefined,
   deployment: false,
   datasets: [],
+  isDisabled: false,
+  isLoading: false,
+  experimentIsSucceeded: false,
 };
 
 export default UploadInputBlock;

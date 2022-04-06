@@ -212,7 +212,7 @@ web-ui
 │  ├─ containers                                                          // application containers
 │  ├─ index.js                                                            // application initialization file
 │  ├─ services                                                            // application services
-│  ├─ setupTests.js                                                       // test configurations (enzyme)
+│  ├─ setupTests.js                                                       // test configs
 │  ├─ store                                                               // application stores
 │  ├─ style.less                                                          // global application styles
 │  ├─ uiComponents                                                        // design system components
@@ -401,9 +401,6 @@ Development dependencies.
     "babel-eslint": "10.1.0",                                             // parser (parsing) of modern javascript for ESLint
     "craco-less": "^1.17.0",                                              // less plugin for craco
     "customize-cra": "^1.0.0",                                            // utility to customize cra applications (create react app)
-    "enzyme": "^3.10.0",                                                  // testing utility for react
-    "enzyme-adapter-react-16": "^1.15.4",                                 // enzyme adapter for react
-    "enzyme-to-json": "^3.5.0",                                           // enzyme to json converter (snapshot test)
     "eslint-config-react-app": "^5.2.1",                                  // basic react settings for eslint
     "eslint-import-resolver-node": "^0.3.4",                              // imports solver for eslint
     "eslint-plugin-import": "^2.22.0",                                    // eslint plugin for import validations
@@ -416,7 +413,6 @@ Development dependencies.
     "jest-sonar-reporter": "^2.0.0",                                      // convert jest output to sonar
     "nock": "^13.0.4",                                                    // http server mock
     "react-styleguidist": "^11.1.4",                                      // playground and component documentation
-    "redux-mock-store": "^1.5.3"                                          // utility to mock store
   }
 ...
 }

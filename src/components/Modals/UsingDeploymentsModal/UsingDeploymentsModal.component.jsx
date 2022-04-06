@@ -29,7 +29,7 @@ UsingDeploymentsModal.propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
 };
 
-UsingDeploymentsModal.propTypes = {
+UsingDeploymentsModal.defaultProps = {
   title: undefined,
   children: undefined,
 };

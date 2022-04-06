@@ -11,7 +11,7 @@ import actionTypes from './actionTypes';
  * @param {Array} logs Logs array
  * @returns {object} Action
  */
-const getExperimentLogsSucceed = (logs = []) => ({
+export const getExperimentLogsSucceed = (logs = []) => ({
   type: actionTypes.GET_EXPERIMENT_LOGS_SUCCESS,
   payload: {
     logs,
@@ -23,7 +23,7 @@ const getExperimentLogsSucceed = (logs = []) => ({
  *
  * @returns {object} Action
  */
-const getExperimentLogsFailed = () => ({
+export const getExperimentLogsFailed = () => ({
   type: actionTypes.GET_EXPERIMENT_LOGS_FAIL,
 });
 
@@ -33,7 +33,7 @@ const getExperimentLogsFailed = () => ({
  * @param {boolean} isLoading True if it is loading or false if not
  * @returns {object} Action
  */
-const setIsLoadingLogs = (isLoading = false) => ({
+export const setIsLoadingLogs = (isLoading = false) => ({
   type: actionTypes.SET_IS_LOADING_LOGS,
   payload: {
     isLoading,

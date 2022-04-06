@@ -1,15 +1,27 @@
 {
   "name": "app",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "test:ci": "react-scripts test --passWithNoTests --silent --coverage --testResultsProcessor jest-sonar-reporter",
     "eject": "react-scripts eject",
+    "prepare": "husky install",
+    "test:coverage": "craco test --coverage --watchAll",
+    "test:ci": "react-scripts test --coverageReporters=lcov --testResultsProcessor jest-sonar-reporter --passWithNoTests --debug --coverage --no-cache --watchAll=false",
     "styleguide": "styleguidist server",
-    "styleguide:build": "styleguidist build"
+    "styleguide:build": "styleguidist build",
+    "dex:build": "docker build src/pages/Login -t dex-auth-local",
+    "dex:run": "docker run -it -p 5556:5556 dex-auth-local:latest",
+    "eslint:lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "eslint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "craco test --watchAll=false --findRelatedTests"
+    ]
   },
   "browserslist": {
     "production": [
@@ -25,7 +37,7 @@
   },
   "dependencies": {
     "antd": "4.6.4",
-    "axios": "^0.21.1",
+    "axios": "^0.25.0",
     "react": "^16.13.1",
     "react-contextmenu": "^2.14.0",
     "react-copy-to-clipboard": "^5.0.1",
@@ -48,12 +60,13 @@
   },
   "devDependencies": {
     "@craco/craco": "^5.8.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^7.0.1",
+    "axios-mock-adapter": "^1.19.0",
     "babel-eslint": "10.1.0",
     "craco-less": "^1.17.0",
     "customize-cra": "^1.0.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.4",
-    "enzyme-to-json": "^3.5.0",
     "eslint": "7.26.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-import-resolver-node": "^0.3.4",
@@ -64,22 +77,12 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-react-redux": "^3.3.0",
+    "eslint-plugin-sonarjs": "^0.10.0",
+    "husky": "^7.0.2",
     "jest-sonar-reporter": "^2.0.0",
+    "lint-staged": "^11.1.2",
     "nock": "^13.0.4",
     "react-styleguidist": "^11.1.4",
-    "redux-mock-store": "^1.5.3"
-  },
-  "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "moduleNameMapper": {
-      "^dnd-core$": "dnd-core/dist/cjs",
-      "^react-dnd$": "react-dnd/dist/cjs",
-      "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs",
-      "^react-dnd-touch-backend$": "react-dnd-touch-backend/dist/cjs",
-      "^react-dnd-test-backend$": "react-dnd-test-backend/dist/cjs",
-      "^react-dnd-test-utils$": "react-dnd-test-utils/dist/cjs"
-    }
+    "redux-mock-store": "^1.5.4"
   }
 }

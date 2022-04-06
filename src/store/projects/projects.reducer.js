@@ -42,6 +42,7 @@ export default (state = initialState, action = undefined) => {
     case EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_SUCCESS:
     case EXPERIMENTS_TYPES.DELETE_EXPERIMENT_SUCCESS:
     case EXPERIMENTS_TYPES.ORGANIZE_EXPERIMENTS_SUCCESS:
+    case EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_OPERATOR_STORE_DATA:
     case EXPERIMENTS_RUNS_TYPES.EXPERIMENT_RUN_NOT_SUCCEEDED: // TODO: Acho que não é uma boa prática um reducer filtrar ações de outras stores
     case EXPERIMENTS_RUNS_TYPES.EXPERIMENT_RUN_SUCCEEDED:
       return {

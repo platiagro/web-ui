@@ -8,9 +8,9 @@ const NewExperimentModal = ({
   loading,
   visible,
   errorMessage,
-  modalValidateStatus,
   handleCloseModal,
   handleNewExperiment,
+  modalValidateStatus,
 }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [status, setStatus] = useState(null);
@@ -92,10 +92,10 @@ const NewExperimentModal = ({
 NewExperimentModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  modalValidateStatus: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   handleCloseModal: PropTypes.func.isRequired,
   handleNewExperiment: PropTypes.func.isRequired,
+  modalValidateStatus: PropTypes.string,
 };
 
 export default NewExperimentModal;

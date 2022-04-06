@@ -7,11 +7,13 @@ on:
   push:
     branches:
     - master
+    - develop
     - v*-branch
 
   pull_request:
     branches:
     - master
+    - develop
     - v*-branch
 
 jobs:
@@ -25,6 +27,9 @@ jobs:
     steps:
     - name: Checkout 🛎️
       uses: actions/checkout@v2
+      with:
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
 
     - name: Set output variables
       id: vars
@@ -32,14 +37,19 @@ jobs:
         VERSION=$(node -p "require('./package.json').version")
         if [ ${{ github.ref }} = "refs/heads/master" ]; then
           echo ::set-output name=TAG::${VERSION}-SNAPSHOT
+          echo ::set-output name=COMMIT::${{ github.sha }}
         elif [[ ${{ github.ref }} =~ ^refs/heads/v.*-branch$ ]]; then
           echo ::set-output name=TAG::${VERSION}
+          echo ::set-output name=COMMIT::${{ github.sha }}
+        elif [ ${{ github.ref }} = "refs/heads/develop" ];  then
+          echo ::set-output name=TAG::DEVELOP
+          echo ::set-output name=COMMIT::${{ github.sha }}
         else
-          echo ::set-output name=TAG::${VERSION}-${{ github.sha }}
+          echo ::set-output name=TAG::${VERSION}-${{ github.event.pull_request.head.sha }}
+          echo ::set-output name=COMMIT::${{ github.event.pull_request.head.sha }}
         fi
 
         echo ::set-output name=BRANCH::${{ github.ref }}
-        echo ::set-output name=COMMIT::${{ github.sha }}
 
     - name: Code review tips
       uses: machine-learning-apps/pr-comment@master
@@ -66,6 +76,8 @@ jobs:
       run: |
         yarn build
         yarn test:ci
+        sed -i s'|/home/runner/work/web-ui/web-ui/||g' test-report.xml
+        sed -i s'|/home/runner/work/web-ui/web-ui/||g' coverage/lcov.info
 
     - name: SonarCloud Scan
       if: ${{ always() }}
@@ -103,3 +115,16 @@ jobs:
     - name: Image digest
       if: ${{ always() }}
       run: echo ${{ steps.docker_build.outputs.digest }}
+
+    - name: Build dex docker image
+      if: ${{ always() }}
+      id: dex_docker_build
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: docker.io/platiagro/dex-auth:${{ steps.vars.outputs.TAG }}
+        context: src/pages/Login
+        file: src/pages/Login/Dockerfile
+        build-args: |
+          COMMIT=${{ steps.vars.outputs.COMMIT }}
+          BRANCH=${{ steps.vars.outputs.BRANCH }}

@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
 import { hideNewDeploymentModal } from 'store/ui/actions';
-import DEPLOYMENTS_TYPES from 'store/deployments/actionTypes';
 import { getTemplates } from 'store/templates/templates.selectors';
-import { createDeploymentRequest } from 'store/deployments/actions';
+import { DEPLOYMENTS_TYPES, createDeploymentRequest } from 'store/deployments';
 import * as TEMPLATES_TYPES from 'store/templates/templates.actionTypes';
 import { fetchTemplatesRequest } from 'store/templates/templates.actions';
 import { NewDeploymentModal as NewDeploymentModalComponent } from 'components';
@@ -22,7 +21,8 @@ const visibleSelector = ({ uiReducer }) => {
 
 const NewDeploymentModalContainer = () => {
   const dispatch = useDispatch();
-  const { projectId } = useParams();
+  const { projectId, deploymentId } = useParams();
+  const history = useHistory();
 
   const visible = useSelector(visibleSelector);
   const templatesData = useSelector(getTemplates);
@@ -35,11 +35,14 @@ const NewDeploymentModalContainer = () => {
   );
 
   const handleConfirm = (selectedType, selectedUuid) => {
+
     const isExperiment = selectedType === 'experiment';
     const isTemplate = selectedType === 'template';
     const experimentId = isExperiment ? selectedUuid : undefined;
     const templateId = isTemplate ? selectedUuid : undefined;
-    dispatch(createDeploymentRequest(projectId, experimentId, templateId));
+    const historyState = deploymentId ? undefined : history;
+    dispatch(createDeploymentRequest(projectId, experimentId, templateId, historyState));
+
   };
 
   const handleCancel = () => {

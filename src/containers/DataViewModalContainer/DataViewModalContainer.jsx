@@ -88,6 +88,14 @@ const DataViewModalContainer = () => {
     DATASET_TYPES.FETCH_PAGINATED_DATASET
   );
 
+  const datasetDataWithId = useMemo(() => {
+    if (!datasetData) return [];
+    return datasetData.map((item, index) => ({
+      ...item,
+      uuid: `uuid-${index}`,
+    }));
+  }, [datasetData]);
+
   const actionUrl = useMemo(() => {
     return `${process.env.REACT_APP_DATASET_API}/datasets/${datasetName}`;
   }, [datasetName]);
@@ -153,15 +161,15 @@ const DataViewModalContainer = () => {
 
   return (
     <Modal
-      className='dataViewModalParent'
+      className='data-view-modal-container'
       handleClose={handleClose}
       title='Visualizar dados'
       isVisible={isVisible}
       footer={null}
       isFullScreen
     >
-      <div className='dataViewModal'>
-        <div className='dataViewModalDataHeader'>
+      <div className='data-view-modal'>
+        <div className='data-view-modal-data-header'>
           <span style={{ fontSize: '12px' }}>ATRIBUTOS: </span>
 
           <span style={{ color: '#262626', fontSize: '14px' }}>
@@ -179,7 +187,7 @@ const DataViewModalContainer = () => {
 
         <Tabs defaultActiveKey='1'>
           <Tabs.TabPane tab='Atributos' key='1'>
-            <div className='attributtesTable'>
+            <div className='attributes-table'>
               <DatasetColumnsTable
                 columns={datasetColumns}
                 selectedRows={selectedRows}
@@ -189,7 +197,7 @@ const DataViewModalContainer = () => {
               />
             </div>
 
-            <div className='dataViewAttributtesDownload'>
+            <div className='data-view-attributes-download'>
               <h2>Tipos dos atributos</h2>
 
               <a
@@ -207,7 +215,7 @@ const DataViewModalContainer = () => {
               </a>
             </div>
 
-            <div className='dataViewAttributtesUpload'>
+            <div className='data-view-attributes-upload'>
               <h2>Altere todos os tipos de uma só vez</h2>
 
               <p>
@@ -241,13 +249,13 @@ const DataViewModalContainer = () => {
           </Tabs.TabPane>
 
           <Tabs.TabPane tab='Observações' key='2'>
-            <div className='dataViewObservations'>
+            <div className='data-view-observations'>
               <CommonTable
                 size={'small'}
                 columns={columns}
-                dataSource={datasetData}
                 isLoading={isLoadingDataset}
-                rowKey={(_, index) => `observação-${index}`}
+                dataSource={datasetDataWithId}
+                rowKey={(record) => record.uuid}
                 scroll={{
                   x: columns.length > 10 ? 2000 : 1000,
                   y: window.innerHeight / 2,

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown } from 'antd';
 import {
   DownOutlined,
   ToolOutlined,
@@ -50,7 +50,7 @@ const PageHeaderDropdown = ({ type, target }) => {
       <Dropdown
         trigger={['click']}
         overlay={
-          <Menu className='dropdown-menu'>
+          <div className='dropdown-menu'>
             <h1>Ir para:</h1>
             <Button
               shape='round'
@@ -60,7 +60,7 @@ const PageHeaderDropdown = ({ type, target }) => {
             >
               {targetTitle}
             </Button>
-          </Menu>
+          </div>
         }
       >
         <Button

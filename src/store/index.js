@@ -2,8 +2,8 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
 import compareResultsReducer from './compareResults/compareResultsReducer';
-import deploymentsReducer from './deployments/deploymentsReducer';
-import deploymentRunsReducer from './deployments/deploymentRuns/deploymentRunsReducer';
+import { deploymentsReducer } from './deployments';
+import { deploymentRunsReducer } from './deployments/deploymentRuns';
 import Projects from './projects';
 import experimentRunReducer from './projects/experiments/experimentRuns/experimentRunsReducer';
 import { operatorsReducer } from './operators';
@@ -18,8 +18,10 @@ import jupyterLabReducer from './jupyterLab/jupyterLabReducer';
 import experimentLogsReducer from './experimentLogs/experimentLogsReducer';
 import { tasksReducer } from './tasks';
 import { loadingReducer } from './loading';
-import { testDeploymentReducer } from './testDeployment';
 import { monitoringsReducer } from './monitorings';
+import { userProfileReducer } from './userProfile';
+import { marketplaceReducer } from './marketplace';
+import { predictionReducer } from './prediction';
 
 const reducers = combineReducers({
   compareResultsReducer,
@@ -35,12 +37,14 @@ const reducers = combineReducers({
   datasetReducer,
   datasetsReducer,
   deploymentLogsReducer,
-  testDeploymentReducer,
   jupyterLabReducer,
   monitoringsReducer,
   experimentLogsReducer,
   tasksReducer,
   loadingReducer,
+  userProfileReducer,
+  marketplaceReducer,
+  predictionReducer,
 });
 
 const composeEnhancers =

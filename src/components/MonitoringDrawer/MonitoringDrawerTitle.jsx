@@ -16,6 +16,7 @@ const MonitoringDrawerTitle = ({
     <div className='monitoring-drawer-header'>
       <div className='monitoring-drawer-header-title'>{getDrawerTitle()}</div>
 
+      {/* eslint-disable-next-line sonarjs/no-redundant-boolean */}
       {false && ( // TODO: Exibe botão quando ele funcionar
         <Tooltip title='Faz download dos resultados exibidos'>
           <Button

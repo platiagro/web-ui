@@ -50,7 +50,7 @@ export const downloadOperatorResultDataset =
       type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_REQUEST,
     });
 
-    experimentRunsApi
+    return experimentRunsApi
       .listOperatorDatasets(
         projectId,
         experimentId,
@@ -68,6 +68,9 @@ export const downloadOperatorResultDataset =
       })
       .catch((error) => {
         dispatch(showError(error.message));
+        dispatch({
+          type: OPERATOR_TYPES.DOWNLOAD_OPERATOR_DATASET_RESULT_FAIL,
+        });
       })
       .finally(() => {
         dispatch(
@@ -83,7 +86,7 @@ export const downloadOperatorResultDataset =
  * @param {object} response Response from API
  * @returns {object} { type }
  */
-const getLogsSuccess = (response) => (dispatch) => {
+export const getLogsSuccess = (response) => (dispatch) => {
   const logs = response.data;
 
   dispatch({
@@ -98,7 +101,7 @@ const getLogsSuccess = (response) => (dispatch) => {
  * @param {object} error Error from API
  * @returns {object} { type }
  */
-const getLogsFail = (error) => (dispatch) => {
+export const getLogsFail = (error) => (dispatch) => {
   dispatch({
     type: OPERATOR_TYPES.GET_OPERATOR_LOGS_FAIL,
     logs: error.response.data.message,
@@ -114,8 +117,8 @@ const getLogsFail = (error) => (dispatch) => {
  */
 
 export const getOperatorLogs =
-  (projectId, experimentId, operatorId) => async (dispatch) => {
-    experimentRunsApi
+  (projectId, experimentId, operatorId) => (dispatch) => {
+    return experimentRunsApi
       .fetchOperatorLogs(projectId, experimentId, 'latest', operatorId)
       .then((res) => {
         dispatch(getLogsSuccess(res));
@@ -329,7 +332,7 @@ export const deselectOperator = () => (dispatch) => {
  * @param {object} error Error from API
  * @returns {object} { type, errorMessage }
  */
-const createOperatorFail = (error) => (dispatch) => {
+export const createOperatorFail = (error) => (dispatch) => {
   // dispatching experiment operators data loaded action
   dispatch(removeLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST));
 
@@ -508,7 +511,7 @@ export const removeOperatorRequest =
  * @param {object} operator Operator Object
  * @returns {object} { type, operator }
  */
-const updateOperatorSuccess = (operator) => (dispatch, getState) => {
+export const updateOperatorSuccess = (operator) => (dispatch, getState) => {
   const { operatorsReducer } = getState();
 
   let mappedOperators = [...operatorsReducer];
@@ -531,7 +534,7 @@ const updateOperatorSuccess = (operator) => (dispatch, getState) => {
  * @param {object} error Error from API
  * @returns {object} { type, errorMessage }
  */
-const updateOperatorFail = (error) => (dispatch) => {
+export const updateOperatorFail = (error) => (dispatch) => {
   // dispatching set operator params fail
   dispatch({
     type: OPERATOR_TYPES.UPDATE_OPERATOR_FAIL,
@@ -571,26 +574,29 @@ export const updateExperimentOperatorRequest =
       parameterName
     );
 
-    const parameters = {};
+    const newParameters = {};
+
     parametersWithValue.forEach(({ name, value }) => {
-      parameters[name] = name === parameterName ? parameterValue : value;
+      newParameters[name] = value;
     });
+
+    newParameters[parameterName] = parameterValue;
 
     // update experimentOperator
     operatorsApi
       .updateOperator(projectId, experimentId, experimentOperator.uuid, {
-        parameters,
+        parameters: newParameters,
       })
       .then((response) => {
         // getting experimentOperator data
         const successExperimentOperator = { ...experimentOperator };
 
         // changing param value
-        successExperimentOperator.parameters = utils.successOperatorMap(
-          successExperimentOperator.parameters,
-          parameterValue,
-          parameterName
-        );
+        successExperimentOperator.parameters = Object.entries(
+          newParameters
+        ).map(([name, value]) => {
+          return { name, value };
+        });
 
         // checking if experimentOperator is setted up
         successExperimentOperator.settedUp = utils.checkOperatorSettedUp(
@@ -637,28 +643,31 @@ export const updateDeploymentOperatorRequest =
       parameterName
     );
 
-    const parameters = {};
+    const newParameters = {};
+
     parametersWithValue.forEach(({ name, value }) => {
-      parameters[name] = name === parameterName ? parameterValue : value;
+      newParameters[name] = value;
     });
+
+    newParameters[parameterName] = parameterValue;
 
     // update deploymentOperator
     DeploymentsOperatorsApi.updateOperator(
       projectId,
       deploymentId,
       deploymentOperator.uuid,
-      { parameters }
+      { parameters: newParameters }
     )
       .then((response) => {
         // getting deploymentOperator data
         const successDeploymentOperator = { ...deploymentOperator };
 
         // changing param value
-        successDeploymentOperator.parameters = utils.successOperatorMap(
-          successDeploymentOperator.parameters,
-          parameterValue,
-          parameterName
-        );
+        successDeploymentOperator.parameters = Object.entries(
+          newParameters
+        ).map(([name, value]) => {
+          return { name, value };
+        });
 
         // checking if deploymentOperator is setted up
         successDeploymentOperator.settedUp = utils.checkOperatorSettedUp(

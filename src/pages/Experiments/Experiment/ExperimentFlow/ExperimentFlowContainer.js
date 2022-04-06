@@ -7,9 +7,11 @@ import {
   OPERATOR_TYPES,
   deselectOperator,
   saveOperatorPosition,
+  removeOperatorRequest,
   saveOperatorDependencies,
   selectOperatorAndGetData,
 } from 'store/operator';
+import { getTasks } from 'store/tasks';
 import { OPERATORS_TYPES } from 'store/operators';
 import { useDeepEqualSelector, useIsLoading } from 'hooks';
 import { hideLogsPanel, showLogsPanel } from 'store/ui/actions';
@@ -33,10 +35,16 @@ const numberOfLogsSelector = ({ experimentLogsReducer }) => {
   return experimentLogsReducer.logs.length;
 };
 
+const operatorSelector = ({ operatorReducer }) => {
+  return operatorReducer;
+};
+
 const ExperimentFlowContainer = () => {
   const dispatch = useDispatch();
   const { projectId, experimentId } = useParams();
 
+  const tasks = useDeepEqualSelector(getTasks);
+  const operator = useDeepEqualSelector(operatorSelector);
   const operators = useDeepEqualSelector(operatorsSelector);
   const arrowConfigs = useDeepEqualSelector(arrowConfigsSelector);
   const numberOfLogs = useDeepEqualSelector(numberOfLogsSelector);
@@ -47,14 +55,20 @@ const ExperimentFlowContainer = () => {
   const flowLoading = useIsLoading(OPERATORS_TYPES.FETCH_OPERATORS_REQUEST);
   const operatorLoading = useIsLoading(OPERATOR_TYPES.CREATE_OPERATOR_REQUEST);
 
-  const selectOperatorHandler = (operator) => {
-    dispatch(selectOperatorAndGetData(projectId, experimentId, operator));
+  const selectOperatorHandler = (selectedOperator) => {
+    dispatch(
+      selectOperatorAndGetData(projectId, experimentId, selectedOperator)
+    );
   };
 
   const handleSavePosition = (operatorId, position) => {
     dispatch(
       saveOperatorPosition(projectId, experimentId, operatorId, position)
     );
+  };
+
+  const handleRemoveOperator = () => {
+    dispatch(removeOperatorRequest(projectId, experimentId, operator));
   };
 
   const handleSaveDependencies = (operatorId, dependencies) => {
@@ -90,7 +104,8 @@ const ExperimentFlowContainer = () => {
 
   return (
     <ExperimentFlow
-      tasks={operators}
+      tasks={tasks}
+      operators={operators}
       flowLoading={flowLoading}
       numberOfLogs={numberOfLogs}
       arrowConfigs={arrowConfigs}
@@ -102,6 +117,7 @@ const ExperimentFlowContainer = () => {
       handleToggleLogsPanel={handleToggleLogsPanel}
       handleSaveDependencies={handleSaveDependencies}
       handleDeselectOperator={handleDeselectOperator}
+      handleRemoveOperator={handleRemoveOperator}
     />
   );
 };

@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const comparisonsApi = axios.create({
+const comparisonsApi = createAxiosInstance({
   baseURL: `${URL}/projects`,
 });
 
@@ -61,4 +61,5 @@ export default {
   deleteCompareResult,
   listCompareResult,
   updateCompareResult,
+  axiosInstance: comparisonsApi,
 };

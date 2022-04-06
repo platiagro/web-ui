@@ -297,7 +297,7 @@ const TaskDetailsDocker = ({ taskData, handleUpdateTaskData }) => {
 };
 
 TaskDetailsDocker.propTypes = {
-  taskData: PropTypes.object.isRequired,
+  taskData: PropTypes.object,
   handleUpdateTaskData: PropTypes.func.isRequired,
 };
 

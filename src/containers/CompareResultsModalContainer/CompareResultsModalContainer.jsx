@@ -133,7 +133,7 @@ const CompareResultsModalContainer = () => {
             size={'small'}
             isLoading={true}
             skeletonRowsAmount={5}
-            rowKey={(_, index) => `loading-${index}`}
+            rowKey={(record) => record.uuid}
           />
         </Card>
       </Col>

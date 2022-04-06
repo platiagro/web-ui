@@ -45,7 +45,7 @@ ContentHeader.propTypes = {
   extra: PropTypes.node,
   loading: PropTypes.bool,
   backIcon: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  subTitle: PropTypes.string,
+  subTitle: PropTypes.node,
   customSubTitle: PropTypes.string,
   handleGoBack: PropTypes.func,
   handleSubmit: PropTypes.func,

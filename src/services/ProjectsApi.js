@@ -4,11 +4,11 @@
 
 /* API REFERENCE: https://platiagro.github.io/projects/#/Projects */
 
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
 const URL = process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080';
 
-const projectsApi = axios.create({
+const projectsApi = createAxiosInstance({
   baseURL: URL,
 });
 
@@ -64,9 +64,13 @@ const deleteProjects = (projects) => {
  * @returns {Promise} Fetch paginated projects request
  */
 const fetchPaginatedProjects = (name, page, pageSize) => {
-  return projectsApi.get(
-    `${projectsPath}?name=${name}&page=${page}&page_size=${pageSize}`
-  );
+  return projectsApi.post(`${projectsPath}/listprojects`, {
+    filters: {
+      name,
+    },
+    page,
+    page_size: pageSize,
+  });
 };
 
 export default {
@@ -75,4 +79,5 @@ export default {
   updateProject,
   deleteProjects,
   fetchPaginatedProjects,
+  axiosInstance: projectsApi,
 };

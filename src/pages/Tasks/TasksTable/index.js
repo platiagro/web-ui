@@ -242,7 +242,7 @@ const TasksTable = ({
 };
 
 TasksTable.propTypes = {
-  tasks: PropTypes.arrayOf.isRequired,
+  tasks: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   handleCopyTask: PropTypes.func.isRequired,
   handleDeleteTask: PropTypes.func.isRequired,

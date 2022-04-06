@@ -1,6 +1,6 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
-export const taskApi = axios.create({
+const taskApi = createAxiosInstance({
   baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080',
 });
 
@@ -28,24 +28,33 @@ const deleteTask = (id) => {
  * Get all tasks
  *
  * @param {object} filters Filters object
- * @param {Array} filters.tags Tag array to filter
+ * @param {string} filters.category Category to filter
  * @returns {Promise} The request promise
  */
-const getAllTasks = (filters) => {
-  const tags = filters?.tags || [];
-  const queryParams = tags.length ? `?tags=${tags.join(',')}` : '';
-  return taskApi.get(`/tasks${queryParams}`);
+const getAllTasks = ({ category } = {}) => {
+  const filters = category ? { category } : undefined;
+  return taskApi.post('/tasks/list-tasks', {
+    filters,
+  });
 };
 
 /**
  * Get paginated tasks
  *
- * @param {number} page Page number
- * @param {number} pageSize Page size
+ * @param {object} filters Filters object
+ * @param {number} filters.page CUrrent task page
+ * @param {number} filters.pageSize Number of tasks per page
+ * @param {string} filters.category Category to filter
  * @returns {Promise} Request promise
  */
-const getPaginatedTasks = (page, pageSize) => {
-  return taskApi.get(`/tasks?page=${page}&page_size=${pageSize}`);
+const getPaginatedTasks = ({ page, pageSize, category } = {}) => {
+  return taskApi.post('/tasks/list-tasks', {
+    filters: {
+      category,
+    },
+    page,
+    page_size: pageSize,
+  });
 };
 
 /**
@@ -88,4 +97,5 @@ export default {
   updateTask,
   getTaskData,
   sendTaskViaEmail,
+  axiosInstance: taskApi,
 };

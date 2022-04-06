@@ -8,11 +8,13 @@ import {
   getOperatorResultDataset,
   renameExperimentOperator,
 } from 'store/operator';
+import { getTasks } from 'store/tasks';
 import { OPERATOR_STATUS } from 'configs';
 import { useBooleanState, useIsLoading } from 'hooks';
 import { ResultsButtonBar } from 'components/Buttons';
 import { showOperatorResults } from 'store/ui/actions';
 import { PropertiesPanel, PropertyBlock } from 'components';
+import { updateExperimentOperatorStoreData } from 'store/projects/experiments/experiments.actions';
 import DatasetDrawerContainer from 'pages/Experiments/Experiment/Drawer/DatasetDrawer/DatasetDrawerContainer';
 import GenericDrawerContainer from 'pages/Experiments/Experiment/Drawer/GenericDrawer/GenericDrawerContainer';
 import NotebookOutputsContainer from 'pages/Experiments/Experiment/Drawer/NotebookOutputs/NotebookOutputsContainer';
@@ -50,10 +52,16 @@ const OperatorResizableSectionContainer = () => {
 
   const isDatasetOperator = useSelector(isDatasetOperatorSelector);
   const operator = useSelector(operatorSelector);
+  const tasks = useSelector(getTasks);
 
   const isRenamingOperator = useIsLoading(
     OPERATOR_TYPES.RENAME_EXPERIMENT_OPERATOR_REQUEST
   );
+
+  const operatorOriginalTask = useMemo(() => {
+    if (!operator || !tasks?.length) return null;
+    return tasks.find(({ uuid }) => uuid === operator.taskId);
+  }, [operator, tasks]);
 
   const isResultsButtonBarDisabled = useMemo(() => {
     const isOperatorPending = operator.status === OPERATOR_STATUS.PENDING;
@@ -78,13 +86,26 @@ const OperatorResizableSectionContainer = () => {
 
   const handleSaveNewOperatorName = (newName) => {
     const operatorId = operator?.uuid;
+
+    const successCallback = () => {
+      handleCancelEditingOperatorName();
+      dispatch(
+        updateExperimentOperatorStoreData({
+          projectId,
+          experimentId,
+          operatorId,
+          newOperatorData: { name: newName },
+        })
+      );
+    };
+
     dispatch(
       renameExperimentOperator({
         projectId,
         experimentId,
         operatorId,
         newName,
-        successCallback: handleCancelEditingOperatorName,
+        successCallback,
       })
     );
   };
@@ -108,11 +129,11 @@ const OperatorResizableSectionContainer = () => {
 
   return (
     <PropertiesPanel
-      tip={operator.description}
       title={operator.name}
       isShowingEditIcon={!!operator?.name}
-      isEditingTitle={isEditingOperatorName}
       isSavingNewTitle={isRenamingOperator}
+      isEditingTitle={isEditingOperatorName}
+      operatorOriginalTask={operatorOriginalTask}
       handleSaveModifiedTitle={handleSaveNewOperatorName}
       handleStartEditing={handleStartEditingOperatorName}
       handleCancelEditing={handleCancelEditingOperatorName}

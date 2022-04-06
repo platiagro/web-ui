@@ -6,24 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import DeploymentsTable from 'components/DeploymentsTable';
 import { getDeployExperimentLogs } from 'store/deploymentLogs/actions';
 import {
+  DEPLOYMENTS_TYPES,
   deleteDeploymentRequest,
   fetchDeploymentsRequest,
-} from 'store/deployments/actions';
+  getValidDeployments,
+} from 'store/deployments';
 import { useIsLoading } from 'hooks';
-import DEPLOYMENTS_TYPES from 'store/deployments/actionTypes';
-
-const deploymentsSelector = ({ deploymentsReducer }) => {
-  const deployments = deploymentsReducer || [];
-  // filters by deployments that have an URL
-  // ensures only items that are actually deployed are shown
-  return deployments.filter((deployment) => !!deployment.url);
-};
 
 const DeploymentsTableContainer = ({ handleShowMonitoringDrawer }) => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
-  const deployments = useSelector(deploymentsSelector);
+  const deployments = useSelector(getValidDeployments);
 
   const isLoading = useIsLoading(DEPLOYMENTS_TYPES.FETCH_DEPLOYMENTS_REQUEST);
 

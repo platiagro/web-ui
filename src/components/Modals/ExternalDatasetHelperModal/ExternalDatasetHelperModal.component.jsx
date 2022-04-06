@@ -14,8 +14,6 @@ const ExternalDatasetHelperModal = ({
   disabled,
   exampleBody,
 }) => {
-  const disabledButton = !url;
-
   return (
     <Modal
       title={<strong>Como usar uma aplicação como fonte de dados</strong>}
@@ -36,7 +34,7 @@ const ExternalDatasetHelperModal = ({
         </a>
         . Para testar o serviço, siga os seguintes passos:
       </p>
-      <p>
+      <div>
         <ol>
           <li>
             <CopyToClipboard text={url}>
@@ -44,7 +42,6 @@ const ExternalDatasetHelperModal = ({
                 type='primary-inverse'
                 icon={<CopyOutlined />}
                 shape='round'
-                disabled={disabledButton}
               >
                 Copiar URL
               </Button>
@@ -54,7 +51,7 @@ const ExternalDatasetHelperModal = ({
           <li>Preencha o Header Content-Type: application/json</li>
           <li>Preencha o corpo da requisição:</li>
         </ol>
-      </p>
+      </div>
       <Input.TextArea
         className='input-settings'
         size='large'
@@ -79,7 +76,7 @@ const ExternalDatasetHelperModal = ({
 };
 
 ExternalDatasetHelperModal.propTypes = {
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
@@ -92,8 +89,10 @@ ExternalDatasetHelperModal.defaultProps = {
     "data": {
           "ndarray": [
               [...]
-          ]
-    }
+          ],
+          "names": [...]
+    },
+    "meta": {}
   }`,
   disabled: true,
 };

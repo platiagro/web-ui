@@ -125,7 +125,7 @@ const ResultsDrawer = ({
             isLoading={false}
             dataSource={parameters}
             columns={parametersColumns}
-            rowKey={(data, index) => data.name || `result-${index}`}
+            rowKey={(record) => record.name}
             bordered
           />
         </Tabs.TabPane>
@@ -142,7 +142,7 @@ ResultsDrawer.propTypes = {
   isToShowDownloadButtons: PropTypes.bool,
   loading: PropTypes.bool.isRequired,
   onDatasetPageChange: PropTypes.func.isRequired,
-  onTabChange: PropTypes.func.isRequired,
+  onTabChange: PropTypes.func,
   parameters: PropTypes.array,
   scroll: PropTypes.object,
   resultsTabStyle: PropTypes.object,
@@ -153,6 +153,7 @@ ResultsDrawer.defaultProps = {
   activeKey: '1',
   scroll: undefined,
   resultsTabStyle: undefined,
+  onTabChange: undefined,
 };
 
 export default ResultsDrawer;

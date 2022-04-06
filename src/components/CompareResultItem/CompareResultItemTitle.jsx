@@ -60,7 +60,7 @@ const CompareResultItemTitle = ({
     <>
       <Space>
         <div draggable='true' style={{ cursor: 'grab', paddingRight: 10 }}>
-          <DragIndicatorComponent />
+          <DragIndicatorComponent fill='#595959' />
         </div>
 
         <Cascader
@@ -128,7 +128,7 @@ CompareResultItemTitle.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   compareResult: PropTypes.object.isRequired,
-  trainingDetail: PropTypes.object.isRequired,
+  trainingDetail: PropTypes.object,
   onLoadTrainingHistory: PropTypes.func.isRequired,
   handleDownloadResult: PropTypes.func.isRequired,
   experimentsOptions: PropTypes.arrayOf(PropTypes.object).isRequired,

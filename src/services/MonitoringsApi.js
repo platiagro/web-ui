@@ -1,6 +1,6 @@
-import axios from 'axios';
+import { createAxiosInstance } from 'services/factories';
 
-export const monitoringsApi = axios.create({
+const monitoringsApi = createAxiosInstance({
   baseURL: process.env.REACT_APP_PROJECTS_API || 'http://localhost:8080',
 });
 
@@ -71,4 +71,5 @@ export default {
   createMonitoring,
   deleteMonitoring,
   fetchMonitoringFigures,
+  axiosInstance: monitoringsApi,
 };

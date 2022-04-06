@@ -51,7 +51,7 @@ const NewMonitoringModalContainer = ({
     if (isShowing) {
       dispatch(
         fetchTasks({
-          tags: ['MONITORING'],
+          category: 'MONITORING',
         })
       );
     }

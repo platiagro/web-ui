@@ -6,7 +6,10 @@ import * as EXPERIMENTS_TYPES from './experiments.actionTypes';
 
 import experimentsApi from 'services/ExperimentsApi';
 
-import { hideNewExperimentModal } from 'store/ui/actions';
+import {
+  hideNewExperimentModal,
+  experimentTrainingDataLoaded,
+} from 'store/ui/actions';
 import { fetchExperimentOperatorsRequest } from 'store/operators';
 import { fetchExperimentRunStatusRequest } from './experimentRuns/actions';
 
@@ -222,10 +225,10 @@ const updateExperimentSuccess =
 const updateExperimentFail = (error) => (dispatch) => {
   let errorMessage;
 
-  if (error.response.status === 500) {
+  if (error.response?.status === 500) {
     errorMessage = error.message;
   } else {
-    errorMessage = error.response.data.message;
+    errorMessage = error.response?.data.message ?? '';
     if (errorMessage.includes('name already exist')) {
       errorMessage = ALREADY_EXIST_MESSAGE;
     }
@@ -233,7 +236,7 @@ const updateExperimentFail = (error) => (dispatch) => {
 
   dispatch(removeLoading(EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_REQUEST));
 
-  dispatch(showError(errorMessage, 5));
+  if (errorMessage) dispatch(showError(errorMessage, 5));
 
   dispatch({
     type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_FAIL,
@@ -460,6 +463,8 @@ export const organizeExperimentsRequest =
 export const activeExperiment = (projectId, experimentId) => (dispatch) => {
   const experiment = { isActive: true };
 
+  dispatch(experimentTrainingDataLoaded());
+
   dispatch({ type: EXPERIMENTS_TYPES.ACTIVE_EXPERIMENT });
 
   dispatch(fetchExperimentRunStatusRequest(projectId, experimentId));
@@ -518,5 +523,61 @@ export const applyTemplateRequest =
       };
 
       dispatch(experimentsActionFail(errorObject));
+    }
+  };
+
+/**
+ * Update a experiment operator data in the projects store
+ *
+ * @param {object} params Params
+ * @param {string} params.projectId Project UUID
+ * @param {string} params.experimentId Experiment UUID
+ * @param {string} params.operatorId Operator UUID
+ * @param {object} params.newOperatorData Operator data
+ * @returns {Function} Dispatch function
+ */
+export const updateExperimentOperatorStoreData =
+  ({ projectId, experimentId, operatorId, newOperatorData }) =>
+  (dispatch, getState) => {
+    const { Projects } = getState();
+    const projects = Projects?.projects;
+
+    if (
+      projects &&
+      projectId &&
+      experimentId &&
+      operatorId &&
+      newOperatorData
+    ) {
+      const mapOperators = (operator) => {
+        return operator.uuid === operatorId
+          ? { ...operator, ...newOperatorData }
+          : operator;
+      };
+
+      const mapExperiments = (experiment) => {
+        if (experiment.uuid === experimentId) {
+          const operatorsClone = experiment.operators?.map(mapOperators);
+          return { ...experiment, operators: operatorsClone };
+        }
+        return experiment;
+      };
+
+      const mapProjects = (project) => {
+        if (project.uuid === projectId) {
+          const experimentsClone = project.experiments?.map(mapExperiments);
+          return { ...project, experiments: experimentsClone };
+        }
+        return project;
+      };
+
+      const projectsClone = projects.map(mapProjects);
+
+      dispatch({
+        type: EXPERIMENTS_TYPES.UPDATE_EXPERIMENT_OPERATOR_STORE_DATA,
+        payload: {
+          projects: projectsClone,
+        },
+      });
     }
   };

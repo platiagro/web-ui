@@ -14,12 +14,12 @@ import './TasksFlowTable.style.less';
 
 const typeIcons = {
   EXPERIMENT: (
-    <div className='typeIcon experiment'>
+    <div className='typeIcon experiment' key='TypeIconExperiment'>
       <ExperimentOutlined />
     </div>
   ),
   DEPLOYMENT: (
-    <div className='typeIcon deployment'>
+    <div className='typeIcon deployment' key='TypeIconDeployment'>
       <CloudUploadOutlined />
     </div>
   ),
@@ -161,10 +161,10 @@ const TasksFlowTable = ({
     <div className='tasksFlowTable'>
       <Table
         loading={isLoading}
-        rowKey='uuid'
         columns={columns}
         dataSource={tasksFlowData}
         rowSelection={rowSelection}
+        rowKey={(record) => record.uuid}
         selectedRowKeys
       />
     </div>
@@ -175,17 +175,19 @@ TasksFlowTable.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,
   onSelectRow: PropTypes.func.isRequired,
-  tasksFlowData: PropTypes.shape({
-    uuid: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    isMarketPlace: PropTypes.bool.isRequired,
-    description: PropTypes.string.isRequired,
-    types: PropTypes.arrayOf(PropTypes.string).isRequired,
-    user: PropTypes.shape({
-      username: PropTypes.string.isRequired,
-      avatarColor: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  tasksFlowData: PropTypes.arrayOf(
+    PropTypes.shape({
+      uuid: PropTypes.string,
+      name: PropTypes.string,
+      isMarketPlace: PropTypes.bool,
+      description: PropTypes.string,
+      types: PropTypes.arrayOf(PropTypes.string),
+      user: PropTypes.shape({
+        username: PropTypes.string,
+        avatarColor: PropTypes.string,
+      }),
+    })
+  ).isRequired,
   selectedRows: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

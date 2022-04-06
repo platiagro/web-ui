@@ -48,7 +48,6 @@ TaskTemplateItem.propTypes = {
   buttonText: PropTypes.string,
   handleClickButton: PropTypes.func,
   titleComponent: PropTypes.node,
-  otherProps: PropTypes.object,
 };
 
 TaskTemplateItem.defaultProps = {
@@ -59,7 +58,6 @@ TaskTemplateItem.defaultProps = {
   buttonText: '',
   handleClickButton: undefined,
   titleComponent: undefined,
-  otherProps: {},
 };
 
 export default TaskTemplateItem;

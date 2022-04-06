@@ -71,11 +71,12 @@ ExperimentsTable.propTypes = {
   ),
   onSelect: PropTypes.func.isRequired,
   selectedRowKey: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
 };
 
 ExperimentsTable.defaultProps = {
   selectedRowKey: '',
+  loading: false,
 };
 
 export default ExperimentsTable;

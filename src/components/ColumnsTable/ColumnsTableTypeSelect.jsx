@@ -25,7 +25,6 @@ const ColumnsTableTypeSelect = ({ value, ...others }) => {
 
 ColumnsTableTypeSelect.propTypes = {
   value: PropTypes.string.isRequired,
-  others: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ColumnsTableTypeSelect;

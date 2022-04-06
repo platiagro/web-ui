@@ -116,10 +116,10 @@ const CompareResultItemResults = ({
 
 CompareResultItemResults.propTypes = {
   tasks: PropTypes.array.isRequired,
-  height: PropTypes.number.isRequired,
+  height: PropTypes.number,
   onUpdate: PropTypes.func.isRequired,
   compareResult: PropTypes.object.isRequired,
-  trainingDetail: PropTypes.object.isRequired,
+  trainingDetail: PropTypes.object,
   onResultDatasetPageChange: PropTypes.func.isRequired,
 };
 

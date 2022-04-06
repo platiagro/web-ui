@@ -31,7 +31,9 @@ const CommonTable = ({
 
   const skeletonDataSource = useMemo(() => {
     return new Array(skeletonRowsAmount).fill(0).map((_, index) => {
-      const row = {};
+      const row = {
+        uuid: `uuid-${index}`,
+      };
 
       columns.forEach((column) => {
         row[column.key] = `${column.key}-${index}`;

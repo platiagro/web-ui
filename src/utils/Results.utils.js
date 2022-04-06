@@ -17,9 +17,10 @@ export const transformResults = (operatorId, results) => {
  * Format results parameters to use label from parameter and value from training
  *
  * @param {Date} date compare results date
+ * @param {string} locale compare results date locale
  * @returns {string} formatted compare results date
  */
-export const formatCompareResultDate = (date) => {
+export const formatCompareResultDate = (date, locale) => {
   const options = {
     day: 'numeric',
     month: 'long',
@@ -27,7 +28,7 @@ export const formatCompareResultDate = (date) => {
     minute: '2-digit',
   };
 
-  const formatDate = new Date(date).toLocaleDateString(undefined, options);
+  const formatDate = new Date(date).toLocaleDateString(locale, options);
   const rest = formatDate.substring(0, formatDate.lastIndexOf(' ') + 1);
   const last = formatDate.substring(
     formatDate.lastIndexOf(' ') + 1,
@@ -102,4 +103,25 @@ export const downloadExperimentRunResult = ({
   ];
 
   window.open(urlParts.join('/'), '_blank');
+};
+
+/**
+ * Format tensor values with a given shape
+ *
+ * @param {Array} values array of values
+ * @param {Array} shape has this format: [numberOfRows, numberOfColumns]
+ * @returns {Array} formatted values or empty array
+ */
+export const formatTensorValues = (values, shape) => {
+  if (shape?.length === 2 && values?.length > 0) {
+    const [numberOfRows, numberOfColumns] = shape;
+    return new Array(numberOfRows).fill([]).map((_, rowIndex) => {
+      return values.slice(
+        rowIndex * numberOfColumns,
+        (rowIndex + 1) * numberOfColumns
+      );
+    });
+  }
+
+  return values || [];
 };

@@ -18,6 +18,7 @@ import {
 } from 'store/ui/actions';
 import { useIsLoading } from 'hooks';
 import { fetchMonitorings } from 'store/monitorings';
+import { getDeployments } from 'store/deployments';
 import { DetailsCardButton } from 'components/Buttons';
 import { Selectors, PROJECTS_TYPES } from 'store/projects';
 import NewExperimentModalContainer from 'pages/Experiments/NewExperimentModal/NewExperimentModalContainer';
@@ -28,17 +29,13 @@ const projectSelector = (projectId) => (state) => {
   return Selectors.getProject(projectId, state);
 };
 
-const deploymentsSelector = ({ deploymentsReducer }) => {
-  return deploymentsReducer;
-};
-
 const ProjectDetailsContainer = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const project = useSelector(projectSelector(projectId));
-  const deployments = useSelector(deploymentsSelector);
+  const deployments = useSelector(getDeployments);
   const [selectedDeploymentId, setSelectedDeploymentId] = useState('');
   const isLoadingProject = useIsLoading(PROJECTS_TYPES.FETCH_PROJECT_REQUEST);
 

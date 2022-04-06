@@ -5,26 +5,41 @@ import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 
 import utils from 'utils';
 import { CommonTable } from 'components';
+import { PREDICTION_STATUS } from 'configs';
 
 import DeploymentTestResultModalData from './DeploymentTestResultModalData';
 import InferenceTestResultModalError from './DeploymentTestResultModalError';
 
 const DeploymentTestResultModalContent = ({
   testResult,
+  testStatus,
   handleShowLogs,
   handleTryAgain,
 }) => {
   const canShowTable = useMemo(() => {
-    return (
-      !!testResult?.names &&
-      (!!testResult?.ndarray || !!testResult?.tensor?.values)
-    );
+    const hasNames = !!testResult?.names;
+    const hasNdArray = !!testResult?.ndarray;
+    const hasTensorValues = !!testResult?.tensor?.values;
+    const hasDataToShow = hasNdArray || hasTensorValues;
+    return hasNames && hasDataToShow;
   }, [testResult?.names, testResult?.ndarray, testResult?.tensor?.values]);
 
-  const dataSource = useMemo(() => {
-    const dataArray = testResult?.ndarray || testResult?.tensor?.values;
-    const names = testResult?.names;
+  const dataArray = useMemo(() => {
+    if (testResult?.ndarray) return testResult.ndarray;
+    else if (testResult?.tensor?.values) {
+      const shape = testResult.tensor.shape;
+      const values = testResult.tensor.values;
+      return utils.formatTensorValues(values, shape);
+    }
+    return null;
+  }, [
+    testResult?.ndarray,
+    testResult?.tensor?.shape,
+    testResult?.tensor?.values,
+  ]);
 
+  const dataSource = useMemo(() => {
+    const names = testResult?.names;
     if (!dataArray || !names) return [];
 
     return dataArray.map((value, index) => {
@@ -38,7 +53,7 @@ const DeploymentTestResultModalContent = ({
 
       return data;
     });
-  }, [testResult]);
+  }, [dataArray, testResult?.names]);
 
   const columns = useMemo(() => {
     if (!testResult?.names) return [];
@@ -51,7 +66,7 @@ const DeploymentTestResultModalContent = ({
     }));
   }, [testResult]);
 
-  if (!testResult) {
+  if (!testResult && ['', PREDICTION_STATUS.FAILED].includes(testStatus)) {
     return (
       <InferenceTestResultModalError
         handleShowLogs={handleShowLogs}
@@ -114,8 +129,14 @@ const DeploymentTestResultModalContent = ({
 
 DeploymentTestResultModalContent.propTypes = {
   testResult: PropTypes.any,
+  testStatus: PropTypes.string,
   handleShowLogs: PropTypes.func.isRequired,
   handleTryAgain: PropTypes.func.isRequired,
+};
+
+DeploymentTestResultModalContent.defaultProps = {
+  testResult: null,
+  testStatus: '',
 };
 
 export default DeploymentTestResultModalContent;

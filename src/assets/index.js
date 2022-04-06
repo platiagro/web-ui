@@ -13,6 +13,11 @@ export {
   ReactComponent as MarketplaceComponent,
 } from './Marketplace.svg';
 
+export {
+  default as MarketplaceColorful,
+  ReactComponent as MarketplaceColorfulComponent,
+} from './MarketplaceColorful.svg';
+
 export { default as Flow } from './Flow.svg';
 export { default as FlowHover } from './FlowHover.svg';
 export { default as LoadingJupyter } from './LoadingJupyter.gif';

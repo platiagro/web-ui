@@ -41,6 +41,7 @@
       "draggable",
       "entrypoint",
       "esbenp",
+      "eslintignore",
       "featuretype",
       "featuretypes",
       "flow",
@@ -52,6 +53,7 @@
       "logo",
       "metrica",
       "mgmcdermott",
+      "mockar",
       "monitorings",
       "ndarray",
       "noninteractive",
@@ -59,15 +61,20 @@
       "parens",
       "platiagro",
       "preload",
+      "rerender",
       "seldon",
       "serializers",
       "setted",
       "sider",
       "siders",
       "snapshot",
+      "sonarjs",
+      "sonarlint",
+      "sonarsource",
       "styleguide",
       "styleguidist",
       "suming",
+      "testid",
       "uuidv"
     ],
     "[javascript]": {
@@ -80,7 +87,8 @@
       "dbaeumer.vscode-eslint",
       "mgmcdermott.vscode-language-babel",
       "OfHumanBondage.react-proptypes-intellisense",
-      "suming.react-proptypes-generate"
+      "suming.react-proptypes-generate",
+      "sonarsource.sonarlint-vscode"
     ]
   }
 }
