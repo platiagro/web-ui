@@ -122,7 +122,6 @@ const CompareResultsModalContainer = () => {
           style={{ height: 450, overflowX: 'scroll' }}
         >
           <Skeleton paragraphConfig={{ rows: 1, width: '100%' }} />
-
           <CommonTable
             columns={[
               { title: '' },
