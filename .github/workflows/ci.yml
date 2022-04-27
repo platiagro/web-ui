@@ -36,7 +36,7 @@ jobs:
       run: |
         VERSION=$(node -p "require('./package.json').version")
         if [ ${{ github.ref }} = "refs/heads/master" ]; then
-          echo ::set-output name=TAG::${VERSION}-SNAPSHOT
+          echo ::set-output name=TAG::${VERSION}
           echo ::set-output name=COMMIT::${{ github.sha }}
         elif [[ ${{ github.ref }} =~ ^refs/heads/v.*-branch$ ]]; then
           echo ::set-output name=TAG::${VERSION}
