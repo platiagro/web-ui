@@ -132,64 +132,64 @@ export const cancelDatasetUpload = () => (dispatch, getState) => {
  */
 export const datasetUploadSuccess =
   (dataset, projectId, experimentId, datasetOperator, experimentIsSucceeded) =>
-  async (dispatch) => {
-    const featuretypes = utils.getFeaturetypes(dataset);
+    async (dispatch) => {
+      const featuretypes = utils.getFeaturetypes(dataset);
 
-    // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
-    /*   const { operatorsReducer } = getState();
-
-  const operators = operatorsReducer.map((operatorItem) =>
-    operatorItem.uuid === operator.uuid
-      ? { ...operatorItem, status: 'Running' }
-      : operatorItem
-  );
-
-  // dispatching fetch operators success action
-  dispatch({
-    type: operatorActionTypes.FETCH_OPERATORS_SUCCESS,
-    operators,
-  }); */
-
-    // dispatching clear operator feature parameters
-    await dispatch(
-      clearOperatorsFeatureParametersRequest(projectId, experimentId, dataset)
+      // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
+      /*   const { operatorsReducer } = getState();
+  
+    const operators = operatorsReducer.map((operatorItem) =>
+      operatorItem.uuid === operator.uuid
+        ? { ...operatorItem, status: 'Running' }
+        : operatorItem
     );
-
-    // update dataset parameter
-    await dispatch(
-      updateExperimentOperatorRequest(
-        projectId,
-        experimentId,
-        datasetOperator,
-        'dataset',
-        dataset.name
-      )
-    );
-
-    // dispatch action
+  
+    // dispatching fetch operators success action
     dispatch({
-      type: actionTypes.CREATE_DATASET_SUCCESS,
-      payload: {
-        filename: dataset.filename || '',
-        name: dataset.name || '',
-        columns: dataset.columns || [],
-        status: dataset && dataset.name ? 'done' : null,
-        featuretypes: featuretypes || '',
-        isUploading: false,
-        cancelToken: null,
-      },
-    });
+      type: operatorActionTypes.FETCH_OPERATORS_SUCCESS,
+      operators,
+    }); */
 
-    message.success('Dados de entrada importados', 5);
+      // dispatching clear operator feature parameters
+      await dispatch(
+        clearOperatorsFeatureParametersRequest(projectId, experimentId, dataset)
+      );
 
-    if (experimentIsSucceeded) {
-      dispatch(
-        showWarning(
-          'Arquivo atualizado! Algumas tarefas precisam ser reconfiguradas.'
+      // update dataset parameter
+      await dispatch(
+        updateExperimentOperatorRequest(
+          projectId,
+          experimentId,
+          datasetOperator,
+          'dataset',
+          dataset.name
         )
       );
-    }
-  };
+
+      // dispatch action
+      dispatch({
+        type: actionTypes.CREATE_DATASET_SUCCESS,
+        payload: {
+          filename: dataset.filename || '',
+          name: dataset.name || '',
+          columns: dataset.columns || [],
+          status: dataset && dataset.name ? 'done' : null,
+          featuretypes: featuretypes || '',
+          isUploading: false,
+          cancelToken: null,
+        },
+      });
+
+      message.success('Dados de entrada importados', 5);
+
+      if (experimentIsSucceeded) {
+        dispatch(
+          showWarning(
+            'Arquivo atualizado! Algumas tarefas precisam ser reconfiguradas.'
+          )
+        );
+      }
+    };
 
 /**
  * Dataset upload success action
@@ -344,79 +344,79 @@ export const startGoogleDatasetUpload =
  */
 export const startDatasetUpload =
   (file, cancelToken, projectId, experimentId, deploymentId) =>
-  async (dispatch, getState) => {
-    // get reducers from store
-    const { operatorReducer, operatorsReducer: operators } = getState();
+    async (dispatch, getState) => {
+      // get reducers from store
+      const { operatorReducer, operatorsReducer: operators } = getState();
 
-    // save dataset operator
-    const datasetOperator = { ...operatorReducer };
+      // save dataset operator
+      const datasetOperator = { ...operatorReducer };
 
-    const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
+      const experimentIsSucceeded = utils.checkExperimentSuccess({ operators });
 
-    // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
-    /* 
-  const {
-    operatorsReducer,
-  } = getState();
-  const operators = operatorsReducer.map((operatorItem) =>
-    operatorItem.uuid === datasetOperator.uuid
-      ? { ...operatorItem, status: 'Running' }
-      : operatorItem
-  );
+      // TODO: Descomentar para ativar running no operador, porém o clique no operador é bloqueado se estiver running
+      /* 
+    const {
+      operatorsReducer,
+    } = getState();
+    const operators = operatorsReducer.map((operatorItem) =>
+      operatorItem.uuid === datasetOperator.uuid
+        ? { ...operatorItem, status: 'Running' }
+        : operatorItem
+    );
+  
+    // dispatching fetch operators success action
+    dispatch({
+      type: operatorActionTypes.FETCH_OPERATORS_SUCCESS,
+      operators,
+    }); */
 
-  // dispatching fetch operators success action
-  dispatch({
-    type: operatorActionTypes.FETCH_OPERATORS_SUCCESS,
-    operators,
-  }); */
+      // upload file block
+      try {
+        dispatch(addLoading(actionTypes.CREATE_DATASET_REQUEST));
 
-    // upload file block
-    try {
-      dispatch(addLoading(actionTypes.CREATE_DATASET_REQUEST));
-
-      // call api
-      const response = await datasetsApi.createDataset(
-        file,
-        cancelToken,
-        (progress) => dispatch(updateDatasetUpload(progress))
-      );
-
-      // get dataset from response
-      const dataset = response.data;
-
-      if (experimentId) {
-        // dispatch success action
-        dispatch(
-          datasetUploadSuccess(
-            dataset,
-            projectId,
-            experimentId,
-            datasetOperator,
-            experimentIsSucceeded
-          )
+        // call api
+        const response = await datasetsApi.createDataset(
+          file,
+          cancelToken,
+          (progress) => dispatch(updateDatasetUpload(progress))
         );
-      } else {
-        dispatch(
-          deploymentDatasetUploadSuccess(
-            dataset,
-            projectId,
-            deploymentId,
-            datasetOperator
-          )
-        );
-      }
 
-      // on error
-    } catch (error) {
-      // error not is cancel action
-      if (!isCancel(error)) {
-        // dispatch fail action
-        dispatch(datasetUploadFail());
+        // get dataset from response
+        const dataset = response.data;
+
+        if (experimentId) {
+          // dispatch success action
+          dispatch(
+            datasetUploadSuccess(
+              dataset,
+              projectId,
+              experimentId,
+              datasetOperator,
+              experimentIsSucceeded
+            )
+          );
+        } else {
+          dispatch(
+            deploymentDatasetUploadSuccess(
+              dataset,
+              projectId,
+              deploymentId,
+              datasetOperator
+            )
+          );
+        }
+
+        // on error
+      } catch (error) {
+        // error not is cancel action
+        if (!isCancel(error)) {
+          // dispatch fail action
+          dispatch(datasetUploadFail());
+        }
+      } finally {
+        dispatch(removeLoading(actionTypes.CREATE_DATASET_REQUEST));
       }
-    } finally {
-      dispatch(removeLoading(actionTypes.CREATE_DATASET_REQUEST));
-    }
-  };
+    };
 
 // // // // // // // // // //
 
