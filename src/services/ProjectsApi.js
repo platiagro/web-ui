@@ -64,7 +64,7 @@ const deleteProjects = (projects) => {
  * @returns {Promise} Fetch paginated projects request
  */
 const fetchPaginatedProjects = (name, page, pageSize) => {
-  return projectsApi.post(`${projectsPath}/listprojects`, {
+  return projectsApi.post(`${projectsPath}/list-projects`, {
     filters: {
       name,
     },
