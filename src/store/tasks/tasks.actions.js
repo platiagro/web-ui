@@ -111,13 +111,16 @@ export const deleteTask = (id, successCallback) => async (dispatch) => {
 /**
  * Fetch paginated tasks success action creator
  *
- * @param {Array} tasks Tasks array
+ * @param {object} data Tasks Object
+ * @param {Array} data.tasks Tasks Array
+ * @param {number} data.total Total Tasks
  * @param {number} pageSize Page size
  * @returns {object} Action
  */
-export const fetchPaginatedTasksSuccess = (tasks, pageSize) => {
+export const fetchPaginatedTasksSuccess = ({ total, tasks }, pageSize) => {
   return {
     type: TASKS_TYPES.FETCH_TASKS_PAGE_SUCCESS,
+    totalTasks: total,
     tasks,
     pageSize,
   };
@@ -144,7 +147,7 @@ export const fetchPaginatedTasksFail = () => {
 export const fetchPaginatedTasks = (page, pageSize) => async (dispatch) => {
   try {
     dispatch(addLoading(TASKS_TYPES.FETCH_TASKS_PAGE_REQUEST));
-    const response = await tasksApi.getPaginatedTasks(page, pageSize);
+    const response = await tasksApi.getPaginatedTasks({ page, pageSize });
     dispatch(fetchPaginatedTasksSuccess(response.data, pageSize));
   } catch (e) {
     dispatch(fetchPaginatedTasksFail());

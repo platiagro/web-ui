@@ -232,11 +232,11 @@ const TasksTable = ({
       className='tasksTable'
       columns={columnsConfig}
       rowKey={(record) => record.uuid}
-      pagination={{
-        defaultPageSize: 10,
-        showSizeChanger: true,
-        pageSizeOptions: ['10', '20', '30', '40', '50'],
-      }}
+      // pagination={{
+      //   defaultPageSize: 10,
+      //   showSizeChanger: true,
+      //   pageSizeOptions: ['10', '20', '30', '40', '50'],
+      // }}
     />
   );
 };

@@ -4,10 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIsLoading } from 'hooks';
 import { TASK_CATEGORIES } from 'configs';
 import { TasksEmptyPlaceholder } from 'components/EmptyPlaceholders';
-import { TASKS_TYPES, deleteTask, fetchTasks, createTask } from 'store/tasks';
+import {
+  TASKS_TYPES,
+  deleteTask,
+  createTask,
+  fetchPaginatedTasks,
+} from 'store/tasks';
 
 import TasksTable from './index';
 import { useHistory } from 'react-router';
+import TasksTablePaginationContainer from '../TasksTablePagination/TasksTablePaginationContainer';
 
 const tasksSelector = ({ tasksReducer }) => {
   const tasks = tasksReducer.tasks || [];
@@ -23,7 +29,7 @@ const TasksTableContainer = () => {
   const tasks = useSelector(tasksSelector);
 
   const isLoadingOrDeleting = useIsLoading(
-    TASKS_TYPES.FETCH_TASKS_REQUEST,
+    TASKS_TYPES.FETCH_TASKS_PAGE_REQUEST,
     TASKS_TYPES.DELETE_TASK_REQUEST
   );
 
@@ -58,20 +64,24 @@ const TasksTableContainer = () => {
   };
 
   useLayoutEffect(() => {
-    dispatch(fetchTasks());
+    dispatch(fetchPaginatedTasks(1, 10));
   }, [dispatch]);
 
   return isLoadingOrDeleting || tasks.length > 0 ? (
-    <div className='tasksContainer'>
-      <TasksTable
-        tasks={tasks}
-        isLoading={isLoadingOrDeleting}
-        handleCopyTask={handleCopyTask}
-        handleDeleteTask={handleDeleteTask}
-        handleSeeTaskCode={handleSeeTaskCode}
-        handleOpenTaskDetails={handleOpenTaskDetails}
-      />
-    </div>
+    <>
+      <div className='tasksContainer'>
+        <TasksTable
+          tasks={tasks}
+          isLoading={isLoadingOrDeleting}
+          handleCopyTask={handleCopyTask}
+          handleDeleteTask={handleDeleteTask}
+          handleSeeTaskCode={handleSeeTaskCode}
+          handleOpenTaskDetails={handleOpenTaskDetails}
+        />
+        <br />
+        <TasksTablePaginationContainer />
+      </div>
+    </>
   ) : (
     <TasksEmptyPlaceholder />
   );

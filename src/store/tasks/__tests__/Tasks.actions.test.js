@@ -190,7 +190,7 @@ describe('Tasks Action', () => {
   it('should create the fetch paginated task success action', () => {
     expect(fetchPaginatedTasksSuccess(fakeTasks, 1)).toEqual({
       type: TASKS_TYPES.FETCH_TASKS_PAGE_SUCCESS,
-      tasks: fakeTasks,
+      tasks: fakeTasks.tasks,
       pageSize: 1,
     });
   });
@@ -214,7 +214,7 @@ describe('Tasks Action', () => {
         },
         {
           type: TASKS_TYPES.FETCH_TASKS_PAGE_SUCCESS,
-          tasks: fakeTasks,
+          tasks: fakeTasks.tasks,
           pageSize: 10,
         },
         {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination } from 'antd';
 import PropTypes from 'prop-types';
 
-const ProjectsTablePagination = ({ pageSize, total, onChange }) => {
+const TasksTablePagination = ({ pageSize, total, onChange }) => {
   return (
     <Pagination
       total={total}
@@ -17,10 +17,10 @@ const ProjectsTablePagination = ({ pageSize, total, onChange }) => {
   );
 };
 
-ProjectsTablePagination.propTypes = {
+TasksTablePagination.propTypes = {
   pageSize: PropTypes.number,
   total: PropTypes.number,
   onChange: PropTypes.func,
 };
 
-export default ProjectsTablePagination;
+export default TasksTablePagination;

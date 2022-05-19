@@ -11,8 +11,8 @@ const TasksTablePaginationContainer = () => {
   const pageSize = useSelector(getPageSize);
   const totalTasks = useSelector(getTotalTasks);
 
-  const handleFetchPaginatedTasks = (page, size) => {
-    dispatch(fetchPaginatedTasks(page, size));
+  const handleFetchPaginatedTasks = (page, pageSize) => {
+    dispatch(fetchPaginatedTasks(page, pageSize));
   };
 
   return totalTasks > pageSize ? (

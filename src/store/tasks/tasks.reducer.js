@@ -36,7 +36,7 @@ export const tasksReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         tasks: action.tasks,
-        totalTasks: action.tasks.length,
+        totalTasks: action.totalTasks,
         pageSize: action.pageSize,
       };
     }
@@ -45,6 +45,7 @@ export const tasksReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         tasks: action.tasks,
+        totalTasks: action.totalTasks,
       };
     }
 
