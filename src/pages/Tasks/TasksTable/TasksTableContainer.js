@@ -39,12 +39,8 @@ const TasksTableContainer = () => {
 
   const handleCopyTask = (task) => {
     const taskCopy = {
-      ...task,
       copyFrom: task.uuid,
     };
-
-    delete taskCopy.uuid;
-    delete taskCopy.name;
 
     dispatch(
       createTask(taskCopy, (newTask) => {
