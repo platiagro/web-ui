@@ -8,16 +8,16 @@ import TasksTablePagination from './index';
 const TasksTablePaginationContainer = () => {
   const dispatch = useDispatch();
 
-  const size = useSelector(getPageSize);
+  const sizePage = useSelector(getPageSize);
   const totalTasks = useSelector(getTotalTasks);
 
-  const handleFetchPaginatedTasks = (page, size) => {
-    dispatch(fetchPaginatedTasks(page, size));
+  const handleFetchPaginatedTasks = (page, sizePage) => {
+    dispatch(fetchPaginatedTasks(page, sizePage));
   };
 
-  return totalTasks > size ? (
+  return totalTasks > sizePage ? (
     <TasksTablePagination
-      pageSize={size}
+      pageSize={sizePage}
       total={totalTasks}
       onChange={handleFetchPaginatedTasks}
     />
