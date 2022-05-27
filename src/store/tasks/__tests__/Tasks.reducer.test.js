@@ -50,6 +50,7 @@ describe('Tasks Action Types', () => {
       tasks: [{ uuid: '1' }],
       totalTasks: 1,
       pageSize: 1,
+      page: 1,
     };
 
     const newState = tasksReducer(initialState, action);

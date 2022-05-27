@@ -13,3 +13,7 @@ export const getTotalTasks = ({ tasksReducer }) => {
 export const getTaskData = ({ tasksReducer }) => {
   return tasksReducer.taskData;
 };
+
+export const getActualPage = ({ tasksReducer }) => {
+  return tasksReducer.page;
+};

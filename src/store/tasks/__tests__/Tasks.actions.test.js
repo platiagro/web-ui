@@ -216,6 +216,7 @@ describe('Tasks Action', () => {
           type: TASKS_TYPES.FETCH_TASKS_PAGE_SUCCESS,
           tasks: fakeTasks.tasks,
           pageSize: 10,
+          page: 1,
         },
         {
           type: REMOVE_LOADING,

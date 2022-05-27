@@ -5,6 +5,7 @@ export const initialState = {
   pageSize: 0,
   totalTasks: 0,
   taskData: null,
+  page: 1,
 };
 
 export const tasksReducer = (state = initialState, action = {}) => {
@@ -38,6 +39,7 @@ export const tasksReducer = (state = initialState, action = {}) => {
         tasks: action.tasks,
         totalTasks: action.totalTasks,
         pageSize: action.pageSize,
+        page: action.page,
       };
     }
 
