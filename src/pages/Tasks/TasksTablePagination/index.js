@@ -14,9 +14,9 @@ const TasksTablePagination = ({
       total={total}
       defaultCurrent={1}
       current={page}
-      onChange={(page, pageSize) => onChange(page, pageSize)}
+      onChange={(current, size) => onChange(current, size)}
       defaultPageSize={pageSize}
-      onShowSizeChange={(pageSize, page) => onSizeChange(page, pageSize)}
+      onShowSizeChange={(current, size) => onSizeChange(current, size)}
       style={{ textAlign: 'right' }}
       pageSizeOptions={['10', '20', '30', '40', '50']}
       showSizeChanger
