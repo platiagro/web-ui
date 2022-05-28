@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { Table, Skeleton } from 'uiComponents';
+// import { Skeleton } from 'uiComponents';
+import { Table, Skeleton } from 'antd';
 
 const CommonTable = ({
   bordered,
@@ -23,7 +24,15 @@ const CommonTable = ({
       return {
         ...column,
         render(value, record) {
-          return <Skeleton key={`${record.uuid}-${value}`} />;
+          return (
+            <Skeleton
+              key={`${record.uuid}-${value}`}
+              size='large'
+              title={false}
+              active={true}
+              paragraph={{ rows: 1, width: '100%' }}
+            />
+          );
         },
       };
     });
@@ -46,6 +55,7 @@ const CommonTable = ({
   return (
     <Table
       className={className}
+      loading={isLoading}
       rowClassName={rowClassName}
       rowSelection={rowSelection}
       rowKey={rowKey}

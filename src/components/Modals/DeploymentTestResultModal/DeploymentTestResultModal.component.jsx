@@ -1,8 +1,8 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, Skeleton } from 'antd';
 import PropTypes from 'prop-types';
 
-import { Skeleton } from 'uiComponents';
+// import { Skeleton } from 'uiComponents';
 import DeploymentTestResultModalContent from './DeploymentTestResultModalContent';
 
 const DeploymentTestResultModal = ({
@@ -23,7 +23,12 @@ const DeploymentTestResultModal = ({
       title={<strong>Visualizar Resultados do Teste do Fluxo</strong>}
     >
       {isTestingFlow ? (
-        <Skeleton paragraphConfig={{ rows: 10, width: '100%' }} />
+        <Skeleton
+          size='large'
+          title={false}
+          active={true}
+          paragraph={{ rows: 10, width: '100%' }}
+        />
       ) : (
         <DeploymentTestResultModalContent
           testResult={testResult}
