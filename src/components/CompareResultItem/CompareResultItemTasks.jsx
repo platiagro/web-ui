@@ -2,8 +2,6 @@ import React, { useMemo } from 'react';
 import { Select, Skeleton } from 'antd';
 import PropTypes from 'prop-types';
 
-// import { Skeleton } from 'uiComponents';
-
 import './CompareResultItem.less';
 
 const CompareResultItemTasks = ({

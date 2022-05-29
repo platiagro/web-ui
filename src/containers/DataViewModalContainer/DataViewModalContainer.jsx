@@ -11,7 +11,6 @@ import {
   updateAllDatasetColumnStart,
 } from 'store/dataset/actions';
 import { useIsLoading } from 'hooks';
-// import { Modal } from 'uiComponents';
 import { OPERATORS_TYPES } from 'store/operators';
 import { UploadButton } from 'components/Buttons';
 import { hideDataViewModal } from 'store/ui/actions';

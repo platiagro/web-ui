@@ -30,7 +30,6 @@ import {
 } from 'store/compareResults/actions';
 import utils from 'utils';
 import { useIsLoading } from 'hooks';
-// import { Modal } from 'uiComponents';
 import { CommonTable, CompareResultItem } from 'components';
 import COMPARE_RESULTS_TYPES from 'store/compareResults/actionTypes';
 import { changeVisibilityCompareResultsModal } from 'store/ui/actions';

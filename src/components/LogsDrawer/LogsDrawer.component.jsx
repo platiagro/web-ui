@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { ConfigProvider, Drawer as AntDrawer, Tabs, Skeleton } from 'antd';
 
-// import { Skeleton } from 'uiComponents';
 import { CommonTable } from 'components';
 
 const LogsDrawer = ({ handleClose, isLoading, isVisible, logs, title }) => {

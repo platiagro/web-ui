@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal, Skeleton } from 'antd';
 import PropTypes from 'prop-types';
 
-// import { Skeleton } from 'uiComponents';
 import DeploymentTestResultModalContent from './DeploymentTestResultModalContent';
 
 const DeploymentTestResultModal = ({
