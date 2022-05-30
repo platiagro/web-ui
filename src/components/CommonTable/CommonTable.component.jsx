@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-// import { Skeleton } from 'uiComponents';
 import { Table, Skeleton } from 'antd';
 
 const CommonTable = ({

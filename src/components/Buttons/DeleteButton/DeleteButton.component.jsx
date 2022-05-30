@@ -1,6 +1,5 @@
 import React from 'react';
 
-// import { Popconfirm } from 'uiComponents';
 import { Button, Popconfirm } from 'antd';
 
 import PropTypes from 'prop-types';

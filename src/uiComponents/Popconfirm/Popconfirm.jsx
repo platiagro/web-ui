@@ -5,9 +5,9 @@ import { Popconfirm as AntPopconfirm } from 'antd';
 const Popconfirm = ({ title, handleConfirm, okText, cancelText, children }) => {
   return (
     <AntPopconfirm
-      title={title}
       okText={okText}
       cancelText={cancelText}
+      title={title}
       onConfirm={handleConfirm}
     >
       {children}
