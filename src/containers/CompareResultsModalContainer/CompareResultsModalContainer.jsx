@@ -309,7 +309,6 @@ const CompareResultsModalContainer = () => {
       title={title}
       width={'90%'}
       visible={isVisible}
-      cancelButtonProps={{ style: { display: 'none' } }}
     >
       {modalBody()}
     </Modal>

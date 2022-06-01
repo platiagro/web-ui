@@ -161,13 +161,11 @@ const DataViewModalContainer = () => {
   return (
     <Modal
       className='data-view-modal-container modalFullScreen'
-      onOk={handleClose}
       onCancel={handleClose}
       title='Visualizar dados'
       visible={isVisible}
       footer={null}
       centered
-      cancelButtonProps={{ style: { display: 'none' } }}
     >
       <div className='data-view-modal'>
         <div className='data-view-modal-data-header'>
