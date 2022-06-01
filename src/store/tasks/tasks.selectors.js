@@ -17,3 +17,7 @@ export const getTaskData = ({ tasksReducer }) => {
 export const getActualPage = ({ tasksReducer }) => {
   return tasksReducer.page;
 };
+
+export const getTaskName = ({ tasksReducer }) => {
+  return tasksReducer.name;
+};

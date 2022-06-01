@@ -2,10 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  fetchPaginatedTasks,
+  getTaskName,
   getPageSize,
   getTotalTasks,
   getActualPage,
+  fetchPaginatedTasks,
 } from 'store/tasks';
 
 import TasksTablePagination from './index';
@@ -14,26 +15,23 @@ const TasksTablePaginationContainer = () => {
   const dispatch = useDispatch();
 
   const pageSize = useSelector(getPageSize);
+  const taskName = useSelector(getTaskName);
   const totalTasks = useSelector(getTotalTasks);
   const actualPage = useSelector(getActualPage);
 
-  const handleFetchPaginatedTasks = (page, size) => {
-    dispatch(fetchPaginatedTasks(page, size));
+  const handleChange = (page, size) => {
+    if (pageSize === size) dispatch(fetchPaginatedTasks(page, size, taskName));
+    else dispatch(fetchPaginatedTasks(1, size, taskName));
   };
 
-  const handleSizeChange = (size) => {
-    dispatch(fetchPaginatedTasks(1, size));
-  };
-
-  return totalTasks > pageSize ? (
+  return (
     <TasksTablePagination
       pageSize={pageSize}
       total={totalTasks}
       page={actualPage}
-      onChange={handleFetchPaginatedTasks}
-      onSizeChange={handleSizeChange}
+      onChange={handleChange}
     />
-  ) : null;
+  );
 };
 
 export default TasksTablePaginationContainer;

@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react';
+import { ConfigProvider } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useIsLoading } from 'hooks';
@@ -8,6 +9,7 @@ import {
   TASKS_TYPES,
   deleteTask,
   createTask,
+  getPageSize,
   fetchPaginatedTasks,
 } from 'store/tasks';
 
@@ -27,6 +29,7 @@ const TasksTableContainer = () => {
   const history = useHistory();
 
   const tasks = useSelector(tasksSelector);
+  const pageSize = useSelector(getPageSize);
 
   const isLoadingOrDeleting = useIsLoading(
     TASKS_TYPES.FETCH_TASKS_PAGE_REQUEST,
@@ -63,27 +66,32 @@ const TasksTableContainer = () => {
     history.push(`/tarefas/${task.uuid}`);
   };
 
+  const handleSearchTasks = (search) => {
+    dispatch(fetchPaginatedTasks(1, pageSize, search));
+  };
+
   useLayoutEffect(() => {
     dispatch(fetchPaginatedTasks(1, 10));
   }, [dispatch]);
 
-  return isLoadingOrDeleting || tasks.length > 0 ? (
-    <>
-      <div className='tasksContainer'>
+  return (
+    <div className='tasksContainer'>
+      <ConfigProvider renderEmpty={() => <TasksEmptyPlaceholder />}>
         <TasksTable
           tasks={tasks}
           isLoading={isLoadingOrDeleting}
           handleCopyTask={handleCopyTask}
           handleDeleteTask={handleDeleteTask}
           handleSeeTaskCode={handleSeeTaskCode}
+          handleSearchTasks={handleSearchTasks}
           handleOpenTaskDetails={handleOpenTaskDetails}
         />
-        <br />
-        <TasksTablePaginationContainer />
-      </div>
-    </>
-  ) : (
-    <TasksEmptyPlaceholder />
+      </ConfigProvider>
+
+      <br />
+
+      <TasksTablePaginationContainer />
+    </div>
   );
 };
 
