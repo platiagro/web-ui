@@ -19,7 +19,7 @@ const DeleteButton = ({ popconfirmText, handleDelete }) => {
 
 DeleteButton.propTypes = {
   popconfirmText: PropTypes.string.isRequired,
-  handleDelete: PropTypes.func.any.isRequired,
+  handleDelete: PropTypes.func.any,
 };
 
 export default DeleteButton;

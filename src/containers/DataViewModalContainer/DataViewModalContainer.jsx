@@ -166,7 +166,6 @@ const DataViewModalContainer = () => {
       title='Visualizar dados'
       visible={isVisible}
       footer={null}
-      isFullScreen
       centered
       cancelButtonProps={{ style: { display: 'none' } }}
     >

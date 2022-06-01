@@ -54,7 +54,6 @@ const CommonTable = ({
   return (
     <Table
       className={className}
-      loading={isLoading}
       rowClassName={rowClassName}
       rowSelection={rowSelection}
       rowKey={rowKey}

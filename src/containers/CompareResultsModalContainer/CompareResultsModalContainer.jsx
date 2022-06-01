@@ -32,7 +32,6 @@ import utils from 'utils';
 import { useIsLoading } from 'hooks';
 import { CommonTable, CompareResultItem } from 'components';
 import COMPARE_RESULTS_TYPES from 'store/compareResults/actionTypes';
-import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 import { getExperiments } from 'store/projects/experiments/experiments.selectors';
 
 import 'react-grid-layout/css/styles.css';
@@ -306,14 +305,11 @@ const CompareResultsModalContainer = () => {
         height: '80vh',
       }}
       centered
-      className=''
       footer={null}
       title={title}
       width={'90%'}
       visible={isVisible}
       cancelButtonProps={{ style: { display: 'none' } }}
-      onOk={() => dispatch(changeVisibilityCompareResultsModal(false))}
-      onCancel={() => dispatch(changeVisibilityCompareResultsModal(false))}
     >
       {modalBody()}
     </Modal>
