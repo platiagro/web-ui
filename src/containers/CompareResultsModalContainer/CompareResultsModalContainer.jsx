@@ -33,6 +33,7 @@ import { useIsLoading } from 'hooks';
 import { CommonTable, CompareResultItem } from 'components';
 import COMPARE_RESULTS_TYPES from 'store/compareResults/actionTypes';
 import { getExperiments } from 'store/projects/experiments/experiments.selectors';
+import { changeVisibilityCompareResultsModal } from 'store/ui/actions';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -309,6 +310,7 @@ const CompareResultsModalContainer = () => {
       title={title}
       width={'90%'}
       visible={isVisible}
+      onCancel={() => dispatch(changeVisibilityCompareResultsModal(false))}
     >
       {modalBody()}
     </Modal>
