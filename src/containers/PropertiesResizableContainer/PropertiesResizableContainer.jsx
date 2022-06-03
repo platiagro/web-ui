@@ -83,7 +83,7 @@ const PropertiesResizableContainer = () => {
       {isDatasetOperator && (
         <ExternalDatasetDrawer
           propertyTitle='Tipo da fonte de dados'
-          propertyTip='Dica'
+          propertyTip='Voce pode testar o fluxo usando um arquivo do seu computador ou uma aplicação externa.'
           urlText={deploymentUrl}
           onClickLearnMore={handleShowExternalDatasetHelperModal}
           description="Você pode testar o fluxo com um cliente HTTP, por exemplo o <a target='_blank' rel='noreferrer' href='https://www.postman.com' >Postman.</a>"
