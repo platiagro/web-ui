@@ -1,13 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { Drawer } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import utils from 'utils';
 import { useIsLoading } from 'hooks';
-import { Modal } from 'uiComponents';
 import { hideOperatorResults } from 'store/ui/actions';
 import { getOperatorResultDataset, OPERATOR_TYPES } from 'store/operator';
 import ResultsDrawer from 'pages/Experiments/Experiment/Drawer/ResultsDrawer';
+
+import ExperimentResultsDrawerTitle from './ExperimentResultsDrawerTitle';
 
 const isVisibleSelector = ({ uiReducer }) => {
   return uiReducer.operatorResults.showOperatorResults;
@@ -33,9 +35,11 @@ const operatorParametersLatestTrainingSelector = ({ operatorReducer }) => {
   return operatorReducer.parametersLatestTraining;
 };
 
-const OperatorResultsModalContainer = () => {
+const ExperimentResultsDrawerContainer = () => {
   const { projectId, experimentId } = useParams();
   const dispatch = useDispatch();
+
+  const [selectedCards, setSelectedCards] = useState({});
 
   const isVisible = useSelector(isVisibleSelector);
   const operatorId = useSelector(operatorIdSelector);
@@ -49,6 +53,11 @@ const OperatorResultsModalContainer = () => {
   const operatorResultsLoading = useIsLoading(
     OPERATOR_TYPES.GET_OPERATOR_FIGURES_REQUEST
   );
+
+  const numberOfSelectedCards = useMemo(() => {
+    const results = Object.values(selectedCards).filter((value) => !!value);
+    return results.length;
+  }, [selectedCards]);
 
   const datasetScrollX = useMemo(() => {
     return operatorDataset ? operatorDataset.columns.length * 100 : undefined;
@@ -106,26 +115,45 @@ const OperatorResultsModalContainer = () => {
     });
   };
 
+  const handleSelectCard = (id) => {
+    setSelectedCards((currentCards) => {
+      const currentCardsClone = { ...currentCards };
+      currentCardsClone[id] = !currentCardsClone[id];
+      return currentCardsClone;
+    });
+  };
+
   return (
-    <Modal
+    <Drawer
+      visible={isVisible}
+      width={'90vw'}
+      placement='right'
       footer={null}
       isFullScreen={true}
       isVisible={isVisible}
-      handleClose={handleClose}
-      title='Visualizar Resultados'
+      onClose={handleClose}
+      title={
+        <ExperimentResultsDrawerTitle
+          numberOfSelectedCards={numberOfSelectedCards}
+          handleDownloadResult={handleDownloadResult}
+        />
+      }
+      className='operator-drawer'
+      bodyStyle={{ background: '#eceff1' }}
     >
       <ResultsDrawer
         dataset={operatorDataset}
         figures={operatorFigures}
+        selectedCards={selectedCards}
         parameters={resultsParameters}
         loading={operatorResultsLoading}
         datasetScroll={{ x: datasetScrollX, y: 'calc(50vh - 96px)' }}
+        handleSelectCard={handleSelectCard}
         handleDownloadResult={handleDownloadResult}
         onDatasetPageChange={handleOnDatasetPageChange}
-        isToShowDownloadButtons
       />
-    </Modal>
+    </Drawer>
   );
 };
 
-export default OperatorResultsModalContainer;
+export default ExperimentResultsDrawerContainer;

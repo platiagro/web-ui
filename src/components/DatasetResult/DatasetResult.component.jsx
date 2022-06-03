@@ -4,20 +4,14 @@ import PropTypes from 'prop-types';
 
 import { CommonTable } from 'components';
 
-const TableResult = ({
-  columns,
-  currentPage,
-  onPageChange,
-  pageSize,
-  rows,
-  scroll,
-  title,
-  total,
-}) => {
+const DatasetResult = ({ title, dataset, onDatasetPageChange, scroll }) => {
   const rowsWithId = useMemo(() => {
-    if (!rows) return [];
-    return rows.map((row, index) => ({ ...row, uuid: `uuid-${index}` }));
-  }, [rows]);
+    if (!dataset.rows) return [];
+    return dataset.rows.map((row, index) => ({
+      ...row,
+      uuid: `uuid-${index}`,
+    }));
+  }, [dataset.rows]);
 
   return (
     <div>
@@ -30,7 +24,7 @@ const TableResult = ({
       <CommonTable
         size={'middle'}
         scroll={scroll}
-        columns={columns}
+        columns={dataset.columns}
         isLoading={false}
         dataSource={rowsWithId}
         rowKey={(record) => record.uuid}
@@ -41,11 +35,11 @@ const TableResult = ({
       <Pagination
         defaultCurrent={1}
         defaultPageSize={10}
-        current={currentPage}
-        pageSize={pageSize}
-        total={total}
-        onChange={onPageChange}
-        onShowSizeChange={onPageChange}
+        current={dataset.currentPage}
+        pageSize={dataset.pageSize}
+        total={dataset.total}
+        onChange={onDatasetPageChange}
+        onShowSizeChange={onDatasetPageChange}
         style={{ textAlign: 'right' }}
         showSizeChanger
         pageSizeOptions={['10', '20', '30', '40', '50']}
@@ -54,19 +48,18 @@ const TableResult = ({
   );
 };
 
-TableResult.propTypes = {
-  columns: PropTypes.arrayOf(PropTypes.object),
-  currentPage: PropTypes.number,
-  onPageChange: PropTypes.func,
-  pageSize: PropTypes.number,
-  rows: PropTypes.array,
-  scroll: PropTypes.object,
+DatasetResult.propTypes = {
   title: PropTypes.string,
-  total: PropTypes.number,
+  scroll: PropTypes.object,
+  dataset: PropTypes.object,
+  onDatasetPageChange: PropTypes.func,
 };
 
-TableResult.defaultProps = {
-  title: undefined,
+DatasetResult.defaultProps = {
+  title: '',
+  scroll: undefined,
+  dataset: {},
+  onPageChange: null,
 };
 
-export default TableResult;
+export default DatasetResult;

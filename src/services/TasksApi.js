@@ -42,14 +42,16 @@ const getAllTasks = ({ category } = {}) => {
  * Get paginated tasks
  *
  * @param {object} filters Filters object
- * @param {number} filters.page CUrrent task page
+ * @param {number} filters.page Current task page
  * @param {number} filters.pageSize Number of tasks per page
+ * @param {string} filters.name Name to filter
  * @param {string} filters.category Category to filter
  * @returns {Promise} Request promise
  */
-const getPaginatedTasks = ({ page, pageSize, category } = {}) => {
+const getPaginatedTasks = ({ page, pageSize, name, category } = {}) => {
   return taskApi.post('/tasks/list-tasks', {
     filters: {
+      name,
       category,
     },
     page,

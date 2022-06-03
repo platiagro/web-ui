@@ -1,16 +1,12 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Empty, Spin, Tabs } from 'antd';
+import { Empty, Spin, Tabs, Button } from 'antd';
 import { LoadingOutlined, DownloadOutlined } from '@ant-design/icons';
 
-import { CommonTable } from 'components';
+import { CommonTable, PlotResult, DatasetResult } from 'components';
 import { DownloadOperatorDatasetContainer } from 'containers';
 
-import PlotResult from './PlotResult';
-import TableResult from './TableResult';
-
-import './ResultsDrawer.less';
-import Button from 'antd/es/button';
+import './ResultData.less';
 
 const parametersColumns = [
   {
@@ -31,7 +27,7 @@ const parametersColumns = [
   },
 ];
 
-const ResultsDrawer = ({
+const ResultData = ({
   activeKey,
   dataset,
   datasetScroll,
@@ -51,7 +47,7 @@ const ResultsDrawer = ({
 
   if (loading) {
     return (
-      <div className='resultsDrawer'>
+      <div className='result-data'>
         <Spin indicator={<LoadingOutlined />} />
       </div>
     );
@@ -59,7 +55,7 @@ const ResultsDrawer = ({
 
   if (!hasResult) {
     return (
-      <div className='resultsDrawer'>
+      <div className='result-data'>
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description='Não existem resultados!'
@@ -69,7 +65,7 @@ const ResultsDrawer = ({
   }
 
   return (
-    <div className='resultsDrawer'>
+    <div className='result-data'>
       {isToShowDownloadButtons && (
         <Button
           className='download-result-button'
@@ -100,15 +96,10 @@ const ResultsDrawer = ({
           tab={<span>Dataset</span>}
         >
           {!!dataset && (
-            <TableResult
-              key={dataset.uuid}
-              rows={dataset.rows}
-              total={dataset.total}
+            <DatasetResult
+              dataset={dataset}
               scroll={datasetScroll}
-              columns={dataset.columns}
-              pageSize={dataset.pageSize}
-              currentPage={dataset.currentPage}
-              onPageChange={onDatasetPageChange}
+              onDatasetPageChange={onDatasetPageChange}
             />
           )}
 
@@ -134,7 +125,7 @@ const ResultsDrawer = ({
   );
 };
 
-ResultsDrawer.propTypes = {
+ResultData.propTypes = {
   activeKey: PropTypes.string,
   dataset: PropTypes.object,
   datasetScroll: PropTypes.object,
@@ -149,11 +140,11 @@ ResultsDrawer.propTypes = {
   handleDownloadResult: PropTypes.func,
 };
 
-ResultsDrawer.defaultProps = {
+ResultData.defaultProps = {
   activeKey: '1',
   scroll: undefined,
   resultsTabStyle: undefined,
   onTabChange: undefined,
 };
 
-export default ResultsDrawer;
+export default ResultData;
