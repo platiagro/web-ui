@@ -40,7 +40,7 @@ const useResults = (figures) => {
       const currentResultsClone = [...currentResults];
 
       const indexToUpdate = currentResultsClone.findIndex(
-        (result) => result.id === id
+        (res) => res.id === id
       );
 
       const result = currentResultsClone[indexToUpdate];
